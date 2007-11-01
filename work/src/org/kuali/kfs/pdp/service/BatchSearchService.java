@@ -11,9 +11,9 @@ import org.kuali.module.pdp.bo.BatchSearch;
 
 /**
  * @author delyea
- *
  */
 public interface BatchSearchService {
-  public List getAllBatchesForSearchCriteria(BatchSearch bs);
-  public List getAllSingleBatchPayments(Integer id);
+    public List getAllBatchesForSearchCriteria(BatchSearch bs);
+
+    public List getAllSingleBatchPayments(Integer id);
 }

@@ -100,11 +100,11 @@ public class BalanceEncumbranceReport {
      */
     public void generateReport(Date runDate, List<GlSummary> glBalances, String fiscalYearName, List<String> balanceTypeCodes, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
-        
+
         String reportTitle = "GL Summary for Fiscal Year " + fiscalYearName;
         this.generateReport(glBalances, balanceTypeCodes, runDate, reportTitle, fileprefix, destinationDirectory);
     }
-    
+
     public void generateReport(List<GlSummary> glBalances, List<String> balanceTypeCodes, Date runDate, String reportTitle, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
 
@@ -162,7 +162,7 @@ public class BalanceEncumbranceReport {
 
                 cell = new PdfPCell(new Phrase(gls.getFundGroup(), textFont));
                 balances.addCell(cell);
-                
+
                 totalAmount = gls.getBeginningBalance().add(gls.getAnnualBalance());
                 totalAmount = totalAmount.add(gls.getCgBeginningBalance());
                 cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));
@@ -172,7 +172,7 @@ public class BalanceEncumbranceReport {
             // Now add the total line
             cell = new PdfPCell(new Phrase("Total", textFont));
             balances.addCell(cell);
-            
+
             totalAmount = totals.getBeginningBalance().add(totals.getAnnualBalance());
             totalAmount = totalAmount.add(totals.getCgBeginningBalance());
             cell = new PdfPCell(new Phrase(nf.format(totalAmount.doubleValue()), textFont));

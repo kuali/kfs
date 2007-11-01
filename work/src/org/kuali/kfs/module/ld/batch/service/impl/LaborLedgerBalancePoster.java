@@ -27,7 +27,6 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,8 +43,8 @@ public class LaborLedgerBalancePoster implements PostTransaction {
      */
     public String post(Transaction transaction, int mode, Date postDate) {
         String operationType = KFSConstants.OperationType.INSERT;
-        LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction)transaction);       
-        //ObjectUtil.buildObject(ledgerBalance, transaction);
+        LedgerBalance ledgerBalance = new LedgerBalance((LaborTransaction) transaction);
+        // ObjectUtil.buildObject(ledgerBalance, transaction);
 
         LedgerBalance tempLedgerBalance = (LedgerBalance) businessObjectService.retrieve(ledgerBalance);
         if (tempLedgerBalance != null) {
@@ -55,7 +54,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
         String debitCreditCode = transaction.getTransactionDebitCreditCode();
         KualiDecimal amount = transaction.getTransactionLedgerEntryAmount();
         amount = debitCreditCode.equals(KFSConstants.GL_CREDIT_CODE) ? amount.negated() : amount;
-        
+
         ledgerBalance.addAmount(transaction.getUniversityFiscalPeriodCode(), amount);
         ledgerBalance.setTransactionDateTimeStamp(new Timestamp(postDate.getTime()));
 
@@ -81,6 +80,7 @@ public class LaborLedgerBalancePoster implements PostTransaction {
 
     /**
      * Sets the laborLedgerBalanceService attribute value.
+     * 
      * @param laborLedgerBalanceService The laborLedgerBalanceService to set.
      */
     public void setLaborLedgerBalanceService(LaborLedgerBalanceService laborLedgerBalanceService) {

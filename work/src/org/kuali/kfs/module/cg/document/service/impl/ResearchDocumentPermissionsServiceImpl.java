@@ -39,25 +39,27 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 @Transactional
 public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentPermissionsService {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentPermissionsServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
-    
+
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocPermission(String documentNumber, String personUniversalIdentifier)
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocPermission(String documentNumber, String
+     *      personUniversalIdentifier)
      */
     public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier) {
-        return (AdhocPerson) businessObjectService .retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
+        return (AdhocPerson) businessObjectService.retrieve(new AdhocPerson(documentNumber, personUniversalIdentifier));
     }
-    
+
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocWorkgroup(String documentNumber, String workgroupName)
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAdHocWorkgroup(String documentNumber, String
+     *      workgroupName)
      */
     public AdhocWorkgroup getAdHocWorkgroup(String documentNumber, String workgroupName) {
-        return (AdhocWorkgroup) businessObjectService .retrieve(new AdhocWorkgroup(documentNumber, workgroupName));
+        return (AdhocWorkgroup) businessObjectService.retrieve(new AdhocWorkgroup(documentNumber, workgroupName));
     }
-    
+
     /**
      * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getAssAdHocWorkgroups(String documentNumber)
      */
@@ -66,7 +68,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         return new ArrayList(businessObjectService.findMatching(AdhocWorkgroup.class, fieldValues));
     }
-    
+
     /**
      * @see org.kuali.module.kra.budget.service.PermissionsService#getAdHocOrgs(String documentNumber, String budgetPermissionCode)
      */
@@ -76,7 +78,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         fieldValues.put("permissionCode", permissionCode);
         return new ArrayList(businessObjectService.findMatching(AdhocOrg.class, fieldValues));
     }
-    
+
     /**
      * @see org.kuali.module.kra.budget.service.PermissionsService#getPermissionType()
      */
@@ -86,25 +88,27 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         permissionTypeList.add(new ResearchAdhocPermissionType(KFSConstants.PERMISSION_MOD_CODE, KFSConstants.PERMISSION_MOD_DESCRIPTION));
         return permissionTypeList;
     }
-    
+
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType(String orgXml, String documentType, String uuid)
+     * @see org.kuali.module.kra.budget.service.BudgetPermissionsService#getBudgetPermissionType(String orgXml, String documentType,
+     *      String uuid)
      */
     public boolean isUserInOrgHierarchy(String orgXml, String documentType, String uuid) {
         ReportCriteriaVO criteria = new ReportCriteriaVO();
         criteria.setDocumentTypeName(documentType);
-        criteria.setNodeNames(new String[] {KraConstants.ORG_REVIEW_NODE_NAME});
-        criteria.setRuleTemplateNames(new String[] {KraConstants.ORG_REVIEW_TEMPLATE_NAME});
+        criteria.setNodeNames(new String[] { KraConstants.ORG_REVIEW_NODE_NAME });
+        criteria.setRuleTemplateNames(new String[] { KraConstants.ORG_REVIEW_TEMPLATE_NAME });
         criteria.setXmlContent(orgXml);
         WorkflowInfo info = new WorkflowInfo();
         try {
             DocumentDetailVO detail = info.routingReport(criteria);
             return isUserInRequests(detail.getActionRequests(), uuid);
-        } catch (WorkflowException e) {
+        }
+        catch (WorkflowException e) {
             throw new RuntimeException("Exception generating routing report: " + e);
         }
     }
-    
+
     /**
      * Check whether given user is in the given action requests.
      * 
@@ -124,7 +128,7 @@ public class ResearchDocumentPermissionsServiceImpl implements ResearchDocumentP
         }
         return false;
     }
-    
+
     /**
      * Setter for BusinessObjectService property.
      * 

@@ -20,13 +20,12 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class BankRule extends MaintenanceDocumentRuleBase {
 
-    
+
     /**
      * Returns MaintenanceDocumentRuleBase.processCustomApproveDocumentBusinessRules()
      * 
      * @param document submitted document
      * @return true
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {

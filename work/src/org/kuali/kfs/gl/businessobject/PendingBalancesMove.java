@@ -45,7 +45,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the personUniversalIdentifier attribute.
      * 
      * @return Returns the personUniversalIdentifier
-     * 
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
@@ -55,7 +54,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the personUniversalIdentifier attribute.
      * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
-     * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -66,7 +64,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the appropriationBudget attribute.
      * 
      * @return Returns the appropriationBudget
-     * 
      */
     public KualiDecimal getAppropriationBudget() {
         return appropriationBudget;
@@ -76,7 +73,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the appropriationBudget attribute.
      * 
      * @param appropriationBudget The appropriationBudget to set.
-     * 
      */
     public void setAppropriationBudget(KualiDecimal appropriationBudget) {
         this.appropriationBudget = appropriationBudget;
@@ -87,7 +83,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the appropriationActual attribute.
      * 
      * @return Returns the appropriationActual
-     * 
      */
     public KualiDecimal getAppropriationActual() {
         return appropriationActual;
@@ -97,7 +92,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the appropriationActual attribute.
      * 
      * @param appropriationActual The appropriationActual to set.
-     * 
      */
     public void setAppropriationActual(KualiDecimal appropriationActual) {
         this.appropriationActual = appropriationActual;
@@ -108,7 +102,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the appropriationEncumbrance attribute.
      * 
      * @return Returns the appropriationEncumbrance
-     * 
      */
     public KualiDecimal getAppropriationEncumbrance() {
         return appropriationEncumbrance;
@@ -118,7 +111,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the appropriationEncumbrance attribute.
      * 
      * @param appropriationEncumbrance The appropriationEncumbrance to set.
-     * 
      */
     public void setAppropriationEncumbrance(KualiDecimal appropriationEncumbrance) {
         this.appropriationEncumbrance = appropriationEncumbrance;
@@ -129,7 +121,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the pendingBudget attribute.
      * 
      * @return Returns the pendingBudget
-     * 
      */
     public KualiDecimal getPendingBudget() {
         return pendingBudget;
@@ -139,7 +130,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the pendingBudget attribute.
      * 
      * @param pendingBudget The pendingBudget to set.
-     * 
      */
     public void setPendingBudget(KualiDecimal pendingBudget) {
         this.pendingBudget = pendingBudget;
@@ -150,7 +140,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the pendingActual attribute.
      * 
      * @return Returns the pendingActual
-     * 
      */
     public KualiDecimal getPendingActual() {
         return pendingActual;
@@ -160,7 +149,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the pendingActual attribute.
      * 
      * @param pendingActual The pendingActual to set.
-     * 
      */
     public void setPendingActual(KualiDecimal pendingActual) {
         this.pendingActual = pendingActual;
@@ -171,7 +159,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Gets the pendingEncumbrance attribute.
      * 
      * @return Returns the pendingEncumbrance
-     * 
      */
     public KualiDecimal getPendingEncumbrance() {
         return pendingEncumbrance;
@@ -181,7 +168,6 @@ public class PendingBalancesMove extends PersistableBusinessObjectBase {
      * Sets the pendingEncumbrance attribute.
      * 
      * @param pendingEncumbrance The pendingEncumbrance to set.
-     * 
      */
     public void setPendingEncumbrance(KualiDecimal pendingEncumbrance) {
         this.pendingEncumbrance = pendingEncumbrance;

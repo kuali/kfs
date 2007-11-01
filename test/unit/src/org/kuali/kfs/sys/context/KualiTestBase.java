@@ -42,7 +42,7 @@ import org.springmodules.orm.ojb.OjbOperationException;
 
 /**
  * This class should be extended by all Kuali unit tests.
- *
+ * 
  * @see ConfigureContext
  * @see RelatesTo
  */
@@ -62,7 +62,7 @@ public abstract class KualiTestBase extends TestCase implements KualiTestConstan
      * Determines whether to actually run the test using the RelatesTo annotation, onfigures the appropriate context using the
      * ConfigureContext annotation, and logs extra details if the test invocation's OJB operations happen to encounter an
      * OptimisticLockException or if this test has related Jiras.
-     *
+     * 
      * @throws Throwable
      */
     @Override

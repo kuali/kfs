@@ -32,12 +32,10 @@ import org.kuali.module.gl.web.Constant;
 /**
  * This class is used to generate the URL for the user-defined attributes for the account balace by object screen. It is entended
  * the AbstractGLInquirableImpl class, so it covers both the default implementation and customized implemetnation.
- * 
- * 
  */
 public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableImpl {
     @SuppressWarnings("unused")
-	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 
     /**
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
@@ -114,9 +112,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
-    	if ( KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRY.equals( attributeName ) ) {
-    		return GeneralLedgerPendingEntry.class;
-    	}
+        if (KFSPropertyConstants.GENERAL_LEDGER_PENDING_ENTRY.equals(attributeName)) {
+            return GeneralLedgerPendingEntry.class;
+        }
         return AccountBalanceByObject.class;
     }
 

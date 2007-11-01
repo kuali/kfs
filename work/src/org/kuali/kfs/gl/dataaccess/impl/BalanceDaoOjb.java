@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.Criteria;
@@ -389,11 +388,11 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             String propertyValue = (String) localFieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.BALANCE_TYPE_CODE);
-                
+
                 // the year should be part of the results for both the cash balance and regular balance lookupables
                 String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
                 Integer universityFiscalYear = new Integer(universityFiscalYearStr);
-                
+
                 criteria.addIn(KFSPropertyConstants.BALANCE_TYPE_CODE, balanceTypService.getEncumbranceBalanceTypes(universityFiscalYear));
             }
         }
@@ -720,7 +719,7 @@ public class BalanceDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceDao
             i++;
         }
         // we only ever calculate on CB, AC, and encumbrance types, so let's only select those
-        Options options= SpringContext.getBean(OptionsService.class).getOptions(year);
+        Options options = SpringContext.getBean(OptionsService.class).getOptions(year);
         List organizationReversionBalancesToSelect = new ArrayList();
         organizationReversionBalancesToSelect.add(options.getActualFinancialBalanceTypeCd());
         organizationReversionBalancesToSelect.add(options.getFinObjTypeExpenditureexpCd());

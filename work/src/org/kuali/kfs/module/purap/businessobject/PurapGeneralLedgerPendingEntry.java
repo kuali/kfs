@@ -43,11 +43,11 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 
 /**
- * Purap General Ledger Pending Entry Business Object.
- * The general ledger pending entry structure holds financial transaction info that will post to the general ledger as an entry.
+ * Purap General Ledger Pending Entry Business Object. The general ledger pending entry structure holds financial transaction info
+ * that will post to the general ledger as an entry.
  */
 public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBase implements Transaction, Serializable, Cloneable {
-    
+
     private static final long serialVersionUID = 4041748389323105932L;
     private String financialSystemOriginationCode;
     private String documentNumber;
@@ -109,9 +109,7 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
     }
 
     /**
-     * Copy constructor
-     * 
-     * Constructs a GeneralLedgerPendingEntry.java.
+     * Copy constructor Constructs a GeneralLedgerPendingEntry.java.
      * 
      * @param original entry to copy
      */
@@ -148,9 +146,8 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
     }
 
     /**
-     * Copy from GeneralLedgerPendingEntry constructor
-     * 
-     * Constructs a PurapGeneralLedgerPendingEntry.java from GeneralLedgerPendingEntry.
+     * Copy from GeneralLedgerPendingEntry constructor Constructs a PurapGeneralLedgerPendingEntry.java from
+     * GeneralLedgerPendingEntry.
      * 
      * @param original entry to copy
      */
@@ -564,8 +561,8 @@ public class PurapGeneralLedgerPendingEntry extends PersistableBusinessObjectBas
 
     public AccountingPeriod getAccountingPeriod() {
         return accountingPeriod;
-    }    
-    
+    }
+
     public void setAccountingPeriod(AccountingPeriod accountingPeriod) {
         this.accountingPeriod = accountingPeriod;
     }

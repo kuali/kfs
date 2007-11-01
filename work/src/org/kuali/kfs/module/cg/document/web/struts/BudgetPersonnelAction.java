@@ -45,8 +45,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class handles Actions for Research Administration.
- * 
- * 
  */
 
 public class BudgetPersonnelAction extends BudgetAction {
@@ -57,21 +55,22 @@ public class BudgetPersonnelAction extends BudgetAction {
     /**
      * This method overrides the BudgetAction execute method. It does so for the purpose of recalculating Personnel expenses any
      * time the Personnel page is accessed
-     * 
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetForm budgetForm = (BudgetForm) form;
 
         boolean rulePassed = runRule(budgetForm, new CalculatePersonnelEvent(budgetForm.getDocument()));
-        
+
         if (rulePassed) {
             SpringContext.getBean(BudgetPersonnelService.class).calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
             return super.execute(mapping, form, request, response);
-        } else if (StringUtils.equals(KFSConstants.RELOAD_METHOD_TO_CALL, budgetForm.getMethodToCall())) {
+        }
+        else if (StringUtils.equals(KFSConstants.RELOAD_METHOD_TO_CALL, budgetForm.getMethodToCall())) {
             GlobalVariables.getErrorMap().clear();
             return this.reload(mapping, form, request, response);
-        } else {
+        }
+        else {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
     }
@@ -90,7 +89,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
 
         boolean rulePassed = runRule(budgetForm, new InsertPersonnelEventBase(budgetForm.getDocument(), budgetForm.getNewPersonnel(), !StringUtils.equals(PERSON, budgetForm.getNewPersonnelType())));
-        
+
         if (rulePassed) {
             if (!StringUtils.equals(PERSON, budgetForm.getNewPersonnelType())) {
                 BudgetUser newPersonnel = new BudgetUser();
@@ -141,8 +140,8 @@ public class BudgetPersonnelAction extends BudgetAction {
         BudgetForm budgetForm = (BudgetForm) form;
         List personnel = budgetForm.getBudgetDocument().getBudget().getPersonnel();
 
-        for (Iterator i = personnel.iterator(); i.hasNext(); ) {
-            BudgetUser budgetUser = (BudgetUser)i.next();
+        for (Iterator i = personnel.iterator(); i.hasNext();) {
+            BudgetUser budgetUser = (BudgetUser) i.next();
             if (budgetUser.isDelete()) {
                 i.remove();
             }
@@ -166,7 +165,7 @@ public class BudgetPersonnelAction extends BudgetAction {
         super.reload(mapping, form, request, response);
 
         Collections.sort(budgetForm.getBudgetDocument().getBudget().getPersonnel());
-        
+
         SpringContext.getBean(BudgetPersonnelService.class).calculateAllPersonnelCompensation(budgetForm.getBudgetDocument());
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -185,7 +184,8 @@ public class BudgetPersonnelAction extends BudgetAction {
                 for (UserAppointmentTask userAppointmentTask : budgetUser.getUserAppointmentTasks()) {
                     if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getAppointmentTypeCode())) {
                         userAppointmentTask.setInstitutionAppointmentTypeCode(budgetUser.getPreviousAppointmentTypeCode());
-                    } else if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getSecondaryAppointmentTypeCode())) {
+                    }
+                    else if (userAppointmentTask.getInstitutionAppointmentTypeCode().equals(budgetUser.getSecondaryAppointmentTypeCode())) {
                         userAppointmentTask.setInstitutionAppointmentTypeCode(budgetUser.getPreviousSecondaryAppointmentTypeCode());
                     }
                     for (UserAppointmentTaskPeriod userAppointmentTaskPeriod : userAppointmentTask.getUserAppointmentTaskPeriods()) {
@@ -195,10 +195,10 @@ public class BudgetPersonnelAction extends BudgetAction {
 
                 budgetUser.setAppointmentTypeCode(budgetUser.getPreviousAppointmentTypeCode());
                 budgetUser.setSecondaryAppointmentTypeCode(budgetUser.getPreviousSecondaryAppointmentTypeCode());
-                
+
             }
         }
-        
+
         return rulePassed;
     }
 }

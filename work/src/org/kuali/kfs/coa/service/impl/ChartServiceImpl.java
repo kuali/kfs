@@ -87,7 +87,6 @@ public class ChartServiceImpl implements ChartService {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.ChartService#getChartsThatUserIsResponsibleFor(org.kuali.core.bo.user.KualiUser)
      */
     public List getChartsThatUserIsResponsibleFor(UniversalUser universalUser) {

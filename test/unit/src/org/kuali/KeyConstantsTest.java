@@ -42,7 +42,7 @@ public class KeyConstantsTest extends KualiTestBase {
                 notFound.add(key);
             }
         }
-        assertTrue("The following keys found in KFSKeyConstants.java do not map to keys in ApplicationResources.properties: "+notFound, notFound.isEmpty());
+        assertTrue("The following keys found in KFSKeyConstants.java do not map to keys in ApplicationResources.properties: " + notFound, notFound.isEmpty());
 
     }
 

@@ -28,8 +28,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Check service.
- * 
- * 
  */
 @ConfigureContext
 public class CashDrawerServiceTest extends KualiTestBase {

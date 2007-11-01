@@ -18,14 +18,14 @@ package org.kuali.module.financial.service;
 import org.kuali.module.gl.bo.UniversityDate;
 
 public interface UniversityDateService {
-    
+
     /**
      * Returns the current university date
      * 
      * @return current university date
      */
     public UniversityDate getCurrentUniversityDate();
-    
+
     /**
      * Given a Date, returns the fiscal year corresponding to that date
      * 
@@ -33,7 +33,7 @@ public interface UniversityDateService {
      * @throws IllegalArgumentException if the given Date is null
      */
     public Integer getFiscalYear(java.util.Date date);
-    
+
 
     /**
      * Returns the first date of the specified Fiscal Year
@@ -42,7 +42,7 @@ public interface UniversityDateService {
      * @return java.util.Date
      */
     public java.util.Date getFirstDateOfFiscalYear(Integer fiscalYear);
-    
+
 
     /**
      * Returns the last date of the specified Fiscal Year
@@ -51,7 +51,7 @@ public interface UniversityDateService {
      * @return java.util.Date
      */
     public java.util.Date getLastDateOfFiscalYear(Integer fiscalYear);
-    
+
 
     /**
      * Returns the current fiscal year

@@ -22,7 +22,6 @@ import org.kuali.module.financial.document.YearEndDistributionOfIncomeAndExpense
  * and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.form.DistributionOfIncomeAndExpenseForm
- * 
  */
 
 public class YearEndDistributionOfIncomeAndExpenseForm extends DistributionOfIncomeAndExpenseForm {

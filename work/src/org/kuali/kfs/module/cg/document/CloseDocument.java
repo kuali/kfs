@@ -15,23 +15,21 @@
  */
 package org.kuali.module.cg.document;
 
-import org.kuali.core.document.TransactionalDocumentBase;
-
 import java.sql.Date;
 
+import org.kuali.core.document.TransactionalDocumentBase;
+
 /**
- * Instances of CloseDocument indicate dates on which the {@link CloseBatchStep}
- * should be executed.
+ * Instances of CloseDocument indicate dates on which the {@link CloseBatchStep} should be executed.
  */
 public class CloseDocument extends TransactionalDocumentBase {
-    
+
     private Date userInitiatedCloseDate;
     private Date closeOnOrBeforeDate;
 
     /**
-     * The {@link CloseBatchStep} will close out {@link Proposal}s and 
-     * {@link Award}s not yet closed and created before the date returned from
-     * this method.
+     * The {@link CloseBatchStep} will close out {@link Proposal}s and {@link Award}s not yet closed and created before the date
+     * returned from this method.
      * 
      * @return the date to use for comparison. See method description.
      */
@@ -40,9 +38,8 @@ public class CloseDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * The {@link CloseBatchStep} will close out {@link Proposal}s and 
-     * {@link Award}s not yet closed and created before the date passed into
-     * this method.
+     * The {@link CloseBatchStep} will close out {@link Proposal}s and {@link Award}s not yet closed and created before the date
+     * passed into this method.
      * 
      * @param closeOnOrBeforeDate the date to use for comparison. See method description.
      */
@@ -51,26 +48,22 @@ public class CloseDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the date on which this instance should trigger the CloseBatchStep
-     * to close out {@link {Proposal}s and {@link Award}s.
+     * Gets the date on which this instance should trigger the CloseBatchStep to close out {@link {Proposal}s and {@link Award}s.
      * 
-     * @return the date on which this instance should trigger the CloseBatchStep
-     * to close out {@link {Proposal}s and {@link Award}s.
+     * @return the date on which this instance should trigger the CloseBatchStep to close out {@link {Proposal}s and {@link Award}s.
      */
     public Date getCloseOnOrBeforeDate() {
         return closeOnOrBeforeDate;
     }
 
     /**
-     * Sets the date on which this instance should trigger the CloseBatchStep
-     * to close out {@link {Proposal}s and {@link Award}s.
+     * Sets the date on which this instance should trigger the CloseBatchStep to close out {@link {Proposal}s and {@link Award}s.
      * 
-     * @param userInitiatedCloseDate the date on which this instance should 
-     * trigger the CloseBatchStep to close out {@link {Proposal}s and 
-     * {@link Award}s.
+     * @param userInitiatedCloseDate the date on which this instance should trigger the CloseBatchStep to close out
+     *        {@link {Proposal}s and {@link Award}s.
      */
     public void setCloseOnOrBeforeDate(Date closeOnOrBeforeDate) {
         this.closeOnOrBeforeDate = closeOnOrBeforeDate;
     }
-    
+
 }

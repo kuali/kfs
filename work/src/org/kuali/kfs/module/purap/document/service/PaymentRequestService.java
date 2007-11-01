@@ -32,49 +32,49 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public interface PaymentRequestService extends AccountsPayableDocumentSpecificService {
 
     public void saveDocumentWithoutValidation(PaymentRequestDocument paymentRequestDocument);
-    
+
     public List<PaymentRequestDocument> getPaymentRequestsByPurchaseOrderId(Integer poDocId);
-    
+
     public List getPaymentRequestsByPOIdInvoiceAmountInvoiceDate(Integer poId, KualiDecimal invoiceAmount, Date invoiceDate);
-    
+
     public List getPaymentRequestsByVendorNumberInvoiceNumber(Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier, String invoiceNumber);
-    
+
     public boolean isInvoiceDateAfterToday(Date invoiceDate);
-    
+
     public HashMap<String, String> paymentRequestDuplicateMessages(PaymentRequestDocument document);
-        
-    public Date calculatePayDate(Date invoiceDate,PaymentTermType terms);
-        
+
+    public Date calculatePayDate(Date invoiceDate, PaymentTermType terms);
+
     public void addHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
-        
+
     public boolean canHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
-    
+
     public boolean canRemoveHoldPaymentRequest(PaymentRequestDocument document, UniversalUser user);
-    
+
     public void removeHoldOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
-       
+
     public PaymentRequestDocument getPaymentRequestById(Integer poDocId);
-    
+
     public PaymentRequestDocument getPaymentRequestByDocumentNumber(String documentNumber);
 
     public void requestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
-    
+
     /**
-     * 
      * This method returns true if the payment request has been extracted
+     * 
      * @param document
      * @return
      */
     public boolean isExtracted(PaymentRequestDocument document);
-    
+
     public boolean canUserRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
-    
+
     public boolean canUserRemoveRequestCancelOnPaymentRequest(PaymentRequestDocument document, UniversalUser user);
-    
+
     public void removeRequestCancelOnPaymentRequest(PaymentRequestDocument document, String note) throws Exception;
 
     public void resetExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
-    
+
     public void cancelExtractedPaymentRequest(PaymentRequestDocument paymentRequest, String note);
 
     /**
@@ -91,7 +91,7 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param cmd
      * @return Iterator of payment requests
      */
-    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode,CreditMemoDocument cmd);
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, CreditMemoDocument cmd);
 
     /**
      * Get all the payment requests that need to be extracted
@@ -121,28 +121,29 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * 
      * @param pr
      */
-    public void calculatePaymentRequest(PaymentRequestDocument pr,boolean updateDiscount);
+    public void calculatePaymentRequest(PaymentRequestDocument pr, boolean updateDiscount);
 
     /**
-     * populate payment request.  
+     * populate payment request.
      * 
      * @param preq paymentrequestdocument
      */
     public void populatePaymentRequest(PaymentRequestDocument preq);
-    
+
     /**
-     * populate and save payment request.  
+     * populate and save payment request.
      * 
      * @param preq paymentrequestdocument
      */
     public void populateAndSavePaymentRequest(PaymentRequestDocument preq) throws WorkflowException;
-    
-    
+
+
     /**
-     * Retrieve a list of PREQs that aren't approved, check to see if they match specific
-     * requirements, then auto-approve them if possible.
+     * Retrieve a list of PREQs that aren't approved, check to see if they match specific requirements, then auto-approve them if
+     * possible.
      */
     public boolean autoApprovePaymentRequests();
+
     public boolean autoApprovePaymentRequest(PaymentRequestDocument doc, KualiDecimal defaultMinimumLimit);
 
 
@@ -154,11 +155,11 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param pr
      * @param processDate
      */
-    public void markPaid(PaymentRequestDocument pr,Date processDate);
-    
+    public void markPaid(PaymentRequestDocument pr, Date processDate);
+
     /**
-     * 
      * This method specifies whether a doc has a discount item
+     * 
      * @param preq
      */
     public boolean hasDiscountItem(PaymentRequestDocument preq);

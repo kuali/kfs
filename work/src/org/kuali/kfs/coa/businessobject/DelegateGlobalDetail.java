@@ -84,7 +84,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the accountDelegateUniversalId attribute.
      * 
      * @return Returns the accountDelegateUniversalId
-     * 
      */
     public String getAccountDelegateUniversalId() {
         return accountDelegateUniversalId;
@@ -94,7 +93,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the accountDelegateUniversalId attribute.
      * 
      * @param accountDelegateUniversalId The accountDelegateUniversalId to set.
-     * 
      */
     public void setAccountDelegateUniversalId(String accountDelegateUniversalId) {
         this.accountDelegateUniversalId = accountDelegateUniversalId;
@@ -105,7 +103,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -115,7 +112,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -126,7 +122,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the approvalFromThisAmount attribute.
      * 
      * @return Returns the approvalFromThisAmount
-     * 
      */
     public KualiDecimal getApprovalFromThisAmount() {
         return approvalFromThisAmount;
@@ -136,7 +131,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the approvalFromThisAmount attribute.
      * 
      * @param approvalFromThisAmount The approvalFromThisAmount to set.
-     * 
      */
     public void setApprovalFromThisAmount(KualiDecimal approvalFromThisAmount) {
         this.approvalFromThisAmount = approvalFromThisAmount;
@@ -147,7 +141,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the approvalToThisAmount attribute.
      * 
      * @return Returns the approvalToThisAmount
-     * 
      */
     public KualiDecimal getApprovalToThisAmount() {
         return approvalToThisAmount;
@@ -157,7 +150,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the approvalToThisAmount attribute.
      * 
      * @param approvalToThisAmount The approvalToThisAmount to set.
-     * 
      */
     public void setApprovalToThisAmount(KualiDecimal approvalToThisAmount) {
         this.approvalToThisAmount = approvalToThisAmount;
@@ -168,7 +160,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the accountDelegatePrimaryRoutingIndicator attribute.
      * 
      * @return Returns the accountDelegatePrimaryRoutingIndicator
-     * 
      */
     public boolean getAccountDelegatePrimaryRoutingIndicator() {
         return accountDelegatePrimaryRoutingIndicator;
@@ -189,7 +180,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the accountDelegateStartDate attribute.
      * 
      * @return Returns the accountDelegateStartDate
-     * 
      */
     public Date getAccountDelegateStartDate() {
         return accountDelegateStartDate;
@@ -199,7 +189,6 @@ public class DelegateGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the accountDelegateStartDate attribute.
      * 
      * @param accountDelegateStartDate The accountDelegateStartDate to set.
-     * 
      */
     public void setAccountDelegateStartDate(Date accountDelegateStartDate) {
         this.accountDelegateStartDate = accountDelegateStartDate;

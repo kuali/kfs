@@ -29,22 +29,21 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectCodeService;
 
 /**
- * This is a representation of an Organization Reversion Detail, made specifically
- * for Global Organization Reversions.  However, as OrganizationReversionDetail lists
- * Organization as a primary key and Global Organization Reversions deal with several
+ * This is a representation of an Organization Reversion Detail, made specifically for Global Organization Reversions. However, as
+ * OrganizationReversionDetail lists Organization as a primary key and Global Organization Reversions deal with several
  * Organizations, that class could not be re-used for Globals.
  */
 public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetailBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalDetail.class);
-    
+
     private String documentNumber;
     private String organizationReversionCategoryCode;
     private String organizationReversionObjectCode;
     private String organizationReversionCode;
-    
+
     private OrganizationReversionCategory organizationReversionCategory;
     private OrganizationReversionGlobal parentGlobalOrganizationReversion;
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -55,14 +54,16 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
         stringMapper.put("OrganizationReversionCategoryCode", this.organizationReversionCategoryCode);
         return stringMapper;
     }
-    
+
     /**
      * Constructs an OrganizationReversionGlobalDocumentDetail.
      */
-    public OrganizationReversionGlobalDetail() {}
+    public OrganizationReversionGlobalDetail() {
+    }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -71,6 +72,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -78,7 +80,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Gets the organizationReversionCode attribute. 
+     * Gets the organizationReversionCode attribute.
+     * 
      * @return Returns the organizationReversionCode.
      */
     public String getOrganizationReversionCode() {
@@ -87,6 +90,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     /**
      * Sets the organizationReversionCode attribute value.
+     * 
      * @param organizationReversionCode The organizationReversionCode to set.
      */
     public void setOrganizationReversionCode(String organizationReversionCode) {
@@ -94,7 +98,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Gets the organizationReversionCategory attribute. 
+     * Gets the organizationReversionCategory attribute.
+     * 
      * @return Returns the organizationReversionCategory.
      */
     public OrganizationReversionCategory getOrganizationReversionCategory() {
@@ -103,6 +108,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     /**
      * Sets the organizationReversionCategory attribute value.
+     * 
      * @param organizationReversionCategory The organizationReversionCategory to set.
      */
     public void setOrganizationReversionCategory(OrganizationReversionCategory organizationReversionCategory) {
@@ -110,7 +116,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Gets the organizationReversionCategoryCode attribute. 
+     * Gets the organizationReversionCategoryCode attribute.
+     * 
      * @return Returns the organizationReversionCategoryCode.
      */
     public String getOrganizationReversionCategoryCode() {
@@ -119,6 +126,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     /**
      * Sets the organizationReversionCategoryCode attribute value.
+     * 
      * @param organizationReversionCategoryCode The organizationReversionCategoryCode to set.
      */
     public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
@@ -126,7 +134,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Gets the organizationReversionObjectCode attribute. 
+     * Gets the organizationReversionObjectCode attribute.
+     * 
      * @return Returns the organizationReversionObjectCode.
      */
     public String getOrganizationReversionObjectCode() {
@@ -135,6 +144,7 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
 
     /**
      * Sets the organizationReversionObjectCode attribute value.
+     * 
      * @param organizationReversionObjectCode The organizationReversionObjectCode to set.
      */
     public void setOrganizationReversionObjectCode(String organizationReversionObjectCode) {
@@ -142,8 +152,9 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Gets the parentGlobalOrganizationReversion attribute.  This field does not
-     * persist, and is populated by OrganzationReversionChangeMaintainable.
+     * Gets the parentGlobalOrganizationReversion attribute. This field does not persist, and is populated by
+     * OrganzationReversionChangeMaintainable.
+     * 
      * @return Returns the parentGlobalOrganizationReversion.
      */
     public OrganizationReversionGlobal getParentGlobalOrganizationReversion() {
@@ -151,8 +162,9 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * Sets the parentGlobalOrganizationReversion attribute value.  This field does not
-     * persist, and is populated by OrganizationReversionGlobalMaintainableImpl.
+     * Sets the parentGlobalOrganizationReversion attribute value. This field does not persist, and is populated by
+     * OrganizationReversionGlobalMaintainableImpl.
+     * 
      * @param parentGlobalOrganizationReversion The parentGlobalOrganizationReversion to set.
      */
     public void setParentGlobalOrganizationReversion(OrganizationReversionGlobal parentGlobalOrganizationReversion) {
@@ -160,8 +172,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
-     * This utility method converts the name of a property into a string suitable
-     * for being part of a locking representation.
+     * This utility method converts the name of a property into a string suitable for being part of a locking representation.
+     * 
      * @param keyName the name of the property to convert to a locking representation
      * @return a part of a locking representation
      */
@@ -177,13 +189,13 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
             }
         }
         catch (IllegalAccessException iae) {
-            LOG.info("Illegal access exception while attempting to read property "+keyName, iae);
+            LOG.info("Illegal access exception while attempting to read property " + keyName, iae);
         }
         catch (InvocationTargetException ite) {
-            LOG.info("Illegal Target Exception while attempting to read property "+keyName, ite);
+            LOG.info("Illegal Target Exception while attempting to read property " + keyName, ite);
         }
         catch (NoSuchMethodException nsme) {
-            LOG.info("There is no such method to read property "+keyName+" in this class.", nsme);
+            LOG.info("There is no such method to read property " + keyName + " in this class.", nsme);
         }
         finally {
             sb.append(keyValue);
@@ -193,9 +205,8 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
     }
 
     /**
+     * This returns a string of object code names associated with the object code in this org rev change detail.
      * 
-     * This returns a string of object code names associated with the object code in this
-     * org rev change detail.
      * @return String of distinct object code names
      */
     public String getObjectCodeNames() {
@@ -204,16 +215,16 @@ public class OrganizationReversionGlobalDetail extends GlobalBusinessObjectDetai
             if (this.getParentGlobalOrganizationReversion().getUniversityFiscalYear() != null && this.getParentGlobalOrganizationReversion().getOrganizationReversionGlobalOrganizations() != null && this.getParentGlobalOrganizationReversion().getOrganizationReversionGlobalOrganizations().size() > 0) {
                 // find distinct chart of account codes
                 SortedSet<String> chartCodes = new TreeSet<String>();
-                for (OrganizationReversionGlobalOrganization org: this.getParentGlobalOrganizationReversion().getOrganizationReversionGlobalOrganizations()) {
+                for (OrganizationReversionGlobalOrganization org : this.getParentGlobalOrganizationReversion().getOrganizationReversionGlobalOrganizations()) {
                     chartCodes.add(org.getChartOfAccountsCode());
                 }
                 String[] chartCodesArray = new String[chartCodes.size()];
                 int i = 0;
-                for (String chartCode: chartCodes) {
+                for (String chartCode : chartCodes) {
                     chartCodesArray[i] = chartCode;
                     i++;
                 }
-                objectCodeNames = (String)SpringContext.getBean(ObjectCodeService.class).getObjectCodeNamesByCharts(this.getParentGlobalOrganizationReversion().getUniversityFiscalYear(), chartCodesArray, this.getOrganizationReversionObjectCode());
+                objectCodeNames = (String) SpringContext.getBean(ObjectCodeService.class).getObjectCodeNamesByCharts(this.getParentGlobalOrganizationReversion().getUniversityFiscalYear(), chartCodesArray, this.getOrganizationReversionObjectCode());
             }
         }
         return objectCodeNames;

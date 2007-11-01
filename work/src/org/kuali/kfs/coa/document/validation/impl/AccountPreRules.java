@@ -30,9 +30,8 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.service.AccountService;
 
 /**
- * 
- * PreRules checks for the Account that needs to occur while still in the Struts processing. 
- * This includes defaults, confirmations, etc.
+ * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
  */
 public class AccountPreRules extends MaintenancePreRulesBase {
 
@@ -70,6 +69,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * <li>{@link AccountPreRules#newAccountDefaults(MaintenanceDocument)}</li>
      * <li>{@link AccountPreRules#setStateFromZip}</li>
      * </ul>
+     * 
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
@@ -86,7 +86,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This method sets a default restricted status on an account if and only if the status code in SubFundGroup has been set and
      * the user answers in the affirmative that they definitely want to use this SubFundGroup.
      */
@@ -110,7 +109,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
     private void checkForContinuationAccounts() {
@@ -160,15 +158,11 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
@@ -179,7 +173,6 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This method sets up some defaults for new Account
      * 
      * @param maintenanceDocument
@@ -209,8 +202,8 @@ public class AccountPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This method lookups state and city from populated zip, set the values on the form
+     * 
      * @param maintenanceDocument
      */
     private void setStateFromZip(MaintenanceDocument maintenanceDocument) {

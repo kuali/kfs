@@ -21,5 +21,5 @@ package org.kuali.module.purap.service;
 public abstract interface LogicContainer {
 
     public abstract Object runLogic(Object[] objects) throws Exception;
-    
+
 }

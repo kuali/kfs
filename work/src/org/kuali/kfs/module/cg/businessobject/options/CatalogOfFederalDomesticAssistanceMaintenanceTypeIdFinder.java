@@ -27,13 +27,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cg.bo.Cfda;
 
 /**
- * Allows some information about persisted {@link Cfda} instances to be looked up. 
+ * Allows some information about persisted {@link Cfda} instances to be looked up.
  */
 public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends KeyValuesBase {
 
     /**
-     * Retrieves the list of possible CFDA Maintenance Type IDs and generates a 
-     * collection with all the possible values.
+     * Retrieves the list of possible CFDA Maintenance Type IDs and generates a collection with all the possible values.
      * 
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
@@ -47,8 +46,8 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
 
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             Cfda cfdaReference = (Cfda) iter.next();
-            
-            if(!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
+
+            if (!isDuplicateValue(labels, cfdaReference.getCfdaMaintenanceTypeId())) {
                 labels.add(new KeyLabelPair(cfdaReference.getCfdaMaintenanceTypeId(), cfdaReference.getCfdaMaintenanceTypeId()));
             }
         }
@@ -65,14 +64,14 @@ public class CatalogOfFederalDomesticAssistanceMaintenanceTypeIdFinder extends K
      */
     private boolean isDuplicateValue(List<KeyLabelPair> collection, String value) {
         boolean duplicate = false;
-        
-        for(KeyLabelPair klp : collection) {
+
+        for (KeyLabelPair klp : collection) {
             String klpLabel = klp.getLabel();
-            if(klpLabel!=null) {
+            if (klpLabel != null) {
                 duplicate |= klpLabel.trim().equalsIgnoreCase(value.trim());
             }
         }
-        
+
         return duplicate;
     }
 

@@ -15,28 +15,25 @@
  */
 package org.kuali.module.budget.web.struts.form;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
-//import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.document.authorization.BudgetConstructionDocumentAuthorizer;
 
 public class MonthlyBudgetForm extends KualiForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(MonthlyBudgetForm.class);
-    
-    private BudgetConstructionMonthly budgetConstructionMonthly;
-//  TODO remove - was here originally for kul:page tag use 
-//    private String docTypeName;
 
-    //TODO probably need to push these and some url parms to new superclass BCExpansionForm??
+    private BudgetConstructionMonthly budgetConstructionMonthly;
+    // TODO remove - was here originally for kul:page tag use
+    // private String docTypeName;
+
+    // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
     protected Map editingMode;
 
@@ -53,14 +50,15 @@ public class MonthlyBudgetForm extends KualiForm {
     private String financialBalanceTypeCode;
     private String financialObjectTypeCode;
 
-    public MonthlyBudgetForm(){
+    public MonthlyBudgetForm() {
         super();
         setBudgetConstructionMonthly(new BudgetConstructionMonthly());
         this.editingMode = new HashMap();
     }
 
     /**
-     * Gets the budgetConstructioMonthly attribute. 
+     * Gets the budgetConstructioMonthly attribute.
+     * 
      * @return Returns the budgetConstructioMonthly.
      */
     public BudgetConstructionMonthly getBudgetConstructionMonthly() {
@@ -69,6 +67,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the budgetConstructioMonthly attribute value.
+     * 
      * @param budgetConstructioMonthly The budgetConstructioMonthly to set.
      */
     public void setBudgetConstructionMonthly(BudgetConstructionMonthly budgetConstructionMonthly) {
@@ -76,25 +75,26 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the docTypeName attribute. 
+     * Gets the docTypeName attribute.
+     * 
      * @return Returns the docTypeName.
      */
-//  TODO remove - was here originally for kul:page tag use 
-//    public String getDocTypeName() {
-//        return docTypeName;
-//    }
-
+    // TODO remove - was here originally for kul:page tag use
+    // public String getDocTypeName() {
+    // return docTypeName;
+    // }
     /**
      * Sets the docTypeName attribute value.
+     * 
      * @param docTypeName The docTypeName to set.
      */
-//  TODO remove - was here originally for kul:page tag use 
-//    public void setDocTypeName(String docTypeName) {
-//        this.docTypeName = docTypeName;
-//    }
-
+    // TODO remove - was here originally for kul:page tag use
+    // public void setDocTypeName(String docTypeName) {
+    // this.docTypeName = docTypeName;
+    // }
     /**
-     * Gets the returnAnchor attribute. 
+     * Gets the returnAnchor attribute.
+     * 
      * @return Returns the returnAnchor.
      */
     public String getReturnAnchor() {
@@ -103,6 +103,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the returnAnchor attribute value.
+     * 
      * @param returnAnchor The returnAnchor to set.
      */
     public void setReturnAnchor(String returnAnchor) {
@@ -110,7 +111,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the returnTabStates attribute. 
+     * Gets the returnTabStates attribute.
+     * 
      * @return Returns the returnTabStates.
      */
     public String getReturnFormKey() {
@@ -119,6 +121,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the returnTabStates attribute value.
+     * 
      * @param returnTabStates The returnTabStates to set.
      */
     public void setReturnFormKey(String returnTabStates) {
@@ -126,7 +129,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -135,6 +139,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the accountNumber attribute value.
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -142,7 +147,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -151,6 +157,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -158,7 +165,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -167,6 +175,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -174,7 +183,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the financialBalanceTypeCode attribute. 
+     * Gets the financialBalanceTypeCode attribute.
+     * 
      * @return Returns the financialBalanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
@@ -183,6 +193,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the financialBalanceTypeCode attribute value.
+     * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -190,7 +201,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the financialObjectCode attribute. 
+     * Gets the financialObjectCode attribute.
+     * 
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -199,6 +211,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the financialObjectCode attribute value.
+     * 
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -206,7 +219,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the financialObjectTypeCode attribute. 
+     * Gets the financialObjectTypeCode attribute.
+     * 
      * @return Returns the financialObjectTypeCode.
      */
     public String getFinancialObjectTypeCode() {
@@ -215,6 +229,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the financialObjectTypeCode attribute value.
+     * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -222,7 +237,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the financialSubObjectCode attribute. 
+     * Gets the financialSubObjectCode attribute.
+     * 
      * @return Returns the financialSubObjectCode.
      */
     public String getFinancialSubObjectCode() {
@@ -231,6 +247,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the financialSubObjectCode attribute value.
+     * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -238,7 +255,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the subAccountNumber attribute. 
+     * Gets the subAccountNumber attribute.
+     * 
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -247,6 +265,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the subAccountNumber attribute value.
+     * 
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -254,7 +273,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -263,6 +283,7 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -270,7 +291,8 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Gets the hideDetails attribute. 
+     * Gets the hideDetails attribute.
+     * 
      * @return Returns the hideDetails.
      */
     public boolean isHideDetails() {
@@ -279,12 +301,13 @@ public class MonthlyBudgetForm extends KualiForm {
 
     /**
      * Sets the hideDetails attribute value.
+     * 
      * @param hideDetails The hideDetails to set.
      */
     public void setHideDetails(boolean hideDetails) {
         this.hideDetails = hideDetails;
     }
-    
+
     /**
      * @return Map of editingModes for this BC expansion screen, as set during the most recent call to
      *         populate(javax.servlet.http.HttpServletRequest)
@@ -294,51 +317,45 @@ public class MonthlyBudgetForm extends KualiForm {
     }
 
     /**
-     * Set editingMode for this BC Expansion screen
-     * TODO verify comments from KualiDocumentFormBase - unfortunately necessary, since validation failures bypass the normal
-     * populateAuthorizationFields call. (Unfortunate because it makes the UI just a bit easier to hack, until we have the back-end
-     * checks of editingMode et al in place.)
+     * Set editingMode for this BC Expansion screen TODO verify comments from KualiDocumentFormBase - unfortunately necessary, since
+     * validation failures bypass the normal populateAuthorizationFields call. (Unfortunate because it makes the UI just a bit
+     * easier to hack, until we have the back-end checks of editingMode et al in place.)
      */
     public void setEditingMode(Map editingMode) {
         this.editingMode = editingMode;
     }
 
     /**
-     * Updates authorization-related form fields based on the current form contents
-     * TODO should probably move this to extension class
+     * Updates authorization-related form fields based on the current form contents TODO should probably move this to extension
+     * class
      */
     public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
 
         useBCAuthorizer(documentAuthorizer);
 
-        //TODO probably need BCAuthorizationConstants extension
+        // TODO probably need BCAuthorizationConstants extension
         if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
 
-/*
-//TODO from KualiDocumentFormBase - remove when ready
-        if (isFormDocumentInitialized()) {
-            useBCAuthorizer(documentAuthorizer);
-
-            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
-            // correct DocumentAuthorizer
-            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
-            }
-        }
-*/
+        /*
+         * //TODO from KualiDocumentFormBase - remove when ready if (isFormDocumentInitialized()) {
+         * useBCAuthorizer(documentAuthorizer); // graceless hack which takes advantage of the fact that here and only here will we
+         * have guaranteed access to the // correct DocumentAuthorizer if
+         * (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) { throw new
+         * AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view",
+         * this.getAccountNumber()+", "+this.getSubAccountNumber()); } }
+         */
     }
 
     /*
      * TODO should probably move this to extension class
-     * 
      */
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
 
         setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
-//TODO probably don't need these, editingmode drives expansion screen actions
-//        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
+        // TODO probably don't need these, editingmode drives expansion screen actions
+        // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
     }
 }

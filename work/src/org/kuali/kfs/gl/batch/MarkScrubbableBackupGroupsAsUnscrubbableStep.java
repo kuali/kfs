@@ -20,12 +20,12 @@ import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
- * This step will mark all backup groups in the database so that they will not be scrubbed when the
- * nightly scrubber step runs again.
+ * This step will mark all backup groups in the database so that they will not be scrubbed when the nightly scrubber step runs
+ * again.
  */
 public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep implements TestingStep {
     private OriginEntryGroupService originEntryGroupService;
-    
+
     /**
      * Marks all scrubbable backup groups as unscrubbable
      * 
@@ -40,6 +40,7 @@ public class MarkScrubbableBackupGroupsAsUnscrubbableStep extends AbstractStep i
 
     /**
      * Sets the originEntryGroupSerivce, allowing the injection of an implementation of that service
+     * 
      * @param originEntryGroupService an implementation originEntryGroupService to set
      * @see org.kuali.module.gl.service.OriginEntryGroupService
      */

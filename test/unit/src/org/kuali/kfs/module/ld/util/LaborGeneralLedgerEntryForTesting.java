@@ -25,17 +25,17 @@ import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class LaborGeneralLedgerEntryForTesting extends LaborGeneralLedgerEntry {
-    
-    @ Override
-    public boolean equals(Object otherEntry){
+
+    @Override
+    public boolean equals(Object otherEntry) {
         return ObjectUtil.compareObject(this, otherEntry, LaborConstants.consolidationAttributesOfOriginEntry());
     }
-    
+
     public Map getPrimaryKeyMap() {
         return ObjectUtil.buildPropertyMap(this, this.getPrimaryKeyList());
     }
-    
-    public List<String> getPrimaryKeyList(){
+
+    public List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

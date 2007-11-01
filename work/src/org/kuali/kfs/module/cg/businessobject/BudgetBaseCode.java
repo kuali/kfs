@@ -28,7 +28,7 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
     private String budgetBaseCode;
     private String budgetBaseDescription;
     private boolean active;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -40,7 +40,6 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
      * Gets the budgetBaseCode attribute.
      * 
      * @return Returns the budgetBaseCode
-     * 
      */
     public String getBudgetBaseCode() {
         return budgetBaseCode;
@@ -50,7 +49,6 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
      * Sets the budgetBaseCode attribute.
      * 
      * @param budgetBaseCode The budgetBaseCode to set.
-     * 
      */
     public void setBudgetBaseCode(String budgetBaseCode) {
         this.budgetBaseCode = budgetBaseCode;
@@ -60,7 +58,6 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
      * Gets the budgetBaseDescription attribute.
      * 
      * @return Returns the budgetBaseDescription
-     * 
      */
     public String getBudgetBaseDescription() {
         return budgetBaseDescription;
@@ -70,14 +67,14 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
      * Sets the budgetBaseDescription attribute.
      * 
      * @param budgetBaseDescription The budgetBaseDescription to set.
-     * 
      */
     public void setBudgetBaseDescription(String budgetBaseDescription) {
         this.budgetBaseDescription = budgetBaseDescription;
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -86,12 +83,13 @@ public class BudgetBaseCode extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
-    }    
-    
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

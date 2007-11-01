@@ -5,12 +5,13 @@ import org.kuali.module.budget.dao.BudgetConstructionDao;
 
 
 /**
- * This defines the methods a BudgetDocumentService must implement 
+ * This defines the methods a BudgetDocumentService must implement
  */
 public interface BudgetDocumentService {
 
     /**
      * This method...
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param subAccountNumber
@@ -21,6 +22,7 @@ public interface BudgetDocumentService {
 
     /**
      * Sets the budgetConstructionDao attribute value.
+     * 
      * @param budgetConstructionDao The budgetConstructionDao to set.
      */
     public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao);

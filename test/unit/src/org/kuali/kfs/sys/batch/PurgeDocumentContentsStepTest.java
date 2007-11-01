@@ -17,14 +17,10 @@ package org.kuali.kfs.batch;
 
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
-import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardUpLeftHandler;
-
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.financial.document.InternalBillingDocument;
-import org.kuali.module.gl.batch.collector.CollectorStep;
 import org.kuali.test.ConfigureContext;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -57,5 +53,5 @@ public class PurgeDocumentContentsStepTest extends KualiTestBase {
             fail();
         }
     }
-    
+
 }

@@ -20,5 +20,5 @@ import java.util.Map;
 
 public interface AccountBalanceLevelDao {
 
-	public List<Map<String,Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode);
+    public List<Map<String, Object>> findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode);
 }

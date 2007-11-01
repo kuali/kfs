@@ -29,8 +29,6 @@ import org.kuali.module.kra.budget.bo.NonpersonnelCategory;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render the page properly.
- * 
- * 
  */
 public class BudgetNonpersonnelFormHelper {
 
@@ -98,9 +96,9 @@ public class BudgetNonpersonnelFormHelper {
      * This method aggregates Nonpesronnel Item data into the proper Category breakdown.
      * 
      * @param currentTaskNumber
-	 * @param currentPeriodNumber
-	 * @param nonpersonnelItems
-	 * @param includesModularExcluded
+     * @param currentPeriodNumber
+     * @param nonpersonnelItems
+     * @param includesModularExcluded
      */
     public void addNonpersonnelItems(Integer currentTaskNumber, Integer currentPeriodNumber, List nonpersonnelItems, boolean includesModularExcluded) {
         int itemIndex = 0;
@@ -208,8 +206,6 @@ public class BudgetNonpersonnelFormHelper {
     /**
      * This class holds information relevent to each NonpersonnelCategory. It tells the number of items, totals (agency, univ. cost
      * share, and third party cost share), and item indexes.
-     * 
-     * 
      */
 
     public class NonpersonnelCategoryHelper {

@@ -25,16 +25,16 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class FundingSource extends PersistableBusinessObjectBase {
 
-	private String fundingSourceCode;
-	private String fundingSourceDescription;
-	private boolean active;
+    private String fundingSourceCode;
+    private String fundingSourceDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public FundingSource() {
+    /**
+     * Default constructor.
+     */
+    public FundingSource() {
 
-	}
+    }
 
     public boolean isActive() {
         return active;
@@ -61,11 +61,11 @@ public class FundingSource extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("fundingSourceCode", this.fundingSourceCode);
-	    return m;
+        return m;
     }
 }

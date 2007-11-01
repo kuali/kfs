@@ -24,26 +24,25 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * Organization Parameter Business Object.
- * Maintenance document for organization parameters.
+ * Organization Parameter Business Object. Maintenance document for organization parameters.
  */
 public class OrganizationParameter extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private KualiDecimal organizationAutomaticPurchaseOrderLimit;
+
     private Chart chartOfAccounts;
-	private Org organization;
+    private Org organization;
 
-	/**
-	 * Default constructor.
-	 */
-	public OrganizationParameter() {
+    /**
+     * Default constructor.
+     */
+    public OrganizationParameter() {
 
-	}
+    }
 
-	public Chart getChartOfAccounts() {
+    public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
@@ -90,12 +89,12 @@ public class OrganizationParameter extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-	    return m;
+        return m;
     }
 }

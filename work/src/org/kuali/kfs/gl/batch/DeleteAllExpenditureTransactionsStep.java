@@ -17,16 +17,14 @@ package org.kuali.module.gl.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.kfs.batch.TestingStep;
-import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.service.ExpenditureTransactionService;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A step to remove all expenditure transactions held in the database
  */
 public class DeleteAllExpenditureTransactionsStep extends AbstractStep implements TestingStep {
     private ExpenditureTransactionService expenditureTransactionService;
-    
+
     /**
      * Runs the process of deleting all expenditure transactions
      * 
@@ -41,6 +39,7 @@ public class DeleteAllExpenditureTransactionsStep extends AbstractStep implement
 
     /**
      * Sets the expenditureTransactionService attribute, allowing the inject of an implementation of this service
+     * 
      * @param expenditureTransactionService
      * @see org.kuali.module.gl.service.ExpenditureTransactionService
      */

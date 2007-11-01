@@ -199,14 +199,15 @@ public class RoutingFormXml {
                 Element homeOrgElement = xmlDoc.createElement("HOME_ORG");
                 String chart = "";
                 String org = "";
-                if ( projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID) != null ) {
-                    chart = ((ChartUser)projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
-                    org   = ((ChartUser)projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
-                } else {
-                    chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode( projectDirector.getUser() );
-                    org   = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode( projectDirector.getUser() );
+                if (projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID) != null) {
+                    chart = ((ChartUser) projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getChartOfAccountsCode();
+                    org = ((ChartUser) projectDirector.getUser().getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
                 }
-                
+                else {
+                    chart = SpringContext.getBean(ChartUserService.class).getDefaultChartCode(projectDirector.getUser());
+                    org = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(projectDirector.getUser());
+                }
+
                 homeOrgElement.setAttribute("HOME_CHART", ObjectUtils.toString(chart));
                 homeOrgElement.setAttribute("HOME_ORG", ObjectUtils.toString(org));
                 projectDirectorElement.appendChild(homeOrgElement);

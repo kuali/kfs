@@ -27,8 +27,6 @@ import org.kuali.module.financial.bo.TravelExpenseTypeCode;
 
 /**
  * This class returns list of travel expense type category value pairs.
- * 
- * 
  */
 public class TravelExpenseTypeValuesFinder extends KeyValuesBase {
 

@@ -52,8 +52,6 @@ import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiChartAttribute which should be used when using charts to do routing
- *
- *
  */
 public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
@@ -98,7 +96,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Constructs a KualiChartAttribute.java.
-     *
+     * 
      * @param finCoaCd - the chart code
      */
     public KualiChartAttribute(String finCoaCd) {
@@ -110,7 +108,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Gets the finCoaCd attribute.
-     *
+     * 
      * @return Returns the finCoaCd.
      */
     public String getFinCoaCd() {
@@ -119,7 +117,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Sets the finCoaCd attribute value.
-     *
+     * 
      * @param finCoaCd The finCoaCd to set.
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -159,7 +157,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Validates chart using database
-     *
+     * 
      * @param finCoaCd
      * @return true if chart is valid
      */
@@ -169,7 +167,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Returns a Chart object from the code
-     *
+     * 
      * @param finCoaCd
      * @return Chart
      */
@@ -239,7 +237,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * This method will build a string representation of a qualified role a qualified role is the role, with the corresponding
      * string values that further qualify the role to apply for a given object.
-     *
+     * 
      * @param roleName
      * @param chart
      * @return String
@@ -252,6 +250,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String SUB_OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "subObjCdGlobalDetails/list/org.kuali.module.chart.bo.SubObjCdGlobalDetail/chartOfAccountsCode')";
     private static final String OBJECT_CODE_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "objectCodeGlobalDetails/list/org.kuali.module.chart.bo.ObjectCodeGlobalDetail/chartOfAccountsCode')";
     private static final String ORG_REVERSION_GLOBAL_DETAIL_XPATH = "wf:xstreamsafe('" + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "organizationReversionGlobalOrganizations/list/org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization/chartOfAccountsCode')";
+
     /**
      * @see edu.iu.uis.eden.routetemplate.RoleAttribute#getQualifiedRoleNames(java.lang.String, java.lang.String)
      */
@@ -268,27 +267,32 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
                 boolean isReport = ((Boolean) xpath.evaluate(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
                 if (isReport) {
                     chartXPaths.add(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + CHART_ATTRIBUTE + "/" + FIN_COA_CD_KEY + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX);
-                } else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.ACCOUNT_DELEGATE_GLOBAL_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
-                } else if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.ACCOUNT_CHANGE_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
-                } else if (KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ACCOUNT_GLOBAL_DETAIL_XPATH);
                     chartXPaths.add(SUB_OBJECT_CODE_GLOBAL_DETAIL_XPATH);
-                } else if (KualiWorkflowUtils.OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(OBJECT_CODE_GLOBAL_DETAIL_XPATH);
-                } else if (KualiWorkflowUtils.ORG_REVERSION_CHANGE_DOC_TYPE.equals(docTypeName)) {
+                }
+                else if (KualiWorkflowUtils.ORG_REVERSION_CHANGE_DOC_TYPE.equals(docTypeName)) {
                     chartXPaths.add(ORG_REVERSION_GLOBAL_DETAIL_XPATH);
                 }
-                //  this is the typical path during normal workflow operation
+                // this is the typical path during normal workflow operation
                 else {
                     chartXPaths.add(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX + "chartOfAccountsCode" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX);
                 }
                 for (String chartXPath : chartXPaths) {
-                    NodeList chartNodes = (NodeList)xpath.evaluate(chartXPath, docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList chartNodes = (NodeList) xpath.evaluate(chartXPath, docContent.getDocument(), XPathConstants.NODESET);
                     if (chartNodes != null) {
                         for (int index = 0; index < chartNodes.getLength(); index++) {
-                            Element chartElem = (Element)chartNodes.item(index);
+                            Element chartElem = (Element) chartNodes.item(index);
                             String chartOfAccountsCode = chartElem.getFirstChild().getNodeValue();
                             if (!StringUtils.isEmpty(chartOfAccountsCode)) {
                                 chartCodes.add(chartOfAccountsCode);
@@ -316,7 +320,7 @@ public class KualiChartAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * get the chart name from a qualified role string
-     *
+     * 
      * @param qualifiedRole
      * @return String
      */

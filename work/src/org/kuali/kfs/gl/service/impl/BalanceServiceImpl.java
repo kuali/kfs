@@ -60,7 +60,6 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.BalanceService#getGlSummary(int, java.util.List)
      */
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
@@ -77,21 +76,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * 
-     * This method...
-     * 
-     * 
-     * Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM gl_balance_t WHERE univ_fiscal_yr =
-     * p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND fin_object_cd != '9899' AND fin_obj_typ_cd
-     * IN ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING ABS(SUM(fin_beg_bal_ln_amt +
-     * acln_annl_bal_amt)) > 0);
-     * 
-     * 
-     * 
-     * added absolute value function to sum--prevents the case of 2 entries (1 pos and 1 neg) from canceling each other out and
-     * allowing the acct to be closed when it shouldn't be.
-     * 
-     * 
+     * This method... Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM gl_balance_t WHERE
+     * univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND fin_object_cd != '9899'
+     * AND fin_obj_typ_cd IN ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING
+     * ABS(SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)) > 0); added absolute value function to sum--prevents the case of 2 entries
+     * (1 pos and 1 neg) from canceling each other out and allowing the acct to be closed when it shouldn't be.
      * 
      * @param account
      * @return
@@ -178,7 +167,6 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * 
      * SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND
      * fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND (fin_object_cd = '9899' OR fin_obj_typ_cd IN ('CH', 'IC', 'IN',
      * 'TI')) AND fin_balance_typ_cd = 'AC';
@@ -206,9 +194,7 @@ public class BalanceServiceImpl implements BalanceService {
     /**
      * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt || acln_annl_bal_amt) INTO v_x FROM
      * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
-     * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC';
-     * 
-     * This method...
+     * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC'; This method...
      * 
      * @param account
      * @return
@@ -235,13 +221,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /*
-     * check for Encumbrances and base budgets
-     * 
-     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM
-     * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
-     * fin_balance_typ_cd IN ('EX', 'IE', 'PE', 'BB'); v_rowcnt := SQL%ROWCOUNT;
-     * 
-     * 
+     * check for Encumbrances and base budgets Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt +
+     * acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND
+     * account_nbr = p_account_nbr AND fin_balance_typ_cd IN ('EX', 'IE', 'PE', 'BB'); v_rowcnt := SQL%ROWCOUNT;
      */
 
     /**
@@ -289,7 +271,7 @@ public class BalanceServiceImpl implements BalanceService {
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
         LOG.debug("findCashBalance() started");
-        
+
         return balanceDao.findCashBalance(fieldValues, isConsolidated);
     }
 
@@ -305,7 +287,7 @@ public class BalanceServiceImpl implements BalanceService {
         }
         else {
             Iterator recordCountIterator = balanceDao.getConsolidatedCashBalanceRecordCount(fieldValues);
-            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count? 
+            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
         }
@@ -332,7 +314,7 @@ public class BalanceServiceImpl implements BalanceService {
         }
         else {
             Iterator recordCountIterator = balanceDao.getConsolidatedBalanceRecordCount(fieldValues);
-            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count? 
+            // TODO: WL: why build a list and waste time/memory when we can just iterate through the iterator and do a count?
             List recordCountList = IteratorUtils.toList(recordCountIterator);
             recordCount = recordCountList.size();
         }
@@ -353,8 +335,6 @@ public class BalanceServiceImpl implements BalanceService {
 
     /**
      * Private method to load the values from the system options service and store them locally for later use.
-     * 
-     * 
      */
     private void loadConstantsFromOptions() {
         LOG.debug("loadConstantsFromOptions() started");
@@ -455,5 +435,5 @@ public class BalanceServiceImpl implements BalanceService {
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {
         return balanceDao.findOrganizationReversionBalancesForFiscalYear(year, endOfYear);
     }
-    
+
 }

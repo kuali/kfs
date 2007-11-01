@@ -20,8 +20,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntry;
+import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
 /**
@@ -31,7 +31,7 @@ public interface OriginEntryDao {
     public static final int SORT_DOCUMENT = 1;
     public static final int SORT_ACCOUNT = 2;
     public static final int SORT_REPORT = 3;
-    public static final int SORT_LISTING_REPORT = 4; 
+    public static final int SORT_LISTING_REPORT = 4;
 
     /**
      * Get the total amount of transactions in a group
@@ -136,13 +136,13 @@ public interface OriginEntryDao {
      * @return
      */
     public Collection testingGetAllEntries();
-    
+
     /**
      * get the summarized information of poster input entries that belong to the entry groups with the given group id list
      * 
      * @param groups the origin entry groups
      * @return a set of summarized information of poster input entries within the specified groups
-     */       
+     */
     public Iterator getPosterOutputSummaryByGroupId(Collection groups);
-    
+
 }

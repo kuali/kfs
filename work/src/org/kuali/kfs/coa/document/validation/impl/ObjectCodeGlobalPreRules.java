@@ -24,34 +24,30 @@ import org.kuali.module.chart.bo.ObjectCodeGlobal;
 import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 
 /**
- * 
- * PreRules checks for the {@link ObjectCodeGlobal} that needs to occur while still in the Struts processing. 
- * This includes defaults
+ * PreRules checks for the {@link ObjectCodeGlobal} that needs to occur while still in the Struts processing. This includes defaults
  */
 public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
 
-    
-    
+
     /**
      * Updates the university fiscal year when it is not already set.
+     * 
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
         ObjectCodeGlobal bo = (ObjectCodeGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
-        
+
         List<ObjectCodeGlobalDetail> details = bo.getObjectCodeGlobalDetails();
-        
-        for ( ObjectCodeGlobalDetail detail : details ) {
-            if ( detail.getUniversityFiscalYear() == null ) {
-                if ( LOG.isDebugEnabled() ) {
-                    LOG.debug( "setting fiscal year on ObjectCodeGlobalDetail: " + detail );
+
+        for (ObjectCodeGlobalDetail detail : details) {
+            if (detail.getUniversityFiscalYear() == null) {
+                if (LOG.isDebugEnabled()) {
+                    LOG.debug("setting fiscal year on ObjectCodeGlobalDetail: " + detail);
                 }
-                detail.setUniversityFiscalYear( new Integer( SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(
-                        maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(),
-                        "objectCodeGlobalDetails", "universityFiscalYear" ) ) );
+                detail.setUniversityFiscalYear(new Integer(SpringContext.getBean(MaintenanceDocumentDictionaryService.class).getCollectionFieldDefaultValue(maintenanceDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), "objectCodeGlobalDetails", "universityFiscalYear")));
             }
         }
-        
+
         return true;
-    }    
+    }
 }

@@ -223,6 +223,6 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
             }
         }
     }
-    
-    
+
+
 }

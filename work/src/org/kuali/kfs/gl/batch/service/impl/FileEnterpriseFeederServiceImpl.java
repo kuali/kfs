@@ -17,52 +17,38 @@ package org.kuali.module.gl.service.impl;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
-import org.kuali.module.gl.dao.OriginEntrySourceDao;
 import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
 import org.kuali.module.gl.service.EnterpriseFeederService;
 import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.service.OriginEntryService;
-import org.kuali.module.gl.service.ReconciliationParserService;
-import org.kuali.module.gl.service.ReconciliationService;
 import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
 import org.kuali.module.gl.util.Message;
-import org.kuali.module.gl.util.OriginEntryFileIterator;
-import org.kuali.module.gl.util.ReconciliationBlock;
 import org.kuali.module.gl.util.RequiredFilesMissingStatus;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class iterates through the files in the enterprise feeder staging directory, which is injected by Spring.
- * 
- * Note: this class is NOT annotated as transactional.  This allows the helper service, which is defined as transactional,
- * to do a per-file transaction.
+ * This class iterates through the files in the enterprise feeder staging directory, which is injected by Spring. Note: this class
+ * is NOT annotated as transactional. This allows the helper service, which is defined as transactional, to do a per-file
+ * transaction.
  */
 public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FileEnterpriseFeederServiceImpl.class);
-    
+
     private String directoryName;
-    
+
     private OriginEntryGroupService originEntryGroupService;
     private DateTimeService dateTimeService;
     private FileEnterpriseFeederHelperService fileEnterpriseFeederHelperService;
     private EnterpriseFeederNotificationService enterpriseFeederNotificationService;
     private String reconciliationTableId;
-    
+
     /**
      * Feeds file sets in the directory whose name is returned by the invocation to getDirectoryName()
      * 
@@ -70,36 +56,36 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
      */
     public void feed(String processName, boolean performNotifications) {
         // ensure that this feeder implementation may not be run concurrently on this JVM
-        
+
         // to consider: maybe use java NIO classes to perform done file locking?
-        synchronized(FileEnterpriseFeederServiceImpl.class) {
+        synchronized (FileEnterpriseFeederServiceImpl.class) {
             if (StringUtils.isBlank(directoryName)) {
                 throw new IllegalArgumentException("directoryName not set for FileEnterpriseFeederServiceImpl.");
             }
             FileFilter doneFileFilter = new SuffixFileFilter(DONE_FILE_SUFFIX);
-            
+
             OriginEntryGroup originEntryGroup = createNewGroupForFeed(OriginEntrySource.ENTERPRISE_FEED);
             LOG.info("New group ID created for enterprise feeder service run: " + originEntryGroup.getId());
-            
+
             File directory = new File(directoryName);
             if (!directory.exists() || !directory.isDirectory()) {
                 throw new RuntimeException("Directory doesn't exist and or it's not really a directory " + directoryName);
             }
-            
+
             File[] doneFiles = directory.listFiles(doneFileFilter);
             reorderDoneFiles(doneFiles);
-            
+
             for (File doneFile : doneFiles) {
                 File dataFile = null;
                 File reconFile = null;
-                
+
                 EnterpriseFeederStatusAndErrorMessagesWrapper statusAndErrors = new EnterpriseFeederStatusAndErrorMessagesWrapper();
                 statusAndErrors.setErrorMessages(new ArrayList<Message>());
-                
+
                 try {
                     dataFile = getDataFile(doneFile);
                     reconFile = getReconFile(doneFile);
-                    
+
                     if (dataFile == null) {
                         LOG.error("Unable to find data file for done file: " + doneFile.getAbsolutePath());
                         statusAndErrors.getErrorMessages().add(new Message("Unable to find data file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
@@ -110,10 +96,10 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                         statusAndErrors.getErrorMessages().add(new Message("Unable to find recon file for done file: " + doneFile.getAbsolutePath(), Message.TYPE_FATAL));
                         statusAndErrors.setStatus(new RequiredFilesMissingStatus());
                     }
-                    if (dataFile != null && reconFile != null ) {
+                    if (dataFile != null && reconFile != null) {
                         LOG.info("Data file: " + dataFile.getAbsolutePath());
                         LOG.info("Reconciliation File: " + reconFile.getAbsolutePath());
-                        
+
                         fileEnterpriseFeederHelperService.feedOnFile(doneFile, dataFile, reconFile, originEntryGroup, processName, reconciliationTableId, statusAndErrors);
                     }
                 }
@@ -131,14 +117,14 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
                     }
                 }
             }
-            
+
             markGroupReady(originEntryGroup);
         }
     }
-    
+
     /**
-     * Reorders the files in case there's a dependency on the order in which files are fed upon.  For this implementation, the purpose
-     * is to always order files in a way such that unit testing will be predictable.
+     * Reorders the files in case there's a dependency on the order in which files are fed upon. For this implementation, the
+     * purpose is to always order files in a way such that unit testing will be predictable.
      * 
      * @param doneFiles
      */
@@ -146,14 +132,14 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
         // sort the list so that the unit tests will have more predictable results
         Arrays.sort(doneFiles);
     }
-    
+
     /**
      * Given the doneFile, this method finds the data file corresponding to the done file
      * 
      * @param doneFile
      * @return a File for the data file, or null if the file doesn't exist or is not readable
      */
-    protected File getDataFile(File doneFile){
+    protected File getDataFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(DONE_FILE_SUFFIX)) {
             throw new IllegalArgumentException("DOne file name must end with " + DONE_FILE_SUFFIX);
@@ -173,7 +159,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
      * @param doneFile
      * @return a file for the reconciliation data, or null if the file doesn't exist or is not readable
      */
-    protected File getReconFile(File doneFile){
+    protected File getReconFile(File doneFile) {
         String doneFileAbsPath = doneFile.getAbsolutePath();
         if (!doneFileAbsPath.endsWith(DONE_FILE_SUFFIX)) {
             throw new IllegalArgumentException("DOne file name must end with " + DONE_FILE_SUFFIX);
@@ -186,12 +172,12 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
         }
         return reconFile;
     }
-    
+
     /**
      * Creates a new origin entry group to which the origin entries in the files will be added
      * 
      * @param groupSourceCode the origin entry group for the entries from the enterprise feed
-     * @param valid 
+     * @param valid
      * @param process
      * @param scrub
      * @return
@@ -199,9 +185,9 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     protected OriginEntryGroup createNewGroupForFeed(String groupSourceCode) {
         return originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), groupSourceCode, true, false, true);
     }
-    
+
     /**
-     * This method marks that an origin entry group 
+     * This method marks that an origin entry group
      * 
      * @param originEntryGroup
      */
@@ -209,9 +195,10 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
         originEntryGroup.setProcess(true);
         originEntryGroupService.save(originEntryGroup);
     }
-    
+
     /**
-     * Gets the directoryName attribute. 
+     * Gets the directoryName attribute.
+     * 
      * @return Returns the directoryName.
      */
     public String getDirectoryName() {
@@ -220,6 +207,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the directoryName attribute value.
+     * 
      * @param directoryName The directoryName to set.
      */
     public void setDirectoryName(String directoryName) {
@@ -227,7 +215,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     }
 
     /**
-     * Gets the originEntryGroupService attribute. 
+     * Gets the originEntryGroupService attribute.
+     * 
      * @return Returns the originEntryGroupService.
      */
     public OriginEntryGroupService getOriginEntryGroupService() {
@@ -236,6 +225,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -243,7 +233,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
+     * 
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -252,14 +243,16 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
-     * Gets the fileEnterpriseFeederHelperService attribute. 
+     * Gets the fileEnterpriseFeederHelperService attribute.
+     * 
      * @return Returns the fileEnterpriseFeederHelperService.
      */
     public FileEnterpriseFeederHelperService getFileEnterpriseFeederHelperService() {
@@ -268,6 +261,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the fileEnterpriseFeederHelperService attribute value.
+     * 
      * @param fileEnterpriseFeederHelperService The fileEnterpriseFeederHelperService to set.
      */
     public void setFileEnterpriseFeederHelperService(FileEnterpriseFeederHelperService fileEnterpriseFeederHelperServiceImpl) {
@@ -275,7 +269,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     }
 
     /**
-     * Gets the enterpriseFeederNotificationService attribute. 
+     * Gets the enterpriseFeederNotificationService attribute.
+     * 
      * @return Returns the enterpriseFeederNotificationService.
      */
     public EnterpriseFeederNotificationService getEnterpriseFeederNotificationService() {
@@ -284,6 +279,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the enterpriseFeederNotificationService attribute value.
+     * 
      * @param enterpriseFeederNotificationService The enterpriseFeederNotificationService to set.
      */
     public void setEnterpriseFeederNotificationService(EnterpriseFeederNotificationService enterpriseFeederNotificationService) {
@@ -291,7 +287,8 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
     }
 
     /**
-     * Gets the reconciliationTableId attribute. 
+     * Gets the reconciliationTableId attribute.
+     * 
      * @return Returns the reconciliationTableId.
      */
     public String getReconciliationTableId() {
@@ -300,6 +297,7 @@ public class FileEnterpriseFeederServiceImpl implements EnterpriseFeederService 
 
     /**
      * Sets the reconciliationTableId attribute value.
+     * 
      * @param reconciliationTableId The reconciliationTableId to set.
      */
     public void setReconciliationTableId(String reconciliationTableId) {

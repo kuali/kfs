@@ -26,69 +26,69 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class VendorContactPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private Integer vendorContactPhoneGeneratedIdentifier;
-	private Integer vendorContactGeneratedIdentifier;
-	private String vendorPhoneTypeCode;
-	private String vendorPhoneNumber;
-	private String vendorPhoneExtensionNumber;
+    private Integer vendorContactPhoneGeneratedIdentifier;
+    private Integer vendorContactGeneratedIdentifier;
+    private String vendorPhoneTypeCode;
+    private String vendorPhoneNumber;
+    private String vendorPhoneExtensionNumber;
     private boolean active;
-    
+
     private PhoneType vendorPhoneType;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorContactPhoneNumber() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public VendorContactPhoneNumber() {
 
-	public Integer getVendorContactPhoneGeneratedIdentifier() {
-        
-		return vendorContactPhoneGeneratedIdentifier;
-	}
+    }
 
-	public void setVendorContactPhoneGeneratedIdentifier(Integer vendorContactPhoneGeneratedIdentifier) {
-		this.vendorContactPhoneGeneratedIdentifier = vendorContactPhoneGeneratedIdentifier;
-	}
+    public Integer getVendorContactPhoneGeneratedIdentifier() {
 
-	public Integer getVendorContactGeneratedIdentifier() {
-        
-		return vendorContactGeneratedIdentifier;
-	}
+        return vendorContactPhoneGeneratedIdentifier;
+    }
 
-	public void setVendorContactGeneratedIdentifier(Integer vendorContactGeneratedIdentifier) {
-		this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
-	}
+    public void setVendorContactPhoneGeneratedIdentifier(Integer vendorContactPhoneGeneratedIdentifier) {
+        this.vendorContactPhoneGeneratedIdentifier = vendorContactPhoneGeneratedIdentifier;
+    }
 
-	public String getVendorPhoneTypeCode() {
-        
-		return vendorPhoneTypeCode;
-	}
+    public Integer getVendorContactGeneratedIdentifier() {
 
-	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
-		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
-	}
+        return vendorContactGeneratedIdentifier;
+    }
 
-	public String getVendorPhoneNumber() {
-        
-		return vendorPhoneNumber;
-	}
+    public void setVendorContactGeneratedIdentifier(Integer vendorContactGeneratedIdentifier) {
+        this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
+    }
 
-	public void setVendorPhoneNumber(String vendorPhoneNumber) {
-		this.vendorPhoneNumber = vendorPhoneNumber;
-	}
+    public String getVendorPhoneTypeCode() {
 
-	public String getVendorPhoneExtensionNumber() {
-        
-		return vendorPhoneExtensionNumber;
-	}
+        return vendorPhoneTypeCode;
+    }
 
-	public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
-		this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
-	}
+    public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
+        this.vendorPhoneTypeCode = vendorPhoneTypeCode;
+    }
+
+    public String getVendorPhoneNumber() {
+
+        return vendorPhoneNumber;
+    }
+
+    public void setVendorPhoneNumber(String vendorPhoneNumber) {
+        this.vendorPhoneNumber = vendorPhoneNumber;
+    }
+
+    public String getVendorPhoneExtensionNumber() {
+
+        return vendorPhoneExtensionNumber;
+    }
+
+    public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
+        this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -97,12 +97,13 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase impl
     }
 
     public PhoneType getVendorPhoneType() {
-        
+
         return vendorPhoneType;
     }
 
     /**
      * Sets the vendorPhoneType attribute value.
+     * 
      * @param vendorPhoneType The vendorPhoneType to set.
      * @deprecated
      */
@@ -114,11 +115,11 @@ public class VendorContactPhoneNumber extends PersistableBusinessObjectBase impl
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorContactPhoneGeneratedIdentifier != null) {
             m.put("vendorContactPhoneGeneratedIdentifier", this.vendorContactPhoneGeneratedIdentifier.toString());
         }
-        
+
         return m;
     }
 

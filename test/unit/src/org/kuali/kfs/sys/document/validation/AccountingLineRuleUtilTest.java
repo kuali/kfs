@@ -45,8 +45,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests some methods of AccountingLineRuleUtil.
- * 
- * 
  */
 @ConfigureContext
 public class AccountingLineRuleUtilTest extends KualiTestBase {
@@ -90,43 +88,43 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
     }
 
     public void testHasRequiredOverrides_valid() {
-        testHasRequiredOverrides(ACTIVE_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, null,null);
+        testHasRequiredOverrides(ACTIVE_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, null, null);
     }
 
     public void testHasRequiredOverrides_null() {
-        testHasRequiredOverrides(null, AccountingLineOverride.CODE.NONE, null,null);
+        testHasRequiredOverrides(null, AccountingLineOverride.CODE.NONE, null, null);
     }
 
     public void testHasRequiredOverrides_closed() {
-        testHasRequiredOverrides(CLOSED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, null,null);
+        testHasRequiredOverrides(CLOSED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, null, null);
     }
 
     public void testHasRequiredOverrides_expired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{ EXPIRIED_ACCOUNT.accountNumber, EXPIRIED_ACCOUNT.chartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber});
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT.accountNumber, EXPIRIED_ACCOUNT.chartOfAccountsCode, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredContinuationsClosedAndExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_CLOSED_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredContinuationExpired() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED,new String[]{EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber});
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED, new String[] { EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.accountNumber, EXPIRIED_ACCOUNT_EXPIRIED_AND_OPEN_CONTINUATION.continuationFinChrtOfAcctCd, EXPIRIED_ACCOUNT.continuationAccountNumber });
     }
 
     public void testHasRequiredOverrides_expiredNoContinuation() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION,null);
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.NONE, KFSKeyConstants.ERROR_DOCUMENT_ACCOUNT_EXPIRED_NO_CONTINUATION, null);
     }
 
     public void testHasRequiredOverrides_expiredButOverridden() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null,null);
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null, null);
     }
 
     public void testHasRequiredOverrides_expiredNoContinuationButOverridden() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null,null);
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT_NO_CONTINUATION.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT, null, null);
     }
 
     public void testHasRequiredOverrides_expiredButMultipleOverridden() {
-        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, null,null);
+        testHasRequiredOverrides(EXPIRIED_ACCOUNT.createAccount(), AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED, null, null);
     }
 
     // public void testHasRequiredOverrides_AccountPresenceBudgetedObject() {
@@ -154,7 +152,7 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
 
     public void testHasRequiredOverrides_closedAccountNonBudgetedObject() {
         // This account would require a non-budgeted override if it were not closed. But, the closed validation takes precedence.
-        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED.createAccount(SpringContext.getBean(BusinessObjectService.class)),OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringContext.getBean(BusinessObjectService.class)), AccountingLineOverride.CODE.NONE, null);
+        testHasRequiredOverrides(ACCOUNT_PRESENCE_ACCOUNT_BUT_CLOSED.createAccount(SpringContext.getBean(BusinessObjectService.class)), OBJECT_CODE_NON_BUDGET_OBJECT_CODE.createObjectCode(SpringContext.getBean(BusinessObjectService.class)), AccountingLineOverride.CODE.NONE, null);
     }
 
     @SuppressWarnings("deprecation")

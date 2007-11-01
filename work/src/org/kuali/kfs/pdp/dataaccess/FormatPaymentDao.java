@@ -12,9 +12,9 @@ import org.kuali.module.pdp.bo.PaymentProcess;
 
 /**
  * @author jsissom
- *
  */
 public interface FormatPaymentDao {
-  public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, boolean immediate, String paymentTypes);
-  public void unmarkPaymentsForFormat(PaymentProcess proc);
+    public void markPaymentsForFormat(PaymentProcess proc, List customers, Date paydate, boolean immediate, String paymentTypes);
+
+    public void unmarkPaymentsForFormat(PaymentProcess proc);
 }

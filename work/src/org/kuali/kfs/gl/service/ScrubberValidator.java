@@ -18,7 +18,6 @@ package org.kuali.module.gl.service;
 import java.util.List;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
-import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.util.Message;
@@ -40,10 +39,10 @@ public interface ScrubberValidator {
      * @param entry Input transaction
      */
     public void validateForInquiry(GeneralLedgerPendingEntry entry);
-    
+
     /**
-     * 
      * This method gives the scrubber step a way to populate the origin entry lookup service on validators that need it
+     * 
      * @param originEntryableLookupService
      */
     public void setReferenceLookup(OriginEntryLookupService originEntryLookupService);

@@ -277,7 +277,7 @@ public class LaborObject extends PersistableBusinessObjectBase {
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
-        
+
         return m;
     }
 }

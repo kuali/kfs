@@ -20,8 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiInteger;
 
@@ -35,11 +33,11 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
     private Integer budgetUserSequenceNumber;
     private String institutionAppointmentTypeCode;
 
-    private KualiInteger agencyFringeBenefitTotalAmountTask = new KualiInteger(0); 
-    private KualiInteger agencyRequestTotalAmountTask = new KualiInteger(0); 
+    private KualiInteger agencyFringeBenefitTotalAmountTask = new KualiInteger(0);
+    private KualiInteger agencyRequestTotalAmountTask = new KualiInteger(0);
     private KualiInteger institutionCostShareFringeBenefitTotalAmountTask = new KualiInteger(0);
     private KualiInteger institutionCostShareRequestTotalAmountTask = new KualiInteger(0);
-    
+
     private KualiInteger gradAsstAgencySalaryTotal = new KualiInteger(0);
     private KualiInteger gradAsstAgencyHealthInsuranceTotal = new KualiInteger(0);
     private KualiInteger gradAsstInstSalaryTotal = new KualiInteger(0);
@@ -74,7 +72,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -84,7 +81,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -94,7 +90,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Gets the budgetTaskSequenceNumber attribute.
      * 
      * @return Returns the budgetTaskSequenceNumber
-     * 
      */
     public Integer getBudgetTaskSequenceNumber() {
         return budgetTaskSequenceNumber;
@@ -104,7 +99,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Sets the budgetTaskSequenceNumber attribute.
      * 
      * @param budgetTaskSequenceNumber The budgetTaskSequenceNumber to set.
-     * 
      */
     public void setBudgetTaskSequenceNumber(Integer budgetTaskSequenceNumber) {
         this.budgetTaskSequenceNumber = budgetTaskSequenceNumber;
@@ -114,7 +108,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Gets the budgetUserSequenceNumber attribute.
      * 
      * @return Returns the budgetUserSequenceNumber
-     * 
      */
     public Integer getBudgetUserSequenceNumber() {
         return budgetUserSequenceNumber;
@@ -124,7 +117,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Sets the budgetUserSequenceNumber attribute.
      * 
      * @param budgetUserSequenceNumber The budgetUserSequenceNumber to set.
-     * 
      */
     public void setBudgetUserSequenceNumber(Integer budgetUserSequenceNumber) {
         this.budgetUserSequenceNumber = budgetUserSequenceNumber;
@@ -134,7 +126,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Sets the institutionAppointmentTypeCode attribute.
      * 
      * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
-     * 
      */
     public String getInstitutionAppointmentTypeCode() {
         return institutionAppointmentTypeCode;
@@ -144,7 +135,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Gets the institutionAppointmentTypeCode attribute.
      * 
      * @return Returns the institutionAppointmentTypeCode
-     * 
      */
     public void setInstitutionAppointmentTypeCode(String institutionAppointmentTypeCode) {
         this.institutionAppointmentTypeCode = institutionAppointmentTypeCode;
@@ -154,7 +144,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Gets the institutionAppointmentType attribute.
      * 
      * @return Returns the institutionAppointmentType
-     * 
      */
     public BudgetFringeRate getBudgetFringeRate() {
         return budgetFringeRate;
@@ -164,7 +153,6 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
      * Sets the institutionAppointmentType attribute.
      * 
      * @param institutionAppointmentType The institutionAppointmentType to set.
-     * 
      */
     public void setBudgetFringeRate(BudgetFringeRate budgetFringeRate) {
         this.budgetFringeRate = budgetFringeRate;
@@ -226,7 +214,7 @@ public class UserAppointmentTask extends PersistableBusinessObjectBase implement
         this.task = task;
     }
 
-     /**
+    /**
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(Object o) {

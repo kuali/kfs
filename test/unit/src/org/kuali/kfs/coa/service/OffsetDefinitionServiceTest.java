@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the OffsetDefinition service.
- * 
- * 
  */
 @ConfigureContext
 public class OffsetDefinitionServiceTest extends KualiTestBase {

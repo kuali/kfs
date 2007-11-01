@@ -660,7 +660,7 @@ public class BudgetOverviewFormHelper {
         // Not used on overview interface but useful for BudgetXml.
         private boolean personProjectDirectorIndicator;
         private String userBudgetPeriodSalaryAmount; // String because this can be a KualiDecimal or KualiInteger, easier to
-                                                        // treat it as String then
+        // treat it as String then
         private Integer personWeeksAmount;
 
         /**

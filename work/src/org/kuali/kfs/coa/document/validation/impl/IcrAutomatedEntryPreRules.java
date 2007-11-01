@@ -23,8 +23,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 
 /**
- * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. 
- * This includes defaults, confirmations, etc.
+ * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. This includes
+ * defaults, confirmations, etc.
  */
 public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
 
@@ -43,22 +43,22 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
      * <li>{@link IcrAutomatedEntryPreRules#setSubAccountToDashesIfBlank()}</li>
      * <li>{@link IcrAutomatedEntryPreRules#setSubObjectToDashesIfBlank()}</li>
      * </ul>
+     * 
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
-        
+
         LOG.debug("done with continuation account, proceeeding with remaining pre rules");
 
         setSubAccountToDashesIfBlank();
         setSubObjectToDashesIfBlank();
-        
+
         return true;
     }
 
     /**
-     * 
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
     private void checkForContinuationAccounts() {
@@ -74,7 +74,6 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * 
      * This sets the {@link SubAccount} number to padded dashes ("-") if blank
      */
     protected void setSubAccountToDashesIfBlank() {
@@ -83,9 +82,8 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
             newAccount.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
     }
-    
+
     /**
-     * 
      * This sets the {@link org.kuali.module.chart.bo.SubObjCd} code to padded dashes ("-") if blank
      */
     protected void setSubObjectToDashesIfBlank() {
@@ -94,7 +92,7 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
             newAccount.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         }
     }
-    
+
     /**
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load

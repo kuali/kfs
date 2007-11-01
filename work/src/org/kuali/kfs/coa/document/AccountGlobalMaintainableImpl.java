@@ -16,34 +16,31 @@
 package org.kuali.module.chart.maintenance;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.AccountGlobal;
+import org.kuali.module.chart.bo.AccountGlobalDetail;
 
 /**
- * 
- * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific
- * maintenance locks for Global accounts
+ * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global accounts
  */
 public class AccountGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**
      * This creates the particular locking representation for this global document.
+     * 
      * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
-        AccountGlobal accountGlobal = (AccountGlobal)getBusinessObject();
-        List <MaintenanceLock> maintenanceLocks = new ArrayList();
-        
-        for ( AccountGlobalDetail detail : accountGlobal.getAccountGlobalDetails() ) {
+        AccountGlobal accountGlobal = (AccountGlobal) getBusinessObject();
+        List<MaintenanceLock> maintenanceLocks = new ArrayList();
+
+        for (AccountGlobalDetail detail : accountGlobal.getAccountGlobalDetails()) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
             StringBuffer lockrep = new StringBuffer();
 

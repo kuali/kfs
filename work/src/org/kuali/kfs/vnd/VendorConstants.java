@@ -16,7 +16,6 @@
 package org.kuali.module.vendor;
 
 
-
 /**
  * Holds constants for Vendor.
  */
@@ -62,7 +61,7 @@ public class VendorConstants {
     public static class OwnerTypes {
         public static final String NR = "NR";
     }
-    
+
     public static class VendorCreateAndUpdateNotePrefixes {
         public static final String ADD = "Add";
         public static final String CHANGE = "Change";

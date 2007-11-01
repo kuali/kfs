@@ -15,23 +15,7 @@
  */
 package org.kuali.kfs.batch;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import org.quartz.Calendar;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.JobListener;
-import org.quartz.SchedulerContext;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerListener;
-import org.quartz.SchedulerMetaData;
-import org.quartz.Trigger;
-import org.quartz.TriggerListener;
-import org.quartz.UnableToInterruptJobException;
 import org.quartz.impl.StdScheduler;
-import org.quartz.spi.JobFactory;
 
 public class SchedulerDummy extends StdScheduler {
     public SchedulerDummy() {

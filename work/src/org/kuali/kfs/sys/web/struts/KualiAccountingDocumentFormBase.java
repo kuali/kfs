@@ -705,7 +705,7 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
     public Map getForcedLookupOptionalFields() {
         return forcedLookupOptionalFields;
     }
-    
+
     /**
      * Adds the accounting line file size to the list of max file sizes.
      * 
@@ -716,5 +716,5 @@ public class KualiAccountingDocumentFormBase extends KualiTransactionalDocumentF
         super.customInitMaxUploadSizes();
         addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.FINANCIAL_SYSTEM_DOCUMENT.class, KFSConstants.ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
-    
+
 }

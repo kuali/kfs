@@ -28,8 +28,6 @@ import org.kuali.module.financial.bo.PaymentReasonCode;
 
 /**
  * This class returns list of payment reason value pairs.
- * 
- * 
  */
 public class PaymentReasonValuesFinder extends KeyValuesBase {
 

@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * A collection of many LedgerEntry records, which appropriately groups the records 
+ * A collection of many LedgerEntry records, which appropriately groups the records
  */
 public class LedgerEntryHolder {
     private Map ledgerEntries;

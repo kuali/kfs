@@ -36,7 +36,6 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ChartDao#getAll()
      */
     public Collection getAll() {
@@ -48,7 +47,6 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ChartDao#getUniversityChart()
      */
     public Chart getUniversityChart() {
@@ -58,7 +56,6 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ChartDao#getByPrimaryId(java.lang.String)
      */
     public Chart getByPrimaryId(String chartOfAccountsCode) {

@@ -25,49 +25,54 @@ public class ColumnReconciliation {
     private String fieldName;
     private String[] tokenizedFieldNames;
     private KualiDecimal dollarAmount;
-    
+
     public static final String COLUMN_NAME_DELIMITERS = "+";
-    
+
     /**
      * Constructs a ColumnReconciliation.java.
      */
     public ColumnReconciliation() {
     }
-    
+
     /**
-     * Gets the dollarAmount attribute. 
+     * Gets the dollarAmount attribute.
+     * 
      * @return Returns the dollarAmount.
      */
     public KualiDecimal getDollarAmount() {
         return dollarAmount;
     }
-    
+
     /**
      * Sets the dollarAmount attribute value.
+     * 
      * @param dollarAmount The dollarAmount to set.
      */
     public void setDollarAmount(KualiDecimal dollarAmount) {
         this.dollarAmount = dollarAmount;
     }
-    
+
     /**
-     * Gets the fieldName attribute. 
+     * Gets the fieldName attribute.
+     * 
      * @return Returns the fieldName.
      */
     public String getFieldName() {
         return fieldName;
     }
-    
+
     /**
      * Gets the tokenizedFieldNames attribute
+     * 
      * @return
      */
     public String[] getTokenizedFieldNames() {
         return tokenizedFieldNames;
     }
-    
+
     /**
      * Sets the fieldName and tokenizedFieldNames attribute values.
+     * 
      * @param fieldName The fieldName to set.
      */
     public void setFieldName(String fieldName) {

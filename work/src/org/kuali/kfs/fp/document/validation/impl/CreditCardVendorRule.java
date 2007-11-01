@@ -30,8 +30,6 @@ import org.kuali.module.financial.bo.CreditCardVendor;
 
 /**
  * This class...
- * 
- * 
  */
 public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
@@ -65,7 +63,6 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -189,7 +186,6 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method...is for checking whether or not account is active. check the existence and expired
-     * 
      */
     private boolean checkExistingActiveAccount(String accountNumber, String fieldName, String errorMessage) {
         boolean result = false;

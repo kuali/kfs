@@ -17,11 +17,10 @@ package org.kuali.module.vendor;
 
 /**
  * Holds error key constants for Vendor.
- * 
  */
 public class VendorKeyConstants {
 
-    //Vendor Maintenance
+    // Vendor Maintenance
     public static final String ERROR_VENDOR_TYPE_REQUIRES_TAX_NUMBER = "error.vendorMaint.VendorTypeRequiresTaxNumber";
     public static final String ERROR_VENDOR_TAX_TYPE_AND_NUMBER_COMBO_EXISTS = "error.vendorMaint.addVendor.vendor.exists";
     public static final String ERROR_VENDOR_NAME_REQUIRED = "error.vendorMaint.vendorName.required";
@@ -32,8 +31,8 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_TAX_TYPE_CANNOT_BE_BLANK = "error.vendorMaint.tax.type.cannot.be.blank";
     public static final String ERROR_VENDOR_TAX_TYPE_CANNOT_BE_SET = "error.vendorMaint.tax.type.cannot.be.set";
     public static final String ERROR_VENDOR_PARENT_NEEDS_CHANGED = "error.vendorMaint.vendorParent.needs.changed";
-    public static final String ERROR_TAX_NUMBER_ALL_DIGITS_AND_LENGTH= "error.vendorMaint.taxNumber.isAllDigits.and.length";
-    public static final String ERROR_TAX_NUMBER_ALL_ZEROES="error.vendorMaint.taxNumber.isAllZeroes";
+    public static final String ERROR_TAX_NUMBER_ALL_DIGITS_AND_LENGTH = "error.vendorMaint.taxNumber.isAllDigits.and.length";
+    public static final String ERROR_TAX_NUMBER_ALL_ZEROES = "error.vendorMaint.taxNumber.isAllZeroes";
     public static final String ERROR_FIRST_THREE_SSN = "error.vendorMaint.first.three.ssn";
     public static final String ERROR_MIDDLE_TWO_SSN = "error.vendorMaint.middle.two.ssn";
     public static final String ERROR_LAST_FOUR_SSN = "error.vendorMaint.last.four.ssn";
@@ -46,8 +45,8 @@ public class VendorKeyConstants {
     public static final String ERROR_RESTRICTED_REASON_REQUIRED = "error.vendorMaint.restrictedReason.required";
     public static final String ERROR_VENDOR_TAX_BEGIN_DATE_AFTER_END = "error.vendorTax.beginDateAfterEnd";
     public static final String ERROR_VENDOR_W9_AND_W8_RECEIVED_INDICATOR_BOTH_TRUE = "error.vendor.w9Andw8.receivedIndicator.BothTrue";
-    
-    //Vendor Lookup
+
+    // Vendor Lookup
     public static final String ERROR_VENDOR_LOOKUP_NAME_TOO_SHORT = "error.vendorLookup.name.too.short";
     public static final String ERROR_VENDOR_LOOKUP_FEWER_THAN_MIN_CRITERIA = "error.vendorLookup.min.criteria.fewer";
     public static final String ERROR_VENDOR_LOOKUP_PAYEE_ID_NO_STARTING_P = "error.vendorLookup.payeeId.no.starting.p";
@@ -58,8 +57,8 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_LOOKUP_VNDR_NUM_DASHES_ONLY = "error.vendorLookup.vndrNum.dashes.only";
     public static final String ERROR_VENDOR_LOOKUP_VNDR_NUM_NUMERIC_DASH_SEPARATED = "error.vendorLookup.vndrNum.numeric.dash.separated";
     public static final String ERROR_VENDOR_LOOKUP_STATE_NO_TYPE = "error.vendorLookup.state.no.type";
-    
-    //Vendor Maintenance Address
+
+    // Vendor Maintenance Address
     public static final String ERROR_US_REQUIRES_STATE = "error.vendorMaint.vendorAddress.USRequiresStateAndZip";
     public static final String ERROR_US_REQUIRES_ZIP = "error.vendorMaint.vendorAddress.USRequiresStateAndZip";
     public static final String ERROR_FAX_NUMBER = "error.vendorMaint.vendorAddress.faxNumber";
@@ -69,8 +68,8 @@ public class VendorKeyConstants {
     public static final String ERROR_ADDRESS_DEFAULT_INDICATOR = "error.vendorMaint.vendorAddress.vendorDefaultAddressIndicator";
     public static final String ERROR_ADDRESS_DEFAULT_CAMPUS_NOT_ALLOWED = "error.vendorMaint.vendorDefaultCampus.notAllowed";
     public static final String ERROR_ADDRESS_DEFAULT_ADDRESS_NOT_ALLOWED = "error.vendorMaint.vendorDefaultAddress.notAllowed";
-    
-    
+
+
     // Vendor Maintenance Contract
     public static final String ERROR_VENDOR_CONTRACT_NO_APO_LIMIT = "error.vendorContract.noApoLimit";
     public static final String ERROR_VENDOR_CONTRACT_BEGIN_DATE_AFTER_END = "error.vendorContract.beginDateAfterEnd";
@@ -78,6 +77,6 @@ public class VendorKeyConstants {
     public static final String ERROR_VENDOR_CONTRACT_END_DATE_NO_BEGIN_DATE = "error.vendorContract.endDateNoBeginDate";
     public static final String ERROR_VENDOR_CONTRACT_ORG_EXCLUDED_WITH_APO_LIMIT = "error.vendorContractOrg.excludedWithApoLimit";
     public static final String ERROR_VENDOR_CONTRACT_ORG_NOT_EXCLUDED_NO_APO_LIMIT = "error.vendorContractOrg.notExcludedNoApoLimit";
-    public static final String ERROR_VENDOR_CONTRACT_NOT_ALLOWED="error.vendorContract.notAllowed";
+    public static final String ERROR_VENDOR_CONTRACT_NOT_ALLOWED = "error.vendorContract.notAllowed";
 
 }

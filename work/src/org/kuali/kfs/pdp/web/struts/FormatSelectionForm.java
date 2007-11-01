@@ -14,71 +14,70 @@ import org.kuali.module.pdp.utilities.DateHandler;
 
 /**
  * @author jsissom
- *
  */
 public class FormatSelectionForm extends ActionForm {
-  private String[] customerProfileId;
-  private String paymentDate;
-  private String immediate;
-  private String paymentTypes;
+    private String[] customerProfileId;
+    private String paymentDate;
+    private String immediate;
+    private String paymentTypes;
 
-  public FormatSelectionForm() {
-    super();
-  }
-
-  public void reset(ActionMapping mapping, HttpServletRequest request) {
-    if ( customerProfileId != null ) {
-      for (int i = 0; i < customerProfileId.length; i++) {
-        customerProfileId[i] = "";
-      }
-      immediate = "N";
+    public FormatSelectionForm() {
+        super();
     }
-  }
 
-  public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+    public void reset(ActionMapping mapping, HttpServletRequest request) {
+        if (customerProfileId != null) {
+            for (int i = 0; i < customerProfileId.length; i++) {
+                customerProfileId[i] = "";
+            }
+            immediate = "N";
+        }
+    }
 
-    ActionErrors errors = new ActionErrors();
-    DateHandler.validDate(errors,"errors",paymentDate);
-    return errors;
-  }
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
 
-  public String getPaymentTypes() {
-    return paymentTypes;
-  }
+        ActionErrors errors = new ActionErrors();
+        DateHandler.validDate(errors, "errors", paymentDate);
+        return errors;
+    }
 
-  public void setPaymentTypes(String paymentTypes) {
-    this.paymentTypes = paymentTypes;
-  }
+    public String getPaymentTypes() {
+        return paymentTypes;
+    }
 
-  public String[] getCustomerProfileId() {
-    return customerProfileId;
-  }
+    public void setPaymentTypes(String paymentTypes) {
+        this.paymentTypes = paymentTypes;
+    }
 
-  public void setCustomerProfileId(String[] customerProfileId) {
-    this.customerProfileId = customerProfileId;
-  }
+    public String[] getCustomerProfileId() {
+        return customerProfileId;
+    }
 
-  public String getCustomerProfileId(int index) { 
-    return customerProfileId[index];
-  }
+    public void setCustomerProfileId(String[] customerProfileId) {
+        this.customerProfileId = customerProfileId;
+    }
 
-  public void setStringIndexed(int index, String value) { 
-    customerProfileId[index] = value;
-  }
+    public String getCustomerProfileId(int index) {
+        return customerProfileId[index];
+    }
 
-  public String getImmediate() {
-    return immediate;
-  }
+    public void setStringIndexed(int index, String value) {
+        customerProfileId[index] = value;
+    }
 
-  public void setImmediate(String immediate) {
-    this.immediate = immediate;
-  }
+    public String getImmediate() {
+        return immediate;
+    }
 
-  public String getPaymentDate() {
-    return paymentDate;
-  }
+    public void setImmediate(String immediate) {
+        this.immediate = immediate;
+    }
 
-  public void setPaymentDate(String paymentDate) {
-    this.paymentDate = paymentDate;
-  }
+    public String getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(String paymentDate) {
+        this.paymentDate = paymentDate;
+    }
 }

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.gl.web.struts.form;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,9 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface LookupResultsSelectable {
     public void populate(HttpServletRequest request);
-    
+
     /**
      * This method converts the composite object IDs into a String
+     * 
      * @return String
      */
     public String getCompositeSelectedObjectIds();
@@ -37,7 +37,7 @@ public interface LookupResultsSelectable {
     public String getLookupResultsSequenceNumber();
 
     public void setLookupResultsSequenceNumber(String lookupResultSequenceNumber);
-    
+
     public int getTotalNumberOfPages();
 
     public void setTotalNumberOfPages(int totalNumberOfPages);
@@ -77,34 +77,34 @@ public interface LookupResultsSelectable {
     public void setPreviouslySortedColumnIndex(String previouslySortedColumnIndex);
 
     /**
-     * gets the name of the collection being looked up by the calling page.  This value will be returned unmodified to the 
-     * calling page (indicated by super.getBackLocation()), which should use it to determine in which collection the 
-     * selected results will be returned.
+     * gets the name of the collection being looked up by the calling page. This value will be returned unmodified to the calling
+     * page (indicated by super.getBackLocation()), which should use it to determine in which collection the selected results will
+     * be returned.
      * 
      * @return String
      */
     public String getLookedUpCollectionName();
 
     /**
-     * sets the name of the collection being looked up by the calling page.  This value will be returned unmodified to the 
-     * calling page (indicated by super.getBackLocation()), which should use it to determine in which collection the 
-     * selected results will be returned
+     * sets the name of the collection being looked up by the calling page. This value will be returned unmodified to the calling
+     * page (indicated by super.getBackLocation()), which should use it to determine in which collection the selected results will
+     * be returned
      * 
      * @param lookedUpCollectionName
      */
     public void setLookedUpCollectionName(String lookedUpCollectionName);
 
     public int getResultsActualSize();
-    
+
     public void setResultsActualSize(int resultsActualSize);
-    
+
     public int getResultsLimitedSize();
-    
+
     public void setResultsLimitedSize(int resultsLimitedSize);
-    
+
     public void jumpToFirstPage(int listSize, int maxRowsPerPage);
-    
+
     public void jumpToLastPage(int listSize, int maxRowsPerPage);
-    
-    public void jumpToPage(int pageNumber, int listSize, int maxRowsPerPage);    
+
+    public void jumpToPage(int pageNumber, int listSize, int maxRowsPerPage);
 }

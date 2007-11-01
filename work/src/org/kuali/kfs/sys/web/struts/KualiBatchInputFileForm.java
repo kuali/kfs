@@ -29,7 +29,7 @@ public class KualiBatchInputFileForm extends KualiForm {
     private FormFile uploadFile;
     private BatchUpload batchUpload;
     private List<KeyLabelPair> userFiles;
-    
+
     private String titleKey;
 
     /**
@@ -69,7 +69,7 @@ public class KualiBatchInputFileForm extends KualiForm {
     }
 
     /**
-     * Gets the userFiles attribute. 
+     * Gets the userFiles attribute.
      */
     public List<KeyLabelPair> getUserFiles() {
         return userFiles;
@@ -83,7 +83,7 @@ public class KualiBatchInputFileForm extends KualiForm {
     }
 
     /**
-     * Gets the titleKey attribute. 
+     * Gets the titleKey attribute.
      */
     public String getTitleKey() {
         return titleKey;
@@ -95,7 +95,6 @@ public class KualiBatchInputFileForm extends KualiForm {
     public void setTitleKey(String titleKey) {
         this.titleKey = titleKey;
     }
-    
-    
+
 
 }

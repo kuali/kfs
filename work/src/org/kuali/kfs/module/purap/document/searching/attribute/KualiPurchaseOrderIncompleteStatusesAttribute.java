@@ -34,10 +34,9 @@ public class KualiPurchaseOrderIncompleteStatusesAttribute extends KualiXmlSearc
     public static final String FIELD_DEF_NAME = "purchaseOrderDocumentIncompleteStatuses";
     public static final String VALUE_FOR_YES = Field.CHECKBOX_VALUE_CHECKED;
     public static final String VALUE_FOR_NO = Field.CHECKBOX_VALUE_UNCHECKED;
-    
+
     /**
-     * This method will use the given value which should be the document's status code
-     * and translate that into 
+     * This method will use the given value which should be the document's status code and translate that into
      */
     @Override
     public List getSearchStorageValues(String docContent) {
@@ -51,9 +50,10 @@ public class KualiPurchaseOrderIncompleteStatusesAttribute extends KualiXmlSearc
         SearchableAttributeValue superSearchAttValue = superList.get(0);
         SearchableAttributeStringValue sav = new SearchableAttributeStringValue();
         sav.setSearchableAttributeKey(superSearchAttValue.getSearchableAttributeKey());
-        if (PurapConstants.PurchaseOrderStatuses.INCOMPLETE_STATUSES.contains((String)superSearchAttValue.getSearchableAttributeValue())) {
+        if (PurapConstants.PurchaseOrderStatuses.INCOMPLETE_STATUSES.contains((String) superSearchAttValue.getSearchableAttributeValue())) {
             sav.setSearchableAttributeValue(VALUE_FOR_YES);
-        } else {
+        }
+        else {
             sav.setSearchableAttributeValue(VALUE_FOR_NO);
         }
         newSearchAttributeValues.add(sav);

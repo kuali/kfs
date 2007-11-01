@@ -34,7 +34,7 @@ import org.kuali.module.purap.bo.OrganizationParameter;
  * Business rule(s) applicable to Organization Parameter maintenance document.
  */
 public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
-    
+
     private OrganizationParameter newOrganizationParameter;
     private BusinessObjectService boService;
 
@@ -48,7 +48,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
         boService = (BusinessObjectService) super.getBoService();
         super.setupConvenienceObjects();
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -78,7 +78,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomSaveDocumentBusinessRules called");
-        this.setupConvenienceObjects();        
+        this.setupConvenienceObjects();
         boolean success = true;
         success &= this.checkChartOfAccountsCode();
         success &= this.checkOrganizationCode();
@@ -93,7 +93,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
     protected boolean checkChartOfAccountsCode() {
         LOG.info("checkChartOfAccountsCode called");
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        boolean success = true;        
+        boolean success = true;
         Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode());
         if (ObjectUtils.isNull(chart)) {
             success &= false;
@@ -110,7 +110,7 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
     protected boolean checkOrganizationCode() {
         LOG.info("checkOrganizationCode called");
         ErrorMap errorMap = GlobalVariables.getErrorMap();
-        boolean success = true;        
+        boolean success = true;
         Org org = SpringContext.getBean(OrganizationService.class).getByPrimaryId(newOrganizationParameter.getChartOfAccountsCode(), newOrganizationParameter.getOrganizationCode());
         if (ObjectUtils.isNull(org)) {
             success &= false;
@@ -120,4 +120,3 @@ public class OrganizationParameterRule extends MaintenanceDocumentRuleBase {
     }
 
 }
-

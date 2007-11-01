@@ -97,7 +97,6 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     }
 
     /**
-     * 
      * @param t
      * @param enc
      */

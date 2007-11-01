@@ -208,9 +208,7 @@ public class PurchaseOrderPdf extends PurapPdf {
     }
 
     /**
-     * 
-     * This method creates the purchase order pdf, and pass in null as the retransmitItems List because it doesn't
-     * need retransmit.
+     * This method creates the purchase order pdf, and pass in null as the retransmitItems List because it doesn't need retransmit.
      * 
      * @param po
      * @param document
@@ -547,10 +545,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 String description = (poi.getItemCatalogNumber() != null) ? poi.getItemCatalogNumber().trim() + " - " : "";
                 description = description + ((poi.getItemDescription() != null) ? poi.getItemDescription().trim() : "");
                 if (StringUtils.isNotBlank(description)) {
-                    if (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || 
-                        poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE) ||
-                        poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) ||
-                        poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE)) {
+                    if (poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemType().getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE)) {
                         // If this is a full order discount or trade-in item, we add the item type description to the description.
                         description = poi.getItemType().getItemTypeDescription() + " - " + description;
                     }
@@ -604,7 +599,7 @@ public class PurchaseOrderPdf extends PurapPdf {
         itemsTable.addCell(" ");
         KualiDecimal totalDollarAmount = new KualiDecimal(BigDecimal.ZERO);
         if (po instanceof PurchaseOrderRetransmitDocument) {
-            totalDollarAmount = ((PurchaseOrderRetransmitDocument)po).getTotalDollarAmountForRetransmit();
+            totalDollarAmount = ((PurchaseOrderRetransmitDocument) po).getTotalDollarAmountForRetransmit();
         }
         else {
             totalDollarAmount = po.getTotalDollarAmount();
@@ -752,8 +747,7 @@ public class PurchaseOrderPdf extends PurapPdf {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity and unit price are both null. Display on pdf.");
                 return true;
             }
-            if ((poi.getItemType().isAmountBasedGeneralLedgerIndicator() && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0))) || 
-                    (((poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) && (poi.getItemQuantity().isGreaterThan(zero))) && (poi.getItemUnitPrice() != null))) {
+            if ((poi.getItemType().isAmountBasedGeneralLedgerIndicator() && ((poi.getItemUnitPrice() != null) && (poi.getItemUnitPrice().compareTo(zero.bigDecimalValue()) >= 0))) || (((poi.getItemType().isQuantityBasedGeneralLedgerIndicator()) && (poi.getItemQuantity().isGreaterThan(zero))) && (poi.getItemUnitPrice() != null))) {
                 LOG.debug("lineItemDisplaysOnPdf() Item type is " + poi.getItemType().getItemTypeCode() + " OrderQuantity is " + poi.getItemQuantity() + ". Unit price is " + poi.getItemUnitPrice() + ". Display on pdf.");
                 return true;
             }

@@ -46,28 +46,29 @@ public class CashDrawerCorrectionAction extends KualiAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#execute(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-       ActionForward dest = super.execute(mapping, form, request, response);
-       
-       return dest;
+        ActionForward dest = super.execute(mapping, form, request, response);
+
+        return dest;
     }
-    
+
     public ActionForward startCorrections(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm)form;
+        CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm) form;
         if (cdcForm.getCashDrawer().getWorkgroupName() == null) {
             String workgroupName = request.getParameter("wrkgrpNm");
             cdcForm.setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroupName, false));
         }
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward saveCashDrawer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm)form;
+        CashDrawerCorrectionForm cdcForm = (CashDrawerCorrectionForm) form;
         CashDrawer drawer = cdcForm.getCashDrawer();
-        
+
         // validate cash drawer
         if (drawer.getFinancialDocumentHundredDollarAmount() != null && drawer.getFinancialDocumentHundredDollarAmount().isLessThan(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(TAB_ERROR_KEY, KFSKeyConstants.CashManagement.ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT, new String[] { "hundred dollar", drawer.getFinancialDocumentHundredDollarAmount().toString() });
@@ -93,7 +94,7 @@ public class CashDrawerCorrectionAction extends KualiAction {
         if (drawer.getFinancialDocumentOtherDollarAmount() != null && drawer.getFinancialDocumentHundredDollarAmount().isLessThan(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(TAB_ERROR_KEY, KFSKeyConstants.CashManagement.ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT, new String[] { "other dollar", drawer.getFinancialDocumentOtherDollarAmount().toString() });
         }
-        
+
         if (drawer.getFinancialDocumentHundredCentAmount() != null && drawer.getFinancialDocumentHundredCentAmount().isLessThan(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(TAB_ERROR_KEY, KFSKeyConstants.CashManagement.ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT, new String[] { "hundred cent", drawer.getFinancialDocumentHundredCentAmount().toString() });
         }
@@ -115,19 +116,19 @@ public class CashDrawerCorrectionAction extends KualiAction {
         if (drawer.getFinancialDocumentOtherCentAmount() != null && drawer.getFinancialDocumentOtherCentAmount().isLessThan(KualiDecimal.ZERO)) {
             GlobalVariables.getErrorMap().putError(TAB_ERROR_KEY, KFSKeyConstants.CashManagement.ERROR_CASH_DRAWER_CORRECTION_NEGATIVE_AMOUNT, new String[] { "other cent", drawer.getFinancialDocumentOtherCentAmount().toString() });
         }
-        
+
         if (!GlobalVariables.getErrorMap().isEmpty()) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        // save the drawer 
+        // save the drawer
         SpringContext.getBean(BusinessObjectService.class).save(drawer);
         return returnToSender();
     }
-    
+
     public ActionForward cancelCorrections(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return returnToSender();
     }
-    
+
     private ActionForward returnToSender() {
         String cmDocTypeName = SpringContext.getBean(DocumentTypeService.class).getDocumentTypeNameByClass(CashManagementDocument.class);
 

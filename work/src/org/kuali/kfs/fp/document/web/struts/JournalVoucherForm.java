@@ -21,13 +21,9 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.financial.document.JournalVoucherDocument;
@@ -102,7 +98,7 @@ public class JournalVoucherForm extends VoucherForm {
         else {
             // it's the first time in, the form will be empty the first time in
             // set up default selection value
-            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); 
+            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 
@@ -196,7 +192,7 @@ public class JournalVoucherForm extends VoucherForm {
         if (StringUtils.isBlank(selectedBalanceTypeCode)) {
             selectedBalanceTypeCode = KFSConstants.BALANCE_TYPE_ACTUAL;
         }
-        
+
         setSelectedBalanceType(getPopulatedBalanceTypeInstance(selectedBalanceTypeCode));
         getJournalVoucherDocument().setBalanceTypeCode(selectedBalanceTypeCode);
     }

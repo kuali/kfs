@@ -30,6 +30,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.ConfigureContext;
+
 /**
  * This class tests the DisbursementVoucherDocumentRule
  */

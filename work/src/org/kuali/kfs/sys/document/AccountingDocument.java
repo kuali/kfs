@@ -19,10 +19,8 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLineParser;
-import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
-import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
  * This is the FinancialDocument interface. The TransactionalDocument interface should extend this. It represents any document that
@@ -71,7 +69,7 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument {
      * @return Class of the document's target accounting lines
      */
     public Class getTargetAccountingLineClass();
-    
+
     /*
      * @return Name of the document's source accounting lines
      */
@@ -82,7 +80,7 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument {
      * @return Name of the document's target accounting lines
      */
     public String getTargetAccountingLineEntryName();
-    
+
     /**
      * Retrieves the next line sequence number for an accounting line in the Source accounting line section on a transactional
      * document.
@@ -164,5 +162,5 @@ public interface AccountingDocument extends GeneralLedgerPostingDocument {
      * @param targetLines
      */
     public void setTargetAccountingLines(List targetLines);
-   
+
 }

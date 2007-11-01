@@ -157,7 +157,7 @@ public class BalanceGlobalCalculatedSalaryFoundation extends PersistableBusiness
         m.put("subAccountNumber", this.subAccountNumber);
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("financialSubObjectCode", this.financialSubObjectCode);
-        
+
         return m;
     }
 }

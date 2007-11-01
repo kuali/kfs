@@ -17,8 +17,6 @@ package org.kuali.module.financial.rules;
 
 /**
  * Indirect Cost Adjustment Document specific APC constants
- * 
- * 
  */
 public interface IndirectCostAdjustmentDocumentRuleConstants {
     public static final String INDIRECT_COST_ADJUSTMENT_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.IndirectCostAdjustmentDocument";

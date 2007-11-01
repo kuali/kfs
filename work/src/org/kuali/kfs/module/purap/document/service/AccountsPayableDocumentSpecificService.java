@@ -24,8 +24,12 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
  */
 public interface AccountsPayableDocumentSpecificService {
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc);
+
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc);
+
     public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc);
+
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc);
+
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poi);
 }

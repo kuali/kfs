@@ -23,8 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of payment method key value pairs.
- * 
- * 
  */
 public class PaymentMethodValuesFinder extends KeyValuesBase {
 

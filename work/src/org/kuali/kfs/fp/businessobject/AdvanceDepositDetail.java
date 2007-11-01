@@ -26,8 +26,6 @@ import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
  * This business object represents the advance deposit detail business object that is used by the Advance Deposit Document.
- * 
- * 
  */
 public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
@@ -56,7 +54,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -66,7 +63,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -76,7 +72,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -86,7 +81,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -97,7 +91,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentColumnTypeCode attribute.
      * 
      * @return Returns the financialDocumentColumnTypeCode
-     * 
      */
     public String getFinancialDocumentColumnTypeCode() {
         return financialDocumentColumnTypeCode;
@@ -107,7 +100,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentColumnTypeCode attribute.
      * 
      * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-     * 
      */
     public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
         this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
@@ -118,7 +110,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentLineNumber attribute.
      * 
      * @return Returns the financialDocumentLineNumber
-     * 
      */
     public Integer getFinancialDocumentLineNumber() {
         return financialDocumentLineNumber;
@@ -128,7 +119,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentLineNumber attribute.
      * 
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-     * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
@@ -139,7 +129,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentAdvanceDepositDate attribute.
      * 
      * @return Returns the financialDocumentAdvanceDepositDate
-     * 
      */
     public Date getFinancialDocumentAdvanceDepositDate() {
         return financialDocumentAdvanceDepositDate;
@@ -149,7 +138,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentAdvanceDepositDate attribute.
      * 
      * @param financialDocumentAdvanceDepositDate The financialDocumentAdvanceDepositDate to set.
-     * 
      */
     public void setFinancialDocumentAdvanceDepositDate(Date financialDocumentAdvanceDepositDate) {
         this.financialDocumentAdvanceDepositDate = financialDocumentAdvanceDepositDate;
@@ -159,7 +147,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentAdvanceDepositReferenceNumber attribute.
      * 
      * @return Returns the financialDocumentAdvanceDepositReferenceNumber
-     * 
      */
     public String getFinancialDocumentAdvanceDepositReferenceNumber() {
         return financialDocumentAdvanceDepositReferenceNumber;
@@ -169,7 +156,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentAdvanceDepositReferenceNumber attribute.
      * 
      * @param financialDocumentAdvanceDepositReferenceNumber The financialDocumentAdvanceDepositReferenceNumber to set.
-     * 
      */
     public void setFinancialDocumentAdvanceDepositReferenceNumber(String financialDocumentAdvanceDepositReferenceNumber) {
         this.financialDocumentAdvanceDepositReferenceNumber = financialDocumentAdvanceDepositReferenceNumber;
@@ -180,7 +166,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentAdvanceDepositDescription attribute.
      * 
      * @return Returns the financialDocumentAdvanceDepositDescription
-     * 
      */
     public String getFinancialDocumentAdvanceDepositDescription() {
         return financialDocumentAdvanceDepositDescription;
@@ -190,7 +175,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentAdvanceDepositDescription attribute.
      * 
      * @param financialDocumentAdvanceDepositDescription The financialDocumentAdvanceDepositDescription to set.
-     * 
      */
     public void setFinancialDocumentAdvanceDepositDescription(String financialDocumentAdvanceDepositDescription) {
         this.financialDocumentAdvanceDepositDescription = financialDocumentAdvanceDepositDescription;
@@ -201,7 +185,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentAdvanceDepositAmount attribute.
      * 
      * @return Returns the financialDocumentAdvanceDepositAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentAdvanceDepositAmount() {
         return financialDocumentAdvanceDepositAmount;
@@ -211,7 +194,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentAdvanceDepositAmount attribute.
      * 
      * @param financialDocumentAdvanceDepositAmount The financialDocumentAdvanceDepositAmount to set.
-     * 
      */
     public void setFinancialDocumentAdvanceDepositAmount(KualiDecimal financialDocumentAdvanceDepositAmount) {
         this.financialDocumentAdvanceDepositAmount = financialDocumentAdvanceDepositAmount;
@@ -222,7 +204,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankCode attribute.
      * 
      * @return Returns the financialDocumentBankCode
-     * 
      */
     public String getFinancialDocumentBankCode() {
         return financialDocumentBankCode;
@@ -232,7 +213,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankCode attribute.
      * 
      * @param financialDocumentBankCode The financialDocumentBankCode to set.
-     * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
         this.financialDocumentBankCode = financialDocumentBankCode;
@@ -243,7 +223,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankAccountNumber attribute.
      * 
      * @return Returns the financialDocumentBankAccountNumber
-     * 
      */
     public String getFinancialDocumentBankAccountNumber() {
         return financialDocumentBankAccountNumber;
@@ -253,7 +232,6 @@ public class AdvanceDepositDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankAccountNumber attribute.
      * 
      * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
-     * 
      */
     public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
         this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;

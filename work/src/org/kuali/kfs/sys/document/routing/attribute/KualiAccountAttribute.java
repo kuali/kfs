@@ -67,8 +67,6 @@ import edu.iu.uis.eden.util.Utilities;
 
 /**
  * KualiAccountAttribute which should be used when using Accounts to do routing
- *
- *
  */
 public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
@@ -103,7 +101,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
 
     // below map is used to signify that a document will route to delegates based on a different document type's code
-    private static final Map<String,String> DOCUMENT_TYPE_TRANSLATION = new HashMap<String,String>();
+    private static final Map<String, String> DOCUMENT_TYPE_TRANSLATION = new HashMap<String, String>();
     static {
         DOCUMENT_TYPE_TRANSLATION.put(KualiWorkflowUtils.ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE, KualiWorkflowUtils.ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE);
     }
@@ -124,7 +122,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * Constructor that takes chart, account, and total dollar amount
-     *
+     * 
      * @param finCoaCd
      * @param accountNbr
      * @param totalDollarAmount
@@ -149,7 +147,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * return whether or not this attribute is required
-     *
+     * 
      * @return
      */
     public boolean isRequired() {
@@ -158,7 +156,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple setter
-     *
+     * 
      * @param required
      */
     public void setRequired(boolean required) {
@@ -167,7 +165,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple getter for the rule extension values
-     *
+     * 
      * @return
      */
     public List getRuleExtensionValues() {
@@ -177,7 +175,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * method to validate the routing data, need to determine if this should actually be implemented to throw errors or anything
      * like that.
-     *
+     * 
      * @param paramMap
      * @return
      */
@@ -208,7 +206,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * method to validate the rule data, since this is a role attribute, there is no rule data
-     *
+     * 
      * @param paramMap
      * @return
      */
@@ -218,7 +216,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * method to actually construct the docContent that will be appended to this documents contents
-     *
+     * 
      * @return
      */
     public String getDocContent() {
@@ -235,7 +233,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * return true since this is a rule attribute, and if there are no routing records returned, then there was no valid mapping in
      * the docContent for a given role.
-     *
+     * 
      * @param docContent
      * @param ruleExtensions
      * @return
@@ -247,7 +245,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * This method is used by the workflow report to allow the user to fill in some arbitrary values for the routable contents of an
      * example document, and then to run the report to generate a virtual route log of who the document would route to, etc.
-     *
+     * 
      * @return
      */
     public List getRoutingDataRows() {
@@ -257,9 +255,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
         rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Account.class, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME, ACCOUNT_NBR_KEY, fieldConversionMap));
 
-//        List fields = new ArrayList();
-//        fields.add(new Field("Total Dollar Amount", "", Field.TEXT, false, FDOC_TOTAL_DOLLAR_AMOUNT_KEY, "", null, null));
-//        rows.add(new Row(fields));
+        // List fields = new ArrayList();
+        // fields.add(new Field("Total Dollar Amount", "", Field.TEXT, false, FDOC_TOTAL_DOLLAR_AMOUNT_KEY, "", null, null));
+        // rows.add(new Row(fields));
         rows.add(KualiWorkflowUtils.buildTextRow(DocumentHeader.class, KFSPropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT, FDOC_TOTAL_DOLLAR_AMOUNT_KEY));
 
         return rows;
@@ -267,7 +265,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple getter which returns empty
-     *
+     * 
      * @return
      */
     public List getRuleRows() {
@@ -276,7 +274,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple getter which returns the account number
-     *
+     * 
      * @return
      */
     public String getAccountNbr() {
@@ -285,7 +283,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple setter that takes the account number
-     *
+     * 
      * @param accountNbr
      */
     public void setAccountNbr(String accountNbr) {
@@ -294,7 +292,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple getter which returns the chart
-     *
+     * 
      * @return
      */
     public String getFinCoaCd() {
@@ -303,7 +301,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple setter which takes the chart
-     *
+     * 
      * @param finCoaCd
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -312,7 +310,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple getter which returns the total dollar amount
-     *
+     * 
      * @return
      */
     public String getTotalDollarAmount() {
@@ -321,7 +319,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
 
     /**
      * simple setter which takes the total dollar amount
-     *
+     * 
      * @param totalDollarAmount
      */
     public void setTotalDollarAmount(String totalDollarAmount) {
@@ -423,10 +421,10 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
                 }
                 else if (KualiWorkflowUtils.SUB_OBJECT_CODE_CHANGE_DOC_TYPE.equals(docTypeName)) {
                     // route to the fiscal officers of the accounts on the AccountGlobalDetails
-                    NodeList accountGlobalDetails = (NodeList)xpath.evaluate(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
+                    NodeList accountGlobalDetails = (NodeList) xpath.evaluate(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH, docContent.getDocument(), XPathConstants.NODESET);
                     if (accountGlobalDetails != null) {
                         for (int index = 0; index < accountGlobalDetails.getLength(); index++) {
-                            Element accountGlobalDetail = (Element)accountGlobalDetails.item(index);
+                            Element accountGlobalDetail = (Element) accountGlobalDetails.item(index);
                             String chartOfAccountsCode = getChildElementValue(accountGlobalDetail, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                             String accountNumber = getChildElementValue(accountGlobalDetail, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
                             fiscalOfficers.add(new FiscalOfficerRole(roleName, chartOfAccountsCode, accountNumber));
@@ -479,9 +477,9 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
             accountXPaths.add(KualiWorkflowUtils.ACCOUNT_GLOBAL_DETAILS_XPATH);
         }
         for (String accountXPath : accountXPaths) {
-            NodeList accountNodes = (NodeList)xpath.evaluate(accountXPath, docContent.getDocument(), XPathConstants.NODESET);
+            NodeList accountNodes = (NodeList) xpath.evaluate(accountXPath, docContent.getDocument(), XPathConstants.NODESET);
             for (int index = 0; index < accountNodes.getLength(); index++) {
-                Element accountElement = (Element)accountNodes.item(index);
+                Element accountElement = (Element) accountNodes.item(index);
                 String chartOfAccountsCode = getChildElementValue(accountElement, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME);
                 String accountNumber = getChildElementValue(accountElement, KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME);
                 if (!StringUtils.isBlank(accountNumber) && !StringUtils.isBlank(chartOfAccountsCode)) {
@@ -534,7 +532,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
         try {
             List members = new ArrayList();
             String workfowDocumentType = context.getDocument().getDocumentType().getName();
-            if ( (DOCUMENT_TYPE_TRANSLATION.containsKey(workfowDocumentType)) && (DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType) != null) ) {
+            if ((DOCUMENT_TYPE_TRANSLATION.containsKey(workfowDocumentType)) && (DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType) != null)) {
                 workfowDocumentType = DOCUMENT_TYPE_TRANSLATION.get(workfowDocumentType);
             }
             String kualiDocumentType = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeCodeByTypeName(workfowDocumentType);
@@ -616,7 +614,7 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * Returns a the UserId of the primary delegation on the given FiscalOfficerRole. If the given role doesn't have an account
      * number or there is no primary delegate, returns null.
-     *
+     * 
      * @throws RuntimeException if there is more than one primary delegation on the given account
      */
     private static UserId getPrimaryDelegation(FiscalOfficerRole role, String fisDocumentType) throws Exception {
@@ -656,8 +654,6 @@ public class KualiAccountAttribute implements RoleAttribute, WorkflowAttribute {
     /**
      * A helper class which defines a Fiscal Officer role. Implements an equals() and hashCode() method so that it can be used in a
      * Set to prevent the generation of needless duplicate requests.
-     *
-     *
      */
     private static class FiscalOfficerRole {
 

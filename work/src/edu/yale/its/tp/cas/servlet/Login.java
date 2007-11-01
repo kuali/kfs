@@ -222,7 +222,7 @@ public class Login extends HttpServlet {
             throw new ServletException(ex);
         }
         // check if the password field should be shown and set a flag to be used by the JSP
-        request.setAttribute( "showPasswordField", SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(WebAuthenticationService.class).isValidatePassword() );
+        request.setAttribute("showPasswordField", SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment() || SpringContext.getBean(WebAuthenticationService.class).isValidatePassword());
         app.getRequestDispatcher(loginForm).forward(request, response);
     }
 

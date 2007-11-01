@@ -27,83 +27,86 @@ import org.quartz.JobDetail;
 
 public class BatchJobStatus extends TransientBusinessObjectBase {
 
-    //private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatus.class);
-    
+    // private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatus.class);
+
     private JobDescriptor jobDescriptor;
-    
+
     private JobDetail jobDetail;
 
     private static SchedulerService schedulerService;
-    
+
     private SchedulerService getSchedulerService() {
-        if ( schedulerService == null ) {
+        if (schedulerService == null) {
             schedulerService = SpringContext.getBean(SchedulerService.class);
         }
         return schedulerService;
     }
-    
+
     // for DD purposes only
-    public BatchJobStatus() {}
-    
-    public BatchJobStatus( JobDescriptor jobDescriptor, JobDetail jobDetail ) {
+    public BatchJobStatus() {
+    }
+
+    public BatchJobStatus(JobDescriptor jobDescriptor, JobDetail jobDetail) {
         this.jobDescriptor = jobDescriptor;
         this.jobDetail = jobDetail;
     }
-    
+
     public String getName() {
         return jobDetail.getName();
     }
+
     public String getGroup() {
         return jobDetail.getGroup();
     }
-    
+
     public String getFullName() {
         return jobDetail.getGroup() + "." + jobDetail.getName();
     }
-    
-    public Map<String,String> getDependencies() {
+
+    public Map<String, String> getDependencies() {
         return jobDescriptor.getDependencies();
     }
-    
+
     public List<Step> getSteps() {
         return jobDescriptor.getSteps();
     }
-    
+
     public String getStatus() {
-        if ( isRunning() ) {
+        if (isRunning()) {
             return SchedulerService.RUNNING_JOB_STATUS_CODE;
         }
         String tempStatus = schedulerService.getStatus(jobDetail);
-        if ( tempStatus == null ) {
-        	if ( getNextRunDate() != null ) {
-        		return SchedulerService.SCHEDULED_JOB_STATUS_CODE;
-        	} else if (  getGroup().equals( SchedulerService.SCHEDULED_GROUP )) {
+        if (tempStatus == null) {
+            if (getNextRunDate() != null) {
+                return SchedulerService.SCHEDULED_JOB_STATUS_CODE;
+            }
+            else if (getGroup().equals(SchedulerService.SCHEDULED_GROUP)) {
                 return SchedulerService.PENDING_JOB_STATUS_CODE;
-        	}        
+            }
         }
         return tempStatus;
     }
-    
+
     public String getDependencyList() {
-        StringBuffer sb = new StringBuffer( 200 );
-        for ( Map.Entry<String,String> entry : getDependencies().entrySet() ) {
-            sb.append( entry.getKey() + " (" + entry.getValue() + ") \n" );
+        StringBuffer sb = new StringBuffer(200);
+        for (Map.Entry<String, String> entry : getDependencies().entrySet()) {
+            sb.append(entry.getKey() + " (" + entry.getValue() + ") \n");
         }
-        return sb.toString();        
+        return sb.toString();
     }
 
     public String getStepList() {
-        StringBuffer sb = new StringBuffer( 200 );
-        for ( Step step : getSteps() ) {
-            sb.append( step.getName() + " \n" );
+        StringBuffer sb = new StringBuffer(200);
+        for (Step step : getSteps()) {
+            sb.append(step.getName() + " \n");
         }
-        return sb.toString();        
+        return sb.toString();
     }
-    
+
     public int getNumSteps() {
         return getSteps().size();
     }
-    
+
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
@@ -111,8 +114,8 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
         m.put("name", getName());
         m.put("group", getGroup());
         m.put("status", getStatus());
-        for ( Object key : jobDetail.getJobDataMap().keySet() ) {
-            m.put("jobDataMap." + key, jobDetail.getJobDataMap().get(key) );
+        for (Object key : jobDetail.getJobDataMap().keySet()) {
+            m.put("jobDataMap." + key, jobDetail.getJobDataMap().get(key));
         }
 
         return m;
@@ -120,60 +123,58 @@ public class BatchJobStatus extends TransientBusinessObjectBase {
 
     public boolean isScheduled() {
         // is this instance in the scheuled group?
-        if ( getGroup().equals( SchedulerService.SCHEDULED_GROUP ) ) {
+        if (getGroup().equals(SchedulerService.SCHEDULED_GROUP)) {
             return true;
         }
-        // does this job exist in the scheduled group? 
-        if ( getSchedulerService().getJob( SchedulerService.SCHEDULED_GROUP, getName()) != null ) {
+        // does this job exist in the scheduled group?
+        if (getSchedulerService().getJob(SchedulerService.SCHEDULED_GROUP, getName()) != null) {
             return true;
         }
         return false;
     }
-    
+
     public boolean isRunning() {
-        return getSchedulerService().isJobRunning( getName() );
-    }
-    
-    public void runJob( String requestorEmailAddress ) {
-        getSchedulerService().runJob(getName(), requestorEmailAddress );
+        return getSchedulerService().isJobRunning(getName());
     }
 
-    public void runJob( int startStep, int endStep, Date startTime, String requestorEmailAddress ) {
-        getSchedulerService().runJob(getName(), startStep, endStep, startTime, requestorEmailAddress );
+    public void runJob(String requestorEmailAddress) {
+        getSchedulerService().runJob(getName(), requestorEmailAddress);
     }
-    
+
+    public void runJob(int startStep, int endStep, Date startTime, String requestorEmailAddress) {
+        getSchedulerService().runJob(getName(), startStep, endStep, startTime, requestorEmailAddress);
+    }
+
     public void interrupt() {
         getSchedulerService().interruptJob(getName());
     }
-    
+
     public void schedule() {
         // if not already in scheduled group
-        if ( !isScheduled() ) {        
+        if (!isScheduled()) {
             // make a copy and add to the scheduled group
-            getSchedulerService().addScheduled( jobDetail );
-        }        
+            getSchedulerService().addScheduled(jobDetail);
+        }
     }
-    
+
     public void unschedule() {
         // if in scheduled group and scheduled group, remove it
-        List<BatchJobStatus> jobs = getSchedulerService().getJobs( SchedulerService.UNSCHEDULED_GROUP );
+        List<BatchJobStatus> jobs = getSchedulerService().getJobs(SchedulerService.UNSCHEDULED_GROUP);
         boolean inUnscheduledGroup = false;
-        for ( BatchJobStatus detail : jobs ) {
-            if ( detail.getName().equals( getName() ) ) {
+        for (BatchJobStatus detail : jobs) {
+            if (detail.getName().equals(getName())) {
                 inUnscheduledGroup = true;
             }
         }
-        
+
         // if only in scheduled group, move it
-        if ( !inUnscheduledGroup ) {
-            getSchedulerService().addUnscheduled( jobDetail);
+        if (!inUnscheduledGroup) {
+            getSchedulerService().addUnscheduled(jobDetail);
         }
-        getSchedulerService().removeScheduled( getName() );        
+        getSchedulerService().removeScheduled(getName());
     }
-    
+
     public Date getNextRunDate() {
         return getSchedulerService().getNextStartTime(this);
     }
 }
-
-

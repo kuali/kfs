@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectTypeService;
@@ -65,12 +64,12 @@ public class AccountBalanceServiceImpl implements AccountBalanceService {
     public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode) {
         LOG.debug("findAccountBalanceByConsolidation() started");
 
-        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
-        
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
+
         String[] incomeObjectTypes = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).toArray(new String[0]);
         String[] incomeTransferObjectTypes = { objectTypeService.getIncomeTransferObjectType(universityFiscalYear) };
         String[] expenseObjectTypes = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).toArray(new String[0]);
-        String[] expenseTransferObjectTypes = { objectTypeService.getExpenseTransferObjectType(universityFiscalYear) };        
+        String[] expenseTransferObjectTypes = { objectTypeService.getExpenseTransferObjectType(universityFiscalYear) };
 
         // Consolidate all object types into one array (yes I could have used lists, but it was just as many lines of code than
         // this)

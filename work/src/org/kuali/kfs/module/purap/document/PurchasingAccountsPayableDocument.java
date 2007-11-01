@@ -35,13 +35,13 @@ import org.kuali.module.vendor.bo.VendorDetail;
  * Interface for Purchasing-Accounts Payable Documents.
  */
 public interface PurchasingAccountsPayableDocument extends AccountingDocument {
-    
+
     /**
      * Returns the Item Class.
      * 
      * @return the Item Class.
      */
-    public Class getItemClass();    
+    public Class getItemClass();
 
     /**
      * Returns the source of this Purchasing Accounts Payable Document if exists.
@@ -49,14 +49,14 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return the source of this document if exists, else null.
      */
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible();
-    
+
     /**
      * Returns the label of the source of this Purchasing Accounts Payable Document if exists.
      * 
      * @return the label of the document source if exists, else null.
      */
     public String getPurApSourceDocumentLabelIfPossible();
-    
+
     /**
      * Returns true if this document is stopped in the specified route node.
      * 
@@ -64,14 +64,14 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return true if this document is stopped in the specified route node.
      */
     public boolean isDocumentStoppedInRouteNode(NodeDetails nodeDetails);
-        
+
     /**
      * Adds the specified item to this document.
      * 
      * @param item the specified item to add.
      */
     public void addItem(PurApItem item);
-    
+
     /**
      * Deletes the specified item from this document.
      * 
@@ -93,16 +93,15 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @param position2 the position of the second item
      */
     public void itemSwap(int position1, int position2);
-    
+
     /**
-     * Determines the item line position if the user did not specify the line number on 
-     * an above the line items before clicking on the add button. 
-     * It subtracts the number of the below the line items on the list with the total item list size.
+     * Determines the item line position if the user did not specify the line number on an above the line items before clicking on
+     * the add button. It subtracts the number of the below the line items on the list with the total item list size.
      * 
      * @return the item line position of the last (highest) line number of above the line items.
      */
     public int getItemLinePosition();
-    
+
     /**
      * Gets the item at the specified index.
      * 
@@ -110,11 +109,11 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return the item at the specified index.
      */
     public PurApItem getItem(int pos);
-    
+
     /**
-     * Gets all below the line item types. 
+     * Gets all below the line item types.
      * 
-     * @return Returns a list of below the line item types. 
+     * @return Returns a list of below the line item types.
      */
     public String[] getBelowTheLineTypes();
 
@@ -124,7 +123,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return the total dollar amount of all items.
      */
     public KualiDecimal getTotalDollarAmount();
-    
+
     /**
      * Sets the total dollar amount to the specified amount.
      * 
@@ -139,14 +138,14 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return the total dollar amount with the specified item types excluded.
      */
     public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes);
-    
+
     /**
      * Sets vendor address fields based on a given VendorAddress.
      * 
      * @param vendorAddress
      */
     public void templateVendorAddress(VendorAddress vendorAddress);
-    
+
     /**
      * Gets the related Requisition Views for this document.
      * 
@@ -160,7 +159,7 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
      * @return the list of related Purchase Order Views.
      */
     public List<PurchaseOrderView> getRelatedPurchaseOrderViews();
-        
+
     /**
      * Gets the related Payment Request Views for this document.
      * 
@@ -176,39 +175,72 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public List<CreditMemoView> getRelatedCreditMemoViews();
 
     public Country getVendorCountry();
+
     public Status getStatus();
-    public VendorDetail getVendorDetail();    
-    
-    public List<PurApItem> getItems();    
+
+    public VendorDetail getVendorDetail();
+
+    public List<PurApItem> getItems();
+
     public void setItems(List items);
+
     public String getVendorNumber();
+
     public void setVendorNumber(String vendorNumber);
+
     public Integer getVendorHeaderGeneratedIdentifier();
+
     public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier);
+
     public Integer getVendorDetailAssignedIdentifier();
+
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier);
+
     public String getVendorCustomerNumber();
+
     public void setVendorCustomerNumber(String vendorCustomerNumber);
+
     public Integer getPurapDocumentIdentifier();
+
     public void setPurapDocumentIdentifier(Integer identifier);
+
     public String getStatusCode();
+
     public void setStatusCode(String statusCode);
+
     public String getVendorCityName();
+
     public void setVendorCityName(String vendorCityName);
+
     public String getVendorCountryCode();
+
     public void setVendorCountryCode(String vendorCountryCode);
+
     public String getVendorLine1Address();
+
     public void setVendorLine1Address(String vendorLine1Address);
+
     public String getVendorLine2Address();
+
     public void setVendorLine2Address(String vendorLine2Address);
+
     public String getVendorName();
+
     public void setVendorName(String vendorName);
+
     public String getVendorPostalCode();
+
     public void setVendorPostalCode(String vendorPostalCode);
+
     public String getVendorStateCode();
+
     public void setVendorStateCode(String vendorStateCode);
+
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
+
     public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier);
+
     public Integer getVendorAddressGeneratedIdentifier();
-    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);    
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
 }

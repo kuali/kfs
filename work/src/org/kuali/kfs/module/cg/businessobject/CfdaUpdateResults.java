@@ -15,7 +15,6 @@ public class CfdaUpdateResults {
     private String message;
 
     /**
-     * 
      * @return
      */
     public int getNumberOfRecordsNewlyAddedFromWebSite() {
@@ -23,7 +22,6 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * @param numberOfRecordsNewlyAddedFromWebSite
      */
     public void setNumberOfRecordsNewlyAddedFromWebSite(int numberOfRecordsNewlyAddedFromWebSite) {
@@ -31,8 +29,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsReActivated() {
@@ -40,8 +38,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsReActivated
      */
     public void setNumberOfRecordsReActivated(int numberOfRecordsReActivated) {
@@ -49,8 +47,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite() {
@@ -58,8 +56,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsDeactivatedBecauseNoLongerOnWebSite
      */
     public void setNumberOfRecordsDeactivatedBecauseNoLongerOnWebSite(int numberOfRecordsDeactivatedBecauseNoLongerOnWebSite) {
@@ -67,8 +65,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecrodsNotUpdatedForHistoricalPurposes() {
@@ -76,8 +74,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecrodsNotUpdatedForHistoricalPurposes
      */
     public void setNumberOfRecrodsNotUpdatedForHistoricalPurposes(int numberOfRecrodsNotUpdatedForHistoricalPurposes) {
@@ -85,8 +83,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsRetrievedFromWebSite() {
@@ -94,8 +92,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsRetrievedFromWebSite
      */
     public void setNumberOfRecordsRetrievedFromWebSite(int numberOfRecordsRetrievedFromWebSite) {
@@ -103,8 +101,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsInKfsDatabase() {
@@ -112,8 +110,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsInKfsDatabase
      */
     public void setNumberOfRecordsInKfsDatabase(int numberOfRecordsInKfsDatabase) {
@@ -121,8 +119,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsUpdatedBecauseAutomatic() {
@@ -130,8 +128,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsUpdatedBecauseAutomatic
      */
     public void setNumberOfRecordsUpdatedBecauseAutomatic(int numberOfRecordsUpdatedBecauseAutomatic) {
@@ -139,8 +137,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public int getNumberOfRecordsNotUpdatedBecauseManual() {
@@ -148,8 +146,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param numberOfRecordsNotUpdatedBecauseManual
      */
     public void setNumberOfRecordsNotUpdatedBecauseManual(int numberOfRecordsNotUpdatedBecauseManual) {
@@ -157,8 +155,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public String getMessage() {
@@ -166,8 +164,8 @@ public class CfdaUpdateResults {
     }
 
     /**
-     * 
      * This method...
+     * 
      * @param message
      */
     public void setMessage(String message) {

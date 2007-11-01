@@ -70,7 +70,7 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     /**
      * @see org.kuali.module.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedPaidDetails(String organization,String subUnit) {
+    public Iterator getUnprocessedPaidDetails(String organization, String subUnit) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
         return paymentDetailDao.getUnprocessedPaidDetails(organization, subUnit);

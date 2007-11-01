@@ -23,26 +23,27 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * 
  */
 public class RoutingFormQuestion extends PersistableBusinessObjectBase {
-    
+
     private String documentNumber;
     private String questionTypeCode;
     private String yesNoIndicator;
-    
+
     private QuestionType question;
-    
+
     public RoutingFormQuestion() {
         super();
     }
-    
+
     public RoutingFormQuestion(String documentNumber, QuestionType questionType) {
         super();
         this.documentNumber = documentNumber;
         this.questionTypeCode = questionType.getQuestionTypeCode();
         this.question = questionType;
     }
-    
+
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -51,6 +52,7 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -58,7 +60,8 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeCode attribute. 
+     * Gets the questionTypeCode attribute.
+     * 
      * @return Returns the questionTypeCode.
      */
     public String getQuestionTypeCode() {
@@ -67,6 +70,7 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeCode attribute value.
+     * 
      * @param questionTypeCode The questionTypeCode to set.
      */
     public void setQuestionTypeCode(String questionTypeCode) {
@@ -74,7 +78,8 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the yesNoIndicator attribute. 
+     * Gets the yesNoIndicator attribute.
+     * 
      * @return Returns the yesNoIndicator.
      */
     public String getYesNoIndicator() {
@@ -83,14 +88,16 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
 
     /**
      * Sets the yesNoIndicator attribute value.
+     * 
      * @param yesNoIndicator The yesNoIndicator to set.
      */
     public void setYesNoIndicator(String yesNoIndicator) {
         this.yesNoIndicator = yesNoIndicator;
     }
-    
+
     /**
-     * Gets the question attribute. 
+     * Gets the question attribute.
+     * 
      * @return Returns the question.
      */
     public QuestionType getQuestion() {
@@ -99,6 +106,7 @@ public class RoutingFormQuestion extends PersistableBusinessObjectBase {
 
     /**
      * Sets the question attribute value.
+     * 
      * @param question The question to set.
      */
     public void setQuestion(QuestionType question) {

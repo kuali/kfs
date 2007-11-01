@@ -39,7 +39,6 @@ public class FederalFunction extends PersistableBusinessObjectBase {
      * Gets the financialFederalFunctionCode attribute.
      * 
      * @return Returns the financialFederalFunctionCode
-     * 
      */
     public String getFinancialFederalFunctionCode() {
         return financialFederalFunctionCode;
@@ -49,7 +48,6 @@ public class FederalFunction extends PersistableBusinessObjectBase {
      * Sets the financialFederalFunctionCode attribute.
      * 
      * @param financialFederalFunctionCode The financialFederalFunctionCode to set.
-     * 
      */
     public void setFinancialFederalFunctionCode(String financialFederalFunctionCode) {
         this.financialFederalFunctionCode = financialFederalFunctionCode;
@@ -60,7 +58,6 @@ public class FederalFunction extends PersistableBusinessObjectBase {
      * Gets the financialFederalFunctionName attribute.
      * 
      * @return Returns the financialFederalFunctionName
-     * 
      */
     public String getFinancialFederalFunctionName() {
         return financialFederalFunctionName;
@@ -70,7 +67,6 @@ public class FederalFunction extends PersistableBusinessObjectBase {
      * Sets the financialFederalFunctionName attribute.
      * 
      * @param financialFederalFunctionName The financialFederalFunctionName to set.
-     * 
      */
     public void setFinancialFederalFunctionName(String financialFederalFunctionName) {
         this.financialFederalFunctionName = financialFederalFunctionName;

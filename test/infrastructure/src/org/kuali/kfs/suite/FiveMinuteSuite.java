@@ -19,13 +19,11 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * This is a plain old JUnit suite of suites that can be run within a reasonable amount of time.
- * IDEs or Ant can run this class as JUnit tests.
+ * This is a plain old JUnit suite of suites that can be run within a reasonable amount of time. IDEs or Ant can run this class as
+ * JUnit tests.
  */
 public class FiveMinuteSuite {
-    public static Test suite()
-        throws Exception
-    {
+    public static Test suite() throws Exception {
         TestSuite suite = new TestSuite(FiveMinuteSuite.class.getName());
         suite.addTest(CrossSectionSuite.suite());
         suite.addTest(OftenUsefulSuite.suite());

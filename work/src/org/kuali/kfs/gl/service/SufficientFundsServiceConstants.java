@@ -18,8 +18,6 @@ package org.kuali.module.gl.service;
 
 /**
  * Holds constants for transfer of funds document.
- * 
- * 
  */
 public interface SufficientFundsServiceConstants {
     // Security grouping constants used to do application parameter lookups

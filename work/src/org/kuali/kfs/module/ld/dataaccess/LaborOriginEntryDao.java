@@ -69,7 +69,7 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
      * @return Iterator of entries in the specified group
      */
     Iterator<LaborOriginEntry> getLaborEntriesByGroup(OriginEntryGroup oeg, int sort);
-    
+
     /**
      * Collection of entries that match criteria
      * 
@@ -84,5 +84,5 @@ public interface LaborOriginEntryDao extends OriginEntryDao {
      * @param group the given origin entry group
      * @return Collection of entries in the specified group
      */
-    Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group); 
+    Collection<LaborOriginEntry> getEntryCollectionByGroup(OriginEntryGroup group);
 }

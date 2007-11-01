@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjLevel;
@@ -33,229 +32,212 @@ import org.kuali.module.chart.bo.SubFundGroup;
  */
 public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private String organizationChartOfAccountsCode;
-	private String organizationCode;
-	private String subFundGroupCode;
-	private String chartOfAccountsCode;
-	private String incomeExpenseCode;
-	private String financialConsolidationSortCode;
-	private String financialLevelSortCode;
-	private String financialObjectCode;
-	private KualiInteger accountLineAnnualBalanceAmount;
-	private KualiInteger financialBeginningBalanceLineAmount;
-	private String financialConsolidationObjectCode;
-	private String financialObjectLevelCode;
-	private BigDecimal appointmentRequestedCsfFteQuantity;
-	private BigDecimal appointmentRequestedFteQuantity;
-	private BigDecimal csfFullTimeEmploymentQuantity;
-	private BigDecimal positionCsfLeaveFteQuantity;
+    private String personUniversalIdentifier;
+    private String organizationChartOfAccountsCode;
+    private String organizationCode;
+    private String subFundGroupCode;
+    private String chartOfAccountsCode;
+    private String incomeExpenseCode;
+    private String financialConsolidationSortCode;
+    private String financialLevelSortCode;
+    private String financialObjectCode;
+    private KualiInteger accountLineAnnualBalanceAmount;
+    private KualiInteger financialBeginningBalanceLineAmount;
+    private String financialConsolidationObjectCode;
+    private String financialObjectLevelCode;
+    private BigDecimal appointmentRequestedCsfFteQuantity;
+    private BigDecimal appointmentRequestedFteQuantity;
+    private BigDecimal csfFullTimeEmploymentQuantity;
+    private BigDecimal positionCsfLeaveFteQuantity;
 
     private Chart organizationChartOfAccounts;
-	private Org organization;
-	private Chart chartOfAccounts;
+    private Org organization;
+    private Chart chartOfAccounts;
     private SubFundGroup subFundGroup;
     private ObjLevel financialObjectLevel;
     private ObjectCons financialConsolidationObject;
-    
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionObjectSummary() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionObjectSummary() {
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
 
-	/**
-	 * Gets the organizationChartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the organizationChartOfAccountsCode
-	 * 
-	 */
-	public String getOrganizationChartOfAccountsCode() { 
-		return organizationChartOfAccountsCode;
-	}
+    /**
+     * Gets the organizationChartOfAccountsCode attribute.
+     * 
+     * @return Returns the organizationChartOfAccountsCode
+     */
+    public String getOrganizationChartOfAccountsCode() {
+        return organizationChartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the organizationChartOfAccountsCode attribute.
-	 * 
-	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
-	 * 
-	 */
-	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
-		this.organizationChartOfAccountsCode = organizationChartOfAccountsCode;
-	}
+    /**
+     * Sets the organizationChartOfAccountsCode attribute.
+     * 
+     * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+     */
+    public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
+        this.organizationChartOfAccountsCode = organizationChartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return Returns the organizationCode
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the subFundGroupCode attribute.
-	 * 
-	 * @return Returns the subFundGroupCode
-	 * 
-	 */
-	public String getSubFundGroupCode() { 
-		return subFundGroupCode;
-	}
+    /**
+     * Gets the subFundGroupCode attribute.
+     * 
+     * @return Returns the subFundGroupCode
+     */
+    public String getSubFundGroupCode() {
+        return subFundGroupCode;
+    }
 
-	/**
-	 * Sets the subFundGroupCode attribute.
-	 * 
-	 * @param subFundGroupCode The subFundGroupCode to set.
-	 * 
-	 */
-	public void setSubFundGroupCode(String subFundGroupCode) {
-		this.subFundGroupCode = subFundGroupCode;
-	}
+    /**
+     * Sets the subFundGroupCode attribute.
+     * 
+     * @param subFundGroupCode The subFundGroupCode to set.
+     */
+    public void setSubFundGroupCode(String subFundGroupCode) {
+        this.subFundGroupCode = subFundGroupCode;
+    }
 
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return Returns the chartOfAccountsCode
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the incomeExpenseCode attribute.
-	 * 
-	 * @return Returns the incomeExpenseCode
-	 * 
-	 */
-	public String getIncomeExpenseCode() { 
-		return incomeExpenseCode;
-	}
+    /**
+     * Gets the incomeExpenseCode attribute.
+     * 
+     * @return Returns the incomeExpenseCode
+     */
+    public String getIncomeExpenseCode() {
+        return incomeExpenseCode;
+    }
 
-	/**
-	 * Sets the incomeExpenseCode attribute.
-	 * 
-	 * @param incomeExpenseCode The incomeExpenseCode to set.
-	 * 
-	 */
-	public void setIncomeExpenseCode(String incomeExpenseCode) {
-		this.incomeExpenseCode = incomeExpenseCode;
-	}
+    /**
+     * Sets the incomeExpenseCode attribute.
+     * 
+     * @param incomeExpenseCode The incomeExpenseCode to set.
+     */
+    public void setIncomeExpenseCode(String incomeExpenseCode) {
+        this.incomeExpenseCode = incomeExpenseCode;
+    }
 
 
-	/**
-	 * Gets the financialConsolidationSortCode attribute.
-	 * 
-	 * @return Returns the financialConsolidationSortCode
-	 * 
-	 */
-	public String getFinancialConsolidationSortCode() { 
-		return financialConsolidationSortCode;
-	}
+    /**
+     * Gets the financialConsolidationSortCode attribute.
+     * 
+     * @return Returns the financialConsolidationSortCode
+     */
+    public String getFinancialConsolidationSortCode() {
+        return financialConsolidationSortCode;
+    }
 
-	/**
-	 * Sets the financialConsolidationSortCode attribute.
-	 * 
-	 * @param financialConsolidationSortCode The financialConsolidationSortCode to set.
-	 * 
-	 */
-	public void setFinancialConsolidationSortCode(String financialConsolidationSortCode) {
-		this.financialConsolidationSortCode = financialConsolidationSortCode;
-	}
+    /**
+     * Sets the financialConsolidationSortCode attribute.
+     * 
+     * @param financialConsolidationSortCode The financialConsolidationSortCode to set.
+     */
+    public void setFinancialConsolidationSortCode(String financialConsolidationSortCode) {
+        this.financialConsolidationSortCode = financialConsolidationSortCode;
+    }
 
 
-	/**
-	 * Gets the financialLevelSortCode attribute.
-	 * 
-	 * @return Returns the financialLevelSortCode
-	 * 
-	 */
-	public String getFinancialLevelSortCode() { 
-		return financialLevelSortCode;
-	}
+    /**
+     * Gets the financialLevelSortCode attribute.
+     * 
+     * @return Returns the financialLevelSortCode
+     */
+    public String getFinancialLevelSortCode() {
+        return financialLevelSortCode;
+    }
 
-	/**
-	 * Sets the financialLevelSortCode attribute.
-	 * 
-	 * @param financialLevelSortCode The financialLevelSortCode to set.
-	 * 
-	 */
-	public void setFinancialLevelSortCode(String financialLevelSortCode) {
-		this.financialLevelSortCode = financialLevelSortCode;
-	}
+    /**
+     * Sets the financialLevelSortCode attribute.
+     * 
+     * @param financialLevelSortCode The financialLevelSortCode to set.
+     */
+    public void setFinancialLevelSortCode(String financialLevelSortCode) {
+        this.financialLevelSortCode = financialLevelSortCode;
+    }
 
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
 
 
-	/**
-     * Gets the accountLineAnnualBalanceAmount attribute. 
+    /**
+     * Gets the accountLineAnnualBalanceAmount attribute.
+     * 
      * @return Returns the accountLineAnnualBalanceAmount.
      */
     public KualiInteger getAccountLineAnnualBalanceAmount() {
@@ -264,6 +246,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
     /**
      * Sets the accountLineAnnualBalanceAmount attribute value.
+     * 
      * @param accountLineAnnualBalanceAmount The accountLineAnnualBalanceAmount to set.
      */
     public void setAccountLineAnnualBalanceAmount(KualiInteger accountLineAnnualBalanceAmount) {
@@ -271,7 +254,8 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
     }
 
     /**
-     * Gets the financialBeginningBalanceLineAmount attribute. 
+     * Gets the financialBeginningBalanceLineAmount attribute.
+     * 
      * @return Returns the financialBeginningBalanceLineAmount.
      */
     public KualiInteger getFinancialBeginningBalanceLineAmount() {
@@ -280,6 +264,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialBeginningBalanceLineAmount attribute value.
+     * 
      * @param financialBeginningBalanceLineAmount The financialBeginningBalanceLineAmount to set.
      */
     public void setFinancialBeginningBalanceLineAmount(KualiInteger financialBeginningBalanceLineAmount) {
@@ -287,193 +272,179 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
     }
 
     /**
-	 * Gets the financialConsolidationObjectCode attribute.
-	 * 
-	 * @return Returns the financialConsolidationObjectCode
-	 * 
-	 */
-	public String getFinancialConsolidationObjectCode() { 
-		return financialConsolidationObjectCode;
-	}
-
-	/**
-	 * Sets the financialConsolidationObjectCode attribute.
-	 * 
-	 * @param financialConsolidationObjectCode The financialConsolidationObjectCode to set.
-	 * 
-	 */
-	public void setFinancialConsolidationObjectCode(String financialConsolidationObjectCode) {
-		this.financialConsolidationObjectCode = financialConsolidationObjectCode;
-	}
-
-
-	/**
-	 * Gets the financialObjectLevelCode attribute.
-	 * 
-	 * @return Returns the financialObjectLevelCode
-	 * 
-	 */
-	public String getFinancialObjectLevelCode() { 
-		return financialObjectLevelCode;
-	}
-
-	/**
-	 * Sets the financialObjectLevelCode attribute.
-	 * 
-	 * @param financialObjectLevelCode The financialObjectLevelCode to set.
-	 * 
-	 */
-	public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
-		this.financialObjectLevelCode = financialObjectLevelCode;
-	}
-
-
-	/**
-	 * Gets the appointmentRequestedCsfFteQuantity attribute.
-	 * 
-	 * @return Returns the appointmentRequestedCsfFteQuantity
-	 * 
-	 */
-	public BigDecimal getAppointmentRequestedCsfFteQuantity() { 
-		return appointmentRequestedCsfFteQuantity;
-	}
-
-	/**
-	 * Sets the appointmentRequestedCsfFteQuantity attribute.
-	 * 
-	 * @param appointmentRequestedCsfFteQuantity The appointmentRequestedCsfFteQuantity to set.
-	 * 
-	 */
-	public void setAppointmentRequestedCsfFteQuantity(BigDecimal appointmentRequestedCsfFteQuantity) {
-		this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
-	}
-
-
-	/**
-	 * Gets the appointmentRequestedFteQuantity attribute.
-	 * 
-	 * @return Returns the appointmentRequestedFteQuantity
-	 * 
-	 */
-	public BigDecimal getAppointmentRequestedFteQuantity() { 
-		return appointmentRequestedFteQuantity;
-	}
-
-	/**
-	 * Sets the appointmentRequestedFteQuantity attribute.
-	 * 
-	 * @param appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
-	 * 
-	 */
-	public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
-		this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
-	}
-
-
-	/**
-	 * Gets the csfFullTimeEmploymentQuantity attribute.
-	 * 
-	 * @return Returns the csfFullTimeEmploymentQuantity
-	 * 
-	 */
-	public BigDecimal getCsfFullTimeEmploymentQuantity() { 
-		return csfFullTimeEmploymentQuantity;
-	}
-
-	/**
-	 * Sets the csfFullTimeEmploymentQuantity attribute.
-	 * 
-	 * @param csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
-	 * 
-	 */
-	public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
-		this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
-	}
-
-
-	/**
-	 * Gets the positionCsfLeaveFteQuantity attribute.
-	 * 
-	 * @return Returns the positionCsfLeaveFteQuantity
-	 * 
-	 */
-	public BigDecimal getPositionCsfLeaveFteQuantity() { 
-		return positionCsfLeaveFteQuantity;
-	}
-
-	/**
-	 * Sets the positionCsfLeaveFteQuantity attribute.
-	 * 
-	 * @param positionCsfLeaveFteQuantity The positionCsfLeaveFteQuantity to set.
-	 * 
-	 */
-	public void setPositionCsfLeaveFteQuantity(BigDecimal positionCsfLeaveFteQuantity) {
-		this.positionCsfLeaveFteQuantity = positionCsfLeaveFteQuantity;
-	}
-
-
-	/**
-	 * Gets the organizationChartOfAccounts attribute.
-	 * 
-	 * @return Returns the organizationChartOfAccounts
-	 * 
-	 */
-	public Chart getOrganizationChartOfAccounts() { 
-		return organizationChartOfAccounts;
-	}
-
-	/**
-	 * Sets the organizationChartOfAccounts attribute.
-	 * 
-	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
-		this.organizationChartOfAccounts = organizationChartOfAccounts;
-	}
-
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
-
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+     * Gets the financialConsolidationObjectCode attribute.
+     * 
+     * @return Returns the financialConsolidationObjectCode
+     */
+    public String getFinancialConsolidationObjectCode() {
+        return financialConsolidationObjectCode;
+    }
 
     /**
-     * Gets the financialObjectLevel attribute. 
+     * Sets the financialConsolidationObjectCode attribute.
+     * 
+     * @param financialConsolidationObjectCode The financialConsolidationObjectCode to set.
+     */
+    public void setFinancialConsolidationObjectCode(String financialConsolidationObjectCode) {
+        this.financialConsolidationObjectCode = financialConsolidationObjectCode;
+    }
+
+
+    /**
+     * Gets the financialObjectLevelCode attribute.
+     * 
+     * @return Returns the financialObjectLevelCode
+     */
+    public String getFinancialObjectLevelCode() {
+        return financialObjectLevelCode;
+    }
+
+    /**
+     * Sets the financialObjectLevelCode attribute.
+     * 
+     * @param financialObjectLevelCode The financialObjectLevelCode to set.
+     */
+    public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
+        this.financialObjectLevelCode = financialObjectLevelCode;
+    }
+
+
+    /**
+     * Gets the appointmentRequestedCsfFteQuantity attribute.
+     * 
+     * @return Returns the appointmentRequestedCsfFteQuantity
+     */
+    public BigDecimal getAppointmentRequestedCsfFteQuantity() {
+        return appointmentRequestedCsfFteQuantity;
+    }
+
+    /**
+     * Sets the appointmentRequestedCsfFteQuantity attribute.
+     * 
+     * @param appointmentRequestedCsfFteQuantity The appointmentRequestedCsfFteQuantity to set.
+     */
+    public void setAppointmentRequestedCsfFteQuantity(BigDecimal appointmentRequestedCsfFteQuantity) {
+        this.appointmentRequestedCsfFteQuantity = appointmentRequestedCsfFteQuantity;
+    }
+
+
+    /**
+     * Gets the appointmentRequestedFteQuantity attribute.
+     * 
+     * @return Returns the appointmentRequestedFteQuantity
+     */
+    public BigDecimal getAppointmentRequestedFteQuantity() {
+        return appointmentRequestedFteQuantity;
+    }
+
+    /**
+     * Sets the appointmentRequestedFteQuantity attribute.
+     * 
+     * @param appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
+     */
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
+        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
+
+
+    /**
+     * Gets the csfFullTimeEmploymentQuantity attribute.
+     * 
+     * @return Returns the csfFullTimeEmploymentQuantity
+     */
+    public BigDecimal getCsfFullTimeEmploymentQuantity() {
+        return csfFullTimeEmploymentQuantity;
+    }
+
+    /**
+     * Sets the csfFullTimeEmploymentQuantity attribute.
+     * 
+     * @param csfFullTimeEmploymentQuantity The csfFullTimeEmploymentQuantity to set.
+     */
+    public void setCsfFullTimeEmploymentQuantity(BigDecimal csfFullTimeEmploymentQuantity) {
+        this.csfFullTimeEmploymentQuantity = csfFullTimeEmploymentQuantity;
+    }
+
+
+    /**
+     * Gets the positionCsfLeaveFteQuantity attribute.
+     * 
+     * @return Returns the positionCsfLeaveFteQuantity
+     */
+    public BigDecimal getPositionCsfLeaveFteQuantity() {
+        return positionCsfLeaveFteQuantity;
+    }
+
+    /**
+     * Sets the positionCsfLeaveFteQuantity attribute.
+     * 
+     * @param positionCsfLeaveFteQuantity The positionCsfLeaveFteQuantity to set.
+     */
+    public void setPositionCsfLeaveFteQuantity(BigDecimal positionCsfLeaveFteQuantity) {
+        this.positionCsfLeaveFteQuantity = positionCsfLeaveFteQuantity;
+    }
+
+
+    /**
+     * Gets the organizationChartOfAccounts attribute.
+     * 
+     * @return Returns the organizationChartOfAccounts
+     */
+    public Chart getOrganizationChartOfAccounts() {
+        return organizationChartOfAccounts;
+    }
+
+    /**
+     * Sets the organizationChartOfAccounts attribute.
+     * 
+     * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
+        this.organizationChartOfAccounts = organizationChartOfAccounts;
+    }
+
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return Returns the organization
+     */
+    public Org getOrganization() {
+        return organization;
+    }
+
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the financialObjectLevel attribute.
+     * 
      * @return Returns the financialObjectLevel.
      */
     public ObjLevel getFinancialObjectLevel() {
@@ -482,6 +453,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialObjectLevel attribute value.
+     * 
      * @param financialObjectLevel The financialObjectLevel to set.
      * @deprecated
      */
@@ -490,7 +462,8 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
     }
 
     /**
-     * Gets the subFundGroup attribute. 
+     * Gets the subFundGroup attribute.
+     * 
      * @return Returns the subFundGroup.
      */
     public SubFundGroup getSubFundGroup() {
@@ -499,6 +472,7 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
     /**
      * Sets the subFundGroup attribute value.
+     * 
      * @param subFundGroup The subFundGroup to set.
      * @deprecated
      */
@@ -507,7 +481,8 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
     }
 
     /**
-     * Gets the financialConsolidationObject attribute. 
+     * Gets the financialConsolidationObject attribute.
+     * 
      * @return Returns the financialConsolidationObject.
      */
     public ObjectCons getFinancialConsolidationObject() {
@@ -516,18 +491,19 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialConsolidationObject attribute value.
+     * 
      * @param financialConsolidationObject The financialConsolidationObject to set.
      * @deprecated
      */
     public void setFinancialConsolidationObject(ObjectCons financialConsolidationObject) {
         this.financialConsolidationObject = financialConsolidationObject;
-    }    
-    
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
@@ -537,6 +513,6 @@ public class BudgetConstructionObjectSummary extends PersistableBusinessObjectBa
         m.put("financialConsolidationSortCode", this.financialConsolidationSortCode);
         m.put("financialLevelSortCode", this.financialLevelSortCode);
         m.put("financialObjectCode", this.financialObjectCode);
-	    return m;
+        return m;
     }
 }

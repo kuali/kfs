@@ -22,9 +22,7 @@ package org.kuali.module.financial.document;
  * interface.
  * 
  * @link http://en.wikipedia.org/wiki/Marker_interface_pattern
- * 
  * @see org.kuali.module.gl.service.SufficientFundsService
- * 
  */
 public interface YearEndDocument {
     // empty do not change. see above.

@@ -30,8 +30,6 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 
 /**
  * This class...
- * 
- * 
  */
 @ConfigureContext
 public class KualiAttributeXPathTest extends KualiTestBase {
@@ -39,7 +37,7 @@ public class KualiAttributeXPathTest extends KualiTestBase {
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE = "//org.kuali.kfs.bo.SourceAccountingLine/account/subFundGroupCode";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET = "//org.kuali.kfs.bo.TargetAccountingLine/account/subFundGroupCode";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE = KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE + " or " + KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET;
-    private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_XSTREAMSAFE = "wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE + "') or wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET +"')";
+    private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_XSTREAMSAFE = "wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE + "') or wf:xstreamsafe('" + KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET + "')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_SOURCE_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.kfs.bo.SourceAccountingLine/account/subFundGroupCode')";
     private static final String KUALI_SUBFUND_GROUP_ATTRIBUTE_TARGET_XSTREAMSAFE = "wf:xstreamsafe('//org.kuali.kfs.bo.TargetAccountingLine/account/subFundGroupCode')";
     private static final String KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
@@ -77,48 +75,48 @@ public class KualiAttributeXPathTest extends KualiTestBase {
         assertEquals("FEMP", xpathResult);
 
     }
-    
+
     public void testKualiIndicatorTranslationAttributeXPath() throws IOException, InvalidXmlException, XPathExpressionException {
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW, "PurchaseOrderDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
 
         String valueForTrue = "Yes";
         String valueForFalse = "No";
-        
+
         // test campus active indicator field translation to 'Yes'
         String xpathConditionStatement = KUALI_CAMPUS_TYPE_ACTIVE_INDICATOR_XSTREAMSAFE + " = 'true'";
         String xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         String xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
-        assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForTrue, xpathResult);
+        assertEquals("Using translated xpath expression '" + xpathExpression + "'", valueForTrue, xpathResult);
 
         // test user student indicator translation to 'No'
         xpathConditionStatement = KUALI_INITIATOR_UNIVERSAL_USER_STUDENT_INDICATOR_XSTREAMSAFE + " = 'true'";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
-        assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);
-        
+        assertEquals("Using translated xpath expression '" + xpathExpression + "'", valueForFalse, xpathResult);
+
         // test filled in date field translates to 'Yes'
         String expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/purchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
         xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
-        assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForTrue, xpathResult);
-        
+        assertEquals("Using translated xpath expression '" + xpathExpression + "'", valueForTrue, xpathResult);
+
         // test empty date field translates to 'No'
         expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/oldPurchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
         xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
-        assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);
-        
+        assertEquals("Using translated xpath expression '" + xpathExpression + "'", valueForFalse, xpathResult);
+
         // test non-existant date field translates to 'No'
         expression = KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/newPurchaseOrderCreateDate" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX;
         xpathConditionStatement = "boolean(" + expression + ") and not(" + expression + " = '')";
         xpathExpression = constructXpathExpression(valueForTrue, valueForFalse, xpathConditionStatement);
         xpathResult = (String) xpath.evaluate(xpathExpression, docContent.getDocument(), XPathConstants.STRING);
-        assertEquals("Using translated xpath expression '" + xpathExpression +"'", valueForFalse, xpathResult);
+        assertEquals("Using translated xpath expression '" + xpathExpression + "'", valueForFalse, xpathResult);
     }
-    
+
     private String constructXpathExpression(String valueForTrue, String valueForFalse, String booleanXPathExpression) {
         String[] xpathElementsToInsert = new String[3];
         xpathElementsToInsert[0] = "concat( substring('" + valueForTrue + "', number(not(";
@@ -130,23 +128,23 @@ public class KualiAttributeXPathTest extends KualiTestBase {
             String newXpathElement = xpathElementsToInsert[i];
             returnableString.append(newXpathElement);
 
-            /*   Append the given xpath expression onto the end of the stringbuffer only in the following cases
-             *     - if there is only one element in the string array
-             *     - if there is more than one element in the string array and if the current element is not the last element 
+            /*
+             * Append the given xpath expression onto the end of the stringbuffer only in the following cases - if there is only one
+             * element in the string array - if there is more than one element in the string array and if the current element is not
+             * the last element
              */
-            if ( ((i + 1) != xpathElementsToInsert.length) || 
-                 (xpathElementsToInsert.length == 1) ) {
+            if (((i + 1) != xpathElementsToInsert.length) || (xpathElementsToInsert.length == 1)) {
                 returnableString.append(booleanXPathExpression);
             }
         }
         return returnableString.toString();
-        
+
     }
 
     public void testConcatFunctionWithNonExistantNode() throws IOException, InvalidXmlException, XPathExpressionException {
-        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW,"PurchaseOrderDocument");
+        DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFileAndPath(KualiAttributeTestUtil.PURCHASE_ORDER_DOCUMENT, KualiAttributeTestUtil.RELATIVE_PATH_IN_PROJECT_WORKFLOW, "PurchaseOrderDocument");
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-        
+
         String tempXpathNugget = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "campus/campusType/dataObjectMaintenanceCodeActiveIndicator";
         String xpathExistingNodeStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";
         String xpathNonExistingNodeStatement = "(" + KualiWorkflowUtils.XSTREAM_SAFE_PREFIX + tempXpathNugget + "/dummystuff" + KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX + ")";

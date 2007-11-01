@@ -20,8 +20,6 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * Mandatory Transfer Elimination Code Business Object
- * 
- * 
  */
 public class MandatoryTransferEliminationCode extends KualiCodeBase {
 

@@ -16,23 +16,11 @@
 
 package org.kuali.module.purap.document;
 
-import static org.kuali.core.util.KualiDecimal.ZERO;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -56,21 +44,21 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         setSourceAccountingLines(new ArrayList());
         setGeneralLedgerPendingEntries(new ArrayList());
     }
-    
+
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        
+
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            //generate GL entries
+            // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesClosePurchaseOrder(this);
 
-            //update indicators
+            // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            
-            //set purap status, status history and note
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CLOSED );
+
+            // set purap status, status history and note
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CLOSED);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
@@ -80,7 +68,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELLED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-            
+
         }
 
     }

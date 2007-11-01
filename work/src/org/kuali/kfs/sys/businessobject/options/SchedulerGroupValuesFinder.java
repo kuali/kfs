@@ -28,10 +28,10 @@ public class SchedulerGroupValuesFinder extends KeyValuesBase {
 
     public List getKeyValues() {
         List labels = new ArrayList();
-        //labels.add(new KeyLabelPair("", ""));
+        // labels.add(new KeyLabelPair("", ""));
 
-        for ( String group : SpringContext.getBean(SchedulerService.class).getSchedulerGroups() ) {
-            labels.add( new KeyLabelPair( group, group ) );
+        for (String group : SpringContext.getBean(SchedulerService.class).getSchedulerGroups()) {
+            labels.add(new KeyLabelPair(group, group));
         }
         return labels;
     }

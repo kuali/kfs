@@ -456,7 +456,8 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findAccountsInFundGroups(java.lang.Integer, java.util.Map, java.util.List, java.util.List)
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findAccountsInFundGroups(java.lang.Integer, java.util.Map,
+     *      java.util.List, java.util.List)
      */
     public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalanceForYearEndBalanceForward());
@@ -482,17 +483,17 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         query.setAttributes(LaborConstants.ACCOUNT_FIELDS);
         query.setDistinct(true);
-        
+
         Iterator<Object[]> accountIterator = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        
+
         List<List<String>> accounts = new ArrayList<List<String>>();
-        while(accountIterator!=null && accountIterator.hasNext()){
+        while (accountIterator != null && accountIterator.hasNext()) {
             Object[] accountObject = accountIterator.next();
-            
+
             List<String> account = new ArrayList<String>();
             account.add(accountObject[0].toString());
             account.add(accountObject[1].toString());
-            
+
             accounts.add(account);
         }
         return accounts;

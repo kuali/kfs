@@ -32,8 +32,6 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 /**
  * This class represents the Sufficient Funds Checking Preparation event that is part of an eDoc in Kuali. This is triggered on
  * route or approval
- * 
- * 
  */
 public final class SufficientFundsCheckingPreparationEvent extends KualiDocumentEventBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsCheckingPreparationEvent.class);
@@ -47,7 +45,6 @@ public final class SufficientFundsCheckingPreparationEvent extends KualiDocument
     }
 
     /**
-     * 
      * @see org.kuali.core.rule.event.KualiDocumentEvent#getRuleInterfaceClass()
      */
     public Class getRuleInterfaceClass() {
@@ -55,7 +52,6 @@ public final class SufficientFundsCheckingPreparationEvent extends KualiDocument
     }
 
     /**
-     * 
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {

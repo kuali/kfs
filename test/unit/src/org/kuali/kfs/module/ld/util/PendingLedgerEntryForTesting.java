@@ -16,7 +16,6 @@
 package org.kuali.module.labor.util.testobject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +24,17 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class PendingLedgerEntryForTesting extends LaborLedgerPendingEntry {
-    
-    @ Override
-    public boolean equals(Object otherPendingLedgerEntry){
+
+    @Override
+    public boolean equals(Object otherPendingLedgerEntry) {
         return ObjectUtil.compareObject(this, otherPendingLedgerEntry, getPrimaryKeyList());
     }
-    
+
     public Map getPrimaryKeyMap() {
         return ObjectUtil.buildPropertyMap(this, this.getPrimaryKeyList());
     }
-    
-    public List<String> getPrimaryKeyList(){
+
+    public List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
         primaryKeyList.add(KFSPropertyConstants.DOCUMENT_NUMBER);

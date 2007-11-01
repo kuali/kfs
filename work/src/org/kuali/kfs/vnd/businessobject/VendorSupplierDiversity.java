@@ -32,56 +32,57 @@ import org.kuali.module.vendor.util.VendorRoutingComparable;
  */
 public class VendorSupplierDiversity extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
     private static Logger LOG = Logger.getLogger(VendorSupplierDiversity.class);
-    
-	private Integer vendorHeaderGeneratedIdentifier;
-	private String vendorSupplierDiversityCode;
+
+    private Integer vendorHeaderGeneratedIdentifier;
+    private String vendorSupplierDiversityCode;
     private boolean active;
-    
+
     private VendorHeader vendorHeader;
     private SupplierDiversity vendorSupplierDiversity;
 
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorSupplierDiversity() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public VendorSupplierDiversity() {
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    }
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public String getVendorSupplierDiversityCode() {
-        
-		return vendorSupplierDiversityCode;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorSupplierDiversityCode(String vendorSupplierDiversityCode) {
-		this.vendorSupplierDiversityCode = vendorSupplierDiversityCode;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+    public String getVendorSupplierDiversityCode() {
+
+        return vendorSupplierDiversityCode;
+    }
+
+    public void setVendorSupplierDiversityCode(String vendorSupplierDiversityCode) {
+        this.vendorSupplierDiversityCode = vendorSupplierDiversityCode;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
     }
- 
+
     public VendorHeader getVendorHeader() {
-        
+
         return vendorHeader;
     }
 
     /**
      * Sets the vendorHeader attribute value.
+     * 
      * @param vendorHeader The vendorHeader to set.
      * @deprecated
      */
@@ -90,12 +91,13 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
     }
 
     public SupplierDiversity getVendorSupplierDiversity() {
-        
+
         return vendorSupplierDiversity;
     }
 
     /**
      * Sets the vendorSupplierDiversity attribute value.
+     * 
      * @param vendorSupplierDiversity The vendorSupplierDiversity to set.
      * @deprecated
      */
@@ -107,48 +109,46 @@ public class VendorSupplierDiversity extends PersistableBusinessObjectBase imple
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();  
+        LinkedHashMap m = new LinkedHashMap();
 
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
         m.put("vendorSupplierDiversityCode", this.vendorSupplierDiversityCode);
-        
+
         return m;
     }
-    
+
     /**
      * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
-    public boolean isEqualForRouting( Object toCompare ) {
-        LOG.debug( "Entering isEqualForRouting." ); 
-        if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorSupplierDiversity ) ) {
-            
+    public boolean isEqualForRouting(Object toCompare) {
+        LOG.debug("Entering isEqualForRouting.");
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorSupplierDiversity)) {
+
             return false;
-        } else {
-            VendorSupplierDiversity vsd = (VendorSupplierDiversity)toCompare;
-            
-            return new EqualsBuilder()
-                .append( this.getVendorHeaderGeneratedIdentifier(), vsd.getVendorHeaderGeneratedIdentifier() )
-                .append( this.getVendorSupplierDiversityCode(), vsd.getVendorSupplierDiversityCode() )
-                .isEquals();
+        }
+        else {
+            VendorSupplierDiversity vsd = (VendorSupplierDiversity) toCompare;
+
+            return new EqualsBuilder().append(this.getVendorHeaderGeneratedIdentifier(), vsd.getVendorHeaderGeneratedIdentifier()).append(this.getVendorSupplierDiversityCode(), vsd.getVendorSupplierDiversityCode()).isEquals();
         }
     }
- 
+
     /**
-     *  This method overrides the superclass method to return the description of
-     *  the supplier diversity.
-     *  
-     *  @param  mapper  A LinkedHashMap
-     *  @return         A String rendition of this object.
+     * This method overrides the superclass method to return the description of the supplier diversity.
+     * 
+     * @param mapper A LinkedHashMap
+     * @return A String rendition of this object.
      */
     @Override
     public String toStringBuilder(LinkedHashMap mapper) {
         if (vendorSupplierDiversity != null) {
-            
+
             return vendorSupplierDiversity.getVendorSupplierDiversityDescription();
-        } else {
-            
+        }
+        else {
+
             return super.toStringBuilder(mapper);
         }
     }

@@ -15,19 +15,15 @@
  */
 package org.kuali.module.kra;
 
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.kra.util.AuditError;
 
 /**
  * Holds error key constants for KRA.
- * 
- * 
  */
 public class KraKeyConstants {
 
     // KRA confirmation messages
     public static final String QUESTION_KRA_DELETE_CONFIRMATION = "document.question.deleteContext.text";
-    
+
     // KRA specific Error Codes
     public static final String ERROR_INVALID_PERIOD_LENGTH = "error.invalidPeriodLength";
     public static final String ERROR_INVALID_ORDERING = "error.invalidOrdering";
@@ -58,7 +54,7 @@ public class KraKeyConstants {
     public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";
     public static final String ERROR_INDIRECT_COST_RATE_MALFORMED = "error.indirectCost.costRate.invalidFormat";
     public static final String ERROR_APPOINTMENT_TYPE_RELATED_TYPE_CODE = "error.appointmentType.relatedTypeCode.invalid";
-    
+
     // KRA Audit Errors
     public static final String AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED = "audit.costShare.institution.distributed";
     public static final String AUDIT_COST_SHARE_3P_DISTRIBUTED = "audit.costShare.3p.distributed";
@@ -84,10 +80,10 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_PD_REQUIRED = "audit.mainPage.pd.required";
     public static final String AUDIT_MAIN_PAGE_ONLY_ONE_PD = "audit.mainPage.only.one.pd.required";
     public static final String AUDIT_MAIN_PAGE_ORG_FA_REQUIRED = "audit.mainPage.org.fa.required";
-    public static final String AUDIT_MAIN_PAGE_ORG_CREDIT_REQUIRED = "audit.mainPage.org.credit.required";    
+    public static final String AUDIT_MAIN_PAGE_ORG_CREDIT_REQUIRED = "audit.mainPage.org.credit.required";
     public static final String AUDIT_MAIN_PAGE_TOTAL_CREDIT_PERCENT_NOT_100 = "audit.mainPage.total.credit.percent.not.100";
     public static final String AUDIT_MAIN_PAGE_TOTAL_FA_PERCENT_NOT_100 = "audit.mainPage.total.fa.percent.not.100";
-    
+
     // Submission Details
     public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED = "audit.mainPage.submission.type.required";
     public static final String AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED = "audit.mainPage.submission.type.fedid.required";
@@ -102,7 +98,7 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_TITLE_REQUIRED = "audit.mainPage.title.required";
     public static final String AUDIT_MAIN_PAGE_LAY_DESCRIPTION_REQUIRED = "audit.mainPage.lay.description.required";
     public static final String AUDIT_MAIN_PAGE_ABSTRACT_REQUIRED = "audit.mainPage.abstract.required";
-    
+
     // Amounts & Dates
     public static final String AUDIT_MAIN_PAGE_DIRECT_REQUIRED = "audit.mainPage.direct.required";
     public static final String AUDIT_MAIN_PAGE_INDIRECT_REQUIRED = "audit.mainPage.indirect.required";
@@ -121,7 +117,7 @@ public class KraKeyConstants {
     public static final String AUDIT_MAIN_PAGE_START_DATE_BEFORE_END_DATE = "audit.mainPage.start.date.before.end.date";
     public static final String AUDIT_MAIN_PAGE_TOTAL_START_DATE_BEFORE_TOTAL_END_DATE = "audit.mainPage.total.start.date.before.total.end.date";
     public static final String AUDIT_MAIN_PAGE_SUBCONTRACTOR_TOTAL_GREATER_DIRECT = "audit.mainPage.subcontractor.total.greater.direct";
-    
+
     public static final String ERROR_INVALID_AMOUNT_POSITIVE_ONLY = "error.invalid.amount.positive.only";
     public static final String ERROR_INVALID_AMOUNT_NOT_NEGATIVE = "error.invalid.amount.not.negative";
     public static final String ERROR_ORG_ALREADY_EXISTS_ON_RF = "error.org.already.exists.on.rf";
@@ -132,7 +128,7 @@ public class KraKeyConstants {
     public static final String ERROR_SUBCONTRACTOR_ALREADY_EXISTS_ON_RF = "error.subcontractor.already.exists.on.rf";
     public static final String ERROR_FRINGE_RATE_TOO_LARGE = "error.fringeRate.tooLarge";
     public static final String ERROR_PERSON_NOT_NAMED = "error.person.not.named";
-    
+
     // Routing Form Research Risks page errors
     public static final String ERROR_APPROVAL_DATE_REQUIRED = "error.approvalDate.required";
     public static final String ERROR_APPROVAL_DATE_REMOVE = "error.approvalDate.remove";
@@ -143,14 +139,14 @@ public class KraKeyConstants {
     public static final String ERROR_ANIMALS_APPROVAL_DATE_TOO_OLD = "error.animals.approvalDate.tooOld";
     public static final String ERROR_EXPIRATION_DATE_TOO_EARLY = "error.expiration.tooEarly";
 
-    //Module Link page
+    // Module Link page
     public static final String ERROR_BUDGET_ALREADY_LINKED = "error.budget.already.linked";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_BUDGET_DOCUMENT = "error.document.number.not.budget";
     public static final String ERROR_DOCUMENT_NUMBER_NOT_EXIST = "error.document.number.not.exist";
     public static final String ERROR_SELECTED_PERIODS_CONSECUTIVE = "error.selected.periods.consecutive";
     public static final String ERROR_AT_LEAST_ONE_PERIOD = "error.at.least.one.period";
-    
-    //Global Messages
+
+    // Global Messages
     public static final Object BUDGET_OVERRIDE = "document.budget.override";
-    
+
 }

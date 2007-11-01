@@ -28,8 +28,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing an update indirect cost event.
- * 
- * 
  */
 public class UpdateIndirectCostEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

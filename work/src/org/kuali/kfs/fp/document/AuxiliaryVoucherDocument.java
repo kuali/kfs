@@ -54,14 +54,14 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     private java.sql.Date reversalDate;
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#documentPerformsSufficientFundsCheck()
      */
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
         if (isRecodeType()) {
             return super.documentPerformsSufficientFundsCheck();
-        } else {
+        }
+        else {
             return false;
         }
     }
@@ -195,7 +195,7 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
         super.handleRouteStatusChange();
 
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) { // only do this stuff if the document has been
-                                                                                    // processed and approved
+            // processed and approved
             // update the reversal data accoringdingly
             updateReversalDate();
         }
@@ -249,36 +249,35 @@ public class AuxiliaryVoucherDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * KULEDOCS-1700
-     * This method iterates over each source line and flip the sign on the amount to
-     * nullify the super's effect, then flip the debit/credit code b/c an error corrected AV flips the debit/credit code.
+     * KULEDOCS-1700 This method iterates over each source line and flip the sign on the amount to nullify the super's effect, then
+     * flip the debit/credit code b/c an error corrected AV flips the debit/credit code.
      */
     private void processAuxiliaryVoucherErrorCorrections() {
         Iterator i = getSourceAccountingLines().iterator();
 
-            int index = 0;
-            while (i.hasNext()) {
-                SourceAccountingLine sLine = (SourceAccountingLine) i.next();
+        int index = 0;
+        while (i.hasNext()) {
+            SourceAccountingLine sLine = (SourceAccountingLine) i.next();
 
-                String debitCreditCode = sLine.getDebitCreditCode();
+            String debitCreditCode = sLine.getDebitCreditCode();
 
-                if (StringUtils.isNotBlank(debitCreditCode)) {
-                    // negate the amount to to nullify the effects of the super, b/c super flipped it the first time through
-                    sLine.setAmount(sLine.getAmount().negated()); // offsets the effect the super
+            if (StringUtils.isNotBlank(debitCreditCode)) {
+                // negate the amount to to nullify the effects of the super, b/c super flipped it the first time through
+                sLine.setAmount(sLine.getAmount().negated()); // offsets the effect the super
 
-                    // now just flip the debit/credit code
-                    if (GL_DEBIT_CODE.equals(debitCreditCode)) {
-                        sLine.setDebitCreditCode(GL_CREDIT_CODE);
-                    }
-                    else if (GL_CREDIT_CODE.equals(debitCreditCode)) {
-                        sLine.setDebitCreditCode(GL_DEBIT_CODE);
-                    }
-                    else {
-                        throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " + "code associated with it.  This should never have occured. Please contact your system administrator.");
-
-                    }
-                    index++;
+                // now just flip the debit/credit code
+                if (GL_DEBIT_CODE.equals(debitCreditCode)) {
+                    sLine.setDebitCreditCode(GL_CREDIT_CODE);
                 }
+                else if (GL_CREDIT_CODE.equals(debitCreditCode)) {
+                    sLine.setDebitCreditCode(GL_DEBIT_CODE);
+                }
+                else {
+                    throw new IllegalStateException("SourceAccountingLine at index " + index + " does not have a debit/credit " + "code associated with it.  This should never have occured. Please contact your system administrator.");
+
+                }
+                index++;
             }
+        }
     }
 }

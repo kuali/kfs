@@ -32,7 +32,7 @@ import org.kuali.module.chart.bo.Org;
 public class PointOfViewOrgValuesFinder extends KeyValuesBase {
 
     private List pointOfViewOrgKeyLabels;
-    
+
     /**
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
@@ -44,10 +44,10 @@ public class PointOfViewOrgValuesFinder extends KeyValuesBase {
             pointOfViewOrgKeyLabels.add(new KeyLabelPair("", ""));
             for (Iterator iter = pointOfViewOrgs.iterator(); iter.hasNext();) {
                 Org element = (Org) iter.next();
-                pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode()+"-"+element.getOrganizationCode(), element.getChartOfAccountsCode()+"-"+element.getOrganizationCode()));
+                pointOfViewOrgKeyLabels.add(new KeyLabelPair(element.getChartOfAccountsCode() + "-" + element.getOrganizationCode(), element.getChartOfAccountsCode() + "-" + element.getOrganizationCode()));
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             pointOfViewOrgKeyLabels = null;
         }
 

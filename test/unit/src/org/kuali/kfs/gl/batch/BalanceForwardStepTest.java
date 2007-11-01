@@ -43,7 +43,7 @@ import org.kuali.test.ConfigureContext;
  * IF THIS TEST FAILS, READ https://test.kuali.org/jira/browse/KULRNE-34 regarding reference numbers
  */
 @ConfigureContext
-//@RelatesTo(RelatesTo.JiraIssue.KULRNE5916)
+// @RelatesTo(RelatesTo.JiraIssue.KULRNE5916)
 public class BalanceForwardStepTest extends OriginEntryTestBase {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStepTest.class);
@@ -85,8 +85,8 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         // and verify the output.
         List fisGeneratedRaw = GeneralLedgerTestHelper.loadOutputOriginEntriesFromClasspath("org/kuali/module/gl/batch/gl_gleacbfb.data.txt", dateTimeService.getCurrentDate());
         List fisGenerated = new ArrayList();
-        for (Object o: fisGeneratedRaw) {
-            fisGenerated.add(filterOriginEntryLine((String)o));
+        for (Object o : fisGeneratedRaw) {
+            fisGenerated.add(filterOriginEntryLine((String) o));
         }
 
         // load our groups.
@@ -168,7 +168,7 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_TRANSACTION_DATE_PARM, "2004-01-01");
         TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2004");
     }
-    
+
     private String filterOriginEntryLine(String line) {
         // right now, remove the sequence number from this test
         return line.substring(0, 51) + line.substring(57);

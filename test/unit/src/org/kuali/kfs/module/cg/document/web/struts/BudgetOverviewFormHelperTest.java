@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetOverviewFormHelperTest extends KualiTestBase {

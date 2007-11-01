@@ -15,18 +15,11 @@
  */
 package org.kuali.module.gl.bo;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentType;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.Options;
@@ -41,7 +34,6 @@ import org.kuali.module.chart.bo.ProjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 
 public class OriginEntryFull extends OriginEntryLite implements Transaction, OriginEntry {
@@ -139,7 +131,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
     public OriginEntryFull() {
         this(null, null);
     }
-    
+
     public OriginEntryFull(Transaction t) {
         this();
         copyFieldsFromTransaction(t);

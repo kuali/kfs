@@ -90,7 +90,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -100,7 +99,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -110,7 +108,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the actualFinancialBalanceTypeCd attribute.
      * 
      * @return Returns the actualFinancialBalanceTypeCd
-     * 
      */
     public String getActualFinancialBalanceTypeCd() {
         return actualFinancialBalanceTypeCd;
@@ -120,7 +117,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the actualFinancialBalanceTypeCd attribute.
      * 
      * @param actualFinancialBalanceTypeCd The actualFinancialBalanceTypeCd to set.
-     * 
      */
     public void setActualFinancialBalanceTypeCd(String actualFinancialBalanceTypeCd) {
         this.actualFinancialBalanceTypeCd = actualFinancialBalanceTypeCd;
@@ -130,7 +126,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the budgetCheckingBalanceTypeCd attribute.
      * 
      * @return Returns the budgetCheckingBalanceTypeCd
-     * 
      */
     public String getBudgetCheckingBalanceTypeCd() {
         return budgetCheckingBalanceTypeCd;
@@ -140,7 +135,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the budgetCheckingBalanceTypeCd attribute.
      * 
      * @param budgetCheckingBalanceTypeCd The budgetCheckingBalanceTypeCd to set.
-     * 
      */
     public void setBudgetCheckingBalanceTypeCd(String budgetCheckingBalanceTypeCd) {
         this.budgetCheckingBalanceTypeCd = budgetCheckingBalanceTypeCd;
@@ -150,7 +144,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the budgetCheckingOptionsCode attribute.
      * 
      * @return Returns the budgetCheckingOptionsCode
-     * 
      */
     public boolean isBudgetCheckingOptionsCode() {
         return budgetCheckingOptionsCode;
@@ -160,7 +153,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the budgetCheckingOptionsCode attribute.
      * 
      * @param budgetCheckingOptionsCode The budgetCheckingOptionsCode to set.
-     * 
      */
     public void setBudgetCheckingOptionsCode(boolean budgetCheckingOptionsCode) {
         this.budgetCheckingOptionsCode = budgetCheckingOptionsCode;
@@ -170,7 +162,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYearStartYr attribute.
      * 
      * @return Returns the universityFiscalYearStartYr
-     * 
      */
     public Integer getUniversityFiscalYearStartYr() {
         return universityFiscalYearStartYr;
@@ -180,7 +171,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYearStartYr attribute.
      * 
      * @param universityFiscalYearStartYr The universityFiscalYearStartYr to set.
-     * 
      */
     public void setUniversityFiscalYearStartYr(Integer universityFiscalYearStartYr) {
         this.universityFiscalYearStartYr = universityFiscalYearStartYr;
@@ -190,7 +180,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYearStartMo attribute.
      * 
      * @return Returns the universityFiscalYearStartMo
-     * 
      */
     public String getUniversityFiscalYearStartMo() {
         return universityFiscalYearStartMo;
@@ -200,7 +189,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYearStartMo attribute.
      * 
      * @param universityFiscalYearStartMo The universityFiscalYearStartMo to set.
-     * 
      */
     public void setUniversityFiscalYearStartMo(String universityFiscalYearStartMo) {
         this.universityFiscalYearStartMo = universityFiscalYearStartMo;
@@ -210,7 +198,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjectTypeIncomecashCode attribute.
      * 
      * @return Returns the finObjectTypeIncomecashCode
-     * 
      */
     public String getFinObjectTypeIncomecashCode() {
         return finObjectTypeIncomecashCode;
@@ -220,7 +207,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjectTypeIncomecashCode attribute.
      * 
      * @param finObjectTypeIncomecashCode The finObjectTypeIncomecashCode to set.
-     * 
      */
     public void setFinObjectTypeIncomecashCode(String finObjectTypeIncomecashCode) {
         this.finObjectTypeIncomecashCode = finObjectTypeIncomecashCode;
@@ -230,7 +216,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjTypeExpenditureexpCd attribute.
      * 
      * @return Returns the finObjTypeExpenditureexpCd
-     * 
      */
     public String getFinObjTypeExpenditureexpCd() {
         return finObjTypeExpenditureexpCd;
@@ -240,7 +225,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjTypeExpenditureexpCd attribute.
      * 
      * @param finObjTypeExpenditureexpCd The finObjTypeExpenditureexpCd to set.
-     * 
      */
     public void setFinObjTypeExpenditureexpCd(String finObjTypeExpenditureexpCd) {
         this.finObjTypeExpenditureexpCd = finObjTypeExpenditureexpCd;
@@ -250,7 +234,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjTypeExpendNotExpCode attribute.
      * 
      * @return Returns the finObjTypeExpendNotExpCode
-     * 
      */
     public String getFinObjTypeExpendNotExpCode() {
         return finObjTypeExpendNotExpCode;
@@ -260,7 +243,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjTypeExpendNotExpCode attribute.
      * 
      * @param finObjTypeExpendNotExpCode The finObjTypeExpendNotExpCode to set.
-     * 
      */
     public void setFinObjTypeExpendNotExpCode(String finObjTypeExpendNotExpCode) {
         this.finObjTypeExpendNotExpCode = finObjTypeExpendNotExpCode;
@@ -270,7 +252,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjTypeExpNotExpendCode attribute.
      * 
      * @return Returns the finObjTypeExpNotExpendCode
-     * 
      */
     public String getFinObjTypeExpNotExpendCode() {
         return finObjTypeExpNotExpendCode;
@@ -280,7 +261,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjTypeExpNotExpendCode attribute.
      * 
      * @param finObjTypeExpNotExpendCode The finObjTypeExpNotExpendCode to set.
-     * 
      */
     public void setFinObjTypeExpNotExpendCode(String finObjTypeExpNotExpendCode) {
         this.finObjTypeExpNotExpendCode = finObjTypeExpNotExpendCode;
@@ -290,7 +270,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the financialObjectTypeAssetsCd attribute.
      * 
      * @return Returns the financialObjectTypeAssetsCd
-     * 
      */
     public String getFinancialObjectTypeAssetsCd() {
         return financialObjectTypeAssetsCd;
@@ -300,7 +279,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the financialObjectTypeAssetsCd attribute.
      * 
      * @param financialObjectTypeAssetsCd The financialObjectTypeAssetsCd to set.
-     * 
      */
     public void setFinancialObjectTypeAssetsCd(String financialObjectTypeAssetsCd) {
         this.financialObjectTypeAssetsCd = financialObjectTypeAssetsCd;
@@ -310,7 +288,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjectTypeLiabilitiesCode attribute.
      * 
      * @return Returns the finObjectTypeLiabilitiesCode
-     * 
      */
     public String getFinObjectTypeLiabilitiesCode() {
         return finObjectTypeLiabilitiesCode;
@@ -320,7 +297,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjectTypeLiabilitiesCode attribute.
      * 
      * @param finObjectTypeLiabilitiesCode The finObjectTypeLiabilitiesCode to set.
-     * 
      */
     public void setFinObjectTypeLiabilitiesCode(String finObjectTypeLiabilitiesCode) {
         this.finObjectTypeLiabilitiesCode = finObjectTypeLiabilitiesCode;
@@ -330,7 +306,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjectTypeFundBalanceCd attribute.
      * 
      * @return Returns the finObjectTypeFundBalanceCd
-     * 
      */
     public String getFinObjectTypeFundBalanceCd() {
         return finObjectTypeFundBalanceCd;
@@ -340,7 +315,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjectTypeFundBalanceCd attribute.
      * 
      * @param finObjectTypeFundBalanceCd The finObjectTypeFundBalanceCd to set.
-     * 
      */
     public void setFinObjectTypeFundBalanceCd(String finObjectTypeFundBalanceCd) {
         this.finObjectTypeFundBalanceCd = finObjectTypeFundBalanceCd;
@@ -350,7 +324,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the extrnlEncumFinBalanceTypCd attribute.
      * 
      * @return Returns the extrnlEncumFinBalanceTypCd
-     * 
      */
     public String getExtrnlEncumFinBalanceTypCd() {
         return extrnlEncumFinBalanceTypCd;
@@ -360,7 +333,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the extrnlEncumFinBalanceTypCd attribute.
      * 
      * @param extrnlEncumFinBalanceTypCd The extrnlEncumFinBalanceTypCd to set.
-     * 
      */
     public void setExtrnlEncumFinBalanceTypCd(String extrnlEncumFinBalanceTypCd) {
         this.extrnlEncumFinBalanceTypCd = extrnlEncumFinBalanceTypCd;
@@ -370,7 +342,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the intrnlEncumFinBalanceTypCd attribute.
      * 
      * @return Returns the intrnlEncumFinBalanceTypCd
-     * 
      */
     public String getIntrnlEncumFinBalanceTypCd() {
         return intrnlEncumFinBalanceTypCd;
@@ -380,7 +351,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the intrnlEncumFinBalanceTypCd attribute.
      * 
      * @param intrnlEncumFinBalanceTypCd The intrnlEncumFinBalanceTypCd to set.
-     * 
      */
     public void setIntrnlEncumFinBalanceTypCd(String intrnlEncumFinBalanceTypCd) {
         this.intrnlEncumFinBalanceTypCd = intrnlEncumFinBalanceTypCd;
@@ -390,7 +360,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the preencumbranceFinBalTypeCd attribute.
      * 
      * @return Returns the preencumbranceFinBalTypeCd
-     * 
      */
     public String getPreencumbranceFinBalTypeCd() {
         return preencumbranceFinBalTypeCd;
@@ -400,7 +369,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the preencumbranceFinBalTypeCd attribute.
      * 
      * @param preencumbranceFinBalTypeCd The preencumbranceFinBalTypeCd to set.
-     * 
      */
     public void setPreencumbranceFinBalTypeCd(String preencumbranceFinBalTypeCd) {
         this.preencumbranceFinBalTypeCd = preencumbranceFinBalTypeCd;
@@ -410,7 +378,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the eliminationsFinBalanceTypeCd attribute.
      * 
      * @return Returns the eliminationsFinBalanceTypeCd
-     * 
      */
     public String getEliminationsFinBalanceTypeCd() {
         return eliminationsFinBalanceTypeCd;
@@ -420,7 +387,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the eliminationsFinBalanceTypeCd attribute.
      * 
      * @param eliminationsFinBalanceTypeCd The eliminationsFinBalanceTypeCd to set.
-     * 
      */
     public void setEliminationsFinBalanceTypeCd(String eliminationsFinBalanceTypeCd) {
         this.eliminationsFinBalanceTypeCd = eliminationsFinBalanceTypeCd;
@@ -430,7 +396,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjTypeIncomeNotCashCd attribute.
      * 
      * @return Returns the finObjTypeIncomeNotCashCd
-     * 
      */
     public String getFinObjTypeIncomeNotCashCd() {
         return finObjTypeIncomeNotCashCd;
@@ -440,7 +405,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjTypeIncomeNotCashCd attribute.
      * 
      * @param finObjTypeIncomeNotCashCd The finObjTypeIncomeNotCashCd to set.
-     * 
      */
     public void setFinObjTypeIncomeNotCashCd(String finObjTypeIncomeNotCashCd) {
         this.finObjTypeIncomeNotCashCd = finObjTypeIncomeNotCashCd;
@@ -450,7 +414,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the finObjTypeCshNotIncomeCd attribute.
      * 
      * @return Returns the finObjTypeCshNotIncomeCd
-     * 
      */
     public String getFinObjTypeCshNotIncomeCd() {
         return finObjTypeCshNotIncomeCd;
@@ -460,7 +423,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the finObjTypeCshNotIncomeCd attribute.
      * 
      * @param finObjTypeCshNotIncomeCd The finObjTypeCshNotIncomeCd to set.
-     * 
      */
     public void setFinObjTypeCshNotIncomeCd(String finObjTypeCshNotIncomeCd) {
         this.finObjTypeCshNotIncomeCd = finObjTypeCshNotIncomeCd;
@@ -470,7 +432,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYearName attribute.
      * 
      * @return Returns the universityFiscalYearName
-     * 
      */
     public String getUniversityFiscalYearName() {
         return universityFiscalYearName;
@@ -480,7 +441,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYearName attribute.
      * 
      * @param universityFiscalYearName The universityFiscalYearName to set.
-     * 
      */
     public void setUniversityFiscalYearName(String universityFiscalYearName) {
         this.universityFiscalYearName = universityFiscalYearName;
@@ -490,7 +450,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the financialBeginBalanceLoadInd attribute.
      * 
      * @return Returns the financialBeginBalanceLoadInd
-     * 
      */
     public boolean isFinancialBeginBalanceLoadInd() {
         return financialBeginBalanceLoadInd;
@@ -500,7 +459,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Sets the financialBeginBalanceLoadInd attribute.
      * 
      * @param financialBeginBalanceLoadInd The financialBeginBalanceLoadInd to set.
-     * 
      */
     public void setFinancialBeginBalanceLoadInd(boolean financialBeginBalanceLoadInd) {
         this.financialBeginBalanceLoadInd = financialBeginBalanceLoadInd;
@@ -510,7 +468,6 @@ public class Options extends PersistableBusinessObjectBase {
      * Gets the universityFinChartOfAcct attribute.
      * 
      * @return Returns the universityFinChartOfAcct
-     * 
      */
     public Chart getUniversityFinChartOfAcct() {
         return universityFinChartOfAcct;

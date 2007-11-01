@@ -32,7 +32,7 @@ public interface NegativePaymentRequestApprovalLimitDao {
      * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode);
-    
+
     /**
      * Find limits by chart and account.
      * 
@@ -41,7 +41,7 @@ public interface NegativePaymentRequestApprovalLimitDao {
      * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber);
-    
+
     /**
      * Find limits by chart and organization.
      * 
@@ -50,22 +50,22 @@ public interface NegativePaymentRequestApprovalLimitDao {
      * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
-    
+
     // These two methods are in here for testing.
-    
+
     /**
-     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
-     * greater than the limit passed in.
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is greater
+     * than the limit passed in.
      * 
      * @param limit - lower limit
      * @return - collection of negative payment request approval limits
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
-    
+
     /**
-     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is
-     * less than the limit passed in.
-     *
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is less than
+     * the limit passed in.
+     * 
      * @param limit - upper limit
      * @return - collection of negative payment request approval limits
      */

@@ -33,14 +33,15 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     private Long proposalNumber;
     private boolean proposalPrimaryOrganizationIndicator;
     private boolean active = true;
-    
+
     private Org organization;
     private Chart chartOfAccounts;
 
     /**
      * Default constructor.
      */
-    public ProposalOrganization() {}
+    public ProposalOrganization() {
+    }
 
     /**
      * Gets the chartOfAccountsCode attribute.
@@ -120,8 +121,8 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     }
 
     /**
-     * Gets the active attribute. 
-	 *
+     * Gets the active attribute.
+     * 
      * @return Returns the active attribute.
      */
     public boolean isActive() {
@@ -130,7 +131,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * Sets the active attribute value.
-	 * 
+     * 
      * @param active true if the instance is active, false otherwise
      */
     public void setActive(boolean active) {
@@ -190,6 +191,7 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
 
     /**
      * This can be displayed by Proposal.xml lookup results.
+     * 
      * @see Object#toString()
      */
     @Override
@@ -199,4 +201,3 @@ public class ProposalOrganization extends PersistableBusinessObjectBase implemen
     }
 
 }
-

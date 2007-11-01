@@ -75,12 +75,12 @@ public class PaymentGroupHistoryDaoOjb extends PlatformAwareDaoBaseOjb implement
         Criteria o2 = new Criteria();
         o2.addEqualTo("disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
         Criteria o2a = new Criteria();
-        o2a.addEqualTo("paymentGroup.disbursementTypeCode",PdpConstants.DisbursementTypeCodes.CHECK);
+        o2a.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.CHECK);
         o2.addOrCriteria(o2a);
 
         crit.addAndCriteria(o1);
         crit.addAndCriteria(o2);
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroupHistory.class,crit));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroupHistory.class, crit));
     }
 }

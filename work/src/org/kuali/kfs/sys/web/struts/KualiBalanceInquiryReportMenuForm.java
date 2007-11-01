@@ -20,8 +20,6 @@ import org.kuali.core.web.struts.form.KualiForm;
 
 /**
  * This class is the action form for balance inquiries.
- * 
- * 
  */
 public class KualiBalanceInquiryReportMenuForm extends KualiForm {
     private static final long serialVersionUID = 1L;

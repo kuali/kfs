@@ -26,7 +26,6 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.Account;
 
 /**
- * 
  * This class provides some basic saving and routing rules for Chart documents
  */
 public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
@@ -75,7 +74,6 @@ public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     }
 
     /**
-     * 
      * This method should be overridden to provide custom rules for processing document routing
      * 
      * @param document

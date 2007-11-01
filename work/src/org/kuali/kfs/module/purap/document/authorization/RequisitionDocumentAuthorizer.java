@@ -20,7 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
@@ -30,12 +29,9 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.RequisitionItem;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
-import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 
 /**
  * Document Authorizer for the Requisition document.
@@ -43,29 +39,31 @@ import org.kuali.workflow.KualiWorkflowUtils.RouteLevelNames;
 public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        //anyone with access to the system can complete a REQ document
+        // anyone with access to the system can complete a REQ document
         return true;
     }
 
     /**
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = super.getEditMode(document, user);
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        RequisitionDocument reqDocument = (RequisitionDocument)document;
-        
+        RequisitionDocument reqDocument = (RequisitionDocument) document;
+
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved() || workflowDocument.stateIsEnroute()) {
             if (ObjectUtils.isNotNull(reqDocument.getVendorHeaderGeneratedIdentifier())) {
                 editModeMap.put(PurapAuthorizationConstants.RequisitionEditMode.LOCK_VENDOR_ENTRY, "TRUE");
             }
         }
-        
+
         if (workflowDocument.stateIsEnroute()) {
             List<String> currentRouteLevels = getCurrentRouteLevels(workflowDocument);
             String editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
@@ -99,7 +97,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
                     editMode = AuthorizationConstants.TransactionalEditMode.EXPENSE_ENTRY;
                 }
             }
-            
+
             /**
              * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or disapprove.
              */
@@ -109,12 +107,11 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             }
 
             /**
-             * SUB-ACCOUNT ROUTE LEVEL - Approvers cannot edit any detail on REQ.
-             * BASE ORG REVIEW ROUTE LEVEL - Approvers cannot edit any detail on REQ.
-             * SEPARATION OF DUTIES ROUTE LEVEL - Approvers cannot edit any detail on REQ.
+             * SUB-ACCOUNT ROUTE LEVEL - Approvers cannot edit any detail on REQ. BASE ORG REVIEW ROUTE LEVEL - Approvers cannot
+             * edit any detail on REQ. SEPARATION OF DUTIES ROUTE LEVEL - Approvers cannot edit any detail on REQ.
              */
             else {
-                //VIEW_ENTRY that is already being set is sufficient. 
+                // VIEW_ENTRY that is already being set is sufficient.
             }
 
             editModeMap.put(editMode, "TRUE");
@@ -122,9 +119,10 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
 
         return editModeMap;
     }
-    
+
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -137,7 +135,7 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             this.setAnnotateFlag(flags);
         }
-        
+
         return flags;
     }
 

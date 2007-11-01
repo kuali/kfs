@@ -26,50 +26,50 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ElectronicInvoiceItem extends PersistableBusinessObjectBase {
 
-	private Integer invoiceItemIdentifier;
-	private Integer invoiceHeaderInformationIdentifier;
-	private Integer invoiceItemLineNumber;
-	private BigDecimal invoiceItemQuantity;
-	private String invoiceItemUnitOfMeasureCode;
-	private BigDecimal invoiceItemUnitPrice;
-	private String invoiceItemUnitPriceCurrencyCode;
-	private BigDecimal invoiceItemSubTotalAmount;
-	private String invoiceItemSubTotalCurrencyCode;
-	private BigDecimal invoiceItemSpecialHandlingAmount;
-	private String invoiceItemSpecialHandlingCurrencyCode;
-	private BigDecimal invoiceItemShippingAmount;
-	private String invoiceItemShippingCurrencyCode;
-	private String invoiceItemShippingDescription;
-	private BigDecimal invoiceItemTaxAmount;
-	private String invoiceItemTaxCurrencyCode;
-	private String invoiceItemTaxDescription;
-	private BigDecimal invoiceItemGrossAmount;
-	private String invoiceItemGrossCurrencyCode;
-	private BigDecimal invoiceItemDiscountAmount;
-	private String invoiceItemDiscountCurrencyCode;
-	private BigDecimal invoiceItemNetAmount;
-	private String invoiceItemNetCurrencyCode;
-	private Integer invoiceReferenceItemLineNumber;
-	private String invoiceReferenceItemSerialNumber;
-	private String invoiceReferenceItemSupplierPartIdentifier;
-	private String invoiceReferenceItemSupplierPartAuxiliaryIdentifier;
-	private String invoiceReferenceItemDescription;
-	private String invoiceReferenceItemManufacturerPartIdentifier;
-	private String invoiceReferenceItemManufacturerName;
-	private String invoiceReferenceItemCountryCode;
-	private String invoiceReferenceItemCountryName;
-	private String invoiceCatalogNumber;
+    private Integer invoiceItemIdentifier;
+    private Integer invoiceHeaderInformationIdentifier;
+    private Integer invoiceItemLineNumber;
+    private BigDecimal invoiceItemQuantity;
+    private String invoiceItemUnitOfMeasureCode;
+    private BigDecimal invoiceItemUnitPrice;
+    private String invoiceItemUnitPriceCurrencyCode;
+    private BigDecimal invoiceItemSubTotalAmount;
+    private String invoiceItemSubTotalCurrencyCode;
+    private BigDecimal invoiceItemSpecialHandlingAmount;
+    private String invoiceItemSpecialHandlingCurrencyCode;
+    private BigDecimal invoiceItemShippingAmount;
+    private String invoiceItemShippingCurrencyCode;
+    private String invoiceItemShippingDescription;
+    private BigDecimal invoiceItemTaxAmount;
+    private String invoiceItemTaxCurrencyCode;
+    private String invoiceItemTaxDescription;
+    private BigDecimal invoiceItemGrossAmount;
+    private String invoiceItemGrossCurrencyCode;
+    private BigDecimal invoiceItemDiscountAmount;
+    private String invoiceItemDiscountCurrencyCode;
+    private BigDecimal invoiceItemNetAmount;
+    private String invoiceItemNetCurrencyCode;
+    private Integer invoiceReferenceItemLineNumber;
+    private String invoiceReferenceItemSerialNumber;
+    private String invoiceReferenceItemSupplierPartIdentifier;
+    private String invoiceReferenceItemSupplierPartAuxiliaryIdentifier;
+    private String invoiceReferenceItemDescription;
+    private String invoiceReferenceItemManufacturerPartIdentifier;
+    private String invoiceReferenceItemManufacturerName;
+    private String invoiceReferenceItemCountryCode;
+    private String invoiceReferenceItemCountryName;
+    private String invoiceCatalogNumber;
 
     private ElectronicInvoiceHeaderInformation invoiceHeaderInformation;
 
-	/**
-	 * Default constructor.
-	 */
-	public ElectronicInvoiceItem() {
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceItem() {
 
-	}
+    }
 
-	public String getInvoiceCatalogNumber() {
+    public String getInvoiceCatalogNumber() {
         return invoiceCatalogNumber;
     }
 
@@ -345,13 +345,13 @@ public class ElectronicInvoiceItem extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.invoiceItemIdentifier != null) {
             m.put("invoiceItemIdentifier", this.invoiceItemIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 }

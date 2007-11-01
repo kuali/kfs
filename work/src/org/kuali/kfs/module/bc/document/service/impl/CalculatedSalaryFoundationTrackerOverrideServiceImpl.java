@@ -20,29 +20,31 @@ import org.kuali.module.budget.service.CalculatedSalaryFoundationTrackerOverride
 /**
  * This class...
  */
-public class CalculatedSalaryFoundationTrackerOverrideServiceImpl implements CalculatedSalaryFoundationTrackerOverrideService{
-    
-    public boolean isValidAppointment(Integer universityFiscalYear, String positionNumber, String emplid){
-        
-        if (emplid == null){
+public class CalculatedSalaryFoundationTrackerOverrideServiceImpl implements CalculatedSalaryFoundationTrackerOverrideService {
+
+    public boolean isValidAppointment(Integer universityFiscalYear, String positionNumber, String emplid) {
+
+        if (emplid == null) {
             return false;
         }
-        if (emplid.equals("VACANT")){
+        if (emplid.equals("VACANT")) {
             return true;
-        } else {
+        }
+        else {
             /* institution specific check for valid appointment */
             return true;
         }
-        
+
     }
-    
-    public boolean isValidPosition(Integer universityFiscalYear, String positionNumber){
+
+    public boolean isValidPosition(Integer universityFiscalYear, String positionNumber) {
         if (positionNumber == null || universityFiscalYear == null) {
             return false;
-        } else {
+        }
+        else {
             /* institution specific check for valid position */
             return true;
         }
-        
+
     }
 }

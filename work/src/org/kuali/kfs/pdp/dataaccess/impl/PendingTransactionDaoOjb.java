@@ -15,7 +15,6 @@ import org.kuali.module.pdp.dao.GlPendingTransactionDao;
 
 /**
  * @author jsissom
- *
  */
 public class GlPendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements GlPendingTransactionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GlPendingTransactionDaoOjb.class);
@@ -32,7 +31,7 @@ public class GlPendingTransactionDaoOjb extends PlatformAwareDaoBaseOjb implemen
 
         Criteria criteria = new Criteria();
         criteria.addIsNull("processInd");
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(GlPendingTransaction.class,criteria));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(GlPendingTransaction.class, criteria));
     }
 
     /**

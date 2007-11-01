@@ -50,31 +50,29 @@ public class AwardRuleUtil {
         return awarded;
     }
 
-    
+
     /**
-     * Per KULCG-315 - Proposals should not be designated as inactive.  This 
-     * functionality is not yet implemented and this rule should not be applied 
-     * at this time.  I'm leaving this code here in case the functionality gets
-     * added down the road.
+     * Per KULCG-315 - Proposals should not be designated as inactive. This functionality is not yet implemented and this rule
+     * should not be applied at this time. I'm leaving this code here in case the functionality gets added down the road.
      */
-//    /**
-//     * determines if a proposal is inactive
-//     * 
-//     * @param award the award to check the proposal for
-//     * @return true if the award's proposal has already been set to inactive
-//     */
-//    public static boolean isProposalInactive(Award award) {
-//        if (ObjectUtils.isNull(award)) {
-//            return false;
-//        }
-//
-//        Long proposalNumber = award.getProposalNumber();
-//        Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
-//        awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
-//        Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Award.class, awardPrimaryKeys);
-//
-//        boolean inactive = ObjectUtils.isNotNull(result) && !result.isActive();
-//
-//        return inactive;
-//    }
+    // /**
+    // * determines if a proposal is inactive
+    // *
+    // * @param award the award to check the proposal for
+    // * @return true if the award's proposal has already been set to inactive
+    // */
+    // public static boolean isProposalInactive(Award award) {
+    // if (ObjectUtils.isNull(award)) {
+    // return false;
+    // }
+    //
+    // Long proposalNumber = award.getProposalNumber();
+    // Map<String, Object> awardPrimaryKeys = new HashMap<String, Object>();
+    // awardPrimaryKeys.put(KFSPropertyConstants.PROPOSAL_NUMBER, proposalNumber);
+    // Award result = (Award) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Award.class, awardPrimaryKeys);
+    //
+    // boolean inactive = ObjectUtils.isNotNull(result) && !result.isActive();
+    //
+    // return inactive;
+    // }
 }

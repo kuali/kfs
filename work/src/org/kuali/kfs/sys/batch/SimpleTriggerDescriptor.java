@@ -25,8 +25,8 @@ public class SimpleTriggerDescriptor extends TriggerDescriptor {
     private Date startTime;
     private long startDelay;
     private int repeatCount;
-    
-    public SimpleTriggerDescriptor() {        
+
+    public SimpleTriggerDescriptor() {
     }
 
     public SimpleTriggerDescriptor(String name, String group, String jobName, DateTimeService dateTimeService) {
@@ -43,13 +43,14 @@ public class SimpleTriggerDescriptor extends TriggerDescriptor {
         if (startTime == null) {
             startTime = trigger.getStartTime();
         }
-    	// prevent setting of the trigger information in test mode
-    	if ( !isTestMode() ) {
-	        trigger.setStartTime(new Date(startTime.getTime() + startDelay));
-	        ((SimpleTrigger) trigger).setRepeatCount(repeatCount);
-    	} else {
-    		trigger.setStartTime( new Date( new Date().getTime() + 525600000L ) );
-    	}
+        // prevent setting of the trigger information in test mode
+        if (!isTestMode()) {
+            trigger.setStartTime(new Date(startTime.getTime() + startDelay));
+            ((SimpleTrigger) trigger).setRepeatCount(repeatCount);
+        }
+        else {
+            trigger.setStartTime(new Date(new Date().getTime() + 525600000L));
+        }
     }
 
     /**
@@ -72,6 +73,7 @@ public class SimpleTriggerDescriptor extends TriggerDescriptor {
 
     /**
      * Sets the startDelay attribute value.
+     * 
      * @param startDelay The startDelay to set.
      */
     public void setStartDelay(long startDelay) {

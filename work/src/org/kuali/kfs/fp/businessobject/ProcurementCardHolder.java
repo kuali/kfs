@@ -64,7 +64,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -74,7 +73,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -85,7 +83,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the transactionCreditCardNumber attribute.
      * 
      * @return Returns the transactionCreditCardNumber
-     * 
      */
     public String getTransactionCreditCardNumber() {
         return transactionCreditCardNumber;
@@ -95,7 +92,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the transactionCreditCardNumber attribute.
      * 
      * @param transactionCreditCardNumber The transactionCreditCardNumber to set.
-     * 
      */
     public void setTransactionCreditCardNumber(String transactionCreditCardNumber) {
         this.transactionCreditCardNumber = transactionCreditCardNumber;
@@ -106,7 +102,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderName attribute.
      * 
      * @return Returns the cardHolderName
-     * 
      */
     public String getCardHolderName() {
         return cardHolderName;
@@ -116,7 +111,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderName attribute.
      * 
      * @param cardHolderName The cardHolderName to set.
-     * 
      */
     public void setCardHolderName(String cardHolderName) {
         this.cardHolderName = cardHolderName;
@@ -127,7 +121,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderAlternateName attribute.
      * 
      * @return Returns the cardHolderAlternateName
-     * 
      */
     public String getCardHolderAlternateName() {
         return cardHolderAlternateName;
@@ -137,7 +130,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderAlternateName attribute.
      * 
      * @param cardHolderAlternateName The cardHolderAlternateName to set.
-     * 
      */
     public void setCardHolderAlternateName(String cardHolderAlternateName) {
         this.cardHolderAlternateName = cardHolderAlternateName;
@@ -148,7 +140,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderLine1Address attribute.
      * 
      * @return Returns the cardHolderLine1Address
-     * 
      */
     public String getCardHolderLine1Address() {
         return cardHolderLine1Address;
@@ -158,7 +149,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderLine1Address attribute.
      * 
      * @param cardHolderLine1Address The cardHolderLine1Address to set.
-     * 
      */
     public void setCardHolderLine1Address(String cardHolderLine1Address) {
         this.cardHolderLine1Address = cardHolderLine1Address;
@@ -169,7 +159,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderLine2Address attribute.
      * 
      * @return Returns the cardHolderLine2Address
-     * 
      */
     public String getCardHolderLine2Address() {
         return cardHolderLine2Address;
@@ -179,7 +168,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderLine2Address attribute.
      * 
      * @param cardHolderLine2Address The cardHolderLine2Address to set.
-     * 
      */
     public void setCardHolderLine2Address(String cardHolderLine2Address) {
         this.cardHolderLine2Address = cardHolderLine2Address;
@@ -190,7 +178,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderCityName attribute.
      * 
      * @return Returns the cardHolderCityName
-     * 
      */
     public String getCardHolderCityName() {
         return cardHolderCityName;
@@ -200,7 +187,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderCityName attribute.
      * 
      * @param cardHolderCityName The cardHolderCityName to set.
-     * 
      */
     public void setCardHolderCityName(String cardHolderCityName) {
         this.cardHolderCityName = cardHolderCityName;
@@ -211,7 +197,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderStateCode attribute.
      * 
      * @return Returns the cardHolderStateCode
-     * 
      */
     public String getCardHolderStateCode() {
         return cardHolderStateCode;
@@ -221,7 +206,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderStateCode attribute.
      * 
      * @param cardHolderStateCode The cardHolderStateCode to set.
-     * 
      */
     public void setCardHolderStateCode(String cardHolderStateCode) {
         this.cardHolderStateCode = cardHolderStateCode;
@@ -232,7 +216,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderZipCode attribute.
      * 
      * @return Returns the cardHolderZipCode
-     * 
      */
     public String getCardHolderZipCode() {
         return cardHolderZipCode;
@@ -242,7 +225,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderZipCode attribute.
      * 
      * @param cardHolderZipCode The cardHolderZipCode to set.
-     * 
      */
     public void setCardHolderZipCode(String cardHolderZipCode) {
         this.cardHolderZipCode = cardHolderZipCode;
@@ -253,7 +235,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardHolderWorkPhoneNumber attribute.
      * 
      * @return Returns the cardHolderWorkPhoneNumber
-     * 
      */
     public String getCardHolderWorkPhoneNumber() {
         return cardHolderWorkPhoneNumber;
@@ -263,7 +244,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardHolderWorkPhoneNumber attribute.
      * 
      * @param cardHolderWorkPhoneNumber The cardHolderWorkPhoneNumber to set.
-     * 
      */
     public void setCardHolderWorkPhoneNumber(String cardHolderWorkPhoneNumber) {
         this.cardHolderWorkPhoneNumber = cardHolderWorkPhoneNumber;
@@ -274,7 +254,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardLimit attribute.
      * 
      * @return Returns the cardLimit
-     * 
      */
     public KualiDecimal getCardLimit() {
         return cardLimit;
@@ -284,7 +263,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardLimit attribute.
      * 
      * @param cardLimit The cardLimit to set.
-     * 
      */
     public void setCardLimit(KualiDecimal cardLimit) {
         this.cardLimit = cardLimit;
@@ -295,7 +273,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardCycleAmountLimit attribute.
      * 
      * @return Returns the cardCycleAmountLimit
-     * 
      */
     public KualiDecimal getCardCycleAmountLimit() {
         return cardCycleAmountLimit;
@@ -305,7 +282,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardCycleAmountLimit attribute.
      * 
      * @param cardCycleAmountLimit The cardCycleAmountLimit to set.
-     * 
      */
     public void setCardCycleAmountLimit(KualiDecimal cardCycleAmountLimit) {
         this.cardCycleAmountLimit = cardCycleAmountLimit;
@@ -316,7 +292,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardCycleVolumeLimit attribute.
      * 
      * @return Returns the cardCycleVolumeLimit
-     * 
      */
     public KualiDecimal getCardCycleVolumeLimit() {
         return cardCycleVolumeLimit;
@@ -326,7 +301,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardCycleVolumeLimit attribute.
      * 
      * @param cardCycleVolumeLimit The cardCycleVolumeLimit to set.
-     * 
      */
     public void setCardCycleVolumeLimit(KualiDecimal cardCycleVolumeLimit) {
         this.cardCycleVolumeLimit = cardCycleVolumeLimit;
@@ -337,7 +311,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardStatusCode attribute.
      * 
      * @return Returns the cardStatusCode
-     * 
      */
     public String getCardStatusCode() {
         return cardStatusCode;
@@ -347,7 +320,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardStatusCode attribute.
      * 
      * @param cardStatusCode The cardStatusCode to set.
-     * 
      */
     public void setCardStatusCode(String cardStatusCode) {
         this.cardStatusCode = cardStatusCode;
@@ -358,7 +330,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the cardNoteText attribute.
      * 
      * @return Returns the cardNoteText
-     * 
      */
     public String getCardNoteText() {
         return cardNoteText;
@@ -368,7 +339,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the cardNoteText attribute.
      * 
      * @param cardNoteText The cardNoteText to set.
-     * 
      */
     public void setCardNoteText(String cardNoteText) {
         this.cardNoteText = cardNoteText;
@@ -379,7 +349,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -389,7 +358,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -400,7 +368,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -410,7 +377,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -421,7 +387,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the subAccountNumber attribute.
      * 
      * @return Returns the subAccountNumber
-     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -431,7 +396,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Sets the subAccountNumber attribute.
      * 
      * @param subAccountNumber The subAccountNumber to set.
-     * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -442,7 +406,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -462,7 +425,6 @@ public class ProcurementCardHolder extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;

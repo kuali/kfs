@@ -40,7 +40,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Gets the subFundGroupTypeCode attribute.
      * 
      * @return Returns the subFundGroupTypeCode
-     * 
      */
     public String getSubFundGroupTypeCode() {
         return subFundGroupTypeCode;
@@ -50,7 +49,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Sets the subFundGroupTypeCode attribute.
      * 
      * @param subFundGroupTypeCode The subFundGroupTypeCode to set.
-     * 
      */
     public void setSubFundGroupTypeCode(String subFundGroupTypeCode) {
         this.subFundGroupTypeCode = subFundGroupTypeCode;
@@ -61,7 +59,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Gets the subFundGroupTypeDescription attribute.
      * 
      * @return Returns the subFundGroupTypeDescription
-     * 
      */
     public String getSubFundGroupTypeDescription() {
         return subFundGroupTypeDescription;
@@ -71,7 +68,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Sets the subFundGroupTypeDescription attribute.
      * 
      * @param subFundGroupTypeDescription The subFundGroupTypeDescription to set.
-     * 
      */
     public void setSubFundGroupTypeDescription(String subFundGroupTypeDescription) {
         this.subFundGroupTypeDescription = subFundGroupTypeDescription;
@@ -82,7 +78,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Gets the subFundGroupTypeActiveIndicator attribute.
      * 
      * @return Returns the subFundGroupTypeActiveIndicator
-     * 
      */
     public boolean getSubFundGroupTypeActiveIndicator() {
         return subFundGroupTypeActiveIndicator;
@@ -92,7 +87,6 @@ public class SubFundGroupType extends PersistableBusinessObjectBase {
      * Sets the subFundGroupTypeActiveIndicator attribute.
      * 
      * @param subFundGroupTypeActiveIndicator The subFundGroupTypeActiveIndicator to set.
-     * 
      */
     public void setSubFundGroupTypeActiveIndicator(boolean subFundGroupTypeActiveIndicator) {
         this.subFundGroupTypeActiveIndicator = subFundGroupTypeActiveIndicator;

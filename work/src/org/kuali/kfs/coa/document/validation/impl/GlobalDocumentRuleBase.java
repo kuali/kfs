@@ -15,13 +15,13 @@
  */
 package org.kuali.module.chart.rules;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
-
-import java.util.List;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.
@@ -36,13 +36,11 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
      * Accounts. It will set the appropriate field error if it did fail, and return the result.
      * 
      * @param accountGlobalDetails
      * @return True if the test passed with no errors, False if any errors occurred.
-     * 
      */
     protected boolean checkOnlyOneChartErrorWrapper(List<AccountGlobalDetail> accountGlobalDetails) {
         CheckOnlyOneChartResult result = checkOnlyOneChart(accountGlobalDetails);
@@ -54,17 +52,13 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks whether the set of Account Change Detail records on this document all are under the same Chart of
-     * Accounts. It will return a failed CheckOnlyOneChartResult if so.
-     * 
-     * Note that this method doesnt actually set any errors, it just returns whether or not the test succeeded, and where it failed
-     * if it failed.
+     * Accounts. It will return a failed CheckOnlyOneChartResult if so. Note that this method doesnt actually set any errors, it
+     * just returns whether or not the test succeeded, and where it failed if it failed.
      * 
      * @param accountGlobalDetails The popualted accountGlobalDocument to test.
      * @return A populated CheckOnlyOneChartResult object. This will contain whether the test succeeded or failed, and if failed,
      *         what lines the failures occurred on.
-     * 
      */
     protected CheckOnlyOneChartResult checkOnlyOneChart(List<AccountGlobalDetail> accountGlobalDetails) {
         // if there is not enough information to do the test, then exit happily with no failure
@@ -99,10 +93,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This class is used internally to represent the result of the CheckOnlyOneChart method.
-     * 
-     * 
      */
     protected class CheckOnlyOneChartResult {
 
@@ -111,7 +102,6 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         public boolean success;
 
         /**
-         * 
          * Constructs a CheckOnlyOneChartResult
          */
         public CheckOnlyOneChartResult() {
@@ -121,8 +111,8 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
 
         /**
-         * 
          * Constructs a CheckOnlyOneChartResult
+         * 
          * @param success
          */
         public CheckOnlyOneChartResult(boolean success) {
@@ -131,7 +121,6 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         }
 
         /**
-         * 
          * Constructs a CheckOnlyOneChartResult
          * 
          * @param success
@@ -147,41 +136,36 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method tests whether the line being added has a different Chart of Accounts Code from any of the existing lines. It will
      * set an Error and return false if this is the case.
      * 
      * @param newAccountLine
      * @param accountGlobalDetails
      * @return True if the line being added has the exact same chart as all the existing lines, False if not.
-     * 
      */
     protected boolean checkOnlyOneChartAddLineErrorWrapper(AccountGlobalDetail newAccountLine, List<AccountGlobalDetail> accountGlobalDetails) {
         boolean success = checkOnlyOneChartAddLine(newAccountLine, accountGlobalDetails);
         if (!success) {
-            //putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
+            // putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
             // TODO: KULCOA-1091 Need to add this error to the add line, but this doesn't work right, as the
             // error message comes out at the bottom, and the field doesn't get highlighted.
             // putFieldError("newAccountGlobalDetail.chartOfAccountsCode",
             // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
-            
-            //added to prevent error from showing at the top of the document, but rather in the Account Detail Edit section
-            GlobalVariables.getErrorMap().putError( "chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW );
+
+            // added to prevent error from showing at the top of the document, but rather in the Account Detail Edit section
+            GlobalVariables.getErrorMap().putError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
         }
         return success;
     }
 
     /**
-     * 
      * This method tests whether a new line can be added, based on the rule that says all the accounts being used must belong to the
-     * same chart. If the line being added differs from any existing line's Chart code, it will return false.
-     * 
-     * Note that this document does not actually set any errors, it just reports success or failure.
+     * same chart. If the line being added differs from any existing line's Chart code, it will return false. Note that this
+     * document does not actually set any errors, it just reports success or failure.
      * 
      * @param newAccountLine
      * @param accountGlobalDetails
      * @return True if no errors are found, False if the line being added has a different Chart code than any of the existing lines.
-     * 
      */
     protected boolean checkOnlyOneChartAddLine(AccountGlobalDetail newAccountLine, List<AccountGlobalDetail> accountGlobalDetails) {
         if (newAccountLine == null || accountGlobalDetails == null) {

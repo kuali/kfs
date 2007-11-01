@@ -21,8 +21,6 @@ import java.util.Collection;
 
 /**
  * The data access interface retrieving mileage rate objects.
- * 
- * 
  */
 public interface TravelMileageRateDao {
 

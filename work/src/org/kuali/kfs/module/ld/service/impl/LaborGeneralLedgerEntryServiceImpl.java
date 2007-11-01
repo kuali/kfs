@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao;

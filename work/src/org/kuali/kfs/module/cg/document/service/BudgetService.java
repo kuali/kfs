@@ -15,15 +15,12 @@
  */
 package org.kuali.module.kra.budget.service;
 
-import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
- * 
- * 
  */
 public interface BudgetService {
     public void initializeBudget(BudgetDocument budgetDocument);
@@ -37,7 +34,7 @@ public interface BudgetService {
      * @return boolean
      */
     public String buildCostShareRemovedCode(BudgetDocument budgetDocument);
-    
+
     public String getDisplayName(String documentNumber);
 
 }

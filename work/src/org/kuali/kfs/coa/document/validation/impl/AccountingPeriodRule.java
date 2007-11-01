@@ -28,8 +28,6 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
  * Business rule(s) applicable to AccountingPeriodMaintence documents.
- * 
- * 
  */
 public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
 
@@ -53,15 +51,11 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
 
@@ -73,13 +67,13 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks the following rules:
-     * calls processCustomRouteDocumentBusinessRules
-     * but does not fail if any of them fail (this only happens on routing)
+     * This method checks the following rules: calls processCustomRouteDocumentBusinessRules but does not fail if any of them fail
+     * (this only happens on routing)
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
-        
+
         LOG.info("processCustomSaveDocumentBusinessRules called");
         // call the route rules to report all of the messages, but ignore the result
         processCustomRouteDocumentBusinessRules(document);
@@ -89,17 +83,18 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if the fiscal year for any of {@link Options} is the same as the 
-     * {@link AccountingPeriod}'s fiscal year
+     * This method checks to see if the fiscal year for any of {@link Options} is the same as the {@link AccountingPeriod}'s fiscal
+     * year
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
         setupConvenienceObjects();
-        
+
         Boolean foundYear = false;
-        
+
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         List optionList = (List) boService.findAll(Options.class);
         for (Iterator iter = optionList.iterator(); iter.hasNext();) {
@@ -109,7 +104,7 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
                 break;
             }
         }
-       
+
         if (!foundYear) {
             // display an error
             putFieldError("universityFiscalYear", KFSKeyConstants.ERROR_DOCUMENT_FISCAL_PERIOD_YEAR_DOESNT_EXIST);

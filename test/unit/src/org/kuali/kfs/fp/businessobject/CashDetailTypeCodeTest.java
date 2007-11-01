@@ -15,14 +15,10 @@
  */
 package org.kuali.module.financial.bo;
 
-import java.util.ArrayList;
-
 import org.kuali.kfs.context.KualiTestBase;
 
 /**
  * This class...
- * 
- * 
  */
 public class CashDetailTypeCodeTest extends KualiTestBase {
     private CashDetailTypeCode cdtc = null;

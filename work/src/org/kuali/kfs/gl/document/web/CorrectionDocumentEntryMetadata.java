@@ -28,13 +28,14 @@ public interface CorrectionDocumentEntryMetadata {
 
     /**
      * Gets the input group ID of the document when it was persisted in the DB
+     * 
      * @return the input group ID of the document when it was persisted in the DB
      */
     public Integer getInputGroupIdFromLastDocumentLoad();
 
     public boolean isRestrictedFunctionalityMode();
-    
+
     public boolean getMatchCriteriaOnly();
-    
+
     public String getEditMethod();
 }

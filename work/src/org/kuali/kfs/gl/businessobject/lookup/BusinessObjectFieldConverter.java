@@ -25,8 +25,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class...
- * 
- * 
  */
 public class BusinessObjectFieldConverter {
 

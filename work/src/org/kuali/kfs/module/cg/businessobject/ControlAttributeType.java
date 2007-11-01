@@ -30,46 +30,45 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
      */
     public static final String TYPE_CODE_A = "A";
     public static final String TYPE_CODE_S = "S";
-    public static final String TYPE_CODE_D = "D";    
+    public static final String TYPE_CODE_D = "D";
     public static final String TYPE_CODE_A_DESC = "All Columns";
     public static final String TYPE_CODE_S_DESC = "Some Columns";
     public static final String TYPE_CODE_D_DESC = "Description Textarea";
-    
-    
-	private String controlAttributeTypeCode;
+
+
+    private String controlAttributeTypeCode;
     private String controlAttributeTypeDescription;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private boolean requiredIndicator;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private boolean requiredIndicator;
 
-	/**
-	 * Default constructor.
-	 */
-	public ControlAttributeType() {
+    /**
+     * Default constructor.
+     */
+    public ControlAttributeType() {
 
-	}
+    }
 
-	/**
-	 * Gets the controlAttributeTypeCode attribute.
-	 * 
-	 * @return Returns the controlAttributeTypeCode
-	 * 
-	 */
-	public String getControlAttributeTypeCode() { 
-		return controlAttributeTypeCode;
-	}
+    /**
+     * Gets the controlAttributeTypeCode attribute.
+     * 
+     * @return Returns the controlAttributeTypeCode
+     */
+    public String getControlAttributeTypeCode() {
+        return controlAttributeTypeCode;
+    }
 
-	/**
-	 * Sets the controlAttributeTypeCode attribute.
-	 * 
-	 * @param controlAttributeTypeCode The controlAttributeTypeCode to set.
-	 * 
-	 */
-	public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
-		this.controlAttributeTypeCode = controlAttributeTypeCode;
-	}
-    
-	/**
-     * Gets the controlAttributeTypeDescription attribute. 
+    /**
+     * Sets the controlAttributeTypeCode attribute.
+     * 
+     * @param controlAttributeTypeCode The controlAttributeTypeCode to set.
+     */
+    public void setControlAttributeTypeCode(String controlAttributeTypeCode) {
+        this.controlAttributeTypeCode = controlAttributeTypeCode;
+    }
+
+    /**
+     * Gets the controlAttributeTypeDescription attribute.
+     * 
      * @return Returns the controlAttributeTypeDescription.
      */
     public String getControlAttributeTypeDescription() {
@@ -78,6 +77,7 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the controlAttributeTypeDescription attribute value.
+     * 
      * @param controlAttributeTypeDescription The controlAttributeTypeDescription to set.
      */
     public void setControlAttributeTypeDescription(String controlAttributeTypeDescription) {
@@ -85,51 +85,47 @@ public class ControlAttributeType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     */
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     */
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Gets the requiredIndicator attribute.
-	 * 
-	 * @return Returns the requiredIndicator
-	 * 
-	 */
-	public boolean isRequiredIndicator() { 
-		return requiredIndicator;
-	}
+    /**
+     * Gets the requiredIndicator attribute.
+     * 
+     * @return Returns the requiredIndicator
+     */
+    public boolean isRequiredIndicator() {
+        return requiredIndicator;
+    }
 
-	/**
-	 * Sets the requiredIndicator attribute.
-	 * 
-	 * @param requiredIndicator The requiredIndicator to set.
-	 * 
-	 */
-	public void setRequiredIndicator(boolean requiredIndicator) {
-		this.requiredIndicator = requiredIndicator;
-	}
+    /**
+     * Sets the requiredIndicator attribute.
+     * 
+     * @param requiredIndicator The requiredIndicator to set.
+     */
+    public void setRequiredIndicator(boolean requiredIndicator) {
+        this.requiredIndicator = requiredIndicator;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("controlAttributeTypeCode", this.controlAttributeTypeCode);
-	    return m;
+        return m;
     }
 }

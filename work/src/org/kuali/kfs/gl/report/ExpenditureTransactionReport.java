@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.gl.bo.ExpenditureTransaction;
-import org.kuali.module.gl.bo.Transaction;
 
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
@@ -99,7 +98,7 @@ public class ExpenditureTransactionReport {
         LOG.debug("generateReport() started");
 
         List expenditureTransactions = new ArrayList();
-        if(reportErrors != null){
+        if (reportErrors != null) {
             expenditureTransactions.addAll(reportErrors.keySet());
         }
         generateReport(expenditureTransactions, reportErrors, reportSummary, runDate, title, fileprefix, destinationDirectory);
@@ -154,6 +153,7 @@ public class ExpenditureTransactionReport {
 
     /**
      * Appends the scrubber totals/statistics and error report to the given (iText) document object.
+     * 
      * @param document
      * @param headerFont
      * @param textFont
@@ -252,16 +252,17 @@ public class ExpenditureTransactionReport {
                         msg = mm.getMessage();
                     }
                     else {
-                        if ( m == null ) {
+                        if (m == null) {
                             msg = "";
-                        } else {
+                        }
+                        else {
                             msg = m.toString();
                         }
                     }
 
                     if (first) {
                         first = false;
-                        
+
                         if (et.getUniversityFiscalYear() == null) {
                             cell = new PdfPCell(new Phrase("NULL", textFont));
                         }

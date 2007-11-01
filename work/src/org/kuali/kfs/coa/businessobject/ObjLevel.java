@@ -44,7 +44,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
 
     /**
      * Constructs a ObjLevel.java.
-     * 
      */
     public ObjLevel() {
         super();
@@ -55,7 +54,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialObjectLevelCode attribute.
      * 
      * @return Returns the financialObjectLevelCode
-     * 
      */
     public String getFinancialObjectLevelCode() {
         return financialObjectLevelCode;
@@ -65,7 +63,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialObjectLevelCode attribute.
      * 
      * @param financialObjectLevelCode The financialObjectLevelCode to set.
-     * 
      */
     public void setFinancialObjectLevelCode(String financialObjectLevelCode) {
         this.financialObjectLevelCode = financialObjectLevelCode;
@@ -75,7 +72,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialObjectLevelName attribute.
      * 
      * @return Returns the financialObjectLevelName
-     * 
      */
     public String getFinancialObjectLevelName() {
         return financialObjectLevelName;
@@ -85,7 +81,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialObjectLevelName attribute.
      * 
      * @param financialObjectLevelName The financialObjectLevelName to set.
-     * 
      */
     public void setFinancialObjectLevelName(String financialObjectLevelName) {
         this.financialObjectLevelName = financialObjectLevelName;
@@ -95,7 +90,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialObjectLevelShortNm attribute.
      * 
      * @return Returns the financialObjectLevelShortNm
-     * 
      */
     public String getFinancialObjectLevelShortNm() {
         return financialObjectLevelShortNm;
@@ -105,7 +99,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialObjectLevelShortNm attribute.
      * 
      * @param financialObjectLevelShortNm The financialObjectLevelShortNm to set.
-     * 
      */
     public void setFinancialObjectLevelShortNm(String financialObjectLevelShortNm) {
         this.financialObjectLevelShortNm = financialObjectLevelShortNm;
@@ -115,7 +108,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialObjectLevelActiveIndicator attribute.
      * 
      * @return Returns the financialObjectLevelActiveIndicator
-     * 
      */
     public boolean isFinancialObjectLevelActiveIndicator() {
         return financialObjectLevelActiveIndicator;
@@ -125,7 +117,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialObjectLevelActiveIndicator attribute.
      * 
      * @param financialObjectLevelActiveIndicator The financialObjectLevelActiveIndicator to set.
-     * 
      */
     public void setFinancialObjectLevelActiveIndicator(boolean financialObjectLevelActiveIndicator) {
         this.financialObjectLevelActiveIndicator = financialObjectLevelActiveIndicator;
@@ -135,7 +126,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialReportingSortCode attribute.
      * 
      * @return Returns the financialReportingSortCode
-     * 
      */
     public String getFinancialReportingSortCode() {
         return financialReportingSortCode;
@@ -145,7 +135,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialReportingSortCode attribute.
      * 
      * @param financialReportingSortCode The financialReportingSortCode to set.
-     * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
@@ -160,7 +149,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the financialConsolidationObject attribute.
      * 
      * @return Returns the financialConsolidationObject
-     * 
      */
     public ObjectCons getFinancialConsolidationObject() {
         return financialConsolidationObject;
@@ -170,7 +158,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Sets the financialConsolidationObject attribute.
      * 
      * @param financialConsolidationObject The financialConsolidationObject to set.
-     * 
      */
     public void setFinancialConsolidationObject(ObjectCons financialConsolidationObject) {
         this.financialConsolidationObject = financialConsolidationObject;
@@ -184,7 +171,6 @@ public class ObjLevel extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;

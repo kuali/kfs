@@ -146,7 +146,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
-        
+
         /* get mcc restriction from transaction */
         String mccRestriction = "";
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) accountingLine;
@@ -164,17 +164,13 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
 
         /* check object code is in permitted list for mcc */
         if (objectCodeAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class,
-                    ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM,
-                    mccRestriction, accountingLine.getFinancialObjectCode());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getFinancialObjectCode());
             objectCodeAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
-        
+
         /* check object sub type is in permitted list for mcc */
         if (objectCodeAllowed) {
-            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class,
-                    ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM,
-                    mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
+            ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
             objectCodeAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
         return objectCodeAllowed;

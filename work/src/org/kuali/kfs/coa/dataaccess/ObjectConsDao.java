@@ -19,14 +19,12 @@ import org.kuali.module.chart.bo.ObjectCons;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
- * 
- * 
  */
 public interface ObjectConsDao {
-    
+
     /**
-     * 
      * This method retrieves a {@link ObjectCons} based on primary keys
+     * 
      * @param chartOfAccountsCode
      * @param objectConsCode
      * @return a specific {@link ObjectCons} based on primary keys

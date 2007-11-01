@@ -21,10 +21,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections.Closure;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
@@ -49,7 +46,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         accountNumber = acct;
         subAccountNumber = subAcct;
     }
-    
+
     public boolean isInitialized() {
         return !StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(accountNumber);
     }
@@ -63,7 +60,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     }
 
     public void setCategories(List<OrganizationReversionCategory> cats) {
-        for (OrganizationReversionCategory element: cats) {
+        for (OrganizationReversionCategory element : cats) {
             OrgReversionUnitOfWorkCategoryAmount ca = new OrgReversionUnitOfWorkCategoryAmount(element.getOrganizationReversionCategoryCode());
             amounts.put(element.getOrganizationReversionCategoryCode(), ca);
         }
@@ -102,13 +99,12 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
             element.setEncumbrance(KualiDecimal.ZERO);
         }
     }
-    
+
     /**
-     * 
      * This method updates the category amount keys for the current unit of work
      */
     public void cascadeCategoryAmountKeys() {
-        for (String category: amounts.keySet()) {
+        for (String category : amounts.keySet()) {
             OrgReversionUnitOfWorkCategoryAmount catAmt = amounts.get(category);
             catAmt.setChartOfAccountsCode(this.chartOfAccountsCode);
             catAmt.setAccountNumber(this.accountNumber);
@@ -119,7 +115,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     public boolean isSame(String chart, String acct, String subAcct) {
         return (chartOfAccountsCode.equals(chart) && accountNumber.equals(acct) && subAccountNumber.equals(subAcct));
     }
-    
+
     public boolean wouldHold(Balance balance) {
         return StringUtils.equals(chartOfAccountsCode, balance.getChartOfAccountsCode()) && StringUtils.equals(accountNumber, balance.getAccountNumber()) && StringUtils.equals(subAccountNumber, balance.getSubAccountNumber());
     }
@@ -184,6 +180,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     public Map<String, OrgReversionUnitOfWorkCategoryAmount> getCategoryAmounts() {
         return amounts;
     }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -197,7 +194,8 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -206,6 +204,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
 
     /**
      * Sets the accountNumber attribute value.
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -213,7 +212,8 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -222,6 +222,7 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -229,7 +230,8 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the subAccountNumber attribute. 
+     * Gets the subAccountNumber attribute.
+     * 
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -238,10 +240,11 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
 
     /**
      * Sets the subAccountNumber attribute value.
+     * 
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
-    
+
 }

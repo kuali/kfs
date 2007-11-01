@@ -31,7 +31,7 @@ public interface PaymentFileService {
      * Process all incoming payment files
      */
     public void processPaymentFiles();
- 
+
     /**
      * Load a Payment file
      * 
@@ -40,7 +40,7 @@ public interface PaymentFileService {
      * @return
      * @throws PaymentLoadException
      */
-    public LoadPaymentStatus loadPayments(String filename,PdpUser user) throws PaymentLoadException;
+    public LoadPaymentStatus loadPayments(String filename, PdpUser user) throws PaymentLoadException;
 
     /**
      * Send notification email about a loaded batch

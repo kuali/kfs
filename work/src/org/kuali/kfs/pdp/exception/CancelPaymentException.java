@@ -8,11 +8,11 @@ package org.kuali.module.pdp.exception;
  */
 public class CancelPaymentException extends PdpException {
 
-  public CancelPaymentException() {
-    super();
-  }
+    public CancelPaymentException() {
+        super();
+    }
 
-  public CancelPaymentException(String message) {
-    super(message);
-  }
+    public CancelPaymentException(String message) {
+        super(message);
+    }
 }

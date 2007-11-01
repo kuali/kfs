@@ -19,10 +19,7 @@ package org.kuali.module.kra.budget.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * 
  * This class...
- * 
- * 
  */
 public class NonpersonnelSubCategory extends KualiCodeBase implements Comparable {
 

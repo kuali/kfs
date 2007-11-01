@@ -20,8 +20,6 @@ import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * Defines methods common to all AccountingLineEvents.
- * 
- * 
  */
 public interface AccountingLineEvent extends KualiDocumentEvent {
     /**

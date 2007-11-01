@@ -46,7 +46,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
     private String fieldNames, transactionFieldNames;
     private String deliminator;
     private Integer fiscalYear;
-    
+
     private Map fieldValues, groupFieldValues;
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
@@ -95,9 +95,9 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         }
 
         laborYearEndBalanceForwardService.forwardBalance(fiscalYear, fiscalYear);
-       
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", transactionFieldNames, deliminator, expectedNumOfData);       
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
+
+        List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", transactionFieldNames, deliminator, expectedNumOfData);
+        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
         for (Object entry : originEntries) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, entry);
@@ -105,7 +105,7 @@ public class LaborYearEndBalanceForwardServiceTest extends KualiTestBase {
         }
         assertEquals(expectedNumOfData, originEntries.size());
     }
-    
+
     public void testNotPostableBalance() throws Exception {
         String testTarget = "notPostableBalance.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));

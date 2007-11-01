@@ -24,7 +24,6 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormPersonnelAction extends RoutingFormAction {
@@ -33,11 +32,11 @@ public class RoutingFormPersonnelAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
 
         List<RoutingFormPersonnel> routingFormPersonnel = routingForm.getRoutingFormDocument().getRoutingFormPersonnel();
-        
+
         super.load(mapping, form, request, response);
-        
+
         routingForm.getRoutingFormDocument().setRoutingFormPersonnel(routingFormPersonnel);
-        
+
         return super.save(mapping, form, request, response);
     }
 }

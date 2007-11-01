@@ -24,14 +24,12 @@ import junit.framework.AssertionFailedError;
 
 /**
  * This class implements a method for a {@link MockService}.
- * 
- * 
  */
 public class MockMethod {
 
     private final String name;
     private final Object noResultFallback;
-    private final HashMap<List<Object>,Object> argListToResultMap = new HashMap<List<Object>, Object>();
+    private final HashMap<List<Object>, Object> argListToResultMap = new HashMap<List<Object>, Object>();
 
     /**
      * Constructs a new instance.

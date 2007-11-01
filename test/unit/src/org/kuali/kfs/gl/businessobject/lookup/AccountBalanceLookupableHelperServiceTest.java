@@ -30,13 +30,12 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class contains the test cases that can be applied to the method in AccountBalanceLookupableImpl class.
- * 
- * 
  */
 @ConfigureContext
 public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
 
     private AccountBalanceService accountBalanceService;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

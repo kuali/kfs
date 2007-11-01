@@ -25,8 +25,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class...
- * 
- * 
  */
 @ConfigureContext
 public class AccountTest extends KualiTestBase {

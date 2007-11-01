@@ -27,8 +27,6 @@ import org.kuali.module.financial.bo.TaxIncomeClassCode;
 
 /**
  * This class returns list of tax income class value pairs.
- * 
- * 
  */
 public class TaxIncomeClassValuesFinder extends KeyValuesBase {
 

@@ -29,7 +29,7 @@ public class KualiSystemCode extends PersistableBusinessObjectBase implements Ku
     static {
         KualiInquirableImpl.HACK_LIST.add(KualiSystemCode.class);
     }
-    
+
     private String code;
     private String name;
     private boolean active;

@@ -18,28 +18,24 @@ package org.kuali.test.suite;
 import junit.framework.TestSuite;
 
 /**
- * A small set of tests covering a broad (but scattered) range of functionality in various modules of Kuali.
- * These may not be the fastest tests, but their limited number allows them to be run more frequently than all the tests.
+ * A small set of tests covering a broad (but scattered) range of functionality in various modules of Kuali. These may not be the
+ * fastest tests, but their limited number allows them to be run more frequently than all the tests.
  * <p>
- * This is the suite of all test classes or methods listing this class in a {@link org.kuali.test.suite.AnnotationTestSuite} annotation.
- * IDEs or Ant can run this as JUnit tests.  To see the members of this suite, e.g., for a usage example,
- * do a usage search on this .class (or run this suite in JUnit).
+ * This is the suite of all test classes or methods listing this class in a {@link org.kuali.test.suite.AnnotationTestSuite}
+ * annotation. IDEs or Ant can run this as JUnit tests. To see the members of this suite, e.g., for a usage example, do a usage
+ * search on this .class (or run this suite in JUnit).
  */
 public class CrossSectionSuite extends AnnotationTestSuite.Superclass {
-    public static TestSuite suite()
-        throws Exception
-    {
+    public static TestSuite suite() throws Exception {
         return new CrossSectionSuite().getSuite();
     }
 
     /**
-     * This nested class is the suite of all test methods not in the enclosing suite class.
-     * IDEs or Ant can run this nested class as JUnit tests.
+     * This nested class is the suite of all test methods not in the enclosing suite class. IDEs or Ant can run this nested class as
+     * JUnit tests.
      */
     public static class Not {
-        public static TestSuite suite()
-            throws Exception
-        {
+        public static TestSuite suite() throws Exception {
             return new CrossSectionSuite().getNegativeSuite();
         }
     }

@@ -39,8 +39,6 @@ import org.kuali.module.financial.service.ServiceBillingControlService;
 
 /**
  * Authorization permissions specific to the Service Billing document.
- * 
- * 
  */
 public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ServiceBillingDocumentAuthorizer.class);
@@ -67,7 +65,8 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the SB doc.
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
     public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
@@ -82,17 +81,17 @@ public class ServiceBillingDocumentAuthorizer extends AccountingDocumentAuthoriz
      * @see org.kuali.core.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.KualiUser)
      */
     public void canInitiate(String documentTypeName, UniversalUser user) {
-    	boolean canInitiate = false;
+        boolean canInitiate = false;
         ServiceBillingControl[] controls = SpringContext.getBean(ServiceBillingControlService.class).getAll();
         for (int i = 0; i < controls.length; i++) {
-            if (user.isMember( controls[i].getWorkgroupName() )) {
+            if (user.isMember(controls[i].getWorkgroupName())) {
                 canInitiate = true;
             }
         }
         if (!canInitiate) {
             // TODO: Give better message listing the required control workgroup names using DocumentInitiationAuthorizationException
             throw new DocumentTypeAuthorizationException(user.getPersonUserIdentifier(), "initiate", documentTypeName);
-    	}
+        }
     }
 
     /**

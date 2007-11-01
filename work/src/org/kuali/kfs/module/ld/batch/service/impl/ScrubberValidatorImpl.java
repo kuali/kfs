@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.service.impl;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -36,7 +35,6 @@ import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -47,7 +45,6 @@ import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.batch.LaborScrubberStep;
-import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.springframework.util.StringUtils;
@@ -84,7 +81,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         errors = scrubberValidator.validateTransaction(laborOriginEntry, laborScrubbedEntry, universityRunDate, laborIndicator);
         refreshOriginEntryReferences(laborOriginEntry);
         refreshOriginEntryReferences(laborScrubbedEntry);
-        
+
         if (org.apache.commons.lang.StringUtils.isBlank(laborOriginEntry.getEmplid())) {
             laborScrubbedEntry.setEmplid(KFSConstants.getDashEmplId());
         }

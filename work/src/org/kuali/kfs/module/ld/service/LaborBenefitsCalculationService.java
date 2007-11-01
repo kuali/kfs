@@ -20,5 +20,5 @@ import org.kuali.module.labor.bo.BenefitsCalculation;
 public interface LaborBenefitsCalculationService {
 
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode);
-    
+
 }

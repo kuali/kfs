@@ -32,7 +32,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
  * Plant work orders. These transactions are for the use of the account manager to earmark funds for which unofficial commitments
  * have already been made.
  */
-public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
+public class PreEncumbranceDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PreEncumbranceDocument.class);
 
     private java.sql.Date reversalDate;
@@ -45,7 +45,6 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
@@ -58,7 +57,6 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
 
 
     /**
-     * 
      * @return Timestamp
      */
     public java.sql.Date getReversalDate() {
@@ -66,7 +64,6 @@ public class PreEncumbranceDocument extends AccountingDocumentBase implements Co
     }
 
     /**
-     * 
      * @param reversalDate
      */
     public void setReversalDate(java.sql.Date reversalDate) {

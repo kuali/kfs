@@ -341,8 +341,8 @@ public class FormatServiceImpl implements FormatService {
         fields.put("parameterNamespaceCode", "KFS-PD");
         fields.put("parameterDetailTypeCode", "All");
         fields.put("parameterName", PdpConstants.ApplicationParameterKeys.EXTRACT_PROCESS_ID);
-        Parameter processParam = (Parameter)businessObjectService.findByPrimaryKey(Parameter.class, fields);
-        if ( processParam == null ) {
+        Parameter processParam = (Parameter) businessObjectService.findByPrimaryKey(Parameter.class, fields);
+        if (processParam == null) {
             processParam = new Parameter();
             processParam.setParameterNamespaceCode("KFS-PD");
             processParam.setParameterDetailTypeCode("All");

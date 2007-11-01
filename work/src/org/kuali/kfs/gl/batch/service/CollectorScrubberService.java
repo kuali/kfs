@@ -26,22 +26,25 @@ import org.kuali.module.gl.util.CollectorScrubberStatus;
  */
 public interface CollectorScrubberService {
     /**
-     * Runs the scrubber on the origin entries in the batch.  Any OEs edits/removals result of the scrub and demerger are
-     * removed from the batch, and the same changes are reflected in the details in the same batch.   
+     * Runs the scrubber on the origin entries in the batch. Any OEs edits/removals result of the scrub and demerger are removed
+     * from the batch, and the same changes are reflected in the details in the same batch.
+     * 
      * @param batch
      * @param collectorReportData
-     * @return an object with the collector scrubber status.  Note that it contains references to at least 4 origin entry groups, and the origin entry group service
-     * and origin entry service under which these groups and their entries are stored.  The groups and their entries are created to facilitate the scrub and reporting processes,
-     * and they should not be persisted after the collector finishes running.  Therefore, an collection of all CollectorScrubberStatus objects returned in a single collector execution
-     * (i.e. from a nightly job) must be passed into a parameter to the {@link #removeTempGroups(Collection)} method..  The service definitions are needed because the collector may choose to store
-     * temporary origin entries and origin entry groups in another service segregated from the database.
-     * 
-     * 
+     * @return an object with the collector scrubber status. Note that it contains references to at least 4 origin entry groups, and
+     *         the origin entry group service and origin entry service under which these groups and their entries are stored. The
+     *         groups and their entries are created to facilitate the scrub and reporting processes, and they should not be
+     *         persisted after the collector finishes running. Therefore, an collection of all CollectorScrubberStatus objects
+     *         returned in a single collector execution (i.e. from a nightly job) must be passed into a parameter to the
+     *         {@link #removeTempGroups(Collection)} method.. The service definitions are needed because the collector may choose to
+     *         store temporary origin entries and origin entry groups in another service segregated from the database.
      */
     public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData);
-    
+
     /**
-     * Removes any temporarily created origin entries and origin entry groups so that they won't be persisted after the transaction is committed.
+     * Removes any temporarily created origin entries and origin entry groups so that they won't be persisted after the transaction
+     * is committed.
+     * 
      * @param allStatusObjectsFromCollectorExecution
      */
     public void removeTempGroups(Collection<CollectorScrubberStatus> allStatusObjectsFromCollectorExecution);

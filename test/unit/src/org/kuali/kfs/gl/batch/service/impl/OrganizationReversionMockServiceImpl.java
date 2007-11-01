@@ -15,8 +15,6 @@
  */
 package org.kuali.module.gl.service.impl;
 
-import java.util.Map;
-
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
@@ -28,9 +26,10 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
     public static final String DEFAULT_BUDGET_REVERSION_ACCOUNT = "0211301";
     public static final String DEFAULT_CASH_REVERSION_CHART = "BL";
     public static final String DEFAULT_CASH_REVERSION_ACCOUNT = "0211401";
-    
+
     /**
-     * @see org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.impl.OrganizationReversionServiceImpl#getByPrimaryId(java.lang.Integer, java.lang.String,
+     *      java.lang.String)
      */
     @Override
     public OrganizationReversion getByPrimaryId(Integer fiscalYear, String chartCode, String orgCode) {
@@ -44,7 +43,7 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
         orgRev.setCashReversionFinancialChartOfAccountsCode(DEFAULT_CASH_REVERSION_CHART);
         orgRev.setCashReversionAccountNumber(DEFAULT_CASH_REVERSION_ACCOUNT);
         orgRev.setCarryForwardByObjectCodeIndicator(true);
-        
+
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C01", KFSConstants.RULE_CODE_A));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C02", KFSConstants.RULE_CODE_C1));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C03", KFSConstants.RULE_CODE_C2));
@@ -56,12 +55,13 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C09", KFSConstants.RULE_CODE_R2));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C10", KFSConstants.RULE_CODE_A));
         orgRev.addOrganizationReversionDetail(createDetail(fiscalYear, chartCode, orgCode, "C11", KFSConstants.RULE_CODE_A));
-        
+
         return orgRev;
     }
 
     /**
      * This method...
+     * 
      * @param fiscalYear
      * @param chartCode
      * @param orgCode
@@ -70,7 +70,7 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
      */
     private OrganizationReversionDetail createDetail(Integer fiscalYear, String chartCode, String orgCode, String categoryCode, String categoryAlgorithm) {
         OrganizationReversionDetail detail = new OrganizationReversionDetail();
-        detail.setUniversityFiscalYear(new Integer(fiscalYear.intValue()-1));
+        detail.setUniversityFiscalYear(new Integer(fiscalYear.intValue() - 1));
         detail.setChartOfAccountsCode(chartCode);
         detail.setOrganizationCode(orgCode);
         detail.setOrganizationReversionCategoryCode(categoryCode);
@@ -78,6 +78,6 @@ public class OrganizationReversionMockService extends OrganizationReversionServi
         detail.setOrganizationReversionObjectCode("5000");
         return detail;
     }
-    
+
 
 }

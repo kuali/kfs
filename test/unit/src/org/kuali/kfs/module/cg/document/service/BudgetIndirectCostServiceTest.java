@@ -132,7 +132,7 @@ public class BudgetIndirectCostServiceTest extends KualiTestBase {
     public void testRefreshIndirectCost() {
         BudgetDocument budgetDocument = new BudgetDocument();
         Budget budget = budgetDocument.getBudget();
-        
+
         List periods = BudgetPeriodTest.createBudgetPeriods(2);
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod period = (BudgetPeriod) periods.get(i);

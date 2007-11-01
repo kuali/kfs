@@ -20,8 +20,6 @@ import org.kuali.module.financial.bo.Check;
 
 /**
  * Defines methods common to all CheckEvents.
- * 
- * 
  */
 public interface CheckEvent extends KualiDocumentEvent {
     /**

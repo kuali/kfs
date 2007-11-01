@@ -40,10 +40,8 @@ import org.kuali.module.budget.document.authorization.BudgetConstructionDocument
 
 
 /**
- * This class...
- * TODO May want to refactor PositionSalarySettingForm and IncumbentSalarySettingForm to extend
- * from new class DetailSalarySettingForm and put common code there. Or use something like
- * DetailSalarySettingFormHelper?
+ * This class... TODO May want to refactor PositionSalarySettingForm and IncumbentSalarySettingForm to extend from new class
+ * DetailSalarySettingForm and put common code there. Or use something like DetailSalarySettingFormHelper?
  */
 public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IncumbentSalarySettingForm.class);
@@ -51,11 +49,11 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent;
     private PendingBudgetConstructionAppointmentFunding newBCAFLine;
 
-    //TODO probably need to push these and some url parms to new superclass BCExpansionForm??
+    // TODO probably need to push these and some url parms to new superclass BCExpansionForm??
     private boolean hideDetails = false;
 
-    //TODO not sure editingMode is valid here since context is account,subaccount (document)
-    //maybe bcdoc needs to have an editingMode map and an ojb ref to bcdoc added in bcaf?
+    // TODO not sure editingMode is valid here since context is account,subaccount (document)
+    // maybe bcdoc needs to have an editingMode map and an ojb ref to bcdoc added in bcaf?
     protected Map editingMode;
 
     // url parameters sent from BCDoc
@@ -65,7 +63,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private Integer universityFiscalYear;
     private String emplid;
 
-    //set and pass these when budgetByAccountMode to prefill the add line
+    // set and pass these when budgetByAccountMode to prefill the add line
     private boolean addLine;
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -73,25 +71,25 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     private String financialObjectCode;
     private String financialSubObjectCode;
 
-    //pass the value of this as a url parm, false setting means budget by organization
-    //this also controls where we return the user when done
+    // pass the value of this as a url parm, false setting means budget by organization
+    // this also controls where we return the user when done
     private boolean budgetByAccountMode;
     private boolean orgSalSetClose = false;
 
-    //TODO these should be moved to BudgetConstructionIntendedIncumbent.java to be consistent with
-    //SalarySettingExpansion.java and BudgetConstructionPosition.java totaling
-    //totals
+    // TODO these should be moved to BudgetConstructionIntendedIncumbent.java to be consistent with
+    // SalarySettingExpansion.java and BudgetConstructionPosition.java totaling
+    // totals
     private KualiDecimal csfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-    private BigDecimal csfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal csfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal csfStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
     private KualiDecimal appointmentRequestedAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-    private BigDecimal appointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
     private KualiDecimal appointmentRequestedCsfAmountTotal = new KualiDecimal(0.00);
-    private BigDecimal appointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-    private BigDecimal appointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+    private BigDecimal appointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
 
-    public IncumbentSalarySettingForm(){
+    public IncumbentSalarySettingForm() {
         super();
         setBudgetConstructionIntendedIncumbent(new BudgetConstructionIntendedIncumbent());
         this.editingMode = new HashMap();
@@ -104,25 +102,24 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     public void populate(HttpServletRequest request) {
 
         super.populate(request);
-        
+
         zeroTotals();
 
-        //TODO add insert line populate call here
+        // TODO add insert line populate call here
 
         populateBCAFLines();
     }
 
     /**
-     * This method iterates over all of the BCAF lines for the BudgetConstructionPosition
-     * TODO verify this - and calls prepareAccountingLineForValidationAndPersistence on each one.
-     * This is called to refresh ref objects for use by validation
+     * This method iterates over all of the BCAF lines for the BudgetConstructionPosition TODO verify this - and calls
+     * prepareAccountingLineForValidationAndPersistence on each one. This is called to refresh ref objects for use by validation
      */
-    public void populateBCAFLines(){
+    public void populateBCAFLines() {
 
-        //TODO add bcaf totaling here??
+        // TODO add bcaf totaling here??
 
         Iterator bcafLines = this.getBudgetConstructionIntendedIncumbent().getPendingBudgetConstructionAppointmentFunding().iterator();
-        while (bcafLines.hasNext()){
+        while (bcafLines.hasNext()) {
             PendingBudgetConstructionAppointmentFunding bcafLine = (PendingBudgetConstructionAppointmentFunding) bcafLines.next();
             this.populateBCAFLine(bcafLine);
         }
@@ -133,19 +130,21 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
      * 
      * @param line
      */
-    private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line){
+    private void populateBCAFLine(PendingBudgetConstructionAppointmentFunding line) {
 
-//        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject", "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
-      final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] {"chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration"}));
-//        SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
+        // final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "financialObject",
+        // "financialSubObject", "laborObject", "budgetConstructionMonthly"}));
+        final List REFRESH_FIELDS = Collections.unmodifiableList(Arrays.asList(new String[] { "chartOfAccounts", "account", "subAccount", "financialObject", "financialSubObject", "bcnCalculatedSalaryFoundationTracker", "budgetConstructionDuration" }));
+        // SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(line, REFRESH_FIELDS);
-        
+
         addBCAFLineToTotals(line);
 
     }
 
     /**
-     * Gets the budgetConstructionIntendedIncumbent attribute. 
+     * Gets the budgetConstructionIntendedIncumbent attribute.
+     * 
      * @return Returns the budgetConstructionIntendedIncumbent.
      */
     public BudgetConstructionIntendedIncumbent getBudgetConstructionIntendedIncumbent() {
@@ -154,6 +153,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the budgetConstructionIntendedIncumbent attribute value.
+     * 
      * @param budgetConstructionIntendedIncumbent The budgetConstructionIntendedIncumbent to set.
      */
     public void setBudgetConstructionIntendedIncumbent(BudgetConstructionIntendedIncumbent budgetConstructionIntendedIncumbent) {
@@ -161,7 +161,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -170,6 +171,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the accountNumber attribute value.
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -177,7 +179,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -186,6 +189,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -193,7 +197,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the addLine attribute. 
+     * Gets the addLine attribute.
+     * 
      * @return Returns the addLine.
      */
     public boolean isAddLine() {
@@ -202,6 +207,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the addLine attribute value.
+     * 
      * @param addLine The addLine to set.
      */
     public void setAddLine(boolean addLine) {
@@ -209,7 +215,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the budgetByAccountMode attribute. 
+     * Gets the budgetByAccountMode attribute.
+     * 
      * @return Returns the budgetByAccountMode.
      */
     public boolean isBudgetByAccountMode() {
@@ -218,6 +225,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the budgetByAccountMode attribute value.
+     * 
      * @param budgetByAccountMode The budgetByAccountMode to set.
      */
     public void setBudgetByAccountMode(boolean budgetByAccountMode) {
@@ -225,7 +233,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the editingMode attribute. 
+     * Gets the editingMode attribute.
+     * 
      * @return Returns the editingMode.
      */
     public Map getEditingMode() {
@@ -234,6 +243,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the editingMode attribute value.
+     * 
      * @param editingMode The editingMode to set.
      */
     public void setEditingMode(Map editingMode) {
@@ -241,7 +251,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the emplid attribute. 
+     * Gets the emplid attribute.
+     * 
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -250,6 +261,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the emplid attribute value.
+     * 
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -257,7 +269,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the financialObjectCode attribute. 
+     * Gets the financialObjectCode attribute.
+     * 
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -266,6 +279,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the financialObjectCode attribute value.
+     * 
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -273,7 +287,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the financialSubObjectCode attribute. 
+     * Gets the financialSubObjectCode attribute.
+     * 
      * @return Returns the financialSubObjectCode.
      */
     public String getFinancialSubObjectCode() {
@@ -282,6 +297,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the financialSubObjectCode attribute value.
+     * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
@@ -289,7 +305,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the hideDetails attribute. 
+     * Gets the hideDetails attribute.
+     * 
      * @return Returns the hideDetails.
      */
     public boolean isHideDetails() {
@@ -298,6 +315,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the hideDetails attribute value.
+     * 
      * @param hideDetails The hideDetails to set.
      */
     public void setHideDetails(boolean hideDetails) {
@@ -305,57 +323,55 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Updates authorization-related form fields based on the current form contents
-     * TODO should probably move this to extension class
+     * Updates authorization-related form fields based on the current form contents TODO should probably move this to extension
+     * class
      */
     public void populateAuthorizationFields(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
 
         useBCAuthorizer(documentAuthorizer);
 
-        //TODO probably need BCAuthorizationConstants extension
+        // TODO probably need BCAuthorizationConstants extension
         if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
+            throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber() + ", " + this.getSubAccountNumber());
         }
 
-/*
-//TODO from KualiDocumentFormBase - remove when ready
-        if (isFormDocumentInitialized()) {
-            useBCAuthorizer(documentAuthorizer);
-
-            // graceless hack which takes advantage of the fact that here and only here will we have guaranteed access to the
-            // correct DocumentAuthorizer
-            if (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) {
-                throw new AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view", this.getAccountNumber()+", "+this.getSubAccountNumber());
-            }
-        }
-*/
+        /*
+         * //TODO from KualiDocumentFormBase - remove when ready if (isFormDocumentInitialized()) {
+         * useBCAuthorizer(documentAuthorizer); // graceless hack which takes advantage of the fact that here and only here will we
+         * have guaranteed access to the // correct DocumentAuthorizer if
+         * (getEditingMode().containsKey(AuthorizationConstants.EditMode.UNVIEWABLE)) { throw new
+         * AuthorizationException(GlobalVariables.getUserSession().getUniversalUser().getPersonName(), "view",
+         * this.getAccountNumber()+", "+this.getSubAccountNumber()); } }
+         */
     }
 
     /*
      * TODO should probably move this to extension class
-     * 
      */
     protected void useBCAuthorizer(BudgetConstructionDocumentAuthorizer documentAuthorizer) {
         UniversalUser kualiUser = GlobalVariables.getUserSession().getUniversalUser();
-        
-        if (this.isBudgetByAccountMode()){
-            // user got here by opening a BC doc - check using the entire BC security model checking manager, delegate, orgreviewhierachy
+
+        if (this.isBudgetByAccountMode()) {
+            // user got here by opening a BC doc - check using the entire BC security model checking manager, delegate,
+            // orgreviewhierachy
             setEditingMode(documentAuthorizer.getEditMode(this.getUniversityFiscalYear(), this.getChartOfAccountsCode(), this.getAccountNumber(), this.getSubAccountNumber(), kualiUser));
-        } else {
+        }
+        else {
             // user got here through organization salary setting - check that the user is a BC org approver somewhere
             setEditingMode(documentAuthorizer.getEditMode());
         }
-        
-//TODO probably don't need these, editingmode drives expansion screen actions
-//        setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
+
+        // TODO probably don't need these, editingmode drives expansion screen actions
+        // setDocumentActionFlags(documentAuthorizer.getDocumentActionFlags(document, kualiUser));
     }
 
     /**
-     * Gets the newBCAFLine attribute. 
+     * Gets the newBCAFLine attribute.
+     * 
      * @return Returns the newBCAFLine.
      */
     public PendingBudgetConstructionAppointmentFunding getNewBCAFLine() {
-        if (this.newBCAFLine == null){
+        if (this.newBCAFLine == null) {
             this.setNewBCAFLine(new PendingBudgetConstructionAppointmentFunding());
             this.initNewLine(this.newBCAFLine);
         }
@@ -364,6 +380,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the newBCAFLine attribute value.
+     * 
      * @param newBCAFLine The newBCAFLine to set.
      */
     public void setNewBCAFLine(PendingBudgetConstructionAppointmentFunding newBCAFLine) {
@@ -371,36 +388,36 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * This sets the default fields not setable by the user for added lines
-     * and any other required initialization
+     * This sets the default fields not setable by the user for added lines and any other required initialization
      * 
      * @param line
      */
-    private void initNewLine(PendingBudgetConstructionAppointmentFunding line){
+    private void initNewLine(PendingBudgetConstructionAppointmentFunding line) {
 
-//TODO part of this will need to be moved to a form helper setting attributes common to posn and incmbnt salsetting
+        // TODO part of this will need to be moved to a form helper setting attributes common to posn and incmbnt salsetting
         BudgetConstructionIntendedIncumbent bcII = this.getBudgetConstructionIntendedIncumbent();
         line.setUniversityFiscalYear(this.getUniversityFiscalYear());
         line.setEmplid(bcII.getEmplid());
         line.setAppointmentFundingDeleteIndicator(false);
-//TODO remove this will be set when a user selects and sets the positionNumber
-//        line.setAppointmentFundingMonth(bcII.getIuNormalWorkMonths());
+        // TODO remove this will be set when a user selects and sets the positionNumber
+        // line.setAppointmentFundingMonth(bcII.getIuNormalWorkMonths());
         line.setAppointmentRequestedAmount(new KualiInteger(0));
-        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
-        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
-        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedTimePercent(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedPayRate(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentFundingDurationCode(BCConstants.APPOINTMENT_FUNDING_DURATION_DEFAULT);
         line.setAppointmentRequestedCsfAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
-        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedCsfFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+        line.setAppointmentRequestedCsfTimePercent(new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR));
         line.setAppointmentTotalIntendedAmount(new KualiInteger(BigDecimal.ZERO));
-        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR));
-        
-        
+        line.setAppointmentTotalIntendedFteQuantity(new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR));
+
+
     }
 
     /**
-     * Gets the returnAnchor attribute. 
+     * Gets the returnAnchor attribute.
+     * 
      * @return Returns the returnAnchor.
      */
     public String getReturnAnchor() {
@@ -409,6 +426,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the returnAnchor attribute value.
+     * 
      * @param returnAnchor The returnAnchor to set.
      */
     public void setReturnAnchor(String returnAnchor) {
@@ -416,7 +434,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the returnFormKey attribute. 
+     * Gets the returnFormKey attribute.
+     * 
      * @return Returns the returnFormKey.
      */
     public String getReturnFormKey() {
@@ -425,6 +444,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the returnFormKey attribute value.
+     * 
      * @param returnFormKey The returnFormKey to set.
      */
     public void setReturnFormKey(String returnFormKey) {
@@ -432,7 +452,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the subAccountNumber attribute. 
+     * Gets the subAccountNumber attribute.
+     * 
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -441,6 +462,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the subAccountNumber attribute value.
+     * 
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -448,7 +470,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -457,6 +480,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -464,7 +488,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedAmountTotal attribute. 
+     * Gets the appointmentRequestedAmountTotal attribute.
+     * 
      * @return Returns the appointmentRequestedAmountTotal.
      */
     public KualiDecimal getAppointmentRequestedAmountTotal() {
@@ -473,6 +498,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedAmountTotal attribute value.
+     * 
      * @param appointmentRequestedAmountTotal The appointmentRequestedAmountTotal to set.
      */
     public void setAppointmentRequestedAmountTotal(KualiDecimal appointmentRequestedAmountTotal) {
@@ -480,7 +506,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedCsfAmountTotal attribute. 
+     * Gets the appointmentRequestedCsfAmountTotal attribute.
+     * 
      * @return Returns the appointmentRequestedCsfAmountTotal.
      */
     public KualiDecimal getAppointmentRequestedCsfAmountTotal() {
@@ -489,6 +516,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedCsfAmountTotal attribute value.
+     * 
      * @param appointmentRequestedCsfAmountTotal The appointmentRequestedCsfAmountTotal to set.
      */
     public void setAppointmentRequestedCsfAmountTotal(KualiDecimal appointmentRequestedCsfAmountTotal) {
@@ -496,7 +524,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedCsfFteQuantityTotal attribute. 
+     * Gets the appointmentRequestedCsfFteQuantityTotal attribute.
+     * 
      * @return Returns the appointmentRequestedCsfFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedCsfFteQuantityTotal() {
@@ -505,6 +534,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedCsfFteQuantityTotal attribute value.
+     * 
      * @param appointmentRequestedCsfFteQuantityTotal The appointmentRequestedCsfFteQuantityTotal to set.
      */
     public void setAppointmentRequestedCsfFteQuantityTotal(BigDecimal appointmentRequestedCsfFteQuantityTotal) {
@@ -512,7 +542,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedCsfStandardHoursTotal attribute. 
+     * Gets the appointmentRequestedCsfStandardHoursTotal attribute.
+     * 
      * @return Returns the appointmentRequestedCsfStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedCsfStandardHoursTotal() {
@@ -521,6 +552,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedCsfStandardHoursTotal attribute value.
+     * 
      * @param appointmentRequestedCsfStandardHoursTotal The appointmentRequestedCsfStandardHoursTotal to set.
      */
     public void setAppointmentRequestedCsfStandardHoursTotal(BigDecimal appointmentRequestedCsfStandardHoursTotal) {
@@ -528,7 +560,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedFteQuantityTotal attribute. 
+     * Gets the appointmentRequestedFteQuantityTotal attribute.
+     * 
      * @return Returns the appointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getAppointmentRequestedFteQuantityTotal() {
@@ -537,6 +570,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedFteQuantityTotal attribute value.
+     * 
      * @param appointmentRequestedFteQuantityTotal The appointmentRequestedFteQuantityTotal to set.
      */
     public void setAppointmentRequestedFteQuantityTotal(BigDecimal appointmentRequestedFteQuantityTotal) {
@@ -544,7 +578,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the appointmentRequestedStandardHoursTotal attribute. 
+     * Gets the appointmentRequestedStandardHoursTotal attribute.
+     * 
      * @return Returns the appointmentRequestedStandardHoursTotal.
      */
     public BigDecimal getAppointmentRequestedStandardHoursTotal() {
@@ -553,6 +588,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the appointmentRequestedStandardHoursTotal attribute value.
+     * 
      * @param appointmentRequestedStandardHoursTotal The appointmentRequestedStandardHoursTotal to set.
      */
     public void setAppointmentRequestedStandardHoursTotal(BigDecimal appointmentRequestedStandardHoursTotal) {
@@ -560,7 +596,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the csfAmountTotal attribute. 
+     * Gets the csfAmountTotal attribute.
+     * 
      * @return Returns the csfAmountTotal.
      */
     public KualiDecimal getCsfAmountTotal() {
@@ -569,6 +606,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the csfAmountTotal attribute value.
+     * 
      * @param csfAmountTotal The csfAmountTotal to set.
      */
     public void setCsfAmountTotal(KualiDecimal csfAmountTotal) {
@@ -576,7 +614,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the csfFullTimeEmploymentQuantityTotal attribute. 
+     * Gets the csfFullTimeEmploymentQuantityTotal attribute.
+     * 
      * @return Returns the csfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getCsfFullTimeEmploymentQuantityTotal() {
@@ -585,6 +624,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the csfFullTimeEmploymentQuantityTotal attribute value.
+     * 
      * @param csfFullTimeEmploymentQuantityTotal The csfFullTimeEmploymentQuantityTotal to set.
      */
     public void setCsfFullTimeEmploymentQuantityTotal(BigDecimal csfFullTimeEmploymentQuantityTotal) {
@@ -592,7 +632,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the csfStandardHoursTotal attribute. 
+     * Gets the csfStandardHoursTotal attribute.
+     * 
      * @return Returns the csfStandardHoursTotal.
      */
     public BigDecimal getCsfStandardHoursTotal() {
@@ -601,6 +642,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the csfStandardHoursTotal attribute value.
+     * 
      * @param csfStandardHoursTotal The csfStandardHoursTotal to set.
      */
     public void setCsfStandardHoursTotal(BigDecimal csfStandardHoursTotal) {
@@ -608,7 +650,8 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
     }
 
     /**
-     * Gets the orgSalSetClose attribute. 
+     * Gets the orgSalSetClose attribute.
+     * 
      * @return Returns the orgSalSetClose.
      */
     public boolean isOrgSalSetClose() {
@@ -617,6 +660,7 @@ public class IncumbentSalarySettingForm extends DetailSalarySettingForm {
 
     /**
      * Sets the orgSalSetClose attribute value.
+     * 
      * @param orgSalSetClose The orgSalSetClose to set.
      */
     public void setOrgSalSetClose(boolean orgSalSetClose) {

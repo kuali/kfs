@@ -35,12 +35,9 @@ import org.kuali.module.cg.service.CfdaService;
 import org.kuali.module.cg.service.CfdaUpdateResults;
 
 /**
- * Parses data from a government web page listing the valid CFDA codes. The
- * codes are then compared with what's in the CFDA table in Kuali. Codes set to
- * be managed automatically are reconciled with what's on the web page. Codes
- * managed manually are left alone. Finally an email containing a summary of
- * what was done by the step execution is sent to the member of the KUALI_CGCFDA
- * workgroup.
+ * Parses data from a government web page listing the valid CFDA codes. The codes are then compared with what's in the CFDA table in
+ * Kuali. Codes set to be managed automatically are reconciled with what's on the web page. Codes managed manually are left alone.
+ * Finally an email containing a summary of what was done by the step execution is sent to the member of the KUALI_CGCFDA workgroup.
  */
 public class CfdaBatchStep extends AbstractStep {
 
@@ -51,9 +48,9 @@ public class CfdaBatchStep extends AbstractStep {
     private MailService mailService;
     private KualiGroupService kualiGroupService;
     private UniversalUserService universalUserService;
-    
+
     /**
-     * See the class description.  
+     * See the class description.
      * 
      * @see org.kuali.kfs.batch.Step#execute()
      */
@@ -65,20 +62,20 @@ public class CfdaBatchStep extends AbstractStep {
 
             KualiGroup workgroup = kualiGroupService.getByGroupName(MAIL_RECIPIENTS_GROUP_NAME);
             List<String> memberNetworkIds = workgroup.getGroupUsers();
-            for(String id : memberNetworkIds) {
+            for (String id : memberNetworkIds) {
                 try {
                     AuthenticationUserId authId = new AuthenticationUserId(id.toUpperCase());
-                    UniversalUser user = 
-                        universalUserService.getUniversalUser(authId);
+                    UniversalUser user = universalUserService.getUniversalUser(authId);
                     String address = user.getPersonEmailAddress();
-                    if(!StringUtils.isEmpty(address)) {
+                    if (!StringUtils.isEmpty(address)) {
                         message.addToAddress(address);
                     }
-                } catch(UserNotFoundException unfe) {
+                }
+                catch (UserNotFoundException unfe) {
                     LOG.info("User " + id + " doesn't exist.", unfe);
                 }
             }
-            
+
             // TODO this message should come from some config file.
             StringBuilder builder = new StringBuilder();
             builder.append("The CFDA batch script is complete.\n");
@@ -108,17 +105,20 @@ public class CfdaBatchStep extends AbstractStep {
             builder.append(" records were not updated for historical reasons.\n");
             builder.append(" - Message\n");
             builder.append(null != results.getMessage() ? results.getMessage() : "");
-            
+
             message.setMessage(builder.toString());
             mailService.sendMessage(message);
 
-        } catch(IOException ioe) {
+        }
+        catch (IOException ioe) {
             LOG.warn("Exception while updating CFDA codes.", ioe);
             return false;
-        } catch(GroupNotFoundException gnfe) {
+        }
+        catch (GroupNotFoundException gnfe) {
             LOG.fatal("Couldn't find workgroup to send notification to.", gnfe);
             return true;
-        } catch(InvalidAddressException iae) {
+        }
+        catch (InvalidAddressException iae) {
             LOG.warn("The email address for one or more of the members of the " + MAIL_RECIPIENTS_GROUP_NAME + " workgroup is invalid.", iae);
             return true;
         }
@@ -133,7 +133,7 @@ public class CfdaBatchStep extends AbstractStep {
     public void setCfdaService(CfdaService cfdaService) {
         this.cfdaService = cfdaService;
     }
-    
+
     /**
      * Set the {@link MailService}. For use by Spring.
      * 
@@ -142,7 +142,7 @@ public class CfdaBatchStep extends AbstractStep {
     public void setMailService(MailService mailService) {
         this.mailService = mailService;
     }
-    
+
     /**
      * Sets the {@link KualiGroupService}. For use by Spring.
      * 
@@ -160,5 +160,5 @@ public class CfdaBatchStep extends AbstractStep {
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
-    
+
 }

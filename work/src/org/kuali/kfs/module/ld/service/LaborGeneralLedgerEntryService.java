@@ -18,19 +18,21 @@ package org.kuali.module.labor.service;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 
 /**
- * This interface provides its clients with access to labor general leger entries in the backend data store.  
+ * This interface provides its clients with access to labor general leger entries in the backend data store.
  */
 public interface LaborGeneralLedgerEntryService {
 
     /**
      * Save the given ledger entry or update it if it exsits
+     * 
      * @param ledgerEntry the given ledger entry
      */
     void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry);
-    
+
     /**
-     * The sequence number is one of the primary keys of ledger entry. The entries can be grouped by other
-     * keys. This method is used to get the maximum sequence number in the group of entries.
+     * The sequence number is one of the primary keys of ledger entry. The entries can be grouped by other keys. This method is used
+     * to get the maximum sequence number in the group of entries.
+     * 
      * @param ledgerEntry the given ledger entry
      * @return the maximum sequence number in a group of entries. If the group doesn't exist, return 0.
      */

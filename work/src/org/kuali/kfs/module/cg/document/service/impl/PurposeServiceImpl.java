@@ -30,19 +30,19 @@ import org.kuali.module.kra.routingform.service.PurposeService;
 public class PurposeServiceImpl implements PurposeService {
 
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * @see org.kuali.module.kra.routingform.service.PurposeService#getPurposes()
      */
     public List<Purpose> getPurposes() {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
-        
+
         Collection col = businessObjectService.findMatchingOrderBy(Purpose.class, fieldValues, KFSPropertyConstants.USER_SORT_NUMBER, true);
-        
+
         return new ArrayList(col);
     }
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

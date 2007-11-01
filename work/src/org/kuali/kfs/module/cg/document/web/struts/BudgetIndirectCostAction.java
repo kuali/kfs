@@ -37,8 +37,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetIndirectCostFormHelper;
 
 /**
  * This class handles Actions for Research Administration.
- * 
- * 
  */
 
 public class BudgetIndirectCostAction extends BudgetAction {
@@ -58,7 +56,7 @@ public class BudgetIndirectCostAction extends BudgetAction {
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         BudgetForm budgetForm = (BudgetForm) form;
-        
+
         SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetForm.getBudgetDocument());
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
 
@@ -74,13 +72,13 @@ public class BudgetIndirectCostAction extends BudgetAction {
         indirectCost.setDocumentNumber(budgetForm.getBudgetDocument().getDocumentNumber());
 
         List<BudgetIndirectCostLookup> budgetIndirectCostLookups = new ArrayList(budgetForm.getBudgetDocument().getBudget().getBudgetIndirectCostLookups());
-        
+
         // we are only saving indirect cost items, so load the doc and
         // set the indirect cost items to the proper ones.
         this.load(mapping, form, request, response);
         budgetForm.getBudgetDocument().getBudget().setIndirectCost(indirectCost);
         budgetForm.getBudgetDocument().getBudget().setBudgetIndirectCostLookups(budgetIndirectCostLookups);
-        
+
         super.save(mapping, form, request, response);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -117,15 +115,15 @@ public class BudgetIndirectCostAction extends BudgetAction {
 
         return this.update(mapping, form, request, response);
     }
-    
-    
+
+
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);
-        
+
         BudgetForm budgetForm = (BudgetForm) form;
         SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetForm.getBudgetDocument());
         budgetForm.setBudgetIndirectCostFormHelper(new BudgetIndirectCostFormHelper(budgetForm));
-        
+
         return forward;
     }
 }

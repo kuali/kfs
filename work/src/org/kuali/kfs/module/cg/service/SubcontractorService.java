@@ -31,10 +31,10 @@ public interface SubcontractorService {
 
     /**
      * Finds a {@link Subcontractor} by subcontractor number.
-     *
+     * 
      * @param subcontractorNumber the primary key of the {@link Subcontractor} to get
      * @return the corresponding {@link Subcontractor}, or null if none
      */
     public Subcontractor getByPrimaryId(String subcontractorNumber);
-    
+
 }

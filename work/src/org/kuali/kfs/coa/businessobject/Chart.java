@@ -72,7 +72,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the finChartOfAccountDescription attribute.
      * 
      * @return Returns the finChartOfAccountDescription
-     * 
      */
     public String getFinChartOfAccountDescription() {
         return finChartOfAccountDescription;
@@ -82,7 +81,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Sets the finChartOfAccountDescription attribute.
      * 
      * @param finChartOfAccountDescription The finChartOfAccountDescription to set.
-     * 
      */
     public void setFinChartOfAccountDescription(String finChartOfAccountDescription) {
         this.finChartOfAccountDescription = finChartOfAccountDescription;
@@ -92,7 +90,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the finChartOfAccountActiveIndicator attribute.
      * 
      * @return Returns the finChartOfAccountActiveIndicator
-     * 
      */
     public boolean isFinChartOfAccountActiveIndicator() {
         return finChartOfAccountActiveIndicator;
@@ -102,7 +99,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Sets the finChartOfAccountActiveIndicator attribute.
      * 
      * @param finChartOfAccountActiveIndicator The finChartOfAccountActiveIndicator to set.
-     * 
      */
     public void setFinChartOfAccountActiveIndicator(boolean finChartOfAccountActiveIndicator) {
         this.finChartOfAccountActiveIndicator = finChartOfAccountActiveIndicator;
@@ -113,7 +109,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the finAccountsPayableObject attribute.
      * 
      * @return Returns the finAccountsPayableObject
-     * 
      */
     public ObjectCode getFinAccountsPayableObject() {
         return finAccountsPayableObject;
@@ -153,7 +148,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the finPreEncumbranceObject attribute.
      * 
      * @return Returns the finPreEncumbranceObject
-     * 
      */
     public ObjectCode getFinPreEncumbranceObject() {
         return finPreEncumbranceObject;
@@ -173,7 +167,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the financialCashObject attribute.
      * 
      * @return Returns the financialCashObject
-     * 
      */
     public ObjectCode getFinancialCashObject() {
         return financialCashObject;
@@ -193,7 +186,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the icrIncomeFinancialObject attribute.
      * 
      * @return Returns the icrIncomeFinancialObject
-     * 
      */
     public ObjectCode getIcrIncomeFinancialObject() {
         return icrIncomeFinancialObject;
@@ -213,7 +205,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the finAccountsReceivableObj attribute.
      * 
      * @return Returns the finAccountsReceivableObj
-     * 
      */
     public ObjectCode getFinAccountsReceivableObj() {
         return finAccountsReceivableObj;
@@ -248,7 +239,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Gets the reportsToChartOfAccounts attribute.
      * 
      * @return Returns the reportsToChartOfAccounts
-     * 
      */
     public Chart getReportsToChartOfAccounts() {
         return reportsToChartOfAccounts;
@@ -315,7 +305,6 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
      * Sets the chartOfAccountsCode attribute value.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -615,7 +604,7 @@ public class Chart extends PersistableBusinessObjectBase implements Summarizable
     public void setFundBalanceObjectCode(String fundBalanceObjectCode) {
         this.fundBalanceObjectCode = fundBalanceObjectCode;
     }
-    
+
     /**
      * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
      */

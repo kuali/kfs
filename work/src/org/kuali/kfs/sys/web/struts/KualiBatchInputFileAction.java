@@ -49,7 +49,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.exceptions.FileStorageException;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
-import org.kuali.kfs.util.KFSUtils;
 import org.kuali.kfs.web.struts.form.KualiBatchInputFileForm;
 
 /**
@@ -116,7 +115,7 @@ public class KualiBatchInputFileAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_SAVE, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         if (!batchInputFileService.isFileUserIdentifierProperlyFormatted(batchUpload.getFileUserIdentifer())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_FILE_USER_IDENTIFIER_BAD_FORMAT, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -124,7 +123,7 @@ public class KualiBatchInputFileAction extends KualiAction {
 
         InputStream fileContents = ((KualiBatchInputFileForm) form).getUploadFile().getInputStream();
         byte[] fileByteContent = IOUtils.toByteArray(fileContents);
-        
+
         Object parsedObject = null;
         try {
             parsedObject = batchInputFileService.parse(batchType, fileByteContent);
@@ -161,7 +160,7 @@ public class KualiBatchInputFileAction extends KualiAction {
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         KualiBatchInputFileForm kualiBatchInputFileForm = (KualiBatchInputFileForm) form;
         BatchUpload batchUpload = kualiBatchInputFileForm.getBatchUpload();
-        
+
         if (StringUtils.isBlank(batchUpload.getExistingFileName())) {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DELETE, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -196,7 +195,7 @@ public class KualiBatchInputFileAction extends KualiAction {
             GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, KFSKeyConstants.ERROR_BATCH_UPLOAD_NO_FILE_SELECTED_DOWNLOAD, new String[] {});
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         BatchInputFileType batchType = retrieveBatchInputFileTypeImpl(batchUpload.getBatchInputTypeName());
         File batchInputFile = null;
         try {
@@ -241,10 +240,10 @@ public class KualiBatchInputFileAction extends KualiAction {
             LOG.error("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName());
             throw new RuntimeException(("Batch input type implementation not found for id " + form.getBatchUpload().getBatchInputTypeName()));
         }
-        
+
         BatchInputFileService batchInputFileService = SpringContext.getBean(BatchInputFileService.class);
         List<String> userFileNames = batchInputFileService.listBatchTypeFilesForUser(batchInputFileType, user);
-        
+
         userFiles.add(new KeyLabelPair("", ""));
         for (int i = 0; i < userFileNames.size(); i++) {
             String fileName = userFileNames.get(i);

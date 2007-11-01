@@ -22,27 +22,17 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.fixtures.PurapTestConstants.PREQInvoice;
 
 public enum PaymentRequestInvoiceTabFixture {
-    
-    WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID,
-            PREQInvoice.INVOICE_DATE,PREQInvoice.INVOICE_NUMBER,PREQInvoice.AMOUNT),
-    NO_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT(null,PREQInvoice.INVOICE_DATE,
-            PREQInvoice.INVOICE_NUMBER,PREQInvoice.AMOUNT),
-    WITH_POID_NO_DATE_WITH_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID,
-            null,PREQInvoice.INVOICE_NUMBER,PREQInvoice.AMOUNT),
-    WITH_POID_WITH_DATE_NO_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID,
-            PREQInvoice.INVOICE_DATE,null,PREQInvoice.AMOUNT),
-    WITH_POID_WITH_DATE_WITH_NUMBER_NO_AMOUNT(PREQInvoice.PO_ID,
-            PREQInvoice.INVOICE_DATE,PREQInvoice.INVOICE_NUMBER, null)
-    
+
+    WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID, PREQInvoice.INVOICE_DATE, PREQInvoice.INVOICE_NUMBER, PREQInvoice.AMOUNT), NO_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT(null, PREQInvoice.INVOICE_DATE, PREQInvoice.INVOICE_NUMBER, PREQInvoice.AMOUNT), WITH_POID_NO_DATE_WITH_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID, null, PREQInvoice.INVOICE_NUMBER, PREQInvoice.AMOUNT), WITH_POID_WITH_DATE_NO_NUMBER_WITH_AMOUNT(PREQInvoice.PO_ID, PREQInvoice.INVOICE_DATE, null, PREQInvoice.AMOUNT), WITH_POID_WITH_DATE_WITH_NUMBER_NO_AMOUNT(PREQInvoice.PO_ID, PREQInvoice.INVOICE_DATE, PREQInvoice.INVOICE_NUMBER, null)
+
     ;
-    
+
     private Integer po_id;
     private Date invoice_date;
     private String invoice_num;
     private KualiDecimal amount;
-    
-    private PaymentRequestInvoiceTabFixture(Integer po_id,
-            Date invoice_date, String invoice_num, KualiDecimal amount) {       
+
+    private PaymentRequestInvoiceTabFixture(Integer po_id, Date invoice_date, String invoice_num, KualiDecimal amount) {
         this.po_id = po_id;
         this.invoice_date = invoice_date;
         this.invoice_num = invoice_num;

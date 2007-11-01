@@ -23,15 +23,13 @@ import org.kuali.module.chart.bo.PriorYearAccount;
 public interface PriorYearAccountService {
 
     /**
-     * 
      * @param chartCode
      * @param accountNumber
      * @return
      */
     public PriorYearAccount getByPrimaryKey(String chartCode, String accountNumber);
-    
+
     /**
-     * 
      * This method populates the prior year account table in the database with all the values from the current year account table.
      */
     public void populatePriorYearAccountsFromCurrent();

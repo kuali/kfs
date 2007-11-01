@@ -24,8 +24,6 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * This class returns list of payee type value pairs.
- * 
- * 
  */
 public class PayeeTypeValuesFinder extends KeyValuesBase {
 

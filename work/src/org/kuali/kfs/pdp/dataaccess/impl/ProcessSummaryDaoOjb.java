@@ -16,44 +16,44 @@ import org.kuali.module.pdp.dao.ProcessSummaryDao;
 
 /**
  * @author jsissom
- *
  */
-public class ProcessSummaryDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessSummaryDao  {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessSummaryDaoOjb.class);
+public class ProcessSummaryDaoOjb extends PlatformAwareDaoBaseOjb implements ProcessSummaryDao {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessSummaryDaoOjb.class);
 
-  public ProcessSummaryDaoOjb() {
-  }
+    public ProcessSummaryDaoOjb() {
+    }
 
-  public List getByPaymentProcess(PaymentProcess fp) {
-    LOG.debug("getByPaymentProcess() started");
+    public List getByPaymentProcess(PaymentProcess fp) {
+        LOG.debug("getByPaymentProcess() started");
 
-    Criteria criteria = new Criteria();
-    criteria.addEqualTo("processId",fp.getId());
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("processId", fp.getId());
 
-    QueryByCriteria qbc = new QueryByCriteria(ProcessSummary.class,criteria);
-    qbc.addOrderByDescending("disbursementTypeCode");
-    qbc.addOrderByAscending("sortGroupId");
-    qbc.addOrderByAscending("customerId");
+        QueryByCriteria qbc = new QueryByCriteria(ProcessSummary.class, criteria);
+        qbc.addOrderByDescending("disbursementTypeCode");
+        qbc.addOrderByAscending("sortGroupId");
+        qbc.addOrderByAscending("customerId");
 
-    return (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-  }
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 
-  public List getByProcessId(Integer id) {
-    LOG.debug("getByPaymentProcess() started");
+    public List getByProcessId(Integer id) {
+        LOG.debug("getByPaymentProcess() started");
 
-    Criteria criteria = new Criteria();
-    criteria.addEqualTo("processId",id);
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("processId", id);
 
-    QueryByCriteria qbc = new QueryByCriteria(ProcessSummary.class,criteria);
-    qbc.addOrderByDescending("disbursementTypeCode");
-    qbc.addOrderByAscending("sortGroupId");
-    qbc.addOrderByAscending("customerId");
+        QueryByCriteria qbc = new QueryByCriteria(ProcessSummary.class, criteria);
+        qbc.addOrderByDescending("disbursementTypeCode");
+        qbc.addOrderByAscending("sortGroupId");
+        qbc.addOrderByAscending("customerId");
 
-    return (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-  }
-  public void save(ProcessSummary ps) {
-    LOG.debug("save() started");
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+    }
 
-    getPersistenceBrokerTemplate().store(ps);
-  }
+    public void save(ProcessSummary ps) {
+        LOG.debug("save() started");
+
+        getPersistenceBrokerTemplate().store(ps);
+    }
 }

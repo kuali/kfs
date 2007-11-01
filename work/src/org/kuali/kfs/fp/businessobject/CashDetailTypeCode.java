@@ -25,8 +25,6 @@ import org.kuali.core.bo.KualiCodeBase;
  * record, a currency record, and a change out record (aggregated coin and currency together). Since we use the same tables to
  * represent this, we need an attribute to help differentiate between the bunch especially when they all three must co-exist within
  * the same parent CashReceiptDocument instance.
- * 
- * 
  */
 public class CashDetailTypeCode extends KualiCodeBase {
     private static final long serialVersionUID = -5228907091959656216L;

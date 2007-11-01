@@ -21,11 +21,11 @@ import org.kuali.module.kra.routingform.bo.Purpose;
 
 /**
  * Purpose Service
- * 
  */
 public interface PurposeService {
     /**
      * Returns the complete list of Purposes except for the inactive ones.
+     * 
      * @return typed list of Purposes
      */
     public List<Purpose> getPurposes();

@@ -30,7 +30,6 @@ public class ObjectTypeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectT
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectTypeDaoOjb.class);
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ObjectTypeDao#getByPrimaryKey(java.lang.String)
      */
     public ObjectType getByPrimaryKey(String code) {

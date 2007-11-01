@@ -19,12 +19,11 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 
 /**
  * This interface defines data access for {@link IndirectCostRecoveryExclusionType}
- * 
  */
 public interface IndirectCostRecoveryExclusionTypeDao {
     /**
-     * 
      * This method returns a specific {@link IndirectCostRecoveryExclusionType} based on the criteria passed in
+     * 
      * @param accountIndirectCostRecoveryTypeCode
      * @param chartOfAccountsCode
      * @param objectCode

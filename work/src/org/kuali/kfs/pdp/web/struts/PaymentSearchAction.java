@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -77,10 +76,10 @@ public class PaymentSearchAction extends BaseAction {
         String forward = "search";
         HttpSession session = request.getSession();
         LOG.debug("executeLogic() ************* SESSION ID = " + session.getId() + "  and created " + (new Timestamp(session.getCreationTime())).toString());
-        //before we attempt to do a search first validate the form fields.
-        PaymentDetailSearchForm searchForm = (PaymentDetailSearchForm)form;
+        // before we attempt to do a search first validate the form fields.
+        PaymentDetailSearchForm searchForm = (PaymentDetailSearchForm) form;
         ActionMessages errors = searchForm.validate(mapping, request);
-        if(errors != null && errors.size() > 0) {
+        if (errors != null && errors.size() > 0) {
             request.setAttribute("PaymentDetailSearchForm", searchForm);
             return null;
         }

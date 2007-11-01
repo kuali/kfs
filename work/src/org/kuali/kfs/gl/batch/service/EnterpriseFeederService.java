@@ -23,19 +23,18 @@ public interface EnterpriseFeederService {
     public static final String DONE_FILE_SUFFIX = ".done";
     public static final String DATA_FILE_SUFFIX = ".data";
     public static final String RECON_FILE_SUFFIX = ".recon";
-    
+
     /**
      * This method does the feeding
      * 
-     * @param processName this merely identifies the process executing the feed.
-     *   It will be used to build any error messages, but computationally it should be ignored.
+     * @param processName this merely identifies the process executing the feed. It will be used to build any error messages, but
+     *        computationally it should be ignored.
      * @param performNotifications whether notifications should be sent out
      */
     public void feed(String processName, boolean performNotifications);
-    
+
     /**
      * Returns the directory name from which files are loaded.
-     * 
      */
     public String getDirectoryName();
 }

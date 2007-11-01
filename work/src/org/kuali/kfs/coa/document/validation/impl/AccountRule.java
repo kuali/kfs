@@ -110,8 +110,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method calls the route rules
-     * but does not fail if any of them fail (this only happens on routing)
+     * This method calls the route rules but does not fail if any of them fail (this only happens on routing)
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -125,17 +125,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method calls the following rules:
-     * checkAccountGuidelinesValidation
-     * checkEmptyValues
-     * checkGeneralRules
-     * checkCloseAccount
-     * checkContractsAndGrants
-     * checkExpirationDate
-     * checkFundGroup
-     * checkSubFundGroup
-     * checkFiscalOfficerIsValidKualiUser
-     * this rule will fail on routing
+     * This method calls the following rules: checkAccountGuidelinesValidation checkEmptyValues checkGeneralRules checkCloseAccount
+     * checkContractsAndGrants checkExpirationDate checkFundGroup checkSubFundGroup checkFiscalOfficerIsValidKualiUser this rule
+     * will fail on routing
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -162,17 +155,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks the basic rules for empty values in an account and associated objects with this account
-     * If guidelines are required for this Business Object it checks to make sure that it is filled out
-     * It also checks for partially filled out reference keys on the following:
-     * continuationAccount
-     * incomeStreamAccount
-     * endowmentIncomeAccount
-     * reportsToAccount
-     * contractControlAccount
-     * indirectCostRecoveryAcct
+     * This method checks the basic rules for empty values in an account and associated objects with this account If guidelines are
+     * required for this Business Object it checks to make sure that it is filled out It also checks for partially filled out
+     * reference keys on the following: continuationAccount incomeStreamAccount endowmentIncomeAccount reportsToAccount
+     * contractControlAccount indirectCostRecoveryAcct
+     * 
      * @param maintenanceDocument
-     * @return false if any of these are empty 
+     * @return false if any of these are empty
      */
     protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
 
@@ -204,8 +193,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method validates that the account guidelines object is valid
+     * 
      * @param accountGuideline
      * @return true if account guideline is valid
      */
@@ -322,15 +311,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks some of the general business rules associated with this document
-     * Calls the following rules:
-     * accountNumberStartsWithAllowedPrefix
-     * isNonSystemSupervisorEditingAClosedAccount
-     * hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate
-     * checkFringeBenefitAccountRule
-     * checkUserStatusAndType (on fiscal officer, supervisor and manager)
-     * ensures that the fiscal officer, supervisor and manager are not the same
+     * This method checks some of the general business rules associated with this document Calls the following rules:
+     * accountNumberStartsWithAllowedPrefix isNonSystemSupervisorEditingAClosedAccount
+     * hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate checkFringeBenefitAccountRule checkUserStatusAndType (on fiscal
+     * officer, supervisor and manager) ensures that the fiscal officer, supervisor and manager are not the same
      * isContinuationAccountExpired
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -431,10 +417,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * the fringe benefit account (otherwise known as the reportsToAccount) is required if the fringe benefit code is set to N. The
+     * fringe benefit code of the account designated to accept the fringes must be Y.
      * 
-     *  the fringe benefit account (otherwise known as the reportsToAccount) is required if
-     *  the fringe benefit code is set to N.
-     *  The fringe benefit code of the account designated to accept the fringes must be Y.
      * @param newAccount
      * @return
      */
@@ -490,11 +475,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         return result;
     }
-    
+
     /**
+     * This method is a helper method for checking if the supervisor user is the same as the fiscal officer Calls
+     * {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
      * 
-     * This method is a helper method for checking if the supervisor user is the same as the fiscal officer
-     * Calls {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -503,9 +488,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method is a helper method for checking if the supervisor user is the same as the manager Calls
+     * {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
      * 
-     * This method is a helper method for checking if the supervisor user is the same as the manager
-     * Calls {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
      * @param accountGlobals
      * @return true if the two users are the same
      */
@@ -514,11 +499,11 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if two users are the same BusinessObject using their identifiers
+     * 
      * @param user1
      * @param user2
-     * @return true if these two users are the same 
+     * @return true if these two users are the same
      */
     protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
         if (ObjectUtils.isNull(user1)) {
@@ -569,9 +554,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if the user is trying to close the account and if so if any rules are being violated
-     * Calls the additional rule
-     * checkAccountExpirationDateValidTodayOrEarlier
+     * This method checks to see if the user is trying to close the account and if so if any rules are being violated Calls the
+     * additional rule checkAccountExpirationDateValidTodayOrEarlier
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -637,8 +621,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checsk to see if the account expiration date is today's date or earlier
+     * 
      * @param newAccount
      * @return fails if the expiration date is null or after today's date
      */
@@ -667,10 +651,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if any Contracts and Grants business rules were violated
-     * Calls the following sub-rules:
-     * checkCgRequiredFields
-     * checkCgIncomeStreamRequired
+     * This method checks to see if any Contracts and Grants business rules were violated Calls the following sub-rules:
+     * checkCgRequiredFields checkCgIncomeStreamRequired
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -692,8 +674,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the income stream account is required
+     * 
      * @param newAccount
      * @return fails if it is required and not entered, or not valid
      */
@@ -752,7 +734,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             // KULCG-310
             // If the object ID is null then the new account has not yet been saved. It would therefore fail this check even though
             // it satisfies the rule. So, we don't want to check that the reference exists in that case.
-            if(!(newAccount.getIncomeStreamAccountNumber() == newAccount.getAccountNumber() && null == newAccount.getObjectId())) {
+            if (!(newAccount.getIncomeStreamAccountNumber() == newAccount.getAccountNumber() && null == newAccount.getObjectId())) {
                 // do an existence/active test
                 DictionaryValidationService dvService = super.getDictionaryValidationService();
                 boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
@@ -778,9 +760,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method checks to make sure that if the contracts and grants fields are required they are entered correctly
      * 
-     * This method checks to make sure that if the contracts and grants fields are required they are entered
-     * correctly
      * @param newAccount
      * @return
      */
@@ -820,8 +801,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method is a helper method that replaces error tokens with values for contracts and grants labels
+     * 
      * @param errorConstant
      * @return error string that has had tokens "{0}" and "{1}" replaced
      */
@@ -835,9 +816,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method checks to make sure that if the contract control account exists it is the same as the Account that we are working
+     * on
      * 
-     * This method checks to make sure that if the contract control account exists it is the same as the 
-     * Account that we are working on
      * @param newAccount
      * @return false if the contract control account is entered and is not the same as the account we are maintaining
      */
@@ -929,9 +910,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method checks to see if the new expiration date is different from the old expiration and if it has if it is invalid
      * 
-     * This method checks to see if the new expiration date is different from the old
-     * expiration and if it has if it is invalid
      * @param maintDoc
      * @return true if expiration date has changed and is invalid
      */
@@ -982,10 +962,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if any Fund Group rules were violated
-     * Specifically:
-     * if we are dealing with a "GF" (General Fund) we cannot have an account with a
-     * budget recording level of "M" (Mixed)
+     * This method checks to see if any Fund Group rules were violated Specifically: if we are dealing with a "GF" (General Fund) we
+     * cannot have an account with a budget recording level of "M" (Mixed)
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -1047,10 +1025,10 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to see if any SubFund Group rules were violated
-     * Specifically:
-     * if SubFundGroup is empty or not "PFCMR" we cannot have a campus code or building code
-     * if SubFundGroup is "PFCMR" then campus code and building code "must" be entered and be valid codes
+     * This method checks to see if any SubFund Group rules were violated Specifically: if SubFundGroup is empty or not "PFCMR" we
+     * cannot have a campus code or building code if SubFundGroup is "PFCMR" then campus code and building code "must" be entered
+     * and be valid codes
+     * 
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -1163,8 +1141,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the contracts and grants fields are filled in or not
+     * 
      * @param account
      * @param propertyName - property to attach error to
      * @return false if the contracts and grants fields are blank
@@ -1181,8 +1159,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the generalLedgerPendingEntryService
+     * 
      * @param generalLedgerPendingEntryService
      */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
@@ -1190,8 +1168,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the laborLedgerPendingEntryService
+     * 
      * @param laborLedgerPendingEntryService
      */
     public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {
@@ -1199,8 +1177,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method sets the balanceService
+     * 
      * @param balanceService
      */
     public void setBalanceService(BalanceService balanceService) {

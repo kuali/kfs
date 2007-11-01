@@ -25,14 +25,13 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ChartUser;
 
 /**
- * 
  * This class holds utilities to assist with finding current chart and universal users
  */
 public class ValueFinderUtil {
-    
+
     /**
-     * 
      * This method returns the currently logged in Chart User.
+     * 
      * @return the currently logged in Chart User
      * @see ChartUser
      */
@@ -40,22 +39,24 @@ public class ValueFinderUtil {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
         if (currentUser != null) {
             Map<String, KualiModuleUser> moduleUsers = SpringContext.getBean(UniversalUserService.class).getModuleUsers(currentUser);
-            return (ChartUser)moduleUsers.get(ChartUser.MODULE_ID);
-        } else {
+            return (ChartUser) moduleUsers.get(ChartUser.MODULE_ID);
+        }
+        else {
             return null;
         }
     }
-    
+
     /**
-     * 
      * This method returns the currently logged in Universal User.
+     * 
      * @return the currently logged in Universal User
      * @see UniversalUser
      */
     private static UniversalUser getCurrentUniversalUser() {
         if (GlobalVariables.getUserSession() != null) {
             return GlobalVariables.getUserSession().getUniversalUser();
-        } else {
+        }
+        else {
             return null;
         }
     }

@@ -54,7 +54,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     public static final String CHECK_ENTRY_DETAIL = "individual";
     public static final String CHECK_ENTRY_TOTAL = "totals";
-    
+
     public static final String DOCUMENT_TYPE = "CR";
 
     // child object containers - for all the different reconciliation detail sections
@@ -68,10 +68,10 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     private KualiDecimal totalCashAmount = KualiDecimal.ZERO;
     private KualiDecimal totalCheckAmount = KualiDecimal.ZERO;
     private KualiDecimal totalCoinAmount = KualiDecimal.ZERO;
-    
+
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
-    
+
     private CashReceiptHeader cashReceiptHeader;
 
     /**
@@ -190,7 +190,6 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
@@ -322,7 +321,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * Gets the coinDetail attribute. 
+     * Gets the coinDetail attribute.
+     * 
      * @return Returns the coinDetail.
      */
     public CoinDetail getCoinDetail() {
@@ -331,6 +331,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Sets the coinDetail attribute value.
+     * 
      * @param coinDetail The coinDetail to set.
      */
     public void setCoinDetail(CoinDetail coinDetail) {
@@ -338,7 +339,8 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
     }
 
     /**
-     * Gets the currencyDetail attribute. 
+     * Gets the currencyDetail attribute.
+     * 
      * @return Returns the currencyDetail.
      */
     public CurrencyDetail getCurrencyDetail() {
@@ -347,6 +349,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Sets the currencyDetail attribute value.
+     * 
      * @param currencyDetail The currencyDetail to set.
      */
     public void setCurrencyDetail(CurrencyDetail currencyDetail) {
@@ -413,30 +416,30 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         }
         refreshCashDetails();
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#postProcessSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void postProcessSave(KualiDocumentEvent event) {
         super.postProcessSave(event);
-        
+
         if (retrieveCurrencyDetail() == null) {
             getCurrencyDetail().setDocumentNumber(this.getDocumentNumber());
             getCurrencyDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
             getCurrencyDetail().setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         }
-        
+
         if (retrieveCoinDetail() == null) {
             getCoinDetail().setDocumentNumber(this.getDocumentNumber());
             getCoinDetail().setFinancialDocumentTypeCode(CashReceiptDocument.DOCUMENT_TYPE);
             getCoinDetail().setCashieringRecordSource(KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         }
-        
+
         SpringContext.getBean(BusinessObjectService.class).save(getCurrencyDetail());
         SpringContext.getBean(BusinessObjectService.class).save(getCoinDetail());
     }
-    
+
     /**
      * This method refreshes the currency/coin details for this cash receipt document
      */
@@ -444,25 +447,28 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         this.currencyDetail = retrieveCurrencyDetail();
         this.coinDetail = retrieveCoinDetail();
     }
-    
+
     /**
      * Get this document's currency detail from the database
+     * 
      * @return the currency detail record for this cash receipt document
      */
     private CurrencyDetail retrieveCurrencyDetail() {
-        return (CurrencyDetail)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CurrencyDetail.class, getCashDetailPrimaryKey());
+        return (CurrencyDetail) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CurrencyDetail.class, getCashDetailPrimaryKey());
     }
-    
+
     /**
      * Grab this document's coin detail from the database
+     * 
      * @return the coin detail record for this cash receipt document
      */
     private CoinDetail retrieveCoinDetail() {
-        return (CoinDetail)SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
+        return (CoinDetail) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(CoinDetail.class, getCashDetailPrimaryKey());
     }
-    
+
     /**
-     * Gets the cashReceiptHeader attribute. 
+     * Gets the cashReceiptHeader attribute.
+     * 
      * @return Returns the cashReceiptHeader.
      */
     public CashReceiptHeader getCashReceiptHeader() {
@@ -471,6 +477,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Sets the cashReceiptHeader attribute value.
+     * 
      * @param cashReceiptHeader The cashReceiptHeader to set.
      */
     public void setCashReceiptHeader(CashReceiptHeader cashReceiptHeader) {
@@ -479,6 +486,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
     /**
      * Generate the primary key for a currency or coin detail related to this document
+     * 
      * @return a map with a representation of the proper primary key
      */
     private Map getCashDetailPrimaryKey() {
@@ -513,7 +521,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         return events;
     }
-    
+
     /**
      * Generates a List of instances of CheckEvent subclasses, one for each changed check in the union of the persistedLines and
      * currentLines lists. Events in the list will be grouped in order by event-type (update, add, delete).
@@ -579,7 +587,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         return lineEvents;
     }
-    
+
 
     /**
      * @param checks
@@ -602,7 +610,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
 
         return checkMap;
     }
-    
+
     public Check createNewCheck() {
         Check newCheck = new CheckBase();
         newCheck.setFinancialDocumentTypeCode(DOCUMENT_TYPE);
@@ -610,5 +618,5 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
         return newCheck;
     }
 
-    
+
 }

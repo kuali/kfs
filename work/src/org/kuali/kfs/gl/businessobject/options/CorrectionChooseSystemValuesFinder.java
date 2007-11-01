@@ -24,8 +24,6 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 
 /**
  * This class returns list of payment method key value pairs.
- * 
- * 
  */
 public class CorrectionChooseSystemValuesFinder extends KeyValuesBase {
 

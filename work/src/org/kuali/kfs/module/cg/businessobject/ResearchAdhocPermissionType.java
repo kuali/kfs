@@ -20,32 +20,35 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 public class ResearchAdhocPermissionType extends PersistableBusinessObjectBase {
-    
+
     private String permissionTypeCode;
     private String permissionTypeDescription;
-    
+
     public ResearchAdhocPermissionType() {
         super();
     }
-    
+
     public ResearchAdhocPermissionType(String permissionTypeCode, String permissionTypeDescription) {
         this.permissionTypeCode = permissionTypeCode;
         this.permissionTypeDescription = permissionTypeDescription;
     }
-    
+
     public String getPermissionTypeCode() {
         return permissionTypeCode;
     }
+
     public void setPermissionTypeCode(String permissionTypeCode) {
         this.permissionTypeCode = permissionTypeCode;
     }
+
     public String getPermissionTypeDescription() {
         return permissionTypeDescription;
     }
+
     public void setPermissionTypeDescription(String permissionTypeDescription) {
         this.permissionTypeDescription = permissionTypeDescription;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -20,14 +20,12 @@ import org.kuali.module.chart.bo.OffsetDefinition;
 
 /**
  * This interface defines basic methods that OffsetDefinition Dao's must provide
- * 
- * 
  */
 public interface OffsetDefinitionDao {
 
     /**
-     * 
      * This method retrieves a {@link OffsetDefinition} based on primary keys
+     * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
      * @param financialDocumentTypeCode

@@ -28,14 +28,12 @@ import org.kuali.module.chart.bo.Chart;
 
 /**
  * This class returns list of chart key value pairs with the key and label both being the chart code.
- * 
- * 
  */
 public class SimpleChartValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link Chart}s using their code as their key, and
-     * their code as the display value
+     * Creates a list of {@link Chart}s using their code as their key, and their code as the display value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

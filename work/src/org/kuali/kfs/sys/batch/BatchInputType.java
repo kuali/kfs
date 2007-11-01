@@ -21,25 +21,24 @@ import org.kuali.core.bo.user.UniversalUser;
 
 
 /**
- * Objects implementing this interface provide metadata necessary for
- * the batch upload screen to operate properly
+ * Objects implementing this interface provide metadata necessary for the batch upload screen to operate properly
  */
 public interface BatchInputType {
 
     /**
      * Checks fine grained security on the individual file.
-     *  
+     * 
      * @param user - user who is requesting the file
      * @param batchFile - File object
      * @return true if user has permissions, false otherwise
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile);
-    
+
     /**
      * Returns the authorization workgroup for the input type.
      */
     public Class getUploadWorkgroupParameterComponent();
-    
+
     /**
      * Returns the key for the application constants message to display as the title for the upload screen.
      */

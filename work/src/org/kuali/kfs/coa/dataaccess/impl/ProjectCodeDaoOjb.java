@@ -57,7 +57,6 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
     }
 
     /**
-     * 
      * @param projectCode - a populated ProjectCode object to be saved
      * @throws IllegalObjectStateException
      * @throws ValidationErrorList

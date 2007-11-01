@@ -23,8 +23,6 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 /**
  * This service interface defines methods necessary for retreiving fully populated AccountingPeriod business objects from the
  * database that are necessary for transaction processing in the application.
- * 
- * 
  */
 public interface AccountingPeriodService {
     /**
@@ -42,7 +40,6 @@ public interface AccountingPeriodService {
     public Collection getOpenAccountingPeriods();
 
     /**
-     * 
      * This method retrieves an individual AccountingPeriod based on the period and fiscal year
      * 
      * @param periodCode
@@ -58,11 +55,12 @@ public interface AccountingPeriodService {
      * @return period that matches the date
      */
     public AccountingPeriod getByDate(Date date);
-    
+
     /**
-     * This method compares two accounting periods, hopefully by comparing their closing dates.  If
-     * a is earlier than b, it should return a negative number; if a is later, it should return a
-     * positive number; and if the closing dates are equal, it should return a 0.
+     * This method compares two accounting periods, hopefully by comparing their closing dates. If a is earlier than b, it should
+     * return a negative number; if a is later, it should return a positive number; and if the closing dates are equal, it should
+     * return a 0.
+     * 
      * @param a the first accounting period to compare
      * @param b the second accounting period to compare
      * @return an integer representing which is earlier or later, or if they occur simultaneously

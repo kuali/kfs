@@ -18,24 +18,23 @@ package org.kuali.module.chart.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 
 public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
-    public OrganizationRoutingModelPreRules() {}
-    
+    public OrganizationRoutingModelPreRules() {
+    }
+
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {
-        OrganizationRoutingModelName model = (OrganizationRoutingModelName)maintDoc.getNewMaintainableObject().getBusinessObject();
+        OrganizationRoutingModelName model = (OrganizationRoutingModelName) maintDoc.getNewMaintainableObject().getBusinessObject();
         copyKeyAttributesToModelDetail(model);
         return true;
     }
-    
+
     protected void copyKeyAttributesToModelDetail(OrganizationRoutingModelName model) {
-        for (OrganizationRoutingModel modelDelegate: model.getOrganizationRoutingModel()) {
+        for (OrganizationRoutingModel modelDelegate : model.getOrganizationRoutingModel()) {
             modelDelegate.setChartOfAccountsCode(model.getChartOfAccountsCode());
             modelDelegate.setOrganizationCode(model.getOrganizationCode());
             modelDelegate.setOrganizationRoutingModelName(model.getOrganizationRoutingModelName());
         }
     }
-    
+
 }

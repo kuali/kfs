@@ -33,18 +33,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRiskService {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormResearchRiskServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    
+
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#setupResearchRisks(RoutingFormDocument routingFormDocument)
+     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#setupResearchRisks(RoutingFormDocument
+     *      routingFormDocument)
      */
     public void setupResearchRisks(RoutingFormDocument routingFormDocument) {
         List<ResearchRiskType> researchRiskTypes = getAllResearchRiskTypes();
         List<RoutingFormResearchRisk> researchRisks = new ArrayList<RoutingFormResearchRisk>();
-        for (ResearchRiskType researchRiskType: researchRiskTypes) {
+        for (ResearchRiskType researchRiskType : researchRiskTypes) {
             researchRisks.add(new RoutingFormResearchRisk(routingFormDocument.getDocumentNumber(), researchRiskType));
         }
         routingFormDocument.setRoutingFormResearchRisks(researchRisks);
@@ -52,22 +53,21 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
 
     /**
      * Get the list of all active research risk types from the database.
-     *
+     * 
      * @return List<ResearchRiskType>
      */
     private List<ResearchRiskType> getAllResearchRiskTypes() {
         return getResearchRiskTypes(new String[0]);
     }
-    
+
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#getResearchRiskTypes(String[]) 
+     * @see org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService#getResearchRiskTypes(String[])
      */
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes) {
         Map criteria = new HashMap();
         criteria.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, true);
-        List<ResearchRiskType> allActiveResearchRiskTypes = (List<ResearchRiskType>) this.businessObjectService.findMatchingOrderBy(
-                ResearchRiskType.class, criteria, KraPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
-        
+        List<ResearchRiskType> allActiveResearchRiskTypes = (List<ResearchRiskType>) this.businessObjectService.findMatchingOrderBy(ResearchRiskType.class, criteria, KraPropertyConstants.RESEARCH_RISK_TYPE_SORT_NUMBER, true);
+
         List<String> exceptCodesList = Arrays.asList(exceptCodes);
         List<ResearchRiskType> result = new ArrayList<ResearchRiskType>();
         for (ResearchRiskType type : allActiveResearchRiskTypes) {
@@ -77,7 +77,7 @@ public class RoutingFormResearchRiskServiceImpl implements RoutingFormResearchRi
         }
         return result;
     }
-    
+
     public List<String> getNotificationWorkgroups(String documentNumber) {
         Map fieldValues = new HashMap();
         fieldValues.put("documentNumber", documentNumber);

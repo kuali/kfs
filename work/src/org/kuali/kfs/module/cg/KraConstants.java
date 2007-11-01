@@ -206,9 +206,9 @@ public class KraConstants extends JstlConstants {
 
     // XSLT Stylesheet (Output)
     public static final String OUTPUT_PATH_PREFIX = "OUTPUT_PATH_PREFIX";
-    
+
     public static final String OUTPUT_XSL_FILENAME = "OUTPUT_XSL_FILENAME";
-    
+
     public static final String OUTPUT_GENERIC_BY_PERIOD_XSL_FILENAME = "OUTPUT_GENERIC_BY_PERIOD_XSL_FILENAME";
     public static final String OUTPUT_GENERIC_BY_TASK_XSL_FILENAME = "OUTPUT_GENERIC_BY_TASK_XSL_FILENAME";
     public static final String OUTPUT_NIH_MODULAR_XSL_FILENAME = "OUTPUT_NIH_MODULAR_XSL_FILENAME";
@@ -216,7 +216,7 @@ public class KraConstants extends JstlConstants {
     public static final String OUTPUT_NIH398_XSL_FILENAME = "OUTPUT_NIH398_XSL_FILENAME";
     public static final String OUTPUT_NSF_SUMMARY_XSL_FILENAME = "OUTPUT_NSF_SUMMARY_XSL_FILENAME";
     public static final String OUTPUT_SF424_XSL_FILENAME = "OUTPUT_SF424_XSL_FILENAME";
-    
+
     public static class AuthorizationConstants extends org.kuali.core.authorization.AuthorizationConstants.EditMode {
         public static final String BUDGET_LINKED = "budgetLinked";
     }

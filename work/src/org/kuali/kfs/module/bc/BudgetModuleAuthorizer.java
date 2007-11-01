@@ -26,12 +26,13 @@ import org.kuali.module.budget.web.struts.action.OrganizationSelectionTreeAction
 public class BudgetModuleAuthorizer extends KfsModuleAuthorizerBase {
 
     /**
-     * @see org.kuali.kfs.authorization.KfsModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser, org.kuali.core.authorization.AuthorizationType)
+     * @see org.kuali.kfs.authorization.KfsModuleAuthorizerBase#isAuthorized(org.kuali.core.bo.user.UniversalUser,
+     *      org.kuali.core.authorization.AuthorizationType)
      */
     @Override
     public boolean isAuthorized(UniversalUser user, AuthorizationType authorizationType) {
 
-        if (OrganizationSelectionTreeAction.class.equals(authorizationType.getTargetObjectClass())){
+        if (OrganizationSelectionTreeAction.class.equals(authorizationType.getTargetObjectClass())) {
             return user.isActiveForModule(getModule().getModuleId());
         }
         return super.isAuthorized(user, authorizationType);

@@ -28,7 +28,7 @@ public class UniversityDateServiceTest extends KualiTestBase {
     public final void testGetCurrentFiscalYear() {
         int currentFiscalYearAccordingToUniversityDateService = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         Calendar today = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
-        int currentFiscalYearAccordingToTest = today.get(Calendar.YEAR); 
+        int currentFiscalYearAccordingToTest = today.get(Calendar.YEAR);
         if (today.get(Calendar.MONTH) >= Calendar.JULY) {
             currentFiscalYearAccordingToTest++;
         }
@@ -55,5 +55,5 @@ public class UniversityDateServiceTest extends KualiTestBase {
         assertNull("This date shouldn't be in sh_univ_date_t", SpringContext.getBean(UniversityDateService.class).getFiscalYear(badTimestamp));
         assertEquals("This date should be in sh_univ_date_t", new Integer(1994), SpringContext.getBean(UniversityDateService.class).getFiscalYear(goodTimestamp));
     }
-    
+
 }

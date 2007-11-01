@@ -27,7 +27,6 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -50,12 +49,12 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
 
     private String correctionTypeCode; // CorrectionDocumentService.CORRECTION_TYPE_MANUAL or
-                                       // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA or
-                                       // CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING
+    // CorrectionDocumentService.CORRECTION_TYPE_CRITERIA or
+    // CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING
     private boolean correctionSelection; // false if all input rows should be in the output, true if only selected rows should be
-                                            // in the output
+    // in the output
     private boolean correctionFileDelete; // false if the file should be processed by scrubber, true if the file should not be
-                                            // processed by scrubber
+    // processed by scrubber
     private Integer correctionRowCount; // Row count in output group
     private KualiDecimal correctionDebitTotalAmount; // Debit amount total in output group
     private KualiDecimal correctionCreditTotalAmount; // Credit amount total in output group
@@ -160,7 +159,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
             if (CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING.equals(correctionType)) {
                 SpringContext.getBean(OriginEntryGroupService.class).dontProcessGroup(doc.getCorrectionInputGroupId());
             }
-            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
+            else if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
                 OriginEntryGroup outputGroup = originEntryGroupService.getExactMatchingEntryGroup(doc.getCorrectionOutputGroupId().intValue());
                 if (!doc.getCorrectionFileDelete()) {
                     LOG.debug("handleRouteStatusChange() Mark group as to be processed");
@@ -174,48 +173,48 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         }
     }
 
-    
+
     /**
      * Constant for the workgroup approval routing level
      */
     private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     @Override
     public void handleRouteLevelChange(DocumentRouteLevelChangeVO change) {
         super.handleRouteLevelChange(change);
-        if(WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
+        if (WORKGROUP_APPROVAL_ROUTE_LEVEL.equals(change.getNewRouteLevel())) {
             String correctionType = getCorrectionTypeCode();
-            if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)){
+            if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionType) || CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionType)) {
                 String docId = getDocumentHeader().getDocumentNumber();
                 // this code is performed asynchronously
-                
+
                 // First, save the origin entries to the origin entry table
                 DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
                 OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
                 CorrectionDocumentService correctionDocumentService = SpringContext.getBean(CorrectionDocumentService.class);
-                
+
                 Iterator<OriginEntryFull> outputEntries = correctionDocumentService.retrievePersistedOutputOriginEntriesAsIterator(this);
-                
+
                 // Create output group
                 java.sql.Date today = dateTimeService.getCurrentSqlDate();
                 // Scrub is set to false when the document is initiated. When the document is final, it will be changed to true
                 OriginEntryGroup oeg = originEntryService.copyEntries(today, OriginEntrySource.GL_CORRECTION_PROCESS_EDOC, true, false, true, outputEntries);
-                
+
                 // Now, run the reports
                 ReportService reportService = SpringContext.getBean(ReportService.class);
                 ScrubberService scrubberService = SpringContext.getBean(ScrubberService.class);
-                
+
                 setCorrectionOutputGroupId(oeg.getId());
                 // not using the document service to save because it touches workflow, just save the doc BO as a regular BO
                 SpringContext.getBean(BusinessObjectService.class).save(this);
-                
+
                 LOG.debug("handleRouteStatusChange() Run reports");
-    
+
                 reportService.correctionOnlineReport(this, today);
-    
+
                 // Run the scrubber on this group to generate a bunch of reports. The scrubber won't save anything when running it
                 // this way.
                 scrubberService.scrubGroupReportOnly(oeg, docId);
@@ -229,7 +228,7 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     public KualiDecimal getTotalDollarAmount() {
         return getCorrectionCreditTotalAmount().add(getCorrectionDebitTotalAmount());
     }
-    
+
     /**
      * We need to make sure this is set on all the child objects also
      * 

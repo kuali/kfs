@@ -18,8 +18,6 @@ package org.kuali.module.vendor.fixtures;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorType;
@@ -31,10 +29,7 @@ import org.kuali.module.vendor.fixtures.VendorTestConstants.AddressTypes;
  */
 public enum VendorRuleAddressTypeFixture {
 
-    WITH_PO_TYPE_AND_PO_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.poType, false), 
-    WITH_DV_TYPE_AND_RM_ADDR_TYPES(AddressTypes.dvType, AddressTypes.rmType, true, AddressTypes.rmType, false), 
-    WITH_PO_TYPE_AND_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.rmType, true, AddressTypes.rmType, false), 
-    WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.rmType, true), ;
+    WITH_PO_TYPE_AND_PO_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.poType, false), WITH_DV_TYPE_AND_RM_ADDR_TYPES(AddressTypes.dvType, AddressTypes.rmType, true, AddressTypes.rmType, false), WITH_PO_TYPE_AND_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.rmType, true, AddressTypes.rmType, false), WITH_PO_TYPE_AND_ONE_PO_AND_ONE_RM_ADDR_TYPES(AddressTypes.poType, AddressTypes.poType, true, AddressTypes.rmType, true), ;
 
     private String typeCode;
     private String addrTypeCode1;

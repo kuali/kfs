@@ -23,5 +23,5 @@
 package org.kuali.module.pdp.service;
 
 public interface AchService {
-    public AchInformation getAchInformation(String idType,String payeeId,String psdTransactionCode);
+    public AchInformation getAchInformation(String idType, String payeeId, String psdTransactionCode);
 }

@@ -17,6 +17,7 @@ package org.kuali.module.labor.bo;
 
 import java.util.HashSet;
 import java.util.Set;
+
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.AccountingLineOverride.COMPONENT;
@@ -85,7 +86,7 @@ public class LaborAccountingLineOverride {
             neededOverrideComponents.add(COMPONENT.NON_FRINGE_ACCOUNT_USED);
         }
         Integer[] inputComponentArray = neededOverrideComponents.toArray(new Integer[neededOverrideComponents.size()]);
-        
+
         return AccountingLineOverride.valueOf(inputComponentArray);
     }
 }

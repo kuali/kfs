@@ -46,13 +46,11 @@ import org.kuali.module.financial.service.CashReceiptService;
 
 /**
  * This class is the action form for CashManagement
- * 
- * 
  */
 public class CashManagementForm extends KualiDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private static Logger LOG = Logger.getLogger(CashManagementForm.class);
-    
+
     private static final String WORKGROUP_NAME_PROPERTY = "document.workgroupName";
 
     private List depositHelpers;
@@ -74,7 +72,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         setFormatterType("cashDrawerSummary.timeOpened", TimestampAMPMFormatter.class);
         setFormatterType("cashDrawerSummary.timeRefreshed", TimestampAMPMFormatter.class);
         setFormatterType("cashDrawerSummary.*Total", CurrencyFormatter.class);
-        
+
         setFormatterType("document.currentTransaction.transactionStarted", TimestampAMPMFormatter.class);
     }
 
@@ -113,10 +111,10 @@ public class CashManagementForm extends KualiDocumentFormBase {
             }
         }
     }
-    
+
     /**
-     * Tells any JSP page using this form whether an action can be taken to make the last interim
-     * deposit the final deposit
+     * Tells any JSP page using this form whether an action can be taken to make the last interim deposit the final deposit
+     * 
      * @return true if last interim deposit could be the final deposit, false if otherwise
      */
     public boolean isLastInterimDepositFinalizable() {
@@ -152,7 +150,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
     }
 
     /**
-     * Gets the recentlyClosedItemsInProcess attribute. 
+     * Gets the recentlyClosedItemsInProcess attribute.
+     * 
      * @return Returns the recentlyClosedItemsInProcess.
      */
     public List<CashieringItemInProcess> getRecentlyClosedItemsInProcess() {
@@ -161,6 +160,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
     /**
      * Sets the recentlyClosedItemsInProcess attribute value.
+     * 
      * @param recentlyClosedItemsInProcess The recentlyClosedItemsInProcess to set.
      */
     public void setRecentlyClosedItemsInProcess(List<CashieringItemInProcess> recentlyClosedItemsInProcess) {
@@ -192,8 +192,6 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
     /**
      * Inner helper class.
-     * 
-     * 
      */
     public static final class DepositHelper {
         private Integer depositLineNumber;
@@ -224,7 +222,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
             for (CashReceiptDocument document : cashReceipts) {
                 cashReceiptSummarys.add(new CashReceiptSummary(document));
             }
-            
+
             cashieringChecks = cmService.selectCashieringChecksForDeposit(deposit.getDocumentNumber(), depositLineNumber);
         }
 
@@ -257,7 +255,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the cashieringChecks attribute. 
+         * Gets the cashieringChecks attribute.
+         * 
          * @return Returns the cashieringChecks.
          */
         public List<Check> getCashieringChecks() {
@@ -266,6 +265,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Get a specific cashiering check in the list of cashiering checks
+         * 
          * @param index the index of the check to retrieve
          * @return a check
          */
@@ -273,10 +273,10 @@ public class CashManagementForm extends KualiDocumentFormBase {
             extendCashieringChecks(index);
             return cashieringChecks.get(index);
         }
-        
+
         /**
-         * 
          * This method makes the cashiering checks list longer, to avoid Array Index out of bounds issues
+         * 
          * @param minSize the minimum size to make the list
          */
         private void extendCashieringChecks(int minSize) {
@@ -390,18 +390,18 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public void setTotalAmount(KualiDecimal totalAmount) {
             this.totalAmount = totalAmount;
         }
-        
+
         /**
          * Returns the total check amount for this CR
+         * 
          * @return a total of checks
          */
         public KualiDecimal getCheckAmount() {
             return this.checkAmount;
         }
-        
+
         /**
          * Sets the checkAmount attribute value.
-         * 
          */
         public void setCheckAmount(KualiDecimal checkAmount) {
             this.checkAmount = checkAmount;
@@ -496,7 +496,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
             overallReceiptCount = overallReceiptStats.getReceiptCount();
             depositedReceiptCount = interimReceiptStats.getReceiptCount() + finalReceiptStats.getReceiptCount();
-            
+
             // get cash drawer summary info
             depositedCashieringChecksTotal = calculateDepositedCashieringChecksTotal(cmDoc);
             undepositedCashieringChecksTotal = calculateUndepositedCashieringChecksTotal(cmDoc);
@@ -511,11 +511,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
             Map<Class, Object> finalDepositCashDetails = SpringContext.getBean(CashManagementService.class).getCashDetailsForFinalDeposit(cmDoc.getDocumentNumber());
             KualiDecimal currencyDepositAmount = KualiDecimal.ZERO;
             if (finalDepositCashDetails.get(CurrencyDetail.class) != null) {
-                currencyDepositAmount = ((CurrencyDetail)finalDepositCashDetails.get(CurrencyDetail.class)).getTotalAmount(); 
+                currencyDepositAmount = ((CurrencyDetail) finalDepositCashDetails.get(CurrencyDetail.class)).getTotalAmount();
             }
             KualiDecimal coinDepositAmount = KualiDecimal.ZERO;
             if (finalDepositCashDetails.get(CoinDetail.class) != null) {
-                coinDepositAmount = ((CoinDetail)finalDepositCashDetails.get(CoinDetail.class)).getTotalAmount();
+                coinDepositAmount = ((CoinDetail) finalDepositCashDetails.get(CoinDetail.class)).getTotalAmount();
             }
             finalDepositCashTotal = finalDepositCashTotal.add(currencyDepositAmount).add(coinDepositAmount);
             finalDepositedCashieringChecksTotal = results.get(DepositConstants.DEPOSIT_TYPE_FINAL).add(finalDepositCashTotal);
@@ -525,35 +525,35 @@ public class CashManagementForm extends KualiDocumentFormBase {
             interimReceiptSumTotal = interimReceiptStats.getCheckTotal().add(interimDepositedCashieringChecksTotal);
             finalReceiptSumTotal = finalReceiptStats.getCheckTotal().add(finalDepositedCashieringChecksTotal);
             overallReceiptSumTotal = overallReceiptStats.getSumTotal();
-            
+
             remainingCheckTotal = overallReceiptStats.getCheckTotal().subtract(interimReceiptStats.getCheckTotal()).subtract(finalReceiptStats.getCheckTotal());
             remainingCurrencyTotal = overallReceiptStats.getCurrencyTotal().subtract(currencyDepositAmount).subtract(depositedCashieringChecksTotal);
             remainingCoinTotal = overallReceiptStats.getCoinTotal().subtract(coinDepositAmount);
             remainingSumTotal = remainingCheckTotal.add(remainingCurrencyTotal.add(remainingCoinTotal));
-            
+
             isDepositsFinal = cmDoc.hasFinalDeposit();
-            
+
             timeRefreshed = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();
         }
 
         private KualiDecimal calculateDepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
             return SpringContext.getBean(CashManagementService.class).calculateDepositedCheckTotal(cmDoc.getDocumentNumber());
         }
-        
+
         private KualiDecimal calculateUndepositedCashieringChecksTotal(CashManagementDocument cmDoc) {
             return SpringContext.getBean(CashManagementService.class).calculateUndepositedCheckTotal(cmDoc.getDocumentNumber());
         }
-        
+
         private KualiDecimal calculateOpenItemsTotal(CashManagementDocument cmDoc) {
             KualiDecimal total = new KualiDecimal(0);
-            for (CashieringItemInProcess itemInProcess: SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(cmDoc)) {
+            for (CashieringItemInProcess itemInProcess : SpringContext.getBean(CashManagementService.class).getOpenItemsInProcess(cmDoc)) {
                 if (itemInProcess.getItemRemainingAmount() != null) {
                     total = total.add(itemInProcess.getItemRemainingAmount());
                 }
             }
             return total;
         }
-        
+
         private Map<String, KualiDecimal> calculateDepositedCashieringChecksTotalByDepositType(CashManagementDocument cmDoc) {
             Map<String, KualiDecimal> result = new HashMap<String, KualiDecimal>();
             result.put(DepositConstants.DEPOSIT_TYPE_INTERIM, new KualiDecimal(0));
@@ -563,11 +563,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
             // 2. get all deposits
             List<Deposit> deposits = cmDoc.getDeposits();
             Map<Integer, String> depositTypes = new HashMap<Integer, String>();
-            for (Deposit deposit: deposits) {
+            for (Deposit deposit : deposits) {
                 depositTypes.put(deposit.getFinancialDocumentDepositLineNumber(), deposit.getDepositTypeCode());
             }
             // 3. now, go through all cashiering checks, totalling them to the right deposit type
-            for (Check check: checks) {
+            for (Check check : checks) {
                 KualiDecimal properTotal = result.get(depositTypes.get(check.getFinancialDocumentDepositLineNumber()));
                 properTotal = properTotal.add(check.getAmount());
                 result.put(depositTypes.get(check.getFinancialDocumentDepositLineNumber()), properTotal);
@@ -800,7 +800,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the cashDrawerCoinTotal attribute. 
+         * Gets the cashDrawerCoinTotal attribute.
+         * 
          * @return Returns the cashDrawerCoinTotal.
          */
         public KualiDecimal getCashDrawerCoinTotal() {
@@ -808,7 +809,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the cashDrawerCurrencyTotal attribute. 
+         * Gets the cashDrawerCurrencyTotal attribute.
+         * 
          * @return Returns the cashDrawerCurrencyTotal.
          */
         public KualiDecimal getCashDrawerCurrencyTotal() {
@@ -816,7 +818,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the cashDrawerTotal attribute. 
+         * Gets the cashDrawerTotal attribute.
+         * 
          * @return Returns the cashDrawerTotal.
          */
         public KualiDecimal getCashDrawerTotal() {
@@ -824,7 +827,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the cashieringChecksTotal attribute. 
+         * Gets the cashieringChecksTotal attribute.
+         * 
          * @return Returns the cashieringChecksTotal.
          */
         public KualiDecimal getCashieringChecksTotal() {
@@ -833,6 +837,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the cashieringChecksTotal attribute value.
+         * 
          * @param cashieringChecksTotal The cashieringChecksTotal to set.
          */
         public void setCashieringChecksTotal(KualiDecimal cashieringChecksTotal) {
@@ -841,6 +846,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the depositedCashieringChecksTotal attribute value.
+         * 
          * @param depositedCashieringChecksTotal The depositedCashieringChecksTotal to set.
          */
         public void setDepositedCashieringChecksTotal(KualiDecimal depositedCashieringChecksTotal) {
@@ -848,7 +854,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the isDepositsFinal attribute. 
+         * Gets the isDepositsFinal attribute.
+         * 
          * @return Returns the isDepositsFinal.
          */
         public boolean isDepositsFinal() {
@@ -857,6 +864,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the cashDrawerCoinTotal attribute value.
+         * 
          * @param cashDrawerCoinTotal The cashDrawerCoinTotal to set.
          */
         public void setCashDrawerCoinTotal(KualiDecimal cashDrawerCoinTotal) {
@@ -865,6 +873,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the cashDrawerCurrencyTotal attribute value.
+         * 
          * @param cashDrawerCurrencyTotal The cashDrawerCurrencyTotal to set.
          */
         public void setCashDrawerCurrencyTotal(KualiDecimal cashDrawerCurrencyTotal) {
@@ -873,6 +882,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the cashDrawerTotal attribute value.
+         * 
          * @param cashDrawerTotal The cashDrawerTotal to set.
          */
         public void setCashDrawerTotal(KualiDecimal cashDrawerTotal) {
@@ -881,6 +891,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the openItemsTotal attribute value.
+         * 
          * @param openItemsTotal The openItemsTotal to set.
          */
         public void setOpenItemsTotal(KualiDecimal openItemsTotal) {
@@ -889,6 +900,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
         /**
          * Sets the undepositedCashieringChecksTotal attribute value.
+         * 
          * @param undepositedCashieringChecksTotal The undepositedCashieringChecksTotal to set.
          */
         public void setUndepositedCashieringChecksTotal(KualiDecimal undepositedCashieringChecksTotal) {
@@ -896,7 +908,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the openItemsTotal attribute. 
+         * Gets the openItemsTotal attribute.
+         * 
          * @return Returns the openItemsTotal.
          */
         public KualiDecimal getOpenItemsTotal() {
@@ -904,7 +917,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the depositedCashieringChecksTotal attribute. 
+         * Gets the depositedCashieringChecksTotal attribute.
+         * 
          * @return Returns the depositedCashieringChecksTotal.
          */
         public KualiDecimal getDepositedCashieringChecksTotal() {
@@ -912,7 +926,8 @@ public class CashManagementForm extends KualiDocumentFormBase {
         }
 
         /**
-         * Gets the undepositedCashieringChecksTotal attribute. 
+         * Gets the undepositedCashieringChecksTotal attribute.
+         * 
          * @return Returns the undepositedCashieringChecksTotal.
          */
         public KualiDecimal getUndepositedCashieringChecksTotal() {
@@ -925,7 +940,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
         public CashReceiptStatistics getOverallReceiptStats() {
             return overallReceiptStats;
         }
-        
+
         public static final class CashReceiptStatistics {
             private int receiptCount;
             private KualiDecimal checkTotal;
@@ -971,9 +986,11 @@ public class CashManagementForm extends KualiDocumentFormBase {
 
                 return sumTotal;
             }
-            
+
             /**
-             * This method doesn't do anything but appease the demands of POJO form population...I mean...er...this sets the sum total, now doesn't it?
+             * This method doesn't do anything but appease the demands of POJO form population...I mean...er...this sets the sum
+             * total, now doesn't it?
+             * 
              * @param total total you want this method to ignore
              */
             public void setSumTotal(KualiDecimal total) {
@@ -1066,7 +1083,7 @@ public class CashManagementForm extends KualiDocumentFormBase {
     public void postprocessRequestParameters(Map requestParameters) {
         super.postprocessRequestParameters(requestParameters);
         // fish the workgroup name out of the parameters
-        String[] workgroupNames = (String[])requestParameters.get(CashManagementForm.WORKGROUP_NAME_PROPERTY);
+        String[] workgroupNames = (String[]) requestParameters.get(CashManagementForm.WORKGROUP_NAME_PROPERTY);
         String workgroupName = null;
         if (workgroupNames != null && workgroupNames.length > 0) {
             workgroupName = workgroupNames[0];
@@ -1076,6 +1093,6 @@ public class CashManagementForm extends KualiDocumentFormBase {
             getCashManagementDocument().setCashDrawer(SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(workgroupName, false));
         }
     }
-    
-    
+
+
 }

@@ -211,8 +211,8 @@ public class LaborConstants {
         consolidationAttributes.add(KFSPropertyConstants.PROJECT_CODE);
         consolidationAttributes.add(KFSPropertyConstants.ORGANIZATION_REFERENCE_ID);
         consolidationAttributes.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_DESC);
-        
-        //Reference Document Type, Reference Origin Code, Reference Document Number, Reversal Date, and Encumbrance Update Code. 
+
+        // Reference Document Type, Reference Origin Code, Reference Document Number, Reversal Date, and Encumbrance Update Code.
         consolidationAttributes.add(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE);
         consolidationAttributes.add(KFSPropertyConstants.REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE);
         consolidationAttributes.add(KFSPropertyConstants.REFERENCE_FINANCIAL_DOCUMENT_NUMBER);

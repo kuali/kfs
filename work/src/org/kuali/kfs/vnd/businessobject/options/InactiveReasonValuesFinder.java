@@ -44,7 +44,7 @@ public class InactiveReasonValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = inactiveReasons.iterator(); iter.hasNext();) {
             VendorInactiveReason reason = (VendorInactiveReason) iter.next();
-            labels.add(new KeyLabelPair( reason.getVendorInactiveReasonCode(), reason.getVendorInactiveReasonDescription() ));
+            labels.add(new KeyLabelPair(reason.getVendorInactiveReasonCode(), reason.getVendorInactiveReasonDescription()));
         }
 
         return labels;

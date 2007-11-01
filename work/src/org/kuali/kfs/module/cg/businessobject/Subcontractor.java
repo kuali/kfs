@@ -37,14 +37,15 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     private String subcontractorZipCode;
     private String subcontractorCountryCode;
     private boolean active;
-    
+
     private State subcontractorState;
     private Country subcontractorCountry;
-    
+
     /**
      * Default no-arg constructor.
      */
-    public Subcontractor() {}
+    public Subcontractor() {
+    }
 
     /**
      * Gets the subcontractorNumber attribute.
@@ -191,8 +192,8 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-     * Gets the active attribute. 
-	 *
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -201,7 +202,7 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
 
     /**
      * Sets the active attribute value.
-	 *
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -218,8 +219,8 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-	 * Gets the {@link Country} in which the subcontractor is located.
-	 *
+     * Gets the {@link Country} in which the subcontractor is located.
+     * 
      * @return the {@link Country} in which the subcontractor is located.
      */
     public Country getSubcontractorCountry() {
@@ -227,8 +228,8 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-	 * Sets the {@link Country} in which the subcontractor is located.
-	 *
+     * Sets the {@link Country} in which the subcontractor is located.
+     * 
      * @param country the {@link Country} in which the subcontractor is located.
      */
     public void setSubcontractorCountry(Country country) {
@@ -236,8 +237,8 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-	 * Gets the {@link State} in which the subcontractor is located.
-	 *
+     * Gets the {@link State} in which the subcontractor is located.
+     * 
      * @return the {@link State} in which the subcontractor is located.
      */
     public State getSubcontractorState() {
@@ -245,8 +246,8 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
     /**
-	 * Sets the {@link State} in which the subcontractor is located.
-	 *
+     * Sets the {@link State} in which the subcontractor is located.
+     * 
      * @param state the {@link State} in which the subcontractor is located.
      */
     public void setSubcontractorState(State state) {
@@ -254,4 +255,3 @@ public class Subcontractor extends PersistableBusinessObjectBase implements Inac
     }
 
 }
-

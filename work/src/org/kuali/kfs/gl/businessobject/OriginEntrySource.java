@@ -45,19 +45,19 @@ public class OriginEntrySource extends KualiCodeBase {
     public static final String PDP = "PDP";
 
     public static final String ENTERPRISE_FEED = "ENTP";
-    
+
     // Origin entry source codes that are used by Labor Distribution
     public static final String LABOR_MAIN_POSTER_ERROR = "LMPE";
-    public static final String LABOR_MAIN_POSTER_VALID = "LMPV";    
+    public static final String LABOR_MAIN_POSTER_VALID = "LMPV";
     public static final String LABOR_SCRUBBER_ERROR = "LSCE";
     public static final String LABOR_SCRUBBER_VALID = "LSCV";
     public static final String LABOR_BACKUP = "LBAK";
     public static final String LABOR_SCRUBBER_EXPIRED = "LSCX";
     public static final String LABOR_EDOC = "LDOC";
     public static final String LABOR_CORRECTION_PROCESS_EDOC = "LLCP";
-    
+
     public static final String LABOR_YEAR_END_BALANCE_FORWARD = "LBF";
-    
+
     public static final String LABOR_PAYROLL_ACCRUAL = "ACCR";
     public static final String LABOR_LEDGER_GENERAL_LEDGER = "LLGL";
 

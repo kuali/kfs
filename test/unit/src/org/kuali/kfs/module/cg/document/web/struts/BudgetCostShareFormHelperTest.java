@@ -22,13 +22,13 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.bo.BudgetNonpersonnelTest;
 import org.kuali.module.kra.bo.BudgetPeriodTest;
+import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
-import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetPeriodInstitutionCostShare;
+import org.kuali.module.kra.budget.bo.BudgetPeriodThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
-import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 import org.kuali.module.kra.budget.bo.UserAppointmentTask;
@@ -39,8 +39,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests methods in BudgetOverviewFormHelper.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetCostShareFormHelperTest extends KualiTestBase {
@@ -52,7 +50,7 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
     List<BudgetInstitutionCostShare> budgetInstitutionCostShare;
     List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare;
     BudgetIndirectCostFormHelper budgetIndirectCostFormHelper;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -82,20 +80,20 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         userAppointmentTasks.add(userAppointmentTask);
         budgetUser1.setUserAppointmentTasks(userAppointmentTasks);
         personnel.add(budgetUser1);
-        
+
         // University Cost Share Personnel
         institutionCostSharePersonnel = new ArrayList();
         InstitutionCostSharePersonnel universityCostSharePersonnel1 = new InstitutionCostSharePersonnel();
         universityCostSharePersonnel1.setChartOfAccountsCode("BL");
         universityCostSharePersonnel1.setOrganizationCode("CHEM");
         institutionCostSharePersonnel.add(universityCostSharePersonnel1);
-        
+
         // Nonpersonnel
         String[] categories = { "CO", "CO", "SC", "SC" };
         String[] subCategories = { "C1", "C1", "R3", "R1" };
         String[] subcontractorNumber = { "", "", "1", "2" };
         budgetNonpersonnelItems = BudgetNonpersonnelTest.createBudgetNonpersonnel(categories, subCategories, subcontractorNumber);
-        
+
         // Budget University Cost Share
         budgetInstitutionCostShare = new ArrayList();
         BudgetInstitutionCostShare budgetUniversityCostShare1 = new BudgetInstitutionCostShare();
@@ -108,7 +106,7 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         budgetPeriodUniversityCostShare.add(budgetPeriodUniversityCostShare2);
         budgetUniversityCostShare1.setBudgetPeriodCostShare(budgetPeriodUniversityCostShare);
         budgetInstitutionCostShare.add(budgetUniversityCostShare1);
-        
+
         // Budget Third Party Cost Share
         budgetThirdPartyCostShare = new ArrayList();
         BudgetThirdPartyCostShare budgetThirdPartyCostShare1 = new BudgetThirdPartyCostShare();
@@ -121,7 +119,7 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         budgetPeriodThirdPartyCostShare.add(budgetPeriodThirdPartyCostShare2);
         budgetThirdPartyCostShare1.setBudgetPeriodCostShare(budgetPeriodThirdPartyCostShare);
         budgetThirdPartyCostShare.add(budgetThirdPartyCostShare1);
-        
+
         // Budget Indirect Cost
         budgetIndirectCostFormHelper = new BudgetIndirectCostFormHelper();
         List periodTotalsList = new ArrayList();
@@ -138,16 +136,16 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
 
     public void testBudgetCostShareFormHelper() {
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(periods, personnel, budgetNonpersonnelItems, institutionCostSharePersonnel, budgetInstitutionCostShare, budgetThirdPartyCostShare, budgetIndirectCostFormHelper);
-        
+
         testSetupInstitutionDirect(budgetCostShareFormHelper.getInstitutionDirect());
-        
+
         testSetupThirdPartyDirect(budgetCostShareFormHelper.getThirdPartyDirect());
-        
+
         testSetupSubcontractors(budgetCostShareFormHelper);
-        
+
         testSetupTotals(budgetCostShareFormHelper);
     }
-    
+
     private void testSetupInstitutionDirect(BudgetCostShareFormHelper.Direct institutionDirect) {
         assertEquals("institutionDirect.getTotalBudgeted()[0] = 12000", institutionDirect.getTotalBudgeted()[0], new KualiInteger(12000));
         assertEquals("institutionDirect.getTotalBudgeted()[1] = 8000", institutionDirect.getTotalBudgeted()[1], new KualiInteger(8000));
@@ -155,30 +153,30 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         assertEquals("institutionDirect.getAmountDistributed()[1] = 10000", institutionDirect.getAmountDistributed()[1], new KualiInteger(10000));
         assertEquals("institutionDirect.getBalanceToBeDistributed()[0] = 7000", institutionDirect.getBalanceToBeDistributed()[0], new KualiInteger(7000));
         assertEquals("institutionDirect.getBalanceToBeDistributed()[1] = -2000", institutionDirect.getBalanceToBeDistributed()[1], new KualiInteger(-2000));
-        
+
         assertEquals("institutionDirect.getTotalTotalBudgeted()[0] = 20000", institutionDirect.getTotalTotalBudgeted(), new KualiInteger(20000));
         assertEquals("institutionDirect.getTotalAmountDistributed() = 15000", institutionDirect.getTotalAmountDistributed(), new KualiInteger(15000));
         assertEquals("institutionDirect.getTotalBalanceToBeDistributed() = 5000", institutionDirect.getTotalBalanceToBeDistributed(), new KualiInteger(5000));
 
         assertEquals("institutionDirect.getTotalSource()[0] = 3000", institutionDirect.getTotalSource()[0], new KualiInteger(3000));
-        
+
         assertEquals("institutionDirect.getInstitutionDirectPersonnel()[0][0] = 4000", institutionDirect.getInstitutionDirectPersonnel()[0][0], new KualiInteger(4000));
         assertEquals("institutionDirect.getInstitutionDirectPersonnel()[0][1] = 8000", institutionDirect.getInstitutionDirectPersonnel()[0][1], new KualiInteger(8000));
         assertEquals("institutionDirect.getTotalInstitutionDirectPersonnel()[0] = 12000", institutionDirect.getTotalInstitutionDirectPersonnel()[0], new KualiInteger(12000));
     }
-    
+
     private void testSetupThirdPartyDirect(BudgetCostShareFormHelper.Direct thirdPartyDirect) {
         assertEquals("thirdPartyDirect.getTotalBudgeted()[0] = 12000", thirdPartyDirect.getTotalBudgeted()[0], new KualiInteger(12000));
         assertEquals("thirdPartyDirect.getAmountDistributed()[0] = 9000", thirdPartyDirect.getAmountDistributed()[0], new KualiInteger(9000));
         assertEquals("thirdPartyDirect.getBalanceToBeDistributed()[0] = 3000", thirdPartyDirect.getBalanceToBeDistributed()[0], new KualiInteger(3000));
-        
+
         assertEquals("thirdPartyDirect.getTotalTotalBudgeted()[0] = 12000", thirdPartyDirect.getTotalTotalBudgeted(), new KualiInteger(12000));
         assertEquals("thirdPartyDirect.getTotalAmountDistributed()[0] = 13000", thirdPartyDirect.getTotalAmountDistributed(), new KualiInteger(13000));
         assertEquals("thirdPartyDirect.getTotalBalanceToBeDistributed()[0] = -1000", thirdPartyDirect.getTotalBalanceToBeDistributed(), new KualiInteger(-1000));
 
         assertEquals("thirdPartyDirect.getTotalSource()[0] = 7000", thirdPartyDirect.getTotalSource()[0], new KualiInteger(7000));
     }
-    
+
     private void testSetupSubcontractors(BudgetCostShareFormHelper budgetCostShareFormHelper) {
         List<BudgetCostShareFormHelper.Subcontractor> subcontractors = budgetCostShareFormHelper.getSubcontractors();
 
@@ -196,13 +194,13 @@ public class BudgetCostShareFormHelperTest extends KualiTestBase {
         // interest of time I'm omitting that. BudgetNonpersonnelCopyOverFormHelperTest could possibly be used for that
         // although it wouldn't be trivial...
     }
-    
+
     private void testSetupTotals(BudgetCostShareFormHelper budgetCostShareFormHelper) {
         assertEquals("institutionIndirectCostShare[0] = 500", budgetCostShareFormHelper.getInstitutionIndirectCostShare()[0], new KualiInteger(500));
         assertEquals("institutionIndirectCostShare[1] = 200", budgetCostShareFormHelper.getInstitutionIndirectCostShare()[1], new KualiInteger(200));
         assertEquals("total[0] = 20500", budgetCostShareFormHelper.getTotal()[0], new KualiInteger(20500));
         assertEquals("total[1] = 14200", budgetCostShareFormHelper.getTotal()[1], new KualiInteger(14200));
-        
+
         assertEquals("totalInstitutionIndirectCostShare = 700", budgetCostShareFormHelper.getTotalInstitutionIndirectCostShare(), new KualiInteger(700));
         assertEquals("totalTotal = 34700", budgetCostShareFormHelper.getTotalTotal(), new KualiInteger(34700));
     }

@@ -29,12 +29,11 @@ import org.kuali.module.gl.service.CollectorServiceTest;
 public class BatchAllTests {
 
     /**
-     * Suite for all batch screen tests.
-     * JUnit TestSuite
+     * Suite for all batch screen tests. JUnit TestSuite
      */
     public static Test suite() {
         TestSuite suite = new TestSuite("Batch Upload Tests");
-        
+
         suite.addTestSuite(BatchInputFileServiceTest.class);
         suite.addTestSuite(BatchInputServiceParseTest.class);
         suite.addTestSuite(BatchInputServiceSystemParametersTest.class);
@@ -42,10 +41,10 @@ public class BatchAllTests {
         suite.addTestSuite(PcdoLoadStepTest.class);
         suite.addTestSuite(CollectorStepTest.class);
         suite.addTestSuite(CollectorServiceTest.class);
-        
+
         return suite;
     }
-    
+
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }

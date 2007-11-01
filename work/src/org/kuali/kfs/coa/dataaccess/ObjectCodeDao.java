@@ -22,14 +22,12 @@ import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This interface defines basic methods that ObjectCode Dao's must provide
- * 
- * 
  */
 public interface ObjectCodeDao {
 
     /**
-     * 
      * Retrieves an ObjectCode object by primary key.
+     * 
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param financialObjectCode - part of composite key
@@ -39,8 +37,8 @@ public interface ObjectCodeDao {
 
 
     /**
-     * 
      * This method retrieves a list of years based on the chart of accounts code and object code passed in
+     * 
      * @param chartOfAccountsCode
      * @param financialObjectCode
      * @return list of years that match the chart and object code passed in

@@ -27,9 +27,10 @@ public interface CollectorDetailDao {
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
 
     public void save(CollectorDetail detail);
-    
+
     /**
      * Retrieves the DB table name that's mapped to instances of CollectorDetail
+     * 
      * @return
      */
     public String retrieveCollectorDetailTableName();

@@ -24,8 +24,6 @@ import org.kuali.module.financial.bo.Check;
 
 /**
  * Defines methods common to all AccountingLineEvents.
- * 
- * 
  */
 public abstract class CheckEventBase extends KualiDocumentEventBase implements CheckEvent {
     private static final Logger LOG = Logger.getLogger(CheckEventBase.class);

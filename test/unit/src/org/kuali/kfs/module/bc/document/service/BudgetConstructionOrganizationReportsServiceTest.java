@@ -42,14 +42,15 @@ public class BudgetConstructionOrganizationReportsServiceTest extends KualiTestB
         // TODO Auto-generated method stub
         super.setUp();
         bcRptsToOrgs = null;
-        budgetConstructionOrganizationReportsService = SpringContext.getBean(BudgetConstructionOrganizationReportsService.class);                 
+        budgetConstructionOrganizationReportsService = SpringContext.getBean(BudgetConstructionOrganizationReportsService.class);
     }
 
-    public void testGetActiveChildOrgs() throws Exception{
+    public void testGetActiveChildOrgs() throws Exception {
 
-        if (!runTests()) return;
+        if (!runTests())
+            return;
 
-        bcRptsToOrgs = budgetConstructionOrganizationReportsService.getActiveChildOrgs("IU","UNIV");
+        bcRptsToOrgs = budgetConstructionOrganizationReportsService.getActiveChildOrgs("IU", "UNIV");
         assertTrue("Number IU-UNIV reporting orgs should be greater than 1", bcRptsToOrgs.size() > 1);
 
     }

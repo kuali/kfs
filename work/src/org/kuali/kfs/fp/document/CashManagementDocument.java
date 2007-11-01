@@ -39,8 +39,6 @@ import org.kuali.module.financial.service.CashManagementService;
 
 /**
  * This class represents the CashManagementDocument.
- * 
- * 
  */
 public class CashManagementDocument extends AccountingDocumentBase {
     private static final long serialVersionUID = 7475843770851900297L;
@@ -50,9 +48,9 @@ public class CashManagementDocument extends AccountingDocumentBase {
     private String referenceFinancialDocumentNumber;
 
     private List<Deposit> deposits;
-    
+
     private List<Check> checks;
-    
+
     private transient CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
 
@@ -220,27 +218,29 @@ public class CashManagementDocument extends AccountingDocumentBase {
         return managedLists;
     }
 
-    
+
     /**
-     * Gets the cashDrawer attribute. 
+     * Gets the cashDrawer attribute.
+     * 
      * @return Returns the cashDrawer.
      */
     public CashDrawer getCashDrawer() {
         return cashDrawer;
-        //return cashDrawerService.getByWorkgroupName(this.workgroupName, false);
+        // return cashDrawerService.getByWorkgroupName(this.workgroupName, false);
     }
-    
+
     /**
-     * 
      * Sets the cashDrawer attribute
+     * 
      * @param cd the cash drawer to set
      */
     public void setCashDrawer(CashDrawer cd) {
         cashDrawer = cd;
     }
-    
+
     /**
-     * Gets the currentTransaction attribute. 
+     * Gets the currentTransaction attribute.
+     * 
      * @return Returns the currentTransaction.
      */
     public CashieringTransaction getCurrentTransaction() {
@@ -250,6 +250,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
     /**
      * Sets the currentTransaction attribute value.
+     * 
      * @param currentTransaction The currentTransaction to set.
      */
     public void setCurrentTransaction(CashieringTransaction currentTransaction) {
@@ -257,7 +258,8 @@ public class CashManagementDocument extends AccountingDocumentBase {
     }
 
     /**
-     * Gets the checks attribute. 
+     * Gets the checks attribute.
+     * 
      * @return Returns the checks.
      */
     public List<Check> getChecks() {
@@ -266,6 +268,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
     /**
      * Sets the checks attribute value.
+     * 
      * @param checks The checks to set.
      */
     public void setChecks(List<Check> checks) {
@@ -274,12 +277,13 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
     /**
      * Add a check to the cash management document
+     * 
      * @param check
      */
     public void addCheck(Check check) {
         this.checks.add(check);
     }
-        
+
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
@@ -319,7 +323,7 @@ public class CashManagementDocument extends AccountingDocumentBase {
             LOG.debug("CMD stateIsDisapproved");
         }
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
      */
@@ -363,5 +367,5 @@ public class CashManagementDocument extends AccountingDocumentBase {
             currentTransaction.setNextCheckSequenceId(SpringContext.getBean(CashManagementService.class).selectNextAvailableCheckLineNumber(this.documentNumber));
         }
     }
-    
+
 }

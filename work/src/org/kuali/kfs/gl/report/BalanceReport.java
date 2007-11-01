@@ -98,7 +98,7 @@ public class BalanceReport {
      */
     public void generateReport(Date runDate, List<GlSummary> glBalances, String fiscalYearName, List<String> balanceTypeCodes, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
-        
+
         String reportTitle = "GL Summary for Fiscal Year " + fiscalYearName;
         this.generateReport(glBalances, balanceTypeCodes, runDate, reportTitle, fileprefix, destinationDirectory);
     }

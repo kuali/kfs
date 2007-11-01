@@ -60,10 +60,9 @@ public class ScrubberServiceImpl implements ScrubberService {
     private OriginEntryLiteService originEntryLiteService;
 
     /**
-     * 
      * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber) {
+    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
         LOG.debug("scrubGroupReportOnly() started");
 
         // The logic for this was moved into another object because the process was written using
@@ -71,12 +70,11 @@ public class ScrubberServiceImpl implements ScrubberService {
 
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, originEntryService, originEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
-        sp.scrubGroupReportOnly(group,documentNumber);
+        sp.scrubGroupReportOnly(group, documentNumber);
         sp.setReferenceLookup(null);
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
     public void scrubEntries() {
@@ -90,12 +88,12 @@ public class ScrubberServiceImpl implements ScrubberService {
         sp.scrubEntries();
         sp.setReferenceLookup(null);
     }
-    
+
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {
         if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {
             throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");
         }
-        
+
         // this service is especially developed to support collector scrubbing, demerger, and report generation
         ScrubberProcess sp = new ScrubberProcess(flexibleOffsetAccountService, documentTypeService, overrideOriginEntryService, overrideOriginEntryGroupService, dateTimeService, offsetDefinitionService, objectCodeService, kualiConfigurationService, universityDateDao, persistenceService, reportService, scrubberValidator, scrubberProcessObjectCodeOverride, runDateService, originEntryLiteService);
         sp.setReferenceLookup(SpringContext.getBean(OriginEntryLookupService.class));
@@ -117,7 +115,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the documentTypeService attribute value.
      * 
      * @param documentTypeService The documentTypeService to set.
-    */
+     */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
@@ -126,7 +124,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the scrubberValidator attribute value.
      * 
      * @param sv The scrubberValidator to set.
-    */
+     */
     public void setScrubberValidator(ScrubberValidator sv) {
         scrubberValidator = sv;
     }
@@ -135,16 +133,16 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the scrubberProcessObjectCodeOverride attribute value.
      * 
      * @param scrubberProcessObjectCodeOverride The scrubberProcessObjectCodeOverride to set.
-    */
+     */
     public void setScrubberProcessObjectCodeOverride(ScrubberProcessObjectCodeOverride scrubberProcessObjectCodeOverride) {
         this.scrubberProcessObjectCodeOverride = scrubberProcessObjectCodeOverride;
     }
-    
+
     /**
      * Sets the originEntryService attribute value.
      * 
      * @param oes The OriginEntryService to set.
-    */
+     */
     public void setOriginEntryService(OriginEntryService oes) {
         this.originEntryService = oes;
     }
@@ -153,7 +151,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param groupService The originEntryGroupService to set.
-    */
+     */
     public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
         this.originEntryGroupService = groupService;
     }
@@ -162,7 +160,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the dateTimeService attribute value.
      * 
      * @param dts The dateTimeService to set.
-    */
+     */
     public void setDateTimeService(DateTimeService dts) {
         this.dateTimeService = dts;
     }
@@ -171,7 +169,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the universityDateDao attribute value.
      * 
      * @param universityDateDao The universityDateDao to set.
-    */
+     */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
@@ -180,7 +178,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the persistenceService attribute value.
      * 
      * @param ps The persistenceService to set.
-    */
+     */
     public void setPersistenceService(PersistenceService ps) {
         persistenceService = ps;
     }
@@ -189,7 +187,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the offsetDefinitionService attribute value.
      * 
      * @param offsetDefinitionService The offsetDefinitionService to set.
-    */
+     */
     public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
         this.offsetDefinitionService = offsetDefinitionService;
     }
@@ -198,7 +196,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the objectCodeService attribute value.
      * 
      * @param objectCodeService The objectCodeService to set.
-    */
+     */
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
     }
@@ -207,7 +205,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the kualiConfigurationService attribute value.
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
-    */
+     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
@@ -216,7 +214,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the reportService attribute value.
      * 
      * @param reportService The reportService to set.
-    */
+     */
     public void setReportService(ReportService reportService) {
         this.reportService = reportService;
     }
@@ -225,7 +223,7 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the runDateService attribute value.
      * 
      * @param runDateService The runDateService to set.
-    */
+     */
     public RunDateService getRunDateService() {
         return runDateService;
     }
@@ -234,18 +232,19 @@ public class ScrubberServiceImpl implements ScrubberService {
      * Sets the runDateService attribute value.
      * 
      * @param runDateService The runDateService to set.
-    */
+     */
     public void setRunDateService(RunDateService runDateService) {
         this.runDateService = runDateService;
     }
 
     /**
      * Sets the originEntryLiteService attribute value.
+     * 
      * @param originEntryLiteService The originEntryLiteService to set.
      */
     public void setOriginEntryLiteService(OriginEntryLiteService originEntryLiteService) {
         this.originEntryLiteService = originEntryLiteService;
     }
-    
-    
+
+
 }

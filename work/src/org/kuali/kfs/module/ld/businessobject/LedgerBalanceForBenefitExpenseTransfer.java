@@ -45,7 +45,7 @@ public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implem
 
     /**
      * @see org.kuali.module.labor.bo.SegmentedBusinessObject#getSegmentedPropertyNames()
-     * @return a collection 
+     * @return a collection
      */
     public Collection<String> getSegmentedPropertyNames() {
         return (Collection<String>) Arrays.asList(AccountingPeriodProperties.namesToArray());
@@ -63,7 +63,7 @@ public class LedgerBalanceForBenefitExpenseTransfer extends LedgerBalance implem
         periodAmount = periodAmount.multiply(new KualiDecimal(100));
         NumberFormat formatter = NumberFormat.getIntegerInstance();
         String formattedAmount = formatter.format(periodAmount);
-        
+
         return StringUtils.replace(formattedAmount, ",", "");
     }
 }

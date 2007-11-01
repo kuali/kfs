@@ -21,17 +21,13 @@ import org.kuali.core.bo.KualiCode;
 
 /**
  * This interface defines methods that an KualiCodeBase Service must provide
- * 
- * 
  */
 public interface KualiCodeService {
 
     /**
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param code - code to search for
-     * @return KualiCodeBase
-     * 
-     * Retrieves an KualiCodeBase object by a given code.
+     * @return KualiCodeBase Retrieves an KualiCodeBase object by a given code.
      */
     public KualiCode getByCode(Class queryClass, String code);
 
@@ -40,16 +36,13 @@ public interface KualiCodeService {
     /**
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param name - name to search for
-     * @return KualiCodeBase
-     * 
-     * Retrieves an KualiCodeBase object by a given exact name.
+     * @return KualiCodeBase Retrieves an KualiCodeBase object by a given exact name.
      */
     public KualiCode getByName(Class queryClass, String name);
 
     /**
-     * @param kualiCode - KualiCodeBase (or subclass) to be saved
-     * 
-     * Pass the method a populated KualiCodeBase object, and it will be saved.
+     * @param kualiCode - KualiCodeBase (or subclass) to be saved Pass the method a populated KualiCodeBase object, and it will be
+     *        saved.
      */
     public void save(KualiCode kualiCode);
 

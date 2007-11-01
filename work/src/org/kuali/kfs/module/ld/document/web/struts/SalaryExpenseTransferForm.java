@@ -42,9 +42,9 @@ import org.kuali.module.labor.service.LaborUserService;
  * which contains all of the common form methods and form attributes needed by the Salary Expense Transfer document. It adds a new
  * method which is a convenience method for getting at the Salary Expense Transfer document easier.
  */
-public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {  
+public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     private static Log LOG = LogFactory.getLog(SalaryExpenseTransferForm.class);
-    
+
     private LaborUser user;
     private String balanceTypeCode;
     private String emplid;
@@ -100,7 +100,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Assign <code>{@link LaborUser}</code> instance to the struts form.
      * 
-     * @param user  The user to set.
+     * @param user The user to set.
      */
     public void setUser(LaborUser user) {
         this.user = user;
@@ -118,7 +118,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     /**
      * Sets the employee ID retrieved from the universal user service
      * 
-     * @param emplid    The emplid to set.  
+     * @param emplid The emplid to set.
      * @throws UserNotFoundException because a lookup at the database discovers user data from the personPayrollIdentifier
      */
     public void setEmplid(String id) {
@@ -151,7 +151,7 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
 
         return getSalaryExpenseTransferDocument().getEmplid();
     }
-    
+
     /**
      * Removes fields from map if users is allowed to edit.
      * 

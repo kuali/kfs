@@ -16,11 +16,9 @@
 package org.kuali.module.gl.dao;
 
 public interface OrgReversionUnitOfWorkDao {
-    
+
     /**
-     * 
-     * This method...this terrible method...will destroy each and every one
-     * of the innocent Org Reversion Unit of Work records.
+     * This method...this terrible method...will destroy each and every one of the innocent Org Reversion Unit of Work records.
      */
     public void destroyAllUnitOfWorkSummaries();
 }

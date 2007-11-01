@@ -51,21 +51,22 @@ public class ParameterRule extends org.kuali.core.rules.ParameterRule {
                     break;
                 }
             }
-    
+
             if (!result) {
                 Map<String, String> primaryKeys = new HashMap<String, String>(2);
                 primaryKeys.put("parameterNamespaceCode", namespace);
                 primaryKeys.put("parameterDetailTypeCode", component);
                 result = ObjectUtils.isNotNull(getBoService().findByPrimaryKey(ParameterDetailType.class, primaryKeys));
             }
-    
+
             if (!result) {
                 putFieldError("parameterDetailTypeCode", "error.document.parameter.detailType.invalid", component);
             }
-    
+
             return result;
-        } catch ( DataDictionaryException ex ) {
-            throw new RuntimeException( "Problem parsing data dictionary during full load required for rule validation: " + ex.getMessage(), ex );
+        }
+        catch (DataDictionaryException ex) {
+            throw new RuntimeException("Problem parsing data dictionary during full load required for rule validation: " + ex.getMessage(), ex);
         }
     }
 

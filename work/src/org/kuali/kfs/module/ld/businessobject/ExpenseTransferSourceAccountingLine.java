@@ -151,7 +151,7 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
         if (this.getSequenceNumber() != null) {
             m.put("sequenceNumber", this.getSequenceNumber().toString());
         }
-        
+
         return m;
     }
 
@@ -170,7 +170,7 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
         if (retval == 0) {
             retval = new Integer(getPayrollEndDateFiscalPeriodCode()).compareTo(new Integer(o.getPayrollEndDateFiscalPeriodCode()));
         }
-        
+
         return retval;
     }
 

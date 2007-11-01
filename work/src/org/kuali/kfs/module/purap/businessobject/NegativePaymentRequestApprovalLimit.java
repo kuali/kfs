@@ -25,29 +25,29 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * Negative Payment Request Approval Limit Business Object.
- * Maintenance document for setting limits for the auto-approve PREQ batch job.
+ * Negative Payment Request Approval Limit Business Object. Maintenance document for setting limits for the auto-approve PREQ batch
+ * job.
  */
 public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObjectBase {
 
-	private Integer negativePaymentRequestApprovalLimitIdentifier;
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String accountNumber;
-	private KualiDecimal negativePaymentRequestApprovalLimitAmount;
+    private Integer negativePaymentRequestApprovalLimitIdentifier;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String accountNumber;
+    private KualiDecimal negativePaymentRequestApprovalLimitAmount;
 
     private Chart chartOfAccounts;
-	private Account account;
-	private Org organization;
+    private Account account;
+    private Org organization;
 
-	/**
-	 * Default constructor.
-	 */
-	public NegativePaymentRequestApprovalLimit() {
+    /**
+     * Default constructor.
+     */
+    public NegativePaymentRequestApprovalLimit() {
 
-	}
+    }
 
-	public Account getAccount() {
+    public Account getAccount() {
         return account;
     }
 
@@ -121,13 +121,13 @@ public class NegativePaymentRequestApprovalLimit extends PersistableBusinessObje
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.negativePaymentRequestApprovalLimitIdentifier != null) {
             m.put("negativePaymentRequestApprovalLimitIdentifier", this.negativePaymentRequestApprovalLimitIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 }

@@ -17,14 +17,11 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class is an empty derived class of Balance for solving the conflict in lookup framework.
- * 
- * 
  */
 public class AccountBalanceByConsolidation extends AccountBalance {
 
     /**
      * Constructs a AccountBalanceByConsolidation.java.
-     * 
      */
     public AccountBalanceByConsolidation() {
         super();

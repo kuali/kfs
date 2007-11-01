@@ -100,7 +100,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Gets the finConsolidationObjectName attribute.
      * 
      * @return Returns the finConsolidationObjectName
-     * 
      */
     public String getFinConsolidationObjectName() {
         return finConsolidationObjectName;
@@ -110,7 +109,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Sets the finConsolidationObjectName attribute.
      * 
      * @param finConsolidationObjectName The finConsolidationObjectName to set.
-     * 
      */
     public void setFinConsolidationObjectName(String finConsolidationObjectName) {
         this.finConsolidationObjectName = finConsolidationObjectName;
@@ -120,7 +118,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Gets the finConsolidationObjShortName attribute.
      * 
      * @return Returns the finConsolidationObjShortName
-     * 
      */
     public String getFinConsolidationObjShortName() {
         return finConsolidationObjShortName;
@@ -130,7 +127,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Sets the finConsolidationObjShortName attribute.
      * 
      * @param finConsolidationObjShortName The finConsolidationObjShortName to set.
-     * 
      */
     public void setFinConsolidationObjShortName(String finConsolidationObjShortName) {
         this.finConsolidationObjShortName = finConsolidationObjShortName;
@@ -140,7 +136,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Gets the finConsolidationObjActiveIndicator attribute.
      * 
      * @return Returns the finConsolidationObjActiveIndicator
-     * 
      */
     public boolean isFinConsolidationObjActiveIndicator() {
         return finConsolidationObjActiveIndicator;
@@ -150,7 +145,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Sets the finConsolidationObjActiveIndicator attribute.
      * 
      * @param finConsolidationObjActiveIndicator The finConsolidationObjActiveIndicator to set.
-     * 
      */
     public void setFinConsolidationObjActiveIndicator(boolean finConsolidationObjActiveIndicator) {
         this.finConsolidationObjActiveIndicator = finConsolidationObjActiveIndicator;
@@ -160,7 +154,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Gets the financialReportingSortCode attribute.
      * 
      * @return Returns the financialReportingSortCode
-     * 
      */
     public String getFinancialReportingSortCode() {
         return financialReportingSortCode;
@@ -170,7 +163,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Sets the financialReportingSortCode attribute.
      * 
      * @param financialReportingSortCode The financialReportingSortCode to set.
-     * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
@@ -180,7 +172,6 @@ public class ObjectCons extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;

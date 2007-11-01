@@ -21,55 +21,54 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Exclusive kinds of basic business organization that a vendor may have.
- * Other broad exclusive categories for vendors can be instances of
- * <code>OwnershipCategory</code>.
+ * Exclusive kinds of basic business organization that a vendor may have. Other broad exclusive categories for vendors can be
+ * instances of <code>OwnershipCategory</code>.
  * 
  * @see org.kuali.module.vendor.bo.OwnershipCategory
  */
 public class OwnershipType extends PersistableBusinessObjectBase {
 
-	private String vendorOwnershipCode;
-	private String vendorOwnershipDescription;
-	private boolean vendorOwnershipCategoryAllowedIndicator;
+    private String vendorOwnershipCode;
+    private String vendorOwnershipDescription;
+    private boolean vendorOwnershipCategoryAllowedIndicator;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public OwnershipType() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public OwnershipType() {
 
-	public String getVendorOwnershipCode() {
-        
-		return vendorOwnershipCode;
-	}
+    }
 
-	public void setVendorOwnershipCode(String vendorOwnershipCode) {
-		this.vendorOwnershipCode = vendorOwnershipCode;
-	}
+    public String getVendorOwnershipCode() {
 
-	public String getVendorOwnershipDescription() {
-        
-		return vendorOwnershipDescription;
-	}
+        return vendorOwnershipCode;
+    }
 
-	public void setVendorOwnershipDescription(String vendorOwnershipDescription) {
-		this.vendorOwnershipDescription = vendorOwnershipDescription;
-	}
+    public void setVendorOwnershipCode(String vendorOwnershipCode) {
+        this.vendorOwnershipCode = vendorOwnershipCode;
+    }
 
-	public boolean getVendorOwnershipCategoryAllowedIndicator() {
-        
-		return vendorOwnershipCategoryAllowedIndicator;
-	}
+    public String getVendorOwnershipDescription() {
 
-	public void setVendorOwnershipCategoryAllowedIndicator(boolean vendorOwnershipCategoryAllowedIndicator) {
-		this.vendorOwnershipCategoryAllowedIndicator = vendorOwnershipCategoryAllowedIndicator;
-	}
+        return vendorOwnershipDescription;
+    }
+
+    public void setVendorOwnershipDescription(String vendorOwnershipDescription) {
+        this.vendorOwnershipDescription = vendorOwnershipDescription;
+    }
+
+    public boolean getVendorOwnershipCategoryAllowedIndicator() {
+
+        return vendorOwnershipCategoryAllowedIndicator;
+    }
+
+    public void setVendorOwnershipCategoryAllowedIndicator(boolean vendorOwnershipCategoryAllowedIndicator) {
+        this.vendorOwnershipCategoryAllowedIndicator = vendorOwnershipCategoryAllowedIndicator;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -78,12 +77,12 @@ public class OwnershipType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorOwnershipCode", this.vendorOwnershipCode);
-        
-	    return m;
+
+        return m;
     }
 }

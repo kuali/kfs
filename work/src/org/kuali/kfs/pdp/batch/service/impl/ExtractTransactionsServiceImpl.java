@@ -51,12 +51,12 @@ public class ExtractGlTransactionServiceImpl implements ExtractGlTransactionServ
         Date processDate = dateTimeService.getCurrentSqlDate();
         OriginEntryGroup oeg = null;
         Iterator transactions = glPendingTransactionService.getUnextractedTransactions();
-        while ( transactions.hasNext() ) {
-            GlPendingTransaction tran = (GlPendingTransaction)transactions.next();
+        while (transactions.hasNext()) {
+            GlPendingTransaction tran = (GlPendingTransaction) transactions.next();
 
             // We only want to create the group if there are transactions in the group
-            if ( oeg == null ) {
-                oeg = originEntryGroupService.createGroup(processDate, OriginEntrySource.PDP,true,true,true);
+            if (oeg == null) {
+                oeg = originEntryGroupService.createGroup(processDate, OriginEntrySource.PDP, true, true, true);
             }
 
             originEntryService.createEntry(tran.getOriginEntry(), oeg);
@@ -65,7 +65,7 @@ public class ExtractGlTransactionServiceImpl implements ExtractGlTransactionServ
             glPendingTransactionService.save(tran);
         }
 
-        if ( oeg != null ) {
+        if (oeg != null) {
             // Run a report
             Collection groups = new ArrayList();
             groups.add(oeg);

@@ -37,18 +37,16 @@ import org.kuali.module.kra.document.ResearchDocument;
 
 /**
  * This class...
- * 
- * 
  */
 public class BudgetDocumentRule extends ResearchDocumentRuleBase {
-    
+
     BudgetPersonnelRule budgetPersonnelRule = new BudgetPersonnelRule();
     BudgetParametersRule budgetParametersRule = new BudgetParametersRule();
     BudgetCostShareRule budgetCostShareRule = new BudgetCostShareRule();
     BudgetAuditRule budgetAuditRule = new BudgetAuditRule();
     BudgetModularRule budgetModularRule = new BudgetModularRule();
     BudgetIndirectCostRule budgetIndirectCostRule = new BudgetIndirectCostRule();
-    
+
     /**
      * Checks business rules related to adding a Period. This method exists so that these checks can be run on update manually.
      * 
@@ -69,7 +67,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
 
         for (Iterator iter = nonpersonnelItems.iterator(); iter.hasNext(); i++) {
             BudgetNonpersonnel budgetNonpersonnel = (BudgetNonpersonnel) iter.next();
-            
+
             DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
 
             if (StringUtils.isEmpty(budgetNonpersonnel.getBudgetNonpersonnelSubCategoryCode())) {
@@ -128,11 +126,11 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
 
         return valid;
     }
-    
+
     public boolean processRunAuditBusinessRules(Document document) {
         return budgetAuditRule.processRunAuditBusinessRules(document);
     }
-    
+
     public boolean processEnterModularBusinessRules(Document document) {
         return budgetModularRule.processEnterModularBusinessRules(document);
     }
@@ -150,7 +148,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
     }
 
     public boolean processInsertPersonnelBusinessRules(Document document, BudgetUser newBudgetUser, boolean isToBeNamed) {
-        return budgetPersonnelRule.processInsertPersonnelBusinessRules(((BudgetDocument)document).getBudget().getPersonnel(), newBudgetUser, isToBeNamed);
+        return budgetPersonnelRule.processInsertPersonnelBusinessRules(((BudgetDocument) document).getBudget().getPersonnel(), newBudgetUser, isToBeNamed);
     }
 
     public boolean processSavePersonnelBusinessRules(List personnel) {
@@ -176,7 +174,7 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
     public boolean isTaskListValid(List tasks) {
         return budgetParametersRule.isTaskListValid(tasks);
     }
-    
+
     public boolean verifyPersonnelRequiredFields(Document document) {
         return budgetPersonnelRule.verifyRequiredFields(document);
     }

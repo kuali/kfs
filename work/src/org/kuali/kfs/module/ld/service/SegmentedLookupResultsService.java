@@ -26,39 +26,35 @@ import org.kuali.core.service.DateTimeService;
 /**
  * Used for segemented lookup results
  */
-public interface SegmentedLookupResultsService extends LookupResultsService { 
+public interface SegmentedLookupResultsService extends LookupResultsService {
 
     /**
      * Retrieve the Date Time Service
-     *
+     * 
      * @return Date Time Service
      */
     public DateTimeService getDateTimeService();
-    
+
     /**
      * Assign the Date Time Service
-     *
+     * 
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService);
 
     /**
-     * 
      * @param lookupResultsSequenceNumber
      * @param universalUserId
-     * @return Set<String> 
+     * @return Set<String>
      */
-    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception ;
+    public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception;
 
     /**
-     *
      * @param lookupResultsSequenceNumber
      * @param setOfSelectedObjIds
      * @param boClass
      * @param universalUserId
      * @return Collection<PersistableBusinessObject>
      */
-    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, 
-                                                                           Set<String> setOfSelectedObjIds,
-                                                                           Class boClass, String universalUserId) throws Exception;    
+    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String universalUserId) throws Exception;
 }

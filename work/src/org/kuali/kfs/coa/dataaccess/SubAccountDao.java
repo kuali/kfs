@@ -22,14 +22,12 @@ import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * This interface defines basic methods that SubAccount Dao's must provide
- * 
- * 
  */
 public interface SubAccountDao {
 
     /**
-     * 
      * Retrieves a {@link SubAccount} object by primary key.
+     * 
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key
      * @param subAccountNumber - part of composite key

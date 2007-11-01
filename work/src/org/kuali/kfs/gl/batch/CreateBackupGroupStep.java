@@ -39,6 +39,7 @@ public class CreateBackupGroupStep extends AbstractStep {
 
     /**
      * Sets the originEntryGroupService attribute, allowing the injection of an implementation of the service
+     * 
      * @param oegs
      * @see org.kuali.module.gl.OriginEntryGroupService
      */

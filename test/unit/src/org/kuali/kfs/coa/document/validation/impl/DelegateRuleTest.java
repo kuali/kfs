@@ -33,8 +33,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class...
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class DelegateRuleTest extends ChartRuleTestBase {
@@ -92,7 +90,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     private MaintenanceDocument maintDoc;
 
     /**
-     * 
      * This method creates a delegate with a minimal set of known-good values.
      * 
      * @return
@@ -281,12 +278,9 @@ public class DelegateRuleTest extends ChartRuleTestBase {
 
 
     /**
-     * 
      * This method tests a Delegate that we have setup with all known good values for the required fields, and nothing or the
-     * default for the other fields.
-     * 
-     * This test should always pass, if it does not, then none of the following tests are meaningful, as the baseline is broken.
-     * 
+     * default for the other fields. This test should always pass, if it does not, then none of the following tests are meaningful,
+     * as the baseline is broken.
      */
     public void testCheckSimpleRules_validDelegate() {
         DelegateRule rule = new DelegateRule();
@@ -557,7 +551,6 @@ public class DelegateRuleTest extends ChartRuleTestBase {
     }
 
     /**
-     * 
      * This method simulates a user trying to create a delegate marked as primary when there is already an account with All
      * Documents for the doctype for the chart/account combo
      */

@@ -189,7 +189,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
         testAddAccountingLine_IsObjectSubTypeAllowed(DOCUMENT_CLASS, getValidObjectSubTypeTargetLine(), true);
     }
 
-    //@RelatesTo(JiraIssue.KULRNE4926)
+    // @RelatesTo(JiraIssue.KULRNE4926)
     public void testProcessSaveDocument_Valid() throws Exception {
         testSaveDocumentRule_ProcessSaveDocument(buildDocument(), true);
     }
@@ -227,7 +227,7 @@ public class JournalVoucherDocumentRuleTest extends KualiTestBase {
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceExpense() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), EXPENSE_LINE.createSourceAccountingLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE, null);
     }
-    
+
     public void testProcessGenerateGeneralLedgerPendingEntries_validSourceAsset() throws Exception {
         testGenerateGeneralLedgerPendingEntriesRule_ProcessGenerateGeneralLedgerPendingEntries(buildDocument(), getAssetSourceLine(), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY, null);
     }

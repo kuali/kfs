@@ -35,8 +35,6 @@ import org.springframework.dao.DataAccessException;
 
 /**
  * This class is the OJB implementation of the AccountingLineDao interface.
- * 
- * 
  */
 
 public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements AccountingLineDao {
@@ -78,11 +76,12 @@ public class AccountingLineDaoOjb extends PlatformAwareDaoBaseOjb implements Acc
         if (MetadataManager.getInstance().getRepository().getDescriptorFor(clazz).getFieldDescriptorByName("financialDocumentLineTypeCode") != null) {
             if (SourceAccountingLine.class.isAssignableFrom(clazz)) {
                 criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.SOURCE_ACCT_LINE_TYPE_CODE);
-            } else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
+            }
+            else if (TargetAccountingLine.class.isAssignableFrom(clazz)) {
                 criteria.addEqualTo("FDOC_LN_TYP_CD", KFSConstants.TARGET_ACCT_LINE_TYPE_CODE);
             }
         }
-        
+
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
         Collection lines = findCollection(query);
 

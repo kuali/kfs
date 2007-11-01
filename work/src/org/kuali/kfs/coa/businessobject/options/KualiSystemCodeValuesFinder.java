@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.core.bo.KualiCode;
 import org.kuali.core.bo.KualiCodeBase;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.service.KeyValuesService;
@@ -28,20 +27,15 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * 
- * This class is the base class for all the ValueFinders for any class extending KualiSystemCode.
- * 
- * Subclasses should extend this, but do nothing. Just extending this class will be sufficient to work.
- * 
- * 
- * 
+ * This class is the base class for all the ValueFinders for any class extending KualiSystemCode. Subclasses should extend this, but
+ * do nothing. Just extending this class will be sufficient to work.
  */
 public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
 
     /**
-     * Calls getValuesClass() to generate a list of key/value pairs from
-     * the {@link KualiCodeBase}'s code as the key and the code and description as the
-     * value
+     * Calls getValuesClass() to generate a list of key/value pairs from the {@link KualiCodeBase}'s code as the key and the code
+     * and description as the value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      * @return list of key/value pairs for displaying on the client side
      */
@@ -64,9 +58,8 @@ public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
     }
 
     /**
+     * This method must be implemented by the base class, should return the Class of the object being looked up
      * 
-     * This method must be implemented by the base class, should return the Class of the
-     * object being looked up
      * @return class of object being looked up
      */
     protected abstract Class getValuesClass();

@@ -25,8 +25,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * DocumentTestUtils
- * 
- * 
  */
 public class DocumentTestUtils {
     /**
@@ -50,8 +48,8 @@ public class DocumentTestUtils {
         return item;
     }
 
-    public static <D extends Document> D createDocument(DocumentService documentService,Class<D> docmentClass) throws WorkflowException {
-        D document = (D)documentService.getNewDocument(docmentClass);
+    public static <D extends Document> D createDocument(DocumentService documentService, Class<D> docmentClass) throws WorkflowException {
+        D document = (D) documentService.getNewDocument(docmentClass);
         document.getDocumentHeader().setExplanation("unit test created document");
 
         DocumentHeader documentHeader = document.getDocumentHeader();

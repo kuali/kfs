@@ -31,7 +31,7 @@ import org.kuali.module.labor.service.LaborCorrectionDocumentService;
  */
 public class LaborCorrectionForm extends CorrectionForm {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCorrectionForm.class);
-    
+
     private LaborOriginEntry laborEntryForManualEdit;
     private String laborEntryUniversityFiscalYear;
     private String laborEntryFinancialDocumentReversalDate;

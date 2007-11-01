@@ -24,17 +24,17 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class LedgerBalanceForTesting extends LedgerBalance {
-    
-    @ Override
-    public boolean equals(Object otherLedgerBalance){
+
+    @Override
+    public boolean equals(Object otherLedgerBalance) {
         return ObjectUtil.compareObject(this, otherLedgerBalance, getPrimaryKeyList());
     }
-    
+
     public Map getPrimaryKeyMap() {
         return ObjectUtil.buildPropertyMap(this, this.getPrimaryKeyList());
     }
-    
-    public List<String> getPrimaryKeyList(){
+
+    public List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

@@ -22,7 +22,7 @@ import org.kuali.core.util.KualiDecimal;
  * provides centralized storage of constants that occur throughout the tests
  */
 public interface KualiTestConstants {
-  
+
     /**
      * contains Test related constants
      */
@@ -32,7 +32,7 @@ public interface KualiTestConstants {
         public static final String BASE_PATH = "http://" + HOST + ":" + PORT + "/";
         public static final String MESSAGE = "JUNIT test entry. If this exist after the tests are not cleaning up correctly. Created by class";
         public static final String TEST_BATCH_STAGING_DIRECTORY = "/java/projects/kuali_project/test/src/org/kuali/test/staging/";
-        
+
         /**
          * group of data values that should work if used togther
          */
@@ -120,17 +120,18 @@ public interface KualiTestConstants {
             public static final String FEDERAL_FUNDED_CODE_BAD = "A";
             public static final String FEDERAL_FUNDED_NAME_BAD = "This is a bad code name";
         }
+
         public static class PositionObjectTestData {
             public static final String UNIVERSITY_FISCAL_YEAR = "2011";
             public static final String CHART_OF_ACCOUNTS_CODE = "SB";
             public static final String FINANCIAL_OBJECT_CODE = "2504";
         }
-        
-        
+
+
         public static class BenefitsCalculationServiceImplTest {
             public static final String FISCAL_YEAR = "2009";
             public static final String CHART = "BA";
             public static final String POSITION_TYPE_CODE = "B";
         }
-     }
+    }
 }

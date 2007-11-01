@@ -87,11 +87,11 @@ public abstract class TriggerDescriptor implements BeanNameAware {
         return dateTimeService;
     }
 
-	public boolean isTestMode() {
-		return testMode;
-	}
+    public boolean isTestMode() {
+        return testMode;
+    }
 
-	public void setTestMode(boolean testMode) {
-		this.testMode = testMode;
-	}
+    public void setTestMode(boolean testMode) {
+        this.testMode = testMode;
+    }
 }

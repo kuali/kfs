@@ -26,9 +26,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
- * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate
- * that the Address is the default one for this Campus among the various Addresses available
- * for this Vendor.
+ * An association between a <code>Campus</code> and a <code>VendorAddress</code> to indicate that the Address is the default one
+ * for this Campus among the various Addresses available for this Vendor.
  * 
  * @see org.kuali.core.bo.Campus
  * @see org.kuali.module.vendor.bo.VendorAddress
@@ -37,39 +36,39 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
 
     private Integer vendorDefaultAddressGeneratedIdentifier;
     private Integer vendorAddressGeneratedIdentifier;
-	private String vendorCampusCode;
+    private String vendorCampusCode;
     private boolean active;
-    
+
     private VendorAddress vendorAddress;
-	private Campus vendorCampus;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorDefaultAddress() {
+    private Campus vendorCampus;
 
-	}
+    /**
+     * Default constructor.
+     */
+    public VendorDefaultAddress() {
 
-	public String getVendorCampusCode() {
-        
-		return vendorCampusCode;
-	}
+    }
 
-	public void setVendorCampusCode(String vendorCampusCode) {
-		this.vendorCampusCode = vendorCampusCode;
-	}
+    public String getVendorCampusCode() {
 
-	public Integer getVendorAddressGeneratedIdentifier() {
-        
-		return vendorAddressGeneratedIdentifier;
-	}
+        return vendorCampusCode;
+    }
 
-	public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
-		this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
-	}
+    public void setVendorCampusCode(String vendorCampusCode) {
+        this.vendorCampusCode = vendorCampusCode;
+    }
+
+    public Integer getVendorAddressGeneratedIdentifier() {
+
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -77,63 +76,58 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
         this.active = active;
     }
 
-	public VendorAddress getVendorAddress() {
-        
-		return vendorAddress;
-	}
+    public VendorAddress getVendorAddress() {
 
-	/**
-	 * Sets the vendorAddress attribute.
-	 * 
-	 * @param vendorAddress The vendorAddress to set.
-	 * @deprecated
-	 */
-	public void setVendorAddress(VendorAddress vendorAddress) {
-		this.vendorAddress = vendorAddress;
-	}
+        return vendorAddress;
+    }
+
+    /**
+     * Sets the vendorAddress attribute.
+     * 
+     * @param vendorAddress The vendorAddress to set.
+     * @deprecated
+     */
+    public void setVendorAddress(VendorAddress vendorAddress) {
+        this.vendorAddress = vendorAddress;
+    }
 
 
-	public Campus getVendorCampus() {
-        
-		return vendorCampus;
-	}
+    public Campus getVendorCampus() {
 
-	/**
-	 * Sets the vendorCampus attribute.
-	 * 
-	 * @param vendorCampus The vendorCampus to set.
-	 * @deprecated
-	 */
-	public void setVendorCampus(Campus vendorCampus) {
-		this.vendorCampus = vendorCampus;
-	}
+        return vendorCampus;
+    }
+
+    /**
+     * Sets the vendorCampus attribute.
+     * 
+     * @param vendorCampus The vendorCampus to set.
+     * @deprecated
+     */
+    public void setVendorCampus(Campus vendorCampus) {
+        this.vendorCampus = vendorCampus;
+    }
 
     public Integer getVendorDefaultAddressGeneratedIdentifier() {
-        
+
         return vendorDefaultAddressGeneratedIdentifier;
     }
 
     public void setVendorDefaultAddressGeneratedIdentifier(Integer vendorDefaultAddressGeneratedIdentifier) {
         this.vendorDefaultAddressGeneratedIdentifier = vendorDefaultAddressGeneratedIdentifier;
     }
-    
+
     /**
      * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
-    public boolean isEqualForRouting( Object toCompare ) {
-        if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorDefaultAddress ) ) {
-            
+    public boolean isEqualForRouting(Object toCompare) {
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorDefaultAddress)) {
+
             return false;
-        } else {
-            VendorDefaultAddress vda = (VendorDefaultAddress)toCompare;
-            
-            return new EqualsBuilder()
-                .append( this.getVendorDefaultAddressGeneratedIdentifier(), 
-                        vda.getVendorDefaultAddressGeneratedIdentifier() )
-                .append( this.getVendorAddressGeneratedIdentifier(),
-                        vda.getVendorAddressGeneratedIdentifier() )
-                .append( this.getVendorCampusCode(), vda.getVendorCampusCode() )
-                .isEquals();
+        }
+        else {
+            VendorDefaultAddress vda = (VendorDefaultAddress) toCompare;
+
+            return new EqualsBuilder().append(this.getVendorDefaultAddressGeneratedIdentifier(), vda.getVendorDefaultAddressGeneratedIdentifier()).append(this.getVendorAddressGeneratedIdentifier(), vda.getVendorAddressGeneratedIdentifier()).append(this.getVendorCampusCode(), vda.getVendorCampusCode()).isEquals();
         }
     }
 
@@ -141,12 +135,12 @@ public class VendorDefaultAddress extends PersistableBusinessObjectBase implemen
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorAddressGeneratedIdentifier != null) {
             m.put("vendorAddressGeneratedIdentifier", this.vendorAddressGeneratedIdentifier.toString());
         }
         m.put("vendorCampusCode", this.vendorCampusCode);
-        
+
         return m;
     }
 

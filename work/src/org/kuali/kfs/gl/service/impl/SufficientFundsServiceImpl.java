@@ -69,7 +69,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.SufficientFundsService#getSufficientFundsObjectCode(org.kuali.module.chart.bo.ObjectCode,
      *      java.lang.String)
      */
@@ -102,7 +101,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(org.kuali.core.document.FinancialDocument)
      */
     public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document) {
@@ -122,7 +120,6 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.SufficientFundsService#checkSufficientFunds(java.util.List)
      */
     public List<SufficientFundsItem> checkSufficientFunds(List<? extends Transaction> transactions) {
@@ -131,7 +128,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         for (Transaction e : transactions) {
             e.refreshNonUpdateableReferences();
         }
-        
+
         List<SufficientFundsItem> summaryItems = summarizeTransactions(transactions);
         for (Iterator iter = summaryItems.iterator(); iter.hasNext();) {
             SufficientFundsItem item = (SufficientFundsItem) iter.next();
@@ -180,7 +177,7 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             LOG.debug("hasSufficientFundsOnItem() Transactions with zero amounts shold pass");
             return true;
         }
-        
+
         if (!item.getYear().isBudgetCheckingOptionsCode()) {
             LOG.debug("hasSufficientFundsOnItem() No sufficient funds checking");
             return true;
@@ -197,14 +194,14 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
             return true;
         }
 
-        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> expenseObjectTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
-        
+
         if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) && !item.getFinancialObject().getChartOfAccounts().getFinancialCashObjectCode().equals(item.getFinancialObject().getFinancialObjectCode())) {
             LOG.debug("hasSufficientFundsOnItem() SF checking is cash and transaction is not cash");
             return true;
         }
-        
+
         else if (!KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) && !expenseObjectTypes.contains(item.getFinancialObjectType().getCode())) {
             LOG.debug("hasSufficientFundsOnItem() SF checking is budget and transaction is not expense");
             return true;
@@ -230,9 +227,9 @@ public class SufficientFundsServiceImpl implements SufficientFundsService, Suffi
         if (KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(item.getAccount().getAccountSufficientFundsCode()) || item.getYear().getBudgetCheckingBalanceTypeCd().equals(item.getBalanceTyp().getCode())) {
             // We need to change the sign on the amount because the amount in the item is an increase in cash. We only care
             // about decreases in cash.
-           
-            //Also, negating if this is a balance type code of budget checking and the transaction is a budget transaction.
-            
+
+            // Also, negating if this is a balance type code of budget checking and the transaction is a budget transaction.
+
             balanceAmount = balanceAmount.negated();
         }
 

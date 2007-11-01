@@ -54,7 +54,7 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
     private String fieldNames, documentFieldNames;
     private String deliminator;
     private int currentFundsNumberOfTestData;
-    private int currentFundsExpectedInsertion;        
+    private int currentFundsExpectedInsertion;
 
     /**
      * Get ready for the test
@@ -72,14 +72,14 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         Map keys = new HashMap();
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, "6044906");
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
-        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BA");        
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BA");
         businessObjectService.deleteMatching(LedgerBalance.class, keys);
     }
 
     /**
+     * This method will run the current funds balance inquiry to test that the CurrentFundsLookupableHelperService is returning data
+     * correctly.
      * 
-     * This method will run the current funds balance inquiry to test that the CurrentFundsLookupableHelperService 
-     * is returning data correctly.
      * @throws Exception
      */
     public void testGetSearchResults() throws Exception {
@@ -98,26 +98,24 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
 
         List<String> groupByList = new ArrayList<String>();
         List<AccountStatusCurrentFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
-        
+
         // Make sure the basic search parameters are returned from the inquiry
         for (AccountStatusCurrentFunds accountStatusCurrentFundsReturn : searchResults) {
-              assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) &&
-              accountStatusCurrentFundsReturn.getUniversityFiscalYear().equals(accountStatusCurrentFunds.getUniversityFiscalYear()) &&
-              accountStatusCurrentFundsReturn.getChartOfAccountsCode().equals(accountStatusCurrentFunds.getChartOfAccountsCode())));
-        }            
-              
+            assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) && accountStatusCurrentFundsReturn.getUniversityFiscalYear().equals(accountStatusCurrentFunds.getUniversityFiscalYear()) && accountStatusCurrentFundsReturn.getChartOfAccountsCode().equals(accountStatusCurrentFunds.getChartOfAccountsCode())));
+        }
+
         if (searchResults != null) {
             System.out.println("Results Size:" + searchResults.size());
         }
 
-        // compare the search results with the expected and see if they match with each other        
-        assertEquals(this.currentFundsExpectedInsertion,searchResults.size());
+        // compare the search results with the expected and see if they match with each other
+        assertEquals(this.currentFundsExpectedInsertion, searchResults.size());
     }
 
     /**
+     * This method will run the current funds balance inquiry to test that the CurrentFundsLookupableHelperService is returning data
+     * correctly.
      * 
-     * This method will run the current funds balance inquiry to test that the CurrentFundsLookupableHelperService 
-     * is returning data correctly.
      * @throws Exception
      */
     public void testGetSearchResultsConsolidated() throws Exception {
@@ -129,32 +127,30 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
 
         // test the search results before the specified entry is inserted
         Map fieldValues = buildFieldValues(accountStatusCurrentFunds, this.getLookupFields(false));
-        
+
         // Tells the lookupable I want consolidated results
         getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.CONSOLIDATION);
         fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.CONSOLIDATION);
 
         List<String> groupByList = new ArrayList<String>();
         List<AccountStatusCurrentFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
-        
+
         // Make sure the basic search parameters are returned from the inquiry
         for (AccountStatusCurrentFunds accountStatusCurrentFundsReturn : searchResults) {
-              assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) &&
-              accountStatusCurrentFundsReturn.getUniversityFiscalYear().equals(accountStatusCurrentFunds.getUniversityFiscalYear()) &&
-              accountStatusCurrentFundsReturn.getChartOfAccountsCode().equals(accountStatusCurrentFunds.getChartOfAccountsCode())));
-        }            
-              
+            assertFalse(!(accountStatusCurrentFundsReturn.getAccountNumber().equals(accountStatusCurrentFunds.getAccountNumber()) && accountStatusCurrentFundsReturn.getUniversityFiscalYear().equals(accountStatusCurrentFunds.getUniversityFiscalYear()) && accountStatusCurrentFundsReturn.getChartOfAccountsCode().equals(accountStatusCurrentFunds.getChartOfAccountsCode())));
+        }
+
         if (searchResults != null) {
             LOG.debug("Results Size:" + searchResults.size());
         }
 
-        // compare the search results with the expected and see if they match with each other        
-        assertEquals(this.currentFundsExpectedInsertion,searchResults.size());
+        // compare the search results with the expected and see if they match with each other
+        assertEquals(this.currentFundsExpectedInsertion, searchResults.size());
     }
 
     /**
+     * This method uses property file parameters to create insert datacurrent records for this test
      * 
-     * This method uses property file parameters to create insert datacurrent records for this test   
      * @param accountStatusCurrentFunds
      * @param lookupFields
      * @return
@@ -170,8 +166,8 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
     }
 
     /**
-     * 
      * This method adds property constatants for future lookups
+     * 
      * @param isExtended
      * @return
      */
@@ -184,9 +180,9 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
 
         return lookupFields;
     }
-    
+
     /**
-     * This method will add temporary test data to the Ledger Balance table 
+     * This method will add temporary test data to the Ledger Balance table
      */
     protected void insertCurrentFundsRecords() {
         String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
@@ -219,9 +215,9 @@ public class CurrentFundsLookupableHelperServiceTest extends KualiTestBase {
         this.currentFundsNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         this.currentFundsExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));
         businessObjectService.save(inputDataList);
-    }  
-    
-    
+    }
+
+
     private LaborInquiryOptionsService getInquiryOptionsService() {
         return SpringContext.getBean(LaborInquiryOptionsService.class);
     }

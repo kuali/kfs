@@ -27,22 +27,22 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase {
 
-	private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
-	private String vendorDunsNumber;
-	private Date fileProcessDate;
-	private Integer invoiceLoadSuccessCount;
-	private BigDecimal invoiceLoadSuccessAmount;
-	private Integer invoiceLoadFailCount;
-	private BigDecimal invoiceLoadFailAmount;
+    private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    private String vendorDunsNumber;
+    private Date fileProcessDate;
+    private Integer invoiceLoadSuccessCount;
+    private BigDecimal invoiceLoadSuccessAmount;
+    private Integer invoiceLoadFailCount;
+    private BigDecimal invoiceLoadFailAmount;
 
-	/**
-	 * Default constructor.
-	 */
-	public ElectronicInvoiceLoadSummary() {
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceLoadSummary() {
 
-	}
+    }
 
-	public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() {
+    public Long getAccountsPayableElectronicInvoiceLoadSummaryIdentifier() {
         return accountsPayableElectronicInvoiceLoadSummaryIdentifier;
     }
 
@@ -99,14 +99,14 @@ public class ElectronicInvoiceLoadSummary extends PersistableBusinessObjectBase 
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.accountsPayableElectronicInvoiceLoadSummaryIdentifier != null) {
             m.put("accountsPayableElectronicInvoiceLoadSummaryIdentifier", this.accountsPayableElectronicInvoiceLoadSummaryIdentifier.toString());
         }
         m.put("vendorDunsNumber", this.vendorDunsNumber);
-	    return m;
+        return m;
     }
 }

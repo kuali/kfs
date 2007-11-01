@@ -29,7 +29,7 @@ public interface NegativePaymentRequestApprovalLimitService {
      * @return
      */
     Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode);
-    
+
     /**
      * Find limits by chart and account.
      * 
@@ -47,13 +47,13 @@ public interface NegativePaymentRequestApprovalLimitService {
      * @return
      */
     Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
-    
+
     /**
      * @param limit
      * @return
      */
     Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
-    
+
     /**
      * @param limit
      * @return

@@ -47,15 +47,15 @@ import edu.iu.uis.eden.util.KeyLabelPair;
 
 public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiPurApDocumentTaxReviewAttribute.class);
-    
+
     private static final String VENDOR_ROUTE_AS_ATTRIBUTE_KEY = "vendor_route_attribute";
     private static final String VENDOR_HEADER_GENERATED_ID_KEY = "vendorHeaderGeneratedIdentifier";
     private static final String ROUTE_AS_TYPE_FIELD_LABEL = "Vendor Tax Attribute";
-    
+
     private static final String VENDOR_IS_EMPLOYEE = "Employee Vendor";
     private static final String VENDOR_IS_FOREIGN = "Foreign Vendor";
     private static final String VENDOR_IS_FOREIGN_EMPLOYEE = "Foreign and Employee Vendor";
-    
+
     private static Set<String> validValues = new HashSet<String>();
     static {
         validValues.add(VENDOR_IS_FOREIGN_EMPLOYEE);
@@ -74,20 +74,19 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     public KualiPurApDocumentTaxReviewAttribute() {
         ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
         ruleRows.add(constructDropdown());
-        
+
         routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(VendorDetail.class, VendorPropertyConstants.VENDOR_HEADER_GENERATED_ID, VENDOR_HEADER_GENERATED_ID_KEY));
         routingDataRows.add(constructDropdown());
     }
-    
+
     private edu.iu.uis.eden.lookupable.Row constructDropdown() {
         List validValuesTemp = new ArrayList();
         for (String validValue : validValues) {
             validValuesTemp.add(new KeyLabelPair(validValue, validValue));
         }
         List chartFields = new ArrayList();
-        chartFields.add(new Field(ROUTE_AS_TYPE_FIELD_LABEL, "", Field.DROPDOWN, false, VENDOR_ROUTE_AS_ATTRIBUTE_KEY,
-                        "", validValuesTemp, null, VENDOR_ROUTE_AS_ATTRIBUTE_KEY));
+        chartFields.add(new Field(ROUTE_AS_TYPE_FIELD_LABEL, "", Field.DROPDOWN, false, VENDOR_ROUTE_AS_ATTRIBUTE_KEY, "", validValuesTemp, null, VENDOR_ROUTE_AS_ATTRIBUTE_KEY));
         return new Row(chartFields);
     }
 
@@ -95,7 +94,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
-        if ( (StringUtils.isNotBlank(getVendorRouteAsTypeKey())) || (StringUtils.isNotBlank(getVendorHeaderGeneratedId())) ) {
+        if ((StringUtils.isNotBlank(getVendorRouteAsTypeKey())) || (StringUtils.isNotBlank(getVendorHeaderGeneratedId()))) {
             StringBuffer returnValue = new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX);
             String xmlKey = "vendorRouteTypeCode";
             returnValue.append("<" + VENDOR_ROUTE_AS_ATTRIBUTE_KEY + ">").append(getVendorRouteAsTypeKey()).append("</" + VENDOR_ROUTE_AS_ATTRIBUTE_KEY + ">");
@@ -132,16 +131,17 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(edu.iu.uis.eden.routeheader.DocumentContent, java.util.List)
      */
     public boolean isMatch(DocumentContent documentContent, List<RuleExtension> ruleExtensions) {
-//        Document doc = documentContent.getDocument();
+        // Document doc = documentContent.getDocument();
         String currentXpathExpression = null;
         String vendorHeaderGeneratedId = null;
         try {
             XPath xPath = KualiWorkflowUtils.getXPath(documentContent.getDocument());
             currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX);
-            boolean isReport = ((Boolean)xPath.evaluate(currentXpathExpression, documentContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            boolean isReport = ((Boolean) xPath.evaluate(currentXpathExpression, documentContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + VENDOR_HEADER_GENERATED_ID_KEY;
-            } else {
+            }
+            else {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KFSPropertyConstants.DOCUMENT + "/" + PurapPropertyConstants.VENDOR_HEADER_GENERATED_ID;
             }
             vendorHeaderGeneratedId = KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, documentContent.getDocument());
@@ -152,30 +152,32 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
             VendorService vendorService = SpringContext.getBean(VendorService.class);
             boolean routeDocumentAsEmployeeVendor = vendorService.isVendorInstitutionEmployee(Integer.valueOf(vendorHeaderGeneratedId));
             boolean routeDocumentAsForeignVendor = vendorService.isVendorForeign(Integer.valueOf(vendorHeaderGeneratedId));
-            if ( (!routeDocumentAsEmployeeVendor) && (!routeDocumentAsForeignVendor) ) {
+            if ((!routeDocumentAsEmployeeVendor) && (!routeDocumentAsForeignVendor)) {
                 // no need to route
                 return false;
             }
-            
+
             String value = getRuleExtentionValue(VENDOR_ROUTE_AS_ATTRIBUTE_KEY, ruleExtensions);
             if (StringUtils.equals(VENDOR_IS_EMPLOYEE, value)) {
                 return routeDocumentAsEmployeeVendor;
-            } else if (StringUtils.equals(VENDOR_IS_FOREIGN, value)) {
+            }
+            else if (StringUtils.equals(VENDOR_IS_FOREIGN, value)) {
                 return routeDocumentAsForeignVendor;
-            } else if (StringUtils.equals(VENDOR_IS_FOREIGN_EMPLOYEE, value)) {
+            }
+            else if (StringUtils.equals(VENDOR_IS_FOREIGN_EMPLOYEE, value)) {
                 return routeDocumentAsEmployeeVendor && routeDocumentAsForeignVendor;
             }
             return false;
         }
         catch (NumberFormatException nfe) {
             String errorMsg = "Number format exception for invalid vendor header id of " + vendorHeaderGeneratedId;
-            LOG.error(errorMsg,nfe);
-            throw new RuntimeException(errorMsg,nfe);
+            LOG.error(errorMsg, nfe);
+            throw new RuntimeException(errorMsg, nfe);
         }
         catch (XPathExpressionException xe) {
             String errorMsg = "Xpath error occurred while using xpath expression " + currentXpathExpression;
-            LOG.error(errorMsg,xe);
-            throw new RuntimeException(errorMsg,xe);
+            LOG.error(errorMsg, xe);
+            throw new RuntimeException(errorMsg, xe);
         }
     }
 
@@ -205,7 +207,8 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
             // required but blank
             String errorMessage = label + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
-        } else if (StringUtils.isNotBlank(getVendorHeaderGeneratedId())) {
+        }
+        else if (StringUtils.isNotBlank(getVendorHeaderGeneratedId())) {
             try {
                 // check valid values?
                 VendorDetail vendor = SpringContext.getBean(VendorService.class).getParentVendor(Integer.valueOf(getVendorHeaderGeneratedId()));
@@ -216,7 +219,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
             }
             catch (NumberFormatException e) {
                 String errorMessage = "The value of " + label + " must be a valid number";
-                LOG.info(errorMessage,e);
+                LOG.info(errorMessage, e);
                 errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
             }
         }
@@ -234,7 +237,8 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
             // required but blank
             String errorMessage = ROUTE_AS_TYPE_FIELD_LABEL + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
-        } else if (StringUtils.isNotBlank(getVendorRouteAsTypeKey())) {
+        }
+        else if (StringUtils.isNotBlank(getVendorRouteAsTypeKey())) {
             // check valid values?
             if (!validValues.contains(getVendorRouteAsTypeKey())) {
                 String errorMessage = ROUTE_AS_TYPE_FIELD_LABEL + " is not a valid value for the field";
@@ -245,7 +249,8 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * Gets the vendorHeaderGeneratedId attribute. 
+     * Gets the vendorHeaderGeneratedId attribute.
+     * 
      * @return Returns the vendorHeaderGeneratedId.
      */
     public String getVendorHeaderGeneratedId() {
@@ -254,6 +259,7 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
 
     /**
      * Sets the vendorHeaderGeneratedId attribute value.
+     * 
      * @param vendorHeaderGeneratedId The vendorHeaderGeneratedId to set.
      */
     public void setVendorHeaderGeneratedId(String vendorHeaderGeneratedId) {
@@ -261,7 +267,8 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
     }
 
     /**
-     * Gets the vendorRouteAsTypeKey attribute. 
+     * Gets the vendorRouteAsTypeKey attribute.
+     * 
      * @return Returns the vendorRouteAsTypeKey.
      */
     public String getVendorRouteAsTypeKey() {
@@ -270,10 +277,11 @@ public class KualiPurApDocumentTaxReviewAttribute extends AbstractWorkflowAttrib
 
     /**
      * Sets the vendorRouteAsTypeKey attribute value.
+     * 
      * @param vendorRouteAsTypeKey The vendorRouteAsTypeKey to set.
      */
     public void setVendorRouteAsTypeKey(String vendorRouteAsTypeKey) {
         this.vendorRouteAsTypeKey = vendorRouteAsTypeKey;
     }
-    
+
 }

@@ -27,110 +27,102 @@ import org.kuali.kfs.KFSPropertyConstants;
  */
 public class RoutingFormOtherCostShare extends PersistableBusinessObjectBase {
 
-	private Integer routingFormCostShareSequenceNumber;
-	private String documentNumber;
-	private String routingFormCostShareSourceName;
-	private KualiInteger routingFormCostShareAmount;
+    private Integer routingFormCostShareSequenceNumber;
+    private String documentNumber;
+    private String routingFormCostShareSourceName;
+    private KualiInteger routingFormCostShareAmount;
 
-	/**
-	 * Default constructor.
-	 */
-	public RoutingFormOtherCostShare() {
+    /**
+     * Default constructor.
+     */
+    public RoutingFormOtherCostShare() {
 
-	}
+    }
 
-	/**
-	 * Gets the routingFormCostShareSequenceNumber attribute.
-	 * 
-	 * @return Returns the routingFormCostShareSequenceNumber
-	 * 
-	 */
-	public Integer getRoutingFormCostShareSequenceNumber() { 
-		return routingFormCostShareSequenceNumber;
-	}
+    /**
+     * Gets the routingFormCostShareSequenceNumber attribute.
+     * 
+     * @return Returns the routingFormCostShareSequenceNumber
+     */
+    public Integer getRoutingFormCostShareSequenceNumber() {
+        return routingFormCostShareSequenceNumber;
+    }
 
-	/**
-	 * Sets the routingFormCostShareSequenceNumber attribute.
-	 * 
-	 * @param routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
-	 * 
-	 */
-	public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
-		this.routingFormCostShareSequenceNumber = routingFormCostShareSequenceNumber;
-	}
+    /**
+     * Sets the routingFormCostShareSequenceNumber attribute.
+     * 
+     * @param routingFormCostShareSequenceNumber The routingFormCostShareSequenceNumber to set.
+     */
+    public void setRoutingFormCostShareSequenceNumber(Integer routingFormCostShareSequenceNumber) {
+        this.routingFormCostShareSequenceNumber = routingFormCostShareSequenceNumber;
+    }
 
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
 
-	/**
-	 * Gets the routingFormCostShareSourceName attribute.
-	 * 
-	 * @return Returns the routingFormCostShareSourceName
-	 * 
-	 */
-	public String getRoutingFormCostShareSourceName() { 
-		return routingFormCostShareSourceName;
-	}
+    /**
+     * Gets the routingFormCostShareSourceName attribute.
+     * 
+     * @return Returns the routingFormCostShareSourceName
+     */
+    public String getRoutingFormCostShareSourceName() {
+        return routingFormCostShareSourceName;
+    }
 
-	/**
-	 * Sets the routingFormCostShareSourceName attribute.
-	 * 
-	 * @param routingFormCostShareSourceName The routingFormCostShareSourceName to set.
-	 * 
-	 */
-	public void setRoutingFormCostShareSourceName(String routingFormCostShareSourceName) {
-		this.routingFormCostShareSourceName = routingFormCostShareSourceName;
-	}
+    /**
+     * Sets the routingFormCostShareSourceName attribute.
+     * 
+     * @param routingFormCostShareSourceName The routingFormCostShareSourceName to set.
+     */
+    public void setRoutingFormCostShareSourceName(String routingFormCostShareSourceName) {
+        this.routingFormCostShareSourceName = routingFormCostShareSourceName;
+    }
 
-	/**
-	 * Gets the routingFormCostShareAmount attribute.
-	 * 
-	 * @return Returns the routingFormCostShareAmount
-	 * 
-	 */
-	public KualiInteger getRoutingFormCostShareAmount() { 
-		return routingFormCostShareAmount;
-	}
+    /**
+     * Gets the routingFormCostShareAmount attribute.
+     * 
+     * @return Returns the routingFormCostShareAmount
+     */
+    public KualiInteger getRoutingFormCostShareAmount() {
+        return routingFormCostShareAmount;
+    }
 
-	/**
-	 * Sets the routingFormCostShareAmount attribute.
-	 * 
-	 * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
-	 * 
-	 */
-	public void setRoutingFormCostShareAmount(KualiInteger routingFormCostShareAmount) {
-		this.routingFormCostShareAmount = routingFormCostShareAmount;
-	}
+    /**
+     * Sets the routingFormCostShareAmount attribute.
+     * 
+     * @param routingFormCostShareAmount The routingFormCostShareAmount to set.
+     */
+    public void setRoutingFormCostShareAmount(KualiInteger routingFormCostShareAmount) {
+        this.routingFormCostShareAmount = routingFormCostShareAmount;
+    }
 
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.routingFormCostShareSequenceNumber != null) {
             m.put("routingFormCostShareSequenceNumber", this.routingFormCostShareSequenceNumber.toString());
         }
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-	    return m;
+        return m;
     }
 }

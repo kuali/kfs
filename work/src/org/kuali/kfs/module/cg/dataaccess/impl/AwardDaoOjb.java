@@ -45,7 +45,7 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
         criteria.addIsNull("awardClosingDate");
         criteria.addLessOrEqualThan("awardEntryDate", close.getCloseOnOrBeforeDate());
         criteria.addNotEqualTo("awardStatusCode", "U");
-        
+
         return (Collection<Award>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Award.class, criteria));
     }
 
@@ -55,5 +55,5 @@ public class AwardDaoOjb extends PlatformAwareDaoBaseOjb implements AwardDao {
     public void save(Award award) {
         getPersistenceBrokerTemplate().store(award);
     }
-    
+
 }

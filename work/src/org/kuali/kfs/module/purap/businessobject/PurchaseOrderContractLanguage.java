@@ -28,50 +28,50 @@ import org.kuali.kfs.context.SpringContext;
  */
 public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderContractLanguageIdentifier;
-	private String campusCode;
-	private String purchaseOrderContractLanguageDescription;
-	private Date contractLanguageCreateDate;
-	private boolean active;
+    private Integer purchaseOrderContractLanguageIdentifier;
+    private String campusCode;
+    private String purchaseOrderContractLanguageDescription;
+    private Date contractLanguageCreateDate;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderContractLanguage() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderContractLanguage() {
         this.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-	}
+    }
 
-	public Integer getPurchaseOrderContractLanguageIdentifier() { 
-		return purchaseOrderContractLanguageIdentifier;
-	}
+    public Integer getPurchaseOrderContractLanguageIdentifier() {
+        return purchaseOrderContractLanguageIdentifier;
+    }
 
-	public void setPurchaseOrderContractLanguageIdentifier(Integer purchaseOrderContractLanguageIdentifier) {
-		this.purchaseOrderContractLanguageIdentifier = purchaseOrderContractLanguageIdentifier;
-	}
+    public void setPurchaseOrderContractLanguageIdentifier(Integer purchaseOrderContractLanguageIdentifier) {
+        this.purchaseOrderContractLanguageIdentifier = purchaseOrderContractLanguageIdentifier;
+    }
 
-	public String getCampusCode() { 
-		return campusCode;
-	}
+    public String getCampusCode() {
+        return campusCode;
+    }
 
-	public void setCampusCode(String campusCode) {
-		this.campusCode = campusCode;
-	}
+    public void setCampusCode(String campusCode) {
+        this.campusCode = campusCode;
+    }
 
-	public String getPurchaseOrderContractLanguageDescription() { 
-		return purchaseOrderContractLanguageDescription;
-	}
+    public String getPurchaseOrderContractLanguageDescription() {
+        return purchaseOrderContractLanguageDescription;
+    }
 
-	public void setPurchaseOrderContractLanguageDescription(String purchaseOrderContractLanguageDescription) {
-		this.purchaseOrderContractLanguageDescription = purchaseOrderContractLanguageDescription;
-	}
+    public void setPurchaseOrderContractLanguageDescription(String purchaseOrderContractLanguageDescription) {
+        this.purchaseOrderContractLanguageDescription = purchaseOrderContractLanguageDescription;
+    }
 
-	public Date getContractLanguageCreateDate() { 
-		return contractLanguageCreateDate;
-	}
+    public Date getContractLanguageCreateDate() {
+        return contractLanguageCreateDate;
+    }
 
-	public void setContractLanguageCreateDate(Date contractLanguageCreateDate) {
-		this.contractLanguageCreateDate = contractLanguageCreateDate;
-	}
+    public void setContractLanguageCreateDate(Date contractLanguageCreateDate) {
+        this.contractLanguageCreateDate = contractLanguageCreateDate;
+    }
 
     public boolean isActive() {
         return active;
@@ -82,14 +82,14 @@ public class PurchaseOrderContractLanguage extends PersistableBusinessObjectBase
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderContractLanguageIdentifier != null) {
             m.put("purchaseOrderContractLanguageIdentifier", this.purchaseOrderContractLanguageIdentifier.toString());
         }
-	    return m;
+        return m;
     }
-    
+
 }

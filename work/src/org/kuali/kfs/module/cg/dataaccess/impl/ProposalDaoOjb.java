@@ -20,8 +20,8 @@ import java.util.Collection;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.Close;
+import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.dao.ProposalDao;
 
 /**
@@ -33,11 +33,11 @@ public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalD
      * @see org.kuali.module.cg.dao.ProposalDao#getProposalsToClose(org.kuali.module.cg.bo.Close)
      */
     public Collection<Proposal> getProposalsToClose(Close close) {
-        
+
         Criteria criteria = new Criteria();
         criteria.addIsNull("proposalClosingDate");
         criteria.addLessOrEqualThan("proposalSubmissionDate", close.getCloseOnOrBeforeDate());
-        
+
         return (Collection<Proposal>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Proposal.class, criteria));
     }
 
@@ -47,5 +47,5 @@ public class ProposalDaoOjb extends PlatformAwareDaoBaseOjb implements ProposalD
     public void save(Proposal proposal) {
         getPersistenceBrokerTemplate().store(proposal);
     }
-    
+
 }

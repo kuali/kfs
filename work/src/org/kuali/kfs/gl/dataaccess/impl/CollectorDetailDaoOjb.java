@@ -31,12 +31,12 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorDetailDaoOjb.class);
 
     private DescriptorRepository descriptorRepository;
-    
+
     public CollectorDetailDaoOjb() {
         MetadataManager metadataManager = MetadataManager.getInstance();
         descriptorRepository = metadataManager.getGlobalRepository();
     }
-    
+
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear) {
         LOG.debug("purgeYearByChart() started");
 
@@ -73,6 +73,6 @@ public class CollectorDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Co
 
         return classDescriptor.getFullTableName();
     }
-    
-    
+
+
 }

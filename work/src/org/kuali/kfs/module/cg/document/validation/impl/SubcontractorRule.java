@@ -35,11 +35,10 @@ import org.kuali.module.cg.bo.Subcontractor;
 public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
     private Subcontractor newSubcontractor;
-    
+
     /**
-     * This method has been overridden to add some additional validation checks 
-     * to the {@link Subcontractor} maintenance document.
-     *  
+     * This method has been overridden to add some additional validation checks to the {@link Subcontractor} maintenance document.
+     * 
      * @param maintenanceDocument - document to be tested
      * @return whether maintenance doc passes
      * @throws org.kuali.core.exceptions.ValidationException
@@ -57,11 +56,10 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    
+
     /**
-     * This method retrieves the entered state code and checks that this value
-     * is valid by comparing it against known values in the SH_STATE_T database
-     * table.
+     * This method retrieves the entered state code and checks that this value is valid by comparing it against known values in the
+     * SH_STATE_T database table.
      * 
      * @param stateCode
      * @return Whether state code entered is valid
@@ -79,18 +77,17 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(State.class, criteria);
 
         // If no values returned, state code is invalid, throw error
-        if(boList.size() < 1) {
-            putFieldError("subcontractorStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);            
+        if (boList.size() < 1) {
+            putFieldError("subcontractorStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
             valid = false;
         }
 
         return valid;
     }
-    
+
     /**
-     * This method retrieves the entered country code and checks that this value
-     * is valid by comparing it against known values in the SH_COUNTRY_T database
-     * table.
+     * This method retrieves the entered country code and checks that this value is valid by comparing it against known values in
+     * the SH_COUNTRY_T database table.
      * 
      * @param countryCode
      * @return Whether country code entered is valid.
@@ -100,7 +97,7 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
 
         // Create a query to do a lookup on.
         Map criteria = new HashMap();
-        
+
         List<String> criteriaValues = new ArrayList<String>();
         criteriaValues.add(countryCode);
         criteria.put("postalCountryCode", criteriaValues);
@@ -109,12 +106,12 @@ public class SubcontractorRule extends MaintenanceDocumentRuleBase {
         List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(Country.class, criteria);
 
         // If no values returned, country code is invalid, throw error
-        if(boList.size() < 1) {
-            putFieldError("subcontractorCountryCode", KFSKeyConstants.ERROR_COUNTRY_CODE_INVALID, countryCode);            
+        if (boList.size() < 1) {
+            putFieldError("subcontractorCountryCode", KFSKeyConstants.ERROR_COUNTRY_CODE_INVALID, countryCode);
             valid = false;
         }
 
         return valid;
     }
-    
+
 }

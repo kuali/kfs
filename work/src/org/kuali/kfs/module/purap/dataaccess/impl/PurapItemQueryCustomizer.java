@@ -15,42 +15,35 @@
  */
 package org.kuali.module.purap.dao.ojb;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl;
 import org.apache.ojb.broker.metadata.ClassDescriptor;
 import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.metadata.FieldDescriptor;
-import org.apache.ojb.broker.platforms.PlatformMsSQLServerImpl;
 import org.apache.ojb.broker.platforms.PlatformMySQLImpl;
-import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
 import org.apache.ojb.broker.query.QueryByCriteria;
-import org.apache.ojb.broker.query.QueryFactory;
-import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 /**
- * 
- * This class improves the default order by in OJB by enforcing consistency between Oracle and MySQLs handling
- * of Null values in a column.  Oracle by default sorts nulls last while MySQL does nulls first (i.e. 1,2,3,null
- * MySQL:null,1,2,3; Oracle:1,2,3,null  To get Mysql to sort correctly we need to negate the field that is being
- * Sorted on (i.e.  ORDER BY -column DESC = 1,2,3,null while ORDER BY column DESC = 3,2,1,null) the oracle default
- * for ORDER BY is "NULLS LAST" which the above MySQL tweak should make it like.  
- * This could be improved to pass in nullsFirst to decide which way to display but that would be beyond what ojb
- * currently does
- * 
+ * This class improves the default order by in OJB by enforcing consistency between Oracle and MySQLs handling of Null values in a
+ * column. Oracle by default sorts nulls last while MySQL does nulls first (i.e. 1,2,3,null MySQL:null,1,2,3; Oracle:1,2,3,null To
+ * get Mysql to sort correctly we need to negate the field that is being Sorted on (i.e. ORDER BY -column DESC = 1,2,3,null while
+ * ORDER BY column DESC = 3,2,1,null) the oracle default for ORDER BY is "NULLS LAST" which the above MySQL tweak should make it
+ * like. This could be improved to pass in nullsFirst to decide which way to display but that would be beyond what ojb currently
+ * does
  */
 public class PurapItemQueryCustomizer extends KualiQueryCustomizerDefaultImpl {
     private static final String MYSQL_NEGATION = "-";
     public final static String ORDER_BY_FIELD = "orderByField.";
     public final static String ASCENDING = "ASC";
     public final static String DESCENDING = "DESC";
-    
+
     /**
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
+     * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object,
+     *      org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor,
+     *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     @Override
     public Query customizeQuery(Object anObject, PersistenceBroker broker, CollectionDescriptor cod, QueryByCriteria query) {
@@ -65,14 +58,14 @@ public class PurapItemQueryCustomizer extends KualiQueryCustomizerDefaultImpl {
             String fieldName = attributeName.substring(ORDER_BY_FIELD.length());
             ClassDescriptor itemClassDescriptor = broker.getClassDescriptor(cod.getItemClass());
             FieldDescriptor orderByFieldDescriptior = itemClassDescriptor.getFieldDescriptorByName(fieldName);
-            
+
             // the column to sort on derived from the property name
             String orderByColumnName = orderByFieldDescriptior.getColumnName();
 
             // ascending or descending
             String fieldValue = attributes.get(attributeName);
             boolean ascending = (StringUtils.equals(fieldValue, ASCENDING));
-            //throw an error if not ascending or descending
+            // throw an error if not ascending or descending
             if (!ascending && StringUtils.equals(fieldValue, DESCENDING)) {
                 throw new RuntimeException("neither ASC nor DESC was specified in ojb file for " + fieldName);
             }

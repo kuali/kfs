@@ -33,42 +33,42 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
 
     PurchaseOrderDocumentRule rule;
     PurchaseOrderDocument po;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         po = new PurchaseOrderDocument();
         rule = new PurchaseOrderDocumentRule();
     }
-    
+
     protected void tearDown() throws Exception {
         rule = null;
         po = null;
-        super.tearDown();      
+        super.tearDown();
     }
-    
+
     /*
      * Tests of validateEmptyItemWithAccounts
      */
     public void testValidateEmptyItemWithAccounts_NullItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT.populateItem();
-        assertFalse(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+        assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
-    
+
     public void testValidateEmptyItemWithAccounts_EmptyItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT.populateItem();
-        assertFalse(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+        assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
-    
+
     public void testValidateEmptyItemWithAccounts_WithItemWithAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
-        assertTrue(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+        assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
-    
+
     public void testValidateEmptyItemWithAccounts_WithItemWithoutAccount() {
         PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT.populateItem();
-        assertTrue(rule.validateEmptyItemWithAccounts(poItem,"Item " + poItem.getItemLineNumber().toString()));
+        assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
-    
+
     /*
      * Tests of validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit
      */
@@ -76,17 +76,17 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         po = AmountsLimitsFixture.ZERO_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
         assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
-    
+
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_SmallAmountSmallLimit() {
         po = AmountsLimitsFixture.SMALL_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
         assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
-    
+
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_LargeAmountSmallLimit() {
         po = AmountsLimitsFixture.LARGE_AMOUNT_SMALL_LIMIT.populatePurchaseOrder();
         assertFalse(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(po));
     }
-    
+
     /*
      * Tests of validateTradeInAndDiscountCoexistence
      */
@@ -94,17 +94,17 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         po = ItemTypesFixture.WITH_TRADEIN_WITH_DISCOUNT.populate();
         assertFalse(rule.validateTradeInAndDiscountCoexistence(po));
     }
-    
+
     public void testValidateTradeInAndDiscountCoexistence_WithTradeInWithMisc() {
         po = ItemTypesFixture.WITH_TRADEIN_WITH_MISC.populate();
         assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
     }
-    
+
     public void testValidateTradeInAndDiscountCoexistence_WithDiscountWithMisc() {
         po = ItemTypesFixture.WITH_MISC_WITH_DISCOUNT.populate();
         assertTrue(rule.validateTradeInAndDiscountCoexistence(po));
-    }   
-    
+    }
+
     /*
      * Tests of processVendorStipulationValidation
      */
@@ -117,7 +117,7 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         po.setPurchaseOrderVendorStipulations(stipulations);
         assertTrue(rule.processVendorStipulationValidation(po));
     }
-    
+
     public void testProcessVendorStipulationValidation_Blank() {
         po = new PurchaseOrderDocument();
         PurchaseOrderVendorStipulation stip = new PurchaseOrderVendorStipulation();
@@ -125,6 +125,6 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
         List<PurchaseOrderVendorStipulation> stipulations = new ArrayList();
         stipulations.add(stip);
         po.setPurchaseOrderVendorStipulations(stipulations);
-        assertFalse(rule.processVendorStipulationValidation(po));      
+        assertFalse(rule.processVendorStipulationValidation(po));
     }
 }

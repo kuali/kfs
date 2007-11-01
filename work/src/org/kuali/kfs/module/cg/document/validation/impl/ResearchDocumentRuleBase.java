@@ -23,8 +23,6 @@ import org.kuali.module.kra.document.ResearchDocument;
 
 /**
  * This class...
- * 
- * 
  */
 public class ResearchDocumentRuleBase extends DocumentRuleBase {
 

@@ -23,7 +23,7 @@ import org.kuali.core.bo.user.UniversalUser;
  * of a certain batch type.
  */
 public interface BatchInputFileType extends BatchInputType {
-    
+
     /**
      * Returns the unique identifier (Spring bean id) for the batch input type.
      */
@@ -33,7 +33,7 @@ public interface BatchInputFileType extends BatchInputType {
      * Gives the name of the directory for which batch files of a given type are stored.
      */
     public String getDirectoryPath();
-    
+
     /**
      * Constructs a file name using the name given by the user and file contents if necessary. Returned name should not contain file
      * extension.
@@ -43,7 +43,7 @@ public interface BatchInputFileType extends BatchInputType {
      * @param fileUserIdentifer - file identifier given by user through the batch upload UI
      */
     public String getFileName(UniversalUser user, Object parsedFileContents, String fileUserIdentifer);
-    
+
     /**
      * Returns file extension for the batch input type.
      */
@@ -61,7 +61,7 @@ public interface BatchInputFileType extends BatchInputType {
      * Returns the name with path for the digestor rules file that tells the digestor how to parse files of this type.
      */
     public String getDigestorRulesFileName();
-    
+
     /**
      * Returns the schema classpath location for this batch type.
      */

@@ -21,36 +21,36 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Recurring Payment Type Business Object. 
+ * Recurring Payment Type Business Object.
  */
 public class RecurringPaymentType extends PersistableBusinessObjectBase {
 
-	private String recurringPaymentTypeCode;
-	private String recurringPaymentTypeDescription;
+    private String recurringPaymentTypeCode;
+    private String recurringPaymentTypeDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public RecurringPaymentType() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public RecurringPaymentType() {
 
-	public String getRecurringPaymentTypeCode() { 
-		return recurringPaymentTypeCode;
-	}
+    }
 
-	public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
-		this.recurringPaymentTypeCode = recurringPaymentTypeCode;
-	}
+    public String getRecurringPaymentTypeCode() {
+        return recurringPaymentTypeCode;
+    }
 
-	public String getRecurringPaymentTypeDescription() { 
-		return recurringPaymentTypeDescription;
-	}
+    public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
+        this.recurringPaymentTypeCode = recurringPaymentTypeCode;
+    }
 
-	public void setRecurringPaymentTypeDescription(String recurringPaymentTypeDescription) {
-		this.recurringPaymentTypeDescription = recurringPaymentTypeDescription;
-	}
+    public String getRecurringPaymentTypeDescription() {
+        return recurringPaymentTypeDescription;
+    }
+
+    public void setRecurringPaymentTypeDescription(String recurringPaymentTypeDescription) {
+        this.recurringPaymentTypeDescription = recurringPaymentTypeDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -64,7 +64,7 @@ public class RecurringPaymentType extends PersistableBusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("recurringPaymentTypeCode", this.recurringPaymentTypeCode);
         return m;
     }

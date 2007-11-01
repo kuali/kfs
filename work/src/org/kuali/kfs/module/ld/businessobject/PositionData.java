@@ -357,7 +357,7 @@ public class PositionData extends PersistableBusinessObjectBase {
         if (this.effectiveDate != null) {
             m.put("effectiveDate", this.effectiveDate.toString());
         }
-        
+
         return m;
     }
 

@@ -20,8 +20,6 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * This class is the business object for the Balance Type object.
- * 
- * 
  */
 public class BalanceTyp extends KualiCodeBase {
 
@@ -37,7 +35,6 @@ public class BalanceTyp extends KualiCodeBase {
     }
 
     /**
-     * 
      * @param typeCode
      */
     public BalanceTyp(String typeCode) {

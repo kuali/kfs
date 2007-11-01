@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.kfs.batch.BatchJobStatus;
 import org.kuali.kfs.batch.Job;
-import org.kuali.kfs.batch.JobDescriptor;
 import org.quartz.JobDetail;
 import org.quartz.JobExecutionContext;
 import org.quartz.Scheduler;
@@ -35,7 +34,7 @@ public interface SchedulerService {
 
     public static final String SCHEDULED_GROUP = "scheduled";
     public static final String UNSCHEDULED_GROUP = "unscheduled";
-    
+
     public void initialize();
 
     public void initializeJob(String jobName, Job job);
@@ -61,7 +60,7 @@ public interface SchedulerService {
     public void logScheduleResults();
 
     public boolean shouldNotRun(JobDetail jobDetail);
-    
+
     public String getStatus(JobDetail jobDetail);
 
     public void updateStatus(JobDetail jobDetail, String jobStatus);

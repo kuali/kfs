@@ -38,14 +38,11 @@ import org.kuali.module.budget.dao.BudgetConstructionDao;
 
 /**
  * This class is the OJB implementation of the BudgetConstructionDao interface.
- *
- * 
  */
-public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao  {
+public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionDao {
 
     /**
-     * This gets a BudgetConstructionHeader using the candidate key
-     * chart, account, subaccount, fiscalyear
+     * This gets a BudgetConstructionHeader using the candidate key chart, account, subaccount, fiscalyear
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -57,7 +54,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("subAccountNumber",subAccountNumber);
+        criteria.addEqualTo("subAccountNumber", subAccountNumber);
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
 
         return (BudgetConstructionHeader) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionHeader.class, criteria));
@@ -65,7 +62,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * This saves a BudgetConstructionHeader object to the database
-     *
+     * 
      * @param bcHeader
      */
     public void saveBudgetConstructionHeader(BudgetConstructionHeader bcHeader) {
@@ -73,9 +70,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * This gets a BudgetConstructionFundingLock using the primary key
-     * chart, account, subaccount, fiscalyear, pUId
-     *
+     * This gets a BudgetConstructionFundingLock using the primary key chart, account, subaccount, fiscalyear, pUId
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param subAccountNumber
@@ -84,13 +80,13 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @return BudgetConstructionFundingLock
      */
     public BudgetConstructionFundingLock getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear, String personUniversalIdentifier) {
-        //LOG.debug("getByPrimaryId() started");
+        // LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("appointmentFundingLockUserId", personUniversalIdentifier);
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("subAccountNumber",subAccountNumber);
+        criteria.addEqualTo("subAccountNumber", subAccountNumber);
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
 
         return (BudgetConstructionFundingLock) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionFundingLock.class, criteria));
@@ -98,7 +94,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * This saves a BudgetConstructionFundingLock to the database
-     *
+     * 
      * @param budgetConstructionFundingLock
      */
     public void saveBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
@@ -107,7 +103,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * This deletes a BudgetConstructionFundingLock from the database
-     *
+     * 
      * @param budgetConstructionFundingLock
      */
     public void deleteBudgetConstructionFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
@@ -115,11 +111,10 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * This gets the set of BudgetConstructionFundingLocks asssociated with a BC EDoc (account).
-     * Each BudgetConstructionFundingLock has the positionNumber dummy attribute set to the
-     * associated Position that is locked.  A positionNumber value of "NotFnd" indicates the
-     * BudgetConstructionFundingLock is an orphan.
-     *
+     * This gets the set of BudgetConstructionFundingLocks asssociated with a BC EDoc (account). Each BudgetConstructionFundingLock
+     * has the positionNumber dummy attribute set to the associated Position that is locked. A positionNumber value of "NotFnd"
+     * indicates the BudgetConstructionFundingLock is an orphan.
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param subAccountNumber
@@ -128,17 +123,17 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public Collection<BudgetConstructionFundingLock> getFlocksForAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, Integer fiscalYear) {
         Collection<BudgetConstructionFundingLock> fundingLocks;
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("accountNumber", accountNumber);
-        criteria.addEqualTo("subAccountNumber",subAccountNumber);
+        criteria.addEqualTo("subAccountNumber", subAccountNumber);
         criteria.addEqualTo("universityFiscalYear", fiscalYear);
-        
+
         fundingLocks = (Collection<BudgetConstructionFundingLock>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(BudgetConstructionFundingLock.class, criteria));
         BudgetConstructionFundingLock fundingLock;
         Iterator<BudgetConstructionFundingLock> iter = fundingLocks.iterator();
-        while (iter.hasNext()){
+        while (iter.hasNext()) {
             fundingLock = iter.next();
             fundingLock.setPositionNumber(getPositionAssociatedWithFundingLock(fundingLock));
         }
@@ -148,12 +143,12 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     private String getPositionAssociatedWithFundingLock(BudgetConstructionFundingLock budgetConstructionFundingLock) {
 
-        String positionNumber = "NotFnd";   //default if there is no associated position that is locked (orphaned)
-        
+        String positionNumber = "NotFnd"; // default if there is no associated position that is locked (orphaned)
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.chartOfAccountsCode", budgetConstructionFundingLock.getChartOfAccountsCode());
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.accountNumber", budgetConstructionFundingLock.getAccountNumber());
-        criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.subAccountNumber",budgetConstructionFundingLock.getSubAccountNumber());
+        criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.subAccountNumber", budgetConstructionFundingLock.getSubAccountNumber());
         criteria.addEqualTo("pendingBudgetConstructionAppointmentFunding.universityFiscalYear", budgetConstructionFundingLock.getUniversityFiscalYear());
         criteria.addEqualTo("positionLockUserIdentifier", budgetConstructionFundingLock.getAppointmentFundingLockUserId());
         String[] columns = new String[] { "positionNumber" };
@@ -162,25 +157,24 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         Iterator<Object[]> iter = pb.getReportQueryIteratorByQuery(q);
 
-        if (iter.hasNext()){
+        if (iter.hasNext()) {
             Object[] objs = (Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(iter);
-            if (objs[0] != null){
+            if (objs[0] != null) {
                 positionNumber = (String) objs[0];
             }
         }
         return positionNumber;
     }
-    
+
     /**
-     * Gets a BudgetConstructionPosition from the database by the primary key
-     * positionNumber, fiscalYear
-     *
+     * Gets a BudgetConstructionPosition from the database by the primary key positionNumber, fiscalYear
+     * 
      * @param positionNumber
      * @param fiscalYear
      * @return BudgetConstructionPosition
      */
     public BudgetConstructionPosition getByPrimaryId(String positionNumber, Integer fiscalYear) {
-        //LOG.debug("getByPrimaryId() started");
+        // LOG.debug("getByPrimaryId() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("positionNumber", positionNumber);
@@ -191,7 +185,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
 
     /**
      * Saves a BudgetConstructionPosition to the database
-     *
+     * 
      * @param bcPosition
      */
     public void saveBudgetConstructionPosition(BudgetConstructionPosition bcPosition) {
@@ -206,7 +200,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         Criteria criteria = new Criteria();
         criteria.addEqualTo("personUniversalIdentifier", personUserIdentifier);
         getPersistenceBrokerTemplate().deleteByQuery(QueryFactory.newQuery(BudgetConstructionPullup.class, criteria));
-        
+
     }
 
     /**
@@ -226,7 +220,8 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.dao.BudgetConstructionDao#getBcPullupChildOrgs(java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public List getBudgetConstructionPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode) {
         List orgs = new ArrayList();
@@ -242,7 +237,7 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
         criteria.addEqualTo("reportsToOrganizationCode", organizationCode);
         criteria.addEqualTo("personUniversalIdentifier", personUniversalIdentifier);
         criteria.addAndCriteria(cycleCheckCriteria);
-        
+
         QueryByCriteria query = QueryFactory.newQuery(BudgetConstructionPullup.class, criteria);
         query.addOrderByAscending("organization.organizationName");
 
@@ -255,4 +250,3 @@ public class BudgetConstructionDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
 }
-

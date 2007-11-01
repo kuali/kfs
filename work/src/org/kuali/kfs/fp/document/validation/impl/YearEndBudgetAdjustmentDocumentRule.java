@@ -22,7 +22,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
-import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
 
 /**
@@ -46,8 +45,7 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
     }
 
-    
-    
+
     @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         boolean success = super.customizeOffsetGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry, offsetEntry);
@@ -57,6 +55,7 @@ public class YearEndBudgetAdjustmentDocumentRule extends BudgetAdjustmentDocumen
 
     /**
      * Overriding to return parent class BudgetAdjustmentDocument instead
+     * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */
     @Override

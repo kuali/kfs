@@ -44,38 +44,38 @@ import org.springframework.transaction.annotation.Transactional;
  * Used for segemented lookup results
  */
 @Transactional
-public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl implements SegmentedLookupResultsService { 
+public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl implements SegmentedLookupResultsService {
 
     private static final Log LOG = LogFactory.getLog(SegmentedLookupResultsServiceImpl.class);
 
     private DateTimeService dateTimeService;
-    
+
     /**
      * Retrieve the Date Time Service
-     *
+     * 
      * @return Date Time Service
      */
     public DateTimeService getDateTimeService() {
         return dateTimeService;
     }
-    
+
     /**
      * Assign the Date Time Service
-     *
+     * 
      * @param dateTimeService
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-    
+
     /**
      * @see org.kuali.core.lookup.LookupResultsService#persistResultsTable(java.lang.String, java.util.List, java.lang.String)
      */
     public void persistResultsTable(String lookupResultsSequenceNumber, List<ResultRow> resultTable, String universalUserId) throws Exception {
         String resultTableString = new String(Base64.encodeBase64(ObjectUtils.toByteArray(resultTable)));
-        
+
         Timestamp now = getDateTimeService().getCurrentTimestamp();
-        
+
         LookupResults lookupResults = retrieveLookupResults(lookupResultsSequenceNumber);
         if (lookupResults == null) {
             lookupResults = new LookupResults();
@@ -118,23 +118,22 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
     /**
-     * Returns a list of BOs that were selected.
+     * Returns a list of BOs that were selected. This implementation makes an attempt to retrieve all BOs with the given object IDs,
+     * unless they have been deleted or the object ID changed. Since data may have changed since the search, the returned BOs may
+     * not match the criteria used to search.
      * 
-     * This implementation makes an attempt to retrieve all BOs with the given object IDs, unless they have been deleted or the object ID changed.
-     * Since data may have changed since the search, the returned BOs may not match the criteria used to search.
-     * 
-     * @see org.kuali.core.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class, java.lang.String)
+     * @see org.kuali.core.lookup.LookupResultsService#retrieveSelectedResultBOs(java.lang.String, java.lang.Class,
+     *      java.lang.String)
      */
     public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Class boClass, String universalUserId) throws Exception {
         Set<String> setOfSelectedObjIds = retrieveSetOfSelectedObjectIds(lookupResultsSequenceNumber, universalUserId);
         return retrieveSelectedResultBOs(lookupResultsSequenceNumber, setOfSelectedObjIds, boClass, universalUserId);
     }
-    
+
     /**
-     * 
      * @param lookupResultsSequenceNumber
      * @param universalUserId
-     * @return Set<String> 
+     * @return Set<String>
      */
     public Set<String> retrieveSetOfSelectedObjectIds(String lookupResultsSequenceNumber, String universalUserId) throws Exception {
         SelectedObjectIds selectedObjectIds = retrieveSelectedObjectIds(lookupResultsSequenceNumber);
@@ -146,16 +145,13 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
     }
 
     /**
-     *
      * @param lookupResultsSequenceNumber
      * @param setOfSelectedObjIds
      * @param boClass
      * @param universalUserId
      * @return Collection<PersistableBusinessObject>
      */
-    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, 
-                                                                           Set<String> setOfSelectedObjIds,
-                                                                           Class boClass, String universalUserId) throws Exception {
+    public Collection<PersistableBusinessObject> retrieveSelectedResultBOs(String lookupResultsSequenceNumber, Set<String> setOfSelectedObjIds, Class boClass, String universalUserId) throws Exception {
         LOG.debug("Retrieving results for class " + boClass + " with objectIds " + setOfSelectedObjIds);
         if (setOfSelectedObjIds.isEmpty()) {
             // OJB throws exception if querying on empty set
@@ -165,5 +161,5 @@ public class SegmentedLookupResultsServiceImpl extends LookupResultsServiceImpl 
         queryCriteria.put(KFSPropertyConstants.OBJECT_ID, setOfSelectedObjIds);
         return getBusinessObjectService().findMatching(boClass, queryCriteria);
     }
-    
+
 }

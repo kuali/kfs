@@ -22,100 +22,100 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * Individuals who are assigned to manage a particular set of Contracts with Vendors,
- * who must therefore look at associated Purchase Orders.
+ * Individuals who are assigned to manage a particular set of Contracts with Vendors, who must therefore look at associated Purchase
+ * Orders.
  * 
  * @see org.kuali.module.vendor.bo.VendorContract
  */
 public class ContractManager extends PersistableBusinessObjectBase {
 
-	private Integer contractManagerCode;
-	private String contractManagerUserIdentifier;
-	private String contractManagerName;
-	private String contractManagerPhoneNumber;
-	private String contractManagerFaxNumber;
-	private KualiDecimal contractManagerDelegationDollarLimit;
-	private String contractManagerSignatureImageLocationDescription;
+    private Integer contractManagerCode;
+    private String contractManagerUserIdentifier;
+    private String contractManagerName;
+    private String contractManagerPhoneNumber;
+    private String contractManagerFaxNumber;
+    private KualiDecimal contractManagerDelegationDollarLimit;
+    private String contractManagerSignatureImageLocationDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public ContractManager() {
+    /**
+     * Default constructor.
+     */
+    public ContractManager() {
 
-	}
+    }
 
-	public Integer getContractManagerCode() {
-        
-		return contractManagerCode;
-	}
+    public Integer getContractManagerCode() {
 
-	public void setContractManagerCode(Integer contractManagerCode) {
-		this.contractManagerCode = contractManagerCode;
-	}
+        return contractManagerCode;
+    }
 
-	public String getContractManagerUserIdentifier() {
-        
-		return contractManagerUserIdentifier;
-	}
+    public void setContractManagerCode(Integer contractManagerCode) {
+        this.contractManagerCode = contractManagerCode;
+    }
 
-	public void setContractManagerUserIdentifier(String contractManagerUserIdentifier) {
-		this.contractManagerUserIdentifier = contractManagerUserIdentifier;
-	}
+    public String getContractManagerUserIdentifier() {
 
-	public String getContractManagerName() {
-        
-		return contractManagerName;
-	}
+        return contractManagerUserIdentifier;
+    }
 
-	public void setContractManagerName(String contractManagerName) {
-		this.contractManagerName = contractManagerName;
-	}
+    public void setContractManagerUserIdentifier(String contractManagerUserIdentifier) {
+        this.contractManagerUserIdentifier = contractManagerUserIdentifier;
+    }
 
-	public String getContractManagerPhoneNumber() {
-        
-		return contractManagerPhoneNumber;
-	}
+    public String getContractManagerName() {
 
-	public void setContractManagerPhoneNumber(String contractManagerPhoneNumber) {
-		this.contractManagerPhoneNumber = contractManagerPhoneNumber;
-	}
+        return contractManagerName;
+    }
 
-	public String getContractManagerFaxNumber() {
-        
-		return contractManagerFaxNumber;
-	}
+    public void setContractManagerName(String contractManagerName) {
+        this.contractManagerName = contractManagerName;
+    }
 
-	public void setContractManagerFaxNumber(String contractManagerFaxNumber) {
-		this.contractManagerFaxNumber = contractManagerFaxNumber;
-	}
+    public String getContractManagerPhoneNumber() {
 
-	public KualiDecimal getContractManagerDelegationDollarLimit() {
-        
-		return contractManagerDelegationDollarLimit;
-	}
+        return contractManagerPhoneNumber;
+    }
 
-	public void setContractManagerDelegationDollarLimit(KualiDecimal contractManagerDelegationDollarLimit) {
-		this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
-	}
+    public void setContractManagerPhoneNumber(String contractManagerPhoneNumber) {
+        this.contractManagerPhoneNumber = contractManagerPhoneNumber;
+    }
 
-	public String getContractManagerSignatureImageLocationDescription() {
-        
-		return contractManagerSignatureImageLocationDescription;
-	}
+    public String getContractManagerFaxNumber() {
 
-	public void setContractManagerSignatureImageLocationDescription(String contractManagerSignatureImageLocationDescription) {
-		this.contractManagerSignatureImageLocationDescription = contractManagerSignatureImageLocationDescription;
-	}
+        return contractManagerFaxNumber;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    public void setContractManagerFaxNumber(String contractManagerFaxNumber) {
+        this.contractManagerFaxNumber = contractManagerFaxNumber;
+    }
+
+    public KualiDecimal getContractManagerDelegationDollarLimit() {
+
+        return contractManagerDelegationDollarLimit;
+    }
+
+    public void setContractManagerDelegationDollarLimit(KualiDecimal contractManagerDelegationDollarLimit) {
+        this.contractManagerDelegationDollarLimit = contractManagerDelegationDollarLimit;
+    }
+
+    public String getContractManagerSignatureImageLocationDescription() {
+
+        return contractManagerSignatureImageLocationDescription;
+    }
+
+    public void setContractManagerSignatureImageLocationDescription(String contractManagerSignatureImageLocationDescription) {
+        this.contractManagerSignatureImageLocationDescription = contractManagerSignatureImageLocationDescription;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.contractManagerCode != null) {
             m.put("contractManagerCode", this.contractManagerCode.toString());
         }
-        
-	    return m;
+
+        return m;
     }
 }

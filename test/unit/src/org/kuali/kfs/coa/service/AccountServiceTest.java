@@ -25,8 +25,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Account service.
- * 
- * 
  */
 @ConfigureContext
 public class AccountServiceTest extends KualiTestBase {
@@ -61,9 +59,8 @@ public class AccountServiceTest extends KualiTestBase {
     }
 
     /**
-     * 
-     * This method tests whether a person has "responsibility" for certain accounts, which
-     * in turn determines if said user can edit such accounts later.
+     * This method tests whether a person has "responsibility" for certain accounts, which in turn determines if said user can edit
+     * such accounts later.
      */
     // TODO this test uses hardcoded tests...how do we move to fixtures
     public void testAccountResponsibility() {
@@ -72,10 +69,10 @@ public class AccountServiceTest extends KualiTestBase {
             UniversalUser jaraujo = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("jaraujo");
             UniversalUser rmunroe = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("rmunroe");
             UniversalUser kcopley = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId("kcopley");
-            
+
             Account bl1031400 = SpringContext.getBean(AccountService.class).getByPrimaryId("BL", "1031400");
             Account ba9021104 = SpringContext.getBean(AccountService.class).getByPrimaryId("BA", "9021104");
-            
+
             // 1. RORENFRO is fiscal officer for BL-1031400, so she has responsibility
             assertTrue(SpringContext.getBean(AccountService.class).hasResponsibilityOnAccount(rorenfro, bl1031400));
             // 2. JARAUJO is account supervisor for BL-1031400...no responsibility

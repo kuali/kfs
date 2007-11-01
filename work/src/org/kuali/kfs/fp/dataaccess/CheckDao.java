@@ -21,8 +21,6 @@ import org.kuali.module.financial.bo.Check;
 
 /**
  * The data access interface for persisting Check objects.
- * 
- * 
  */
 public interface CheckDao {
     /**

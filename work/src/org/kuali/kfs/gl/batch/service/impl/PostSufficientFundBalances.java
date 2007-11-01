@@ -22,7 +22,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;

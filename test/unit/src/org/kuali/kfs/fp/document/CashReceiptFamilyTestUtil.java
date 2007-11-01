@@ -32,7 +32,7 @@ public class CashReceiptFamilyTestUtil {
         line.setDocumentNumber(documentNumber);
         line.setSequenceNumber(sequenceNumber);
         line.refresh();
-        
+
         return line;
     }
 }

@@ -33,39 +33,39 @@ import org.kuali.kfs.context.SpringContext;
 public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BatchJobStatusLookupableHelperServiceImpl.class);
-    
+
     private KualiConfigurationService configService;
     private Map fieldConversions;
-    
+
     @Override
     public List<? extends BusinessObject> getSearchResults(Map<String, String> fieldValues) {
         super.setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         super.setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
         List<KualiModule> modules = SpringContext.getBean(KualiModuleService.class).getInstalledModules();
         String codeValue = fieldValues.get("moduleCode");
-        String nameValue = fieldValues.get( "moduleName");
+        String nameValue = fieldValues.get("moduleName");
         List<KualiModuleBO> boModules = new ArrayList();
-        for ( KualiModule mod : modules ) {
-            if ( !StringUtils.isEmpty(nameValue) && !StringUtils.containsIgnoreCase(mod.getModuleName(), nameValue) ) {
-                continue; 
-            }
-            if ( !StringUtils.isEmpty(codeValue) && !StringUtils.containsIgnoreCase(mod.getModuleCode(), codeValue) ) {
+        for (KualiModule mod : modules) {
+            if (!StringUtils.isEmpty(nameValue) && !StringUtils.containsIgnoreCase(mod.getModuleName(), nameValue)) {
                 continue;
             }
-                boModules.add( new KualiModuleBO(mod.getModuleCode(), mod.getModuleId(), mod.getModuleName()));    
-        } 
+            if (!StringUtils.isEmpty(codeValue) && !StringUtils.containsIgnoreCase(mod.getModuleCode(), codeValue)) {
+                continue;
+            }
+            boModules.add(new KualiModuleBO(mod.getModuleCode(), mod.getModuleId(), mod.getModuleName()));
+        }
         return boModules;
     }
 
-    
+
     public void setConfigService(KualiConfigurationService configService) {
         this.configService = configService;
     }
-   
+
     public List getReturnKeys() {
         List returnKeys;
-        
-        if (fieldConversions!= null && !fieldConversions.isEmpty()) {
+
+        if (fieldConversions != null && !fieldConversions.isEmpty()) {
             returnKeys = new ArrayList(fieldConversions.keySet());
         }
         else {
@@ -74,9 +74,10 @@ public class ModuleLookupableHelperServiceImpl extends KualiLookupableHelperServ
 
         return returnKeys;
     }
+
     public void setFieldConversions(Map fieldConversions) {
         this.fieldConversions = fieldConversions;
     }
-    
+
 
 }

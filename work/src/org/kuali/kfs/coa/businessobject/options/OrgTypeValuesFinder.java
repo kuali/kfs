@@ -27,21 +27,19 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.OrgType;
 
 /**
- * 
  * This class creates a new finder for our forms view (creates a drop-down of {@link OrgType}s)
  */
 public class OrgTypeValuesFinder extends KeyValuesBase {
 
     /**
-     * 
      * Constructs a OrgTypeValuesFinder.java.
      */
     public OrgTypeValuesFinder() {
     }
 
     /**
-     * Creates a list of {@link OrgType}s using their code as their key, and
-     * their code "-" name as the display value
+     * Creates a list of {@link OrgType}s using their code as their key, and their code "-" name as the display value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

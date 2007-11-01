@@ -44,8 +44,8 @@ public class AccountingLineServiceImpl implements AccountingLineService {
     /**
      * Saves an accounting line to the DB.
      * 
-     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
-     *        and Target lines).
+     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source and
+     *        Target lines).
      */
     public AccountingLine save(AccountingLine line) {
         accountingLineDao.save(line);
@@ -55,8 +55,8 @@ public class AccountingLineServiceImpl implements AccountingLineService {
     /**
      * Deletes an accounting line from the DB.
      * 
-     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source
-     *        and Target lines).
+     * @param AccountingLine The accounting line object to save - can be any object that extends AccountingLineBase (i.e. Source and
+     *        Target lines).
      */
     public void deleteAccountingLine(AccountingLine line) {
         accountingLineDao.deleteAccountingLine(line);

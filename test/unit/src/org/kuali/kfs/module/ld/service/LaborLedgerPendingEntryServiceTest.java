@@ -16,7 +16,6 @@
 package org.kuali.module.labor.service;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -27,14 +26,8 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
-import org.kuali.module.labor.util.testobject.LaborOriginEntryForTesting;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
@@ -50,7 +43,7 @@ public class LaborLedgerPendingEntryServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
 
     public LaborLedgerPendingEntryServiceTest() {
-        super();        
+        super();
         String messageFileName = "test/src/org/kuali/module/labor/testdata/message.properties";
         String propertiesFileName = "test/src/org/kuali/module/labor/testdata/laborLedgerPendingEntryService.properties";
 

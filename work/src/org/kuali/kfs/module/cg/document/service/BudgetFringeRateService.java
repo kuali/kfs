@@ -16,25 +16,20 @@
 package org.kuali.module.kra.budget.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
 import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetUser;
-import org.kuali.module.kra.budget.document.BudgetDocument;
-
-import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
  * This interface defines methods that an Budget Fringe Rate Service must provide
- * 
- * 
  */
 public interface BudgetFringeRateService {
     /**
      * Returns active AppointmentTypes.
+     * 
      * @return active AppointmentType objects
      */
     public Collection getDefaultFringeRates();

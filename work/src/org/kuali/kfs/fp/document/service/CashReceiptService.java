@@ -18,7 +18,6 @@ package org.kuali.module.financial.service;
 import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.financial.bo.CashReceiptHeader;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 
@@ -36,10 +35,9 @@ public interface CashReceiptService {
     public String getCampusCodeForCashReceiptVerificationUnit(String unitName);
 
     /**
-     * Returns null if the user is not a member of any verification unit workgroup
-     * 
-     * TODO: change this to do something other than return null (which will require updating CashReceiptDocumentAuthorizer, since
-     * that's the one place I'm sure that returning a null is interpreted to mean that a user is a member of no verificationUnit)
+     * Returns null if the user is not a member of any verification unit workgroup TODO: change this to do something other than
+     * return null (which will require updating CashReceiptDocumentAuthorizer, since that's the one place I'm sure that returning a
+     * null is interpreted to mean that a user is a member of no verificationUnit)
      * 
      * @param user
      * @return cash receipt verificationUnit workgroupName associated with the given user
@@ -69,11 +67,10 @@ public interface CashReceiptService {
      * @throws IllegalArgumentException if statii is null or empty or contains any blank statusCodes
      */
     public List getCashReceipts(String verificationUnit, String[] statii);
-    
+
     /**
-     * This adds the currency and coin details associated with this Cash Receipt document to the
-     * proper cash drawer and to the cumulative Cash Receipt details for the document which opened
-     * the cash drawer.
+     * This adds the currency and coin details associated with this Cash Receipt document to the proper cash drawer and to the
+     * cumulative Cash Receipt details for the document which opened the cash drawer.
      * 
      * @param crDoc the cash receipt document with cash details to add to the cash drawer
      */

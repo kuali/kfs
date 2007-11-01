@@ -34,7 +34,6 @@ import org.kuali.module.budget.service.impl.BudgetConstructionLockStatus;
 import org.kuali.test.ConfigureContext;
 
 /**
- * 
  * This class tests the Lock Service
  */
 @ConfigureContext
@@ -44,7 +43,7 @@ public class LockServiceTest extends KualiTestBase {
         return false;
     }
 
-    @ConfigureContext(shouldCommitTransactions=true)
+    @ConfigureContext(shouldCommitTransactions = true)
     public void testOne() {
 
         LockService lockService;
@@ -59,11 +58,11 @@ public class LockServiceTest extends KualiTestBase {
         SortedSet<BudgetConstructionFundingLock> fundingLocks;
         Iterator<BudgetConstructionFundingLock> fundingIter;
         BudgetConstructionFundingLock fundingLock;
-        
+
         String fdocNumber = "1111111111";
         Integer orgLevelCode = new Integer(0);
         String chartOfAccountsCode = "UA";
-        String accountNumber = "1912201" ;
+        String accountNumber = "1912201";
         String subAccountNumber = "-----";
         String financialObjectCode = "2400";
         String financialSubObjectCode = "---";
@@ -71,35 +70,37 @@ public class LockServiceTest extends KualiTestBase {
         Integer universityFiscalYear = new Integer(2007);
         String positionNumber = "00013304";
         String positionDesc = "DATABASE MGR.";
-        String pUIdOne = "3670600494"; //MCGUIRE
-        String pUIdTwo = "6162502038"; //KHUNTLEY
+        String pUIdOne = "3670600494"; // MCGUIRE
+        String pUIdTwo = "6162502038"; // KHUNTLEY
         boolean posExist = false;
         boolean hdrExist = false;
         boolean docHdrExist = false;
         boolean bcafExist = false;
 
-        
-        if (!runTests()) return;
-        
+
+        if (!runTests())
+            return;
+
         // do some setup and initialize the state of things
         lockService = SpringContext.getBean(LockService.class);
         bcHeaderDao = new BudgetConstructionDaoOjb();
-        
+
         docHeader = null;
         Map dockey = new HashMap();
         dockey.put("documentNumber", fdocNumber);
         docHeader = (DocumentHeader) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(DocumentHeader.class, dockey);
-        if (docHeader == null){
+        if (docHeader == null) {
             docHeader = new DocumentHeader();
             docHeader.setDocumentNumber(fdocNumber);
             SpringContext.getBean(BusinessObjectService.class).save(docHeader);
-        } else {
+        }
+        else {
             docHdrExist = true;
         }
 
         bcHeader = null;
         bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
-        if (bcHeader == null){
+        if (bcHeader == null) {
             bcHeader = new BudgetConstructionHeader();
             bcHeader.setDocumentNumber(fdocNumber);
             bcHeader.setAccountNumber(accountNumber);
@@ -108,7 +109,8 @@ public class LockServiceTest extends KualiTestBase {
             bcHeader.setOrganizationLevelCode(orgLevelCode);
             bcHeader.setUniversityFiscalYear(universityFiscalYear);
             bcHeaderDao.saveBudgetConstructionHeader(bcHeader);
-        } else {
+        }
+        else {
             hdrExist = true;
             lockService.unlockAccount(bcHeader);
             lockService.unlockTransaction(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
@@ -116,25 +118,26 @@ public class LockServiceTest extends KualiTestBase {
         bcHeader = null;
         bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
         assertTrue(bcHeader.getAccountNumber().equals(accountNumber));
-        
+
 
         bcPosition = null;
         bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
-        if (bcPosition == null){
+        if (bcPosition == null) {
             bcPosition = new BudgetConstructionPosition();
             bcPosition.setPositionNumber(positionNumber);
             bcPosition.setUniversityFiscalYear(universityFiscalYear);
             bcPosition.setPositionDescription(positionDesc);
             bcHeaderDao.saveBudgetConstructionPosition(bcPosition);
-        } else {
+        }
+        else {
             posExist = true;
             lockService.unlockPosition(positionNumber, universityFiscalYear);
         }
         bcPosition = null;
         bcPosition = bcHeaderDao.getByPrimaryId(positionNumber, universityFiscalYear);
         assertTrue(bcPosition.getPositionNumber().equals(positionNumber));
-        
-        
+
+
         bcAFunding = null;
         HashMap map = new HashMap();
         map.put("universityFiscalYear", universityFiscalYear);
@@ -146,7 +149,7 @@ public class LockServiceTest extends KualiTestBase {
         map.put("positionNumber", positionNumber);
         map.put("emplid", emplid);
         bcAFunding = (PendingBudgetConstructionAppointmentFunding) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(PendingBudgetConstructionAppointmentFunding.class, map);
-        if (bcAFunding == null){
+        if (bcAFunding == null) {
             bcAFunding = new PendingBudgetConstructionAppointmentFunding();
             bcAFunding.setUniversityFiscalYear(universityFiscalYear);
             bcAFunding.setChartOfAccountsCode(chartOfAccountsCode);
@@ -157,11 +160,12 @@ public class LockServiceTest extends KualiTestBase {
             bcAFunding.setPositionNumber(positionNumber);
             bcAFunding.setEmplid(emplid);
             SpringContext.getBean(BusinessObjectService.class).save(bcAFunding);
-        } else {
-            bcafExist = true;    
         }
-        
-        //make sure funding locks we intend to use aren't there
+        else {
+            bcafExist = true;
+        }
+
+        // make sure funding locks we intend to use aren't there
         lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdOne);
         lockService.unlockFunding(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear, pUIdTwo);
 
@@ -194,12 +198,12 @@ public class LockServiceTest extends KualiTestBase {
         // account unlock by other - needs account lock in previous test
         // this tests opimistic lock exception catch
         // this configuration of the test must run in a test method that
-        // is annotated as ShouldCommitTransactions 
+        // is annotated as ShouldCommitTransactions
         lockService.unlockAccount(bcHeaderTwo);
         assertFalse(lockService.isAccountLocked(bcHeaderTwo));
         assertTrue(lockService.unlockAccount(bcHeader) == LockStatus.OPTIMISTIC_EX);
         assertFalse(lockService.isAccountLocked(bcHeader));
-        
+
         // trivial funding lock/unlock
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
@@ -216,23 +220,15 @@ public class LockServiceTest extends KualiTestBase {
         assertTrue(fundingIter.hasNext());
         fundingLock = fundingIter.next();
         assertTrue(fundingLock.getPositionNumber().equals("NotFnd"));
-        lockStatus = lockService.unlockFunding(
-                bcHeader.getChartOfAccountsCode(),
-                bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(),
-                bcHeader.getUniversityFiscalYear(), pUIdOne);
+        lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        lockStatus = lockService.unlockFunding(
-                bcHeader.getChartOfAccountsCode(),
-                bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(),
-                bcHeader.getUniversityFiscalYear(), pUIdTwo);
+        lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
         assertTrue(lockStatus == LockStatus.SUCCESS);
         assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
 
         // account lock attempt with funding locks set
         // one funding lock has an associated position lock, the other is an orphan
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
         bcLockStatus = lockService.lockFunding(bcHeader, pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
@@ -245,106 +241,70 @@ public class LockServiceTest extends KualiTestBase {
         fundingIter = bcLockStatus.getFundingLocks().iterator();
         assertTrue(fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals("NotFnd"));        //orphan
+        assertTrue(fundingLock.getPositionNumber().equals("NotFnd")); // orphan
         assertTrue(fundingIter.hasNext());
         fundingLock = fundingIter.next();
-        assertTrue(fundingLock.getPositionNumber().equals(positionNumber));  //associated position
+        assertTrue(fundingLock.getPositionNumber().equals(positionNumber)); // associated position
         assertFalse(lockService.isAccountLocked(bcHeaderTwo));
-        lockStatus = lockService.unlockFunding(
-                bcHeader.getChartOfAccountsCode(),
-                bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(),
-                bcHeader.getUniversityFiscalYear(),
-                pUIdOne);
+        lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        lockStatus = lockService.unlockFunding(
-                bcHeader.getChartOfAccountsCode(),
-                bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(),
-                bcHeader.getUniversityFiscalYear(),
-                pUIdTwo);
+        lockStatus = lockService.unlockFunding(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
         assertTrue(lockStatus == LockStatus.SUCCESS);
         assertTrue(lockService.getFundingLocks(bcHeader).isEmpty());
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear());
+        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        
+
         // trivial position lock/unlock
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear());
+        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear()));
-        
+        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+
         // position lock attempt with position lock by other
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear(), pUIdOne);
+        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear(), pUIdTwo);
+        bcLockStatus = lockService.lockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear(), pUIdTwo);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
-        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear());
+        assertTrue(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+        lockStatus = lockService.unlockPosition(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear());
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(),bcPosition.getUniversityFiscalYear()));
-        
+        assertFalse(lockService.isPositionLocked(bcPosition.getPositionNumber(), bcPosition.getUniversityFiscalYear()));
+
         // trivial transaction lock/unlock
         // this test bcHeader, but the application will probably derive the params from BCAppointmentFunding
-        lockService.unlockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
-        assertFalse(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        bcLockStatus = lockService.lockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
+        lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
+        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
+        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        lockStatus = lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        
+        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+
         // transaction lock attempt with transaction lock by other
         // this test uses bcHeader, but the application will probably derive the params from BCAppointmentFunding
-        assertFalse(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        bcLockStatus = lockService.lockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
+        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdOne);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.SUCCESS);
-        assertTrue(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        bcLockStatus = lockService.lockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
+        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        bcLockStatus = lockService.lockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear(), pUIdTwo);
         assertTrue(bcLockStatus.getLockStatus() == LockStatus.BY_OTHER);
         assertTrue(bcLockStatus.getTransactionLockOwner().equals(pUIdOne));
-        assertTrue(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        lockStatus = lockService.unlockTransaction(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
+        assertTrue(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+        lockStatus = lockService.unlockTransaction(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear());
         assertTrue(lockStatus == LockStatus.SUCCESS);
-        assertFalse(lockService.isTransactionLocked(
-                bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(),
-                bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
-        
+        assertFalse(lockService.isTransactionLocked(bcHeader.getChartOfAccountsCode(), bcHeader.getAccountNumber(), bcHeader.getSubAccountNumber(), bcHeader.getUniversityFiscalYear()));
+
         // remove test objects from the database if they didn't exist
         if (!hdrExist) {
             bcHeader = bcHeaderDao.getByCandidateKey(chartOfAccountsCode, accountNumber, subAccountNumber, universityFiscalYear);
             bcHeaderDao.getPersistenceBrokerTemplate().delete(bcHeader);
         }
-        if (!docHdrExist){
+        if (!docHdrExist) {
             SpringContext.getBean(BusinessObjectService.class).delete(docHeader);
         }
         if (!posExist) {

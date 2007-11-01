@@ -21,54 +21,53 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Payment Terms for Shipping from a particular Vendor.
- * Per Vendor as distinct from <code>PaymentTermType</code>.
+ * Payment Terms for Shipping from a particular Vendor. Per Vendor as distinct from <code>PaymentTermType</code>.
  * 
  * @see org.kuali.module.vendor.bo.PaymentTermType
  */
 public class ShippingPaymentTerms extends PersistableBusinessObjectBase {
 
-	private String vendorShippingPaymentTermsCode;
-	private String vendorShippingPaymentTermsDescription;
-	private boolean vendorShippingPaymentTermsPayIndicator;
+    private String vendorShippingPaymentTermsCode;
+    private String vendorShippingPaymentTermsDescription;
+    private boolean vendorShippingPaymentTermsPayIndicator;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ShippingPaymentTerms() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ShippingPaymentTerms() {
 
-	public String getVendorShippingPaymentTermsCode() {
-        
-		return vendorShippingPaymentTermsCode;
-	}
+    }
 
-	public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
-		this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
-	}
+    public String getVendorShippingPaymentTermsCode() {
 
-	public String getVendorShippingPaymentTermsDescription() {
-        
-		return vendorShippingPaymentTermsDescription;
-	}
+        return vendorShippingPaymentTermsCode;
+    }
 
-	public void setVendorShippingPaymentTermsDescription(String vendorShippingPaymentTermsDescription) {
-		this.vendorShippingPaymentTermsDescription = vendorShippingPaymentTermsDescription;
-	}
+    public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
+        this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
+    }
 
-	public boolean getVendorShippingPaymentTermsPayIndicator() {
-        
-		return vendorShippingPaymentTermsPayIndicator;
-	}
+    public String getVendorShippingPaymentTermsDescription() {
 
-	public void setVendorShippingPaymentTermsPayIndicator(boolean vendorShippingPaymentTermsPayIndicator) {
-		this.vendorShippingPaymentTermsPayIndicator = vendorShippingPaymentTermsPayIndicator;
-	}
+        return vendorShippingPaymentTermsDescription;
+    }
+
+    public void setVendorShippingPaymentTermsDescription(String vendorShippingPaymentTermsDescription) {
+        this.vendorShippingPaymentTermsDescription = vendorShippingPaymentTermsDescription;
+    }
+
+    public boolean getVendorShippingPaymentTermsPayIndicator() {
+
+        return vendorShippingPaymentTermsPayIndicator;
+    }
+
+    public void setVendorShippingPaymentTermsPayIndicator(boolean vendorShippingPaymentTermsPayIndicator) {
+        this.vendorShippingPaymentTermsPayIndicator = vendorShippingPaymentTermsPayIndicator;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -77,12 +76,12 @@ public class ShippingPaymentTerms extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorShippingPaymentTermsCode", this.vendorShippingPaymentTermsCode);
-        
-	    return m;
+
+        return m;
     }
 }

@@ -33,7 +33,7 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
  * transactional document, only accepting funds into the university, the accounting line data will be held in the source accounting
  * line data structure only.
  */
-public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling  {
+public class AdvanceDepositDocument extends CashReceiptFamilyBase implements Copyable, AmountTotaling {
     // holds details about each advance deposit
     private List<AdvanceDepositDetail> advanceDeposits = new ArrayList<AdvanceDepositDetail>();
 

@@ -32,7 +32,7 @@ public class TransactionalAnnotationTest extends KualiTestBase {
     Map<Class, Boolean> seenClasses = new HashMap();
 
     public void testTransactionAnnotations() {
-        Map <String,Class> nonAnnotatedTransactionalServices = getNonAnnotatedTransactionalServices();
+        Map<String, Class> nonAnnotatedTransactionalServices = getNonAnnotatedTransactionalServices();
         for (String beanName : new TreeSet<String>(nonAnnotatedTransactionalServices.keySet())) {
             LOG.error(String.format("Service Bean improperly annotated: %s <%s>\n", beanName, nonAnnotatedTransactionalServices.get(beanName).getName()));
         }
@@ -44,10 +44,10 @@ public class TransactionalAnnotationTest extends KualiTestBase {
         assertTrue(failureMessage.toString(), nonAnnotatedTransactionalServices.isEmpty());
 
     }
-    
+
     public Map getNonAnnotatedTransactionalServices() {
-        Map<String,Class> nonAnnotatedTransactionalServices = new HashMap();
-        String[] beanNames= SpringContext.getBeanNames();
+        Map<String, Class> nonAnnotatedTransactionalServices = new HashMap();
+        String[] beanNames = SpringContext.getBeanNames();
         for (String beanName : beanNames) {
             Object bean = null;
             try {
@@ -56,13 +56,13 @@ public class TransactionalAnnotationTest extends KualiTestBase {
             catch (Exception e) {
                 LOG.warn("Caught exception while trying to obtain service: " + beanName);
             }
-            if (bean !=null) {
+            if (bean != null) {
                 Class beanClass = bean.getClass();
                 if (beanClass.getName().startsWith("$Proxy")) {
                     beanClass = AopProxyUtils.getTargetClass(bean);
                 }
-                if (beanClass.getName().startsWith("org.kuali") && !Modifier.isAbstract(beanClass.getModifiers()) && !beanClass.getName().endsWith("DaoOjb")  && !beanClass.getName().endsWith("Factory") && !isClassAnnotated(beanName,beanClass)) {
-                    nonAnnotatedTransactionalServices.put(beanName,beanClass);                    
+                if (beanClass.getName().startsWith("org.kuali") && !Modifier.isAbstract(beanClass.getModifiers()) && !beanClass.getName().endsWith("DaoOjb") && !beanClass.getName().endsWith("Factory") && !isClassAnnotated(beanName, beanClass)) {
+                    nonAnnotatedTransactionalServices.put(beanName, beanClass);
                 }
             }
         }

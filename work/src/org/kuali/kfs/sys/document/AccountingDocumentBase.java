@@ -185,6 +185,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
      * Since one side of the document should match the other and the document should balance, the total dollar amount for the
      * document should either be the expense line or the income line. This is the default implementation of this interface method so
      * it should be overridden appropriately if your document cannot make this assumption.
+     * 
      * @return if target total is zero, source total, otherwise target total
      */
     public KualiDecimal getTotalDollarAmount() {
@@ -388,6 +389,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      * This method gets the Target Accounting Lines that will be used in comparisons
+     * 
      * @return
      */
     protected List getTargetAccountingLinesForComparison() {
@@ -396,6 +398,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      * This method gets the Persisted Target Accounting Lines that will be used in comparisons
+     * 
      * @return
      */
     protected List getPersistedTargetAccountingLinesForComparison() {
@@ -404,6 +407,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      * This method gets the Source Accounting Lines that will be used in comparisons
+     * 
      * @return
      */
     protected List getSourceAccountingLinesForComparison() {
@@ -412,12 +416,13 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
     /**
      * This method gets the Persisted Source Accounting Lines that will be used in comparisons
+     * 
      * @return
      */
     protected List getPersistedSourceAccountingLinesForComparison() {
         return SpringContext.getBean(AccountingLineService.class).getByDocumentHeaderId(getSourceAccountingLineClass(), getDocumentNumber());
     }
-    
+
     /**
      * Generates a List of instances of AccountingLineEvent subclasses, one for each accountingLine in the union of the
      * persistedLines and currentLines lists. Events in the list will be grouped in order by event-type (review, update, add,
@@ -491,7 +496,7 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
         return lineEvents;
     }
 
-    
+
     /**
      * @param accountingLines
      * @return Map containing accountingLines from the given List, indexed by their sequenceNumber

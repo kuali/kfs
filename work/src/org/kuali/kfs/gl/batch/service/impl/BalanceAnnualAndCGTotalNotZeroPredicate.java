@@ -19,7 +19,8 @@ import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
 import org.kuali.module.gl.bo.Balance;
 
 /**
- * An implementation of BalancePredicate to only select balances where the annual account line total and contracts and grants total summed are not equal to zero 
+ * An implementation of BalancePredicate to only select balances where the annual account line total and contracts and grants total
+ * summed are not equal to zero
  */
 public class BalanceAnnualAndCGTotalNotZeroPredicate implements BalancePredicate {
 

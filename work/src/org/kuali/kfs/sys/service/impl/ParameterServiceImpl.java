@@ -35,7 +35,6 @@ import org.kuali.core.datadictionary.TransactionalDocumentEntry;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
 import org.kuali.core.util.spring.Cached;
@@ -45,7 +44,6 @@ import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants.COMPONENT;
 import org.kuali.kfs.service.impl.ParameterConstants.NAMESPACE;
-import org.kuali.rice.KNSServiceLocator;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -127,8 +125,8 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * This method looks for constrainingValue=<some text> within the parameter text and splits that text on a comma to generate the
-     * List to return.
+     * This method looks for constrainingValue=<some text> within the parameter text and splits that text on a comma to generate
+     * the List to return.
      * 
      * @param componentClass
      * @param parameterName
@@ -211,7 +209,8 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String constrainedValue)
+     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
+     *      constrainedValue)
      */
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainedValue) {
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
@@ -222,7 +221,8 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String constrainingValue, java.lang.String constrainedValue)
+     * @see org.kuali.kfs.service.ParameterService#getParameterEvaluators(java.lang.Class componentClass, java.lang.String
+     *      constrainingValue, java.lang.String constrainedValue)
      */
     public List<ParameterEvaluator> getParameterEvaluators(Class componentClass, String constrainingValue, String constrainedValue) {
         List<ParameterEvaluator> parameterEvaluators = new ArrayList<ParameterEvaluator>();
@@ -277,7 +277,8 @@ public class ParameterServiceImpl implements ParameterService {
     }
 
     /**
-     * @see org.kuali.kfs.service.ParameterService#setParameterForTesting(java.lang.Class componentClass, java.lang.String parameterName, java.lang.String parameterText)
+     * @see org.kuali.kfs.service.ParameterService#setParameterForTesting(java.lang.Class componentClass, java.lang.String
+     *      parameterName, java.lang.String parameterText)
      */
     public void setParameterForTesting(Class componentClass, String parameterName, String parameterText) {
         Parameter parameter = (Parameter) getParameter(componentClass, parameterName);
@@ -330,27 +331,29 @@ public class ParameterServiceImpl implements ParameterService {
 
     private String getDetailTypeName(Class documentOrStepClass) {
         if (documentOrStepClass.isAnnotationPresent(COMPONENT.class)) {
-            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName() );
-            if ( boe != null ) {
+            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+            if (boe != null) {
                 return boe.getObjectLabel();
-            } else {
+            }
+            else {
                 return ((COMPONENT) documentOrStepClass.getAnnotation(COMPONENT.class)).component();
-            }            
+            }
         }
         if (TransactionalDocument.class.isAssignableFrom(documentOrStepClass)) {
             return dataDictionaryService.getDocumentLabelByClass(documentOrStepClass);
         }
         else if (BusinessObject.class.isAssignableFrom(documentOrStepClass) || Step.class.isAssignableFrom(documentOrStepClass)) {
-            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName() );
-            if ( boe != null ) {
+            BusinessObjectEntry boe = dataDictionaryService.getDataDictionary().getBusinessObjectEntry(documentOrStepClass.getName());
+            if (boe != null) {
                 return boe.getObjectLabel();
-            } else {
+            }
+            else {
                 return documentOrStepClass.getSimpleName();
-            }            
+            }
         }
         throw new IllegalArgumentException("The getDetailTypeName method of ParameterServiceImpl requires TransactionalDocument, BusinessObject, or Step class");
     }
-    
+
     private ParameterEvaluator getParameterEvaluator(Parameter parameter) {
         ParameterEvaluatorImpl parameterEvaluator = new ParameterEvaluatorImpl();
         parameterEvaluator.setParameter(parameter);
@@ -367,14 +370,14 @@ public class ParameterServiceImpl implements ParameterService {
 
     private ParameterEvaluator getParameterEvaluator(Parameter parameter, String constrainingValue, String constrainedValue) {
         ParameterEvaluator parameterEvaluator = getParameterEvaluator(parameter, constrainedValue);
-        ((ParameterEvaluatorImpl)parameterEvaluator).setValues(getParameterValues(parameter, constrainingValue));
+        ((ParameterEvaluatorImpl) parameterEvaluator).setValues(getParameterValues(parameter, constrainingValue));
         return parameterEvaluator;
     }
 
     private ParameterDetailType getParameterDetailType(Class documentOrStepClass) {
         String detailTypeString = getDetailType(documentOrStepClass);
         String detailTypeName = getDetailTypeName(documentOrStepClass);
-        ParameterDetailType detailType = new ParameterDetailType(getNamespace(documentOrStepClass), detailTypeString, (detailTypeName==null)?detailTypeString:detailTypeName);
+        ParameterDetailType detailType = new ParameterDetailType(getNamespace(documentOrStepClass), detailTypeString, (detailTypeName == null) ? detailTypeString : detailTypeName);
         detailType.refreshNonUpdateableReferences();
         return detailType;
     }

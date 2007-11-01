@@ -76,24 +76,30 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 if (pr != null) {
                     if (disbursedPayment || primaryCancel) {
                         paymentRequestService.cancelExtractedPaymentRequest(pr, preqCancelNote);
-                    } else {
+                    }
+                    else {
                         paymentRequestService.resetExtractedPaymentRequest(pr, preqResetNote);
                     }
-                } else {
+                }
+                else {
                     LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
+            }
+            else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
                 CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
                 if (cm != null) {
                     if (disbursedPayment || primaryCancel) {
                         creditMemoService.cancelExtractedCreditMemo(cm, cmCancelNote);
-                    } else {
+                    }
+                    else {
                         creditMemoService.resetExtractedCreditMemo(cm, cmResetNote);
                     }
-                } else {
+                }
+                else {
                     LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else {
+            }
+            else {
                 LOG.error("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
             }
@@ -124,17 +130,21 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 PaymentRequestDocument pr = paymentRequestService.getPaymentRequestByDocumentNumber(documentNumber);
                 if (pr != null) {
                     paymentRequestService.markPaid(pr, processDate);
-                } else {
+                }
+                else {
                     LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT MARK - Payment Request with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
+            }
+            else if (PurapConstants.PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT.equals(documentTypeCode)) {
                 CreditMemoDocument cm = creditMemoService.getCreditMemoByDocumentNumber(documentNumber);
                 if (cm != null) {
                     creditMemoService.markPaid(cm, processDate);
-                } else {
+                }
+                else {
                     LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
-            } else {
+            }
+            else {
                 LOG.error("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
             }

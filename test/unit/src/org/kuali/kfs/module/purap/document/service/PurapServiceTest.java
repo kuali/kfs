@@ -21,17 +21,17 @@ import java.sql.Date;
 import java.util.Calendar;
 
 import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class PurapServiceTest extends KualiTestBase {
-    
+
     private Date currentDate;
     private Date compareDate;
     private int dayOffset = 60;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -40,34 +40,34 @@ public class PurapServiceTest extends KualiTestBase {
         calendar.add(Calendar.DATE, dayOffset);
         compareDate = new Date(calendar.getTimeInMillis());
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         currentDate = null;
         compareDate = null;
         super.tearDown();
     }
-    
+
     public void testIsDateMoreThanANumberOfDaysAway_ManyFewerDays() {
         int daysAway = dayOffset - 5;
         assertTrue(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));
     }
-    
+
     public void testIsDateMoreThanANumberOfDaysAway_OneLessDays() {
         int daysAway = dayOffset - 1;
         assertTrue(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));
     }
-    
+
     public void testIsDateMoreThanANumberOfDaysAway_SameNumberOfDays() {
         int daysAway = dayOffset;
         assertFalse(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));
     }
-    
+
     public void testIsDateMoreThanANumberOfDaysAway_OneMoreDays() {
         int daysAway = dayOffset + 1;
         assertFalse(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));
     }
-    
+
     public void testIsDateMoreThanANumberOfDaysAway_ManyMoreDays() {
         int daysAway = dayOffset + 5;
         assertFalse(SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(compareDate, daysAway));

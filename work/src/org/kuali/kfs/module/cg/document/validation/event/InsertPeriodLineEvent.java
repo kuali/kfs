@@ -20,8 +20,6 @@ import org.kuali.module.kra.budget.bo.BudgetPeriod;
 
 /**
  * Defines methods common to all PeriodLine events.
- * 
- * 
  */
 public interface InsertPeriodLineEvent extends KualiDocumentEvent {
 

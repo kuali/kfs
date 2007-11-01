@@ -22,8 +22,6 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.CreditMemoDocument;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 
 public enum CreditMemoDocumentFixture {
 
@@ -36,7 +34,7 @@ public enum CreditMemoDocumentFixture {
             null,                   // purchaseOrderEndDate
             PurchasingAccountsPayableDocumentFixture.CM_ONLY_REQUIRED_FIELDS,  // purapDocumentFixture
             AccountsPayableDocumentFixture.CM_ONLY_REQUIRED_FIELDS             // apDocumentFixture
-             // new RequisitionItemFixture[] {RequisitionItemFixture.CM_QTY_UNRESTRICTED_ITEM_1}  // requisitionItemMultiFixtures
+             // new RequisitionItemFixture[] {RequisitionItemFixture.CM_QTY_UNRESTRICTED_ITEM_1} // requisitionItemMultiFixtures
             ),
     CM_ONLY_REQUIRED_FIELDS(null,   // paymentRequestIdentifier
             "12345",                   // creditMemoNumber
@@ -47,7 +45,7 @@ public enum CreditMemoDocumentFixture {
             null,                   // purchaseOrderEndDate
             PurchasingAccountsPayableDocumentFixture.CM_ONLY_REQUIRED_FIELDS,  // purapDocumentFixture
             AccountsPayableDocumentFixture.CM_ONLY_REQUIRED_FIELDS             // apDocumentFixture
-             // new creditMemoItemFixture[] {CreditMemoItemFixture.CM_QTY_UNRESTRICTED_ITEM_1}  // creditMemoItemMultiFixtures
+             // new creditMemoItemFixture[] {CreditMemoItemFixture.CM_QTY_UNRESTRICTED_ITEM_1} // creditMemoItemMultiFixtures
             );            
             ;
   
@@ -61,7 +59,7 @@ public enum CreditMemoDocumentFixture {
     
     private PurchasingAccountsPayableDocumentFixture purapDocumentFixture;
     private AccountsPayableDocumentFixture apDocumentFixture;
-    //private CreditMemoItemFixture[] creditmemoItemFixtures;
+    // private CreditMemoItemFixture[] creditmemoItemFixtures;
     
     private CreditMemoDocumentFixture(
             Integer paymentRequestIdentifier,
@@ -82,7 +80,7 @@ public enum CreditMemoDocumentFixture {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
         this.purapDocumentFixture = purapDocumentFixture;
         this.apDocumentFixture = apDocumentFixture;
-        //this.creditMemoItemFixtures = creditmemoItemFixtures;
+        // this.creditMemoItemFixtures = creditmemoItemFixtures;
     }
     
     public CreditMemoDocument createCreditMemoDocument() {
@@ -95,11 +93,9 @@ public enum CreditMemoDocumentFixture {
         doc.setItemMiscellaneousCreditDescription(this.itemMiscellaneousCreditDescription);
         doc.setPurchaseOrderEndDate(this.purchaseOrderEndDate);
         
-        /*    
-        for (CreditMemoItemFixture creditMemoItemFixture : creditMemoItemFixtures) {
-            creditMemoItemFixture.addTo(doc);
-        }
-        */
+        /*
+         * for (CreditMemoItemFixture creditMemoItemFixture : creditMemoItemFixtures) { creditMemoItemFixture.addTo(doc); }
+         */
         return doc;
     }
     

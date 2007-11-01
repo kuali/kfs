@@ -89,8 +89,8 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
     }
 
     /**
-     * Adds in a can blanket approve flag for Sub Accounts if the workflow document state is 
-     * not canceled 
+     * Adds in a can blanket approve flag for Sub Accounts if the workflow document state is not canceled
+     * 
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */

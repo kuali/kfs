@@ -15,36 +15,34 @@
  */
 package org.kuali.module.financial.dao.ojb;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
-import org.springframework.dao.DataAccessException;
-
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
+import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.CashieringTransaction;
 import org.kuali.module.financial.dao.CashManagementDao;
+import org.springframework.dao.DataAccessException;
 
 public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements CashManagementDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CashManagementDaoOjb.class);
-    
+
     public CashManagementDaoOjb() {
         super();
     }
-    
+
     /**
      * @see org.kuali.module.financial.dao.CashManagementDao#findOpenItemsInProcessByWorkgroupName(java.lang.String)
      */
@@ -53,11 +51,11 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         Criteria criteria = new Criteria();
         criteria.addEqualTo("workgroupName", wrkgrpName);
         criteria.addColumnIsNull("ITM_CLOSED_DT");
-        
+
         QueryByCriteria openItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
         Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(openItemsQuery);
         while (iter.hasNext()) {
-            openItems.add((CashieringItemInProcess)iter.next());
+            openItems.add((CashieringItemInProcess) iter.next());
         }
         return openItems;
     }
@@ -67,7 +65,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
      */
     public List<CashieringItemInProcess> findRecentlyClosedItemsInProcess(String workgroupName) {
         List<CashieringItemInProcess> closedItems = new ArrayList<CashieringItemInProcess>();
-        
+
         Criteria criteria = new Criteria();
         criteria.addEqualTo("workgroupName", workgroupName);
         criteria.addColumnNotNull("ITM_CLOSED_DT");
@@ -78,28 +76,30 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         QueryByCriteria closedItemsQuery = QueryFactory.newQuery(CashieringItemInProcess.class, criteria);
         Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(closedItemsQuery);
         while (iter.hasNext()) {
-            closedItems.add((CashieringItemInProcess)iter.next());
+            closedItems.add((CashieringItemInProcess) iter.next());
         }
         return closedItems;
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findCoinDetailByCashieringRecordSource(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.financial.dao.CashManagementDao#findCoinDetailByCashieringRecordSource(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public CoinDetail findCoinDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
-        return (CoinDetail)retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CoinDetail.class);
+        return (CoinDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CoinDetail.class);
     }
 
     /**
-     * @see org.kuali.module.financial.dao.CashManagementDao#findCurrencyDetailByCashieringRecordSource(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.financial.dao.CashManagementDao#findCurrencyDetailByCashieringRecordSource(java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public CurrencyDetail findCurrencyDetailByCashieringRecordSource(String documentNumber, String documentTypeCode, String cashieringRecordSource) {
-        return (CurrencyDetail)retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CurrencyDetail.class);
+        return (CurrencyDetail) retrieveCashDetail(documentNumber, documentTypeCode, cashieringRecordSource, CurrencyDetail.class);
     }
 
     /**
-     * 
      * This takes the primary keys for a cash or currency detail record and returns an OJB criteria for it
+     * 
      * @param documentNumber document number to retrieve
      * @param documentTypeCode type code of the document
      * @param cashieringRecordSource the cashiering record source
@@ -112,9 +112,10 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addEqualTo("cashieringRecordSource", cashieringRecordSource);
         return criteria;
     }
-    
+
     /**
      * This method retrieves a cash detail from the database
+     * 
      * @param documentNumber the document number to retrieve from
      * @param documentTypeCode the document type of the document the cash detail to look up is associated with
      * @param cashieringRecordSource the cashiering record source to look up from
@@ -134,10 +135,10 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         QueryByCriteria depositedChecksQuery = QueryFactory.newQuery(CheckBase.class, createDepositedCashieringCheckCriteria(documentNumber, depositLineNumber));
         return putResultsIntoCheckList(getPersistenceBrokerTemplate().getIteratorByQuery(depositedChecksQuery));
     }
-    
+
     /**
-     * 
      * This method creates a criteria to find the cashiering checks associated with a given deposit
+     * 
      * @param documentNumber the document number the deposit is associated with
      * @param depositLineNumber the line number of the deposit
      * @return a criteria to find those checks
@@ -147,17 +148,17 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addEqualTo("financialDocumentDepositLineNumber", depositLineNumber);
         return criteria;
     }
-    
+
     /**
-     * 
      * This method puts the check elements of an iterator into a list
+     * 
      * @param iter an iterator with checks results in it
      * @return a list of checks
      */
     private List<Check> putResultsIntoCheckList(Iterator iter) {
         List<Check> result = new ArrayList<Check>();
         while (iter.hasNext()) {
-            result.add((Check)iter.next());
+            result.add((Check) iter.next());
         }
         return result;
     }
@@ -169,10 +170,10 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         QueryByCriteria undepositedChecksQuery = QueryFactory.newQuery(CheckBase.class, createUndepositedCashieringCheckCriteria(documentNumber));
         return putResultsIntoCheckList(getPersistenceBrokerTemplate().getIteratorByQuery(undepositedChecksQuery));
     }
-    
+
     /**
-     * 
      * This method creates the criteria to find undeposited cashiering checks
+     * 
      * @param documentNumber the document number undeposited checks are associated with
      * @return a criteria to find them
      */
@@ -181,7 +182,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addColumnIsNull("FDOC_DPST_LN_NBR");
         return criteria;
     }
-    
+
     /**
      * @see org.kuali.module.financial.dao.CashManagementDao#selectDepositedCashieringChecks(java.lang.String)
      */
@@ -192,6 +193,7 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
 
     /**
      * This method creates the criteria to find deposited checks
+     * 
      * @param documentNumber the CM document the checks are associated with
      * @return a criteria to find deposited checks
      */
@@ -200,9 +202,10 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         criteria.addColumnNotNull("FDOC_DPST_LN_NBR");
         return criteria;
     }
-    
+
     /**
      * This method retrieves all currency details associated with a cash management document
+     * 
      * @param documentNumber the document number of the cash management document to get currency details for
      * @return a list of currency details
      */
@@ -210,13 +213,14 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         QueryByCriteria allCurrencyDetailsQuery = QueryFactory.newQuery(CurrencyDetail.class, getAllCashDetailCriteria(documentNumber));
         List<CurrencyDetail> result = new ArrayList<CurrencyDetail>();
         for (Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(allCurrencyDetailsQuery); iter.hasNext();) {
-            result.add((CurrencyDetail)iter.next());
+            result.add((CurrencyDetail) iter.next());
         }
         return result;
     }
-    
+
     /**
      * This method gets all coin details for a particular document number, irregardless of cashiering record source
+     * 
      * @param documentNumber the document number to find cash details for
      * @return hopefully, a bunch of coin details
      */
@@ -224,13 +228,14 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
         QueryByCriteria allCoinDetailsQuery = QueryFactory.newQuery(CoinDetail.class, getAllCashDetailCriteria(documentNumber));
         List<CoinDetail> result = new ArrayList<CoinDetail>();
         for (Iterator iter = getPersistenceBrokerTemplate().getIteratorByQuery(allCoinDetailsQuery); iter.hasNext();) {
-            result.add((CoinDetail)iter.next());
+            result.add((CoinDetail) iter.next());
         }
         return result;
     }
-    
+
     /**
      * This method creates details for getting all of a certain cash detail, irregardless of cashiering record source
+     * 
      * @param documentNumber the document number to get cash details for
      * @return the criteria that will allow the retrieval of the right cash details
      */
@@ -251,18 +256,20 @@ public class CashManagementDaoOjb extends PlatformAwareDaoBaseOjb implements Cas
             criteria.addEqualTo("documentNumber", documentNumber);
             criteria.addEqualTo("cashieringRecordSource", KFSConstants.CheckSources.CASH_MANAGEMENT);
             criteria.addEqualTo("financialDocumentTypeCode", CashieringTransaction.DETAIL_DOCUMENT_TYPE);
-            
+
             QueryByCriteria cmChecksQuery = QueryFactory.newQuery(CheckBase.class, criteria);
             cmChecksQuery.addOrderByDescending("sequenceId");
             Iterator allChecksIter = getPersistenceBrokerTemplate().getIteratorByQuery(cmChecksQuery);
             if (allChecksIter.hasNext()) {
-                return new Integer((((Check)TransactionalServiceUtils.retrieveFirstAndExhaustIterator(allChecksIter)).getSequenceId()).intValue() + 1);
-            } else {
+                return new Integer((((Check) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(allChecksIter)).getSequenceId()).intValue() + 1);
+            }
+            else {
                 return new Integer(1);
             }
-        } else {
+        }
+        else {
             return null;
         }
     }
-    
+
 }

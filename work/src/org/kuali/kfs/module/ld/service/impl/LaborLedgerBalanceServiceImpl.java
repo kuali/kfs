@@ -214,9 +214,10 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
     public Iterator<LedgerBalanceForYearEndBalanceForward> findBalancesForFiscalYear(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
         return laborLedgerBalanceDao.findBalancesForFiscalYear(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
     }
-    
+
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findAccountsInFundGroups(java.lang.Integer, java.util.Map, java.util.List, java.util.List)
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findAccountsInFundGroups(java.lang.Integer, java.util.Map,
+     *      java.util.List, java.util.List)
      */
     public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
         return laborLedgerBalanceDao.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);

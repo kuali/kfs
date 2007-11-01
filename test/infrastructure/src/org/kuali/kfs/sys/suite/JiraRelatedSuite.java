@@ -15,10 +15,8 @@
  */
 package org.kuali.test.suite;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.Collection;
@@ -29,27 +27,23 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.kuali.core.util.AssertionUtils;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
- * The abstract superclass of suites of all test classes or methods which {@link RelatesTo} a Kuali JIRA issue
- * that is currently in a certain state (e.g., in-progress).  IDEs or Ant can run the concrete subclasses as JUnit tests.
- *
+ * The abstract superclass of suites of all test classes or methods which {@link RelatesTo} a Kuali JIRA issue that is currently in
+ * a certain state (e.g., in-progress). IDEs or Ant can run the concrete subclasses as JUnit tests.
+ * 
  * @see org.kuali.test.suite.RelatesTo
  */
 public abstract class JiraRelatedSuite {
 
     public static enum State {
-        IN_PROGRESS("status=3&tempMax=1000"),
-        OPEN_OR_IN_PROGRESS("status=1&status=3&tempMax=9999"),
-        OPEN_OR_IN_PROGRESS_OR_REOPENED("status=1&status=3&status=4&tempMax=9999");
+        IN_PROGRESS("status=3&tempMax=1000"), OPEN_OR_IN_PROGRESS("status=1&status=3&tempMax=9999"), OPEN_OR_IN_PROGRESS_OR_REOPENED("status=1&status=3&status=4&tempMax=9999");
 
         public final String filterUrl;
 
@@ -63,12 +57,12 @@ public abstract class JiraRelatedSuite {
     private final static Pattern EXPECTED_JIRA_KEY = Pattern.compile("\\p{Upper}+-\\p{Digit}+");
 
     /**
-     * Gets the JIRA issues currently in the given state.  Caches the results, to avoid queries to the JIRA server, for speed.
+     * Gets the JIRA issues currently in the given state. Caches the results, to avoid queries to the JIRA server, for speed.
      * 
      * @param state the state to get
      * @return a Set of the names of all JIRA issues currently in the given state
-     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood.
-     *                          After this exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
+     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood. After this
+     *         exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
      */
     private static Collection<String> getNamesOfJiraIssues(State state) {
         if (initializationException != null) {
@@ -77,7 +71,7 @@ public abstract class JiraRelatedSuite {
         if (!jiraIssuesByState.containsKey(state)) {
             InputStream jiraIssuesStream = null;
             try {
-                Collection<String> jiraIssues = new HashSet<String>();        
+                Collection<String> jiraIssues = new HashSet<String>();
                 NodeList keys;
                 try {
                     jiraIssuesStream = new URL(state.filterUrl).openStream();
@@ -104,14 +98,14 @@ public abstract class JiraRelatedSuite {
     }
 
     /**
-     * Filters the JIRA issues which are currently in the given state.
-     * The JIRA status is queried once when needed and cached statically for speed.
-     *
+     * Filters the JIRA issues which are currently in the given state. The JIRA status is queried once when needed and cached
+     * statically for speed.
+     * 
      * @param from JIRA issues from which to filter
      * @param state JIRA state to filter on
      * @return any of the given issues that are currently in the given state in JIRA
-     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood.
-     *                          After this exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
+     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood. After this
+     *         exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
      */
     public static Set<RelatesTo.JiraIssue> getMatchingIssues(Collection<RelatesTo.JiraIssue> from, State state) {
         HashSet<RelatesTo.JiraIssue> result = new HashSet<RelatesTo.JiraIssue>();
@@ -130,20 +124,17 @@ public abstract class JiraRelatedSuite {
     }
 
     /**
-     * Builds the suite of all test methods (including those within test class sub-suites)
-     * which {@link RelatesTo} a JIRA issue in the given state.
-     * This method is for subclasses; it cannot be run by JUnit directly.
-     *
+     * Builds the suite of all test methods (including those within test class sub-suites) which {@link RelatesTo} a JIRA issue in
+     * the given state. This method is for subclasses; it cannot be run by JUnit directly.
+     * 
      * @param state the current state to include
      * @return the positive suite
      * @throws java.io.IOException if the directory containing this class file cannot be scanned for other test class files
-     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood.
-     *                          After this exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
+     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood. After this
+     *         exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
      * @throws Exception is not actually thrown, because the criteria inner classes do not throw it
      */
-    protected TestSuite getSuite(final State state)
-        throws Exception
-    {
+    protected TestSuite getSuite(final State state) throws Exception {
         TestSuiteBuilder.ClassCriteria classCriteria = new TestSuiteBuilder.ClassCriteria() {
             public boolean includes(Class<? extends TestCase> testClass) {
                 return hasRelatedIssueInState(testClass.getAnnotation(RelatesTo.class), state);
@@ -160,20 +151,17 @@ public abstract class JiraRelatedSuite {
     }
 
     /**
-     * Builds the suite of all test methods (including those within test class sub-suites)
-     * which do not {@link RelatesTo} a JIRA issue in the given state.
-     * This method is for subclasses; it cannot be run by JUnit directly.
-     *
+     * Builds the suite of all test methods (including those within test class sub-suites) which do not {@link RelatesTo} a JIRA
+     * issue in the given state. This method is for subclasses; it cannot be run by JUnit directly.
+     * 
      * @param state the current state to exclude
      * @return the negative suite
      * @throws java.io.IOException if the directory containing this class file cannot be scanned for other test class files
-     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood.
-     *                          After this exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
+     * @throws RuntimeException if the JIRA server cannot be queried for this list, or its response cannot be understood. After this
+     *         exception is thrown once, it's always thrown immediately thereafter, to fast-fail KualiTestBase.
      * @throws Exception is not actually thrown, because the criteria inner class does not throw it
      */
-    protected TestSuite getNegativeSuite(final State state)
-        throws Exception
-    {
+    protected TestSuite getNegativeSuite(final State state) throws Exception {
         TestSuiteBuilder.MethodCriteria negativeMethodCriteria = new TestSuiteBuilder.MethodCriteria() {
             public boolean includes(Method method) {
                 RelatesTo testClassAnnotation = method.getDeclaringClass().getAnnotation(RelatesTo.class);

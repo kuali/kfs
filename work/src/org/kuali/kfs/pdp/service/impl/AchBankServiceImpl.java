@@ -49,7 +49,7 @@ public class AchBankServiceImpl implements AchBankService {
         achBankDao.emptyTable();
 
         BufferedReader inputStream = null;
-        
+
         try {
             inputStream = new BufferedReader(new FileReader(filename));
 
@@ -58,17 +58,21 @@ public class AchBankServiceImpl implements AchBankService {
                 AchBank ab = new AchBank(str);
                 achBankDao.save(ab);
             }
-        } catch (FileNotFoundException fnfe) {
-            LOG.error("reloadTable() File Not Found: " + filename,fnfe);
+        }
+        catch (FileNotFoundException fnfe) {
+            LOG.error("reloadTable() File Not Found: " + filename, fnfe);
             return false;
-        } catch (IOException ie) {
-            LOG.error("reloadTable() Problem reading file:  "+ filename,ie);
+        }
+        catch (IOException ie) {
+            LOG.error("reloadTable() Problem reading file:  " + filename, ie);
             return false;
-        } finally {
+        }
+        finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
-                } catch (IOException ie) {
+                }
+                catch (IOException ie) {
                     // Not much we can do now
                 }
             }

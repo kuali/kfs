@@ -28,14 +28,13 @@ import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 
 /**
  * This class returns list of Budget Aggregation Code type value pairs.
- * 
- * 
  */
 public class BudgetAggregationCodeValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link BudgetAggregationCode}s using their code as their key, and
-     * their code "-" aggregation code as the display value
+     * Creates a list of {@link BudgetAggregationCode}s using their code as their key, and their code "-" aggregation code as the
+     * display value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

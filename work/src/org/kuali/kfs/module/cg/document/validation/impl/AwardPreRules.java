@@ -30,8 +30,8 @@ import org.kuali.module.cg.bo.Award;
 import org.kuali.module.chart.rules.MaintenancePreRulesBase;
 
 /**
- * PreRules checks for the Account that needs to occur while still in the Struts
- * processing. This includes defaults, confirmations, etc.
+ * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
  */
 public class AwardPreRules extends MaintenancePreRulesBase {
 
@@ -72,9 +72,8 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * Checks if the entry date is before the begin date. if so asks the user if 
-     * they want to continue validation. if no is selected further validation is 
-     * aborted and the user is returned to the award document.
+     * Checks if the entry date is before the begin date. if so asks the user if they want to continue validation. if no is selected
+     * further validation is aborted and the user is returned to the award document.
      * 
      * @return true if the user selects yes, false otherwise
      */
@@ -92,10 +91,8 @@ public class AwardPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * Checks if the {@link Subcontractor} total amount is greater than the  
-     * award total. If so asks the user if they want to continue validation. if  
-     * no is selected further validation is aborted and the user is returned to  
-     * the award document.
+     * Checks if the {@link Subcontractor} total amount is greater than the award total. If so asks the user if they want to
+     * continue validation. if no is selected further validation is aborted and the user is returned to the award document.
      * 
      * @return true if the user selects yes, false otherwise
      */

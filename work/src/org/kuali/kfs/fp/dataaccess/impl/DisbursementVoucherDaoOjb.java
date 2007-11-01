@@ -43,7 +43,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
         Criteria criteria = new Criteria();
         criteria.addEqualTo("documentNumber", fdocNbr);
 
-        return (DisbursementVoucherDocument)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(DisbursementVoucherDocument.class,criteria));
+        return (DisbursementVoucherDocument) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }
 
     /**
@@ -56,7 +56,7 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
         criteria.addEqualTo("documentHeader.financialDocumentStatusCode", statusCode);
         criteria.addEqualTo("disbVchrPaymentMethodCode", DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK);
 
-        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class,criteria));
+        return getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(DisbursementVoucherDocument.class, criteria));
     }
 
     /**
@@ -68,6 +68,6 @@ public class DisbursementVoucherDaoOjb extends PlatformAwareDaoBaseOjb implement
         Criteria criteria = new Criteria();
         criteria.addEqualTo("payeeIdNumber", payeeId);
 
-        return (Payee)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Payee.class,criteria));
+        return (Payee) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Payee.class, criteria));
     }
 }

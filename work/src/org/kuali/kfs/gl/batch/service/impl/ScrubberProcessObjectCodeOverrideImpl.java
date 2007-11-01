@@ -21,19 +21,19 @@ public class ScrubberProcessObjectCodeOverrideImpl implements ScrubberProcessObj
 
     public String getOriginEntryObjectCode(String originEntryObjectLevelCode, String originEntryObjectCode) {
         boolean done = false;
-        
+
         // IU Specific Rules
-        if ( (! done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
+        if ((!done) && ("BENF".equals(originEntryObjectLevelCode) && ("9956".equals(originEntryObjectCode) || 5700 > Integer.valueOf(originEntryObjectCode).intValue()))) { // BENEFITS
             originEntryObjectCode = "9956"; // TRSFRS_OF_FUNDS_FRINGE_BENF
             done = true;
         }
 
-        if ( (! done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
+        if ((!done) && ("FINA".equals(originEntryObjectLevelCode) && ("9954".equals(originEntryObjectCode) || "5400".equals(originEntryObjectCode)))) {
             // STUDENT_FINANCIAL_AID - TRSFRS_OF_FUNDS_FEE_REM - GRADUATE_FEE_REMISSIONS
             originEntryObjectCode = "9954"; // TRSFRS_OF_FUNDS_CAPITAL
             done = true;
         }
-        
+
         return originEntryObjectCode;
     }
 }

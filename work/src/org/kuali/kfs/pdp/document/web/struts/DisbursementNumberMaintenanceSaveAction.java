@@ -74,12 +74,13 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
 
         if ("btnCancel".equals(btnPressed)) {
             LOG.debug("executeLogic() Cancelled, returning to list");
-        } else if ("btnSave".equals(btnPressed)) {
+        }
+        else if ("btnSave".equals(btnPressed)) {
             LOG.debug("executeLogic() Saving");
 
             DisbursementNumberMaintenanceForm dnmf = (DisbursementNumberMaintenanceForm) form;
             ActionErrors ae = dnmf.validate(mapping, request);
-            if ( ae.size() > 0 ) {
+            if (ae.size() > 0) {
                 LOG.debug("executeLogic() Validation errors");
 
                 saveErrors(request, ae);
@@ -90,7 +91,8 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
 
             if ((dnmf.getId() == null) || (dnmf.getId().intValue() == 0)) {
                 dnr.setId(null);
-            } else {
+            }
+            else {
                 dnr.setId(dnmf.getId());
             }
             dnr.setBank((Bank) bankService.get(dnmf.getBankId()));
@@ -99,7 +101,8 @@ public class DisbursementNumberMaintenanceSaveAction extends BaseAction {
             try {
                 disbursementNumberRangeService.save(dnr);
                 actionErrors.add("success", new ActionMessage("success.disbursementNumberRange.saved"));
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 actionErrors.add("error", new ActionMessage("disbursementNumberMaintenanceSaveAction.save.error"));
             }
         }

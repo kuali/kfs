@@ -25,8 +25,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing an update personnel event.
- * 
- * 
  */
 public class UpdatePersonnelEventBase extends KualiDocumentEventBase implements UpdatePersonnelEvent {
 

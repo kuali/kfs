@@ -8,23 +8,27 @@ import java.sql.Timestamp;
 
 /**
  * @author jsissom
- *
  */
 public interface Code {
-  public String getData();
+    public String getData();
 
-  public String getCode();
-  public void setCode(String code);
+    public String getCode();
 
-  public String getDescription();
-  public void setDescription(String description);
+    public void setCode(String code);
 
-  public Timestamp getLastUpdate();
-  public void setLastUpdate(Timestamp lastUpdate);
+    public String getDescription();
 
-  public PdpUser getLastUpdateUser();
-  public void setLastUpdateUser(PdpUser u);
+    public void setDescription(String description);
 
-  public Integer getVersion();
-  public void setVersion(Integer version);
+    public Timestamp getLastUpdate();
+
+    public void setLastUpdate(Timestamp lastUpdate);
+
+    public PdpUser getLastUpdateUser();
+
+    public void setLastUpdateUser(PdpUser u);
+
+    public Integer getVersion();
+
+    public void setVersion(Integer version);
 }

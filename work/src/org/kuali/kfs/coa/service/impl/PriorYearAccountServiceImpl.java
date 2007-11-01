@@ -24,7 +24,6 @@ import org.kuali.module.chart.service.PriorYearAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * 
  * This class implements the PriorYearAccountService interface.
  */
 @Transactional
@@ -33,22 +32,23 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
 
     private PriorYearAccountDao priorYearAccountDao;
     private PriorYearAccountDaoJdbc priorYearAccountDaoJdbc;
-    
+
     public PriorYearAccountServiceImpl() {
         super();
     }
 
     /**
      * This method sets the local dao variable to the value provided.
+     * 
      * @param priorYearAccountDao The priorYearAccountDao to set.
      */
     public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
         this.priorYearAccountDao = priorYearAccountDao;
     }
-    
+
     /**
-     * 
      * This method sets the local dao jdbc variable to the value provided.
+     * 
      * @param priorYearAccountDaoJdbc The priorYearAccountDaoJdbc to set.
      */
     public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbc priorYearAccountDaoJdbc) {
@@ -65,7 +65,6 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.PriorYearAccountService#populatePriorYearAccountsFromCurrent()
      */
     public void populatePriorYearAccountsFromCurrent() {
@@ -74,7 +73,7 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         if (LOG.isInfoEnabled()) {
             LOG.info("number of prior year accounts purged : " + purgedCount);
         }
-        
+
         int copiedCount = priorYearAccountDaoJdbc.copyCurrentAccountsToPriorYearTable();
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year accounts copied to prior year : " + copiedCount);

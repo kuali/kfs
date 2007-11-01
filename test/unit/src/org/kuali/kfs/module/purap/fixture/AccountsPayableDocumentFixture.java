@@ -26,23 +26,23 @@ public enum AccountsPayableDocumentFixture {
 
     // PAYMENT REQUEST FIXTURES
     // Credit Memo FIXTURES
-    CM_ONLY_REQUIRED_FIELDS(null,  // accountsPayableApprovalDate
-                            null,  // lastActionPerformedByUniversalUserId
-                            null,  // accountsPayableProcessorIdentifier
-                            false, // holdIndicator
-                            null,  // extractedDate
-                            null,  // purchaseOrderIdentifier
-                            "BL",  // processingCampusCode
-                            null,  // noteLine1Text
-                            null,  // noteLine2Text
-                            null,  // noteLine3Text
-                            false, // continuationAccountIndicator
-                            false, // closePurchaseOrderIndicator
-                            false  // reopenPurchaseOrderIndicator
-                            )
-           
+    CM_ONLY_REQUIRED_FIELDS(null, // accountsPayableApprovalDate
+            null, // lastActionPerformedByUniversalUserId
+            null, // accountsPayableProcessorIdentifier
+            false, // holdIndicator
+            null, // extractedDate
+            null, // purchaseOrderIdentifier
+            "BL", // processingCampusCode
+            null, // noteLine1Text
+            null, // noteLine2Text
+            null, // noteLine3Text
+            false, // continuationAccountIndicator
+            false, // closePurchaseOrderIndicator
+            false // reopenPurchaseOrderIndicator
+    )
+
     ;
-    
+
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     public final Date accountsPayableApprovalDate;
     public final String lastActionPerformedByUniversalUserId;
@@ -56,36 +56,15 @@ public enum AccountsPayableDocumentFixture {
     public final String noteLine3Text;
     public final boolean continuationAccountIndicator;
     public final boolean closePurchaseOrderIndicator;
-    public final boolean reopenPurchaseOrderIndicator;  
-    
-    //TODO: decide if we need to do anything for not persisted attributes
+    public final boolean reopenPurchaseOrderIndicator;
+
+    // TODO: decide if we need to do anything for not persisted attributes
     /*
-    private boolean unmatchedOverride; // not persisted
-    
-    // NOT PERSISTED IN DB
-    // BELOW USED BY ROUTING
-    private String chartOfAccountsCode;
-    private String organizationCode;
-    
-    // NOT PERSISTED IN DB
-    // BELOW USED BY GL ENTRY CREATION
-    private boolean generateEncumbranceEntries;
-    private String debitCreditCodeForGLEntries;
-*/
-    private AccountsPayableDocumentFixture(
-            Date accountsPayableApprovalDate,
-            String lastActionPerformedByUniversalUserId,
-            String accountsPayableProcessorIdentifier,
-            boolean holdIndicator,
-            Date extractedDate,
-            Integer purchaseOrderIdentifier,
-            String processingCampusCode,
-            String noteLine1Text,
-            String noteLine2Text,
-            String noteLine3Text,
-            boolean continuationAccountIndicator,
-            boolean closePurchaseOrderIndicator,
-            boolean reopenPurchaseOrderIndicator) {
+     * private boolean unmatchedOverride; // not persisted // NOT PERSISTED IN DB // BELOW USED BY ROUTING private String
+     * chartOfAccountsCode; private String organizationCode; // NOT PERSISTED IN DB // BELOW USED BY GL ENTRY CREATION private
+     * boolean generateEncumbranceEntries; private String debitCreditCodeForGLEntries;
+     */
+    private AccountsPayableDocumentFixture(Date accountsPayableApprovalDate, String lastActionPerformedByUniversalUserId, String accountsPayableProcessorIdentifier, boolean holdIndicator, Date extractedDate, Integer purchaseOrderIdentifier, String processingCampusCode, String noteLine1Text, String noteLine2Text, String noteLine3Text, boolean continuationAccountIndicator, boolean closePurchaseOrderIndicator, boolean reopenPurchaseOrderIndicator) {
         this.accountsPayableApprovalDate = accountsPayableApprovalDate;
         this.lastActionPerformedByUniversalUserId = lastActionPerformedByUniversalUserId;
         this.accountsPayableProcessorIdentifier = accountsPayableProcessorIdentifier;
@@ -102,15 +81,15 @@ public enum AccountsPayableDocumentFixture {
     }
 
     public PaymentRequestDocument createPaymentRequestDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
-        return (PaymentRequestDocument)createAccountsPayableDocument(PaymentRequestDocument.class, purapFixture);
+        return (PaymentRequestDocument) createAccountsPayableDocument(PaymentRequestDocument.class, purapFixture);
     }
 
     public CreditMemoDocument createCreditMemoDocument(PurchasingAccountsPayableDocumentFixture purapFixture) {
-        return (CreditMemoDocument)createAccountsPayableDocument(CreditMemoDocument.class, purapFixture);
+        return (CreditMemoDocument) createAccountsPayableDocument(CreditMemoDocument.class, purapFixture);
     }
 
     private AccountsPayableDocument createAccountsPayableDocument(Class clazz, PurchasingAccountsPayableDocumentFixture purapFixture) {
-        AccountsPayableDocument doc = (AccountsPayableDocument)purapFixture.createPurchasingAccountsPayableDocument(clazz);
+        AccountsPayableDocument doc = (AccountsPayableDocument) purapFixture.createPurchasingAccountsPayableDocument(clazz);
         doc.setAccountsPayableApprovalDate(this.accountsPayableApprovalDate);
         doc.setLastActionPerformedByUniversalUserId(this.lastActionPerformedByUniversalUserId);
         doc.setAccountsPayableProcessorIdentifier(this.accountsPayableProcessorIdentifier);
@@ -123,11 +102,10 @@ public enum AccountsPayableDocumentFixture {
         doc.setNoteLine3Text(this.noteLine3Text);
         doc.setContinuationAccountIndicator(this.continuationAccountIndicator);
         // TODO: are these needed?
-        /* We don't have setters for these
-        doc.setClosePurchaseOrderIndicator(this.closePurchaseOrderIndicator);
-        doc.setReopenPurchaseOrderIndicator(this.reopenPurchaseOrderIndicator);
-        
-        */
+        /*
+         * We don't have setters for these doc.setClosePurchaseOrderIndicator(this.closePurchaseOrderIndicator);
+         * doc.setReopenPurchaseOrderIndicator(this.reopenPurchaseOrderIndicator);
+         */
         return doc;
     }
 

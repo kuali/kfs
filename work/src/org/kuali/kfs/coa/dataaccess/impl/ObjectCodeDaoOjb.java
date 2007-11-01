@@ -48,7 +48,6 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ObjectCodeDao#getYearList(java.lang.String, java.lang.String)
      */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {

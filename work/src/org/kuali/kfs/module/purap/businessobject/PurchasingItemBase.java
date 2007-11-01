@@ -16,7 +16,6 @@
 package org.kuali.module.purap.bo;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.ObjectUtils;
@@ -30,37 +29,30 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
      * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
-        // TODO PURAP - this check is here because PO 'Change' docs all extend this class not PurchaseOrderDocumentRule... is that hierarchy necessary?
+        // TODO PURAP - this check is here because PO 'Change' docs all extend this class not PurchaseOrderDocumentRule... is that
+        // hierarchy necessary?
         if (this instanceof PurchaseOrderItem) {
             // if item is PO item... only validate active items
-            PurchaseOrderItem poi = (PurchaseOrderItem)this;
+            PurchaseOrderItem poi = (PurchaseOrderItem) this;
             if (!poi.isItemActiveIndicator()) {
                 return false;
             }
         }
         if (!getItemType().isItemTypeAboveTheLineIndicator()) {
-            if ( (ObjectUtils.isNull(getItemUnitPrice())) && (StringUtils.isBlank(getItemDescription())) && (getSourceAccountingLines().isEmpty()) ) {
+            if ((ObjectUtils.isNull(getItemUnitPrice())) && (StringUtils.isBlank(getItemDescription())) && (getSourceAccountingLines().isEmpty())) {
                 return false;
             }
         }
         return true;
     }
-    
+
     /**
      * Determines if the Purchasing Item is empty.
      * 
      * @return boolean - true if item is empty, false if conditions show its not empty.
      */
     public boolean isEmpty() {
-        return ! ( StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) ||
-                   StringUtils.isNotEmpty(getItemCatalogNumber()) ||
-                   StringUtils.isNotEmpty(getItemDescription()) ||
-                   StringUtils.isNotEmpty(getItemCapitalAssetNoteText()) ||
-                   StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) ||
-                   ObjectUtils.isNotNull(getItemQuantity()) ||
-                   (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(BigDecimal.ZERO) != 0)) ||
-                   ObjectUtils.isNotNull(getCapitalAssetTransactionType()) ||
-                   (!this.isAccountListEmpty()));                  
+        return !(StringUtils.isNotEmpty(getItemUnitOfMeasureCode()) || StringUtils.isNotEmpty(getItemCatalogNumber()) || StringUtils.isNotEmpty(getItemDescription()) || StringUtils.isNotEmpty(getItemCapitalAssetNoteText()) || StringUtils.isNotEmpty(getItemAuxiliaryPartIdentifier()) || ObjectUtils.isNotNull(getItemQuantity()) || (ObjectUtils.isNotNull(getItemUnitPrice()) && (getItemUnitPrice().compareTo(BigDecimal.ZERO) != 0)) || ObjectUtils.isNotNull(getCapitalAssetTransactionType()) || (!this.isAccountListEmpty()));
     }
 
     /**
@@ -77,5 +69,5 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
         empty &= ObjectUtils.isNull(getItemUnitPrice()) || (getItemUnitPrice().compareTo(BigDecimal.ZERO) == 0);
         return empty;
     }
-    
+
 }

@@ -16,28 +16,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author delyea
- *
  */
 @Transactional
 public class DisbursementNumberRangeServiceImpl implements DisbursementNumberRangeService {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeServiceImpl.class);
-  
-  private DisbursementNumberRangeDao disbursementNumberRangeDao;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberRangeServiceImpl.class);
 
-  public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao d) {
-    disbursementNumberRangeDao = d;
-  }
+    private DisbursementNumberRangeDao disbursementNumberRangeDao;
 
-  public List getAll() {
-    return disbursementNumberRangeDao.getAll();
-  }
+    public void setDisbursementNumberRangeDao(DisbursementNumberRangeDao d) {
+        disbursementNumberRangeDao = d;
+    }
 
-  public DisbursementNumberRange get(Integer id) {
-    return disbursementNumberRangeDao.get(id);
-  }
+    public List getAll() {
+        return disbursementNumberRangeDao.getAll();
+    }
 
-  public void save(DisbursementNumberRange dnr) {
-    disbursementNumberRangeDao.save(dnr);
-  }
+    public DisbursementNumberRange get(Integer id) {
+        return disbursementNumberRangeDao.get(id);
+    }
+
+    public void save(DisbursementNumberRange dnr) {
+        disbursementNumberRangeDao.save(dnr);
+    }
 
 }

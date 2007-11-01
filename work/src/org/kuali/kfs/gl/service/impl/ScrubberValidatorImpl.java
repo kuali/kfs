@@ -16,7 +16,6 @@
 package org.kuali.module.gl.service.impl;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -380,7 +379,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
 
     private long getAdjustedAccountExpirationDate(Account account) {
         long offsetAccountExpirationTime = account.getAccountExpirationDate().getTime();
-        
+
         if (account.isForContractsAndGrants() && (!account.isAccountClosedIndicator())) {
 
             String daysOffset = parameterService.getParameterValue(ScrubberStep.class, KFSConstants.SystemGroupParameterNames.GL_SCRUBBER_VALIDATION_DAYS_OFFSET);
@@ -396,7 +395,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             tempCal.add(Calendar.DAY_OF_MONTH, daysOffsetInt);
             offsetAccountExpirationTime = tempCal.getTimeInMillis();
         }
-        
+
         return offsetAccountExpirationTime;
     }
 
@@ -904,7 +903,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
             }
         }
         else {
-            if ((originEntry.getTransactionDebitCreditCode() == null) || (" ".equals(originEntry.getTransactionDebitCreditCode())) || ("".equals(originEntry.getTransactionDebitCreditCode())) ) {
+            if ((originEntry.getTransactionDebitCreditCode() == null) || (" ".equals(originEntry.getTransactionDebitCreditCode())) || ("".equals(originEntry.getTransactionDebitCreditCode()))) {
                 workingEntry.setTransactionDebitCreditCode(KFSConstants.GL_BUDGET_CODE);
             }
             else {

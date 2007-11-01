@@ -15,24 +15,15 @@
  */
 package org.kuali.module.vendor.fixtures;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 
 public enum VendorDefaultAddressFixture {
 
-    campusBL("BL"),
-    campusKO("KO"),
-    campusIN("IN"),
-    campusSB("SB"),
-    ;
-    
+    campusBL("BL"), campusKO("KO"), campusIN("IN"), campusSB("SB"), ;
+
     public final String vendorCampusCode;
-    
-    private VendorDefaultAddressFixture( String vendorCampusCode ) {
+
+    private VendorDefaultAddressFixture(String vendorCampusCode) {
         this.vendorCampusCode = vendorCampusCode;
     }
 
@@ -41,5 +32,5 @@ public enum VendorDefaultAddressFixture {
         defaultAddress.setVendorCampusCode(this.vendorCampusCode);
         return defaultAddress;
     }
-    
+
 }

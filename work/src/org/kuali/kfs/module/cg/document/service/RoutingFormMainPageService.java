@@ -29,7 +29,7 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
  * This interface defines methods that a RoutingFormMainPageService must provide
  */
 public interface RoutingFormMainPageService {
-    
+
     /**
      * Setup maintainables for Main Page: DueDateType, SubmissionType, ProjectType, Purpose, ResearchTypeCode, and PersonRole.
      * 
@@ -39,50 +39,58 @@ public interface RoutingFormMainPageService {
 
     /**
      * Returns the complete list of SubmissionTypes except for the inactive ones.
+     * 
      * @return typed list of SubmissionTypes
      */
     public List<SubmissionType> getSubmissionTypes();
-    
+
     /**
      * Returns the complete list of ResearchTypeCodes except for the inactive ones.
+     * 
      * @return typed list of ResearchTypeCodes
      */
     public List<ResearchTypeCode> getResearchTypeCodes();
-    
+
     /**
      * Returns the complete list of ProjectTypes except for the inactive ones.
+     * 
      * @return typed list of project types
      */
     public List<ProjectType> getProjectTypes();
-    
+
     /**
      * Returns the complete list of PersonRoles except for the inactive ones.
+     * 
      * @return typed list of person roles
      */
     public List<PersonRole> getPersonRoles();
-    
+
     /**
      * Returns the complete list of DueDateTypes except for the inactive ones.
+     * 
      * @return typed list of due date types
      */
     public List<DueDateType> getDueDateTypes();
-    
+
     /**
      * Checks if at least one of the people in the list is a CoPd.
+     * 
      * @param routingFormPersonnel
      * @return
      */
     public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel);
-    
+
     /**
      * Returns the first project director found in a list. If none is found it return null;
+     * 
      * @param routingFormPersonnel
      * @return
      */
     public RoutingFormPersonnel getProjectDirector(List<RoutingFormPersonnel> routingFormPersonnel);
-    
+
     /**
      * Returns the first contact person found in a list. If none is found it return null;
+     * 
      * @param routingFormPersonnel
      * @return
      */

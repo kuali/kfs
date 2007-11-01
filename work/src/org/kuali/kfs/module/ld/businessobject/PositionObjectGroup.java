@@ -91,6 +91,7 @@ public class PositionObjectGroup extends PersistableBusinessObjectBase {
 
     /**
      * construct the key list of the business object.
+     * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {

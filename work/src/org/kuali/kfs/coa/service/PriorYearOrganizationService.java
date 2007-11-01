@@ -15,7 +15,6 @@
  */
 package org.kuali.module.chart.service;
 
-import org.kuali.module.chart.bo.PriorYearOrganization;
 
 /**
  * This class...
@@ -23,7 +22,6 @@ import org.kuali.module.chart.bo.PriorYearOrganization;
 public interface PriorYearOrganizationService {
 
     /**
-     * 
      * This method populates the prior year organization table in the database with all the values from the current year org table.
      */
     public void populatePriorYearOrganizationsFromCurrent();

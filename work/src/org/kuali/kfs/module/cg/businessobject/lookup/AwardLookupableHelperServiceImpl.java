@@ -15,8 +15,8 @@
  */
 package org.kuali.module.cg.lookup;
 
-import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
 import org.kuali.kfs.KFSConstants;
 
 /**
@@ -25,15 +25,17 @@ import org.kuali.kfs.KFSConstants;
 public class AwardLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 
     /**
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject,
+     *      java.lang.String)
      */
     @Override
     public String getMaintenanceUrl(BusinessObject businessObject, String methodToCall) {
         if (methodToCall.equals(KFSConstants.COPY_METHOD)) {
             return KFSConstants.EMPTY_STRING;
-        } else {
+        }
+        else {
             return super.getMaintenanceUrl(businessObject, methodToCall);
         }
     }
-    
+
 }

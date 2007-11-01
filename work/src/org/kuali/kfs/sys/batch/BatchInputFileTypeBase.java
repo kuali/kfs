@@ -79,7 +79,7 @@ public abstract class BatchInputFileTypeBase implements BatchInputFileType {
     }
 
     /**
-     * Gets the schemaLocation attribute. 
+     * Gets the schemaLocation attribute.
      */
     public String getSchemaLocation() {
         return schemaLocation;

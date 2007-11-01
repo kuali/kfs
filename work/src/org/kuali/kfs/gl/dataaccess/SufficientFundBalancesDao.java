@@ -25,7 +25,6 @@ import org.kuali.module.gl.bo.SufficientFundBalances;
  */
 public interface SufficientFundBalancesDao {
     /**
-     * 
      * This method...
      * 
      * @param universityFiscalYear
@@ -36,7 +35,6 @@ public interface SufficientFundBalancesDao {
     public Collection getByObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 
     /**
-     * 
      * This method...
      * 
      * @param universityFiscalYear
@@ -46,7 +44,6 @@ public interface SufficientFundBalancesDao {
     public void deleteByAccountNumber(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
     /**
-     * 
      * This method...
      * 
      * @param universityFiscalYear

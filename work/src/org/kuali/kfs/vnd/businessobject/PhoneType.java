@@ -21,43 +21,42 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Phone Types for Vendors.
- * These types may be based on technical distinctions, the Vendor's organization,
- * or the phone's intended purpose.
+ * Phone Types for Vendors. These types may be based on technical distinctions, the Vendor's organization, or the phone's intended
+ * purpose.
  */
 public class PhoneType extends PersistableBusinessObjectBase {
 
-	private String vendorPhoneTypeCode;
-	private String vendorPhoneTypeDescription;
+    private String vendorPhoneTypeCode;
+    private String vendorPhoneTypeDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PhoneType() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public PhoneType() {
 
-	public String getVendorPhoneTypeCode() {
-        
-		return vendorPhoneTypeCode;
-	}
+    }
 
-	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
-		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
-	}
+    public String getVendorPhoneTypeCode() {
 
-	public String getVendorPhoneTypeDescription() {
-        
-		return vendorPhoneTypeDescription;
-	}
+        return vendorPhoneTypeCode;
+    }
 
-	public void setVendorPhoneTypeDescription(String vendorPhoneTypeDescription) {
-		this.vendorPhoneTypeDescription = vendorPhoneTypeDescription;
-	}
+    public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
+        this.vendorPhoneTypeCode = vendorPhoneTypeCode;
+    }
+
+    public String getVendorPhoneTypeDescription() {
+
+        return vendorPhoneTypeDescription;
+    }
+
+    public void setVendorPhoneTypeDescription(String vendorPhoneTypeDescription) {
+        this.vendorPhoneTypeDescription = vendorPhoneTypeDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -66,12 +65,12 @@ public class PhoneType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorPhoneTypeCode", this.vendorPhoneTypeCode);
-        
-	    return m;
+
+        return m;
     }
 }

@@ -6,9 +6,9 @@ package org.kuali.module.pdp.service;
 
 /**
  * @author local-jsissom
- *
  */
 public interface EnvironmentService {
-  public String getEnvironment();
-  public boolean isProduction();
+    public String getEnvironment();
+
+    public boolean isProduction();
 }

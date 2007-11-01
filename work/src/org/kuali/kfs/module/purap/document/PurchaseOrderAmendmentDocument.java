@@ -32,9 +32,9 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAmendmentDocument.class);
 
     /**
-	 * Default constructor.
-	 */
-	public PurchaseOrderAmendmentDocument() {
+     * Default constructor.
+     */
+    public PurchaseOrderAmendmentDocument() {
         super();
     }
 
@@ -48,17 +48,17 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        
+
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            //generate GL entries
+            // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesApproveAmendPurchaseOrder(this);
-            
-            //update indicators
+
+            // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            //set purap status and status history and status history note
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            // set purap status and status history and status history note
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
 
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }

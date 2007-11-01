@@ -25,18 +25,18 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBase {
 
-	private String invoiceRejectReasonTypeCode;
-	private String invoiceRejectReasonTypeDescription;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String invoiceRejectReasonTypeCode;
+    private String invoiceRejectReasonTypeDescription;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
 
-	/**
-	 * Default constructor.
-	 */
-	public ElectronicInvoiceRejectTypeCode() {
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceRejectTypeCode() {
 
-	}
+    }
 
-	public boolean isDataObjectMaintenanceCodeActiveIndicator() {
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
         return dataObjectMaintenanceCodeActiveIndicator;
     }
 
@@ -61,11 +61,11 @@ public class ElectronicInvoiceRejectTypeCode extends PersistableBusinessObjectBa
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("invoiceRejectReasonTypeCode", this.invoiceRejectReasonTypeCode);
-	    return m;
+        return m;
     }
 }

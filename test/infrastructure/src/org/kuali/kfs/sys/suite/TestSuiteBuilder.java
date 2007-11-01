@@ -28,11 +28,12 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
 import org.kuali.core.util.AssertionUtils;
 
 /**
  * Utility class that builds test suites dynamically.
- *
+ * 
  * @see org.kuali.test.suite.ContextConfiguredSuite
  * @see org.kuali.test.suite.ShouldCommitTransactionsSuite
  * @see org.kuali.test.suite.CrossSectionSuite
@@ -40,24 +41,21 @@ import org.kuali.core.util.AssertionUtils;
 public class TestSuiteBuilder {
 
     public static final NullCriteria NULL_CRITERIA = new NullCriteria();
-    
+
     private static final Class<TestSuiteBuilder> THIS_CLASS = TestSuiteBuilder.class;
     private static final String ROOT_PACKAGE = "org.kuali";
 
     /**
      * Scans *Test.class files under org.kuali for matches against the given strategies.
-     *
-     * @param classCriteria strategy for whether to include a given TestCase in the suite.
-     *                      If included, a test class acts like a sub-suite to include all its test methods.
-     *                      Classes not included may still include methods individually.
+     * 
+     * @param classCriteria strategy for whether to include a given TestCase in the suite. If included, a test class acts like a
+     *        sub-suite to include all its test methods. Classes not included may still include methods individually.
      * @param methodCriteria strategy for whether to include a given test method in the suite, if the whole class was not included.
      * @return a TestSuite containing the specified tests
      * @throws java.io.IOException if the directory containing this class file cannot be scanned for other test class files
      * @throws Exception if either of the given criteria throw it
      */
-    public static TestSuite build(ClassCriteria classCriteria, MethodCriteria methodCriteria)
-        throws Exception
-    {
+    public static TestSuite build(ClassCriteria classCriteria, MethodCriteria methodCriteria) throws Exception {
         TestSuite suite = new TestSuite();
         for (Class<? extends TestCase> t : constructTestClasses(scanTestClassNames(getTestRootPackageDir()))) {
             if (t.isAnnotationPresent(Exclude.class)) {
@@ -113,9 +111,7 @@ public class TestSuiteBuilder {
      * @return the list of fully qualified class names under that directory for each file name ending in "Test.class"
      * @throws java.io.IOException if that directory cannot be scanned
      */
-    private static ArrayList<String> scanTestClassNames(File testRootPackageDir)
-        throws IOException
-    {
+    private static ArrayList<String> scanTestClassNames(File testRootPackageDir) throws IOException {
         AssertionUtils.assertThat(testRootPackageDir.getCanonicalPath().endsWith(ROOT_PACKAGE.replace('.', File.separatorChar)));
         ArrayList<String> testClassNames = new ArrayList<String>();
         LinkedList<File> dirs = new LinkedList<File>();
@@ -151,14 +147,15 @@ public class TestSuiteBuilder {
             return thisClassFile.getParentFile().getParentFile().getParentFile();
         }
         catch (URISyntaxException e) {
-            throw new AssertionError(e); // if the classloader doesn't always return the "file:" protocol, then this method needs to be changed
+            throw new AssertionError(e); // if the classloader doesn't always return the "file:" protocol, then this method needs
+                                            // to be changed
         }
     }
 
     /**
-     * Unconditionally excludes the annotated test class (and all its methods) from any suite built by this class.
-     * This is useful with negative matching strategies, e.g., all test methods without the {@code @ShouldCommitTransactions} annotation,
-     * except the ones in SpringShutdownTest.
+     * Unconditionally excludes the annotated test class (and all its methods) from any suite built by this class. This is useful
+     * with negative matching strategies, e.g., all test methods without the {@code @ShouldCommitTransactions} annotation, except
+     * the ones in SpringShutdownTest.
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
@@ -167,9 +164,8 @@ public class TestSuiteBuilder {
     }
 
     /**
-     * A Strategy pattern for choosing which test classes to include in a suite.
-     * A test class acts like a sub-suite to include all its test methods.
-     * For test classes that do not match, test methods can still be included individually.
+     * A Strategy pattern for choosing which test classes to include in a suite. A test class acts like a sub-suite to include all
+     * its test methods. For test classes that do not match, test methods can still be included individually.
      */
     public static interface ClassCriteria {
 
@@ -182,13 +178,14 @@ public class TestSuiteBuilder {
     }
 
     /**
-     * A Strategy pattern for choosing which test methods to include individually in a suite.
-     * This is not used if the method's whole TestCase was included.
+     * A Strategy pattern for choosing which test methods to include individually in a suite. This is not used if the method's whole
+     * TestCase was included.
      */
     public static interface MethodCriteria {
 
         /**
-         * @param testMethod a test method to consider for the suite.  The method name starts with "test", takes no parameters, and returns void.
+         * @param testMethod a test method to consider for the suite. The method name starts with "test", takes no parameters, and
+         *        returns void.
          * @return whether it should be included
          * @throws Exception if necessary
          */
@@ -196,8 +193,8 @@ public class TestSuiteBuilder {
     }
 
     /**
-     * A Singleton NullObject pattern that can be passed as the other strategy when using only one strategy.
-     * This works for either strategy.  Using this for both strategies will build an empty suite.
+     * A Singleton NullObject pattern that can be passed as the other strategy when using only one strategy. This works for either
+     * strategy. Using this for both strategies will build an empty suite.
      */
     private static class NullCriteria implements ClassCriteria, MethodCriteria {
 
@@ -221,9 +218,7 @@ public class TestSuiteBuilder {
             this.decorated = decorated;
         }
 
-        public boolean includes(Class<? extends TestCase> testClass)
-            throws Exception
-        {
+        public boolean includes(Class<? extends TestCase> testClass) throws Exception {
             return !decorated.includes(testClass);
         }
     }
@@ -239,9 +234,7 @@ public class TestSuiteBuilder {
             this.decorated = decorated;
         }
 
-        public boolean includes(Method method)
-            throws Exception
-        {
+        public boolean includes(Method method) throws Exception {
             return !decorated.includes(method);
         }
     }

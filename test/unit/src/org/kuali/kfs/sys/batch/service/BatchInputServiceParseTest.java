@@ -38,15 +38,15 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext
 public class BatchInputServiceParseTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
-    
+
     private BatchInputFileService batchInputFileService;
-    
+
     private byte[] validPCDOFileContents;
     private byte[] validCollectorFileContents;
-    
+
     private BatchInputFileType pcdoBatchInputFileType;
     private BatchInputFileType collectorBatchInputFileType;
-    
+
     /**
      * @see junit.framework.TestCase#setUp()
      */
@@ -63,7 +63,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
         InputStream collectorValidFileStream = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputValidCollector.xml");
         validCollectorFileContents = IOUtils.toByteArray(collectorValidFileStream);
     }
-    
+
     /**
      * Verifies the correct object graph is being built from the pcdo file contents in the service parse method. The PCDO
      * unmarshalling rules specify the result should be a ArrayList of ProcurementCardTransaction objects.
@@ -128,7 +128,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
      */
     public final void testParse_emptyFileContents() throws Exception {
         byte[] emptyContents = null;
-        
+
         boolean failedAsExpected = false;
         try {
             batchInputFileService.parse(pcdoBatchInputFileType, emptyContents);
@@ -154,7 +154,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
     public final void testParse_invalidTagOrder() throws Exception {
         InputStream fileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputInvalidTagOrderPCDO.xml");
         byte[] invalidTagOrderPCDOFileContents = IOUtils.toByteArray(fileContents);
-        
+
         boolean failedAsExpected = false;
         try {
             batchInputFileService.parse(pcdoBatchInputFileType, invalidTagOrderPCDOFileContents);
@@ -172,7 +172,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
     public final void testParse_missingRequiredField() throws Exception {
         InputStream fileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputMissingTagPCDO.xml");
         byte[] missingTagPCDOFileContents = IOUtils.toByteArray(fileContents);
-        
+
         boolean failedAsExpected = false;
         try {
             batchInputFileService.parse(pcdoBatchInputFileType, missingTagPCDOFileContents);
@@ -190,7 +190,7 @@ public class BatchInputServiceParseTest extends KualiTestBase {
     public final void testParse_invalidTag() throws Exception {
         InputStream fileContents = ClassLoader.getSystemResourceAsStream(TEST_BATCH_XML_DIRECTORY + "BatchInputInvalidTagCollector.xml");
         byte[] invalidTagCollectorContents = IOUtils.toByteArray(fileContents);
-        
+
         boolean failedAsExpected = false;
         try {
             batchInputFileService.parse(collectorBatchInputFileType, invalidTagCollectorContents);

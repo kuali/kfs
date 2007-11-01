@@ -29,134 +29,125 @@ import org.kuali.module.chart.bo.Org;
  */
 public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private String reportsToChartOfAccountsCode;
-	private String reportsToOrganizationCode;
-	private Integer pullFlag;
-	private String personUniversalIdentifier;
-    
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private String reportsToChartOfAccountsCode;
+    private String reportsToOrganizationCode;
+    private Integer pullFlag;
+    private String personUniversalIdentifier;
+
     public boolean isLeaf;
 
     private Chart chartOfAccounts;
-	private Org organization;
-	private Org reportsToOrganization;
-	private Chart reportsToChartOfAccounts;
+    private Org organization;
+    private Org reportsToOrganization;
+    private Chart reportsToChartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionPullup() {
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionPullup() {
 
-	}
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return Returns the chartOfAccountsCode
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return Returns the organizationCode
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the reportsToChartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the reportsToChartOfAccountsCode
-	 * 
-	 */
-	public String getReportsToChartOfAccountsCode() { 
-		return reportsToChartOfAccountsCode;
-	}
+    /**
+     * Gets the reportsToChartOfAccountsCode attribute.
+     * 
+     * @return Returns the reportsToChartOfAccountsCode
+     */
+    public String getReportsToChartOfAccountsCode() {
+        return reportsToChartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the reportsToChartOfAccountsCode attribute.
-	 * 
-	 * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
-	 * 
-	 */
-	public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
-		this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
-	}
+    /**
+     * Sets the reportsToChartOfAccountsCode attribute.
+     * 
+     * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
+     */
+    public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
+        this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the reportsToOrganizationCode attribute.
-	 * 
-	 * @return Returns the reportsToOrganizationCode
-	 * 
-	 */
-	public String getReportsToOrganizationCode() { 
-		return reportsToOrganizationCode;
-	}
+    /**
+     * Gets the reportsToOrganizationCode attribute.
+     * 
+     * @return Returns the reportsToOrganizationCode
+     */
+    public String getReportsToOrganizationCode() {
+        return reportsToOrganizationCode;
+    }
 
-	/**
-	 * Sets the reportsToOrganizationCode attribute.
-	 * 
-	 * @param reportsToOrganizationCode The reportsToOrganizationCode to set.
-	 * 
-	 */
-	public void setReportsToOrganizationCode(String reportsToOrganizationCode) {
-		this.reportsToOrganizationCode = reportsToOrganizationCode;
-	}
+    /**
+     * Sets the reportsToOrganizationCode attribute.
+     * 
+     * @param reportsToOrganizationCode The reportsToOrganizationCode to set.
+     */
+    public void setReportsToOrganizationCode(String reportsToOrganizationCode) {
+        this.reportsToOrganizationCode = reportsToOrganizationCode;
+    }
 
 
-	/**
-	 * Gets the pullFlag attribute.
-	 * 
-	 * @return Returns the pullFlag
-	 * 
-	 */
-	public Integer getPullFlag() { 
-		return pullFlag;
-	}
+    /**
+     * Gets the pullFlag attribute.
+     * 
+     * @return Returns the pullFlag
+     */
+    public Integer getPullFlag() {
+        return pullFlag;
+    }
 
-	/**
-	 * Sets the pullFlag attribute.
-	 * 
-	 * @param pullFlag The pullFlag to set.
-	 * 
-	 */
-	public void setPullFlag(Integer pullFlag) {
-		this.pullFlag = pullFlag;
-	}
+    /**
+     * Sets the pullFlag attribute.
+     * 
+     * @param pullFlag The pullFlag to set.
+     */
+    public void setPullFlag(Integer pullFlag) {
+        this.pullFlag = pullFlag;
+    }
 
 
-	/**
-     * Gets the personUniversalIdentifier attribute. 
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
      * @return Returns the personUniversalIdentifier.
      */
     public String getPersonUniversalIdentifier() {
@@ -165,6 +156,7 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
 
     /**
      * Sets the personUniversalIdentifier attribute value.
+     * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -172,7 +164,8 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the isLeaf attribute. 
+     * Gets the isLeaf attribute.
+     * 
      * @return Returns the isLeaf.
      */
     public boolean isLeaf() {
@@ -180,93 +173,89 @@ public class BudgetConstructionPullup extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
 
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return Returns the organization
+     */
+    public Org getOrganization() {
+        return organization;
+    }
 
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
 
-	/**
-	 * Gets the reportsToOrganization attribute.
-	 * 
-	 * @return Returns the reportsToOrganization
-	 * 
-	 */
-	public Org getReportsToOrganization() { 
-		return reportsToOrganization;
-	}
+    /**
+     * Gets the reportsToOrganization attribute.
+     * 
+     * @return Returns the reportsToOrganization
+     */
+    public Org getReportsToOrganization() {
+        return reportsToOrganization;
+    }
 
-	/**
-	 * Sets the reportsToOrganization attribute.
-	 * 
-	 * @param reportsToOrganization The reportsToOrganization to set.
-	 * @deprecated
-	 */
-	public void setReportsToOrganization(Org reportsToOrganization) {
-		this.reportsToOrganization = reportsToOrganization;
-	}
+    /**
+     * Sets the reportsToOrganization attribute.
+     * 
+     * @param reportsToOrganization The reportsToOrganization to set.
+     * @deprecated
+     */
+    public void setReportsToOrganization(Org reportsToOrganization) {
+        this.reportsToOrganization = reportsToOrganization;
+    }
 
-	/**
-	 * Gets the reportsToChartOfAccounts attribute.
-	 * 
-	 * @return Returns the reportsToChartOfAccounts
-	 * 
-	 */
-	public Chart getReportsToChartOfAccounts() { 
-		return reportsToChartOfAccounts;
-	}
+    /**
+     * Gets the reportsToChartOfAccounts attribute.
+     * 
+     * @return Returns the reportsToChartOfAccounts
+     */
+    public Chart getReportsToChartOfAccounts() {
+        return reportsToChartOfAccounts;
+    }
 
-	/**
-	 * Sets the reportsToChartOfAccounts attribute.
-	 * 
-	 * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
-		this.reportsToChartOfAccounts = reportsToChartOfAccounts;
-	}
+    /**
+     * Sets the reportsToChartOfAccounts attribute.
+     * 
+     * @param reportsToChartOfAccounts The reportsToChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setReportsToChartOfAccounts(Chart reportsToChartOfAccounts) {
+        this.reportsToChartOfAccounts = reportsToChartOfAccounts;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-	    return m;
+        return m;
     }
 }

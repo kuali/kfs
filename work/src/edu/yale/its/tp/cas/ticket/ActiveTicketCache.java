@@ -15,119 +15,121 @@
  */
 package edu.yale.its.tp.cas.ticket;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
- * Represents a cache of tickets that each expire after a configurable
- * period of inactivity (i.e., not being retrieved).
+ * Represents a cache of tickets that each expire after a configurable period of inactivity (i.e., not being retrieved).
  */
 public abstract class ActiveTicketCache implements TicketCache {
 
-  //*********************************************************************
-  // Placeholders for subclasses to insert relevant logic.
+    // *********************************************************************
+    // Placeholders for subclasses to insert relevant logic.
 
-  /** Generates and returns a new, unique ticket ID */
-  protected abstract String newTicketId();
+    /** Generates and returns a new, unique ticket ID */
+    protected abstract String newTicketId();
 
-  /** Stores the given ticket, associating it with the given identifier. */
-  protected abstract void storeTicket(String ticketId, Ticket t)
-    throws TicketException;
+    /** Stores the given ticket, associating it with the given identifier. */
+    protected abstract void storeTicket(String ticketId, Ticket t) throws TicketException;
 
-  /** Retrieves the ticket with the given identifier. */
-  protected abstract Ticket retrieveTicket(String ticketId);
+    /** Retrieves the ticket with the given identifier. */
+    protected abstract Ticket retrieveTicket(String ticketId);
 
-  // subclasses also need deleteTicket(String ticketId) from TicketCache
+    // subclasses also need deleteTicket(String ticketId) from TicketCache
 
-  //*********************************************************************
-  // TicketCache implementation methods
+    // *********************************************************************
+    // TicketCache implementation methods
 
-  // inherit Javadoc
-  public synchronized String addTicket(Ticket t) throws TicketException {
-    String ticketId = newTicketId();
-    resetTimer(ticketId);
-    storeTicket(ticketId, t);
-    return ticketId;
-  }
-
-  // inherit Javadoc
-  public Ticket getTicket(String ticketId) {
-    resetTimer(ticketId);
-    return retrieveTicket(ticketId);
-  }
-
-
-  //*********************************************************************
-  // Private state
-
-  /** Stores the last accessed Date for each currently valid ticketId. */
-  private Map timer;
-
-  /** Number of seconds after which the current cache will expire tickets. */
-  private int tolerance;
-
-
-  //*********************************************************************
-  // Constructor
-
-  /**
-   * Constucts a new ActiveTicketCache that will expire tickets after
-   * <i>tolerance</i> seconds of inactivity.
-   */
-  public ActiveTicketCache(int tolerance) {
-    // set up the timer
-    timer = Collections.synchronizedMap(new WeakHashMap());
-    this.tolerance = tolerance;
-
-    // set up the timer thread
-    Thread t = new timerThread();
-    t.setDaemon(true);
-    t.start();
-  }
-
-  /** A thread used to monitor and clean up inactive tickets. */
-  private class timerThread extends Thread {
-    public static final int PERIOD = 60*1000;
-    public boolean done = false;
-    public void run() {
-      while (!done) {
-        try {
-          expireInactive();
-          Thread.sleep(PERIOD);
-        } catch (InterruptedException ex) {
-           // ignore
-        } 
-      }
+    // inherit Javadoc
+    public synchronized String addTicket(Ticket t) throws TicketException {
+        String ticketId = newTicketId();
+        resetTimer(ticketId);
+        storeTicket(ticketId, t);
+        return ticketId;
     }
-  }
 
-  //*********************************************************************
-  // Timer management
+    // inherit Javadoc
+    public Ticket getTicket(String ticketId) {
+        resetTimer(ticketId);
+        return retrieveTicket(ticketId);
+    }
 
-  /**
-   * Resets (and creates, if necessary) the timer entry for the given
-   * ticket identifier
-   */
-  private void resetTimer(String ticketId) {
-    timer.put(ticketId, new Date());
-  }
 
-  /** Expires all inactive tickets. */
-  private void expireInactive() {
-    // for consistency, record starting time
-    long now = (new Date()).getTime();
+    // *********************************************************************
+    // Private state
 
-    // remove all entries that have been inactive too long
-    synchronized(timer) {
-      Iterator i = timer.entrySet().iterator();
-      while (i.hasNext()) {
-        Map.Entry e = (Map.Entry) i.next();
-        long ticketTime = ((Date) e.getValue()).getTime();
-        // delete the ticket if it's expired
-        if (now - (tolerance * 1000) >= ticketTime) {
-          i.remove();
-          deleteTicket((String) e.getKey());
+    /** Stores the last accessed Date for each currently valid ticketId. */
+    private Map timer;
+
+    /** Number of seconds after which the current cache will expire tickets. */
+    private int tolerance;
+
+
+    // *********************************************************************
+    // Constructor
+
+    /**
+     * Constucts a new ActiveTicketCache that will expire tickets after <i>tolerance</i> seconds of inactivity.
+     */
+    public ActiveTicketCache(int tolerance) {
+        // set up the timer
+        timer = Collections.synchronizedMap(new WeakHashMap());
+        this.tolerance = tolerance;
+
+        // set up the timer thread
+        Thread t = new timerThread();
+        t.setDaemon(true);
+        t.start();
+    }
+
+    /** A thread used to monitor and clean up inactive tickets. */
+    private class timerThread extends Thread {
+        public static final int PERIOD = 60 * 1000;
+        public boolean done = false;
+
+        public void run() {
+            while (!done) {
+                try {
+                    expireInactive();
+                    Thread.sleep(PERIOD);
+                }
+                catch (InterruptedException ex) {
+                    // ignore
+                }
+            }
         }
-      }
     }
-  }
+
+    // *********************************************************************
+    // Timer management
+
+    /**
+     * Resets (and creates, if necessary) the timer entry for the given ticket identifier
+     */
+    private void resetTimer(String ticketId) {
+        timer.put(ticketId, new Date());
+    }
+
+    /** Expires all inactive tickets. */
+    private void expireInactive() {
+        // for consistency, record starting time
+        long now = (new Date()).getTime();
+
+        // remove all entries that have been inactive too long
+        synchronized (timer) {
+            Iterator i = timer.entrySet().iterator();
+            while (i.hasNext()) {
+                Map.Entry e = (Map.Entry) i.next();
+                long ticketTime = ((Date) e.getValue()).getTime();
+                // delete the ticket if it's expired
+                if (now - (tolerance * 1000) >= ticketTime) {
+                    i.remove();
+                    deleteTicket((String) e.getKey());
+                }
+            }
+        }
+    }
 }

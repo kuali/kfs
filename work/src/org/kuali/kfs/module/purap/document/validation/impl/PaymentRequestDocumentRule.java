@@ -35,7 +35,6 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
@@ -56,7 +55,6 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
-import org.kuali.module.purap.service.PurchaseOrderService;
 
 public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase {
 
@@ -124,14 +122,14 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        
-        //if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
-        List<SourceAccountingLine>sourceLines = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
-        
+
+        // if this was set somewhere on the doc(for later use) in prepare for save we could avoid this call
+        List<SourceAccountingLine> sourceLines = SpringContext.getBean(PurapAccountingService.class).generateSummary(paymentRequestDocument.getItems());
+
         for (SourceAccountingLine sourceAccountingLine : sourceLines) {
-            if(sourceAccountingLine.getAmount().isNegative()) {
-                String accountString = sourceAccountingLine.getChartOfAccountsCode()+" - "+sourceAccountingLine.getAccountNumber()+" - "+sourceAccountingLine.getFinancialObjectCode();
-                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY,PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL,accountString,sourceAccountingLine.getAmount()+"");        
+            if (sourceAccountingLine.getAmount().isNegative()) {
+                String accountString = sourceAccountingLine.getChartOfAccountsCode() + " - " + sourceAccountingLine.getAccountNumber() + " - " + sourceAccountingLine.getFinancialObjectCode();
+                GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ACCOUNT_AMOUNT_TOTAL, accountString, sourceAccountingLine.getAmount() + "");
                 valid &= false;
             }
         }
@@ -153,7 +151,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) apDocument;
-        // Give warnings for the following.  The boolean results of the calls are not to be used here.
+        // Give warnings for the following. The boolean results of the calls are not to be used here.
         boolean totalsMatch = validateTotals(paymentRequestDocument);
         boolean payDateOk = validatePayDateNotOverThresholdDaysAway(paymentRequestDocument);
         // The Grand Total Amount must be greate than zero.
@@ -241,7 +239,8 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         // Pending indicator is "Y" and it is not a Retransmit doc, then we don't allow users to create a PREQ. Correct?
         // Given a PO number, the user enters in the Init screen. For the rule "Error if the PO is not open", we also only
         // need to check this rule against the current PO, Correct?
-//        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
+        // PurchaseOrderDocument purchaseOrderDocument =
+        // SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurchaseOrderIdentifier());
         PurchaseOrderDocument purchaseOrderDocument = document.getPurchaseOrderDocument();
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_NOT_EXIST);
@@ -345,20 +344,18 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     }
 
     /**
-     * This method side-effects a warning, and consequently should not be used in such
-     * a way as to cause validation to fail. Returns a boolean for ease of testing.  If the
-     * threshold days value is positive, the method will test future dates accurately.
-     * If the the threshold days value is negative, the method will test past dates.
+     * This method side-effects a warning, and consequently should not be used in such a way as to cause validation to fail. Returns
+     * a boolean for ease of testing. If the threshold days value is positive, the method will test future dates accurately. If the
+     * the threshold days value is negative, the method will test past dates.
      * 
-     * @param document  The PaymentRequestDocument
-     * @return  True if the PREQ's pay date is not over the threshold number of days away. 
+     * @param document The PaymentRequestDocument
+     * @return True if the PREQ's pay date is not over the threshold number of days away.
      */
     public boolean validatePayDateNotOverThresholdDaysAway(PaymentRequestDocument document) {
         boolean valid = true;
         int thresholdDays = PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING;
-        if ((document.getPaymentRequestPayDate()!=null) && SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(
-                document.getPaymentRequestPayDate(),thresholdDays)) {
-            if ( ObjectUtils.isNull(GlobalVariables.getMessageList())) {
+        if ((document.getPaymentRequestPayDate() != null) && SpringContext.getBean(PurapService.class).isDateMoreThanANumberOfDaysAway(document.getPaymentRequestPayDate(), thresholdDays)) {
+            if (ObjectUtils.isNull(GlobalVariables.getMessageList())) {
                 GlobalVariables.setMessageList(new ArrayList());
             }
             if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS)) {
@@ -368,11 +365,11 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-    
+
     /**
-     * This method checks whether the total of the items' extended price, excluding the item types that can be
-     * negative, match with the vendor invoice amount that the user entered at the beginning of the preq creation,
-     * and if they don't match, the app will just print a warning to the page that the amounts don't match.
+     * This method checks whether the total of the items' extended price, excluding the item types that can be negative, match with
+     * the vendor invoice amount that the user entered at the beginning of the preq creation, and if they don't match, the app will
+     * just print a warning to the page that the amounts don't match.
      * 
      * @param document
      */
@@ -380,8 +377,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         boolean valid = true;
         List excludeDiscount = new ArrayList();
         excludeDiscount.add(PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE);
-        if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || 
-            (this.getTotalExcludingItemTypes(document.getItems(), excludeDiscount).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
+        if ((ObjectUtils.isNull(document.getVendorInvoiceAmount())) || (this.getTotalExcludingItemTypes(document.getItems(), excludeDiscount).compareTo(document.getVendorInvoiceAmount()) != 0 && !document.isUnmatchedOverride())) {
             if (!GlobalVariables.getMessageList().contains(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID)) {
                 GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_PAYMENT_REQUEST_VENDOR_INVOICE_AMOUNT_INVALID);
                 valid = false;

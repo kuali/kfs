@@ -126,32 +126,33 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
     public Integer getFinancialDocumentDepositLineNumber();
 
     /**
-     * 
      * Returns the document type that created this record.
+     * 
      * @return the document type of the creating document.
      */
     public String getFinancialDocumentTypeCode();
-    
+
     /**
-     * 
      * Sets the kind of document that created this check
+     * 
      * @param financialDocumentTypeCode
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode);
-    
+
     /**
-     * 
      * Gets the code that describes where this cashiering record came from
+     * 
      * @return the cashiering record source
      */
     public String getCashieringRecordSource();
-    
+
     /**
-     * 
      * Sets the source of this cashiering record.
+     * 
      * @param cashieringRecordSource
      */
     public void setCashieringRecordSource(String cashieringRecordSource);
+
     /**
      * @param other
      * @return true if this Check has the same primitive field values as the given one

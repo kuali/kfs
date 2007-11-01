@@ -25,32 +25,32 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBase {
 
-	private String purchaseOrderTransmissionMethodCode;
-	private String purchaseOrderTransmissionMethodDescription;
-	private boolean active;
+    private String purchaseOrderTransmissionMethodCode;
+    private String purchaseOrderTransmissionMethodDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderTransmissionMethod() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderTransmissionMethod() {
 
-	}
+    }
 
-	public String getPurchaseOrderTransmissionMethodCode() { 
-		return purchaseOrderTransmissionMethodCode;
-	}
+    public String getPurchaseOrderTransmissionMethodCode() {
+        return purchaseOrderTransmissionMethodCode;
+    }
 
-	public void setPurchaseOrderTransmissionMethodCode(String purchaseOrderTransmissionMethodCode) {
-		this.purchaseOrderTransmissionMethodCode = purchaseOrderTransmissionMethodCode;
-	}
+    public void setPurchaseOrderTransmissionMethodCode(String purchaseOrderTransmissionMethodCode) {
+        this.purchaseOrderTransmissionMethodCode = purchaseOrderTransmissionMethodCode;
+    }
 
-	public String getPurchaseOrderTransmissionMethodDescription() { 
-		return purchaseOrderTransmissionMethodDescription;
-	}
+    public String getPurchaseOrderTransmissionMethodDescription() {
+        return purchaseOrderTransmissionMethodDescription;
+    }
 
-	public void setPurchaseOrderTransmissionMethodDescription(String purchaseOrderTransmissionMethodDescription) {
-		this.purchaseOrderTransmissionMethodDescription = purchaseOrderTransmissionMethodDescription;
-	}
+    public void setPurchaseOrderTransmissionMethodDescription(String purchaseOrderTransmissionMethodDescription) {
+        this.purchaseOrderTransmissionMethodDescription = purchaseOrderTransmissionMethodDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -61,12 +61,12 @@ public class PurchaseOrderTransmissionMethod extends PersistableBusinessObjectBa
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderTransmissionMethodCode", this.purchaseOrderTransmissionMethodCode);
-	    return m;
+        return m;
     }
-    
+
 }

@@ -18,9 +18,9 @@ package org.kuali.module.gl.service;
 import java.util.Date;
 
 /**
- * Sometimes it is necessary to rerun a GL process on the following day if the previous
- * night's GL batch processes failed.  This service facilitates the re-running of GL batch
- * processes by allowing the GL processes to assume that the GL processes are being run the night before
+ * Sometimes it is necessary to rerun a GL process on the following day if the previous night's GL batch processes failed. This
+ * service facilitates the re-running of GL batch processes by allowing the GL processes to assume that the GL processes are being
+ * run the night before
  */
 public interface RunDateService {
     /**

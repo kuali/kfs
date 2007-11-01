@@ -20,8 +20,6 @@ import org.kuali.module.financial.bo.CashDrawer;
 
 /**
  * This interface defines methods that a CashDrawer service implementation must provide.
- * 
- * 
  */
 public interface CashDrawerService {
     /**
@@ -31,6 +29,7 @@ public interface CashDrawerService {
 
     /**
      * Closes the cash drawer associated with the given document
+     * 
      * @param cmDoc the cash drawer to close
      */
     public void closeCashDrawer(CashDrawer cd);
@@ -38,12 +37,14 @@ public interface CashDrawerService {
     /**
      * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given
      * documentId as the document which opened the cashdrawer.
+     * 
      * @return the opened version of the cash drawer
      */
     public CashDrawer openCashDrawer(String workgroupName, String documentId);
-    
+
     /**
      * Opens the given cash drawer
+     * 
      * @param cd the cash drawer to open
      * @param documentId the document number which is opening the cash drawer
      * @return the opened version of the cash drawer
@@ -56,9 +57,10 @@ public interface CashDrawerService {
      * cashDrawer.
      */
     public void lockCashDrawer(String workgroupName, String documentId);
-    
+
     /**
      * Locks the given cash drawer, if it is open
+     * 
      * @param cd the cash drawer to open
      * @param documentId the document id which is locking the cash drawer
      */
@@ -70,9 +72,10 @@ public interface CashDrawerService {
      * cashDrawer.
      */
     public void unlockCashDrawer(String workgroupName, String documentId);
-    
+
     /**
      * Unlocks the given cash drawer, if it is open and locked
+     * 
      * @param cd the cash drawer to unlock
      * @param documentId the document which is unlocking the cash drawer
      */
@@ -88,16 +91,18 @@ public interface CashDrawerService {
      * @return CashDrawer instance or null
      */
     public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate);
-    
+
     /**
      * Calculates the total amount of all the currency in the drawer.
+     * 
      * @param drawer the drawer to calculate on
      * @return the summed amount of currency in the drawer
      */
     public KualiDecimal getCurrencyTotal(CashDrawer drawer);
-    
+
     /**
-     * Calcuates the total amount of all the coins in the drawer. 
+     * Calcuates the total amount of all the coins in the drawer.
+     * 
      * @param drawer the drawer to calculate on
      * @return the summed value of coins in the drawer
      */

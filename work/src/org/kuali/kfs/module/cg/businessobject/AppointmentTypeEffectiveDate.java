@@ -37,7 +37,7 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
     public AppointmentTypeEffectiveDate() {
 
     }
-    
+
     public AppointmentTypeEffectiveDate(String appointmentTypeCode, Integer institutionFiscalYear) {
         this();
         this.appointmentTypeCode = appointmentTypeCode;
@@ -48,7 +48,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Gets the appointmentTypeCode attribute.
      * 
      * @return Returns the appointmentTypeCode
-     * 
      */
     public String getAppointmentTypeCode() {
         return appointmentTypeCode;
@@ -58,7 +57,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Sets the institutionAppointmentTypeCode attribute.
      * 
      * @param institutionAppointmentTypeCode The institutionAppointmentTypeCode to set.
-     * 
      */
     public void setAppointmentTypeCode(String appointmentTypeCode) {
         this.appointmentTypeCode = appointmentTypeCode;
@@ -69,7 +67,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Gets the institutionFiscalYear attribute.
      * 
      * @return Returns the institutionFiscalYear
-     * 
      */
     public Integer getInstitutionFiscalYear() {
         return institutionFiscalYear;
@@ -79,7 +76,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Sets the institutionFiscalYear attribute.
      * 
      * @param institutionFiscalYear The institutionFiscalYear to set.
-     * 
      */
     public void setInstitutionFiscalYear(Integer institutionFiscalYear) {
         this.institutionFiscalYear = institutionFiscalYear;
@@ -90,7 +86,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Gets the appointmentTypeBeginDate attribute.
      * 
      * @return Returns the appointmentTypeBeginDate
-     * 
      */
     public Date getAppointmentTypeBeginDate() {
         return appointmentTypeBeginDate;
@@ -100,7 +95,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Sets the appointmentTypeBeginDate attribute.
      * 
      * @param appointmentTypeBeginDate The appointmentTypeBeginDate to set.
-     * 
      */
     public void setAppointmentTypeBeginDate(Date appointmentTypeBeginDate) {
         this.appointmentTypeBeginDate = appointmentTypeBeginDate;
@@ -111,7 +105,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Gets the appointmentTypeEndDate attribute.
      * 
      * @return Returns the appointmentTypeEndDate
-     * 
      */
     public Date getAppointmentTypeEndDate() {
         return appointmentTypeEndDate;
@@ -121,7 +114,6 @@ public class AppointmentTypeEffectiveDate extends PersistableBusinessObjectBase 
      * Sets the appointmentTypeEndDate attribute.
      * 
      * @param appointmentTypeEndDate The appointmentTypeEndDate to set.
-     * 
      */
     public void setAppointmentTypeEndDate(Date appointmentTypeEndDate) {
         this.appointmentTypeEndDate = appointmentTypeEndDate;

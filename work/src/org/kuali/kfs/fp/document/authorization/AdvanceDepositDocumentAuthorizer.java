@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.authorization.AuthorizationConstants;
-
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocument;
@@ -33,8 +32,6 @@ import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * Authorization permissions specific to the Advance Deposit document.
- * 
- * 
  */
 public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     /**
@@ -103,12 +100,13 @@ public class AdvanceDepositDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * Overrides parent to return an empty Map since FO routing doesn't apply to the AD doc.
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
     public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {
         return new HashMap();
     }
-    
-    
+
+
 }

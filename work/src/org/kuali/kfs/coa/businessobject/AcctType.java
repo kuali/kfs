@@ -38,7 +38,6 @@ public class AcctType extends PersistableBusinessObjectBase {
      * Gets the accountTypeCode attribute.
      * 
      * @return Returns the accountTypeCode
-     * 
      */
     public String getAccountTypeCode() {
         return accountTypeCode;
@@ -48,7 +47,6 @@ public class AcctType extends PersistableBusinessObjectBase {
      * Sets the accountTypeCode attribute.
      * 
      * @param accountTypeCode The accountTypeCode to set.
-     * 
      */
     public void setAccountTypeCode(String accountTypeCode) {
         this.accountTypeCode = accountTypeCode;
@@ -58,7 +56,6 @@ public class AcctType extends PersistableBusinessObjectBase {
      * Gets the accountTypeName attribute.
      * 
      * @return Returns the accountTypeName
-     * 
      */
     public String getAccountTypeName() {
         return accountTypeName;
@@ -68,7 +65,6 @@ public class AcctType extends PersistableBusinessObjectBase {
      * Sets the accountTypeName attribute.
      * 
      * @param accountTypeName The accountTypeName to set.
-     * 
      */
     public void setAccountTypeName(String accountTypeName) {
         this.accountTypeName = accountTypeName;

@@ -28,7 +28,7 @@ import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
  * Business rule(s) applicable to Purchase Order Contract Language maintenance document.
  */
 public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBase {
-    
+
     private PurchaseOrderContractLanguage newContractLanguage;
     private BusinessObjectService boService;
 
@@ -42,7 +42,7 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         boService = (BusinessObjectService) super.getBoService();
         super.setupConvenienceObjects();
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -72,7 +72,7 @@ public class PurchaseOrderContractLanguageRule extends MaintenanceDocumentRuleBa
         boolean success = this.checkForDuplicate();
         return success && super.processCustomSaveDocumentBusinessRules(document);
     }
-    
+
     /**
      * Check to see if data duplicates existing data
      * 

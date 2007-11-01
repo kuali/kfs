@@ -41,7 +41,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     private static final String GRANT_DESCRIPTION_NPT = "NPT";
     private static final String GRANT_DESCRIPTION_OPT = "OPT";
-    private static final String[] NON_FED_GRANT_DESCS = new String[] {GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT};
+    private static final String[] NON_FED_GRANT_DESCS = new String[] { GRANT_DESCRIPTION_NPT, GRANT_DESCRIPTION_OPT };
 
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -71,7 +71,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
 
     /**
      * checks to see if at least 1 award account exists
-     *
+     * 
      * @return true if the award contains at least 1 {@link AwardAccount}, false otherwise
      */
     private boolean checkAccounts() {
@@ -93,7 +93,7 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
      * <li> a proposal has already been awarded
      * <li> a proposal is inactive
      * </ol>
-     *
+     * 
      * @return
      */
     private boolean checkProposal() {
@@ -103,22 +103,23 @@ public class AwardRule extends CGMaintenanceDocumentRuleBase {
             success = false;
         }
         // SEE KULCG-315 for details on why this code is commented out.
-//        else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
-//            putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE, newAwardCopy.getProposalNumber().toString());
-//        }
+        // else if (AwardRuleUtil.isProposalInactive(newAwardCopy)) {
+        // putFieldError(KFSPropertyConstants.PROPOSAL_NUMBER, KFSKeyConstants.ERROR_AWARD_PROPOSAL_INACTIVE,
+        // newAwardCopy.getProposalNumber().toString());
+        // }
 
         return success;
     }
 
     /**
      * checks if the required federal pass through fields are filled in if the federal pass through indicator is yes
-     *
+     * 
      * @return
      */
     private boolean checkFederalPassThrough() {
         boolean success = true;
         success = super.checkFederalPassThrough(newAwardCopy.getFederalPassThroughIndicator(), newAwardCopy.getAgency(), newAwardCopy.getFederalPassThroughAgencyNumber(), Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);
-        
+
         if (newAwardCopy.getFederalPassThroughIndicator()) {
 
             String indicatorLabel = SpringContext.getBean(DataDictionaryService.class).getAttributeErrorLabel(Award.class, KFSPropertyConstants.FEDERAL_PASS_THROUGH_INDICATOR);

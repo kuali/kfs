@@ -26,44 +26,44 @@ import org.kuali.module.vendor.bo.VendorDetail;
  */
 public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderQuoteListIdentifier;
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
+    private Integer purchaseOrderQuoteListIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
 
     private PurchaseOrderQuoteList purchaseOrderQuoteList;
 
     private VendorDetail vendorDetail;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderQuoteListVendor() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderQuoteListVendor() {
 
-	public Integer getPurchaseOrderQuoteListIdentifier() { 
-		return purchaseOrderQuoteListIdentifier;
-	}
+    }
 
-	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
-		this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
-	}
+    public Integer getPurchaseOrderQuoteListIdentifier() {
+        return purchaseOrderQuoteListIdentifier;
+    }
 
-	public Integer getVendorHeaderGeneratedIdentifier() { 
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
+        this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
+    }
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public Integer getVendorDetailAssignedIdentifier() { 
-		return vendorDetailAssignedIdentifier;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
+    public Integer getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
 
     public PurchaseOrderQuoteList getPurchaseOrderQuoteList() {
         return purchaseOrderQuoteList;
@@ -91,7 +91,7 @@ public class PurchaseOrderQuoteListVendor extends PersistableBusinessObjectBase 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderQuoteListIdentifier != null) {
             m.put("purchaseOrderQuoteListIdentifier", this.purchaseOrderQuoteListIdentifier.toString());
         }

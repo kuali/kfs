@@ -18,17 +18,15 @@ package org.kuali.module.gl.service.impl;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
-import org.springframework.transaction.annotation.Transactional;
-
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
 import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
+import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWorkService {
@@ -44,7 +42,7 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
         Map<String, OrgReversionUnitOfWorkCategoryAmount> categories = orgRevUnitOfWork.getCategoryAmounts();
         Iterator iter = categoryAmounts.iterator();
         while (iter.hasNext()) {
-            OrgReversionUnitOfWorkCategoryAmount catAmount = (OrgReversionUnitOfWorkCategoryAmount)iter.next();
+            OrgReversionUnitOfWorkCategoryAmount catAmount = (OrgReversionUnitOfWorkCategoryAmount) iter.next();
             categories.put(catAmount.getCategoryCode(), catAmount);
         }
         return orgRevUnitOfWork;
@@ -61,19 +59,20 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
      * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#save(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
      */
     public void save(OrgReversionUnitOfWork orgRevUnitOfWork) {
-        LOG.debug("Saving org reversion summary for "+orgRevUnitOfWork.toString()+"; its category keys are: "+orgRevUnitOfWork.getCategoryAmounts().keySet());
+        LOG.debug("Saving org reversion summary for " + orgRevUnitOfWork.toString() + "; its category keys are: " + orgRevUnitOfWork.getCategoryAmounts().keySet());
         businessObjectService.save(orgRevUnitOfWork);
         CollectionUtils.forAllDo(orgRevUnitOfWork.getCategoryAmounts().entrySet(), new Closure() {
             public void execute(Object categoryEntryAsObject) {
-                OrgReversionUnitOfWorkCategoryAmount categoryAmount = (OrgReversionUnitOfWorkCategoryAmount)((Map.Entry)categoryEntryAsObject).getValue();
-                LOG.debug("Saving category amount for "+categoryAmount.toString());
+                OrgReversionUnitOfWorkCategoryAmount categoryAmount = (OrgReversionUnitOfWorkCategoryAmount) ((Map.Entry) categoryEntryAsObject).getValue();
+                LOG.debug("Saving category amount for " + categoryAmount.toString());
                 businessObjectService.save(categoryAmount);
             }
         });
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     * 
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -82,6 +81,7 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -89,7 +89,8 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
     }
 
     /**
-     * Gets the orgReversionUnitOfWorkDao attribute. 
+     * Gets the orgReversionUnitOfWorkDao attribute.
+     * 
      * @return Returns the orgReversionUnitOfWorkDao.
      */
     public OrgReversionUnitOfWorkDao getOrgReversionUnitOfWorkDao() {
@@ -98,10 +99,11 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
 
     /**
      * Sets the orgReversionUnitOfWorkDao attribute value.
+     * 
      * @param orgReversionUnitOfWorkDao The orgReversionUnitOfWorkDao to set.
      */
     public void setOrgReversionUnitOfWorkDao(OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao) {
         this.orgReversionUnitOfWorkDao = orgReversionUnitOfWorkDao;
     }
-    
+
 }

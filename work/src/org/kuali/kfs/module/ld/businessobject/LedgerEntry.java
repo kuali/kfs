@@ -21,7 +21,6 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -90,7 +89,7 @@ public class LedgerEntry extends Entry {
     private String hrmsCompany;
     private String setid;
     private Timestamp transactionDateTimeStamp;
-    
+
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
@@ -1296,7 +1295,7 @@ public class LedgerEntry extends Entry {
         if (this.transactionLedgerEntrySequenceNumber != null) {
             m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }
-        
+
         return m;
     }
 

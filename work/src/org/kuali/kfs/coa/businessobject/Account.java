@@ -193,7 +193,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -203,7 +202,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -213,7 +211,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountName attribute.
      * 
      * @return Returns the accountName
-     * 
      */
     public String getAccountName() {
         return accountName;
@@ -223,7 +220,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountName attribute.
      * 
      * @param accountName The accountName to set.
-     * 
      */
     public void setAccountName(String accountName) {
         this.accountName = accountName;
@@ -233,7 +229,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the _AccountsFringesBnftIndicator_ attribute.
      * 
      * @return Returns the _AccountsFringesBnftIndicator_
-     * 
      */
     public boolean isAccountsFringesBnftIndicator() {
         return accountsFringesBnftIndicator;
@@ -243,7 +238,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the _AccountsFringesBnftIndicator_ attribute.
      * 
      * @param _AccountsFringesBnftIndicator_ The _AccountsFringesBnftIndicator_ to set.
-     * 
      */
     public void setAccountsFringesBnftIndicator(boolean _AccountsFringesBnftIndicator_) {
         this.accountsFringesBnftIndicator = _AccountsFringesBnftIndicator_;
@@ -253,7 +247,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountRestrictedStatusDate attribute.
      * 
      * @return Returns the accountRestrictedStatusDate
-     * 
      */
     public Timestamp getAccountRestrictedStatusDate() {
         return accountRestrictedStatusDate;
@@ -263,7 +256,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountRestrictedStatusDate attribute.
      * 
      * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
-     * 
      */
     public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate) {
         this.accountRestrictedStatusDate = accountRestrictedStatusDate;
@@ -273,7 +265,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountCityName attribute.
      * 
      * @return Returns the accountCityName
-     * 
      */
     public String getAccountCityName() {
         return accountCityName;
@@ -283,7 +274,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountCityName attribute.
      * 
      * @param accountCityName The accountCityName to set.
-     * 
      */
     public void setAccountCityName(String accountCityName) {
         this.accountCityName = accountCityName;
@@ -293,7 +283,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountStateCode attribute.
      * 
      * @return Returns the accountStateCode
-     * 
      */
     public String getAccountStateCode() {
         return accountStateCode;
@@ -303,7 +292,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountStateCode attribute.
      * 
      * @param accountStateCode The accountStateCode to set.
-     * 
      */
     public void setAccountStateCode(String accountStateCode) {
         this.accountStateCode = accountStateCode;
@@ -313,7 +301,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountStreetAddress attribute.
      * 
      * @return Returns the accountStreetAddress
-     * 
      */
     public String getAccountStreetAddress() {
         return accountStreetAddress;
@@ -323,7 +310,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountStreetAddress attribute.
      * 
      * @param accountStreetAddress The accountStreetAddress to set.
-     * 
      */
     public void setAccountStreetAddress(String accountStreetAddress) {
         this.accountStreetAddress = accountStreetAddress;
@@ -333,7 +319,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountZipCode attribute.
      * 
      * @return Returns the accountZipCode
-     * 
      */
     public String getAccountZipCode() {
         return accountZipCode;
@@ -343,7 +328,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountZipCode attribute.
      * 
      * @param accountZipCode The accountZipCode to set.
-     * 
      */
     public void setAccountZipCode(String accountZipCode) {
         this.accountZipCode = accountZipCode;
@@ -353,7 +337,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountCreateDate attribute.
      * 
      * @return Returns the accountCreateDate
-     * 
      */
     public Timestamp getAccountCreateDate() {
         return accountCreateDate;
@@ -363,7 +346,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountCreateDate attribute.
      * 
      * @param accountCreateDate The accountCreateDate to set.
-     * 
      */
     public void setAccountCreateDate(Timestamp accountCreateDate) {
         this.accountCreateDate = accountCreateDate;
@@ -373,7 +355,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountEffectiveDate attribute.
      * 
      * @return Returns the accountEffectiveDate
-     * 
      */
     public Timestamp getAccountEffectiveDate() {
         return accountEffectiveDate;
@@ -383,7 +364,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountEffectiveDate attribute.
      * 
      * @param accountEffectiveDate The accountEffectiveDate to set.
-     * 
      */
     public void setAccountEffectiveDate(Timestamp accountEffectiveDate) {
         this.accountEffectiveDate = accountEffectiveDate;
@@ -393,7 +373,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountExpirationDate attribute.
      * 
      * @return Returns the accountExpirationDate
-     * 
      */
     public Timestamp getAccountExpirationDate() {
         return accountExpirationDate;
@@ -403,24 +382,18 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountExpirationDate attribute.
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
-     * 
      */
     public void setAccountExpirationDate(Timestamp accountExpirationDate) {
         this.accountExpirationDate = accountExpirationDate;
     }
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same as today, then this will return false. It will only return true if the account
-     * expiration date is one day earlier than today or earlier.
-     * 
-     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
-     * date values, not time-values.
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same as today, then this
+     * will return false. It will only return true if the account expiration date is one day earlier than today or earlier. Note
+     * that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on date
+     * values, not time-values.
      * 
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired() {
         LOG.debug("entering isExpired()");
@@ -433,19 +406,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
-     * 
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same date as testDate, then
+     * this will return false. It will only return true if the account expiration date is one day earlier than testDate or earlier.
      * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
      * @param testDate - Calendar instance with the date to test the Account's Expiration Date against. This is most commonly set to
      *        today's date.
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired(Calendar testDate) {
         if (LOG.isDebugEnabled()) {
@@ -476,19 +444,14 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
-     * 
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same date as testDate, then
+     * this will return false. It will only return true if the account expiration date is one day earlier than testDate or earlier.
      * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
      * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against. This is most commonly
      *        set to today's date.
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired(Date testDate) {
 
@@ -506,7 +469,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the awardPeriodEndYear attribute.
      * 
      * @return Returns the awardPeriodEndYear
-     * 
      */
     public Integer getAwardPeriodEndYear() {
         return awardPeriodEndYear;
@@ -516,7 +478,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the awardPeriodEndYear attribute.
      * 
      * @param awardPeriodEndYear The awardPeriodEndYear to set.
-     * 
      */
     public void setAwardPeriodEndYear(Integer awardPeriodEndYear) {
         this.awardPeriodEndYear = awardPeriodEndYear;
@@ -526,7 +487,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the awardPeriodEndMonth attribute.
      * 
      * @return Returns the awardPeriodEndMonth
-     * 
      */
     public String getAwardPeriodEndMonth() {
         return awardPeriodEndMonth;
@@ -536,7 +496,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the awardPeriodEndMonth attribute.
      * 
      * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
-     * 
      */
     public void setAwardPeriodEndMonth(String awardPeriodEndMonth) {
         this.awardPeriodEndMonth = awardPeriodEndMonth;
@@ -546,7 +505,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the awardPeriodBeginYear attribute.
      * 
      * @return Returns the awardPeriodBeginYear
-     * 
      */
     public Integer getAwardPeriodBeginYear() {
         return awardPeriodBeginYear;
@@ -556,7 +514,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the awardPeriodBeginYear attribute.
      * 
      * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
-     * 
      */
     public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear) {
         this.awardPeriodBeginYear = awardPeriodBeginYear;
@@ -566,7 +523,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the awardPeriodBeginMonth attribute.
      * 
      * @return Returns the awardPeriodBeginMonth
-     * 
      */
     public String getAwardPeriodBeginMonth() {
         return awardPeriodBeginMonth;
@@ -576,7 +532,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the awardPeriodBeginMonth attribute.
      * 
      * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
-     * 
      */
     public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth) {
         this.awardPeriodBeginMonth = awardPeriodBeginMonth;
@@ -586,7 +541,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the acctIndirectCostRcvyTypeCd attribute.
      * 
      * @return Returns the acctIndirectCostRcvyTypeCd
-     * 
      */
     public String getAcctIndirectCostRcvyTypeCd() {
         return acctIndirectCostRcvyTypeCd;
@@ -596,7 +550,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the acctIndirectCostRcvyTypeCd attribute.
      * 
      * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
-     * 
      */
     public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd) {
         this.acctIndirectCostRcvyTypeCd = acctIndirectCostRcvyTypeCd;
@@ -606,7 +559,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the acctCustomIndCstRcvyExclCd attribute.
      * 
      * @return Returns the acctCustomIndCstRcvyExclCd
-     * 
      */
     public String getAcctCustomIndCstRcvyExclCd() {
         return acctCustomIndCstRcvyExclCd;
@@ -616,7 +568,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the acctCustomIndCstRcvyExclCd attribute.
      * 
      * @param acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
-     * 
      */
     public void setAcctCustomIndCstRcvyExclCd(String acctCustomIndCstRcvyExclCd) {
         this.acctCustomIndCstRcvyExclCd = acctCustomIndCstRcvyExclCd;
@@ -626,7 +577,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the financialIcrSeriesIdentifier attribute.
      * 
      * @return Returns the financialIcrSeriesIdentifier
-     * 
      */
     public String getFinancialIcrSeriesIdentifier() {
         return financialIcrSeriesIdentifier;
@@ -636,7 +586,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the financialIcrSeriesIdentifier attribute.
      * 
      * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
-     * 
      */
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier) {
         this.financialIcrSeriesIdentifier = financialIcrSeriesIdentifier;
@@ -646,7 +595,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountInFinancialProcessingIndicator attribute.
      * 
      * @return Returns the accountInFinancialProcessingIndicator
-     * 
      */
     public boolean getAccountInFinancialProcessingIndicator() {
         return accountInFinancialProcessingIndicator;
@@ -656,7 +604,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountInFinancialProcessingIndicator attribute.
      * 
      * @param accountInFinancialProcessingIndicator The accountInFinancialProcessingIndicator to set.
-     * 
      */
     public void setAccountInFinancialProcessingIndicator(boolean accountInFinancialProcessingIndicator) {
         this.accountInFinancialProcessingIndicator = accountInFinancialProcessingIndicator;
@@ -666,7 +613,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the budgetRecordingLevelCode attribute.
      * 
      * @return Returns the budgetRecordingLevelCode
-     * 
      */
     public String getBudgetRecordingLevelCode() {
         return budgetRecordingLevelCode;
@@ -676,7 +622,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the budgetRecordingLevelCode attribute.
      * 
      * @param budgetRecordingLevelCode The budgetRecordingLevelCode to set.
-     * 
      */
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode) {
         this.budgetRecordingLevelCode = budgetRecordingLevelCode;
@@ -686,7 +631,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountSufficientFundsCode attribute.
      * 
      * @return Returns the accountSufficientFundsCode
-     * 
      */
     public String getAccountSufficientFundsCode() {
         return accountSufficientFundsCode;
@@ -696,7 +640,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountSufficientFundsCode attribute.
      * 
      * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
-     * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
         this.accountSufficientFundsCode = accountSufficientFundsCode;
@@ -706,7 +649,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @return Returns the pendingAcctSufficientFundsIndicator
-     * 
      */
     public boolean isPendingAcctSufficientFundsIndicator() {
         return pendingAcctSufficientFundsIndicator;
@@ -716,7 +658,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
-     * 
      */
     public void setPendingAcctSufficientFundsIndicator(boolean pendingAcctSufficientFundsIndicator) {
         this.pendingAcctSufficientFundsIndicator = pendingAcctSufficientFundsIndicator;
@@ -726,7 +667,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @return Returns the extrnlFinEncumSufficntFndIndicator
-     * 
      */
     public boolean isExtrnlFinEncumSufficntFndIndicator() {
         return extrnlFinEncumSufficntFndIndicator;
@@ -736,7 +676,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @param extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
-     * 
      */
     public void setExtrnlFinEncumSufficntFndIndicator(boolean extrnlFinEncumSufficntFndIndicator) {
         this.extrnlFinEncumSufficntFndIndicator = extrnlFinEncumSufficntFndIndicator;
@@ -746,7 +685,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @return Returns the intrnlFinEncumSufficntFndIndicator
-     * 
      */
     public boolean isIntrnlFinEncumSufficntFndIndicator() {
         return intrnlFinEncumSufficntFndIndicator;
@@ -756,7 +694,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @param intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
-     * 
      */
     public void setIntrnlFinEncumSufficntFndIndicator(boolean intrnlFinEncumSufficntFndIndicator) {
         this.intrnlFinEncumSufficntFndIndicator = intrnlFinEncumSufficntFndIndicator;
@@ -766,7 +703,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the finPreencumSufficientFundIndicator attribute.
      * 
      * @return Returns the finPreencumSufficientFundIndicator
-     * 
      */
     public boolean isFinPreencumSufficientFundIndicator() {
         return finPreencumSufficientFundIndicator;
@@ -776,7 +712,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the finPreencumSufficientFundIndicator attribute.
      * 
      * @param finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
-     * 
      */
     public void setFinPreencumSufficientFundIndicator(boolean finPreencumSufficientFundIndicator) {
         this.finPreencumSufficientFundIndicator = finPreencumSufficientFundIndicator;
@@ -786,7 +721,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the _FinancialObjectivePrsctrlIndicator_ attribute.
      * 
      * @return Returns the _FinancialObjectivePrsctrlIndicator_
-     * 
      */
     public boolean isFinancialObjectivePrsctrlIndicator() {
         return financialObjectivePrsctrlIndicator;
@@ -796,7 +730,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the _FinancialObjectivePrsctrlIndicator_ attribute.
      * 
      * @param _FinancialObjectivePrsctrlIndicator_ The _FinancialObjectivePrsctrlIndicator_ to set.
-     * 
      */
     public void setFinancialObjectivePrsctrlIndicator(boolean _FinancialObjectivePrsctrlIndicator_) {
         this.financialObjectivePrsctrlIndicator = _FinancialObjectivePrsctrlIndicator_;
@@ -806,7 +739,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountCfdaNumber attribute.
      * 
      * @return Returns the accountCfdaNumber
-     * 
      */
     public String getAccountCfdaNumber() {
         return accountCfdaNumber;
@@ -816,7 +748,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountCfdaNumber attribute.
      * 
      * @param accountCfdaNumber The accountCfdaNumber to set.
-     * 
      */
     public void setAccountCfdaNumber(String accountCfdaNumber) {
         this.accountCfdaNumber = accountCfdaNumber;
@@ -834,7 +765,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountOffCampusIndicator attribute.
      * 
      * @return Returns the accountOffCampusIndicator
-     * 
      */
     public boolean isAccountOffCampusIndicator() {
         return accountOffCampusIndicator;
@@ -844,7 +774,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountOffCampusIndicator attribute.
      * 
      * @param accountOffCampusIndicator The accountOffCampusIndicator to set.
-     * 
      */
     public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator) {
         this.accountOffCampusIndicator = accountOffCampusIndicator;
@@ -854,7 +783,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountClosedIndicator attribute.
      * 
      * @return Returns the accountClosedIndicator
-     * 
      */
     public boolean isAccountClosedIndicator() {
         return accountClosedIndicator;
@@ -864,7 +792,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Sets the accountClosedIndicator attribute.
      * 
      * @param accountClosedIndicator The accountClosedIndicator to set.
-     * 
      */
     public void setAccountClosedIndicator(boolean accountClosedIndicator) {
         this.accountClosedIndicator = accountClosedIndicator;
@@ -874,7 +801,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -894,7 +820,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the organization attribute.
      * 
      * @return Returns the organization
-     * 
      */
     public Org getOrganization() {
         return organization;
@@ -914,7 +839,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountType attribute.
      * 
      * @return Returns the accountType
-     * 
      */
     public AcctType getAccountType() {
         return accountType;
@@ -934,7 +858,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountPhysicalCampus attribute.
      * 
      * @return Returns the accountPhysicalCampus
-     * 
      */
     public Campus getAccountPhysicalCampus() {
         return accountPhysicalCampus;
@@ -973,7 +896,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the subFundGroup attribute.
      * 
      * @return Returns the subFundGroup
-     * 
      */
     public SubFundGroup getSubFundGroup() {
         return subFundGroup;
@@ -993,7 +915,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the financialHigherEdFunction attribute.
      * 
      * @return Returns the financialHigherEdFunction
-     * 
      */
     public HigherEdFunction getFinancialHigherEdFunction() {
         return financialHigherEdFunction;
@@ -1013,7 +934,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the accountRestrictedStatus attribute.
      * 
      * @return Returns the accountRestrictedStatus
-     * 
      */
     public RestrictedStatus getAccountRestrictedStatus() {
         return accountRestrictedStatus;
@@ -1033,7 +953,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the reportsToAccount attribute.
      * 
      * @return Returns the reportsToAccount
-     * 
      */
     public Account getReportsToAccount() {
         return reportsToAccount;
@@ -1053,7 +972,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the endowmentIncomeAccount attribute.
      * 
      * @return Returns the endowmentIncomeAccount
-     * 
      */
     public Account getEndowmentIncomeAccount() {
         return endowmentIncomeAccount;
@@ -1073,7 +991,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the contractControlAccount attribute.
      * 
      * @return Returns the contractControlAccount
-     * 
      */
     public Account getContractControlAccount() {
         return contractControlAccount;
@@ -1094,7 +1011,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the incomeStreamAccount attribute.
      * 
      * @return Returns the incomeStreamAccount
-     * 
      */
     public Account getIncomeStreamAccount() {
         return incomeStreamAccount;
@@ -1114,7 +1030,6 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      * Gets the indirectCostRecoveryAcct attribute.
      * 
      * @return Returns the indirectCostRecoveryAcct
-     * 
      */
     public Account getIndirectCostRecoveryAcct() {
         return indirectCostRecoveryAcct;
@@ -1135,9 +1050,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         accountFiscalOfficerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountFiscalOfficerSystemIdentifier, accountFiscalOfficerUser);
         return accountFiscalOfficerUser;
     }
-    
+
     /**
      * The network id of the account fiscal officer
+     * 
      * @return the network id of the account fiscal officer
      */
     public String getAccountFiscalOfficerUserPersonUserIdentifier() {
@@ -1157,9 +1073,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         accountManagerUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(accountManagerSystemIdentifier, accountManagerUser);
         return accountManagerUser;
     }
-    
+
     /**
      * Returns the network id of the account manager user
+     * 
      * @return the network id of the account manager user
      */
     public String getAccountManagerUserPersonUserIdentifier() {
@@ -1181,18 +1098,17 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * So, if you've read the comments for getAccountFiscalOfficerUserPersonUserIdentifier
-     * and getAccountManagerUserPersonUserIdentifier, then you would suspect that this method
-     * would return the network id for the account supervisory user.  But--ha ha!  You'd be
-     * wrong.  This method has a devious and unexpected twist.
+     * So, if you've read the comments for getAccountFiscalOfficerUserPersonUserIdentifier and
+     * getAccountManagerUserPersonUserIdentifier, then you would suspect that this method would return the network id for the
+     * account supervisory user. But--ha ha! You'd be wrong. This method has a devious and unexpected twist. No, actually, I'm
+     * kidding. This returns the network if the account supervisory user.
      * 
-     * No, actually, I'm kidding.  This returns the network if the account supervisory user.
      * @return Take a guess. Honestly.
      */
     public String getAccountSupervisoryUserPersonUserIdentifier() {
         return this.getAccountSupervisoryUser().getPersonUserIdentifier();
     }
-    
+
     /**
      * @param accountSupervisoryUser The accountSupervisoryUser to set.
      * @deprecated
@@ -1632,9 +1548,10 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     public void setSufficientFundsCode(SufficientFundsCode sufficientFundsCode) {
         this.sufficientFundsCode = sufficientFundsCode;
     }
-    
+
     /**
-     * Gets the acctIndirectCostRcvyType attribute. 
+     * Gets the acctIndirectCostRcvyType attribute.
+     * 
      * @return Returns the acctIndirectCostRcvyType.
      */
     public ICRTypeCode getAcctIndirectCostRcvyType() {
@@ -1643,6 +1560,7 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
 
     /**
      * Sets the acctIndirectCostRcvyType attribute value.
+     * 
      * @param acctIndirectCostRcvyType The acctIndirectCostRcvyType to set.
      */
     public void setAcctIndirectCostRcvyType(ICRTypeCode acctIndirectCostRcvyType) {
@@ -1869,7 +1787,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * Gets the forContractsAndGrants attribute. 
+     * Gets the forContractsAndGrants attribute.
+     * 
      * @return Returns the forContractsAndGrants.
      */
     public boolean isForContractsAndGrants() {
@@ -1877,8 +1796,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * 
      * This method returns a collection of AwardAccount objects.
+     * 
      * @return Collection of associated AwardAccounts.
      */
     public List<AwardAccount> getAwards() {
@@ -1886,8 +1805,8 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
     }
 
     /**
-     * 
      * This method sets the associated collection of AwardAccounts to the local collection attribute.
+     * 
      * @param awards New collection of AwardAccounts to be assigned to this Account.
      */
     public void setAwards(List<AwardAccount> awards) {

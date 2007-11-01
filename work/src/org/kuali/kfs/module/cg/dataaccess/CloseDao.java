@@ -28,12 +28,12 @@ public interface CloseDao {
      * @return the persisted instance with the latest close date.
      */
     public Close getMaxApprovedClose();
-    
+
     /**
      * Save a {@link Close} instance.
      * 
      * @param close the instance to persist.
      */
     public void save(Close close);
-    
+
 }

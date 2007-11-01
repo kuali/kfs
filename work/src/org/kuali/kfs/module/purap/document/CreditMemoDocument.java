@@ -83,7 +83,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     protected Document getDocumentRepresentationForSerialization() {
         return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
     }
-    
+
     public boolean isSourceDocumentPaymentRequest() {
         return getPaymentRequestIdentifier() != null;
     }
@@ -130,8 +130,7 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or
-     * PREQ #.
+     * Returns the type of the Credit Memo that was selected on the init screen. It is based on them entering the Vendor, PO or PREQ #.
      * 
      * @return Vendor, PO or PREQ
      */
@@ -227,9 +226,8 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Hook point for performing actions that occur after a route level change, in this case;
-     * Performs logic necessary after full entry has been completed when past Adhoc Review, or
-     * sets the AP approval date when past AP review.
+     * Hook point for performing actions that occur after a route level change, in this case; Performs logic necessary after full
+     * entry has been completed when past Adhoc Review, or sets the AP approval date when past AP review.
      * 
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#preProcessNodeChange(java.lang.String, java.lang.String)
      */
@@ -510,5 +508,5 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     public AccountsPayableDocumentSpecificService getDocumentSpecificService() {
         return SpringContext.getBean(CreditMemoService.class);
     }
-    
+
 }

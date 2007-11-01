@@ -44,15 +44,15 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
     FileOutputStream fo;
     ByteArrayOutputStream bao = new ByteArrayOutputStream();
     PurchaseOrderQuotePdf poQuotePdf = new PurchaseOrderQuotePdf();
-    
+
     @Override
     protected void setUp() throws Exception {
-        super.setUp();     
+        super.setUp();
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        //Map poCriteria = new HashMap();
-        //poCriteria.put("documentNumber", new Integer(291190));
-        //Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
-        //po = (PurchaseOrderDocument)(resultIter.next());
+        // Map poCriteria = new HashMap();
+        // poCriteria.put("documentNumber", new Integer(291190));
+        // Iterator resultIter = (businessObjectService.findMatching(PurchaseOrderDocument.class, poCriteria)).iterator();
+        // po = (PurchaseOrderDocument)(resultIter.next());
 
         po = new PurchaseOrderDocument();
         po.setDeliveryCampusCode("BL");
@@ -63,7 +63,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         contractManager.setContractManagerFaxNumber("800-111-1111");
         contractManager.setContractManagerPhoneNumber("800-222-2222");
         po.setContractManager(contractManager);
-        
+
         po.setDeliveryCityName("Timbuktu");
         po.setDeliveryPostalCode("90210");
         po.setDeliveryStateCode("CA");
@@ -82,7 +82,7 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         poqv.setVendorPostalCode("48864");
         Map countryKey = new HashMap();
         countryKey.put("postalCountryCode", "US");
-        poqv.setVendorCountry((Country)businessObjectService.findByPrimaryKey(Country.class, countryKey));
+        poqv.setVendorCountry((Country) businessObjectService.findByPrimaryKey(Country.class, countryKey));
         PurchaseOrderItem poi = new PurchaseOrderItem();
         ItemType it = new ItemType();
         it.setItemTypeCode("ITEM");
@@ -100,34 +100,32 @@ public class PurchaseOrderQuotePdfTest extends KualiTestBase {
         po.setItems(itemList);
         fo = new FileOutputStream("POQuotePDF.pdf");
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
         fo.close();
         bao.close();
         poQuotePdf.deletePdf("", "POQuotePDF.pdf");
-        
+
     }
-    
+
     /**
-     * This method creates a Purchase Order Quote PDF file. The test will fail if 
-     * this method fails to generate the Purchase Order Quote PDF file. The Purchase
-     * Order Quote PDF file that is created by this method will be removed in the
-     * tearDown( ) of this class, so if you want to check how the PO Quote PDF looks
-     * like, please remove the line in tearDown( ) that invokes the deletePdf method.
-     * 
+     * This method creates a Purchase Order Quote PDF file. The test will fail if this method fails to generate the Purchase Order
+     * Quote PDF file. The Purchase Order Quote PDF file that is created by this method will be removed in the tearDown( ) of this
+     * class, so if you want to check how the PO Quote PDF looks like, please remove the line in tearDown( ) that invokes the
+     * deletePdf method.
      */
     public void testGeneratePOQuotePDF() throws Exception {
 
         String environment = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.ENVIRONMENT_KEY);
-        
+
         poQuotePdf.generatePOQuotePDF(po, poqv, "East Lansing", "EL", getLogoImageName(), bao, environment);
         bao.writeTo(fo);
 
     }
 
-    private String getLogoImageName () {
+    private String getLogoImageName() {
         return "work//web-root//static//images//logo_bl.jpg";
     }
 

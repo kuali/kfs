@@ -18,15 +18,16 @@ package org.kuali.module.gl.batch.closing.year.service;
 import org.kuali.module.gl.bo.Balance;
 
 /**
- * This class represents business logic, specifically to decide whether a balance should
- * be selected by a FilteringBalanceIterator or not.
+ * This class represents business logic, specifically to decide whether a balance should be selected by a FilteringBalanceIterator
+ * or not.
  * 
  * @see org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator
  */
 public interface BalancePredicate {
-    
+
     /**
      * Should the given balance be selected to be processed?
+     * 
      * @param balance a balance to check for selection
      * @return true if the balance should be selected for processing, false if not
      */

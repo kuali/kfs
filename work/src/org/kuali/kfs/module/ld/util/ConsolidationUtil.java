@@ -22,7 +22,6 @@ import java.util.Collection;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
@@ -33,6 +32,7 @@ public class ConsolidationUtil {
 
     /**
      * wrap the given field name with SQL function "sum"
+     * 
      * @param fieldName the given field name
      * @return the wrapped field name with SQL function "sum"
      */
@@ -46,7 +46,7 @@ public class ConsolidationUtil {
      * @param extendedFields extra fields
      * @return List an attribute list
      */
-    public static Collection<String> buildAttributeCollection(String ... extendedFields) {
+    public static Collection<String> buildAttributeCollection(String... extendedFields) {
         return buildAttributeCollection(Arrays.asList(extendedFields));
     }
 
@@ -62,21 +62,20 @@ public class ConsolidationUtil {
         attributeList.add(sum(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT));
         attributeList.add(sum(KFSPropertyConstants.FINANCIAL_BEGINNING_BALANCE_LINE_AMOUNT));
         attributeList.add(sum(KFSPropertyConstants.CONTRACTS_GRANTS_BEGINNING_BALANCE_AMOUNT));
-        
+
         // add the entended elements into the list
         attributeList.addAll(extendedFields);
         return attributeList;
     }
-    
+
     /**
      * Utility class for helping DAOs deal with building queries for the consolidation option
-     *
+     * 
      * @param query Query to make consolidated
      * @param extraFields fields included in the query
      * @param ignoredFields to omit from the query
-     * 
      */
-    public static void buildConsolidatedQuery(ReportQueryByCriteria query, String ... extraFields) {
+    public static void buildConsolidatedQuery(ReportQueryByCriteria query, String... extraFields) {
         Collection<String> attributeList = buildAttributeCollection(extraFields);
         Collection<String> groupByList = buildGroupByCollection();
 
@@ -86,12 +85,12 @@ public class ConsolidationUtil {
         groupByList.remove(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         attributeList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
         groupByList.remove(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-        
+
         // set the selection attributes
         String[] attributes = (String[]) attributeList.toArray(new String[attributeList.size()]);
         query.setAttributes(attributes);
         LOG.debug("Built Attributes for Query: " + attributeList.toString());
-        
+
         // add the group criteria into the selection statement
         String[] groupBy = (String[]) groupByList.toArray(new String[attributeList.size()]);
         query.addGroupBy(groupBy);
@@ -126,13 +125,13 @@ public class ConsolidationUtil {
      * @return extraFields
      * @return Collection an group by attribute list
      */
-    public static Collection<String> buildGroupByCollection(String ... extraFields) {
+    public static Collection<String> buildGroupByCollection(String... extraFields) {
         return buildGroupByCollection(Arrays.asList(extraFields));
-    }    
-    
+    }
+
     /**
-     * Consolidates a collection of actual balances with a collection of A2 balances. The A2 balances are changed
-     * to AC, then matched by balance key with balances from the actual collection.
+     * Consolidates a collection of actual balances with a collection of A2 balances. The A2 balances are changed to AC, then
+     * matched by balance key with balances from the actual collection.
      * 
      * @param actualBalances - collection of actual balances (consolidatedBalanceTypeCode)
      * @param effortBalances - collection of effort balances ('A2')
@@ -141,22 +140,23 @@ public class ConsolidationUtil {
      */
     public static Collection<LedgerBalance> consolidateA2Balances(Collection<LedgerBalance> actualBalances, Collection<LedgerBalance> effortBalances, String consolidatedBalanceTypeCode) {
         Collection<LedgerBalance> consolidatedBalances = new ArrayList<LedgerBalance>();
-        
+
         // first change a2 balance to given balance type code and add to consolidated list
         for (LedgerBalance balance : effortBalances) {
             balance.setBalanceTypeCode(consolidatedBalanceTypeCode);
             consolidatedBalances.add(balance);
         }
 
-        // look for a matching a2 balance for each ac, if found add the amount of the ac to the a2 record, if not add the full ac record
+        // look for a matching a2 balance for each ac, if found add the amount of the ac to the a2 record, if not add the full ac
+        // record
         for (LedgerBalance actualBalance : actualBalances) {
             boolean matchFound = false;
             actualBalance.setBalanceTypeCode(consolidatedBalanceTypeCode);
             String actualKey = ObjectUtil.buildPropertyMap(actualBalance, actualBalance.getPrimaryKeyList()).toString();
-            
+
             for (LedgerBalance effortBalance : consolidatedBalances) {
                 String effortKey = ObjectUtil.buildPropertyMap(effortBalance, effortBalance.getPrimaryKeyList()).toString();
-                
+
                 // if found matching effort record, sum the amount fields of the actual and effort
                 if (StringUtils.equals(effortKey, actualKey)) {
                     sumLedgerBalances(effortBalance, actualBalance);
@@ -168,10 +168,10 @@ public class ConsolidationUtil {
                 consolidatedBalances.add(actualBalance);
             }
         }
-        
+
         return consolidatedBalances;
     }
-    
+
     /**
      * Adds the amounts fields of the second balance record to the first.
      * 
@@ -196,14 +196,16 @@ public class ConsolidationUtil {
         balance1.setMonth12Amount(balance1.getMonth12Amount().add(balance2.getMonth12Amount()));
         balance1.setMonth13Amount(balance1.getMonth13Amount().add(balance2.getMonth13Amount()));
     }
-    
+
     /**
      * wrap the attribute name based on the given flag: isAttributeNameNeeded
+     * 
      * @param attributeName the given attribute name
-     * @param isAttributeNameNeeded the flag that indicates if the attribute name needs to be wrapped with consolidation 
-     * @return the attribute name as it is if isAttributeNameNeeded is true; otherwise, the attribute name wrapped with consolidation string
+     * @param isAttributeNameNeeded the flag that indicates if the attribute name needs to be wrapped with consolidation
+     * @return the attribute name as it is if isAttributeNameNeeded is true; otherwise, the attribute name wrapped with
+     *         consolidation string
      */
-    public static String wrapAttributeName(String attributeName, boolean isAttributeNameNeeded){
+    public static String wrapAttributeName(String attributeName, boolean isAttributeNameNeeded) {
         return isAttributeNameNeeded ? attributeName : ConsolidationUtil.sum(attributeName);
     }
 }

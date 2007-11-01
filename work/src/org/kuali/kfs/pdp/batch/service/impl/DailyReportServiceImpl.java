@@ -88,36 +88,38 @@ public class DailyReportServiceImpl implements DailyReportService {
 
             for (Iterator iter = data.iterator(); iter.hasNext();) {
                 rows = true;
-                DailyReport dr = (DailyReport)iter.next();
-                if ( sortTotal.getSortOrder() == null ) {
+                DailyReport dr = (DailyReport) iter.next();
+                if (sortTotal.getSortOrder() == null) {
                     sortTotal.setSortOrder(dr.getSortOrder());
                 }
 
-                if ( ! sortTotal.getSortOrder().equals(dr.getSortOrder()) ) {
+                if (!sortTotal.getSortOrder().equals(dr.getSortOrder())) {
                     sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
-                    addRow(dataTable,sortTotal,true);
+                    addRow(dataTable, sortTotal, true);
                     sortTotal = new DailyReport();
                     sortTotal.setSortOrder(dr.getSortOrder());
                     sortTotal.addRow(dr);
-                } else {
+                }
+                else {
                     sortTotal.addRow(dr);
                 }
 
-                addRow(dataTable,dr,false);
+                addRow(dataTable, dr, false);
                 lastSortOrder = dr.getSortOrder();
 
                 total.addRow(dr);
             }
 
-            if ( rows ) {
+            if (rows) {
                 sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
-                addRow(dataTable,sortTotal,true);
+                addRow(dataTable, sortTotal, true);
             }
-            addRow(dataTable,total,true);
+            addRow(dataTable, total, true);
 
             document.add(dataTable);
-        } catch (DocumentException d) {
-            
+        }
+        catch (DocumentException d) {
+
         }
         document.close();
     }
@@ -142,12 +144,12 @@ public class DailyReportServiceImpl implements DailyReportService {
         dataTable.addCell(cell);
     }
 
-    private void addRow(PdfPTable dataTable,DailyReport dr,boolean bold) {
+    private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold) {
         DecimalFormat af = new DecimalFormat("###,###,##0.00");
         DecimalFormat nf = new DecimalFormat("###,##0");
 
         Font f = null;
-        if ( bold ) {
+        if (bold) {
             f = headerFont;
 
             for (int i = 0; i < 5; i++) {
@@ -155,7 +157,8 @@ public class DailyReportServiceImpl implements DailyReportService {
                 cell.setBorder(Rectangle.NO_BORDER);
                 dataTable.addCell(cell);
             }
-        } else {
+        }
+        else {
             f = textFont;
         }
 
@@ -182,7 +185,7 @@ public class DailyReportServiceImpl implements DailyReportService {
         cell.setHorizontalAlignment(PdfPCell.ALIGN_RIGHT);
         dataTable.addCell(cell);
 
-        if ( bold ) {
+        if (bold) {
             for (int i = 0; i < 5; i++) {
                 PdfPCell cell2 = new PdfPCell(new Phrase(" ", f));
                 cell2.setBorder(Rectangle.NO_BORDER);

@@ -15,7 +15,6 @@
  */
 package org.kuali.module.financial.rule;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.bo.Check;
 

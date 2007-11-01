@@ -20,7 +20,6 @@ import java.util.List;
 
 import edu.iu.uis.eden.docsearch.DocumentSearchResult;
 import edu.iu.uis.eden.lookupable.Column;
-import edu.iu.uis.eden.lookupable.Field;
 
 public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
@@ -41,5 +40,5 @@ public class RequisitionDocumentSearchResultProcessor extends PurApDocumentSearc
         addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DATE_CREATED);
         return columns;
     }
-    
+
 }

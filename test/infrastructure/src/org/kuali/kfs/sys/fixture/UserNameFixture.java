@@ -23,32 +23,15 @@ import org.kuali.kfs.context.SpringContext;
 
 public enum UserNameFixture {
 
-    NO_SESSION, // This is not a user name.  It is a Sentinal value telling KualiTestBase not to create a session.  (It's needed because null is not a valid default for the ConfigureContext annotation's session element.)
+    NO_SESSION, // This is not a user name. It is a Sentinal value telling KualiTestBase not to create a session. (It's needed
+                // because null is not a valid default for the ConfigureContext annotation's session element.)
     KULUSER, // This is the KualiUser.SYSTEM_USER, which certain automated document type authorizers require.
-    KHUNTLEY, // KualiTestBaseWithSession used this one by default. (testUsername in configuration.properties, no longer used but cannot be removed because that file cannot be committed).
-    DFOGLE,
-    RJWEISS,
-    RORENFRO,
-    HSCHREIN,
-    LRAAB,
-    JHAVENS,
-    KCOPLEY,
-    MHKOZLOW,
-    INEFF,
-    VPUTMAN,
-    CSWINSON,
-    MYLARGE,
-    RRUFFNER,
-    SEASON,
-    DQPERRON,
-    AATWOOD,
-    PARKE,
-    APPLETON,
-    TWATSON,
-    ;
+    KHUNTLEY, // KualiTestBaseWithSession used this one by default. (testUsername in configuration.properties, no longer used but
+                // cannot be removed because that file cannot be committed).
+    DFOGLE, RJWEISS, RORENFRO, HSCHREIN, LRAAB, JHAVENS, KCOPLEY, MHKOZLOW, INEFF, VPUTMAN, CSWINSON, MYLARGE, RRUFFNER, SEASON, DQPERRON, AATWOOD, PARKE, APPLETON, TWATSON, ;
 
     static {
-        //Assert.assertEquals(KualiUser.SYSTEM_USER, KULUSER.toString());
+        // Assert.assertEquals(KualiUser.SYSTEM_USER, KULUSER.toString());
     }
 
     public AuthenticationUserId getAuthenticationUserId() {

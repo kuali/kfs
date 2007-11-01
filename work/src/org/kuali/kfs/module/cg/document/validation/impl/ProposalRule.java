@@ -15,17 +15,17 @@
  */
 package org.kuali.module.cg.rules;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.cg.bo.Proposal;
 import org.kuali.module.cg.bo.ProposalOrganization;
 import org.kuali.module.cg.bo.ProposalProjectDirector;
 import org.kuali.module.cg.bo.ProposalSubcontractor;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 
 /**
  * Rules for the Proposal maintenance document.
@@ -59,34 +59,30 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * @return
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject line) {
-        LOG.debug( "Entering ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )" );
+        LOG.debug("Entering ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
         boolean success = true;
         success &= validateAddSubcontractor(line);
-        LOG.debug( "Leaving ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )" );
-        return success; 
+        LOG.debug("Leaving ProposalRule.processCustomAddNewCollectionLineBusinessRules( " + collectionName + " )");
+        return success;
     }
 
     /**
-     * 
-     * This method takes a look at the new line being added and applies 
-     * appropriate validation checks if the line is a new line for the 
-     * {@link Subcontractor} collection.  If the validation checks fail, an 
-     * appropriate error message will be added to the global error map and the 
-     * method will return a value of false.
+     * This method takes a look at the new line being added and applies appropriate validation checks if the line is a new line for
+     * the {@link Subcontractor} collection. If the validation checks fail, an appropriate error message will be added to the global
+     * error map and the method will return a value of false.
      * 
      * @param addLine New business object values being added.
      * @return True is the value being added passed all applicable validation rules.
      */
     private boolean validateAddSubcontractor(PersistableBusinessObject addLine) {
         boolean success = true;
-        if(addLine.getClass().isAssignableFrom(ProposalSubcontractor.class)) {
-            ProposalSubcontractor subc = (ProposalSubcontractor)addLine;
-            if(StringUtils.isBlank(subc.getSubcontractorNumber())) {
+        if (addLine.getClass().isAssignableFrom(ProposalSubcontractor.class)) {
+            ProposalSubcontractor subc = (ProposalSubcontractor) addLine;
+            if (StringUtils.isBlank(subc.getSubcontractorNumber())) {
                 String propertyName = KFSPropertyConstants.SUBCONTRACTOR_NUMBER;
                 String errorKey = KFSKeyConstants.ERROR_PROPOSAL_SUBCONTRACTOR_NUMBER_REQUIRED_FOR_ADD;
                 GlobalVariables.getErrorMap().putError(propertyName, errorKey);
@@ -95,12 +91,11 @@ public class ProposalRule extends CGMaintenanceDocumentRuleBase {
         }
         return success;
     }
-    
+
     /**
-     * Performs convenience cast for Maintenance framework. Note that the 
-     * {@link MaintenanceDocumentRule} events provide only a deep copy of the 
-     * document (from KualiDocumentEventBase), so these BOs are a copy too. The 
-     * framework does this to prevent these rules from changing any data.
+     * Performs convenience cast for Maintenance framework. Note that the {@link MaintenanceDocumentRule} events provide only a deep
+     * copy of the document (from KualiDocumentEventBase), so these BOs are a copy too. The framework does this to prevent these
+     * rules from changing any data.
      * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
      */

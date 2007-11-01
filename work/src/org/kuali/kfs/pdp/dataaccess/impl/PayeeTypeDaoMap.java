@@ -22,7 +22,7 @@ import org.kuali.module.pdp.dao.PayeeTypeDao;
 public class PayeeTypeDaoOther implements PayeeTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PayeeTypeDaoOther.class);
 
-    private Map<String,String> payees;
+    private Map<String, String> payees;
 
     public Map<String, String> getAll() {
         LOG.debug("getAll() started");

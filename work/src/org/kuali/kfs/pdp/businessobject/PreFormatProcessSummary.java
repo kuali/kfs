@@ -12,12 +12,10 @@ import java.util.List;
 import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.ProcessSummary;
 import org.kuali.module.pdp.dao.ProcessSummaryDao;
-import org.springframework.transaction.annotation.Transactional;
 
 
 /**
  * @author jsissom
- *
  */
 public class PreFormatProcessSummary {
     private static BigDecimal zero = new BigDecimal(0);
@@ -40,7 +38,7 @@ public class PreFormatProcessSummary {
         ProcessSummary ps = findProcessSummary(pg);
 
         // If it's not in our list, add it
-        if ( ps == null ) {
+        if (ps == null) {
             ps = new ProcessSummary();
             ps.setBeginDisbursementNbr(new Integer(0));
             ps.setCustomer(pg.getBatch().getCustomerProfile());
@@ -64,20 +62,18 @@ public class PreFormatProcessSummary {
      */
     public void save(ProcessSummaryDao psd) {
         for (Iterator iter = processSummary.iterator(); iter.hasNext();) {
-            ProcessSummary ps = (ProcessSummary)iter.next();
+            ProcessSummary ps = (ProcessSummary) iter.next();
             psd.save(ps);
         }
     }
 
-    // See if we already have a summary record.  If we do, return it,
+    // See if we already have a summary record. If we do, return it,
     // if not, return null;
     private ProcessSummary findProcessSummary(PaymentGroup pg) {
         for (Iterator iter = processSummary.iterator(); iter.hasNext();) {
-            ProcessSummary ps = (ProcessSummary)iter.next();
+            ProcessSummary ps = (ProcessSummary) iter.next();
 
-            if ( ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && 
-                    ps.getSortGroupId().equals(pg.getSortGroupId()) &&
-                    ps.getProcess().equals(pg.getProcess()) ) {
+            if (ps.getCustomer().equals(pg.getBatch().getCustomerProfile()) && ps.getSortGroupId().equals(pg.getSortGroupId()) && ps.getProcess().equals(pg.getProcess())) {
                 return ps;
             }
         }
@@ -90,11 +86,12 @@ public class PreFormatProcessSummary {
      */
     public void setDisbursementNumber(PaymentGroup pg, Integer nbr) {
         ProcessSummary ps = findProcessSummary(pg);
-        if ( ps != null ) {
-            if ( ps.getBeginDisbursementNbr().intValue() == 0 ) {
+        if (ps != null) {
+            if (ps.getBeginDisbursementNbr().intValue() == 0) {
                 ps.setBeginDisbursementNbr(nbr);
                 ps.setEndDisbursementNbr(nbr);
-            } else {
+            }
+            else {
                 ps.setEndDisbursementNbr(nbr);
             }
         }

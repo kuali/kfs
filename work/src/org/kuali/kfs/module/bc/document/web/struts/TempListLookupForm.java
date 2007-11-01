@@ -21,15 +21,16 @@ import org.kuali.core.web.struts.form.LookupForm;
  * This class...
  */
 public class TempListLookupForm extends LookupForm {
-    //holds the BC fiscal year that is currently active 
+    // holds the BC fiscal year that is currently active
     private Integer universityFiscalYear;
     private String personUniversalIdentifier;
-    
+
     // controls automatic initial display of results
     private boolean showInitialResults;
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -38,6 +39,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -45,7 +47,8 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
-     * Gets the personUniversalIdentifier attribute. 
+     * Gets the personUniversalIdentifier attribute.
+     * 
      * @return Returns the personUniversalIdentifier.
      */
     public String getPersonUniversalIdentifier() {
@@ -54,6 +57,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the personUniversalIdentifier attribute value.
+     * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -61,7 +65,8 @@ public class TempListLookupForm extends LookupForm {
     }
 
     /**
-     * Gets the showInitialResults attribute. 
+     * Gets the showInitialResults attribute.
+     * 
      * @return Returns the showInitialResults.
      */
     public boolean isShowInitialResults() {
@@ -70,6 +75,7 @@ public class TempListLookupForm extends LookupForm {
 
     /**
      * Sets the showInitialResults attribute value.
+     * 
      * @param showInitialResults The showInitialResults to set.
      */
     public void setShowInitialResults(boolean showInitialResults) {

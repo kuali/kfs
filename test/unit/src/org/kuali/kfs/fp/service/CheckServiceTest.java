@@ -31,10 +31,9 @@ import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
+
 /**
  * This class tests the Check service.
- * 
- * 
  */
 @ConfigureContext(session = MHKOZLOW)
 public class CheckServiceTest extends KualiTestBase {
@@ -46,7 +45,7 @@ public class CheckServiceTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        documentNumber=createDocument();
+        documentNumber = createDocument();
         // setup check
         check = new CheckBase();
         check.setDocumentNumber(documentNumber);
@@ -63,7 +62,7 @@ public class CheckServiceTest extends KualiTestBase {
         clearTestData();
     }
 
-    @ConfigureContext(session = MHKOZLOW, shouldCommitTransactions=true)
+    @ConfigureContext(session = MHKOZLOW, shouldCommitTransactions = true)
     public void testLifecycle() throws Exception {
         boolean deleteSucceeded = false;
         List retrievedChecks = SpringContext.getBean(CheckService.class).getByDocumentHeaderId(documentNumber);
@@ -103,7 +102,8 @@ public class CheckServiceTest extends KualiTestBase {
             }
         }
     }
-    private String createDocument() throws Exception{
+
+    private String createDocument() throws Exception {
         CashReceiptDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), CashReceiptDocument.class);
         LINE18.addAsSourceTo(document);
         SpringContext.getBean(DocumentService.class).saveDocument(document);

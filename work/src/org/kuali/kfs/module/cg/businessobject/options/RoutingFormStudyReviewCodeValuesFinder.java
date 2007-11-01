@@ -23,13 +23,13 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.kra.KraConstants;
 
 public class RoutingFormStudyReviewCodeValuesFinder extends KeyValuesBase {
-    
+
     public RoutingFormStudyReviewCodeValuesFinder() {
         super();
     }
 
     public List getKeyValues() {
-        
+
         List StudyReviewKeyLabelPairList = new ArrayList();
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("F", "FULL"));
         StudyReviewKeyLabelPairList.add(new KeyLabelPair("E", "EXPEDITED"));

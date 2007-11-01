@@ -27,8 +27,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetOverviewFormHelper;
 
 /**
  * This class handles Actions for Research Administration.
- * 
- * 
  */
 
 public class BudgetOverviewAction extends BudgetAction {

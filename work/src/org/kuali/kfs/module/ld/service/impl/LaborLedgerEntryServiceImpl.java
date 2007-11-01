@@ -18,7 +18,6 @@ package org.kuali.module.labor.service.impl;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
@@ -26,13 +25,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class implements LaborLedgerEntryService to provide the access to labor ledger entries in data stores.
+ * 
  * @see org.kuali.module.labor.bo.LedgerEntry
  */
 @Transactional
 public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
 
     private LaborLedgerEntryDao laborLedgerEntryDao;
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#save(org.kuali.module.labor.bo.LedgerEntry)
      */
@@ -46,16 +46,17 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     public Integer getMaxSequenceNumber(LedgerEntry ledgerEntry) {
         return laborLedgerEntryDao.getMaxSquenceNumber(ledgerEntry);
     }
-    
+
     /**
      * @see org.kuali.module.labor.service.LaborLedgerEntryService#find(java.util.Map)
      */
-    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {        
+    public Iterator<LedgerEntry> find(Map<String, String> fieldValues) {
         return laborLedgerEntryDao.find(fieldValues);
     }
 
     /**
      * Sets the laborLedgerEntryDao attribute value.
+     * 
      * @param laborLedgerEntryDao The laborLedgerEntryDao to set.
      */
     public void setLaborLedgerEntryDao(LaborLedgerEntryDao laborLedgerEntryDao) {

@@ -24,11 +24,9 @@ import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 
 /**
  * This interface defines methods that a BudgetPermissionsService must provide
- * 
- * 
  */
 public interface ResearchDocumentPermissionsService {
-    
+
     /**
      * Retrieve the AdHocPerson for the given documentNumber and personUniversalIdentifier.
      * 
@@ -37,7 +35,7 @@ public interface ResearchDocumentPermissionsService {
      * @return AdHocPerson
      */
     public AdhocPerson getAdHocPerson(String documentNumber, String personUniversalIdentifier);
-    
+
     /**
      * Retrieve the AdHocWorkgroup for the given documentNumber and personUniversalIdentifier.
      * 
@@ -46,7 +44,7 @@ public interface ResearchDocumentPermissionsService {
      * @return AdhocWorkgroup
      */
     public AdhocWorkgroup getAdHocWorkgroup(String documentNumber, String workgroupName);
-    
+
     /**
      * Retrieve the AdHocWorkgroups for the given documentNumber.
      * 
@@ -54,7 +52,7 @@ public interface ResearchDocumentPermissionsService {
      * @return AdhocWorkgroup
      */
     public List<AdhocWorkgroup> getAllAdHocWorkgroups(String documentNumber);
-    
+
     /**
      * Retrieve the ad-hoc orgs for the given documentNumber and budgetPermissionCode.
      * 
@@ -63,14 +61,14 @@ public interface ResearchDocumentPermissionsService {
      * @return List<AdHocOrg>
      */
     public List<AdhocOrg> getAdHocOrgs(String documentNumber, String permissionCode);
-    
+
     /**
      * Get the list of permission types.
      * 
      * @return List<BudgetPermissionType>
      */
     public List<ResearchAdhocPermissionType> getPermissionTypes();
-    
+
     /**
      * Check whether given user is in the org routing hierarchy.
      * 

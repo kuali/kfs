@@ -75,7 +75,8 @@ public class EpicPaymentDetailAction extends BaseAction {
             errors.add("error", new ActionMessage("paymentDetail.epic.noSourceDocGiven"));
             saveErrors(request, errors);
             return mapping.findForward("pdp_message");
-        } else if ((request.getParameter("sourceDocNbr") != null) && (request.getParameter("docTypeCode") != null)) {
+        }
+        else if ((request.getParameter("sourceDocNbr") != null) && (request.getParameter("docTypeCode") != null)) {
             // Source Doc Number was passed - find payment Detail with the Sopurce Doc Number
             LOG.debug("executeLogic() Source Document Number passed in Parms: " + request.getParameter("sourceDocNbr"));
             LOG.debug("executeLogic() Doc Type passed in Parms: " + request.getParameter("docTypeCode"));
@@ -89,18 +90,21 @@ public class EpicPaymentDetailAction extends BaseAction {
                 getDisbursementPaymentList(request, pd);
                 request.getSession().setAttribute("size", new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
                 request.getSession().setAttribute("PaymentDetail", pd);
-            } else {
+            }
+            else {
                 // No PDP Payment for Epic Source Doc Number given
                 request.setAttribute("title", "No Payment Found Error");
                 errors.add("error", new ActionMessage("paymentDetail.epic.noPaymentFound", custPaymentDocNbr));
                 saveErrors(request, errors);
                 return mapping.findForward("pdp_message");
             }
-        } else {
+        }
+        else {
             if (pd == null) {
                 // Handle Session Expiration
                 return mapping.findForward("pdp_session_timeout");
-            } else if (buttonPressed.startsWith("btnUpdate")) {
+            }
+            else if (buttonPressed.startsWith("btnUpdate")) {
                 // Update Payment Detail in Session after action has been performed
                 // (status might have changed)
                 Integer detailId = pd.getId();
@@ -117,7 +121,8 @@ public class EpicPaymentDetailAction extends BaseAction {
         // Use of a default tab (Summary Tab)
         if ((GeneralUtilities.isStringEmpty(buttonPressed)) || (buttonPressed.startsWith("btnUpdate"))) {
             request.setAttribute("btnPressed", "btnSummaryTab");
-        } else {
+        }
+        else {
             request.setAttribute("btnPressed", buttonPressed);
         }
 
@@ -126,7 +131,7 @@ public class EpicPaymentDetailAction extends BaseAction {
 
     public void getPayeeDescriptor(HttpServletRequest request, PaymentDetail pd) {
         // Get descriptor of Payee ID Type based on Code in DB
-        Map<String,String> payees = payeeTypeDao.getAll();
+        Map<String, String> payees = payeeTypeDao.getAll();
         Iterator i = payees.keySet().iterator();
         while (i.hasNext()) {
             String key = (String) i.next();

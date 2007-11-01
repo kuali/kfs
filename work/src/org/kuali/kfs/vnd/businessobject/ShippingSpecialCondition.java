@@ -21,44 +21,43 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Special Conditions for Shipping.
- * These are typically conditions of products which affect the way they are shipped.
+ * Special Conditions for Shipping. These are typically conditions of products which affect the way they are shipped.
  * 
  * @see org.kuali.module.vendor.bo.VendorShippingSpecialCondition
  */
 public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
 
-	private String vendorShippingSpecialConditionCode;
-	private String vendorShippingSpecialConditionDescription;
+    private String vendorShippingSpecialConditionCode;
+    private String vendorShippingSpecialConditionDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ShippingSpecialCondition() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ShippingSpecialCondition() {
 
-	public String getVendorShippingSpecialConditionCode() {
-        
-		return vendorShippingSpecialConditionCode;
-	}
+    }
 
-	public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
-		this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
-	}
+    public String getVendorShippingSpecialConditionCode() {
 
-	public String getVendorShippingSpecialConditionDescription() {
-        
-		return vendorShippingSpecialConditionDescription;
-	}
+        return vendorShippingSpecialConditionCode;
+    }
 
-	public void setVendorShippingSpecialConditionDescription(String vendorShippingSpecialConditionDescription) {
-		this.vendorShippingSpecialConditionDescription = vendorShippingSpecialConditionDescription;
-	}
+    public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
+        this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
+    }
+
+    public String getVendorShippingSpecialConditionDescription() {
+
+        return vendorShippingSpecialConditionDescription;
+    }
+
+    public void setVendorShippingSpecialConditionDescription(String vendorShippingSpecialConditionDescription) {
+        this.vendorShippingSpecialConditionDescription = vendorShippingSpecialConditionDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -67,12 +66,12 @@ public class ShippingSpecialCondition extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorShippingSpecialConditionCode", this.vendorShippingSpecialConditionCode);
-        
-	    return m;
+
+        return m;
     }
 }

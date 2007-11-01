@@ -21,45 +21,45 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Capital Asset Transaction Type Business Object. 
+ * Capital Asset Transaction Type Business Object.
  */
 public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
 
-	private String capitalAssetTransactionTypeCode;
-	private String capitalAssetTransactionTypeDescription;
-	private boolean capitalAssetTransactionTypeServiceIndicator;
-	private boolean active;
+    private String capitalAssetTransactionTypeCode;
+    private String capitalAssetTransactionTypeDescription;
+    private boolean capitalAssetTransactionTypeServiceIndicator;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public CapitalAssetTransactionType() {
+    /**
+     * Default constructor.
+     */
+    public CapitalAssetTransactionType() {
 
-	}
+    }
 
-	public String getCapitalAssetTransactionTypeCode() { 
-		return capitalAssetTransactionTypeCode;
-	}
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
 
-	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-		this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-	}
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
 
-	public String getCapitalAssetTransactionTypeDescription() { 
-		return capitalAssetTransactionTypeDescription;
-	}
+    public String getCapitalAssetTransactionTypeDescription() {
+        return capitalAssetTransactionTypeDescription;
+    }
 
-	public void setCapitalAssetTransactionTypeDescription(String capitalAssetTransactionTypeDescription) {
-		this.capitalAssetTransactionTypeDescription = capitalAssetTransactionTypeDescription;
-	}
+    public void setCapitalAssetTransactionTypeDescription(String capitalAssetTransactionTypeDescription) {
+        this.capitalAssetTransactionTypeDescription = capitalAssetTransactionTypeDescription;
+    }
 
-	public boolean getCapitalAssetTransactionTypeServiceIndicator() { 
-		return capitalAssetTransactionTypeServiceIndicator;
-	}
+    public boolean getCapitalAssetTransactionTypeServiceIndicator() {
+        return capitalAssetTransactionTypeServiceIndicator;
+    }
 
-	public void setCapitalAssetTransactionTypeServiceIndicator(boolean capitalAssetTransactionTypeServiceIndicator) {
-		this.capitalAssetTransactionTypeServiceIndicator = capitalAssetTransactionTypeServiceIndicator;
-	}
+    public void setCapitalAssetTransactionTypeServiceIndicator(boolean capitalAssetTransactionTypeServiceIndicator) {
+        this.capitalAssetTransactionTypeServiceIndicator = capitalAssetTransactionTypeServiceIndicator;
+    }
 
     public boolean isActive() {
         return active;
@@ -70,11 +70,11 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("capitalAssetTransactionTypeCode", this.capitalAssetTransactionTypeCode);
-	    return m;
+        return m;
     }
 }

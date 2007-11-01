@@ -40,7 +40,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Gets the disbursementVoucherDocumentationLocationCode attribute.
      * 
      * @return Returns the disbursementVoucherDocumentationLocationCode
-     * 
      */
     public String getDisbursementVoucherDocumentationLocationCode() {
         return disbursementVoucherDocumentationLocationCode;
@@ -50,7 +49,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Sets the disbursementVoucherDocumentationLocationCode attribute.
      * 
      * @param disbursementVoucherDocumentationLocationCode The disbursementVoucherDocumentationLocationCode to set.
-     * 
      */
     public void setDisbursementVoucherDocumentationLocationCode(String disbursementVoucherDocumentationLocationCode) {
         this.disbursementVoucherDocumentationLocationCode = disbursementVoucherDocumentationLocationCode;
@@ -61,7 +59,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Gets the disbursementVoucherDocumentationLocationName attribute.
      * 
      * @return Returns the disbursementVoucherDocumentationLocationName
-     * 
      */
     public String getDisbursementVoucherDocumentationLocationName() {
         return disbursementVoucherDocumentationLocationName;
@@ -71,7 +68,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Sets the disbursementVoucherDocumentationLocationName attribute.
      * 
      * @param disbursementVoucherDocumentationLocationName The disbursementVoucherDocumentationLocationName to set.
-     * 
      */
     public void setDisbursementVoucherDocumentationLocationName(String disbursementVoucherDocumentationLocationName) {
         this.disbursementVoucherDocumentationLocationName = disbursementVoucherDocumentationLocationName;
@@ -82,7 +78,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Gets the disbursementVoucherDocumentationLocationAddress attribute.
      * 
      * @return Returns the disbursementVoucherDocumentationLocationAddress
-     * 
      */
     public String getDisbursementVoucherDocumentationLocationAddress() {
         return disbursementVoucherDocumentationLocationAddress;
@@ -92,7 +87,6 @@ public class DisbursementVoucherDocumentationLocation extends PersistableBusines
      * Sets the disbursementVoucherDocumentationLocationAddress attribute.
      * 
      * @param disbursementVoucherDocumentationLocationAddress The disbursementVoucherDocumentationLocationAddress to set.
-     * 
      */
     public void setDisbursementVoucherDocumentationLocationAddress(String disbursementVoucherDocumentationLocationAddress) {
         this.disbursementVoucherDocumentationLocationAddress = disbursementVoucherDocumentationLocationAddress;

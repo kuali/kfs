@@ -24,10 +24,8 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * This class represents an association between an award and an organization. It's
- * like a reference to the organization from the award. This way an award can
- * maintain a collection of these references instead of owning organizations 
- * directly.
+ * This class represents an association between an award and an organization. It's like a reference to the organization from the
+ * award. This way an award can maintain a collection of these references instead of owning organizations directly.
  */
 public class AwardOrganization extends PersistableBusinessObjectBase implements Primaryable, Inactivateable {
 
@@ -36,7 +34,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     private Long proposalNumber;
     private boolean awardPrimaryOrganizationIndicator;
     private boolean active = true;
-    
+
     private Chart chartOfAccounts;
     private Org organization;
 
@@ -82,7 +80,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
     }
-    
+
     /**
      * Gets the proposalNumber attribute.
      * 
@@ -91,7 +89,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public Long getProposalNumber() {
         return proposalNumber;
     }
-    
+
     /**
      * Sets the proposalNumber attribute.
      * 
@@ -132,9 +130,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify 
-     * this attribute. This attribute is set on the initial creation of the 
-     * object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
+     *             creation of the object and should not be changed.
      */
     @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -154,9 +151,8 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
      * Sets the organization attribute.
      * 
      * @param organization The organization to set.
-     * @deprecated Setter is required by OJB, but should not be used to modify 
-     * this attribute. This attribute is set on the initial creation of the 
-     * object and should not be changed.
+     * @deprecated Setter is required by OJB, but should not be used to modify this attribute. This attribute is set on the initial
+     *             creation of the object and should not be changed.
      */
     @Deprecated
     public void setOrganization(Org organization) {
@@ -169,7 +165,7 @@ public class AwardOrganization extends PersistableBusinessObjectBase implements 
     public boolean isPrimary() {
         return isAwardPrimaryOrganizationIndicator();
     }
-    
+
     /**
      * @see org.kuali.core.bo.Inactivateable#isActive()
      */

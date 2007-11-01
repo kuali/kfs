@@ -24,8 +24,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * This is KRAs NonpersonnelCategory business object.
- * 
- * 
  */
 public class NonpersonnelCategory extends PersistableBusinessObjectBase {
 

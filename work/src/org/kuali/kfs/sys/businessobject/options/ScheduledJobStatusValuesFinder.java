@@ -29,8 +29,8 @@ public class ScheduledJobStatusValuesFinder extends KeyValuesBase {
     public List getKeyValues() {
         List labels = new ArrayList();
 
-        for ( String status : SpringContext.getBean(SchedulerService.class).getJobStatuses() ) {
-            labels.add( new KeyLabelPair( status, status ) );
+        for (String status : SpringContext.getBean(SchedulerService.class).getJobStatuses()) {
+            labels.add(new KeyLabelPair(status, status));
         }
         return labels;
     }

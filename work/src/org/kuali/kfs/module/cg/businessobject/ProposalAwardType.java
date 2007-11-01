@@ -17,6 +17,7 @@
 package org.kuali.module.cg.bo;
 
 import java.util.LinkedHashMap;
+
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
@@ -27,11 +28,12 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
     private String proposalAwardTypeCode;
     private String proposalAwardTypeDescription;
     private boolean rowActiveIndicator;
-    
+
     /**
      * Default constructor.
      */
-    public ProposalAwardType() {}
+    public ProposalAwardType() {
+    }
 
     /**
      * Gets the proposalAwardTypeCode attribute.
@@ -71,8 +73,8 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the rowActiveIndicator attribute. 
-	 *
+     * Gets the rowActiveIndicator attribute.
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -81,12 +83,12 @@ public class ProposalAwardType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
-	 * 
+     * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
-    }    
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

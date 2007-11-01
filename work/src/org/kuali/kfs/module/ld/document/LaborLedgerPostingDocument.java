@@ -26,8 +26,7 @@ import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 public interface LaborLedgerPostingDocument extends AccountingDocument {
 
     /*
-     * Retrieves the list of Labor Ledgre Pending Entries for the document. @return A list of labor ledger pending
-     * entries.
+     * Retrieves the list of Labor Ledgre Pending Entries for the document. @return A list of labor ledger pending entries.
      */
     public List<LaborLedgerPendingEntry> getLaborLedgerPendingEntries();
 

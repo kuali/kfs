@@ -18,7 +18,6 @@ package org.kuali.kfs.bo;
 import java.io.InputStream;
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.document.AccountingDocument;
 
 /**
@@ -26,19 +25,16 @@ import org.kuali.kfs.document.AccountingDocument;
  */
 public interface AccountingLineParser {
     /**
-     * 
      * @return <code>SourceAccountingLine</code> attribute format
      */
     public String[] getSourceAccountingLineFormat();
 
     /**
-     * 
      * @return <code>TargetAccountingLine</code> attribute format
      */
     public String[] getTargetAccountingLineFormat();
 
     /**
-     * 
      * @param accountingLineClass
      * @return String representation of the <code>String[]</code> attribute format with each attribute seperated by a comma.
      */

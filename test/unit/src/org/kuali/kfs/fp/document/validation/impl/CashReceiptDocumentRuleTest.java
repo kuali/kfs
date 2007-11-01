@@ -34,8 +34,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the <code>CashReciptDocumentRule</code>s
- * 
- * 
  */
 @ConfigureContext(session = MHKOZLOW)
 public class CashReceiptDocumentRuleTest extends KualiTestBase {

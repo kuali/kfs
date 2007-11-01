@@ -25,8 +25,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing an update nonpersonnel event.
- * 
- * 
  */
 public class UpdateNonpersonnelEventBase extends KualiDocumentEventBase implements UpdateNonpersonnelEvent {
 

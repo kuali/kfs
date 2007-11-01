@@ -22,10 +22,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 
 /**
- * PreRules checks for the {@link IndirectCostRecoveryExclusionAccount} that needs to occur while still in the Struts processing. 
+ * PreRules checks for the {@link IndirectCostRecoveryExclusionAccount} that needs to occur while still in the Struts processing.
  * This checks for continuation accounts
- * 
- * 
  */
 public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePreRulesBase {
 
@@ -38,7 +36,9 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
     }
 
     /**
-     * This sets up the convenience objects and calls {@link IndirectCostRecoveryExclusionAccountPreRules#checkForContinuationAccounts()}
+     * This sets up the convenience objects and calls
+     * {@link IndirectCostRecoveryExclusionAccountPreRules#checkForContinuationAccounts()}
+     * 
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
@@ -50,9 +50,8 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
 
         return true;
     }
-    
+
     /**
-     * 
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
      */
     private void checkForContinuationAccounts() {
@@ -68,15 +67,11 @@ public class IndirectCostRecoveryExclusionAccountPreRules extends MaintenancePre
     }
 
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document - the maintenanceDocument being evaluated
-     * 
      */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 

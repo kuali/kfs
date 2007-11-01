@@ -176,7 +176,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -186,7 +185,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -197,7 +195,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -207,7 +204,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -218,7 +214,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -228,7 +223,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -239,7 +233,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -249,7 +242,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -260,7 +252,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the accountSufficientFundsCode attribute.
      * 
      * @return Returns the accountSufficientFundsCode
-     * 
      */
     public String getAccountSufficientFundsCode() {
         return accountSufficientFundsCode;
@@ -270,7 +261,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the accountSufficientFundsCode attribute.
      * 
      * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
-     * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
         this.accountSufficientFundsCode = accountSufficientFundsCode;
@@ -281,7 +271,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the currentBudgetBalanceAmount attribute.
      * 
      * @return Returns the currentBudgetBalanceAmount
-     * 
      */
     public KualiDecimal getCurrentBudgetBalanceAmount() {
         return currentBudgetBalanceAmount;
@@ -291,7 +280,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the currentBudgetBalanceAmount attribute.
      * 
      * @param currentBudgetBalanceAmount The currentBudgetBalanceAmount to set.
-     * 
      */
     public void setCurrentBudgetBalanceAmount(KualiDecimal currentBudgetBalanceAmount) {
         this.currentBudgetBalanceAmount = currentBudgetBalanceAmount;
@@ -302,7 +290,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the accountActualExpenditureAmt attribute.
      * 
      * @return Returns the accountActualExpenditureAmt
-     * 
      */
     public KualiDecimal getAccountActualExpenditureAmt() {
         return accountActualExpenditureAmt;
@@ -312,7 +299,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the accountActualExpenditureAmt attribute.
      * 
      * @param accountActualExpenditureAmt The accountActualExpenditureAmt to set.
-     * 
      */
     public void setAccountActualExpenditureAmt(KualiDecimal accountActualExpenditureAmt) {
         this.accountActualExpenditureAmt = accountActualExpenditureAmt;
@@ -323,7 +309,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the accountEncumbranceAmount attribute.
      * 
      * @return Returns the accountEncumbranceAmount
-     * 
      */
     public KualiDecimal getAccountEncumbranceAmount() {
         return accountEncumbranceAmount;
@@ -333,7 +318,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the accountEncumbranceAmount attribute.
      * 
      * @param accountEncumbranceAmount The accountEncumbranceAmount to set.
-     * 
      */
     public void setAccountEncumbranceAmount(KualiDecimal accountEncumbranceAmount) {
         this.accountEncumbranceAmount = accountEncumbranceAmount;
@@ -344,7 +328,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the transactionDateTimeStamp attribute.
      * 
      * @return Returns the transactionDateTimeStamp
-     * 
      */
     public Date getTransactionDateTimeStamp() {
         return transactionDateTimeStamp;
@@ -354,7 +337,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Sets the transactionDateTimeStamp attribute.
      * 
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
-     * 
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
@@ -365,7 +347,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the objectCode attribute.
      * 
      * @return Returns the objectCode
-     * 
      */
     public ObjectCode getObjectCode() {
         return objectCode;
@@ -385,7 +366,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the chart attribute.
      * 
      * @return Returns the chart
-     * 
      */
     public Chart getChart() {
         return chart;
@@ -405,7 +385,6 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;

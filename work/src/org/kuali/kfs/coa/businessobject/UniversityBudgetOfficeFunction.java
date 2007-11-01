@@ -39,7 +39,6 @@ public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBas
      * Gets the financialUniversityBudgetOfficeFunctionCode attribute.
      * 
      * @return Returns the financialUniversityBudgetOfficeFunctionCode
-     * 
      */
     public String getFinancialUniversityBudgetOfficeFunctionCode() {
         return financialUniversityBudgetOfficeFunctionCode;
@@ -49,7 +48,6 @@ public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBas
      * Sets the financialUniversityBudgetOfficeFunctionCode attribute.
      * 
      * @param financialUniversityBudgetOfficeFunctionCode The financialUniversityBudgetOfficeFunctionCode to set.
-     * 
      */
     public void setFinancialUniversityBudgetOfficeFunctionCode(String financialUniversityBudgetOfficeFunctionCode) {
         this.financialUniversityBudgetOfficeFunctionCode = financialUniversityBudgetOfficeFunctionCode;
@@ -60,7 +58,6 @@ public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBas
      * Gets the financialUniversityBudgetOfficeFunctionName attribute.
      * 
      * @return Returns the financialUniversityBudgetOfficeFunctionName
-     * 
      */
     public String getFinancialUniversityBudgetOfficeFunctionName() {
         return financialUniversityBudgetOfficeFunctionName;
@@ -70,7 +67,6 @@ public class UniversityBudgetOfficeFunction extends PersistableBusinessObjectBas
      * Sets the financialUniversityBudgetOfficeFunctionName attribute.
      * 
      * @param financialUniversityBudgetOfficeFunctionName The financialUniversityBudgetOfficeFunctionName to set.
-     * 
      */
     public void setFinancialUniversityBudgetOfficeFunctionName(String financialUniversityBudgetOfficeFunctionName) {
         this.financialUniversityBudgetOfficeFunctionName = financialUniversityBudgetOfficeFunctionName;

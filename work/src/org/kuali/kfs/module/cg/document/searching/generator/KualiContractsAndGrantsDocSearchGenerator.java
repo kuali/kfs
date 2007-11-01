@@ -20,13 +20,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.module.cg.lookup.keyvalues.DocumentSearchTypeOfSearchValuesFinder;
 
 import edu.iu.uis.eden.docsearch.DocSearchCriteriaVO;
-import edu.iu.uis.eden.docsearch.QueryComponent;
 import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
 import edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator;
 import edu.iu.uis.eden.doctype.DocumentType;
@@ -35,10 +33,12 @@ import edu.iu.uis.eden.doctype.DocumentType;
  * This class...
  */
 public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentSearchGenerator {
-    
+
     private static final String SEARCH_TYPE_ATTRIBUTE_FIELD_DEF_NAME = "searchType";
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#clearSearch(edu.iu.uis.eden.docsearch.DocSearchCriteriaVO)
      */
     @Override
@@ -48,11 +48,11 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         return docSearchCriteriaVO;
     }
 
-    /* Need to override this method because user could have selected a document type that is a proposal type but they could also
-     * then select the checkbox to "only search for award documents".  To adjust for this we change the main doc type the search
-     * will use.
+    /*
+     * Need to override this method because user could have selected a document type that is a proposal type but they could also
+     * then select the checkbox to "only search for award documents". To adjust for this we change the main doc type the search will
+     * use. (non-Javadoc)
      * 
-     * (non-Javadoc)
      * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#getDocTypeFullNameWhereSql(java.lang.String, java.lang.String)
      */
     @Override
@@ -71,10 +71,12 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
                 break;
             }
         }
-        // here we check to see if search criteria says only to search proposal documents and if the given doc type to search is an award type
+        // here we check to see if search criteria says only to search proposal documents and if the given doc type to search is an
+        // award type
         if (hasProposalDocType && (!hasAwardDocType) && (ArrayUtils.contains(DocumentSearchTypeOfSearchValuesFinder.AWARD_DOCUMENT_TYPE_NAMES, docTypeFullName))) {
             return super.getDocTypeFullNameWhereSql(DocumentSearchTypeOfSearchValuesFinder.PROPOSAL_DOCUMENT_TYPE_NAMES[0], whereClausePredicatePrefix);
-        } // here we check to see if search criteria says only to search award documents and if the given doc type to search is a proposal type
+        } // here we check to see if search criteria says only to search award documents and if the given doc type to search is a
+            // proposal type
         else if ((!hasProposalDocType) && hasAwardDocType && (ArrayUtils.contains(DocumentSearchTypeOfSearchValuesFinder.PROPOSAL_DOCUMENT_TYPE_NAMES, docTypeFullName))) {
             return super.getDocTypeFullNameWhereSql(DocumentSearchTypeOfSearchValuesFinder.AWARD_DOCUMENT_TYPE_NAMES[0], whereClausePredicatePrefix);
         }
@@ -82,8 +84,11 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         return super.getDocTypeFullNameWhereSql(docTypeToSearchOn, whereClausePredicatePrefix);
     }
 
-    /* (non-Javadoc)
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#addExtraDocumentTypesToSearch(java.lang.StringBuffer, edu.iu.uis.eden.doctype.DocumentType)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#addExtraDocumentTypesToSearch(java.lang.StringBuffer,
+     *      edu.iu.uis.eden.doctype.DocumentType)
      */
     @Override
     protected void addExtraDocumentTypesToSearch(StringBuffer whereSql, DocumentType docType) {
@@ -96,7 +101,7 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
             }
         }
     }
-    
+
     private List<String> getDocTypeNames(String criteriaKeyName) {
         List documentTypes = new ArrayList();
         SearchAttributeCriteriaComponent criteriaComponent = getSearchableAttributeByFieldName(criteriaKeyName);
@@ -110,5 +115,5 @@ public class KualiContractsAndGrantsDocSearchGenerator extends StandardDocumentS
         }
         return documentTypes;
     }
-    
+
 }

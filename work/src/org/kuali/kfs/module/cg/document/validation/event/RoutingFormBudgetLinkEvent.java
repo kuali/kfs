@@ -19,22 +19,19 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule;
 
 /**
  * Class capturing a run audit event.
- * 
- * 
  */
 public class RoutingFormBudgetLinkEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
-    
+
     private String[] selectedBudgetPeriods;
     private boolean allPeriods;
     private boolean checkPeriods;
-    
-    
+
+
     /**
      * Constructs a RunAuditEvent with the given errorPathPrefix and document.
      * 
@@ -58,7 +55,7 @@ public class RoutingFormBudgetLinkEvent extends KualiDocumentEventBase implement
         this.selectedBudgetPeriods = selectedBudgetPeriods;
         this.allPeriods = allPeriods;
         this.checkPeriods = checkPeriods;
-       
+
     }
 
     /**
@@ -72,6 +69,6 @@ public class RoutingFormBudgetLinkEvent extends KualiDocumentEventBase implement
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((RoutingFormDocumentRule) rule).processBudgetRoutingFormLink(((RoutingFormDocument)this.getDocument()), selectedBudgetPeriods, allPeriods, checkPeriods);
+        return ((RoutingFormDocumentRule) rule).processBudgetRoutingFormLink(((RoutingFormDocument) this.getDocument()), selectedBudgetPeriods, allPeriods, checkPeriods);
     }
 }

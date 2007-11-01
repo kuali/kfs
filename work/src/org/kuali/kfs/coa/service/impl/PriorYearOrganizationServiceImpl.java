@@ -28,34 +28,33 @@ public class PriorYearOrganizationServiceImpl implements PriorYearOrganizationSe
     private static final Logger LOG = Logger.getLogger(PriorYearOrganizationServiceImpl.class);
 
     private PriorYearOrganizationDao priorYearOrganizationDao;
-    
+
     /**
-     * 
      * Constructs a PriorYearOrganizationServiceImpl.java.
      */
     public PriorYearOrganizationServiceImpl() {
         super();
     }
-    
+
     /**
-     * 
      * This method sets the local dao variable to the value provided.
+     * 
      * @param priorYearOrganizationDao The PriorYearOrganizationDao to set.
      */
     public void setPriorYearOrganizationDao(PriorYearOrganizationDao priorYearOrganizationDao) {
         this.priorYearOrganizationDao = priorYearOrganizationDao;
     }
-    
+
     /**
      * @see org.kuali.module.chart.service.PriorYearOrganizationService#populatePriorYearOrganizationFromCurrent()
      */
     public void populatePriorYearOrganizationsFromCurrent() {
-        
+
         int purgedCount = priorYearOrganizationDao.purgePriorYearOrganizations();
         if (LOG.isInfoEnabled()) {
             LOG.info("number of prior year organizations purged : " + purgedCount);
         }
-        
+
         int copiedCount = priorYearOrganizationDao.copyCurrentOrganizationsToPriorYearTable();
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year organizations copied to prior year : " + copiedCount);

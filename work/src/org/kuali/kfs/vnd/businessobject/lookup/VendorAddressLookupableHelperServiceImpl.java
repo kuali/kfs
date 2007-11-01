@@ -26,13 +26,12 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 
 
-public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
+public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private boolean searchUsingOnlyPrimaryKeyValues = false;
-    
+
     /**
-     * Overrides the default behavior because we need to restrict the search results to the vendor ids
-     * that we are sending in as criteria, but since they are set as hidden in the DD the default behavior 
-     * is to remove them from the criteria.
+     * Overrides the default behavior because we need to restrict the search results to the vendor ids that we are sending in as
+     * criteria, but since they are set as hidden in the DD the default behavior is to remove them from the criteria.
      * 
      * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
      */
@@ -59,16 +58,16 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
-        
+
         return searchResults;
     }
-    
+
     /**
      * @see LookupableHelperService#isSearchUsingOnlyPrimaryKeyValues()
      */
     @Override
     public boolean isSearchUsingOnlyPrimaryKeyValues() {
-        
+
         return searchUsingOnlyPrimaryKeyValues;
     }
 }

@@ -27,6 +27,7 @@ public interface PurApWorkflowIntegrationService {
 
     /**
      * TODO delyea - documentation
+     * 
      * @param documentNumber
      * @param nodeName
      * @param user
@@ -36,6 +37,7 @@ public interface PurApWorkflowIntegrationService {
 
     /**
      * TODO delyea - documentation
+     * 
      * @param document
      * @param potentialAnnotation
      * @param nodeName
@@ -47,6 +49,7 @@ public interface PurApWorkflowIntegrationService {
 
     /**
      * TODO delyea - documentation
+     * 
      * @param document
      * @param givenNodeDetail
      * @return

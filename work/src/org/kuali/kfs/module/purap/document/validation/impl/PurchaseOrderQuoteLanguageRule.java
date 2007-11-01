@@ -25,7 +25,7 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 
 public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase {
-    
+
     private PurchaseOrderQuoteLanguage newQuoteLanguage;
     private BusinessObjectService boService;
 
@@ -39,7 +39,7 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
         boService = (BusinessObjectService) super.getBoService();
         super.setupConvenienceObjects();
     }
-    
+
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         LOG.info("processCustomApproveDocumentBusinessRules called");
         this.setupConvenienceObjects();
@@ -60,7 +60,7 @@ public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase 
         boolean success = this.checkForDuplicate();
         return success && super.processCustomSaveDocumentBusinessRules(document);
     }
-    
+
     protected boolean checkForDuplicate() {
         LOG.info("checkForDuplicate called");
         boolean success = true;

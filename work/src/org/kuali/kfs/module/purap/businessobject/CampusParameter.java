@@ -24,15 +24,14 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 
 /**
- * Campus Parameter Business Object.
- * Maintenance document for campus parameters.
+ * Campus Parameter Business Object. Maintenance document for campus parameters.
  */
 public class CampusParameter extends PersistableBusinessObjectBase {
 
-	private String campusCode;
-	private String campusPurchasingDirectorName;
-	private String campusPurchasingDirectorTitle;
-	private String campusAccountsPayableEmailAddress;
+    private String campusCode;
+    private String campusPurchasingDirectorName;
+    private String campusPurchasingDirectorTitle;
+    private String campusAccountsPayableEmailAddress;
     private String purchasingInstitutionName;
     private String purchasingDepartmentName;
     private String purchasingDepartmentLine1Address;
@@ -40,8 +39,8 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     private String purchasingDepartmentCityName;
     private String purchasingDepartmentStateCode;
     private String purchasingDepartmentZipCode;
-    private String purchasingDepartmentCountryCode;   
-    
+    private String purchasingDepartmentCountryCode;
+
     private Campus campus;
     private State purchasingDepartmentState;
     private Country purchasingDepartmentCountry;
@@ -49,9 +48,9 @@ public class CampusParameter extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-	public CampusParameter() {
+    public CampusParameter() {
 
-	}
+    }
 
     public Campus getCampus() {
         return campus;
@@ -186,8 +185,8 @@ public class CampusParameter extends PersistableBusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("campusCode", this.campusCode);
         return m;
-    }    
+    }
 }

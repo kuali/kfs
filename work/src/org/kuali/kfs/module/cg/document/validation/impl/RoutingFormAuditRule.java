@@ -41,7 +41,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormQuestion;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
-import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import org.kuali.module.kra.util.AuditCluster;
 import org.kuali.module.kra.util.AuditError;
 
@@ -190,11 +189,11 @@ public class RoutingFormAuditRule {
                     valid = false;
                     auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].personUniversalIdentifier", KraKeyConstants.AUDIT_MAIN_PAGE_PERSON_NOT_PD, "mainpage.anchor2"));
                 }
-                
+
                 String INVALID_STATUSES = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.RESEARCH_ADMINISTRATION_DOCUMENT.class, KraConstants.PERSONNEL_STATUSES);
                 if (ObjectUtils.isNotNull(person.getUser()) && person.getUser().getEmployeeStatusCode() != null && StringUtils.contains(INVALID_STATUSES, person.getUser().getEmployeeStatusCode())) {
                     valid = false;
-                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].user.personUserIdentifier", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "mainpage.anchor2", new String[] {person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode()}));
+                    auditErrors.add(new AuditError("document.routingFormPersonnel[" + i + "].user.personUserIdentifier", KraKeyConstants.AUDIT_PERSONNEL_STATUS, "mainpage.anchor2", new String[] { person.getUser().getPersonName(), person.getUser().getEmployeeStatusCode() }));
                 }
             }
 

@@ -35,5 +35,5 @@ public class TodayValueFinder implements ValueFinder {
         DateFormatter df = new DateFormatter();
         return df.format(dts.getCurrentSqlDateMidnight()).toString();
     }
-    
+
 }

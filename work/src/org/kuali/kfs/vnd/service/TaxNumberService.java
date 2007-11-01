@@ -18,14 +18,21 @@ package org.kuali.module.vendor.service;
 import org.kuali.core.web.format.FormatException;
 
 public interface TaxNumberService {
-    
-    public  String formatToDefaultFormat(String taxNbr) throws FormatException;
-    public  boolean isStringAllNumbers(String field);
-    public  boolean isStringEmpty(String field);
-    public  boolean isValidTaxNumber( String taxNbr, String taxType );
-    public  boolean isAllowedTaxNumber(String taxNbr);
+
+    public String formatToDefaultFormat(String taxNbr) throws FormatException;
+
+    public boolean isStringAllNumbers(String field);
+
+    public boolean isStringEmpty(String field);
+
+    public boolean isValidTaxNumber(String taxNbr, String taxType);
+
+    public boolean isAllowedTaxNumber(String taxNbr);
+
     public String[] parseSSNFormats();
+
     public String[] parseFEINFormats();
+
     public String[] parseNotAllowedTaxNumbers();
 
 }

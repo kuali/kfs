@@ -18,19 +18,15 @@ package org.kuali.module.budget.web.lookupable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.datadictionary.mask.Mask;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.UrlFactory;
@@ -54,8 +50,8 @@ import org.kuali.rice.KNSServiceLocator;
 public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableHelperServiceImpl {
 
     /**
-     * This method differs from the one found in AbstractLookupableHelperServiceImpl in that it also uses a LookupForm
-     * object to help set some of the values in the inquiryURL from instance vars found there.
+     * This method differs from the one found in AbstractLookupableHelperServiceImpl in that it also uses a LookupForm object to
+     * help set some of the values in the inquiryURL from instance vars found there.
      * 
      * @param bo
      * @param propertyName
@@ -64,55 +60,58 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
      */
     public String getInquiryUrl(BusinessObject bo, String propertyName, LookupForm lookupForm) {
         String lookupUrl;
-        
-        if (propertyName.equals("dummyBusinessObject.linkButtonOption")){
-            
-            TempListLookupForm tempListLookupForm = (TempListLookupForm) lookupForm; 
-            BudgetConstructionPositionSelect positionSelect = (BudgetConstructionPositionSelect) bo;  
+
+        if (propertyName.equals("dummyBusinessObject.linkButtonOption")) {
+
+            TempListLookupForm tempListLookupForm = (TempListLookupForm) lookupForm;
+            BudgetConstructionPositionSelect positionSelect = (BudgetConstructionPositionSelect) bo;
 
             String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
             Properties parameters = new Properties();
             parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, BCConstants.POSITION_SALARY_SETTING_METHOD);
 
-            parameters.put("positionNumber",positionSelect.getPositionNumber());
-            //TODO BCFY needs added as hidden to all previous expansion/lookup screens
+            parameters.put("positionNumber", positionSelect.getPositionNumber());
+            // TODO BCFY needs added as hidden to all previous expansion/lookup screens
             parameters.put("universityFiscalYear", positionSelect.getUniversityFiscalYear().toString());
-            parameters.put("budgetByAccountMode","false");
-            parameters.put("addLine","false");
-            
+            parameters.put("budgetByAccountMode", "false");
+            parameters.put("addLine", "false");
+
             // anchor, if it exists
-//            if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
-//                parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
-//            }
+            // if (form instanceof KualiForm && StringUtils.isNotEmpty(((KualiForm) form).getAnchor())) {
+            // parameters.put(BCConstants.RETURN_ANCHOR, ((KualiForm) form).getAnchor());
+            // }
 
             // should be no return needed if opened in new window
             parameters.put(BCConstants.RETURN_FORM_KEY, "88888888");
-                
+
             lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.POSITION_SALARY_SETTING_ACTION, parameters);
 
-        } else {
+        }
+        else {
             String krurl = "kr/";
             String tmpUrl = super.getInquiryUrl(bo, propertyName);
-            if (tmpUrl.equals("")){
+            if (tmpUrl.equals("")) {
                 lookupUrl = tmpUrl;
-            } else {
+            }
+            else {
                 lookupUrl = krurl.concat(tmpUrl);
             }
         }
         return lookupUrl;
-        
+
     }
 
     /**
-     * This method overrides the one in AbstractLookupableHelperServiceImpl so as to call getInquiryURL with the
-     * LookupForm object added.
+     * This method overrides the one in AbstractLookupableHelperServiceImpl so as to call getInquiryURL with the LookupForm object
+     * added.
      * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm, java.util.Collection, boolean)
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#performLookup(org.kuali.core.web.struts.form.LookupForm,
+     *      java.util.Collection, boolean)
      */
     @Override
     public Collection performLookup(LookupForm lookupForm, Collection resultTable, boolean bounded) {
         Collection displayList;
-        
+
         // call search method to get results
         if (bounded) {
             displayList = getSearchResults(lookupForm.getFieldsForLookup());
@@ -131,18 +130,18 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
             List<Column> columns = getColumns();
             List<Column> rowColumns = new ArrayList<Column>();
             for (Iterator iterator = columns.iterator(); iterator.hasNext();) {
-                
+
                 Column col = (Column) iterator.next();
                 Formatter formatter = col.getFormatter();
 
                 // pick off result column from result list, do formatting
                 String propValue = "";
                 Object prop = ObjectUtils.getPropertyValue(element, col.getPropertyName());
-                
+
                 // set comparator and formatter based on property type
                 Class propClass = null;
                 try {
-                    propClass = ObjectUtils.getPropertyType( element, col.getPropertyName(), getPersistenceStructureService() );
+                    propClass = ObjectUtils.getPropertyType(element, col.getPropertyName(), getPersistenceStructureService());
                 }
                 catch (Exception e) {
                     throw new RuntimeException("Cannot access PropertyType for property " + "'" + col.getPropertyName() + "' " + " on an instance of '" + element.getClass().getName() + "'.", e);
@@ -154,7 +153,7 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
                     if (prop instanceof Boolean) {
                         formatter = new BooleanFormatter();
                     }
-                    
+
                     // for Dates, always use DateFormatter
                     if (prop instanceof Date) {
                         formatter = new DateFormatter();
@@ -171,7 +170,7 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
                 // comparator
                 col.setComparator(CellComparatorHelper.getAppropriateComparatorForPropertyClass(propClass));
                 col.setValueComparator(CellComparatorHelper.getAppropriateValueComparatorForPropertyClass(propClass));
-                
+
                 // check security on field and do masking if necessary
                 boolean viewAuthorized = KNSServiceLocator.getAuthorizationService().isAuthorizedToViewAttribute(GlobalVariables.getUserSession().getUniversalUser(), element.getClass().getName(), col.getPropertyName());
                 if (!viewAuthorized) {
@@ -189,8 +188,8 @@ public class PositionSelectLookupableHelperServiceImpl extends SelectLookupableH
             }
 
             ResultRow row = new ResultRow(rowColumns, returnUrl, actionUrls);
-            if ( element instanceof PersistableBusinessObject ) {
-                row.setObjectId(((PersistableBusinessObject)element).getObjectId());
+            if (element instanceof PersistableBusinessObject) {
+                row.setObjectId(((PersistableBusinessObject) element).getObjectId());
             }
             resultTable.add(row);
         }

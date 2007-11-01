@@ -41,9 +41,10 @@ public class SimpleAddress {
     public SimpleAddress(String street, String city, String state, Integer zip) {
         this(street, city, state, zip, KualiDecimal.ZERO, null);
     }
-    
+
     /**
      * Constructs a SimpleAddress.java.
+     * 
      * @param street
      * @param city
      * @param state
@@ -59,7 +60,7 @@ public class SimpleAddress {
         this.propertyValue = propertyValue;
         this.licenseDate = licenseDate;
     }
-    
+
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof SimpleAddress))
@@ -154,7 +155,8 @@ public class SimpleAddress {
     }
 
     /**
-     * Gets the licenseDate attribute. 
+     * Gets the licenseDate attribute.
+     * 
      * @return Returns the licenseDate.
      */
     public Date getLicenseDate() {
@@ -163,6 +165,7 @@ public class SimpleAddress {
 
     /**
      * Sets the licenseDate attribute value.
+     * 
      * @param licenseDate The licenseDate to set.
      */
     public void setLicenseDate(Date licenseDate) {
@@ -170,7 +173,8 @@ public class SimpleAddress {
     }
 
     /**
-     * Gets the propertyValue attribute. 
+     * Gets the propertyValue attribute.
+     * 
      * @return Returns the propertyValue.
      */
     public KualiDecimal getPropertyValue() {
@@ -179,6 +183,7 @@ public class SimpleAddress {
 
     /**
      * Sets the propertyValue attribute value.
+     * 
      * @param propertyValue The propertyValue to set.
      */
     public void setPropertyValue(KualiDecimal propertyValue) {

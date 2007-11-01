@@ -15,8 +15,8 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
@@ -47,10 +47,10 @@ public class ObjectTypeRule extends MaintenanceDocumentRuleBase {
 
     protected boolean checkAccountingCategory(MaintenanceDocument document) {
         boolean result = true;
-        ObjectType objectType = (ObjectType)document.getNewMaintainableObject().getBusinessObject();
+        ObjectType objectType = (ObjectType) document.getNewMaintainableObject().getBusinessObject();
         Map pkMap = new HashMap();
         pkMap.put("code", objectType.getBasicAccountingCategoryCode());
-        BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory)this.getBoService().findByPrimaryKey(BasicAccountingCategory.class, pkMap);
+        BasicAccountingCategory basicAccountingCategory = (BasicAccountingCategory) this.getBoService().findByPrimaryKey(BasicAccountingCategory.class, pkMap);
         if (basicAccountingCategory == null) {
             result = false;
             putFieldError("basicAccountingCategoryCode", KFSKeyConstants.ERROR_DOCUMENT_OBJTYPE_INVALID_ACCT_CTGRY, new String[] { objectType.getBasicAccountingCategoryCode() });

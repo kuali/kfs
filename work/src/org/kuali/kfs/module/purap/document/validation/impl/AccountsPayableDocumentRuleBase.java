@@ -32,14 +32,14 @@ import org.kuali.module.purap.rule.CancelAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 
-public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase  implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
-    
+public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
+
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
-        
-        valid &= processApprovalAtAccountsPayableReviewAllowed((AccountsPayableDocument)purapDocument);
-        
+
+        valid &= processApprovalAtAccountsPayableReviewAllowed((AccountsPayableDocument) purapDocument);
+
         return valid;
     }
 
@@ -47,9 +47,9 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
         GlobalVariables.getErrorMap().addToErrorPath(RicePropertyConstants.DOCUMENT);
-        
+
         if (apDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.ACCOUNTS_PAYABLE_REVIEW)) {
-            if(!apDocument.approvalAtAccountsPayableReviewAllowed()) {
+            if (!apDocument.approvalAtAccountsPayableReviewAllowed()) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(KFSConstants.GLOBAL_ERRORS, PurapKeyConstants.ERROR_AP_REQUIRES_ATTACHMENT);
             }
@@ -60,24 +60,24 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
 
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-       
+
         for (PurApItem item : purapDocument.getItems()) {
             String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateAboveTheLineItems((PaymentRequestItem) item, identifierString);
             }
         }
-        
+
         return valid;
     }
 
     private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
 
-        // Currently Invoice Unit Price is not allowed to be NULL on screen; 
-        // must be either a positive number or NULL for DB        
+        // Currently Invoice Unit Price is not allowed to be NULL on screen;
+        // must be either a positive number or NULL for DB
         if (ObjectUtils.isNotNull(item.getItemUnitPrice()) && item.getItemUnitPrice().signum() == -1) {
-           // if unit price is negative give an error                       
+            // if unit price is negative give an error
             valid = false;
             GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_ITEM_AMOUNT_BELOW_ZERO, ItemFields.UNIT_COST, identifierString);
         }

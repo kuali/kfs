@@ -19,8 +19,6 @@ import org.kuali.module.chart.bo.ObjectCons;
 
 /**
  * This interface defines methods that an ObjLevel Service must provide.
- * 
- * 
  */
 public interface ObjectConsService {
     /**

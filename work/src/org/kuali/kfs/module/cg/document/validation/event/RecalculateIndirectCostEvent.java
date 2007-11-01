@@ -22,10 +22,7 @@ import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
- * 
  * Represents a document event.
- * 
- * 
  */
 public class RecalculateIndirectCostEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

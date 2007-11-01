@@ -11,9 +11,9 @@ import org.kuali.module.pdp.bo.PaymentDetailSearch;
 
 /**
  * @author delyea
- *
  */
 public interface PaymentDetailSearchDao {
-  public List getAllPaymentsForSearchCriteria(PaymentDetailSearch pds, int pdsl);
-  public List getAllPaymentsWithCancelReissueDisbNbr(PaymentDetailSearch pds);
+    public List getAllPaymentsForSearchCriteria(PaymentDetailSearch pds, int pdsl);
+
+    public List getAllPaymentsWithCancelReissueDisbNbr(PaymentDetailSearch pds);
 }

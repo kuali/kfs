@@ -27,8 +27,6 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
  * This class returns list of payment method key value pairs.
- * 
- * 
  */
 public class CorrectionPendingGroupEntriesFinder extends KeyValuesBase {
 

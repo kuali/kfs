@@ -29,7 +29,8 @@ public final class GenerateLaborLedgerBenefitClearingPendingEntriesEvent extends
     private GeneralLedgerPendingEntrySequenceHelper sequenceHelper;
 
     /**
-     * Constructs a GenerateLaborLedgerBenfitClearingPendingEntriesEvent with the given errorPathPrefix, document, accountingLine, and counter
+     * Constructs a GenerateLaborLedgerBenfitClearingPendingEntriesEvent with the given errorPathPrefix, document, accountingLine,
+     * and counter
      * 
      * @param errorPathPrefix
      * @param generalLedgerPostingDocument

@@ -25,13 +25,15 @@ public class CurrentUserOrgValueFinder implements ValueFinder {
 
     /**
      * returns the current user's default organization code
+     * 
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         if (currentUser != null) {
             return currentUser.getOrganizationCode();
-        } else {
+        }
+        else {
             return "";
         }
     }

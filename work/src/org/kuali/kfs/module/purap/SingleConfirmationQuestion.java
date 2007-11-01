@@ -22,8 +22,6 @@ import org.kuali.core.question.QuestionBase;
 
 /**
  * This class support the SingleConfirmationQuestion that displays a window with an OK button.
- * 
- * 
  */
 
 public class SingleConfirmationQuestion extends QuestionBase {

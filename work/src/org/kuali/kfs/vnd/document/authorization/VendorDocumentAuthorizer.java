@@ -45,12 +45,13 @@ import org.kuali.module.vendor.util.VendorUtils;
 public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
-     * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the fields in 
-     * Vendor Header readOnly if the vendor is not a parent. If the vendor is not a new vendor, if it is a parent, if vendor header and 
-     * vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance table, 
-     * then we have to set the vendor type as readOnly field.
+     * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the
+     * fields in Vendor Header readOnly if the vendor is not a parent. If the vendor is not a new vendor, if it is a parent, if
+     * vendor header and vendor type is not null and if the vendor type's changed allowed is set to N in the vendor type maintenance
+     * table, then we have to set the vendor type as readOnly field.
      * 
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
@@ -91,13 +92,13 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
         }
         setVendorContractFieldsAuthorization(vendor, auths, user);
-        
+
         return auths;
     }
 
     /**
      * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
-     *   
+     * 
      * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
@@ -110,7 +111,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         if (user.isMember(taxNbrAccessibleWorkgroup)) {
             editMode.put(VendorAuthorizationConstants.VendorEditMode.TAX_ENTRY, "TRUE");
         }
-        
+
         return editMode;
     }
 
@@ -120,7 +121,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */
-    @Override 
+    @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
         MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
         docActionFlags.setCanBlanketApprove(false);
@@ -128,12 +129,12 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
     }
 
     /**
-     * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a
-     * member of purchasing workgroup.
+     * Sets the vendor contract and vendor contract organization fields to be read only if the current user is not a member of
+     * purchasing workgroup.
      * 
-     * @param vendor  an instance of VendorDetail document
-     * @param auths   an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields 
-     * @param user    current logged-in  user
+     * @param vendor an instance of VendorDetail document
+     * @param auths an instance of MaintenanceDocumentAuthorizations which is used to define the read only fields
+     * @param user current logged-in user
      */
     private void setVendorContractFieldsAuthorization(VendorDetail vendor, MaintenanceDocumentAuthorizations auths, UniversalUser user) {
         String purchasingWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, VendorConstants.Workgroups.WORKGROUP_PURCHASING);

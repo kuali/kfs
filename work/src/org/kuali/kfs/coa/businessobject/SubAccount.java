@@ -106,7 +106,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Gets the subAccountName attribute.
      * 
      * @return Returns the subAccountName
-     * 
      */
     public String getSubAccountName() {
         return subAccountName;
@@ -116,7 +115,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Sets the subAccountName attribute.
      * 
      * @param subAccountName The subAccountName to set.
-     * 
      */
     public void setSubAccountName(String subAccountName) {
         this.subAccountName = subAccountName;
@@ -126,7 +124,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Gets the subAccountActiveIndicator attribute.
      * 
      * @return Returns the subAccountActiveIndicator
-     * 
      */
     public boolean isSubAccountActiveIndicator() {
         return subAccountActiveIndicator;
@@ -136,7 +133,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Sets the subAccountActiveIndicator attribute.
      * 
      * @param subAccountActiveIndicator The subAccountActiveIndicator to set.
-     * 
      */
     public void setSubAccountActiveIndicator(boolean subAccountActiveIndicator) {
         this.subAccountActiveIndicator = subAccountActiveIndicator;
@@ -146,7 +142,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -156,7 +151,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Sets the account attribute.
      * 
      * @param account The account to set.
-     * 
      */
     public void setAccount(Account account) {
         this.account = account;
@@ -166,7 +160,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Gets the subAccount attribute.
      * 
      * @return Returns the subAccount
-     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -185,7 +178,6 @@ public class SubAccount extends PersistableBusinessObjectBase {
      * Gets the financialReporting attribute.
      * 
      * @return Returns the financialReporting
-     * 
      */
     public ReportingCodes getReportingCode() {
         return reportingCode;

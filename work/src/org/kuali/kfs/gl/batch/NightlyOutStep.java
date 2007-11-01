@@ -19,8 +19,7 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.NightlyOutService;
 
 /**
- * Runs the nightly out process, which is the process that preps general ledger pending entries
- * to be fed to the scrubber.
+ * Runs the nightly out process, which is the process that preps general ledger pending entries to be fed to the scrubber.
  */
 public class NightlyOutStep extends AbstractStep {
     private NightlyOutService nightlyOutService;

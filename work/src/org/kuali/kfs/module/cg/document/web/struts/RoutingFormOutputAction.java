@@ -180,9 +180,7 @@ public class RoutingFormOutputAction extends RoutingFormAction {
      */
     private StreamSource pickStylesheet() throws IOException {
         ParameterService parameterService = SpringContext.getBean(ParameterService.class);
-        String urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY)
-          + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_PATH_PREFIX)
-          + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_XSL_FILENAME);
+        String urlString = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.EXTERNALIZABLE_XML_URL_KEY) + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_PATH_PREFIX) + parameterService.getParameterValue(RoutingFormDocument.class, KraConstants.OUTPUT_XSL_FILENAME);
 
         return new StreamSource(new URL(urlString).openConnection().getInputStream());
     }

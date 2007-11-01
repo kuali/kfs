@@ -28,97 +28,94 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public interface PurapService {
 
-    public boolean updateStatus( PurchasingAccountsPayableDocument document, String statusToSet);
-    
+    public boolean updateStatus(PurchasingAccountsPayableDocument document, String statusToSet);
+
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 
     public void addBelowLineItems(PurchasingAccountsPayableDocument document);
-    
+
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
+
     /**
+     * This method gets the below the line item for a doc by item type (unknown result if multilple of same below the line item
+     * type)
      * 
-     * This method gets the below the line item for a doc by item type (unknown result if multilple of same below the line item type)
      * @param document the document
      * @param iT the itemType
-     * @return below the line item by item type 
+     * @return below the line item by item type
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
-    
+
     /**
      * A method to determine whether a given date is in the past.
      * 
-     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
-     * @return  True if the given date is before today.
+     * @param compareDate An SQL date (not a DateFormatter date, or a util Date)
+     * @return True if the given date is before today.
      */
     public boolean isDateInPast(Date compareDate);
-    
+
     /**
-     * A method to determine whether a given date is more than a given number of days
-     * away from the current date.
+     * A method to determine whether a given date is more than a given number of days away from the current date.
      * 
-     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
-     * @param daysAway      An int, positive for future days, negative for past days
-     * @return   True if the given date is more than the given number of days away in either direction.
+     * @param compareDate An SQL date (not a DateFormatter date, or a util Date)
+     * @param daysAway An int, positive for future days, negative for past days
+     * @return True if the given date is more than the given number of days away in either direction.
      */
     public boolean isDateMoreThanANumberOfDaysAway(Date compareDate, int daysAway);
-    
+
     /**
-     * We are obliged not to simply use a dateDiff and compare the result to 365, because we have
-     * to worry about leap years.
+     * We are obliged not to simply use a dateDiff and compare the result to 365, because we have to worry about leap years.
      * 
-     * @param compareDate   An SQL date (not a DateFormatter date, or a util Date)
-     * @return  True if the date given for comparison is more than a year in the past, not including today.
+     * @param compareDate An SQL date (not a DateFormatter date, or a util Date)
+     * @return True if the date given for comparison is more than a year in the past, not including today.
      */
     public boolean isDateAYearBeforeToday(Date compareDate);
-    
+
     /*
-     *    PURCHASING DOCUMENT METHODS
-     * 
+     * PURCHASING DOCUMENT METHODS
      */
 
     /**
-     * This method gets the Automatic Purchase Order Limit amount based first on the derived contract limit
-     * (see {@link org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)})
-     * and if that is null then based on the {@link org.kuali.module.purap.bo.OrganizationParameter} associated
-     * with the given 'chart' and 'org' values.
+     * This method gets the Automatic Purchase Order Limit amount based first on the derived contract limit (see
+     * {@link org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)}) and if that is null
+     * then based on the {@link org.kuali.module.purap.bo.OrganizationParameter} associated with the given 'chart' and 'org' values.
      * 
      * @param vendorContractGeneratedIdentifier
-     * @param chart chart code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} 
-     * and {@link org.kuali.module.purap.bo.OrganizationParameter}
-     * @param org organization code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} 
-     * and {@link org.kuali.module.purap.bo.OrganizationParameter}
+     * @param chart chart code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} and
+     *        {@link org.kuali.module.purap.bo.OrganizationParameter}
+     * @param org organization code to use when looking up limit amount on {@link org.kuali.module.vendor.bo.VendorContract} and
+     *        {@link org.kuali.module.purap.bo.OrganizationParameter}
      * @return a KualiDecimal if a valid limit amount is found or null if one is not found
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
     /**
-     * 
      * This method returns true if full entry mode has ended for this Payment Request
+     * 
      * @param preqDocument
      * @return a boolean
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
-     * 
      * This method performs all the actions on an update document
+     * 
      * @param purapDocument
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
-     * 
      * This method will create a close or reopen purchase order document.
      * 
      * @param purapDocument
      */
     public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument);
-            
+
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
-    
+
     /**
-     * 
      * This method sorts the below the line elements
+     * 
      * @param document
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document);

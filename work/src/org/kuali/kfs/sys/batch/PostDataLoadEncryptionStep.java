@@ -82,6 +82,7 @@ public class PostDataLoadEncryptionStep extends AbstractStep {
 
     /**
      * Sets the attributesToEncryptProperties attribute value.
+     * 
      * @param attributesToEncryptProperties The attributesToEncryptProperties to set.
      */
     public void setAttributesToEncryptProperties(String attributesToEncryptProperties) {

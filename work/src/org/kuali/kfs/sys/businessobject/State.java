@@ -39,7 +39,6 @@ public class State extends PersistableBusinessObjectBase {
      * Gets the postalStateCode attribute.
      * 
      * @return Returns the postalStateCode
-     * 
      */
     public String getPostalStateCode() {
         return postalStateCode;
@@ -49,7 +48,6 @@ public class State extends PersistableBusinessObjectBase {
      * Sets the postalStateCode attribute.
      * 
      * @param postalStateCode The postalStateCode to set.
-     * 
      */
     public void setPostalStateCode(String postalStateCode) {
         this.postalStateCode = postalStateCode;
@@ -59,7 +57,6 @@ public class State extends PersistableBusinessObjectBase {
      * Gets the postalStateName attribute.
      * 
      * @return Returns the postalStateName
-     * 
      */
     public String getPostalStateName() {
         return postalStateName;
@@ -69,7 +66,6 @@ public class State extends PersistableBusinessObjectBase {
      * Sets the postalStateName attribute.
      * 
      * @param postalStateName The postalStateName to set.
-     * 
      */
     public void setPostalStateName(String postalStateName) {
         this.postalStateName = postalStateName;

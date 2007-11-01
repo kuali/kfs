@@ -18,7 +18,6 @@ package org.kuali.module.financial.web.struts.action;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 
 
-
 /**
  * This class handles Actions for the Distribution Income Expense objects.
  */

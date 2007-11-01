@@ -78,11 +78,11 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
     }
 
     /**
-     * Central method to control the processing of rule checks.  Checks that the purchase order document
-     * is not null, that it is in the correct status, and that the user is in the purchasing workgroup.
+     * Central method to control the processing of rule checks. Checks that the purchase order document is not null, that it is in
+     * the correct status, and that the user is in the purchasing workgroup.
      * 
-     * @param document  A PurchaseOrderDocument. (A PurchasePaymentCloseDocument at this point.)
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument. (A PurchasePaymentCloseDocument at this point.)
+     * @return True if the document passes all the validations.
      */
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -95,8 +95,7 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
             // TODO: Get this from Business Rules.
             // Check the PO status.
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED) &&
-                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurapConstants.PurchaseOrderStatuses.CLOSED);
             }
@@ -121,14 +120,14 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
     }
 
     /**
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
         PurchaseOrderDocument po = (PurchaseOrderDocument) accountingDocument;
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, 
-                accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_REOPEN_DOCUMENT);

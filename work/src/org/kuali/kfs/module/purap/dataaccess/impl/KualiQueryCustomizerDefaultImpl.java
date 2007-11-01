@@ -21,10 +21,10 @@ import java.util.Map;
 import org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl;
 
 public abstract class KualiQueryCustomizerDefaultImpl extends QueryCustomizerDefaultImpl {
-    public Map<String,String> getAttributes() {
-        // TODO: ctk ask about  changing the other OjbQueryCustomizer to use this since 
-        //it's the same logic
-        //this is necessary since the attributes are not exposed as a list by default
+    public Map<String, String> getAttributes() {
+        // TODO: ctk ask about changing the other OjbQueryCustomizer to use this since
+        // it's the same logic
+        // this is necessary since the attributes are not exposed as a list by default
         Field field = null;
         try {
             field = KualiQueryCustomizerDefaultImpl.class.getSuperclass().getDeclaredField("m_attributeList");

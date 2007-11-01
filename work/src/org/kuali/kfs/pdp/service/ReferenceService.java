@@ -13,15 +13,19 @@ import org.kuali.module.pdp.bo.PdpUser;
 
 /**
  * @author jsissom
- *
  */
 public interface ReferenceService {
-  public Code getCode(String type,String key);
-  public List getAll(String type);
-  public Map getallMap(String type);
+    public Code getCode(String type, String key);
 
-  public Code addCode(String type,String code,String description,PdpUser u);
-  public void updateCode(String code, String description, String type, PdpUser u);
-  public void updateCode(Code item,PdpUser u);
-  public void deleteCode(Code item);
+    public List getAll(String type);
+
+    public Map getallMap(String type);
+
+    public Code addCode(String type, String code, String description, PdpUser u);
+
+    public void updateCode(String code, String description, String type, PdpUser u);
+
+    public void updateCode(Code item, PdpUser u);
+
+    public void deleteCode(Code item);
 }

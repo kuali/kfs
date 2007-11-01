@@ -53,7 +53,7 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
 
     List<AccountGlobalDetail> accountGlobalDetails;
     List<DelegateGlobalDetail> delegateGlobals;
-    
+
     /**
      * Constructs a DelegateGlobal.java.
      */
@@ -64,13 +64,10 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * 
-     * This method adds a single AccountGlobalDetail instance to the list.
-     * 
-     * If one is already present in the list with the same chartCode and accountNumber, then this new one will not be added.
+     * This method adds a single AccountGlobalDetail instance to the list. If one is already present in the list with the same
+     * chartCode and accountNumber, then this new one will not be added.
      * 
      * @param accountGlobalDetail - populated AccountGlobalDetail instance
-     * 
      */
     public void addAccount(AccountGlobalDetail accountGlobalDetail) {
 
@@ -93,14 +90,12 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * 
      * This method retrieves the specific AccountGlobalDetail object that corresponds to your requested chartCode and accountNumber
      * (or a null object if there is no match).
      * 
      * @param chartCode
      * @param accountNumber
      * @return returns the AccountGlobalDetail instance matching the chartCode & accountNumber passed in, or Null if none match
-     * 
      */
     public AccountGlobalDetail getAccount(String chartCode, String accountNumber) {
 
@@ -153,7 +148,6 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * 
      * @see org.kuali.core.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.core.bo.BusinessObject)
      */
     @SuppressWarnings("deprecation")
@@ -292,7 +286,6 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     /**
-     * 
      * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {
@@ -352,9 +345,9 @@ public class DelegateGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        ArrayList<GlobalBusinessObjectDetail> details = new ArrayList<GlobalBusinessObjectDetail>( accountGlobalDetails.size() + delegateGlobals.size() );
-        details.addAll( accountGlobalDetails );
-        details.addAll( delegateGlobals );
+        ArrayList<GlobalBusinessObjectDetail> details = new ArrayList<GlobalBusinessObjectDetail>(accountGlobalDetails.size() + delegateGlobals.size());
+        details.addAll(accountGlobalDetails);
+        details.addAll(delegateGlobals);
         return details;
     }
 

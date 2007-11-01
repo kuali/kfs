@@ -15,47 +15,47 @@
  */
 package org.kuali.module.gl.util;
 
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.HashSet;
 
 import org.kuali.core.bo.PersistableBusinessObject;
-import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.core.service.BusinessObjectService;
 
 /**
- * 
- * This class wraps BusinessObjectService, in that it takes a class and a key and looks up the associated business
- * object class.  However, it also caches everything as it finds it or does not find it.  It also never flushes;
- * so, this is only appropriate for use in situations where the looked up business objects are guaranteed to
- * survive the lifetime of the using class.
+ * This class wraps BusinessObjectService, in that it takes a class and a key and looks up the associated business object class.
+ * However, it also caches everything as it finds it or does not find it. It also never flushes; so, this is only appropriate for
+ * use in situations where the looked up business objects are guaranteed to survive the lifetime of the using class.
  */
 public class CachingLookup {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CachingLookup.class);
-    
+
     private int cacheSize = 7500;
     private Map<String, PersistableBusinessObject> whitelist;
     private Set<String> blacklist;
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * Constructs a CachingLookup
      */
     public CachingLookup() {
         float hashTableLoadFactor = 0.75f;
-        int hashTableCapacity = (int)Math.ceil(cacheSize / hashTableLoadFactor) + 1;
-        whitelist = new LinkedHashMap<String,PersistableBusinessObject>(hashTableCapacity, hashTableLoadFactor, true) {
+        int hashTableCapacity = (int) Math.ceil(cacheSize / hashTableLoadFactor) + 1;
+        whitelist = new LinkedHashMap<String, PersistableBusinessObject>(hashTableCapacity, hashTableLoadFactor, true) {
             private static final long serialVersionUID = 1;
-            @Override protected boolean removeEldestEntry (Map.Entry<String,PersistableBusinessObject> eldest) {
-                return size() > CachingLookup.this.cacheSize; 
+
+            @Override
+            protected boolean removeEldestEntry(Map.Entry<String, PersistableBusinessObject> eldest) {
+                return size() > CachingLookup.this.cacheSize;
             }
         };
         blacklist = new HashSet<String>();
     }
-    
+
     /**
-     * This method looks up and returns a persistable business object, based on its class and keys  
+     * This method looks up and returns a persistable business object, based on its class and keys
+     * 
      * @param boClass the class of the PersistableBusinessObject descendant to return
      * @param key the primary key for that class
      * @return the persistable business object
@@ -67,23 +67,26 @@ public class CachingLookup {
         String cacheKey = convertClassAndPKToCacheKey(boClass, key);
         if (blacklist.contains(cacheKey)) {
             return null;
-        } else if (whitelist.containsKey(cacheKey)) {
+        }
+        else if (whitelist.containsKey(cacheKey)) {
             return whitelist.get(cacheKey);
-        } else {
+        }
+        else {
             PersistableBusinessObject result = businessObjectService.findByPrimaryKey(boClass, key);
             if (result == null) {
-                LOG.debug("Could not find record for BO of class: "+boClass.getName()+" keys: "+key.toString());
+                LOG.debug("Could not find record for BO of class: " + boClass.getName() + " keys: " + key.toString());
                 blacklist.add(cacheKey);
-            } else {
+            }
+            else {
                 whitelist.put(cacheKey, result);
             }
             return result;
         }
     }
-    
+
     /**
-     * 
      * This method takes a class and a key to look up that class and turns it into the key format that the cache is using
+     * 
      * @param boClass class of the business object to cache
      * @param key the primary key of the business object to look up
      * @return a string with the cache key
@@ -97,7 +100,8 @@ public class CachingLookup {
     }
 
     /**
-     * Gets the businessObjectService attribute. 
+     * Gets the businessObjectService attribute.
+     * 
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -106,6 +110,7 @@ public class CachingLookup {
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -113,7 +118,8 @@ public class CachingLookup {
     }
 
     /**
-     * Gets the cacheSize attribute. 
+     * Gets the cacheSize attribute.
+     * 
      * @return Returns the cacheSize.
      */
     public int getCacheSize() {
@@ -122,6 +128,7 @@ public class CachingLookup {
 
     /**
      * Sets the cacheSize attribute value.
+     * 
      * @param cacheSize The cacheSize to set.
      */
     public void setCacheSize(int cacheSize) {

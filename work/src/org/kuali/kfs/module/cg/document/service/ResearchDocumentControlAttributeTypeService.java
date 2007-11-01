@@ -22,10 +22,10 @@ import org.kuali.module.kra.routingform.bo.ControlAttributeType;
 public interface ResearchDocumentControlAttributeTypeService {
 
     /**
-     * 
      * This method retrieves a collection of control attribute type codes.
+     * 
      * @return A type-specific collection of control attribute type codes.
      */
     public List<ControlAttributeType> getControlAttributeTypeCodes();
-    
+
 }

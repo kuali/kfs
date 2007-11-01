@@ -15,14 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.struts.action.ActionForm;
 import org.kuali.core.document.Document;
-import org.kuali.core.rule.event.PreRulesCheckEvent;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * Performs prompts and other pre business rule checks for the Credit Memo Docuemnt.
@@ -37,8 +30,8 @@ public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesB
     public boolean doRules(Document document) {
         return super.doRules(document);
     }
-    
-    public String getDocumentName(){
+
+    public String getDocumentName() {
         return "Credit Memo";
     }
 }

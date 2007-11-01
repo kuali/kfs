@@ -21,8 +21,6 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 
 /**
  * This interface defines methods that a service must provide
- * 
- * 
  */
 public interface BudgetNonpersonnelService {
     /**

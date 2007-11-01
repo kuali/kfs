@@ -27,7 +27,7 @@ import org.kuali.core.service.impl.MailServiceImpl;
  */
 public class NonSendingMailService extends MailServiceImpl implements MailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(NonSendingMailService.class);
-    
+
     /**
      * @see org.kuali.core.service.impl.MailServiceImpl#sendMessage(org.kuali.core.mail.MailMessage)
      */
@@ -45,7 +45,7 @@ public class NonSendingMailService extends MailServiceImpl implements MailServic
             LOG.info("Email From: " + message.getFromAddress());
             LOG.info("Email subject: " + message.getSubject());
             LOG.info("Email message:\n" + message.getMessage());
-        }        
+        }
     }
 
 }

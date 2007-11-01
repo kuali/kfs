@@ -17,29 +17,23 @@ package org.kuali.module.gl.service.impl.scrubber;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.apache.commons.collections.IteratorUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
-import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorDetail;
+import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.bo.OriginEntry;
-import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 import org.kuali.module.gl.service.ScrubberService;
-import org.kuali.module.gl.service.impl.MemoryOriginEntryServiceImpl;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.module.gl.util.DocumentGroupData;
@@ -48,10 +42,9 @@ import org.kuali.module.gl.util.OriginEntryTotals;
 import org.kuali.module.gl.util.ScrubberStatus;
 
 /**
- * This class scrubs the billing details in a collector batch.  Note that all services used by this class are passed in as parameters to the constructor.  NOTE:
- * IT IS IMPERATIVE that a new instance of this class is constructed and used to parse each batch.  Sharing instances to scrub multiple batches may lead to
- * unpredictable results.
- * 
+ * This class scrubs the billing details in a collector batch. Note that all services used by this class are passed in as parameters
+ * to the constructor. NOTE: IT IS IMPERATIVE that a new instance of this class is constructed and used to parse each batch. Sharing
+ * instances to scrub multiple batches may lead to unpredictable results.
  */
 public class CollectorScrubberProcess {
     protected CollectorBatch batch;
@@ -65,25 +58,28 @@ public class CollectorScrubberProcess {
     protected PersistenceService persistenceService;
     protected CollectorReportData collectorReportData;
     protected ScrubberService scrubberService;
-    
+
     protected Set<DocumentGroupData> errorDocumentGroups;
-    
+
     /**
      * Constructs a CollectorScrubberProcess.java.
      * 
      * @param batch the batch to scrub
-     * @param inputGroup the origin entry group that holds all of the origin entries coming from the parsed input groups in the given batch
-     * @param validGroup the origin entry group that holds all of the origin entries coming that are in the origin entry scrubber valid group
-     * @param errorGroup the origin entry group that holds all of the origin entries coming that are in the origin entry scrubber error group
+     * @param inputGroup the origin entry group that holds all of the origin entries coming from the parsed input groups in the
+     *        given batch
+     * @param validGroup the origin entry group that holds all of the origin entries coming that are in the origin entry scrubber
+     *        valid group
+     * @param errorGroup the origin entry group that holds all of the origin entries coming that are in the origin entry scrubber
+     *        error group
      * @param expiredGroup are in the origin entry scrubber valid group that are in the origin entry scrubber expired group
-     * @param originEntryService the origin entry service that holds the origin entries in the batch (not necessarily the default implementation)
-     * @param originEntryGroupService the origin entry group service that holds the 3 group parameters (not necessarily the default implementation)
+     * @param originEntryService the origin entry service that holds the origin entries in the batch (not necessarily the default
+     *        implementation)
+     * @param originEntryGroupService the origin entry group service that holds the 3 group parameters (not necessarily the default
+     *        implementation)
      * @param kualiConfigurationService the config service
      * @param persistenceService the persistence service
      */
-    public CollectorScrubberProcess(CollectorBatch batch, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService,
-            KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService,
-            CollectorReportData collectorReportData) {
+    public CollectorScrubberProcess(CollectorBatch batch, OriginEntryService originEntryService, OriginEntryGroupService originEntryGroupService, KualiConfigurationService kualiConfigurationService, PersistenceService persistenceService, ScrubberService scrubberService, CollectorReportData collectorReportData) {
         this.batch = batch;
         this.originEntryService = originEntryService;
         this.originEntryGroupService = originEntryGroupService;
@@ -92,46 +88,47 @@ public class CollectorScrubberProcess {
         this.collectorReportData = collectorReportData;
         this.scrubberService = scrubberService;
     }
-    
+
     public CollectorScrubberStatus scrub() {
-        // for the collector origin entry group scrub, we make sure that we're using a custom impl of the origin entry service and group service.
+        // for the collector origin entry group scrub, we make sure that we're using a custom impl of the origin entry service and
+        // group service.
         ScrubberStatus scrubberStatus = scrubberService.scrubCollectorBatch(batch, collectorReportData, originEntryService, originEntryGroupService);
         CollectorScrubberStatus collectorScrubberStatus = new CollectorScrubberStatus();
-        
+
         // extract the group BOs form the scrubber
-        
+
         // the group that contains all of the origin entries from the collector file
         inputGroup = scrubberStatus.getInputGroup();
         collectorScrubberStatus.setInputGroup(inputGroup);
-        
+
         // the group that contains all of the origin entries from the scrubber valid group
         validGroup = scrubberStatus.getValidGroup();
         collectorScrubberStatus.setValidGroup(validGroup);
-        
+
         // the group that contains all of the origin entries from the scrubber error group
         errorGroup = scrubberStatus.getErrorGroup();
         collectorScrubberStatus.setErrorGroup(errorGroup);
-        
+
         // the group that contains all of the origin entries from the scrubber expired group (expired accounts)
         expiredGroup = scrubberStatus.getExpiredGroup();
         collectorScrubberStatus.setExpiredGroup(expiredGroup);
-        
+
         collectorScrubberStatus.setOriginEntryGroupService(originEntryGroupService);
         collectorScrubberStatus.setOriginEntryService(originEntryService);
-        
+
         retrieveErrorDocumentGroups();
-        
+
         retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup();
-        
+
         removeInterDepartmentalBillingAssociatedWithErrorGroup();
-        
+
         applyChangesToDetailsFromScrubberEdits(scrubberStatus.getUnscrubbedToScrubbedEntries());
-        
+
         retainBatchValidEntriesOnly();
-        
+
         return collectorScrubberStatus;
     }
-    
+
     protected void removeInterDepartmentalBillingNotAssociatedWithInputEntries() {
         Iterator<CollectorDetail> detailIter = batch.getCollectorDetails().iterator();
         while (detailIter.hasNext()) {
@@ -144,10 +141,10 @@ public class CollectorScrubberProcess {
             }
         }
     }
-    
+
     /**
-     * This method's purpose is similar to the scrubber's demerger.  This method scans through all of the origin entries and removes those billing details
-     * that share the same doc number, doc type, and origination code
+     * This method's purpose is similar to the scrubber's demerger. This method scans through all of the origin entries and removes
+     * those billing details that share the same doc number, doc type, and origination code
      */
     protected void removeInterDepartmentalBillingAssociatedWithErrorGroup() {
         int numDetailDeleted = 0;
@@ -161,25 +158,15 @@ public class CollectorScrubberProcess {
                 }
             }
         }
-        
+
         collectorReportData.setNumDetailDeleted(batch, new Integer(numDetailDeleted));
     }
-    
+
     protected boolean isOriginEntryRelatedToDetailRecord(OriginEntry originEntry, CollectorDetail detail) {
-        return StringUtils.equals(originEntry.getUniversityFiscalPeriodCode(), detail.getUniversityFiscalPeriodCode()) &&
-                originEntry.getUniversityFiscalYear() != null && originEntry.getUniversityFiscalYear().equals(detail.getUniversityFiscalYear()) &&
-                StringUtils.equals(originEntry.getChartOfAccountsCode(), detail.getChartOfAccountsCode()) &&
-                StringUtils.equals(originEntry.getAccountNumber(), detail.getAccountNumber()) &&
-                StringUtils.equals(originEntry.getSubAccountNumber(), detail.getSubAccountNumber()) &&
-                StringUtils.equals(originEntry.getFinancialObjectCode(), detail.getFinancialObjectCode()) &&
-                StringUtils.equals(originEntry.getFinancialSubObjectCode(), detail.getFinancialSubObjectCode()) &&
-                StringUtils.equals(originEntry.getFinancialSystemOriginationCode(), detail.getFinancialSystemOriginationCode()) &&
-                StringUtils.equals(originEntry.getFinancialDocumentTypeCode(), detail.getFinancialDocumentTypeCode()) &&
-                StringUtils.equals(originEntry.getDocumentNumber(), detail.getDocumentNumber()) &&
-                StringUtils.equals(originEntry.getFinancialBalanceTypeCode(), detail.getFinancialBalanceTypeCode()) &&
-                StringUtils.equals(originEntry.getFinancialObjectTypeCode(), detail.getFinancialObjectTypeCode());
+        return StringUtils.equals(originEntry.getUniversityFiscalPeriodCode(), detail.getUniversityFiscalPeriodCode()) && originEntry.getUniversityFiscalYear() != null && originEntry.getUniversityFiscalYear().equals(detail.getUniversityFiscalYear()) && StringUtils.equals(originEntry.getChartOfAccountsCode(), detail.getChartOfAccountsCode()) && StringUtils.equals(originEntry.getAccountNumber(), detail.getAccountNumber()) && StringUtils.equals(originEntry.getSubAccountNumber(), detail.getSubAccountNumber()) && StringUtils.equals(originEntry.getFinancialObjectCode(), detail.getFinancialObjectCode()) && StringUtils.equals(originEntry.getFinancialSubObjectCode(), detail.getFinancialSubObjectCode()) && StringUtils.equals(originEntry.getFinancialSystemOriginationCode(), detail.getFinancialSystemOriginationCode()) && StringUtils.equals(originEntry.getFinancialDocumentTypeCode(), detail.getFinancialDocumentTypeCode())
+                && StringUtils.equals(originEntry.getDocumentNumber(), detail.getDocumentNumber()) && StringUtils.equals(originEntry.getFinancialBalanceTypeCode(), detail.getFinancialBalanceTypeCode()) && StringUtils.equals(originEntry.getFinancialObjectTypeCode(), detail.getFinancialObjectTypeCode());
     }
-    
+
     private boolean hasFatal(List<Message> errors) {
         for (Iterator<Message> iter = errors.iterator(); iter.hasNext();) {
             Message element = iter.next();
@@ -189,7 +176,7 @@ public class CollectorScrubberProcess {
         }
         return false;
     }
-    
+
     private boolean hasWarning(List<Message> errors) {
         for (Iterator<Message> iter = errors.iterator(); iter.hasNext();) {
             Message element = iter.next();
@@ -199,7 +186,7 @@ public class CollectorScrubberProcess {
         }
         return false;
     }
-    
+
     protected void applyScrubberEditsToDetail(OriginEntry originEntry, CollectorDetail detail) {
         detail.setUniversityFiscalPeriodCode(originEntry.getUniversityFiscalPeriodCode());
         detail.setUniversityFiscalYear(originEntry.getUniversityFiscalYear());
@@ -214,9 +201,10 @@ public class CollectorScrubberProcess {
         detail.setFinancialBalanceTypeCode(originEntry.getFinancialBalanceTypeCode());
         detail.setFinancialObjectTypeCode(originEntry.getFinancialObjectTypeCode());
     }
-    
+
     /**
      * This method...
+     * 
      * @param originalEntry
      * @param scrubbedEntry
      * @param batch
@@ -230,8 +218,7 @@ public class CollectorScrubberProcess {
                 OriginEntry originalEntry = mapping.getKey();
                 OriginEntry scrubbedEntry = mapping.getValue();
                 if (isOriginEntryRelatedToDetailRecord(originalEntry, detail)) {
-                    if (!StringUtils.equals(originalEntry.getChartOfAccountsCode(), scrubbedEntry.getChartOfAccountsCode()) &&
-                            !StringUtils.equals(originalEntry.getAccountNumber(), scrubbedEntry.getAccountNumber())) {
+                    if (!StringUtils.equals(originalEntry.getChartOfAccountsCode(), scrubbedEntry.getChartOfAccountsCode()) && !StringUtils.equals(originalEntry.getAccountNumber(), scrubbedEntry.getAccountNumber())) {
                         // TODO: determine whether the account was closed/expired before incrementing?
                         numDetailAccountValuesChanged++;
                     }
@@ -242,13 +229,13 @@ public class CollectorScrubberProcess {
             collectorReportData.setNumDetailAccountValuesChanged(batch, numDetailAccountValuesChanged);
         }
     }
-    
+
     protected void retainBatchValidEntriesOnly() {
         Iterator<OriginEntryFull> validEntriesIter = originEntryService.getEntriesByGroup(validGroup);
         List<OriginEntryFull> validEntries = new ArrayList<OriginEntryFull>();
         while (validEntriesIter.hasNext()) {
             OriginEntryFull entry = validEntriesIter.next();
-            
+
             // clear out the entry ID, (which is the PK) because the origin entry service we're using for the scrubber
             // may not assign a correct entry ID that should be used to persist in the DB, causing optimistic locking
             // exceptions.
@@ -257,7 +244,7 @@ public class CollectorScrubberProcess {
         }
         batch.setOriginEntries(validEntries);
     }
-    
+
     /**
      * Based on the origin entries in the origin entry scrubber-produced error group, creates a set of all {@link DocumentGroupData}s
      * represented by those origin entries and initializes the {@link #errorDocumentGroups} variable
@@ -266,25 +253,24 @@ public class CollectorScrubberProcess {
         List<OriginEntryFull> errorEntries = originEntryService.getEntriesByGroupId(errorGroup.getId());
         errorDocumentGroups = DocumentGroupData.getDocumentGroupDatasForTransactions(errorEntries.iterator());
     }
-    
+
     /**
-     * Computes the totals of the input entries that were associated with the entries in the error group, which is created in the scrubber.  For
-     * the purposes of this method, an input origin entry associated with the error group is (1) an origin entry that was parsed from the collector
-     * file (i.e. in the input group), and (2) these exists an origin entry in the error group such that the input origin entry and the error origin entry
-     * have equal doc number, doc type, and origination code.  These totals are reflected in the collector report data object. 
+     * Computes the totals of the input entries that were associated with the entries in the error group, which is created in the
+     * scrubber. For the purposes of this method, an input origin entry associated with the error group is (1) an origin entry that
+     * was parsed from the collector file (i.e. in the input group), and (2) these exists an origin entry in the error group such
+     * that the input origin entry and the error origin entry have equal doc number, doc type, and origination code. These totals
+     * are reflected in the collector report data object.
      */
     protected void retrieveTotalsOnInputOriginEntriesAssociatedWithErrorGroup() {
         Map<DocumentGroupData, OriginEntryTotals> inputDocumentTotals = new HashMap<DocumentGroupData, OriginEntryTotals>();
-        
+
         for (DocumentGroupData errorDocumentGroupData : errorDocumentGroups) {
-            Iterator<OriginEntryFull> associatedInputEntries = originEntryService.getEntriesByDocument(inputGroup, 
-                    errorDocumentGroupData.getDocumentNumber(), errorDocumentGroupData.getFinancialDocumentTypeCode(), 
-                    errorDocumentGroupData.getFinancialSystemOriginationCode());
+            Iterator<OriginEntryFull> associatedInputEntries = originEntryService.getEntriesByDocument(inputGroup, errorDocumentGroupData.getDocumentNumber(), errorDocumentGroupData.getFinancialDocumentTypeCode(), errorDocumentGroupData.getFinancialSystemOriginationCode());
             OriginEntryTotals originEntryTotals = new OriginEntryTotals();
             originEntryTotals.addToTotals(associatedInputEntries);
             inputDocumentTotals.put(errorDocumentGroupData, originEntryTotals);
         }
-        
+
         collectorReportData.setTotalsOnInputOriginEntriesAssociatedWithErrorGroup(batch, inputDocumentTotals);
     }
 }

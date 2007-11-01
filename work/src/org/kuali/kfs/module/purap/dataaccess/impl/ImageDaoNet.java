@@ -43,7 +43,7 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
         this.configurationService = configurationService;
     }
 
-    /** 
+    /**
      * @see org.kuali.module.purap.dao.ImageDao#getPurchasingDirectorImage(java.lang.String, java.lang.String, java.lang.String)
      */
     public String getPurchasingDirectorImage(String key, String campusCode, String location) {
@@ -199,5 +199,5 @@ public class ImageDaoNet extends PlatformAwareDaoBaseOjb implements ImageDao {
             throw new PurError("Caught exception while trying to remove images at " + location, e);
         }
     }
-    
+
 }

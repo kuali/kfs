@@ -38,18 +38,17 @@ import edu.iu.uis.eden.routetemplate.ResolvedQualifiedRole;
 import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
-import edu.iu.uis.eden.util.Utilities;
 import edu.iu.uis.eden.workgroup.GroupId;
 import edu.iu.uis.eden.workgroup.GroupNameId;
 
 public class KualiVerificationWorkgroupAttribute implements RoleAttribute, WorkflowAttribute {
-   
+
     private static final String ROLE_STRING_DELIMITER = "~!~!~";
-    
+
     private boolean required = false;
-    
+
     private String verificationWorkgoupName;
-        
+
     public String getVerificationWorkgoupName() {
         return verificationWorkgoupName;
     }
@@ -64,14 +63,14 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         String docTypeName = docContent.getRouteContext().getDocument().getDocumentType().getName();
         List qualifiedRoleNames = new ArrayList();
         try {
-                String verificationWorkgroupName = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX  + "cashReceiptHeader/workgroupName"), docContent.getRouteContext().getDocumentContent().getDocContent());
-                VerificationWorkgroupRole role = new VerificationWorkgroupRole(roleName);
-                role.verificationWorkgroupName = verificationWorkgroupName;
-                
-                verificationWorkgroups.add(role);
-            
-                qualifiedRoleNames.add(getQualifiedRoleString(role));
-                  
+            String verificationWorkgroupName = xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "cashReceiptHeader/workgroupName"), docContent.getRouteContext().getDocumentContent().getDocContent());
+            VerificationWorkgroupRole role = new VerificationWorkgroupRole(roleName);
+            role.verificationWorkgroupName = verificationWorkgroupName;
+
+            verificationWorkgroups.add(role);
+
+            qualifiedRoleNames.add(getQualifiedRoleString(role));
+
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -82,10 +81,11 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
     private String getQualifiedRoleString(VerificationWorkgroupRole role) {
         return new StringBuffer(getNullSafeValue(role.roleName)).append(ROLE_STRING_DELIMITER).append(getNullSafeValue(role.verificationWorkgroupName)).toString();
     }
-    
+
     private static String getNullSafeValue(String value) {
         return (value == null ? "" : value);
     }
+
     public List getRoleNames() {
         List roles = new ArrayList();
         roles.add(new Role(this.getClass(), "VERIFICATION_WORGROUP_FROM_DOCUMENT", "Verification Workgroup from Document"));
@@ -98,7 +98,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
             List members = new ArrayList();
             String annotation = "";
             VerificationWorkgroupRole role = getUnqualifiedVerificationWorkgroupRole(qualifiedRole);
-            annotation = (role.verificationWorkgroupName == null ? "" : "Routing to workgroup named " + role.verificationWorkgroupName );
+            annotation = (role.verificationWorkgroupName == null ? "" : "Routing to workgroup named " + role.verificationWorkgroupName);
             GroupId verificationWorkgroupId = new GroupNameId(role.verificationWorkgroupName);
             if (verificationWorkgroupId != null) {
                 members.add(verificationWorkgroupId);
@@ -109,7 +109,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
             throw new RuntimeException("KualiVerificationWorkgroupAttribute encountered exception while attempting to resolve qualified role", e);
         }
     }
-    
+
     private static VerificationWorkgroupRole getUnqualifiedVerificationWorkgroupRole(String qualifiedRole) {
         String[] values = qualifiedRole.split(ROLE_STRING_DELIMITER, -1);
         if (values.length != 2) {
@@ -119,18 +119,18 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
         role.verificationWorkgroupName = getNullableString(values[1]);
         return role;
     }
-    
+
     private static String getNullableString(String value) {
         if (StringUtils.isEmpty(value)) {
             return null;
         }
         return value;
     }
-    
-     
+
+
     public String getDocContent() {
-        
-        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append("<verificationWorkgroupName>").append(getVerificationWorkgoupName() ).append("</verificationWorkgroupName>").append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
+
+        return new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX).append("<verificationWorkgroupName>").append(getVerificationWorkgoupName()).append("</verificationWorkgroupName>").append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_SUFFIX).toString();
     }
 
     public List<Row> getRoutingDataRows() {
@@ -139,7 +139,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
     }
 
     public List<RuleExtensionValue> getRuleExtensionValues() {
-        
+
         return Collections.EMPTY_LIST;
     }
 
@@ -168,6 +168,7 @@ public class KualiVerificationWorkgroupAttribute implements RoleAttribute, Workf
     public List validateRuleData(Map arg0) {
         return Collections.EMPTY_LIST;
     }
+
     private static class VerificationWorkgroupRole {
         public String roleName;
 

@@ -26,11 +26,8 @@ public interface AchBankService {
     public void save(AchBank ab);
 
     /**
-     * Read the bank data from a text file and reset table to match this file.
-     * The format of the file comes from here:
-     * 
-     * https://www.fededirectory.frb.org/format_ACH.cfm
-     * https://www.fededirectory.frb.org/FedACHdir.txt
+     * Read the bank data from a text file and reset table to match this file. The format of the file comes from here:
+     * https://www.fededirectory.frb.org/format_ACH.cfm https://www.fededirectory.frb.org/FedACHdir.txt
      * 
      * @param filename
      */

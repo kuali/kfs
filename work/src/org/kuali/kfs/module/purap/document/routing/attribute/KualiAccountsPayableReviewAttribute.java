@@ -28,9 +28,7 @@ import edu.iu.uis.eden.routetemplate.AbstractWorkflowAttribute;
 import edu.iu.uis.eden.routetemplate.RuleExtension;
 
 /**
- * This class...
- * 
- * TODO delyea - documentation
+ * This class... TODO delyea - documentation
  */
 public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribute {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiAccountsPayableReviewAttribute.class);
@@ -48,8 +46,8 @@ public class KualiAccountsPayableReviewAttribute extends AbstractWorkflowAttribu
         }
         catch (WorkflowException e) {
             String errorMsg = "Error trying to get document using doc id '" + documentNumber + "'";
-            LOG.error("getAccountsPayableDocument() " + errorMsg,e);
-            throw new RuntimeException (errorMsg,e);
+            LOG.error("getAccountsPayableDocument() " + errorMsg, e);
+            throw new RuntimeException(errorMsg, e);
         }
     }
 

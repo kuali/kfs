@@ -33,10 +33,8 @@ import org.kuali.core.util.AssertionUtils;
  * success.
  * <p>
  * Another purpose of this annotation is for KualiTestBase to wrap any test errors or failures with a notice that the annotated JIRA
- * issues are related. 
- * 
- * If the {@value #SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES} system property is set, then the test will pass
- * (without running its contents) any test that {@link RelatesTo} a JIRA issue that is currently open or in-progress or
+ * issues are related. If the {@value #SKIP_OPEN_OR_IN_PROGRESS_OR_REOPENED_JIRA_ISSUES} system property is set, then the test will
+ * pass (without running its contents) any test that {@link RelatesTo} a JIRA issue that is currently open or in-progress or
  * reopened. This is an alternative to {@link org.kuali.test.suite.OpenOrInProgressOrReopenedSuite} for Anthill to retain the same
  * format of its test report while not revealing any failures of such tests. When using this system property, keep in mind that it
  * takes well over a minute to get the list of open issues from JIRA. The list is cached statically, so it's insignificant to add a
@@ -57,7 +55,7 @@ public @interface RelatesTo {
      * show which tests relate to which issues.
      */
     public enum JiraIssue {
-          KULLAB54, KULLAB96, KULOWF281, KULPURAP1964, KULRNE6047, KULRNE6048, KULRNE6049, KULPURAP2094;
+        KULLAB54, KULLAB96, KULOWF281, KULPURAP1964, KULRNE6047, KULRNE6048, KULRNE6049, KULPURAP2094;
 
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");
 

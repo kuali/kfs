@@ -41,9 +41,10 @@ import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
+
 @Transactional
 public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
-    
+
     private AccountBalanceCalculator postAccountBalance;
     private AccountBalanceService accountBalanceService;
     private OptionsService optionsService;
@@ -188,7 +189,7 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
 
         // determine if the object type code is one of the given codes
         if (ObjectUtils.isNull(balance.getFinancialObject()) || StringUtils.isBlank(balance.getFinancialObject().getFinancialObjectTypeCode())) {
-            balance.refreshReferenceObject("financialObject");  // refresh if we need to...
+            balance.refreshReferenceObject("financialObject"); // refresh if we need to...
         }
         ObjectCode financialObject = balance.getFinancialObject();
         String objectTypeCode = (financialObject == null) ? Constant.EMPTY_STRING : financialObject.getFinancialObjectTypeCode();

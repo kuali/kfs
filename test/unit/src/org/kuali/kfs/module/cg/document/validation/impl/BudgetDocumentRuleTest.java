@@ -34,8 +34,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * Test basic rule methods of <code>{@link BudgetDocumentRuleBase}</code> convenience class.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetDocumentRuleTest extends KualiTestBase {

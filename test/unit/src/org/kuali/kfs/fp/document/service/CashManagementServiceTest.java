@@ -45,14 +45,13 @@ import org.kuali.module.financial.exceptions.InvalidCashReceiptState;
 import org.kuali.module.financial.util.CashReceiptFamilyTestUtil;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.test.suite.RelatesTo;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 @ConfigureContext(session = TWATSON)
 public class CashManagementServiceTest extends KualiTestBase {
     static final String CMST_WORKGROUP = "KUALI_BRSR_KO";
-    
+
     final public void testCreateCashManagementDocument_blankUnitName() throws Exception {
         boolean failedAsExpected = false;
 
@@ -79,7 +78,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testCreateCashManagementDocument_valid() throws Exception {
         String testDocumentId = null;
 
@@ -109,9 +108,9 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testCreateCashManagementDocument_cashDrawerAlreadyOpen() throws Exception {
-        
+
         String testDocumentId = null;
         try {
             deleteIfExists(CMST_WORKGROUP);
@@ -121,7 +120,7 @@ public class CashManagementServiceTest extends KualiTestBase {
             CashManagementDocument createdDoc = SpringContext.getBean(CashManagementService.class).createCashManagementDocument(CMST_WORKGROUP, "CMST_testCreate_cashDrawerAlreadyOpen", "cmst3");
             assertNotNull(createdDoc);
             testDocumentId = createdDoc.getDocumentNumber();
-            
+
             // force the drawer open
             SpringContext.getBean(CashDrawerService.class).openCashDrawer(createdDoc.getCashDrawer(), testDocumentId);
             saveDocument(createdDoc);
@@ -136,25 +135,25 @@ public class CashManagementServiceTest extends KualiTestBase {
                 // good
                 failedAsExpected = true;
             }
-            
+
             assertEquals(failedAsExpected, true);
-            
+
             //
             // cancel empty CMDoc
             //
             SpringContext.getBean(CashManagementService.class).cancelCashManagementDocument(createdDoc);
-            
+
         }
         finally {
             // cancel the document
             cleanupCancel(testDocumentId);
-            
+
             // delete the cashDrawer you created
             deleteIfExists(CMST_WORKGROUP);
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testCancelCashManagementDocument_validEmpty() throws Exception {
         String testDocumentId = null;
 
@@ -199,7 +198,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testCancelCashManagementDocument_valid_interimOnly() throws Exception {
         String testDocumentId = null;
 
@@ -263,13 +262,13 @@ public class CashManagementServiceTest extends KualiTestBase {
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr2.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
                 assertEquals(KFSConstants.DocumentStatusCodes.CashReceipt.INTERIM, lookupCR(cr3.getDocumentNumber()).getDocumentHeader().getFinancialDocumentStatusCode());
             }
-            
+
         }
         finally {
 
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
-            
+
             // cancel CMDoc; now we can
             cleanupCancel(testDocumentId);
 
@@ -293,8 +292,8 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         assertTrue(failedAsExpected);
     }
-    
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_nullBank() throws Exception {
         boolean failedAsExpected = false;
 
@@ -314,7 +313,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         finally {
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
-            
+
             if (docId != null) {
                 Document testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
                 SpringContext.getBean(DocumentService.class).cancelDocument(testDoc, "CMST cleanup");
@@ -327,7 +326,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_nonverifiedCashReceipt() throws Exception {
         boolean failedAsExpected = false;
 
@@ -369,7 +368,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         finally {
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
-            
+
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
@@ -380,7 +379,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_unsavedCMDoc() throws Exception {
         boolean failedAsExpected = false;
 
@@ -427,7 +426,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     final public void testAddInterimDeposit_valid() throws Exception {
         String testDocumentId = null;
 
@@ -502,7 +501,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         finally {
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
-            
+
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
@@ -526,7 +525,7 @@ public class CashManagementServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     public void testCancelDeposit_cancelSingleInterim() throws Exception {
         String testDocumentId = null;
 
@@ -622,7 +621,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         finally {
             // clean up CRdoc
             denatureCashReceipts(CMST_WORKGROUP);
-            
+
             // cancel CMDoc
             cleanupCancel(testDocumentId);
 
@@ -670,7 +669,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = TWATSON, shouldCommitTransactions=true)
+    @ConfigureContext(session = TWATSON, shouldCommitTransactions = true)
     public void testKULEDOCS_1475_existentDocument() throws Exception {
         boolean failedAsExpected = false;
 
@@ -739,7 +738,7 @@ public class CashManagementServiceTest extends KualiTestBase {
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(KualiDecimal.ZERO); // cash amounts are now calculated differently
         crDoc.setTotalCheckAmount(checkAmount);
-        
+
         crDoc.setCashReceiptHeader(new CashReceiptHeader());
         crDoc.getCashReceiptHeader().setDocumentNumber(crDoc.getDocumentNumber());
         crDoc.getCashReceiptHeader().setWorkgroupName(workgroupName);
@@ -753,13 +752,11 @@ public class CashManagementServiceTest extends KualiTestBase {
         return persistedDoc;
     }
 
-    private void saveDocument(Document doc)
-        throws WorkflowException
-    {
+    private void saveDocument(Document doc) throws WorkflowException {
         try {
             SpringContext.getBean(DocumentService.class).saveDocument(doc);
         }
-        catch(ValidationException e) {
+        catch (ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
             fail(e.getMessage() + ", " + GlobalVariables.getErrorMap());
         }
@@ -772,12 +769,11 @@ public class CashManagementServiceTest extends KualiTestBase {
 
         BankAccount bankAccount = (BankAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BankAccount.class, keyMap);
 
-        assertNotNull("invalid bank account for test",bankAccount);
+        assertNotNull("invalid bank account for test", bankAccount);
         return bankAccount;
     }
 
-    private void cleanupCancel(String documentId)
-        throws Exception {
+    private void cleanupCancel(String documentId) throws Exception {
         if (documentId != null) {
             Document testDoc = SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentId);
 

@@ -15,66 +15,20 @@
  */
 package org.kuali.module.vendor.fixtures;
 
-import org.kuali.module.vendor.fixtures.VendorTestConstants.VendorParts;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorShippingSpecialCondition;
 import org.kuali.module.vendor.bo.VendorSupplierDiversity;
+import org.kuali.module.vendor.fixtures.VendorTestConstants.VendorParts;
 
 public enum VendorRoutingChangesFixture {
-    
-    COMPLETE_NO_CHANGES( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1 ),
-    COMPLETE_VH_CHANGE( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE2, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1 ),
-    COMPLETE_VSD1_CHANGE( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1 ),
-    COMPLETE_VSSC1_CHANGE( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1 ),
-    COMPLETE_VA2_CHANGE( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE2, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1 ),
-    NULL_OLDS( null, null, null, 
-            null, null, null, 
-            null, null, null, null, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1 ),
-    NULL_NEWS( VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, 
-            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1,
-            null, null, null, 
-            null, null, null, 
-            null, null, null, null ),
-    NULL_ALL( null, null, null, 
-            null, null, null, 
-            null, null, null, null,
-            null, null, null, 
-            null, null, null, 
-            null, null, null, null ),
-            ;
-    
+
+    COMPLETE_NO_CHANGES(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1), COMPLETE_VH_CHANGE(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1), COMPLETE_VSD1_CHANGE(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1,
+            VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1), COMPLETE_VSSC1_CHANGE(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1), COMPLETE_VA2_CHANGE(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE2, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1,
+            VendorParts.CODE1, VendorParts.CODE1), NULL_OLDS(null, null, null, null, null, null, null, null, null, null, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1), NULL_NEWS(VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.NAME, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, VendorParts.CODE1, null, null, null, null, null, null, null, null, null, null), NULL_ALL(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null), ;
+
     private String oldVHdr_vtCd;
     private String oldSupDiv1_vsdCd;
     private String oldSupDiv2_vsdCd;
@@ -85,7 +39,7 @@ public enum VendorRoutingChangesFixture {
     private String oldVCtr2_pocsCd;
     private String oldVSSCond1_vsscCd;
     private String oldVSSCond2_vsscCd;
-    
+
     private String newVHdr_vtCd;
     private String newSupDiv1_vsdCd;
     private String newSupDiv2_vsdCd;
@@ -96,22 +50,11 @@ public enum VendorRoutingChangesFixture {
     private String newVCtr2_pocsCd;
     private String newVSSCond1_vsscCd;
     private String newVSSCond2_vsscCd;
-    
+
     /**
      * This constructor can be used by broad tests of the change detection logic.
      */
-    private VendorRoutingChangesFixture( String oldVHdr_vtCd,
-            String oldSupDiv1_vsdCd, String oldSupDiv2_vsdCd,
-            String oldVDtl_remitName,
-            String oldVAddr1_vatCd, String oldVAddr2_vatCd,
-            String oldVCtr1_pocsCd, String oldVCtr2_pocsCd,
-            String oldVSSCond1_vsscCd, String oldVSSCond2_vsscCd,
-            String newVHdr_vtCd,
-            String newSupDiv1_vsdCd, String newSupDiv2_vsdCd,
-            String newVDtl_remitName,
-            String newVAddr1_vatCd, String newVAddr2_vatCd,
-            String newVCtr1_pocsCd, String newVCtr2_pocsCd,
-            String newVSSCond1_vsscCd, String newVSSCond2_vsscCd ) {
+    private VendorRoutingChangesFixture(String oldVHdr_vtCd, String oldSupDiv1_vsdCd, String oldSupDiv2_vsdCd, String oldVDtl_remitName, String oldVAddr1_vatCd, String oldVAddr2_vatCd, String oldVCtr1_pocsCd, String oldVCtr2_pocsCd, String oldVSSCond1_vsscCd, String oldVSSCond2_vsscCd, String newVHdr_vtCd, String newSupDiv1_vsdCd, String newSupDiv2_vsdCd, String newVDtl_remitName, String newVAddr1_vatCd, String newVAddr2_vatCd, String newVCtr1_pocsCd, String newVCtr2_pocsCd, String newVSSCond1_vsscCd, String newVSSCond2_vsscCd) {
         this.oldVHdr_vtCd = oldVHdr_vtCd;
         this.oldSupDiv1_vsdCd = oldSupDiv1_vsdCd;
         this.oldSupDiv2_vsdCd = oldSupDiv2_vsdCd;
@@ -133,77 +76,76 @@ public enum VendorRoutingChangesFixture {
         this.newVSSCond1_vsscCd = newVSSCond1_vsscCd;
         this.newVSSCond2_vsscCd = newVSSCond2_vsscCd;
     }
-    
-    public void populate( VendorDetail oldVDtl, VendorHeader oldVHdr, 
-            VendorDetail newVDtl, VendorHeader newVHdr ) {
-        
-        //Old Vendor Header
-        oldVHdr.setVendorTypeCode( this.oldVHdr_vtCd );
-        
+
+    public void populate(VendorDetail oldVDtl, VendorHeader oldVHdr, VendorDetail newVDtl, VendorHeader newVHdr) {
+
+        // Old Vendor Header
+        oldVHdr.setVendorTypeCode(this.oldVHdr_vtCd);
+
         VendorSupplierDiversity oldVsd1 = new VendorSupplierDiversity();
-        oldVsd1.setVendorSupplierDiversityCode( this.oldSupDiv1_vsdCd );
+        oldVsd1.setVendorSupplierDiversityCode(this.oldSupDiv1_vsdCd);
         VendorSupplierDiversity oldVsd2 = new VendorSupplierDiversity();
-        oldVsd2.setVendorSupplierDiversityCode( this.oldSupDiv2_vsdCd );
-        oldVHdr.getVendorSupplierDiversities().add( 0, oldVsd1 );
-        oldVHdr.getVendorSupplierDiversities().add( 1, oldVsd2 );
-        
-        //Old Vendor Detail
-        oldVDtl.setVendorRemitName( this.oldVDtl_remitName );
-        
+        oldVsd2.setVendorSupplierDiversityCode(this.oldSupDiv2_vsdCd);
+        oldVHdr.getVendorSupplierDiversities().add(0, oldVsd1);
+        oldVHdr.getVendorSupplierDiversities().add(1, oldVsd2);
+
+        // Old Vendor Detail
+        oldVDtl.setVendorRemitName(this.oldVDtl_remitName);
+
         VendorAddress oldVa1 = new VendorAddress();
-        oldVa1.setVendorAddressTypeCode( this.oldVAddr1_vatCd );
+        oldVa1.setVendorAddressTypeCode(this.oldVAddr1_vatCd);
         VendorAddress oldVa2 = new VendorAddress();
-        oldVa2.setVendorAddressTypeCode( this.oldVAddr2_vatCd );
-        oldVDtl.getVendorAddresses().add( 0, oldVa1 );
-        oldVDtl.getVendorAddresses().add( 0, oldVa2 );
-        
+        oldVa2.setVendorAddressTypeCode(this.oldVAddr2_vatCd);
+        oldVDtl.getVendorAddresses().add(0, oldVa1);
+        oldVDtl.getVendorAddresses().add(0, oldVa2);
+
         VendorContract oldVc1 = new VendorContract();
-        oldVc1.setPurchaseOrderCostSourceCode( this.oldVCtr1_pocsCd );
+        oldVc1.setPurchaseOrderCostSourceCode(this.oldVCtr1_pocsCd);
         VendorContract oldVc2 = new VendorContract();
-        oldVc2.setPurchaseOrderCostSourceCode( this.oldVCtr2_pocsCd );
-        oldVDtl.getVendorContracts().add( 0, oldVc1 );
-        oldVDtl.getVendorContracts().add( 1, oldVc2 );
-        
+        oldVc2.setPurchaseOrderCostSourceCode(this.oldVCtr2_pocsCd);
+        oldVDtl.getVendorContracts().add(0, oldVc1);
+        oldVDtl.getVendorContracts().add(1, oldVc2);
+
         VendorShippingSpecialCondition oldVssc1 = new VendorShippingSpecialCondition();
-        oldVssc1.setVendorShippingSpecialConditionCode( this.oldVSSCond1_vsscCd );
+        oldVssc1.setVendorShippingSpecialConditionCode(this.oldVSSCond1_vsscCd);
         VendorShippingSpecialCondition oldVssc2 = new VendorShippingSpecialCondition();
-        oldVssc2.setVendorShippingSpecialConditionCode( this.oldVSSCond2_vsscCd );
-        oldVDtl.getVendorShippingSpecialConditions().add( 0, oldVssc1 );
-        oldVDtl.getVendorShippingSpecialConditions().add( 1, oldVssc2 );
-        
-        //New Vendor Header
-        newVHdr.setVendorTypeCode( this.newVHdr_vtCd );
-        
+        oldVssc2.setVendorShippingSpecialConditionCode(this.oldVSSCond2_vsscCd);
+        oldVDtl.getVendorShippingSpecialConditions().add(0, oldVssc1);
+        oldVDtl.getVendorShippingSpecialConditions().add(1, oldVssc2);
+
+        // New Vendor Header
+        newVHdr.setVendorTypeCode(this.newVHdr_vtCd);
+
         VendorSupplierDiversity newVsd1 = new VendorSupplierDiversity();
-        newVsd1.setVendorSupplierDiversityCode( this.newSupDiv1_vsdCd );
+        newVsd1.setVendorSupplierDiversityCode(this.newSupDiv1_vsdCd);
         VendorSupplierDiversity newVsd2 = new VendorSupplierDiversity();
-        newVsd2.setVendorSupplierDiversityCode( this.newSupDiv2_vsdCd );
-        newVHdr.getVendorSupplierDiversities().add( 0, newVsd1 );
-        newVHdr.getVendorSupplierDiversities().add( 1, newVsd2 );
-        
-        //New Vendor Detail
-        newVDtl.setVendorRemitName( this.newVDtl_remitName );
-        
+        newVsd2.setVendorSupplierDiversityCode(this.newSupDiv2_vsdCd);
+        newVHdr.getVendorSupplierDiversities().add(0, newVsd1);
+        newVHdr.getVendorSupplierDiversities().add(1, newVsd2);
+
+        // New Vendor Detail
+        newVDtl.setVendorRemitName(this.newVDtl_remitName);
+
         VendorAddress newVa1 = new VendorAddress();
-        newVa1.setVendorAddressTypeCode( this.newVAddr1_vatCd );
+        newVa1.setVendorAddressTypeCode(this.newVAddr1_vatCd);
         VendorAddress newVa2 = new VendorAddress();
-        newVa2.setVendorAddressTypeCode( this.newVAddr2_vatCd );
-        newVDtl.getVendorAddresses().add( 0, newVa1 );
-        newVDtl.getVendorAddresses().add( 0, newVa2 );
-        
+        newVa2.setVendorAddressTypeCode(this.newVAddr2_vatCd);
+        newVDtl.getVendorAddresses().add(0, newVa1);
+        newVDtl.getVendorAddresses().add(0, newVa2);
+
         VendorContract newVc1 = new VendorContract();
-        newVc1.setPurchaseOrderCostSourceCode( this.newVCtr1_pocsCd );
+        newVc1.setPurchaseOrderCostSourceCode(this.newVCtr1_pocsCd);
         VendorContract newVc2 = new VendorContract();
-        newVc2.setPurchaseOrderCostSourceCode( this.newVCtr2_pocsCd );
-        newVDtl.getVendorContracts().add( 0, newVc1 );
-        newVDtl.getVendorContracts().add( 1, newVc2 );
-        
+        newVc2.setPurchaseOrderCostSourceCode(this.newVCtr2_pocsCd);
+        newVDtl.getVendorContracts().add(0, newVc1);
+        newVDtl.getVendorContracts().add(1, newVc2);
+
         VendorShippingSpecialCondition newVssc1 = new VendorShippingSpecialCondition();
-        newVssc1.setVendorShippingSpecialConditionCode( this.newVSSCond1_vsscCd );
+        newVssc1.setVendorShippingSpecialConditionCode(this.newVSSCond1_vsscCd);
         VendorShippingSpecialCondition newVssc2 = new VendorShippingSpecialCondition();
-        newVssc2.setVendorShippingSpecialConditionCode( this.newVSSCond2_vsscCd );
-        newVDtl.getVendorShippingSpecialConditions().add( 0, newVssc1 );
-        newVDtl.getVendorShippingSpecialConditions().add( 1, newVssc2 );
+        newVssc2.setVendorShippingSpecialConditionCode(this.newVSSCond2_vsscCd);
+        newVDtl.getVendorShippingSpecialConditions().add(0, newVssc1);
+        newVDtl.getVendorShippingSpecialConditions().add(1, newVssc2);
     }
-  
+
 }

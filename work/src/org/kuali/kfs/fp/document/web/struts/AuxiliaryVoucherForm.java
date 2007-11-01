@@ -199,7 +199,8 @@ public class AuxiliaryVoucherForm extends VoucherForm {
 
                 if (evaluator == null) {
                     evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, AuxiliaryVoucherDocumentRuleConstants.RESTRICTED_PERIOD_CODES, period.getUniversityFiscalPeriodCode());
-                } else {
+                }
+                else {
                     evaluator.setConstrainedValue(period.getUniversityFiscalPeriodCode());
                 }
                 result = evaluator.evaluationSucceeds();

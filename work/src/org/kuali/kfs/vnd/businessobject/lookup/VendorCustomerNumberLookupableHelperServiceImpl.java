@@ -26,14 +26,14 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 
 
-public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl{
+public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private boolean searchUsingOnlyPrimaryKeyValues = false;
-    
-   /**
-    * Overrides the getSearchResultsHelper in the super class so that we can do some customization 
-    * 
-    * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
-    */
+
+    /**
+     * Overrides the getSearchResultsHelper in the super class so that we can do some customization
+     * 
+     * @see org.kuali.core.lookup.KualiLookupableHelperServiceImpl#getSearchResultsHelper(java.util.Map, boolean)
+     */
     @Override
     protected List<? extends BusinessObject> getSearchResultsHelper(Map<String, String> fieldValues, boolean unbounded) {
         searchUsingOnlyPrimaryKeyValues = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
@@ -57,16 +57,16 @@ public class VendorCustomerNumberLookupableHelperServiceImpl extends KualiLookup
         if (defaultSortColumns.size() > 0) {
             Collections.sort(searchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
-        
+
         return searchResults;
     }
-    
+
     /**
      * @see LookupableHelperService#isSearchUsingOnlyPrimaryKeyValues()
      */
     @Override
     public boolean isSearchUsingOnlyPrimaryKeyValues() {
-        
+
         return searchUsingOnlyPrimaryKeyValues;
     }
 }

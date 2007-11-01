@@ -32,8 +32,6 @@ import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 
 /**
  * This class...
- * 
- * 
  */
 public class TestDataGenerator {
 
@@ -49,24 +47,24 @@ public class TestDataGenerator {
     public TestDataGenerator() {
         this.messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
         this.propertiesFileName = "test/src/org/kuali/module/gl/web/data.properties";
-        
+
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);
     }
-    
+
     /**
      * Constructs a TestDataGenerator.java.
+     * 
      * @param propertiesFileName
      * @param messageFileName
      */
     public TestDataGenerator(String propertiesFileName, String messageFileName) {
         this.propertiesFileName = propertiesFileName;
         this.messageFileName = messageFileName;
-        
+
         properties = loadProperties(propertiesFileName);
         message = loadProperties(messageFileName);
     }
-
 
 
     /**
@@ -148,7 +146,6 @@ public class TestDataGenerator {
      * This method loads the properties from the property file
      * 
      * @param propertiesFileName the name of file containing the properties
-     * 
      * @return the properties that have been populated
      */
     private Properties loadProperties(String propertiesFileName) {

@@ -16,5 +16,5 @@
 package org.kuali.kfs;
 
 public interface ParameterKeyConstants {
-// marker interface for classes holding parameter key constants
+    // marker interface for classes holding parameter key constants
 }

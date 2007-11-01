@@ -21,8 +21,6 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 
 /**
  * Class capturing an update nonpersonnel event.
- * 
- * 
  */
 public interface UpdateNonpersonnelEvent extends KualiDocumentEvent {
     /**

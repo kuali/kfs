@@ -24,35 +24,35 @@ import org.kuali.module.kra.routingform.bo.ResearchRiskType;
  * Represents a relationship between a {@link Proposal} and a {@link ResearchRisk}.
  */
 public class ProposalResearchRisk extends PersistableBusinessObjectBase {
-    
+
     private String researchRiskTypeCode;
     private Long proposalNumber;
     private boolean researchRiskTypeIndicator;
-    
+
     private Proposal proposal;
     private ResearchRiskType researchRiskType;
-    
-	/**
-	 * Default constructor.
-	 */
+
+    /**
+     * Default constructor.
+     */
     public ProposalResearchRisk() {
         super();
     }
-        
+
     @Override
     protected LinkedHashMap toStringMapper() {
-        
+
         LinkedHashMap m = new LinkedHashMap();
         m.put("proposalNumber", proposalNumber);
         m.put("researchRiskTypeCode", researchRiskTypeCode);
         m.put("researchRiskTypeIndicator", Boolean.toString(researchRiskTypeIndicator));
-        
+
         return m;
     }
 
     /**
      * Gets the {@link Proposal}.
-	 * 
+     * 
      * @return
      */
     public Proposal getProposal() {
@@ -125,7 +125,7 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     /**
      * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
      * 
-     * @return the code of the {@link ResearchRiskType} associated to the {@link Proposal}. 
+     * @return the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
      */
     public String getResearchRiskTypeCode() {
         return researchRiskTypeCode;
@@ -134,10 +134,10 @@ public class ProposalResearchRisk extends PersistableBusinessObjectBase {
     /**
      * Gets the code of the {@link ResearchRiskType} associated to the {@link Proposal}.
      * 
-     * @param the code of the type of the {@link ResearchRiskType} associated to the {@link Proposal}. 
+     * @param the code of the type of the {@link ResearchRiskType} associated to the {@link Proposal}.
      */
     public void setResearchRiskTypeCode(String researchRiskTypeCode) {
         this.researchRiskTypeCode = researchRiskTypeCode;
     }
-    
+
 }

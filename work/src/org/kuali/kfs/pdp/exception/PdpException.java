@@ -7,19 +7,17 @@
 package org.kuali.module.pdp.exception;
 
 /**
- * @author HSTAPLET
- *
- * To change the template for this generated type comment go to
- * Window&gt;Preferences&gt;Java&gt;Code Generation&gt;Code and Comments
+ * @author HSTAPLET To change the template for this generated type comment go to Window&gt;Preferences&gt;Java&gt;Code
+ *         Generation&gt;Code and Comments
  */
 public class PdpException extends Exception {
 
-  public PdpException() {
-    super();
-  }
+    public PdpException() {
+        super();
+    }
 
-  public PdpException(String message) {
-    super(message);
-  }
+    public PdpException(String message) {
+        super(message);
+    }
 
 }

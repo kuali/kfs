@@ -15,34 +15,35 @@ import org.kuali.module.pdp.utilities.GeneralUtilities;
 
 /**
  * @author delyea
- *
  */
 public class FormatSummaryForm extends ActionForm {
 
-  private String processId;
-  
-  public FormatSummaryForm() {
-    super();
-  }
-  
-  public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
-    String btnPressed = GeneralUtilities.whichButtonWasPressed(request);
-    ActionErrors actionErrors = new ActionErrors();
-    
-    if ("btnSearch".equals(btnPressed)){
-      if (GeneralUtilities.isStringEmpty(this.processId)){
-        actionErrors.add("errors", new ActionMessage("FormatSummaryForm.criteria.noneEntered"));
-      } else if (!(GeneralUtilities.isStringAllNumbers(this.processId))){
-        actionErrors.add("errors", new ActionMessage("FormatSummaryForm.processId.nonNumeric"));
-      }
-    }
-    return actionErrors;
-  }
+    private String processId;
 
-  public String getProcessId() {
-    return processId;
-  }
-  public void setProcessId(String processId) {
-    this.processId = processId;
-  }
+    public FormatSummaryForm() {
+        super();
+    }
+
+    public ActionErrors validate(ActionMapping mapping, HttpServletRequest request) {
+        String btnPressed = GeneralUtilities.whichButtonWasPressed(request);
+        ActionErrors actionErrors = new ActionErrors();
+
+        if ("btnSearch".equals(btnPressed)) {
+            if (GeneralUtilities.isStringEmpty(this.processId)) {
+                actionErrors.add("errors", new ActionMessage("FormatSummaryForm.criteria.noneEntered"));
+            }
+            else if (!(GeneralUtilities.isStringAllNumbers(this.processId))) {
+                actionErrors.add("errors", new ActionMessage("FormatSummaryForm.processId.nonNumeric"));
+            }
+        }
+        return actionErrors;
+    }
+
+    public String getProcessId() {
+        return processId;
+    }
+
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
 }

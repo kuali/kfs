@@ -18,7 +18,6 @@ package org.kuali.kfs.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,16 +25,15 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.kfs.batch.BatchInputFileSetType;
 import org.kuali.kfs.exceptions.FileStorageException;
-import org.kuali.kfs.exceptions.XMLParseException;
 
 /**
- * This interface defines the methods needed to save/download/delete file sets
- * in the batch upload system
+ * This interface defines the methods needed to save/download/delete file sets in the batch upload system
  */
 public interface BatchInputFileSetService {
 
     /**
-     * Stores the input streams (the values in the Map parameter) as files on the server, identified by the given user file name and file user identifier
+     * Stores the input streams (the values in the Map parameter) as files on the server, identified by the given user file name and
+     * file user identifier
      * 
      * @param user - user who is requesting the save
      * @param inputType - instance of a BatchInputFileSetType
@@ -44,8 +42,7 @@ public interface BatchInputFileSetService {
      * @return a Map of type to file name mappings of the saved files
      * @throws FileStorageException - if errors were encountered while attempting to write the file
      */
-    public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifer,
-            Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException;
+    public Map<String, String> save(UniversalUser user, BatchInputFileSetType inputType, String fileUserIdentifer, Map<String, InputStream> typeToStreamMap, boolean suppressDoneFileCreation) throws AuthorizationException, FileStorageException;
 
     /**
      * Returns the contents of a batch input file contained on the server if the user has permissions for the files batch input
@@ -63,10 +60,9 @@ public interface BatchInputFileSetService {
     public File download(UniversalUser user, BatchInputFileSetType inputType, String fileType, String fileUserIdentifier) throws AuthorizationException, FileNotFoundException;
 
     /**
-     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes the associated .done
-     * file if one exists.
-     * 
-     * If the file set may not be deleted, then the GlobalVariable's error map will be populated with the reason why.
+     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes
+     * the associated .done file if one exists. If the file set may not be deleted, then the GlobalVariable's error map will be
+     * populated with the reason why.
      * 
      * @param user - user who is requesting the delete
      * @param inputType - instance of a BatchInputFileSetType
@@ -101,7 +97,7 @@ public interface BatchInputFileSetService {
      * @return List<String> - List of filenames
      */
     public Set<String> listBatchTypeFileUserIdentifiersForUser(BatchInputFileSetType batchInputFileSetType, UniversalUser user) throws AuthorizationException;
-    
+
     /**
      * Returns whether a file set identifier is properly formatted.
      * 
@@ -109,9 +105,10 @@ public interface BatchInputFileSetService {
      * @return
      */
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier);
-    
+
     /**
      * Returns whether a file set for a given user has already been processed
+     * 
      * @param user
      * @param inputType
      * @param fileUserIdentifier

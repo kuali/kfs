@@ -20,13 +20,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.Check;
@@ -157,7 +154,7 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             // populate form with document values
             PdfStamper stamper = new PdfStamper(new PdfReader(searchPath + File.separator + templateName), returnStream);
             AcroFields populatedCoverSheet = stamper.getAcroFields();
-            
+
             populatedCoverSheet.setField(DOCUMENT_NUMBER_FIELD, document.getDocumentNumber());
             populatedCoverSheet.setField(INITIATOR_FIELD, document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId());
             populatedCoverSheet.setField(CREATED_DATE_FIELD, document.getDocumentHeader().getWorkflowDocument().getCreateDate().toString());
@@ -184,9 +181,9 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
             /*
              * Fields currently not used. Pulling them out. These are advanced features of the CR which will come during the
              * post-3/31 timeframe populatedCoverSheet.setField( CREDIT_CARD_FIELD, document.getDocumentNumber() );
-             * populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, document.getDocumentNumber() );
-             * populatedCoverSheet.setField( CHANGE_OUT_FIELD, document.getDocumentNumber() );
-             * populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD, document.getDocumentNumber() );
+             * populatedCoverSheet.setField( ADV_DEPOSIT_FIELD, document.getDocumentNumber() ); populatedCoverSheet.setField(
+             * CHANGE_OUT_FIELD, document.getDocumentNumber() ); populatedCoverSheet.setField( REVIV_FUND_OUT_FIELD,
+             * document.getDocumentNumber() );
              */
 
             stamper.setFormFlattening(true);
@@ -289,7 +286,6 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
      * @param writer
      * @param reader
      * @param pageNumber
-     * 
      * @return PdfContentByte
      * @exception DocumentException
      * @exception IOException
@@ -327,7 +323,6 @@ public class CashReceiptCoverSheetServiceImpl implements CashReceiptCoverSheetSe
 /**
  * Utility class used to replace an <code>{@link Integer}</code> because an integer cannot be modified once it has been
  * instantiated.
- * 
  */
 class ModifiableInteger {
     int _value;

@@ -63,7 +63,6 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     }
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#checkSufficientFunds()
      */
     @Override
@@ -81,7 +80,7 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     public Class getSourceAccountingLineClass() {
         return VoucherSourceAccountingLine.class;
     }
-    
+
     /**
      * This method retrieves the balance typ associated with this document.
      * 
@@ -198,10 +197,8 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     }
 
     /**
-     * This method determines the "total" for the JV document. 
-     * If the selected balance type is an offset generation, then the method returns the total debits amount when it is greater than the 
-     * total credit amount. otherwise, it returns total credit amount. 
-     * 
+     * This method determines the "total" for the JV document. If the selected balance type is an offset generation, then the method
+     * returns the total debits amount when it is greater than the total credit amount. otherwise, it returns total credit amount.
      * When selected balance type is not an offset generation, the method returns the sum of all accounting line debit amounts.
      * 
      * @return KualiDecimal the total of the JV document.
@@ -213,9 +210,10 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
         this.refreshReferenceObject("balanceType");
 
         if (this.balanceType.isFinancialOffsetGenerationIndicator()) {
-            if (getCreditTotal().isGreaterThan(getDebitTotal())){
+            if (getCreditTotal().isGreaterThan(getDebitTotal())) {
                 total = getCreditTotal();
-            } else {
+            }
+            else {
                 total = getDebitTotal();
             }
         }

@@ -23,13 +23,13 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.kra.KraConstants;
 
 public class RoutingFormApprovalStatusValuesFinder extends KeyValuesBase {
-    
+
     public RoutingFormApprovalStatusValuesFinder() {
         super();
     }
 
     public List getKeyValues() {
-        
+
         List approvalTypeKeyLabelPairList = new ArrayList();
         approvalTypeKeyLabelPairList.add(new KeyLabelPair("", ""));
         approvalTypeKeyLabelPairList.add(new KeyLabelPair(KraConstants.RESEARCH_RISK_STUDY_STATUS_PENDING, "Pending"));

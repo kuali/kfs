@@ -15,8 +15,8 @@
  */
 package org.kuali.module.labor.util;
 
-import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
 import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_BACKUP;
+import static org.kuali.module.gl.bo.OriginEntrySource.LABOR_SCRUBBER_VALID;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -24,20 +24,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.impl.LaborScrubberProcess;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;

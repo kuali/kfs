@@ -28,8 +28,6 @@ import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class returns list of country value pairs.
- * 
- * 
  */
 public class CountryValuesFinder extends KeyValuesBase {
 

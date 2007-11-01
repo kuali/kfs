@@ -31,7 +31,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     private String documentNumber;
     private String chartOfAccountsCode;
     private String organizationCode;
-    
+
     private Chart chartOfAccounts;
     private Org organization;
 
@@ -46,7 +46,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
         stringMapper.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
         return stringMapper;
     }
-    
+
     /**
      * Constructs a OrganizationReversionGlobalOrganization
      */
@@ -55,7 +55,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -64,6 +65,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -71,7 +73,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
+     * Gets the chartOfAccounts attribute.
+     * 
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -80,6 +83,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
 
     /**
      * Sets the chartOfAccounts attribute value.
+     * 
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */
@@ -88,7 +92,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -97,6 +102,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -104,7 +110,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
-     * Gets the organization attribute. 
+     * Gets the organization attribute.
+     * 
      * @return Returns the organization.
      */
     public Org getOrganization() {
@@ -113,6 +120,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
 
     /**
      * Sets the organization attribute value.
+     * 
      * @param organization The organization to set.
      * @deprecated
      */
@@ -121,7 +129,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
-     * Gets the organizationCode attribute. 
+     * Gets the organizationCode attribute.
+     * 
      * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
@@ -130,6 +139,7 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
 
     /**
      * Sets the organizationCode attribute value.
+     * 
      * @param organizationCode The organizationCode to set.
      */
     public void setOrganizationCode(String organizationCode) {
@@ -137,9 +147,8 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
     }
 
     /**
+     * This utility method converts the name of a property into a string suitable for being part of a locking representation.
      * 
-     * This utility method converts the name of a property into a string suitable
-     * for being part of a locking representation.
      * @param keyName the name of the property to convert to a locking representation
      * @return a part of a locking representation
      */
@@ -155,13 +164,13 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
             }
         }
         catch (IllegalAccessException iae) {
-            LOG.info("Illegal access exception while attempting to read property "+keyName, iae);
+            LOG.info("Illegal access exception while attempting to read property " + keyName, iae);
         }
         catch (InvocationTargetException ite) {
-            LOG.info("Illegal Target Exception while attempting to read property "+keyName, ite);
+            LOG.info("Illegal Target Exception while attempting to read property " + keyName, ite);
         }
         catch (NoSuchMethodException nsme) {
-            LOG.info("There is no such method to read property "+keyName+" in this class.", nsme);
+            LOG.info("There is no such method to read property " + keyName + " in this class.", nsme);
         }
         finally {
             sb.append(keyValue);
@@ -215,5 +224,5 @@ public class OrganizationReversionGlobalOrganization extends GlobalBusinessObjec
             return false;
         return true;
     }
-    
+
 }

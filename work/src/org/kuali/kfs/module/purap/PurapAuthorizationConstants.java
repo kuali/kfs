@@ -15,13 +15,10 @@
  */
 package org.kuali.module.purap;
 
-import org.kuali.core.JstlConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.
- * 
- * 
  */
 public class PurapAuthorizationConstants extends AuthorizationConstants {
 
@@ -47,7 +44,7 @@ public class PurapAuthorizationConstants extends AuthorizationConstants {
         public static final String SHOW_AMOUNT_ONLY = "showAmountOnly";
         public static final String EDIT_PRE_EXTRACT = "editPreExtract";
     }
-    
+
     public static class CreditMemoEditMode extends EditMode {
         public static final String LOCK_VENDOR_ENTRY = "lockVendorEntry";
         public static final String DISPLAY_INIT_TAB = "displayInitTab";

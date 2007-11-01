@@ -18,56 +18,51 @@ package org.kuali.module.vendor.fixtures;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.Country;
-import org.kuali.kfs.bo.State;
-import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
 import org.kuali.module.vendor.bo.VendorShippingSpecialCondition;
 import org.kuali.module.vendor.bo.VendorSupplierDiversity;
-import org.kuali.module.vendor.service.PhoneNumberService;
 
 class VendorTestConstants {
- 
+
     static class AddressTypes {
         static final String poType = "PO";
         static final String dvType = "DV";
         static final String rmType = "RM";
     }
-    
+
     @SuppressWarnings("deprecation")
     static class BeginEndDates {
-        static final Date FIRST_DATE = new Date(108,1,1); //2008-01-01
-        static final Date LAST_DATE = new Date(109,1,1);  //2009-01-01
+        static final Date FIRST_DATE = new Date(108, 1, 1); // 2008-01-01
+        static final Date LAST_DATE = new Date(109, 1, 1); // 2009-01-01
     }
-    
+
     static class ContractPOLimitAmts {
-        static KualiDecimal highLimit = new KualiDecimal( 10000 );
-        static KualiDecimal lowLimit = new KualiDecimal( 1000 );
+        static KualiDecimal highLimit = new KualiDecimal(10000);
+        static KualiDecimal lowLimit = new KualiDecimal(1000);
     }
 
     static class FaxNumbers {
         static final String fax = "123 456-7890";
         static final String defaultFormat = "123-456-7890";
         static final String shortFax = "123 456 789";
-    }    
-    
+    }
+
     static class VendorParts {
         static final String CODE1 = "C1";
         static final String CODE2 = "C2";
         static final String NAME = "Snow Bound";
-        
+
         static VendorHeader VH = new VendorHeader();
         static VendorSupplierDiversity VSD = new VendorSupplierDiversity();
         static VendorDetail VD = new VendorDetail();
-        static VendorAddress VA  = new VendorAddress();
-        static VendorContract VC  = new VendorContract();
+        static VendorAddress VA = new VendorAddress();
+        static VendorContract VC = new VendorContract();
         static VendorShippingSpecialCondition VSSC = new VendorShippingSpecialCondition();
     }
-    
+
     static class StatesZips {
         static final String stateCd = "CA";
         static final String zipCode = "47401";

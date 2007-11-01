@@ -18,14 +18,13 @@ package org.kuali.module.chart.dao;
 import org.apache.ojb.broker.query.Criteria;
 
 /**
- * 
  * This class...
  */
 public interface FiscalYearMakersFilterAction {
 
     /**
-     * This method returns a (possibly compound) WHERE clause element
-     * to be ANDed into the standard Fiscal Year Makers WHERE clause
+     * This method returns a (possibly compound) WHERE clause element to be ANDed into the standard Fiscal Year Makers WHERE clause
+     * 
      * @return criteria combined with Fiscal Year Makers clause
      */
     public Criteria customCriteriaMethod();

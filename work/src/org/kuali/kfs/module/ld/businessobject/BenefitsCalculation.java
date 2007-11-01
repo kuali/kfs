@@ -221,7 +221,7 @@ public class BenefitsCalculation extends PersistableBusinessObjectBase {
         }
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("positionBenefitTypeCode", this.positionBenefitTypeCode);
-        
+
         return m;
     }
 }

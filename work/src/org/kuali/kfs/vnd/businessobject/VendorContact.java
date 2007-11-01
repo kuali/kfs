@@ -26,18 +26,17 @@ import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.State;
 
 /**
- * Container for information about how to get in Contact with a person at a Vendor for
- * a particular purpose.
+ * Container for information about how to get in Contact with a person at a Vendor for a particular purpose.
  */
 public class VendorContact extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private Integer vendorContactGeneratedIdentifier;
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-	private String vendorContactTypeCode;
-	private String vendorContactName;
-	private String vendorContactEmailAddress;
-	private String vendorContactCommentText;
+    private Integer vendorContactGeneratedIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorContactTypeCode;
+    private String vendorContactName;
+    private String vendorContactEmailAddress;
+    private String vendorContactCommentText;
     private String vendorLine1Address;
     private String vendorLine2Address;
     private String vendorCityName;
@@ -47,95 +46,95 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     private String vendorAttentionName;
     private String vendorAddressInternationalProvinceName;
     private boolean active;
-    
-    //These aren't persisted in db, only for lookup page
+
+    // These aren't persisted in db, only for lookup page
     private String phoneNumberForLookup;
     private String tollFreeForLookup;
     private String faxForLookup;
-    
+
     private List<VendorContactPhoneNumber> vendorContactPhoneNumbers;
 
     private VendorDetail vendorDetail;
-	private ContactType vendorContactType;
+    private ContactType vendorContactType;
     private State vendorState;
     private Country vendorCountry;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorContact() {
-        vendorContactPhoneNumbers = new TypedArrayList(VendorContactPhoneNumber.class);
-	}
 
-	public Integer getVendorContactGeneratedIdentifier() { 
-		return vendorContactGeneratedIdentifier;
-	}
-
-	public void setVendorContactGeneratedIdentifier(Integer vendorContactGeneratedIdentifier) {
-		this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
-	}
-
-	public Integer getVendorHeaderGeneratedIdentifier() { 
-		return vendorHeaderGeneratedIdentifier;
-	}
-
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
-
-	public Integer getVendorDetailAssignedIdentifier() { 
-		return vendorDetailAssignedIdentifier;
-	}
-
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
-
-	public String getVendorContactTypeCode() { 
-		return vendorContactTypeCode;
-	}
-
-	public void setVendorContactTypeCode(String vendorContactTypeCode) {
-		this.vendorContactTypeCode = vendorContactTypeCode;
-	}
-
-	public String getVendorContactName() { 
-		return vendorContactName;
-	}
-
-	public void setVendorContactName(String vendorContactName) {
-		this.vendorContactName = vendorContactName;
-	}
-
-	public String getVendorContactEmailAddress() { 
-		return vendorContactEmailAddress;
-	}
-
-	public void setVendorContactEmailAddress(String vendorContactEmailAddress) {
-		this.vendorContactEmailAddress = vendorContactEmailAddress;
-	}
-
-	public String getVendorContactCommentText() { 
-		return vendorContactCommentText;
-	}
-
-	public void setVendorContactCommentText(String vendorContactCommentText) {
-		this.vendorContactCommentText = vendorContactCommentText;
-	}
-
-	public ContactType getVendorContactType() { 
-		return vendorContactType;
-	}
-    
     /**
-	 * Sets the vendorContactType attribute.
-	 * 
-	 * @param vendorContactType The vendorContactType to set.
-	 * @deprecated
-	 */
-	public void setVendorContactType(ContactType vendorContactType) {
-		this.vendorContactType = vendorContactType;
-	}
+     * Default constructor.
+     */
+    public VendorContact() {
+        vendorContactPhoneNumbers = new TypedArrayList(VendorContactPhoneNumber.class);
+    }
+
+    public Integer getVendorContactGeneratedIdentifier() {
+        return vendorContactGeneratedIdentifier;
+    }
+
+    public void setVendorContactGeneratedIdentifier(Integer vendorContactGeneratedIdentifier) {
+        this.vendorContactGeneratedIdentifier = vendorContactGeneratedIdentifier;
+    }
+
+    public Integer getVendorHeaderGeneratedIdentifier() {
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
+
+    public Integer getVendorDetailAssignedIdentifier() {
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public String getVendorContactTypeCode() {
+        return vendorContactTypeCode;
+    }
+
+    public void setVendorContactTypeCode(String vendorContactTypeCode) {
+        this.vendorContactTypeCode = vendorContactTypeCode;
+    }
+
+    public String getVendorContactName() {
+        return vendorContactName;
+    }
+
+    public void setVendorContactName(String vendorContactName) {
+        this.vendorContactName = vendorContactName;
+    }
+
+    public String getVendorContactEmailAddress() {
+        return vendorContactEmailAddress;
+    }
+
+    public void setVendorContactEmailAddress(String vendorContactEmailAddress) {
+        this.vendorContactEmailAddress = vendorContactEmailAddress;
+    }
+
+    public String getVendorContactCommentText() {
+        return vendorContactCommentText;
+    }
+
+    public void setVendorContactCommentText(String vendorContactCommentText) {
+        this.vendorContactCommentText = vendorContactCommentText;
+    }
+
+    public ContactType getVendorContactType() {
+        return vendorContactType;
+    }
+
+    /**
+     * Sets the vendorContactType attribute.
+     * 
+     * @param vendorContactType The vendorContactType to set.
+     * @deprecated
+     */
+    public void setVendorContactType(ContactType vendorContactType) {
+        this.vendorContactType = vendorContactType;
+    }
 
     public VendorDetail getVendorDetail() {
         return vendorDetail;
@@ -159,7 +158,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
+    }
 
     public String getVendorAttentionName() {
         return vendorAttentionName;
@@ -223,6 +222,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
 
     /**
      * Sets the vendorCountry attribute value.
+     * 
      * @param vendorCountry The vendorCountry to set.
      * @deprecated
      */
@@ -236,6 +236,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
 
     /**
      * Sets the vendorState attribute value.
+     * 
      * @param vendorState The vendorState to set.
      * @deprecated
      */
@@ -271,7 +272,7 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorContactGeneratedIdentifier != null) {
             m.put("vendorContactGeneratedIdentifier", this.vendorContactGeneratedIdentifier.toString());
         }
@@ -285,5 +286,5 @@ public class VendorContact extends PersistableBusinessObjectBase implements Inac
     public void setVendorContactPhoneNumbers(List<VendorContactPhoneNumber> vendorContactPhoneNumbers) {
         this.vendorContactPhoneNumbers = vendorContactPhoneNumbers;
     }
-    
+
 }

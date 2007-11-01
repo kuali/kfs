@@ -25,46 +25,43 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class Purpose extends PersistableBusinessObjectBase {
 
-	private String purposeCode;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String purposeDescription;
+    private String purposeCode;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String purposeDescription;
     private Integer userSortNumber;
-    
-	/**
-	 * Default constructor.
-	 */
-	public Purpose() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public Purpose() {
 
-	/**
-	 * Gets the purposeCode attribute.
-	 * 
-	 * @return Returns the purposeCode
-	 * 
-	 */
-	public String getPurposeCode() { 
-		return purposeCode;
-	}
+    }
 
-	/**
-	 * Sets the purposeCode attribute.
-	 * 
-	 * @param purposeCode The purposeCode to set.
-	 * 
-	 */
-	public void setPurposeCode(String routingFormPurposeCode) {
-		this.purposeCode = routingFormPurposeCode;
-	}
+    /**
+     * Gets the purposeCode attribute.
+     * 
+     * @return Returns the purposeCode
+     */
+    public String getPurposeCode() {
+        return purposeCode;
+    }
+
+    /**
+     * Sets the purposeCode attribute.
+     * 
+     * @param purposeCode The purposeCode to set.
+     */
+    public void setPurposeCode(String routingFormPurposeCode) {
+        this.purposeCode = routingFormPurposeCode;
+    }
 
 
     /**
      * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
      * 
      * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-     * 
      */
-    public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
         return dataObjectMaintenanceCodeActiveIndicator;
     }
 
@@ -72,35 +69,33 @@ public class Purpose extends PersistableBusinessObjectBase {
      * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
      * 
      * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-     * 
      */
     public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
         this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
     }
 
 
-	/**
-	 * Gets the purposeDescription attribute.
-	 * 
-	 * @return Returns the purposeDescription
-	 * 
-	 */
-	public String getPurposeDescription() { 
-		return purposeDescription;
-	}
-
-	/**
-	 * Sets the purposeDescription attribute.
-	 * 
-	 * @param purposeDescription The purposeDescription to set.
-	 * 
-	 */
-	public void setPurposeDescription(String routingFormPurposeDescription) {
-		this.purposeDescription = routingFormPurposeDescription;
-	}
+    /**
+     * Gets the purposeDescription attribute.
+     * 
+     * @return Returns the purposeDescription
+     */
+    public String getPurposeDescription() {
+        return purposeDescription;
+    }
 
     /**
-     * Gets the userSortNumber attribute. 
+     * Sets the purposeDescription attribute.
+     * 
+     * @param purposeDescription The purposeDescription to set.
+     */
+    public void setPurposeDescription(String routingFormPurposeDescription) {
+        this.purposeDescription = routingFormPurposeDescription;
+    }
+
+    /**
+     * Gets the userSortNumber attribute.
+     * 
      * @return Returns the userSortNumber.
      */
     public Integer getUserSortNumber() {
@@ -109,18 +104,19 @@ public class Purpose extends PersistableBusinessObjectBase {
 
     /**
      * Sets the userSortNumber attribute value.
+     * 
      * @param userSortNumber The userSortNumber to set.
      */
     public void setUserSortNumber(Integer userSortNumber) {
         this.userSortNumber = userSortNumber;
     }
-    
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purposeCode", this.purposeCode);
-	    return m;
+        return m;
     }
 }

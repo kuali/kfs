@@ -16,21 +16,21 @@ import org.kuali.kfs.context.SpringContext;
  */
 public abstract class AbstractRelatedView extends PersistableBusinessObjectBase {
 
-	private Integer accountsPayablePurchasingDocumentLinkIdentifier;
+    private Integer accountsPayablePurchasingDocumentLinkIdentifier;
     private Integer purapDocumentIdentifier;
     private String documentNumber;
 
     private List<Note> notes;
-    
-	public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
-		return accountsPayablePurchasingDocumentLinkIdentifier;
-	}
 
-	public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
-		this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
-	}
+    public Integer getAccountsPayablePurchasingDocumentLinkIdentifier() {
+        return accountsPayablePurchasingDocumentLinkIdentifier;
+    }
 
-	public Integer getPurapDocumentIdentifier() {
+    public void setAccountsPayablePurchasingDocumentLinkIdentifier(Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        this.accountsPayablePurchasingDocumentLinkIdentifier = accountsPayablePurchasingDocumentLinkIdentifier;
+    }
+
+    public Integer getPurapDocumentIdentifier() {
         return purapDocumentIdentifier;
     }
 
@@ -38,13 +38,13 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         this.purapDocumentIdentifier = purapDocumentIdentifier;
     }
 
-	public String getDocumentNumber() {
-		return documentNumber;
-	}
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
     public List<Note> getNotes() {
         if (notes == null) {
@@ -56,19 +56,19 @@ public abstract class AbstractRelatedView extends PersistableBusinessObjectBase 
         }
         return notes;
     }
-    
+
     public String getUrl() {
         return SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + getDocumentNumber() + "&command=displayDocSearchView";
     }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.accountsPayablePurchasingDocumentLinkIdentifier != null) {
             m.put("accountsPayablePurchasingDocumentLinkIdentifier", this.accountsPayablePurchasingDocumentLinkIdentifier.toString());
         }
         return m;
-    }    
- }
+    }
+}

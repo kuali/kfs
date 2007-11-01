@@ -43,7 +43,7 @@ import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class LaborLedgerBalancePosterTest extends KualiTestBase {
-    
+
     private Properties properties;
     private String fieldNames;
     private String deliminator;
@@ -66,47 +66,46 @@ public class LaborLedgerBalancePosterTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
-        
+
         laborLedgerBalancePoster = SpringContext.getBeansOfType(PostTransaction.class).get("laborLedgerBalancePoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
-        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);        
+
+        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
-        
+
         LedgerBalance cleanup = new LedgerBalance();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
-    
-    public void testPost() throws Exception {       
+
+    public void testPost() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
-        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion")); 
+        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
         int expectedUpdate = Integer.valueOf(properties.getProperty("post.expectedUpdate"));
-        int expectedNumberOfRecords = Integer.valueOf(properties.getProperty("post.expectedNumberOfRecords")); 
+        int expectedNumberOfRecords = Integer.valueOf(properties.getProperty("post.expectedNumberOfRecords"));
         int expectedNumberOfOperation = Integer.valueOf(properties.getProperty("post.expectedNumberOfOperation"));
-        
+
         List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
-        
-        for(LaborOriginEntry transaction : transactionList){
+
+        for (LaborOriginEntry transaction : transactionList) {
             String operation = laborLedgerBalancePoster.post(transaction, 0, today);
             Integer currentNumber = operationType.get(operation);
             Integer numberOfOperation = currentNumber != null ? currentNumber + 1 : 1;
             operationType.put(operation, numberOfOperation);
         }
-        
+
         Collection returnValues = businessObjectService.findMatching(LedgerBalance.class, fieldValues);
         assertEquals(expectedNumberOfRecords, returnValues.size());
-        
+
         assertEquals(expectedNumberOfOperation, operationType.size());
         assertEquals(expectedInsertion, operationType.get(KFSConstants.OperationType.INSERT).intValue());
         assertEquals(expectedUpdate, operationType.get(KFSConstants.OperationType.UPDATE).intValue());
-        
+
         LedgerBalance expected1 = new LedgerBalance();
         ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);
     }
 }
-

@@ -20,8 +20,6 @@ import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * Provides methods for checking the budgeting of attributes associated with an account that has presence control turned on.
- * 
- * 
  */
 public interface AccountPresenceService {
 

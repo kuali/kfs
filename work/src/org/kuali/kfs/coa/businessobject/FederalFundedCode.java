@@ -19,8 +19,6 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * Federal Funded Code Business Object
- * 
- * 
  */
 public class FederalFundedCode extends KualiCodeBase {
 

@@ -35,35 +35,34 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
-    
-    
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
-        
+        RoutingForm routingForm = (RoutingForm) form;
+
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
         List<RoutingFormSubcontractor> routingFormSubcontractors = new ArrayList(routingFormDocument.getRoutingFormSubcontractors());
         List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShareList = new ArrayList(routingFormDocument.getRoutingFormInstitutionCostShares());
         List<RoutingFormOtherCostShare> routingFormOtherCostShareList = new ArrayList(routingFormDocument.getRoutingFormOtherCostShares());
         List<RoutingFormQuestion> routingFormQuestions = new ArrayList(routingFormDocument.getRoutingFormQuestions());
         List<RoutingFormOrganization> routingFormOrganizations = new ArrayList(routingFormDocument.getRoutingFormOrganizations());
-        
+
         Integer subcontractorNextSequenceNumber = routingFormDocument.getSubcontractorNextSequenceNumber();
         Integer institutionCostShareNextSequenceNumber = routingFormDocument.getInstitutionCostShareNextSequenceNumber();
         Integer otherCostShareNextSequenceNumber = routingFormDocument.getOtherCostShareNextSequenceNumber();
-        
+
         super.load(mapping, form, request, response);
-        
+
         routingForm.getRoutingFormDocument().setRoutingFormSubcontractors(routingFormSubcontractors);
         routingForm.getRoutingFormDocument().setRoutingFormInstitutionCostShares(routingFormInstitutionCostShareList);
         routingForm.getRoutingFormDocument().setRoutingFormOtherCostShares(routingFormOtherCostShareList);
         routingForm.getRoutingFormDocument().setRoutingFormQuestions(routingFormQuestions);
-        
+
         routingForm.getRoutingFormDocument().setSubcontractorNextSequenceNumber(subcontractorNextSequenceNumber);
         routingForm.getRoutingFormDocument().setInstitutionCostShareNextSequenceNumber(institutionCostShareNextSequenceNumber);
         routingForm.getRoutingFormDocument().setOtherCostShareNextSequenceNumber(otherCostShareNextSequenceNumber);
         routingForm.getRoutingFormDocument().setRoutingFormOrganizations(routingFormOrganizations);
-        
+
         return super.save(mapping, form, request, response);
     }
 
@@ -74,7 +73,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         RoutingFormInstitutionCostShare routingFormInstitutionCostShare = routingForm.getNewRoutingFormInstitutionCostShare();
 
         routingFormDocument.addRoutingFormInstitutionCostShare(routingFormInstitutionCostShare, false);
-        
+
         routingForm.setNewRoutingFormInstitutionCostShare(new RoutingFormInstitutionCostShare());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -85,8 +84,8 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormInstitutionCostShares().remove(lineToDelete);        
-        
+        routingForm.getRoutingFormDocument().getRoutingFormInstitutionCostShares().remove(lineToDelete);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -108,8 +107,8 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormOtherCostShares().remove(lineToDelete);        
-        
+        routingForm.getRoutingFormDocument().getRoutingFormOtherCostShares().remove(lineToDelete);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -118,7 +117,7 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
         RoutingFormSubcontractor routingFormSubcontractor = routingForm.getNewRoutingFormSubcontractor();
-        
+
         routingFormDocument.addRoutingFormSubcontractor(routingFormSubcontractor);
 
         routingForm.setNewRoutingFormSubcontractor(new RoutingFormSubcontractor());
@@ -131,19 +130,19 @@ public class RoutingFormProjectDetailsAction extends RoutingFormAction {
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormSubcontractors().remove(lineToDelete);        
-        
+        routingForm.getRoutingFormDocument().getRoutingFormSubcontractors().remove(lineToDelete);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward deleteRoutingFormOrganization(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         RoutingForm routingForm = (RoutingForm) form;
 
         // Remove the item from the list.
         int lineToDelete = super.getLineToDelete(request);
-        routingForm.getRoutingFormDocument().getRoutingFormOrganizations().remove(lineToDelete);        
-        
+        routingForm.getRoutingFormDocument().getRoutingFormOrganizations().remove(lineToDelete);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

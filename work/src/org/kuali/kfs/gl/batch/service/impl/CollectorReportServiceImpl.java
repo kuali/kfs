@@ -168,7 +168,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             }
             document.add(unparsableBatchNames);
         }
-        
+
         while (batchIter.hasNext()) {
             CollectorBatch batch = batchIter.next();
             StringBuilder buf = new StringBuilder();
@@ -178,27 +178,27 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             appendTotalsInformation(buf, batch, batchOriginEntryTotals);
 
             List<String> errorMessages = translateErrorsFromErrorMap(collectorReportData.getErrorMapForBatchName(batch.getBatchName()));
-            
+
             aggregateTotalRecordsCountFromTrailer += batch.getTotalRecords();
-            
-            //if batch is valid add up totals
-            if( collectorReportData.isBatchValid( batch )){
-                
+
+            // if batch is valid add up totals
+            if (collectorReportData.isBatchValid(batch)) {
+
                 if (batchOriginEntryTotals != null) {
                     aggregateOriginEntryTotals.incorporateTotals(batchOriginEntryTotals);
                 }
-                
+
                 Integer batchNumInputDetails = collectorReportData.getNumInputDetails(batch);
                 if (batchNumInputDetails != null) {
                     aggregateNumInputDetails += batchNumInputDetails;
                 }
-                
+
                 Integer batchNumSavedDetails = collectorReportData.getNumSavedDetails(batch);
                 if (batchNumSavedDetails != null) {
                     aggregateNumSavedDetails += batchNumSavedDetails;
                 }
             }
-            
+
             Paragraph summary = new Paragraph();
             summary.setAlignment(Paragraph.ALIGN_LEFT);
             summary.setFirstLineIndent(0);
@@ -212,7 +212,7 @@ public class CollectorReportServiceImpl implements CollectorReportService {
             }
             document.add(summary);
         }
-        
+
         Paragraph totals = new Paragraph();
         totals.setLeading(textFontSize);
         totals.add(new Phrase("\n\n***** Totals for Creation of GLE Data  *****\n", textFont));

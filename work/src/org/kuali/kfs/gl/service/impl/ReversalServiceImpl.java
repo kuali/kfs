@@ -18,7 +18,6 @@ package org.kuali.module.gl.service.impl;
 import java.util.Date;
 import java.util.Iterator;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.service.AccountingPeriodService;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -32,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This transactional class provides the default implementation of the services required in ReversalService
+ * 
  * @see org.kuali.module.gl.service.ReversalService
  */
 @Transactional
@@ -73,9 +73,8 @@ public class ReversalServiceImpl implements ReversalService {
     }
 
     /**
-     * 
      * @param before the date reversals summarized should be on or before
-     * @return a LedgerEntryHolder with a summary of 
+     * @return a LedgerEntryHolder with a summary of
      * @see org.kuali.module.gl.service.ReversalService#getSummaryByDate(java.util.Date)
      */
     public LedgerEntryHolder getSummaryByDate(Date before) {
@@ -91,11 +90,10 @@ public class ReversalServiceImpl implements ReversalService {
         }
         return ledgerEntryHolder;
     }
-    
+
     /**
-     * Creates a LedgerEntry from a reversal, which is proper for summarization (ie, its fiscal year and period code
-     * are based off the reversal date, not off the transaction date or the reversal's current fiscal year and
-     * accounting period)
+     * Creates a LedgerEntry from a reversal, which is proper for summarization (ie, its fiscal year and period code are based off
+     * the reversal date, not off the transaction date or the reversal's current fiscal year and accounting period)
      * 
      * @param reversal reversal to build LedgerEntry with
      * @return a new LedgerEntry, populated by the reversal
@@ -139,7 +137,7 @@ public class ReversalServiceImpl implements ReversalService {
     public void setReversalDao(ReversalDao reversalDao) {
         this.reversalDao = reversalDao;
     }
-    
+
     /**
      * Sets the accountingPeriodService attribute, allowing injection of an implementation of that service
      * 
@@ -149,7 +147,7 @@ public class ReversalServiceImpl implements ReversalService {
     public void setAccountingPeriodService(AccountingPeriodService accountingPeriodService) {
         this.accountingPeriodService = accountingPeriodService;
     }
-    
+
     /**
      * Sets the unversityDateService attribute, allowing injection of an implementation of that service
      * 

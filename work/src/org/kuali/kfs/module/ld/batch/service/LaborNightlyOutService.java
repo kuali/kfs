@@ -28,7 +28,7 @@ public interface LaborNightlyOutService {
      * This method copies the approved pending ledger entries to orign entry table
      */
     public void copyApprovedPendingLedgerEntries();
-    
+
     /**
      * Delete all the labor general ledger entries that were copied for processing.
      */
@@ -37,5 +37,5 @@ public interface LaborNightlyOutService {
     /**
      * This method copies the labor general ledger entries to GL
      */
-    public void copyLaborGenerealLedgerEntries();    
+    public void copyLaborGenerealLedgerEntries();
 }

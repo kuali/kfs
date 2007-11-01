@@ -26,34 +26,22 @@ import edu.iu.uis.eden.routetemplate.RuleExtension;
 import edu.iu.uis.eden.routetemplate.RuleExtensionValue;
 
 public class KualiResearchRiskAttribute implements WorkflowAttribute {
-    
+
     private final static String PROPOSAL_RESEARCH_RISKS = "proposalResearchRisks";
     private boolean required = false;
     private String researchRiskTypeCode;
 
     public String getDocContent() {
         // TODO Auto-generated method stub
-   /*    <newMaintainableObject class="org.kuali.module.cg.maintenance.AwardMaintainableImpl">
-        <businessObject class="org.kuali.module.cg.bo.Award">
-          <proposalNumber>81159</proposalNumber>
-          
-          <proposal>
-        
-        <proposalResearchRisks class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom">
-        <list>
-          <default>
-            <size>6</size>
-          </default>
-          <int>10</int>
-          <org.kuali.module.cg.bo.ProposalResearchRisk>
-            <researchRiskTypeCode>H</researchRiskTypeCode>
-            <proposalNumber>81159</proposalNumber>
-            <isActive>false</isActive>
-            <proposal reference="../../../.."/>
-            <researchRiskType>
-              <researchRiskTypeCode>H</researchRiskTypeCode>
-              <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
-              <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription> */
+        /*
+         * <newMaintainableObject class="org.kuali.module.cg.maintenance.AwardMaintainableImpl"> <businessObject
+         * class="org.kuali.module.cg.bo.Award"> <proposalNumber>81159</proposalNumber> <proposal> <proposalResearchRisks
+         * class="org.apache.ojb.broker.util.collections.ManageableArrayList" serialization="custom"> <list> <default> <size>6</size>
+         * </default> <int>10</int> <org.kuali.module.cg.bo.ProposalResearchRisk> <researchRiskTypeCode>H</researchRiskTypeCode>
+         * <proposalNumber>81159</proposalNumber> <isActive>false</isActive> <proposal reference="../../../.."/>
+         * <researchRiskType> <researchRiskTypeCode>H</researchRiskTypeCode> <dataObjectMaintenanceCodeActiveIndicator>true</dataObjectMaintenanceCodeActiveIndicator>
+         * <researchRiskTypeDescription>Human Subjects</researchRiskTypeDescription>
+         */
         return null;
     }
 

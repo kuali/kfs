@@ -41,7 +41,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.purap.PurapConstants;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 
@@ -52,15 +51,13 @@ import edu.iu.uis.eden.lookupable.Row;
 
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.
- *
- *
- *
  */
 public class KualiWorkflowUtils extends WorkflowUtils {
     private static final Logger LOG = Logger.getLogger(KualiWorkflowUtils.class);
 
-    /* the following is so verbose because most times the match anywhere prefix is used and the
-     * verboseness prevents bad matching if a document has an attribute named 'report'
+    /*
+     * the following is so verbose because most times the match anywhere prefix is used and the verboseness prevents bad matching if
+     * a document has an attribute named 'report'
      */
     public static final String XPATH_ELEMENT_SEPARATOR = "/";
     private static final String GENERATED_CONTENT_MAIN_TAG = "generatedContent";
@@ -104,7 +101,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     public static final String C_G_PROPOSAL_DOC_TYPE = "ProposalMaintenanceDocument";
     public static final String USER_DOC_TYPE = "UniversalUserMaintenanceDocument";
     public static final String CHART_ORG_WORKGROUP_DOC_TYPE = "ChartOrgWorkgroup";
-	public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = "CreditMemoDocument";
+    public static final String ACCOUNTS_PAYABLE_CREDIT_MEMO_DOCUMENT_TYPE = "CreditMemoDocument";
     public static final String ACCOUNTS_PAYABLE_PAYMENT_REQUEST_DOCUMENT_TYPE = "PaymentRequestDocument";
     public static final String FINANCIAL_DOCUMENT_TOTAL_AMOUNT_XPATH = xstreamSafeXPath(XSTREAM_MATCH_ANYWHERE_PREFIX + RicePropertyConstants.DOCUMENT_HEADER + XPATH_ELEMENT_SEPARATOR + RicePropertyConstants.FINANCIAL_DOCUMENT_TOTAL_AMOUNT + "/value");
     public static final String ACCOUNT_GLOBAL_DETAILS_XPATH = xstreamSafeXPath(NEW_MAINTAINABLE_PREFIX + "accountGlobalDetails/list/org.kuali.module.chart.bo.AccountGlobalDetail");
@@ -171,14 +168,13 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
 
-
     /**
      * TODO: remove this method when we upgrade to workflow 2.2 - the problem that this helps with is as follows:
      * StandardWorkflowEngine is not currently setting up the DocumentContent on the RouteContext object. Instead that's being
      * handled by the RequestsNode which, in the case of the BudgetAdjustmentDocument, we never pass through before hitting the
      * first split. So, in that particular case, we have to reference an attribute that gives us the xml string and translate that
      * to a dom document ourselves.
-     *
+     * 
      * @param xmlDocumentContent
      * @return a dom representation of the xml provided
      * @deprecated
@@ -193,10 +189,10 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary,
-     * creates a new instance and uses the getSourceAccountingLine method to get the name of the source accounting line class.
-     * It is intended for use by our workflow attributes when building xpath expressions
-     *
+     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary, creates
+     * a new instance and uses the getSourceAccountingLine method to get the name of the source accounting line class. It is
+     * intended for use by our workflow attributes when building xpath expressions
+     * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the source accounting line class associated with the specified workflow document type name
      */
@@ -206,7 +202,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
             throw new IllegalArgumentException("getSourceAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
         try {
-            Class sourceAccountingLineClass = ((AccountingDocument)documentClass.newInstance()).getSourceAccountingLineClass();
+            Class sourceAccountingLineClass = ((AccountingDocument) documentClass.newInstance()).getSourceAccountingLineClass();
             String sourceAccountingLineClassName = null;
             if (sourceAccountingLineClass != null) {
                 sourceAccountingLineClassName = sourceAccountingLineClass.getName();
@@ -225,10 +221,10 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary,
-     * creates a new instance and uses the getTargetAccountingLine method to get the name of the target accounting line class.
-     * It is intended for use by our workflow attributes when building xpath expressions
-     *
+     * This method uses the document type name to get the AccountingDocument implementation class from the data dictionary, creates
+     * a new instance and uses the getTargetAccountingLine method to get the name of the target accounting line class. It is
+     * intended for use by our workflow attributes when building xpath expressions
+     * 
      * @param documentTypeName the document type name to use when querying the TransactionalDocumentDataDictionaryService
      * @return the name of the target accounting line class associated with the specified workflow document type name
      */
@@ -238,7 +234,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
             throw new IllegalArgumentException("getTargetAccountingLineClassName method of KualiWorkflowUtils requires a documentTypeName String that corresponds to a class that implments AccountingDocument");
         }
         try {
-            Class targetAccountingLineClass = ((AccountingDocument)documentClass.newInstance()).getTargetAccountingLineClass();
+            Class targetAccountingLineClass = ((AccountingDocument) documentClass.newInstance()).getTargetAccountingLineClass();
             String targetAccountingLineClassName = null;
             if (targetAccountingLineClass != null) {
                 targetAccountingLineClassName = targetAccountingLineClass.getName();
@@ -258,7 +254,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
 
     /**
      * This method returns a label from the data dictionary service
-     *
+     * 
      * @param businessObjectClass - class where the label should come from
      * @param attributeName - name of the attribute you need the label for
      * @return the label from the data dictionary for the given Class and attributeName or null if not found
@@ -268,12 +264,10 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     *
      * This method will do a simple XPath.evaluate, while wrapping your xpathExpression with the xstreamSafe function. It assumes a
-     * String result, and will return such.
-     *
-     * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
-     *
+     * String result, and will return such. If an XPathExpressionException is thrown, this will be re-thrown within a
+     * RuntimeException.
+     * 
      * @param xpath A correctly initialized XPath instance.
      * @param xpathExpression Your XPath Expression that needs to be wrapped in an xstreamSafe wrapper and run.
      * @param item The document contents you will be searching within.
@@ -292,13 +286,11 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     *
      * This method wraps the passed-in XPath expression in XStream Safe wrappers, so that XStream generated reference links will be
      * handled correctly.
-     *
+     * 
      * @param xpathExpression The XPath Expression you wish to use.
      * @return Your XPath Expression wrapped in the XStreamSafe wrapper.
-     *
      */
     public static final String xstreamSafeXPath(String xpathExpression) {
         return new StringBuilder(XSTREAM_SAFE_PREFIX).append(xpathExpression).append(XSTREAM_SAFE_SUFFIX).toString();
@@ -308,7 +300,7 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     /**
      * This is for use by xml WorkflowAttribute implementations. It overrides the label and help url of the test fields on the
      * edu.iu.uis.eden.lookupable.Rows obtained from the workflow parent class with the appropriate values from the data dictionary.
-     *
+     * 
      * @param workflowRows A list of edu.iu.uis.eden.lookupable.Row objects provided by the workflow superclass, based on the XML
      *        attribute definition.
      * @param businessObjectClass The BusinessObject Class extracted from the meta data specified in the XML attribute definition,
@@ -337,16 +329,15 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     *
      * This method builds a workflow-lookup-screen Row of type TEXT, with no quickfinder/lookup.
-     *
-     * @param propertyClass The Class of the BO that this row is based on.  For example, Account.class for accountNumber.
-     * @param boPropertyName The property name on the BO that this row is based on.  For example, accountNumber for Account.accountNumber.
-     * @param workflowPropertyKey The workflow-lookup-screen property key.  For example, account_nbr for Account.accountNumber.  This key can be
-     *                            anything, but needs to be consistent with what is used for the row/field key on the java attribute, so everything
-     *                            links up correctly.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
+     *        Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
+     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
+     *        everything links up correctly.
      * @return A populated and ready-to-use workflow lookupable.Row.
-     *
      */
     public static edu.iu.uis.eden.lookupable.Row buildTextRow(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
         if (propertyClass == null) {
@@ -361,80 +352,76 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         List chartFields = new ArrayList();
         org.kuali.core.web.ui.Field field;
         field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, false, workflowPropertyKey,
-                        field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey));
+        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, false, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey));
         return new Row(chartFields);
     }
 
     /**
-    *
-    * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
-    *
-    * @param propertyClass The Class of the BO that this row is based on.  For example, Account.class for accountNumber.
-    * @param boPropertyName The property name on the BO that this row is based on.  For example, accountNumber for Account.accountNumber.
-    * @param workflowPropertyKey The workflow-lookup-screen property key.  For example, account_nbr for Account.accountNumber.  This key can be
-    *                            anything, but needs to be consistent with what is used for the row/field key on the java attribute, so everything
-    *                            links up correctly.
-    * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
-    *
-    */
-   public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
-       return buildTextRowWithLookup(propertyClass, boPropertyName, workflowPropertyKey, null);
-   }
-
-   /**
-   *
-   * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
-   *
-   * @param propertyClass The Class of the BO that this row is based on.  For example, Account.class for accountNumber.
-   * @param boPropertyName The property name on the BO that this row is based on.  For example, accountNumber for Account.accountNumber.
-   * @param workflowPropertyKey The workflow-lookup-screen property key.  For example, account_nbr for Account.accountNumber.  This key can be
-   *                            anything, but needs to be consistent with what is used for the row/field key on the java attribute, so everything
-   *                            links up correctly.
-   * @param fieldConversionsByBoPropertyName A list of extra field conversions where the key is the business object property name and the value is
-   *                                         the workflow property key
-   * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
-   *
-   */
-  public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map fieldConversionsByBoPropertyName) {
-      if (propertyClass == null) {
-          throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
-      }
-      if (StringUtils.isBlank(boPropertyName)) {
-          throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
-      }
-      if (StringUtils.isBlank(workflowPropertyKey)) {
-          throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
-      }
-      org.kuali.core.web.ui.Field field;
-      field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
-
-      //  build the quickFinder/lookupableName info
-      String lookupableClassNameImpl = WorkflowLookupableImpl.getLookupableImplName(propertyClass);
-      StringBuffer fieldConversions = new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX);
-      fieldConversions.append(boPropertyName + ":" + workflowPropertyKey);
-      if (fieldConversionsByBoPropertyName != null) {
-          for (Object entry : fieldConversionsByBoPropertyName.entrySet()) {
-              Map.Entry entryObject = (Map.Entry) entry;
-              fieldConversions.append(",").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(entryObject.getKey() + ":" + entryObject.getValue());
-          }
-      }
-      String lookupableName = WorkflowLookupableImpl.getLookupableName(lookupableClassNameImpl, fieldConversions.toString());
-
-      List chartFields = new ArrayList();
-      chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, true, workflowPropertyKey,
-                      field.getPropertyValue(), field.getFieldValidValues(), lookupableClassNameImpl, workflowPropertyKey));
-      chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
-      return new Row(chartFields);
-  }
+     * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
+     *        Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
+     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
+     *        everything links up correctly.
+     * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
+     */
+    public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey) {
+        return buildTextRowWithLookup(propertyClass, boPropertyName, workflowPropertyKey, null);
+    }
 
     /**
-     * This method gets the document total amount from the DocumentHeader
-     *
-     * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
-     *
+     * This method builds a workflow-lookup-screen Row of type TEXT, with the attached lookup icon and functionality.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
+     *        Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
+     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
+     *        everything links up correctly.
+     * @param fieldConversionsByBoPropertyName A list of extra field conversions where the key is the business object property name
+     *        and the value is the workflow property key
+     * @return A populated and ready-to-use workflow lookupable.Row, which includes both the property field and the lookup icon.
+     */
+    public static edu.iu.uis.eden.lookupable.Row buildTextRowWithLookup(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map fieldConversionsByBoPropertyName) {
+        if (propertyClass == null) {
+            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
+        }
+        if (StringUtils.isBlank(boPropertyName)) {
+            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
+        }
+        if (StringUtils.isBlank(workflowPropertyKey)) {
+            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
+        }
+        org.kuali.core.web.ui.Field field;
+        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
+
+        // build the quickFinder/lookupableName info
+        String lookupableClassNameImpl = WorkflowLookupableImpl.getLookupableImplName(propertyClass);
+        StringBuffer fieldConversions = new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX);
+        fieldConversions.append(boPropertyName + ":" + workflowPropertyKey);
+        if (fieldConversionsByBoPropertyName != null) {
+            for (Object entry : fieldConversionsByBoPropertyName.entrySet()) {
+                Map.Entry entryObject = (Map.Entry) entry;
+                fieldConversions.append(",").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(entryObject.getKey() + ":" + entryObject.getValue());
+            }
+        }
+        String lookupableName = WorkflowLookupableImpl.getLookupableName(lookupableClassNameImpl, fieldConversions.toString());
+
+        List chartFields = new ArrayList();
+        chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, true, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), lookupableClassNameImpl, workflowPropertyKey));
+        chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
+        return new Row(chartFields);
+    }
+
+    /**
+     * This method gets the document total amount from the DocumentHeader If an XPathExpressionException is thrown, this will be
+     * re-thrown within a RuntimeException.
+     * 
      * @param routeContext The RouteContext object from the workflow system
-     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
+     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value
+     *         cannot be found.
      */
     public static KualiDecimal getFinancialDocumentTotalAmount(RouteContext routeContext) {
         Document document = routeContext.getDocumentContent().getDocument();
@@ -442,11 +429,12 @@ public class KualiWorkflowUtils extends WorkflowUtils {
     }
 
     /**
-     * This method gets the document total amount from the DocumentHeader
-     * <br>
+     * This method gets the document total amount from the DocumentHeader <br>
      * If an XPathExpressionException is thrown, this will be re-thrown within a RuntimeException.
+     * 
      * @param document - the document object from the workflow system
-     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value cannot be found.
+     * @return the KualiDecimal value of the total amount from the document's workflow document content or null if the amount value
+     *         cannot be found.
      */
     public static KualiDecimal getFinancialDocumentTotalAmount(Document document) {
         XPath xpath = getXPath(document);
@@ -463,8 +451,8 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         }
         catch (XPathExpressionException xe) {
             String errorMsg = "Error executing XPath expression - '" + xpathXpression + "'";
-            LOG.error(errorMsg,xe);
-            throw new RuntimeException (errorMsg,xe);
+            LOG.error(errorMsg, xe);
+            throw new RuntimeException(errorMsg, xe);
         }
     }
 

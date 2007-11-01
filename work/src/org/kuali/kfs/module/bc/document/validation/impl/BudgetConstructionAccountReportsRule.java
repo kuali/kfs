@@ -43,7 +43,7 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
         // to spring-managed with these services injected by Spring at some later date.
         // When this happens, just remove these calls to the setters with
         // SpringContext, and configure the bean defs for spring.
-        this.setChartService(SpringContext.getBean(ChartService.class)); 
+        this.setChartService(SpringContext.getBean(ChartService.class));
     }
 
     /**
@@ -79,7 +79,7 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
- 
+
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
 
         // check user authorized for this transaction
@@ -87,53 +87,43 @@ public class BudgetConstructionAccountReportsRule extends MaintenanceDocumentRul
         return true;
     }
 
- 
-
 
     /**
-     * 
-     * Check that the user is authorized to process this document.
-     * 
-     * The user is authorized if either of the following are true:
-     * 1. The transaction user is the manager of the Chart
-     * 2. The transaction user is the manager of the Root Chart
-     * 
-     * 
+     * Check that the user is authorized to process this document. The user is authorized if either of the following are true: 1.
+     * The transaction user is the manager of the Chart 2. The transaction user is the manager of the Root Chart
      */
 
     protected boolean checkUserAuthorized() {
-        
+
         boolean success = true;
         String chartUserId = "";
         String transactionUserId = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        if (!(newBCAccountReports.getChartOfAccounts()== null)){
-        
-               chartUserId = newBCAccountReports.getChartOfAccounts().getFinCoaManagerUniversalId();
-               if (transactionUserId.equals(chartUserId)||transactionUserId.equals(rootChartUserId)){
-                   success = true;
-               }else{
-                   putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
-                   success = false;
-               }
-        } else{
+        if (!(newBCAccountReports.getChartOfAccounts() == null)) {
+
+            chartUserId = newBCAccountReports.getChartOfAccounts().getFinCoaManagerUniversalId();
+            if (transactionUserId.equals(chartUserId) || transactionUserId.equals(rootChartUserId)) {
+                success = true;
+            }
+            else {
+                putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
+                success = false;
+            }
+        }
+        else {
             putFieldError("chartOfAccountsCode", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_REPORTING_USER_MUST_BE_CHART_MANAGER_OR_ROOT_MANAGER);
             success = false;
         }
-//        LOG.info("transactionUserId = " + transactionUserId );
-//        LOG.info("chartUserId = " + chartUserId );
-//        LOG.info("rootChartUserId = " + rootChartUserId );
-                  
+        // LOG.info("transactionUserId = " + transactionUserId );
+        // LOG.info("chartUserId = " + chartUserId );
+        // LOG.info("rootChartUserId = " + rootChartUserId );
+
         return success;
     }
-       
+
     /**
-     * 
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
-     * 
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      */
     public void setupConvenienceObjects() {
 

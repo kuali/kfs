@@ -25,47 +25,47 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
 
-	private Integer requisitionItemCapitalAssetIdentifier;
-	private Integer requisitionItemIdentifier;
-	private Long capitalAssetNumber;
+    private Integer requisitionItemCapitalAssetIdentifier;
+    private Integer requisitionItemIdentifier;
+    private Long capitalAssetNumber;
     private String addCapitalAssetNumber;
 
     private RequisitionItem requisitionItem;
 
-	/**
-	 * Default constructor.
-	 */
-	public RequisitionItemCapitalAsset() {
+    /**
+     * Default constructor.
+     */
+    public RequisitionItemCapitalAsset() {
 
-	}
+    }
 
-	public Integer getRequisitionItemCapitalAssetIdentifier() { 
-		return requisitionItemCapitalAssetIdentifier;
-	}
+    public Integer getRequisitionItemCapitalAssetIdentifier() {
+        return requisitionItemCapitalAssetIdentifier;
+    }
 
-	public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
-		this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
-	}
+    public void setRequisitionItemCapitalAssetIdentifier(Integer requisitionItemCapitalAssetIdentifier) {
+        this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
+    }
 
-	public Integer getRequisitionItemIdentifier() { 
-		return requisitionItemIdentifier;
-	}
+    public Integer getRequisitionItemIdentifier() {
+        return requisitionItemIdentifier;
+    }
 
-	public void setRequisitionItemIdentifier(Integer requisitionItemIdentifier) {
-		this.requisitionItemIdentifier = requisitionItemIdentifier;
-	}
+    public void setRequisitionItemIdentifier(Integer requisitionItemIdentifier) {
+        this.requisitionItemIdentifier = requisitionItemIdentifier;
+    }
 
-	public Long getCapitalAssetNumber() { 
-		return capitalAssetNumber;
-	}
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
 
-	public void setCapitalAssetNumber(Long capitalAssetNumber) {
-		this.capitalAssetNumber = capitalAssetNumber;
-	}
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
 
-	public RequisitionItem getRequisitionItem() { 
-		return requisitionItem;
-	}
+    public RequisitionItem getRequisitionItem() {
+        return requisitionItem;
+    }
 
     public String getAddCapitalAssetNumber() {
         return addCapitalAssetNumber;
@@ -75,25 +75,25 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
         this.addCapitalAssetNumber = addCapitalAssetNumber;
     }
 
-	/**
-	 * Sets the requisitionItem attribute.
-	 * 
-	 * @param requisitionItem The requisitionItem to set.
-	 * @deprecated
-	 */
-	public void setRequisitionItem(RequisitionItem requisitionItem) {
-		this.requisitionItem = requisitionItem;
-	}
+    /**
+     * Sets the requisitionItem attribute.
+     * 
+     * @param requisitionItem The requisitionItem to set.
+     * @deprecated
+     */
+    public void setRequisitionItem(RequisitionItem requisitionItem) {
+        this.requisitionItem = requisitionItem;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.requisitionItemCapitalAssetIdentifier != null) {
             m.put("requisitionItemCapitalAssetIdentifier", this.requisitionItemCapitalAssetIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 
 }

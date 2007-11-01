@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ResearchDocumentControlAttributeTypeServiceImpl implements ResearchDocumentControlAttributeTypeService {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ResearchDocumentControlAttributeTypeServiceImpl.class);
-    
+
     private BusinessObjectService businessObjectService;
 
     /**
@@ -41,7 +41,7 @@ public class ResearchDocumentControlAttributeTypeServiceImpl implements Research
         Collection<ControlAttributeType> allTypes = new ArrayList();
         allTypes = businessObjectService.findAll(ControlAttributeType.class);
         List<ControlAttributeType> controlAttributeTypes = new ArrayList();
-        for(ControlAttributeType type: allTypes) {
+        for (ControlAttributeType type : allTypes) {
             controlAttributeTypes.add(type);
         }
         return controlAttributeTypes;

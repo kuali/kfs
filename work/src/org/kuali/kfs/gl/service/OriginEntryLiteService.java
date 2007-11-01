@@ -17,21 +17,8 @@ package org.kuali.module.gl.service;
 
 import java.util.Iterator;
 
-import org.kuali.core.bo.DocumentType;
-import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.bo.OriginationCode;
-import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.AccountingPeriod;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.ObjectType;
-import org.kuali.module.chart.bo.ProjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.gl.bo.OriginEntryLite;
 import org.kuali.module.gl.bo.OriginEntryGroup;
+import org.kuali.module.gl.bo.OriginEntryLite;
 
 public interface OriginEntryLiteService {
     /**
@@ -41,7 +28,7 @@ public interface OriginEntryLiteService {
      * @return Iterator to all the entires
      */
     public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup oeg);
-    
+
     /**
      * Return all the entries for a specific document in a specific group
      * 
@@ -52,8 +39,8 @@ public interface OriginEntryLiteService {
      * @return iterator to all the entries
      */
     public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
-    
+
     public void save(OriginEntryLite entry);
-    
+
     public void delete(OriginEntryLite entry);
 }

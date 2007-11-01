@@ -36,7 +36,7 @@ import org.kuali.module.gl.web.Constant;
 public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractGLLookupableHelperServiceImpl.class);
-    
+
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
 
     protected GeneralLedgerPendingEntryService getGeneralLedgerPendingEntryService() {
@@ -46,7 +46,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
-    
+
     /**
      * This method overides that in parent class so that the maintainance actions are surpressed
      * 
@@ -57,7 +57,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
     public String getActionUrls(BusinessObject bo) {
         return KFSConstants.EMPTY_STRING;
     }
-    
+
     /**
      * This method tests if the user selects to see the general ledager pending entries
      * 
@@ -71,7 +71,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
 
         return pendingEntryOption;
     }
-    
+
     /**
      * This method tests if the user selects to see the reports by monthly or accumulated
      * 
@@ -89,7 +89,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
         }
         return amountViewOption;
     }
-    
+
     /**
      * This method tests if the user selects to see the details or consolidated results
      * 
@@ -147,7 +147,7 @@ public abstract class AbstractGLLookupableHelperServiceImpl extends AbstractLook
         return false;
     }
 
-    
+
     /**
      * build the serach result list from the given collection and the number of all qualified search results
      * 

@@ -25,31 +25,29 @@ import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 public class ResearchRiskTypeNotificationValuesFinder extends KeyValuesBase {
 
     /**
-     * 
      * Constructs a ResearchRiskTypeNotificationValuesFinder.java.
      */
     public ResearchRiskTypeNotificationValuesFinder() {
         super();
     }
-    
+
     /**
-     * Builds a collection of possible values to be selected from.  These values are used to build out a
-     * drop down list for user selection.
+     * Builds a collection of possible values to be selected from. These values are used to build out a drop down list for user
+     * selection.
      * 
      * @return A list of KeyLabelPair objects.
-     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         List<KeyLabelPair> notificationValuesPairList = new ArrayList(4);
-        
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.YES, ResearchRiskType.YES+" (Yes)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NO, ResearchRiskType.NO+" (No)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.ALL, ResearchRiskType.ALL+" (All)"));
-        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NEVER, ResearchRiskType.NEVER+" (Never)"));
-        
+
+        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.YES, ResearchRiskType.YES + " (Yes)"));
+        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NO, ResearchRiskType.NO + " (No)"));
+        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.ALL, ResearchRiskType.ALL + " (All)"));
+        notificationValuesPairList.add(new KeyLabelPair(ResearchRiskType.NEVER, ResearchRiskType.NEVER + " (Never)"));
+
         return notificationValuesPairList;
     }
-    
+
 }

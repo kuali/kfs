@@ -15,11 +15,9 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
 
@@ -31,7 +29,8 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
 public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentRule {
 
     /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -40,7 +39,8 @@ public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentR
     }
 
     /**
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
@@ -48,15 +48,16 @@ public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentR
         YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
         return success;
     }
-    
+
     /**
      * Overriding to return parent class TransferOfFunds instead
+     * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */
     @Override
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
         return TransferOfFundsDocument.class;
     }
-    
-    
+
+
 }

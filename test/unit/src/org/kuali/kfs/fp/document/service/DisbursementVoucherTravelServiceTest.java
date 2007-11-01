@@ -26,8 +26,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the DisbursementVoucherTravel service.
- * 
- * 
  */
 @ConfigureContext
 public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
@@ -124,9 +122,7 @@ public class DisbursementVoucherTravelServiceTest extends KualiTestBase {
 
     /**
      * Tests the calculation of travel mileage amount. This is testing against the mileage rates defined currently, we need to find
-     * a way to fix this for when they change:
-     * 
-     * 0-500 0.375 500-3000 0.18 3000 - 0
+     * a way to fix this for when they change: 0-500 0.375 500-3000 0.18 3000 - 0
      * 
      * @throws Exception
      */

@@ -42,15 +42,15 @@ import org.kuali.test.suite.RelatesTo.JiraIssue;
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
     private DataDictionary dataDictionary;
-    private Map <String,Exception> dataDictionaryLoadFailures;
-    private Map<String,String> dataDictionaryWarnings;
-    
+    private Map<String, Exception> dataDictionaryLoadFailures;
+    private Map<String, String> dataDictionaryWarnings;
+
     @RelatesTo(JiraIssue.KULRNE6047)
     public void testLoadDataDictionaryConfiguration() throws Exception {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");
         for (String key : dataDictionaryLoadFailures.keySet()) {
-            failureMessage.append("\n\t").append("key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)).append(" error: ").append(((Exception)dataDictionaryLoadFailures.get(key)).getMessage());
+            failureMessage.append("\n\t").append("key: ").append(key).append(" at location: ").append(dataDictionary.getFileLocationMap().get(key)).append(" error: ").append(((Exception) dataDictionaryLoadFailures.get(key)).getMessage());
         }
         StringBuffer warningMessage = new StringBuffer("Loaded DataDictionaryEntrys for some file locations with warnings:");
         for (String key : dataDictionaryWarnings.keySet()) {
@@ -59,35 +59,36 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         if (dataDictionaryWarnings.size() > 0) {
             System.err.print(warningMessage);
         }
-        assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());  
+        assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());
     }
-    
+
     @RelatesTo(JiraIssue.KULRNE6048)
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
         loadDataDictionary();
         List<String> documentTypeCodes = new ArrayList<String>();
-        for (DocumentType type: (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
+        for (DocumentType type : (Collection<DocumentType>) SpringContext.getBean(BusinessObjectService.class).findAll(DocumentType.class)) {
             documentTypeCodes.add(type.getFinancialDocumentTypeCode());
         }
-        //Using HashSet since duplicate objects would otherwise be returned
+        // Using HashSet since duplicate objects would otherwise be returned
         HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
-        for (DocumentEntry documentEntry: documentEntries) {
+        for (DocumentEntry documentEntry : documentEntries) {
             String code = documentEntry.getDocumentTypeCode();
             if (!documentTypeCodes.contains(code) && !"RUSR".equals(code)) {
                 ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
-            }else {
+            }
+            else {
                 documentTypeCodes.remove(code);
             }
         }
-        if (documentTypeCodes.size() > 0){
+        if (documentTypeCodes.size() > 0) {
             System.err.print("superfluousTypesDefinedInDatabase: " + documentTypeCodes);
         }
 
         assertEquals("dataDictionaryDocumentTypesNotDefinedInDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
-        
+
     }
-    
+
     @RelatesTo(JiraIssue.KULRNE6049)
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         loadDataDictionary();
@@ -105,52 +106,54 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
                     workflowDocumentTypeNames.add(docName);
                 }
             }
-        }catch (Exception e) {
-            throw(e);
         }
-        //      Using HashSet since duplicate objects would otherwise be returned
+        catch (Exception e) {
+            throw (e);
+        }
+        // Using HashSet since duplicate objects would otherwise be returned
         HashSet<DocumentEntry> documentEntries = new HashSet(SpringContext.getBean(DataDictionaryService.class).getDataDictionary().getDocumentEntries().values());
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
-        for (DocumentEntry documentEntry: documentEntries) {
+        for (DocumentEntry documentEntry : documentEntries) {
             String name = documentEntry.getDocumentTypeName();
             if (!workflowDocumentTypeNames.contains(name) && !"RiceUserMaintenanceDocument".equals(name)) {
                 ddEntriesWithMissingTypes.add(name);
-            }else {
+            }
+            else {
                 workflowDocumentTypeNames.remove(name);
             }
         }
 
-       if (workflowDocumentTypeNames.size() > 0){
-           System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
-       }
-       assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
+        if (workflowDocumentTypeNames.size() > 0) {
+            System.err.print("superfluousTypesDefinedInWorkflowDatabase: " + workflowDocumentTypeNames);
+        }
+        assertEquals("documentTypesNotDefinedInWorkflowDatabase: " + ddEntriesWithMissingTypes, 0, ddEntriesWithMissingTypes.size());
     }
 
-    
-    private void loadDataDictionary()  throws Exception {
+
+    private void loadDataDictionary() throws Exception {
         for (String key : dataDictionary.getFileLocationMap().keySet()) {
             try {
                 DataDictionaryEntry entry = dataDictionary.getDictionaryObjectEntry(key);
                 if (entry == null) {
                     dataDictionaryWarnings.put(key, "DataDictionaryEntry is null");
                 }
-                else if ((entry instanceof BusinessObjectEntry) && !((BusinessObjectEntry)entry).getBusinessObjectClass().getSimpleName().equals(key)) {
-                    dataDictionaryWarnings.put(key, "BusinessObjectEntry xml file name and business object class simple name are out of sync");                    
+                else if ((entry instanceof BusinessObjectEntry) && !((BusinessObjectEntry) entry).getBusinessObjectClass().getSimpleName().equals(key)) {
+                    dataDictionaryWarnings.put(key, "BusinessObjectEntry xml file name and business object class simple name are out of sync");
                 }
-                else if ((entry instanceof MaintenanceDocumentEntry) && (!(((MaintenanceDocumentEntry)entry).getBusinessObjectClass().getSimpleName() + "MaintenanceDocument").equals(key) || !((MaintenanceDocumentEntry)entry).getDocumentTypeName().equals(key)))  {
-                    dataDictionaryWarnings.put(key, "MaintenanceDocumentEntry xml file name and business object class simple name or workflow document type name are out of sync");                                        
+                else if ((entry instanceof MaintenanceDocumentEntry) && (!(((MaintenanceDocumentEntry) entry).getBusinessObjectClass().getSimpleName() + "MaintenanceDocument").equals(key) || !((MaintenanceDocumentEntry) entry).getDocumentTypeName().equals(key))) {
+                    dataDictionaryWarnings.put(key, "MaintenanceDocumentEntry xml file name and business object class simple name or workflow document type name are out of sync");
                 }
-                else if ((entry instanceof TransactionalDocumentEntry) && (!((TransactionalDocumentEntry)entry).getDocumentClass().getSimpleName().equals(key) || !((TransactionalDocumentEntry)entry).getDocumentTypeName().equals(key))) {
-                    dataDictionaryWarnings.put(key, "TransactionalDocumentEntry xml file name and document class simple name or workflow document type name are out of sync");                                         
+                else if ((entry instanceof TransactionalDocumentEntry) && (!((TransactionalDocumentEntry) entry).getDocumentClass().getSimpleName().equals(key) || !((TransactionalDocumentEntry) entry).getDocumentTypeName().equals(key))) {
+                    dataDictionaryWarnings.put(key, "TransactionalDocumentEntry xml file name and document class simple name or workflow document type name are out of sync");
                 }
-            
+
             }
             catch (Exception e) {
                 dataDictionaryLoadFailures.put(key, e);
             }
         }
     }
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();

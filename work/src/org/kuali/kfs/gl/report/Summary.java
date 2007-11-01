@@ -114,7 +114,7 @@ public class Summary implements Comparable {
         StringBuilder summaryDescription = buildSummaryDescription(destinationName, operationType);
         updateReportSummary(reportSummary, summaryDescription.toString(), count, order);
     }
-    
+
     // update the report summary with the given information
     public static void updateReportSummary(List<Summary> reportSummary, String summaryDescription, int count, int order) {
         Summary inputSummary = new Summary(order, summaryDescription, count);

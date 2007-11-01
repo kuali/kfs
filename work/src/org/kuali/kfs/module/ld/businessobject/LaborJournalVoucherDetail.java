@@ -456,8 +456,10 @@ public class LaborJournalVoucherDetail extends VoucherSourceAccountingLine {
     public String getEncumbranceUpdateCode() {
         return encumbranceUpdateCode;
     }
+
     /**
      * Sets the encumbranceUpdateCode.
+     * 
      * @param encumbranceUpdateCode The encumbranceUpdateCode to set.
      * @see org.kuali.kfs.bo.AccountingLine#setEncumbranceUpdateCode(java.lang.String)
      */

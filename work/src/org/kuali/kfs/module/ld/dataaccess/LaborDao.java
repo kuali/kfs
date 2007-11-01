@@ -20,15 +20,13 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.document.AccountingDocument;
 
 /**
  * This class is an interface to data access objects for general labor related inquiries. It will be deprecated after the data
  * access methods here are put down to business object level.
  */
 public interface LaborDao {
- 
+
     /**
      * This method returns a CSF Tracker total for a given selection criteria
      * 
@@ -45,7 +43,7 @@ public interface LaborDao {
      * @return
      */
     Object getEncumbranceTotal(Map fieldValues);
-    
+
     /**
      * This method returns base funds data
      * 
@@ -55,7 +53,7 @@ public interface LaborDao {
      */
     @Deprecated
     Iterator getBaseFunds(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * This method returns current funds data
      * 
@@ -64,7 +62,7 @@ public interface LaborDao {
      * @return Collection
      */
     Iterator getCurrentFunds(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * This method returns current funds data
      * 
@@ -73,7 +71,7 @@ public interface LaborDao {
      */
     @Deprecated
     Iterator getEmployeeFunding(Map fieldValues);
-    
+
     /**
      * This method returns current July1 Position Funding data
      * 
@@ -81,9 +79,9 @@ public interface LaborDao {
      * @return Collection
      */
     Collection getJuly1PositionFunding(Map fieldValues);
-    
+
     Collection getJuly1(Map fieldValues);
-    
+
     /**
      * Stores a business object without doing a update query.
      * 

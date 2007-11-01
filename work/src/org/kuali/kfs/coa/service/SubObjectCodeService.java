@@ -19,8 +19,6 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * This interface defines methods that a SubObjectCode Service must provide.
- * 
- * 
  */
 public interface SubObjectCodeService {
     /**
@@ -36,8 +34,8 @@ public interface SubObjectCodeService {
     public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 
     /**
-     * 
      * This method returns an financial object code for the current fiscal year.
+     * 
      * @param chartOfAccountsCode chart of accounts code for object code
      * @param financialObjectCode financial object code
      * @return the object code specified

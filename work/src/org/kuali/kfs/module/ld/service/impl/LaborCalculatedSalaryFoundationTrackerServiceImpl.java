@@ -31,7 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides its clients with access to CSF tracker entries in the backend data store.
- * @see org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker 
+ * 
+ * @see org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker
  */
 @Transactional
 public class LaborCalculatedSalaryFoundationTrackerServiceImpl implements LaborCalculatedSalaryFoundationTrackerService {

@@ -19,10 +19,10 @@ package org.kuali.module.budget.dao;
  * This class...
  */
 public interface OrganizationBCDocumentSearchDao {
-    
+
     /**
-     * This method populates BudgetConstructionAccountSelect with rows associated with a set of
-     * selected organizations in the Organization Tree for the user and where Budget Documents exist.
+     * This method populates BudgetConstructionAccountSelect with rows associated with a set of selected organizations in the
+     * Organization Tree for the user and where Budget Documents exist.
      * 
      * @param personUserIdentifier
      * @param universityFiscalYear

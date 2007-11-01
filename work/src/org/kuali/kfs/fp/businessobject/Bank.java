@@ -45,7 +45,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankCode attribute.
      * 
      * @return Returns the financialDocumentBankCode
-     * 
      */
     public String getFinancialDocumentBankCode() {
         return financialDocumentBankCode;
@@ -55,7 +54,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankCode attribute.
      * 
      * @param financialDocumentBankCode The financialDocumentBankCode to set.
-     * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
         this.financialDocumentBankCode = financialDocumentBankCode;
@@ -65,7 +63,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankName attribute.
      * 
      * @return Returns the financialDocumentBankName
-     * 
      */
     public String getFinancialDocumentBankName() {
         return financialDocumentBankName;
@@ -75,7 +72,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankName attribute.
      * 
      * @param financialDocumentBankName The financialDocumentBankName to set.
-     * 
      */
     public void setFinancialDocumentBankName(String financialDocumentBankName) {
         this.financialDocumentBankName = financialDocumentBankName;
@@ -85,7 +81,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankShortNm attribute.
      * 
      * @return Returns the financialDocumentBankShortNm
-     * 
      */
     public String getFinancialDocumentBankShortNm() {
         return financialDocumentBankShortNm;
@@ -95,7 +90,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankShortNm attribute.
      * 
      * @param financialDocumentBankShortNm The financialDocumentBankShortNm to set.
-     * 
      */
     public void setFinancialDocumentBankShortNm(String financialDocumentBankShortNm) {
         this.financialDocumentBankShortNm = financialDocumentBankShortNm;
@@ -105,7 +99,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Gets the bankAccounts attribute.
      * 
      * @return Returns the bankAccounts
-     * 
      */
     public List getBankAccounts() {
         return bankAccounts;
@@ -115,7 +108,6 @@ public class Bank extends PersistableBusinessObjectBase {
      * Sets the bankAccounts attribute.
      * 
      * @param bankAccounts The bankAccounts to set.
-     * 
      */
     public void setBankAccounts(List bankAccounts) {
         this.bankAccounts = bankAccounts;

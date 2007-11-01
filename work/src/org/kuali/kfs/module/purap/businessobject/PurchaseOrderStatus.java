@@ -21,12 +21,12 @@ package org.kuali.module.purap.bo;
  */
 public class PurchaseOrderStatus extends Status {
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderStatus() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderStatus() {
         super();
         super.ojbConcreteClass = this.getClass().getName();
-	}
+    }
 
 }

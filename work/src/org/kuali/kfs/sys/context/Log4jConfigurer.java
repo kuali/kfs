@@ -42,8 +42,8 @@ public class Log4jConfigurer {
     private static void printClasspath() {
         StringBuffer classpath = new StringBuffer("Classpath is:\n");
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        URL[] urls = ((URLClassLoader)classloader).getURLs();
-        for(int i=0; i< urls.length; i++) {
+        URL[] urls = ((URLClassLoader) classloader).getURLs();
+        for (int i = 0; i < urls.length; i++) {
             classpath.append(urls[i].getFile()).append("; ");
         }
         Logger.getLogger(Log4jConfigurer.class).info(classpath.toString());

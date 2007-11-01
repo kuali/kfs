@@ -23,8 +23,6 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * Internal Billing Item Business Object
- * 
- * 
  */
 public class InternalBillingItem extends PersistableBusinessObjectBase {
 

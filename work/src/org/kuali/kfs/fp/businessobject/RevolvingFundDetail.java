@@ -50,7 +50,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -60,7 +59,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -71,7 +69,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -81,7 +78,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -92,7 +88,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentColumnTypeCode attribute.
      * 
      * @return Returns the financialDocumentColumnTypeCode
-     * 
      */
     public String getFinancialDocumentColumnTypeCode() {
         return financialDocumentColumnTypeCode;
@@ -102,7 +97,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentColumnTypeCode attribute.
      * 
      * @param financialDocumentColumnTypeCode The financialDocumentColumnTypeCode to set.
-     * 
      */
     public void setFinancialDocumentColumnTypeCode(String financialDocumentColumnTypeCode) {
         this.financialDocumentColumnTypeCode = financialDocumentColumnTypeCode;
@@ -113,7 +107,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentLineNumber attribute.
      * 
      * @return Returns the financialDocumentLineNumber
-     * 
      */
     public Integer getFinancialDocumentLineNumber() {
         return financialDocumentLineNumber;
@@ -123,7 +116,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentLineNumber attribute.
      * 
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-     * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
@@ -134,7 +126,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentRevolvingFundDate attribute.
      * 
      * @return Returns the financialDocumentRevolvingFundDate
-     * 
      */
     public Date getFinancialDocumentRevolvingFundDate() {
         return financialDocumentRevolvingFundDate;
@@ -144,7 +135,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentRevolvingFundDate attribute.
      * 
      * @param financialDocumentRevolvingFundDate The financialDocumentRevolvingFundDate to set.
-     * 
      */
     public void setFinancialDocumentRevolvingFundDate(Date financialDocumentRevolvingFundDate) {
         this.financialDocumentRevolvingFundDate = financialDocumentRevolvingFundDate;
@@ -155,7 +145,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentRevolvingFundReferenceNumber attribute.
      * 
      * @return Returns the financialDocumentRevolvingFundReferenceNumber
-     * 
      */
     public String getFinancialDocumentRevolvingFundReferenceNumber() {
         return financialDocumentRevolvingFundReferenceNumber;
@@ -165,7 +154,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentRevolvingFundReferenceNumber attribute.
      * 
      * @param financialDocumentRevolvingFundReferenceNumber The financialDocumentRevolvingFundReferenceNumber to set.
-     * 
      */
     public void setFinancialDocumentRevolvingFundReferenceNumber(String financialDocumentRevolvingFundReferenceNumber) {
         this.financialDocumentRevolvingFundReferenceNumber = financialDocumentRevolvingFundReferenceNumber;
@@ -176,7 +164,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentRevolvingFundDescription attribute.
      * 
      * @return Returns the financialDocumentRevolvingFundDescription
-     * 
      */
     public String getFinancialDocumentRevolvingFundDescription() {
         return financialDocumentRevolvingFundDescription;
@@ -186,7 +173,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentRevolvingFundDescription attribute.
      * 
      * @param financialDocumentRevolvingFundDescription The financialDocumentRevolvingFundDescription to set.
-     * 
      */
     public void setFinancialDocumentRevolvingFundDescription(String financialDocumentRevolvingFundDescription) {
         this.financialDocumentRevolvingFundDescription = financialDocumentRevolvingFundDescription;
@@ -197,7 +183,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentRevolvingFundAmount attribute.
      * 
      * @return Returns the financialDocumentRevolvingFundAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentRevolvingFundAmount() {
         return financialDocumentRevolvingFundAmount;
@@ -207,7 +192,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentRevolvingFundAmount attribute.
      * 
      * @param financialDocumentRevolvingFundAmount The financialDocumentRevolvingFundAmount to set.
-     * 
      */
     public void setFinancialDocumentRevolvingFundAmount(KualiDecimal financialDocumentRevolvingFundAmount) {
         this.financialDocumentRevolvingFundAmount = financialDocumentRevolvingFundAmount;
@@ -218,7 +202,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankCode attribute.
      * 
      * @return Returns the financialDocumentBankCode
-     * 
      */
     public String getFinancialDocumentBankCode() {
         return financialDocumentBankCode;
@@ -228,7 +211,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankCode attribute.
      * 
      * @param financialDocumentBankCode The financialDocumentBankCode to set.
-     * 
      */
     public void setFinancialDocumentBankCode(String financialDocumentBankCode) {
         this.financialDocumentBankCode = financialDocumentBankCode;
@@ -239,7 +221,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentBankAccountNumber attribute.
      * 
      * @return Returns the financialDocumentBankAccountNumber
-     * 
      */
     public String getFinancialDocumentBankAccountNumber() {
         return financialDocumentBankAccountNumber;
@@ -249,7 +230,6 @@ public class RevolvingFundDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentBankAccountNumber attribute.
      * 
      * @param financialDocumentBankAccountNumber The financialDocumentBankAccountNumber to set.
-     * 
      */
     public void setFinancialDocumentBankAccountNumber(String financialDocumentBankAccountNumber) {
         this.financialDocumentBankAccountNumber = financialDocumentBankAccountNumber;

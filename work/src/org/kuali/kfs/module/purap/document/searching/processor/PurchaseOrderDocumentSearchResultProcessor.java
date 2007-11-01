@@ -20,12 +20,12 @@ import java.util.List;
 
 import edu.iu.uis.eden.docsearch.DocumentSearchResult;
 import edu.iu.uis.eden.lookupable.Column;
-import edu.iu.uis.eden.lookupable.Field;
 
 public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSearchResultProcessor {
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#addSearchableAttributeColumnUsingKey(java.util.List, java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean)
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchResultProcessor#addSearchableAttributeColumnUsingKey(java.util.List,
+     *      java.lang.String, java.lang.String, java.lang.Boolean, java.lang.Boolean)
      */
     @Override
     protected void addSearchableAttributeColumnUsingKey(List<Column> columns, String key, String label, Boolean sortableOverride, Boolean defaultSortable) {
@@ -54,5 +54,5 @@ public class PurchaseOrderDocumentSearchResultProcessor extends PurApDocumentSea
         addColumnUsingKey(columns, DocumentSearchResult.PROPERTY_NAME_DOC_TYPE_LABEL);
         return columns;
     }
-    
+
 }

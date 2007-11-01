@@ -37,6 +37,7 @@ public class OrganizationReversionCodeValuesFinder extends KeyValuesBase {
      * <li>"R1", "R1 - CF budget then R Remaining"</li>
      * <li>"R2", "R2 - Don't CF budget then R Remaining"</li>
      * </ul>
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

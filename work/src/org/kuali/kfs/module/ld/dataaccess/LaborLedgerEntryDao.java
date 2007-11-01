@@ -46,6 +46,7 @@ public interface LaborLedgerEntryDao {
 
     /**
      * save the given ledger entry into the underlying data store
+     * 
      * @param ledgerEntry the given ledger entry
      */
     void save(LedgerEntry ledgerEntry);

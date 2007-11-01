@@ -20,17 +20,17 @@ import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.PriorYearOrganizationService;
 
 /**
- * This class updates the prior year data in the prior year account and prior year org tables to set it
- * to the new year
- * This is typically run at year end
+ * This class updates the prior year data in the prior year account and prior year org tables to set it to the new year This is
+ * typically run at year end
  */
 public class UpdatePriorYearDataStep extends AbstractStep {
 
     private PriorYearAccountService priorYearAccountService;
     private PriorYearOrganizationService priorYearOrganizationService;
-    
+
     /**
-     * Executes the table updates when 
+     * Executes the table updates when
+     * 
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) throws InterruptedException {
@@ -40,8 +40,8 @@ public class UpdatePriorYearDataStep extends AbstractStep {
     }
 
     /**
-     * 
      * Service setter for Spring injection
+     * 
      * @param priorYearAccountService
      */
     public void setPriorYearAccountService(PriorYearAccountService priorYearAccountService) {
@@ -49,12 +49,12 @@ public class UpdatePriorYearDataStep extends AbstractStep {
     }
 
     /**
-     * 
      * Service setter for Spring injection
+     * 
      * @param priorYearOrganizationService
      */
     public void setPriorYearOrganizationService(PriorYearOrganizationService priorYearOrganizationService) {
         this.priorYearOrganizationService = priorYearOrganizationService;
     }
-    
+
 }

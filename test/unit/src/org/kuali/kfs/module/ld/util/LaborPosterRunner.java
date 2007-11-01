@@ -22,10 +22,10 @@ import org.kuali.module.labor.service.LaborPosterService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@ConfigureContext(session=UserNameFixture.KULUSER)
+@ConfigureContext(session = UserNameFixture.KULUSER)
 public class LaborPosterRunner extends KualiTestBase {
     private LaborPosterService laborPosterService;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         laborPosterService = SpringContext.getBean(LaborPosterService.class);

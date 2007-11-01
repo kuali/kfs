@@ -28,18 +28,19 @@ import org.kuali.kfs.KFSPropertyConstants;
  */
 public class RoutingFormKeyword extends PersistableBusinessObjectBase {
 
-	private String routingFormKeywordDescription;
-	private String documentNumber;
+    private String routingFormKeywordDescription;
+    private String documentNumber;
 
-	/**
-	 * Default constructor.
-	 */
-	public RoutingFormKeyword() {
+    /**
+     * Default constructor.
+     */
+    public RoutingFormKeyword() {
 
-	}
-    
+    }
+
     /**
      * Constructs a RoutingFormKeyword.
+     * 
      * @param documentNumber
      * @param keyword
      */
@@ -48,71 +49,67 @@ public class RoutingFormKeyword extends PersistableBusinessObjectBase {
         this.routingFormKeywordDescription = keyword.getRoutingFormKeywordDescription();
     }
 
-	/**
-	 * Gets the routingFormKeywordDescription attribute.
-	 * 
-	 * @return Returns the routingFormKeywordDescription
-	 * 
-	 */
-	public String getRoutingFormKeywordDescription() { 
-		return routingFormKeywordDescription;
-	}
+    /**
+     * Gets the routingFormKeywordDescription attribute.
+     * 
+     * @return Returns the routingFormKeywordDescription
+     */
+    public String getRoutingFormKeywordDescription() {
+        return routingFormKeywordDescription;
+    }
 
-	/**
-	 * Sets the routingFormKeywordDescription attribute.
-	 * 
-	 * @param routingFormKeywordDescription The routingFormKeywordDescription to set.
-	 * 
-	 */
-	public void setRoutingFormKeywordDescription(String routingFormKeywordDescription) {
-		this.routingFormKeywordDescription = routingFormKeywordDescription;
-	}
+    /**
+     * Sets the routingFormKeywordDescription attribute.
+     * 
+     * @param routingFormKeywordDescription The routingFormKeywordDescription to set.
+     */
+    public void setRoutingFormKeywordDescription(String routingFormKeywordDescription) {
+        this.routingFormKeywordDescription = routingFormKeywordDescription;
+    }
 
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
-	@Override
+    @Override
     public boolean equals(Object obj) {
         boolean equals = true;
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof RoutingFormKeyword) {
             RoutingFormKeyword objCompare = (RoutingFormKeyword) obj;
-            
+
             equals &= this.documentNumber.equals(objCompare.getDocumentNumber());
             equals &= this.routingFormKeywordDescription.equals(objCompare.getRoutingFormKeywordDescription());
         }
-        
+
         return equals;
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("routingFormKeywordDescription", this.routingFormKeywordDescription);
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-	    return m;
+        return m;
     }
-    
+
     public boolean isEmpty() {
         return StringUtils.isBlank(documentNumber) && StringUtils.isBlank(routingFormKeywordDescription);
     }

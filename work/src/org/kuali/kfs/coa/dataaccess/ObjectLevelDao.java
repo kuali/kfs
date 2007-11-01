@@ -19,13 +19,11 @@ import org.kuali.module.chart.bo.ObjLevel;
 
 /**
  * This interface defines basic methods that ObjLevel Dao's must provide
- * 
- * 
  */
 public interface ObjectLevelDao {
     /**
-     * 
      * This method retrieves a {@link ObjLevel} based on primary keys
+     * 
      * @param chartOfAccountsCode
      * @param objectLevelCode
      * @return a specific {@link ObjLevel} based on primary keys

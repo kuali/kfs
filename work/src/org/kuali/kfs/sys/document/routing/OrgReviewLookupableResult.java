@@ -22,7 +22,6 @@ import edu.iu.uis.eden.web.UrlResolver;
 /**
  * This class wraps the Org Review Values that we need in the lookup result set.
  * 
- * 
  * @see org.kuali.module.chart.web.lookupable.OrgReviewLookupableImpl
  */
 public class OrgReviewLookupableResult {

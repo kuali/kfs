@@ -23,13 +23,12 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class returns list containg 22 = Checking or 32 = Savings
- * 
- * 
  */
 public class CheckingSavingsValuesFinder extends KeyValuesBase {
 
     /**
      * Creates a simple list of static values for either checking or savings
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

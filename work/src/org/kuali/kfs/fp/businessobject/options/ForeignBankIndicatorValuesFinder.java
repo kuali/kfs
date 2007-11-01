@@ -23,8 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of currency type value pairs.
- * 
- * 
  */
 public class ForeignBankIndicatorValuesFinder extends KeyValuesBase {
 

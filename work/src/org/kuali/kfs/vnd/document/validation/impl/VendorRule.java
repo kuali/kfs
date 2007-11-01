@@ -70,6 +70,7 @@ import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.TaxNumberService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * Business rules applicable to VendorDetail document.
  */
@@ -81,12 +82,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Overrides the setupBaseConvenienceObjects from the superclass because we cannot use the
-     * setupBaseConvenienceObjects from the superclass. The reason we cannot use the superclass method is because it calls the
-     * updateNonUpdateableReferences for everything and we cannot do that for parent vendors, because we want to update vendor
-     * header information only on parent vendors, so the saving of the vendor header is done manually. If we call the
-     * updateNonUpdateableReferences, it is going to overwrite any changes that the user might have done in the vendor header with
-     * the existing values in the database.
+     * Overrides the setupBaseConvenienceObjects from the superclass because we cannot use the setupBaseConvenienceObjects from the
+     * superclass. The reason we cannot use the superclass method is because it calls the updateNonUpdateableReferences for
+     * everything and we cannot do that for parent vendors, because we want to update vendor header information only on parent
+     * vendors, so the saving of the vendor header is done manually. If we call the updateNonUpdateableReferences, it is going to
+     * overwrite any changes that the user might have done in the vendor header with the existing values in the database.
      * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupBaseConvenienceObjects(org.kuali.core.document.MaintenanceDocument)
      */
@@ -113,10 +113,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Overrides the checkAuthorizationRestrictions in MaintenanceDocumentRuleBase. The reason we needed to override it
-     * is because in vendor, we had to save the fields in the vendor header separately than vendor detail, and those fields are only
-     * editable when the vendor is a parent. Therefore we had to override the setupBaseConvenienceObjects method, which then causes
-     * us unable to set the oldBo of the super class because the oldBo is not accessible from outside the class. This will cause the
+     * Overrides the checkAuthorizationRestrictions in MaintenanceDocumentRuleBase. The reason we needed to override it is because
+     * in vendor, we had to save the fields in the vendor header separately than vendor detail, and those fields are only editable
+     * when the vendor is a parent. Therefore we had to override the setupBaseConvenienceObjects method, which then causes us unable
+     * to set the oldBo of the super class because the oldBo is not accessible from outside the class. This will cause the
      * checkAuthorizationRestrictions of the superclass to fail while processing division vendors that contain those restricted
      * (uneditable) fields, because the oldBo is null and will throw the null pointer exception. Therefore we're overriding the
      * checkAuthorizationRestrictions in here and we'll use the oldVendor instead of oldBo of the superclass while comparing the old
@@ -310,11 +310,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This is currently used as a helper to get a list of object references (e.g. vendorType, vendorOwnershipType, etc) from
-     * a BusinessObject (e.g. VendorHeader, VendorDetail, etc) class dynamically. Feel free to enhance it, refactor it or move it to
-     * a superclass or elsewhere as you see appropriate.
+     * This is currently used as a helper to get a list of object references (e.g. vendorType, vendorOwnershipType, etc) from a
+     * BusinessObject (e.g. VendorHeader, VendorDetail, etc) class dynamically. Feel free to enhance it, refactor it or move it to a
+     * superclass or elsewhere as you see appropriate.
      * 
-     * @param  theClass The Class name of the object whose objects references list are extracted
+     * @param theClass The Class name of the object whose objects references list are extracted
      * @return List a List of attributes of the class
      */
     private List getObjectReferencesListFromBOClass(Class theClass) {
@@ -336,7 +336,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         return results;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -345,7 +345,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = processValidation(document);
         return valid & super.processCustomApproveDocumentBusinessRules(document);
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -363,13 +363,14 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         boolean valid = true;
         return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
+
     /**
-     * Validates VendorDetail and its VendorContracts. 
+     * Validates VendorDetail and its VendorContracts.
      * 
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
-     private boolean processValidation(MaintenanceDocument document) {
+    private boolean processValidation(MaintenanceDocument document) {
         boolean valid = true;
 
         valid &= processVendorValidation(document);
@@ -380,9 +381,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
-    
-     /**
-     * Validates VendorDetail document.  
+
+    /**
+     * Validates VendorDetail document.
      * 
      * @param document MaintenanceDocument instance
      * @return boolean false or true
@@ -413,7 +414,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates that if the vendor is set to be inactive, the inactive reason is required.
      * 
-     * @param  vendorDetail the VendorDetail object to be validated
+     * @param vendorDetail the VendorDetail object to be validated
      * @return boolean false if the vendor is inactive and the inactive reason is empty
      */
     boolean validateInactiveReasonRequiredness(VendorDetail vendorDetail) {
@@ -425,11 +426,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that if the vendor is not foreign and if the vendor type's tax number required indicator is true, then
-     * the tax number is required. If the vendor foreign indicator is true, then the tax number is not required regardless of its
-     * vendor type.
+     * Validates that if the vendor is not foreign and if the vendor type's tax number required indicator is true, then the tax
+     * number is required. If the vendor foreign indicator is true, then the tax number is not required regardless of its vendor
+     * type.
      * 
-     * @param  vendorDetail the VendorDetail object to be validated
+     * @param vendorDetail the VendorDetail object to be validated
      * @return boolean false if there is no tax number and the indicator is true.
      */
     boolean validateTaxNumberRequiredness(VendorDetail vendorDetail) {
@@ -448,7 +449,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates that, if the vendor is set to be restricted, the restricted reason is required.
      * 
-     * @param  vendorDetail The VendorDetail object to be validated
+     * @param vendorDetail The VendorDetail object to be validated
      * @return boolean false if the vendor is restricted and the restricted reason is empty
      */
     boolean validateRestrictedReasonRequiredness(VendorDetail vendorDetail) {
@@ -460,16 +461,16 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that if vendor is parent, then tax # and tax type combo should be unique by checking for the existence
-     * of vendor(s) with the same tax # and tax type in the existing vendor header table. Ideally we're also supposed to check for
-     * pending vendors, but at the moment, the pending vendors are under research investigation, so we're only checking the existing
-     * vendors for now. If the vendor is a parent and the validation fails, display the actual error message. If the vendor is not a
-     * parent and the validation fails, display the error message that the parent of this vendor needs to be changed, please contact
+     * Validates that if vendor is parent, then tax # and tax type combo should be unique by checking for the existence of vendor(s)
+     * with the same tax # and tax type in the existing vendor header table. Ideally we're also supposed to check for pending
+     * vendors, but at the moment, the pending vendors are under research investigation, so we're only checking the existing vendors
+     * for now. If the vendor is a parent and the validation fails, display the actual error message. If the vendor is not a parent
+     * and the validation fails, display the error message that the parent of this vendor needs to be changed, please contact
      * Purchasing Dept. While checking for the existence of vendors with the same tax # and tax type, exclude the vendors with the
      * same id. KULPURAP-302: Allow a duplication of a tax number in vendor header if there are only "inactive" header records with
      * the duplicate record
      * 
-     * @param  vendorDetail the VendorDetail object to be validated
+     * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes the unique tax # and tax type validation.
      */
     boolean validateParentVendorTaxNumber(VendorDetail vendorDetail) {
@@ -507,13 +508,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that the following business rules are satisfied: 1. Tax type cannot be blank if the tax # is not blank.
-     * 2. Tax type cannot be set if the tax # is blank. If the vendor is a parent and the validation fails, we'll display an error
-     * message indicating that the tax type cannot be blank if the tax # is not blank or that the tax type cannot be set if the tax #
-     * is blank. If the vendor is not a parent and the validation fails, we'll display an error message indicating that the parent
-     * of this vendor needs to be changed, please contact Purchasing Dept.
+     * Validates that the following business rules are satisfied: 1. Tax type cannot be blank if the tax # is not blank. 2. Tax type
+     * cannot be set if the tax # is blank. If the vendor is a parent and the validation fails, we'll display an error message
+     * indicating that the tax type cannot be blank if the tax # is not blank or that the tax type cannot be set if the tax # is
+     * blank. If the vendor is not a parent and the validation fails, we'll display an error message indicating that the parent of
+     * this vendor needs to be changed, please contact Purchasing Dept.
      * 
-     * @param  vendorDetail the VendorDetail object to be validated
+     * @param vendorDetail the VendorDetail object to be validated
      * @return boolean true if the vendor Detail passes the validation and false otherwise.
      */
     boolean validateTaxTypeAndTaxNumberBlankness(VendorDetail vendorDetail) {
@@ -541,12 +542,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * Validates the vendorName, vendorFirstName and vendorLastName fields according to these business rules: 1. At
-     * least one of the three vendor name fields must be filled in. 2. Both of the two ways of entering vendor name (One vendor name
-     * field vs VendorFirstName/VendorLastName) cannot be used 3. If either the vendor first name or the vendor last name have been
-     * entered, the other must be entered.
+     * Validates the vendorName, vendorFirstName and vendorLastName fields according to these business rules: 1. At least one of the
+     * three vendor name fields must be filled in. 2. Both of the two ways of entering vendor name (One vendor name field vs
+     * VendorFirstName/VendorLastName) cannot be used 3. If either the vendor first name or the vendor last name have been entered,
+     * the other must be entered.
      * 
-     * @param  vendorDetail The VendorDetail object to be validated
+     * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the vendorDetail passes this validation and false otherwise.
      */
     protected boolean validateVendorNames(VendorDetail vendorDetail) {
@@ -577,13 +578,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the ownership type codes that aren't allowed for the tax type of the vendor. The rules are : 1. If tax
-     * type is "SSN", then check the ownership type against the allowed types for "SSN" in the Rules table. 2. If tax type is
-     * "FEIN", then check the ownership type against the allowed types for "FEIN" in the Rules table. If the vendor is a parent and
-     * the validation fails, display the actual error message. If the vendor is not a parent and the validation fails, display the
-     * error message that the parent of this vendor needs to be changed, please contact Purchasing Dept.
+     * Validates the ownership type codes that aren't allowed for the tax type of the vendor. The rules are : 1. If tax type is
+     * "SSN", then check the ownership type against the allowed types for "SSN" in the Rules table. 2. If tax type is "FEIN", then
+     * check the ownership type against the allowed types for "FEIN" in the Rules table. If the vendor is a parent and the
+     * validation fails, display the actual error message. If the vendor is not a parent and the validation fails, display the error
+     * message that the parent of this vendor needs to be changed, please contact Purchasing Dept.
      * 
-     * @param  vendorDetail The VendorDetail object to be validated
+     * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the ownership type is allowed and FALSE otherwise.
      */
     private boolean validateOwnershipTypeAllowed(VendorDetail vendorDetail) {
@@ -618,9 +619,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
      * amount is less than the minimum order amount constant that is currently defined in VendorConstants.java but someday should be
      * moved to APC.
      * 
-     * @param  vendorDetail The VendorDetail object to be validated
-     * @return booelan true if the vendorMinimumOrderAmount is less than the minimum order amount specified in the VendorConstants (in the
-     *         future the amount will be in APC).
+     * @param vendorDetail The VendorDetail object to be validated
+     * @return booelan true if the vendorMinimumOrderAmount is less than the minimum order amount specified in the VendorConstants
+     *         (in the future the amount will be in APC).
      */
     private boolean validateMinimumOrderAmount(VendorDetail vendorDetail) {
         boolean valid = true;
@@ -638,12 +639,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that if the ownership category allowed indicator is false, the vendor does not have ownership category.
-     * It will return false if the vendor contains ownership category. If the vendor is a parent and the validation fails, display
-     * the actual error message. If the vendor is not a parent and the validation fails, display the error message that the parent
-     * of this vendor needs to be changed, please contact Purchasing Dept.
+     * Validates that if the ownership category allowed indicator is false, the vendor does not have ownership category. It will
+     * return false if the vendor contains ownership category. If the vendor is a parent and the validation fails, display the
+     * actual error message. If the vendor is not a parent and the validation fails, display the error message that the parent of
+     * this vendor needs to be changed, please contact Purchasing Dept.
      * 
-     * @param  vendorDetail The VendorDetail to be validated
+     * @param vendorDetail The VendorDetail to be validated
      * @return boolean true if the vendor does not contain ownership category and false otherwise
      */
     private boolean validateOwnershipCategory(VendorDetail vendorDetail) {
@@ -665,12 +666,12 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Calls the methods in TaxNumberService to validate the tax number for these business rules: 1. Tax number must be
-     * 9 digits and cannot be all zeros (but can be blank). 2. First three digits of a SSN cannot be 000. 3. First three digits of a
-     * SSN cannot be 666. 4. Middle two digits of a SSN cannot be 00. 5. Last four digits of a SSN cannot be 0000. 6. First two
-     * digits of a FEIN cannot be 00. 7. Check system parameters for not allowed tax numbers
+     * Calls the methods in TaxNumberService to validate the tax number for these business rules: 1. Tax number must be 9 digits and
+     * cannot be all zeros (but can be blank). 2. First three digits of a SSN cannot be 000. 3. First three digits of a SSN cannot
+     * be 666. 4. Middle two digits of a SSN cannot be 00. 5. Last four digits of a SSN cannot be 0000. 6. First two digits of a
+     * FEIN cannot be 00. 7. Check system parameters for not allowed tax numbers
      * 
-     * @param  vendorDetail The VendorDetail object to be validated
+     * @param vendorDetail The VendorDetail object to be validated
      * @return boolean true if the tax number is a valid tax number and false otherwise.
      */
     private boolean validateTaxNumberFromTaxNumberService(VendorDetail vendorDetail) {
@@ -695,8 +696,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     *  Validates vendor address fields.
-     *
+     * Validates vendor address fields.
+     * 
      * @param document MaintenanceDocument
      * @return boolean false or true
      */
@@ -789,7 +790,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates that if US is selcted for the country then the state and zip cannot be empty
      * 
-     * @param  addresses VendorAddress which is being validated 
+     * @param addresses VendorAddress which is being validated
      * @return boolean false if the country is United States and there is no state or zip code
      */
     boolean checkAddressCountryEmptyStateZip(VendorAddress address) {
@@ -835,13 +836,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * If add button is selected on Default Address, checks if the allow default indicator is set to false for this
-     * address type then it does not allow user to select a default address for this address and if it is true then it allows only
-     * one campus to be default for this address.
+     * If add button is selected on Default Address, checks if the allow default indicator is set to false for this address type
+     * then it does not allow user to select a default address for this address and if it is true then it allows only one campus to
+     * be default for this address.
      * 
-     * @param  vendorDetail VendorDetail document
-     * @param  addedDefaultAddress VendorDefaultAddress which is being added
-     * @param  parent The VendorAddress which we are adding a default address to it 
+     * @param vendorDetail VendorDetail document
+     * @param addedDefaultAddress VendorDefaultAddress which is being added
+     * @param parent The VendorAddress which we are adding a default address to it
      * @return boolean false or true
      */
     boolean checkDefaultAddressCampus(VendorDetail vendorDetail, VendorDefaultAddress addedDefaultAddress, VendorAddress parent) {
@@ -881,9 +882,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Checks if the allow default indicator is set to false for this address the default indicator cannot be set to
-     * true/yes. If "allow default indicator" is set to true/yes for address type, one address must have the default indicator set
-     * (no more, no less) and only one campus to be set as default for this address.
+     * Checks if the allow default indicator is set to false for this address the default indicator cannot be set to true/yes. If
+     * "allow default indicator" is set to true/yes for address type, one address must have the default indicator set (no more, no
+     * less) and only one campus to be set as default for this address.
      * 
      * @param vendorDetail VendorDetail document
      * @return boolean false or true
@@ -981,8 +982,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates that the Vendor Fax Number is a valid phone number.
      * 
-     * @param addresses VendorAddress instance 
-     * @return boolean false or true 
+     * @param addresses VendorAddress instance
+     * @return boolean false or true
      */
     boolean checkFaxNumber(VendorAddress address) {
         boolean valid = true;
@@ -996,7 +997,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
     /**
      * A stub method as placeholder for future Contact Validation
-     *
+     * 
      * @param document MaintenanceDocument instance
      * @return boolean false or true
      */
@@ -1023,9 +1024,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates vendor customer number. The chart and org must exist in the database. 
+     * Validates vendor customer number. The chart and org must exist in the database.
      * 
-     * @param  customerNumber VendorCustomerNumber
+     * @param customerNumber VendorCustomerNumber
      * @return boolean false or true
      */
     boolean validateVendorCustomerNumber(VendorCustomerNumber customerNumber) {
@@ -1049,7 +1050,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         }
         return valid;
     }
-    
+
     /**
      * Validates vendor contract. If the vendorContractAllowedIndicator is false, it cannot have vendor contracts, then return false
      * 
@@ -1088,13 +1089,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that the proper combination of Exclude Indicator and APO Amount is present on a vendor contract. Do not
-     * perform this validation on Contract add line as the user cannot currently enter the sub-collection of contract-orgs so we
-     * should not force this until the document is submitted. The rules are : 1. Must enter a Default APO Limit or at least one
-     * organization with an APO Amount. 2. If the Exclude Indicator for an organization is N, an organization APO Amount is
-     * required. 3. If the Exclude Indicator for an organization is Y, the organization APO Amount is not allowed.
+     * Validates that the proper combination of Exclude Indicator and APO Amount is present on a vendor contract. Do not perform
+     * this validation on Contract add line as the user cannot currently enter the sub-collection of contract-orgs so we should not
+     * force this until the document is submitted. The rules are : 1. Must enter a Default APO Limit or at least one organization
+     * with an APO Amount. 2. If the Exclude Indicator for an organization is N, an organization APO Amount is required. 3. If the
+     * Exclude Indicator for an organization is Y, the organization APO Amount is not allowed.
      * 
-     * @param  contract VendorContract
+     * @param contract VendorContract
      * @return boolean true if the proper combination of Exclude Indicator and APO Amount is present, otherwise flase.
      */
     boolean validateVendorContractPOLimitAndExcludeFlagCombination(VendorContract contract) {
@@ -1121,13 +1122,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that: 1. If the VendorContractBeginningDate is entered then the VendorContractEndDate is also entered,
-     * and vice versa. 2. If both dates are entered, the VendorContractBeginningDate is before the VendorContractEndDate. The date
-     * fields are required so we should know that we have valid dates.
+     * Validates that: 1. If the VendorContractBeginningDate is entered then the VendorContractEndDate is also entered, and vice
+     * versa. 2. If both dates are entered, the VendorContractBeginningDate is before the VendorContractEndDate. The date fields are
+     * required so we should know that we have valid dates.
      * 
-     * @param  contract VendorContract
-     * @return boolean true if the beginning date is before the end date, false if only one date is entered or the beginning date is after
-     *         the end date.
+     * @param contract VendorContract
+     * @return boolean true if the beginning date is before the end date, false if only one date is entered or the beginning date is
+     *         after the end date.
      */
     boolean validateVendorContractBeginEndDates(VendorContract contract) {
         boolean valid = true;
@@ -1153,11 +1154,11 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates a vendor contract organization. The rules are : 1. If the Exclude Indicator for the organization is N,
-     * an organization APO Amount is required. 2. If the Exclude Indicator for the organization is Y, an organization APO Amount is
-     * not allowed. 3. The chart and org for the organization must exist in the database.
+     * Validates a vendor contract organization. The rules are : 1. If the Exclude Indicator for the organization is N, an
+     * organization APO Amount is required. 2. If the Exclude Indicator for the organization is Y, an organization APO Amount is not
+     * allowed. 3. The chart and org for the organization must exist in the database.
      * 
-     * @param  organization VendorContractOrganization
+     * @param organization VendorContractOrganization
      * @return boolean true if these three rules are passed, otherwise false.
      */
     boolean validateVendorContractOrganization(VendorContractOrganization organization) {
@@ -1198,10 +1199,13 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
 
         return valid;
     }
+
     /**
-     * Validates business rules for VendorDetail document collection add lines. Add lines are the initial lines on a collections, i.e. the ones next to the "Add" button
+     * Validates business rules for VendorDetail document collection add lines. Add lines are the initial lines on a collections,
+     * i.e. the ones next to the "Add" button
      * 
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
      */
     @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
@@ -1233,7 +1237,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         if (bo instanceof VendorDefaultAddress) {
             VendorDefaultAddress defaultAddress = (VendorDefaultAddress) bo;
 
-            // TODO RELEASE 3 (KULPURAP-2081) this is a total hack we shouldn't have to set the foreign key here, this should be set in the parent
+            // TODO RELEASE 3 (KULPURAP-2081) this is a total hack we shouldn't have to set the foreign key here, this should be set
+            // in the parent
             // in a much more general way see issue KULPURAP-266 for a preliminary discussion
             String parentName = StringUtils.substringBeforeLast(collectionName, ".");
             VendorAddress parent = (VendorAddress) ObjectUtils.getPropertyValue(this.getNewBo(), parentName);
@@ -1245,10 +1250,10 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates the rule that if a document has a federal witholding tax begin date and end date, the
-     * begin date should come before the end date.
+     * Validates the rule that if a document has a federal witholding tax begin date and end date, the begin date should come before
+     * the end date.
      * 
-     * @param  vdDocument VendorDetail
+     * @param vdDocument VendorDetail
      * @return boolean false or true
      */
     private boolean validateVendorWithholdingTaxDates(VendorDetail vdDocument) {
@@ -1270,7 +1275,7 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     /**
      * Validates the rule that both w9 received and w-8ben cannot be set to yes
      * 
-     * @param  vdDocument VendorDetail
+     * @param vdDocument VendorDetail
      * @return boolean false or true
      */
     private boolean validateVendorW8BenOrW9ReceivedIndicator(VendorDetail vdDocument) {

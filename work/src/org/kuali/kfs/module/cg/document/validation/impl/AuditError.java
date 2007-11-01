@@ -17,8 +17,6 @@ package org.kuali.module.kra.util;
 
 /**
  * KRA Audit Error class.
- * 
- * 
  */
 public class AuditError {
 

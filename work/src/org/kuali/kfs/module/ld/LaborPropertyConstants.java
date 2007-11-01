@@ -34,6 +34,7 @@ public class LaborPropertyConstants {
         public static String[] codeToArray() {
             return new String[] { JULY.periodCode, AUGUST.periodCode, SEPTEMBER.periodCode, OCTOBER.periodCode, NOVEMBER.periodCode, DECEMBER.periodCode, JANUARY.periodCode, FEBRUARY.periodCode, MARCH.periodCode, APRIL.periodCode, MAY.periodCode, JUNE.periodCode, YEAR_END.periodCode };
         }
+
         /**
          * Spew out the property names in as a String array
          * 
@@ -59,7 +60,7 @@ public class LaborPropertyConstants {
             this.periodCode = periodCode;
         }
     }
-    
+
     public static final String ANNUAL_ACTUAL_AMOUNT = "annualActualAmount";
     public static final String EARN_CODE = "earnCode";
     public static final String EFFECTIVE_DATE = "effectiveDate";

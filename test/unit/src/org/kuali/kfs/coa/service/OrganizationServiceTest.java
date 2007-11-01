@@ -25,8 +25,6 @@ import org.kuali.module.chart.service.impl.OrganizationServiceImpl;
 
 /**
  * This class tests the Organization service.
- * 
- * 
  */
 public class OrganizationServiceTest extends KualiTestBase {
     private OrganizationServiceImpl organizationService;
@@ -91,14 +89,15 @@ public class OrganizationServiceTest extends KualiTestBase {
         public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
             return Collections.EMPTY_LIST;
         }
-        public List<Org> getActiveOrgsByType(String organizationTypeCode){
+
+        public List<Org> getActiveOrgsByType(String organizationTypeCode) {
             return Collections.EMPTY_LIST;
         }
-        public String[] getRootOrganizationCode(String rootChart, String selfReportsORgType)
-        {
-            String[] returnValues = {null, null};
+
+        public String[] getRootOrganizationCode(String rootChart, String selfReportsORgType) {
+            String[] returnValues = { null, null };
             return returnValues;
         }
-        
+
     }
 }

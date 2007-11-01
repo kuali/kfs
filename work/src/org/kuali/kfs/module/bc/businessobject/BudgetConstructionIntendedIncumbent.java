@@ -30,152 +30,141 @@ import org.kuali.core.util.TypedArrayList;
  */
 public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObjectBase {
 
-	private String emplid;
-	private String personName;
-	private String setidSalary;
-	private String salaryAdministrationPlan;
-	private String grade;
-	private String iuClassificationLevel;
+    private String emplid;
+    private String personName;
+    private String setidSalary;
+    private String salaryAdministrationPlan;
+    private String grade;
+    private String iuClassificationLevel;
 
     private List budgetConstructionSalarySocialSecurity;
     private List pendingBudgetConstructionAppointmentFunding;
-    
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionIntendedIncumbent() {
-        budgetConstructionSalarySocialSecurity = new ArrayList();
-        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
-        
-	}
-
-	/**
-	 * Gets the emplid attribute.
-	 * 
-	 * @return Returns the emplid
-	 * 
-	 */
-	public String getEmplid() { 
-		return emplid;
-	}
-
-	/**
-	 * Sets the emplid attribute.
-	 * 
-	 * @param emplid The emplid to set.
-	 * 
-	 */
-	public void setEmplid(String emplid) {
-		this.emplid = emplid;
-	}
-
-
-	/**
-	 * Gets the personName attribute.
-	 * 
-	 * @return Returns the personName
-	 * 
-	 */
-	public String getPersonName() { 
-		return personName;
-	}
-
-	/**
-	 * Sets the personName attribute.
-	 * 
-	 * @param personName The personName to set.
-	 * 
-	 */
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
-
-
-	/**
-	 * Gets the setidSalary attribute.
-	 * 
-	 * @return Returns the setidSalary
-	 * 
-	 */
-	public String getSetidSalary() { 
-		return setidSalary;
-	}
-
-	/**
-	 * Sets the setidSalary attribute.
-	 * 
-	 * @param setidSalary The setidSalary to set.
-	 * 
-	 */
-	public void setSetidSalary(String setidSalary) {
-		this.setidSalary = setidSalary;
-	}
-
-
-	/**
-	 * Gets the salaryAdministrationPlan attribute.
-	 * 
-	 * @return Returns the salaryAdministrationPlan
-	 * 
-	 */
-	public String getSalaryAdministrationPlan() { 
-		return salaryAdministrationPlan;
-	}
-
-	/**
-	 * Sets the salaryAdministrationPlan attribute.
-	 * 
-	 * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
-	 * 
-	 */
-	public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
-		this.salaryAdministrationPlan = salaryAdministrationPlan;
-	}
-
-
-	/**
-	 * Gets the grade attribute.
-	 * 
-	 * @return Returns the grade
-	 * 
-	 */
-	public String getGrade() { 
-		return grade;
-	}
-
-	/**
-	 * Sets the grade attribute.
-	 * 
-	 * @param grade The grade to set.
-	 * 
-	 */
-	public void setGrade(String grade) {
-		this.grade = grade;
-	}
-
-
-	/**
-	 * Gets the iuClassificationLevel attribute.
-	 * 
-	 * @return Returns the iuClassificationLevel
-	 * 
-	 */
-	public String getIuClassificationLevel() { 
-		return iuClassificationLevel;
-	}
-
-	/**
-	 * Sets the iuClassificationLevel attribute.
-	 * 
-	 * @param iuClassificationLevel The iuClassificationLevel to set.
-	 * 
-	 */
-	public void setIuClassificationLevel(String iuClassificationLevel) {
-		this.iuClassificationLevel = iuClassificationLevel;
-	}
 
     /**
-     * Gets the budgetConstructionSalarySocialSecurity attribute. 
+     * Default constructor.
+     */
+    public BudgetConstructionIntendedIncumbent() {
+        budgetConstructionSalarySocialSecurity = new ArrayList();
+        setPendingBudgetConstructionAppointmentFunding(new TypedArrayList(PendingBudgetConstructionAppointmentFunding.class));
+
+    }
+
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid
+     */
+    public String getEmplid() {
+        return emplid;
+    }
+
+    /**
+     * Sets the emplid attribute.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+
+
+    /**
+     * Gets the personName attribute.
+     * 
+     * @return Returns the personName
+     */
+    public String getPersonName() {
+        return personName;
+    }
+
+    /**
+     * Sets the personName attribute.
+     * 
+     * @param personName The personName to set.
+     */
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+
+    /**
+     * Gets the setidSalary attribute.
+     * 
+     * @return Returns the setidSalary
+     */
+    public String getSetidSalary() {
+        return setidSalary;
+    }
+
+    /**
+     * Sets the setidSalary attribute.
+     * 
+     * @param setidSalary The setidSalary to set.
+     */
+    public void setSetidSalary(String setidSalary) {
+        this.setidSalary = setidSalary;
+    }
+
+
+    /**
+     * Gets the salaryAdministrationPlan attribute.
+     * 
+     * @return Returns the salaryAdministrationPlan
+     */
+    public String getSalaryAdministrationPlan() {
+        return salaryAdministrationPlan;
+    }
+
+    /**
+     * Sets the salaryAdministrationPlan attribute.
+     * 
+     * @param salaryAdministrationPlan The salaryAdministrationPlan to set.
+     */
+    public void setSalaryAdministrationPlan(String salaryAdministrationPlan) {
+        this.salaryAdministrationPlan = salaryAdministrationPlan;
+    }
+
+
+    /**
+     * Gets the grade attribute.
+     * 
+     * @return Returns the grade
+     */
+    public String getGrade() {
+        return grade;
+    }
+
+    /**
+     * Sets the grade attribute.
+     * 
+     * @param grade The grade to set.
+     */
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+
+    /**
+     * Gets the iuClassificationLevel attribute.
+     * 
+     * @return Returns the iuClassificationLevel
+     */
+    public String getIuClassificationLevel() {
+        return iuClassificationLevel;
+    }
+
+    /**
+     * Sets the iuClassificationLevel attribute.
+     * 
+     * @param iuClassificationLevel The iuClassificationLevel to set.
+     */
+    public void setIuClassificationLevel(String iuClassificationLevel) {
+        this.iuClassificationLevel = iuClassificationLevel;
+    }
+
+    /**
+     * Gets the budgetConstructionSalarySocialSecurity attribute.
+     * 
      * @return Returns the budgetConstructionSalarySocialSecurity.
      */
     public List getBudgetConstructionSalarySocialSecurity() {
@@ -184,6 +173,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
 
     /**
      * Sets the budgetConstructionSalarySocialSecurity attribute value.
+     * 
      * @param budgetConstructionSalarySocialSecurity The budgetConstructionSalarySocialSecurity to set.
      */
     public void setBudgetConstructionSalarySocialSecurity(List budgetConstructionSalarySocialSecurity) {
@@ -191,7 +181,8 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     }
 
     /**
-     * Gets the pendingBudgetConstructionAppointmentFunding attribute. 
+     * Gets the pendingBudgetConstructionAppointmentFunding attribute.
+     * 
      * @return Returns the pendingBudgetConstructionAppointmentFunding.
      */
     public List getPendingBudgetConstructionAppointmentFunding() {
@@ -200,6 +191,7 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
 
     /**
      * Sets the pendingBudgetConstructionAppointmentFunding attribute value.
+     * 
      * @param pendingBudgetConstructionAppointmentFunding The pendingBudgetConstructionAppointmentFunding to set.
      * @deprecated
      */
@@ -213,9 +205,9 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
     @Override
     public List buildListOfDeletionAwareLists() {
 
-        List managedLists =  super.buildListOfDeletionAwareLists();
+        List managedLists = super.buildListOfDeletionAwareLists();
         managedLists.add(getPendingBudgetConstructionAppointmentFunding());
-        return managedLists; 
+        return managedLists;
     }
 
     /**
@@ -230,15 +222,15 @@ public class BudgetConstructionIntendedIncumbent extends PersistableBusinessObje
 
         return simpleValues;
     }
-  
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("emplid", this.emplid);
         return m;
     }
-    
-    
+
+
 }

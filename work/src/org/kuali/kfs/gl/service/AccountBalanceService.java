@@ -23,8 +23,6 @@ import org.kuali.module.gl.bo.AccountBalance;
 
 /**
  * This class...
- * 
- * 
  */
 public interface AccountBalanceService {
     public final int PENDING_NONE = 1;

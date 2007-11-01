@@ -19,12 +19,9 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
-import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
  * Handles queries and validation on tax id numbers.
- * 
- * 
  */
 public interface DisbursementVoucherTaxService {
 

@@ -21,10 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
- * 
  * Business object for American Institute of Certified Public Accountants (AICPA) function
- * 
  */
 public class AicpaFunction extends PersistableBusinessObjectBase {
 
@@ -42,7 +39,6 @@ public class AicpaFunction extends PersistableBusinessObjectBase {
      * Gets the financialAicpaFunctionCode attribute.
      * 
      * @return Returns the financialAicpaFunctionCode
-     * 
      */
     public String getFinancialAicpaFunctionCode() {
         return financialAicpaFunctionCode;
@@ -52,7 +48,6 @@ public class AicpaFunction extends PersistableBusinessObjectBase {
      * Sets the financialAicpaFunctionCode attribute.
      * 
      * @param financialAicpaFunctionCode The financialAicpaFunctionCode to set.
-     * 
      */
     public void setFinancialAicpaFunctionCode(String financialAicpaFunctionCode) {
         this.financialAicpaFunctionCode = financialAicpaFunctionCode;
@@ -63,7 +58,6 @@ public class AicpaFunction extends PersistableBusinessObjectBase {
      * Gets the financialAicpaFunctionName attribute.
      * 
      * @return Returns the financialAicpaFunctionName
-     * 
      */
     public String getFinancialAicpaFunctionName() {
         return financialAicpaFunctionName;
@@ -73,7 +67,6 @@ public class AicpaFunction extends PersistableBusinessObjectBase {
      * Sets the financialAicpaFunctionName attribute.
      * 
      * @param financialAicpaFunctionName The financialAicpaFunctionName to set.
-     * 
      */
     public void setFinancialAicpaFunctionName(String financialAicpaFunctionName) {
         this.financialAicpaFunctionName = financialAicpaFunctionName;

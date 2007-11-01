@@ -21,9 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Ways in which chosen Vendors are demonstrably diverse, including
- * having certification as a Minority-owned or Woman-owned Business Enterprise
- * (M/WBE), as a Small Business Enterprise (SBE), etc.
+ * Ways in which chosen Vendors are demonstrably diverse, including having certification as a Minority-owned or Woman-owned Business
+ * Enterprise (M/WBE), as a Small Business Enterprise (SBE), etc.
  */
 public class SupplierDiversity extends PersistableBusinessObjectBase {
 
@@ -39,7 +38,7 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
     }
 
     public String getVendorSupplierDiversityCode() {
-        
+
         return vendorSupplierDiversityCode;
     }
 
@@ -48,7 +47,7 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
     }
 
     public String getVendorSupplierDiversityDescription() {
-        
+
         return vendorSupplierDiversityDescription;
     }
 
@@ -57,7 +56,7 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
     }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -71,7 +70,7 @@ public class SupplierDiversity extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("vendorSupplierDiversityCode", this.vendorSupplierDiversityCode);
-        
+
         return m;
     }
 }

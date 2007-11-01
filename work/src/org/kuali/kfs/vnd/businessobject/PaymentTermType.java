@@ -22,94 +22,93 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Types of Payment Terms for Vendor Contracts.
- * Per contract as distinct from <code>ShippingPaymentTerms</code>.
+ * Types of Payment Terms for Vendor Contracts. Per contract as distinct from <code>ShippingPaymentTerms</code>.
  * 
  * @see org.kuali.module.vendor.bo.ShippingPaymentTerms
  */
 public class PaymentTermType extends PersistableBusinessObjectBase {
 
-	private String vendorPaymentTermsCode;
-	private String vendorDiscountDueTypeDescription;
-	private Integer vendorDiscountDueNumber;
-	private BigDecimal vendorPaymentTermsPercent;
-	private String vendorNetDueTypeDescription;
-	private Integer vendorNetDueNumber;
-	private String vendorPaymentTermsDescription;
+    private String vendorPaymentTermsCode;
+    private String vendorDiscountDueTypeDescription;
+    private Integer vendorDiscountDueNumber;
+    private BigDecimal vendorPaymentTermsPercent;
+    private String vendorNetDueTypeDescription;
+    private Integer vendorNetDueNumber;
+    private String vendorPaymentTermsDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PaymentTermType() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public PaymentTermType() {
 
-	public String getVendorPaymentTermsCode() {
-        
-		return vendorPaymentTermsCode;
-	}
+    }
 
-	public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
-		this.vendorPaymentTermsCode = vendorPaymentTermsCode;
-	}
+    public String getVendorPaymentTermsCode() {
 
-	public String getVendorDiscountDueTypeDescription() { 
-        
-		return vendorDiscountDueTypeDescription;
-	}
+        return vendorPaymentTermsCode;
+    }
 
-	public void setVendorDiscountDueTypeDescription(String vendorDiscountDueTypeDescription) {
-		this.vendorDiscountDueTypeDescription = vendorDiscountDueTypeDescription;
-	}
+    public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
+        this.vendorPaymentTermsCode = vendorPaymentTermsCode;
+    }
 
-	public Integer getVendorDiscountDueNumber() {
-        
-		return vendorDiscountDueNumber;
-	}
+    public String getVendorDiscountDueTypeDescription() {
 
-	public void setVendorDiscountDueNumber(Integer vendorDiscountDueNumber) {
-		this.vendorDiscountDueNumber = vendorDiscountDueNumber;
-	}
+        return vendorDiscountDueTypeDescription;
+    }
 
-	public BigDecimal getVendorPaymentTermsPercent() {
-        
-		return vendorPaymentTermsPercent;
-	}
+    public void setVendorDiscountDueTypeDescription(String vendorDiscountDueTypeDescription) {
+        this.vendorDiscountDueTypeDescription = vendorDiscountDueTypeDescription;
+    }
 
-	public void setVendorPaymentTermsPercent(BigDecimal vendorPaymentTermsPercent) {
-		this.vendorPaymentTermsPercent = vendorPaymentTermsPercent;
-	}
+    public Integer getVendorDiscountDueNumber() {
 
-	public String getVendorNetDueTypeDescription() {
-        
-		return vendorNetDueTypeDescription;
-	}
+        return vendorDiscountDueNumber;
+    }
 
-	public void setVendorNetDueTypeDescription(String vendorNetDueTypeDescription) {
-		this.vendorNetDueTypeDescription = vendorNetDueTypeDescription;
-	}
+    public void setVendorDiscountDueNumber(Integer vendorDiscountDueNumber) {
+        this.vendorDiscountDueNumber = vendorDiscountDueNumber;
+    }
 
-	public Integer getVendorNetDueNumber() {
-        
-		return vendorNetDueNumber;
-	}
+    public BigDecimal getVendorPaymentTermsPercent() {
 
-	public void setVendorNetDueNumber(Integer vendorNetDueNumber) {
-		this.vendorNetDueNumber = vendorNetDueNumber;
-	}
+        return vendorPaymentTermsPercent;
+    }
 
-	public String getVendorPaymentTermsDescription() {
-        
-		return vendorPaymentTermsDescription;
-	}
+    public void setVendorPaymentTermsPercent(BigDecimal vendorPaymentTermsPercent) {
+        this.vendorPaymentTermsPercent = vendorPaymentTermsPercent;
+    }
 
-	public void setVendorPaymentTermsDescription(String vendorPaymentTermsDescription) {
-		this.vendorPaymentTermsDescription = vendorPaymentTermsDescription;
-	}
+    public String getVendorNetDueTypeDescription() {
+
+        return vendorNetDueTypeDescription;
+    }
+
+    public void setVendorNetDueTypeDescription(String vendorNetDueTypeDescription) {
+        this.vendorNetDueTypeDescription = vendorNetDueTypeDescription;
+    }
+
+    public Integer getVendorNetDueNumber() {
+
+        return vendorNetDueNumber;
+    }
+
+    public void setVendorNetDueNumber(Integer vendorNetDueNumber) {
+        this.vendorNetDueNumber = vendorNetDueNumber;
+    }
+
+    public String getVendorPaymentTermsDescription() {
+
+        return vendorPaymentTermsDescription;
+    }
+
+    public void setVendorPaymentTermsDescription(String vendorPaymentTermsDescription) {
+        this.vendorPaymentTermsDescription = vendorPaymentTermsDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -118,12 +117,12 @@ public class PaymentTermType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorPaymentTermsCode", this.vendorPaymentTermsCode);
-        
-	    return m;
+
+        return m;
     }
 }

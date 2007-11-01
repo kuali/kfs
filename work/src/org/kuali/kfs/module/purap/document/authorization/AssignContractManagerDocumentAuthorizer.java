@@ -27,7 +27,8 @@ import org.kuali.core.workflow.service.KualiWorkflowDocument;
 public class AssignContractManagerDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -35,7 +36,7 @@ public class AssignContractManagerDocumentAuthorizer extends TransactionalDocume
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            //do not allow this document to be saved; once initiated, it must be routed or canceled
+            // do not allow this document to be saved; once initiated, it must be routed or canceled
             flags.setCanSave(false);
         }
 

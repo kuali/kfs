@@ -53,27 +53,27 @@ public class BudgetTemplateAction extends BudgetAction {
 
         BudgetForm budgetForm = (BudgetForm) form;
         BudgetDocument budgetDoc = budgetForm.getBudgetDocument();
-        
+
         ((Copyable) budgetDoc).toCopy();
-        
+
         // Check if ad-hoc permissions to be copied over
         if (!budgetForm.isIncludeAdHocPermissions()) {
             budgetDoc.setAdhocPersons(new ArrayList<AdhocPerson>());
             budgetDoc.setAdhocOrgs(new ArrayList<AdhocOrg>());
         }
-        
+
         // Check if budget fringe rates to be copied over
         if (!budgetForm.isIncludeBudgetIdcRates()) {
             budgetDoc.getBudget().getIndirectCost().setBudgetManualRateIndicator("N");
             SpringContext.getBean(BudgetIndirectCostService.class).setupIndirectCostRates(budgetDoc.getBudget());
         }
-        
+
         budgetForm.setBudgetDocument(budgetDoc);
         budgetForm.setDocId(budgetDoc.getDocumentNumber());
 
         budgetForm.getBudgetDocument().setCleanseBudgetOnSave(false);
         super.save(mapping, form, request, response);
-        
+
         budgetForm.getBudgetDocument().setCleanseBudgetOnSave(true);
         super.load(mapping, form, request, response);
 

@@ -44,7 +44,6 @@ import com.lowagie.text.pdf.PdfWriter;
  * This class prints out a transaction listing report. This is different from a transaction report in that this lists all the
  * transactions and a total amount. The transaction report shows the primary key from transactions and a list of messages for each
  * one.
- * 
  */
 public class TransactionListingReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionListingReport.class);
@@ -205,8 +204,8 @@ public class TransactionListingReport {
                     }
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
                     transactionList.addCell(cell);
-                    
-                    if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())){
+
+                    if (!KFSConstants.GL_CREDIT_CODE.equals(tran.getTransactionDebitCreditCode()) && !KFSConstants.GL_DEBIT_CODE.equals(tran.getTransactionDebitCreditCode())) {
                         cell = new PdfPCell(new Phrase(nf.format(tran.getTransactionLedgerEntryAmount().doubleValue()), textFont));
                         budgetTotal = budgetTotal.add(tran.getTransactionLedgerEntryAmount());
                     }
@@ -225,7 +224,7 @@ public class TransactionListingReport {
             transactionList.addCell(cell);
             cell = new PdfPCell(new Phrase("", textFont));
             transactionList.addCell(cell);
-            
+
             DecimalFormat intf = new DecimalFormat();
             intf.applyPattern("###,###");
             cell = new PdfPCell(new Phrase(intf.format(transactionCount), headerFont));
@@ -240,7 +239,7 @@ public class TransactionListingReport {
             cell = new PdfPCell(new Phrase(nf.format(creditTotal.doubleValue()), headerFont));
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             transactionList.addCell(cell);
-            
+
             cell = new PdfPCell(new Phrase(nf.format(budgetTotal.doubleValue()), headerFont));
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
             transactionList.addCell(cell);

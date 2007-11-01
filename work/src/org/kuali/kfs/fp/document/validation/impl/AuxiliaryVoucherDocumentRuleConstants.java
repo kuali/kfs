@@ -20,8 +20,6 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> business rules.
- * 
- * 
  */
 public interface AuxiliaryVoucherDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
 

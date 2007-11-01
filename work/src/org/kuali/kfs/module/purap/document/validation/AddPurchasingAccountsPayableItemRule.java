@@ -15,9 +15,7 @@
  */
 package org.kuali.module.purap.rule;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.module.financial.bo.Check;
 import org.kuali.module.purap.bo.PurApItem;
 
 /**

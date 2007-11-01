@@ -35,11 +35,9 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 /**
  * This class handles Actions for the Routing Form Template page.
- * 
- * 
  */
 public class RoutingFormTemplateAction extends RoutingFormAction {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormTemplateAction.class);
 
     /**
@@ -58,36 +56,36 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
 
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDoc = routingForm.getRoutingFormDocument();
-        
+
         // Clear Research Risks
         routingFormDoc.setRoutingFormResearchRisks(new ArrayList<RoutingFormResearchRisk>());
-        
+
         ObjectUtils.materializeSubObjectsToDepth(routingFormDoc, 2);
-        
+
         // Clear Link to Budget if it exists.
         routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(null);
         routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(null);
         routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(null);
-        
+
         SpringContext.getBean(RoutingFormProjectDetailsService.class).reconcileOtherProjectDetailsQuestions(routingFormDoc);
 
         // Check if delivery address to be copied over
         if (!routingForm.isTemplateAddress()) {
             routingFormDoc.getRoutingFormAgency().setAgencyAddressDescription("");
         }
-        
-//      Check if ad-hoc permissions to be copied over
+
+        // Check if ad-hoc permissions to be copied over
         if (!routingForm.isTemplateAdHocPermissions()) {
             routingFormDoc.clearAdhocType(KraConstants.AD_HOC_PERMISSION);
         }
-        
-//      Check if ad-hoc approvers to be copied over
+
+        // Check if ad-hoc approvers to be copied over
         if (!routingForm.isTemplateAdHocApprovers()) {
             routingFormDoc.clearAdhocType(KraConstants.AD_HOC_APPROVER);
         }
-        
-       ((Copyable) routingFormDoc).toCopy();
-        
+
+        ((Copyable) routingFormDoc).toCopy();
+
         routingForm.setDocument(routingFormDoc);
         routingForm.setDocId(routingFormDoc.getDocumentNumber());
 
@@ -96,7 +94,7 @@ public class RoutingFormTemplateAction extends RoutingFormAction {
 
         return super.mainpage(mapping, routingForm, request, response);
     }
-    
+
     /**
      * Handle header navigation request.
      * 

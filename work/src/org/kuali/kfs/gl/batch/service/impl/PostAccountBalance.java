@@ -25,7 +25,6 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.AccountBalanceCalculator;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.AccountBalance;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.AccountBalanceDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,10 +54,7 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
         // Only post transactions where:
         // balance type code is AC or CB
         // or where object type isn't FB and balance type code is EX, IE, PE and CE
-        if ( (t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) || 
-                (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || 
-                 t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) && 
-                 ( ! t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd()))) {
+        if ((t.getFinancialBalanceTypeCode().equals(t.getOption().getActualFinancialBalanceTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getBudgetCheckingBalanceTypeCd())) || (t.getFinancialBalanceTypeCode().equals(t.getOption().getExtrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getIntrnlEncumFinBalanceTypCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getPreencumbranceFinBalTypeCd()) || t.getFinancialBalanceTypeCode().equals(t.getOption().getCostShareEncumbranceBalanceTypeCd())) && (!t.getFinancialObjectTypeCode().equals(t.getOption().getFinObjectTypeFundBalanceCd()))) {
             // We are posting this transaction
             String returnCode = GLConstants.UPDATE_CODE;
 
@@ -130,7 +126,6 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
     }
 
     /**
-     * 
      * @param t
      * @param enc
      */

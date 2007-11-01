@@ -29,8 +29,6 @@ import org.springframework.beans.BeanUtils;
 
 /**
  * This class tests the Config constants.
- * 
- *
  */
 @ConfigureContext
 public class ConfigPropertiesTest extends KualiTestBase {

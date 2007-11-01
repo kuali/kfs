@@ -60,7 +60,7 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
         INVALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.ACCOUNT_NBR_KEY, invalid.getAccountNumber());
         INVALID_SUB_ACCOUNT_PARAM_MAP.put(KualiSubAccountAttribute.SUB_ACCOUNT_NBR_KEY, invalid.getSubAccountNumber());
     }
-    
+
     public void testValidateRuleData() {
         KualiSubAccountAttribute attribute = new KualiSubAccountAttribute();
         List errors = attribute.validateRuleData(VALID_SUB_ACCOUNT_PARAM_MAP);
@@ -72,7 +72,7 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
 
         attribute = new KualiSubAccountAttribute();
         errors = attribute.validateRuleData(INVALID_SUB_ACCOUNT_PARAM_MAP);
-        assertFalse("At least one error should have been found but we found none",errors.isEmpty());
+        assertFalse("At least one error should have been found but we found none", errors.isEmpty());
         assertEquals("Exactly one error should have been found", 1, errors.size());
     }
 
@@ -80,14 +80,14 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
         KualiSubAccountAttribute attribute = new KualiSubAccountAttribute();
         List errors = attribute.validateRoutingData(VALID_SUB_ACCOUNT_PARAM_MAP);
         assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
-        
+
         attribute = new KualiSubAccountAttribute();
         errors = attribute.validateRoutingData(VALID_SUB_ACCOUNT_REPORTS_TO_PARAM_MAP);
         assertTrue("No errors should be returned but found " + errors.size(), errors.isEmpty());
 
         attribute = new KualiSubAccountAttribute();
         errors = attribute.validateRoutingData(INVALID_SUB_ACCOUNT_PARAM_MAP);
-        assertFalse("At least one error should have been found but we found none",errors.isEmpty());
+        assertFalse("At least one error should have been found but we found none", errors.isEmpty());
         assertEquals("Exactly one error should have been found", 1, errors.size());
     }
 
@@ -97,10 +97,10 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         KualiSubAccountAttribute subAccountAttribute = new KualiSubAccountAttribute();
         Set subAccountValues = subAccountAttribute.populateFromDocContent(documentTypeName, docContent, new RouteContext());
-        
-        assertFalse("At least one valid sub account should be returned",subAccountValues.isEmpty());
+
+        assertFalse("At least one valid sub account should be returned", subAccountValues.isEmpty());
     }
-    
+
     public void testGetNonReportDocumentContentValues() throws IOException, InvalidXmlException, XPathExpressionException {
         String docTypeName = "TransferOfFundsDocument";
         DocumentContent docContent = KualiAttributeTestUtil.getDocumentContentFromXmlFile(KualiAttributeTestUtil.TOF_SUB_ACCOUNT_TEST_DOC, docTypeName);
@@ -109,17 +109,17 @@ public class KualiSubAccountAttributeTest extends KualiTestBase {
         if (!KualiWorkflowUtils.isSourceLineOnly(docTypeName)) {
             // checking target lines
             xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docTypeName)).append("/subAccount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-            checkValidValues(docContent, xpathExp,"BL","1031400",null,"DPD");
+            checkValidValues(docContent, xpathExp, "BL", "1031400", null, "DPD");
         }
-        
+
         if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
             // checking source lines
             xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)).append("/subAccount").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-            checkValidValues(docContent, xpathExp,"BL","1031400",null,"BLDG");
+            checkValidValues(docContent, xpathExp, "BL", "1031400", null, "BLDG");
         }
     }
-    
-    private void checkValidValues(DocumentContent docContent,String xpathExp,String chart,String account,String org,String subAccount) throws XPathExpressionException {
+
+    private void checkValidValues(DocumentContent docContent, String xpathExp, String chart, String account, String org, String subAccount) throws XPathExpressionException {
         XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
         NodeList nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
         for (int i = 0; i < nodes.getLength(); i++) {

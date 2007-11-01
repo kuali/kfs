@@ -24,8 +24,6 @@ import org.kuali.kfs.KFSConstants.BudgetAdjustmentDocumentConstants;
 
 /**
  * This class returns list of ba sub fund restriction levels.
- * 
- * 
  */
 public class BudgetAdjustmentSubFundRestrictionsValuesFinder extends KeyValuesBase {
 

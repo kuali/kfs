@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.util;
 
-import org.kuali.core.util.ObjectUtils;
 
 public class ExpiredOrClosedAccount {
 
@@ -25,74 +24,86 @@ public class ExpiredOrClosedAccount {
     private boolean closedIndicator;
     private boolean expiredIndicator;
     private boolean continuationAccountMissing;
-    
-    public ExpiredOrClosedAccount(){}
-    
-    public ExpiredOrClosedAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber){
+
+    public ExpiredOrClosedAccount() {
+    }
+
+    public ExpiredOrClosedAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         setChartOfAccountsCode(chartOfAccountsCode);
         setAccountNumber(accountNumber);
         setSubAccountNumber(subAccountNumber);
     }
-    
+
     public String getAccountNumber() {
         return accountNumber;
     }
+
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
+
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
+
     public boolean isClosedIndicator() {
         return closedIndicator;
     }
+
     public void setClosedIndicator(boolean closedIndicator) {
         this.closedIndicator = closedIndicator;
     }
+
     public boolean isContinuationAccountMissing() {
         return continuationAccountMissing;
     }
+
     public void setContinuationAccountMissing(boolean continuationAccountMissing) {
         this.continuationAccountMissing = continuationAccountMissing;
     }
+
     public boolean isExpiredIndicator() {
         return expiredIndicator;
     }
+
     public void setExpiredIndicator(boolean expiredIndicator) {
         this.expiredIndicator = expiredIndicator;
     }
+
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
+
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
     }
-    /** 
-     * This is a helper method to return the account as a string in
-     * the format chart-account-subaccount.
+
+    /**
+     * This is a helper method to return the account as a string in the format chart-account-subaccount.
      * 
      * @return
      */
-    public String getAccountString(){
+    public String getAccountString() {
         StringBuffer accountStr = new StringBuffer("");
-        
-        if(getChartOfAccountsCode() != null){
-            accountStr.append(getChartOfAccountsCode());            
+
+        if (getChartOfAccountsCode() != null) {
+            accountStr.append(getChartOfAccountsCode());
         }
-        
-        if(getAccountNumber() != null){
+
+        if (getAccountNumber() != null) {
             accountStr.append("-");
-            accountStr.append(getAccountNumber());            
+            accountStr.append(getAccountNumber());
         }
-        
-        if(getSubAccountNumber() != null){
+
+        if (getSubAccountNumber() != null) {
             accountStr.append("-");
             accountStr.append(getSubAccountNumber());
         }
-        
+
         return accountStr.toString();
     }
 }

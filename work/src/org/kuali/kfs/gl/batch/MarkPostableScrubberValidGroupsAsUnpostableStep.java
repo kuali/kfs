@@ -20,12 +20,12 @@ import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
- * This step, which would only be run in testing or extraordinary production circumstances,
- * stops the posting fo any postable scrubber groups.
+ * This step, which would only be run in testing or extraordinary production circumstances, stops the posting fo any postable
+ * scrubber groups.
  */
 public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractStep implements TestingStep {
     private OriginEntryGroupService originEntryGroupService;
-    
+
     /**
      * Marks all ready-to-be-posted scrubber groups as unpostable
      * 
@@ -40,6 +40,7 @@ public class MarkPostableScrubberValidGroupsAsUnpostableStep extends AbstractSte
 
     /**
      * Sets the originEntryGroupSerivce, allowing the injection of an implementation of that service
+     * 
      * @param originEntryGroupService the originEntryGroupService to set
      * @see org.kuali.module.gl.service.OriginEntryGroupService
      */

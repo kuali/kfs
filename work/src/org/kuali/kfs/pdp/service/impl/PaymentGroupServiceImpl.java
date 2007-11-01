@@ -38,7 +38,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentGroupServiceImpl.class);
 
     private PaymentGroupDao paymentGroupDao;
-  
+
     public void setPaymentGroupDao(PaymentGroupDao c) {
         paymentGroupDao = c;
     }
@@ -46,7 +46,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     /**
      * @see org.kuali.module.pdp.service.PaymentGroupService#getByProcessIdDisbursementType(java.lang.Integer, java.lang.String)
      */
-    public Iterator getByProcessIdDisbursementType(Integer pid,String disbursementType) {
+    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType) {
         LOG.debug("getByProcessIdDisbursementType() started");
 
         return paymentGroupDao.getByProcessIdDisbursementType(pid, disbursementType);
@@ -55,10 +55,10 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     /**
      * @see org.kuali.module.pdp.service.PaymentGroupService#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
      */
-    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode) {
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {
         LOG.debug("getByDisbursementTypeStatusCode() started");
 
-        return paymentGroupDao.getByDisbursementTypeStatusCode(disbursementType,paymentStatusCode);
+        return paymentGroupDao.getByDisbursementTypeStatusCode(disbursementType, paymentStatusCode);
     }
 
     /**
@@ -127,7 +127,8 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#processCancelledGroup(org.kuali.module.pdp.bo.PaymentGroup, java.sql.Date)
+     * @see org.kuali.module.pdp.service.PaymentGroupService#processCancelledGroup(org.kuali.module.pdp.bo.PaymentGroup,
+     *      java.sql.Date)
      */
     public void processCancelledGroup(PaymentGroup group, Date processDate) {
         LOG.debug("processCancelledGroup() started");

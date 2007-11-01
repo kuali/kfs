@@ -60,10 +60,10 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
         // Clear up the database so that any existing data cannot affact your test result
         HashMap keys = new HashMap();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2004");
-        keys.put(KFSPropertyConstants.EMPLID, "1000000005");        
-        keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");        
+        keys.put(KFSPropertyConstants.EMPLID, "1000000005");
+        keys.put(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, "AC");
         keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
-        businessObjectService.deleteMatching(LedgerBalance.class, keys);               
+        businessObjectService.deleteMatching(LedgerBalance.class, keys);
     }
 
     public void testGetSearchResults() throws Exception {
@@ -76,15 +76,15 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
         ledgerBalance.setChartOfAccountsCode("BL");
 
         // test the search results before the specified entry is inserted into the database
-        Map fieldValues = buildFieldValues(ledgerBalance, this.getLookupFields(false));       
+        Map fieldValues = buildFieldValues(ledgerBalance, this.getLookupFields(false));
         List searchResults = lookupableHelperService.getSearchResults(fieldValues);
 
         if (searchResults != null) {
             System.out.println("Results Size:" + searchResults.size());
         }
 
-        // compare the search results with the expected and see if they match with each other        
-        assertEquals(this.ledgerBalanceExpectedInsertion,searchResults.size());
+        // compare the search results with the expected and see if they match with each other
+        assertEquals(this.ledgerBalanceExpectedInsertion, searchResults.size());
     }
 
     private Map<String, String> buildFieldValues(LedgerBalance ledgerBalance, List<String> lookupFields) {
@@ -130,7 +130,7 @@ public class LedgerBalanceLookupableHelperServiceTest extends KualiTestBase {
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
             inputDataList.add(inputData);
         }
-        
+
         String testTarget = "getLedgerBalance.";
         this.ledgerBalanceNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         this.ledgerBalanceExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));

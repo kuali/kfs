@@ -41,7 +41,6 @@ public interface AccountIntf {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber();
 
@@ -49,7 +48,6 @@ public interface AccountIntf {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber);
 
@@ -57,7 +55,6 @@ public interface AccountIntf {
      * Gets the accountName attribute.
      * 
      * @return Returns the accountName
-     * 
      */
     public String getAccountName();
 
@@ -65,7 +62,6 @@ public interface AccountIntf {
      * Sets the accountName attribute.
      * 
      * @param accountName The accountName to set.
-     * 
      */
     public void setAccountName(String accountName);
 
@@ -73,7 +69,6 @@ public interface AccountIntf {
      * Gets the _AccountsFringesBnftIndicator_ attribute.
      * 
      * @return Returns the _AccountsFringesBnftIndicator_
-     * 
      */
     public boolean isAccountsFringesBnftIndicator();
 
@@ -81,7 +76,6 @@ public interface AccountIntf {
      * Sets the _AccountsFringesBnftIndicator_ attribute.
      * 
      * @param _AccountsFringesBnftIndicator_ The _AccountsFringesBnftIndicator_ to set.
-     * 
      */
     public void setAccountsFringesBnftIndicator(boolean _AccountsFringesBnftIndicator_);
 
@@ -89,7 +83,6 @@ public interface AccountIntf {
      * Gets the accountRestrictedStatusDate attribute.
      * 
      * @return Returns the accountRestrictedStatusDate
-     * 
      */
     public Timestamp getAccountRestrictedStatusDate();
 
@@ -97,7 +90,6 @@ public interface AccountIntf {
      * Sets the accountRestrictedStatusDate attribute.
      * 
      * @param accountRestrictedStatusDate The accountRestrictedStatusDate to set.
-     * 
      */
     public void setAccountRestrictedStatusDate(Timestamp accountRestrictedStatusDate);
 
@@ -105,7 +97,6 @@ public interface AccountIntf {
      * Gets the accountCityName attribute.
      * 
      * @return Returns the accountCityName
-     * 
      */
     public String getAccountCityName();
 
@@ -113,7 +104,6 @@ public interface AccountIntf {
      * Sets the accountCityName attribute.
      * 
      * @param accountCityName The accountCityName to set.
-     * 
      */
     public void setAccountCityName(String accountCityName);
 
@@ -121,7 +111,6 @@ public interface AccountIntf {
      * Gets the accountStateCode attribute.
      * 
      * @return Returns the accountStateCode
-     * 
      */
     public String getAccountStateCode();
 
@@ -129,7 +118,6 @@ public interface AccountIntf {
      * Sets the accountStateCode attribute.
      * 
      * @param accountStateCode The accountStateCode to set.
-     * 
      */
     public void setAccountStateCode(String accountStateCode);
 
@@ -137,7 +125,6 @@ public interface AccountIntf {
      * Gets the accountStreetAddress attribute.
      * 
      * @return Returns the accountStreetAddress
-     * 
      */
     public String getAccountStreetAddress();
 
@@ -145,7 +132,6 @@ public interface AccountIntf {
      * Sets the accountStreetAddress attribute.
      * 
      * @param accountStreetAddress The accountStreetAddress to set.
-     * 
      */
     public void setAccountStreetAddress(String accountStreetAddress);
 
@@ -153,7 +139,6 @@ public interface AccountIntf {
      * Gets the accountZipCode attribute.
      * 
      * @return Returns the accountZipCode
-     * 
      */
     public String getAccountZipCode();
 
@@ -161,7 +146,6 @@ public interface AccountIntf {
      * Sets the accountZipCode attribute.
      * 
      * @param accountZipCode The accountZipCode to set.
-     * 
      */
     public void setAccountZipCode(String accountZipCode);
 
@@ -169,7 +153,6 @@ public interface AccountIntf {
      * Gets the accountCreateDate attribute.
      * 
      * @return Returns the accountCreateDate
-     * 
      */
     public Timestamp getAccountCreateDate();
 
@@ -177,7 +160,6 @@ public interface AccountIntf {
      * Sets the accountCreateDate attribute.
      * 
      * @param accountCreateDate The accountCreateDate to set.
-     * 
      */
     public void setAccountCreateDate(Timestamp accountCreateDate);
 
@@ -185,7 +167,6 @@ public interface AccountIntf {
      * Gets the accountEffectiveDate attribute.
      * 
      * @return Returns the accountEffectiveDate
-     * 
      */
     public Timestamp getAccountEffectiveDate();
 
@@ -193,7 +174,6 @@ public interface AccountIntf {
      * Sets the accountEffectiveDate attribute.
      * 
      * @param accountEffectiveDate The accountEffectiveDate to set.
-     * 
      */
     public void setAccountEffectiveDate(Timestamp accountEffectiveDate);
 
@@ -201,7 +181,6 @@ public interface AccountIntf {
      * Gets the accountExpirationDate attribute.
      * 
      * @return Returns the accountExpirationDate
-     * 
      */
     public Timestamp getAccountExpirationDate();
 
@@ -209,56 +188,40 @@ public interface AccountIntf {
      * Sets the accountExpirationDate attribute.
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
-     * 
      */
     public void setAccountExpirationDate(Timestamp accountExpirationDate);
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same as today, then this will return false. It will only return true if the account
-     * expiration date is one day earlier than today or earlier.
-     * 
-     * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
-     * date values, not time-values.
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same as today, then this
+     * will return false. It will only return true if the account expiration date is one day earlier than today or earlier. Note
+     * that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on date
+     * values, not time-values.
      * 
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired();
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
-     * 
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same date as testDate, then
+     * this will return false. It will only return true if the account expiration date is one day earlier than testDate or earlier.
      * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
      * @param testDate - Calendar instance with the date to test the Account's Expiration Date against. This is most commonly set to
      *        today's date.
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired(Calendar testDate);
 
     /**
-     * 
-     * This method determines whether the account is expired or not.
-     * 
-     * Note that if Expiration Date is the same date as testDate, then this will return false. It will only return true if the
-     * account expiration date is one day earlier than testDate or earlier.
-     * 
+     * This method determines whether the account is expired or not. Note that if Expiration Date is the same date as testDate, then
+     * this will return false. It will only return true if the account expiration date is one day earlier than testDate or earlier.
      * Note that this logic ignores all time components when doing the comparison. It only does the before/after comparison based on
      * date values, not time-values.
      * 
      * @param testDate - java.util.Date instance with the date to test the Account's Expiration Date against. This is most commonly
      *        set to today's date.
      * @return true or false based on the logic outlined above
-     * 
      */
     public boolean isExpired(Date testDate);
 
@@ -266,7 +229,6 @@ public interface AccountIntf {
      * Gets the awardPeriodEndYear attribute.
      * 
      * @return Returns the awardPeriodEndYear
-     * 
      */
     public Integer getAwardPeriodEndYear();
 
@@ -274,7 +236,6 @@ public interface AccountIntf {
      * Sets the awardPeriodEndYear attribute.
      * 
      * @param awardPeriodEndYear The awardPeriodEndYear to set.
-     * 
      */
     public void setAwardPeriodEndYear(Integer awardPeriodEndYear);
 
@@ -282,7 +243,6 @@ public interface AccountIntf {
      * Gets the awardPeriodEndMonth attribute.
      * 
      * @return Returns the awardPeriodEndMonth
-     * 
      */
     public String getAwardPeriodEndMonth();
 
@@ -290,7 +250,6 @@ public interface AccountIntf {
      * Sets the awardPeriodEndMonth attribute.
      * 
      * @param awardPeriodEndMonth The awardPeriodEndMonth to set.
-     * 
      */
     public void setAwardPeriodEndMonth(String awardPeriodEndMonth);
 
@@ -298,7 +257,6 @@ public interface AccountIntf {
      * Gets the awardPeriodBeginYear attribute.
      * 
      * @return Returns the awardPeriodBeginYear
-     * 
      */
     public Integer getAwardPeriodBeginYear();
 
@@ -306,7 +264,6 @@ public interface AccountIntf {
      * Sets the awardPeriodBeginYear attribute.
      * 
      * @param awardPeriodBeginYear The awardPeriodBeginYear to set.
-     * 
      */
     public void setAwardPeriodBeginYear(Integer awardPeriodBeginYear);
 
@@ -314,7 +271,6 @@ public interface AccountIntf {
      * Gets the awardPeriodBeginMonth attribute.
      * 
      * @return Returns the awardPeriodBeginMonth
-     * 
      */
     public String getAwardPeriodBeginMonth();
 
@@ -322,7 +278,6 @@ public interface AccountIntf {
      * Sets the awardPeriodBeginMonth attribute.
      * 
      * @param awardPeriodBeginMonth The awardPeriodBeginMonth to set.
-     * 
      */
     public void setAwardPeriodBeginMonth(String awardPeriodBeginMonth);
 
@@ -330,7 +285,6 @@ public interface AccountIntf {
      * Gets the acctIndirectCostRcvyTypeCd attribute.
      * 
      * @return Returns the acctIndirectCostRcvyTypeCd
-     * 
      */
     public String getAcctIndirectCostRcvyTypeCd();
 
@@ -338,7 +292,6 @@ public interface AccountIntf {
      * Sets the acctIndirectCostRcvyTypeCd attribute.
      * 
      * @param acctIndirectCostRcvyTypeCd The acctIndirectCostRcvyTypeCd to set.
-     * 
      */
     public void setAcctIndirectCostRcvyTypeCd(String acctIndirectCostRcvyTypeCd);
 
@@ -346,7 +299,6 @@ public interface AccountIntf {
      * Gets the acctCustomIndCstRcvyExclCd attribute.
      * 
      * @return Returns the acctCustomIndCstRcvyExclCd
-     * 
      */
     public String getAcctCustomIndCstRcvyExclCd();
 
@@ -354,7 +306,6 @@ public interface AccountIntf {
      * Sets the acctCustomIndCstRcvyExclCd attribute.
      * 
      * @param acctCustomIndCstRcvyExclCd The acctCustomIndCstRcvyExclCd to set.
-     * 
      */
     public void setAcctCustomIndCstRcvyExclCd(String acctCustomIndCstRcvyExclCd);
 
@@ -362,7 +313,6 @@ public interface AccountIntf {
      * Gets the financialIcrSeriesIdentifier attribute.
      * 
      * @return Returns the financialIcrSeriesIdentifier
-     * 
      */
     public String getFinancialIcrSeriesIdentifier();
 
@@ -370,7 +320,6 @@ public interface AccountIntf {
      * Sets the financialIcrSeriesIdentifier attribute.
      * 
      * @param financialIcrSeriesIdentifier The financialIcrSeriesIdentifier to set.
-     * 
      */
     public void setFinancialIcrSeriesIdentifier(String financialIcrSeriesIdentifier);
 
@@ -378,7 +327,6 @@ public interface AccountIntf {
      * Gets the accountInFinancialProcessingIndicator attribute.
      * 
      * @return Returns the accountInFinancialProcessingIndicator
-     * 
      */
     public boolean getAccountInFinancialProcessingIndicator();
 
@@ -386,7 +334,6 @@ public interface AccountIntf {
      * Sets the accountInFinancialProcessingIndicator attribute.
      * 
      * @param accountInFinancialProcessingIndicator The accountInFinancialProcessingIndicator to set.
-     * 
      */
     public void setAccountInFinancialProcessingIndicator(boolean accountInFinancialProcessingIndicator);
 
@@ -394,7 +341,6 @@ public interface AccountIntf {
      * Gets the budgetRecordingLevelCode attribute.
      * 
      * @return Returns the budgetRecordingLevelCode
-     * 
      */
     public String getBudgetRecordingLevelCode();
 
@@ -402,7 +348,6 @@ public interface AccountIntf {
      * Sets the budgetRecordingLevelCode attribute.
      * 
      * @param budgetRecordingLevelCode The budgetRecordingLevelCode to set.
-     * 
      */
     public void setBudgetRecordingLevelCode(String budgetRecordingLevelCode);
 
@@ -410,7 +355,6 @@ public interface AccountIntf {
      * Gets the accountSufficientFundsCode attribute.
      * 
      * @return Returns the accountSufficientFundsCode
-     * 
      */
     public String getAccountSufficientFundsCode();
 
@@ -418,7 +362,6 @@ public interface AccountIntf {
      * Sets the accountSufficientFundsCode attribute.
      * 
      * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
-     * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode);
 
@@ -426,7 +369,6 @@ public interface AccountIntf {
      * Gets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @return Returns the pendingAcctSufficientFundsIndicator
-     * 
      */
     public boolean isPendingAcctSufficientFundsIndicator();
 
@@ -434,7 +376,6 @@ public interface AccountIntf {
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
-     * 
      */
     public void setPendingAcctSufficientFundsIndicator(boolean pendingAcctSufficientFundsIndicator);
 
@@ -442,7 +383,6 @@ public interface AccountIntf {
      * Gets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @return Returns the extrnlFinEncumSufficntFndIndicator
-     * 
      */
     public boolean isExtrnlFinEncumSufficntFndIndicator();
 
@@ -450,7 +390,6 @@ public interface AccountIntf {
      * Sets the extrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @param extrnlFinEncumSufficntFndIndicator The extrnlFinEncumSufficntFndIndicator to set.
-     * 
      */
     public void setExtrnlFinEncumSufficntFndIndicator(boolean extrnlFinEncumSufficntFndIndicator);
 
@@ -458,7 +397,6 @@ public interface AccountIntf {
      * Gets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @return Returns the intrnlFinEncumSufficntFndIndicator
-     * 
      */
     public boolean isIntrnlFinEncumSufficntFndIndicator();
 
@@ -466,7 +404,6 @@ public interface AccountIntf {
      * Sets the intrnlFinEncumSufficntFndIndicator attribute.
      * 
      * @param intrnlFinEncumSufficntFndIndicator The intrnlFinEncumSufficntFndIndicator to set.
-     * 
      */
     public void setIntrnlFinEncumSufficntFndIndicator(boolean intrnlFinEncumSufficntFndIndicator);
 
@@ -474,7 +411,6 @@ public interface AccountIntf {
      * Gets the finPreencumSufficientFundIndicator attribute.
      * 
      * @return Returns the finPreencumSufficientFundIndicator
-     * 
      */
     public boolean isFinPreencumSufficientFundIndicator();
 
@@ -482,7 +418,6 @@ public interface AccountIntf {
      * Sets the finPreencumSufficientFundIndicator attribute.
      * 
      * @param finPreencumSufficientFundIndicator The finPreencumSufficientFundIndicator to set.
-     * 
      */
     public void setFinPreencumSufficientFundIndicator(boolean finPreencumSufficientFundIndicator);
 
@@ -490,7 +425,6 @@ public interface AccountIntf {
      * Gets the _FinancialObjectivePrsctrlIndicator_ attribute.
      * 
      * @return Returns the _FinancialObjectivePrsctrlIndicator_
-     * 
      */
     public boolean isFinancialObjectivePrsctrlIndicator();
 
@@ -498,7 +432,6 @@ public interface AccountIntf {
      * Sets the _FinancialObjectivePrsctrlIndicator_ attribute.
      * 
      * @param _FinancialObjectivePrsctrlIndicator_ The _FinancialObjectivePrsctrlIndicator_ to set.
-     * 
      */
     public void setFinancialObjectivePrsctrlIndicator(boolean _FinancialObjectivePrsctrlIndicator_);
 
@@ -506,7 +439,6 @@ public interface AccountIntf {
      * Gets the accountCfdaNumber attribute.
      * 
      * @return Returns the accountCfdaNumber
-     * 
      */
     public String getAccountCfdaNumber();
 
@@ -514,7 +446,6 @@ public interface AccountIntf {
      * Sets the accountCfdaNumber attribute.
      * 
      * @param accountCfdaNumber The accountCfdaNumber to set.
-     * 
      */
     public void setAccountCfdaNumber(String accountCfdaNumber);
 
@@ -522,7 +453,6 @@ public interface AccountIntf {
      * Gets the accountOffCampusIndicator attribute.
      * 
      * @return Returns the accountOffCampusIndicator
-     * 
      */
     public boolean isAccountOffCampusIndicator();
 
@@ -530,7 +460,6 @@ public interface AccountIntf {
      * Sets the accountOffCampusIndicator attribute.
      * 
      * @param accountOffCampusIndicator The accountOffCampusIndicator to set.
-     * 
      */
     public void setAccountOffCampusIndicator(boolean accountOffCampusIndicator);
 
@@ -538,7 +467,6 @@ public interface AccountIntf {
      * Gets the accountClosedIndicator attribute.
      * 
      * @return Returns the accountClosedIndicator
-     * 
      */
     public boolean isAccountClosedIndicator();
 
@@ -546,7 +474,6 @@ public interface AccountIntf {
      * Sets the accountClosedIndicator attribute.
      * 
      * @param accountClosedIndicator The accountClosedIndicator to set.
-     * 
      */
     public void setAccountClosedIndicator(boolean accountClosedIndicator);
 
@@ -554,7 +481,6 @@ public interface AccountIntf {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts();
 
@@ -570,7 +496,6 @@ public interface AccountIntf {
      * Gets the organization attribute.
      * 
      * @return Returns the organization
-     * 
      */
     public Org getOrganization();
 
@@ -586,7 +511,6 @@ public interface AccountIntf {
      * Gets the accountType attribute.
      * 
      * @return Returns the accountType
-     * 
      */
     public AcctType getAccountType();
 
@@ -602,7 +526,6 @@ public interface AccountIntf {
      * Gets the accountPhysicalCampus attribute.
      * 
      * @return Returns the accountPhysicalCampus
-     * 
      */
     public Campus getAccountPhysicalCampus();
 
@@ -633,7 +556,6 @@ public interface AccountIntf {
      * Gets the subFundGroup attribute.
      * 
      * @return Returns the subFundGroup
-     * 
      */
     public SubFundGroup getSubFundGroup();
 
@@ -649,7 +571,6 @@ public interface AccountIntf {
      * Gets the financialHigherEdFunction attribute.
      * 
      * @return Returns the financialHigherEdFunction
-     * 
      */
     public HigherEdFunction getFinancialHigherEdFunction();
 
@@ -665,7 +586,6 @@ public interface AccountIntf {
      * Gets the accountRestrictedStatus attribute.
      * 
      * @return Returns the accountRestrictedStatus
-     * 
      */
     public RestrictedStatus getAccountRestrictedStatus();
 
@@ -681,7 +601,6 @@ public interface AccountIntf {
      * Gets the reportsToAccount attribute.
      * 
      * @return Returns the reportsToAccount
-     * 
      */
     public Account getReportsToAccount();
 
@@ -697,7 +616,6 @@ public interface AccountIntf {
      * Gets the endowmentIncomeAccount attribute.
      * 
      * @return Returns the endowmentIncomeAccount
-     * 
      */
     public Account getEndowmentIncomeAccount();
 
@@ -713,7 +631,6 @@ public interface AccountIntf {
      * Gets the contractControlAccount attribute.
      * 
      * @return Returns the contractControlAccount
-     * 
      */
     public Account getContractControlAccount();
 
@@ -729,7 +646,6 @@ public interface AccountIntf {
      * Gets the incomeStreamAccount attribute.
      * 
      * @return Returns the incomeStreamAccount
-     * 
      */
     public Account getIncomeStreamAccount();
 
@@ -745,7 +661,6 @@ public interface AccountIntf {
      * Gets the indirectCostRecoveryAcct attribute.
      * 
      * @return Returns the indirectCostRecoveryAcct
-     * 
      */
     public Account getIndirectCostRecoveryAcct();
 

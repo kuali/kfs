@@ -21,8 +21,6 @@ import org.kuali.kfs.KFSConstants;
 
 /**
  * This helper class works in conjunction with the DepositWizardForm to help build the UI for the Deposit Wizard.
- * 
- * 
  */
 public class DepositWizardHelper {
     private String selectedValue;

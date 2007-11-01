@@ -23,182 +23,180 @@ import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.log4j.Logger;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
-import org.kuali.module.vendor.service.impl.VendorServiceImpl;
 
 /**
- * Contains information specific to a parent Vendor, which may be shared
- * by its division Vendors if it has any.  Contained by a <code>VendorDetail</code>.
+ * Contains information specific to a parent Vendor, which may be shared by its division Vendors if it has any. Contained by a
+ * <code>VendorDetail</code>.
  * 
  * @see org.kuali.module.vendor.bo.VendorDetail
  */
 public class VendorHeader extends PersistableBusinessObjectBase {
     private static Logger LOG = Logger.getLogger(VendorHeader.class);
-    
-	private Integer vendorHeaderGeneratedIdentifier;
-	private String vendorTypeCode;
-	private String vendorTaxNumber;
+
+    private Integer vendorHeaderGeneratedIdentifier;
+    private String vendorTypeCode;
+    private String vendorTaxNumber;
     private String vendorTaxTypeCode;
     private String vendorOwnershipCode;
-	private String vendorOwnershipCategoryCode;
-	private Date vendorFederalWithholdingTaxBeginningDate;
-	private Date vendorFederalWithholdingTaxEndDate;
-	private Boolean vendorW9ReceivedIndicator;
-	private Boolean vendorW8BenReceivedIndicator;
+    private String vendorOwnershipCategoryCode;
+    private Date vendorFederalWithholdingTaxBeginningDate;
+    private Date vendorFederalWithholdingTaxEndDate;
+    private Boolean vendorW9ReceivedIndicator;
+    private Boolean vendorW8BenReceivedIndicator;
     private Boolean vendorDebarredIndicator;
     private Boolean vendorForeignIndicator;
-    
-	private VendorType vendorType;
-	private OwnershipType vendorOwnership;
-	private OwnershipCategory vendorOwnershipCategory;
+
+    private VendorType vendorType;
+    private OwnershipType vendorOwnership;
+    private OwnershipCategory vendorOwnershipCategory;
     private List<VendorSupplierDiversity> vendorSupplierDiversities;
     private List<VendorTaxChange> vendorTaxChanges;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorHeader() {
+
+    /**
+     * Default constructor.
+     */
+    public VendorHeader() {
         vendorSupplierDiversities = new TypedArrayList(VendorSupplierDiversity.class);
-	}
+    }
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public String getVendorTypeCode() { 
-        
-		return vendorTypeCode;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorTypeCode(String vendorTypeCode) {
-		this.vendorTypeCode = vendorTypeCode;
-	}
+    public String getVendorTypeCode() {
 
-	public String getVendorTaxNumber() {
-        
-		return vendorTaxNumber;
-	}
+        return vendorTypeCode;
+    }
 
-	public void setVendorTaxNumber(String vendorTaxNumber) {
-		this.vendorTaxNumber = vendorTaxNumber;
-	}
+    public void setVendorTypeCode(String vendorTypeCode) {
+        this.vendorTypeCode = vendorTypeCode;
+    }
+
+    public String getVendorTaxNumber() {
+
+        return vendorTaxNumber;
+    }
+
+    public void setVendorTaxNumber(String vendorTaxNumber) {
+        this.vendorTaxNumber = vendorTaxNumber;
+    }
 
     public String getVendorTaxTypeCode() {
-        
+
         return vendorTaxTypeCode;
     }
 
     public void setVendorTaxTypeCode(String vendorTaxTypeCode) {
         this.vendorTaxTypeCode = vendorTaxTypeCode;
-    } 
+    }
 
-	public String getVendorOwnershipCode() {
-        
-		return vendorOwnershipCode;
-	}
+    public String getVendorOwnershipCode() {
 
-	public void setVendorOwnershipCode(String vendorOwnershipCode) {
-		this.vendorOwnershipCode = vendorOwnershipCode;
-	}
+        return vendorOwnershipCode;
+    }
 
-	public String getVendorOwnershipCategoryCode() {
-        
-		return vendorOwnershipCategoryCode;
-	}
+    public void setVendorOwnershipCode(String vendorOwnershipCode) {
+        this.vendorOwnershipCode = vendorOwnershipCode;
+    }
 
-	public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
-		this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
-	}
+    public String getVendorOwnershipCategoryCode() {
 
-	public Date getVendorFederalWithholdingTaxBeginningDate() {
-        
-		return vendorFederalWithholdingTaxBeginningDate;
-	}
+        return vendorOwnershipCategoryCode;
+    }
 
-	public void setVendorFederalWithholdingTaxBeginningDate(Date vendorFederalWithholdingTaxBeginningDate) {
-		this.vendorFederalWithholdingTaxBeginningDate = vendorFederalWithholdingTaxBeginningDate;
-	}
+    public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
+        this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
+    }
 
-	public Date getVendorFederalWithholdingTaxEndDate() {
-        
-		return vendorFederalWithholdingTaxEndDate;
-	}
+    public Date getVendorFederalWithholdingTaxBeginningDate() {
 
-	public void setVendorFederalWithholdingTaxEndDate(Date vendorFederalWithholdingTaxEndDate) {
-		this.vendorFederalWithholdingTaxEndDate = vendorFederalWithholdingTaxEndDate;
-	}
+        return vendorFederalWithholdingTaxBeginningDate;
+    }
 
-	public Boolean getVendorW9ReceivedIndicator() {
-        
-		return vendorW9ReceivedIndicator;
-	}
+    public void setVendorFederalWithholdingTaxBeginningDate(Date vendorFederalWithholdingTaxBeginningDate) {
+        this.vendorFederalWithholdingTaxBeginningDate = vendorFederalWithholdingTaxBeginningDate;
+    }
 
-	public void setVendorW9ReceivedIndicator(Boolean vendorW9ReceivedIndicator) {
-		this.vendorW9ReceivedIndicator = vendorW9ReceivedIndicator;
-	}
+    public Date getVendorFederalWithholdingTaxEndDate() {
 
-	public Boolean getVendorW8BenReceivedIndicator() {
-        
-		return vendorW8BenReceivedIndicator;
-	}
+        return vendorFederalWithholdingTaxEndDate;
+    }
 
-	public void setVendorW8BenReceivedIndicator(Boolean vendorW8BenReceivedIndicator) {
-		this.vendorW8BenReceivedIndicator = vendorW8BenReceivedIndicator;
-	}
+    public void setVendorFederalWithholdingTaxEndDate(Date vendorFederalWithholdingTaxEndDate) {
+        this.vendorFederalWithholdingTaxEndDate = vendorFederalWithholdingTaxEndDate;
+    }
 
-	public VendorType getVendorType() { 
-        
-		return vendorType;
-	}
+    public Boolean getVendorW9ReceivedIndicator() {
 
-	/**
-	 * Sets the vendorType attribute.
-	 * 
-	 * @param vendorType The vendorType to set.
-	 * @deprecated
-	 */
-	public void setVendorType(VendorType vendorType) {
-		this.vendorType = vendorType;
-	}
+        return vendorW9ReceivedIndicator;
+    }
 
-	public OwnershipType getVendorOwnership() {
-        
-		return vendorOwnership;
-	}
+    public void setVendorW9ReceivedIndicator(Boolean vendorW9ReceivedIndicator) {
+        this.vendorW9ReceivedIndicator = vendorW9ReceivedIndicator;
+    }
 
-	/**
-	 * Sets the vendorOwnership attribute.
-	 * 
-	 * @param vendorOwnership The vendorOwnership to set.
-	 * @deprecated
-	 */
-	public void setVendorOwnership(OwnershipType vendorOwnership) {
-		this.vendorOwnership = vendorOwnership;
-	}
+    public Boolean getVendorW8BenReceivedIndicator() {
 
-	public OwnershipCategory getVendorOwnershipCategory() {
-        
-		return vendorOwnershipCategory;
-	}
+        return vendorW8BenReceivedIndicator;
+    }
 
-	/**
-	 * Sets the vendorOwnershipCategory attribute.
-	 * 
-	 * @param vendorOwnershipCategory The vendorOwnershipCategory to set.
-	 * @deprecated
-	 */
-	public void setVendorOwnershipCategory(OwnershipCategory vendorOwnershipCategory) {
-		this.vendorOwnershipCategory = vendorOwnershipCategory;
-	}
+    public void setVendorW8BenReceivedIndicator(Boolean vendorW8BenReceivedIndicator) {
+        this.vendorW8BenReceivedIndicator = vendorW8BenReceivedIndicator;
+    }
+
+    public VendorType getVendorType() {
+
+        return vendorType;
+    }
+
+    /**
+     * Sets the vendorType attribute.
+     * 
+     * @param vendorType The vendorType to set.
+     * @deprecated
+     */
+    public void setVendorType(VendorType vendorType) {
+        this.vendorType = vendorType;
+    }
+
+    public OwnershipType getVendorOwnership() {
+
+        return vendorOwnership;
+    }
+
+    /**
+     * Sets the vendorOwnership attribute.
+     * 
+     * @param vendorOwnership The vendorOwnership to set.
+     * @deprecated
+     */
+    public void setVendorOwnership(OwnershipType vendorOwnership) {
+        this.vendorOwnership = vendorOwnership;
+    }
+
+    public OwnershipCategory getVendorOwnershipCategory() {
+
+        return vendorOwnershipCategory;
+    }
+
+    /**
+     * Sets the vendorOwnershipCategory attribute.
+     * 
+     * @param vendorOwnershipCategory The vendorOwnershipCategory to set.
+     * @deprecated
+     */
+    public void setVendorOwnershipCategory(OwnershipCategory vendorOwnershipCategory) {
+        this.vendorOwnershipCategory = vendorOwnershipCategory;
+    }
 
     public Boolean getVendorDebarredIndicator() {
-        
+
         return vendorDebarredIndicator;
     }
 
@@ -212,7 +210,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     public Boolean getVendorForeignIndicator() {
-        
+
         return vendorForeignIndicator;
     }
 
@@ -226,7 +224,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     public List<VendorSupplierDiversity> getVendorSupplierDiversities() {
-        
+
         return vendorSupplierDiversities;
     }
 
@@ -235,7 +233,7 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     public List<VendorTaxChange> getVendorTaxChanges() {
-        
+
         return vendorTaxChanges;
     }
 
@@ -244,40 +242,28 @@ public class VendorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * This method is a predicate to test equality of all the persisted attributes of an instance 
-     * of this class, including member collections.  This is used to determine whether to route
+     * This method is a predicate to test equality of all the persisted attributes of an instance of this class, including member
+     * collections. This is used to determine whether to route
      * 
-     * @param       vh  Another VendorHeader object    
-     * @return      True if all non-derived attributes of the given object are equal to this one's
+     * @param vh Another VendorHeader object
+     * @return True if all non-derived attributes of the given object are equal to this one's
      */
-    public boolean isEqualForRouting( Object toCompare ) {
-        LOG.debug( "Entering isEqualForRouting." );
-        if( !( toCompare instanceof VendorHeader ) ) {
+    public boolean isEqualForRouting(Object toCompare) {
+        LOG.debug("Entering isEqualForRouting.");
+        if (!(toCompare instanceof VendorHeader)) {
             return false;
-        } else {
-            VendorHeader vh = (VendorHeader)toCompare;
-            return new EqualsBuilder()
-                .append( this.getVendorTypeCode(), vh.getVendorTypeCode() )
-                .append( this.getVendorTaxNumber(), vh.getVendorTaxNumber() )
-                .append( this.getVendorOwnershipCode(), vh.getVendorOwnershipCode() )
-                .append( this.getVendorOwnershipCategoryCode(), vh.getVendorOwnershipCategoryCode() )
-                .append( this.getVendorFederalWithholdingTaxBeginningDate(),
-                        vh.getVendorFederalWithholdingTaxBeginningDate() )
-                .append( this.getVendorFederalWithholdingTaxEndDate(), 
-                        vh.getVendorFederalWithholdingTaxEndDate() )
-                .append( this.getVendorW9ReceivedIndicator(), vh.getVendorW9ReceivedIndicator() )
-                .append( this.getVendorW8BenReceivedIndicator(), vh.getVendorW8BenReceivedIndicator() )
-                .append( this.getVendorDebarredIndicator(), vh.getVendorDebarredIndicator() )
-                .append( this.getVendorForeignIndicator(), vh.getVendorForeignIndicator() )
-                .isEquals();
+        }
+        else {
+            VendorHeader vh = (VendorHeader) toCompare;
+            return new EqualsBuilder().append(this.getVendorTypeCode(), vh.getVendorTypeCode()).append(this.getVendorTaxNumber(), vh.getVendorTaxNumber()).append(this.getVendorOwnershipCode(), vh.getVendorOwnershipCode()).append(this.getVendorOwnershipCategoryCode(), vh.getVendorOwnershipCategoryCode()).append(this.getVendorFederalWithholdingTaxBeginningDate(), vh.getVendorFederalWithholdingTaxBeginningDate()).append(this.getVendorFederalWithholdingTaxEndDate(), vh.getVendorFederalWithholdingTaxEndDate()).append(this.getVendorW9ReceivedIndicator(), vh.getVendorW9ReceivedIndicator()).append(this.getVendorW8BenReceivedIndicator(), vh.getVendorW8BenReceivedIndicator()).append(this.getVendorDebarredIndicator(), vh.getVendorDebarredIndicator()).append(this.getVendorForeignIndicator(), vh.getVendorForeignIndicator()).isEquals();
         }
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }

@@ -32,7 +32,7 @@ public class NoBankForCustomerException extends RuntimeException {
     /**
      * @param arg0
      */
-    public NoBankForCustomerException(String arg0,String cp) {
+    public NoBankForCustomerException(String arg0, String cp) {
         super(arg0);
         customerProfile = cp;
     }

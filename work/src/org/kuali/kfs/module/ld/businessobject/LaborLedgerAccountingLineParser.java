@@ -43,7 +43,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
      * Constructs a LaborLedgerAccountingLineParser.java.
      */
     public LaborLedgerAccountingLineParser() {
-        
+
     }
 
     /**
@@ -67,8 +67,8 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
     }
 
     /**
-     * 
      * Will return the format determing if the line is Source or Target.
+     * 
      * @param accountingLineClass
      * @return Returns The format.
      */
@@ -83,7 +83,7 @@ public class LaborLedgerAccountingLineParser extends AccountingLineParserBase {
         else {
             throw new IllegalStateException("unknow accounting line class: " + accountingLineClass);
         }
-        
+
         return format;
     }
 }

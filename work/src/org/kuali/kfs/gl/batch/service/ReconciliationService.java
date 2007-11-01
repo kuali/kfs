@@ -23,18 +23,18 @@ import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ReconciliationBlock;
 
 /**
- * An object to reconcile origin entries.  Since the {@link #reconcile(Iterator, ReconciliationBlock, List)} method below takes in an
+ * An object to reconcile origin entries. Since the {@link #reconcile(Iterator, ReconciliationBlock, List)} method below takes in an
  * iterator (which may load entries from the DB as the {@link Iterator#next()} method is called), it is probably desirable for
- * implementations to annotate the class as Transactional. 
+ * implementations to annotate the class as Transactional.
  */
 public interface ReconciliationService {
-    
+
     /**
      * Performs the reconciliation on origin entries using the data from the {@link ReconciliationBlock} parameter
      * 
      * @param entries origin entries
      * @param reconBlock reconciliation data
-     * @param errorMessages a non-null list onto which error messages will be appended.  This list will be modified by reference.
+     * @param errorMessages a non-null list onto which error messages will be appended. This list will be modified by reference.
      */
     public void reconcile(Iterator<OriginEntryFull> entries, ReconciliationBlock reconBlock, List<Message> errorMessages);
 }

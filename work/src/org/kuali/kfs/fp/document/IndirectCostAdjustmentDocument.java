@@ -29,10 +29,9 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.IndirectCostAdjustmentDocumentAccountingLineParser;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
-public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
+public class IndirectCostAdjustmentDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 
     /**
-     * 
      * Constructs a IndirectCostAdjustmentDocument.java.
      */
     public IndirectCostAdjustmentDocument() {
@@ -40,7 +39,6 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocument#getSourceAccountingLinesSectionTitle()
      */
     @Override
@@ -49,7 +47,6 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     }
 
     /**
-     * 
      * @see org.kuali.kfs.document.AccountingDocument#getTargetAccountingLinesSectionTitle()
      */
     @Override
@@ -66,7 +63,6 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
      * <li>receipt line's object code = Financial System Parameter APC for the document global receipt line object code (see APC
      * setion below)
      * <li>receipt line's amount = amount from grant line
-     * 
      * </ol>
      * 
      * @see org.kuali.kfs.document.AccountingDocumentBase#addSourceAccountingLine(SourceAccountingLine)

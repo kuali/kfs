@@ -21,42 +21,41 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Title to identify the method of dividing ownership during the process of shipment 
- * of packages from a particular Vendor.
+ * Title to identify the method of dividing ownership during the process of shipment of packages from a particular Vendor.
  */
 public class ShippingTitle extends PersistableBusinessObjectBase {
 
-	private String vendorShippingTitleCode;
-	private String vendorShippingTitleDescription;
+    private String vendorShippingTitleCode;
+    private String vendorShippingTitleDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ShippingTitle() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ShippingTitle() {
 
-	public String getVendorShippingTitleCode() {
-        
-		return vendorShippingTitleCode;
-	}
+    }
 
-	public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
-		this.vendorShippingTitleCode = vendorShippingTitleCode;
-	}
+    public String getVendorShippingTitleCode() {
 
-	public String getVendorShippingTitleDescription() {
-        
-		return vendorShippingTitleDescription;
-	}
+        return vendorShippingTitleCode;
+    }
 
-	public void setVendorShippingTitleDescription(String vendorShippingTitleDescription) {
-		this.vendorShippingTitleDescription = vendorShippingTitleDescription;
-	}
+    public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
+        this.vendorShippingTitleCode = vendorShippingTitleCode;
+    }
+
+    public String getVendorShippingTitleDescription() {
+
+        return vendorShippingTitleDescription;
+    }
+
+    public void setVendorShippingTitleDescription(String vendorShippingTitleDescription) {
+        this.vendorShippingTitleDescription = vendorShippingTitleDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -65,12 +64,12 @@ public class ShippingTitle extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorShippingTitleCode", this.vendorShippingTitleCode);
-        
-	    return m;
+
+        return m;
     }
 }

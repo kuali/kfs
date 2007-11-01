@@ -20,7 +20,6 @@ import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVAL
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.GlobalVariables;
@@ -186,7 +185,7 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
         String objCd = accountingLine.getFinancialObjectCode();
         String account = accountingLine.getAccountNumber();
         if (!StringUtils.isEmpty(objCd) && !StringUtils.isEmpty(account)) {
-            String[] params = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[]{});
+            String[] params = SpringContext.getBean(ParameterService.class).getParameterValues(ParameterConstants.FINANCIAL_PROCESSING_DOCUMENT.class, APPLICATION_PARAMETER.SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES).toArray(new String[] {});
             boolean acctsMatched = false;
             for (int i = 0; i < params.length; i++) {
                 String paramAcct = params[i].split(":")[0];

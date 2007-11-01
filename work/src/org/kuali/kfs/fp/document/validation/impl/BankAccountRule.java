@@ -31,8 +31,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This is the rules class that is used for the default implementation of the Bank Account maintenance document.
- * 
- * 
  */
 public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
@@ -40,12 +38,11 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     BankAccount newBankAccount;
 
     /**
-     * Validates a bank account maintenance document when it is approved.  Method returns true if objects are completely filled out, 
+     * Validates a bank account maintenance document when it is approved. Method returns true if objects are completely filled out,
      * sub account number exists, and sub object code exists
      * 
      * @param document submitted document
      * @return true if objects are completed filled out, sub account number exists, and sub object code exists
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -60,12 +57,11 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates a bank account maintenance document when it is routed.  Method returns true if objects are completely filled out, 
+     * Validates a bank account maintenance document when it is routed. Method returns true if objects are completely filled out,
      * sub account number exists, and sub object code exists
      * 
      * @param document submitted document
      * @return true if objects are completed filled out, sub account number exists, and sub object code exists
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -80,12 +76,11 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates a bank account maintenance document when it is save.  Although method checks if objects are completely filled out, 
+     * Validates a bank account maintenance document when it is save. Although method checks if objects are completely filled out,
      * sub account number exists, and sub object code exists, this method always returns TRUE.
      * 
      * @param document submitted document
      * @return true always
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -98,13 +93,10 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
-     * old objects contained in the maintenance document.
-     * 
-     * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
-     * if available.
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * 
      * @param document the maintenanceDocument being evaluated
-     * 
      */
     public void setupConvenienceObjects() {
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated

@@ -30,9 +30,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao;
 
-public class BudgetConstructionOrganizationReportsDaoOjb 
-    extends PlatformAwareDaoBaseOjb 
-    implements BudgetConstructionOrganizationReportsDao {
+public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDaoBaseOjb implements BudgetConstructionOrganizationReportsDao {
 
     // TODO Auto-generated method stub
     /*
@@ -40,18 +38,19 @@ public class BudgetConstructionOrganizationReportsDaoOjb
      * 
      * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
-    
+
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
 
-            Criteria criteria = new Criteria();
-            criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
-            criteria.addEqualTo("organizationCode", organizationCode);
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
+        criteria.addEqualTo("organizationCode", organizationCode);
 
-            return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
+        return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
     }
 
     /**
-     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getActiveChildOrgs(java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#getActiveChildOrgs(java.lang.String,
+     *      java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
 
@@ -81,11 +80,11 @@ public class BudgetConstructionOrganizationReportsDaoOjb
      * @see org.kuali.module.budget.dao.BudgetConstructionOrganizationReportsDao#isLeafOrg(java.lang.String, java.lang.String)
      */
     public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode) {
-        
+
         Criteria childExistsCriteria = new Criteria();
         childExistsCriteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         childExistsCriteria.addEqualTo("reportsToOrganizationCode", organizationCode);
-        
+
         QueryByCriteria childExistsQuery = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, childExistsCriteria);
 
         Criteria criteria = new Criteria();
@@ -93,16 +92,16 @@ public class BudgetConstructionOrganizationReportsDaoOjb
         criteria.addEqualTo("organizationCode", organizationCode);
         criteria.addExists(childExistsQuery);
 
-        String[] queryAttr = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE};
-        
+        String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE };
+
         ReportQueryByCriteria query = new ReportQueryByCriteria(BudgetConstructionOrganizationReports.class, queryAttr, criteria, true);
         Iterator rowsReturned = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
-        if (rowsReturned.hasNext()){
+        if (rowsReturned.hasNext()) {
             TransactionalServiceUtils.exhaustIterator(rowsReturned);
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
 }
-

@@ -28,8 +28,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 
 /**
- * 
- * General PreRules checks for all Maintenance docs that needs to occur while still in the Struts processing. 
+ * General PreRules checks for all Maintenance docs that needs to occur while still in the Struts processing.
  */
 public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
@@ -38,8 +37,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     private DocumentAuthorizationService documentAuthorizationService;
 
     /**
-     * 
      * Constructs a MaintenancePreRulesBase class and injects some services through setters
+     * 
      * @TODO: should be fixed in the future to use Spring to inject these services
      */
     public MaintenancePreRulesBase() {
@@ -63,8 +62,9 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     }
 
     /**
-     * This is called from the rules service to execute our rules
-     * A hook is provided here for sub-classes to override the {@link MaintenancePreRulesBase#doCustomPreRules(MaintenanceDocument)}
+     * This is called from the rules service to execute our rules A hook is provided here for sub-classes to override the
+     * {@link MaintenancePreRulesBase#doCustomPreRules(MaintenanceDocument)}
+     * 
      * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
      */
     public boolean doRules(Document document) {
@@ -73,8 +73,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     }
 
     /**
-     * 
      * This is a hook for sub-classes to implement their own pre-rules. Override to get hooked into main class
+     * 
      * @param maintenanceDocument
      * @return true if rules pass
      */
@@ -83,8 +83,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     }
 
     /**
-     * 
      * This method checks for continuation accounts, returns the continuation account if it is found, null otherwise
+     * 
      * @param accName
      * @param chart
      * @param accountNumber
@@ -103,8 +103,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
     }
 
     /**
-     * 
      * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
+     * 
      * @param accName
      * @param chart
      * @param accountNumber
@@ -150,8 +150,8 @@ public class MaintenancePreRulesBase extends PreRulesContinuationBase {
 
 
     /**
-     * 
      * This method builds up the continuation account confirmation question that will be presented to the user
+     * 
      * @param accName
      * @param expiredAccount
      * @param continuationAccount

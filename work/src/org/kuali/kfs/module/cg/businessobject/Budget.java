@@ -35,10 +35,7 @@ import org.kuali.module.cg.bo.ProjectDirector;
 import org.kuali.module.kra.KraConstants;
 
 /**
- * 
  * This class...
- * 
- * 
  */
 public class Budget extends PersistableBusinessObjectBase {
 
@@ -88,7 +85,7 @@ public class Budget extends PersistableBusinessObjectBase {
     private List allInstitutionCostSharePeriods;
     private List allThirdPartyCostSharePeriods;
     private List<BudgetIndirectCostLookup> budgetIndirectCostLookups;
-    
+
     public Budget() {
         super();
 
@@ -459,7 +456,6 @@ public class Budget extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @return Returns the graduate assistant rates
      */
     public List<BudgetGraduateAssistantRate> getGraduateAssistantRates() {
@@ -467,7 +463,6 @@ public class Budget extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @param graduateAssistantRates The graduate assistant rates to set
      */
     public void setGraduateAssistantRates(List graduateAssistantRates) {
@@ -673,7 +668,7 @@ public class Budget extends PersistableBusinessObjectBase {
         String[] array = this.getBudgetTypeCodeText().split("-");
         return array;
     }
-    
+
     public void addBudgetTypeCode(String budgetTypeCode) {
         this.setBudgetTypeCodeText(this.getBudgetTypeCodeText() + "-" + budgetTypeCode);
     }
@@ -930,11 +925,11 @@ public class Budget extends PersistableBusinessObjectBase {
     public void setBudgetIndirectCostLookups(List<BudgetIndirectCostLookup> budgetIndirectCostLookupList) {
         this.budgetIndirectCostLookups = budgetIndirectCostLookupList;
     }
-    
+
     public List<BudgetIndirectCostLookup> getBudgetIndirectCostLookups() {
         return this.budgetIndirectCostLookups;
     }
-    
+
     public BudgetIndirectCostLookup getBudgetIndirectCostLookup(int index) {
         while (this.getBudgetIndirectCostLookups().size() <= index) {
             this.getBudgetIndirectCostLookups().add(new BudgetIndirectCostLookup());

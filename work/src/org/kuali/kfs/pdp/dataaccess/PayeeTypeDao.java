@@ -23,5 +23,5 @@ public interface PayeeTypeDao {
      * 
      * @return
      */
-    public Map<String,String> getAll();
+    public Map<String, String> getAll();
 }

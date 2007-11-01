@@ -30,80 +30,102 @@ public class PurchaseOrderPdfParameters {
     private String pdfFileName;
     private String contractManagerCampusCode;
     private boolean useImage;
-    
+
     public String getContractManagerCampusCode() {
         return contractManagerCampusCode;
     }
+
     public void setContractManagerCampusCode(String contractManagerCampusCode) {
         this.contractManagerCampusCode = contractManagerCampusCode;
     }
+
     public String getPdfFileName() {
         return pdfFileName;
     }
+
     public void setPdfFileName(String pdfFileName) {
         this.pdfFileName = pdfFileName;
     }
+
     public String getPdfFileLocation() {
         return pdfFileLocation;
     }
+
     public void setPdfFileLocation(String pdfFileLocation) {
         this.pdfFileLocation = pdfFileLocation;
     }
+
     public CampusParameter getCampusParameter() {
         return campusParameter;
     }
+
     public void setCampusParameter(CampusParameter campusParameter) {
         this.campusParameter = campusParameter;
     }
+
     public String getContractLanguage() {
         return contractLanguage;
     }
+
     public void setContractLanguage(String contractLanguage) {
         this.contractLanguage = contractLanguage;
     }
+
     public String getContractManagerSignatureImage() {
         return contractManagerSignatureImage;
     }
+
     public void setContractManagerSignatureImage(String contractManagerSignatureImage) {
         this.contractManagerSignatureImage = contractManagerSignatureImage;
     }
+
     public String getDirectorSignatureImage() {
         return directorSignatureImage;
     }
+
     public void setDirectorSignatureImage(String directorSignatureImage) {
         this.directorSignatureImage = directorSignatureImage;
     }
+
     public String getImageTempLocation() {
         return imageTempLocation;
     }
+
     public void setImageTempLocation(String imageTempLocation) {
         this.imageTempLocation = imageTempLocation;
     }
+
     public String getKey() {
         return key;
     }
+
     public void setKey(String key) {
         this.key = key;
     }
+
     public String getLogoImage() {
         return logoImage;
     }
+
     public void setLogoImage(String logoImage) {
         this.logoImage = logoImage;
     }
+
     public String getStatusInquiryUrl() {
         return statusInquiryUrl;
     }
+
     public void setStatusInquiryUrl(String statusInquiryUrl) {
         this.statusInquiryUrl = statusInquiryUrl;
     }
+
     public boolean isUseImage() {
         return useImage;
     }
+
     public void setUseImage(boolean useImage) {
         this.useImage = useImage;
     }
-    
 
 
 }

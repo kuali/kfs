@@ -18,7 +18,6 @@ package org.kuali.module.gl.service.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
-import java.text.ParseException;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
@@ -31,10 +30,10 @@ import org.kuali.module.gl.util.ReconciliationBlock;
  * Format of the reconciliation file:
  * 
  * <pre>
- * C tableid rowcount ; 
- * S field1 dollaramount ; 
- * S field2 dollaramount ; 
- * E checksum ;
+ *  C tableid rowcount ; 
+ *  S field1 dollaramount ; 
+ *  S field2 dollaramount ; 
+ *  E checksum ;
  * </pre>
  * 
  * The character '#' and everything following it on that line is ignored. Whitespace characters are tab and space.<br>
@@ -57,9 +56,9 @@ import org.kuali.module.gl.util.ReconciliationBlock;
  * <br>
  * There may be more than one C-E block per metadata file.<br>
  * <br>
- * In general, this implementation of the parser attempts to be error tolerant.  It primarily looks at the C-E block that is being
- * looked for, by ignoring all other C-E blocks.  A C-E block is "looked for" when the table ID of the C line is passed in as a 
- * parameter of {@link #parseReconciliationData(Reader, String)}.  However, if the C lines of any blocks before the looked for block
+ * In general, this implementation of the parser attempts to be error tolerant. It primarily looks at the C-E block that is being
+ * looked for, by ignoring all other C-E blocks. A C-E block is "looked for" when the table ID of the C line is passed in as a
+ * parameter of {@link #parseReconciliationData(Reader, String)}. However, if the C lines of any blocks before the looked for block
  * are incorrect, then it is likely to cause undesired behavior.
  */
 public class ReconciliationParserServiceImpl implements ReconciliationParserService {
@@ -90,7 +89,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
         ReconciliationBlock reconciliationBlock = null;
 
         int linesInBlock = 0;
-        
+
         // find the first "C" line of the C-E block by matching the table Id
         String line = bufReader.readLine();
         while (line != null && reconciliationBlock == null) {
@@ -98,7 +97,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
             if (StringUtils.isBlank(line)) {
                 continue;
             }
-            
+
             StringTokenizer strTok = new StringTokenizer(line);
             if (!strTok.hasMoreTokens()) {
                 throw new RuntimeException();
@@ -115,13 +114,13 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
                     }
                     String parsedRowCountStr = StringUtils.removeEnd(strTok.nextToken(), ";");
                     int parsedRowCount = Integer.parseInt(parsedRowCountStr);
-                    
+
                     reconciliationBlock = new ReconciliationBlock();
                     reconciliationBlock.setTableId(parsedTableId);
                     reconciliationBlock.setRowCount(parsedRowCount);
-                    
+
                     linesInBlock++;
-                    
+
                     break;
                 }
             }
@@ -131,7 +130,7 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
         if (reconciliationBlock == null) {
             return null;
         }
-        
+
         boolean endBlockLineEncountered = false;
         line = bufReader.readLine();
         while (line != null && !endBlockLineEncountered) {
@@ -139,24 +138,24 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
             if (StringUtils.isBlank(line)) {
                 continue;
             }
-            
+
             StringTokenizer strTok = new StringTokenizer(line);
             if (!strTok.hasMoreTokens()) {
                 throw new RuntimeException();
             }
-            
+
             String command = strTok.nextToken();
             if (command.equalsIgnoreCase(COLUMN_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
-                   throw new RuntimeException(); 
+                    throw new RuntimeException();
                 }
                 String fieldName = strTok.nextToken();
                 if (!strTok.hasMoreTokens()) {
-                    throw new RuntimeException(); 
+                    throw new RuntimeException();
                 }
                 String columnAmountStr = strTok.nextToken();
                 columnAmountStr = StringUtils.removeEnd(columnAmountStr, ";");
-                
+
                 KualiDecimal columnAmount = new KualiDecimal(columnAmountStr);
                 ColumnReconciliation columnReconciliation = new ColumnReconciliation();
                 columnReconciliation.setFieldName(fieldName);
@@ -166,33 +165,34 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
             }
             else if (command.equalsIgnoreCase(CHECKSUM_DEF_STRING)) {
                 if (!strTok.hasMoreTokens()) {
-                    throw new RuntimeException(); 
-                 }
-                 String checksumStr = strTok.nextToken();
-                 checksumStr = StringUtils.removeEnd(checksumStr, ";");
-                 
-                 int checksum = Integer.parseInt(checksumStr);
-                 
-                 if (checksum != linesInBlock) {
-                     throw new RuntimeException();
-                 }
-                 break;
+                    throw new RuntimeException();
+                }
+                String checksumStr = strTok.nextToken();
+                checksumStr = StringUtils.removeEnd(checksumStr, ";");
+
+                int checksum = Integer.parseInt(checksumStr);
+
+                if (checksum != linesInBlock) {
+                    throw new RuntimeException();
+                }
+                break;
             }
             else {
                 throw new RuntimeException();
             }
-            
+
             line = bufReader.readLine();
         }
         return reconciliationBlock;
     }
-    
+
     /**
      * Removes comments and trims whitespace
+     * 
      * @param line the line
      * @return stripped and trimmed line
      */
-    private String stripCommentsAndTrim(String line)  {
+    private String stripCommentsAndTrim(String line) {
         int commentIndex = line.indexOf(COMMENT_STRING);
         if (commentIndex > -1) {
             // chop off comments

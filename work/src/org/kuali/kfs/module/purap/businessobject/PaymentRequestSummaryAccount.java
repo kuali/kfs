@@ -1,15 +1,6 @@
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCodeCurrent;
-import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 
 /**
@@ -17,16 +8,16 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
  */
 public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
 
-	private Integer purapDocumentIdentifier;
-    
-    private PaymentRequestDocument paymentRequest;
-    
-    /**
-	 * Default constructor.
-	 */
-	public PaymentRequestSummaryAccount() {
+    private Integer purapDocumentIdentifier;
 
-	}
+    private PaymentRequestDocument paymentRequest;
+
+    /**
+     * Default constructor.
+     */
+    public PaymentRequestSummaryAccount() {
+
+    }
 
     public PaymentRequestSummaryAccount(SourceAccountingLine account, Integer purapDocumentIdentifier) {
         this.setPurapDocumentIdentifier(purapDocumentIdentifier);
@@ -49,8 +40,7 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     }
 
     /**
-     * ItemIdentifier is not a valid field in this table because it is the 
-     * summary of accounts for the document, not per item
+     * ItemIdentifier is not a valid field in this table because it is the summary of accounts for the document, not per item
      * 
      * @deprecated
      */
@@ -60,8 +50,7 @@ public class PaymentRequestSummaryAccount extends PaymentRequestAccount {
     }
 
     /**
-     * ItemIdentifier is not a valid field in this table because it is the 
-     * summary of accounts for the document, not per item
+     * ItemIdentifier is not a valid field in this table because it is the summary of accounts for the document, not per item
      * 
      * @deprecated
      */

@@ -36,8 +36,8 @@ public class JobDescriptor implements BeanNameAware {
         dependencies = new HashMap();
         steps = new ArrayList();
     }
-    
-    public JobDescriptor( String name, String group, Step step, boolean durable ) {
+
+    public JobDescriptor(String name, String group, Step step, boolean durable) {
         this();
         this.name = name;
         this.group = group;

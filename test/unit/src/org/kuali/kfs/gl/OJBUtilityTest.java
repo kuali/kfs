@@ -28,8 +28,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class is the JUnit test case applied on the BusinessObjectHandler class
- * 
- * 
  */
 @ConfigureContext
 public class OJBUtilityTest extends KualiTestBase {

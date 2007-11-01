@@ -23,8 +23,6 @@ import org.kuali.core.bo.PersistableBusinessObject;
 
 /**
  * This class...
- * 
- * 
  */
 public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFormatter {
 
@@ -78,17 +76,11 @@ public abstract class CodeDescriptionFormatterBase implements CodeDescriptionFor
     }
 
     /**
-     * Returns a Map such that the values in the values set will map to the appropriate BO
-     * 
-     * There may be mappings for values that are not in the parameter set
-     * 
-     * Use this method sparingly, as it will likely cause an access to the DB
-     * 
-     * It may be desirable to use the values to limit the breadth of the search, and it is up to the implementation to decide
-     * whether to use it to do so.
+     * Returns a Map such that the values in the values set will map to the appropriate BO There may be mappings for values that are
+     * not in the parameter set Use this method sparingly, as it will likely cause an access to the DB It may be desirable to use
+     * the values to limit the breadth of the search, and it is up to the implementation to decide whether to use it to do so.
      * 
      * @param values a set of values to limit the retrieval from (optional feature), may be null
-     * 
      * @return a map from value string to BO
      */
     protected abstract Map<String, PersistableBusinessObject> getValuesToBusinessObjectsMap(Set values);

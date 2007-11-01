@@ -28,19 +28,16 @@ import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.fixtures.PurapTestConstants.AmountsLimits;
 
 public enum AmountsLimitsFixture {
-    ZERO_AMOUNT_SMALL_LIMIT(AmountsLimits.ZERO,AmountsLimits.SMALL_POSITIVE_AMOUNT),
-    SMALL_AMOUNT_SMALL_LIMIT(AmountsLimits.SMALL_POSITIVE_AMOUNT,AmountsLimits.SMALL_POSITIVE_AMOUNT),
-    LARGE_AMOUNT_SMALL_LIMIT(AmountsLimits.LARGE_POSITIVE_AMOUNT,AmountsLimits.SMALL_POSITIVE_AMOUNT),
-    ;
+    ZERO_AMOUNT_SMALL_LIMIT(AmountsLimits.ZERO, AmountsLimits.SMALL_POSITIVE_AMOUNT), SMALL_AMOUNT_SMALL_LIMIT(AmountsLimits.SMALL_POSITIVE_AMOUNT, AmountsLimits.SMALL_POSITIVE_AMOUNT), LARGE_AMOUNT_SMALL_LIMIT(AmountsLimits.LARGE_POSITIVE_AMOUNT, AmountsLimits.SMALL_POSITIVE_AMOUNT), ;
 
     private KualiDecimal totalAmount;
     private KualiDecimal poLimit;
-        
+
     private AmountsLimitsFixture(KualiDecimal amt, KualiDecimal lim) {
         this.totalAmount = amt;
         this.poLimit = lim;
     }
-        
+
     public RequisitionDocument populateRequisition() {
         RequisitionDocument req = new RequisitionDocument();
         RequisitionItem item = new RequisitionItem();
@@ -56,7 +53,7 @@ public enum AmountsLimitsFixture {
         req.refreshNonUpdateableReferences();
         return req;
     }
-    
+
     public PurchaseOrderDocument populatePurchaseOrder() {
         PurchaseOrderDocument po = new PurchaseOrderDocument();
         PurchaseOrderItem item = new PurchaseOrderItem();

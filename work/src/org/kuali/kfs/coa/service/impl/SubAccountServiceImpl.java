@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.core.util.spring.Cached;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.dao.SubAccountDao;
 import org.kuali.module.chart.service.SubAccountService;

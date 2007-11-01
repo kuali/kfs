@@ -20,116 +20,108 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
-import org.kuali.module.gl.web.Constant;
 
 /**
  * 
  */
 public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private String emplid;
-	private String financialObjectCode;
-	private String personName;
+    private String personUniversalIdentifier;
+    private String emplid;
+    private String financialObjectCode;
+    private String personName;
 
     // we use the linkButtonOption from this object
     private TransientBalanceInquiryAttributes dummyBusinessObject;
 
     /**
-	 * Default constructor.
-	 */
-	public BudgetConstructionIntendedIncumbentSelect() {
+     * Default constructor.
+     */
+    public BudgetConstructionIntendedIncumbentSelect() {
         super();
         this.dummyBusinessObject = new TransientBalanceInquiryAttributes();
-//        this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
+        // this.dummyBusinessObject.setLinkButtonOption(Constant.LOOKUP_BUTTON_VALUE);
         this.dummyBusinessObject.setLinkButtonOption("Incumbent SalSet");
-	}
+    }
 
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
 
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
 
 
-	/**
-	 * Gets the emplid attribute.
-	 * 
-	 * @return Returns the emplid
-	 * 
-	 */
-	public String getEmplid() { 
-		return emplid;
-	}
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid
+     */
+    public String getEmplid() {
+        return emplid;
+    }
 
-	/**
-	 * Sets the emplid attribute.
-	 * 
-	 * @param emplid The emplid to set.
-	 * 
-	 */
-	public void setEmplid(String emplid) {
-		this.emplid = emplid;
-	}
+    /**
+     * Sets the emplid attribute.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
 
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
 
 
-	/**
-	 * Gets the personName attribute.
-	 * 
-	 * @return Returns the personName
-	 * 
-	 */
-	public String getPersonName() { 
-		return personName;
-	}
+    /**
+     * Gets the personName attribute.
+     * 
+     * @return Returns the personName
+     */
+    public String getPersonName() {
+        return personName;
+    }
 
-	/**
-	 * Sets the personName attribute.
-	 * 
-	 * @param personName The personName to set.
-	 * 
-	 */
-	public void setPersonName(String personName) {
-		this.personName = personName;
-	}
+    /**
+     * Sets the personName attribute.
+     * 
+     * @param personName The personName to set.
+     */
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
 
-	/**
-     * Gets the dummyBusinessObject attribute. 
+    /**
+     * Gets the dummyBusinessObject attribute.
+     * 
      * @return Returns the dummyBusinessObject.
      */
     public TransientBalanceInquiryAttributes getDummyBusinessObject() {
@@ -138,6 +130,7 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
 
     /**
      * Sets the dummyBusinessObject attribute value.
+     * 
      * @param dummyBusinessObject The dummyBusinessObject to set.
      */
     public void setDummyBusinessObject(TransientBalanceInquiryAttributes dummyBusinessObject) {
@@ -145,13 +138,13 @@ public class BudgetConstructionIntendedIncumbentSelect extends PersistableBusine
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("emplid", this.emplid);
         m.put("financialObjectCode", this.financialObjectCode);
-	    return m;
+        return m;
     }
 }

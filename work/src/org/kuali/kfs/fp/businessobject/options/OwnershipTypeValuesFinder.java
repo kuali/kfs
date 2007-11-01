@@ -27,8 +27,6 @@ import org.kuali.module.financial.bo.OwnershipTypeCode;
 
 /**
  * This class returns list of ownership type value pairs.
- * 
- * 
  */
 public class OwnershipTypeValuesFinder extends KeyValuesBase {
 

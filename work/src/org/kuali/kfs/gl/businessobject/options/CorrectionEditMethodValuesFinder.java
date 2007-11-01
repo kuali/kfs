@@ -24,8 +24,6 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 
 /**
  * This class returns list of payment method key value pairs.
- * 
- * 
  */
 public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
 
@@ -38,7 +36,7 @@ public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
         activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_CRITERIA, "Using Criteria"));
         activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_MANUAL, "Manual Edit"));
         activeLabels.add(new KeyLabelPair(CorrectionDocumentService.CORRECTION_TYPE_REMOVE_GROUP_FROM_PROCESSING, "Remove Group From Processing"));
-        
+
         return activeLabels;
     }
 

@@ -78,8 +78,9 @@ public interface BatchInputFileService {
     public File download(UniversalUser user, BatchInputFileType inputType, String downloadFileName) throws AuthorizationException, FileNotFoundException;
 
     /**
-     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes the associated .done
-     * file if one exists.  If deletion fails, this method will place the reason for failure in the GlobalVariables error map.
+     * Deletes a batch input file contained on the server if the user has permissions for the files batch input type. Also deletes
+     * the associated .done file if one exists. If deletion fails, this method will place the reason for failure in the
+     * GlobalVariables error map.
      * 
      * @param user - user who is requesting the delete
      * @param inputType - instance of a BatchInputFileType
@@ -89,15 +90,16 @@ public interface BatchInputFileService {
      *         if given file does not exist on the file system
      */
     public boolean delete(UniversalUser user, BatchInputFileType inputType, String deleteFileNameWithNoPath) throws AuthorizationException, FileNotFoundException;
-    
+
     /**
      * Returns whether a the given file has been processed by the associated batch job
+     * 
      * @param inputType
      * @param fileNameWithNoPath
      * @return
      */
     public boolean hasBeenProcessed(BatchInputFileType inputType, String fileNameWithNoPath);
-    
+
     /**
      * Checks if the batch input type is active (can be used for upload).
      * 
@@ -116,8 +118,8 @@ public interface BatchInputFileService {
     public boolean isUserAuthorizedForBatchType(BatchInputFileType batchInputFileType, UniversalUser user);
 
     /**
-     * Returns a list of batch type file names (without path) that the given user has permissions to manage.
-     * Path is intentionally excluded to prevent security problems arising from giving users access to the full path.
+     * Returns a list of batch type file names (without path) that the given user has permissions to manage. Path is intentionally
+     * excluded to prevent security problems arising from giving users access to the full path.
      * 
      * @param user - user for checking permissions
      * @return List<String> - List of filenames
@@ -131,7 +133,7 @@ public interface BatchInputFileService {
      * @return List<String> - List of filenames
      */
     public List<String> listInputFileNamesWithDoneFile(BatchInputFileType batchInputFileType);
-    
+
     /**
      * Returns whether a file user identifier is properly formatted.
      * 

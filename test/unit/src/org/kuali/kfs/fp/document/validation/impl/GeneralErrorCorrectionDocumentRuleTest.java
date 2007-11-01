@@ -56,7 +56,6 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
-import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
 public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
@@ -252,7 +251,7 @@ public class GeneralErrorCorrectionDocumentRuleTest extends KualiTestBase {
 
         assertTrue(IsDebitTestUtils.isDebit(SpringContext.getBean(DocumentTypeService.class), SpringContext.getBean(DataDictionaryService.class), accountingDocument, accountingLine));
     }
-    
+
     public void testIsDebit_errorCorrection_source_liability_negativeAmount() throws Exception {
         AccountingDocument accountingDocument = IsDebitTestUtils.getErrorCorrectionDocument(SpringContext.getBean(DocumentService.class), GeneralErrorCorrectionDocument.class);
         AccountingLine accountingLine = IsDebitTestUtils.getLiabilityLine(accountingDocument, SourceAccountingLine.class, NEGATIVE);

@@ -52,18 +52,16 @@ import com.lowagie.text.pdf.PdfWriter;
  */
 public class YearEndTransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndTransactionReport.class);
-    private static float SECTION_MARGIN = 15.0f;  // what does iText measure units in?  Pixels?  Inches?  Centimeters?  I don't know...so this number is really a wild guess but it looks okay
-    
+    private static float SECTION_MARGIN = 15.0f; // what does iText measure units in? Pixels? Inches? Centimeters? I don't
+                                                    // know...so this number is really a wild guess but it looks okay
+
     private Font headerFont;
     private Font textFont;
     private Font totalFieldFont;
     private YearEndReportType reportType;
-    
+
     public enum YearEndReportType {
-        NOMINAL_ACTIVITY_CLOSE_REPORT,
-        FORWARD_BALANCES_REPORT,
-        FORWARD_ENCUMBERANCES_REPORT,
-        ORGANIZATION_REVERSION_PROCESS_REPORT
+        NOMINAL_ACTIVITY_CLOSE_REPORT, FORWARD_BALANCES_REPORT, FORWARD_ENCUMBERANCES_REPORT, ORGANIZATION_REVERSION_PROCESS_REPORT
     }
 
     class PageHelper extends PdfPageEventHelper {
@@ -146,7 +144,7 @@ public class YearEndTransactionReport {
             // Sort what we get
             Collections.sort(reportSummary);
             Paragraph paragraph;
-            
+
             if (this.reportType == YearEndReportType.FORWARD_ENCUMBERANCES_REPORT || this.reportType == YearEndReportType.NOMINAL_ACTIVITY_CLOSE_REPORT || this.reportType == YearEndReportType.ORGANIZATION_REVERSION_PROCESS_REPORT) {
                 paragraph = new Paragraph();
                 paragraph.setSpacingBefore(SECTION_MARGIN);
@@ -164,10 +162,10 @@ public class YearEndTransactionReport {
             if (reportErrors != null && reportErrors.size() > 0) {
                 document.add(generateWarningsSection(reportErrors));
             }
-            for (Object o: originEntryGroupsAndNames) {
-                Object[] groupAndName = (Object[])o;
-                OriginEntryGroup group = (OriginEntryGroup)groupAndName[0];
-                String reportName = (String)groupAndName[1];
+            for (Object o : originEntryGroupsAndNames) {
+                Object[] groupAndName = (Object[]) o;
+                OriginEntryGroup group = (OriginEntryGroup) groupAndName[0];
+                String reportName = (String) groupAndName[1];
                 Collection groups = new ArrayList();
                 groups.add(group);
                 LedgerEntryHolder ledgerEntryHolder = SpringContext.getBean(OriginEntryService.class).getSummaryByGroupId(groups);
@@ -190,7 +188,7 @@ public class YearEndTransactionReport {
         }
 
     }
-    
+
     private PdfPTable generateParametersSection(Map jobParameters) {
         // Job Parameter Summary
         float[] summaryWidths = { 70, 30 };
@@ -226,10 +224,10 @@ public class YearEndTransactionReport {
         cell.setColspan(2);
         cell.setBorder(Rectangle.NO_BORDER);
         summary.addCell(cell);
-        
+
         return summary;
     }
-    
+
     private PdfPTable generateStatisticsSection(List reportSummary) {
         // Statistics report
         float[] summaryWidths = { 70, 30 };
@@ -242,8 +240,8 @@ public class YearEndTransactionReport {
         summary.addCell(cell);
 
         for (Iterator iter = reportSummary.iterator(); iter.hasNext();) {
-            Summary s = (Summary)iter.next();
-            
+            Summary s = (Summary) iter.next();
+
             cell = new PdfPCell(new Phrase(s.getDescription(), textFont));
             cell.setBorder(Rectangle.NO_BORDER);
             summary.addCell(cell);
@@ -265,7 +263,7 @@ public class YearEndTransactionReport {
         cell.setColspan(2);
         cell.setBorder(Rectangle.NO_BORDER);
         summary.addCell(cell);
-        
+
         return summary;
     }
 
@@ -366,10 +364,10 @@ public class YearEndTransactionReport {
                 warnings.addCell(cell);
             }
         }
-        
+
         return warnings;
     }
-    
+
     // draw a PDF table from ledger entry holder
     private PdfPTable generateLedgerSection(LedgerEntryHolder ledgerEntryHolder, String reportName) {
         SortedMap ledgerEntries = new TreeMap(ledgerEntryHolder.getLedgerEntries());
@@ -384,7 +382,7 @@ public class YearEndTransactionReport {
         PdfPTable ledgerEntryTable = new PdfPTable(warningWidths);
         ledgerEntryTable.setHeaderRows(2);
         ledgerEntryTable.setWidthPercentage(100);
-        
+
         PdfPCell titleCell = new PdfPCell(new Phrase(capAndSpacerize(reportName), headerFont));
         titleCell.setColspan(11);
         titleCell.setHorizontalAlignment(PdfPCell.ALIGN_CENTER);
@@ -533,7 +531,7 @@ public class YearEndTransactionReport {
         }
         return decimalFormat.format(number);
     }
-    
+
     private String capAndSpacerize(String word) {
         StringBuilder spacedWord = new StringBuilder();
         String updatedWord = word.trim().toUpperCase();

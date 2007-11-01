@@ -40,12 +40,10 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests service methods in BudgetModularService.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetModularServiceTest extends KualiTestBase {
-    
+
     protected Budget setupBudget() {
         Budget budget = new Budget();
 
@@ -60,8 +58,8 @@ public class BudgetModularServiceTest extends KualiTestBase {
         budget.setBudgetAgency(agency);
         return budget;
     }
-    
-    
+
+
     public static List createBudgetPeriods(int numberOfPeriods) {
         List budgetPeriods = new ArrayList();
 

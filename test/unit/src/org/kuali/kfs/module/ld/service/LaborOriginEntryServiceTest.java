@@ -167,7 +167,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
         outputSummary = laborOriginEntryService.getPosterOutputSummaryByGroups(groups);
         assertEquals(expectedNumber, outputSummary.size());
     }
-    
+
     public void testGetCountOfEntriesInGroups() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("getCountOfEntriesInGroups.numOfData"));
         int expectedNumber = Integer.valueOf(properties.getProperty("getCountOfEntriesInGroups.expectedNumOfData"));

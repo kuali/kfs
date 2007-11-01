@@ -27,8 +27,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 
 /**
  * This class returns list of documentation location value pairs.
- * 
- * 
  */
 public class DisbursementVoucherDocumentationLocationValuesFinder extends KeyValuesBase {
 

@@ -31,10 +31,10 @@ public class BudgetBaseCodeValuesFinder extends KeyValuesBase {
     }
 
     public List getKeyValues() {
-        
+
         List<BudgetBaseCode> baseCodes = new ArrayList(SpringContext.getBean(BudgetIndirectCostService.class).getDefaultBudgetBaseCodeValues());
         List baseCodeKeyLabelPairList = new ArrayList();
-        for (BudgetBaseCode element: baseCodes) {
+        for (BudgetBaseCode element : baseCodes) {
             baseCodeKeyLabelPairList.add(new KeyLabelPair(element.getBudgetBaseCode(), element.getBudgetBaseDescription()));
         }
 

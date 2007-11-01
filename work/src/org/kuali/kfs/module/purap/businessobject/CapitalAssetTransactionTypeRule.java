@@ -21,20 +21,20 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Capital Asset Transaction Type Business Object. 
+ * Capital Asset Transaction Type Business Object.
  */
 public class CapitalAssetTransactionTypeRule extends PersistableBusinessObjectBase {
 
-	private String capitalAssetTransactionTypeCode;
-	private String financialObjectSubTypeCode;
-	private Integer capitalAssetRelationshipLimitNumber;
+    private String capitalAssetTransactionTypeCode;
+    private String financialObjectSubTypeCode;
+    private Integer capitalAssetRelationshipLimitNumber;
 
-	/**
-	 * Default constructor.
-	 */
-	public CapitalAssetTransactionTypeRule() {
+    /**
+     * Default constructor.
+     */
+    public CapitalAssetTransactionTypeRule() {
 
-	}
+    }
 
     public Integer getCapitalAssetRelationshipLimitNumber() {
         return capitalAssetRelationshipLimitNumber;
@@ -61,12 +61,12 @@ public class CapitalAssetTransactionTypeRule extends PersistableBusinessObjectBa
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("capitalAssetTransactionTypeCode", this.capitalAssetTransactionTypeCode);
         m.put("financialObjectSubTypeCode", this.financialObjectSubTypeCode);
-	    return m;
+        return m;
     }
 }

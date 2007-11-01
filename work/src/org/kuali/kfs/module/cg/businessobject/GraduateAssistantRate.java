@@ -69,7 +69,6 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @return
      */
     public boolean isActive() {
@@ -77,7 +76,6 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @param active
      */
     public void setActive(boolean active) {
@@ -85,7 +83,6 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @return
      */
     public String getCampusCode() {
@@ -93,7 +90,6 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @param campusCode
      */
     public void setCampusCode(String campusCode) {
@@ -216,7 +212,6 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @return
      */
     public Timestamp getLastUpdateTimestamp() {
@@ -224,13 +219,12 @@ public class GraduateAssistantRate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * @param lastUpdateTimestamp
      */
     public void setLastUpdateTimestamp(Timestamp lastUpdateTimestamp) {
         this.lastUpdateTimestamp = lastUpdateTimestamp;
     }
-    
+
     public void beforeInsert(PersistenceBroker persistenceBroker) {
         super.beforeInsert(persistenceBroker);
         this.lastUpdateTimestamp = SpringContext.getBean(DateTimeService.class).getCurrentTimestamp();

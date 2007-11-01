@@ -26,7 +26,6 @@ public class LaborPosterStep extends AbstractStep {
     private LaborPosterService laborPosterService;
 
     /**
-     * 
      * @param String jobName
      * @return boolean when success
      * @see org.kuali.kfs.batch.Step#execute()

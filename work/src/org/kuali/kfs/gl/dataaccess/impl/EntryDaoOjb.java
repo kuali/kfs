@@ -91,7 +91,8 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
         }
         if (max == null) {
             return 0;
-        } else {
+        }
+        else {
             return max.intValue();
         }
     }

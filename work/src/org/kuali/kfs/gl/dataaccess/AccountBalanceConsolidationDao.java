@@ -20,5 +20,5 @@ import java.util.Map;
 
 public interface AccountBalanceConsolidationDao {
 
-	public List<Map<String,Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode);
+    public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode);
 }

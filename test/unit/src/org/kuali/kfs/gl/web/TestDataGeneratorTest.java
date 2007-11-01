@@ -28,8 +28,6 @@ import org.kuali.module.gl.bo.AccountBalance;
 
 /**
  * This class...
- * 
- * 
  */
 public class TestDataGeneratorTest extends KualiTestBase {
 

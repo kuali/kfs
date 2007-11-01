@@ -48,7 +48,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.rice.definition.ObjectDefinition;
 import org.kuali.rice.resourceloader.GlobalResourceLoader;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
 import org.kuali.workflow.KualiWorkflowUtils;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -64,14 +63,14 @@ import edu.iu.uis.eden.xml.XmlConstants;
 /**
  * This class test that the labels used by workflow in the UI are coming from the KFS data dictionary. It also indirectly test if
  * routing is working, since the xpath is parsed to find the label in the data dictionary. If the label isn't found, it is likely
- * that the xpath will also fail to find the element in the document xml.  The fact that the name and title are unique for each
- * field within the attribute is also verfied.
+ * that the xpath will also fail to find the element in the document xml. The fact that the name and title are unique for each field
+ * within the attribute is also verfied.
  */
 @ConfigureContext
 public class KualiXmlAttributeImplTest extends KualiTestBase {
 
     private static Log LOG = LogFactory.getLog(KualiXmlRuleAttributeImpl.class);
-    
+
     private static final String RULE_ATTRIBUTE_CONFIG_NODE_NAME = XmlConstants.ROUTING_CONFIG;
     private static final String SEARCH_ATTRIBUTE_CONFIG_NODE_NAME = XmlConstants.SEARCHING_CONFIG;
 
@@ -83,10 +82,10 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        if ( (StringUtils.isNotBlank(ruleAttributeXml)) && (StringUtils.isNotBlank(searchAttributeXml)) ) {
+        if ((StringUtils.isNotBlank(ruleAttributeXml)) && (StringUtils.isNotBlank(searchAttributeXml))) {
             return;
         }
-       
+
         DataSource mySource = SpringContext.getBean(DataSource.class);
         ruleAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
         searchAttributeXml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<data >\n<ruleAttributes>\n";
@@ -96,8 +95,9 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             dbCon = mySource.getConnection();
             Statement dbAsk = dbCon.createStatement();
             ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T");
-//            ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM = 'SystemParameterRoutingAttribute'");
-            
+            // ResultSet dbAnswer = dbAsk.executeQuery("select * from EN_RULE_ATTRIB_T where RULE_ATTRIB_NM =
+            // 'SystemParameterRoutingAttribute'");
+
             while (dbAnswer.next()) {
                 String className = dbAnswer.getString("RULE_ATTRIB_CLS_NM");
                 if (StringUtils.isNotBlank(className)) {
@@ -117,8 +117,9 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                                 ruleAttributeXml = ruleAttributeXml + "</description>\n\t<type>";
                                 ruleAttributeXml = ruleAttributeXml + attributeType;
                                 ruleAttributeXml = ruleAttributeXml + "</type>\n\t" + dbAnswer.getString("RULE_ATTRIB_XML_RTE_TXT") + "\n</ruleAttribute>\n";
-                                
-                            } else if (EdenConstants.SEARCHABLE_XML_ATTRIBUTE_TYPE.equals(attributeType)) {
+
+                            }
+                            else if (EdenConstants.SEARCHABLE_XML_ATTRIBUTE_TYPE.equals(attributeType)) {
                                 searchAttributeXml = searchAttributeXml + "<ruleAttribute>\n\t<name>";
                                 searchAttributeXml = searchAttributeXml + dbAnswer.getString("RULE_ATTRIB_NM");
                                 searchAttributeXml = searchAttributeXml + "</name>\n\t<className>";
@@ -130,7 +131,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                                 searchAttributeXml = searchAttributeXml + "</description>\n\t<type>";
                                 searchAttributeXml = searchAttributeXml + attributeType;
                                 searchAttributeXml = searchAttributeXml + "</type>\n\t" + dbAnswer.getString("RULE_ATTRIB_XML_RTE_TXT") + "\n</ruleAttribute>\n";
-                                
+
                             }
                         }
                         else {
@@ -148,7 +149,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             ruleAttributeXml = ruleAttributeXml.replaceAll(" & ", " &amp; ");
             searchAttributeXml = searchAttributeXml.replaceAll(" & ", " &amp; ");
 
-           loadDataDictionaryEntries();
+            loadDataDictionaryEntries();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -166,9 +167,9 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
     /**
      * This method goes through all of the ruleAttributes in the inputSource and tries to get a label out of the data dictionary.
      */
-   public void testConfirmLabels() {
+    public void testConfirmLabels() {
         testFailed = false;
-        
+
         // test rule xml attributes
         confirmLabels(KualiXmlAttributeHelper.notFound, ruleAttributeXml, RULE_ATTRIBUTE_CONFIG_NODE_NAME);
 
@@ -177,11 +178,11 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
 
         assertFalse("testConfirmLabels failed", testFailed);
     }
-    
+
     /**
      * This method accepts a Node, and if all goes well, returns the exact same Node, with the name and title attributes added to
      * the fieldDef element. This exercises the getConfigXML method on the class under test.
-     *
+     * 
      * @param xmlNode
      * @return
      * @throws TransformerException
@@ -209,39 +210,39 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         }
         return myAttribute.getConfigXML();
     }
-    
+
     /**
      * This method compares the label from the test to the expected, or not expected, value for all of the rule attributes in the
      * file. The inputSource file should be as close to the production version as possible, as described by the class comments. It
      * accepts the string to test against as a parameter.
-     *
+     * 
      * @param testString
      */
-   private void confirmLabels(String testString, String attributeXml, String configNodeName) {
+    private void confirmLabels(String testString, String attributeXml, String configNodeName) {
         String theTitle = "";
         String theName = "";
         String attributeName = "";
         try {
             NodeList tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(attributeXml)), XPathConstants.NODESET);
-            for (int i = 0; i < tempList.getLength(); i++) { //loop over ruleattributes
+            for (int i = 0; i < tempList.getLength(); i++) { // loop over ruleattributes
                 Node originalNode = tempList.item(i);
                 Set ruleAttributeFieldDefNames = new HashSet();
                 Set ruleAttributeFieldDefTitles = new HashSet();
                 attributeName = (String) myXPath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "name", originalNode, XPathConstants.STRING);
                 Node classNameNode = (Node) myXPath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "className", originalNode, XPathConstants.NODE);
-                if ( (classNameNode != null) && (classNameNode.getFirstChild() != null) ) {
+                if ((classNameNode != null) && (classNameNode.getFirstChild() != null)) {
                     KualiXmlAttribute myAttribute = (KualiXmlAttribute) GlobalResourceLoader.getObject(new ObjectDefinition(classNameNode.getFirstChild().getNodeValue()));
                     Node xmlNode = configureRuleAttribute(originalNode, myAttribute);
                     NamedNodeMap fieldDefAttributes = null;
                     String potentialFailMessage = "";
-    
+
                     try {
                         NodeList xmlNodeList = (NodeList) myXPath.evaluate("//fieldDef", xmlNode, XPathConstants.NODESET);
-    
+
                         for (int j = 0; j < xmlNodeList.getLength(); j++) {
                             Node fieldDefXmlNode = xmlNodeList.item(j);
                             fieldDefAttributes = fieldDefXmlNode.getAttributes();
-    
+
                             theTitle = fieldDefAttributes.getNamedItem("title").getNodeValue();// Making sure they are clean
                             theName = fieldDefAttributes.getNamedItem("name").getNodeValue();
                             if (LOG.isDebugEnabled()) {
@@ -258,12 +259,12 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                             }
                             if (testString.equals(KualiXmlAttributeHelper.notFound)) {
                                 potentialFailMessage = "Each fieldDef title should be a valid value and currently the title for attribute '" + attributeName + "' is '" + theTitle + "'";
-                                assertFalse(potentialFailMessage,theTitle.equals(testString));
+                                assertFalse(potentialFailMessage, theTitle.equals(testString));
                                 if (ruleAttributeFieldDefTitles.contains(theTitle)) {
-                                    /* Titles of fieldDefs inside a single attribute should be unique
-                                     * in the normal case. Having two fields with the same label would
-                                     * certainly confuse the user.  However, due to the way the confirmSource test
-                                     * works, all the titles/labels must be the same.  So only run this check when
+                                    /*
+                                     * Titles of fieldDefs inside a single attribute should be unique in the normal case. Having two
+                                     * fields with the same label would certainly confuse the user. However, due to the way the
+                                     * confirmSource test works, all the titles/labels must be the same. So only run this check when
                                      * not in the confirmSource test.
                                      */
                                     potentialFailMessage = "Each fieldDef title on a single attribute must be unique and the fieldDef title '" + theTitle + "' already exists on the attribute '" + attributeName + "'";
@@ -275,7 +276,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
                             }
                             else {
                                 potentialFailMessage = "For attribute '" + attributeName + "' the title should have been '" + testString + "' but was actually '" + theTitle + "'";
-                                assertEquals(potentialFailMessage,testString,theTitle);
+                                assertEquals(potentialFailMessage, testString, theTitle);
                             }
                         }
                     }
@@ -296,14 +297,14 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             LOG.error("General Exception thrown for attribute '" + attributeName + "'", e);
             testFailed = true;
         }
-   }
+    }
 
     /**
      * This method confirms that the labels are coming from the data dictionary by modifing all the dictionary values
      * programatically to a nonsense value. It then rebuilds the Hash Table and runs confirmLabels() to make sure the labels have
      * changed.
      */
-     public void testLabelSource() {
+    public void testLabelSource() {
         DataDictionaryService myDDService = SpringContext.getBean(DataDictionaryService.class);
         XPath xpath = XPathHelper.newXPath();
         String nonsenseString = "BananaRama";
@@ -326,7 +327,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             }
 
         }
-//        KualiXmlAttributeHelper.buildDictionaryHash();
+        // KualiXmlAttributeHelper.buildDictionaryHash();
 
         // test rule xml attributes
         KualiXmlAttribute ruleAttribute = new KualiXmlRuleAttributeImpl();
@@ -340,7 +341,7 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
             throw new AssertionFailedError("testLabelSource failed");
     }
 
-    private void loadDataDictionaryEntries()throws Exception{
+    private void loadDataDictionaryEntries() throws Exception {
         KualiXmlRuleAttributeImpl myAttribute = new KualiXmlRuleAttributeImpl();
         NamedNodeMap fieldDefAttributes = null;
         NodeList tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(ruleAttributeXml)), XPathConstants.NODESET);
@@ -352,6 +353,6 @@ public class KualiXmlAttributeImplTest extends KualiTestBase {
         tempList = (NodeList) myXPath.evaluate("//ruleAttribute", new InputSource(new StringReader(searchAttributeXml)), XPathConstants.NODESET);
         for (int i = 0; i < tempList.getLength(); i++) {
             Node xmlNode = configureRuleAttribute(tempList.item(i), mySearchAttribute);
-        }        
+        }
     }
 }

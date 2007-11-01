@@ -42,11 +42,12 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 
 public class RoutingFormMainPageAction extends RoutingFormAction {
-    
+
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RoutingFormMainPageAction.class);
 
     /**
      * When a person other than PD/Co-PD/Contact is added to the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -64,6 +65,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
     /**
      * When a person other than PD/Co-PD/Contact is added to the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -79,9 +81,10 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    
+
     /**
      * When a person is deleted from the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -90,14 +93,15 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      */
     public ActionForward deletePersonLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
-        
+
         routingForm.getRoutingFormDocument().getRoutingFormPersonnel().remove(super.getLineToDelete(request));
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * When an org is added to the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -112,9 +116,10 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * When an org is deleted from the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -123,14 +128,15 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      */
     public ActionForward deleteOrganizationCreditPercentLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         RoutingForm routingForm = (RoutingForm) form;
-        
+
         routingForm.getRoutingFormDocument().getRoutingFormOrganizationCreditPercents().remove(super.getLineToDelete(request));
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * When a keyword is deleted from the list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -142,12 +148,13 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
 
         routingForm.getRoutingFormDocument().getRoutingFormKeywords().remove(super.getLineToDelete(request));
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
     /**
      * All keywords are deleted from the routing form list.
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -159,33 +166,34 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         RoutingForm routingForm = (RoutingForm) form;
 
         routingForm.getRoutingFormDocument().getRoutingFormKeywords().clear();
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
-     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-        
+
         retrieveMainPageReferenceObjects(routingFormDocument);
-        
+
         return super.save(mapping, form, request, response);
     }
 
     public ActionForward clearFedPassthrough(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         RoutingForm routingForm = (RoutingForm) form;
         RoutingFormDocument routingFormDocument = routingForm.getRoutingFormDocument();
-        
+
         routingFormDocument.setAgencyFederalPassThroughNumber(null);
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(routingFormDocument, "federalPassThroughAgency");
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Refresh method on Main Page does several things for lookups:
      * <ul>
@@ -194,7 +202,9 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
      * <li>If an item is selected it clears the TBN field for the appropriate lookup.</li>
      * <li>For personnel lookups it sets the chart / org to the appropriate line (or new) field.</li>
      * </ul>
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * 
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#refresh(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -210,20 +220,20 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
             if (StringUtils.isNotBlank(lookupResultsSequenceNumber)) {
                 Class lookupResultsBOClass = Class.forName(routingForm.getLookupResultsBOClassName());
                 Collection<PersistableBusinessObject> rawValues = SpringContext.getBean(LookupResultsService.class).retrieveSelectedResultBOs(lookupResultsSequenceNumber, lookupResultsBOClass, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
-                
-                if(lookupResultsBOClass.isAssignableFrom(Keyword.class)) {
-                    for(Iterator iter = rawValues.iterator(); iter.hasNext(); ) {
+
+                if (lookupResultsBOClass.isAssignableFrom(Keyword.class)) {
+                    for (Iterator iter = rawValues.iterator(); iter.hasNext();) {
                         Keyword keyword = (Keyword) iter.next();
                         RoutingFormKeyword routingFormKeyword = new RoutingFormKeyword(routingFormDocument.getDocumentNumber(), keyword);
                         // ignore / drop duplicates
-                        if(!routingFormDocument.getRoutingFormKeywords().contains(routingFormKeyword)) {
+                        if (!routingFormDocument.getRoutingFormKeywords().contains(routingFormKeyword)) {
                             routingFormDocument.addRoutingFormKeyword(routingFormKeyword);
                         }
                     }
                 }
             }
-        } else if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller()) ||
-                KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller())) {
+        }
+        else if (KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller()) || KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(routingForm.getRefreshCaller())) {
             if (request.getParameter("document.routingFormAgency.agencyNumber") != null) {
                 // coming back from an Agency lookup - Agency selected
                 routingFormDocument.setRoutingFormAgencyToBeNamedIndicator(false);
@@ -254,7 +264,7 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 // coming back from new Person lookup - Name Later selected
                 routingForm.getNewRoutingFormProjectDirector().setPersonUniversalIdentifier(null);
                 routingForm.getNewRoutingFormProjectDirector().getUser();
-            } 
+            }
             else if (request.getParameter("newRoutingFormOtherPerson.personUniversalIdentifier") != null) {
                 RoutingFormPersonnel newRoutingFormPerson = routingForm.getNewRoutingFormOtherPerson();
 
@@ -266,15 +276,16 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                 // coming back from new Person lookup - Name Later selected
                 routingForm.getNewRoutingFormOtherPerson().setPersonUniversalIdentifier(null);
                 routingForm.getNewRoutingFormOtherPerson().getUser();
-            } else {
+            }
+            else {
                 // Must be related to personnel lookup, first find which item this relates to.
                 int personIndex = determinePersonnelIndex(request);
-                
+
                 // Next do the regular clearing of appropriate fields. If the above enumeration didn't find an item
                 // we print a warn message at the end of this if block.
                 if (request.getParameter("document.routingFormPersonnel[" + personIndex + "].personUniversalIdentifier") != null) {
                     RoutingFormPersonnel routingFormPersonnel = routingFormDocument.getRoutingFormPersonnel().get(personIndex);
-                    
+
                     // coming back from Person lookup - Person selected. Unset TBN indicated and set chart / org.
                     routingFormPersonnel.populateWithUserServiceFields();
                     routingFormPersonnel.setPersonToBeNamedIndicator(false);
@@ -283,7 +294,8 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
                     // coming back from Person lookup - To Be Named selected
                     routingFormDocument.getRoutingFormPersonnel().get(personIndex).setPersonUniversalIdentifier(null);
                     routingFormDocument.getRoutingFormPersonnel().get(personIndex).getUser();
-                } else {
+                }
+                else {
                     LOG.warn("Personnel lookup TBN reset code wasn't able to find person: personIndexStr=" + personIndex);
                 }
             }
@@ -294,12 +306,13 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
 
     /**
      * Checks what index document.routingFormPersonnel[?] refers to.
+     * 
      * @param request
      * @return index of the personnel item referred to
      */
     private int determinePersonnelIndex(HttpServletRequest request) {
         int personIndex = -1;
-        
+
         Enumeration parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             String parametersName = (String) parameterNames.nextElement();
@@ -311,10 +324,11 @@ public class RoutingFormMainPageAction extends RoutingFormAction {
         }
         return personIndex;
     }
-    
+
     /**
-     * Retrieves references objects for main page. Nothing special about this method, it's just consolidating code that's
-     * called in multiple places.
+     * Retrieves references objects for main page. Nothing special about this method, it's just consolidating code that's called in
+     * multiple places.
+     * 
      * @param routingForm
      */
     private void retrieveMainPageReferenceObjects(RoutingFormDocument routingFormDocument) {

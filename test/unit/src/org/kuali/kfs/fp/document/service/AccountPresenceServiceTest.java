@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package org.kuali.module.financial.service;
+
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_NON_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.AccountFixture.ACCOUNT_PRESENCE_ACCOUNT;
 import static org.kuali.test.fixtures.ObjectCodeFixture.OBJECT_CODE_BUDGETED_OBJECT_CODE;
@@ -26,8 +27,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the AccountPresenceService.
- * 
- * 
  */
 @ConfigureContext
 public class AccountPresenceServiceTest extends KualiTestBase {

@@ -56,28 +56,32 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         String level = oc.getFinancialObjectLevelCode();
         String objType = oc.getFinancialObjectTypeCode();
         String objSubType = oc.getFinancialObjectSubType().getCode();
-        
+
         if (consolidationRules == null) {
             consolidationRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_CONSOL_PARAM_SUFFIX, categoryCode, cons);
-        } else {
+        }
+        else {
             consolidationRules.setConstrainedValue(cons);
         }
-        
+
         if (levelRules == null) {
             levelRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_LEVEL_PARAM_SUFFIX, categoryCode, level);
-        } else {
+        }
+        else {
             levelRules.setConstrainedValue(level);
         }
-        
+
         if (objectTypeRules == null) {
             objectTypeRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_TYPE_PARAM_SUFFIX, categoryCode, objType);
-        } else {
+        }
+        else {
             objectTypeRules.setConstrainedValue(objType);
         }
-        
+
         if (objectSubTypeRules == null) {
             objectSubTypeRules = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.VALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, KFSConstants.OrgReversion.INVALID_PREFIX + KFSConstants.OrgReversion.OBJECT_SUB_TYPE_PARAM_SUFFIX, categoryCode, objSubType);
-        } else {
+        }
+        else {
             objectSubTypeRules.setConstrainedValue(objSubType);
         }
 

@@ -16,9 +16,6 @@
 package org.kuali.module.budget.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.service.SalarySettingService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,15 +31,17 @@ public class SalarySettingServiceImpl implements SalarySettingService {
      * @see org.kuali.module.budget.service.SalarySettingService#getDisabled()
      */
     public boolean getSalarySettingDisabled() {
-        //TODO for now just return false, implement application parameter if decision is made implement this functionality
+        // TODO for now just return false, implement application parameter if decision is made implement this functionality
         return false;
 
-//        return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, BCConstants.DISABLE_SALARY_SETTING_FLAG);
+        // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
+        // BCConstants.DISABLE_SALARY_SETTING_FLAG);
 
     }
 
     /**
-     * Gets the kualiConfigurationService attribute. 
+     * Gets the kualiConfigurationService attribute.
+     * 
      * @return Returns the kualiConfigurationService.
      */
     public KualiConfigurationService getKualiConfigurationService() {
@@ -51,6 +50,7 @@ public class SalarySettingServiceImpl implements SalarySettingService {
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

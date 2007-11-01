@@ -15,23 +15,13 @@
  */
 package org.kuali.module.chart.rules;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Org;
-import org.kuali.module.chart.bo.OrganizationExtension;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 
 /**
  * This class...
- * 
- * 
  */
 public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 
@@ -45,27 +35,26 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
 
-        OrganizationReversion orgRev = (OrganizationReversion)document.getNewMaintainableObject().getBusinessObject();
+        OrganizationReversion orgRev = (OrganizationReversion) document.getNewMaintainableObject().getBusinessObject();
         // copy year and chart to detail records
-        copyKeyAttributesToDetail( orgRev );
-        
+        copyKeyAttributesToDetail(orgRev);
+
         return true;
     }
 
-    protected void copyKeyAttributesToDetail( OrganizationReversion orgRev ) {
-        if ( orgRev.getUniversityFiscalYear() != null && orgRev.getUniversityFiscalYear().intValue() != 0 
-                && StringUtils.isNotBlank( orgRev.getChartOfAccountsCode() ) ) {
+    protected void copyKeyAttributesToDetail(OrganizationReversion orgRev) {
+        if (orgRev.getUniversityFiscalYear() != null && orgRev.getUniversityFiscalYear().intValue() != 0 && StringUtils.isNotBlank(orgRev.getChartOfAccountsCode())) {
             // loop over detail records, copying their details
-            for ( OrganizationReversionDetail dtl : orgRev.getOrganizationReversionDetail() ) {
-                dtl.setChartOfAccountsCode( orgRev.getChartOfAccountsCode() );
-                dtl.setUniversityFiscalYear( orgRev.getUniversityFiscalYear() );
+            for (OrganizationReversionDetail dtl : orgRev.getOrganizationReversionDetail()) {
+                dtl.setChartOfAccountsCode(orgRev.getChartOfAccountsCode());
+                dtl.setUniversityFiscalYear(orgRev.getUniversityFiscalYear());
                 // load the object, if possible
-                if ( StringUtils.isNotBlank( dtl.getOrganizationReversionObjectCode() ) ) {
-                    dtl.refreshReferenceObject( "organizationReversionObject" );
+                if (StringUtils.isNotBlank(dtl.getOrganizationReversionObjectCode())) {
+                    dtl.refreshReferenceObject("organizationReversionObject");
                 }
             }
         }
-        
+
     }
 
 }

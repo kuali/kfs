@@ -43,10 +43,10 @@ public class PurApStatusKeyValuesBase extends KeyValuesBase {
             if (status.isActive()) {
                 labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
             }
-        }        
+        }
         return labels;
     }
-    
+
     /**
      * Returns Status class for this Value Finder.
      */

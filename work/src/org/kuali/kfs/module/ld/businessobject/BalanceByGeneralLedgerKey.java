@@ -224,7 +224,7 @@ public class BalanceByGeneralLedgerKey extends PersistableBusinessObjectBase {
         m.put("financialSubObjectCode", this.financialSubObjectCode);
         m.put("positionNumber", this.positionNumber);
         m.put("emplid", this.emplid);
-        
+
         return m;
     }
 }

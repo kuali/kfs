@@ -34,7 +34,6 @@ public interface PostTransaction {
      * @param t Transaction to post
      * @param mode PosterService.MODE_ENTRIES or PosterService.MODE_REVERSAL
      * @param postDate post date/time
-     * 
      * @return The letter I if a row was inserted, U updated, D deleted. The string can have multiple codes.
      */
     public String post(Transaction t, int mode, Date postDate);

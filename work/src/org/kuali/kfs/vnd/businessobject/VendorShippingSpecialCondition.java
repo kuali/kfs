@@ -31,64 +31,65 @@ import org.kuali.module.vendor.util.VendorRoutingComparable;
  */
 public class VendorShippingSpecialCondition extends PersistableBusinessObjectBase implements VendorRoutingComparable, Inactivateable {
 
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-	private String vendorShippingSpecialConditionCode;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorShippingSpecialConditionCode;
     private boolean active;
-    
+
     private VendorDetail vendorDetail;
     private ShippingSpecialCondition vendorShippingSpecialCondition;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorShippingSpecialCondition() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public VendorShippingSpecialCondition() {
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    }
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public Integer getVendorDetailAssignedIdentifier() {
-        
-		return vendorDetailAssignedIdentifier;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public String getVendorShippingSpecialConditionCode() {
-        
-		return vendorShippingSpecialConditionCode;
-	}
+    public Integer getVendorDetailAssignedIdentifier() {
 
-	public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
-		this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
-	}
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public String getVendorShippingSpecialConditionCode() {
+
+        return vendorShippingSpecialConditionCode;
+    }
+
+    public void setVendorShippingSpecialConditionCode(String vendorShippingSpecialConditionCode) {
+        this.vendorShippingSpecialConditionCode = vendorShippingSpecialConditionCode;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
+    }
 
     public VendorDetail getVendorDetail() {
-        
+
         return vendorDetail;
     }
 
     /**
      * Sets the vendorDetail attribute value.
+     * 
      * @param vendorDetail The vendorDetail to set.
      * @deprecated
      */
@@ -97,7 +98,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
     }
 
     public ShippingSpecialCondition getVendorShippingSpecialCondition() {
-        
+
         return vendorShippingSpecialCondition;
     }
 
@@ -114,25 +115,22 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
     /**
      * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
-    public boolean isEqualForRouting( Object toCompare ) {
-        if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorShippingSpecialCondition ) ) {
+    public boolean isEqualForRouting(Object toCompare) {
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorShippingSpecialCondition)) {
             return false;
-        } else {
-            VendorShippingSpecialCondition vssc = (VendorShippingSpecialCondition)toCompare;
-            
-            return new EqualsBuilder()
-                .append( this.getVendorHeaderGeneratedIdentifier(), vssc.getVendorHeaderGeneratedIdentifier() )
-                .append( this.getVendorDetailAssignedIdentifier(), vssc.getVendorDetailAssignedIdentifier() )
-                .append( this.getVendorShippingSpecialConditionCode(), vssc.getVendorShippingSpecialConditionCode() )
-                .isEquals();
+        }
+        else {
+            VendorShippingSpecialCondition vssc = (VendorShippingSpecialCondition) toCompare;
+
+            return new EqualsBuilder().append(this.getVendorHeaderGeneratedIdentifier(), vssc.getVendorHeaderGeneratedIdentifier()).append(this.getVendorDetailAssignedIdentifier(), vssc.getVendorDetailAssignedIdentifier()).append(this.getVendorShippingSpecialConditionCode(), vssc.getVendorShippingSpecialConditionCode()).isEquals();
         }
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
@@ -140,7 +138,7 @@ public class VendorShippingSpecialCondition extends PersistableBusinessObjectBas
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
         }
         m.put("vendorShippingSpecialConditionCode", this.vendorShippingSpecialConditionCode);
-        
+
         return m;
     }
 }

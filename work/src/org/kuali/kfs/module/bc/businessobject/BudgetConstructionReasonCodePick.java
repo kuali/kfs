@@ -25,63 +25,60 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectBase {
 
-	private String appointmentFundingReasonCode;
-	private Integer selectFlag;
-	private String personUniversalIdentifier;
+    private String appointmentFundingReasonCode;
+    private Integer selectFlag;
+    private String personUniversalIdentifier;
 
     BudgetConstructionAppointmentFundingReasonCode appointmentFundingReason;
-    
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionReasonCodePick() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionReasonCodePick() {
 
-	/**
-	 * Gets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @return Returns the appointmentFundingReasonCode
-	 * 
-	 */
-	public String getAppointmentFundingReasonCode() { 
-		return appointmentFundingReasonCode;
-	}
+    }
 
-	/**
-	 * Sets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
-	 * 
-	 */
-	public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
-		this.appointmentFundingReasonCode = appointmentFundingReasonCode;
-	}
+    /**
+     * Gets the appointmentFundingReasonCode attribute.
+     * 
+     * @return Returns the appointmentFundingReasonCode
+     */
+    public String getAppointmentFundingReasonCode() {
+        return appointmentFundingReasonCode;
+    }
 
-
-	/**
-	 * Gets the selectFlag attribute.
-	 * 
-	 * @return Returns the selectFlag
-	 * 
-	 */
-	public Integer getSelectFlag() { 
-		return selectFlag;
-	}
-
-	/**
-	 * Sets the selectFlag attribute.
-	 * 
-	 * @param selectFlag The selectFlag to set.
-	 * 
-	 */
-	public void setSelectFlag(Integer selectFlag) {
-		this.selectFlag = selectFlag;
-	}
+    /**
+     * Sets the appointmentFundingReasonCode attribute.
+     * 
+     * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
+     */
+    public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
+        this.appointmentFundingReasonCode = appointmentFundingReasonCode;
+    }
 
 
     /**
-     * Gets the personUniversalIdentifier attribute. 
+     * Gets the selectFlag attribute.
+     * 
+     * @return Returns the selectFlag
+     */
+    public Integer getSelectFlag() {
+        return selectFlag;
+    }
+
+    /**
+     * Sets the selectFlag attribute.
+     * 
+     * @param selectFlag The selectFlag to set.
+     */
+    public void setSelectFlag(Integer selectFlag) {
+        this.selectFlag = selectFlag;
+    }
+
+
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
      * @return Returns the personUniversalIdentifier.
      */
     public String getPersonUniversalIdentifier() {
@@ -90,6 +87,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
 
     /**
      * Sets the personUniversalIdentifier attribute value.
+     * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -97,7 +95,8 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
     }
 
     /**
-     * Gets the appointmentFundingReason attribute. 
+     * Gets the appointmentFundingReason attribute.
+     * 
      * @return Returns the appointmentFundingReason.
      */
     public BudgetConstructionAppointmentFundingReasonCode getAppointmentFundingReason() {
@@ -106,6 +105,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
 
     /**
      * Sets the appointmentFundingReason attribute value.
+     * 
      * @param appointmentFundingReason The appointmentFundingReason to set.
      * @deprecated
      */
@@ -117,7 +117,7 @@ public class BudgetConstructionReasonCodePick extends PersistableBusinessObjectB
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("appointmentFundingReasonCode", this.appointmentFundingReasonCode);
         return m;

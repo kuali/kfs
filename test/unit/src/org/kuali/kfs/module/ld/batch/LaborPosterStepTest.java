@@ -26,14 +26,14 @@ public class LaborPosterStepTest extends KualiTestBase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        
+
         laborPosterStep = SpringContext.getBean(LaborPosterStep.class);
     }
-    
-    public void testExecute() throws Exception{
+
+    public void testExecute() throws Exception {
         // This is time-consuming precess, which is only good to run locally
-        
-        //System.out.println(laborPosterStep.getName());
-        //laborPosterStep.execute();
+
+        // System.out.println(laborPosterStep.getName());
+        // laborPosterStep.execute();
     }
 }

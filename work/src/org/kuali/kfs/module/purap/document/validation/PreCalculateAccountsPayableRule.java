@@ -21,7 +21,7 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
  * Defines a rule which gets invoked before calculation of an AccountsPayable document.
  */
 public interface PreCalculateAccountsPayableRule {
-    
+
     /**
      * @param document
      * @return true if the business rules pass

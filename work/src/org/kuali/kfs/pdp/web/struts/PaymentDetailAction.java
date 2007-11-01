@@ -31,7 +31,6 @@ import org.kuali.module.pdp.utilities.GeneralUtilities;
 
 /**
  * @author delyea
- *
  */
 public class PaymentDetailAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailAction.class);
@@ -40,25 +39,25 @@ public class PaymentDetailAction extends BaseAction {
     private Map payees;
 
     public PaymentDetailAction() {
-        setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
-        setPaymentDetailService( SpringContext.getBean(PaymentDetailService.class) );
+        setPaymentGroupService(SpringContext.getBean(PaymentGroupService.class));
+        setPaymentDetailService(SpringContext.getBean(PaymentDetailService.class));
 
         // TODO This should probably be a table
         payees = new HashMap();
-        payees.put(PdpConstants.PayeeIdTypeCodes.PAYEE_ID,"Payee ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.SSN,"SSN");
-        payees.put(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID,"Employee ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.FEIN,"FEIN");
-        payees.put(PdpConstants.PayeeIdTypeCodes.VENDOR_ID,"Vendor ID");
-        payees.put(PdpConstants.PayeeIdTypeCodes.OTHER,"Other");
+        payees.put(PdpConstants.PayeeIdTypeCodes.PAYEE_ID, "Payee ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.SSN, "SSN");
+        payees.put(PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID, "Employee ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.FEIN, "FEIN");
+        payees.put(PdpConstants.PayeeIdTypeCodes.VENDOR_ID, "Vendor ID");
+        payees.put(PdpConstants.PayeeIdTypeCodes.OTHER, "Other");
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isLimitedViewRole() || sr.isViewAllRole() || sr.isViewIdRole() || sr.isViewBankRole();
     }
 
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("executeLogic() started");
         HttpSession session = request.getSession();
         LOG.debug("executeLogic() ************* SESSION ID = " + session.getId() + "  and created " + (new Timestamp(session.getCreationTime())).toString());
@@ -66,15 +65,16 @@ public class PaymentDetailAction extends BaseAction {
         String buttonPressed = GeneralUtilities.whichButtonWasPressed(request);
         LOG.debug("executeLogic() btnPressed is " + buttonPressed);
         Integer detailId;
-        PaymentDetail pd = (PaymentDetail)session.getAttribute("PaymentDetail");
-        List indivList = (List)session.getAttribute("indivSearchResults");
-        List batchIndivList = (List)session.getAttribute("batchIndivSearchResults");
+        PaymentDetail pd = (PaymentDetail) session.getAttribute("PaymentDetail");
+        List indivList = (List) session.getAttribute("indivSearchResults");
+        List batchIndivList = (List) session.getAttribute("batchIndivSearchResults");
 
         if ((indivList == null) && (batchIndivList == null) && (pd == null)) {
-            // Handle Session Expiration  
+            // Handle Session Expiration
             LOG.info("executeLogic() Payment Detail and both search results are null");
             return mapping.findForward("pdp_session_timeout");
-        } else {
+        }
+        else {
             if (request.getParameter("DetailId") != null) {
                 // Payment Detail ID was passed - find payment Detail with the ID
                 LOG.debug("executeLogic() Detail ID passed in Parms: " + request.getParameter("DetailId"));
@@ -82,42 +82,45 @@ public class PaymentDetailAction extends BaseAction {
                 pd = paymentDetailService.get(detailId);
 
                 pd.setLastDisbursementActionDate(this.getDisbursementActionExpirationDate(request));
-                getPayeeDescriptor(session,pd);
+                getPayeeDescriptor(session, pd);
                 getDisbursementPaymentList(session, pd);
-                session.setAttribute("size",new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
-                session.setAttribute("PaymentDetail",pd);
-            } else if (pd == null) {
+                session.setAttribute("size", new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
+                session.setAttribute("PaymentDetail", pd);
+            }
+            else if (pd == null) {
                 // Handle Session Expiration
                 LOG.info("executeLogic() Payment Detail object 'pd' is null");
                 return mapping.findForward("pdp_session_timeout");
-            } else if (buttonPressed.startsWith("btnUpdate")) {
+            }
+            else if (buttonPressed.startsWith("btnUpdate")) {
                 // Update Payment Detail in Session after action has been performed
                 // (status might have changed)
                 detailId = pd.getId();
                 pd = paymentDetailService.get(detailId);
 
                 pd.setLastDisbursementActionDate(this.getDisbursementActionExpirationDate(request));
-                getPayeeDescriptor(session,pd);
+                getPayeeDescriptor(session, pd);
                 getDisbursementPaymentList(session, pd);
-                session.setAttribute("size",new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
-                session.setAttribute("PaymentDetail",pd);
+                session.setAttribute("size", new Integer(pd.getPaymentGroup().getPaymentDetails().size()));
+                session.setAttribute("PaymentDetail", pd);
             }
             // Use of a default tab (Summary Tab)
             if ((GeneralUtilities.isStringEmpty(buttonPressed)) || (buttonPressed.startsWith("btnUpdate"))) {
-                request.setAttribute("btnPressed","btnSummaryTab");
-            } else {
-                request.setAttribute("btnPressed",buttonPressed);
+                request.setAttribute("btnPressed", "btnSummaryTab");
+            }
+            else {
+                request.setAttribute("btnPressed", buttonPressed);
             }
         }
 
         return mapping.findForward("display");
     }
 
-    private void getPayeeDescriptor( HttpSession session, PaymentDetail pd) {
+    private void getPayeeDescriptor(HttpSession session, PaymentDetail pd) {
         // Get descriptor of Payee ID Type based on Code in DB
         Iterator i = payees.keySet().iterator();
-        while ( i.hasNext() ) {
-            String key = (String)i.next();
+        while (i.hasNext()) {
+            String key = (String) i.next();
             if (pd != null) {
                 if (key.equals(pd.getPaymentGroup().getPayeeIdTypeCd())) {
                     session.setAttribute("payeeIdTypeDesc", payees.get(key));
@@ -141,8 +144,8 @@ public class PaymentDetailAction extends BaseAction {
                 PaymentGroup elem = (PaymentGroup) iter.next();
                 paymentDetailList.addAll(elem.getPaymentDetails());
             }
-            session.setAttribute("disbNbrTotalPayments",new Integer(paymentDetailList.size()));
-            session.setAttribute("disbursementDetailsList",paymentDetailList);
+            session.setAttribute("disbNbrTotalPayments", new Integer(paymentDetailList.size()));
+            session.setAttribute("disbursementDetailsList", paymentDetailList);
         }
     }
 

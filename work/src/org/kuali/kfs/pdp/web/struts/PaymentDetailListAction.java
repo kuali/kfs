@@ -20,47 +20,45 @@ import org.kuali.module.pdp.utilities.GeneralUtilities;
 
 /**
  * @author delyea
- *
  */
 public class PaymentDetailListAction extends BaseAction {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailListAction.class);
-  private PaymentGroupService paymentGroupService;
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailListAction.class);
+    private PaymentGroupService paymentGroupService;
 
-  public PaymentDetailListAction() {
-      setPaymentGroupService( SpringContext.getBean(PaymentGroupService.class) );
-  }
-
-  protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,
-      HttpServletResponse response) {
-    SecurityRecord sr = getSecurityRecord(request);
-    return sr.isLimitedViewRole() || sr.isViewAllRole() || sr.isViewIdRole() || sr.isViewBankRole();
-  }
-
-  protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,
-      HttpServletRequest request, HttpServletResponse response)
-      throws Exception {
-
-    PaymentDetail pd = (PaymentDetail) request.getSession().getAttribute("PaymentDetail");
-    String listType = request.getParameter("listType");
-
-    if (pd == null) {
-      // Handle Session expiration
-      LOG.info("executeLogic() Payment Detail object 'pd' is null");
-      return mapping.findForward("pdp_session_timeout");
-    } else if (GeneralUtilities.isStringEmpty(listType)) {
-      // Invalid call to Action
-      return mapping.findForward("pdp_system_error");
-    } else {
-      if ((!("disbursement".equals(listType))) && (!("group".equals(listType)))){
-//      Invalid List Type
-        return mapping.findForward("pdp_system_error");
-      }
+    public PaymentDetailListAction() {
+        setPaymentGroupService(SpringContext.getBean(PaymentGroupService.class));
     }
-    return mapping.findForward("display");
-  }
 
-  public void setPaymentGroupService(PaymentGroupService p) {
-    paymentGroupService = p;
-  }
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
+        SecurityRecord sr = getSecurityRecord(request);
+        return sr.isLimitedViewRole() || sr.isViewAllRole() || sr.isViewIdRole() || sr.isViewBankRole();
+    }
+
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        PaymentDetail pd = (PaymentDetail) request.getSession().getAttribute("PaymentDetail");
+        String listType = request.getParameter("listType");
+
+        if (pd == null) {
+            // Handle Session expiration
+            LOG.info("executeLogic() Payment Detail object 'pd' is null");
+            return mapping.findForward("pdp_session_timeout");
+        }
+        else if (GeneralUtilities.isStringEmpty(listType)) {
+            // Invalid call to Action
+            return mapping.findForward("pdp_system_error");
+        }
+        else {
+            if ((!("disbursement".equals(listType))) && (!("group".equals(listType)))) {
+                // Invalid List Type
+                return mapping.findForward("pdp_system_error");
+            }
+        }
+        return mapping.findForward("display");
+    }
+
+    public void setPaymentGroupService(PaymentGroupService p) {
+        paymentGroupService = p;
+    }
 
 }

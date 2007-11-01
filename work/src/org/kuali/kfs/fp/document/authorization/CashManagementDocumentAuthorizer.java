@@ -108,26 +108,29 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
             // CM document can only be saved (via the save button) if the CashDrawer is not closed
             if (cmDoc.getCashDrawerStatus() == null || cmDoc.getCashDrawerStatus().equals(CashDrawerConstants.STATUS_CLOSED)) {
                 flags.setCanSave(false);
-            } else {
+            }
+            else {
                 flags.setCanSave(validActions.contains(EdenConstants.ACTION_TAKEN_SAVED_CD));
             }
-    
+
             // CM document can only be routed if it contains a Final Deposit
             if (!cmDoc.hasFinalDeposit() || !SpringContext.getBean(CashManagementService.class).allVerifiedCashReceiptsAreDeposited(cmDoc)) {
                 flags.setCanRoute(false);
                 flags.setCanBlanketApprove(false);
-            } else {
+            }
+            else {
                 flags.setCanRoute(validActions.contains(EdenConstants.ACTION_TAKEN_ROUTED_CD));
                 flags.setCanBlanketApprove(validActions.contains(EdenConstants.ACTION_TAKEN_BLANKET_APPROVE_CD));
             }
-            
+
             if (!SpringContext.getBean(CashManagementService.class).allowDocumentCancellation(cmDoc)) {
                 flags.setCanCancel(false);
-            } else {
+            }
+            else {
                 flags.setCanCancel(validActions.contains(EdenConstants.ACTION_TAKEN_CANCELED_CD));
             }
         }
-        
+
         if (workflowDocument.stateIsEnroute()) {
             flags.setCanApprove(validActions.contains(EdenConstants.ACTION_TAKEN_APPROVED_CD));
             flags.setCanDisapprove(validActions.contains(EdenConstants.ACTION_TAKEN_DENIED_CD));
@@ -136,10 +139,10 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
 
         return flags;
     }
-    
+
     /**
-     * 
      * This method checks that all verified cash receipts are deposited
+     * 
      * @param cmDoc the cash management document to check
      * @return true if all verified cash receipts are deposited, false if otherwise
      */
@@ -147,8 +150,8 @@ public class CashManagementDocumentAuthorizer extends DocumentAuthorizerBase {
         boolean theyAre = true;
         List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-        for (Object o: verifiedReceipts) {
-            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
+        for (Object o : verifiedReceipts) {
+            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument) o)) {
                 theyAre = false;
                 break;
             }

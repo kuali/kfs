@@ -23,7 +23,6 @@ import org.kuali.module.pdp.service.SecurityRecord;
 
 /**
  * @author delyea
- *
  */
 public class DisbursementNumberMaintenanceAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementNumberMaintenanceAction.class);
@@ -32,54 +31,58 @@ public class DisbursementNumberMaintenanceAction extends BaseAction {
 
     public DisbursementNumberMaintenanceAction() {
         super();
-        setDisbursementNumberRangeService( SpringContext.getBean(DisbursementNumberRangeService.class ));
+        setDisbursementNumberRangeService(SpringContext.getBean(DisbursementNumberRangeService.class));
     }
 
     public void setDisbursementNumberRangeService(DisbursementNumberRangeService d) {
         disbursementNumberRangeService = d;
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isRangesRole() || sr.isSysAdminRole();
     }
 
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.info("executeLogic() starting");
         String forward = "list";
         List disbursementRangeList = new ArrayList();
         String d = request.getParameter("dnrId");
 
-        if ( d != null ) {
+        if (d != null) {
             int dnrId = -1;
             try {
                 dnrId = Integer.parseInt(d);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 // Bad number - we don't need to do anything here
             }
-            if ( dnrId == 0 ) {
+            if (dnrId == 0) {
                 // Add a new range
                 DisbursementNumberMaintenanceForm dnmf = new DisbursementNumberMaintenanceForm();
-        
-                request.setAttribute("PdpDisbursementNumberMaintenanceForm",dnmf);
+
+                request.setAttribute("PdpDisbursementNumberMaintenanceForm", dnmf);
 
                 return mapping.findForward("edit");
-            } else if ( dnrId == -1 ) {
+            }
+            else if (dnrId == -1) {
                 // No Id or invalid disbursement number range ID, go back to the list
                 disbursementRangeList = disbursementNumberRangeService.getAll();
-                request.setAttribute("disbursementRangeList",disbursementRangeList);
+                request.setAttribute("disbursementRangeList", disbursementRangeList);
                 return mapping.findForward("list");
-            } else {
+            }
+            else {
                 // Load the disbursement number range to edit it
                 DisbursementNumberRange dnr = disbursementNumberRangeService.get(new Integer(dnrId));
                 DisbursementNumberMaintenanceForm dnmf = new DisbursementNumberMaintenanceForm(dnr);
 
-                request.setAttribute("PdpDisbursementNumberMaintenanceForm",dnmf);
+                request.setAttribute("PdpDisbursementNumberMaintenanceForm", dnmf);
                 return mapping.findForward("edit");
             }
-        } else {
+        }
+        else {
             disbursementRangeList = disbursementNumberRangeService.getAll();
-            request.setAttribute("disbursementRangeList",disbursementRangeList);
+            request.setAttribute("disbursementRangeList", disbursementRangeList);
             return mapping.findForward("list");
         }
     }

@@ -9,7 +9,6 @@ import org.kuali.core.service.UniversalUserService;
 
 /**
  * @author jsissom
- *
  */
 public interface UserRequired {
     public void updateUser(UniversalUserService userService) throws UserNotFoundException;

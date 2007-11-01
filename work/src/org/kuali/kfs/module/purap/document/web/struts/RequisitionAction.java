@@ -53,12 +53,12 @@ public class RequisitionAction extends PurchasingActionBase {
     @Override
     public ActionForward refresh(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.refresh(mapping, form, request, response);
-    	RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionForm rqForm = (RequisitionForm) form;
         RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
-    	
+
         // super.refresh() must occur before this line to get the correct APO limit
         document.setOrganizationAutomaticPurchaseOrderLimit(SpringContext.getBean(PurapService.class).getApoLimit(document.getVendorContractGeneratedIdentifier(), document.getChartOfAccountsCode(), document.getOrganizationCode()));
-        
+
         return forward;
     }
 

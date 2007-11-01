@@ -29,11 +29,10 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 
 /**
- * Struts Action Form for the Labor Ledger Journal Voucher.
- *
- * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
- * type. The Journal Voucher is unique in that it defines several fields that aren't typically used by the other financial
- * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
+ * Struts Action Form for the Labor Ledger Journal Voucher. This class piggy backs on all of the functionality in the
+ * KualiTransactionalDocumentActionBase but is necessary for this document type. The Journal Voucher is unique in that it defines
+ * several fields that aren't typically used by the other financial transaction processing eDocs (i.e. external system fields,
+ * object type override, credit and debit amounts).
  */
 public class JournalVoucherAction extends org.kuali.module.financial.web.struts.action.JournalVoucherAction {
 
@@ -54,19 +53,20 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
 
         String path = super.performLookup(mapping, form, request, response).getPath();
         path = path.replaceFirst(KFSConstants.LOOKUP_ACTION, LaborConstants.LONG_ROW_TABLE_INRUIRY_ACTION);
-        
+
         return new ActionForward(path, true);
     }
 
     /**
-     * Labor JV allows reference fields on all encumbrance types. So only want to give message if a change is being made from a encumbrance balance type to a nor (or vice-versa).
+     * Labor JV allows reference fields on all encumbrance types. So only want to give message if a change is being made from a
+     * encumbrance balance type to a nor (or vice-versa).
      * 
      * @see org.kuali.module.financial.web.struts.action.JournalVoucherAction#determineBalanceTypeEncumbranceChangeMode(org.kuali.module.financial.web.struts.form.JournalVoucherForm)
      */
     @Override
     protected int determineBalanceTypeEncumbranceChangeMode(JournalVoucherForm journalVoucherForm) throws Exception {
         int balanceTypeExternalEncumbranceChangeMode = NO_MODE_CHANGE;
-        
+
         // retrieve fully populated balance type instances
         BalanceTyp origBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getOriginalBalanceType());
         BalanceTyp newBalType = getPopulatedBalanceTypeInstance(journalVoucherForm.getSelectedBalanceType().getCode());
@@ -78,7 +78,7 @@ public class JournalVoucherAction extends org.kuali.module.financial.web.struts.
         else if (!origBalType.isFinBalanceTypeEncumIndicator() && newBalType.isFinBalanceTypeEncumIndicator()) {
             balanceTypeExternalEncumbranceChangeMode = NON_EXT_ENCUMB_TO_EXT_ENCUMB;
         }
-        
+
         return balanceTypeExternalEncumbranceChangeMode;
     }
 

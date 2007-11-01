@@ -30,10 +30,10 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BenefitsCalculationDocumentRule.class);
     private BenefitsCalculation oldBenefitsCalculation;
     private BenefitsCalculation newBenefitsCalculation;
-/**
- * 
- * Constructs a BenefitsCalculationDocumentRule.java.
- */
+
+    /**
+     * Constructs a BenefitsCalculationDocumentRule.java.
+     */
     public BenefitsCalculationDocumentRule() {
         super();
     }
@@ -97,7 +97,7 @@ public class BenefitsCalculationDocumentRule extends MaintenanceDocumentRuleBase
     }
 
     /**
-     * Checks the fringe benefit percentage cannot be equal to or over 100% 
+     * Checks the fringe benefit percentage cannot be equal to or over 100%
      * 
      * @param document MaintenanceDocument type
      * @return boolean false when the fringe benefit percentage cannot be equal to or over 100%

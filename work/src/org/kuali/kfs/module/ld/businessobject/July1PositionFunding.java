@@ -32,7 +32,7 @@ import org.kuali.module.labor.LaborConstants;
  * Labor business object for July 1 Position Funding
  */
 public class July1PositionFunding extends LedgerBalance {
-    
+
     private KualiDecimal july1BudgetAmount;
     private BigDecimal july1BudgetFteQuantity;
     private BigDecimal july1BudgetTimePercent;

@@ -19,8 +19,6 @@ import java.util.Collection;
 
 /**
  * This interface defines methods that an Budget Type Code Service must provide
- * 
- * 
  */
 public interface BudgetTypeCodeService {
 

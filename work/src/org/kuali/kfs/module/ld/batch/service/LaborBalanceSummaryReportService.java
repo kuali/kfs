@@ -18,14 +18,14 @@ package org.kuali.module.labor.service;
 import java.sql.Date;
 
 /**
- * This interface defines the methods that generate labor balance summary reports 
+ * This interface defines the methods that generate labor balance summary reports
  */
 public interface LaborBalanceSummaryReportService {
     /**
      * Generate the summary reports for the actual, budget and encumbrance balances
      */
     public void generateBalanceSummaryReports();
-    
+
     /**
      * generate a set of balance summary reports for actual, budget and encumbrance balances
      * 

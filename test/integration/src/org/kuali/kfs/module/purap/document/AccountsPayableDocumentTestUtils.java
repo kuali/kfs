@@ -17,15 +17,12 @@ package org.kuali.module.purap.document;
 
 import java.util.List;
 
-import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.bo.AccountsPayableItem;
 
 public class AccountsPayableDocumentTestUtils extends KualiTestBase {
 
-    public static void testAddItem(AccountsPayableDocument document, List<AccountsPayableItem> items,int expectedItemTotal) throws Exception {
+    public static void testAddItem(AccountsPayableDocument document, List<AccountsPayableItem> items, int expectedItemTotal) throws Exception {
         assertTrue("no items found", items.size() > 0);
 
         assertEquals(0, document.getItems().size());

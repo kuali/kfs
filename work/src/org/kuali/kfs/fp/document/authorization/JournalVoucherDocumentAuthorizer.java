@@ -21,16 +21,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * JournalVoucher-specific DocumentAuthorizer
- * 
- * 
  */
 public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(JournalVoucherDocumentAuthorizer.class);
@@ -48,7 +45,8 @@ public class JournalVoucherDocumentAuthorizer extends AccountingDocumentAuthoriz
     /**
      * No accountingLines will ever be editable, since the only two possible editModes don't check editableAccounts
      * 
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List, org.kuali.module.chart.bo.ChartUser)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase#getEditableAccounts(java.util.List,
+     *      org.kuali.module.chart.bo.ChartUser)
      */
     @Override
     public Map getEditableAccounts(List<AccountingLine> lines, ChartUser user) {

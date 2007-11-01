@@ -28,109 +28,100 @@ import org.kuali.module.cg.bo.Subcontractor;
  */
 public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
-	private Integer routingFormSubcontractorSequenceNumber;
-	private KualiInteger routingFormSubcontractorAmount;
-	private String routingFormSubcontractorNumber;
+    private String documentNumber;
+    private Integer routingFormSubcontractorSequenceNumber;
+    private KualiInteger routingFormSubcontractorAmount;
+    private String routingFormSubcontractorNumber;
     private Subcontractor subcontractor;
 
-	/**
-	 * Default constructor.
-	 */
-	public RoutingFormSubcontractor() {
+    /**
+     * Default constructor.
+     */
+    public RoutingFormSubcontractor() {
 
-	}
+    }
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
 
-	/**
-	 * Gets the routingFormSubcontractorSequenceNumber attribute.
-	 * 
-	 * @return Returns the routingFormSubcontractorSequenceNumber
-	 * 
-	 */
-	public Integer getRoutingFormSubcontractorSequenceNumber() { 
-		return routingFormSubcontractorSequenceNumber;
-	}
+    /**
+     * Gets the routingFormSubcontractorSequenceNumber attribute.
+     * 
+     * @return Returns the routingFormSubcontractorSequenceNumber
+     */
+    public Integer getRoutingFormSubcontractorSequenceNumber() {
+        return routingFormSubcontractorSequenceNumber;
+    }
 
-	/**
-	 * Sets the routingFormSubcontractorSequenceNumber attribute.
-	 * 
-	 * @param routingFormSubcontractorSequenceNumber The routingFormSubcontractorSequenceNumber to set.
-	 * 
-	 */
-	public void setRoutingFormSubcontractorSequenceNumber(Integer routingFormSubcontractorSequenceNumber) {
-		this.routingFormSubcontractorSequenceNumber = routingFormSubcontractorSequenceNumber;
-	}
+    /**
+     * Sets the routingFormSubcontractorSequenceNumber attribute.
+     * 
+     * @param routingFormSubcontractorSequenceNumber The routingFormSubcontractorSequenceNumber to set.
+     */
+    public void setRoutingFormSubcontractorSequenceNumber(Integer routingFormSubcontractorSequenceNumber) {
+        this.routingFormSubcontractorSequenceNumber = routingFormSubcontractorSequenceNumber;
+    }
 
 
-	/**
-	 * Gets the routingFormSubcontractorAmount attribute.
-	 * 
-	 * @return Returns the routingFormSubcontractorAmount
-	 * 
-	 */
-	public KualiInteger getRoutingFormSubcontractorAmount() { 
-		return routingFormSubcontractorAmount;
-	}
+    /**
+     * Gets the routingFormSubcontractorAmount attribute.
+     * 
+     * @return Returns the routingFormSubcontractorAmount
+     */
+    public KualiInteger getRoutingFormSubcontractorAmount() {
+        return routingFormSubcontractorAmount;
+    }
 
-	/**
-	 * Sets the routingFormSubcontractorAmount attribute.
-	 * 
-	 * @param routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
-	 * 
-	 */
-	public void setRoutingFormSubcontractorAmount(KualiInteger routingFormSubcontractorAmount) {
-		this.routingFormSubcontractorAmount = routingFormSubcontractorAmount;
-	}
+    /**
+     * Sets the routingFormSubcontractorAmount attribute.
+     * 
+     * @param routingFormSubcontractorAmount The routingFormSubcontractorAmount to set.
+     */
+    public void setRoutingFormSubcontractorAmount(KualiInteger routingFormSubcontractorAmount) {
+        this.routingFormSubcontractorAmount = routingFormSubcontractorAmount;
+    }
 
 
-	/**
-	 * Gets the routingFormSubcontractorNumber attribute.
-	 * 
-	 * @return Returns the routingFormSubcontractorNumber
-	 * 
-	 */
-	public String getRoutingFormSubcontractorNumber() { 
-		return routingFormSubcontractorNumber;
-	}
+    /**
+     * Gets the routingFormSubcontractorNumber attribute.
+     * 
+     * @return Returns the routingFormSubcontractorNumber
+     */
+    public String getRoutingFormSubcontractorNumber() {
+        return routingFormSubcontractorNumber;
+    }
 
-	/**
-	 * Sets the routingFormSubcontractorNumber attribute.
-	 * 
-	 * @param routingFormSubcontractorNumber The routingFormSubcontractorNumber to set.
-	 * 
-	 */
-	public void setRoutingFormSubcontractorNumber(String routingFormSubcontractorNumber) {
-		this.routingFormSubcontractorNumber = routingFormSubcontractorNumber;
-	}
+    /**
+     * Sets the routingFormSubcontractorNumber attribute.
+     * 
+     * @param routingFormSubcontractorNumber The routingFormSubcontractorNumber to set.
+     */
+    public void setRoutingFormSubcontractorNumber(String routingFormSubcontractorNumber) {
+        this.routingFormSubcontractorNumber = routingFormSubcontractorNumber;
+    }
 
     /**
      * Gets the subcontractor attribute.
      * 
      * @return Returns the subcontractor
-     * 
      */
-	public Subcontractor getSubcontractor() {
+    public Subcontractor getSubcontractor() {
         return subcontractor;
     }
 
@@ -138,22 +129,21 @@ public class RoutingFormSubcontractor extends PersistableBusinessObjectBase {
      * Sets the subcontractor attribute.
      * 
      * @param subcontractor The subcontractor to set.
-     * 
      */
     public void setSubcontractor(Subcontractor subcontractor) {
         this.subcontractor = subcontractor;
     }
 
-    
+
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.routingFormSubcontractorSequenceNumber != null) {
             m.put("routingFormSubcontractorSequenceNumber", this.routingFormSubcontractorSequenceNumber.toString());
         }
-	    return m;
+        return m;
     }
 }

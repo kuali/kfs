@@ -97,7 +97,7 @@ public class TransactionReport {
         LOG.debug("generateReport() started");
 
         List transactions = new ArrayList();
-        if(reportErrors != null){
+        if (reportErrors != null) {
             transactions.addAll(reportErrors.keySet());
         }
         generateReport(transactions, reportErrors, reportSummary, runDate, title, fileprefix, destinationDirectory);
@@ -152,6 +152,7 @@ public class TransactionReport {
 
     /**
      * Appends the scrubber totals/statistics and error report to the given (iText) document object.
+     * 
      * @param document
      * @param headerFont
      * @param textFont
@@ -254,9 +255,10 @@ public class TransactionReport {
                         msg = mm.getMessage();
                     }
                     else {
-                        if ( m == null ) {
+                        if (m == null) {
                             msg = "";
-                        } else {
+                        }
+                        else {
                             msg = m.toString();
                         }
                     }

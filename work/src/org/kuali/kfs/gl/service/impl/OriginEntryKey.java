@@ -41,7 +41,6 @@ public class OriginEntryKey {
     }
 
     /**
-     * 
      * @param entry
      * @return
      */
@@ -68,7 +67,6 @@ public class OriginEntryKey {
     }
 
     /**
-     * 
      * @param entry
      */
     public void setIntoOriginEntry(OriginEntryFull entry) {

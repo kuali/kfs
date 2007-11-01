@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the subFundGroup service.
- * 
- * 
  */
 @ConfigureContext
 public class SubFundGroupServiceTest extends KualiTestBase {

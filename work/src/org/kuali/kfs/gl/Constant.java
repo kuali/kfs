@@ -18,8 +18,6 @@ package org.kuali.module.gl.web;
 
 /**
  * This class contains the constants being used by various general ledger components
- * 
- * 
  */
 public final class Constant {
     public static final String EMPTY_STRING = "";
@@ -73,6 +71,6 @@ public final class Constant {
     public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_GROSS = "Expense (Gross)";
     public static final String TOTAL_ACCOUNT_BALANCE_EXPENSE_IN = "Expense (Net Transfer In)";
     public static final String TOTAL_ACCOUNT_BALANCE_AVAILABLE = "Avaliable Balance";
-    
+
     public static final String SEARCH_RESULTS = "searchResults";
 }

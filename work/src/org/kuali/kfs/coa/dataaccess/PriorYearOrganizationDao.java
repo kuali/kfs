@@ -21,15 +21,15 @@ package org.kuali.module.chart.dao;
 public interface PriorYearOrganizationDao {
 
     /**
-     * 
      * This method purges all records in the Prior Year Organization table.
+     * 
      * @return number of rows purged
      */
     public int purgePriorYearOrganizations();
 
     /**
-     * 
      * This method copies all current organizations from the Org table into the Prior Year Organization table.
+     * 
      * @return number of copied rows
      */
     public int copyCurrentOrganizationsToPriorYearTable();

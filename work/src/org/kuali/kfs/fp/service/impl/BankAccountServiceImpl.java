@@ -25,7 +25,7 @@ import org.kuali.module.financial.service.BankAccountService;
 public class BankAccountServiceImpl implements BankAccountService {
 
     BusinessObjectService businessObjectService;
-    
+
     public BankAccount getByPrimaryId(String financialDocumentBankCode, String finDocumentBankAccountNumber) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("financialDocumentBankCode", financialDocumentBankCode);

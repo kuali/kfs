@@ -19,8 +19,6 @@ package org.kuali.kfs.exceptions;
  * this class represents an exception that is thrown when a piece of the <code>AccountingLineParser</code> fails
  * 
  * @see org.kuali.core.bo.AccountingLineParser
- * 
- * 
  */
 public class AccountingLineParserException extends RuntimeException {
 

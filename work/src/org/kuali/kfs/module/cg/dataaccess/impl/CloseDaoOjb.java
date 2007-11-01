@@ -42,13 +42,13 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
         query.addOrderByDescending("documentNumber");
         PersistenceBrokerTemplate template = getPersistenceBrokerTemplate();
         Iterator i = template.getIteratorByQuery(query);
-        if(null != i) {
-            if(i.hasNext()) {
+        if (null != i) {
+            if (i.hasNext()) {
                 Close close = (Close) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(i);
-                if(null == close.getAwardClosedCount()) {
+                if (null == close.getAwardClosedCount()) {
                     close.setAwardClosedCount(0L);
                 }
-                if(null == close.getProposalClosedCount()) {
+                if (null == close.getProposalClosedCount()) {
                     close.setProposalClosedCount(0L);
                 }
                 return close;
@@ -63,5 +63,5 @@ public class CloseDaoOjb extends PlatformAwareDaoBaseOjb implements CloseDao {
     public void save(Close close) {
         getPersistenceBrokerTemplate().store(close);
     }
-    
+
 }

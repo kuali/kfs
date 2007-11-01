@@ -118,19 +118,19 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             CollectorScrubberStatus collectorScrubberStatus = collectorScrubberService.scrub(batch, collectorReportData);
             collectorScrubberStatuses.add(collectorScrubberStatus);
             processInterDepartmentalBillingAmounts(batch);
-            
+
             // store origin group, entries, and id billings
             batch.setDefaultsAndStore(originEntryGroup, collectorReportData);
             collectorReportData.incrementNumPersistedBatches();
-            
-            //mark batch as valid
-            collectorReportData.markValidationStatus( batch , true );
+
+            // mark batch as valid
+            collectorReportData.markValidationStatus(batch, true);
         }
         else {
             collectorReportData.incrementNumNonPersistedBatches();
-            
-            //mark batch as invalid
-            collectorReportData.markValidationStatus( batch , false );
+
+            // mark batch as invalid
+            collectorReportData.markValidationStatus(batch, false);
         }
 
         return isValid;
@@ -246,8 +246,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             ObjectType objectType = collectorDetail.getFinancialObject().getFinancialObjectType();
 
             /** Commented out for KULRNE-5922 */
-            //negateAmountIfNecessary(collectorDetail, balanceTyp, objectType, batch);
-            
+            // negateAmountIfNecessary(collectorDetail, balanceTyp, objectType, batch);
         }
     }
 
@@ -434,7 +433,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
             }
             return false;
         }
-        
+
         // retrieve document types that balance by equal debits and credits
         String[] documentTypes = parameterService.getParameterValues(CollectorStep.class, KFSConstants.SystemGroupParameterNames.COLLECTOR_EQUAL_DC_TOTAL_DOCUMENT_TYPES).toArray(new String[] {});
 

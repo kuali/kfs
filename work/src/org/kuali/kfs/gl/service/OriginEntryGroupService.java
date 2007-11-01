@@ -32,22 +32,22 @@ public interface OriginEntryGroupService {
     public void dontProcessGroup(Integer groupId);
 
     /**
-     * Marks all backup groups (source code BACK) in the database so that they will not be scrubbed when the
-     * nightly scrubber step runs again.
+     * Marks all backup groups (source code BACK) in the database so that they will not be scrubbed when the nightly scrubber step
+     * runs again.
      */
     public void markScrubbableBackupGroupsAsUnscrubbable();
 
     /**
-     * Marks all postable scrubber valid groups (source code SCV) in the database so that they will not be posted
-     * when the main posted runs 
+     * Marks all postable scrubber valid groups (source code SCV) in the database so that they will not be posted when the main
+     * posted runs
      */
     public void markPostableScrubberValidGroupsAsUnpostable();
-    
+
     /**
      * Marks all of the origin entry groups that would be returned from getIcrGroupsToPost() as don't process
      */
     public void markPostableIcrGroupsAsUnpostable();
-    
+
     /**
      * Get the newest scrubber error group
      * 
@@ -57,24 +57,22 @@ public interface OriginEntryGroupService {
 
     /**
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
-     * 
      */
     public void createBackupGroup();
 
     /**
      * Create the backup group which has all the entries from all the groups where all the flags are set Y.
-     * 
      */
     public void createLaborBackupGroup();
-    
-    
+
+
     /**
      * Delete all the groups (and entries) where the group is this many days old or older
      * 
      * @param days
      */
     public void deleteOlderGroups(int days);
-    
+
     public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete);
 
     /**
@@ -88,9 +86,10 @@ public interface OriginEntryGroupService {
     public Collection getOriginEntryGroupsPendingProcessing();
 
     public Collection getGroupsToPost();
-    
+
     /**
      * get entry groups to be posted that have the given group source code
+     * 
      * @param entryGroupSourceCode the given group source code
      * @return the entry groups to be posted that have the given group source code
      */
@@ -100,10 +99,11 @@ public interface OriginEntryGroupService {
 
     /**
      * Gets a collection of all scrubbable backup groups (i.e. scrub, valid, process indicators all true)
+     * 
      * @return
      */
     public Collection<OriginEntryGroup> getAllScrubbableBackupGroups();
-    
+
     /**
      * Get all the unscrubbed backup groups for Labor
      * 
@@ -111,8 +111,8 @@ public interface OriginEntryGroupService {
      * @return
      */
     public Collection getLaborBackupGroups(Date backupDate);
-    
-    
+
+
     /**
      * Get all the groups that need to be put into the backup group
      * 
@@ -145,7 +145,7 @@ public interface OriginEntryGroupService {
     public Collection getAllOriginEntryGroup();
 
     public Collection getRecentGroupsByDays(int days);
-    
+
     /**
      * Returns whether the group indicated with the group ID still exists within the system
      * 

@@ -50,7 +50,7 @@ public class AdvanceDepositAction extends KualiAccountingDocumentActionBase {
             AdvanceDepositDocument adDoc = adForm.getAdvanceDepositDocument();
 
             adDoc.setTotalAdvanceDepositAmount(calculateAdvanceDepositTotal(adDoc)); // recalc b/c changes to the amounts could
-                                                                                        // have happened
+            // have happened
         }
 
         // proceed as usual

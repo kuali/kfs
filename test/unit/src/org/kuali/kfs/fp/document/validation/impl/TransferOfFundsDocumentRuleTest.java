@@ -67,7 +67,6 @@ import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.GeneralLedgerPendingEntryFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.CrossSectionSuite;
-import org.kuali.test.suite.RelatesTo;
 
 @ConfigureContext(session = KHUNTLEY)
 public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
@@ -86,7 +85,7 @@ public class TransferOfFundsDocumentRuleTest extends KualiTestBase {
         TestUtils.setSystemParameter(OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG, "Y");
         TransferOfFundsDocument document = DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), TransferOfFundsDocument.class);
         document.setPostingYear(2000); // because our test database has no offset definitions (GL_OFFSET_DEFN_T) for
-                                        // UNIV_FISCAL_YR=2000.
+        // UNIV_FISCAL_YR=2000.
         document.setPostingPeriodCode("06"); // because this BO reveals no change when the year is set by itself.
         AccountingLine accountingLine = FLEXIBLE_EXPENSE_LINE.createSourceAccountingLine();
         GeneralLedgerPendingEntryFixture expectedExplicit = EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE;

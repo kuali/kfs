@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This class provides its clients with access to labor base fund entries in the backend data store.
+ * 
  * @see org.kuali.module.labor.bo.AccountStatusBaseFunds
  */
 @Transactional

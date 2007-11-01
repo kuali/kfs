@@ -35,8 +35,6 @@ import org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm;
  * This class piggy backs on all of the functionality in the KualiTransactionalDocumentActionBase but is necessary for this document
  * type. The Auxiliary Voucher is unique in that it defines several fields that aren't typically used by the other financial
  * transaction processing eDocs (i.e. external system fields, object type override, credit and debit amounts).
- * 
- * 
  */
 public class AuxiliaryVoucherAction extends VoucherAction {
     /**
@@ -94,18 +92,19 @@ public class AuxiliaryVoucherAction extends VoucherAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
-        
+
         // Fix for KULEDOCS-1701, update the original voucher type so that the execute method in
         // this class will call the right block of code
         AuxiliaryVoucherForm avForm = (AuxiliaryVoucherForm) form;
         AuxiliaryVoucherDocument avDoc = avForm.getAuxiliaryVoucherDocument();
         avForm.setOriginalVoucherType(avDoc.getTypeCode());
-        
+
         return forward;
     }
 }

@@ -532,7 +532,7 @@ public class LaborGeneralLedgerEntry extends Entry {
         if (this.transactionLedgerEntrySequenceNumber != null) {
             m.put("transactionLedgerEntrySequenceNumber", this.transactionLedgerEntrySequenceNumber.toString());
         }
-        
+
         return m;
     }
 }

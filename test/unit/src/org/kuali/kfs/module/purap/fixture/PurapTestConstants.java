@@ -17,13 +17,8 @@ package org.kuali.module.purap.fixtures;
 
 import java.math.BigDecimal;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.bo.PaymentRequestAccount;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
@@ -32,23 +27,23 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 public class PurapTestConstants {
-       
+
     static final Integer FY_2007 = new Integer("2007");
-        
+
     @SuppressWarnings("deprecation")
     static class BeginEndDates {
-        static final Date FIRST_DATE = new Date(108,1,1); //2008-01-01
-        static final Date LAST_DATE = new Date(109,1,1);  //2009-01-01
+        static final Date FIRST_DATE = new Date(108, 1, 1); // 2008-01-01
+        static final Date LAST_DATE = new Date(109, 1, 1); // 2009-01-01
         static RequisitionDocument REQ = new RequisitionDocument();
         static PurchaseOrderDocument PO = new PurchaseOrderDocument();
     }
-        
+
     static class RecurringPaymentTypes {
         static final String FIXD = "FIXD";
         static final String FVAR = "FVAR";
         static final String VARV = "VARV";
     }
-    
+
     static class AmountsLimits {
         static final KualiDecimal LARGE_NEGATIVE_AMOUNT = new KualiDecimal(-1024);
         static final KualiDecimal SMALL_NEGATIVE_AMOUNT = new KualiDecimal(-32);
@@ -56,13 +51,13 @@ public class PurapTestConstants {
         static final KualiDecimal SMALL_POSITIVE_AMOUNT = new KualiDecimal(32);
         static final KualiDecimal LARGE_POSITIVE_AMOUNT = new KualiDecimal(1024);
     }
-    
+
     static class ItemsAccounts {
         static RequisitionItem REQ_ITEM = new RequisitionItem();
         static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
         static final String ITEM_DESC = "Test item description";
         static final String ITEM_UOM = "EACH";
-        static PurchaseOrderAccount PO_ACCOUNT =  new PurchaseOrderAccount();
+        static PurchaseOrderAccount PO_ACCOUNT = new PurchaseOrderAccount();
         static RequisitionAccount REQ_ACCOUNT = new RequisitionAccount();
         static final String CHART_CODE = "BL";
         static final String OBJECT_CODE = "5000";
@@ -75,20 +70,20 @@ public class PurapTestConstants {
         static final BigDecimal QUANTITY_APO_1 = new KualiDecimal(500).bigDecimalValue();
         static final BigDecimal QUANTITY_APO_2 = new KualiDecimal(1).bigDecimalValue();
     }
-    
+
     @SuppressWarnings("deprecation")
     static class PO {
         static final Integer REQ_ID = new Integer("8888");
-        static final Date CREATE_DATE = new Date(107,10,10); //2008-01-01
+        static final Date CREATE_DATE = new Date(107, 10, 10); // 2008-01-01
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
-    
+
     @SuppressWarnings("deprecation")
     static class PREQInvoice {
         static final Integer PO_ID = new Integer("9999");
-        static final Date INVOICE_DATE = new Date(108,1,1); //2008-01-01
+        static final Date INVOICE_DATE = new Date(108, 1, 1); // 2008-01-01
         static final String INVOICE_NUMBER = "123456789";
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
-    
+
 }

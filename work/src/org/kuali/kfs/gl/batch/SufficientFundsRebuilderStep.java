@@ -38,6 +38,7 @@ public class SufficientFundsRebuilderStep extends AbstractStep {
 
     /**
      * Sets the sufficientFundsRebuilderService, allowing the injection of an implementation of that service
+     * 
      * @param sufficientFundsRebuilderService an implementation sufficientFundsRebuilderService to set
      * @see org.kuali.module.gl.service.SufficientFundsRebuilderService
      */

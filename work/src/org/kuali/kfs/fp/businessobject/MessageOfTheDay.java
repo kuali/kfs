@@ -30,7 +30,7 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
     private String financialSystemMessageOfTheDayText;
 
     private OriginationCode financialSystemOrigination;
-    
+
     /**
      * Default constructor.
      */
@@ -42,7 +42,6 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
      * Gets the financialSystemOriginationCode attribute.
      * 
      * @return Returns the financialSystemOriginationCode
-     * 
      */
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
@@ -52,7 +51,6 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
      * Sets the financialSystemOriginationCode attribute.
      * 
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
-     * 
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
@@ -63,7 +61,6 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
      * Gets the financialSystemMessageOfTheDayText attribute.
      * 
      * @return Returns the financialSystemMessageOfTheDayText
-     * 
      */
     public String getFinancialSystemMessageOfTheDayText() {
         return financialSystemMessageOfTheDayText;
@@ -73,14 +70,14 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
      * Sets the financialSystemMessageOfTheDayText attribute.
      * 
      * @param financialSystemMessageOfTheDayText The financialSystemMessageOfTheDayText to set.
-     * 
      */
     public void setFinancialSystemMessageOfTheDayText(String financialSystemMessageOfTheDayText) {
         this.financialSystemMessageOfTheDayText = financialSystemMessageOfTheDayText;
     }
 
     /**
-     * Gets the financialSystemOrigination attribute. 
+     * Gets the financialSystemOrigination attribute.
+     * 
      * @return Returns the financialSystemOrigination.
      */
     public OriginationCode getFinancialSystemOrigination() {
@@ -89,6 +86,7 @@ public class MessageOfTheDay extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialSystemOrigination attribute value.
+     * 
      * @param financialSystemOrigination The financialSystemOrigination to set.
      * @deprecated
      */

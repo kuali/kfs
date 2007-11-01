@@ -397,7 +397,7 @@ public class BudgetPersonnelRule {
 
                     }
                     else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.ACADEMIC_YEAR_SUMMER).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Academic
-                                                                                                                                                                                            // 9/Summer
+                        // 9/Summer
                         if (userAppointmentTaskPeriod.getPersonWeeksAmount() == null) {
                             GlobalVariables.getErrorMap().putError("personWeeksAmount", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "personWeeksAmount"));
                             valid = false;
@@ -430,7 +430,7 @@ public class BudgetPersonnelRule {
                         }
                     }
                     else if (StringUtils.contains(appointmentTypeMappings.get(KraConstants.GRADUATE_ASSISTANT).toString(), userAppointmentTask.getInstitutionAppointmentTypeCode())) { // Grad
-                                                                                                                                                                                        // Asst
+                        // Asst
                         if (userAppointmentTaskPeriod.getAgencyFullTimeEquivalentPercent() == null) {
                             GlobalVariables.getErrorMap().putError("agencyFullTimeEquivalentPercent", KFSKeyConstants.ERROR_REQUIRED, dataDictionaryService.getAttributeLabel(UserAppointmentTaskPeriod.class, "agencyPercentEffortAmount"));
                             valid = false;

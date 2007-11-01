@@ -47,9 +47,9 @@ public class SpringContext {
     private static ConfigurableApplicationContext applicationContext;
     private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
     private static Set<String> SINGLETON_NAMES = new HashSet<String>();
-    private static Map<Class,Object> SINGLETON_BEANS_BY_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class,Object>());
-    private static Map<String,Object> SINGLETON_BEANS_BY_NAME_CACHE = Collections.synchronizedMap(new HashMap<String,Object>());
-    private static Map<Class,Map> SINGLETON_BEANS_OF_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class,Map>());
+    private static Map<Class, Object> SINGLETON_BEANS_BY_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class, Object>());
+    private static Map<String, Object> SINGLETON_BEANS_BY_NAME_CACHE = Collections.synchronizedMap(new HashMap<String, Object>());
+    private static Map<Class, Map> SINGLETON_BEANS_OF_TYPE_CACHE = Collections.synchronizedMap(new HashMap<Class, Map>());
 
     /**
      * Use this method to retrieve a spring bean when one of the following is the case. Pass in the type of the service interface,
@@ -69,7 +69,7 @@ public class SpringContext {
         verifyProperInitialization();
         T bean = null;
         if (SINGLETON_BEANS_BY_TYPE_CACHE.containsKey(type)) {
-            bean = (T)SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
+            bean = (T) SINGLETON_BEANS_BY_TYPE_CACHE.get(type);
         }
         else {
             try {
@@ -98,7 +98,7 @@ public class SpringContext {
         }
         return bean;
     }
-    
+
     /**
      * Use this method to retrieve all beans of a give type in our spring context. Pass in the type of the service interface, NOT
      * the service implementation.
@@ -124,13 +124,13 @@ public class SpringContext {
         }
         return beansOfType;
     }
-    
+
     @SuppressWarnings("unchecked")
     private static <T> T getBean(Class<T> type, String name) {
         verifyProperInitialization();
         T bean = null;
         if (SINGLETON_BEANS_BY_NAME_CACHE.containsKey(name)) {
-            bean = (T)SINGLETON_BEANS_BY_NAME_CACHE.get(name);
+            bean = (T) SINGLETON_BEANS_BY_NAME_CACHE.get(name);
         }
         else {
             try {

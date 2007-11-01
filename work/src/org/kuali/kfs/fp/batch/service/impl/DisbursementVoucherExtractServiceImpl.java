@@ -88,7 +88,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         try {
             maxNoteLines = Integer.parseInt(noteLines);
-        } catch (NumberFormatException nfe) {
+        }
+        catch (NumberFormatException nfe) {
             throw new IllegalArgumentException("Invalid Max Notes Lines parameter");
         }
 

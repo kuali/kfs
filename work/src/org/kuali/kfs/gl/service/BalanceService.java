@@ -41,7 +41,6 @@ public interface BalanceService {
     public boolean hasAssetLiabilityOrFundBalance(Account account);
 
     /**
-     * 
      * @param fiscalYear
      * @return an Iterator over all balances for a given year
      */
@@ -99,39 +98,45 @@ public interface BalanceService {
      * @return
      */
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
-    
+
     /**
      * This method returns the total count of balances for a fiscal year
+     * 
      * @param year fiscal year to check
      * @return the count of balances
      */
     public int countBalancesForFiscalYear(Integer year);
-    
+
     /**
-     * This method returns all of the balances specifically for the nominal activity closing job 
+     * This method returns all of the balances specifically for the nominal activity closing job
+     * 
      * @param year year to find balances for
      * @return an Iterator of nominal activity balances
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year);
-    
+
     /**
      * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * 
      * @param year
      * @return
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year);
-    
+
     /**
      * Returns all the balances to be forwarded for the "cumulative" rule
+     * 
      * @param year
      * @return
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
-    
+
     /**
      * Returns all of the balances to be forwarded for the organization reversion process
+     * 
      * @param year the year of balances to find
-     * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or beginning of year (after the fiscal year change over)
+     * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or
+     *        beginning of year (after the fiscal year change over)
      * @return an iterator of balances to put through the strenuous organization reversion process
      */
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear);

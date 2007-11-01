@@ -16,18 +16,18 @@
 package org.kuali.module.financial.bo;
 
 /**
- * This class works with the Deposit Wizard form to figure out
- * which cashiering checks are to be included in a given deposit
+ * This class works with the Deposit Wizard form to figure out which cashiering checks are to be included in a given deposit
  */
 public class DepositWizardCashieringCheckHelper {
     private Integer sequenceId;
-    
+
     public DepositWizardCashieringCheckHelper() {
         sequenceId = new Integer(-1);
     }
 
     /**
-     * Gets the sequenceId attribute. 
+     * Gets the sequenceId attribute.
+     * 
      * @return Returns the sequenceId.
      */
     public Integer getSequenceId() {
@@ -36,6 +36,7 @@ public class DepositWizardCashieringCheckHelper {
 
     /**
      * Sets the sequenceId attribute value.
+     * 
      * @param sequenceId The sequenceId to set.
      */
     public void setSequenceId(Integer sequenceId) {

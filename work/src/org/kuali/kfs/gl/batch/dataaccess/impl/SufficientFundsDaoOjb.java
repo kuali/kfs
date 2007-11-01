@@ -41,7 +41,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculateM113PfyrBudget(java.lang.Integer, java.lang.String,
      *      java.lang.String)
      */
@@ -60,7 +59,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculateM113PfyrEncum(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public KualiDecimal calculateM113PfyrEncum(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber) {
@@ -77,7 +75,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculateM113PendActual(boolean, java.lang.Integer, java.lang.String,
      *      java.lang.String, List, String)
      */
@@ -93,7 +90,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendActual(boolean, java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, java.lang.String, List)
      */
@@ -104,7 +100,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendBudget(boolean, java.lang.String, java.lang.Integer,
      *      java.lang.String, java.lang.String, java.lang.String, List)
      */
@@ -132,7 +127,6 @@ public class SufficientFundsDaoOjb extends PlatformAwareDaoBaseOjb implements Su
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.SufficientFundsDao#calculatePendEncum(boolean, java.lang.String, java.lang.String,
      *      java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, List)
      */

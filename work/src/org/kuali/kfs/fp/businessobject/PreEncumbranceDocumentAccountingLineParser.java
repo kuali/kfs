@@ -33,8 +33,6 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
  * <code>PreEncumbranceDocument</code> accounting line parser
  * 
  * @see org.kuali.module.financial.document.PreEncumbranceDocument
- * 
- * 
  */
 public class PreEncumbranceDocumentAccountingLineParser extends AccountingLineParserBase {
     private static final String[] SOURCE_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, AMOUNT };

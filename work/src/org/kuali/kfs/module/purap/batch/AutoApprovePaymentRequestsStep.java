@@ -19,9 +19,9 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.purap.service.PaymentRequestService;
 
 public class AutoApprovePaymentRequestsStep extends AbstractStep {
-    
+
     private PaymentRequestService paymentRequestService;
-    
+
     public AutoApprovePaymentRequestsStep() {
         super();
     }

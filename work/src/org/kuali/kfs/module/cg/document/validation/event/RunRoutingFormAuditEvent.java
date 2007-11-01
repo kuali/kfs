@@ -23,11 +23,9 @@ import org.kuali.module.kra.routingform.rules.RoutingFormDocumentRule;
 
 /**
  * Class capturing a run audit event.
- * 
- * 
  */
 public class RunRoutingFormAuditEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
-    
+
     /**
      * Constructs a RunAuditEvent with the given errorPathPrefix and document.
      * 

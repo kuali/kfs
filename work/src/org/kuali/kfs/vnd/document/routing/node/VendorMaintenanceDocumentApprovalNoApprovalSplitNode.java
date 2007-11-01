@@ -27,11 +27,8 @@ import edu.iu.uis.eden.engine.node.SplitNode;
 import edu.iu.uis.eden.engine.node.SplitResult;
 
 /**
- * Checks for conditions on a Vendor Maintenance document that allow auto-approval by the initiator. If these conditions are not met,
- * standard routing of the Vendor is performed.
- * 
- * The conditions for auto-approval are: 1) 
- * 
+ * Checks for conditions on a Vendor Maintenance document that allow auto-approval by the initiator. If these conditions are not
+ * met, standard routing of the Vendor is performed. The conditions for auto-approval are: 1)
  */
 public class VendorMaintenanceDocumentApprovalNoApprovalSplitNode implements SplitNode {
 

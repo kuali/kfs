@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.bo.Options;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.dao.ObjectTypeDao;
@@ -49,7 +48,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public void setObjectTypeDao(ObjectTypeDao objectTypeDao) {
         this.objectTypeDao = objectTypeDao;
     }
-    
+
     public OptionsDao getOptionsDao() {
         return optionsDao;
     }
@@ -61,23 +60,23 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public String getAssetObjectType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeAssetsCd();
     }
-    
+
     public UniversityDateService getUniversityDateService() {
         return universityDateService;
     }
 
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
-    }    
+    }
 
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear) {
-        
+
         List<String> basicExpenseObjectTypes = new ArrayList<String>();
         Options option = optionsDao.getByPrimaryId(universityFiscalYear);
         basicExpenseObjectTypes.add(option.getFinObjTypeExpenditureexpCd());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         basicExpenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
-        
+
         return basicExpenseObjectTypes;
     }
 
@@ -88,18 +87,18 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         expenseObjectTypes.add(option.getFinObjTypeExpendNotExpCode());
         expenseObjectTypes.add(option.getFinObjTypeExpNotExpendCode());
         expenseObjectTypes.add(option.getFinancialObjectTypeTransferExpenseCd());
-        
+
         return expenseObjectTypes;
     }
-    
+
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
-        
+
         List<String> basicIncomeObjectTypes = new ArrayList<String>();
         Options option = optionsDao.getByPrimaryId(universityFiscalYear);
         basicIncomeObjectTypes.add(option.getFinObjectTypeIncomecashCode());
         basicIncomeObjectTypes.add(option.getFinObjTypeIncomeNotCashCd());
         basicIncomeObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
-        
+
         return basicIncomeObjectTypes;
     }
 
@@ -112,17 +111,17 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     public String getCurrentYearAssetObjectType() {
-        return getAssetObjectType( universityDateService.getCurrentFiscalYear() );
+        return getAssetObjectType(universityDateService.getCurrentFiscalYear());
     }
 
     public List<String> getCurrentYearBasicExpenseObjectTypes() {
-        return getBasicExpenseObjectTypes(universityDateService.getCurrentFiscalYear() );
+        return getBasicExpenseObjectTypes(universityDateService.getCurrentFiscalYear());
     }
 
     public List<String> getCurrentYearExpenseObjectTypes() {
         return getExpenseObjectTypes(universityDateService.getCurrentFiscalYear());
     }
-    
+
     public List<String> getCurrentYearBasicIncomeObjectTypes() {
         return getBasicIncomeObjectTypes(universityDateService.getCurrentFiscalYear());
     }
@@ -134,10 +133,10 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     public String getCurrentYearIncomeTransferObjectType() {
         return getIncomeTransferObjectType(universityDateService.getCurrentFiscalYear());
     }
-    
+
     /**
-     * Returns a list of the object types that the nominal balance selector uses to determine if it should
-     * process a balance or not
+     * Returns a list of the object types that the nominal balance selector uses to determine if it should process a balance or not
+     * 
      * @param fiscalYear
      * @return
      */

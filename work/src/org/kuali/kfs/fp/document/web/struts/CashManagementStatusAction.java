@@ -40,8 +40,6 @@ import org.kuali.module.financial.web.struts.form.CashManagementStatusForm;
 
 /**
  * Action class for CashManagementStatusForm
- * 
- * 
  */
 public class CashManagementStatusAction extends KualiAction {
     private static Logger LOG = Logger.getLogger(CashManagementStatusAction.class);
@@ -131,7 +129,7 @@ public class CashManagementStatusAction extends KualiAction {
 
 
         String cmActionUrl = UrlFactory.parameterizeUrl(KFSConstants.CASH_MANAGEMENT_DOCUMENT_ACTION, params);
-        
+
         return new ActionForward(cmActionUrl, true);
     }
 }

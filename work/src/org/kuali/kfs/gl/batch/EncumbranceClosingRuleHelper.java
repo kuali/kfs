@@ -28,7 +28,6 @@ import org.kuali.module.chart.service.A21SubAccountService;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
-import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.FatalErrorException;
@@ -86,7 +85,7 @@ public class EncumbranceClosingRuleHelper {
         if (null == encumbrance) {
             return false;
         }
-        
+
         if (encumbrance.getAccountLineEncumbranceAmount().equals(encumbrance.getAccountLineEncumbranceClosedAmount())) {
             return false;
         }
@@ -96,10 +95,12 @@ public class EncumbranceClosingRuleHelper {
             if (KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 if (KFSConstants.LABOR_DISTRIBUTION_ORIGIN_CODE.equals(encumbrance.getOriginCode())) {
                     return false;
-                } else {
+                }
+                else {
                     return true;
                 }
-            } else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
+            }
+            else if (KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE.equals(encumbrance.getBalanceTypeCode())) {
                 // pre-encumbrances are forwarded, but only if they're related to contracts and grants accounts
                 PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());
                 // the account on the encumbrance must be valid
@@ -111,16 +112,18 @@ public class EncumbranceClosingRuleHelper {
                 // encumbrance must not be closed.
                 if (priorYearAccount.isForContractsAndGrants()) {
                     return true;
-                } else {
+                }
+                else {
                     return false;
                 }
-            } else {
-                // we're still here?  because we're an external encumbrance, and we always get forwarded
+            }
+            else {
+                // we're still here? because we're an external encumbrance, and we always get forwarded
                 return true;
             }
         }
 
-        // we're still here?  because we're not of a valid encumbrance balance type; we don't get forwarded
+        // we're still here? because we're not of a valid encumbrance balance type; we don't get forwarded
         return false;
 
     }
@@ -191,9 +194,9 @@ public class EncumbranceClosingRuleHelper {
 
         }
 
-        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> expenseObjectCodeTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
-        
+
         String[] encumbranceBalanceTypeCodes = new String[] { KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_INTERNAL_ENCUMBRANCE, KFSConstants.BALANCE_TYPE_PRE_ENCUMBRANCE };
 
         // the object type code must be an expense and the encumbrance balance type code must correspond to an internal, external or
@@ -203,7 +206,7 @@ public class EncumbranceClosingRuleHelper {
             return false;
 
         }
-        else if (!encumbrance.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())){
+        else if (!encumbrance.getSubAccountNumber().equals(KFSConstants.getDashSubAccountNumber())) {
 
             A21SubAccount a21SubAccount = a21SubAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber(), encumbrance.getSubAccountNumber());
 
@@ -211,14 +214,15 @@ public class EncumbranceClosingRuleHelper {
 
                 // Error message carried over from cobol. not very well descriptive.
                 // Just indicates that the a21 sub account doesn't exist.
-                throw new FatalErrorException("ERROR ACCESSING A21 SUB ACCOUNT TABLE FOR ENCUMBRANCE "+encumbrance.getChartOfAccountsCode()+"-"+encumbrance.getAccountNumber()+" "+encumbrance.getSubAccountNumber());
+                throw new FatalErrorException("ERROR ACCESSING A21 SUB ACCOUNT TABLE FOR ENCUMBRANCE " + encumbrance.getChartOfAccountsCode() + "-" + encumbrance.getAccountNumber() + " " + encumbrance.getSubAccountNumber());
 
             }
 
             // everything is valid, return true if the a21 sub account is a cost share sub-account
             return KFSConstants.COST_SHARE.equals(a21SubAccount.getSubAccountTypeCode());
 
-        } else {
+        }
+        else {
             return false;
         }
 

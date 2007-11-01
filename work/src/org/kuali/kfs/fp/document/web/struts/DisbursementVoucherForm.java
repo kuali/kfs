@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.kuali.core.service.KeyValuesService;
 import org.kuali.core.web.format.SimpleBooleanFormatter;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
@@ -108,7 +107,6 @@ public class DisbursementVoucherForm extends KualiAccountingDocumentFormBase {
     }
 
     /**
-     * 
      * determines if the DV document is in a state that allows printing of the cover sheet
      * 
      * @return

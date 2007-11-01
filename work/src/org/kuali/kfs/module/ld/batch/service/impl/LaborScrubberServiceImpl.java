@@ -81,7 +81,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the flexibleOffsetAccountService attribute value.
      * 
      * @param flexibleOffsetAccountService The flexibleOffsetAccountService to set.
-    */
+     */
     public void setFlexibleOffsetAccountService(FlexibleOffsetAccountService flexibleOffsetAccountService) {
         this.flexibleOffsetAccountService = flexibleOffsetAccountService;
     }
@@ -90,7 +90,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the documentTypeService attribute value.
      * 
      * @param documentTypeService The documentTypeService to set.
-    */
+     */
     public void setDocumentTypeService(DocumentTypeService documentTypeService) {
         this.documentTypeService = documentTypeService;
     }
@@ -99,7 +99,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the setScrubberValidator attribute value.
      * 
      * @param sv The setScrubberValidator to set.
-    */
+     */
     public void setScrubberValidator(ScrubberValidator sv) {
         scrubberValidator = sv;
     }
@@ -108,7 +108,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the laborOriginEntryService attribute value.
      * 
      * @param loes The laborOriginEntryService to set.
-    */
+     */
     public void setLaborOriginEntryService(LaborOriginEntryService loes) {
         this.laborOriginEntryService = loes;
     }
@@ -117,7 +117,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the originEntryGroupService attribute value.
      * 
      * @param groupService The originEntryGroupService to set.
-    */
+     */
     public void setOriginEntryGroupService(OriginEntryGroupService groupService) {
         this.originEntryGroupService = groupService;
     }
@@ -126,7 +126,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the dateTimeService attribute value.
      * 
      * @param dts The dateTimeService to set.
-    */
+     */
     public void setDateTimeService(DateTimeService dts) {
         this.dateTimeService = dts;
     }
@@ -135,7 +135,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the universityDateDao attribute value.
      * 
      * @param universityDateDao The universityDateDao to set.
-    */
+     */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
         this.universityDateDao = universityDateDao;
     }
@@ -144,7 +144,7 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the persistenceService attribute value.
      * 
      * @param ps The persistenceService to set.
-    */
+     */
     public void setPersistenceService(PersistenceService ps) {
         persistenceService = ps;
     }
@@ -153,16 +153,16 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the offsetDefinitionService attribute value.
      * 
      * @param offsetDefinitionService The offsetDefinitionService to set.
-    */
+     */
     public void setOffsetDefinitionService(OffsetDefinitionService offsetDefinitionService) {
         this.offsetDefinitionService = offsetDefinitionService;
     }
-    
+
     /**
      * Sets the objectCodeService attribute value.
      * 
      * @param objectCodeService The objectCodeService to set.
-    */
+     */
     public void setObjectCodeService(ObjectCodeService objectCodeService) {
         this.objectCodeService = objectCodeService;
     }
@@ -171,16 +171,16 @@ public class LaborScrubberServiceImpl implements LaborScrubberService {
      * Sets the kualiConfigurationService attribute value.
      * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
-    */
+     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
-    
+
     /**
      * Sets the laborReportService attribute value.
      * 
      * @param laborReportService The laborReportService to set.
-    */
+     */
     public void setLaborReportService(LaborReportService laborReportService) {
         this.laborReportService = laborReportService;
     }

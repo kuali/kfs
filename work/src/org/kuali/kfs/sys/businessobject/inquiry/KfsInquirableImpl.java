@@ -15,28 +15,10 @@
  */
 package org.kuali.kfs.inquiry;
 
-import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.BusinessObjectDictionaryService;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.EncryptionService;
-import org.kuali.core.service.PersistenceStructureService;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.util.UrlFactory;
-import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.rice.KNSServiceLocator;
 
 public class KfsInquirableImpl extends KualiInquirableImpl {
 
@@ -66,5 +48,5 @@ public class KfsInquirableImpl extends KualiInquirableImpl {
         }
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }
-    
+
 }

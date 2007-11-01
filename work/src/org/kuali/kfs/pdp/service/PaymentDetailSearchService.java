@@ -11,8 +11,7 @@ import org.kuali.module.pdp.bo.PaymentDetailSearch;
 
 /**
  * @author delyea
- *
  */
 public interface PaymentDetailSearchService {
-  public List getAllPaymentsForSearchCriteria(PaymentDetailSearch pds);
+    public List getAllPaymentsForSearchCriteria(PaymentDetailSearch pds);
 }

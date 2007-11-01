@@ -25,60 +25,57 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionAppointmentFundingReasonCode extends PersistableBusinessObjectBase {
 
-	private String appointmentFundingReasonCode;
-	private String appointmentFundingReasonDescription;
+    private String appointmentFundingReasonCode;
+    private String appointmentFundingReasonDescription;
     private boolean rowActiveIndicator;
-    
-    /**
-	 * Default constructor.
-	 */
-	public BudgetConstructionAppointmentFundingReasonCode() {
-
-	}
-
-	/**
-	 * Gets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @return Returns the appointmentFundingReasonCode
-	 * 
-	 */
-	public String getAppointmentFundingReasonCode() { 
-		return appointmentFundingReasonCode;
-	}
-
-	/**
-	 * Sets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
-	 * 
-	 */
-	public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
-		this.appointmentFundingReasonCode = appointmentFundingReasonCode;
-	}
-
-
-	/**
-	 * Gets the appointmentFundingReasonDescription attribute.
-	 * 
-	 * @return Returns the appointmentFundingReasonDescription
-	 * 
-	 */
-	public String getAppointmentFundingReasonDescription() { 
-		return appointmentFundingReasonDescription;
-	}
-
-	/**
-	 * Sets the appointmentFundingReasonDescription attribute.
-	 * 
-	 * @param appointmentFundingReasonDescription The appointmentFundingReasonDescription to set.
-	 * 
-	 */
-	public void setAppointmentFundingReasonDescription(String appointmentFundingReasonDescription) {
-		this.appointmentFundingReasonDescription = appointmentFundingReasonDescription;
-	}
 
     /**
-     * Gets the rowActiveIndicator attribute. 
+     * Default constructor.
+     */
+    public BudgetConstructionAppointmentFundingReasonCode() {
+
+    }
+
+    /**
+     * Gets the appointmentFundingReasonCode attribute.
+     * 
+     * @return Returns the appointmentFundingReasonCode
+     */
+    public String getAppointmentFundingReasonCode() {
+        return appointmentFundingReasonCode;
+    }
+
+    /**
+     * Sets the appointmentFundingReasonCode attribute.
+     * 
+     * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
+     */
+    public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
+        this.appointmentFundingReasonCode = appointmentFundingReasonCode;
+    }
+
+
+    /**
+     * Gets the appointmentFundingReasonDescription attribute.
+     * 
+     * @return Returns the appointmentFundingReasonDescription
+     */
+    public String getAppointmentFundingReasonDescription() {
+        return appointmentFundingReasonDescription;
+    }
+
+    /**
+     * Sets the appointmentFundingReasonDescription attribute.
+     * 
+     * @param appointmentFundingReasonDescription The appointmentFundingReasonDescription to set.
+     */
+    public void setAppointmentFundingReasonDescription(String appointmentFundingReasonDescription) {
+        this.appointmentFundingReasonDescription = appointmentFundingReasonDescription;
+    }
+
+    /**
+     * Gets the rowActiveIndicator attribute.
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -87,6 +84,7 @@ public class BudgetConstructionAppointmentFundingReasonCode extends PersistableB
 
     /**
      * Sets the rowActiveIndicator attribute value.
+     * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -97,10 +95,10 @@ public class BudgetConstructionAppointmentFundingReasonCode extends PersistableB
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("appointmentFundingReasonCode", this.appointmentFundingReasonCode);
         return m;
     }
-    
+
 
 }

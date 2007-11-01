@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author local-jsissom
- *
  */
 @Transactional
 public class EnvironmentServiceImpl implements org.kuali.module.pdp.service.EnvironmentService {
@@ -26,7 +25,9 @@ public class EnvironmentServiceImpl implements org.kuali.module.pdp.service.Envi
         super();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see edu.iu.uis.pdp.service.EnvironmentService#getEnvironment()
      */
     public String getEnvironment() {

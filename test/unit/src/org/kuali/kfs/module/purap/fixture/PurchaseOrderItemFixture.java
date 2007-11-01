@@ -16,31 +16,28 @@
 package org.kuali.module.purap.fixtures;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
  * Fixture class for Purchase Order Item.
  */
 public enum PurchaseOrderItemFixture {
-    
-    PO_QTY_UNRESTRICTED_ITEM_1 (
-            null,               // documentNumber,
-            null,               // itemInvoicedTotalQuantity,
-            null,               // itemInvoicedTotalAmount,
-            null,               // itemReceivedTotalQuantity,
-            null,               // itemReturnedTotalQuantity,
-            null,               // itemOutstandingEncumberedQuantity,
-            null,               // itemOutstandingEncumberedAmount,
-            true,               // itemActiveIndicator,
-            null,               // purchaseOrderCommodityCd,
-            PurApItemFixture.BASIC_QTY_ITEM_1,  // purApItemFixture
-            new PurchaseOrderAccountingLineFixture[] {PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1} // purchaseOrderAccountMultiFixtures
-            );
-    
+
+    PO_QTY_UNRESTRICTED_ITEM_1(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            null, // purchaseOrderCommodityCd,
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
+    );
+
     private String documentNumber;
     private KualiDecimal itemInvoicedTotalQuantity;
     private KualiDecimal itemInvoicedTotalAmount;
@@ -48,27 +45,16 @@ public enum PurchaseOrderItemFixture {
     private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemOutstandingEncumberedQuantity;
     private KualiDecimal itemOutstandingEncumberedAmount;
-    private boolean itemActiveIndicator=true;
+    private boolean itemActiveIndicator = true;
     private String purchaseOrderCommodityCd;
 
     private PurApItemFixture purApItemFixture;
     private PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures;
-    
+
     /**
      * Private Constructor.
      */
-    private PurchaseOrderItemFixture(              
-            String documentNumber,
-            KualiDecimal itemInvoicedTotalQuantity,
-            KualiDecimal itemInvoicedTotalAmount,
-            KualiDecimal itemReceivedTotalQuantity,
-            KualiDecimal itemReturnedTotalQuantity,
-            KualiDecimal itemOutstandingEncumberedQuantity,
-            KualiDecimal itemOutstandingEncumberedAmount,
-            boolean itemActiveIndicator,
-            String purchaseOrderCommodityCd,
-            PurApItemFixture purApItemFixture,
-            PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures) {
+    private PurchaseOrderItemFixture(String documentNumber, KualiDecimal itemInvoicedTotalQuantity, KualiDecimal itemInvoicedTotalAmount, KualiDecimal itemReceivedTotalQuantity, KualiDecimal itemReturnedTotalQuantity, KualiDecimal itemOutstandingEncumberedQuantity, KualiDecimal itemOutstandingEncumberedAmount, boolean itemActiveIndicator, String purchaseOrderCommodityCd, PurApItemFixture purApItemFixture, PurchaseOrderAccountingLineFixture[] purchaseOrderAccountingLineFixtures) {
         this.documentNumber = documentNumber;
         this.itemInvoicedTotalQuantity = itemInvoicedTotalQuantity;
         this.itemInvoicedTotalAmount = itemInvoicedTotalAmount;
@@ -81,7 +67,7 @@ public enum PurchaseOrderItemFixture {
         this.purApItemFixture = purApItemFixture;
         this.purchaseOrderAccountingLineFixtures = purchaseOrderAccountingLineFixtures;
     }
-    
+
     /**
      * Creates a Purchase Order Item from this fixture and adds the item to the specified Purchase Order Document.
      * 
@@ -89,14 +75,14 @@ public enum PurchaseOrderItemFixture {
      */
     public void addTo(PurchaseOrderDocument purchaseOrderDocument) {
         PurchaseOrderItem item = null;
-        item = (PurchaseOrderItem)this.createPurchaseOrderItem(purApItemFixture); 
+        item = (PurchaseOrderItem) this.createPurchaseOrderItem(purApItemFixture);
         purchaseOrderDocument.addItem(item);
         // iterate over the accounts
         for (PurchaseOrderAccountingLineFixture purchaseOrderAccountMultiFixture : purchaseOrderAccountingLineFixtures) {
             purchaseOrderAccountMultiFixture.addTo(item);
         }
     }
-    
+
     /**
      * Creates a Purchase Order Item using the specified PurAp Item Fixture.
      * 
@@ -104,7 +90,7 @@ public enum PurchaseOrderItemFixture {
      * @return the created Purchase Order Item.
      */
     public PurApItem createPurchaseOrderItem(PurApItemFixture purApItemFixture) {
-        PurchaseOrderItem item = (PurchaseOrderItem)purApItemFixture.createPurApItem(PurchaseOrderItem.class);
+        PurchaseOrderItem item = (PurchaseOrderItem) purApItemFixture.createPurApItem(PurchaseOrderItem.class);
         item.setDocumentNumber(documentNumber);
         item.setItemInvoicedTotalQuantity(itemInvoicedTotalQuantity);
         item.setItemInvoicedTotalAmount(itemInvoicedTotalAmount);
@@ -114,7 +100,7 @@ public enum PurchaseOrderItemFixture {
         item.setItemOutstandingEncumberedAmount(itemOutstandingEncumberedAmount);
         item.setItemActiveIndicator(itemActiveIndicator);
         item.setPurchaseOrderCommodityCd(purchaseOrderCommodityCd);
-        
+
         return item;
     }
 }

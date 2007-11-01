@@ -23,7 +23,7 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 /**
  * Defines methods that must be implements for a general ledger posting document.
  */
-public interface GeneralLedgerPostingDocument extends LedgerPostingDocument{
+public interface GeneralLedgerPostingDocument extends LedgerPostingDocument {
     /**
      * This method retrieves the list of GLPEs for the document.
      * 
@@ -57,7 +57,7 @@ public interface GeneralLedgerPostingDocument extends LedgerPostingDocument{
      * @return whether the system has enabled flexible bank offsets
      */
     boolean isBankCashOffsetEnabled();
-    
+
     /**
      * This method will check sufficient funds for the document
      * 
@@ -67,7 +67,8 @@ public interface GeneralLedgerPostingDocument extends LedgerPostingDocument{
     public List<SufficientFundsItem> checkSufficientFunds();
 
     /**
-     * This method will return only PLEs that should be checked for SF.  Normally this will be all PLEs, but some docs (such as BA) have additional requirements.
+     * This method will return only PLEs that should be checked for SF. Normally this will be all PLEs, but some docs (such as BA)
+     * have additional requirements.
      * 
      * @return a list of sufficientfundsitems that do not have sufficient funds. It returns an empty list if there is sufficient
      *         funds for the entire document

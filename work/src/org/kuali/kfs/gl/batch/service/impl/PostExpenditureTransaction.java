@@ -104,7 +104,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
             }
             else {
                 // If the ICR type code is empty or 10, don't post
-                
+
                 // TODO: use type 10 constant
                 if ((!StringUtils.hasText(account.getAcctIndirectCostRcvyTypeCd())) || KFSConstants.MONTH10.equals(account.getAcctIndirectCostRcvyTypeCd())) {
                     // No need to post this
@@ -116,13 +116,14 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
                 ObjectCode currentObjectCode = objectCode;
                 boolean foundIt = false;
                 while (!foundIt) {
-                    if (currentObjectCode.getChartOfAccountsCode().equals(currentObjectCode.getReportsToChartOfAccountsCode()) &&
-                            currentObjectCode.getFinancialObjectCode().equals(currentObjectCode.getReportsToFinancialObjectCode())) {
+                    if (currentObjectCode.getChartOfAccountsCode().equals(currentObjectCode.getReportsToChartOfAccountsCode()) && currentObjectCode.getFinancialObjectCode().equals(currentObjectCode.getReportsToFinancialObjectCode())) {
                         foundIt = true;
-                    } else {
+                    }
+                    else {
                         if (currentObjectCode.getReportsToFinancialObject() == null) {
                             foundIt = true;
-                        } else {
+                        }
+                        else {
                             currentObjectCode = currentObjectCode.getReportsToFinancialObject();
                         }
                     }

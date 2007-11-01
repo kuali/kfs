@@ -25,7 +25,6 @@ import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.PosterService;

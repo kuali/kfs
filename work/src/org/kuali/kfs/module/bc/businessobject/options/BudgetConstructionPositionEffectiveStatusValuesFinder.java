@@ -24,8 +24,6 @@ import org.kuali.kfs.KFSConstants.BudgetConstructionPositionConstants;
 
 /**
  * This class returns list of ba fund restriction levels.
- * 
- * 
  */
 public class BudgetConstructionPositionEffectiveStatusValuesFinder extends KeyValuesBase {
 

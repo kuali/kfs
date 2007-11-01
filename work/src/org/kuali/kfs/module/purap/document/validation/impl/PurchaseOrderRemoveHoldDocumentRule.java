@@ -36,9 +36,8 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * Rules for Purchase Order Remove Hold document creation.
- * Should not extend <code>PurchaseOrderDocumentRule</code>, since it does not allow the purchase order to be edited, 
- * nor should it create GL entries.
+ * Rules for Purchase Order Remove Hold document creation. Should not extend <code>PurchaseOrderDocumentRule</code>, since it
+ * does not allow the purchase order to be edited, nor should it create GL entries.
  */
 public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -73,11 +72,11 @@ public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRu
     }
 
     /**
-     * Central method to control the processing of rule checks.  Checks that the purchase order document
-     * is not null, that it is in the correct status, and checks that the user is in the correct user group.
+     * Central method to control the processing of rule checks. Checks that the purchase order document is not null, that it is in
+     * the correct status, and checks that the user is in the correct user group.
      * 
-     * @param document  A PurchaseOrderDocument. (A PurchaseOrderPaymentHoldDocument at this point.)
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument. (A PurchaseOrderPaymentHoldDocument at this point.)
+     * @return True if the document passes all the validations.
      */
     boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -89,8 +88,7 @@ public class PurchaseOrderRemoveHoldDocumentRule extends TransactionalDocumentRu
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             // Check the PO status
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD) &&
-                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_REMOVE_HOLD)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PAYMENT_HOLD) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_REMOVE_HOLD)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.PAYMENT_HOLD);
             }

@@ -20,7 +20,6 @@ import java.util.Comparator;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
- * 
  * This class allows us to compare two {@link ICRTypeCode}
  */
 public class ICRTypeCodeComparator implements Comparator {

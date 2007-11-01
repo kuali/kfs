@@ -21,8 +21,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Returns the current fiscal year.
- * 
- * 
  */
 public class FiscalYearFinder implements ValueFinder {
 

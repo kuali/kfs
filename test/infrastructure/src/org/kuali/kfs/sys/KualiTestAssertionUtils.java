@@ -15,20 +15,20 @@
  */
 package org.kuali.test.util;
 
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
+
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
@@ -78,7 +78,6 @@ public class KualiTestAssertionUtils {
      * @param message a description of this test assertion
      * @param expectedBean a java bean containing expected properties
      * @param actualBean a java bean containing actual properties
-     * 
      * @throws InvocationTargetException if a getter method throws an exception (the cause)
      * @throws NoSuchMethodException if an expected property does not exist in the actualBean
      */

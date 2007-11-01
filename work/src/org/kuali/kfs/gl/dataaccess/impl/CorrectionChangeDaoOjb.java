@@ -29,7 +29,6 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionChangeDaoOjb.class);
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.CorrectionChangeDao#delete(org.kuali.module.gl.bo.CorrectionChange)
      */
     public void delete(CorrectionChange spec) {
@@ -39,8 +38,8 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
     }
 
     /**
-     * 
-     * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.gl.dao.CorrectionChangeDao#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
+     *      java.lang.Integer)
      */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupLineNumber) {
         LOG.debug("findByDocumentHeaderIdAndCorrectionGroupNumber() started");
@@ -55,7 +54,6 @@ public class CorrectionChangeDaoOjb extends PlatformAwareDaoBaseOjb implements C
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.CorrectionChangeDao#save(org.kuali.module.gl.bo.CorrectionChange)
      */
     public void save(CorrectionChange spec) {

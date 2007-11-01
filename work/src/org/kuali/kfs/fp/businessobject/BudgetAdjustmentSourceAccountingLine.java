@@ -26,8 +26,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 /**
  * Special case <code>{@link SourceAccountingLine}</code> type for
  * <code>{@link org.kuali.module.financial.document.BudgetAdjustmentDocument}</code>
- * 
- * 
  */
 public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine implements BudgetAdjustmentAccountingLine {
 
@@ -54,7 +52,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * 
      * @see org.kuali.core.bo.AccountingLineBase#getValuesMap()
      */
     @Override
@@ -65,7 +62,6 @@ public class BudgetAdjustmentSourceAccountingLine extends SourceAccountingLine i
     }
 
     /**
-     * 
      * @see org.kuali.core.bo.AccountingLineBase#copyFrom(org.kuali.core.bo.AccountingLine)
      */
     @Override

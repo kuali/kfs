@@ -28,11 +28,12 @@ public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase {
     private String letterOfCreditFundGroupCode;
     private String letterOfCreditFundGroupDescription;
     private boolean rowActiveIndicator;
-    
+
     /**
      * Default constructor.
      */
-    public LetterOfCreditFundGroup() {}
+    public LetterOfCreditFundGroup() {
+    }
 
     /**
      * Gets the letterOfCreditFundGroupCode attribute.
@@ -73,7 +74,7 @@ public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase {
 
     /**
      * Gets the rowActiveIndicator attribute.
-     *  
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -88,7 +89,7 @@ public class LetterOfCreditFundGroup extends PersistableBusinessObjectBase {
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

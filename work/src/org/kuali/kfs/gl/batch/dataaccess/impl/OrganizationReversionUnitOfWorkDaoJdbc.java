@@ -16,8 +16,6 @@
 package org.kuali.module.gl.dao.jdbc;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWork;
-import org.kuali.module.gl.bo.OrgReversionUnitOfWorkCategoryAmount;
 import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
 
 public class OrgReversionUnitOfWorkDaoJdbc extends PlatformAwareDaoBaseJdbc implements OrgReversionUnitOfWorkDao {

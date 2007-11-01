@@ -41,8 +41,6 @@ import edu.iu.uis.eden.util.Utilities;
 
 /**
  * This class provides a lookup for org review hierarchy routing rules.
- * 
- * 
  */
 public class OrgReviewLookupableImpl implements WorkflowLookupable {
     private Long ruleTemplateId;

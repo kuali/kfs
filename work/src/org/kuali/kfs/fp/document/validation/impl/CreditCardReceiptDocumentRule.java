@@ -34,7 +34,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
-import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
@@ -167,7 +166,7 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
      */
     private BankAccount getOffsetBankAccount() {
-        final String[] parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT).toArray(new String[]{});
+        final String[] parameterValues = SpringContext.getBean(ParameterService.class).getParameterValues(CreditCardReceiptDocument.class, CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT).toArray(new String[] {});
         if (parameterValues.length != 2) {
             throw new RuntimeException(CreditCardReceiptDocument.class.getSimpleName() + "/" + CreditCardReceiptDocumentRuleConstants.CASH_OFFSET_BANK_ACCOUNT + ": invalid parameter format: must be 'bankCode;bankAccountNumber'");
         }

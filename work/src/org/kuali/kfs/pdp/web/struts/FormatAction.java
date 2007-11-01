@@ -52,14 +52,14 @@ public class FormatAction extends BaseAction {
 
     public FormatAction() {
         super();
-        setFormatService( SpringContext.getBean(FormatService.class) );
+        setFormatService(SpringContext.getBean(FormatService.class));
     }
 
     public void setFormatService(FormatService fs) {
         formatService = fs;
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isProcessRole();
     }
@@ -67,9 +67,9 @@ public class FormatAction extends BaseAction {
     protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("executeLogic() started");
 
-        FormatProcessForm fpf = (FormatProcessForm)form;
+        FormatProcessForm fpf = (FormatProcessForm) form;
 
-        if ( "btnCancel".equals(whichButtonWasPressed(request)) ) {
+        if ("btnCancel".equals(whichButtonWasPressed(request))) {
             // Clear the format
             formatService.clearUnfinishedFormat(fpf.getProcId());
             return mapping.findForward("cleared");
@@ -80,35 +80,38 @@ public class FormatAction extends BaseAction {
             Collections.sort(results);
             FormatResult total = new FormatResult();
             for (Iterator iter = results.iterator(); iter.hasNext();) {
-                FormatResult element = (FormatResult)iter.next();
+                FormatResult element = (FormatResult) iter.next();
                 total.setPayments(total.getPayments() + element.getPayments());
                 total.setAmount(total.getAmount().add(element.getAmount()));
             }
-            request.setAttribute("campusCd",fpf.getCampusCd());
-            request.setAttribute("procId",fpf.getProcId());
-            request.setAttribute("formatResultList",results);
-            request.setAttribute("total",total);
+            request.setAttribute("campusCd", fpf.getCampusCd());
+            request.setAttribute("procId", fpf.getProcId());
+            request.setAttribute("formatResultList", results);
+            request.setAttribute("total", total);
             request.removeAttribute("FormatProcessForm");
             request.getSession().removeAttribute("FormatSelectionForm");
             request.getSession().removeAttribute("campus");
             return mapping.findForward("finished");
-        } catch (NoBankForCustomerException nbfce) {
+        }
+        catch (NoBankForCustomerException nbfce) {
             LOG.error("executeLogic() No Bank For Customer Exception", nbfce);
             ActionErrors ae = new ActionErrors();
-            ae.add("global",new ActionMessage("format.bank.missing",nbfce.getCustomerProfile()));
-            saveErrors(request,ae);
+            ae.add("global", new ActionMessage("format.bank.missing", nbfce.getCustomerProfile()));
+            saveErrors(request, ae);
             return mapping.findForward("pdp_message");
-        } catch (DisbursementRangeExhaustedException e) {
+        }
+        catch (DisbursementRangeExhaustedException e) {
             LOG.error("executeLogic() Disbursement Range Exhausted Exception", e);
             ActionErrors ae = new ActionErrors();
-            ae.add("global",new ActionMessage("format.disb.exhausted"));
-            saveErrors(request,ae);
+            ae.add("global", new ActionMessage("format.disb.exhausted"));
+            saveErrors(request, ae);
             return mapping.findForward("pdp_message");
-        } catch (MissingDisbursementRangeException e) {
+        }
+        catch (MissingDisbursementRangeException e) {
             LOG.error("executeLogic() Missing Disbursment Number Range", e);
             ActionMessages ae = new ActionMessages();
-            ae.add("global",new ActionMessage("format.disb.missing"));
-            saveErrors(request,ae);
+            ae.add("global", new ActionMessage("format.disb.missing"));
+            saveErrors(request, ae);
             return mapping.findForward("pdp_message");
         }
     }

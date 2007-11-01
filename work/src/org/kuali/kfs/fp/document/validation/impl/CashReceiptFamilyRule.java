@@ -112,7 +112,7 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
 
         return isValid;
     }
-    
+
     /**
      * Cash receipt documents do not utilize the target accounting line list. A CR doc is one sided, so this method should always
      * return true.

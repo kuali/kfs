@@ -43,7 +43,7 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public String getProcessingCampusCode();
 
     public void setProcessingCampusCode(String processingCampusCode);
-    
+
     public Date getAccountsPayableApprovalDate();
 
     public void setAccountsPayableApprovalDate(Date accountsPayableApprovalDate);
@@ -71,16 +71,16 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public Campus getProcessingCampus();
 
     public PurchaseOrderDocument getPurchaseOrderDocument();
-    
+
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument);
-    
+
     /**
      * Determines if review route node is required.
      * 
      * @return - true if review is required, false otherwise.
      */
     public boolean requiresAccountsPayableReviewRouting();
-    
+
     /**
      * Determines if approval is an option during review.
      * 
@@ -89,7 +89,7 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public boolean approvalAtAccountsPayableReviewAllowed();
 
     public boolean isUnmatchedOverride();
-        
+
     public void setUnmatchedOverride(boolean unmatchedOverride);
 
     /**
@@ -98,8 +98,8 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
      * @return - grand total
      */
     public KualiDecimal getGrandTotal();
-    
-    /** 
+
+    /**
      * Returns the amount entered on the initial screen.
      * 
      * @return - amount entered by user on initial screen
@@ -109,16 +109,16 @@ public interface AccountsPayableDocument extends PurchasingAccountsPayableDocume
     public boolean isContinuationAccountIndicator();
 
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator);
-    
+
     /**
      * Determines if document has been extracted.
      * 
      * @return - true if document has been extracted, false otherwise.
      */
     public boolean isExtracted();
-    
+
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi);
-    
+
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 
 }

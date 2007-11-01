@@ -72,7 +72,6 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
 
     /**
      * sets initial selected accounting period to current period
-     * 
      */
     private void populateDefaultSelectedAccountingPeriod() {
         Date date = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
@@ -177,7 +176,7 @@ public class VoucherForm extends KualiAccountingDocumentFormBase {
             }
             sourceLine.getSubObjectCode().setUniversityFiscalYear(postingYear);
         }
-        
+
     }
 
     /**

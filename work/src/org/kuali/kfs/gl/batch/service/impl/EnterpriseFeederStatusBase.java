@@ -24,12 +24,11 @@ import org.kuali.kfs.context.SpringContext;
  */
 public abstract class EnterpriseFeederStatusBase implements EnterpriseFeederStatus {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EnterpriseFeederStatusBase.class);
-    
+
     /**
      * Retrieves the description in ApplicationResources.properties
      * 
      * @return the description for this class
-     * 
      * @see org.kuali.module.gl.util.EnterpriseFeederStatus#getStatusDescription()
      */
     public String getStatusDescription() {
@@ -47,8 +46,8 @@ public abstract class EnterpriseFeederStatusBase implements EnterpriseFeederStat
     }
 
     /**
-     * In case there's no entry for this class in ApplicationResources.properties (or an exception occurs), then just
-     * return a default class.
+     * In case there's no entry for this class in ApplicationResources.properties (or an exception occurs), then just return a
+     * default class.
      * 
      * @return the default description
      */

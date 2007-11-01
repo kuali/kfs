@@ -23,22 +23,19 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 public enum ItemTypesFixture {
-    
-    WITH_TRADEIN_WITH_DISCOUNT(ItemTypeCodes.ITEM_TYPE_ITEM_CODE,ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE),
-    WITH_TRADEIN_WITH_MISC(ItemTypeCodes.ITEM_TYPE_ITEM_CODE,ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,ItemTypeCodes.ITEM_TYPE_MISC_CODE),
-    WITH_MISC_WITH_DISCOUNT(ItemTypeCodes.ITEM_TYPE_ITEM_CODE,ItemTypeCodes.ITEM_TYPE_MISC_CODE,ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE),
-    ;
+
+    WITH_TRADEIN_WITH_DISCOUNT(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE, ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE), WITH_TRADEIN_WITH_MISC(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE, ItemTypeCodes.ITEM_TYPE_MISC_CODE), WITH_MISC_WITH_DISCOUNT(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, ItemTypeCodes.ITEM_TYPE_MISC_CODE, ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE), ;
 
     private String item1TypeCode;
     private String item2TypeCode;
     private String item3TypeCode;
-    
+
     private ItemTypesFixture(String itemOneTypeCode, String itemTwoTypeCode, String itemThreeTypeCode) {
         this.item1TypeCode = itemOneTypeCode;
         this.item2TypeCode = itemTwoTypeCode;
         this.item3TypeCode = itemThreeTypeCode;
     }
-    
+
     public PurchaseOrderDocument populate() {
         PurchaseOrderDocument po = new PurchaseOrderDocument();
         PurchaseOrderItem item1 = new PurchaseOrderItem();

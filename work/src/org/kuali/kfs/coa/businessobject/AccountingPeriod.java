@@ -51,7 +51,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -61,7 +60,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -72,7 +70,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodCode attribute.
      * 
      * @return Returns the universityFiscalPeriodCode
-     * 
      */
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
@@ -82,7 +79,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodCode attribute.
      * 
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
-     * 
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
@@ -93,7 +89,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodName attribute.
      * 
      * @return Returns the universityFiscalPeriodName
-     * 
      */
     public String getUniversityFiscalPeriodName() {
         return universityFiscalPeriodName;
@@ -103,7 +98,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodName attribute.
      * 
      * @param universityFiscalPeriodName The universityFiscalPeriodName to set.
-     * 
      */
     public void setUniversityFiscalPeriodName(String universityFiscalPeriodName) {
         this.universityFiscalPeriodName = universityFiscalPeriodName;
@@ -114,7 +108,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodStatusCode attribute.
      * 
      * @return Returns the universityFiscalPeriodStatusCode
-     * 
      */
     public String getUniversityFiscalPeriodStatusCode() {
         return universityFiscalPeriodStatusCode;
@@ -124,7 +117,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodStatusCode attribute.
      * 
      * @param universityFiscalPeriodStatusCode The universityFiscalPeriodStatusCode to set.
-     * 
      */
     public void setUniversityFiscalPeriodStatusCode(String universityFiscalPeriodStatusCode) {
         this.universityFiscalPeriodStatusCode = universityFiscalPeriodStatusCode;
@@ -135,7 +127,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the budgetRolloverIndicator attribute.
      * 
      * @return Returns the budgetRolloverIndicator
-     * 
      */
     public boolean isBudgetRolloverIndicator() {
         return budgetRolloverIndicator;
@@ -146,7 +137,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the budgetRolloverIndicator attribute.
      * 
      * @param budgetRolloverIndicator The budgetRolloverIndicator to set.
-     * 
      */
     public void setBudgetRolloverIndicator(boolean budgetRolloverIndicator) {
         this.budgetRolloverIndicator = budgetRolloverIndicator;
@@ -157,7 +147,6 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodEndDate attribute.
      * 
      * @return Returns the universityFiscalPeriodEndDate
-     * 
      */
     public Date getUniversityFiscalPeriodEndDate() {
         return universityFiscalPeriodEndDate;
@@ -167,17 +156,17 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodEndDate attribute.
      * 
      * @param universityFiscalPeriodEndDate The universityFiscalPeriodEndDate to set.
-     * 
      */
     public void setUniversityFiscalPeriodEndDate(Date universityFiscalPeriodEndDate) {
         this.universityFiscalPeriodEndDate = universityFiscalPeriodEndDate;
     }
-    
+
     /**
      * Determine if the current account period is open
+     * 
      * @return true if the accounting period is open; otherwise, false
      */
-    public boolean isOpen(){       
+    public boolean isOpen() {
         return KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN.equals(this.getUniversityFiscalPeriodStatusCode());
     }
 
@@ -218,9 +207,9 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
     }
 
     /**
-     * generates a hash code for this accounting period, based on the primary keys
-     * of the AccountingPeriod BusinesObject: university fiscal year and university
-     * fiscal period code
+     * generates a hash code for this accounting period, based on the primary keys of the AccountingPeriod BusinesObject: university
+     * fiscal year and university fiscal period code
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -233,14 +222,15 @@ public class AccountingPeriod extends PersistableBusinessObjectBase {
     }
 
     /**
-     * determines if two accounting periods are equal, based on the primary keys
-     * of the AccountingPeriod BusinesObject: university fiscal year and university
-     * fiscal period code
+     * determines if two accounting periods are equal, based on the primary keys of the AccountingPeriod BusinesObject: university
+     * fiscal year and university fiscal period code
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object obj) {
-        // this method was added so that org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm.populateAccountingPeriodListForRendering works properly
+        // this method was added so that
+        // org.kuali.module.financial.web.struts.form.AuxiliaryVoucherForm.populateAccountingPeriodListForRendering works properly
         if (this == obj)
             return true;
         if (obj == null)

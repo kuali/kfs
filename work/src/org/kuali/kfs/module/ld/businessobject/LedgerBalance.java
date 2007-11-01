@@ -49,7 +49,7 @@ public class LedgerBalance extends Balance {
     private ObjectType financialObjectType;
     private UniversalUser ledgerPerson;
     private LaborObject laborObject;
-    
+
     @Deprecated
     private Balance financialBalance; // this field is unnecessary
 
@@ -466,7 +466,7 @@ public class LedgerBalance extends Balance {
 
         return primaryKeyList;
     }
-    
+
     /**
      * @see org.kuali.module.gl.bo.Balance#toStringMapper()
      */

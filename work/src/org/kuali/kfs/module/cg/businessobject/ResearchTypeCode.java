@@ -25,85 +25,79 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ResearchTypeCode extends PersistableBusinessObjectBase {
 
-	private String researchTypeCode;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String researchTypeDescription;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ResearchTypeCode() {
+    private String researchTypeCode;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String researchTypeDescription;
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ResearchTypeCode() {
 
-	/**
-	 * Gets the researchTypeCode attribute.
-	 * 
-	 * @return Returns the researchTypeCode
-	 * 
-	 */
-	public String getResearchTypeCode() { 
-		return researchTypeCode;
-	}
+    }
 
-	/**
-	 * Sets the researchTypeCode attribute.
-	 * 
-	 * @param researchTypeCode The researchTypeCode to set.
-	 * 
-	 */
-	public void setResearchTypeCode(String researchTypeCode) {
-		this.researchTypeCode = researchTypeCode;
-	}
+    /**
+     * Gets the researchTypeCode attribute.
+     * 
+     * @return Returns the researchTypeCode
+     */
+    public String getResearchTypeCode() {
+        return researchTypeCode;
+    }
+
+    /**
+     * Sets the researchTypeCode attribute.
+     * 
+     * @param researchTypeCode The researchTypeCode to set.
+     */
+    public void setResearchTypeCode(String researchTypeCode) {
+        this.researchTypeCode = researchTypeCode;
+    }
 
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     */
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     */
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
 
-	/**
-	 * Gets the researchTypeDescription attribute.
-	 * 
-	 * @return Returns the researchTypeDescription
-	 * 
-	 */
-	public String getResearchTypeDescription() { 
-		return researchTypeDescription;
-	}
+    /**
+     * Gets the researchTypeDescription attribute.
+     * 
+     * @return Returns the researchTypeDescription
+     */
+    public String getResearchTypeDescription() {
+        return researchTypeDescription;
+    }
 
-	/**
-	 * Sets the researchTypeDescription attribute.
-	 * 
-	 * @param researchTypeDescription The researchTypeDescription to set.
-	 * 
-	 */
-	public void setResearchTypeDescription(String researchTypeDescription) {
-		this.researchTypeDescription = researchTypeDescription;
-	} 
-    
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Sets the researchTypeDescription attribute.
+     * 
+     * @param researchTypeDescription The researchTypeDescription to set.
+     */
+    public void setResearchTypeDescription(String researchTypeDescription) {
+        this.researchTypeDescription = researchTypeDescription;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("researchTypeCode", this.researchTypeCode);
-	    return m;
+        return m;
     }
 }

@@ -15,8 +15,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import static org.kuali.kfs.KFSKeyConstants.NonCheckDisbursement.ERROR_DOCUMENT_NON_CHECK_DISBURSEMENT_INVALID_OBJECT_TYPE_CODE_FOR_OBJECT_CODE;
-import static org.kuali.kfs.KFSPropertyConstants.FINANCIAL_OBJECT_CODE;
 import static org.kuali.kfs.KFSPropertyConstants.REFERENCE_NUMBER;
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
@@ -33,8 +31,6 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.financial.document.NonCheckDisbursementDocument;
 
 /**
  * Business rule(s) applicable to NonCheckDisbursement documents.

@@ -35,9 +35,7 @@ public class DocumentWorkflowRequestMonitor extends ChangeMonitor {
         this.actionRequestedCode = actionRequestedCode;
     }
 
-    public boolean valueChanged()
-        throws WorkflowException
-    {
+    public boolean valueChanged() throws WorkflowException {
         KualiWorkflowDocument document = SpringContext.getBean(WorkflowDocumentService.class).createWorkflowDocument(docHeaderId, user);
         if (EdenConstants.ACTION_REQUEST_COMPLETE_REQ.equals(actionRequestedCode)) {
             return document.isCompletionRequested();

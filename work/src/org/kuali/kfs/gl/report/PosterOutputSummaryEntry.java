@@ -23,8 +23,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectTypeService;
-import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.GLConstants;
 
 public class PosterOutputSummaryEntry implements Comparable {
     private Integer universityFiscalYear;
@@ -46,12 +44,12 @@ public class PosterOutputSummaryEntry implements Comparable {
         netAmount = KualiDecimal.ZERO;
 
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
-        
-        ObjectTypeService objectTypeService = (ObjectTypeService)SpringContext.getBean(ObjectTypeService.class);
+
+        ObjectTypeService objectTypeService = (ObjectTypeService) SpringContext.getBean(ObjectTypeService.class);
         List<String> objectTypes = objectTypeService.getCurrentYearExpenseObjectTypes();
-        objectTypes.add( objectTypeService.getCurrentYearAssetObjectType());        
-        
-        assetExpenseObjectTypeCodes =  objectTypes.toArray(new String[0]); 
+        objectTypes.add(objectTypeService.getCurrentYearAssetObjectType());
+
+        assetExpenseObjectTypeCodes = objectTypes.toArray(new String[0]);
     }
 
     public String getKey() {
@@ -125,7 +123,7 @@ public class PosterOutputSummaryEntry implements Comparable {
 
         return getKey().compareTo(tempPosterOutputSummaryEntry.getKey());
     }
-    
+
     public static PosterOutputSummaryEntry buildPosterOutputSummaryEntry(Object[] entrySummary) {
         PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
         int indexOfField = 0;
@@ -158,7 +156,7 @@ public class PosterOutputSummaryEntry implements Comparable {
         KualiDecimal amount = new KualiDecimal(entry);
 
         posterOutputSummaryEntry.setAmount(debitCreditCode, objectTypeCode, amount);
-        
+
         return posterOutputSummaryEntry;
     }
 

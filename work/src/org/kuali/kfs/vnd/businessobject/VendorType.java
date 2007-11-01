@@ -21,50 +21,50 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Major classification of Vendors according to whether they are sufficiently
- * set up to provide for an interaction via Purchase Orders.
+ * Major classification of Vendors according to whether they are sufficiently set up to provide for an interaction via Purchase
+ * Orders.
  */
 public class VendorType extends PersistableBusinessObjectBase {
 
-	private String vendorTypeCode;
-	private String vendorTypeDescription;
-	private boolean active;
+    private String vendorTypeCode;
+    private String vendorTypeDescription;
+    private boolean active;
     private boolean vendorTaxNumberRequiredIndicator;
     private boolean vendorTypeChangeAllowedIndicator;
     private String vendorAddressTypeRequiredCode;
     private boolean vendorContractAllowedIndicator;
     private boolean vendorShowReviewIndicator;
     private String vendorReviewText;
-    
+
     private AddressType addressType;
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorType() {
+    /**
+     * Default constructor.
+     */
+    public VendorType() {
 
-	}
+    }
 
-	public String getVendorTypeCode() {
-        
-		return vendorTypeCode;
-	}
+    public String getVendorTypeCode() {
 
-	public void setVendorTypeCode(String vendorTypeCode) {
-		this.vendorTypeCode = vendorTypeCode;
-	}
+        return vendorTypeCode;
+    }
 
-	public String getVendorTypeDescription() {
-        
-		return vendorTypeDescription;
-	}
+    public void setVendorTypeCode(String vendorTypeCode) {
+        this.vendorTypeCode = vendorTypeCode;
+    }
 
-	public void setVendorTypeDescription(String vendorTypeDescription) {
-		this.vendorTypeDescription = vendorTypeDescription;
-	}
+    public String getVendorTypeDescription() {
+
+        return vendorTypeDescription;
+    }
+
+    public void setVendorTypeDescription(String vendorTypeDescription) {
+        this.vendorTypeDescription = vendorTypeDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -73,7 +73,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public String getVendorAddressTypeRequiredCode() {
-        
+
         return vendorAddressTypeRequiredCode;
     }
 
@@ -82,7 +82,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public boolean isVendorTaxNumberRequiredIndicator() {
-        
+
         return vendorTaxNumberRequiredIndicator;
     }
 
@@ -91,7 +91,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public boolean isVendorTypeChangeAllowedIndicator() {
-        
+
         return vendorTypeChangeAllowedIndicator;
     }
 
@@ -100,7 +100,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public boolean isVendorContractAllowedIndicator() {
-        
+
         return vendorContractAllowedIndicator;
     }
 
@@ -109,7 +109,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public String getVendorReviewText() {
-        
+
         return vendorReviewText;
     }
 
@@ -118,7 +118,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public boolean isVendorShowReviewIndicator() {
-        
+
         return vendorShowReviewIndicator;
     }
 
@@ -127,7 +127,7 @@ public class VendorType extends PersistableBusinessObjectBase {
     }
 
     public AddressType getAddressType() {
-        
+
         return addressType;
     }
 
@@ -139,10 +139,10 @@ public class VendorType extends PersistableBusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorTypeCode", this.vendorTypeCode);
-        
+
         return m;
     }
-    
+
 }

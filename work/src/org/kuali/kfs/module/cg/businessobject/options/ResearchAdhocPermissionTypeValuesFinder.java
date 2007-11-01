@@ -25,16 +25,16 @@ import org.kuali.module.kra.bo.ResearchAdhocPermissionType;
 import org.kuali.module.kra.service.ResearchDocumentPermissionsService;
 
 public class ResearchAdhocPermissionTypeValuesFinder extends KeyValuesBase {
-    
+
     public ResearchAdhocPermissionTypeValuesFinder() {
         super();
     }
 
     public List getKeyValues() {
-        
+
         List<ResearchAdhocPermissionType> permissionTypeCodes = new ArrayList(SpringContext.getBean(ResearchDocumentPermissionsService.class).getPermissionTypes());
         List permissionTypeKeyLabelPairList = new ArrayList();
-        for (ResearchAdhocPermissionType element: permissionTypeCodes) {
+        for (ResearchAdhocPermissionType element : permissionTypeCodes) {
             permissionTypeKeyLabelPairList.add(new KeyLabelPair(element.getPermissionTypeCode(), element.getPermissionTypeDescription()));
         }
 

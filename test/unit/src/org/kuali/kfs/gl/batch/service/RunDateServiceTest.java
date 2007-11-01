@@ -33,22 +33,23 @@ import org.kuali.test.ConfigureContext;
 public class RunDateServiceTest extends KualiTestBase {
 
     protected static final String DATE_FORMAT = "MM/dd/yyyy HH:mm:ss";
-    
+
     protected RunDateService runDateService;
-    
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+
         runDateService = SpringContext.getBean(RunDateService.class);
     }
-    
+
     public void testCalculateCutoff() throws Exception {
-        // cutoff time should be set to 10am in the master data source, see FS_PARM_T, script name GL.SCRUBBER, param name SCRUBBER_CUTOFF_TIME
+        // cutoff time should be set to 10am in the master data source, see FS_PARM_T, script name GL.SCRUBBER, param name
+        // SCRUBBER_CUTOFF_TIME
         // https://test.kuali.org/confluence/display/KFSP1/Scrubber+cutoff+time+configuration
-        
+
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();
-        
+
         // assuming cutoff time of 10am in this code
         expectedCurrentToRunTimeMappings.put("6/1/2006 10:35:00", "6/1/2006 10:35:00");
         expectedCurrentToRunTimeMappings.put("3/1/2006 9:59:00", "2/28/2006 23:59:59");
@@ -61,23 +62,22 @@ public class RunDateServiceTest extends KualiTestBase {
         // 2100 is not a leap year
         expectedCurrentToRunTimeMappings.put("3/1/2100 9:59:00", "2/28/2100 23:59:59");
         expectedCurrentToRunTimeMappings.put("3/1/2104 9:59:00", "2/29/2104 23:59:59");
-        
-        
+
+
         DateFormat parser = new SimpleDateFormat(DATE_FORMAT);
         for (Entry<String, String> entry : expectedCurrentToRunTimeMappings.entrySet()) {
             Date calculatedRunTime = runDateService.calculateRunDate(parser.parse(entry.getKey()));
             assertTrue(entry.getKey() + " " + entry.getValue() + " " + calculatedRunTime, parser.parse(entry.getValue()).equals(calculatedRunTime));
         }
     }
-    
+
     public void testCalculateCutoffDuringMidnightHour() throws Exception {
-        TestUtils.setSystemParameter(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME,
-                "0:05:00");
+        TestUtils.setSystemParameter(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME, "0:05:00");
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();
-        
+
         expectedCurrentToRunTimeMappings.put("6/1/2006 0:05:00", "6/1/2006 0:05:00");
         expectedCurrentToRunTimeMappings.put("3/1/2006 0:02:33", "2/28/2006 23:59:59");
-        
+
         DateFormat parser = new SimpleDateFormat(DATE_FORMAT);
         for (Entry<String, String> entry : expectedCurrentToRunTimeMappings.entrySet()) {
             Date calculatedRunTime = runDateService.calculateRunDate(parser.parse(entry.getKey()));

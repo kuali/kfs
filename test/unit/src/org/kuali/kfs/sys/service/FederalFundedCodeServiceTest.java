@@ -23,8 +23,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the FederalFundedCode service.
- * 
- * 
  */
 
 @ConfigureContext
@@ -73,26 +71,21 @@ public class FederalFundedCodeServiceTest extends KualiTestBase {
     }
 
     /*
-     * 
      * This method was removed because: 1. Adding new FederalFundedCodes is extremely rare-- this test is not particularly valuable
      * 2. The old test was broken in several ways: a. it did not clean up after itself ala dbunit b. the resolution of the timestamp
      * to modify the name was too low-- the test could only be run successfully once per day c. the final assertion ignored the fact
      * that the new name had been intentionally altered-- it expected the old name to still be there d. the deep copied object had
-     * the same primary key as the one intended to replace it
-     * 
-     * public void testSave() { ffc = null; FederalFundedCode result = null;  String timestamp = DateFormat.getDateInstance().format(new Date()); 
-     * try { String newName = null; // get the existing value
-     * 
+     * the same primary key as the one intended to replace it public void testSave() { ffc = null; FederalFundedCode result = null;
+     * String timestamp = DateFormat.getDateInstance().format(new Date()); try { String newName = null; // get the existing value
      * ffc = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1); //
      * cache the old value, create a new value, and modify the object result = (FederalFundedCode)ObjectUtils.deepCopy(ffc) ;
      * newName = ffc.getName() + ":"+timestamp; result.setName(newName); // attempt to save the modified object
      * kualiCodeService.save(result); // open the object byCode() and confirm that the changes were saved result =
      * (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1);
      * assertEquals("Changes to the document were not persisted to the database.", newName, ffc.getName()); } finally { if (ffc !=
-     * null) { kualiCodeService.save(ffc);
-     * 
-     * result = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class, TestConstants.Data5.FEDERAL_FUNDED_CODE1);
-     * assertEquals("Changes to the document were not persisted to the database.", ffc.getName(), result.getName()); } } }
+     * null) { kualiCodeService.save(ffc); result = (FederalFundedCode) kualiCodeService.getByCode(FederalFundedCode.class,
+     * TestConstants.Data5.FEDERAL_FUNDED_CODE1); assertEquals("Changes to the document were not persisted to the database.",
+     * ffc.getName(), result.getName()); } } }
      */
 
     public void testActive() {

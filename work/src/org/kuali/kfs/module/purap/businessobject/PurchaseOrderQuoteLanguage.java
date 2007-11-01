@@ -10,59 +10,59 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderQuoteLanguage extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderQuoteLanguageIdentifier;
-	private String purchaseOrderQuoteLanguageDescription;
-	private Date purchaseOrderQuoteLanguageCreateDate;
-	private boolean active;
+    private Integer purchaseOrderQuoteLanguageIdentifier;
+    private String purchaseOrderQuoteLanguageDescription;
+    private Date purchaseOrderQuoteLanguageCreateDate;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderQuoteLanguage() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderQuoteLanguage() {
 
-	}
+    }
 
-	public Integer getPurchaseOrderQuoteLanguageIdentifier() { 
-		return purchaseOrderQuoteLanguageIdentifier;
-	}
+    public Integer getPurchaseOrderQuoteLanguageIdentifier() {
+        return purchaseOrderQuoteLanguageIdentifier;
+    }
 
-	public void setPurchaseOrderQuoteLanguageIdentifier(Integer purchaseOrderQuoteLanguageIdentifier) {
-		this.purchaseOrderQuoteLanguageIdentifier = purchaseOrderQuoteLanguageIdentifier;
-	}
+    public void setPurchaseOrderQuoteLanguageIdentifier(Integer purchaseOrderQuoteLanguageIdentifier) {
+        this.purchaseOrderQuoteLanguageIdentifier = purchaseOrderQuoteLanguageIdentifier;
+    }
 
-	public String getPurchaseOrderQuoteLanguageDescription() { 
-		return purchaseOrderQuoteLanguageDescription;
-	}
+    public String getPurchaseOrderQuoteLanguageDescription() {
+        return purchaseOrderQuoteLanguageDescription;
+    }
 
-	public void setPurchaseOrderQuoteLanguageDescription(String purchaseOrderQuoteLanguageDescription) {
-		this.purchaseOrderQuoteLanguageDescription = purchaseOrderQuoteLanguageDescription;
-	}
+    public void setPurchaseOrderQuoteLanguageDescription(String purchaseOrderQuoteLanguageDescription) {
+        this.purchaseOrderQuoteLanguageDescription = purchaseOrderQuoteLanguageDescription;
+    }
 
-	public Date getPurchaseOrderQuoteLanguageCreateDate() { 
-		return purchaseOrderQuoteLanguageCreateDate;
-	}
+    public Date getPurchaseOrderQuoteLanguageCreateDate() {
+        return purchaseOrderQuoteLanguageCreateDate;
+    }
 
-	public void setPurchaseOrderQuoteLanguageCreateDate(Date purchaseOrderQuoteLanguageCreateDate) {
-		this.purchaseOrderQuoteLanguageCreateDate = purchaseOrderQuoteLanguageCreateDate;
-	}
+    public void setPurchaseOrderQuoteLanguageCreateDate(Date purchaseOrderQuoteLanguageCreateDate) {
+        this.purchaseOrderQuoteLanguageCreateDate = purchaseOrderQuoteLanguageCreateDate;
+    }
 
-	public boolean isActive() { 
-		return active;
-	}
+    public boolean isActive() {
+        return active;
+    }
 
-	public void setActive(boolean active) {
-		this.active = active;
-	}
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderQuoteLanguageIdentifier != null) {
             m.put("purchaseOrderQuoteLanguageIdentifier", this.purchaseOrderQuoteLanguageIdentifier.toString());
         }
-	    return m;
+        return m;
     }
-    
+
 }

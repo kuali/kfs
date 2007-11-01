@@ -194,7 +194,6 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * Gets the financialObjectBenefitsType
      * 
      * @return financialObjectBenefitsType
@@ -204,7 +203,6 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
     }
 
     /**
-     * 
      * Sets financialObjectBenefitsType
      * 
      * @param financialObjectBenefitsType The financialObjectBenefitsType to be set
@@ -246,7 +244,7 @@ public class PositionObjectBenefit extends PersistableBusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("financialObjectBenefitsTypeCode", this.financialObjectBenefitsTypeCode);
-        
+
         return m;
     }
 }

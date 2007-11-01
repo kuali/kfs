@@ -25,32 +25,32 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderQuoteStatus extends PersistableBusinessObjectBase {
 
-	private String purchaseOrderQuoteStatusCode;
-	private String purchaseOrderQuoteStatusDescription;
-	private boolean active;
+    private String purchaseOrderQuoteStatusCode;
+    private String purchaseOrderQuoteStatusDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderQuoteStatus() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderQuoteStatus() {
 
-	}
+    }
 
-	public String getPurchaseOrderQuoteStatusCode() { 
-		return purchaseOrderQuoteStatusCode;
-	}
+    public String getPurchaseOrderQuoteStatusCode() {
+        return purchaseOrderQuoteStatusCode;
+    }
 
-	public void setPurchaseOrderQuoteStatusCode(String purchaseOrderQuoteStatusCode) {
-		this.purchaseOrderQuoteStatusCode = purchaseOrderQuoteStatusCode;
-	}
+    public void setPurchaseOrderQuoteStatusCode(String purchaseOrderQuoteStatusCode) {
+        this.purchaseOrderQuoteStatusCode = purchaseOrderQuoteStatusCode;
+    }
 
-	public String getPurchaseOrderQuoteStatusDescription() { 
-		return purchaseOrderQuoteStatusDescription;
-	}
+    public String getPurchaseOrderQuoteStatusDescription() {
+        return purchaseOrderQuoteStatusDescription;
+    }
 
-	public void setPurchaseOrderQuoteStatusDescription(String purchaseOrderQuoteStatusDescription) {
-		this.purchaseOrderQuoteStatusDescription = purchaseOrderQuoteStatusDescription;
-	}
+    public void setPurchaseOrderQuoteStatusDescription(String purchaseOrderQuoteStatusDescription) {
+        this.purchaseOrderQuoteStatusDescription = purchaseOrderQuoteStatusDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -61,12 +61,12 @@ public class PurchaseOrderQuoteStatus extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderQuoteStatusCode", this.purchaseOrderQuoteStatusCode);
-	    return m;
+        return m;
     }
-    
+
 }

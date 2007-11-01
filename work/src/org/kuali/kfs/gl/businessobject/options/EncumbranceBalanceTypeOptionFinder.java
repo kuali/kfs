@@ -27,8 +27,6 @@ import org.kuali.kfs.service.OptionsService;
 
 /**
  * This class...
- * 
- * 
  */
 public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 

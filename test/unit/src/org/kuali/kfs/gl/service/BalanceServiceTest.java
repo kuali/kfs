@@ -17,7 +17,6 @@ package org.kuali.module.financial.service;
 
 import java.util.List;
 
-import org.kuali.core.util.Guid;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
@@ -29,8 +28,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * various tests for BalanceService, especially as it supports Account business rules; using hardcoded SQL for bootstrapping
- * 
- * 
  */
 @ConfigureContext
 public class BalanceServiceTest extends KualiTestBase {
@@ -39,11 +36,10 @@ public class BalanceServiceTest extends KualiTestBase {
     private final static String CHART = "UA";
     private final static String SUB_ACCT_NUMBER = "sub";
     private final static String SUB_OBJECT_CODE = "123";
-    
+
     private static String DELETE_BALANCES = "delete from GL_BALANCE_T where ";
     private static String RAW_BALANCES = "select * from GL_BALANCE_T where ";
-    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('" + CHART + "','"
-                                 + ACCOUNT_NUMBER + "','" + SUB_ACCT_NUMBER + "',";
+    private static String INSERT_BALANCE = "insert into GL_BALANCE_T(FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,UNIV_FISCAL_YR,FIN_SUB_OBJ_CD,FIN_OBJECT_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,FIN_BEG_BAL_LN_AMT,ACLN_ANNL_BAL_AMT) values('" + CHART + "','" + ACCOUNT_NUMBER + "','" + SUB_ACCT_NUMBER + "',";
 
     private static boolean runOnce = true;
 

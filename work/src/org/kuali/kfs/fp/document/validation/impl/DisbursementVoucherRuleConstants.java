@@ -20,11 +20,9 @@ import org.kuali.kfs.ParameterKeyConstants;
 
 /**
  * Holds constants for disbursement voucher and payee documents.
- * 
- * 
  */
 public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants {
-    
+
     // payment methods
     public static String PAYMENT_METHOD_CHECK = "P";
     public static String PAYMENT_METHOD_WIRE = "W";
@@ -86,9 +84,9 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static final String OBJECT_SUB_TYPE_GLOBAL_RESTRICTION_PARM_NM = "OBJECT_SUB_TYPES";
     public static final String SUB_FUND_GLOBAL_RESTRICTION_PARM_NM = "SUB_FUND_GROUPS";
     public static final String FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM = "HIGHER_ED_FUNCTIONS";
-    
+
     public static final String VALID_DOC_LOC_BY_PAYMENT_REASON_PARM = "VALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON";
-    public static final String VALID_DOC_LOC_BY_CAMPUS_PARM = "VALID_DOCUMENTATION_LOCATIONS_BY_CAMPUS";    
+    public static final String VALID_DOC_LOC_BY_CAMPUS_PARM = "VALID_DOCUMENTATION_LOCATIONS_BY_CAMPUS";
     public static final String VALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM = "VALID_OBJECT_LEVELS_BY_PAYMENT_REASON";
     public static final String VALID_OBJ_CODE_BY_PAYMENT_REASON_PARM = "VALID_OBJECT_CODES_BY_PAYMENT_REASON";
     public static final String VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM = "VALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP";
@@ -96,13 +94,13 @@ public interface DisbursementVoucherRuleConstants extends ParameterKeyConstants 
     public static final String VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM = "VALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON";
 
     public static final String INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_PAYMENT_REASON";
-    public static final String INVALID_DOC_LOC_BY_CAMPUS_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_CAMPUS";    
+    public static final String INVALID_DOC_LOC_BY_CAMPUS_PARM = "INVALID_DOCUMENTATION_LOCATIONS_BY_CAMPUS";
     public static final String INVALID_OBJ_LEVEL_BY_PAYMENT_REASON_PARM = "INVALID_OBJECT_LEVELS_BY_PAYMENT_REASON";
     public static final String INVALID_OBJ_CODE_BY_PAYMENT_REASON_PARM = "INVALID_OBJECT_CODES_BY_PAYMENT_REASON";
     public static final String INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP_PARM = "INVALID_OBJECT_SUB_TYPES_BY_SUB_FUND_GROUP";
     public static final String INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE_PARM = "INVALID_PAYMENT_REASONS_BY_PAYEE_TYPE";
     public static final String INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON_PARM = "INVALID_SUB_FUND_GROUPS_BY_PAYMENT_REASON";
-    
+
     public static final String FEDERAL_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_FEDERAL_";
     public static final String STATE_TAX_PARM_PREFIX = "NON_RESIDENT_ALIEN_TAX_STATE_";
     public static final String TAX_PARM_ACCOUNT_SUFFIX = "ACCOUNT";

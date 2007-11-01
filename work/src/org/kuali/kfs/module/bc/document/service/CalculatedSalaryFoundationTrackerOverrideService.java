@@ -16,7 +16,8 @@
 package org.kuali.module.budget.service;
 
 public interface CalculatedSalaryFoundationTrackerOverrideService {
-    
-    boolean isValidAppointment(Integer universityFiscalYear, String positionNumber, String emplid);   
+
+    boolean isValidAppointment(Integer universityFiscalYear, String positionNumber, String emplid);
+
     boolean isValidPosition(Integer universityFiscalYear, String positionNumber);
 }

@@ -21,45 +21,44 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Types of Contacts for Vendor Contacts.
- * Typically, these types reflect the Contact's position and/or function within the Vendor's 
+ * Types of Contacts for Vendor Contacts. Typically, these types reflect the Contact's position and/or function within the Vendor's
  * organization.
  * 
  * @see org.kuali.module.vendor.bo.VendorContact
  */
 public class ContactType extends PersistableBusinessObjectBase {
 
-	private String vendorContactTypeCode;
-	private String vendorContactTypeDescription;
+    private String vendorContactTypeCode;
+    private String vendorContactTypeDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ContactType() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ContactType() {
 
-	public String getVendorContactTypeCode() {
-        
-		return vendorContactTypeCode;
-	}
+    }
 
-	public void setVendorContactTypeCode(String vendorContactTypeCode) {
-		this.vendorContactTypeCode = vendorContactTypeCode;
-	}
+    public String getVendorContactTypeCode() {
 
-	public String getVendorContactTypeDescription() {
-        
-		return vendorContactTypeDescription;
-	}
+        return vendorContactTypeCode;
+    }
 
-	public void setVendorContactTypeDescription(String vendorContactTypeDescription) {
-		this.vendorContactTypeDescription = vendorContactTypeDescription;
-	}
+    public void setVendorContactTypeCode(String vendorContactTypeCode) {
+        this.vendorContactTypeCode = vendorContactTypeCode;
+    }
+
+    public String getVendorContactTypeDescription() {
+
+        return vendorContactTypeDescription;
+    }
+
+    public void setVendorContactTypeDescription(String vendorContactTypeDescription) {
+        this.vendorContactTypeDescription = vendorContactTypeDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -68,12 +67,12 @@ public class ContactType extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorContactTypeCode", this.vendorContactTypeCode);
-        
-	    return m;
+
+        return m;
     }
 }

@@ -18,7 +18,6 @@ package org.kuali.module.financial.document;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.test.fixtures.AccountingLineFixture.LINE2;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
-//import static org.kuali.test.suite.RelatesTo.JiraIssue.KULRNE1612;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,12 +37,9 @@ import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
 import org.kuali.test.suite.OftenUsefulSuite;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
@@ -70,9 +66,9 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
     /*
      * This test fails related to https://test.kuali.org/jira/browse/KULEDOCS-1662
      */
-    //@RelatesTo(KULRNE1612)
+    // @RelatesTo(KULRNE1612)
     @AnnotationTestSuite(OftenUsefulSuite.class)
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testKULEDOCS_1401() throws Exception {
         String testDocId = null;
 
@@ -144,22 +140,22 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }

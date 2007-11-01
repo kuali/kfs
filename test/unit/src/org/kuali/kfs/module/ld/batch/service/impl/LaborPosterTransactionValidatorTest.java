@@ -44,7 +44,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
     private String fieldNames;
     private String deliminator;
     private OriginEntryGroup group1;
-    
+
     private LaborOriginEntryService laborOriginEntryService;
     private OriginEntryGroupService originEntryGroupService;
     private BusinessObjectService businessObjectService;
@@ -66,7 +66,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
-        
+
         Date today = (SpringContext.getBean(DateTimeService.class)).getCurrentSqlDate();
         group1 = originEntryGroupService.createGroup(today, LABOR_MAIN_POSTER_VALID, true, true, false);
     }
@@ -76,7 +76,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
 
         List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
         List<Integer> expectedNumOfErrors = getExpectedDataList("verifyTransaction.expectedNumOfErrors", numberOfTestData);
-        
+
         businessObjectService.save(transactionList);
 
         for (int i = 0; i < numberOfTestData; i++) {
@@ -91,12 +91,12 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
         int numberOfTestData = Integer.valueOf(properties.getProperty("verifyTransaction.numOfData"));
         List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
 
-        for (int i = 0; i < numberOfTestData-1; i++) {
+        for (int i = 0; i < numberOfTestData - 1; i++) {
             LaborOriginEntry transaction = transactionList.get(i);
             List<Message> errorMessage = laborPosterTransactionValidator.verifyTransaction(transaction);
-            
+
             int numOfErrors = errorMessage.size();
-            boolean isTrue = (i < numberOfTestData-1) ?  numOfErrors > 0 : numOfErrors == 0;
+            boolean isTrue = (i < numberOfTestData - 1) ? numOfErrors > 0 : numOfErrors == 0;
             assertTrue(isTrue);
         }
     }

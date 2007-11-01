@@ -70,7 +70,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -80,7 +79,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -90,7 +88,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetModularIncrementAmount attribute.
      * 
      * @return Returns the budgetModularIncrementAmount
-     * 
      */
     public KualiInteger getBudgetModularIncrementAmount() {
         return budgetModularIncrementAmount;
@@ -100,7 +97,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetModularIncrementAmount attribute.
      * 
      * @param budgetModularIncrementAmount The budgetModularIncrementAmount to set.
-     * 
      */
     public void setBudgetModularIncrementAmount(KualiInteger budgetModularIncrementAmount) {
         this.budgetModularIncrementAmount = budgetModularIncrementAmount;
@@ -110,7 +106,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetModularTaskNumber attribute.
      * 
      * @return Returns the budgetModularTaskNumber
-     * 
      */
     public Integer getBudgetModularTaskNumber() {
         return budgetModularTaskNumber;
@@ -120,7 +115,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetModularTaskNumber attribute.
      * 
      * @param budgetModularTaskNumber The budgetModularTaskNumber to set.
-     * 
      */
     public void setBudgetModularTaskNumber(Integer budgetModularTaskNumber) {
         this.budgetModularTaskNumber = budgetModularTaskNumber;
@@ -130,7 +124,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetModularConsortiumDescription attribute.
      * 
      * @return Returns the budgetModularConsortiumDescription
-     * 
      */
     public String getBudgetModularConsortiumDescription() {
         return budgetModularConsortiumDescription;
@@ -140,7 +133,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetModularConsortiumDescription attribute.
      * 
      * @param budgetModularConsortiumDescription The budgetModularConsortiumDescription to set.
-     * 
      */
     public void setBudgetModularConsortiumDescription(String budgetModularConsortiumDescription) {
         this.budgetModularConsortiumDescription = budgetModularConsortiumDescription;
@@ -150,7 +142,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetModularPersonnelDescription attribute.
      * 
      * @return Returns the budgetModularPersonnelDescription
-     * 
      */
     public String getBudgetModularPersonnelDescription() {
         return budgetModularPersonnelDescription;
@@ -160,7 +151,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetModularPersonnelDescription attribute.
      * 
      * @param budgetModularPersonnelDescription The budgetModularPersonnelDescription to set.
-     * 
      */
     public void setBudgetModularPersonnelDescription(String budgetModularPersonnelDescription) {
         this.budgetModularPersonnelDescription = budgetModularPersonnelDescription;
@@ -170,7 +160,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetModularVariableAdjustmentDescription attribute.
      * 
      * @return Returns the budgetModularVariableAdjustmentDescription
-     * 
      */
     public String getBudgetModularVariableAdjustmentDescription() {
         return budgetModularVariableAdjustmentDescription;
@@ -180,7 +169,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetModularVariableAdjustmentDescription attribute.
      * 
      * @param budgetModularVariableAdjustmentDescription The budgetModularVariableAdjustmentDescription to set.
-     * 
      */
     public void setBudgetModularVariableAdjustmentDescription(String budgetModularVariableAdjustmentDescription) {
         this.budgetModularVariableAdjustmentDescription = budgetModularVariableAdjustmentDescription;
@@ -190,7 +178,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Gets the budgetPeriodMaximumAmount attribute.
      * 
      * @return Returns the budgetPeriodMaximumAmount
-     * 
      */
     public KualiInteger getBudgetPeriodMaximumAmount() {
         return budgetPeriodMaximumAmount;
@@ -200,7 +187,6 @@ public class BudgetModular extends PersistableBusinessObjectBase {
      * Sets the budgetPeriodMaximumAmount attribute.
      * 
      * @param budgetPeriodMaximumAmount The budgetPeriodMaximumAmount to set.
-     * 
      */
     public void setBudgetPeriodMaximumAmount(KualiInteger budgetPeriodMaximumAmount) {
         this.budgetPeriodMaximumAmount = budgetPeriodMaximumAmount;

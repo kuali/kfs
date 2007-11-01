@@ -20,4 +20,5 @@ import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase
 /**
  * Uses defaults.
  */
-public class CloseDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {}
+public class CloseDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+}

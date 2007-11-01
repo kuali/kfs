@@ -120,9 +120,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
         DisbursementVoucherDocument document = (DisbursementVoucherDocument) dvForm.getDocument();
 
         /* refresh from dv payee lookup */
-        if ((KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) || KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()))
-                && request.getParameter(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER) != null
-                && document.getDvPayeeDetail().isPayee()) {
+        if ((KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) || KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller())) && request.getParameter(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER) != null && document.getDvPayeeDetail().isPayee()) {
             String payeeIdNumber = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
             Payee refreshPayee = new Payee();
             refreshPayee.setPayeeIdNumber(payeeIdNumber);
@@ -130,9 +128,7 @@ public class DisbursementVoucherAction extends KualiAccountingDocumentActionBase
             ((DisbursementVoucherDocument) dvForm.getDocument()).templatePayee(refreshPayee);
         }
         /* refresh from employee lookup */
-        else if ((KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) || KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()))
-                && request.getParameter(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER) != null
-                && document.getDvPayeeDetail().isEmployee()) {
+        else if ((KFSConstants.KUALI_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller()) || KFSConstants.KUALI_USER_LOOKUPABLE_IMPL.equals(dvForm.getRefreshCaller())) && request.getParameter(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER) != null && document.getDvPayeeDetail().isEmployee()) {
             String emplUuid = ((DisbursementVoucherDocument) dvForm.getDocument()).getDvPayeeDetail().getDisbVchrPayeeIdNumber();
             UniversalUser employee = new UniversalUser();
             employee.setPersonUniversalIdentifier(emplUuid);

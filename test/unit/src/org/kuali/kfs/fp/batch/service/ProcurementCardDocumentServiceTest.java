@@ -20,20 +20,19 @@ import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
+
 /**
  * This class tests the services used to create ProcurementCard documents.
- * 
- * 
  */
 @ConfigureContext(session = KULUSER)
 public class ProcurementCardDocumentServiceTest extends KualiTestBase {
 
     public void testCreatePCardDocuments() throws Exception {
         boolean documentsCreated = SpringContext.getBean(ProcurementCardCreateDocumentService.class).createProcurementCardDocuments();
-        assertTrue("problem creating documents",documentsCreated);
+        assertTrue("problem creating documents", documentsCreated);
     }
 
-     public void testRoutePCardDocuments() throws Exception {
+    public void testRoutePCardDocuments() throws Exception {
         boolean routeSuccessful = SpringContext.getBean(ProcurementCardCreateDocumentService.class).routeProcurementCardDocuments();
     }
 

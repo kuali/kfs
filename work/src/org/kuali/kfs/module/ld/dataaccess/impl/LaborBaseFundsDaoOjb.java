@@ -28,7 +28,6 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.gl.web.Constant;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.dao.LaborBaseFundsDao;

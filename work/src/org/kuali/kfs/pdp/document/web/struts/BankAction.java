@@ -20,7 +20,6 @@ import org.kuali.module.pdp.service.SecurityRecord;
 
 /**
  * @author jsissom
- *
  */
 public class BankAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankAction.class);
@@ -36,48 +35,52 @@ public class BankAction extends BaseAction {
         bankService = b;
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isSysAdminRole();
     }
 
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // Go to the bank list screen if there is no bankId passed, otherwise, go to
         // the edit screen for a single bank
 
         String b = request.getParameter("bankId");
-        if ( b != null ) {
+        if (b != null) {
             int bankId = -1;
             try {
                 bankId = Integer.parseInt(b);
-            } catch (NumberFormatException e) {
+            }
+            catch (NumberFormatException e) {
                 // Bad number - we don't need to do anything here
             }
-            if ( bankId == 0 ) {
+            if (bankId == 0) {
                 LOG.debug("executeLogic() add bank");
 
                 // Add a new bank
                 BankForm bf = new BankForm();
                 bf.setActive(Boolean.TRUE);
 
-                request.setAttribute("BankForm",bf);
+                request.setAttribute("BankForm", bf);
 
                 return mapping.findForward("edit");
-            } else if ( bankId == -1 ) {
+            }
+            else if (bankId == -1) {
                 // No bank Id or invalid bank ID, go back to the list
                 return mapping.findForward("list");
-            } else {
+            }
+            else {
                 LOG.debug("executeLogic() edit bank");
 
                 // Load the bank to edit it
                 Bank bank = bankService.get(bankId);
                 BankForm bf = new BankForm(bank);
 
-                request.setAttribute("PdpBankForm",bf);
+                request.setAttribute("PdpBankForm", bf);
 
                 return mapping.findForward("edit");
             }
-        } else {
+        }
+        else {
             return mapping.findForward("list");
         }
     }

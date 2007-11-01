@@ -43,35 +43,41 @@ public class AchServiceImpl implements AchService {
         fields.put("active", Boolean.TRUE);
         fields.put("payeeIdentifierTypeCode", idType);
         fields.put("psdTransactionCode", psdTransactionCode);
-        if ( PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType) ) {
+        if (PdpConstants.PayeeIdTypeCodes.EMPLOYEE_ID.equals(idType)) {
             fields.put("personUniversalIdentifier", payeeId);
-        } else if ( PdpConstants.PayeeIdTypeCodes.SSN.equals(idType) ) {
+        }
+        else if (PdpConstants.PayeeIdTypeCodes.SSN.equals(idType)) {
             fields.put("payeeSocialSecurityNumber", payeeId);
-        } else if ( PdpConstants.PayeeIdTypeCodes.PAYEE_ID.equals(idType) ) {
+        }
+        else if (PdpConstants.PayeeIdTypeCodes.PAYEE_ID.equals(idType)) {
             fields.put("disbVchrPayeeIdNumber", payeeId);
-        } else if ( PdpConstants.PayeeIdTypeCodes.FEIN.equals(idType) ) {
+        }
+        else if (PdpConstants.PayeeIdTypeCodes.FEIN.equals(idType)) {
             fields.put("payeeFederalEmployerIdentificationNumber", payeeId);
-        } else if ( PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(idType) ) {
+        }
+        else if (PdpConstants.PayeeIdTypeCodes.VENDOR_ID.equals(idType)) {
             String parts[] = payeeId.split("-");
-            if ( parts.length == 2 ) {
+            if (parts.length == 2) {
                 try {
                     fields.put("vendorHeaderGeneratedIdentifier", new Integer(Integer.parseInt(parts[0])));
                     fields.put("vendorDetailAssignedIdentifier", new Integer(Integer.parseInt(parts[1])));
-                } catch (NumberFormatException e) {
+                }
+                catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
             }
         }
         Collection rows = businessObjectService.findMatching(PayeeAchAccount.class, fields);
-        if ( rows.size() != 1 ) {
+        if (rows.size() != 1) {
             LOG.debug("getAchInformation() not found rows = " + rows.size());
 
             return null;
-        } else {
+        }
+        else {
             LOG.debug("getAchInformation() found");
 
             Iterator i = rows.iterator();
-            PayeeAchAccount paa = (PayeeAchAccount)i.next();
+            PayeeAchAccount paa = (PayeeAchAccount) i.next();
             AchInformation ai = new AchInformation();
             ai.setAchAccountType("22"); // TODO Fix this
             ai.setAchBankAccountNbr(paa.getBankAccountNumber());

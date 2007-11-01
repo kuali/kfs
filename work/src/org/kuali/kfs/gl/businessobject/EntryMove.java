@@ -75,7 +75,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the personUniversalIdentifier attribute.
      * 
      * @return Returns the personUniversalIdentifier
-     * 
      */
     public String getPersonUniversalIdentifier() {
         return personUniversalIdentifier;
@@ -85,7 +84,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the personUniversalIdentifier attribute.
      * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
-     * 
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
         this.personUniversalIdentifier = personUniversalIdentifier;
@@ -96,7 +94,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -106,7 +103,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -117,7 +113,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -127,7 +122,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -138,7 +132,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -148,7 +141,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -159,7 +151,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the subAccountNumber attribute.
      * 
      * @return Returns the subAccountNumber
-     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -169,7 +160,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the subAccountNumber attribute.
      * 
      * @param subAccountNumber The subAccountNumber to set.
-     * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -180,7 +170,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -190,7 +179,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -201,7 +189,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialSubObjectCode attribute.
      * 
      * @return Returns the financialSubObjectCode
-     * 
      */
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
@@ -211,7 +198,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialSubObjectCode attribute.
      * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
-     * 
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -222,7 +208,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialBalanceTypeCode attribute.
      * 
      * @return Returns the financialBalanceTypeCode
-     * 
      */
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
@@ -232,7 +217,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialBalanceTypeCode attribute.
      * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
-     * 
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
@@ -243,7 +227,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialObjectTypeCode attribute.
      * 
      * @return Returns the financialObjectTypeCode
-     * 
      */
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
@@ -253,7 +236,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialObjectTypeCode attribute.
      * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
-     * 
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
@@ -264,7 +246,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodCode attribute.
      * 
      * @return Returns the universityFiscalPeriodCode
-     * 
      */
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
@@ -274,7 +255,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodCode attribute.
      * 
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
-     * 
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
@@ -285,7 +265,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -295,7 +274,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -306,7 +284,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialSystemOriginationCode attribute.
      * 
      * @return Returns the financialSystemOriginationCode
-     * 
      */
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
@@ -316,7 +293,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialSystemOriginationCode attribute.
      * 
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
-     * 
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
@@ -327,7 +303,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -337,7 +312,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -348,7 +322,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionLedgerEntrySequenceNumber attribute.
      * 
      * @return Returns the transactionLedgerEntrySequenceNumber
-     * 
      */
     public Integer getTransactionLedgerEntrySequenceNumber() {
         return transactionLedgerEntrySequenceNumber;
@@ -358,7 +331,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionLedgerEntrySequenceNumber attribute.
      * 
      * @param transactionLedgerEntrySequenceNumber The transactionLedgerEntrySequenceNumber to set.
-     * 
      */
     public void setTransactionLedgerEntrySequenceNumber(Integer transactionLedgerEntrySequenceNumber) {
         this.transactionLedgerEntrySequenceNumber = transactionLedgerEntrySequenceNumber;
@@ -369,7 +341,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionLedgerEntryDescription attribute.
      * 
      * @return Returns the transactionLedgerEntryDescription
-     * 
      */
     public String getTransactionLedgerEntryDescription() {
         return transactionLedgerEntryDescription;
@@ -379,7 +350,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionLedgerEntryDescription attribute.
      * 
      * @param transactionLedgerEntryDescription The transactionLedgerEntryDescription to set.
-     * 
      */
     public void setTransactionLedgerEntryDescription(String transactionLedgerEntryDescription) {
         this.transactionLedgerEntryDescription = transactionLedgerEntryDescription;
@@ -390,7 +360,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionLedgerEntryAmount attribute.
      * 
      * @return Returns the transactionLedgerEntryAmount
-     * 
      */
     public KualiDecimal getTransactionLedgerEntryAmount() {
         return transactionLedgerEntryAmount;
@@ -400,7 +369,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionLedgerEntryAmount attribute.
      * 
      * @param transactionLedgerEntryAmount The transactionLedgerEntryAmount to set.
-     * 
      */
     public void setTransactionLedgerEntryAmount(KualiDecimal transactionLedgerEntryAmount) {
         this.transactionLedgerEntryAmount = transactionLedgerEntryAmount;
@@ -411,7 +379,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionDebitCreditCode attribute.
      * 
      * @return Returns the transactionDebitCreditCode
-     * 
      */
     public String getTransactionDebitCreditCode() {
         return transactionDebitCreditCode;
@@ -421,7 +388,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionDebitCreditCode attribute.
      * 
      * @param transactionDebitCreditCode The transactionDebitCreditCode to set.
-     * 
      */
     public void setTransactionDebitCreditCode(String transactionDebitCreditCode) {
         this.transactionDebitCreditCode = transactionDebitCreditCode;
@@ -432,7 +398,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionDate attribute.
      * 
      * @return Returns the transactionDate
-     * 
      */
     public Date getTransactionDate() {
         return transactionDate;
@@ -442,7 +407,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionDate attribute.
      * 
      * @param transactionDate The transactionDate to set.
-     * 
      */
     public void setTransactionDate(Date transactionDate) {
         this.transactionDate = transactionDate;
@@ -453,7 +417,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the organizationDocumentNumber attribute.
      * 
      * @return Returns the organizationDocumentNumber
-     * 
      */
     public String getOrganizationDocumentNumber() {
         return organizationDocumentNumber;
@@ -463,7 +426,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the organizationDocumentNumber attribute.
      * 
      * @param organizationDocumentNumber The organizationDocumentNumber to set.
-     * 
      */
     public void setOrganizationDocumentNumber(String organizationDocumentNumber) {
         this.organizationDocumentNumber = organizationDocumentNumber;
@@ -474,7 +436,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the projectCode attribute.
      * 
      * @return Returns the projectCode
-     * 
      */
     public String getProjectCode() {
         return projectCode;
@@ -484,7 +445,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the projectCode attribute.
      * 
      * @param projectCode The projectCode to set.
-     * 
      */
     public void setProjectCode(String projectCode) {
         this.projectCode = projectCode;
@@ -495,7 +455,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the organizationReferenceId attribute.
      * 
      * @return Returns the organizationReferenceId
-     * 
      */
     public String getOrganizationReferenceId() {
         return organizationReferenceId;
@@ -505,7 +464,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the organizationReferenceId attribute.
      * 
      * @param organizationReferenceId The organizationReferenceId to set.
-     * 
      */
     public void setOrganizationReferenceId(String organizationReferenceId) {
         this.organizationReferenceId = organizationReferenceId;
@@ -516,7 +474,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the referenceFinancialDocumentTypeCode attribute.
      * 
      * @return Returns the referenceFinancialDocumentTypeCode
-     * 
      */
     public String getReferenceFinancialDocumentTypeCode() {
         return referenceFinancialDocumentTypeCode;
@@ -526,7 +483,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the referenceFinancialDocumentTypeCode attribute.
      * 
      * @param referenceFinancialDocumentTypeCode The referenceFinancialDocumentTypeCode to set.
-     * 
      */
     public void setReferenceFinancialDocumentTypeCode(String referenceFinancialDocumentTypeCode) {
         this.referenceFinancialDocumentTypeCode = referenceFinancialDocumentTypeCode;
@@ -537,7 +493,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the referenceFinancialSystemOriginationCode attribute.
      * 
      * @return Returns the referenceFinancialSystemOriginationCode
-     * 
      */
     public String getReferenceFinancialSystemOriginationCode() {
         return referenceFinancialSystemOriginationCode;
@@ -547,7 +502,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the referenceFinancialSystemOriginationCode attribute.
      * 
      * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
-     * 
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
         this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
@@ -558,7 +512,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the referenceFinancialDocumentNumber attribute.
      * 
      * @return Returns the referenceFinancialDocumentNumber
-     * 
      */
     public String getReferenceFinancialDocumentNumber() {
         return referenceFinancialDocumentNumber;
@@ -568,7 +521,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the referenceFinancialDocumentNumber attribute.
      * 
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
-     * 
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
@@ -579,7 +531,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialDocumentReversalDate attribute.
      * 
      * @return Returns the financialDocumentReversalDate
-     * 
      */
     public Date getFinancialDocumentReversalDate() {
         return financialDocumentReversalDate;
@@ -589,7 +540,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the financialDocumentReversalDate attribute.
      * 
      * @param financialDocumentReversalDate The financialDocumentReversalDate to set.
-     * 
      */
     public void setFinancialDocumentReversalDate(Date financialDocumentReversalDate) {
         this.financialDocumentReversalDate = financialDocumentReversalDate;
@@ -600,7 +550,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionEncumbranceUpdateCode attribute.
      * 
      * @return Returns the transactionEncumbranceUpdateCode
-     * 
      */
     public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;
@@ -610,7 +559,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionEncumbranceUpdateCode attribute.
      * 
      * @param transactionEncumbranceUpdateCode The transactionEncumbranceUpdateCode to set.
-     * 
      */
     public void setTransactionEncumbranceUpdateCode(String transactionEncumbranceUpdateCode) {
         this.transactionEncumbranceUpdateCode = transactionEncumbranceUpdateCode;
@@ -621,7 +569,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionPostingDate attribute.
      * 
      * @return Returns the transactionPostingDate
-     * 
      */
     public Date getTransactionPostingDate() {
         return transactionPostingDate;
@@ -631,7 +578,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionPostingDate attribute.
      * 
      * @param transactionPostingDate The transactionPostingDate to set.
-     * 
      */
     public void setTransactionPostingDate(Date transactionPostingDate) {
         this.transactionPostingDate = transactionPostingDate;
@@ -642,7 +588,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the transactionDateTimeStamp attribute.
      * 
      * @return Returns the transactionDateTimeStamp
-     * 
      */
     public Date getTransactionDateTimeStamp() {
         return transactionDateTimeStamp;
@@ -652,7 +597,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Sets the transactionDateTimeStamp attribute.
      * 
      * @param transactionDateTimeStamp The transactionDateTimeStamp to set.
-     * 
      */
     public void setTransactionDateTimeStamp(Date transactionDateTimeStamp) {
         this.transactionDateTimeStamp = transactionDateTimeStamp;
@@ -662,7 +606,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the financialObject attribute.
      * 
      * @return Returns the financialObject
-     * 
      */
     public ObjectCode getFinancialObject() {
         return financialObject;
@@ -682,7 +625,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -702,7 +644,6 @@ public class EntryMove extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;

@@ -573,7 +573,8 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
     }
 
     /**
-     * Gets the financialSubObject attribute. 
+     * Gets the financialSubObject attribute.
+     * 
      * @return Returns the financialSubObject.
      */
     public SubObjCd getFinancialSubObject() {
@@ -582,6 +583,7 @@ public class CalculatedSalaryFoundationTracker extends PersistableBusinessObject
 
     /**
      * Sets the financialSubObject attribute value.
+     * 
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */

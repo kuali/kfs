@@ -80,15 +80,14 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
     private static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 
     /**
-     * Validates when an accounting line is added to a budget adjustment document.  Accounting line's budget adjustment amount must be non zero
-     * and a budget adjustment must be allowed.  In addition, the monthly amount fields must equal the current budget amount and the 
-     * accounting line's account must have a budget recording level and if current adjustment amount is non zero,
+     * Validates when an accounting line is added to a budget adjustment document. Accounting line's budget adjustment amount must
+     * be non zero and a budget adjustment must be allowed. In addition, the monthly amount fields must equal the current budget
+     * amount and the accounting line's account must have a budget recording level and if current adjustment amount is non zero,
      * account must have an associated income stream chart and account.
      * 
      * @param financialDocument submitted document
      * @param accountingLine validated accouting line
      * @return true if validation criteria listed above is true
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -117,12 +116,11 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
     }
 
     /**
-     * Calls FinancialDocumentRuleBase.processCustomRouteDocumentBusinessRules() and also validates whether the document's 
+     * Calls FinancialDocumentRuleBase.processCustomRouteDocumentBusinessRules() and also validates whether the document's
      * accounting lines' fund group and sub fund group codes associate with the 'Budget Adjustment Restriction Code'
      * 
      * @param document submitted document
      * @return true if criteria above is met
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -147,7 +145,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * @param accountingLine validated accounting line
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true if GLPE entries are successfully created.
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -295,7 +292,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * @param financialDocument submitted accounting document
      * @param sequenceHelper helper class for keeping track of sequence number
      * @return true general ledger pending entries are generated without any problems
-     * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -407,7 +403,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted accounting document
      * @param accountingLine validated accounting line
-     * @return true if monthly amount fields equals the current budget amount 
+     * @return true if monthly amount fields equals the current budget amount
      */
     public boolean validateMonthlyLines(AccountingDocument financialDocument, AccountingLine accountingLine) {
         BudgetAdjustmentAccountingLine budgetAdjustmentAccountingLine = (BudgetAdjustmentAccountingLine) accountingLine;
@@ -563,9 +559,8 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted accounting document
      * @param accountingLine accounting line with validated account number
-     * 
-     * @return true if account number has a budget recording level and if the current adjustment amount is non-zero, account must have
-     *          an associated income stream chart and account 
+     * @return true if account number has a budget recording level and if the current adjustment amount is non-zero, account must
+     *         have an associated income stream chart and account
      */
     public boolean validateAccountNumber(AccountingDocument financialDocument, AccountingLine accountingLine) {
         BudgetAdjustmentDocument baDocument = (BudgetAdjustmentDocument) financialDocument;
@@ -596,8 +591,7 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * Override needed to check the current, base, and monthly amounts.
      * 
      * @param document submitted accounting document
-     * @param accountingLine accounting line where current, base, and monthly amounts are being validated. 
-     * 
+     * @param accountingLine accounting line where current, base, and monthly amounts are being validated.
      * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -642,7 +636,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param sumbmitted financial document
      * @return true if base amounts are equal and current amounts balance and income stream balance should equal 0
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -737,7 +730,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted financial document
      * @return true if both source and target lines are NOT empty
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -758,7 +750,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted financial document
      * @return true
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -771,8 +762,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted financial document
      * @param accountingLine accouting line being evaulated as a debit or not
-     * 
-     * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -791,7 +780,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * 
      * @param financialDocument submitted accounting document
      * @return true if account line totals remains unchanged fromw what was entered and what was persisted before
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLineTotalsUnchanged(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -847,7 +835,6 @@ public class BudgetAdjustmentDocumentRule extends AccountingDocumentRuleBase imp
      * @param sectionTitle title of section
      * @param persistedSourceLineTotal previously persisted source line total
      * @param currentSourceLineTotal current entered source line total
-     * 
      */
     private void buildTotalChangeErrorMessage(String propertyName, String sectionTitle, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
         String persistedTotal = (String) new CurrencyFormatter().format(persistedSourceLineTotal);

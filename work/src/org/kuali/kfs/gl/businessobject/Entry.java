@@ -97,7 +97,7 @@ public class Entry extends PersistableBusinessObjectBase implements Transaction 
      */
     public Entry() {
     }
-    
+
     public Entry(Transaction t) {
         super();
 

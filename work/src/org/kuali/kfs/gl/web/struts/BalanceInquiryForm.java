@@ -38,8 +38,6 @@ import org.kuali.module.gl.bo.Entry;
 
 /**
  * This class is the action form for balance inquiries.
- * 
- * 
  */
 public class BalanceInquiryForm extends LookupForm {
     private static final long serialVersionUID = 1L;
@@ -85,7 +83,7 @@ public class BalanceInquiryForm extends LookupForm {
                 setLookupableImplServiceName(lookupImplID);
             }
             setLookupable(LookupableSpringContext.getLookupable(getLookupableImplServiceName()));
-            
+
             if (getLookupable() == null) {
                 LOG.error("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());
                 throw new RuntimeException("Lookup impl not found for lookup impl name " + getLookupableImplServiceName());

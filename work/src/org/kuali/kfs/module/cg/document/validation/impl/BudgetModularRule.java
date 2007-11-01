@@ -29,9 +29,10 @@ import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.service.BudgetModularService;
 
 public class BudgetModularRule {
-    
-    protected BudgetModularRule() {}
-    
+
+    protected BudgetModularRule() {
+    }
+
     /**
      * Checks business rules related to entering the modular page.
      * 
@@ -50,17 +51,13 @@ public class BudgetModularRule {
 
         // Total direct cost amount is greater than the number of periods times the period maximum
         if (budget.getModularBudget().isInvalidMode()) {
-            GlobalVariables.getErrorMap().putError(
-                    "tooLarge", KraKeyConstants.ERROR_MODULAR_TOO_LARGE, 
-                    new String[] { budget.getModularBudget().getTotalActualDirectCostAmount().toString(), 
-                    Integer.toString(budget.getPeriods().size()), 
-                    SpringContext.getBean(BudgetModularService.class).determineBudgetPeriodMaximumAmount(budget.getBudgetAgency()).toString() });
+            GlobalVariables.getErrorMap().putError("tooLarge", KraKeyConstants.ERROR_MODULAR_TOO_LARGE, new String[] { budget.getModularBudget().getTotalActualDirectCostAmount().toString(), Integer.toString(budget.getPeriods().size()), SpringContext.getBean(BudgetModularService.class).determineBudgetPeriodMaximumAmount(budget.getBudgetAgency()).toString() });
             valid = false;
         }
 
         return valid;
     }
-    
+
     /**
      * Checks business rules related to saving the modular page only.
      * 
@@ -74,7 +71,7 @@ public class BudgetModularRule {
 
         return isModularBudgetValid(((BudgetDocument) document).getBudget().getModularBudget());
     }
-    
+
     /**
      * Check if modular budget object is valid according to business rules.
      * 
@@ -94,9 +91,7 @@ public class BudgetModularRule {
             if (modularBudget.getBudgetModularVariableAdjustmentDescription() == null || StringUtils.isEmpty(modularBudget.getBudgetModularVariableAdjustmentDescription())) {
                 for (Iterator iter = modularBudget.getBudgetModularPeriods().iterator(); iter.hasNext();) {
                     BudgetModularPeriod modularPeriod = (BudgetModularPeriod) iter.next();
-                    if (modularBudget.getBudgetModularDirectCostAmount() != null 
-                            && modularPeriod.getBudgetAdjustedModularDirectCostAmount() != null
-                            && modularBudget.getBudgetModularDirectCostAmount().intValue() != modularPeriod.getBudgetAdjustedModularDirectCostAmount().intValue()) {
+                    if (modularBudget.getBudgetModularDirectCostAmount() != null && modularPeriod.getBudgetAdjustedModularDirectCostAmount() != null && modularBudget.getBudgetModularDirectCostAmount().intValue() != modularPeriod.getBudgetAdjustedModularDirectCostAmount().intValue()) {
                         GlobalVariables.getErrorMap().putError("budgetModularVariableAdjustmentDescription.missing", KraKeyConstants.ERROR_MODULAR_VARIABLE, new String[] {});
                         valid = false;
                         break;

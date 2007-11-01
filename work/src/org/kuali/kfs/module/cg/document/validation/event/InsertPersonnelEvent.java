@@ -21,8 +21,6 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 
 /**
  * Class capturing an insert personnel event.
- * 
- * 
  */
 public interface InsertPersonnelEvent extends KualiDocumentEvent {
     /**

@@ -24,8 +24,6 @@ import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * Defines methods common to all AccountingLineEvents.
- * 
- * 
  */
 public abstract class AccountingLineEventBase extends KualiDocumentEventBase implements AccountingLineEvent {
     private static final Logger LOG = Logger.getLogger(AccountingLineEventBase.class);
@@ -82,7 +80,7 @@ public abstract class AccountingLineEventBase extends KualiDocumentEventBase imp
         }
         else {
             String accountingLineType = accountingLine.getFinancialDocumentLineTypeCode();
-            
+
             logMessage.append(accountingLineType);
             logMessage.append(" seq# ");
             logMessage.append(accountingLine.getSequenceNumber());

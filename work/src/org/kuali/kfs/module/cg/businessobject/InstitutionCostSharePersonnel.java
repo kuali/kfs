@@ -45,7 +45,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -55,7 +54,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -65,7 +63,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -75,7 +72,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -85,7 +81,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Gets the organizationCode attribute.
      * 
      * @return Returns the organizationCode
-     * 
      */
     public String getOrganizationCode() {
         return organizationCode;
@@ -95,7 +90,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Sets the organizationCode attribute.
      * 
      * @param organizationCode The organizationCode to set.
-     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
@@ -105,7 +99,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Gets the budgetInstitutionCostSharePersonnelDescription attribute.
      * 
      * @return Returns the budgetInstitutionCostSharePersonnelDescription
-     * 
      */
     public String getBudgetInstitutionCostSharePersonnelDescription() {
         return budgetInstitutionCostSharePersonnelDescription;
@@ -115,7 +108,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Sets the budgetInstitutionCostSharePersonnelDescription attribute.
      * 
      * @param budgetInstitutionCostSharePersonnelDescription The budgetInstitutionCostSharePersonnelDescription to set.
-     * 
      */
     public void setBudgetInstitutionCostSharePersonnelDescription(String budgetInstitutionCostSharePersonnelDescription) {
         this.budgetInstitutionCostSharePersonnelDescription = budgetInstitutionCostSharePersonnelDescription;
@@ -125,7 +117,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -135,7 +126,6 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
      * Sets the chartOfAccounts attribute.
      * 
      * @param chartOfAccounts The chartOfAccounts to set.
-     * 
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
@@ -176,8 +166,8 @@ public class InstitutionCostSharePersonnel extends PersistableBusinessObjectBase
     }
 
     /**
-     * Calculates hashCode based on current values of documentNumber, chartOfAccountsCode and organizationCode fields. This is
-     * based on Account.hashCode().
+     * Calculates hashCode based on current values of documentNumber, chartOfAccountsCode and organizationCode fields. This is based
+     * on Account.hashCode().
      * 
      * @see java.lang.Object#hashCode()
      */

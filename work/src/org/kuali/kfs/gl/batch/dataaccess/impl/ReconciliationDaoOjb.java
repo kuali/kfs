@@ -34,7 +34,7 @@ import org.kuali.module.gl.dao.ReconciliationDao;
 public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements ReconciliationDao {
 
     private DescriptorRepository descriptorRepository;
-    
+
     /**
      * Constructs a ReconciliationDaoOjb.java.
      */
@@ -42,6 +42,7 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
         MetadataManager metadataManager = MetadataManager.getInstance();
         descriptorRepository = metadataManager.getGlobalRepository();
     }
+
     /**
      * @see org.kuali.module.gl.dao.ReconciliationDao#convertDBColumnNamesToJavaName(java.lang.String[])
      */
@@ -74,9 +75,10 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
         }
         return null;
     }
-    
+
     /**
      * Returns the OJB class descriptor
+     * 
      * @param <E> an origin entry class
      * @param persistableClass the class
      * @return the class descriptor
@@ -97,17 +99,19 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
 
         return classDescriptor;
     }
-    
+
     /**
-     * Gets the descriptorRepository attribute. 
+     * Gets the descriptorRepository attribute.
+     * 
      * @return Returns the descriptorRepository.
      */
     protected DescriptorRepository getDescriptorRepository() {
         return descriptorRepository;
     }
-    
+
     /**
      * Sets the descriptorRepository attribute value.
+     * 
      * @param descriptorRepository The descriptorRepository to set.
      */
     public void setDescriptorRepository(DescriptorRepository descriptorRepository) {

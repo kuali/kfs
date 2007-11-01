@@ -28,7 +28,7 @@ public class LaborKeyConstants {
     public static final String ERROR_CANNOT_TRANSFER_NEGATIVE_AMOUNT = "error.labor.cannotTransferNegativeAmount";
     public static final String ERROR_DUPLICATE_SOURCE_ACCOUNTING_LINE = "error.labor.duplicateSourceAccountingLine";
     public static final String ERROR_EMPLOYEE_ID_NOT_SAME = "error.labor.employeeIdNotSame";
-    public static final String ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET ="error.labor.employeeIdNotSameInTarget";
+    public static final String ERROR_EMPLOYEE_ID_NOT_SAME_IN_TARGET = "error.labor.employeeIdNotSameInTarget";
     public static final String ERROR_FRINGE_BENEFIT_PERCENTAGE_INVALID = "error.labor.invalidFringeBenefitPercentageInvalid";
     public static final String ERROR_INVALID_LABOR_OBJECT_CODE = "error.labor.invalidLaborObjectCodeError";
     public static final String ERROR_LABOR_ERROR_CORRECTION_PERSISTED_ORIGIN_ENTRIES_MISSING = "error.labor.correction.persisted.origin.entries.missing";

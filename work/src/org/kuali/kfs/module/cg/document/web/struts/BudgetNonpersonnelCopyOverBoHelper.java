@@ -24,8 +24,6 @@ import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 /**
  * This is a wrapper for BudgetNonpersonnel business object. It's useful on the copy over page because it assists in housing and
  * computing the inflation rates.
- * 
- * 
  */
 public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
     private static final long serialVersionUID = -4975734069081678964L;
@@ -205,10 +203,10 @@ public class BudgetNonpersonnelCopyOverBoHelper extends BudgetNonpersonnel {
         }
 
         this.setCopyToFuturePeriods(false); // nothing to do with copy over, just make sure the checkbox is unchecked if "save" is
-                                            // used to copy over items on NPRS page
+        // used to copy over items on NPRS page
 
         return (BudgetNonpersonnel) new BudgetNonpersonnel(this); // Don't just return "this" because giving a
-                                                                    // BudgetNonpersonnelCopyOverBoHelper confuses OJB.
+        // BudgetNonpersonnelCopyOverBoHelper confuses OJB.
     }
 
     /**

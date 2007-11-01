@@ -28,8 +28,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the ObjectCode service.
- * 
- * 
  */
 @ConfigureContext
 public class ObjectCodeServiceTest extends KualiTestBase {

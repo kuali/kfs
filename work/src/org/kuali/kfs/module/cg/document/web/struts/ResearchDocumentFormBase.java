@@ -22,7 +22,7 @@ import org.kuali.module.kra.bo.AdhocPerson;
 import org.kuali.module.kra.document.ResearchDocument;
 
 public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
-    
+
     private AdhocPerson newAdHocPerson;
     private AdhocOrg newAdHocOrg;
     private String newAdHocWorkgroupPermissionCode;
@@ -32,9 +32,9 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
         newAdHocPerson = new AdhocPerson();
         newAdHocOrg = new AdhocOrg();
     }
-    
+
     abstract public ResearchDocument getResearchDocument();
-    
+
     public void disableHeaderNavigation(String headerTabNavigateTo) {
         for (int i = 0; i < this.getHeaderNavigationTabs().length; i++) {
             HeaderNavigation currentNav = (HeaderNavigation) this.getHeaderNavigationTabs()[i];
@@ -54,7 +54,7 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
             }
         }
     }
-    
+
     /**
      * Gets the newAdHocPerson attribute.
      * 
@@ -72,9 +72,10 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
     public void setNewAdHocPerson(AdhocPerson newAdHocPerson) {
         this.newAdHocPerson = newAdHocPerson;
     }
-    
+
     /**
-     * Gets the newAdHocOrg attribute. 
+     * Gets the newAdHocOrg attribute.
+     * 
      * @return Returns the newAdHocOrg.
      */
     public AdhocOrg getNewAdHocOrg() {
@@ -83,6 +84,7 @@ public abstract class ResearchDocumentFormBase extends KualiDocumentFormBase {
 
     /**
      * Sets the newAdHocOrg attribute value.
+     * 
      * @param newAdHocOrg The newAdHocOrg to set.
      */
     public void setNewAdHocOrg(AdhocOrg newAdHocOrg) {

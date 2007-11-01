@@ -25,18 +25,15 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.Entry;
 
 /**
- * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most
- * cases, balance inquiries only show the end-user data, and allow the end-user to drill-down into inquiries. A
- * traditional lookup allows the user to return data to a form. This class is for balance inquiries implemented
- * in the sense of a traditional lookup for forms that pull data out of inquiries.<br/>
- * <br/>
- * One example of this is the <code>{@link org.kuali.module.labor.document.SalaryExpenseTransferDocument}</code>
- * which creates source lines from a labor ledger balance inquiry screen.<br/>
- * <br/>
- * This is a <code>{@link KualiMultipleValueLookupAction}</code> which required some customization because requirements
- * were not possible with displaytag. There are a number of properties/attributes that are used for pagination, formatting,
- * etc...
- *
+ * Balance inquiries are pretty much just lookups already, but are not used in the traditional sense. In most cases, balance
+ * inquiries only show the end-user data, and allow the end-user to drill-down into inquiries. A traditional lookup allows the user
+ * to return data to a form. This class is for balance inquiries implemented in the sense of a traditional lookup for forms that
+ * pull data out of inquiries.<br/> <br/> One example of this is the
+ * <code>{@link org.kuali.module.labor.document.SalaryExpenseTransferDocument}</code> which creates source lines from a labor
+ * ledger balance inquiry screen.<br/> <br/> This is a <code>{@link KualiMultipleValueLookupAction}</code> which required some
+ * customization because requirements were not possible with displaytag. There are a number of properties/attributes that are used
+ * for pagination, formatting, etc...
+ * 
  * @see org.kuali.module.labor.document.SalaryExpenseTransferDocument
  * @see org.kuali.module.labor.web.struts.action.SalaryExpenseTransferAction;
  * @see org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
@@ -55,7 +52,7 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
-     *
+     * 
      * @param request <code>{@link javax.servlet.http.HttpServletRequest}</code> instance for Struts
      */
     @Override
@@ -66,15 +63,15 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
 
         if (Entry.class.getName().equals(getBusinessObjectClassName())) {
             localPendingEntryLookupable = LookupableSpringContext.getLookupable(GLConstants.LookupableBeanKeys.PENDING_ENTRY);
-            }
-        
+        }
+
         if (localPendingEntryLookupable != null) {
             localPendingEntryLookupable.setBusinessObjectClass(GeneralLedgerPendingEntry.class);
             localPendingEntryLookupable.setFieldConversions(getFieldConversions());
         }
         setPendingEntryLookupable(localPendingEntryLookupable);
     }
-    
+
 
     /**
      * @param pendingEntryLookupable
@@ -92,17 +89,17 @@ public class BalanceInquiryLookupForm extends MultipleValueLookupForm {
     }
 
     /**
-     * Determines if the balance inquiry lookup should be segmented or not 
+     * Determines if the balance inquiry lookup should be segmented or not
      * 
      * @return boolean
      */
     public boolean isSegmented() {
         return segmented;
     }
-    
+
     /**
      * Tells the balance inquiry lookup whether to be segmented or not
-     *
+     * 
      * @param seg
      */
     public void setSegmented(boolean seg) {

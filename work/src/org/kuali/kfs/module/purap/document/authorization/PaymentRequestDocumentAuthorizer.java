@@ -43,12 +43,13 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Document Authorizer for the PREQ document. 
+ * Document Authorizer for the PREQ document.
  */
 public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
-    
+
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
@@ -62,36 +63,38 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {
         Map editModeMap = super.getEditMode(document, user, sourceAccountingLines, targetAccountingLines);
         PaymentRequestDocument preq = (PaymentRequestDocument) document;
 
-        PaymentRequestDocumentActionAuthorizer preqDocAuth  = new PaymentRequestDocumentActionAuthorizer(preq); 
-        
+        PaymentRequestDocumentActionAuthorizer preqDocAuth = new PaymentRequestDocumentActionAuthorizer(preq);
+
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
-        
-        boolean fullDocumentEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument)document);
-        
+
+        boolean fullDocumentEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted((PaymentRequestDocument) document);
+
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
             if (hasInitiateAuthorization(document, user)) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
-        } else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
+        }
+        else if (workflowDocument.stateIsEnroute() && workflowDocument.isApprovalRequested()) {
             List currentRouteLevels = getCurrentRouteLevels(workflowDocument);
-            //only allow full entry if status allows it
+            // only allow full entry if status allows it
 
-            if(!fullDocumentEntryCompleted) {
+            if (!fullDocumentEntryCompleted) {
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
-            
+
             if (currentRouteLevels.contains(NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
                 editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                //expense_entry was already added in super
-                //add amount edit mode
+                // expense_entry was already added in super
+                // add amount edit mode
                 editMode = PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY;
 
                 List lineList = new ArrayList();
@@ -105,20 +108,20 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                     }
                 }
             }
-        } 
+        }
 
         editModeMap.put(editMode, "TRUE");
 
-        //always show amount after full entry
-        if(fullDocumentEntryCompleted) {
+        // always show amount after full entry
+        if (fullDocumentEntryCompleted) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY, "TRUE");
         }
-        
-        //make sure ap user can edit certain fields 
+
+        // make sure ap user can edit certain fields
         if (preqDocAuth.canEditPreExtractFields()) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
-        
+
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.DISPLAY_INIT_TAB, "TRUE");
@@ -133,7 +136,8 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -143,7 +147,7 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
         if (KFSConstants.SYSTEM_USER.equalsIgnoreCase(user.getPersonUserIdentifier())) {
             flags.setCanBlanketApprove(true);
         }
-           
+
         PaymentRequestDocument paymentRequestDocument = (PaymentRequestDocument) document;
         if (StringUtils.equals(paymentRequestDocument.getStatusCode(), PurapConstants.PaymentRequestStatuses.INITIATE)) {
             flags.setCanSave(false);

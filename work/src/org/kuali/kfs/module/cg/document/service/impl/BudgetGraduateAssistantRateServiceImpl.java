@@ -26,9 +26,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.kra.budget.bo.AppointmentType;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 import org.kuali.module.kra.budget.bo.GraduateAssistantRate;
 import org.kuali.module.kra.budget.service.BudgetGraduateAssistantRateService;
@@ -45,7 +43,7 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
     public List getAllGraduateAssistantRates() {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.ACTIVE, KFSConstants.ACTIVE_INDICATOR);
-        
+
         return new ArrayList(businessObjectService.findMatching(GraduateAssistantRate.class, fieldValues));
     }
 
@@ -65,17 +63,16 @@ public class BudgetGraduateAssistantRateServiceImpl implements BudgetGraduateAss
             budget.getGraduateAssistantRates().add(budgetGraduateAssistantRate);
         }
     }
-    
+
     public BudgetGraduateAssistantRate getBudgetGraduateAssistantRate(String documentNumber, String campusCode) {
-        
-        BudgetGraduateAssistantRate budgetGradAsstRate = (BudgetGraduateAssistantRate) businessObjectService.retrieve(
-                new BudgetGraduateAssistantRate(documentNumber, campusCode));
-        
+
+        BudgetGraduateAssistantRate budgetGradAsstRate = (BudgetGraduateAssistantRate) businessObjectService.retrieve(new BudgetGraduateAssistantRate(documentNumber, campusCode));
+
         if (budgetGradAsstRate == null) {
             GraduateAssistantRate gradAsstRate = (GraduateAssistantRate) businessObjectService.retrieve(new GraduateAssistantRate(campusCode));
             budgetGradAsstRate = new BudgetGraduateAssistantRate(documentNumber, gradAsstRate);
         }
-        
+
         return budgetGradAsstRate;
     }
 

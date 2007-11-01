@@ -28,7 +28,7 @@ public class HomeOrigination extends PersistableBusinessObjectBase {
 
     private String finSystemHomeOriginationCode;
     private OriginationCode originationCode;
-    
+
 
     /**
      * Default no-arg constructor.
@@ -41,7 +41,6 @@ public class HomeOrigination extends PersistableBusinessObjectBase {
      * Gets the finSystemHomeOriginationCode attribute.
      * 
      * @return Returns the finSystemHomeOriginationCode
-     * 
      */
     public String getFinSystemHomeOriginationCode() {
         return finSystemHomeOriginationCode;
@@ -52,7 +51,6 @@ public class HomeOrigination extends PersistableBusinessObjectBase {
      * Sets the finSystemHomeOriginationCode attribute.
      * 
      * @param finSystemHomeOriginationCode The finSystemHomeOriginationCode to set.
-     * 
      */
     public void setFinSystemHomeOriginationCode(String finSystemHomeOriginationCode) {
         this.finSystemHomeOriginationCode = finSystemHomeOriginationCode;

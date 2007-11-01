@@ -22,7 +22,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 public interface BudgetConstructionOrganizationReportsDao {
 
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * This method returns active organizations that report to the passed in organization.
      * 
@@ -31,7 +31,7 @@ public interface BudgetConstructionOrganizationReportsDao {
      * @return
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * This method returns whether or not an organization is a leaf in the reports to tree
      * 
@@ -40,5 +40,5 @@ public interface BudgetConstructionOrganizationReportsDao {
      * @return
      */
     public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode);
-    
+
 }

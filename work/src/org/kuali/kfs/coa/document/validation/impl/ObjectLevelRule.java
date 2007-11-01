@@ -37,7 +37,6 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method should be overridden to provide custom rules for processing document routing
      * 
      * @param document
@@ -50,7 +49,6 @@ public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * This method checks to see if the Object Consolidation code matches a pre-existing Object Level code that is already entered.
      * If it does it returns false with an error
      * 

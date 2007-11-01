@@ -30,9 +30,8 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 
 /**
- * Rules for Purchase Order Retransmit document creation.
- * Should not extend <code>PurchaseOrderDocumentRule</code>, since it does not allow the purchase order to be edited, 
- * nor should it create GL entries.
+ * Rules for Purchase Order Retransmit document creation. Should not extend <code>PurchaseOrderDocumentRule</code>, since it does
+ * not allow the purchase order to be edited, nor should it create GL entries.
  */
 public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -67,11 +66,11 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
     }
 
     /**
-     * Central method to control the processing of rule checks.  Checks that the purchase order document
-     * is not null, and that the user is in the purchasing workgroup.
+     * Central method to control the processing of rule checks. Checks that the purchase order document is not null, and that the
+     * user is in the purchasing workgroup.
      * 
-     * @param document  A PurchaseOrderDocument.
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument.
+     * @return True if the document passes all the validations.
      */
     private boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -89,7 +88,7 @@ public class PurchaseOrderRetransmitDocumentRule extends TransactionalDocumentRu
              * GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE,
              * PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurchaseOrderStatuses.CLOSED); }
              */
-            
+
             if (!document.getPurchaseOrderAutomaticIndicator()) {
                 // Check that the user is in purchasing workgroup.
                 String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();

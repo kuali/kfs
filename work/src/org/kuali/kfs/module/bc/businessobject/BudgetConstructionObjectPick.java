@@ -19,68 +19,64 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * 
  */
 public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase {
 
-	private String financialObjectCode;
-	private Integer selectFlag;
-	private String personUniversalIdentifier;
+    private String financialObjectCode;
+    private Integer selectFlag;
+    private String personUniversalIdentifier;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionObjectPick() {
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionObjectPick() {
 
-	}
+    }
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
 
 
-	/**
-	 * Gets the selectFlag attribute.
-	 * 
-	 * @return Returns the selectFlag
-	 * 
-	 */
-	public Integer getSelectFlag() { 
-		return selectFlag;
-	}
+    /**
+     * Gets the selectFlag attribute.
+     * 
+     * @return Returns the selectFlag
+     */
+    public Integer getSelectFlag() {
+        return selectFlag;
+    }
 
-	/**
-	 * Sets the selectFlag attribute.
-	 * 
-	 * @param selectFlag The selectFlag to set.
-	 * 
-	 */
-	public void setSelectFlag(Integer selectFlag) {
-		this.selectFlag = selectFlag;
-	}
+    /**
+     * Sets the selectFlag attribute.
+     * 
+     * @param selectFlag The selectFlag to set.
+     */
+    public void setSelectFlag(Integer selectFlag) {
+        this.selectFlag = selectFlag;
+    }
 
 
-	/**
-     * Gets the personUniversalIdentifier attribute. 
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
      * @return Returns the personUniversalIdentifier.
      */
     public String getPersonUniversalIdentifier() {
@@ -89,6 +85,7 @@ public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase 
 
     /**
      * Sets the personUniversalIdentifier attribute value.
+     * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -96,12 +93,12 @@ public class BudgetConstructionObjectPick extends PersistableBusinessObjectBase 
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("financialObjectCode", this.financialObjectCode);
-	    return m;
+        return m;
     }
 }

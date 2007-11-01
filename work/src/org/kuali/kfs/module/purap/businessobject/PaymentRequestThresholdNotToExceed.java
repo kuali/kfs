@@ -27,55 +27,55 @@ import org.kuali.module.chart.bo.Chart;
  */
 public class PaymentRequestThresholdNotToExceed extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private KualiDecimal accountsPayableThresholdNotToExceedAmount;
+    private String chartOfAccountsCode;
+    private KualiDecimal accountsPayableThresholdNotToExceedAmount;
 
     private Chart chartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public PaymentRequestThresholdNotToExceed() {
+    /**
+     * Default constructor.
+     */
+    public PaymentRequestThresholdNotToExceed() {
 
-	}
-
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-
-	public KualiDecimal getAccountsPayableThresholdNotToExceedAmount() { 
-		return accountsPayableThresholdNotToExceedAmount;
-	}
-
-	public void setAccountsPayableThresholdNotToExceedAmount(KualiDecimal accountsPayableThresholdNotToExceedAmount) {
-		this.accountsPayableThresholdNotToExceedAmount = accountsPayableThresholdNotToExceedAmount;
-	}
-
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
-
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-	    return m;
     }
-    
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public KualiDecimal getAccountsPayableThresholdNotToExceedAmount() {
+        return accountsPayableThresholdNotToExceedAmount;
+    }
+
+    public void setAccountsPayableThresholdNotToExceedAmount(KualiDecimal accountsPayableThresholdNotToExceedAmount) {
+        this.accountsPayableThresholdNotToExceedAmount = accountsPayableThresholdNotToExceedAmount;
+    }
+
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
+        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
+        return m;
+    }
+
 }

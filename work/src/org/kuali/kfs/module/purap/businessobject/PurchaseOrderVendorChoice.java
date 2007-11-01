@@ -25,32 +25,32 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
 
-	private String purchaseOrderVendorChoiceCode;
-	private String purchaseOrderVendorChoiceDescription;
-	private boolean active;
+    private String purchaseOrderVendorChoiceCode;
+    private String purchaseOrderVendorChoiceDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderVendorChoice() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderVendorChoice() {
 
-	}
+    }
 
-	public String getPurchaseOrderVendorChoiceCode() { 
-		return purchaseOrderVendorChoiceCode;
-	}
+    public String getPurchaseOrderVendorChoiceCode() {
+        return purchaseOrderVendorChoiceCode;
+    }
 
-	public void setPurchaseOrderVendorChoiceCode(String purchaseOrderVendorChoiceCode) {
-		this.purchaseOrderVendorChoiceCode = purchaseOrderVendorChoiceCode;
-	}
+    public void setPurchaseOrderVendorChoiceCode(String purchaseOrderVendorChoiceCode) {
+        this.purchaseOrderVendorChoiceCode = purchaseOrderVendorChoiceCode;
+    }
 
-	public String getPurchaseOrderVendorChoiceDescription() { 
-		return purchaseOrderVendorChoiceDescription;
-	}
+    public String getPurchaseOrderVendorChoiceDescription() {
+        return purchaseOrderVendorChoiceDescription;
+    }
 
-	public void setPurchaseOrderVendorChoiceDescription(String purchaseOrderVendorChoiceDescription) {
-		this.purchaseOrderVendorChoiceDescription = purchaseOrderVendorChoiceDescription;
-	}
+    public void setPurchaseOrderVendorChoiceDescription(String purchaseOrderVendorChoiceDescription) {
+        this.purchaseOrderVendorChoiceDescription = purchaseOrderVendorChoiceDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -61,12 +61,12 @@ public class PurchaseOrderVendorChoice extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderVendorChoiceCode", this.purchaseOrderVendorChoiceCode);
-	    return m;
+        return m;
     }
-    
+
 }

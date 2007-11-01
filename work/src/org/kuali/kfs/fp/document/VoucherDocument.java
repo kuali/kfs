@@ -15,7 +15,6 @@
  */
 package org.kuali.module.financial.document;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.document.AccountingDocument;
 

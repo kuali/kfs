@@ -21,14 +21,13 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 
 /**
  * This interface defines methods that an Budget Construction Organization Reports Service must provide.
- * 
- * 
  */
 public interface BudgetConstructionOrganizationReportsService {
 
 
     /**
-     * This method retrieves a Budget Construction Organization Reports instance by its composite primary keys (parameters passed in).
+     * This method retrieves a Budget Construction Organization Reports instance by its composite primary keys (parameters passed
+     * in).
      * 
      * @param chartOfAccountsCode
      * @param organizationCode
@@ -38,7 +37,7 @@ public interface BudgetConstructionOrganizationReportsService {
 
     /**
      * This method returns a list of child BC organization reports objects for the passed in org.
-     *  
+     * 
      * @param chartOfAccountsCode
      * @param organizationCode
      * @return

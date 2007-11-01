@@ -94,7 +94,7 @@ public class KualiInternalPurchasingRoleAttribute extends UnqualifiedRoleAttribu
                     // get the document id number from the routeContext doc content
                     PurchasingDocumentBase document = (PurchasingDocumentBase) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
                     document.refreshNonUpdateableReferences();
-                    KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit((PurchaseOrderDocument)document);
+                    KualiDecimal internalPurchasingLimit = SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit((PurchaseOrderDocument) document);
                     return ((ObjectUtils.isNull(internalPurchasingLimit)) || (internalPurchasingLimit.compareTo(KualiWorkflowUtils.getFinancialDocumentTotalAmount(docContent.getDocument())) < 0));
                 }
                 return false;

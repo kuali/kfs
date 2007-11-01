@@ -20,8 +20,6 @@ import java.util.List;
 
 /**
  * This interface defines methods that a FiscalYearFunctionControl Service must provide.
- * 
- * 
  */
 public interface FiscalYearFunctionControlService {
 

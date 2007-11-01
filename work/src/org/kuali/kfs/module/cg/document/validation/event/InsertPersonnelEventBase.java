@@ -15,9 +15,6 @@
  */
 package org.kuali.module.kra.budget.rules.event;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
@@ -26,8 +23,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing an insert personnel event.
- * 
- * 
  */
 public class InsertPersonnelEventBase extends KualiDocumentEventBase {
 

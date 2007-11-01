@@ -22,12 +22,12 @@ import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
  */
 public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 
-    protected void clearTempTableByUnvlId( String tableName, String personUnvlIdColumn, String personUserIdentifier ) {
-        getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier );               
+    protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
+        getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier);
     }
 
-    protected void clearTempTableBySesId( String tableName, String SesIdColumn, String sessionId ) {
-        getSimpleJdbcTemplate().update( "DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId );               
+    protected void clearTempTableBySesId(String tableName, String SesIdColumn, String sessionId) {
+        getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId);
     }
 
 }

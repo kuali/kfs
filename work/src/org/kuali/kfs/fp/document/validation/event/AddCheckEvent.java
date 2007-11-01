@@ -16,7 +16,6 @@
 package org.kuali.module.financial.rule.event;
 
 import org.kuali.core.document.Document;
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.bo.Check;

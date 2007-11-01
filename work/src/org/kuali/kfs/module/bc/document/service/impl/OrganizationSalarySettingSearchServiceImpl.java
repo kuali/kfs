@@ -15,16 +15,8 @@
  */
 package org.kuali.module.budget.service.impl;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.log4j.Logger;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect;
-import org.kuali.module.budget.bo.BudgetConstructionPullup;
-import org.kuali.module.budget.dao.BudgetConstructionDao;
 import org.kuali.module.budget.dao.OrganizationSalarySettingSearchDao;
-import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,14 +26,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrganizationSalarySettingSearchServiceImpl implements OrganizationSalarySettingSearchService {
     private static Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSalarySettingSearchServiceImpl.class);
-    
+
     private OrganizationSalarySettingSearchDao organizationSalarySettingSearchDao;
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildIntendedIncumbentSelect(java.lang.String,
+     *      java.lang.Integer)
      */
     public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear) {
-        
+
         organizationSalarySettingSearchDao.cleanIntendedIncumbentSelect(personUserIdentifier);
         organizationSalarySettingSearchDao.buildIntendedIncumbentSelect(personUserIdentifier, universityFiscalYear);
     }
@@ -55,7 +48,8 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.budget.service.OrganizationSalarySettingSearchService#buildPositionSelect(java.lang.String,
+     *      java.lang.Integer)
      */
     public void buildPositionSelect(String personUserIdentifier, Integer universityFiscalYear) {
 
@@ -73,6 +67,7 @@ public class OrganizationSalarySettingSearchServiceImpl implements OrganizationS
 
     /**
      * Sets the organizationSalarySettingSearchDao attribute value.
+     * 
      * @param organizationSalarySettingSearchDao The organizationSalarySettingSearchDao to set.
      */
     public void setOrganizationSalarySettingSearchDao(OrganizationSalarySettingSearchDao organizationSalarySettingSearchDao) {

@@ -11,10 +11,11 @@ import org.kuali.module.pdp.bo.FormatProcess;
 
 /**
  * @author jsissom
- *
  */
 public interface FormatProcessDao {
-  public FormatProcess getByCampus(String campus);
-  public void removeByCampus(String campus);
-  public void add(String campus,Date now);
+    public FormatProcess getByCampus(String campus);
+
+    public void removeByCampus(String campus);
+
+    public void add(String campus, Date now);
 }

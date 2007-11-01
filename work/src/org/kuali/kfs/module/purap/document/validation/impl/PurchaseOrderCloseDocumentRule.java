@@ -33,11 +33,11 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
+import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
+import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.PurapConstants.PODocumentsStrings;
-import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -80,11 +80,11 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Central method to control the processing of rule checks.  Checks that the purchase order document
-     * is not null, that it is in the correct status, and delegates further rule checking.
+     * Central method to control the processing of rule checks. Checks that the purchase order document is not null, that it is in
+     * the correct status, and delegates further rule checking.
      * 
-     * @param document  A PurchaseOrderDocument. (Not a PurchaseOrderCloseDocument at this point.)
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument. (Not a PurchaseOrderCloseDocument at this point.)
+     * @return True if the document passes all the validations.
      */
     public boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -94,28 +94,26 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         }
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-            
+
             // TODO: Get this from Business Rules.
             // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) &&
-                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
                 valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN );
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN);
             }
             else {
-                valid &= processPaymentRequestRules( document );
+                valid &= processPaymentRequestRules(document);
             }
         }
         return valid;
     }
 
     /**
-     * Processes validation rules having to do with any payment requests that the given purchase order may have.
-     * Specifically, validates that at least one payment request exists, and makes furthur checks about
-     * the status of such payment requests.
+     * Processes validation rules having to do with any payment requests that the given purchase order may have. Specifically,
+     * validates that at least one payment request exists, and makes furthur checks about the status of such payment requests.
      * 
-     * @param document      A PurchaseOrderDocument
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument
+     * @return True if the document passes all the validations.
      */
     public boolean processPaymentRequestRules(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -132,15 +130,17 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
                 boolean hasInProcess = false;
 
                 for (PaymentRequestDocument pReq : pReqs) {
-                    //skip exception docs
-                    if(pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
+                    // skip exception docs
+                    if (pReq.getDocumentHeader().getWorkflowDocument().stateIsException()) {
                         continue;
                     }
-                    //NOTE for below, this could/should be changed to look at the first route level after full entry instead of being tied to AwaitingFiscal (in case full entry is moved)
-                    //look for a doc that is currently routing, that will probably be the one that called this close if called from preq (with close po box)
-                    if(StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && 
-                            !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(),PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
-                        //terminate the search since this close doc is probably being called by this doc, a doc should never be In Process and enroute in any other case
+                    // NOTE for below, this could/should be changed to look at the first route level after full entry instead of
+                    // being tied to AwaitingFiscal (in case full entry is moved)
+                    // look for a doc that is currently routing, that will probably be the one that called this close if called from
+                    // preq (with close po box)
+                    if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.AWAITING_FISCAL_REVIEW) && !StringUtils.equalsIgnoreCase(pReq.getDocumentHeader().getWorkflowDocument().getCurrentRouteNodeNames(), PurapWorkflowConstants.PaymentRequestDocument.NodeDetailEnum.ACCOUNT_REVIEW.getName())) {
+                        // terminate the search since this close doc is probably being called by this doc, a doc should never be In
+                        // Process and enroute in any other case
                         checkInProcess = false;
                         break;
                     }
@@ -148,7 +148,7 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
                         hasInProcess = true;
                     }
                 }
-                if(checkInProcess && hasInProcess) {
+                if (checkInProcess && hasInProcess) {
                     valid = false;
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURAP_DOC_ID, PurapKeyConstants.ERROR_PURCHASE_ORDER_CLOSE_PREQ_IN_PROCESS, PREQDocumentsStrings.IN_PROCESS);
                 }
@@ -159,15 +159,15 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        PurchaseOrderDocument po = (PurchaseOrderDocument)accountingDocument;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) accountingDocument;
 
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, 
-                accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_CREDIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
         // don't think i should have to override this, but default isn't getting the right PO doc
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_CLOSE_DOCUMENT);

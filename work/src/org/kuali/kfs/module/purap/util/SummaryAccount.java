@@ -19,21 +19,21 @@ import java.util.List;
 
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.SourceAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurApSummaryItem;
 
 public class SummaryAccount {
 
     private SourceAccountingLine account;
     private List<PurApSummaryItem> items;
-   
+
     public SummaryAccount() {
         super();
         items = new TypedArrayList(PurApSummaryItem.class);
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
+     * 
      * @return Returns the account.
      */
     public SourceAccountingLine getAccount() {
@@ -42,6 +42,7 @@ public class SummaryAccount {
 
     /**
      * Sets the account attribute value.
+     * 
      * @param account The account to set.
      */
     public void setAccount(SourceAccountingLine account) {
@@ -49,7 +50,8 @@ public class SummaryAccount {
     }
 
     /**
-     * Gets the items attribute. 
+     * Gets the items attribute.
+     * 
      * @return Returns the items.
      */
     public List<PurApSummaryItem> getItems() {
@@ -58,10 +60,11 @@ public class SummaryAccount {
 
     /**
      * Sets the items attribute value.
+     * 
      * @param items The items to set.
      */
     public void setItems(List<PurApSummaryItem> items) {
         this.items = items;
     }
-    
+
 }

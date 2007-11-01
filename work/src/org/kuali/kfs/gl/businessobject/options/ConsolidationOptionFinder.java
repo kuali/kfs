@@ -25,8 +25,6 @@ import org.kuali.module.gl.web.Constant;
 
 /**
  * This class...
- * 
- * 
  */
 public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueFinder {
 

@@ -44,7 +44,7 @@ public class SupplierDiversityValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = sds.iterator(); iter.hasNext();) {
             SupplierDiversity sd = (SupplierDiversity) iter.next();
-            labels.add(new KeyLabelPair( sd.getVendorSupplierDiversityCode(), sd.getVendorSupplierDiversityDescription() ));
+            labels.add(new KeyLabelPair(sd.getVendorSupplierDiversityCode(), sd.getVendorSupplierDiversityDescription()));
         }
 
         return labels;

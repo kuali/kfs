@@ -31,7 +31,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
     private static final Logger LOG = Logger.getLogger(UniversityDateServiceImpl.class);
 
     private UniversityDateDao universityDateDao;
-    
+
     public UniversityDate getCurrentUniversityDate() {
         LOG.debug("getCurrentUniversityDate() started");
         java.util.Date now = SpringContext.getBean(DateTimeService.class).getCurrentDate();
@@ -50,7 +50,7 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         t0.log();
         return result;
     }
-    
+
     /**
      * @see org.kuali.core.service.DateTimeService#getFiscalYear(java.util.Date)
      */
@@ -72,9 +72,9 @@ public class UniversityDateServiceImpl implements UniversityDateService {
         UniversityDate uDate = universityDateDao.getLastFiscalYearDate(fiscalYear);
         return (uDate == null) ? null : uDate.getUniversityDate();
     }
-    
-  public void setUniversityDateDao(UniversityDateDao universityDateDao) {
-  this.universityDateDao = universityDateDao;
-}
-    
+
+    public void setUniversityDateDao(UniversityDateDao universityDateDao) {
+        this.universityDateDao = universityDateDao;
+    }
+
 }

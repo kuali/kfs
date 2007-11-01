@@ -31,8 +31,6 @@ import org.kuali.module.financial.service.ServiceBillingControlService;
 
 /**
  * This class contains static helper methods for ServiceBillingDocumentRule and ServiceBillingDocumentAuthorizer.
- * 
- * 
  */
 public class ServiceBillingDocumentRuleUtil {
 
@@ -71,7 +69,7 @@ public class ServiceBillingDocumentRuleUtil {
             return false;
         }
 
-        if (user.isMember( control.getWorkgroupName() )) {
+        if (user.isMember(control.getWorkgroupName())) {
             return true;
         }
         else {

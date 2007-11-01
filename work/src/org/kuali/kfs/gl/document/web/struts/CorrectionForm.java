@@ -44,40 +44,43 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     private String htmlFormAction;
     private String documentType;
 
-    
+
     private String chooseSystem;
     /**
-     * Used to store the previously selected system, in case the user changed the selection when it's not appropriate, so that it can be restored
+     * Used to store the previously selected system, in case the user changed the selection when it's not appropriate, so that it
+     * can be restored
      */
     private String previousChooseSystem;
-    
+
     private String editMethod;
     /**
-     * Used to store the previously selected edit method, in case the user changed the selection when it's not appropriate, so that it can be restored
+     * Used to store the previously selected edit method, in case the user changed the selection when it's not appropriate, so that
+     * it can be restored
      */
     private String previousEditMethod;
-    
+
     /**
      * This is the input group ID selected when the last page was rendered
      */
     private Integer previousInputGroupId;
-    
+
     /**
      * This is the input group ID of the document when it was retrieved from the DB
      */
     private Integer inputGroupIdFromLastDocumentLoad;
-    
+
     /**
-     * True only when the selected input group ID does not correspond to an input group in the system.  True means that querying the {@link org.kuali.module.gl.service.OriginEntryGroupService}
-     * for the group id last saved in the doc would turn up no results.
+     * True only when the selected input group ID does not correspond to an input group in the system. True means that querying the
+     * {@link org.kuali.module.gl.service.OriginEntryGroupService} for the group id last saved in the doc would turn up no results.
      */
     private boolean inputGroupIdFromLastDocumentLoadIsMissing = false;
-    
+
     /**
-     * Whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     * Whether the origin entries we should be displaying on the form are not currently persisted by the
+     * {@link CorrectionDocumentService}.
      */
     private boolean persistedOriginEntriesMissing = false;
-    
+
     private Integer outputGroupId;
     private String inputFileName;
     protected FormFile sourceFile;
@@ -97,19 +100,19 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     private String entryTransactionDate;
     private String entryTransactionLedgerEntrySequenceNumber;
     private String entryTransactionLedgerEntryAmount;
-    
+
 
     /**
      * Used to identify the search results on the form
      */
     private String glcpSearchResultsSequenceNumber;
-    
+
     private OriginEntryFull entryForManualEdit;
 
     private List<GroupHolder> groups;
 
     private KualiTableRenderFormMetadata originEntrySearchResultTableMetadata;
-    
+
     public CorrectionForm() {
         super();
 
@@ -126,9 +129,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
         entryForManualEdit = new OriginEntryFull();
         entryForManualEdit.setEntryId(0);
-        
+
         originEntrySearchResultTableMetadata = new KualiTableRenderFormMetadata();
-        
+
         setDocType();
     }
 
@@ -138,11 +141,11 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        
+
         if (KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall())) {
             // look for the page number to switch to
             originEntrySearchResultTableMetadata.setSwitchToPageNumber(-1);
-            
+
             // the param we're looking for looks like: methodToCall.switchToPage.1.x , where 1 is the page nbr
             String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
@@ -156,10 +159,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
                 throw new RuntimeException("Couldn't find page number");
             }
         }
-        
+
         if (KFSConstants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall())) {
             originEntrySearchResultTableMetadata.setColumnToSortIndex(-1);
-            
+
             // the param we're looking for looks like: methodToCall.sort.1.x , where 1 is the column to sort on
             String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SORT_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
@@ -173,11 +176,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
                 throw new RuntimeException("Couldn't find column to sort");
             }
         }
-        
+
         // since the processInBatch option defaults to true, there's no built in POJO way to detect whether it's been unchecked
         // this code takes care of that
-        if (StringUtils.isNotBlank(request.getParameter("processInBatch" + KFSConstants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION)) && 
-                StringUtils.isBlank(request.getParameter("processInBatch"))) {
+        if (StringUtils.isNotBlank(request.getParameter("processInBatch" + KFSConstants.CHECKBOX_PRESENT_ON_FORM_ANNOTATION)) && StringUtils.isBlank(request.getParameter("processInBatch"))) {
             setProcessInBatch(false);
         }
     }
@@ -186,13 +188,13 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
         getGroupsItem(groupCount);
     }
-    
+
     public int getGroupsSize() {
         return groups.size();
     }
 
     public GroupHolder getGroupsItem(int i) {
-        while ( i >= groups.size() ) {
+        while (i >= groups.size()) {
             groups.add(new GroupHolder());
         }
         return groups.get(i);
@@ -214,7 +216,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         displayEntries = new ArrayList<OriginEntryFull>();
 
         restrictedFunctionalityMode = false;
-        
+
         setDocument(new CorrectionDocument());
 
         // create a blank TransactionalDocumentActionFlags instance, since form-recreation needs it
@@ -226,7 +228,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         inputGroupIdFromLastDocumentLoad = null;
         inputGroupIdFromLastDocumentLoadIsMissing = false;
         persistedOriginEntriesMissing = false;
-        
+
         // Sync up the groups
         syncGroups();
 
@@ -236,10 +238,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     public void updateEntryForManualEdit() {
         entryForManualEdit.setFieldValue("universityFiscalYear", getEntryUniversityFiscalYear());
-        entryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber",getEntryTransactionLedgerEntrySequenceNumber());
+        entryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber", getEntryTransactionLedgerEntrySequenceNumber());
         entryForManualEdit.setFieldValue("transactionLedgerEntryAmount", getEntryTransactionLedgerEntryAmount());
         entryForManualEdit.setFieldValue("transactionDate", getEntryTransactionDate());
-        entryForManualEdit.setFieldValue("financialDocumentReversalDate",getEntryFinancialDocumentReversalDate());
+        entryForManualEdit.setFieldValue("financialDocumentReversalDate", getEntryFinancialDocumentReversalDate());
     }
 
     public void clearEntryForManualEdit() {
@@ -257,11 +259,11 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     public Integer getAllEntriesSize() {
-        return ( allEntries == null ) ? null : allEntries.size();
+        return (allEntries == null) ? null : allEntries.size();
     }
 
     public CorrectionDocument getCorrectionDocument() {
-        return (CorrectionDocument)getDocument();
+        return (CorrectionDocument) getDocument();
     }
 
     public String getEntryFinancialDocumentReversalDate() {
@@ -355,7 +357,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public Integer getInputGroupId() {
         return ((CorrectionDocument) getDocument()).getCorrectionInputGroupId();
     }
-    
+
     public boolean getProcessInBatch() {
         return processInBatch;
     }
@@ -437,19 +439,21 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets the originEntrySearchResultTableMetadata attribute. 
+     * Gets the originEntrySearchResultTableMetadata attribute.
+     * 
      * @return Returns the originEntrySearchResultTableMetadata.
      */
     public KualiTableRenderFormMetadata getOriginEntrySearchResultTableMetadata() {
         return originEntrySearchResultTableMetadata;
     }
-    
+
     public List<Column> getTableRenderColumnMetadata() {
         return SpringContext.getBean(CorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
-    
+
     /**
-     * Gets the restrictedFunctionalityMode attribute. 
+     * Gets the restrictedFunctionalityMode attribute.
+     * 
      * @return Returns the restrictedFunctionalityMode.
      */
     public boolean isRestrictedFunctionalityMode() {
@@ -458,6 +462,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the restrictedFunctionalityMode attribute value.
+     * 
      * @param restrictedFunctionalityMode The restrictedFunctionalityMode to set.
      */
     public void setRestrictedFunctionalityMode(boolean restrictedFunctionalityMode) {
@@ -465,7 +470,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets the glcpSearchResuiltsSequenceNumber attribute. 
+     * Gets the glcpSearchResuiltsSequenceNumber attribute.
+     * 
      * @return Returns the glcpSearchResuiltsSequenceNumber.
      */
     public String getGlcpSearchResultsSequenceNumber() {
@@ -474,6 +480,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the glcpSearchResuiltsSequenceNumber attribute value.
+     * 
      * @param glcpSearchResuiltsSequenceNumber The glcpSearchResuiltsSequenceNumber to set.
      */
     public void setGlcpSearchResultsSequenceNumber(String glcpSearchResuiltsSequenceNumber) {
@@ -481,7 +488,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets the previousChooseSystem attribute. 
+     * Gets the previousChooseSystem attribute.
+     * 
      * @return Returns the previousChooseSystem.
      */
     public String getPreviousChooseSystem() {
@@ -490,6 +498,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the previousChooseSystem attribute value.
+     * 
      * @param previousChooseSystem The previousChooseSystem to set.
      */
     public void setPreviousChooseSystem(String previousChooseSystem) {
@@ -497,7 +506,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets the previousEditMethod attribute. 
+     * Gets the previousEditMethod attribute.
+     * 
      * @return Returns the previousEditMethod.
      */
     public String getPreviousEditMethod() {
@@ -506,6 +516,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the previousEditMethod attribute value.
+     * 
      * @param previousEditMethod The previousEditMethod to set.
      */
     public void setPreviousEditMethod(String previousEditMethod) {
@@ -513,7 +524,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets the previousInputGroupId attribute. 
+     * Gets the previousInputGroupId attribute.
+     * 
      * @return Returns the previousInputGroupId.
      */
     public Integer getPreviousInputGroupId() {
@@ -522,6 +534,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the previousInputGroupId attribute value.
+     * 
      * @param previousInputGroupId The previousInputGroupId to set.
      */
     public void setPreviousInputGroupId(Integer previousInputGroupId) {
@@ -530,6 +543,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Gets the input group ID of the document when it was persisted in the DB
+     * 
      * @return the input group ID of the document when it was persisted in the DB
      */
     public Integer getInputGroupIdFromLastDocumentLoad() {
@@ -538,6 +552,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets the input group ID of the document when it was persisted in the DB
+     * 
      * @param inputGroupIdFromLastDocumentLoad the input group ID of the document when it was persisted in the DB
      */
     public void setInputGroupIdFromLastDocumentLoad(Integer inputGroupIdFromLastDocumentLoad) {
@@ -545,7 +560,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets whether the selected input group ID does not correspond to an input group in the system. 
+     * Gets whether the selected input group ID does not correspond to an input group in the system.
+     * 
      * @return Returns the inputGroupIdFromLastDocumentLoadIsMissing.
      */
     public boolean isInputGroupIdFromLastDocumentLoadIsMissing() {
@@ -554,6 +570,7 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
 
     /**
      * Sets whether the selected input group ID does not correspond to an input group in the system
+     * 
      * @param inputGroupIdFromLastDocumentLoadIsMissing The inputGroupIdFromLastDocumentLoadIsMissing to set.
      */
     public void setInputGroupIdFromLastDocumentLoadIsMissing(boolean inputGroupIdFromLastDocumentLoadIsMissing) {
@@ -561,7 +578,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Gets whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     * Gets whether the origin entries we should be displaying on the form are not currently persisted by the
+     * {@link CorrectionDocumentService}.
+     * 
      * @return Returns the persistedOriginEntriesMissing.
      */
     public boolean isPersistedOriginEntriesMissing() {
@@ -569,7 +588,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     }
 
     /**
-     * Sets whether the origin entries we should be displaying on the form are not currently persisted by the {@link CorrectionDocumentService}.
+     * Sets whether the origin entries we should be displaying on the form are not currently persisted by the
+     * {@link CorrectionDocumentService}.
+     * 
      * @param persistedOriginEntriesMissing The persistedOriginEntriesMissing to set.
      */
     public void setPersistedOriginEntriesMissing(boolean persistedOriginEntriesMissing) {
@@ -599,8 +620,8 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
     public void setHtmlFormAction(String htmlFormAction) {
         this.htmlFormAction = htmlFormAction;
     }
-    
-    public void setDocType(){
+
+    public void setDocType() {
         setDocumentType("GLCP");
         setDocTitle("General Ledger Correction Process");
         setHtmlFormAction("generalLedgerCorrection");
@@ -616,5 +637,5 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         super.customInitMaxUploadSizes();
         addMaxUploadSize(SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM));
     }
-    
+
 }

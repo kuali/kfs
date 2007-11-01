@@ -16,19 +16,16 @@
 
 package org.kuali.module.purap.bo;
 
-import java.util.LinkedHashMap;
-
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Payment Request Status Business Object.
  */
 public class PaymentRequestStatus extends Status {
 
-	/**
-	 * Default constructor.
-	 */
-	public PaymentRequestStatus() {
+    /**
+     * Default constructor.
+     */
+    public PaymentRequestStatus() {
         super();
         super.ojbConcreteClass = this.getClass().getName();
     }

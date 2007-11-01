@@ -34,30 +34,30 @@ import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService
  */
 public class ProcurementCardLoadStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcurementCardLoadStep.class);
-   
+
     private ProcurementCardLoadTransactionsService procurementCardLoadTransactionsService;
     private BatchInputFileService batchInputFileService;
     private BatchInputFileType procurementCardInputFileType;
-    
+
     /**
      * Controls the procurement card process.
      */
     public boolean execute(String jobName) {
         procurementCardLoadTransactionsService.cleanTransactionsTable();
-        
+
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(procurementCardInputFileType);
-      
+
         boolean processSuccess = true;
         List<String> processedFiles = new ArrayList();
-        for(String inputFileName: fileNamesToLoad) {
+        for (String inputFileName : fileNamesToLoad) {
             processSuccess = procurementCardLoadTransactionsService.loadProcurementCardFile(inputFileName);
             if (processSuccess) {
                 processedFiles.add(inputFileName);
             }
         }
-        
+
         removeDoneFiles(processedFiles);
-        
+
         return processSuccess;
     }
 
@@ -65,7 +65,7 @@ public class ProcurementCardLoadStep extends AbstractStep {
      * Clears out associated .done files for the processed data files.
      */
     private void removeDoneFiles(List<String> dataFileNames) {
-        for(String dataFileName: dataFileNames) {
+        for (String dataFileName : dataFileNames) {
             File doneFile = new File(StringUtils.substringBeforeLast(dataFileName, ".") + ".done");
             if (doneFile.exists()) {
                 doneFile.delete();

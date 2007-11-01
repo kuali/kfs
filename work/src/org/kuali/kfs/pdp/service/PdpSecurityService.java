@@ -8,8 +8,7 @@ import org.kuali.module.pdp.bo.PdpUser;
 
 /**
  * @author jsissom
- *
  */
 public interface PdpSecurityService {
-  public SecurityRecord getSecurityRecord(PdpUser user);
+    public SecurityRecord getSecurityRecord(PdpUser user);
 }

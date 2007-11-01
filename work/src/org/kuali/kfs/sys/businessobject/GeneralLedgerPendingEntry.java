@@ -41,8 +41,6 @@ import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 
 /**
  * The general ledger pending entry structure holds financial transaction info that will post to the general ledger as an entry.
- * 
- * 
  */
 public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase implements Transaction, Serializable, Cloneable {
     private static final long serialVersionUID = 4041748389323105932L;
@@ -106,9 +104,7 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
     }
 
     /**
-     * Copy constructor
-     * 
-     * Constructs a GeneralLedgerPendingEntry.java.
+     * Copy constructor Constructs a GeneralLedgerPendingEntry.java.
      * 
      * @param original entry to copy
      */
@@ -604,7 +600,6 @@ public class GeneralLedgerPendingEntry extends PersistableBusinessObjectBase imp
      * Gets the transactionEncumbranceUpdateCode attribute.
      * 
      * @return Returns the transactionEncumbranceUpdateCode
-     * 
      */
     public String getTransactionEncumbranceUpdateCode() {
         return transactionEncumbranceUpdateCode;

@@ -42,7 +42,7 @@ public class ProposalAwardTypeValuesFinder extends KeyValuesBase {
 
 
         for (ProposalAwardType proposalAwardType : codes) {
-            if(proposalAwardType.isRowActiveIndicator()) {
+            if (proposalAwardType.isRowActiveIndicator()) {
                 labels.add(new KeyLabelPair(proposalAwardType.getProposalAwardTypeCode(), proposalAwardType.getProposalAwardTypeCode() + " - " + proposalAwardType.getProposalAwardTypeDescription()));
             }
         }

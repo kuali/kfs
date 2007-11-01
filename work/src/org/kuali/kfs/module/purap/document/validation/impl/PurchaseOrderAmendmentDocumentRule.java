@@ -75,8 +75,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     /**
      * Validates that the given document contains at least one active item.
      * 
-     * @param purapDocument     A PurchasingAccountsPayableDocument. (Should contain PurchaseOrderItems.)
-     * @return  True if the document contains at least one active item
+     * @param purapDocument A PurchasingAccountsPayableDocument. (Should contain PurchaseOrderItems.)
+     * @return True if the document contains at least one active item
      */
     private boolean validateContainsAtLeastOneActiveItem(PurchasingAccountsPayableDocument purapDocument) {
         List<PurApItem> items = purapDocument.getItems();
@@ -92,7 +92,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
     }
 
     /**
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -102,8 +103,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
         explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT); // don't think i should have to
-                                                                                                // override this, but default isn't
-                                                                                                // getting the right PO doc
+        // override this, but default isn't
+        // getting the right PO doc
     }
 
 }

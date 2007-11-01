@@ -40,12 +40,11 @@ public class ObjectType extends KualiCodeBase {
     private String basicAccountingCategoryCode;
 
     private BasicAccountingCategory basicAccountingCategory;
-    
+
     /**
      * Gets the finObjectTypeDebitcreditCd attribute.
      * 
      * @return Returns the finObjectTypeDebitcreditCd
-     * 
      */
     public String getFinObjectTypeDebitcreditCd() {
         return finObjectTypeDebitcreditCd;
@@ -55,7 +54,6 @@ public class ObjectType extends KualiCodeBase {
      * Sets the finObjectTypeDebitcreditCd attribute.
      * 
      * @param finObjectTypeDebitcreditCd The finObjectTypeDebitcreditCd to set.
-     * 
      */
     public void setFinObjectTypeDebitcreditCd(String finObjectTypeDebitcreditCd) {
         this.finObjectTypeDebitcreditCd = finObjectTypeDebitcreditCd;
@@ -65,7 +63,6 @@ public class ObjectType extends KualiCodeBase {
      * Gets the finObjectTypeIcrSelectionIndicator attribute.
      * 
      * @return Returns the finObjectTypeIcrSelectionIndicator
-     * 
      */
     public boolean isFinObjectTypeIcrSelectionIndicator() {
         return finObjectTypeIcrSelectionIndicator;
@@ -75,7 +72,6 @@ public class ObjectType extends KualiCodeBase {
      * Sets the finObjectTypeIcrSelectionIndicator attribute.
      * 
      * @param finObjectTypeIcrSelectionIndicator The finObjectTypeIcrSelectionIndicator to set.
-     * 
      */
     public void setFinObjectTypeIcrSelectionIndicator(boolean finObjectTypeIcrSelectionIndicator) {
         this.finObjectTypeIcrSelectionIndicator = finObjectTypeIcrSelectionIndicator;
@@ -85,7 +81,6 @@ public class ObjectType extends KualiCodeBase {
      * Gets the fundBalanceIndicator attribute.
      * 
      * @return Returns the fundBalanceIndicator
-     * 
      */
     public boolean isFundBalanceIndicator() {
         return fundBalanceIndicator;
@@ -95,7 +90,6 @@ public class ObjectType extends KualiCodeBase {
      * Sets the fundBalanceIndicator attribute.
      * 
      * @param fundBalanceIndicator The fundBalanceIndicator to set.
-     * 
      */
     public void setFundBalanceIndicator(boolean fundBalanceIndicator) {
         this.fundBalanceIndicator = fundBalanceIndicator;
@@ -105,7 +99,6 @@ public class ObjectType extends KualiCodeBase {
      * Gets the financialReportingSortCode attribute.
      * 
      * @return Returns the financialReportingSortCode
-     * 
      */
     public String getFinancialReportingSortCode() {
         return financialReportingSortCode;
@@ -115,14 +108,14 @@ public class ObjectType extends KualiCodeBase {
      * Sets the financialReportingSortCode attribute.
      * 
      * @param financialReportingSortCode The financialReportingSortCode to set.
-     * 
      */
     public void setFinancialReportingSortCode(String financialReportingSortCode) {
         this.financialReportingSortCode = financialReportingSortCode;
     }
 
     /**
-     * Gets the accountCategoryCode attribute. 
+     * Gets the accountCategoryCode attribute.
+     * 
      * @return Returns the accountCategoryCode.
      */
     public String getBasicAccountingCategoryCode() {
@@ -131,6 +124,7 @@ public class ObjectType extends KualiCodeBase {
 
     /**
      * Sets the accountCategoryCode attribute value.
+     * 
      * @param accountCategoryCode The accountCategoryCode to set.
      */
     public void setBasicAccountingCategoryCode(String accountCategoryCode) {
@@ -138,7 +132,8 @@ public class ObjectType extends KualiCodeBase {
     }
 
     /**
-     * Gets the basicAccountingCategory attribute. 
+     * Gets the basicAccountingCategory attribute.
+     * 
      * @return Returns the basicAccountingCategory.
      */
     public BasicAccountingCategory getBasicAccountingCategory() {
@@ -147,6 +142,7 @@ public class ObjectType extends KualiCodeBase {
 
     /**
      * Sets the basicAccountingCategory attribute value.
+     * 
      * @param basicAccountingCategory The basicAccountingCategory to set.
      * @deprecated
      */

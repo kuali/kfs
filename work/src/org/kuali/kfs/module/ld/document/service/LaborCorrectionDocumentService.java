@@ -71,7 +71,7 @@ public interface LaborCorrectionDocumentService {
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i);
 
     /**
-      * Find and return laborCorrectionDocument with document number
+     * Find and return laborCorrectionDocument with document number
      * 
      * @param docId, i
      * @return

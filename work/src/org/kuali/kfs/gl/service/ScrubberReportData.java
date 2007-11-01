@@ -36,18 +36,18 @@ public class ScrubberReportData {
      * @param anotherReport
      */
     public void incorporateReportData(ScrubberReportData anotherReport) {
-       numberOfUnscrubbedRecordsRead += anotherReport.numberOfUnscrubbedRecordsRead;
-       numberOfScrubbedRecordsWritten += anotherReport.numberOfScrubbedRecordsWritten;
-       numberOfErrorRecordsWritten += anotherReport.numberOfErrorRecordsWritten;
-       numberOfOffsetEntriesGenerated += anotherReport.numberOfOffsetEntriesGenerated;
-       numberOfCapitalizationEntriesGenerated += anotherReport.numberOfCapitalizationEntriesGenerated;
-       numberOfLiabilityEntriesGenerated += anotherReport.numberOfLiabilityEntriesGenerated;
-       numberOfPlantIndebtednessEntriesGenerated += anotherReport.numberOfPlantIndebtednessEntriesGenerated;
-       numberOfCostShareEntriesGenerated += anotherReport.numberOfCostShareEntriesGenerated;
-       numberOfCostShareEncumbrancesGenerated += anotherReport.numberOfCostShareEncumbrancesGenerated;
-       numberOfExpiredAccountsFound += numberOfExpiredAccountsFound;
+        numberOfUnscrubbedRecordsRead += anotherReport.numberOfUnscrubbedRecordsRead;
+        numberOfScrubbedRecordsWritten += anotherReport.numberOfScrubbedRecordsWritten;
+        numberOfErrorRecordsWritten += anotherReport.numberOfErrorRecordsWritten;
+        numberOfOffsetEntriesGenerated += anotherReport.numberOfOffsetEntriesGenerated;
+        numberOfCapitalizationEntriesGenerated += anotherReport.numberOfCapitalizationEntriesGenerated;
+        numberOfLiabilityEntriesGenerated += anotherReport.numberOfLiabilityEntriesGenerated;
+        numberOfPlantIndebtednessEntriesGenerated += anotherReport.numberOfPlantIndebtednessEntriesGenerated;
+        numberOfCostShareEntriesGenerated += anotherReport.numberOfCostShareEntriesGenerated;
+        numberOfCostShareEncumbrancesGenerated += anotherReport.numberOfCostShareEncumbrancesGenerated;
+        numberOfExpiredAccountsFound += numberOfExpiredAccountsFound;
     }
-    
+
     public void incrementErrorRecordWritten() {
         numberOfErrorRecordsWritten++;
     }

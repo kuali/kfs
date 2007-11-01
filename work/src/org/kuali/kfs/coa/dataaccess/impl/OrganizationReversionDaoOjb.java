@@ -26,7 +26,6 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 
 /**
- * 
  * This class implements the {@link OrganizationReversionDao} data access methods using Ojb
  */
 public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationReversionDao {
@@ -48,7 +47,6 @@ public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb impleme
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.OrganizationReversionDao#getCategories()
      */
     public List<OrganizationReversionCategory> getCategories() {

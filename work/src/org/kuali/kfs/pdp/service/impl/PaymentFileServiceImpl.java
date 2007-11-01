@@ -84,8 +84,9 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         try {
             UniversalUser uu = universalUserService.getUniversalUserByAuthenticationUserId("KULUSER");
             pusr = new PdpUser(uu);
-        } catch (UserNotFoundException u) {
-            LOG.error("processPaymentFiles() Unable to find requested user",u);
+        }
+        catch (UserNotFoundException u) {
+            LOG.error("processPaymentFiles() Unable to find requested user", u);
             throw new IllegalArgumentException("Unable to find user");
         }
 
@@ -110,7 +111,7 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             LOG.debug("processPaymentFiles() outputDoneFullPath: " + outputDoneFullPath);
 
             File f = new File(inputXmlFullPath);
-            if ( f.exists() ) {
+            if (f.exists()) {
                 LOG.info("processPaymentFiles() Processing " + inputXmlFullPath);
                 try {
                     LoadPaymentStatus status = loadPayments(inputXmlFullPath, pusr);
@@ -120,7 +121,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
                     // Delete the file now that we have processed it
                     f.delete();
-                } catch (PaymentLoadException ple) {
+                }
+                catch (PaymentLoadException ple) {
                     String msg = ple.getMessage() == null ? "" : ple.getMessage();
                     createOutputFile(outputDoneFullPath, "FAIL", "Load Failed " + msg, 0, null, null, doneFilename);
                 }
@@ -128,7 +130,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
                 // Delete the done file
                 File df = new File(inputDoneFullPath);
                 df.delete();
-            } else {
+            }
+            else {
                 LOG.error("processPaymentFiles() Done file exists without xml file: " + inputXmlFullPath);
             }
         }
@@ -167,10 +170,12 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             p.close();
             out.close();
             return true;
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             LOG.error("createOutputFile() Cannot create output file", e);
             return false;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOG.error("createOutputFile() Cannot write to output file", e);
             return false;
         }
@@ -187,10 +192,12 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             p.close();
             out.close();
             return true;
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             LOG.error("createDoneFile() Cannot create done file", e);
             return false;
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             LOG.error("createDoneFile() Cannot write to done file", e);
             return false;
         }
@@ -205,8 +212,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
     }
 
     private String getBaseFileName(String filename) {
-        
-        // Replace any backslashes with forward slashes.  This makes it work on
+
+        // Replace any backslashes with forward slashes. This makes it work on
         // Windows or Unix
         filename = filename.replaceAll("\\\\", "/");
 
@@ -242,7 +249,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             LOG.debug("loadPayments() begin hard edit parsing");
             paymentFileParser.parse(filename);
             LOG.debug("loadPayments() done hard edit parsing");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.error("loadPayments() Exception when parsing XML", e);
 
             List errors = new ArrayList();
@@ -279,7 +287,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         paymentFileParser.setFileHandler(dataLoadHandler);
         try {
             paymentFileParser.parse(filename);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             LOG.error("loadPayments() Exception when parsing XML for load", e);
 
             List lerrors = new ArrayList();
@@ -326,7 +335,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         if (environmentService.isProduction()) {
             message.setSubject("PDP --- Payment file NOT loaded");
-        } else {
+        }
+        else {
             String env = environmentService.getEnvironment();
             message.setSubject(env + "-PDP --- Payment file NOT loaded");
         }
@@ -348,7 +358,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
 
             body.append("A file was uploaded that was so messed up, we don't even know who sent it:\n\n");
-        } else {
+        }
+        else {
             // Get customer
             customer = customerProfileService.get(header.getChart(), header.getOrg(), header.getSubUnit());
             if (customer == null) {
@@ -365,7 +376,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
                 }
 
                 body.append("A file was uploaded for an invalid customer:\n\n");
-            } else {
+            }
+            else {
                 String toAddresses = customer.getProcessingEmailAddr();
                 String toAddressList[] = toAddresses.split(",");
 
@@ -408,7 +420,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address.  Message not sent", e);
         }
     }
@@ -431,7 +444,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         if (environmentService.isProduction()) {
             message.setSubject("PDP --- Payment file loaded");
-        } else {
+        }
+        else {
             String env = environmentService.getEnvironment();
             message.setSubject(env + "-PDP --- Payment file loaded");
         }
@@ -479,7 +493,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
         if (dataLoadHandler.getFileThreshold().booleanValue()) {
@@ -495,7 +510,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         if (environmentService.isProduction()) {
             message.setSubject("PDP --- Payment file loaded with Threshold Warnings");
-        } else {
+        }
+        else {
             String env = environmentService.getEnvironment();
             message.setSubject(env + "-PDP --- Payment file loaded with Threshold Warnings");
         }
@@ -525,7 +541,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
             // message.addToAddress(customer.getFileThresholdEmailAddress());
             body.append("\n" + dataLoadHandler.getFileThresholdMessage());
-        } else {
+        }
+        else {
             String toAddresses = customer.getPaymentThresholdEmailAddress();
             String toAddressList[] = toAddresses.split(",");
 
@@ -547,7 +564,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
@@ -562,7 +580,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         if (environmentService.isProduction()) {
             message.setSubject("PDP --- Payment file loaded with payment(s) held for Tax");
-        } else {
+        }
+        else {
             String env = environmentService.getEnvironment();
             message.setSubject(env + "-PDP --- Payment file loaded with payment(s) held for Tax");
         }
@@ -573,7 +592,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         if (GeneralUtilities.isStringEmpty(taxEmail)) {
             LOG.error("No Tax E-mail Application Setting found to send notification e-mail");
             return;
-        } else {
+        }
+        else {
             message.addToAddress(taxEmail);
         }
 
@@ -589,7 +609,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }
@@ -613,7 +634,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
 
         if (environmentService.isProduction()) {
             message.setSubject("PDP --- Payment file loaded");
-        } else {
+        }
+        else {
             String env = environmentService.getEnvironment();
             message.setSubject(env + "-PDP --- Payment file loaded");
         }
@@ -653,7 +675,8 @@ public class PaymentFileServiceImpl implements PaymentFileService {
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
-        } catch (InvalidAddressException e) {
+        }
+        catch (InvalidAddressException e) {
             LOG.error("sendErrorEmail() Invalid email address. Message not sent", e);
         }
     }

@@ -26,49 +26,40 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.DocumentAuthorizerBase;
-import org.kuali.core.exceptions.AuthorizationException;
-import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.workflow.service.KualiWorkflowDocument;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 import org.kuali.module.budget.document.BudgetConstructionDocument;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.chart.bo.Org;
 
-
-import edu.iu.uis.eden.EdenConstants;
-import edu.iu.uis.eden.clientapp.vo.ValidActionsVO;
-
-//public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+// public class BudgetConstructionDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(BudgetConstructionDocumentAuthorizer.class);
 
     /**
      * This inits and returns an editModeMap based on the BC security model
      * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public Map getEditMode(Document d, UniversalUser u) {
 
 
-        //This does not use workflow states to calculate editmode
-        //instead it uses the BC security model based on the user and
-        //the current level of the document (account, subaccount)
-        //return super.getEditMode(d, u);
+        // This does not use workflow states to calculate editmode
+        // instead it uses the BC security model based on the user and
+        // the current level of the document (account, subaccount)
+        // return super.getEditMode(d, u);
 
         BudgetConstructionDocument bcDoc = (BudgetConstructionDocument) d;
-        return getEditMode(bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(),bcDoc.getAccountNumber(),bcDoc.getSubAccountNumber(),u);
+        return getEditMode(bcDoc.getUniversityFiscalYear(), bcDoc.getChartOfAccountsCode(), bcDoc.getAccountNumber(), bcDoc.getSubAccountNumber(), u);
     }
 
     /**
-     * This calculates editMode based on the BC Security model. A Budget Construction Document
-     * contains information associated with a Fiscal Year, Chart, Account and SubAccount.
-     * This candidate key is used to find the document and calculate the editMode based on the
-     * document's current level and the user's approval level. Document level < user level = viewonly access,
-     * document = user = edit access, and document > user or user not an approver anywhere in the account's hierarchy= no access.
+     * This calculates editMode based on the BC Security model. A Budget Construction Document contains information associated with
+     * a Fiscal Year, Chart, Account and SubAccount. This candidate key is used to find the document and calculate the editMode
+     * based on the document's current level and the user's approval level. Document level < user level = viewonly access, document =
+     * user = edit access, and document > user or user not an approver anywhere in the account's hierarchy= no access.
      * 
      * @param universityFiscalYear
      * @param chartOfAccountsCode
@@ -77,14 +68,14 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
      * @param u
      * @return
      */
-    public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u){
-        
+    public Map getEditMode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, UniversalUser u) {
+
         /*
-         * TODO this eventually needs to call service methods that implements the BC security model
-         * use FULL_ENTRY for userAtDocLevel, VIEW_ONLY for userAboveDocLevel and 
-         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access
-         * use AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
-         */ 
+         * TODO this eventually needs to call service methods that implements the BC security model use FULL_ENTRY for
+         * userAtDocLevel, VIEW_ONLY for userAboveDocLevel and
+         * AuthorizationConstants.BudgetConstructionEditMode.USER_BELOW_DOC_LEVEL for limited access use
+         * AuthorizationConstants.BudgetConstructionEditMode.SYSTEM_VIEW_ONLY to reflect when BC itself is in viewonly mode
+         */
         Map editModeMap = new HashMap();
         String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
         editModeMap.put(editMode, "TRUE");
@@ -93,59 +84,62 @@ public class BudgetConstructionDocumentAuthorizer extends DocumentAuthorizerBase
     }
 
     /**
-     * This method calculates editMode based on whether or not a user is a BC document approver for at least one organization.
-     * It is used by the Salary Setting by Position and Incumbent expansion screens when not running in budgetByAccountMode
-     * a.k.a. Organization Salary Setting
+     * This method calculates editMode based on whether or not a user is a BC document approver for at least one organization. It is
+     * used by the Salary Setting by Position and Incumbent expansion screens when not running in budgetByAccountMode a.k.a.
+     * Organization Salary Setting
      * 
      * @return
      */
-    public Map getEditMode(){
-        
-        //TODO this eventually needs to check when the BC system itself is in viewonly mode 
+    public Map getEditMode() {
+
+        // TODO this eventually needs to check when the BC system itself is in viewonly mode
 
         Map editModeMap = new HashMap();
-        
+
         PermissionService permissionService = SpringContext.getBean(PermissionService.class);
         try {
             List<Org> pointOfViewOrgs = permissionService.getOrgReview(GlobalVariables.getUserSession().getNetworkId());
-            if (pointOfViewOrgs.isEmpty()){
-//                GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
+            if (pointOfViewOrgs.isEmpty()) {
+                // GlobalVariables.getErrorMap().putError("pointOfViewOrg","error.budget.userNotOrgApprover");
                 String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
                 editModeMap.put(editMode, "TRUE");
-            } else {
+            }
+            else {
                 String editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
                 editModeMap.put(editMode, "TRUE");
             }
-            
+
         }
-        catch (Exception e){
-            //TODO for now just return unviewable - really should report the exception in some soft way - maybe another EditMode value
+        catch (Exception e) {
+            // TODO for now just return unviewable - really should report the exception in some soft way - maybe another EditMode
+            // value
             String editMode = AuthorizationConstants.EditMode.UNVIEWABLE;
             editModeMap.put(editMode, "TRUE");
         }
-        
+
         return editModeMap;
 
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-//TODO this needs to call service methods that implements the BC security model
-//        return super.getDocumentActionFlags(document, user);
-            LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
+        // TODO this needs to call service methods that implements the BC security model
+        // return super.getDocumentActionFlags(document, user);
+        LOG.debug("calling BudgetConstructionDocumentAuthorizer.getDocumentActionFlags for document '" + document.getDocumentNumber() + "'. user '" + user.getPersonUserIdentifier() + "'");
 
-            DocumentActionFlags flags = new DocumentActionFlags(); // all flags default to false
+        DocumentActionFlags flags = new DocumentActionFlags(); // all flags default to false
 
-            flags.setCanClose(true);
-            flags.setCanSave(true);
+        flags.setCanClose(true);
+        flags.setCanSave(true);
 
-            //TODO is this needed for BC??
-            setAnnotateFlag(flags);
+        // TODO is this needed for BC??
+        setAnnotateFlag(flags);
 
-            return flags;
+        return flags;
     }
 
 

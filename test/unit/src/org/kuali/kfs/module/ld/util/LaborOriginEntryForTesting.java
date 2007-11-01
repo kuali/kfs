@@ -29,34 +29,34 @@ import org.kuali.module.labor.util.ObjectUtil;
  */
 public class LaborOriginEntryForTesting extends LaborOriginEntry {
     private List<String> keyValueList;
-    
-    @ Override
-    public boolean equals(Object otherOriginEntry){
+
+    @Override
+    public boolean equals(Object otherOriginEntry) {
         return ObjectUtil.compareObject(this, otherOriginEntry, this.getKeyValueList());
     }
-    
+
     public Map getKeyValueMap() {
         return ObjectUtil.buildPropertyMap(this, this.getKeyValueList());
     }
-    
-    public List<String> getDefaultKeyValueList(){
+
+    public List<String> getDefaultKeyValueList() {
         List<String> keyValueList = new ArrayList<String>();
         keyValueList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         keyValueList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
         keyValueList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
         keyValueList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        
+
         keyValueList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         keyValueList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         keyValueList.add(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
         keyValueList.add(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE);
-        
+
         keyValueList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE);
         keyValueList.add(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         keyValueList.add(KFSPropertyConstants.FINANCIAL_SYSTEM_ORIGINATION_CODE);
         keyValueList.add(KFSPropertyConstants.DOCUMENT_NUMBER);
         keyValueList.add(KFSPropertyConstants.TRANSACTION_ENTRY_SEQUENCE_NUMBER);
-        
+
         keyValueList.add(KFSPropertyConstants.TRANSACTION_DEBIT_CREDIT_CODE);
         keyValueList.add(KFSPropertyConstants.TRANSACTION_LEDGER_ENTRY_AMOUNT);
         keyValueList.add(KFSPropertyConstants.POSITION_NUMBER);
@@ -64,13 +64,14 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
         keyValueList.add(KFSPropertyConstants.EMPLID);
         return keyValueList;
     }
-    
+
     /**
-     * Gets the keyValueList attribute. 
+     * Gets the keyValueList attribute.
+     * 
      * @return Returns the keyValueList.
      */
     public List<String> getKeyValueList() {
-        if(keyValueList == null){
+        if (keyValueList == null) {
             keyValueList = this.getDefaultKeyValueList();
         }
         return keyValueList;
@@ -78,9 +79,10 @@ public class LaborOriginEntryForTesting extends LaborOriginEntry {
 
     /**
      * Sets the keyValueList attribute value.
+     * 
      * @param keyValueList The keyValueList to set.
      */
     public void setKeyValueList(List<String> keyValueList) {
         this.keyValueList = keyValueList;
-    }  
+    }
 }

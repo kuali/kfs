@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.dao;
 
-import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * Requisition DAO Interface.

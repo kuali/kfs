@@ -20,12 +20,10 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * Budget Aggregation Code Business Object
- * 
- * 
  */
 public class BudgetAggregationCode extends KualiCodeBase {
 
-    public BudgetAggregationCode(){
+    public BudgetAggregationCode() {
         super.setActive(true); // always active, plus no column in the table
     }
 }

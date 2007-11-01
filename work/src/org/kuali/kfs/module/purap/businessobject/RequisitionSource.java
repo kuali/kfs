@@ -25,32 +25,32 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class RequisitionSource extends PersistableBusinessObjectBase {
 
-	private String requisitionSourceCode;
-	private String requisitionSourceDescription;
-	private boolean active;
+    private String requisitionSourceCode;
+    private String requisitionSourceDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public RequisitionSource() {
+    /**
+     * Default constructor.
+     */
+    public RequisitionSource() {
 
-	}
+    }
 
-	public String getRequisitionSourceCode() { 
-		return requisitionSourceCode;
-	}
+    public String getRequisitionSourceCode() {
+        return requisitionSourceCode;
+    }
 
-	public void setRequisitionSourceCode(String requisitionSourceCode) {
-		this.requisitionSourceCode = requisitionSourceCode;
-	}
+    public void setRequisitionSourceCode(String requisitionSourceCode) {
+        this.requisitionSourceCode = requisitionSourceCode;
+    }
 
-    public String getRequisitionSourceDescription() { 
-		return requisitionSourceDescription;
-	}
+    public String getRequisitionSourceDescription() {
+        return requisitionSourceDescription;
+    }
 
-	public void setRequisitionSourceDescription(String requisitionSourceDescription) {
-		this.requisitionSourceDescription = requisitionSourceDescription;
-	}
+    public void setRequisitionSourceDescription(String requisitionSourceDescription) {
+        this.requisitionSourceDescription = requisitionSourceDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -61,12 +61,12 @@ public class RequisitionSource extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("requisitionSourceCode", this.requisitionSourceCode);
-	    return m;
+        return m;
     }
-    
+
 }

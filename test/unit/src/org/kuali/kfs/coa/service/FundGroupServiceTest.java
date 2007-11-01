@@ -23,8 +23,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the FundGroup service.
- * 
- * 
  */
 
 @ConfigureContext

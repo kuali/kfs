@@ -47,7 +47,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
      * @see org.kuali.module.kra.budget.service.BudgetModularService#generateModularBudget(org.kuali.module.kra.budget.bo.Budget)
      */
     public void generateModularBudget(Budget budget) {
-        
+
         budgetNonpersonnelService.refreshNonpersonnelObjectCode(budget.getNonpersonnelItems());
 
         List nonpersonnelCategories = new ArrayList();
@@ -63,8 +63,8 @@ public class BudgetModularServiceImpl implements BudgetModularService {
     }
 
     /**
-     * @see org.kuali.module.kra.budget.service.BudgetModularService#generateModularBudget(org.kuali.module.kra.budget.bo.Budget, List
-     *      nonpersonnelCategories)
+     * @see org.kuali.module.kra.budget.service.BudgetModularService#generateModularBudget(org.kuali.module.kra.budget.bo.Budget,
+     *      List nonpersonnelCategories)
      */
     public void generateModularBudget(Budget budget, List nonpersonnelCategories) {
 
@@ -143,7 +143,7 @@ public class BudgetModularServiceImpl implements BudgetModularService {
 
         BudgetModular modularBudget;
         if (ObjectUtils.isNotNull(budget.getModularBudget())) { // If modular budget already present in budget, just rebuild that
-                                                                // one.
+            // one.
             modularBudget = budget.getModularBudget();
             if (modularBudget.getBudgetModularIncrementAmount() == null) { // Might not be stored
                 modularBudget.setBudgetModularIncrementAmount(modularAgencyHelper.getBudgetModularIncrementAmount());
@@ -449,8 +449,6 @@ public class BudgetModularServiceImpl implements BudgetModularService {
 
     /**
      * This class encapsulates agency-related information needed to process Modular Budget objects.
-     * 
-     * 
      */
     private class ModularAgencyHelper {
         private KualiInteger budgetModularIncrementAmount;

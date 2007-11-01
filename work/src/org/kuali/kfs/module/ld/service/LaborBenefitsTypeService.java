@@ -22,5 +22,5 @@ import org.kuali.module.labor.bo.BenefitsType;
 public interface LaborBenefitsTypeService {
 
     public Collection<BenefitsType> getBenefitsType();
-    
+
 }

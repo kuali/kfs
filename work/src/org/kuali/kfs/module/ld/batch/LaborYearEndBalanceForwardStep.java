@@ -23,7 +23,7 @@ import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
  */
 public class LaborYearEndBalanceForwardStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborYearEndBalanceForwardStep.class);
-    private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService; 
+    private LaborYearEndBalanceForwardService laborYearEndBalanceForwardService;
 
     /**
      * Executes the method that forwards the balance

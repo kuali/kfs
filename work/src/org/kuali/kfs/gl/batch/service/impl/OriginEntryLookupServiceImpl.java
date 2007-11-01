@@ -41,18 +41,16 @@ import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.util.CachingLookup;
 
 /**
- * 
  * This class retrieves the important references related to the OriginEntryFull family of business objects
  */
 public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLookupServiceImpl.class);
-    
+
     private PersistenceStructureService persistenceStructureService;
     private ThreadLocal<CachingLookup> localLookupService = new ThreadLocal<CachingLookup>();
     private Map<String, List> primaryKeyLists = new HashMap<String, List>();
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getA21SubAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public A21SubAccount getA21SubAccount(OriginEntry entry) {
@@ -60,7 +58,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public Account getAccount(OriginEntry entry) {
@@ -68,7 +65,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getAccountingPeriod(org.kuali.module.gl.bo.OriginEntry)
      */
     public AccountingPeriod getAccountingPeriod(OriginEntry entry) {
@@ -76,7 +72,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getBalanceType(org.kuali.module.gl.bo.OriginEntry)
      */
     public BalanceTyp getBalanceType(OriginEntry entry) {
@@ -84,7 +79,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getChart(org.kuali.module.gl.bo.OriginEntry)
      */
     public Chart getChart(OriginEntry entry) {
@@ -92,23 +86,20 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getDocumentType(OriginEntry entry) {
         return lookupReference(entry, DocumentType.class);
     }
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getReferenceDocumentType(org.kuali.module.gl.bo.OriginEntry)
      */
     public DocumentType getReferenceDocumentType(OriginEntry entry) {
         return lookupReference(entry, DocumentType.class, "financialDocumentTypeCode:referenceFinancialDocumentTypeCode");
     }
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialObject(org.kuali.module.gl.bo.OriginEntry)
      */
     public ObjectCode getFinancialObject(OriginEntry entry) {
@@ -116,7 +107,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getFinancialSubObject(org.kuali.module.gl.bo.OriginEntry)
      */
     public SubObjCd getFinancialSubObject(OriginEntry entry) {
@@ -124,7 +114,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getObjectType(org.kuali.module.gl.bo.OriginEntry)
      */
     public ObjectType getObjectType(OriginEntry entry) {
@@ -132,7 +121,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getOption(org.kuali.module.gl.bo.OriginEntry)
      */
     public Options getOption(OriginEntry entry) {
@@ -140,7 +128,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getOriginationCode(org.kuali.module.gl.bo.OriginEntry)
      */
     public OriginationCode getOriginationCode(OriginEntry entry) {
@@ -148,7 +135,6 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getProjectCode(org.kuali.module.gl.bo.OriginEntry)
      */
     public ProjectCode getProjectCode(OriginEntry entry) {
@@ -156,17 +142,16 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryLookupService#getSubAccount(org.kuali.module.gl.bo.OriginEntry)
      */
     public SubAccount getSubAccount(OriginEntry entry) {
         return lookupReference(entry, SubAccount.class);
     }
-    
+
     /**
+     * This method takes in an origin entry and returns the primary key map for the related class, based on values of that origin
+     * entry.
      * 
-     * This method takes in an origin entry and returns the primary key map for the related class, based on
-     * values of that origin entry.
      * @param entry
      * @param referenceClassToRetrieve
      * @param fieldNameOverrides
@@ -174,10 +159,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
      */
     private Map<String, Object> getKeyMapFromEntry(OriginEntry entry, Class referenceClassToRetrieve, Map<String, String> fieldNameOverrides) {
         Map<String, Object> keyMap = new TreeMap<String, Object>();
-        
+
         List keyFields = getPrimaryKeyFields(referenceClassToRetrieve);
-        for (Object keyFieldAsObject: keyFields) {
-            String keyField = (String)keyFieldAsObject;
+        for (Object keyFieldAsObject : keyFields) {
+            String keyField = (String) keyFieldAsObject;
             String originalKeyField = keyField;
             if (fieldNameOverrides.containsKey(keyField)) {
                 keyField = fieldNameOverrides.get(keyField);
@@ -186,31 +171,32 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
                 Object property = PropertyUtils.getProperty(entry, keyField);
                 if (property != null) {
                     keyMap.put(originalKeyField, property);
-                } else {
+                }
+                else {
                     keyMap = null;
                     break;
                 }
             }
             catch (IllegalAccessException e) {
-                LOG.fatal("Illegal Access Exception trying to access field: "+keyField);
+                LOG.fatal("Illegal Access Exception trying to access field: " + keyField);
                 throw new RuntimeException(e);
             }
             catch (InvocationTargetException e) {
-                LOG.fatal("Illegal Target Exception trying to access field: "+keyField);
+                LOG.fatal("Illegal Target Exception trying to access field: " + keyField);
                 throw new RuntimeException(e);
             }
             catch (NoSuchMethodException e) {
-                LOG.fatal("No such method exception trying to access field: "+keyField);
+                LOG.fatal("No such method exception trying to access field: " + keyField);
                 throw new RuntimeException(e);
             }
         }
-        
+
         return keyMap;
     }
-    
+
     /**
-     * 
      * This method looks up a class reference by an origin entry
+     * 
      * @param <T>
      * @param entry
      * @param type
@@ -219,10 +205,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     private <T> T lookupReference(OriginEntry entry, Class<T> type) {
         return lookupReference(entry, type, null);
     }
-    
+
     /**
-     * 
      * This method looks up a class reference by an origin entry, with certain primary key field names overridden
+     * 
      * @param <T>
      * @param entry
      * @param type
@@ -233,10 +219,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
         Map<String, Object> pk = getKeyMapFromEntry(entry, type, convertFieldsToMap(fieldNameOverrides));
         return (T) localLookupService.get().get(type, pk);
     }
-    
+
     /**
-     * 
      * This method converts the field name overrides string and turns it into objects
+     * 
      * @param fieldNameOverrides
      * @return
      */
@@ -245,7 +231,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
         if (fieldNameOverrides != null && fieldNameOverrides.length() > 0) {
             String[] fieldConversionEntries = fieldNameOverrides.split(";");
             if (fieldConversionEntries != null && fieldConversionEntries.length > 0) {
-                for (String entry: fieldConversionEntries) {
+                for (String entry : fieldConversionEntries) {
                     String[] splitEntry = entry.split(":");
                     if (splitEntry != null && splitEntry.length == 2) {
                         overrides.put(splitEntry[0], splitEntry[1]);
@@ -255,10 +241,10 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
         }
         return overrides;
     }
-    
+
     /**
-     * 
      * This method gets the list of primary key fields for a class, with some caching involved
+     * 
      * @param clazz
      * @return
      */
@@ -272,7 +258,8 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * Gets the persistenceStructureService attribute. 
+     * Gets the persistenceStructureService attribute.
+     * 
      * @return Returns the persistenceStructureService.
      */
     public PersistenceStructureService getPersistenceStructureService() {
@@ -281,6 +268,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
 
     /**
      * Sets the persistenceStructureService attribute value.
+     * 
      * @param persistenceStructureService The persistenceStructureService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
@@ -288,7 +276,8 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
     }
 
     /**
-     * Gets the lookupService attribute. 
+     * Gets the lookupService attribute.
+     * 
      * @return Returns the lookupService.
      */
     public CachingLookup getLookupService() {
@@ -297,6 +286,7 @@ public class OriginEntryLookupServiceImpl implements OriginEntryLookupService {
 
     /**
      * Sets the lookupService attribute value.
+     * 
      * @param lookupService The lookupService to set.
      */
     public void setLookupService(CachingLookup lookupService) {

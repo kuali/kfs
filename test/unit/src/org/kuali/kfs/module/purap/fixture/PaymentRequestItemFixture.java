@@ -22,22 +22,21 @@ import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 
 public enum PaymentRequestItemFixture {
-    
-    ITEM_TYPE_WITH_GOOD_ACCOUNTS(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, true, true),
-    ;
-    
+
+    ITEM_TYPE_WITH_GOOD_ACCOUNTS(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, true, true), ;
+
     String itemType;
     List<PurApAccountingLine> accountingLines;
-    SourceAccountingLine sal = new SourceAccountingLine();   
-    
+    SourceAccountingLine sal = new SourceAccountingLine();
+
     private PaymentRequestItemFixture(String itemType, boolean acct1, boolean acct2) {
         this.itemType = itemType;
-        if (acct1) {   
-            PurApAccountingLine paal = (PurApAccountingLine)sal;
+        if (acct1) {
+            PurApAccountingLine paal = (PurApAccountingLine) sal;
             accountingLines.add(paal);
         }
-        if (acct2) {   
-            PurApAccountingLine paal = (PurApAccountingLine)sal;
+        if (acct2) {
+            PurApAccountingLine paal = (PurApAccountingLine) sal;
             accountingLines.add(paal);
         }
     }

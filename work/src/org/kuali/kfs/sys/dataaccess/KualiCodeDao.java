@@ -22,14 +22,11 @@ import org.springframework.dao.DataAccessException;
 
 /**
  * This interface defines the Accounting Code DAO...
- * 
- * 
  */
 
 public interface KualiCodeDao {
 
     /**
-     * 
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param code - the short/abbreviated code of the code/name pair to search on
      * @return KualiCodeBase - the populated KualiCodeBase object
@@ -39,7 +36,6 @@ public interface KualiCodeDao {
     public KualiCode getSystemCode(Class clazz, String code);
 
     /**
-     * 
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param name - the long name code of the code/name pair to search on
      * @return KualiCodeBase - the populated KualiCodeBase object
@@ -47,7 +43,6 @@ public interface KualiCodeDao {
     public KualiCode getByName(Class queryClass, String name);
 
     /**
-     * 
      * @param kualiCode - a populated KualiCodeBase object to be saved
      */
     public void save(KualiCode kualiCode) throws DataAccessException;

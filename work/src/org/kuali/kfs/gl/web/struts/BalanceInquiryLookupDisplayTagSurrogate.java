@@ -41,28 +41,28 @@ import org.kuali.module.gl.web.struts.form.LookupResultsSelectable;
  */
 public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTagSurrogate {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryLookupDisplayTagSurrogate.class);
-    
+
     /**
-     * If there is no app param defined for the # rows/page, then this value
-     * will be used for the default
+     * If there is no app param defined for the # rows/page, then this value will be used for the default
      * 
      * @see KualiMultipleValueLookupAction#getMaxRowsPerPage(MultipleValueLookupForm)
      */
     public static final int DEFAULT_MAX_ROWS_PER_PAGE = 50;
-    
+
     /**
      * @see LookupDisplayTagSurrogate#performMultipleValueLookup(LookupResultsSelectable,LookupForm,List,boolean)
      */
     public Collection performMultipleValueLookup(LookupResultsSelectable selectable, LookupForm form, List<ResultRow> resultTable, boolean bounded) {
         Lookupable lookupable = form.getLookupable();
         Collection displayList = lookupable.performLookup(form, resultTable, bounded);
-        
+
         List defaultSortColumns = lookupable.getDefaultSortColumns();
         if (defaultSortColumns != null && !defaultSortColumns.isEmpty() && resultTable != null && !resultTable.isEmpty()) {
             // there's a default sort order, just find the first sort column, and we can't go wrong
             String firstSortColumn = (String) defaultSortColumns.get(0);
-            
-            // go thru the first result row to find the index of the column (more efficient than calling lookupable.getColumns since we don't have to recreate column list)
+
+            // go thru the first result row to find the index of the column (more efficient than calling lookupable.getColumns since
+            // we don't have to recreate column list)
             int firstSortColumnIdx = -1;
             List<Column> columnsForFirstResultRow = resultTable.get(0).getColumns();
             for (int i = 0; i < columnsForFirstResultRow.size(); i++) {
@@ -77,35 +77,34 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             // don't know how results were sorted, so we just say -1
             selectable.setColumnToSortIndex(-1);
         }
-        
+
         // we just performed the lookup, so we're on the first page (indexed from 0)
         selectable.jumpToFirstPage(resultTable.size(), getMaxRowsPerPage(selectable));
-        
+
         SequenceAccessorService sequenceAccessorService = SpringContext.getBean(SequenceAccessorService.class);
         String lookupResultsSequenceNumber = String.valueOf(sequenceAccessorService.getNextAvailableSequenceNumber(KFSConstants.LOOKUP_RESULTS_SEQUENCE));
         selectable.setLookupResultsSequenceNumber(lookupResultsSequenceNumber);
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable,
-                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to persist multiple lookup results", e);
             throw new RuntimeException("error occured trying to persist multiple lookup results");
         }
-        
+
         // since new search, nothing's checked
         selectable.setCompositeObjectIdMap(new HashMap<String, String>());
-        
+
         return displayList;
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#switchToPage(LookupResultsSelectable,int)
      */
     public List<ResultRow> switchToPage(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
-        
+
         List<ResultRow> resultTable = null;
         try {
             resultTable = SpringContext.getBean(LookupResultsService.class).retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
@@ -114,23 +113,22 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             LOG.error("error occured trying to retrieve multiple lookup results", e);
             throw new RuntimeException("error occured trying to retrieve multiple lookup results");
         }
-        
+
         selectable.jumpToPage(selectable.getSwitchToPageNumber(), resultTable.size(), maxRowsPerPage);
-        
+
         selectable.setColumnToSortIndex(Integer.parseInt(selectable.getPreviouslySortedColumnIndex()));
-        selectable.setCompositeObjectIdMap(LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(),
-                                                                                          selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet()));
+        selectable.setCompositeObjectIdMap(LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(), selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet()));
         return resultTable;
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#sort(LookupResultsSelectable,int)
      */
     public List<ResultRow> sort(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
-        
+
         LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-        
+
         List<ResultRow> resultTable = null;
         try {
             resultTable = lookupResultsService.retrieveResultsTable(lookupResultsSequenceNumber, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
@@ -139,44 +137,41 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             LOG.error("error occured trying to retrieve multiple lookup results", e);
             throw new RuntimeException("error occured trying to retrieve multiple lookup results");
         }
-        
+
         int columnToSortOn = selectable.getColumnToSortIndex();
         int columnCurrentlySortedOn = Integer.parseInt(selectable.getPreviouslySortedColumnIndex());
-        
+
         // if columnCurrentlySortedOn is -1, that means that we don't know which column we were originally sorting on
         // after a search, it's hard to tell which of the columns we're sorted on,
-        
+
         if (columnToSortOn == columnCurrentlySortedOn) {
             // we're already sorted on the same column that the user clicked on, so we reverse the list
             Collections.reverse(resultTable);
         }
         else {
             // sorting on a different column, so we have to sort
-            
+
             // HACK ALERT for findBestValueComparatorForColumn, since there's no central place to know
             // which comparator we should use to compare values in a column
             Collections.sort(resultTable, new BeanComparator("columns[" + columnToSortOn + "].propertyValue", LookupUtils.findBestValueComparatorForColumn(resultTable, columnToSortOn)));
         }
-        
+
         // repersist the list
         try {
-            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, 
-                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistResultsTable(lookupResultsSequenceNumber, resultTable, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to persist multiple lookup results", e);
             throw new RuntimeException("error occured trying to persist multiple lookup results");
         }
-        
+
         // we just performed the sort, so go back to first page
         selectable.jumpToFirstPage(resultTable.size(), maxRowsPerPage);
-    
-        selectable.setCompositeObjectIdMap(LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(),
-                                                                                          selectable.getDisplayedObjectIdSet(), 
-                                                                                          selectable.getSelectedObjectIdSet()));
+
+        selectable.setCompositeObjectIdMap(LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(), selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet()));
         return resultTable;
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#prepareToReturnSelectedResultBOs(LookupResultsSelectable)
      */
@@ -186,20 +181,18 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             // pressed return before searching
             return;
         }
-        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(),
-                selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet());
+        Map<String, String> compositeObjectIdMap = LookupUtils.generateCompositeSelectedObjectIds(selectable.getPreviouslySelectedObjectIdSet(), selectable.getDisplayedObjectIdSet(), selectable.getSelectedObjectIdSet());
         Set<String> compositeObjectIds = compositeObjectIdMap.keySet();
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
-            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds,
-                    GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+            lookupResultsService.persistSelectedObjectIds(lookupResultsSequenceNumber, compositeObjectIds, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         }
         catch (Exception e) {
             LOG.error("error occured trying to retrieve selected multiple lookup results", e);
             throw new RuntimeException("error occured trying to retrieve selected multiple lookup results");
         }
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#prepareToReturnNone(LookupResultsSelectable)
      */
@@ -217,13 +210,13 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             LOG.error("error occured trying to clear lookup results seq nbr " + lookupResultsSequenceNumber, e);
         }
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#prepareToExport(LookupResultsSelectable)
      */
     public List<ResultRow> prepareToExport(LookupResultsSelectable selectable) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
-        
+
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
@@ -235,14 +228,14 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
         }
         return resultTable;
     }
-    
-    
+
+
     /**
      * @see LookupDisplayTagSurrogate#getMaxRowsPerPage(LookupResultsSelectable)
      */
     public List<ResultRow> selectAll(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
-        
+
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
@@ -252,26 +245,26 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             LOG.error("error occured trying to export multiple lookup results", e);
             throw new RuntimeException("error occured trying to export multiple lookup results");
         }
-        
+
         Map<String, String> selectedObjectIds = new HashMap<String, String>();
         for (ResultRow row : resultTable) {
             String objId = row.getObjectId();
             selectedObjectIds.put(objId, objId);
         }
-        
+
         selectable.jumpToPage(selectable.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
         selectable.setColumnToSortIndex(Integer.parseInt(selectable.getPreviouslySortedColumnIndex()));
         selectable.setCompositeObjectIdMap(selectedObjectIds);
-        
+
         return resultTable;
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#getMaxRowsPerPage(LookupResultsSelectable)
      */
     public List<ResultRow> unselectAll(LookupResultsSelectable selectable, int maxRowsPerPage) {
         String lookupResultsSequenceNumber = selectable.getLookupResultsSequenceNumber();
-        
+
         List<ResultRow> resultTable = null;
         try {
             LookupResultsService lookupResultsService = SpringContext.getBean(LookupResultsService.class);
@@ -281,17 +274,17 @@ public class BalanceInquiryLookupDisplayTagSurrogate implements LookupDisplayTag
             LOG.error("error occured trying to export multiple lookup results", e);
             throw new RuntimeException("error occured trying to export multiple lookup results");
         }
-        
+
         Map<String, String> selectedObjectIds = new HashMap<String, String>();
         // keep map empty since we're not selecting anything
-        
+
         selectable.jumpToPage(selectable.getViewedPageNumber(), resultTable.size(), maxRowsPerPage);
         selectable.setColumnToSortIndex(Integer.parseInt(selectable.getPreviouslySortedColumnIndex()));
         selectable.setCompositeObjectIdMap(selectedObjectIds);
-        
+
         return resultTable;
     }
-    
+
     /**
      * @see LookupDisplayTagSurrogate#getMaxRowsPerPage(LookupResultsSelectable)
      */

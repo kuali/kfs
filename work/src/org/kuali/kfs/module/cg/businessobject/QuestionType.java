@@ -23,16 +23,17 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * 
  */
 public class QuestionType extends PersistableBusinessObjectBase {
-    
+
     private String questionTypeCode;
     private boolean dataObjectMaintenanceCodeActiveIndicator;
     private String questionTypeDescription;
     private Integer questionTypeSortNumber;
     private String questionTypeWorkgroupName;
     private String questionTypeNotificationValue;
-    
+
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
      * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
      */
     public boolean isDataObjectMaintenanceCodeActiveIndicator() {
@@ -41,6 +42,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
+     * 
      * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
      */
     public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
@@ -48,7 +50,8 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeCode attribute. 
+     * Gets the questionTypeCode attribute.
+     * 
      * @return Returns the questionTypeCode.
      */
     public String getQuestionTypeCode() {
@@ -57,6 +60,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeCode attribute value.
+     * 
      * @param questionTypeCode The questionTypeCode to set.
      */
     public void setQuestionTypeCode(String questionTypeCode) {
@@ -64,7 +68,8 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeDescription attribute. 
+     * Gets the questionTypeDescription attribute.
+     * 
      * @return Returns the questionTypeDescription.
      */
     public String getQuestionTypeDescription() {
@@ -73,6 +78,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeDescription attribute value.
+     * 
      * @param questionTypeDescription The questionTypeDescription to set.
      */
     public void setQuestionTypeDescription(String questionTypeDescription) {
@@ -80,7 +86,8 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeSortNumber attribute. 
+     * Gets the questionTypeSortNumber attribute.
+     * 
      * @return Returns the questionTypeSortNumber.
      */
     public Integer getQuestionTypeSortNumber() {
@@ -89,6 +96,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeSortNumber attribute value.
+     * 
      * @param questionTypeSortNumber The questionTypeSortNumber to set.
      */
     public void setQuestionTypeSortNumber(Integer questionTypeSortNumber) {
@@ -96,7 +104,8 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeWorkgroupName attribute. 
+     * Gets the questionTypeWorkgroupName attribute.
+     * 
      * @return Returns the questionTypeWorkgroupName.
      */
     public String getQuestionTypeWorkgroupName() {
@@ -105,6 +114,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeWorkgroupName attribute value.
+     * 
      * @param questionTypeWorkgroupName The questionTypeWorkgroupName to set.
      */
     public void setQuestionTypeWorkgroupName(String questionTypeWorkgroupName) {
@@ -112,7 +122,8 @@ public class QuestionType extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the questionTypeNotificationValue attribute. 
+     * Gets the questionTypeNotificationValue attribute.
+     * 
      * @return Returns the questionTypeNotificationValue.
      */
     public String getQuestionTypeNotificationValue() {
@@ -121,12 +132,13 @@ public class QuestionType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the questionTypeNotificationValue attribute value.
+     * 
      * @param questionTypeNotificationValue The questionTypeNotificationValue to set.
      */
     public void setQuestionTypeNotificationValue(String questionTypeNotificationValue) {
         this.questionTypeNotificationValue = questionTypeNotificationValue;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof QuestionType) {
@@ -134,7 +146,7 @@ public class QuestionType extends PersistableBusinessObjectBase {
         }
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         int hashCode = 0;

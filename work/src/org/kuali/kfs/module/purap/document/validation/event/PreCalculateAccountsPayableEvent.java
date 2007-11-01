@@ -23,14 +23,15 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 
 /**
- * This class represents the Pre-Calculate step event for AccountsPayableDocument (right now it's either PaymentRequestDocument 
- * or CreditMemoDocument. This could be triggered when a user presses the Calculate button to calculate the doc.
+ * This class represents the Pre-Calculate step event for AccountsPayableDocument (right now it's either PaymentRequestDocument or
+ * CreditMemoDocument. This could be triggered when a user presses the Calculate button to calculate the doc.
  */
 public final class PreCalculateAccountsPayableEvent extends KualiDocumentEventBase {
-    
+
     public PreCalculateAccountsPayableEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
+
     /**
      * Constructs a CalculateAccountsPayableEvent with the given errorPathPrefix and document.
      * 
@@ -52,6 +53,6 @@ public final class PreCalculateAccountsPayableEvent extends KualiDocumentEventBa
      * @see org.kuali.core.rule.event.KualiDocumentEvent#invokeRuleMethod(org.kuali.core.rule.BusinessRule)
      */
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((PreCalculateAccountsPayableRule) rule).processPreCalculateAccountsPayableBusinessRules((AccountsPayableDocument)getDocument());
+        return ((PreCalculateAccountsPayableRule) rule).processPreCalculateAccountsPayableBusinessRules((AccountsPayableDocument) getDocument());
     }
 }

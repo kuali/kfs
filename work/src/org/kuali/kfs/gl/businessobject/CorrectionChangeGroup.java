@@ -38,7 +38,7 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
     private List<CorrectionCriteria> correctionCriteria;
     private List<CorrectionChange> correctionChange;
 
-    public CorrectionChangeGroup(String documentNumber,Integer correctionChangeGroupLineNumber) {
+    public CorrectionChangeGroup(String documentNumber, Integer correctionChangeGroupLineNumber) {
         setCorrectionChangeGroupLineNumber(correctionChangeGroupLineNumber);
 
         correctionCriteria = new ArrayList();
@@ -75,8 +75,8 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
 
     public void removeCorrectionChangeItem(int changeNumber) {
         for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
-            CorrectionChange element = (CorrectionChange)iter.next();
-            if ( changeNumber == element.getCorrectionChangeLineNumber().intValue() ) {
+            CorrectionChange element = (CorrectionChange) iter.next();
+            if (changeNumber == element.getCorrectionChangeLineNumber().intValue()) {
                 iter.remove();
             }
         }
@@ -85,7 +85,7 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
     public void removeCorrectionCriteriaItem(int criteriaNumber) {
         for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
             CorrectionCriteria element = (CorrectionCriteria) iter.next();
-            if ( criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue() ) {
+            if (criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue()) {
                 iter.remove();
             }
         }
@@ -93,27 +93,27 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
 
     public CorrectionChange getCorrectionChangeItem(int changeNumber) {
         for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
-            CorrectionChange element = (CorrectionChange)iter.next();
-            if ( changeNumber == element.getCorrectionChangeLineNumber().intValue() ) {
+            CorrectionChange element = (CorrectionChange) iter.next();
+            if (changeNumber == element.getCorrectionChangeLineNumber().intValue()) {
                 return element;
             }
         }
 
-        CorrectionChange cc = new CorrectionChange(getDocumentNumber(),correctionChangeGroupLineNumber,changeNumber);
+        CorrectionChange cc = new CorrectionChange(getDocumentNumber(), correctionChangeGroupLineNumber, changeNumber);
         correctionChange.add(cc);
-        
+
         return cc;
     }
 
     public CorrectionCriteria getCorrectionCriteriaItem(int criteriaNumber) {
         for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
             CorrectionCriteria element = (CorrectionCriteria) iter.next();
-            if ( criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue() ) {
+            if (criteriaNumber == element.getCorrectionCriteriaLineNumber().intValue()) {
                 return element;
             }
         }
 
-        CorrectionCriteria cc = new CorrectionCriteria(getDocumentNumber(),correctionChangeGroupLineNumber,criteriaNumber);
+        CorrectionCriteria cc = new CorrectionCriteria(getDocumentNumber(), correctionChangeGroupLineNumber, criteriaNumber);
         correctionCriteria.add(cc);
         return cc;
     }
@@ -126,11 +126,11 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
         this.documentNumber = documentNumber;
 
         for (Iterator iter = correctionCriteria.iterator(); iter.hasNext();) {
-            CorrectionCriteria element = (CorrectionCriteria)iter.next();
+            CorrectionCriteria element = (CorrectionCriteria) iter.next();
             element.setDocumentNumber(documentNumber);
         }
         for (Iterator iter = correctionChange.iterator(); iter.hasNext();) {
-            CorrectionChange element = (CorrectionChange)iter.next();
+            CorrectionChange element = (CorrectionChange) iter.next();
             element.setDocumentNumber(documentNumber);
         }
     }
@@ -178,17 +178,18 @@ public class CorrectionChangeGroup extends PersistableBusinessObjectBase impleme
     }
 
     public int compareTo(Object o) {
-        CorrectionChangeGroup other = (CorrectionChangeGroup)o;
+        CorrectionChangeGroup other = (CorrectionChangeGroup) o;
 
         String thisFdocNbr = documentNumber == null ? "" : documentNumber;
         String thatFdocNbr = other.documentNumber == null ? "" : other.documentNumber;
 
         int c = thisFdocNbr.compareTo(thatFdocNbr);
-        if ( c == 0 ) {
+        if (c == 0) {
             Integer thisNbr = correctionChangeGroupLineNumber == null ? 0 : correctionChangeGroupLineNumber;
             Integer thatNbr = other.correctionChangeGroupLineNumber == null ? 0 : other.correctionChangeGroupLineNumber;
             return thisNbr.compareTo(thatNbr);
-        } else {
+        }
+        else {
             return c;
         }
     }

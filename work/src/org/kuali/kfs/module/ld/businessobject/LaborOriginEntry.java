@@ -22,7 +22,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -633,7 +632,6 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
     }
 
     /**
-     * 
      * Sets transactionTotalHours to null.
      */
     public void clearTransactionTotalHours() {
@@ -741,7 +739,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         sb.append(getField(3, hrmsCompany));
         sb.append(getField(5, setid));
 
-        //Labor need it?
+        // Labor need it?
         // pad to full length of 173 chars.
         /*
          * while (173 > sb.toString().length()) { sb.append(' '); }

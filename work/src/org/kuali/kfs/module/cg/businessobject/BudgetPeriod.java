@@ -42,13 +42,13 @@ public class BudgetPeriod extends PersistableBusinessObjectBase implements Compa
     public BudgetPeriod() {
         super();
     }
-    
+
     public BudgetPeriod(String documentNumber, Integer budgetPeriodSequenceNumber) {
         this();
         this.documentNumber = documentNumber;
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
     }
-    
+
     public BudgetPeriod(BudgetPeriod template) {
         this();
         this.documentNumber = template.getDocumentNumber();
@@ -57,7 +57,7 @@ public class BudgetPeriod extends PersistableBusinessObjectBase implements Compa
         this.budgetPeriodEndDate = template.getBudgetPeriodEndDate();
         this.budgetPeriodParticipantsNumber = template.getBudgetPeriodParticipantsNumber();
     }
-    
+
     /**
      * @return Returns the budgetNumber.
      */
@@ -168,11 +168,8 @@ public class BudgetPeriod extends PersistableBusinessObjectBase implements Compa
             if (this.getClass().equals(obj.getClass())) {
                 BudgetPeriod other = (BudgetPeriod) obj;
 
-                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && 
-                        this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && 
-                        ((this.getBudgetPeriodBeginDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate())) && 
-                        ((this.getBudgetPeriodEndDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate()))) {
-                    
+                if (this.getDocumentNumber().equals(other.getDocumentNumber()) && this.getBudgetPeriodSequenceNumber().equals(other.getBudgetPeriodSequenceNumber()) && ((this.getBudgetPeriodBeginDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodBeginDate().equals(other.getBudgetPeriodBeginDate())) && ((this.getBudgetPeriodEndDate() == null && other.getBudgetPeriodEndDate() == null) || this.getBudgetPeriodEndDate().equals(other.getBudgetPeriodEndDate()))) {
+
                     equal = true;
                 }
             }

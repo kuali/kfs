@@ -21,12 +21,13 @@ import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 
 /**
- * Document Authorizer for the PO Reopen document. 
+ * Document Authorizer for the PO Reopen document.
  */
 public class PurchaseOrderReopenDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -34,7 +35,7 @@ public class PurchaseOrderReopenDocumentAuthorizer extends PurchaseOrderDocument
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            //do not allow this document to be saved; once initiated, it must be routed or canceled
+            // do not allow this document to be saved; once initiated, it must be routed or canceled
             flags.setCanSave(false);
         }
 

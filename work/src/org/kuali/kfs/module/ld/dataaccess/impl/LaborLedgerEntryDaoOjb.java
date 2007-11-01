@@ -80,12 +80,12 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
         return getPersistenceBrokerTemplate().getIteratorByQuery(query);
     }
-    
+
     /**
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#save(org.kuali.module.labor.bo.LedgerEntry)
      */
     public void save(LedgerEntry ledgerEntry) {
-        getPersistenceBrokerTemplate().store(ledgerEntry);        
+        getPersistenceBrokerTemplate().store(ledgerEntry);
     }
 
     /**

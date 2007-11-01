@@ -24,12 +24,13 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 public class PurApSummaryItem extends PurApItemBase {
 
     private KualiDecimal estimatedEncumberanceAmount;
-	//TODO: abstract PurApItemBase so that this inherits less
+
+    // TODO: abstract PurApItemBase so that this inherits less
     public PurApSummaryItem() {
         this(KualiDecimal.ZERO);
     }
-    
-    public PurApSummaryItem(KualiDecimal estimatedEncumberanceAmount){
+
+    public PurApSummaryItem(KualiDecimal estimatedEncumberanceAmount) {
         this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
     }
 
@@ -60,7 +61,7 @@ public class PurApSummaryItem extends PurApItemBase {
      */
     @Override
     public void resetAccount() {
-        //do nothing
+        // do nothing
     }
 
 }

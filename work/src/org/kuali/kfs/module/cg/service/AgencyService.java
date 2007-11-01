@@ -31,7 +31,7 @@ public interface AgencyService {
 
     /**
      * Finds a Agency by agency number.
-     *
+     * 
      * @param agencyNumber the primary key of the Agency to get
      * @return the corresponding Agency, or null if none
      */

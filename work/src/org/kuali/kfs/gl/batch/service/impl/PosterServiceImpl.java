@@ -384,12 +384,13 @@ public class PosterServiceImpl implements PosterService {
                         generatedTransactionAmount = distributionAmount;
 
                         // Log differences that are over WARNING_MAX_DIFFERENCE
-                        if(getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
+                        if (getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct()).subtract(distributionAmount).abs().isGreaterThan(WARNING_MAX_DIFFERENCE)) {
                             List warnings = new ArrayList();
                             warnings.add("ADJUSTMENT GREATER THAN " + WARNING_MAX_DIFFERENCE);
                             reportErrors.put(et, warnings);
                         }
-                    } else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
+                    }
+                    else if (icrEntry.getTransactionDebitIndicator().equals(KFSConstants.GL_DEBIT_CODE)) {
                         generatedTransactionAmount = getPercentage(transactionAmount, icrEntry.getAwardIndrCostRcvyRatePct());
                         distributionAmount = distributionAmount.add(generatedTransactionAmount);
                     }

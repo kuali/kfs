@@ -33,8 +33,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class contains the test cases that can be applied to the method in BalanceLookupableImpl class.
- * 
- * 
  */
 @ConfigureContext
 public class BalanceLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {

@@ -28,44 +28,44 @@ import org.kuali.module.vendor.bo.ContractManager;
  */
 public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 
-	private Integer purchaseOrderQuoteListIdentifier;
-	private String purchaseOrderQuoteListName;
-	private Integer contractManagerCode;
-    
+    private Integer purchaseOrderQuoteListIdentifier;
+    private String purchaseOrderQuoteListName;
+    private Integer contractManagerCode;
+
     private ContractManager contractManager;
-   
+
     private List<PurchaseOrderQuoteListVendor> quoteListVendors;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderQuoteList() {
+
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderQuoteList() {
         quoteListVendors = new TypedArrayList(PurchaseOrderQuoteListVendor.class);
-	}
+    }
 
-	public Integer getPurchaseOrderQuoteListIdentifier() { 
-		return purchaseOrderQuoteListIdentifier;
-	}
+    public Integer getPurchaseOrderQuoteListIdentifier() {
+        return purchaseOrderQuoteListIdentifier;
+    }
 
-	public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
-		this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
-	}
+    public void setPurchaseOrderQuoteListIdentifier(Integer purchaseOrderQuoteListIdentifier) {
+        this.purchaseOrderQuoteListIdentifier = purchaseOrderQuoteListIdentifier;
+    }
 
-	public String getPurchaseOrderQuoteListName() { 
-		return purchaseOrderQuoteListName;
-	}
+    public String getPurchaseOrderQuoteListName() {
+        return purchaseOrderQuoteListName;
+    }
 
-	public void setPurchaseOrderQuoteListName(String purchaseOrderQuoteListName) {
-		this.purchaseOrderQuoteListName = purchaseOrderQuoteListName;
-	}
+    public void setPurchaseOrderQuoteListName(String purchaseOrderQuoteListName) {
+        this.purchaseOrderQuoteListName = purchaseOrderQuoteListName;
+    }
 
-	public Integer getContractManagerCode() { 
-		return contractManagerCode;
-	}
+    public Integer getContractManagerCode() {
+        return contractManagerCode;
+    }
 
-	public void setContractManagerCode(Integer contractManagerCode) {
-		this.contractManagerCode = contractManagerCode;
-	}
+    public void setContractManagerCode(Integer contractManagerCode) {
+        this.contractManagerCode = contractManagerCode;
+    }
 
     public List<PurchaseOrderQuoteListVendor> getQuoteListVendors() {
         return quoteListVendors;
@@ -80,14 +80,14 @@ public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.purchaseOrderQuoteListIdentifier != null) {
             m.put("purchaseOrderQuoteListIdentifier", this.purchaseOrderQuoteListIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 
 }

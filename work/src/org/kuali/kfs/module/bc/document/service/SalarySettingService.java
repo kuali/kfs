@@ -16,21 +16,18 @@
 package org.kuali.module.budget.service;
 
 /**
- * This class defines methods a Salary Setting Service must provide 
- * 
- * The Salary Setting Service supports functionality associated with detailed salary setting for an account
- * as well as organization based salary setting by incumbent and by position.
- * 
+ * This class defines methods a Salary Setting Service must provide The Salary Setting Service supports functionality associated
+ * with detailed salary setting for an account as well as organization based salary setting by incumbent and by position.
  */
 public interface SalarySettingService {
-    
+
     /**
-     * This method returns the disabled setting of the System Parameter controlling Budget module Salary Setting.
-     * Disabling Salary Setting will cause any UI controls related to the salary setting functionality to not be displayed.
-     * Disabling will also cause associated business rules checks to behave differently or not be run.
+     * This method returns the disabled setting of the System Parameter controlling Budget module Salary Setting. Disabling Salary
+     * Setting will cause any UI controls related to the salary setting functionality to not be displayed. Disabling will also cause
+     * associated business rules checks to behave differently or not be run.
      * 
      * @return
      */
-    public boolean getSalarySettingDisabled(); 
+    public boolean getSalarySettingDisabled();
 
 }

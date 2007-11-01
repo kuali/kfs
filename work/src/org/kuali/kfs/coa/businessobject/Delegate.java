@@ -96,7 +96,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -106,7 +105,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -134,7 +132,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the finDocApprovalFromThisAmt attribute.
      * 
      * @return Returns the finDocApprovalFromThisAmt
-     * 
      */
     public KualiDecimal getFinDocApprovalFromThisAmt() {
         return finDocApprovalFromThisAmt;
@@ -144,7 +141,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Sets the finDocApprovalFromThisAmt attribute.
      * 
      * @param finDocApprovalFromThisAmt The finDocApprovalFromThisAmt to set.
-     * 
      */
     public void setFinDocApprovalFromThisAmt(KualiDecimal finDocApprovalFromThisAmt) {
         this.finDocApprovalFromThisAmt = finDocApprovalFromThisAmt;
@@ -154,7 +150,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the accountsDelegatePrmrtIndicator attribute.
      * 
      * @return Returns the accountsDelegatePrmrtIndicator
-     * 
      */
     public boolean isAccountsDelegatePrmrtIndicator() {
         return accountsDelegatePrmrtIndicator;
@@ -174,7 +169,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the accountDelegateActiveIndicator attribute.
      * 
      * @return Returns the accountDelegateActiveIndicator
-     * 
      */
     public boolean isAccountDelegateActiveIndicator() {
         return accountDelegateActiveIndicator;
@@ -194,7 +188,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the accountDelegateStartDate attribute.
      * 
      * @return Returns the accountDelegateStartDate
-     * 
      */
     public Timestamp getAccountDelegateStartDate() {
         return accountDelegateStartDate;
@@ -204,7 +197,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Sets the accountDelegateStartDate attribute.
      * 
      * @param accountDelegateStartDate The accountDelegateStartDate to set.
-     * 
      */
     public void setAccountDelegateStartDate(Timestamp accountDelegateStartDate) {
         this.accountDelegateStartDate = accountDelegateStartDate;
@@ -214,7 +206,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the finDocApprovalToThisAmount attribute.
      * 
      * @return Returns the finDocApprovalToThisAmount
-     * 
      */
     public KualiDecimal getFinDocApprovalToThisAmount() {
         return finDocApprovalToThisAmount;
@@ -224,7 +215,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Sets the finDocApprovalToThisAmount attribute.
      * 
      * @param finDocApprovalToThisAmount The finDocApprovalToThisAmount to set.
-     * 
      */
     public void setFinDocApprovalToThisAmount(KualiDecimal finDocApprovalToThisAmount) {
         this.finDocApprovalToThisAmount = finDocApprovalToThisAmount;
@@ -234,7 +224,6 @@ public class Delegate extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;

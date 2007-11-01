@@ -18,12 +18,9 @@ package org.kuali.module.financial.bo;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 
-
 /**
  * Extends SourceAccountingLine so that, ultimately, GEC can generate different help text since it marks a field as required which
  * is otherwise optional.
- * 
- * 
  */
 public class GECSourceAccountingLine extends SourceAccountingLine {
 }

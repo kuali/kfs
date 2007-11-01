@@ -273,7 +273,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
         return false;
     }
-    
+
     /**
      * This method iterates a collection of negative payment request approval limits and returns the minimum of a given minimum
      * amount and the least among the limits in the collection.
@@ -322,7 +322,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 msgs.put(PREQDocumentsStrings.DUPLICATE_INVOICE_QUESTION, configurationService.getPropertyString(PurapKeyConstants.MESSAGE_INVOICE_DATE_A_YEAR_OR_MORE_PAST));
             }
         }
-//        PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
+        // PurchaseOrderDocument po = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderId);
         PurchaseOrderDocument po = document.getPurchaseOrderDocument();
 
         if (po != null) {
@@ -676,10 +676,10 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                     item.setSourceAccountingLines(distributedAccounts);
                 }
             }
-            //update the item
+            // update the item
             purapAccountingService.updateItemAccountAmounts(item);
         }
-        //TODO: delete the following line for a performance gain (update is done on lines that are changed)
+        // TODO: delete the following line for a performance gain (update is done on lines that are changed)
         // update again now that distribute is finished. (Note: we may not need this anymore now that I added updateItem line above
         purapAccountingService.updateAccountAmounts(paymentRequestDocument);
     }
@@ -819,6 +819,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
 
     /**
      * This method clears the request cancel fields
+     * 
      * @param document
      */
     private void clearRequestCancelFields(PaymentRequestDocument document) {
@@ -891,7 +892,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
         }
 
-        //FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
+        // FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(paymentRequest, "");
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedPaymentRequest() ended");
@@ -929,7 +930,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      */
     public void populatePaymentRequest(PaymentRequestDocument paymentRequestDocument) {
 
-//        PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
+        // PurchaseOrderDocument purchaseOrderDocument =
+        // SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(paymentRequestDocument.getPurchaseOrderIdentifier());
         PurchaseOrderDocument purchaseOrderDocument = paymentRequestDocument.getPurchaseOrderDocument();
 
         // make a call to search for expired/closed accounts
@@ -1041,9 +1043,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
      * @param cmDoc
      */
     private String updateStatusByNode(String currentNodeName, PaymentRequestDocument preqDoc) {
-        //remove request cancel if necessary
+        // remove request cancel if necessary
         clearRequestCancelFields(preqDoc);
-        
+
         // update the status on the document
 
         String cancelledStatusCode = "";

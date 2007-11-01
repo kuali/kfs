@@ -15,39 +15,30 @@
  */
 package org.kuali.module.purap.fixtures;
 
-import java.math.BigDecimal;
-
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
  * Fixture class for Purchase Order Accounting Line.
  */
 public enum PurchaseOrderAccountingLineFixture {
-    BASIC_PO_ACCOUNT_1(
-            PurApAccountingLineFixture.BASIC_ACCOUNT_1,   // PurApAccountingLineFixture
-            AccountingLineFixture.LINE2                   // AccountingLineFixture
-            );    
-    
+    BASIC_PO_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
+            AccountingLineFixture.LINE2 // AccountingLineFixture
+    );
+
     private PurApAccountingLineFixture purApAccountingLineFixture;
     private AccountingLineFixture accountingLineFixture;
 
     /**
      * Private Constructor.
      */
-    private PurchaseOrderAccountingLineFixture(
-            PurApAccountingLineFixture purApAccountingLineFixture,
-            AccountingLineFixture accountingLineFixture) {
+    private PurchaseOrderAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture, AccountingLineFixture accountingLineFixture) {
         this.purApAccountingLineFixture = purApAccountingLineFixture;
         this.accountingLineFixture = accountingLineFixture;
     }
-    
+
     /**
      * Creates a PurAp Accounting Line using the specified PurAp Accounting Line Fixture and Accounting Line Fixture.
      * 
@@ -58,10 +49,10 @@ public enum PurchaseOrderAccountingLineFixture {
      */
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
-        line = (PurApAccountingLine)puralFixture.createPurApAccountingLine(PurchaseOrderAccount.class, alFixture);        
+        line = (PurApAccountingLine) puralFixture.createPurApAccountingLine(PurchaseOrderAccount.class, alFixture);
         return line;
     }
-    
+
     /**
      * Creates a PurAp Accounting Line from this fixture and adds it to the specified item.
      * 

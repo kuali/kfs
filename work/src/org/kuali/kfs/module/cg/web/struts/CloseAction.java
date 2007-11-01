@@ -18,8 +18,7 @@ package org.kuali.module.cg.web.struts.action;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 
 /**
- * User: Laran Evans <lc278@cornell.edu>
- * Date: Apr 19, 2007
- * Time: 12:01:25 PM
+ * User: Laran Evans <lc278@cornell.edu> Date: Apr 19, 2007 Time: 12:01:25 PM
  */
-public class CloseAction extends KualiTransactionalDocumentActionBase {}
+public class CloseAction extends KualiTransactionalDocumentActionBase {
+}

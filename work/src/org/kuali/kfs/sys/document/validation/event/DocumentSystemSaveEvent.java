@@ -17,9 +17,6 @@ package org.kuali.kfs.rule.event;
 
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.BusinessRule;
-import org.kuali.core.rule.SaveDocumentRule;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
-import org.kuali.core.rule.event.SaveEvent;
 import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 
 /**
@@ -28,7 +25,7 @@ import org.kuali.core.rule.event.SaveOnlyDocumentEvent;
 public class DocumentSystemSaveEvent extends SaveOnlyDocumentEvent {
 
     /**
-     * Constructs a DocumentSystemSaveEvent with the specified errorPathPrefix and document.  Event will
+     * Constructs a DocumentSystemSaveEvent with the specified errorPathPrefix and document. Event will
      * 
      * @param document
      * @param errorPathPrefix
@@ -46,5 +43,5 @@ public class DocumentSystemSaveEvent extends SaveOnlyDocumentEvent {
     public boolean invokeRuleMethod(BusinessRule arg0) {
         return true;
     }
-    
+
 }

@@ -31,14 +31,16 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      * @see org.kuali.module.budget.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
      */
     public boolean getBenefitsCalculationDisabled() {
-        //TODO for now just return false, implement application parameter if decision is made implement this functionality
+        // TODO for now just return false, implement application parameter if decision is made implement this functionality
         return false;
 
-//        return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM, BCConstants.DISABLE_BENEFITS_CALCULATION_FLAG);
+        // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
+        // BCConstants.DISABLE_BENEFITS_CALCULATION_FLAG);
     }
 
     /**
-     * Gets the kualiConfigurationService attribute. 
+     * Gets the kualiConfigurationService attribute.
+     * 
      * @return Returns the kualiConfigurationService.
      */
     public KualiConfigurationService getKualiConfigurationService() {
@@ -47,6 +49,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {

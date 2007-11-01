@@ -21,10 +21,10 @@ import java.util.Map;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 
 /**
- * This interface provides its clients with access to labor base fund entries in the backend data store.  
+ * This interface provides its clients with access to labor base fund entries in the backend data store.
  */
 public interface LaborBaseFundsService {
-    
+
     /**
      * This method finds the records of base budget for each Labor object according to input fields and values
      * 
@@ -33,7 +33,7 @@ public interface LaborBaseFundsService {
      * @return a collection of base budgets for Labor objects
      */
     List<AccountStatusBaseFunds> findLaborBaseFunds(Map fieldValues, boolean isConsolidated);
-    
+
     /**
      * This method finds the records of base budget for each Labor object according to input fields and values
      * 

@@ -21,8 +21,6 @@ import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * This interface defines methods that an AccountingLine service implementation must provide.
- * 
- * 
  */
 public interface AccountingLineService {
     /**

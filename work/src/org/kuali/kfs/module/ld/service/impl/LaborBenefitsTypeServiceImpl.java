@@ -26,15 +26,15 @@ import org.kuali.module.labor.service.LaborBenefitsTypeService;
 public class LaborBenefitsTypeServiceImpl implements LaborBenefitsTypeService {
 
     private BusinessObjectService businessObjectService;
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
     public Collection<BenefitsType> getBenefitsType() {
-        
+
         Map fieldValues = new HashMap();
-        
+
         return businessObjectService.findMatching(BenefitsType.class, fieldValues);
     }
 

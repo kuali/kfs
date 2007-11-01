@@ -26,8 +26,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class...
- * 
- * 
  */
 @ConfigureContext
 public class NightlyOutServiceTest extends KualiTestBase {

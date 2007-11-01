@@ -20,13 +20,10 @@ import org.apache.log4j.Logger;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEventBase;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.module.financial.bo.Check;
 import org.kuali.module.purap.bo.PurApItem;
 
 /**
  * ItemEvents.
- * 
- * 
  */
 public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocumentEventBase implements PurchasingAccountsPayableItemEvent {
     private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemEventBase.class);

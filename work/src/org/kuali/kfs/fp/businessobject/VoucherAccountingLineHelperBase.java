@@ -21,8 +21,6 @@ import org.kuali.core.util.KualiDecimal;
  * This helper class works in conjunction with the SourceAccountingLine bo to help build the UI for the Voucher. On the business
  * object side, there is a single attribute that keeps track of this and the amount field is used to keep track of the amount. This
  * helper class sits alongside the typical SourceAccountingLine bo... the synchronization between the two is the guaranteed order.
- * 
- * 
  */
 public class VoucherAccountingLineHelperBase implements VoucherAccountingLineHelper {
     private KualiDecimal debit;

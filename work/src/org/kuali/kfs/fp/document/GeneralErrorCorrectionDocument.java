@@ -84,6 +84,6 @@ public class GeneralErrorCorrectionDocument extends AccountingDocumentBase imple
     public Class getTargetAccountingLineClass() {
         return GECTargetAccountingLine.class;
     }
-    
-    
+
+
 }

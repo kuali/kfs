@@ -17,210 +17,206 @@ import org.apache.ojb.broker.PersistenceBrokerException;
 
 /**
  * @author delyea
- * 
- * @hibernate.class  table="PDP.PDP_PMT_ACCT_HIST_T"
+ * @hibernate.class table="PDP.PDP_PMT_ACCT_HIST_T"
  */
 
-public class PaymentAccountHistory implements Serializable,PersistenceBrokerAware {
+public class PaymentAccountHistory implements Serializable, PersistenceBrokerAware {
 
-  private Integer id;                    // PMT_ACCT_HIST_ID
-  
-  private String accountingChangeCode;
-  private AccountingChange accountingChange; // ACCTG_CHG_CD         
-  
-  private String acctAttributeName;      // ACCT_ATTRIB_NM         
-  private String acctAttributeOrigValue; // ACCT_ATTRIB_ORIG_VAL         
-  private String acctAttributeNewValue;  // ACCT_ATTRIB_NEW_VAL         
-  private Timestamp acctChangeDate;      // ACCT_CHG_TS
-  private Timestamp lastUpdate;
-  private Integer version;               // VER_NBR
+    private Integer id; // PMT_ACCT_HIST_ID
 
-  private Integer paymentAccountDetailId;
-  private PaymentAccountDetail paymentAccountDetail; // PMT_ACCT_DTL_ID       
+    private String accountingChangeCode;
+    private AccountingChange accountingChange; // ACCTG_CHG_CD
 
-  public PaymentAccountHistory() {
-    super();
-  }
+    private String acctAttributeName; // ACCT_ATTRIB_NM
+    private String acctAttributeOrigValue; // ACCT_ATTRIB_ORIG_VAL
+    private String acctAttributeNewValue; // ACCT_ATTRIB_NEW_VAL
+    private Timestamp acctChangeDate; // ACCT_CHG_TS
+    private Timestamp lastUpdate;
+    private Integer version; // VER_NBR
 
-  /**
-   * @hibernate.many-to-one column="PMT_ACCT_DTL_ID" class="edu.iu.uis.pdp.bo.PaymentAccountHistory"
-   * @return Returns the accountDetailId.
-   */
-  public PaymentAccountDetail getPaymentAccountDetail() {
-    return paymentAccountDetail;
-  }
+    private Integer paymentAccountDetailId;
+    private PaymentAccountDetail paymentAccountDetail; // PMT_ACCT_DTL_ID
 
-  /**
-   * @param accountDetailId The accountDetailId to set.
-   */
-  public void setPaymentAccountDetail(PaymentAccountDetail pad) {
-    this.paymentAccountDetail = pad;
-  }
+    public PaymentAccountHistory() {
+        super();
+    }
 
-  /**
-   * @hibernate.id column="PMT_ACCT_HIST_ID" generator-class="sequence"
-   * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_ACCT_HIST_ID_SEQ"
-   * @return Returns the Id.
-   */
-  public Integer getId() {
-    return id;
-  }
+    /**
+     * @hibernate.many-to-one column="PMT_ACCT_DTL_ID" class="edu.iu.uis.pdp.bo.PaymentAccountHistory"
+     * @return Returns the accountDetailId.
+     */
+    public PaymentAccountDetail getPaymentAccountDetail() {
+        return paymentAccountDetail;
+    }
 
-  /** 
-   * @return
-   * @hibernate.version column="VER_NBR" not-null="true"
-   */
-  public Integer getVersion() {
-    return version;
-  }
+    /**
+     * @param accountDetailId The accountDetailId to set.
+     */
+    public void setPaymentAccountDetail(PaymentAccountDetail pad) {
+        this.paymentAccountDetail = pad;
+    }
 
-  /**
-   * @return
-   * @hibernate.property column="ACCT_ATTRIB_NM" length="25"
-   */
-  public String getAcctAttributeName() {
-    return acctAttributeName;
-  }
+    /**
+     * @hibernate.id column="PMT_ACCT_HIST_ID" generator-class="sequence"
+     * @hibernate.generator-param name="sequence" value="PDP.PDP_PMT_ACCT_HIST_ID_SEQ"
+     * @return Returns the Id.
+     */
+    public Integer getId() {
+        return id;
+    }
 
-  /**
-   * @return
-   * @hibernate.property column="ACCT_ATTRIB_NEW_VAL" length="15"
-   */
-  public String getAcctAttributeNewValue() {
-    return acctAttributeNewValue;
-  }
+    /**
+     * @return
+     * @hibernate.version column="VER_NBR" not-null="true"
+     */
+    public Integer getVersion() {
+        return version;
+    }
 
-  /**
-   * @return
-   * @hibernate.property column="ACCT_ATTRIB_ORIG_VAL" length="15"
-   */
-  public String getAcctAttributeOrigValue() {
-    return acctAttributeOrigValue;
-  }
+    /**
+     * @return
+     * @hibernate.property column="ACCT_ATTRIB_NM" length="25"
+     */
+    public String getAcctAttributeName() {
+        return acctAttributeName;
+    }
 
-  /**
-   * @return
-   * @hibernate.many-to-one column="ACCTG_CHG_CD" class="edu.iu.uis.pdp.bo.AccountingChange"
-   */
-  public AccountingChange getAccountingChange() {
-    return accountingChange;
-  }
+    /**
+     * @return
+     * @hibernate.property column="ACCT_ATTRIB_NEW_VAL" length="15"
+     */
+    public String getAcctAttributeNewValue() {
+        return acctAttributeNewValue;
+    }
 
-  /**
-   * @return
-   * @hibernate.property column="ACCT_CHG_TS"
-   */
-  public Timestamp getAcctChangeDate() {
-    return acctChangeDate;
-  }
+    /**
+     * @return
+     * @hibernate.property column="ACCT_ATTRIB_ORIG_VAL" length="15"
+     */
+    public String getAcctAttributeOrigValue() {
+        return acctAttributeOrigValue;
+    }
 
-  /**
-   * @param string
-   */
-  public void setAcctAttributeName(String string) {
-    acctAttributeName = string;
-  }
+    /**
+     * @return
+     * @hibernate.many-to-one column="ACCTG_CHG_CD" class="edu.iu.uis.pdp.bo.AccountingChange"
+     */
+    public AccountingChange getAccountingChange() {
+        return accountingChange;
+    }
 
-  /**
-   * @param string
-   */
-  public void setAcctAttributeNewValue(String string) {
-    acctAttributeNewValue = string;
-  }
+    /**
+     * @return
+     * @hibernate.property column="ACCT_CHG_TS"
+     */
+    public Timestamp getAcctChangeDate() {
+        return acctChangeDate;
+    }
 
-  /**
-   * @param string
-   */
-  public void setAcctAttributeOrigValue(String string) {
-    acctAttributeOrigValue = string;
-  }
+    /**
+     * @param string
+     */
+    public void setAcctAttributeName(String string) {
+        acctAttributeName = string;
+    }
 
-  /**
-   * @param string
-   */
-  public void setAccountingChange(AccountingChange ac) {
-    accountingChange = ac;
-  }
+    /**
+     * @param string
+     */
+    public void setAcctAttributeNewValue(String string) {
+        acctAttributeNewValue = string;
+    }
 
-  /**
-   * @param timestamp
-   */
-  public void setAcctChangeDate(Timestamp timestamp) {
-    acctChangeDate = timestamp;
-  }
+    /**
+     * @param string
+     */
+    public void setAcctAttributeOrigValue(String string) {
+        acctAttributeOrigValue = string;
+    }
 
-  /**
-   * @param integer
-   */
-  public void setId(Integer integer) {
-    id = integer;
-  }
+    /**
+     * @param string
+     */
+    public void setAccountingChange(AccountingChange ac) {
+        accountingChange = ac;
+    }
 
-  /**
-   * @param integer
-   */
-  public void setVersion(Integer integer) {
-    version = integer;
-  }
+    /**
+     * @param timestamp
+     */
+    public void setAcctChangeDate(Timestamp timestamp) {
+        acctChangeDate = timestamp;
+    }
 
-  public boolean equals(Object obj) {
-    if (! (obj instanceof PaymentAccountHistory) ) { return false; }
-    PaymentAccountHistory o = (PaymentAccountHistory)obj;
-    return new EqualsBuilder()
-    .append(id, o.getId())
-    .isEquals();
-  }
+    /**
+     * @param integer
+     */
+    public void setId(Integer integer) {
+        id = integer;
+    }
 
-  public int hashCode() {
-    return new HashCodeBuilder(79,91)
-      .append(id)
-      .toHashCode();
-  }
+    /**
+     * @param integer
+     */
+    public void setVersion(Integer integer) {
+        version = integer;
+    }
 
-  public String toString() {
-    return new ToStringBuilder(this)
-      .append("id",  this.id)
-      .toString();
-  }
+    public boolean equals(Object obj) {
+        if (!(obj instanceof PaymentAccountHistory)) {
+            return false;
+        }
+        PaymentAccountHistory o = (PaymentAccountHistory) obj;
+        return new EqualsBuilder().append(id, o.getId()).isEquals();
+    }
 
-  /**
-   * @return Returns the lastUpdate.
-   */
-  public Timestamp getLastUpdate() {
-    return lastUpdate;
-  }
-  /**
-   * @param lastUpdate The lastUpdate to set.
-   */
-  public void setLastUpdate(Timestamp lastUpdate) {
-    this.lastUpdate = lastUpdate;
-  }
+    public int hashCode() {
+        return new HashCodeBuilder(79, 91).append(id).toHashCode();
+    }
 
-  public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdate = new Timestamp( (new Date()).getTime() );
-  }
+    public String toString() {
+        return new ToStringBuilder(this).append("id", this.id).toString();
+    }
 
-  public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+    /**
+     * @return Returns the lastUpdate.
+     */
+    public Timestamp getLastUpdate() {
+        return lastUpdate;
+    }
 
-  }
+    /**
+     * @param lastUpdate The lastUpdate to set.
+     */
+    public void setLastUpdate(Timestamp lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 
-  public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    lastUpdate = new Timestamp( (new Date()).getTime() );    
-  }
+    public void beforeInsert(PersistenceBroker broker) throws PersistenceBrokerException {
+        lastUpdate = new Timestamp((new Date()).getTime());
+    }
 
-  public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
-    
-  }
+    public void afterInsert(PersistenceBroker broker) throws PersistenceBrokerException {
 
-  public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+    }
 
-  }
-  
-  public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+    public void beforeUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
+        lastUpdate = new Timestamp((new Date()).getTime());
+    }
 
-  }
+    public void afterUpdate(PersistenceBroker broker) throws PersistenceBrokerException {
 
-  public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
+    }
 
-  }
+    public void beforeDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+
+    }
+
+    public void afterDelete(PersistenceBroker broker) throws PersistenceBrokerException {
+
+    }
+
+    public void afterLookup(PersistenceBroker broker) throws PersistenceBrokerException {
+
+    }
 }

@@ -15,23 +15,17 @@
  */
 package org.kuali.test.fixtures;
 
-import java.sql.Timestamp;
-
-import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.chart.bo.A21SubAccount;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 
 public enum SubAccountFixture {
-    ACTIVE_SUB_ACCOUNT(null, null, null, null, true, null, null, null),
-    INACTIVE_SUB_ACCOUNT(null, null, null, null, false, null, null, null),
-    VALID_SUB_ACCOUNT("BA", "6044900", "ARREC"),
-    INVALID_SUB_ACCOUNT("ZZ", "0000000", "A"),
-    SUB_ACCOUNT_WITH_REPORTS_TO_ORGANIZATION("EA", "2367527", "SOCHR", null, true, "EA", "SACT", null),  // another sub acccount value is SOCON
-    SUB_ACCOUNT_WITHOUT_REPORTS_TO_ORGANIZATION("BL", "1031400", "BLDG"),
-    SUB_ACCOUNT_WITH_BAD_CG_FUND_GROUP("BL", "2220090", "12345", "A New SubAccount", true, null, null, null),
-    A21_SUB_ACCOUNT_WITH_BAD_CG_ACCOUNT_TYPE("BL","4831497", "12345", "A New SubAccount", true, null, null, null, "ZZ", null, null, null, null, false, null, null, null),
-    ;
+    ACTIVE_SUB_ACCOUNT(null, null, null, null, true, null, null, null), INACTIVE_SUB_ACCOUNT(null, null, null, null, false, null, null, null), VALID_SUB_ACCOUNT("BA", "6044900", "ARREC"), INVALID_SUB_ACCOUNT("ZZ", "0000000", "A"), SUB_ACCOUNT_WITH_REPORTS_TO_ORGANIZATION("EA", "2367527", "SOCHR", null, true, "EA", "SACT", null), // another
+                                                                                                                                                                                                                                                                                                                                            // sub
+                                                                                                                                                                                                                                                                                                                                            // acccount
+                                                                                                                                                                                                                                                                                                                                            // value
+                                                                                                                                                                                                                                                                                                                                            // is
+                                                                                                                                                                                                                                                                                                                                            // SOCON
+    SUB_ACCOUNT_WITHOUT_REPORTS_TO_ORGANIZATION("BL", "1031400", "BLDG"), SUB_ACCOUNT_WITH_BAD_CG_FUND_GROUP("BL", "2220090", "12345", "A New SubAccount", true, null, null, null), A21_SUB_ACCOUNT_WITH_BAD_CG_ACCOUNT_TYPE("BL", "4831497", "12345", "A New SubAccount", true, null, null, null, "ZZ", null, null, null, null, false, null, null, null), ;
 
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -41,7 +35,7 @@ public enum SubAccountFixture {
     private String financialReportChartCode;
     private String finReportOrganizationCode;
     private String financialReportingCode;
-    
+
     private A21SubAccount a21;
 
     /**
@@ -58,7 +52,7 @@ public enum SubAccountFixture {
     }
 
     /**
-     * Constructs a SubAccountFixture.java in order to create a new Sub Account that includes an A21 Sub Account 
+     * Constructs a SubAccountFixture.java in order to create a new Sub Account that includes an A21 Sub Account
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -81,7 +75,7 @@ public enum SubAccountFixture {
     }
 
     /**
-     * Constructs a SubAccountFixture.java in order to create a new Sub Account that includes an A21 Sub Account 
+     * Constructs a SubAccountFixture.java in order to create a new Sub Account that includes an A21 Sub Account
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -110,7 +104,7 @@ public enum SubAccountFixture {
         this.financialReportChartCode = finReportChartCode;
         this.finReportOrganizationCode = finReportOrgCode;
         this.financialReportingCode = finReportingCode;
-        
+
         a21 = new A21SubAccount();
         a21.setChartOfAccountsCode(chartOfAccountsCode);
         a21.setAccountNumber(accountNumber);

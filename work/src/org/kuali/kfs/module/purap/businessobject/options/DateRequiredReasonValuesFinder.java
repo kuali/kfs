@@ -42,11 +42,10 @@ public class DateRequiredReasonValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
-            DeliveryRequiredDateReason reason = (DeliveryRequiredDateReason)iter.next();
-            labels.add(new KeyLabelPair(reason.getDeliveryRequiredDateReasonCode(), 
-                    reason.getDeliveryRequiredDateReasonCode() + " - " + reason.getDeliveryRequiredDateReasonDescription()));
+            DeliveryRequiredDateReason reason = (DeliveryRequiredDateReason) iter.next();
+            labels.add(new KeyLabelPair(reason.getDeliveryRequiredDateReasonCode(), reason.getDeliveryRequiredDateReasonCode() + " - " + reason.getDeliveryRequiredDateReasonDescription()));
         }
-        
+
         return labels;
     }
 }

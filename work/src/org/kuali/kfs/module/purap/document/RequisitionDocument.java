@@ -151,8 +151,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     }
 
     /**
-     * Checks whether copying of this document should be allowed. Copying is not allowed if this
-     * is a B2B requistion, and more than a set number of days have passed since the document's creation.
+     * Checks whether copying of this document should be allowed. Copying is not allowed if this is a B2B requistion, and more than
+     * a set number of days have passed since the document's creation.
      * 
      * @return True if copying of this requisition is allowed.
      * @see org.kuali.core.document.Document#getAllowsCopy()

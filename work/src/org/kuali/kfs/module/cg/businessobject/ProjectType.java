@@ -25,107 +25,99 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ProjectType extends PersistableBusinessObjectBase {
 
-	private String projectTypeCode;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String projectTypeDescription;
-	private Integer sortNumber;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ProjectType() {
+    private String projectTypeCode;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String projectTypeDescription;
+    private Integer sortNumber;
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ProjectType() {
 
-	/**
-	 * Gets the projectTypeCode attribute.
-	 * 
-	 * @return Returns the projectTypeCode
-	 * 
-	 */
-	public String getProjectTypeCode() { 
-		return projectTypeCode;
-	}
+    }
 
-	/**
-	 * Sets the projectTypeCode attribute.
-	 * 
-	 * @param projectTypeCode The projectTypeCode to set.
-	 * 
-	 */
-	public void setProjectTypeCode(String projectTypeCode) {
-		this.projectTypeCode = projectTypeCode;
-	}
+    /**
+     * Gets the projectTypeCode attribute.
+     * 
+     * @return Returns the projectTypeCode
+     */
+    public String getProjectTypeCode() {
+        return projectTypeCode;
+    }
+
+    /**
+     * Sets the projectTypeCode attribute.
+     * 
+     * @param projectTypeCode The projectTypeCode to set.
+     */
+    public void setProjectTypeCode(String projectTypeCode) {
+        this.projectTypeCode = projectTypeCode;
+    }
 
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean isDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     */
+    public boolean isDataObjectMaintenanceCodeActiveIndicator() {
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     */
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
 
-	/**
-	 * Gets the projectTypeDescription attribute.
-	 * 
-	 * @return Returns the projectTypeDescription
-	 * 
-	 */
-	public String getProjectTypeDescription() { 
-		return projectTypeDescription;
-	}
+    /**
+     * Gets the projectTypeDescription attribute.
+     * 
+     * @return Returns the projectTypeDescription
+     */
+    public String getProjectTypeDescription() {
+        return projectTypeDescription;
+    }
 
-	/**
-	 * Sets the projectTypeDescription attribute.
-	 * 
-	 * @param projectTypeDescription The projectTypeDescription to set.
-	 * 
-	 */
-	public void setProjectTypeDescription(String projectTypeDescription) {
-		this.projectTypeDescription = projectTypeDescription;
-	}
+    /**
+     * Sets the projectTypeDescription attribute.
+     * 
+     * @param projectTypeDescription The projectTypeDescription to set.
+     */
+    public void setProjectTypeDescription(String projectTypeDescription) {
+        this.projectTypeDescription = projectTypeDescription;
+    }
 
 
-	/**
-	 * Gets the sortNumber attribute.
-	 * 
-	 * @return Returns the sortNumber
-	 * 
-	 */
-	public Integer getSortNumber() { 
-		return sortNumber;
-	}
+    /**
+     * Gets the sortNumber attribute.
+     * 
+     * @return Returns the sortNumber
+     */
+    public Integer getSortNumber() {
+        return sortNumber;
+    }
 
-	/**
-	 * Sets the sortNumber attribute.
-	 * 
-	 * @param sortNumber The sortNumber to set.
-	 * 
-	 */
-	public void setSortNumber(Integer sortNumber) {
-		this.sortNumber = sortNumber;
-	} 
-    
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Sets the sortNumber attribute.
+     * 
+     * @param sortNumber The sortNumber to set.
+     */
+    public void setSortNumber(Integer sortNumber) {
+        this.sortNumber = sortNumber;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("projectTypeCode", this.projectTypeCode);
-	    return m;
+        return m;
     }
 }

@@ -15,58 +15,51 @@
  */
 package org.kuali.module.purap.fixtures;
 
-import java.math.BigDecimal;
-
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.CreditMemoAccount;
 import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum CreditMemoAccountingLineFixture {
-    BASIC_CM_ACCOUNT_1(
-            PurApAccountingLineFixture.BASIC_ACCOUNT_1,   // PurApAccountingLineFixture
-            AccountingLineFixture.LINE2                   // AccountingLineFixture
-            );
-    
-    
+    BASIC_CM_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
+            AccountingLineFixture.LINE2 // AccountingLineFixture
+    );
+
+
     private PurApAccountingLineFixture purApAccountingLineFixture;
     private AccountingLineFixture accountingLineFixture;
 
-    private CreditMemoAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture,
-            AccountingLineFixture accountingLineFixture) {
+    private CreditMemoAccountingLineFixture(PurApAccountingLineFixture purApAccountingLineFixture, AccountingLineFixture accountingLineFixture) {
         this.purApAccountingLineFixture = purApAccountingLineFixture;
         this.accountingLineFixture = accountingLineFixture;
     }
-    
+
     public PurApAccountingLine createPurApAccountingLine(Class clazz, PurApAccountingLineFixture puralFixture, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
 
-        //TODO: what should this debit code really be
+        // TODO: what should this debit code really be
         line = (PurApAccountingLine) puralFixture.createPurApAccountingLine(CreditMemoAccount.class, alFixture);
-        
+
         return line;
     }
-    
+
     public void addTo(CreditMemoItem item) {
         item.getSourceAccountingLines().add(createPurApAccountingLine(item.getAccountingLineClass(), purApAccountingLineFixture, accountingLineFixture));
     }
 
     /**
-     * 
      * This method adds an account to an item
+     * 
      * @param document
      * @param purApItemFixture
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    public void addTo(PurApItem item, PurApAccountingLineFixture purApaccountFixture, AccountingLineFixture alFixture) 
-        throws IllegalAccessException, InstantiationException {
-//        purApaccountFixture.createPurApAccountingLine(CreditMemoAccount.class, alFixture);
-        if(0==0);
-    }   
+    public void addTo(PurApItem item, PurApAccountingLineFixture purApaccountFixture, AccountingLineFixture alFixture) throws IllegalAccessException, InstantiationException {
+        // purApaccountFixture.createPurApAccountingLine(CreditMemoAccount.class, alFixture);
+        if (0 == 0)
+            ;
+    }
 
 }

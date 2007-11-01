@@ -43,7 +43,7 @@ public class CorrectionCriteria extends PersistableBusinessObjectBase implements
 
     }
 
-    public CorrectionCriteria(String documentNumber,Integer correctionChangeGroupLineNumber,Integer correctionCriteriaLineNumber) {
+    public CorrectionCriteria(String documentNumber, Integer correctionChangeGroupLineNumber, Integer correctionCriteriaLineNumber) {
         this.documentNumber = documentNumber;
         this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
         this.correctionCriteriaLineNumber = correctionCriteriaLineNumber;
@@ -110,24 +110,26 @@ public class CorrectionCriteria extends PersistableBusinessObjectBase implements
     }
 
     public int compareTo(Object o) {
-        CorrectionCriteria cc = (CorrectionCriteria)o;
+        CorrectionCriteria cc = (CorrectionCriteria) o;
 
         String thisFdocNbr = documentNumber == null ? "" : documentNumber;
         String thatFdocNbr = cc.documentNumber == null ? "" : cc.documentNumber;
         int c = thisFdocNbr.compareTo(thatFdocNbr);
 
-        if ( c == 0 ) {
+        if (c == 0) {
             Integer thisGn = correctionChangeGroupLineNumber == null ? 0 : correctionChangeGroupLineNumber;
             Integer thatGn = cc.correctionChangeGroupLineNumber == null ? 0 : cc.correctionChangeGroupLineNumber;
             c = thisGn.compareTo(thatGn);
-            if( c == 0 ) {
+            if (c == 0) {
                 Integer thisCln = correctionCriteriaLineNumber == null ? 0 : correctionCriteriaLineNumber;
                 Integer thatCln = correctionCriteriaLineNumber == null ? 0 : cc.correctionCriteriaLineNumber;
                 return c = thisCln.compareTo(thatCln);
-            } else {
+            }
+            else {
                 return c;
             }
-        } else {
+        }
+        else {
             return c;
         }
     }

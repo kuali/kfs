@@ -30,8 +30,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the AccountingPeriod business object from a persistence standpoint using the BusinessObjectService.
- * 
- * 
  */
 @ConfigureContext
 public class AccountingPeriodServiceTest extends KualiTestBase {

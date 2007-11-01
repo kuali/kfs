@@ -19,5 +19,5 @@ import org.kuali.kfs.bo.PostalZipCode;
 
 public interface PostalZipCodeService {
 
-    PostalZipCode getByPrimaryId( String postalZipCode );
+    PostalZipCode getByPrimaryId(String postalZipCode);
 }

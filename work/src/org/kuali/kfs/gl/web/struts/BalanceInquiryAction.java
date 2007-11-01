@@ -50,8 +50,6 @@ import org.kuali.module.gl.web.struts.form.BalanceInquiryForm;
 
 /**
  * This class handles Actions for lookup flow
- * 
- * 
  */
 
 public class BalanceInquiryAction extends KualiAction {

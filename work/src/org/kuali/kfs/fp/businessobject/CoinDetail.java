@@ -18,9 +18,9 @@ package org.kuali.module.financial.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.kfs.KFSConstants;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
@@ -42,13 +42,13 @@ public class CoinDetail extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public CoinDetail() {}
+    public CoinDetail() {
+    }
 
     /**
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -58,7 +58,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -69,7 +68,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -79,7 +77,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -90,7 +87,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the cashieringRecordSource attribute.
      * 
      * @return Returns the cashieringRecordSource
-     * 
      */
     public String getCashieringRecordSource() {
         return cashieringRecordSource;
@@ -100,7 +96,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the cashieringRecordSource attribute.
      * 
      * @param cashieringRecordSource The cashieringRecordSource to set.
-     * 
      */
     public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
         this.cashieringRecordSource = financialDocumentColumnTypeCode;
@@ -110,7 +105,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentFiftyCentAmount attribute.
      * 
      * @return Returns the financialDocumentFiftyCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentFiftyCentAmount() {
         return financialDocumentFiftyCentAmount;
@@ -120,7 +114,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentFiftyCentAmount attribute.
      * 
      * @param financialDocumentFiftyCentAmount The financialDocumentFiftyCentAmount to set.
-     * 
      */
     public void setFinancialDocumentFiftyCentAmount(KualiDecimal financialDocumentFiftyCentAmount) {
         this.financialDocumentFiftyCentAmount = financialDocumentFiftyCentAmount;
@@ -128,14 +121,17 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of half-cent coins in the drawer
+     * 
      * @return the count of half cent coins in the drawer
      */
     public Integer getFiftyCentCount() {
         return (financialDocumentFiftyCentAmount == null) ? new Integer(0) : new Integer(financialDocumentFiftyCentAmount.divide(KFSConstants.CoinTypeAmounts.FIFTY_CENT_AMOUNT).intValue());
     }
-    
+
     /**
-     * Sets the number of fifty cent coins in the drawer. This is useful if, you know, you're in da club, with, say a bottle full of "bub"
+     * Sets the number of fifty cent coins in the drawer. This is useful if, you know, you're in da club, with, say a bottle full of
+     * "bub"
+     * 
      * @param count the number of fifty cent coins present in the drawer
      */
     public void setFiftyCentCount(Integer count) {
@@ -148,7 +144,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTwentyFiveCentAmount attribute.
      * 
      * @return Returns the financialDocumentTwentyFiveCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentTwentyFiveCentAmount() {
         return financialDocumentTwentyFiveCentAmount;
@@ -158,7 +153,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTwentyFiveCentAmount attribute.
      * 
      * @param financialDocumentTwentyFiveCentAmount The financialDocumentTwentyFiveCentAmount to set.
-     * 
      */
     public void setFinancialDocumentTwentyFiveCentAmount(KualiDecimal financialDocumentTwentyFiveCentAmount) {
         this.financialDocumentTwentyFiveCentAmount = financialDocumentTwentyFiveCentAmount;
@@ -166,14 +160,16 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of quarters in the drawer
+     * 
      * @return the count of quarters in the drawer
      */
     public Integer getTwentyFiveCentCount() {
         return (financialDocumentTwentyFiveCentAmount == null) ? new Integer(0) : new Integer(financialDocumentTwentyFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.TWENTY_FIVE_CENT_AMOUNT).intValue());
     }
-    
+
     /**
      * Sets the number of quarters in the drawer
+     * 
      * @param count the number of quarters present in the drawer
      */
     public void setTwentyFiveCentCount(Integer count) {
@@ -186,7 +182,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTenCentAmount attribute.
      * 
      * @return Returns the financialDocumentTenCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentTenCentAmount() {
         return financialDocumentTenCentAmount;
@@ -196,7 +191,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTenCentAmount attribute.
      * 
      * @param financialDocumentTenCentAmount The financialDocumentTenCentAmount to set.
-     * 
      */
     public void setFinancialDocumentTenCentAmount(KualiDecimal financialDocumentTenCentAmount) {
         this.financialDocumentTenCentAmount = financialDocumentTenCentAmount;
@@ -204,14 +198,16 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of dimes in the drawer
+     * 
      * @return the count of dimes in the drawer
      */
     public Integer getTenCentCount() {
         return (financialDocumentTenCentAmount == null) ? new Integer(0) : new Integer(financialDocumentTenCentAmount.divide(KFSConstants.CoinTypeAmounts.TEN_CENT_AMOUNT).intValue());
     }
-    
+
     /**
      * Sets the number of dimes in the drawer
+     * 
      * @param count the number of dimes present in the drawer
      */
     public void setTenCentCount(Integer count) {
@@ -224,7 +220,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentFiveCentAmount attribute.
      * 
      * @return Returns the financialDocumentFiveCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentFiveCentAmount() {
         return financialDocumentFiveCentAmount;
@@ -234,7 +229,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentFiveCentAmount attribute.
      * 
      * @param financialDocumentFiveCentAmount The financialDocumentFiveCentAmount to set.
-     * 
      */
     public void setFinancialDocumentFiveCentAmount(KualiDecimal financialDocumentFiveCentAmount) {
         this.financialDocumentFiveCentAmount = financialDocumentFiveCentAmount;
@@ -242,14 +236,16 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of nickels in the drawer
+     * 
      * @return the count of nickels in the drawer
      */
     public Integer getFiveCentCount() {
         return (financialDocumentFiveCentAmount == null) ? new Integer(0) : new Integer(financialDocumentFiveCentAmount.divide(KFSConstants.CoinTypeAmounts.FIVE_CENT_AMOUNT).intValue());
     }
-    
+
     /**
      * Sets the number of nickels in the drawer
+     * 
      * @param count the number of nickels present in the drawer
      */
     public void setFiveCentCount(Integer count) {
@@ -262,7 +258,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentOneCentAmount attribute.
      * 
      * @return Returns the financialDocumentOneCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentOneCentAmount() {
         return financialDocumentOneCentAmount;
@@ -272,7 +267,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentOneCentAmount attribute.
      * 
      * @param financialDocumentOneCentAmount The financialDocumentOneCentAmount to set.
-     * 
      */
     public void setFinancialDocumentOneCentAmount(KualiDecimal financialDocumentOneCentAmount) {
         this.financialDocumentOneCentAmount = financialDocumentOneCentAmount;
@@ -280,14 +274,16 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of pennies in the drawer
+     * 
      * @return the count of pennies in the drawer
      */
     public Integer getOneCentCount() {
         return (financialDocumentOneCentAmount == null) ? new Integer(0) : new Integer(financialDocumentOneCentAmount.divide(KFSConstants.CoinTypeAmounts.ONE_CENT_AMOUNT).intValue());
     }
-    
+
     /**
      * Sets the number of pennies in the drawer
+     * 
      * @param count the number of pennies present in the drawer
      */
     public void setOneCentCount(Integer count) {
@@ -300,7 +296,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentOtherCentAmount attribute.
      * 
      * @return Returns the financialDocumentOtherCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentOtherCentAmount() {
         return financialDocumentOtherCentAmount;
@@ -310,7 +305,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentOtherCentAmount attribute.
      * 
      * @param financialDocumentOtherCentAmount The financialDocumentOtherCentAmount to set.
-     * 
      */
     public void setFinancialDocumentOtherCentAmount(KualiDecimal financialDocumentOtherCentAmount) {
         this.financialDocumentOtherCentAmount = financialDocumentOtherCentAmount;
@@ -321,7 +315,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentHundredCentAmount attribute.
      * 
      * @return Returns the financialDocumentHundredCentAmount
-     * 
      */
     public KualiDecimal getFinancialDocumentHundredCentAmount() {
         return financialDocumentHundredCentAmount;
@@ -331,7 +324,6 @@ public class CoinDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentHundredCentAmount attribute.
      * 
      * @param financialDocumentHundredCentAmount The financialDocumentHundredCentAmount to set.
-     * 
      */
     public void setFinancialDocumentHundredCentAmount(KualiDecimal financialDocumentHundredCentAmount) {
         this.financialDocumentHundredCentAmount = financialDocumentHundredCentAmount;
@@ -339,14 +331,16 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Returns the number of dollar coins--Sacajawea, Susan B. Anthony, or otherwise--in the drawer
+     * 
      * @return the count of dollar coins in the drawer
      */
     public Integer getHundredCentCount() {
         return (financialDocumentHundredCentAmount == null) ? new Integer(0) : new Integer(financialDocumentHundredCentAmount.divide(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT).intValue());
     }
-    
+
     /**
      * Sets the number of hundred cent coins in the drawer
+     * 
      * @param count the number of hundred cent coins present in the drawer
      */
     public void setHundredCentCount(Integer count) {
@@ -354,10 +348,10 @@ public class CoinDetail extends PersistableBusinessObjectBase {
             financialDocumentHundredCentAmount = new KualiDecimal(count.intValue()).multiply(KFSConstants.CoinTypeAmounts.HUNDRED_CENT_AMOUNT);
         }
     }
-    
+
     /**
-     * 
      * Returns the total amount represented by this coin detail record.
+     * 
      * @return total amount of this detail
      */
     public KualiDecimal getTotalAmount() {
@@ -385,9 +379,8 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         }
         return result;
     }
-    
+
     /**
-     * 
      * This method sets all amounts in this record to zero
      */
     public void zeroOutAmounts() {
@@ -399,9 +392,8 @@ public class CoinDetail extends PersistableBusinessObjectBase {
         this.financialDocumentOneCentAmount = new KualiDecimal(0);
         this.financialDocumentOtherCentAmount = new KualiDecimal(0);
     }
-    
+
     /**
-     * 
      * This method sets all amounts that are null to zero
      */
     public void zeroOutUnpopulatedAmounts() {
@@ -427,106 +419,120 @@ public class CoinDetail extends PersistableBusinessObjectBase {
             this.financialDocumentOtherCentAmount = new KualiDecimal(0);
         }
     }
-    
+
     public void add(CoinDetail detail) {
         if (detail.financialDocumentHundredCentAmount != null) {
             if (this.financialDocumentHundredCentAmount == null) {
                 this.financialDocumentHundredCentAmount = new KualiDecimal(0).add(detail.financialDocumentHundredCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.add(detail.financialDocumentHundredCentAmount);
             }
         }
         if (detail.financialDocumentFiftyCentAmount != null) {
             if (this.financialDocumentFiftyCentAmount == null) {
-                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiftyCentAmount); 
-            } else {
+                this.financialDocumentFiftyCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiftyCentAmount);
+            }
+            else {
                 this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.add(detail.financialDocumentFiftyCentAmount);
             }
         }
         if (detail.financialDocumentTwentyFiveCentAmount != null) {
             if (this.financialDocumentTwentyFiveCentAmount == null) {
                 this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentTwentyFiveCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.add(detail.financialDocumentTwentyFiveCentAmount);
             }
         }
         if (detail.financialDocumentTenCentAmount != null) {
             if (this.financialDocumentTenCentAmount == null) {
                 this.financialDocumentTenCentAmount = new KualiDecimal(0).add(detail.financialDocumentTenCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.add(detail.financialDocumentTenCentAmount);
             }
         }
         if (detail.financialDocumentFiveCentAmount != null) {
             if (this.financialDocumentFiveCentAmount == null) {
                 this.financialDocumentFiveCentAmount = new KualiDecimal(0).add(detail.financialDocumentFiveCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.add(detail.financialDocumentFiveCentAmount);
             }
         }
         if (detail.financialDocumentOneCentAmount != null) {
             if (this.financialDocumentOneCentAmount == null) {
                 this.financialDocumentOneCentAmount = new KualiDecimal(0).add(detail.financialDocumentOneCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.add(detail.financialDocumentOneCentAmount);
             }
         }
         if (detail.financialDocumentOtherCentAmount != null) {
             if (this.financialDocumentOtherCentAmount == null) {
                 this.financialDocumentOtherCentAmount = new KualiDecimal(0).add(detail.financialDocumentOtherCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.add(detail.financialDocumentOtherCentAmount);
             }
         }
     }
-    
+
     public void subtract(CoinDetail detail) {
         if (detail.financialDocumentHundredCentAmount != null) {
             if (this.financialDocumentHundredCentAmount == null) {
                 this.financialDocumentHundredCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentHundredCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentHundredCentAmount = this.financialDocumentHundredCentAmount.subtract(detail.financialDocumentHundredCentAmount);
             }
         }
         if (detail.financialDocumentFiftyCentAmount != null) {
             if (this.financialDocumentFiftyCentAmount == null) {
                 this.financialDocumentFiftyCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiftyCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentFiftyCentAmount = this.financialDocumentFiftyCentAmount.subtract(detail.financialDocumentFiftyCentAmount);
             }
         }
         if (detail.financialDocumentTwentyFiveCentAmount != null) {
             if (this.financialDocumentTwentyFiveCentAmount == null) {
                 this.financialDocumentTwentyFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTwentyFiveCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentTwentyFiveCentAmount = this.financialDocumentTwentyFiveCentAmount.subtract(detail.financialDocumentTwentyFiveCentAmount);
             }
         }
         if (detail.financialDocumentTenCentAmount != null) {
             if (this.financialDocumentTenCentAmount == null) {
                 this.financialDocumentTenCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentTenCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentTenCentAmount = this.financialDocumentTenCentAmount.subtract(detail.financialDocumentTenCentAmount);
             }
         }
         if (detail.financialDocumentFiveCentAmount != null) {
             if (this.financialDocumentFiveCentAmount == null) {
                 this.financialDocumentFiveCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentFiveCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentFiveCentAmount = this.financialDocumentFiveCentAmount.subtract(detail.financialDocumentFiveCentAmount);
             }
         }
         if (detail.financialDocumentOneCentAmount != null) {
             if (this.financialDocumentOneCentAmount == null) {
                 this.financialDocumentOneCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOneCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentOneCentAmount = this.financialDocumentOneCentAmount.subtract(detail.financialDocumentOneCentAmount);
             }
         }
         if (detail.financialDocumentOtherCentAmount != null) {
             if (this.financialDocumentOtherCentAmount == null) {
                 this.financialDocumentOtherCentAmount = new KualiDecimal(0).subtract(detail.financialDocumentOtherCentAmount);
-            } else {
+            }
+            else {
                 this.financialDocumentOtherCentAmount = this.financialDocumentOtherCentAmount.subtract(detail.financialDocumentOtherCentAmount);
             }
         }
@@ -534,6 +540,7 @@ public class CoinDetail extends PersistableBusinessObjectBase {
 
     /**
      * Is this coin detail empty of any value?
+     * 
      * @return true if any field at all is neither null nor the amount is zero
      */
     public boolean isEmpty() {

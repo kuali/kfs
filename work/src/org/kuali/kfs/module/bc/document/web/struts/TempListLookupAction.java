@@ -31,11 +31,10 @@ import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.budget.BCKeyConstants;
 import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
 
 /**
@@ -45,41 +44,42 @@ public class TempListLookupAction extends KualiLookupAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TempListLookupAction.class);
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#start(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ActionForward forward;
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        
+
         // TODO use switch here
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
         // TODO may need to pass another parameter for building variations of AccountSelect
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")) {
             SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
             GlobalVariables.getMessageList().add("message.budget.accountList");
         }
 
-        forward =  super.start(mapping, form, request, response);
-        if (tempListLookupForm.isShowInitialResults()){
+        forward = super.start(mapping, form, request, response);
+        if (tempListLookupForm.isShowInitialResults()) {
             forward = search(mapping, form, request, response);
         }
-        
-        return forward;  
+
+        return forward;
     }
 
     /**
-     * This differs from KualiLookupAction.clearValues in that any atributes marked hidden
-     * will not be cleared. This is to support BC temp tables that use personUniversalIdentifier to operate on
-     * the set of rows associated with the current user.
-     *  
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * This differs from KualiLookupAction.clearValues in that any atributes marked hidden will not be cleared. This is to support
+     * BC temp tables that use personUniversalIdentifier to operate on the set of rows associated with the current user.
+     * 
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#clearValues(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward clearValues(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -103,21 +103,22 @@ public class TempListLookupAction extends KualiLookupAction {
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.core.web.struts.action.KualiLookupAction#cancel(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward cancel(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
         // TODO use switch here
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")){
+        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")) {
             SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
 

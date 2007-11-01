@@ -20,22 +20,20 @@ import org.kuali.module.chart.bo.ProjectCode;
 
 /**
  * This interface defines basic methods that ProjectCode Dao's must provide
- * 
- * 
  */
 public interface ProjectCodeDao {
 
     /**
-     * 
      * Retrieves a ProjectCode object by primary key.
+     * 
      * @param projectCode - primary key
      * @return {@link ProjectCode} by primary key
      */
     public ProjectCode getByPrimaryId(String projectCode);
 
     /**
-     * 
      * Retrieves a ProjectCode object by primary name.
+     * 
      * @param name
      * @return {@link ProjectCode} by name
      */
@@ -43,6 +41,7 @@ public interface ProjectCodeDao {
 
     /**
      * This method saves a given {@link ProjectCode}
+     * 
      * @param projectCode - a populated ProjectCode object to be saved
      */
     public void save(ProjectCode projectCode);

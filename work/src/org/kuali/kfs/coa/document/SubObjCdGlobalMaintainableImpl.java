@@ -23,28 +23,28 @@ import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCd;
-import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCdGlobal;
+import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
 
 /**
- * 
- * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document
- * generateMaintenanceLocks - generates maintenance locks on {@link SubObjCd}
+ * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document generateMaintenanceLocks -
+ * generates maintenance locks on {@link SubObjCd}
  */
 public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**
      * This generates maintenance locks on {@link SubObjCd}
+     * 
      * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         // create locking rep for each combination of account and object code
-        List <MaintenanceLock> maintenanceLocks = new ArrayList();
-        SubObjCdGlobal subObjCdGlobal = (SubObjCdGlobal)getBusinessObject();
-        
-        for ( AccountGlobalDetail accountGlobalDetail: subObjCdGlobal.getAccountGlobalDetails()) {
-            for ( SubObjCdGlobalDetail subObjCdGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails() ) {
+        List<MaintenanceLock> maintenanceLocks = new ArrayList();
+        SubObjCdGlobal subObjCdGlobal = (SubObjCdGlobal) getBusinessObject();
+
+        for (AccountGlobalDetail accountGlobalDetail : subObjCdGlobal.getAccountGlobalDetails()) {
+            for (SubObjCdGlobalDetail subObjCdGlobalDetail : subObjCdGlobal.getSubObjCdGlobalDetails()) {
                 MaintenanceLock maintenanceLock = new MaintenanceLock();
                 maintenanceLock.setDocumentNumber(subObjCdGlobal.getDocumentNumber());
 

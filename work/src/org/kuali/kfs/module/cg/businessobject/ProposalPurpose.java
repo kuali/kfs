@@ -28,11 +28,12 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
     private String proposalPurposeCode;
     private String proposalPurposeDescription;
     private boolean rowActiveIndicator;
-    
+
     /**
      * Default constructor.
      */
-    public ProposalPurpose() {}
+    public ProposalPurpose() {
+    }
 
     /**
      * Gets the proposalPurposeCode attribute.
@@ -72,8 +73,8 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the rowActiveIndicator attribute. 
-	 *
+     * Gets the rowActiveIndicator attribute.
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -82,13 +83,13 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
-	 * 
+     * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -99,4 +100,3 @@ public class ProposalPurpose extends PersistableBusinessObjectBase {
     }
 
 }
-

@@ -19,7 +19,6 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
@@ -32,222 +31,205 @@ import org.kuali.module.chart.bo.SubObjCd;
  */
 public class BudgetConstructionAppointmentFundingReason extends PersistableBusinessObjectBase {
 
-	private Integer universityFiscalYear;
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private String subAccountNumber;
-	private String financialObjectCode;
-	private String financialSubObjectCode;
-	private String positionNumber;
-	private String emplid;
-	private String appointmentFundingReasonCode;
-	private KualiInteger appointmentFundingReasonAmount;
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
+    private String positionNumber;
+    private String emplid;
+    private String appointmentFundingReasonCode;
+    private KualiInteger appointmentFundingReasonAmount;
 
     private ObjectCode financialObject;
-	private Account account;
-	private Chart chartOfAccounts;
+    private Account account;
+    private Chart chartOfAccounts;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
     private BudgetConstructionAppointmentFundingReasonCode appointmentFundingReason;
-    
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionAppointmentFundingReason() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionAppointmentFundingReason() {
 
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
+    }
 
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
-	}
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
 
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return Returns the chartOfAccountsCode
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
+    /**
+     * Gets the accountNumber attribute.
+     * 
+     * @return Returns the accountNumber
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
 
-	/**
-	 * Gets the subAccountNumber attribute.
-	 * 
-	 * @return Returns the subAccountNumber
-	 * 
-	 */
-	public String getSubAccountNumber() { 
-		return subAccountNumber;
-	}
+    /**
+     * Gets the subAccountNumber attribute.
+     * 
+     * @return Returns the subAccountNumber
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
 
-	/**
-	 * Sets the subAccountNumber attribute.
-	 * 
-	 * @param subAccountNumber The subAccountNumber to set.
-	 * 
-	 */
-	public void setSubAccountNumber(String subAccountNumber) {
-		this.subAccountNumber = subAccountNumber;
-	}
+    /**
+     * Sets the subAccountNumber attribute.
+     * 
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
 
 
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
 
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
 
 
-	/**
-	 * Gets the financialSubObjectCode attribute.
-	 * 
-	 * @return Returns the financialSubObjectCode
-	 * 
-	 */
-	public String getFinancialSubObjectCode() { 
-		return financialSubObjectCode;
-	}
+    /**
+     * Gets the financialSubObjectCode attribute.
+     * 
+     * @return Returns the financialSubObjectCode
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
 
-	/**
-	 * Sets the financialSubObjectCode attribute.
-	 * 
-	 * @param financialSubObjectCode The financialSubObjectCode to set.
-	 * 
-	 */
-	public void setFinancialSubObjectCode(String financialSubObjectCode) {
-		this.financialSubObjectCode = financialSubObjectCode;
-	}
+    /**
+     * Sets the financialSubObjectCode attribute.
+     * 
+     * @param financialSubObjectCode The financialSubObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
 
 
-	/**
-	 * Gets the positionNumber attribute.
-	 * 
-	 * @return Returns the positionNumber
-	 * 
-	 */
-	public String getPositionNumber() { 
-		return positionNumber;
-	}
+    /**
+     * Gets the positionNumber attribute.
+     * 
+     * @return Returns the positionNumber
+     */
+    public String getPositionNumber() {
+        return positionNumber;
+    }
 
-	/**
-	 * Sets the positionNumber attribute.
-	 * 
-	 * @param positionNumber The positionNumber to set.
-	 * 
-	 */
-	public void setPositionNumber(String positionNumber) {
-		this.positionNumber = positionNumber;
-	}
+    /**
+     * Sets the positionNumber attribute.
+     * 
+     * @param positionNumber The positionNumber to set.
+     */
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
 
 
-	/**
-	 * Gets the emplid attribute.
-	 * 
-	 * @return Returns the emplid
-	 * 
-	 */
-	public String getEmplid() { 
-		return emplid;
-	}
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid
+     */
+    public String getEmplid() {
+        return emplid;
+    }
 
-	/**
-	 * Sets the emplid attribute.
-	 * 
-	 * @param emplid The emplid to set.
-	 * 
-	 */
-	public void setEmplid(String emplid) {
-		this.emplid = emplid;
-	}
+    /**
+     * Sets the emplid attribute.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
 
 
-	/**
-	 * Gets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @return Returns the appointmentFundingReasonCode
-	 * 
-	 */
-	public String getAppointmentFundingReasonCode() { 
-		return appointmentFundingReasonCode;
-	}
+    /**
+     * Gets the appointmentFundingReasonCode attribute.
+     * 
+     * @return Returns the appointmentFundingReasonCode
+     */
+    public String getAppointmentFundingReasonCode() {
+        return appointmentFundingReasonCode;
+    }
 
-	/**
-	 * Sets the appointmentFundingReasonCode attribute.
-	 * 
-	 * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
-	 * 
-	 */
-	public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
-		this.appointmentFundingReasonCode = appointmentFundingReasonCode;
-	}
+    /**
+     * Sets the appointmentFundingReasonCode attribute.
+     * 
+     * @param appointmentFundingReasonCode The appointmentFundingReasonCode to set.
+     */
+    public void setAppointmentFundingReasonCode(String appointmentFundingReasonCode) {
+        this.appointmentFundingReasonCode = appointmentFundingReasonCode;
+    }
 
 
-	/**
-     * Gets the appointmentFundingReasonAmount attribute. 
+    /**
+     * Gets the appointmentFundingReasonAmount attribute.
+     * 
      * @return Returns the appointmentFundingReasonAmount.
      */
     public KualiInteger getAppointmentFundingReasonAmount() {
@@ -256,6 +238,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 
     /**
      * Sets the appointmentFundingReasonAmount attribute value.
+     * 
      * @param appointmentFundingReasonAmount The appointmentFundingReasonAmount to set.
      */
     public void setAppointmentFundingReasonAmount(KualiInteger appointmentFundingReasonAmount) {
@@ -263,67 +246,65 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
     }
 
     /**
-	 * Gets the financialObject attribute.
-	 * 
-	 * @return Returns the financialObject
-	 * 
-	 */
-	public ObjectCode getFinancialObject() { 
-		return financialObject;
-	}
-
-	/**
-	 * Sets the financialObject attribute.
-	 * 
-	 * @param financialObject The financialObject to set.
-	 * @deprecated
-	 */
-	public void setFinancialObject(ObjectCode financialObject) {
-		this.financialObject = financialObject;
-	}
-
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
-
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+     * Gets the financialObject attribute.
+     * 
+     * @return Returns the financialObject
+     */
+    public ObjectCode getFinancialObject() {
+        return financialObject;
+    }
 
     /**
-     * Gets the financialSubObject attribute. 
+     * Sets the financialObject attribute.
+     * 
+     * @param financialObject The financialObject to set.
+     * @deprecated
+     */
+    public void setFinancialObject(ObjectCode financialObject) {
+        this.financialObject = financialObject;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the financialSubObject attribute.
+     * 
      * @return Returns the financialSubObject.
      */
     public SubObjCd getFinancialSubObject() {
@@ -332,6 +313,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 
     /**
      * Sets the financialSubObject attribute value.
+     * 
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
@@ -340,7 +322,8 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
     }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the subAccount attribute.
+     * 
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -349,6 +332,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 
     /**
      * Sets the subAccount attribute value.
+     * 
      * @param subAccount The subAccount to set.
      * @deprecated
      */
@@ -357,7 +341,8 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
     }
 
     /**
-     * Gets the appointmentFundingReason attribute. 
+     * Gets the appointmentFundingReason attribute.
+     * 
      * @return Returns the appointmentFundingReason.
      */
     public BudgetConstructionAppointmentFundingReasonCode getAppointmentFundingReason() {
@@ -366,6 +351,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
 
     /**
      * Sets the appointmentFundingReason attribute value.
+     * 
      * @param appointmentFundingReason The appointmentFundingReason to set.
      * @deprecated
      */
@@ -377,7 +363,7 @@ public class BudgetConstructionAppointmentFundingReason extends PersistableBusin
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }

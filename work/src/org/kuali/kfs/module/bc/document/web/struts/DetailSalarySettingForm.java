@@ -26,8 +26,8 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionAppointmentFunding;
  * This class...
  */
 public class DetailSalarySettingForm extends KualiForm {
-    
-    //detail salary setting screen totals used in position and incumbent salary setting
+
+    // detail salary setting screen totals used in position and incumbent salary setting
     private KualiInteger bcafAppointmentRequestedCsfAmountTotal;
     private BigDecimal bcafAppointmentRequestedCsfTimePercentTotal;
     private BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal;
@@ -41,7 +41,7 @@ public class DetailSalarySettingForm extends KualiForm {
     private BigDecimal bcsfCsfStandardHoursTotal;
     private BigDecimal bcsfCsfFullTimeEmploymentQuantityTotal;
 
-    
+
     public DetailSalarySettingForm() {
         super();
         zeroTotals();
@@ -50,60 +50,61 @@ public class DetailSalarySettingForm extends KualiForm {
     /**
      * This zeros totals displayed on the detail salary setting screen (position or incumbent)
      */
-    public void zeroTotals(){
-        
+    public void zeroTotals() {
+
         bcafAppointmentRequestedCsfAmountTotal = new KualiInteger(BigDecimal.ZERO);
-        bcafAppointmentRequestedCsfTimePercentTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-        bcafAppointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
-        bcafAppointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedCsfTimePercentTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedCsfStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedCsfFteQuantityTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         bcafAppointmentRequestedAmountTotal = new KualiInteger(0);
-        bcafAppointmentRequestedTimePercentTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-        bcafAppointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
-        bcafAppointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedTimePercentTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedFteQuantityTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         bcsfCsfAmountTotal = new KualiInteger(0);
-        bcsfCsfTimePercentTotal = new BigDecimal(0).setScale(5,KualiDecimal.ROUND_BEHAVIOR);
-        bcsfCsfStandardHoursTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
-        bcsfCsfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcsfCsfTimePercentTotal = new BigDecimal(0).setScale(5, KualiDecimal.ROUND_BEHAVIOR);
+        bcsfCsfStandardHoursTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
+        bcsfCsfFullTimeEmploymentQuantityTotal = new BigDecimal(0).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
     }
 
-    public void addBCAFLineToTotals(PendingBudgetConstructionAppointmentFunding line){
-        
-        //add to totals
+    public void addBCAFLineToTotals(PendingBudgetConstructionAppointmentFunding line) {
+
+        // add to totals
         // bcnCalculatedSalaryFoundationTracker is a list with either zero or one entries
-        if (line.getBcnCalculatedSalaryFoundationTracker().size() > 0){
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount() != null){
+        if (line.getBcnCalculatedSalaryFoundationTracker().size() > 0) {
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount() != null) {
                 setBcsfCsfAmountTotal(getBcsfCsfAmountTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfAmount()));
             }
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent() != null){
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent() != null) {
                 setBcsfCsfTimePercentTotal(getBcsfCsfTimePercentTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfTimePercent()));
             }
-            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity() != null){
+            if (line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity() != null) {
                 setBcsfCsfFullTimeEmploymentQuantityTotal(getBcsfCsfFullTimeEmploymentQuantityTotal().add(line.getBcnCalculatedSalaryFoundationTracker().get(0).getCsfFullTimeEmploymentQuantity()));
             }
         }
-        if (line.getAppointmentRequestedAmount() != null){
+        if (line.getAppointmentRequestedAmount() != null) {
             setBcafAppointmentRequestedAmountTotal(getBcafAppointmentRequestedAmountTotal().add(line.getAppointmentRequestedAmount()));
         }
-        if (line.getAppointmentRequestedTimePercent() != null){
+        if (line.getAppointmentRequestedTimePercent() != null) {
             setBcafAppointmentRequestedTimePercentTotal(getBcafAppointmentRequestedTimePercentTotal().add(line.getAppointmentRequestedTimePercent()));
         }
-        if (line.getAppointmentRequestedFteQuantity() != null){
+        if (line.getAppointmentRequestedFteQuantity() != null) {
             setBcafAppointmentRequestedFteQuantityTotal(getBcafAppointmentRequestedFteQuantityTotal().add(line.getAppointmentRequestedFteQuantity()));
         }
 
-        if (line.getAppointmentRequestedCsfAmount() != null){
+        if (line.getAppointmentRequestedCsfAmount() != null) {
             setBcafAppointmentRequestedCsfAmountTotal(getBcafAppointmentRequestedCsfAmountTotal().add(line.getAppointmentRequestedCsfAmount()));
         }
-        if (line.getAppointmentRequestedCsfTimePercent() != null){
+        if (line.getAppointmentRequestedCsfTimePercent() != null) {
             setBcafAppointmentRequestedCsfTimePercentTotal(getBcafAppointmentRequestedCsfTimePercentTotal().add(line.getAppointmentRequestedCsfTimePercent()));
         }
-        if (line.getAppointmentRequestedCsfFteQuantity() != null){
+        if (line.getAppointmentRequestedCsfFteQuantity() != null) {
             setBcafAppointmentRequestedCsfFteQuantityTotal(getBcafAppointmentRequestedCsfFteQuantityTotal().add(line.getAppointmentRequestedCsfFteQuantity()));
         }
     }
-    
+
     /**
-     * Gets the bcafAppointmentRequestedAmountTotal attribute. 
+     * Gets the bcafAppointmentRequestedAmountTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedAmountTotal.
      */
     public KualiInteger getBcafAppointmentRequestedAmountTotal() {
@@ -112,6 +113,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedAmountTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedAmountTotal The bcafAppointmentRequestedAmountTotal to set.
      */
     public void setBcafAppointmentRequestedAmountTotal(KualiInteger bcafAppointmentRequestedAmountTotal) {
@@ -119,7 +121,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedCsfAmountTotal attribute. 
+     * Gets the bcafAppointmentRequestedCsfAmountTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedCsfAmountTotal.
      */
     public KualiInteger getBcafAppointmentRequestedCsfAmountTotal() {
@@ -129,6 +132,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedCsfAmountTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedCsfAmountTotal The bcafAppointmentRequestedCsfAmountTotal to set.
      */
     public void setBcafAppointmentRequestedCsfAmountTotal(KualiInteger bcafAppointmentRequestedCsfAmountTotal) {
@@ -137,7 +141,8 @@ public class DetailSalarySettingForm extends KualiForm {
 
 
     /**
-     * Gets the bcafAppointmentRequestedCsfFteQuantityTotal attribute. 
+     * Gets the bcafAppointmentRequestedCsfFteQuantityTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedCsfFteQuantityTotal.
      */
     public BigDecimal getBcafAppointmentRequestedCsfFteQuantityTotal() {
@@ -146,6 +151,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedCsfFteQuantityTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedCsfFteQuantityTotal The bcafAppointmentRequestedCsfFteQuantityTotal to set.
      */
     public void setBcafAppointmentRequestedCsfFteQuantityTotal(BigDecimal bcafAppointmentRequestedCsfFteQuantityTotal) {
@@ -153,16 +159,18 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedCsfStandardHoursTotal attribute. 
+     * Gets the bcafAppointmentRequestedCsfStandardHoursTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedCsfStandardHoursTotal.
      */
     public BigDecimal getBcafAppointmentRequestedCsfStandardHoursTotal() {
-        bcafAppointmentRequestedCsfStandardHoursTotal = bcafAppointmentRequestedCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2,KualiDecimal.ROUND_BEHAVIOR)).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedCsfStandardHoursTotal = bcafAppointmentRequestedCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2, KualiDecimal.ROUND_BEHAVIOR)).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         return bcafAppointmentRequestedCsfStandardHoursTotal;
     }
 
     /**
      * Sets the bcafAppointmentRequestedCsfStandardHoursTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedCsfStandardHoursTotal The bcafAppointmentRequestedCsfStandardHoursTotal to set.
      */
     public void setBcafAppointmentRequestedCsfStandardHoursTotal(BigDecimal bcafAppointmentRequestedCsfStandardHoursTotal) {
@@ -170,7 +178,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedCsfTimePercentTotal attribute. 
+     * Gets the bcafAppointmentRequestedCsfTimePercentTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedCsfTimePercentTotal.
      */
     public BigDecimal getBcafAppointmentRequestedCsfTimePercentTotal() {
@@ -179,6 +188,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedCsfTimePercentTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedCsfTimePercentTotal The bcafAppointmentRequestedCsfTimePercentTotal to set.
      */
     public void setBcafAppointmentRequestedCsfTimePercentTotal(BigDecimal bcafAppointmentRequestedCsfTimePercentTotal) {
@@ -186,7 +196,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedFteQuantityTotal attribute. 
+     * Gets the bcafAppointmentRequestedFteQuantityTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedFteQuantityTotal.
      */
     public BigDecimal getBcafAppointmentRequestedFteQuantityTotal() {
@@ -195,6 +206,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedFteQuantityTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedFteQuantityTotal The bcafAppointmentRequestedFteQuantityTotal to set.
      */
     public void setBcafAppointmentRequestedFteQuantityTotal(BigDecimal bcafAppointmentRequestedFteQuantityTotal) {
@@ -202,16 +214,18 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedStandardHoursTotal attribute. 
+     * Gets the bcafAppointmentRequestedStandardHoursTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedStandardHoursTotal.
      */
     public BigDecimal getBcafAppointmentRequestedStandardHoursTotal() {
-        bcafAppointmentRequestedStandardHoursTotal = bcafAppointmentRequestedTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2,KualiDecimal.ROUND_BEHAVIOR)).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcafAppointmentRequestedStandardHoursTotal = bcafAppointmentRequestedTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2, KualiDecimal.ROUND_BEHAVIOR)).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         return bcafAppointmentRequestedStandardHoursTotal;
     }
 
     /**
      * Sets the bcafAppointmentRequestedStandardHoursTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedStandardHoursTotal The bcafAppointmentRequestedStandardHoursTotal to set.
      */
     public void setBcafAppointmentRequestedStandardHoursTotal(BigDecimal bcafAppointmentRequestedStandardHoursTotal) {
@@ -219,7 +233,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcafAppointmentRequestedTimePercentTotal attribute. 
+     * Gets the bcafAppointmentRequestedTimePercentTotal attribute.
+     * 
      * @return Returns the bcafAppointmentRequestedTimePercentTotal.
      */
     public BigDecimal getBcafAppointmentRequestedTimePercentTotal() {
@@ -228,6 +243,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcafAppointmentRequestedTimePercentTotal attribute value.
+     * 
      * @param bcafAppointmentRequestedTimePercentTotal The bcafAppointmentRequestedTimePercentTotal to set.
      */
     public void setBcafAppointmentRequestedTimePercentTotal(BigDecimal bcafAppointmentRequestedTimePercentTotal) {
@@ -235,7 +251,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcsfCsfAmountTotal attribute. 
+     * Gets the bcsfCsfAmountTotal attribute.
+     * 
      * @return Returns the bcsfCsfAmountTotal.
      */
     public KualiInteger getBcsfCsfAmountTotal() {
@@ -244,6 +261,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcsfCsfAmountTotal attribute value.
+     * 
      * @param bcsfCsfAmountTotal The bcsfCsfAmountTotal to set.
      */
     public void setBcsfCsfAmountTotal(KualiInteger bcsfCsfAmountTotal) {
@@ -251,7 +269,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcsfCsfFullTimeEmploymentQuantityTotal attribute. 
+     * Gets the bcsfCsfFullTimeEmploymentQuantityTotal attribute.
+     * 
      * @return Returns the bcsfCsfFullTimeEmploymentQuantityTotal.
      */
     public BigDecimal getBcsfCsfFullTimeEmploymentQuantityTotal() {
@@ -260,6 +279,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcsfCsfFullTimeEmploymentQuantityTotal attribute value.
+     * 
      * @param bcsfCsfFullTimeEmploymentQuantityTotal The bcsfCsfFullTimeEmploymentQuantityTotal to set.
      */
     public void setBcsfCsfFullTimeEmploymentQuantityTotal(BigDecimal bcsfCsfFullTimeEmploymentQuantityTotal) {
@@ -267,16 +287,18 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcsfCsfStandardHoursTotal attribute. 
+     * Gets the bcsfCsfStandardHoursTotal attribute.
+     * 
      * @return Returns the bcsfCsfStandardHoursTotal.
      */
     public BigDecimal getBcsfCsfStandardHoursTotal() {
-        bcsfCsfStandardHoursTotal = bcsfCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2,KualiDecimal.ROUND_BEHAVIOR)).setScale(2,KualiDecimal.ROUND_BEHAVIOR);
+        bcsfCsfStandardHoursTotal = bcsfCsfTimePercentTotal.multiply(BigDecimal.valueOf(0.4).setScale(2, KualiDecimal.ROUND_BEHAVIOR)).setScale(2, KualiDecimal.ROUND_BEHAVIOR);
         return bcsfCsfStandardHoursTotal;
     }
 
     /**
      * Sets the bcsfCsfStandardHoursTotal attribute value.
+     * 
      * @param bcsfCsfStandardHoursTotal The bcsfCsfStandardHoursTotal to set.
      */
     public void setBcsfCsfStandardHoursTotal(BigDecimal bcsfCsfStandardHoursTotal) {
@@ -284,7 +306,8 @@ public class DetailSalarySettingForm extends KualiForm {
     }
 
     /**
-     * Gets the bcsfCsfTimePercentTotal attribute. 
+     * Gets the bcsfCsfTimePercentTotal attribute.
+     * 
      * @return Returns the bcsfCsfTimePercentTotal.
      */
     public BigDecimal getBcsfCsfTimePercentTotal() {
@@ -293,6 +316,7 @@ public class DetailSalarySettingForm extends KualiForm {
 
     /**
      * Sets the bcsfCsfTimePercentTotal attribute value.
+     * 
      * @param bcsfCsfTimePercentTotal The bcsfCsfTimePercentTotal to set.
      */
     public void setBcsfCsfTimePercentTotal(BigDecimal bcsfCsfTimePercentTotal) {

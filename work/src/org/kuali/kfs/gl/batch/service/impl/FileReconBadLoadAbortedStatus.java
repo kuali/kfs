@@ -16,8 +16,7 @@
 package org.kuali.module.gl.util;
 
 /**
- * Enterprise feeder status if the reconciliation has failed and the loading of 
- * origin entries has not been atempted
+ * Enterprise feeder status if the reconciliation has failed and the loading of origin entries has not been atempted
  */
 public class FileReconBadLoadAbortedStatus extends EnterpriseFeederStatusBase {
 

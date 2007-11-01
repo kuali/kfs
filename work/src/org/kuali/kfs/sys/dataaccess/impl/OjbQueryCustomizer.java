@@ -38,28 +38,32 @@ public class OjbQueryCustomizer extends QueryCustomizerDefaultImpl {
         Field field = null;
         try {
             field = this.getClass().getSuperclass().getDeclaredField("m_attributeList");
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
         field.setAccessible(true);
-        Map<String,String> m_attributeList = null;
+        Map<String, String> m_attributeList = null;
         try {
             m_attributeList = (Map) field.get(this);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         // now, do what we wanted to do to start with if we could've just gotten m_attributeList easily
         Criteria criteria = arg3.getCriteria();
         for (String key : m_attributeList.keySet()) {
-            //if beginning with FIELD_PREFIX is too hacky, or more flexibility is needed, another query customizer class can be made,
+            // if beginning with FIELD_PREFIX is too hacky, or more flexibility is needed, another query customizer class can be
+            // made,
             // and this method can be renamed to take a parameter to specify which we want to do
             // (and the customizeQuery method here made to call the new method with the parameter).
             // However, making another class would mean you couldn't intermix constants and field values,
             // since OJB won't use have multiple query-customizers per collection-descriptor.
             if (this.getAttribute(key).startsWith(FIELD_PREFIX)) {
                 criteria.addEqualTo(key, ObjectUtils.getPropertyValue(arg0, this.getAttribute(key).substring(FIELD_PREFIX.length())));
-            } else {
+            }
+            else {
                 criteria.addEqualTo(key, this.getAttribute(key));
             }
         }

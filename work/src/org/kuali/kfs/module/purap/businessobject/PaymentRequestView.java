@@ -12,16 +12,16 @@ import org.kuali.core.util.KualiDecimal;
 public class PaymentRequestView extends AbstractRelatedView {
 
     private String invoiceNumber;
-    private Integer purchaseOrderIdentifier;    
+    private Integer purchaseOrderIdentifier;
     private String statusCode;
-    private boolean paymentHoldIndicator;    
+    private boolean paymentHoldIndicator;
     private boolean paymentRequestedCancelIndicator;
     private String vendorName;
-    private String vendorCustomerNumber; 
-    private Date paymentRequestPayDate;    
+    private String vendorCustomerNumber;
+    private Date paymentRequestPayDate;
     private Date paymentExtractedDate;
     private Date paymentPaidDate;
-    private KualiDecimal totalAmount;    
+    private KualiDecimal totalAmount;
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -112,8 +112,8 @@ public class PaymentRequestView extends AbstractRelatedView {
     }
 
     /**
-     * The next three methods are overridden but shouldnt be!
-     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     * The next three methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why
+     * at this point! (AAP)
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
@@ -127,7 +127,7 @@ public class PaymentRequestView extends AbstractRelatedView {
     public List<Note> getNotes() {
         return super.getNotes();
     }
-    
+
     /**
      * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
      */

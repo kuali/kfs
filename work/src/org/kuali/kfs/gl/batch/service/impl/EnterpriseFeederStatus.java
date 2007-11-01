@@ -17,7 +17,6 @@ package org.kuali.module.gl.util;
 
 /**
  * An status object that signifies the status of the enterprise feeder process
- * 
  */
 public interface EnterpriseFeederStatus {
     /**
@@ -26,9 +25,10 @@ public interface EnterpriseFeederStatus {
      * @return
      */
     public boolean isErrorEvent();
-    
+
     /**
      * Returns a String providing a human-readable description of this status
+     * 
      * @return
      */
     public String getStatusDescription();

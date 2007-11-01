@@ -20,7 +20,7 @@ import org.kuali.module.purap.service.PdpExtractService;
 
 public class ExtractPdpImmediatesStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExtractPdpImmediatesStep.class);
-    
+
     private PdpExtractService pdpExtractService;
 
     public ExtractPdpImmediatesStep() {

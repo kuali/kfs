@@ -39,7 +39,6 @@ public class BudgetTypeCode extends PersistableBusinessObjectBase {
      * Gets the budgetTypeCode attribute.
      * 
      * @return Returns the budgetTypeCode
-     * 
      */
     public String getBudgetTypeCode() {
         return budgetTypeCode;
@@ -49,7 +48,6 @@ public class BudgetTypeCode extends PersistableBusinessObjectBase {
      * Sets the budgetTypeCode attribute.
      * 
      * @param budgetTypeCode The budgetTypeCode to set.
-     * 
      */
     public void setBudgetTypeCode(String budgetTypeCode) {
         this.budgetTypeCode = budgetTypeCode;
@@ -59,7 +57,6 @@ public class BudgetTypeCode extends PersistableBusinessObjectBase {
      * Gets the budgetTypeDescription attribute.
      * 
      * @return Returns the budgetTypeDescription
-     * 
      */
     public String getBudgetTypeDescription() {
         return budgetTypeDescription;
@@ -69,7 +66,6 @@ public class BudgetTypeCode extends PersistableBusinessObjectBase {
      * Sets the budgetTypeDescription attribute.
      * 
      * @param budgetTypeDescription The budgetTypeDescription to set.
-     * 
      */
     public void setBudgetTypeDescription(String budgetTypeDescription) {
         this.budgetTypeDescription = budgetTypeDescription;

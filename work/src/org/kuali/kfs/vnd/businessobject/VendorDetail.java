@@ -33,47 +33,45 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 
 /**
- * Contains all data for a specific parent or division Vendor,
- * including a link to the <code>VendorHeader</code>, which only contains
- * information about the parent company, but can be shared between division
- * Vendors.
+ * Contains all data for a specific parent or division Vendor, including a link to the <code>VendorHeader</code>, which only
+ * contains information about the parent company, but can be shared between division Vendors.
  * 
  * @see org.kuali.module.vendor.bo.VendorHeader
  */
 public class VendorDetail extends PersistableBusinessObjectBase implements VendorRoutingComparable {
     private static Logger LOG = Logger.getLogger(VendorDetail.class);
 
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-    private String vendorNumber; //not persisted in the db
-	private boolean vendorParentIndicator;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorNumber; // not persisted in the db
+    private boolean vendorParentIndicator;
     private String vendorName;
-    private String vendorFirstName;  //not persisted in the db
-    private String vendorLastName;   //not persisted in the db
-    private String vendorStateForLookup;  //not persisted in the db
-    
+    private String vendorFirstName; // not persisted in the db
+    private String vendorLastName; // not persisted in the db
+    private String vendorStateForLookup; // not persisted in the db
+
     private boolean activeIndicator;
     private String vendorInactiveReasonCode;
     private String vendorDunsNumber;
-	private String vendorPaymentTermsCode;
-	private String vendorShippingTitleCode;
-	private String vendorShippingPaymentTermsCode;
-	private Boolean vendorConfirmationIndicator;
-	private Boolean vendorPrepaymentIndicator;
-	private Boolean vendorCreditCardIndicator;
-	private KualiDecimal vendorMinimumOrderAmount;
-	private String vendorUrlAddress;
-	private String vendorRemitName;
-	private Boolean vendorRestrictedIndicator;
-	private String vendorRestrictedReasonText;
-	private Date vendorRestrictedDate;
-	private String vendorRestrictedPersonIdentifier;
-    private String vendorSoldToNumber; //not persisted in the db
+    private String vendorPaymentTermsCode;
+    private String vendorShippingTitleCode;
+    private String vendorShippingPaymentTermsCode;
+    private Boolean vendorConfirmationIndicator;
+    private Boolean vendorPrepaymentIndicator;
+    private Boolean vendorCreditCardIndicator;
+    private KualiDecimal vendorMinimumOrderAmount;
+    private String vendorUrlAddress;
+    private String vendorRemitName;
+    private Boolean vendorRestrictedIndicator;
+    private String vendorRestrictedReasonText;
+    private Date vendorRestrictedDate;
+    private String vendorRestrictedPersonIdentifier;
+    private String vendorSoldToNumber; // not persisted in the db
     private Integer vendorSoldToGeneratedIdentifier;
     private Integer vendorSoldToAssignedIdentifier;
     private String vendorSoldToName;
-    private boolean vendorFirstLastNameIndicator; 
-        
+    private boolean vendorFirstLastNameIndicator;
+
     private List<VendorAddress> vendorAddresses;
     private List<VendorAlias> vendorAliases;
     private List<VendorContact> vendorContacts;
@@ -83,24 +81,24 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private List<VendorShippingSpecialCondition> vendorShippingSpecialConditions;
 
     private VendorHeader vendorHeader;
-	private VendorInactiveReason vendorInactiveReason;
-	private PaymentTermType vendorPaymentTerms;
-	private ShippingTitle vendorShippingTitle;
-	private ShippingPaymentTerms vendorShippingPaymentTerms;
+    private VendorInactiveReason vendorInactiveReason;
+    private PaymentTermType vendorPaymentTerms;
+    private ShippingTitle vendorShippingTitle;
+    private ShippingPaymentTerms vendorShippingPaymentTerms;
     private VendorDetail soldToVendorDetail;
     private UniversalUser vendorRestrictedPerson;
-    
-    private String defaultAddressLine1; //not persisted in the db
-    private String defaultAddressLine2; //not persisted in the db
-    private String defaultAddressCity; //not persisted in the db
-    private String defaultAddressStateCode; //not persisted in the db
-    private String defaultAddressPostalCode; //not persisted in the db
-    private String defaultAddressCountryCode; //not persisted in the db
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorDetail() {
+
+    private String defaultAddressLine1; // not persisted in the db
+    private String defaultAddressLine2; // not persisted in the db
+    private String defaultAddressCity; // not persisted in the db
+    private String defaultAddressStateCode; // not persisted in the db
+    private String defaultAddressPostalCode; // not persisted in the db
+    private String defaultAddressCountryCode; // not persisted in the db
+
+    /**
+     * Default constructor.
+     */
+    public VendorDetail() {
         vendorHeader = new VendorHeader();
         vendorAddresses = new TypedArrayList(VendorAddress.class);
         vendorAliases = new TypedArrayList(VendorAlias.class);
@@ -114,29 +112,29 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public boolean isVendorDebarred() {
-        
+
         return (ObjectUtils.isNotNull(getVendorHeader().getVendorDebarredIndicator()) && getVendorHeader().getVendorDebarredIndicator());
     }
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public Integer getVendorDetailAssignedIdentifier() { 
-        
-		return vendorDetailAssignedIdentifier;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
-   
-	/**
+    public Integer getVendorDetailAssignedIdentifier() {
+
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    /**
      * A concatenation of the vendorHeaderGeneratedIdentifier, a dash, and the vendorDetailAssignedIdentifier
      * 
      * @return Returns the vendorNumber.
@@ -154,7 +152,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
             vendorNumber = headerId + "-" + detailId;
         }
-        
+
         return vendorNumber;
     }
 
@@ -164,17 +162,18 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * @param vendorNumber The vendorNumber to set.
      */
     public void setVendorNumber(String vendorNumber) {
-        if (! StringUtils.isEmpty(vendorNumber)) {
+        if (!StringUtils.isEmpty(vendorNumber)) {
             int dashInd = vendorNumber.indexOf("-");
             if (vendorNumber.length() >= dashInd) {
-                String vndrHdrGenId = vendorNumber.substring( 0, dashInd );
-                String vndrDetailAssgnedId = vendorNumber.substring( dashInd + 1 );
+                String vndrHdrGenId = vendorNumber.substring(0, dashInd);
+                String vndrDetailAssgnedId = vendorNumber.substring(dashInd + 1);
                 if (!StringUtils.isEmpty(vndrHdrGenId) && !StringUtils.isEmpty(vndrDetailAssgnedId)) {
                     this.vendorHeaderGeneratedIdentifier = new Integer(vndrHdrGenId);
                     this.vendorDetailAssignedIdentifier = new Integer(vndrDetailAssgnedId);
                 }
             }
-        } else {
+        }
+        else {
             this.vendorNumber = vendorNumber;
         }
     }
@@ -188,17 +187,17 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
         String headerId = "";
         String detailId = "";
         String vendorSoldToNumber = "";
-        
-        if( this.vendorSoldToGeneratedIdentifier != null ) {
+
+        if (this.vendorSoldToGeneratedIdentifier != null) {
             headerId = this.vendorSoldToGeneratedIdentifier.toString();
         }
-        if( this.vendorSoldToAssignedIdentifier != null ) {
+        if (this.vendorSoldToAssignedIdentifier != null) {
             detailId = this.vendorSoldToAssignedIdentifier.toString();
         }
         if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
-            vendorSoldToNumber = headerId+"-"+detailId;
+            vendorSoldToNumber = headerId + "-" + detailId;
         }
-        
+
         return vendorSoldToNumber;
     }
 
@@ -208,50 +207,51 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
      * @param vendorSoldToNumber The vendorSoldToNumber to set.
      */
     public void setVendorSoldToNumber(String vendorSoldToNumber) {
-        if (! StringUtils.isEmpty(vendorSoldToNumber)) {
+        if (!StringUtils.isEmpty(vendorSoldToNumber)) {
             int dashInd = vendorSoldToNumber.indexOf("-");
             if (vendorSoldToNumber.length() >= dashInd) {
-                String headerId = vendorSoldToNumber.substring( 0, dashInd );
-                String detailId = vendorSoldToNumber.substring( dashInd + 1 );
-                if (! StringUtils.isEmpty(headerId) && ! StringUtils.isEmpty(detailId)) {
+                String headerId = vendorSoldToNumber.substring(0, dashInd);
+                String detailId = vendorSoldToNumber.substring(dashInd + 1);
+                if (!StringUtils.isEmpty(headerId) && !StringUtils.isEmpty(detailId)) {
                     this.vendorSoldToGeneratedIdentifier = new Integer(headerId);
                     this.vendorSoldToAssignedIdentifier = new Integer(detailId);
                 }
-            } 
-        } else {
+            }
+        }
+        else {
             this.vendorSoldToNumber = vendorSoldToNumber;
         }
     }
 
-	public boolean isVendorParentIndicator() {
-        
-		return vendorParentIndicator;
-	}
+    public boolean isVendorParentIndicator() {
 
-	public void setVendorParentIndicator(boolean vendorParentIndicator) {
-		this.vendorParentIndicator = vendorParentIndicator;
-	}
+        return vendorParentIndicator;
+    }
 
-	public Integer getVendorSoldToGeneratedIdentifier() {
-        
-		return vendorSoldToGeneratedIdentifier;
-	}
+    public void setVendorParentIndicator(boolean vendorParentIndicator) {
+        this.vendorParentIndicator = vendorParentIndicator;
+    }
 
-	public void setVendorSoldToGeneratedIdentifier(Integer vendorSoldToGeneratedIdentifier) {
-		this.vendorSoldToGeneratedIdentifier = vendorSoldToGeneratedIdentifier;
-	}
+    public Integer getVendorSoldToGeneratedIdentifier() {
 
-	public Integer getVendorSoldToAssignedIdentifier() {
-        
-		return vendorSoldToAssignedIdentifier;
-	}
+        return vendorSoldToGeneratedIdentifier;
+    }
 
-	public void setVendorSoldToAssignedIdentifier(Integer vendorSoldToAssignedIdentifier) {
-		this.vendorSoldToAssignedIdentifier = vendorSoldToAssignedIdentifier;
-	}
+    public void setVendorSoldToGeneratedIdentifier(Integer vendorSoldToGeneratedIdentifier) {
+        this.vendorSoldToGeneratedIdentifier = vendorSoldToGeneratedIdentifier;
+    }
+
+    public Integer getVendorSoldToAssignedIdentifier() {
+
+        return vendorSoldToAssignedIdentifier;
+    }
+
+    public void setVendorSoldToAssignedIdentifier(Integer vendorSoldToAssignedIdentifier) {
+        this.vendorSoldToAssignedIdentifier = vendorSoldToAssignedIdentifier;
+    }
 
     public String getVendorName() {
-        
+
         return vendorName;
     }
 
@@ -260,7 +260,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getAltVendorName() {
-        
+
         return vendorName;
     }
 
@@ -269,239 +269,241 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public boolean isActiveIndicator() {
-        
+
         return activeIndicator;
-	}
+    }
 
     public void setActiveIndicator(boolean activeIndicator) {
         this.activeIndicator = activeIndicator;
-	}
+    }
 
-	public String getVendorInactiveReasonCode() { 
-        
-		return vendorInactiveReasonCode;
-	}
+    public String getVendorInactiveReasonCode() {
 
-	public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
-		this.vendorInactiveReasonCode = vendorInactiveReasonCode;
-	}
+        return vendorInactiveReasonCode;
+    }
 
-	public String getVendorPaymentTermsCode() {
-        
-		return vendorPaymentTermsCode;
-	}
+    public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
+        this.vendorInactiveReasonCode = vendorInactiveReasonCode;
+    }
 
-	public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
-		this.vendorPaymentTermsCode = vendorPaymentTermsCode;
-	}
+    public String getVendorPaymentTermsCode() {
 
-	public String getVendorShippingTitleCode() {
-        
-		return vendorShippingTitleCode;
-	}
+        return vendorPaymentTermsCode;
+    }
 
-	public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
-		this.vendorShippingTitleCode = vendorShippingTitleCode;
-	}
+    public void setVendorPaymentTermsCode(String vendorPaymentTermsCode) {
+        this.vendorPaymentTermsCode = vendorPaymentTermsCode;
+    }
 
-	public String getVendorShippingPaymentTermsCode() {
-        
-		return vendorShippingPaymentTermsCode;
-	}
+    public String getVendorShippingTitleCode() {
 
-	public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
-		this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
-	}
+        return vendorShippingTitleCode;
+    }
 
-	public Boolean getVendorConfirmationIndicator() {
-        
-		return vendorConfirmationIndicator;
-	}
+    public void setVendorShippingTitleCode(String vendorShippingTitleCode) {
+        this.vendorShippingTitleCode = vendorShippingTitleCode;
+    }
 
-	public void setVendorConfirmationIndicator(Boolean vendorConfirmationIndicator) {
-		this.vendorConfirmationIndicator = vendorConfirmationIndicator;
-	}
+    public String getVendorShippingPaymentTermsCode() {
 
-	public Boolean getVendorPrepaymentIndicator() { 
-        
-		return vendorPrepaymentIndicator;
-	}
+        return vendorShippingPaymentTermsCode;
+    }
 
-	public void setVendorPrepaymentIndicator(Boolean vendorPrepaymentIndicator) {
-		this.vendorPrepaymentIndicator = vendorPrepaymentIndicator;
-	}
+    public void setVendorShippingPaymentTermsCode(String vendorShippingPaymentTermsCode) {
+        this.vendorShippingPaymentTermsCode = vendorShippingPaymentTermsCode;
+    }
 
-	public Boolean getVendorCreditCardIndicator() {
-        
-		return vendorCreditCardIndicator;
-	}
+    public Boolean getVendorConfirmationIndicator() {
 
-	public void setVendorCreditCardIndicator(Boolean vendorCreditCardIndicator) {
-		this.vendorCreditCardIndicator = vendorCreditCardIndicator;
-	}
+        return vendorConfirmationIndicator;
+    }
 
-	public KualiDecimal getVendorMinimumOrderAmount() {
-        
-		return vendorMinimumOrderAmount;
-	}
+    public void setVendorConfirmationIndicator(Boolean vendorConfirmationIndicator) {
+        this.vendorConfirmationIndicator = vendorConfirmationIndicator;
+    }
 
-	public void setVendorMinimumOrderAmount(KualiDecimal vendorMinimumOrderAmount) {
-		this.vendorMinimumOrderAmount = vendorMinimumOrderAmount;
-	}
+    public Boolean getVendorPrepaymentIndicator() {
 
-	public String getVendorUrlAddress() {
-        
-		return vendorUrlAddress;
-	}
+        return vendorPrepaymentIndicator;
+    }
 
-	public void setVendorUrlAddress(String vendorUrlAddress) {
-		this.vendorUrlAddress = vendorUrlAddress;
-	}
+    public void setVendorPrepaymentIndicator(Boolean vendorPrepaymentIndicator) {
+        this.vendorPrepaymentIndicator = vendorPrepaymentIndicator;
+    }
+
+    public Boolean getVendorCreditCardIndicator() {
+
+        return vendorCreditCardIndicator;
+    }
+
+    public void setVendorCreditCardIndicator(Boolean vendorCreditCardIndicator) {
+        this.vendorCreditCardIndicator = vendorCreditCardIndicator;
+    }
+
+    public KualiDecimal getVendorMinimumOrderAmount() {
+
+        return vendorMinimumOrderAmount;
+    }
+
+    public void setVendorMinimumOrderAmount(KualiDecimal vendorMinimumOrderAmount) {
+        this.vendorMinimumOrderAmount = vendorMinimumOrderAmount;
+    }
+
+    public String getVendorUrlAddress() {
+
+        return vendorUrlAddress;
+    }
+
+    public void setVendorUrlAddress(String vendorUrlAddress) {
+        this.vendorUrlAddress = vendorUrlAddress;
+    }
 
 
-	/**
-	 * Gets the vendorSoldToName attribute.
-	 * 
-	 * @return Returns the vendorSoldToName
-	 */
-	public String getVendorSoldToName() { 
-		if (soldToVendorDetail != null) {
-            
+    /**
+     * Gets the vendorSoldToName attribute.
+     * 
+     * @return Returns the vendorSoldToName
+     */
+    public String getVendorSoldToName() {
+        if (soldToVendorDetail != null) {
+
             return soldToVendorDetail.getVendorName();
-        } else {
-            
+        }
+        else {
+
             return this.vendorSoldToName;
         }
-	}
+    }
 
-	public void setVendorSoldToName(String vendorSoldToName) {
-		this.vendorSoldToName = vendorSoldToName;
-	}
+    public void setVendorSoldToName(String vendorSoldToName) {
+        this.vendorSoldToName = vendorSoldToName;
+    }
 
-	public String getVendorRemitName() {
-        
-		return vendorRemitName;
-	}
+    public String getVendorRemitName() {
 
-	public void setVendorRemitName(String vendorRemitName) {
-		this.vendorRemitName = vendorRemitName;
-	}
+        return vendorRemitName;
+    }
 
-	public Boolean getVendorRestrictedIndicator() {
-        
-		return vendorRestrictedIndicator;
-	}
+    public void setVendorRemitName(String vendorRemitName) {
+        this.vendorRemitName = vendorRemitName;
+    }
 
-	public void setVendorRestrictedIndicator(Boolean vendorRestrictedIndicator) {
-		this.vendorRestrictedIndicator = vendorRestrictedIndicator;
-	}
+    public Boolean getVendorRestrictedIndicator() {
 
-	public String getVendorRestrictedReasonText() {
-        
-		return vendorRestrictedReasonText;
-	}
+        return vendorRestrictedIndicator;
+    }
 
-	public void setVendorRestrictedReasonText(String vendorRestrictedReasonText) {
-		this.vendorRestrictedReasonText = vendorRestrictedReasonText;
-	}
+    public void setVendorRestrictedIndicator(Boolean vendorRestrictedIndicator) {
+        this.vendorRestrictedIndicator = vendorRestrictedIndicator;
+    }
 
-	public Date getVendorRestrictedDate() {
-        
-		return vendorRestrictedDate;
-	}
+    public String getVendorRestrictedReasonText() {
 
-	public void setVendorRestrictedDate(Date vendorRestrictedDate) {
-		this.vendorRestrictedDate = vendorRestrictedDate;
-	}
+        return vendorRestrictedReasonText;
+    }
 
-	public String getVendorRestrictedPersonIdentifier() { 
-        
-		return vendorRestrictedPersonIdentifier;
-	}
+    public void setVendorRestrictedReasonText(String vendorRestrictedReasonText) {
+        this.vendorRestrictedReasonText = vendorRestrictedReasonText;
+    }
 
-	public void setVendorRestrictedPersonIdentifier(String vendorRestrictedPersonIdentifier) {
-		this.vendorRestrictedPersonIdentifier = vendorRestrictedPersonIdentifier;
-	}
+    public Date getVendorRestrictedDate() {
 
-	public String getVendorDunsNumber() { 
-        
-		return vendorDunsNumber;
-	}
+        return vendorRestrictedDate;
+    }
 
-	public void setVendorDunsNumber(String vendorDunsNumber) {
-		this.vendorDunsNumber = vendorDunsNumber;
-	}
+    public void setVendorRestrictedDate(Date vendorRestrictedDate) {
+        this.vendorRestrictedDate = vendorRestrictedDate;
+    }
 
-	public VendorHeader getVendorHeader() {
-        
-		return vendorHeader;
-	}
+    public String getVendorRestrictedPersonIdentifier() {
 
-	public void setVendorHeader(VendorHeader vendorHeader) {
-		this.vendorHeader = vendorHeader;
-	}
+        return vendorRestrictedPersonIdentifier;
+    }
 
-	public PaymentTermType getVendorPaymentTerms() {
-        
-		return vendorPaymentTerms;
-	}
-    
-	/**
-	 * Sets the vendorPaymentTerms attribute.
-	 * 
-	 * @param vendorPaymentTerms The vendorPaymentTerms to set.
-	 * @deprecated
-	 */
-	public void setVendorPaymentTerms(PaymentTermType vendorPaymentTerms) {
-		this.vendorPaymentTerms = vendorPaymentTerms;
-	}
+    public void setVendorRestrictedPersonIdentifier(String vendorRestrictedPersonIdentifier) {
+        this.vendorRestrictedPersonIdentifier = vendorRestrictedPersonIdentifier;
+    }
 
-	public ShippingTitle getVendorShippingTitle() { 
-        
-		return vendorShippingTitle;
-	}
+    public String getVendorDunsNumber() {
 
-	/**
-	 * Sets the vendorShippingTitle attribute.
-	 * 
-	 * @param vendorShippingTitle The vendorShippingTitle to set.
-	 * @deprecated
-	 */
-	public void setVendorShippingTitle(ShippingTitle vendorShippingTitle) {
-		this.vendorShippingTitle = vendorShippingTitle;
-	}
+        return vendorDunsNumber;
+    }
 
-	public ShippingPaymentTerms getVendorShippingPaymentTerms() {
-        
-		return vendorShippingPaymentTerms;
-	}
+    public void setVendorDunsNumber(String vendorDunsNumber) {
+        this.vendorDunsNumber = vendorDunsNumber;
+    }
 
-	/**
-	 * Sets the vendorShippingPaymentTerms attribute.
-	 * 
-	 * @param vendorShippingPaymentTerms The vendorShippingPaymentTerms to set.
-	 * @deprecated
-	 */
-	public void setVendorShippingPaymentTerms(ShippingPaymentTerms vendorShippingPaymentTerms) {
-		this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
-	}
+    public VendorHeader getVendorHeader() {
+
+        return vendorHeader;
+    }
+
+    public void setVendorHeader(VendorHeader vendorHeader) {
+        this.vendorHeader = vendorHeader;
+    }
+
+    public PaymentTermType getVendorPaymentTerms() {
+
+        return vendorPaymentTerms;
+    }
+
+    /**
+     * Sets the vendorPaymentTerms attribute.
+     * 
+     * @param vendorPaymentTerms The vendorPaymentTerms to set.
+     * @deprecated
+     */
+    public void setVendorPaymentTerms(PaymentTermType vendorPaymentTerms) {
+        this.vendorPaymentTerms = vendorPaymentTerms;
+    }
+
+    public ShippingTitle getVendorShippingTitle() {
+
+        return vendorShippingTitle;
+    }
+
+    /**
+     * Sets the vendorShippingTitle attribute.
+     * 
+     * @param vendorShippingTitle The vendorShippingTitle to set.
+     * @deprecated
+     */
+    public void setVendorShippingTitle(ShippingTitle vendorShippingTitle) {
+        this.vendorShippingTitle = vendorShippingTitle;
+    }
+
+    public ShippingPaymentTerms getVendorShippingPaymentTerms() {
+
+        return vendorShippingPaymentTerms;
+    }
+
+    /**
+     * Sets the vendorShippingPaymentTerms attribute.
+     * 
+     * @param vendorShippingPaymentTerms The vendorShippingPaymentTerms to set.
+     * @deprecated
+     */
+    public void setVendorShippingPaymentTerms(ShippingPaymentTerms vendorShippingPaymentTerms) {
+        this.vendorShippingPaymentTerms = vendorShippingPaymentTerms;
+    }
 
     public VendorInactiveReason getVendorInactiveReason() {
-        
+
         return vendorInactiveReason;
     }
 
     /**
      * Sets the vendorInactiveReason attribute value.
+     * 
      * @param vendorInactiveReason The vendorInactiveReason to set.
      * @deprecated
      */
     public void setVendorInactiveReason(VendorInactiveReason vendorInactiveReason) {
         this.vendorInactiveReason = vendorInactiveReason;
-    }        
+    }
 
     public List<VendorAddress> getVendorAddresses() {
-        
+
         return vendorAddresses;
     }
 
@@ -510,7 +512,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorContact> getVendorContacts() {
-        
+
         return vendorContacts;
     }
 
@@ -519,7 +521,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorContract> getVendorContracts() {
-        
+
         return vendorContracts;
     }
 
@@ -528,7 +530,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorCustomerNumber> getVendorCustomerNumbers() {
-        
+
         return vendorCustomerNumbers;
     }
 
@@ -537,7 +539,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorShippingSpecialCondition> getVendorShippingSpecialConditions() {
-        
+
         return vendorShippingSpecialConditions;
     }
 
@@ -546,7 +548,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorAlias> getVendorAliases() {
-        
+
         return vendorAliases;
     }
 
@@ -555,7 +557,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public List<VendorPhoneNumber> getVendorPhoneNumbers() {
-        
+
         return vendorPhoneNumbers;
     }
 
@@ -564,7 +566,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getVendorFirstName() {
-        
+
         return vendorFirstName;
     }
 
@@ -573,7 +575,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getVendorLastName() {
-        
+
         return vendorLastName;
     }
 
@@ -582,7 +584,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public VendorDetail getSoldToVendorDetail() {
-        
+
         return soldToVendorDetail;
     }
 
@@ -591,7 +593,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public boolean isVendorFirstLastNameIndicator() {
-        
+
         return vendorFirstLastNameIndicator;
     }
 
@@ -600,7 +602,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getVendorStateForLookup() {
-        
+
         return vendorStateForLookup;
     }
 
@@ -610,7 +612,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     public UniversalUser getVendorRestrictedPerson() {
         vendorRestrictedPerson = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(vendorRestrictedPersonIdentifier, vendorRestrictedPerson);
-        
+
         return vendorRestrictedPerson;
     }
 
@@ -625,7 +627,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressLine1() {
-        
+
         return defaultAddressLine1;
     }
 
@@ -634,7 +636,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressCity() {
-        
+
         return defaultAddressCity;
     }
 
@@ -643,7 +645,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressLine2() {
-        
+
         return defaultAddressLine2;
     }
 
@@ -652,7 +654,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressPostalCode() {
-        
+
         return defaultAddressPostalCode;
     }
 
@@ -661,7 +663,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressStateCode() {
-        
+
         return defaultAddressStateCode;
     }
 
@@ -670,7 +672,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     }
 
     public String getDefaultAddressCountryCode() {
-        
+
         return defaultAddressCountryCode;
     }
 
@@ -681,56 +683,33 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     /**
      * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
-    public boolean isEqualForRouting( Object toCompare ) { 
-        LOG.debug( "Entering isEqualForRouting." );
-        if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorDetail ) ) {
-            
+    public boolean isEqualForRouting(Object toCompare) {
+        LOG.debug("Entering isEqualForRouting.");
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorDetail)) {
+
             return false;
-        } else {
-            VendorDetail detail = (VendorDetail)toCompare;
-            
-            return new EqualsBuilder()
-                .append( this.getVendorHeaderGeneratedIdentifier(), detail.getVendorHeaderGeneratedIdentifier() )
-                .append( this.getVendorDetailAssignedIdentifier(), detail.getVendorDetailAssignedIdentifier() )
-                .append( this.isVendorParentIndicator(), detail.isVendorParentIndicator() )
-                .append( this.getVendorName(), detail.getVendorName() )
-                .append( this.isActiveIndicator(), detail.isActiveIndicator() )
-                .append( this.getVendorInactiveReasonCode(), detail.getVendorInactiveReasonCode() )
-                .append( this.getVendorDunsNumber(), detail.getVendorDunsNumber() )
-                .append( this.getVendorPaymentTermsCode(), detail.getVendorPaymentTermsCode() )
-                .append( this.getVendorShippingTitleCode(), detail.getVendorShippingTitleCode() )
-                .append( this.getVendorShippingPaymentTermsCode(), detail.getVendorShippingPaymentTermsCode() )
-                .append( this.getVendorConfirmationIndicator(), detail.getVendorConfirmationIndicator() )
-                .append( this.getVendorPrepaymentIndicator(), detail.getVendorPrepaymentIndicator() )
-                .append( this.getVendorCreditCardIndicator(), detail.getVendorCreditCardIndicator() )
-                .append( this.getVendorMinimumOrderAmount(), detail.getVendorMinimumOrderAmount() )
-                .append( this.getVendorUrlAddress(), detail.getVendorUrlAddress() )
-                .append( this.getVendorRemitName(), detail.getVendorRemitName() )
-                .append( this.getVendorRestrictedIndicator(), detail.getVendorRestrictedIndicator() )
-                .append( this.getVendorRestrictedReasonText(), detail.getVendorRestrictedReasonText() )
-                .append( this.getVendorRestrictedDate(), detail.getVendorRestrictedDate() )
-                .append( this.getVendorRestrictedPersonIdentifier(), detail.getVendorRestrictedPersonIdentifier() )
-                .append( this.getVendorSoldToGeneratedIdentifier(), detail.getVendorSoldToGeneratedIdentifier() )
-                .append( this.getVendorSoldToAssignedIdentifier(), detail.getVendorSoldToAssignedIdentifier() )
-                .append( this.getVendorSoldToName(), detail.getVendorSoldToName() )
-                .append( this.isVendorFirstLastNameIndicator(), detail.isVendorFirstLastNameIndicator() )
-                .isEquals();
+        }
+        else {
+            VendorDetail detail = (VendorDetail) toCompare;
+
+            return new EqualsBuilder().append(this.getVendorHeaderGeneratedIdentifier(), detail.getVendorHeaderGeneratedIdentifier()).append(this.getVendorDetailAssignedIdentifier(), detail.getVendorDetailAssignedIdentifier()).append(this.isVendorParentIndicator(), detail.isVendorParentIndicator()).append(this.getVendorName(), detail.getVendorName()).append(this.isActiveIndicator(), detail.isActiveIndicator()).append(this.getVendorInactiveReasonCode(), detail.getVendorInactiveReasonCode()).append(this.getVendorDunsNumber(), detail.getVendorDunsNumber()).append(this.getVendorPaymentTermsCode(), detail.getVendorPaymentTermsCode()).append(this.getVendorShippingTitleCode(), detail.getVendorShippingTitleCode()).append(this.getVendorShippingPaymentTermsCode(), detail.getVendorShippingPaymentTermsCode()).append(this.getVendorConfirmationIndicator(), detail.getVendorConfirmationIndicator()).append(this.getVendorPrepaymentIndicator(), detail.getVendorPrepaymentIndicator()).append(
+                    this.getVendorCreditCardIndicator(), detail.getVendorCreditCardIndicator()).append(this.getVendorMinimumOrderAmount(), detail.getVendorMinimumOrderAmount()).append(this.getVendorUrlAddress(), detail.getVendorUrlAddress()).append(this.getVendorRemitName(), detail.getVendorRemitName()).append(this.getVendorRestrictedIndicator(), detail.getVendorRestrictedIndicator()).append(this.getVendorRestrictedReasonText(), detail.getVendorRestrictedReasonText()).append(this.getVendorRestrictedDate(), detail.getVendorRestrictedDate()).append(this.getVendorRestrictedPersonIdentifier(), detail.getVendorRestrictedPersonIdentifier()).append(this.getVendorSoldToGeneratedIdentifier(), detail.getVendorSoldToGeneratedIdentifier()).append(this.getVendorSoldToAssignedIdentifier(), detail.getVendorSoldToAssignedIdentifier()).append(this.getVendorSoldToName(), detail.getVendorSoldToName()).append(this.isVendorFirstLastNameIndicator(), detail.isVendorFirstLastNameIndicator()).isEquals();
         }
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
         if (this.vendorDetailAssignedIdentifier != null) {
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
         }
-        
+
         return m;
     }
-        
+
 }

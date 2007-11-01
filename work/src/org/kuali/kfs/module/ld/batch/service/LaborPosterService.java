@@ -15,10 +15,9 @@
  */
 package org.kuali.module.labor.service;
 
-import java.sql.Date;
 
 /**
- * The interface gives clients entry point to consume poster services. It is designed for a batch process only. 
+ * The interface gives clients entry point to consume poster services. It is designed for a batch process only.
  */
 public interface LaborPosterService {
     /**

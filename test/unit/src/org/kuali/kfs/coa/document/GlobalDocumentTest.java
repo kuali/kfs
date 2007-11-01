@@ -100,7 +100,7 @@ public class GlobalDocumentTest extends KualiTestBase {
         assertEquals("New BO should be of the correct class.", AccountGlobal.class, newBo.getClass());
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testSaveDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);
@@ -153,7 +153,7 @@ public class GlobalDocumentTest extends KualiTestBase {
     }
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testSaveAndLoadDocument_globalDelegate() throws Exception {
 
         MaintenanceDocument document = (MaintenanceDocument) SpringContext.getBean(DocumentService.class).getNewDocument(GLOBAL_DELEGATE_TYPENAME);

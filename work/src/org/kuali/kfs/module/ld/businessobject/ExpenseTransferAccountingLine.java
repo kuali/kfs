@@ -36,15 +36,15 @@ public interface ExpenseTransferAccountingLine extends AccountingLine {
 
     public void setPayrollEndDateFiscalYear(Integer payrollEndDateFiscalYear);
 
-    public String getPayrollEndDateFiscalPeriodCode();    
+    public String getPayrollEndDateFiscalPeriodCode();
 
     public void setPayrollEndDateFiscalPeriodCode(String payrollEndDateFiscalPeriodCode);
 
     public String getEmplid();
-    
+
     public void setEmplid(String emplid);
-    
+
     public LaborObject getLaborObject();
-    
+
     public void setLaborObject(LaborObject laborObject);
 }

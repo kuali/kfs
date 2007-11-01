@@ -111,7 +111,7 @@ public class LaborCalculatedSalaryFoundationTracker extends CalculatedSalaryFoun
         keyFieldList.add(KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE);
         keyFieldList.add(KFSPropertyConstants.POSITION_NUMBER);
         keyFieldList.add(KFSPropertyConstants.EMPLID);
-        
+
         return keyFieldList;
     }
 }

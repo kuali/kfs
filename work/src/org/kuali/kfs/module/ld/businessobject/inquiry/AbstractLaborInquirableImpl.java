@@ -32,7 +32,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.KualiSystemCode;
-import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborConstants;
 

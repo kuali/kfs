@@ -16,7 +16,6 @@
 package org.kuali.module.gl.bo;
 
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -37,7 +36,7 @@ public class OriginEntryGroup extends PersistableBusinessObjectBase {
     private Boolean process;
     private Boolean scrub;
 
-    // This does not normally get populated.  It only gets populated if
+    // This does not normally get populated. It only gets populated if
     // getAllOriginEntryGroup() is called
     private Integer rows = new Integer(0);
 

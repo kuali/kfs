@@ -19,7 +19,6 @@ package org.kuali.module.purap.document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
@@ -37,19 +36,19 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
     }
 
     public void customPrepareForSave(KualiDocumentEvent event) {
-        //do not set the accounts in sourceAccountingLines; this document should not create GL entries
+        // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        
+
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            //set purap status and status history and status history note
-            //TODO: Once we have a note available here, add the note to the next line.
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            // set purap status and status history and status history note
+            // TODO: Once we have a note available here, add the note to the next line.
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
@@ -59,7 +58,7 @@ public class PurchaseOrderRemoveHoldDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledRemoveHoldPODocuments(this);
-        }        
+        }
     }
 
 }

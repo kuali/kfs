@@ -16,19 +16,15 @@
 package org.kuali.module.chart.dao;
 
 
- 
 /**
- * this provides an interface for implementing a callback
- * an "action" object for each class involved in 
- * fiscal year makers can be created at run time and placed
- * on the copy order list dictated by referential integrity
+ * this provides an interface for implementing a callback an "action" object for each class involved in fiscal year makers can be
+ * created at run time and placed on the copy order list dictated by referential integrity
  */
 public interface FiscalYearMakersCopyAction {
 
     /**
+     * This method when implemented is used as a callback method to copy data
      * 
-     * This method when implemented is used as a callback method to copy
-     * data
      * @param baseYear
      * @param replaceMode
      */

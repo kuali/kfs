@@ -15,38 +15,19 @@
  */
 package org.kuali.module.financial.service.impl;
 
-import static org.kuali.module.financial.rules.ProcurementCardDocumentRuleConstants.PCARD_DOCUMENT_PARAMETERS_SEC_GROUP;
-
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Rules;
-import org.apache.commons.digester.xmlrules.DigesterLoader;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.DataDictionaryBuilder;
-import org.kuali.core.datadictionary.XmlErrorHandler;
-import org.kuali.core.datadictionary.exception.InitException;
-import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.batch.BatchInputFileType;
 import org.kuali.kfs.exceptions.XMLParseException;
 import org.kuali.kfs.service.BatchInputFileService;
 import org.kuali.module.financial.bo.ProcurementCardTransaction;
-import org.kuali.module.financial.exceptions.NoTransactionsException;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
 
 /**

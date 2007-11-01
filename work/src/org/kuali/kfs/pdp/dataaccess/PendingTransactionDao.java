@@ -10,7 +10,6 @@ import org.kuali.module.pdp.bo.GlPendingTransaction;
 
 /**
  * @author jsissom
- *
  */
 public interface GlPendingTransactionDao {
     /**

@@ -41,7 +41,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
     private Properties properties;
     private String fieldNames, documentFieldNames;
     private String deliminator;
-    
+
     private Map fieldValues;
 
     private BusinessObjectService businessObjectService;
@@ -62,10 +62,10 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         laborNightlyOutService = SpringContext.getBean(LaborNightlyOutService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
-        
+
         int numberOfDocuments = Integer.valueOf(properties.getProperty("document.numOfData"));
         List inputDataList = TestDataPreparator.buildTestDataList(DocumentHeader.class, properties, "document.testData", documentFieldNames, deliminator, numberOfDocuments);
-        businessObjectService.save(inputDataList);        
+        businessObjectService.save(inputDataList);
 
         LaborOriginEntry cleanup = new LaborOriginEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
@@ -73,7 +73,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         businessObjectService.deleteMatching(LaborOriginEntry.class, fieldValues);
         businessObjectService.deleteMatching(LaborLedgerPendingEntry.class, fieldValues);
     }
-    
+
     public void testCopyApprovedPendingLedgerEntries() throws Exception {
         String testTarget = "copyApprovedPendingLedgerEntries.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -81,11 +81,11 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
-        
+
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
-        
+
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
+        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
         for (Object entry : originEntries) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, entry);
@@ -93,7 +93,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         }
         assertEquals(expectedNumOfData, originEntries.size());
     }
-    
+
     public void testCopyPendingLedgerEntries() throws Exception {
         String testTarget = "copyPendingLedgerEntries.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -101,11 +101,11 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
-        
+
         laborNightlyOutService.copyApprovedPendingLedgerEntries();
-       
+
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
+        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
         for (Object entry : originEntries) {
             LaborOriginEntryForTesting originEntryForTesting = new LaborOriginEntryForTesting();
             ObjectUtil.buildObject(originEntryForTesting, entry);
@@ -113,7 +113,7 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
         }
         assertEquals(expectedNumOfData, originEntries.size());
     }
-    
+
     public void testDeleteCopiedPendingLedgerEntries() throws Exception {
         String testTarget = "deleteCopiedPendingLedgerEntries.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -121,14 +121,14 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
-        
+
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
-        
-        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);       
+
+        Collection originEntries = businessObjectService.findMatching(LaborOriginEntry.class, fieldValues);
 
         assertEquals(expectedNumOfData, originEntries.size());
     }
-    
+
     public void testDeletePendingLedgerEntries() throws Exception {
         String testTarget = "deletePendingLedgerEntries.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -136,11 +136,11 @@ public class LaborNightlyOutServiceTest extends KualiTestBase {
 
         List inputDataList = TestDataPreparator.buildTestDataList(LaborLedgerPendingEntry.class, properties, testTarget + "testData", numberOfTestData);
         businessObjectService.save(inputDataList);
-        
+
         laborNightlyOutService.deleteCopiedPendingLedgerEntries();
-       
+
         List expectedDataList = TestDataPreparator.buildExpectedValueList(LaborOriginEntryForTesting.class, properties, testTarget + "expected", expectedNumOfData);
-        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);       
+        Collection originEntries = businessObjectService.findMatching(LaborLedgerPendingEntry.class, fieldValues);
         for (Object entry : originEntries) {
             PendingLedgerEntryForTesting pendingEntryForTesting = new PendingLedgerEntryForTesting();
             ObjectUtil.buildObject(pendingEntryForTesting, entry);

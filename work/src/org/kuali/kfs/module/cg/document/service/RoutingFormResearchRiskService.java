@@ -17,17 +17,14 @@ package org.kuali.module.kra.routingform.service;
 
 import java.util.List;
 
-import org.kuali.core.bo.AdHocRouteWorkgroup;
 import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
  * This interface defines methods that a RoutingFormResearchRiskService must provide
- * 
- * 
  */
 public interface RoutingFormResearchRiskService {
-    
+
     /**
      * Setup research risks in the document.
      * 
@@ -37,11 +34,11 @@ public interface RoutingFormResearchRiskService {
 
     /**
      * Get the list of active research risk types from the database.
-     *
+     * 
      * @param exceptCodes the codes of research risk types to exclude from the results
      * @return List<ResearchRiskType>
      */
     public List<ResearchRiskType> getResearchRiskTypes(String[] exceptCodes);
-    
+
     public List<String> getNotificationWorkgroups(String documentNumber);
 }

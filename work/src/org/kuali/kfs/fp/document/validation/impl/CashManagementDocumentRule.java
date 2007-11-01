@@ -52,8 +52,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Business rule(s) applicable to Cash Management Document.
- * 
- * 
  */
 public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRuleBase implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
     private static final Logger LOG = Logger.getLogger(CashManagementDocumentRule.class);
@@ -79,17 +77,17 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
         return isValid;
     }
-    
+
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = true;
-        
-        CashManagementDocument cmDoc = (CashManagementDocument)document;
+
+        CashManagementDocument cmDoc = (CashManagementDocument) document;
         isValid &= verifyAllVerifiedCashReceiptsDeposited(cmDoc);
-        
+
         return isValid;
     }
 
@@ -208,9 +206,10 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
             }
         }
     }
-    
+
     /**
      * Verifies that all verified cash receipts have been deposited
+     * 
      * @param cmDoc the cash management document that is about to be routed
      * @return true if there are no outstanding verified cash receipts that are not part of a deposit, false if otherwise
      */
@@ -218,10 +217,10 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
         boolean allCRsDeposited = true;
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
         List verifiedReceipts = SpringContext.getBean(CashReceiptService.class).getCashReceipts(cmDoc.getWorkgroupName(), KFSConstants.DocumentStatusCodes.CashReceipt.VERIFIED);
-        for (Object o: verifiedReceipts) {
-            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument)o)) {
+        for (Object o : verifiedReceipts) {
+            if (!cms.verifyCashReceiptIsDeposited(cmDoc, (CashReceiptDocument) o)) {
                 allCRsDeposited = false;
-                GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, KFSKeyConstants.CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { ((CashReceiptDocument)o).getDocumentNumber() });
+                GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, KFSKeyConstants.CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPT, new String[] { ((CashReceiptDocument) o).getDocumentNumber() });
             }
         }
         return allCRsDeposited;
@@ -270,7 +269,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
                 if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), cashManagementDocument, universityFiscalYear, sequenceHelper, bankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
                     success = false;
                     continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
-                                // all.
+                    // all.
                 }
                 bankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
                 cashManagementDocument.getGeneralLedgerPendingEntries().add(bankOffsetEntry);

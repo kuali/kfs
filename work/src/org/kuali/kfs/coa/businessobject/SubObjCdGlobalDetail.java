@@ -47,7 +47,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -57,7 +56,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -68,7 +66,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -78,7 +75,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -89,7 +85,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -99,7 +94,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -110,7 +104,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -120,7 +113,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -131,7 +123,6 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the financialObject attribute.
      * 
      * @return Returns the financialObject
-     * 
      */
     public ObjectCode getFinancialObject() {
         return financialObject;
@@ -168,7 +159,7 @@ public class SubObjCdGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber() );
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }

@@ -51,7 +51,7 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
             for (Iterator i = columns.iterator(); i.hasNext() && columnCount++ < numOfNonMonthField;) {
                 Column column = (Column) i.next();
 
-                if (rowCounter>0 && columnCount > 1) {
+                if (rowCounter > 0 && columnCount > 1) {
                     rowBuffer.append("<th>");
                     rowBuffer.append(column.getColumnTitle());
                     rowBuffer.append("</th>");

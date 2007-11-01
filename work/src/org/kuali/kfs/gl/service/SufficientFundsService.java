@@ -17,8 +17,6 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
-import org.kuali.core.document.TransactionalDocument;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.bo.Transaction;
@@ -27,8 +25,6 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 
 /**
  * Service used for manipulating disbursement voucher cover sheets.
- * 
- * 
  */
 public interface SufficientFundsService {
 

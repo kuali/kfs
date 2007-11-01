@@ -470,7 +470,7 @@ public class LaborOriginEntryServiceImpl implements LaborOriginEntryService {
 
         return this.getCountOfEntriesInGroups(groups);
     }
-    
+
 
     /**
      * @see org.kuali.module.labor.service.LaborOriginEntryService#getEntryCollectionByGroup(org.kuali.module.gl.bo.OriginEntryGroup)

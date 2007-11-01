@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the SubObjectCode service.
- * 
- * 
  */
 @ConfigureContext
 public class SubObjectCodeServiceTest extends KualiTestBase {

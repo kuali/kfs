@@ -102,10 +102,10 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @param personName the person name.
      */
     public void setPersonName(String personName) {
-        if ( universalUser == null ) {
+        if (universalUser == null) {
             universalUser = new UniversalUser();
         }
-        universalUser.setPersonName( personName );
+        universalUser.setPersonName(personName);
     }
 
     /**
@@ -120,10 +120,10 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @param personFirstName the persons first name
      */
     public void setPersonFirstName(String personFirstName) {
-        if ( universalUser == null ) {
+        if (universalUser == null) {
             universalUser = new UniversalUser();
         }
-        universalUser.setPersonFirstName( personFirstName );
+        universalUser.setPersonFirstName(personFirstName);
     }
 
     /**
@@ -138,10 +138,10 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @param personLastName the persons last name
      */
     public void setPersonLastName(String personLastName) {
-        if ( universalUser == null ) {
+        if (universalUser == null) {
             universalUser = new UniversalUser();
         }
-        universalUser.setPersonName( personLastName );
+        universalUser.setPersonName(personLastName);
     }
 
     /**
@@ -162,14 +162,15 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
         this.personUserIdentifier = personUserIdentifier;
         if (universalUser == null || !personUserIdentifier.equals(universalUser.getPersonUserIdentifier())) {
             try {
-                universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId( personUserIdentifier );
-            } catch ( UserNotFoundException ex ) {
+                universalUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(personUserIdentifier);
+            }
+            catch (UserNotFoundException ex) {
                 universalUser = null;
             }
         }
     }
 
-    
+
     /**
      * @return the primary DepartmentCodee
      */
@@ -182,10 +183,10 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
      * @param personName the primary DepartmentCode.
      */
     public void setPrimaryDepartmentCode(String primaryDepartmentCode) {
-        if ( universalUser == null ) {
+        if (universalUser == null) {
             universalUser = new UniversalUser();
         }
-        universalUser.setPrimaryDepartmentCode( primaryDepartmentCode );
+        universalUser.setPrimaryDepartmentCode(primaryDepartmentCode);
     }
 
 
@@ -202,5 +203,5 @@ public class ProjectDirector extends PersistableBusinessObjectBase implements In
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+
 }

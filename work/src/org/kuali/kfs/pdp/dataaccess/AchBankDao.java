@@ -27,7 +27,6 @@ public interface AchBankDao {
 
     /**
      * Remove all data from the table
-     * 
      */
     public void emptyTable();
 }

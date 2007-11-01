@@ -30,7 +30,7 @@ public class ResearchDocumentServiceImpl implements ResearchDocumentService {
 
     private BudgetService budgetService;
     private RoutingFormService routingFormService;
-    
+
     /**
      * @see org.kuali.module.kra.budget.service.ResearchDocumentService#prepareResearchDocumentForSave(org.kuali.module.kra.budget.document.ResearchDocument)
      */
@@ -39,7 +39,8 @@ public class ResearchDocumentServiceImpl implements ResearchDocumentService {
             BudgetDocument budgetDocument = (BudgetDocument) researchDocument;
             budgetService.prepareBudgetForSave(budgetDocument);
             budgetDocument.setForceRefreshOfBOSubListsForSave(false);
-        } else if (researchDocument instanceof RoutingFormDocument) {
+        }
+        else if (researchDocument instanceof RoutingFormDocument) {
             RoutingFormDocument routingFormDocument = (RoutingFormDocument) researchDocument;
             routingFormService.prepareRoutingFormForSave(routingFormDocument);
         }
@@ -48,7 +49,7 @@ public class ResearchDocumentServiceImpl implements ResearchDocumentService {
     public void setBudgetService(BudgetService budgetService) {
         this.budgetService = budgetService;
     }
-    
+
     public void setRoutingFormService(RoutingFormService routingFormService) {
         this.routingFormService = routingFormService;
     }

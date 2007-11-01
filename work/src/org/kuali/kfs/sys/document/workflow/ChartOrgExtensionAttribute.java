@@ -36,43 +36,42 @@ import edu.iu.uis.eden.validation.ValidationContext;
 import edu.iu.uis.eden.validation.ValidationResults;
 
 /**
- * An attribute which provides Chart & Org extensions to an entity.  In this case, it is used
- * for the Chart Org Workgroup type.
- *
+ * An attribute which provides Chart & Org extensions to an entity. In this case, it is used for the Chart Org Workgroup type.
+ * 
  * @author ewestfal
  */
 public class ChartOrgExtensionAttribute implements ExtensionAttribute {
 
-	private static final String CHART = KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME;
-	private static final String ORG = KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME;
+    private static final String CHART = KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME;
+    private static final String ORG = KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME;
 
     private static final String EXTENSIONS_PARAM = "extensions";
     private static final String OPERATION_PARAM = "operation";
     private static final String SEARCH_OP = "search";
     private static final String ENTRY_OP = "entry";
 
-	private List<Row> rows;
+    private List<Row> rows;
 
-	public ChartOrgExtensionAttribute() {
+    public ChartOrgExtensionAttribute() {
         rows = new ArrayList<Row>();
         rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, CHART, CHART));
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(CHART, CHART);
         rows.add(KualiWorkflowUtils.buildTextRowWithLookup(Org.class, ORG, ORG, fieldConversionMap));
-	}
+    }
 
-	public List<Row> getRows() {
-		return rows;
-	}
+    public List<Row> getRows() {
+        return rows;
+    }
 
     /**
      * Validate the chart code and org code that are specified.
-     *
+     * 
      * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(edu.iu.uis.eden.validation.ValidationContext)
      */
-	public ValidationResults validate(ValidationContext validationContext) {
-        Map<String, String> extensions = (Map<String, String>)validationContext.getParameters().get(EXTENSIONS_PARAM);
-        String operation = (String)validationContext.getParameters().get(OPERATION_PARAM);
+    public ValidationResults validate(ValidationContext validationContext) {
+        Map<String, String> extensions = (Map<String, String>) validationContext.getParameters().get(EXTENSIONS_PARAM);
+        String operation = (String) validationContext.getParameters().get(OPERATION_PARAM);
         if (extensions == null) {
             // not sure if this is the correct exception or not but it feels better than throwing a runtime
             throw new ValidationException("Could not locate workgroup extension data in order to perform validation.");
@@ -86,13 +85,14 @@ public class ChartOrgExtensionAttribute implements ExtensionAttribute {
             if (ENTRY_OP.equals(operation)) {
                 results.addValidationResult("Chart/org is required.");
             }
-        } else {
+        }
+        else {
             Org organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(chart, org);
             if (organization == null) {
                 results.addValidationResult("Chart/org is invalid.");
             }
         }
         return results;
-	}
+    }
 
 }

@@ -28,8 +28,6 @@ import org.kuali.module.financial.bo.CreditCardType;
 
 /**
  * This class...
- * 
- * 
  */
 public class CreditCardTypeValuesFinder extends KeyValuesBase {
 

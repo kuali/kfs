@@ -16,23 +16,18 @@
 package org.kuali.workflow.attribute;
 
 /**
- * 
- * This is a marker interface.  It is used to flag the class as having used the
- * routingChart and routingOrg fields for OrgHierarchyRouting.  Routing is driven
- * by the field names.  THESE METHODS MUST GET AND SET THE FIELDS NAMED
- * 
- * routingChart and routingOrg
- * 
- * IN THE IMPLEMENTING CLASS.
+ * This is a marker interface. It is used to flag the class as having used the routingChart and routingOrg fields for
+ * OrgHierarchyRouting. Routing is driven by the field names. THESE METHODS MUST GET AND SET THE FIELDS NAMED routingChart and
+ * routingOrg IN THE IMPLEMENTING CLASS.
  */
 
 public interface AlternateOrgReviewRouting {
-    
-    public String getRoutingChart() ;
+
+    public String getRoutingChart();
 
     public void setRoutingChart(String routingChart);
 
-    public String getRoutingOrg() ;
+    public String getRoutingOrg();
 
     public void setRoutingOrg(String routingOrg);
 

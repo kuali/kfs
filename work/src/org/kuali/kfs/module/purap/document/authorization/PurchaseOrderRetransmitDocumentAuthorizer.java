@@ -38,11 +38,12 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
-        PurchaseOrderDocument po = (PurchaseOrderDocument)document;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) document;
         if (po.getPurchaseOrderAutomaticIndicator()) {
             return true;
         }
@@ -58,7 +59,8 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
     }
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
@@ -66,7 +68,7 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
 
         if (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved()) {
-            //do not allow this document to be saved; once initiated, it must be routed or canceled
+            // do not allow this document to be saved; once initiated, it must be routed or canceled
             flags.setCanSave(false);
         }
 
@@ -75,9 +77,10 @@ public class PurchaseOrderRetransmitDocumentAuthorizer extends PurchaseOrderDocu
 
         return flags;
     }
-    
+
     /**
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     @Override
     public Map getEditMode(Document d, UniversalUser u, List sourceAccountingLines, List targetAccountingLines) {

@@ -22,10 +22,8 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * This class represents an association between an award and a project director.
- * It's like a reference to the project director from the award. This way an 
- * award can maintain a collection of these references instead of owning 
- * project directors directly.
+ * This class represents an association between an award and a project director. It's like a reference to the project director from
+ * the award. This way an award can maintain a collection of these references instead of owning project directors directly.
  */
 public class AwardProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
 
@@ -34,7 +32,7 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
     private boolean awardPrimaryProjectDirectorIndicator;
     private String awardProjectDirectorProjectTitle;
     private boolean active = true;
-    
+
     private ProjectDirector projectDirector;
 
     /**
@@ -145,9 +143,9 @@ public class AwardProjectDirector extends PersistableBusinessObjectBase implemen
      * @see org.kuali.core.bo.Inactivateable#setActive(boolean)
      */
     public void setActive(boolean active) {
-        this.active=active;
+        this.active = active;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

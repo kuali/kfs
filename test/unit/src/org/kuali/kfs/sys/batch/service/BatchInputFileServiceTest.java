@@ -36,21 +36,15 @@ import org.kuali.test.ConfigureContext;
 import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 
 /**
- * Tests the BatchInputFileService. 
+ * Tests the BatchInputFileService. TEST DEPENDENCIES The following are external configurations not setup by the test case that are
+ * necessary for the test to run correctly: 1) User identified by the constant Data4_USER_ID2 must be a member of the workgroup
+ * given by constant Data2.KUALI_FMSOPS. 2) User identified by the constant Data4_USER_ID1 must NOT be a member of the workgroup
+ * given by constant Data2.KUALI_FMSOPS. 3) Five xml files must exist in the PCDO staging directory. Name of files is not important.
+ * 4) One Collector files must exist in Collector staging directory. File name should not contain the usernames given by constants
+ * Data4_USER_ID2 and Data4_USER_ID1. Note the files in #3 & #4 are created by the project build from files located in project
+ * folder buld/configurationFiles/externalConfigDirectory/static/staging/
  * 
- * TEST DEPENDENCIES
- * The following are external configurations not setup by the test case that are necessary for the test to run correctly: 
- * 
- * 1) User identified by the constant Data4_USER_ID2 must be a member of the workgroup given by constant Data2.KUALI_FMSOPS.
- * 2) User identified by the constant Data4_USER_ID1 must NOT be a member of the workgroup given by constant Data2.KUALI_FMSOPS.
- * 3) Five xml files must exist in the PCDO staging directory. Name of files is not important.
- * 4) One Collector files must exist in Collector staging directory. File name should not contain the usernames given by constants Data4_USER_ID2 and Data4_USER_ID1.
- * 
- * Note the files in #3 & #4 are created by the project build from files located in project folder buld/configurationFiles/externalConfigDirectory/static/staging/
- * 
- * @see org.kuali.kfs.service.BatchInputFileService
- * 
- * Unit tests for this service are also in:
+ * @see org.kuali.kfs.service.BatchInputFileService Unit tests for this service are also in:
  * @see org.kuali.kfs.service.BatchInputServiceParseTest
  * @see org.kuali.kfs.service.BatchInputServiceSystemParametersTest
  */
@@ -59,17 +53,17 @@ public class BatchInputFileServiceTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
 
     private BatchInputFileService batchInputFileService;
-    
+
     private String testFileIdentifier;
     private InputStream validPCDOFileContents;
     private InputStream validCollectorFileContents;
-    
+
     private BatchInputFileType pcdoBatchInputFileType;
     private BatchInputFileType collectorBatchInputFileType;
-    
+
     private UniversalUser validWorkgroupUser;
     private UniversalUser invalidWorkgroupUser;
-    
+
     private List<File> createdTestFiles;
 
     /**
@@ -105,7 +99,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         if (createdTestFiles != null) {
             for (File createdFile : createdTestFiles) {
                 if (createdFile.exists()) {
-                   createdFile.delete();
+                    createdFile.delete();
                 }
                 String doneFileName = StringUtils.substringBeforeLast(createdFile.getPath(), ".") + ".done";
                 File doneFile = new File(doneFileName);
@@ -115,8 +109,8 @@ public class BatchInputFileServiceTest extends KualiTestBase {
             }
         }
     }
- 
-  
+
+
     /**
      * Checks file was created succesfully for valid call to save method.
      */
@@ -128,7 +122,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
 
         assertTrue("uploaded pcdo file not found", expectedFile.exists());
         assertTrue("uploaded pcdo file is empty", expectedFile.length() > 0);
-        
+
         checkForDoneFile(expectedFile);
 
         // remove file so we can test collector upload
@@ -141,18 +135,18 @@ public class BatchInputFileServiceTest extends KualiTestBase {
 
         assertTrue("uploaded collector file not found", expectedFile.exists());
         assertTrue("uploaded collector file is empty", expectedFile.length() > 0);
-    
-        checkForDoneFile(expectedFile);    
+
+        checkForDoneFile(expectedFile);
     }
-    
+
     /**
      * Checks for a done file with the same name as the given batch file.
      */
     private final void checkForDoneFile(File batchFile) {
-       String doneFileName = StringUtils.substringBeforeLast(batchFile.getPath(), ".") + ".done";
-       File doneFile = new File(doneFileName);       
-       
-       assertTrue("done file " + doneFile.getPath() + " does not exist", doneFile.exists());
+        String doneFileName = StringUtils.substringBeforeLast(batchFile.getPath(), ".") + ".done";
+        File doneFile = new File(doneFileName);
+
+        assertTrue("done file " + doneFile.getPath() + " does not exist", doneFile.exists());
     }
 
 
@@ -225,7 +219,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
         String fileNameOnly = expectedFile.getName();
         batchInputFileService.delete(validWorkgroupUser, batchInputFileType, fileNameOnly);
         assertFalse("file still exists", expectedFile.exists());
-        
+
         String doneFileName = StringUtils.substringBeforeLast(expectedFile.getPath(), ".") + ".done";
         File doneFile = new File(doneFileName);
         assertFalse("done file " + doneFileName + " not removed", doneFile.exists());
@@ -243,7 +237,7 @@ public class BatchInputFileServiceTest extends KualiTestBase {
     private final void checkDelete_incorrectUserPermissions(BatchInputFileType batchInputFileType, InputStream fileContents, Object parsedObject) throws Exception {
         String savedFileName = batchInputFileService.save(validWorkgroupUser, batchInputFileType, testFileIdentifier, fileContents, parsedObject);
         createdTestFiles.add(new File(savedFileName));
-        
+
         boolean failedAsExpected = false;
         try {
             batchInputFileService.delete(invalidWorkgroupUser, batchInputFileType, testFileIdentifier);

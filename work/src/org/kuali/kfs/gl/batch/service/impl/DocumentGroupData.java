@@ -28,19 +28,19 @@ public class DocumentGroupData {
     protected String documentNumber;
     protected String financialDocumentTypeCode;
     protected String financialSystemOriginationCode;
-    
+
     public DocumentGroupData(Transaction entry) {
         documentNumber = entry.getDocumentNumber();
         financialDocumentTypeCode = entry.getFinancialDocumentTypeCode();
         financialSystemOriginationCode = entry.getFinancialSystemOriginationCode();
     }
-    
+
     public DocumentGroupData(String documentNumber, String financialDocumentTypeCode, String financialSystemOriginationCode) {
         this.documentNumber = documentNumber;
         this.financialDocumentTypeCode = financialDocumentTypeCode;
         this.financialSystemOriginationCode = financialSystemOriginationCode;
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -50,23 +50,17 @@ public class DocumentGroupData {
             return false;
         }
         DocumentGroupData o2 = (DocumentGroupData) obj;
-        return StringUtils.equals(documentNumber, o2.documentNumber) &&
-                StringUtils.equals(financialDocumentTypeCode, o2.financialDocumentTypeCode) &&
-                StringUtils.equals(financialSystemOriginationCode, o2.financialSystemOriginationCode);
+        return StringUtils.equals(documentNumber, o2.documentNumber) && StringUtils.equals(financialDocumentTypeCode, o2.financialDocumentTypeCode) && StringUtils.equals(financialSystemOriginationCode, o2.financialSystemOriginationCode);
     }
-    
+
     public boolean matchesTransaction(Transaction transaction) {
-        return StringUtils.equals(documentNumber, transaction.getDocumentNumber()) &&
-                StringUtils.equals(financialDocumentTypeCode, transaction.getFinancialDocumentTypeCode()) &&
-                StringUtils.equals(financialSystemOriginationCode, transaction.getFinancialSystemOriginationCode());
+        return StringUtils.equals(documentNumber, transaction.getDocumentNumber()) && StringUtils.equals(financialDocumentTypeCode, transaction.getFinancialDocumentTypeCode()) && StringUtils.equals(financialSystemOriginationCode, transaction.getFinancialSystemOriginationCode());
     }
-    
+
     public boolean matchesCollectorDetail(CollectorDetail detail) {
-        return StringUtils.equals(documentNumber, detail.getDocumentNumber()) &&
-        StringUtils.equals(financialDocumentTypeCode, detail.getFinancialDocumentTypeCode()) &&
-        StringUtils.equals(financialSystemOriginationCode, detail.getFinancialSystemOriginationCode());
+        return StringUtils.equals(documentNumber, detail.getDocumentNumber()) && StringUtils.equals(financialDocumentTypeCode, detail.getFinancialDocumentTypeCode()) && StringUtils.equals(financialSystemOriginationCode, detail.getFinancialSystemOriginationCode());
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -78,7 +72,7 @@ public class DocumentGroupData {
         }
         return documentNumber.hashCode();
     }
-    
+
     public OriginEntryFull populateDocumentGroupDataFieldsInOriginEntry() {
         OriginEntryFull entry = new OriginEntryFull();
         entry.setDocumentNumber(documentNumber);
@@ -88,7 +82,8 @@ public class DocumentGroupData {
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -97,6 +92,7 @@ public class DocumentGroupData {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -104,7 +100,8 @@ public class DocumentGroupData {
     }
 
     /**
-     * Gets the financialDocumentTypeCode attribute. 
+     * Gets the financialDocumentTypeCode attribute.
+     * 
      * @return Returns the financialDocumentTypeCode.
      */
     public String getFinancialDocumentTypeCode() {
@@ -113,6 +110,7 @@ public class DocumentGroupData {
 
     /**
      * Sets the financialDocumentTypeCode attribute value.
+     * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -120,7 +118,8 @@ public class DocumentGroupData {
     }
 
     /**
-     * Gets the financialSystemOriginationCode attribute. 
+     * Gets the financialSystemOriginationCode attribute.
+     * 
      * @return Returns the financialSystemOriginationCode.
      */
     public String getFinancialSystemOriginationCode() {
@@ -129,14 +128,16 @@ public class DocumentGroupData {
 
     /**
      * Sets the financialSystemOriginationCode attribute value.
+     * 
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
     }
-    
+
     /**
-     * Given an iterator of {@link Transaction} objects, return a set of all the document groups (doc #, doc type, origination code) for these transactions
+     * Given an iterator of {@link Transaction} objects, return a set of all the document groups (doc #, doc type, origination code)
+     * for these transactions
      * 
      * @param transactions
      * @return

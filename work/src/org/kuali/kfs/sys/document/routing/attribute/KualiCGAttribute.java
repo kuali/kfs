@@ -151,13 +151,13 @@ public class KualiCGAttribute implements RoleAttribute, WorkflowAttribute {
             else {
                 if (docTypeName.equals(KualiWorkflowUtils.ACCOUNT_DOC_TYPE)) {
                     AwardWorkgroupRole role = new AwardWorkgroupRole(roleName);
-                    //An account doc should only have one chart/account, so no need to loop as in getAwardWorkgroupCriteria.
+                    // An account doc should only have one chart/account, so no need to loop as in getAwardWorkgroupCriteria.
                     role.chart = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     role.accountNumber = xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.NEW_MAINTAINABLE_PREFIX).append(KFSConstants.ACCOUNT_NUMBER_PROPERTY_NAME).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
                     Set tempSet = new HashSet();
                     tempSet.add(role);
                     awardWorkgroups.addAll(tempSet);
-                    }
+                }
                 else {
                     if (!KualiWorkflowUtils.isTargetLineOnly(docTypeName)) {
                         NodeList sourceLineNodes = (NodeList) xpath.evaluate(KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.getSourceAccountingLineClassName(docTypeName)), docContent.getDocument(), XPathConstants.NODESET);

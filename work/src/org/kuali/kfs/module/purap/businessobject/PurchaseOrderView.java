@@ -11,7 +11,7 @@ import org.kuali.module.purap.service.PurchaseOrderService;
  * Purchase Order View Business Object.
  */
 public class PurchaseOrderView extends AbstractRelatedView {
-	
+
     private Boolean purchaseOrderCurrentIndicator;
     private List<Note> notes;
 
@@ -28,9 +28,9 @@ public class PurchaseOrderView extends AbstractRelatedView {
     }
 
     /**
-     * The next four methods are overridden but shouldnt be!
-     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
-     *  
+     * The next four methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why at
+     * this point! (AAP)
+     * 
      * @see org.kuali.module.purap.bo.AbstractRelatedView#getPurapDocumentIdentifier()
      */
     @Override
@@ -59,12 +59,13 @@ public class PurchaseOrderView extends AbstractRelatedView {
                     notes.add(note);
                 }
             }
-        } else {
+        }
+        else {
             notes = null;
         }
         return notes;
     }
-    
+
     /**
      * @see org.kuali.module.purap.bo.AbstractRelatedView#getUrl()
      */

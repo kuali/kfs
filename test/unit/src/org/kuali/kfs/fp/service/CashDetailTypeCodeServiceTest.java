@@ -22,10 +22,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 import org.kuali.module.financial.service.impl.CashDetailTypeCodeServiceImpl;
 import org.kuali.test.ConfigureContext;
+
 /**
  * This class tests the CashDetailTypeCode service.
- * 
- * 
  */
 @ConfigureContext
 public class CashDetailTypeCodeServiceTest extends KualiTestBase {

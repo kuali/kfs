@@ -78,11 +78,11 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Central method to control the processing of rule checks.  Checks that the purchase order document
-     * is not null, that it is in the correct status, and that the user is in the purchasing workgroup.
+     * Central method to control the processing of rule checks. Checks that the purchase order document is not null, that it is in
+     * the correct status, and that the user is in the purchasing workgroup.
      * 
-     * @param document  A PurchaseOrderDocument.
-     * @return  True if the document passes all the validations.
+     * @param document A PurchaseOrderDocument.
+     * @return True if the document passes all the validations.
      */
     public boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
@@ -94,9 +94,7 @@ public class PurchaseOrderVoidDocumentRule extends PurchasingDocumentRuleBase {
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             // The PO must be in OPEN status.
-            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN) &&
-                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_VOID) &&
-                !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_PRINT)) {
+            if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_VOID) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_PRINT)) {
                 valid = false;
                 GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_NOT_REQUIRED_STATUS, PurchaseOrderStatuses.OPEN);
             }

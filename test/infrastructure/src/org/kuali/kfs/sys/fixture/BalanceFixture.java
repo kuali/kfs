@@ -21,12 +21,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.gl.bo.Balance;
 
 public enum BalanceFixture {
-    BALANCE_PASS1("GF", "ABCD", "1111", "ABCDEF", "", ""),
-    BALANCE_FAIL1("AB", "ABCD", "1111", "ABCDEF", "", ""),
-    BALANCE_FAIL2("GF", "BALS", "1111", "ABCDEF", "", ""),
-    BALANCE_FAIL3("GF", "ABCD", "9890", "ABCDEF", "", ""),
-    BALANCE_FAIL4("GF", "ABCD", "1111", "MPRACT", "", ""),
-    ;
+    BALANCE_PASS1("GF", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL1("AB", "ABCD", "1111", "ABCDEF", "", ""), BALANCE_FAIL2("GF", "BALS", "1111", "ABCDEF", "", ""), BALANCE_FAIL3("GF", "ABCD", "9890", "ABCDEF", "", ""), BALANCE_FAIL4("GF", "ABCD", "1111", "MPRACT", "", ""), ;
 
     public final String fundGroupCode;
     public final String organizationCode;
@@ -47,10 +42,10 @@ public enum BalanceFixture {
     @SuppressWarnings("deprecation")
     public Balance createBalance() {
         Balance balance = new Balance();
-        
+
         balance.setAccount(new Account());
         balance.getAccount().setSubFundGroup(new SubFundGroup());
-        
+
         balance.getAccount().getSubFundGroup().setFundGroupCode(this.fundGroupCode);
         balance.getAccount().setOrganizationCode(this.organizationCode);
         balance.setObjectCode(this.objectCode);

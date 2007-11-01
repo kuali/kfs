@@ -34,11 +34,11 @@ import edu.iu.uis.eden.routetemplate.Role;
 import edu.iu.uis.eden.user.WorkflowUserId;
 
 public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute {
-    
+
     private static final String PROJECT_DIRECTOR_ROLE_KEY = "PROJECT_DIRECTOR";
     private static final String PROJECT_DIRECTOR_ROLE_LABEL = "Project Director";
     private static final Role ROLE = new Role(ResearchProjectDirectorRoleAttribute.class, PROJECT_DIRECTOR_ROLE_KEY, PROJECT_DIRECTOR_ROLE_LABEL);
-    
+
     private static final List ROLES;
     static {
         ArrayList list = new ArrayList(0);
@@ -52,7 +52,7 @@ public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute 
         list.add(PROJECT_DIRECTOR_ROLE_KEY);
         QUALIFIED_ROLE_NAMES = Collections.unmodifiableList(list);
     }
-    
+
     public List getRoleNames() {
         return ROLES;
     }
@@ -61,19 +61,18 @@ public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute 
         // deferring all "logic" to the resolve stage
         return QUALIFIED_ROLE_NAMES;
     }
-    
+
     public ResolvedQualifiedRole resolveQualifiedRole(RouteContext routeContext, String roleName, String qualifiedRole) throws EdenUserNotFoundException {
         if (!PROJECT_DIRECTOR_ROLE_KEY.equals(roleName)) {
             throw new IllegalArgumentException("resolveQualifiedRole was called with a role name other than '" + PROJECT_DIRECTOR_ROLE_KEY + "'");
         }
-        
+
         List members = new ArrayList();
         try {
             DocumentContent docContent = routeContext.getDocumentContent();
             DocumentRouteHeaderValue document = routeContext.getDocument();
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            String xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(
-                    KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("projectDirector").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+            String xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("projectDirector").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
             String projectDirector = xpath.evaluate(xpathExp, docContent.getDocument());
             if (!StringUtils.isBlank(projectDirector)) {
                 members.add(new WorkflowUserId(projectDirector));
@@ -82,7 +81,7 @@ public class ResearchProjectDirectorRoleAttribute extends AbstractRoleAttribute 
         catch (Exception e) {
             throw new RuntimeException(e);
         }
-        
+
         return new ResolvedQualifiedRole(PROJECT_DIRECTOR_ROLE_KEY, members);
     }
 }

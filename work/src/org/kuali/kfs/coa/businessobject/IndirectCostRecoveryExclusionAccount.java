@@ -42,7 +42,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -52,7 +51,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -63,7 +61,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -73,7 +70,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -84,7 +80,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the financialObjectChartOfAccountCode attribute.
      * 
      * @return Returns the financialObjectChartOfAccountCode
-     * 
      */
     public String getFinancialObjectChartOfAccountCode() {
         return financialObjectChartOfAccountCode;
@@ -94,7 +89,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Sets the financialObjectChartOfAccountCode attribute.
      * 
      * @param financialObjectChartOfAccountCode The financialObjectChartOfAccountCode to set.
-     * 
      */
     public void setFinancialObjectChartOfAccountCode(String financialObjectChartOfAccountCode) {
         this.financialObjectChartOfAccountCode = financialObjectChartOfAccountCode;
@@ -105,7 +99,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -115,7 +108,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -126,7 +118,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the chart attribute.
      * 
      * @return Returns the chart
-     * 
      */
     public Chart getChart() {
         return chart;
@@ -146,7 +137,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -166,7 +156,6 @@ public class IndirectCostRecoveryExclusionAccount extends PersistableBusinessObj
      * Gets the financialObjectChartOfAccount attribute.
      * 
      * @return Returns the financialObjectChartOfAccount
-     * 
      */
     public Chart getFinancialObjectChartOfAccount() {
         return financialObjectChartOfAccount;

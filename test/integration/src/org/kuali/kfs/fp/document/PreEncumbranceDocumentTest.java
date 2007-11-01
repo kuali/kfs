@@ -37,13 +37,12 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
  * This class is used to test PreEncumbranceDocument.
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class PreEncumbranceDocumentTest extends KualiTestBase {
 
     public static final Class<PreEncumbranceDocument> DOCUMENT_CLASS = PreEncumbranceDocument.class;
+
     private Document getDocumentParameterFixture() throws Exception {
         return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), PreEncumbranceDocument.class);
     }
@@ -75,37 +74,42 @@ public class PreEncumbranceDocumentTest extends KualiTestBase {
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
-       
+
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
+
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
-      }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    }
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
+
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
-    //test util methods
+    // test util methods
     private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
         // set accountinglines to document
@@ -124,21 +128,21 @@ public class PreEncumbranceDocumentTest extends KualiTestBase {
 
         return targetLines;
     }
-    
-    
+
+
     private PreEncumbranceDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         PreEncumbranceDocument document = (PreEncumbranceDocument) getDocumentParameterFixture();
-    
+
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
             sourceFixture.addAsSourceTo(document);
         }
-    
+
         for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
             targetFixture.addAsTargetTo(document);
         }
-    
+
         return document;
     }
 

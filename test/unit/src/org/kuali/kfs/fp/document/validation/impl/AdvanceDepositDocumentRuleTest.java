@@ -34,8 +34,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the <code>AdvanceDepositDocumentRule</code>s
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class AdvanceDepositDocumentRuleTest extends KualiTestBase {

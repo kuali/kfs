@@ -26,8 +26,6 @@ import org.kuali.module.financial.bo.AdvanceDepositDetail;
 
 /**
  * Common Advance Deposit Document rule utilities.
- * 
- * 
  */
 public class AdvanceDepositDocumentRuleUtil {
     /**

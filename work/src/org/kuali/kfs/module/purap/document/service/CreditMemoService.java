@@ -145,5 +145,5 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * @param cm
      * @param processDate
      */
-    public void markPaid(CreditMemoDocument cm,Date processDate);
+    public void markPaid(CreditMemoDocument cm, Date processDate);
 }

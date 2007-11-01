@@ -21,8 +21,6 @@ import org.kuali.module.chart.bo.ObjectCode;
 
 /**
  * This interface defines methods that an ObjectCode Service must provide.
- * 
- * 
  */
 public interface ObjectCodeService {
 
@@ -30,15 +28,13 @@ public interface ObjectCodeService {
      * @param universityFiscalYear - University Fiscal Year
      * @param chartOfAccountsCode - Chart of Accounts Code
      * @param financialObjectCode - Financial Object Code
-     * @return ObjectCode
-     * 
-     * Retrieves an ObjectCode object based on primary key.
+     * @return ObjectCode Retrieves an ObjectCode object based on primary key.
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
-    
+
     /**
-     * 
      * This method returns an financial object code for the current fiscal year.
+     * 
      * @param chartOfAccountsCode chart of accounts code for object code
      * @param financialObjectCode financial object code
      * @return the object code specified
@@ -46,8 +42,6 @@ public interface ObjectCodeService {
     public ObjectCode getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String financialObjectCode);
 
     /**
-     * 
-     * 
      * @param chartOfAccountsCode - Chart of Accounts Code
      * @param financialObjectCode - Financial Object Code
      * @return a list containing integer years, given object code. The list may be empty, but will not be null.
@@ -57,14 +51,12 @@ public interface ObjectCodeService {
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
 
     /**
+     * This method, written for use with DWR, returns a joined string representation of all of the names of the distinct object
+     * codes associated with each of the chart codes given. In the best of all possible worlds, this will only ever return *one*
+     * object code name, as object codes will be shared across charts.
      * 
-     * This method, written for use with DWR, returns a joined string representation
-     * of all of the names of the distinct object codes associated with each of the 
-     * chart codes given.  In the best of all possible worlds, this will only ever 
-     * return *one* object code name, as object codes will be shared across charts.
-     *   
      * @param universityFiscalYear the fiscal year of the financial object code to check.
-     * @param chartOfAccountCodes array of Chart of Accounts codes to 
+     * @param chartOfAccountCodes array of Chart of Accounts codes to
      * @param financialObjectCode financial object code to look up
      * @return a String representation of the distinct names of the object codes
      */

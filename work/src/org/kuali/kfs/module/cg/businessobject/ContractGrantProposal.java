@@ -27,86 +27,80 @@ import org.kuali.kfs.KFSPropertyConstants;
  */
 public class ContractGrantProposal extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
-	private Long proposalNumber;
-	private Date proposalCreateDate;
+    private String documentNumber;
+    private Long proposalNumber;
+    private Date proposalCreateDate;
 
-	/**
-	 * Default constructor.
-	 */
-	public ContractGrantProposal() {
+    /**
+     * Default constructor.
+     */
+    public ContractGrantProposal() {
 
-	}
+    }
 
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
 
-	/**
-	 * Gets the proposalNumber attribute.
-	 * 
-	 * @return Returns the proposalNumber
-	 * 
-	 */
-	public Long getProposalNumber() { 
-		return proposalNumber;
-	}
+    /**
+     * Gets the proposalNumber attribute.
+     * 
+     * @return Returns the proposalNumber
+     */
+    public Long getProposalNumber() {
+        return proposalNumber;
+    }
 
-	/**
-	 * Sets the proposalNumber attribute.
-	 * 
-	 * @param proposalNumber The proposalNumber to set.
-	 * 
-	 */
-	public void setProposalNumber(Long proposalNumber) {
-		this.proposalNumber = proposalNumber;
-	}
+    /**
+     * Sets the proposalNumber attribute.
+     * 
+     * @param proposalNumber The proposalNumber to set.
+     */
+    public void setProposalNumber(Long proposalNumber) {
+        this.proposalNumber = proposalNumber;
+    }
 
 
-	/**
-	 * Gets the proposalCreateDate attribute.
-	 * 
-	 * @return Returns the proposalCreateDate
-	 * 
-	 */
-	public Date getProposalCreateDate() { 
-		return proposalCreateDate;
-	}
+    /**
+     * Gets the proposalCreateDate attribute.
+     * 
+     * @return Returns the proposalCreateDate
+     */
+    public Date getProposalCreateDate() {
+        return proposalCreateDate;
+    }
 
-	/**
-	 * Sets the proposalCreateDate attribute.
-	 * 
-	 * @param proposalCreateDate The proposalCreateDate to set.
-	 * 
-	 */
-	public void setProposalCreateDate(Date proposalCreateDate) {
-		this.proposalCreateDate = proposalCreateDate;
-	}
+    /**
+     * Sets the proposalCreateDate attribute.
+     * 
+     * @param proposalCreateDate The proposalCreateDate to set.
+     */
+    public void setProposalCreateDate(Date proposalCreateDate) {
+        this.proposalCreateDate = proposalCreateDate;
+    }
 
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-	    return m;
+        return m;
     }
 }

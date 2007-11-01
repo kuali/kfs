@@ -19,114 +19,101 @@ import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.RequisitionItem;
 
 public enum PurApItemFixture {
-    BASIC_QTY_ITEM_1 (
-            null,  // itemIdentifier
-            new Integer(1),         // itemLineNumber
-            "",                     // capitalAssetTransactionTypeCode
-            "PCS",                  // itemUnitOfMeasureCode
-            "",                     // itemCatalogNumber
-            "description",          // itemDescription
-            "",                     // itemCapitalAssetNoteText
-            new BigDecimal(1),      // itemUnitPrice
-            "ITEM",                 // itemTypeCode
-            "",                     // itemAuxiliaryPartIdentifier
-            "",                     // externalOrganizationB2bProductReferenceNumber
-            "",                     // externalOrganizationB2bProductTypeName
-            false,                  // itemAssignedToTradeInIndicator
-            new KualiDecimal(1),    // extendedPrice
-            new KualiDecimal(1)     // itemQuantity
-            ),
-    BASIC_QTY_ITEM_2 (
-            null,  // itemIdentifier
-            new Integer(2),         // itemLineNumber
-            "",                     // capitalAssetTransactionTypeCode
-            "PCS",                  // itemUnitOfMeasureCode
-            "",                     // itemCatalogNumber
-            "description",          // itemDescription
-            "",                     // itemCapitalAssetNoteText
-            new BigDecimal(1),      // itemUnitPrice
-            "ITEM",                 // itemTypeCode
-            "",                     // itemAuxiliaryPartIdentifier
-            "",                     // externalOrganizationB2bProductReferenceNumber
-            "",                     // externalOrganizationB2bProductTypeName
-            false,                  // itemAssignedToTradeInIndicator
-            new KualiDecimal(1),    // extendedPrice
-            new KualiDecimal(1)     // itemQuantity
-            ),
-    APO_QTY_ITEM_1 (
-            null,                       // itemIdentifier
-            new Integer(1),             // itemLineNumber
-            "",                         // capitalAssetTransactionTypeCode
-            "PCS",                      // itemUnitOfMeasureCode
-            "",                         // itemCatalogNumber
-            "description",              // itemDescription
-            "",                         // itemCapitalAssetNoteText
-            new BigDecimal(1.99),       // itemUnitPrice
-            "ITEM",                     // itemTypeCode
-            "",                         // itemAuxiliaryPartIdentifier
-            "",                         // externalOrganizationB2bProductReferenceNumber
-            "",                         // externalOrganizationB2bProductTypeName
-            false,                      // itemAssignedToTradeInIndicator
-            new KualiDecimal(995.00),   // extendedPrice
-            new KualiDecimal(500)       // itemQuantity
-            ),
-    APO_SERVICE_ITEM_1 (
-            null,                       // itemIdentifier
-            new Integer(2),             // itemLineNumber
-            "",                         // capitalAssetTransactionTypeCode
-            "",                         // itemUnitOfMeasureCode
-            "",                         // itemCatalogNumber
-            "description",              // itemDescription
-            "",                         // itemCapitalAssetNoteText
-            new BigDecimal(239.99),     // itemUnitPrice
-            "SRVC",                     // itemTypeCode
-            "",                         // itemAuxiliaryPartIdentifier
-            "",                         // externalOrganizationB2bProductReferenceNumber
-            "",                         // externalOrganizationB2bProductTypeName
-            false,                      // itemAssignedToTradeInIndicator
-            new KualiDecimal(239.99),   // extendedPrice
-            null                        // itemQuantity
-            ),
-    APO_FREIGHT_ITEM_1 (
-            null,                       // itemIdentifier
-            new Integer(3),             // itemLineNumber
-            "",                         // capitalAssetTransactionTypeCode
-            "",                         // itemUnitOfMeasureCode
-            "",                         // itemCatalogNumber
-            "freight",                  // itemDescription
-            "",                         // itemCapitalAssetNoteText
-            new BigDecimal(12.49),      // itemUnitPrice
-            "FRHT",                     // itemTypeCode
-            "",                         // itemAuxiliaryPartIdentifier
-            "",                         // externalOrganizationB2bProductReferenceNumber
-            "",                         // externalOrganizationB2bProductTypeName
-            false,                      // itemAssignedToTradeInIndicator
-            new KualiDecimal(12.49),    // extendedPrice
-            null                        // itemQuantity
-            ),
-    BASIC_QTY_ITEM_NO_APO (
-            null,  // itemIdentifier
-            new Integer(2),         // itemLineNumber
-            "",                     // capitalAssetTransactionTypeCode
-            "PCS",                  // itemUnitOfMeasureCode
-            "",                     // itemCatalogNumber
-            "description",          // itemDescription
-            "",                     // itemCapitalAssetNoteText
-            new BigDecimal(100),      // itemUnitPrice
-            "ITEM",                 // itemTypeCode
-            "",                     // itemAuxiliaryPartIdentifier
-            "",                     // externalOrganizationB2bProductReferenceNumber
-            "",                     // externalOrganizationB2bProductTypeName
-            false,                  // itemAssignedToTradeInIndicator
-            new KualiDecimal(10000),    // extendedPrice
-            new KualiDecimal(100)     // itemQuantity
-            )
-    ;
-    
-    
+    BASIC_QTY_ITEM_1(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(1), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            new KualiDecimal(1) // itemQuantity
+    ), BASIC_QTY_ITEM_2(null, // itemIdentifier
+            new Integer(2), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(1), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            new KualiDecimal(1) // itemQuantity
+    ), APO_QTY_ITEM_1(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(1.99), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(995.00), // extendedPrice
+            new KualiDecimal(500) // itemQuantity
+    ), APO_SERVICE_ITEM_1(null, // itemIdentifier
+            new Integer(2), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(239.99), // itemUnitPrice
+            "SRVC", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(239.99), // extendedPrice
+            null // itemQuantity
+    ), APO_FREIGHT_ITEM_1(null, // itemIdentifier
+            new Integer(3), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "freight", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(12.49), // itemUnitPrice
+            "FRHT", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(12.49), // extendedPrice
+            null // itemQuantity
+    ), BASIC_QTY_ITEM_NO_APO(null, // itemIdentifier
+            new Integer(2), // itemLineNumber
+            "", // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(100), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(10000), // extendedPrice
+            new KualiDecimal(100) // itemQuantity
+    );
+
+
     private Integer itemIdentifier;
     private Integer itemLineNumber;
     private String capitalAssetTransactionTypeCode;
@@ -143,23 +130,8 @@ public enum PurApItemFixture {
     private KualiDecimal extendedPrice;
     private KualiDecimal itemQuantity;
 
-    
-    private PurApItemFixture(  
-     Integer itemIdentifier,
-     Integer itemLineNumber,
-     String capitalAssetTransactionTypeCode,
-     String itemUnitOfMeasureCode,
-     String itemCatalogNumber,
-     String itemDescription,
-     String itemCapitalAssetNoteText,
-     BigDecimal itemUnitPrice,
-     String itemTypeCode,
-     String itemAuxiliaryPartIdentifier,
-     String externalOrganizationB2bProductReferenceNumber,
-     String externalOrganizationB2bProductTypeName,
-     boolean itemAssignedToTradeInIndicator,
-     KualiDecimal extendedPrice,
-     KualiDecimal itemQuantity) {
+
+    private PurApItemFixture(Integer itemIdentifier, Integer itemLineNumber, String capitalAssetTransactionTypeCode, String itemUnitOfMeasureCode, String itemCatalogNumber, String itemDescription, String itemCapitalAssetNoteText, BigDecimal itemUnitPrice, String itemTypeCode, String itemAuxiliaryPartIdentifier, String externalOrganizationB2bProductReferenceNumber, String externalOrganizationB2bProductTypeName, boolean itemAssignedToTradeInIndicator, KualiDecimal extendedPrice, KualiDecimal itemQuantity) {
         this.itemIdentifier = itemIdentifier;
         this.itemLineNumber = itemLineNumber;
         this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
@@ -175,20 +147,20 @@ public enum PurApItemFixture {
         this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
         this.extendedPrice = extendedPrice;
         this.itemQuantity = itemQuantity;
-        
-        //add accounts here
+
+        // add accounts here
     }
-    
+
     public PurApItem createPurApItem(Class clazz) {
         PurApItem item = null;
         try {
             item = (PurApItem) clazz.newInstance();
         }
         catch (InstantiationException e) {
-            throw new RuntimeException("item creation failed. class = "+clazz);
+            throw new RuntimeException("item creation failed. class = " + clazz);
         }
         catch (IllegalAccessException e) {
-            throw new RuntimeException("item creation failed. class = "+clazz);
+            throw new RuntimeException("item creation failed. class = " + clazz);
         }
         item.setItemIdentifier(itemIdentifier);
         item.setItemLineNumber(itemLineNumber);
@@ -205,7 +177,7 @@ public enum PurApItemFixture {
         item.setItemAssignedToTradeInIndicator(itemAssignedToTradeInIndicator);
         item.setExtendedPrice(extendedPrice);
         item.setItemQuantity(itemQuantity);
-        
+
         item.refreshNonUpdateableReferences();
         return item;
     }

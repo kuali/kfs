@@ -46,7 +46,7 @@ public interface ReportService {
     /**
      * Pending entry report.
      */
-    public void generatePendingEntryReport(Date runDate,OriginEntryGroup group);
+    public void generatePendingEntryReport(Date runDate, OriginEntryGroup group);
 
     /**
      * Sufficient Funds Summary Report
@@ -64,7 +64,7 @@ public interface ReportService {
      * @param runDate Run date of the report
      * @param group Group to summarize for the report
      */
-    public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group,String documentNumber);
+    public void generateScrubberLedgerSummaryReportOnline(Date runDate, OriginEntryGroup group, String documentNumber);
 
     /**
      * Scrubber General Ledger Transaction Summary report
@@ -90,7 +90,7 @@ public interface ReportService {
      * @param scrubberReport Summary information
      * @param scrubberReportErrors Map of transactions with errors or warnings
      */
-    public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors,String documentNumber);
+    public void generateOnlineScrubberStatisticsReport(Integer groupId, Date runDate, ScrubberReportData scrubberReport, Map<Transaction, List<Message>> scrubberReportErrors, String documentNumber);
 
     /**
      * Scrubber Demerger Statistics report
@@ -114,7 +114,7 @@ public interface ReportService {
      * @param runDate Run date of the report
      * @param validGroup Group with transactions
      */
-    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup,String documentNumber);
+    public void generateScrubberTransactionsOnline(Date runDate, OriginEntryGroup validGroup, String documentNumber);
 
     /**
      * Scrubber Removed Transactions report
@@ -146,7 +146,7 @@ public interface ReportService {
      * Poster Statistics report
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back
      * @param reportSummary
      * @param reportErrors
      * @param mode
@@ -157,7 +157,7 @@ public interface ReportService {
      * Poster ICR Statistics report
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back
      * @param reportErrors
      * @param reportExpendTranRetrieved
      * @param reportExpendTranDeleted
@@ -179,8 +179,8 @@ public interface ReportService {
      * Main Poster Input Transaction Report
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
-     * in time to redo a failed poster run)
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
+     *        poster run)
      * @param groups
      */
     public void generatePosterMainLedgerSummaryReport(Date executionDate, Date runDate, Collection groups);
@@ -189,8 +189,8 @@ public interface ReportService {
      * Icr Poster Input Transaction Report
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
-     * in time to redo a failed poster run)
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
+     *        poster run)
      * @param groups
      */
     public void generatePosterIcrLedgerSummaryReport(Date executionDate, Date runDate, Collection groups);
@@ -199,8 +199,8 @@ public interface ReportService {
      * Reversal Poster Input Transaction Report
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
-     * in time to redo a failed poster run)
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
+     *        poster run)
      * @param groups
      */
     public void generatePosterReversalLedgerSummaryReport(Date executionDate, Date runDate, Iterator groups);
@@ -229,9 +229,8 @@ public interface ReportService {
      * @param runDate
      */
     public void generateNominalActivityClosingStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup originEntryGroup);
-    
+
     /**
-     * 
      * This method generates the statistics report of the organization reversion process.
      * 
      * @param jobParameters the parameters the org reversion process was run with
@@ -240,13 +239,13 @@ public interface ReportService {
      * @param orgReversionOriginEntryGroup the origin entry group that contains the reversion origin entries
      */
     public void generateOrgReversionStatisticsReport(Map jobParameters, List reportSummary, Date runDate, OriginEntryGroup orgReversionOriginEntryGroup);
-    
+
     /**
      * Poster Reversal Transactions Listing
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
-     * in time to redo a failed poster run)
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
+     *        poster run)
      * @param group Group with valid transactions
      */
     public void generatePosterReversalTransactionsListing(Date executionDate, Date runDate, OriginEntryGroup group);
@@ -255,13 +254,13 @@ public interface ReportService {
      * Poster Error transaction listing
      * 
      * @param executionDate the actual time of poster execution
-     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back 
-     * in time to redo a failed poster run)
+     * @param runDate the time assumed by the poster (sometimes the poster can use a transaction date back in time to redo a failed
+     *        poster run)
      * @param group Group with error transactions
      * @param posterMode Mode the poster is running
      */
     public void generatePosterErrorTransactionListing(Date executionDate, Date runDate, OriginEntryGroup group, int posterMode);
-    
+
     /**
      * GLCP document info report
      * 
@@ -269,10 +268,10 @@ public interface ReportService {
      * @param runDate
      */
     public void correctionOnlineReport(CorrectionDocument cDocument, Date runDate);
-    
+
     /**
-     * Poster output Summary Report: a summary of the three poster runs 
-     * (pulling in the  transactions from the main, reversal, and ICR posters) which we use for balancing.
+     * Poster output Summary Report: a summary of the three poster runs (pulling in the transactions from the main, reversal, and
+     * ICR posters) which we use for balancing.
      * 
      * @param runDate
      * @param groups

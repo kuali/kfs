@@ -51,10 +51,10 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     private DocumentHeader financialDocument;
     private Options universityFiscal;
     private Chart chartOfAccounts;
-    
+
     private List<SubObjCdGlobalDetail> subObjCdGlobalDetails;
     private List<AccountGlobalDetail> accountGlobalDetails;
-    
+
     /**
      * Default constructor.
      */
@@ -70,7 +70,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -80,7 +79,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -91,7 +89,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -101,7 +98,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -112,7 +108,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -122,7 +117,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -133,7 +127,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the financialSubObjectCode attribute.
      * 
      * @return Returns the financialSubObjectCode
-     * 
      */
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
@@ -143,7 +136,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the financialSubObjectCode attribute.
      * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
-     * 
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -154,7 +146,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the financialSubObjectCodeName attribute.
      * 
      * @return Returns the financialSubObjectCodeName
-     * 
      */
     public String getFinancialSubObjectCodeName() {
         return financialSubObjectCodeName;
@@ -164,7 +155,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the financialSubObjectCodeName attribute.
      * 
      * @param financialSubObjectCodeName The financialSubObjectCodeName to set.
-     * 
      */
     public void setFinancialSubObjectCodeName(String financialSubObjectCodeName) {
         this.financialSubObjectCodeName = financialSubObjectCodeName;
@@ -175,7 +165,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the financialSubObjectCodeShortName attribute.
      * 
      * @return Returns the financialSubObjectCodeShortName
-     * 
      */
     public String getFinancialSubObjectCodeShortName() {
         return financialSubObjectCodeShortName;
@@ -185,7 +174,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the financialSubObjectCodeShortName attribute.
      * 
      * @param financialSubObjectCodeShortName The financialSubObjectCodeShortName to set.
-     * 
      */
     public void setFinancialSubObjectCodeShortName(String financialSubObjectCdshortNm) {
         this.financialSubObjectCodeShortName = financialSubObjectCdshortNm;
@@ -196,7 +184,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the financialSubObjectActiveIndicator attribute.
      * 
      * @return Returns the financialSubObjectActiveIndicator
-     * 
      */
     public boolean isFinancialSubObjectActiveIndicator() {
         return financialSubObjectActiveIndicator;
@@ -207,7 +194,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Sets the financialSubObjectActiveIndicator attribute.
      * 
      * @param financialSubObjectActiveIndicator The financialSubObjectActiveIndicator to set.
-     * 
      */
     public void setFinancialSubObjectActiveIndicator(boolean financialSubObjectActiveIndicator) {
         this.financialSubObjectActiveIndicator = financialSubObjectActiveIndicator;
@@ -218,7 +204,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the financialDocument attribute.
      * 
      * @return Returns the financialDocument
-     * 
      */
     public DocumentHeader getFinancialDocument() {
         return financialDocument;
@@ -238,7 +223,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the universityFiscal attribute.
      * 
      * @return Returns the universityFiscal
-     * 
      */
     public Options getUniversityFiscal() {
         return universityFiscal;
@@ -258,7 +242,6 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -318,24 +301,24 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
         // Iterate through Account/Object Code combinations; create new or update as necessary
 
         for (SubObjCdGlobalDetail subObjCdGlobalDetail : subObjCdGlobalDetails) {
-            
+
             String financialObjectCode = subObjCdGlobalDetail.getFinancialObjectCode();
-            
+
             if (financialObjectCode != null && financialObjectCode.length() > 0) {
 
                 for (AccountGlobalDetail accountGlobalDetail : accountGlobalDetails) {
 
                     Map pk = new HashMap();
-        
+
                     String accountNumber = accountGlobalDetail.getAccountNumber();
-        
+
                     if (accountNumber != null && accountNumber.length() > 0) {
                         pk.put("UNIV_FISCAL_YR", this.universityFiscalYear);
                         pk.put("FIN_COA_CD", this.chartOfAccountsCode);
                         pk.put("ACCOUNT_NBR", accountNumber);
                         pk.put("FIN_OBJECT_CD", financialObjectCode);
                         pk.put("FIN_SUB_OBJ_CD", this.financialSubObjectCode);
-        
+
                         SubObjCd subObjCd = (SubObjCd) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SubObjCd.class, pk);
                         if (subObjCd == null) {
                             subObjCd = new SubObjCd(this.universityFiscalYear, this.chartOfAccountsCode, accountNumber, financialObjectCode, this.financialSubObjectCode);
@@ -351,14 +334,13 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     public void populate(SubObjCd old, AccountGlobalDetail accountGlobalDetail, SubObjCdGlobalDetail subObjCdGlobalDetail) {
-        old.setFinancialSubObjectCodeName(update(old.getFinancialSubObjectCodeName(),financialSubObjectCodeName));
-        old.setFinancialSubObjectCdshortNm(update(old.getFinancialSubObjectCdshortNm(),financialSubObjectCodeShortName));
-        old.setFinancialSubObjectActiveIndicator(update(old.isFinancialSubObjectActiveIndicator(),financialSubObjectActiveIndicator));        
+        old.setFinancialSubObjectCodeName(update(old.getFinancialSubObjectCodeName(), financialSubObjectCodeName));
+        old.setFinancialSubObjectCdshortNm(update(old.getFinancialSubObjectCdshortNm(), financialSubObjectCodeShortName));
+        old.setFinancialSubObjectActiveIndicator(update(old.isFinancialSubObjectActiveIndicator(), financialSubObjectActiveIndicator));
     }
 
 
     /**
-     * 
      * This method returns newvalue iff it is not empty
      * 
      * @param oldValue
@@ -382,12 +364,12 @@ public class SubObjCdGlobal extends PersistableBusinessObjectBase implements Glo
     }
 
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
-        ArrayList<GlobalBusinessObjectDetail> details = new ArrayList<GlobalBusinessObjectDetail>( accountGlobalDetails.size() + subObjCdGlobalDetails.size() );
-        details.addAll( accountGlobalDetails );
-        details.addAll( subObjCdGlobalDetails );
+        ArrayList<GlobalBusinessObjectDetail> details = new ArrayList<GlobalBusinessObjectDetail>(accountGlobalDetails.size() + subObjCdGlobalDetails.size());
+        details.addAll(accountGlobalDetails);
+        details.addAll(subObjCdGlobalDetails);
         return details;
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

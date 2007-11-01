@@ -32,8 +32,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * Class for unit testing the functionality of <code>{@link TransactionalDocumentRuleUtil}</code>
- * 
- * 
  */
 @ConfigureContext
 public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
@@ -43,8 +41,8 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
     private static long ONE_DAY_MILLIS = 24 * 60 * 60 * 1000L;
 
 
-    private final String ANNUAL_BALANCE_PERIOD_CODE="AB";
-    private final Integer CURRENT_FISCAL_YEAR= new Integer("2004");
+    private final String ANNUAL_BALANCE_PERIOD_CODE = "AB";
+    private final Integer CURRENT_FISCAL_YEAR = new Integer("2004");
 
 
     // /////////////////////////////////////////////////////////////////////////
@@ -168,7 +166,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
             balanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
-        boolean result = AccountingDocumentRuleUtil.isValidBalanceType(balanceType,"code");
+        boolean result = AccountingDocumentRuleUtil.isValidBalanceType(balanceType, "code");
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -180,7 +178,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
-    //@RelatesTo(JiraIssue.KULRNE4926)
+    // @RelatesTo(JiraIssue.KULRNE4926)
     public void testIsValidOpenAccountingPeriod_Open() {
         testIsValidOpenAccountingPeriod(getAnnualBalanceAccountingPeriod(), true);
     }
@@ -199,7 +197,7 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      * 
      * @see org.kuali.module.financial.rules.TransactionalDocumentRuleUtil#isValidOpenAccountingPeriod
      */
-    //@RelatesTo(JiraIssue.KULRNE4926)
+    // @RelatesTo(JiraIssue.KULRNE4926)
     public void testIsValidOpenAccountingPeriod_Null() {
         testIsValidOpenAccountingPeriod(null, false);
     }

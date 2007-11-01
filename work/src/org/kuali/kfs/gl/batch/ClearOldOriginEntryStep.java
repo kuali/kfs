@@ -43,6 +43,7 @@ public class ClearOldOriginEntryStep extends AbstractStep {
 
     /**
      * Sets the originEntryService attribute, allowing injection of an implementation of the service
+     * 
      * @param oes
      * @see org.kuali.module.gl.service.OriginEntryGroupService
      */

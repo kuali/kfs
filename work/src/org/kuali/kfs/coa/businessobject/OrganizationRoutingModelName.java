@@ -30,7 +30,7 @@ import org.kuali.kfs.context.SpringContext;
  * 
  */
 public class OrganizationRoutingModelName extends PersistableBusinessObjectBase {
-    private static final Logger LOG = Logger.getLogger(OrganizationRoutingModelName.class );
+    private static final Logger LOG = Logger.getLogger(OrganizationRoutingModelName.class);
 
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -51,7 +51,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -61,7 +60,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -72,7 +70,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Gets the organizationCode attribute.
      * 
      * @return Returns the organizationCode
-     * 
      */
     public String getOrganizationCode() {
         return organizationCode;
@@ -82,7 +79,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Sets the organizationCode attribute.
      * 
      * @param organizationCode The organizationCode to set.
-     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
@@ -93,7 +89,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Gets the organizationRoutingModelName attribute.
      * 
      * @return Returns the organizationRoutingModelName
-     * 
      */
     public String getOrganizationRoutingModelName() {
         return organizationRoutingModelName;
@@ -103,7 +98,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Sets the organizationRoutingModelName attribute.
      * 
      * @param organizationRoutingModelName The organizationRoutingModelName to set.
-     * 
      */
     public void setOrganizationRoutingModelName(String organizationRoutingModelName) {
         this.organizationRoutingModelName = organizationRoutingModelName;
@@ -114,7 +108,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Gets the organization attribute.
      * 
      * @return Returns the organization
-     * 
      */
     public Org getOrganization() {
         return organization;
@@ -134,7 +127,6 @@ public class OrganizationRoutingModelName extends PersistableBusinessObjectBase 
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;

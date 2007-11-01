@@ -38,7 +38,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemOutstandingEncumberedQuantity;
     private KualiDecimal itemOutstandingEncumberedAmount;
-    private boolean itemActiveIndicator=true;
+    private boolean itemActiveIndicator = true;
     private String purchaseOrderCommodityCd;
 
     private PurchaseOrderDocument purchaseOrder;
@@ -61,7 +61,7 @@ public class PurchaseOrderItem extends PurchasingItemBase {
      */
     public PurchaseOrderItem(RequisitionItem ri, PurchaseOrderDocument po) {
         super();
-        
+
         this.setPurchaseOrder(po);
 
         this.setItemLineNumber(ri.getItemLineNumber());
@@ -73,13 +73,13 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.setItemUnitPrice(ri.getItemUnitPrice());
         this.setItemAuxiliaryPartIdentifier(ri.getItemAuxiliaryPartIdentifier());
         this.setItemAssignedToTradeInIndicator(ri.getItemAssignedToTradeInIndicator());
-        
+
         this.setExternalOrganizationB2bProductReferenceNumber(ri.getExternalOrganizationB2bProductReferenceNumber());
         this.setExternalOrganizationB2bProductTypeName(ri.getExternalOrganizationB2bProductTypeName());
 
         this.setCapitalAssetTransactionTypeCode(ri.getCapitalAssetTransactionTypeCode());
         this.setItemTypeCode(ri.getItemTypeCode());
-        
+
         if (ri.getSourceAccountingLines() != null && ri.getSourceAccountingLines().size() > 0) {
             List accounts = new ArrayList();
             for (PurApAccountingLine account : ri.getSourceAccountingLines()) {
@@ -89,11 +89,11 @@ public class PurchaseOrderItem extends PurchasingItemBase {
             }
             this.setSourceAccountingLines(accounts);
         }
-        //By default, set the item active indicator to true. 
-        //In amendment, the user can set it to false when they click on 
-        //the inactivate button.
+        // By default, set the item active indicator to true.
+        // In amendment, the user can set it to false when they click on
+        // the inactivate button.
         this.setItemActiveIndicator(true);
-    }    
+    }
 
     public boolean isItemActiveIndicator() {
         return itemActiveIndicator;
@@ -208,10 +208,10 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     public boolean isCanInactivateItem() {
         if (versionNumber == null) {
-            //don't allow newly added item to be inactivatable.
+            // don't allow newly added item to be inactivatable.
             return false;
         }
-        else if (versionNumber!= null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
+        else if (versionNumber != null && itemActiveIndicator && !getPurchaseOrder().getContainsUnpaidPaymentRequestsOrCreditMemos()) {
             return true;
         }
         return false;

@@ -21,7 +21,6 @@ package org.kuali.module.financial.web.struts.action;
  * and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.action.BudgetAdjustmentAction
- * 
  */
 
 public class YearEndBudgetAdjustmentAction extends BudgetAdjustmentAction {

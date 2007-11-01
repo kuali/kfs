@@ -15,20 +15,13 @@
  */
 package org.kuali.module.financial.bo;
 
-import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.financial.bo.CurrencyDetail;
+import org.kuali.kfs.context.KualiTestBase;
 
 public class CurrencyDetailTest extends KualiTestBase {
     public enum CurrencyDetailAmountFixture {
-        GOOD_POSITIVE_AMOUNT(500.0, 250.0, 100.0, 50.0, 25.0, 10.0, 5.0),
-        BAD_POSITIVE_AMOUNT(367.0, 367.0, 367.0, 367.0, 367.0, 367.0, 367.5),
-        ALL_FIVES_AMOUNT(500.0, 500.0, 500.0, 500.0, 500.0, 500.0, 500.0),
-        NULL_AMOUNT,
-        ZERO_AMOUNT(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0),
-        NEGATIVE_AMOUNT(-500.0, -500.0, -500.0, -500.0, -500.0, -500.0, -500.0),
-        ALL_TENS_AMOUNT(1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0);
-        
+        GOOD_POSITIVE_AMOUNT(500.0, 250.0, 100.0, 50.0, 25.0, 10.0, 5.0), BAD_POSITIVE_AMOUNT(367.0, 367.0, 367.0, 367.0, 367.0, 367.0, 367.5), ALL_FIVES_AMOUNT(500.0, 500.0, 500.0, 500.0, 500.0, 500.0, 500.0), NULL_AMOUNT, ZERO_AMOUNT(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0), NEGATIVE_AMOUNT(-500.0, -500.0, -500.0, -500.0, -500.0, -500.0, -500.0), ALL_TENS_AMOUNT(1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0, 1000.0);
+
         private KualiDecimal hundredDollarAmount;
         private KualiDecimal fiftyDollarAmount;
         private KualiDecimal twentyDollarAmount;
@@ -36,9 +29,10 @@ public class CurrencyDetailTest extends KualiTestBase {
         private KualiDecimal fiveDollarAmount;
         private KualiDecimal twoDollarAmount;
         private KualiDecimal oneDollarAmount;
-        
-        private CurrencyDetailAmountFixture() {}
-        
+
+        private CurrencyDetailAmountFixture() {
+        }
+
         private CurrencyDetailAmountFixture(double hundredDollarAmount, double fiftyDollarAmount, double twentyDollarAmount, double tenDollarAmount, double fiveDollarAmount, double twoDollarAmount, double oneDollarAmount) {
             this.hundredDollarAmount = new KualiDecimal(hundredDollarAmount);
             this.fiftyDollarAmount = new KualiDecimal(fiftyDollarAmount);
@@ -48,7 +42,7 @@ public class CurrencyDetailTest extends KualiTestBase {
             this.twoDollarAmount = new KualiDecimal(twoDollarAmount);
             this.oneDollarAmount = new KualiDecimal(oneDollarAmount);
         }
-        
+
         public CurrencyDetail convertToCurrencyDetail() {
             CurrencyDetail detail = new CurrencyDetail();
             detail.setFinancialDocumentHundredDollarAmount(this.hundredDollarAmount);
@@ -58,18 +52,14 @@ public class CurrencyDetailTest extends KualiTestBase {
             detail.setFinancialDocumentFiveDollarAmount(this.fiveDollarAmount);
             detail.setFinancialDocumentTwoDollarAmount(this.twoDollarAmount);
             detail.setFinancialDocumentOneDollarAmount(this.oneDollarAmount);
-            
+
             return detail;
         }
     }
-    
+
     public enum CurrencyDetailCountFixture {
-        GOOD_POSITIVE_COUNT(new Integer(5), new Integer(10), new Integer(25), new Integer(50), new Integer(100), new Integer(250), new Integer(500)),
-        ALL_FIVE_HUNDREDS_COUNT(new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5)),
-        NULL_COUNT,
-        ZERO_COUNT(new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)),
-        NEGATIVE_COUNT(new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5));
-        
+        GOOD_POSITIVE_COUNT(new Integer(5), new Integer(10), new Integer(25), new Integer(50), new Integer(100), new Integer(250), new Integer(500)), ALL_FIVE_HUNDREDS_COUNT(new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5), new Integer(5)), NULL_COUNT, ZERO_COUNT(new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0), new Integer(0)), NEGATIVE_COUNT(new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5), new Integer(-5));
+
         private Integer hundredDollarCount;
         private Integer fiftyDollarCount;
         private Integer twentyDollarCount;
@@ -77,9 +67,10 @@ public class CurrencyDetailTest extends KualiTestBase {
         private Integer fiveDollarCount;
         private Integer twoDollarCount;
         private Integer oneDollarCount;
-        
-        private CurrencyDetailCountFixture() {}
-        
+
+        private CurrencyDetailCountFixture() {
+        }
+
         private CurrencyDetailCountFixture(Integer hundredDollarCount, Integer fiftyDollarCount, Integer twentyDollarCount, Integer tenDollarCount, Integer fiveDollarCount, Integer twoDollarCount, Integer oneDollarCount) {
             this.hundredDollarCount = hundredDollarCount;
             this.fiftyDollarCount = fiftyDollarCount;
@@ -89,7 +80,7 @@ public class CurrencyDetailTest extends KualiTestBase {
             this.twoDollarCount = twoDollarCount;
             this.oneDollarCount = oneDollarCount;
         }
-        
+
         public CurrencyDetail convertToCurrencyDetail() {
             CurrencyDetail detail = new CurrencyDetail();
             detail.setHundredDollarCount(this.hundredDollarCount);
@@ -99,11 +90,11 @@ public class CurrencyDetailTest extends KualiTestBase {
             detail.setFiveDollarCount(this.fiveDollarCount);
             detail.setTwoDollarCount(this.twoDollarCount);
             detail.setOneDollarCount(this.oneDollarCount);
-            
+
             return detail;
         }
     }
-    
+
     public void testAmountToCountConversion() {
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(goodAmount.getHundredDollarCount(), new Integer(5));
@@ -114,7 +105,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         assertEquals(goodAmount.getTwoDollarCount(), new Integer(5));
         assertEquals(goodAmount.getOneDollarCount(), new Integer(5));
     }
-    
+
     public void testCountToAmountConversion() {
         CurrencyDetail goodCount = CurrencyDetailCountFixture.GOOD_POSITIVE_COUNT.convertToCurrencyDetail();
         assertEquals(goodCount.getFinancialDocumentHundredDollarAmount(), new KualiDecimal(500));
@@ -125,14 +116,14 @@ public class CurrencyDetailTest extends KualiTestBase {
         assertEquals(goodCount.getFinancialDocumentTwoDollarAmount(), new KualiDecimal(500));
         assertEquals(goodCount.getFinancialDocumentOneDollarAmount(), new KualiDecimal(500));
     }
-    
+
     public void testZeroOutAmounts() {
         CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
-        
+
         zeroAmount.zeroOutAmounts();
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
         nullAmount.zeroOutAmounts();
@@ -141,12 +132,12 @@ public class CurrencyDetailTest extends KualiTestBase {
         assertDetailAmountsEqual(goodAmount, zeroAmountControl);
         negativeAmount.zeroOutAmounts();
         assertDetailAmountsEqual(negativeAmount, zeroAmountControl);
-        
+
         CurrencyDetail goodCount = CurrencyDetailCountFixture.GOOD_POSITIVE_COUNT.convertToCurrencyDetail();
         CurrencyDetail zeroCount = CurrencyDetailCountFixture.ZERO_COUNT.convertToCurrencyDetail();
         CurrencyDetail negativeCount = CurrencyDetailCountFixture.NEGATIVE_COUNT.convertToCurrencyDetail();
         CurrencyDetail nullCount = CurrencyDetailCountFixture.NULL_COUNT.convertToCurrencyDetail();
-        
+
         zeroCount.zeroOutAmounts();
         assertDetailAmountsEqual(zeroCount, zeroAmountControl);
         nullCount.zeroOutAmounts();
@@ -156,20 +147,20 @@ public class CurrencyDetailTest extends KualiTestBase {
         negativeCount.zeroOutAmounts();
         assertDetailAmountsEqual(negativeCount, zeroAmountControl);
     }
-    
+
     public void testZeroOutUnpopulatedAmounts() {
         CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
-        
+
         zeroAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
         nullAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(nullAmount, zeroAmountControl);
         goodAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsNotEqual(goodAmount, zeroAmountControl);
-        
+
         goodAmount.setFinancialDocumentHundredDollarAmount(null);
         goodAmount.setFinancialDocumentTwentyDollarAmount(null);
         goodAmount.setFinancialDocumentFiveDollarAmount(null);
@@ -181,11 +172,11 @@ public class CurrencyDetailTest extends KualiTestBase {
         semiPopulatedAmount.setFinancialDocumentTwoDollarAmount(new KualiDecimal(0));
         goodAmount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(goodAmount, semiPopulatedAmount);
-        
+
         CurrencyDetail goodCount = CurrencyDetailCountFixture.GOOD_POSITIVE_COUNT.convertToCurrencyDetail();
         CurrencyDetail zeroCount = CurrencyDetailCountFixture.ZERO_COUNT.convertToCurrencyDetail();
         CurrencyDetail nullCount = CurrencyDetailCountFixture.NULL_COUNT.convertToCurrencyDetail();
-        
+
         zeroCount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsEqual(zeroCount, zeroAmountControl);
         nullCount.zeroOutUnpopulatedAmounts();
@@ -193,7 +184,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         goodCount.zeroOutUnpopulatedAmounts();
         assertDetailAmountsNotEqual(goodCount, zeroAmountControl);
     }
-    
+
     public void testAdd() {
         CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
@@ -202,7 +193,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
-        
+
         zeroAmount.add(zeroAmountControl);
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
         nullAmount.add(zeroAmountControl);
@@ -214,7 +205,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         goodAmount.add(negativeAmount);
         assertDetailAmountsEqual(goodAmount, zeroAmountControl);
     }
-    
+
     public void testSubtract() {
         CurrencyDetail zeroAmountControl = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
@@ -223,7 +214,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail negativeAmountControl = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
-        
+
         zeroAmount.subtract(zeroAmountControl);
         assertDetailAmountsEqual(zeroAmount, zeroAmountControl);
         nullAmount.subtract(zeroAmountControl);
@@ -232,7 +223,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         assertDetailAmountsEqual(goodAmount, goodAmountControl);
         negativeAmount.subtract(zeroAmountControl);
         assertDetailAmountsEqual(negativeAmount, negativeAmountControl);
-        
+
         CurrencyDetail doublePositives = new CurrencyDetail();
         doublePositives.setFinancialDocumentHundredDollarAmount(goodAmount.getFinancialDocumentHundredDollarAmount().multiply(new KualiDecimal(2.0)));
         doublePositives.setFinancialDocumentFiftyDollarAmount(goodAmount.getFinancialDocumentFiftyDollarAmount().multiply(new KualiDecimal(2.0)));
@@ -243,7 +234,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         doublePositives.setFinancialDocumentOneDollarAmount(goodAmount.getFinancialDocumentOneDollarAmount().multiply(new KualiDecimal(2.0)));
         goodAmount.subtract(negativeAmount);
         assertDetailAmountsEqual(goodAmount, doublePositives);
-        
+
         negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         goodAmount = CurrencyDetailAmountFixture.ALL_FIVES_AMOUNT.convertToCurrencyDetail();
         CurrencyDetail doubleNegatives = new CurrencyDetail();
@@ -257,31 +248,31 @@ public class CurrencyDetailTest extends KualiTestBase {
         negativeAmount.subtract(goodAmount);
         assertDetailAmountsEqual(negativeAmount, doubleNegatives);
     }
-    
+
     public void testTotal() {
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         assertEquals(zeroAmount.getTotalAmount(), new KualiDecimal(0.0));
         CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         assertEquals(nullAmount.getTotalAmount(), new KualiDecimal(0.0));
-        
+
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(goodAmount.getTotalAmount(), new KualiDecimal(940.0));
         CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         assertEquals(negativeAmount.getTotalAmount(), new KualiDecimal(-3500.0));
     }
-    
+
     public void testIsEmpty() {
         CurrencyDetail zeroAmount = CurrencyDetailAmountFixture.ZERO_AMOUNT.convertToCurrencyDetail();
         assertTrue(zeroAmount.isEmpty());
         CurrencyDetail nullAmount = CurrencyDetailAmountFixture.NULL_AMOUNT.convertToCurrencyDetail();
         assertTrue(nullAmount.isEmpty());
-        
+
         CurrencyDetail goodAmount = CurrencyDetailAmountFixture.GOOD_POSITIVE_AMOUNT.convertToCurrencyDetail();
         assertFalse(goodAmount.isEmpty());
         CurrencyDetail negativeAmount = CurrencyDetailAmountFixture.NEGATIVE_AMOUNT.convertToCurrencyDetail();
         assertFalse(negativeAmount.isEmpty());
     }
-    
+
     private void assertDetailAmountsEqual(CurrencyDetail tweedleDee, CurrencyDetail tweedleDum) {
         assertEquals(tweedleDee.getFinancialDocumentHundredDollarAmount(), tweedleDum.getFinancialDocumentHundredDollarAmount());
         assertEquals(tweedleDee.getFinancialDocumentFiftyDollarAmount(), tweedleDum.getFinancialDocumentFiftyDollarAmount());
@@ -291,7 +282,7 @@ public class CurrencyDetailTest extends KualiTestBase {
         assertEquals(tweedleDee.getFinancialDocumentTwoDollarAmount(), tweedleDum.getFinancialDocumentTwoDollarAmount());
         assertEquals(tweedleDee.getFinancialDocumentOneDollarAmount(), tweedleDum.getFinancialDocumentOneDollarAmount());
     }
-    
+
     public void assertDetailAmountsNotEqual(CurrencyDetail tweedleDee, CurrencyDetail tweedleDum) {
         assertFalse(tweedleDee.getFinancialDocumentHundredDollarAmount().equals(tweedleDum.getFinancialDocumentHundredDollarAmount()));
         assertFalse(tweedleDee.getFinancialDocumentFiftyDollarAmount().equals(tweedleDum.getFinancialDocumentFiftyDollarAmount()));

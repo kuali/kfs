@@ -22,8 +22,6 @@ import org.kuali.module.chart.service.impl.ProjectCodeServiceImpl;
 
 /**
  * This class tests the ProjectCode service.
- * 
- * 
  */
 public class ProjectCodeServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceTest.class);

@@ -28,7 +28,7 @@ public interface ProcurementCardLoadTransactionsService {
      * @return boolean indicating if the load was successful
      */
     public boolean loadProcurementCardFile(String fileName);
-    
+
     /**
      * Clears out temporary transaction table.
      */

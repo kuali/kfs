@@ -43,7 +43,7 @@ import org.kuali.module.financial.service.CashReceiptService;
 public class CashReceiptForm extends KualiAccountingDocumentFormBase {
     private static final long serialVersionUID = 1L;
     private static final String CAN_PRINT_COVERSHEET_SIG_STR = "isCoverSheetPrintingAllowed";
-    
+
     private Check newCheck;
 
     private KualiDecimal checkTotal;
@@ -60,7 +60,7 @@ public class CashReceiptForm extends KualiAccountingDocumentFormBase {
         super();
         setFormatterType(CAN_PRINT_COVERSHEET_SIG_STR, SimpleBooleanFormatter.class);
         setDocument(new CashReceiptDocument());
-        
+
         setNewCheck(getCashReceiptDocument().createNewCheck());
 
         checkEntryModes = new ArrayList();

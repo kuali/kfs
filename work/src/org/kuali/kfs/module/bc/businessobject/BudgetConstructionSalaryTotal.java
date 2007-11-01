@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -30,69 +29,66 @@ import org.kuali.module.chart.bo.Org;
  */
 public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase {
 
-	private String organizationChartOfAccountsCode;
-	private String organizationCode;
-	private KualiInteger csfAmount;
-	private KualiInteger appointmentRequestedAmount;
-	private BigDecimal appointmentRequestedFteQuantity;
-	private KualiInteger initialRequestedAmount;
-	private BigDecimal initialRequestedFteQuantity;
-	private String personUniversalIdentifier;
+    private String organizationChartOfAccountsCode;
+    private String organizationCode;
+    private KualiInteger csfAmount;
+    private KualiInteger appointmentRequestedAmount;
+    private BigDecimal appointmentRequestedFteQuantity;
+    private KualiInteger initialRequestedAmount;
+    private BigDecimal initialRequestedFteQuantity;
+    private String personUniversalIdentifier;
 
     private Chart organizationChartOfAccounts;
-	private Org organization;
+    private Org organization;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionSalaryTotal() {
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionSalaryTotal() {
 
-	}
+    }
 
-	/**
-	 * Gets the organizationChartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the organizationChartOfAccountsCode
-	 * 
-	 */
-	public String getOrganizationChartOfAccountsCode() { 
-		return organizationChartOfAccountsCode;
-	}
+    /**
+     * Gets the organizationChartOfAccountsCode attribute.
+     * 
+     * @return Returns the organizationChartOfAccountsCode
+     */
+    public String getOrganizationChartOfAccountsCode() {
+        return organizationChartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the organizationChartOfAccountsCode attribute.
-	 * 
-	 * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
-	 * 
-	 */
-	public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
-		this.organizationChartOfAccountsCode = organizationChartOfAccountsCode;
-	}
+    /**
+     * Sets the organizationChartOfAccountsCode attribute.
+     * 
+     * @param organizationChartOfAccountsCode The organizationChartOfAccountsCode to set.
+     */
+    public void setOrganizationChartOfAccountsCode(String organizationChartOfAccountsCode) {
+        this.organizationChartOfAccountsCode = organizationChartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return Returns the organizationCode
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-     * Gets the csfAmount attribute. 
+    /**
+     * Gets the csfAmount attribute.
+     * 
      * @return Returns the csfAmount.
      */
     public KualiInteger getCsfAmount() {
@@ -101,14 +97,16 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
     /**
      * Sets the csfAmount attribute value.
+     * 
      * @param csfAmount The csfAmount to set.
      */
     public void setCsfAmount(KualiInteger csfAmount) {
         this.csfAmount = csfAmount;
     }
 
-	/**
-     * Gets the appointmentRequestedAmount attribute. 
+    /**
+     * Gets the appointmentRequestedAmount attribute.
+     * 
      * @return Returns the appointmentRequestedAmount.
      */
     public KualiInteger getAppointmentRequestedAmount() {
@@ -117,6 +115,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
     /**
      * Sets the appointmentRequestedAmount attribute value.
+     * 
      * @param appointmentRequestedAmount The appointmentRequestedAmount to set.
      */
     public void setAppointmentRequestedAmount(KualiInteger appointmentRequestedAmount) {
@@ -124,28 +123,27 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
     }
 
     /**
-	 * Gets the appointmentRequestedFteQuantity attribute.
-	 * 
-	 * @return Returns the appointmentRequestedFteQuantity
-	 * 
-	 */
-	public BigDecimal getAppointmentRequestedFteQuantity() { 
-		return appointmentRequestedFteQuantity;
-	}
+     * Gets the appointmentRequestedFteQuantity attribute.
+     * 
+     * @return Returns the appointmentRequestedFteQuantity
+     */
+    public BigDecimal getAppointmentRequestedFteQuantity() {
+        return appointmentRequestedFteQuantity;
+    }
 
-	/**
-	 * Sets the appointmentRequestedFteQuantity attribute.
-	 * 
-	 * @param appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
-	 * 
-	 */
-	public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
-		this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
-	}
+    /**
+     * Sets the appointmentRequestedFteQuantity attribute.
+     * 
+     * @param appointmentRequestedFteQuantity The appointmentRequestedFteQuantity to set.
+     */
+    public void setAppointmentRequestedFteQuantity(BigDecimal appointmentRequestedFteQuantity) {
+        this.appointmentRequestedFteQuantity = appointmentRequestedFteQuantity;
+    }
 
 
-	/**
-     * Gets the initialRequestedAmount attribute. 
+    /**
+     * Gets the initialRequestedAmount attribute.
+     * 
      * @return Returns the initialRequestedAmount.
      */
     public KualiInteger getInitialRequestedAmount() {
@@ -154,6 +152,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
     /**
      * Sets the initialRequestedAmount attribute value.
+     * 
      * @param initialRequestedAmount The initialRequestedAmount to set.
      */
     public void setInitialRequestedAmount(KualiInteger initialRequestedAmount) {
@@ -161,28 +160,27 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
     }
 
     /**
-	 * Gets the initialRequestedFteQuantity attribute.
-	 * 
-	 * @return Returns the initialRequestedFteQuantity
-	 * 
-	 */
-	public BigDecimal getInitialRequestedFteQuantity() { 
-		return initialRequestedFteQuantity;
-	}
+     * Gets the initialRequestedFteQuantity attribute.
+     * 
+     * @return Returns the initialRequestedFteQuantity
+     */
+    public BigDecimal getInitialRequestedFteQuantity() {
+        return initialRequestedFteQuantity;
+    }
 
-	/**
-	 * Sets the initialRequestedFteQuantity attribute.
-	 * 
-	 * @param initialRequestedFteQuantity The initialRequestedFteQuantity to set.
-	 * 
-	 */
-	public void setInitialRequestedFteQuantity(BigDecimal initialRequestedFteQuantity) {
-		this.initialRequestedFteQuantity = initialRequestedFteQuantity;
-	}
+    /**
+     * Sets the initialRequestedFteQuantity attribute.
+     * 
+     * @param initialRequestedFteQuantity The initialRequestedFteQuantity to set.
+     */
+    public void setInitialRequestedFteQuantity(BigDecimal initialRequestedFteQuantity) {
+        this.initialRequestedFteQuantity = initialRequestedFteQuantity;
+    }
 
 
-	/**
-     * Gets the personUniversalIdentifier attribute. 
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
      * @return Returns the personUniversalIdentifier.
      */
     public String getPersonUniversalIdentifier() {
@@ -191,6 +189,7 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
 
     /**
      * Sets the personUniversalIdentifier attribute value.
+     * 
      * @param personUniversalIdentifier The personUniversalIdentifier to set.
      */
     public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
@@ -198,53 +197,51 @@ public class BudgetConstructionSalaryTotal extends PersistableBusinessObjectBase
     }
 
     /**
-	 * Gets the organizationChartOfAccounts attribute.
-	 * 
-	 * @return Returns the organizationChartOfAccounts
-	 * 
-	 */
-	public Chart getOrganizationChartOfAccounts() { 
-		return organizationChartOfAccounts;
-	}
+     * Gets the organizationChartOfAccounts attribute.
+     * 
+     * @return Returns the organizationChartOfAccounts
+     */
+    public Chart getOrganizationChartOfAccounts() {
+        return organizationChartOfAccounts;
+    }
 
-	/**
-	 * Sets the organizationChartOfAccounts attribute.
-	 * 
-	 * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
-		this.organizationChartOfAccounts = organizationChartOfAccounts;
-	}
+    /**
+     * Sets the organizationChartOfAccounts attribute.
+     * 
+     * @param organizationChartOfAccounts The organizationChartOfAccounts to set.
+     * @deprecated
+     */
+    public void setOrganizationChartOfAccounts(Chart organizationChartOfAccounts) {
+        this.organizationChartOfAccounts = organizationChartOfAccounts;
+    }
 
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return Returns the organization
+     */
+    public Org getOrganization() {
+        return organization;
+    }
 
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("organizationChartOfAccountsCode", this.organizationChartOfAccountsCode);
         m.put("organizationCode", this.organizationCode);
-	    return m;
+        return m;
     }
 }

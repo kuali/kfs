@@ -25,10 +25,10 @@ import org.kuali.kfs.service.PostalZipCodeService;
 public class PostalZipCodeServiceImpl implements PostalZipCodeService {
 
     BusinessObjectService businessObjectService;
-    
+
     public PostalZipCode getByPrimaryId(String postalZipCode) {
         Map postalCodeMap = new HashMap();
-        postalCodeMap.put("postalZipCode",postalZipCode);
+        postalCodeMap.put("postalZipCode", postalZipCode);
         return (PostalZipCode) businessObjectService.findByPrimaryKey((new PostalZipCode()).getClass(), postalCodeMap);
     }
 

@@ -44,8 +44,6 @@ import org.springframework.dao.DataAccessException;
 
 /**
  * This class is the OJB implementation of the KualiCodeDao interface.
- * 
- *
  */
 
 public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCodeDao {
@@ -96,9 +94,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     /**
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param code - code to search for
-     * @return KualiCodeBase
-     * 
-     * Retrieves an KualiCodeBase object by a given code.
+     * @return KualiCodeBase Retrieves an KualiCodeBase object by a given code.
      */
     public KualiCode getByCode(Class queryClass, String code) {
         Criteria criteria = getCriteriaForGivenClass(codeColumns, queryClass, code);
@@ -132,9 +128,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     /**
      * @param className - the name of the object being used, either KualiCodeBase or a subclass
      * @param name - name to search for
-     * @return KualiCodeBase
-     * 
-     * Retrieves an KualiCodeBase object by a given exact name.
+     * @return KualiCodeBase Retrieves an KualiCodeBase object by a given exact name.
      */
     public KualiCode getByName(Class queryClass, String name) {
         Criteria criteria = getCriteriaForGivenClass(nameColumns, queryClass, name);
@@ -147,9 +141,7 @@ public class KualiCodeDaoOjb extends PlatformAwareDaoBaseOjb implements KualiCod
     }
 
     /**
-     * @param kualiCode
-     * 
-     * Pass the method a populated KualiCodeBase object, and it will be saved.
+     * @param kualiCode Pass the method a populated KualiCodeBase object, and it will be saved.
      */
     public void save(KualiCode kualiCode) throws DataAccessException {
         getPersistenceBrokerTemplate().store(kualiCode);

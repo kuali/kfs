@@ -41,8 +41,7 @@ public class PurchaseOrderRetransmissionMethodValuesFinder extends KeyValuesBase
         Collection<PurchaseOrderTransmissionMethod> codes = boService.findAll(PurchaseOrderTransmissionMethod.class);
         List labels = new ArrayList();
         for (PurchaseOrderTransmissionMethod purchaseOrderTransmissionMethod : codes) {
-            if (purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.FAX) ||
-                purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.PRINT)) {
+            if (purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.FAX) || purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode().equals(POTransmissionMethods.PRINT)) {
                 labels.add(new KeyLabelPair(purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodCode(), purchaseOrderTransmissionMethod.getPurchaseOrderTransmissionMethodDescription()));
             }
         }

@@ -50,9 +50,10 @@ public class ProjectDirectorServiceImpl implements ProjectDirectorService {
     @Cached
     public ProjectDirector getByPersonUserIdentifier(String username) {
         try {
-            UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId( username );
+            UniversalUser user = universalUserService.getUniversalUserByAuthenticationUserId(username);
             return getByPrimaryId(user.getPersonUniversalIdentifier());
-        } catch ( UserNotFoundException ex ) {
+        }
+        catch (UserNotFoundException ex) {
             return null;
         }
     }

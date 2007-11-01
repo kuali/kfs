@@ -30,8 +30,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This class returns list of per diem category value pairs.
- * 
- * 
  */
 public class TravelPerDiemCategoryValuesFinder extends KeyValuesBase {
 

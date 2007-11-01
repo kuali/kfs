@@ -45,7 +45,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -56,7 +55,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -66,7 +64,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the financialDocumentLineNumber attribute.
      * 
      * @return Returns the financialDocumentLineNumber
-     * 
      */
     public Integer getFinancialDocumentLineNumber() {
         return financialDocumentLineNumber;
@@ -77,7 +74,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the financialDocumentLineNumber attribute.
      * 
      * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-     * 
      */
     public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
         this.financialDocumentLineNumber = financialDocumentLineNumber;
@@ -87,7 +83,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the disbVchrPreConfDepartmentCd attribute.
      * 
      * @return Returns the disbVchrPreConfDepartmentCd
-     * 
      */
     public String getDisbVchrPreConfDepartmentCd() {
         return disbVchrPreConfDepartmentCd;
@@ -98,7 +93,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the disbVchrPreConfDepartmentCd attribute.
      * 
      * @param disbVchrPreConfDepartmentCd The disbVchrPreConfDepartmentCd to set.
-     * 
      */
     public void setDisbVchrPreConfDepartmentCd(String disbVchrPreConfDepartmentCd) {
         this.disbVchrPreConfDepartmentCd = disbVchrPreConfDepartmentCd;
@@ -108,7 +102,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the dvConferenceRegistrantName attribute.
      * 
      * @return Returns the dvConferenceRegistrantName
-     * 
      */
     public String getDvConferenceRegistrantName() {
         return dvConferenceRegistrantName;
@@ -119,7 +112,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the dvConferenceRegistrantName attribute.
      * 
      * @param dvConferenceRegistrantName The dvConferenceRegistrantName to set.
-     * 
      */
     public void setDvConferenceRegistrantName(String dvConferenceRegistrantName) {
         this.dvConferenceRegistrantName = dvConferenceRegistrantName;
@@ -129,7 +121,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the dvPreConferenceRequestNumber attribute.
      * 
      * @return Returns the dvPreConferenceRequestNumber
-     * 
      */
     public String getDvPreConferenceRequestNumber() {
         return dvPreConferenceRequestNumber;
@@ -140,7 +131,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the dvPreConferenceRequestNumber attribute.
      * 
      * @param dvPreConferenceRequestNumber The dvPreConferenceRequestNumber to set.
-     * 
      */
     public void setDvPreConferenceRequestNumber(String dvPreConferenceRequestNumber) {
         this.dvPreConferenceRequestNumber = dvPreConferenceRequestNumber;
@@ -150,7 +140,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Gets the disbVchrExpenseAmount attribute.
      * 
      * @return Returns the disbVchrExpenseAmount
-     * 
      */
     public KualiDecimal getDisbVchrExpenseAmount() {
         return disbVchrExpenseAmount;
@@ -161,7 +150,6 @@ public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusin
      * Sets the disbVchrExpenseAmount attribute.
      * 
      * @param disbVchrExpenseAmount The disbVchrExpenseAmount to set.
-     * 
      */
     public void setDisbVchrExpenseAmount(KualiDecimal disbVchrExpenseAmount) {
         this.disbVchrExpenseAmount = disbVchrExpenseAmount;

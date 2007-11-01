@@ -22,8 +22,7 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
- * This class returns list containing 
- 
+ * This class returns list containing
  */
 public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
 
@@ -36,6 +35,7 @@ public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
      * <li>S = SSN</li>
      * <li>V = Vendor</li>
      * </ul>
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -45,7 +45,7 @@ public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
         keyValues.add(new KeyLabelPair("P", "DV Payee"));
         keyValues.add(new KeyLabelPair("S", "SSN"));
         keyValues.add(new KeyLabelPair("V", "Vendor"));
-        
+
         return keyValues;
     }
 

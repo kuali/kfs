@@ -27,12 +27,10 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
 /**
- * Values finder for <code>PaymentTermType</code>.
- * Similar to <code>PaymentTypeValuesFinder</code>, except that the list of <code>KeyValuePair</code>s 
- * returned by this class' <code>getKeyValues()</code> method are a code and a description, rather than a 
- * description and a description. That method's signature needs to stay the same to satisfy the 
- * core code that uses values finders, so we can't simply employ polymorphism in method signatures; 
- * we'll use a separate class instead.
+ * Values finder for <code>PaymentTermType</code>. Similar to <code>PaymentTypeValuesFinder</code>, except that the list of
+ * <code>KeyValuePair</code>s returned by this class' <code>getKeyValues()</code> method are a code and a description, rather
+ * than a description and a description. That method's signature needs to stay the same to satisfy the core code that uses values
+ * finders, so we can't simply employ polymorphism in method signatures; we'll use a separate class instead.
  * 
  * @see org.kuali.module.vendor.bo.PaymentTermType
  * @see org.kuali.module.vendor.lookup.keyvalues.PaymentTypeValuesFinder

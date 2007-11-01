@@ -32,7 +32,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
     private boolean useJdbcJobstore;
     private DataSource dataSourceReference;
     private Properties quartzPropertiesReference;
-    
+
     @Override
     public void destroy() throws SchedulerException {
         if (useQuartzScheduling) {
@@ -50,7 +50,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
             super.afterPropertiesSet();
         }
     }
-    
+
     public Object getObject() {
         if (useQuartzScheduling) {
             return super.getObject();
@@ -87,6 +87,7 @@ public class SchedulerFactoryBean extends org.springframework.scheduling.quartz.
 
     /**
      * Sets the quartzPropertiesReference attribute value.
+     * 
      * @param quartzPropertiesReference The quartzPropertiesReference to set.
      */
     public void setQuartzPropertiesReference(Properties quartzPropertiesReference) {

@@ -18,5 +18,5 @@ package org.kuali.module.financial.service;
 import org.kuali.module.financial.bo.BankAccount;
 
 public interface BankAccountService {
-    BankAccount getByPrimaryId( String financialDocumentBankCode, String finDocumentBankAccountNumber );
+    BankAccount getByPrimaryId(String financialDocumentBankCode, String finDocumentBankAccountNumber);
 }

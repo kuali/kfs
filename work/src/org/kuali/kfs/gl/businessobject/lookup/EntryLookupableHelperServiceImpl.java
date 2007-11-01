@@ -41,6 +41,7 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.springframework.transaction.annotation.Transactional;
+
 @Transactional
 public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryLookupableHelperServiceImpl.class);
@@ -137,7 +138,7 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
             entryCollection.add(new Entry(pendingEntry, postDate));
         }
     }
-    
+
     /**
      * Sets the scrubberValidator attribute value.
      * 

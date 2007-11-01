@@ -19,13 +19,11 @@ import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
  * This interface defines data access methods for {@link PriorYearAccount}
- * 
- * 
  */
 public interface PriorYearAccountDao {
     /**
-     * 
      * Retrieves an Account object based on primary key.
+     * 
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key
      * @return {@link PriorYearAccount} based on primary key

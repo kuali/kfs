@@ -32,14 +32,13 @@ public interface ScrubberService {
      */
     public void scrubEntries();
 
-    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData,
-            OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService);
-    
+    public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService);
+
     /**
      * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
      * entry. It will create a the scrubber report
      */
-    public void scrubGroupReportOnly(OriginEntryGroup group,String documentNumber);
-    
+    public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber);
+
     public void setDateTimeService(DateTimeService dateTimeService);
 }

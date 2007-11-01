@@ -19,21 +19,21 @@ import org.kuali.core.lookup.valueFinder.ValueFinder;
 import org.kuali.module.chart.bo.ChartUser;
 
 /**
- * 
- * This class represents a value finder that returns the currently logged in user's
- * default chart of accounts code.
+ * This class represents a value finder that returns the currently logged in user's default chart of accounts code.
  */
 public class CurrentUserChartValueFinder implements ValueFinder {
 
     /**
      * This method returns the current user's default chart of accounts code.
+     * 
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         if (currentUser != null) {
             return currentUser.getChartOfAccountsCode();
-        } else {
+        }
+        else {
             return "";
         }
     }

@@ -25,16 +25,18 @@ import org.kuali.module.gl.bo.Balance;
  * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
  */
 public interface FilteringBalanceIterator extends Iterator, Iterable {
-    
+
     /**
      * Set the balance predicate that should be used to filter this iterator
+     * 
      * @param balancePredicate the BalancePredicate with the logic to use for this filtering balance iterator
      * @see org.kuali.module.gl.batch.closing.year.service.BalancePredicate
      */
     public void setBalancePredicate(BalancePredicate balancePredicate);
-    
+
     /**
      * Sets the source iterator of balances
+     * 
      * @param balancesSource an iterator chuck full of balances to either process or not
      */
     public void setBalancesSource(Iterator<Balance> balancesSource);

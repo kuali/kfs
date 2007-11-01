@@ -41,8 +41,8 @@ public class ProposalPurposeValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
 
         for (ProposalPurpose proposalPurpose : codes) {
-            if(proposalPurpose.isRowActiveIndicator()) {
-                labels.add(new KeyLabelPair(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeCode()+"-"+proposalPurpose.getProposalPurposeDescription()));
+            if (proposalPurpose.isRowActiveIndicator()) {
+                labels.add(new KeyLabelPair(proposalPurpose.getProposalPurposeCode(), proposalPurpose.getProposalPurposeCode() + "-" + proposalPurpose.getProposalPurposeDescription()));
             }
         }
 

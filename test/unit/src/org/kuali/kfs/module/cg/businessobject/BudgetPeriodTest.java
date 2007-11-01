@@ -27,8 +27,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverFormHelper.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetPeriodTest extends KualiTestBase {

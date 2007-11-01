@@ -26,83 +26,78 @@ import org.kuali.module.chart.bo.SubFundGroup;
  */
 public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private String subFundGroupCode;
-	private Integer reportFlag;
+    private String personUniversalIdentifier;
+    private String subFundGroupCode;
+    private Integer reportFlag;
 
     private SubFundGroup subFundGroup;
-    
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionSubFundPick() {
-
-	}
-
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
-
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
-
-
-	/**
-	 * Gets the subFundGroupCode attribute.
-	 * 
-	 * @return Returns the subFundGroupCode
-	 * 
-	 */
-	public String getSubFundGroupCode() { 
-		return subFundGroupCode;
-	}
-
-	/**
-	 * Sets the subFundGroupCode attribute.
-	 * 
-	 * @param subFundGroupCode The subFundGroupCode to set.
-	 * 
-	 */
-	public void setSubFundGroupCode(String subFundGroupCode) {
-		this.subFundGroupCode = subFundGroupCode;
-	}
-
-
-	/**
-	 * Gets the reportFlag attribute.
-	 * 
-	 * @return Returns the reportFlag
-	 * 
-	 */
-	public Integer getReportFlag() { 
-		return reportFlag;
-	}
-
-	/**
-	 * Sets the reportFlag attribute.
-	 * 
-	 * @param reportFlag The reportFlag to set.
-	 * 
-	 */
-	public void setReportFlag(Integer reportFlag) {
-		this.reportFlag = reportFlag;
-	}
 
     /**
-     * Gets the subFundGroup attribute. 
+     * Default constructor.
+     */
+    public BudgetConstructionSubFundPick() {
+
+    }
+
+    /**
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+
+    /**
+     * Gets the subFundGroupCode attribute.
+     * 
+     * @return Returns the subFundGroupCode
+     */
+    public String getSubFundGroupCode() {
+        return subFundGroupCode;
+    }
+
+    /**
+     * Sets the subFundGroupCode attribute.
+     * 
+     * @param subFundGroupCode The subFundGroupCode to set.
+     */
+    public void setSubFundGroupCode(String subFundGroupCode) {
+        this.subFundGroupCode = subFundGroupCode;
+    }
+
+
+    /**
+     * Gets the reportFlag attribute.
+     * 
+     * @return Returns the reportFlag
+     */
+    public Integer getReportFlag() {
+        return reportFlag;
+    }
+
+    /**
+     * Sets the reportFlag attribute.
+     * 
+     * @param reportFlag The reportFlag to set.
+     */
+    public void setReportFlag(Integer reportFlag) {
+        this.reportFlag = reportFlag;
+    }
+
+    /**
+     * Gets the subFundGroup attribute.
+     * 
      * @return Returns the subFundGroup.
      */
     public SubFundGroup getSubFundGroup() {
@@ -111,6 +106,7 @@ public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase
 
     /**
      * Sets the subFundGroup attribute value.
+     * 
      * @param subFundGroup The subFundGroup to set.
      * @deprecated
      */
@@ -122,7 +118,7 @@ public class BudgetConstructionSubFundPick extends PersistableBusinessObjectBase
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("subFundGroupCode", this.subFundGroupCode);
         return m;

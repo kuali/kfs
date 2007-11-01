@@ -25,13 +25,14 @@ import org.kuali.module.budget.service.CalculatedSalaryFoundationTrackerOverride
 import org.kuali.module.financial.service.UniversityDateService;
 
 public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDocumentRuleBase {
-    
+
     private CalculatedSalaryFoundationTrackerOverride oldCalculatedSalaryFoundationTrackerOverride;
     private CalculatedSalaryFoundationTrackerOverride newCalculatedSalaryFoundationTrackerOverride;
-    private CalculatedSalaryFoundationTrackerOverrideService calculatedSalaryFoundationTrackerOverrideService;    
+    private CalculatedSalaryFoundationTrackerOverrideService calculatedSalaryFoundationTrackerOverrideService;
+
     public CalculatedSalaryFoundationTrackerOverrideRule() {
         super();
-        
+
         // Pseudo-inject some services.
         //
         // This approach is being used to make it simpler to convert the Rule classes
@@ -40,7 +41,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         // SpringContext, and configure the bean defs for spring.
         this.setCalculatedSalaryFoundationTrackerOverrideService(SpringContext.getBean(CalculatedSalaryFoundationTrackerOverrideService.class));
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -53,7 +54,7 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
 
         return success;
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
@@ -65,16 +66,16 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         checkPositionIsValid();
         return success;
     }
-    
+
     private void setupConvenienceObjects(MaintenanceDocument document) {
-        
+
         // setup oldAccount convenience objects, make sure all possible sub-objects are populated
         oldCalculatedSalaryFoundationTrackerOverride = (CalculatedSalaryFoundationTrackerOverride) super.getOldBo();
-        
+
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
         newCalculatedSalaryFoundationTrackerOverride = (CalculatedSalaryFoundationTrackerOverride) super.getNewBo();
     }
-    
+
     private boolean checkFiscalYearIsCurrent(MaintenanceDocument document) {
         boolean success = true;
 
@@ -89,54 +90,49 @@ public class CalculatedSalaryFoundationTrackerOverrideRule extends MaintenanceDo
         }
         return success;
     }
- 
+
     private boolean checkAppointmentIsValid() {
         boolean success = true;
-        
-        if (
-                (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getEmplid()) )&&
-                (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber()) )&&
-                (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()) )
-        ){
-            
+
+        if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getEmplid())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()))) {
+
             String emplid = newCalculatedSalaryFoundationTrackerOverride.getEmplid();
             String positionNumber = newCalculatedSalaryFoundationTrackerOverride.getPositionNumber();
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
-            boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment( universityFiscalYear,  positionNumber,  emplid);
-            if (!result){
+            boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment(universityFiscalYear, positionNumber, emplid);
+            if (!result) {
                 putFieldError("emplid", KFSKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
                 success &= false;
             }
-        }else{
+        }
+        else {
             putFieldError("emplid", KFSKeyConstants.ERROR_INVALID_APPOINTMENT, "Employee Id");
             success &= false;
         }
         return success;
     }
-    
+
     private boolean checkPositionIsValid() {
         boolean success = true;
-        
-        if (
-                (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber()) )&&
-                (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()) )
-        ){
-            
+
+        if ((ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getPositionNumber())) && (ObjectUtils.isNotNull(newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear()))) {
+
             String emplid = newCalculatedSalaryFoundationTrackerOverride.getEmplid();
             String positionNumber = newCalculatedSalaryFoundationTrackerOverride.getPositionNumber();
             Integer universityFiscalYear = newCalculatedSalaryFoundationTrackerOverride.getUniversityFiscalYear();
-            boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment( universityFiscalYear,  positionNumber,  emplid);
-            if (!result){
+            boolean result = calculatedSalaryFoundationTrackerOverrideService.isValidAppointment(universityFiscalYear, positionNumber, emplid);
+            if (!result) {
                 putFieldError("positionNumber", KFSKeyConstants.ERROR_INVALID_POSITION, "Position Number");
                 success &= false;
             }
-        }else{
+        }
+        else {
             putFieldError("positionNumber", KFSKeyConstants.ERROR_INVALID_POSITION, "Position Number");
             success &= false;
         }
         return success;
     }
-    
+
     /**
      * Sets the calculatedSalaryFoundationTrackerOverrideService attribute value.
      * 

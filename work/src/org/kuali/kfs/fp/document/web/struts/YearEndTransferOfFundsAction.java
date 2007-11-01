@@ -20,7 +20,6 @@ package org.kuali.module.financial.web.struts.action;
  * non-YearEnd version of the document is the glpe generation.
  * 
  * @see org.kuali.module.financial.web.struts.action.TransferOfFundsAction
- * 
  */
 public class YearEndTransferOfFundsAction extends TransferOfFundsAction {
     // empty do not change. see above.

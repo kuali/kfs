@@ -26,16 +26,16 @@ import org.kuali.module.kra.KraPropertyConstants;
 import org.kuali.module.kra.routingform.bo.QuestionType;
 
 public class QuestionTypeMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    
+
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        
+
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         QuestionType question = (QuestionType) document.getNewMaintainableObject().getBusinessObject();
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         QuestionType persistedQuestion = (QuestionType) service.retrieve(question);
-        
-        //If the question exists in db, set read-only fields
+
+        // If the question exists in db, set read-only fields
         if (ObjectUtils.isNotNull(persistedQuestion)) {
             auths.addReadonlyAuthField(KraPropertyConstants.QUESTION_TYPE_DESCRIPTION);
         }

@@ -44,7 +44,7 @@ public class ContactTypeValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = codes.iterator(); iter.hasNext();) {
             ContactType contactType = (ContactType) iter.next();
-            labels.add(new KeyLabelPair( contactType.getVendorContactTypeCode(), contactType.getVendorContactTypeDescription() ));
+            labels.add(new KeyLabelPair(contactType.getVendorContactTypeCode(), contactType.getVendorContactTypeDescription()));
         }
 
         return labels;

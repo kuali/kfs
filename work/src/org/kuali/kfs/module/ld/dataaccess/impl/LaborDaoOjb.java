@@ -233,24 +233,24 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     public Collection getJuly1PositionFunding(Map fieldValues) {
         Criteria criteria = new Criteria();
         criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
-        
+
         Map laborObjectFieldValues = new HashMap();
         if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
             laborObjectFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
         }
-        
+
         if (fieldValues.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
             laborObjectFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
         }
-        
+
         Criteria laborObjectCriteria = new Criteria();
         laborObjectCriteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(laborObjectFieldValues, new LaborObject()));
-       
+
         criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborObjectCriteria);
-       
+
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
         OJBUtility.limitResultSize(query);
-        
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 

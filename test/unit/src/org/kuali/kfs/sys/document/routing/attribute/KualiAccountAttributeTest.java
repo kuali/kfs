@@ -32,8 +32,6 @@ import edu.iu.uis.eden.routeheader.DocumentContent;
 
 /**
  * This class...
- * 
- * 
  */
 @ConfigureContext
 public class KualiAccountAttributeTest extends KualiTestBase {

@@ -87,8 +87,9 @@ public class BudgetNonpersonnelAction extends BudgetAction {
 
         if (budgetNonpersonnelRemoved.isCopiedOverItem()) {
             // Iterate over the whole list of NPRS items and remove the copy over items that have the removed item as origin.
-            
-            // necessary to make copy because period fill up below removes from the list, want to avoid concurrent modification exception
+
+            // necessary to make copy because period fill up below removes from the list, want to avoid concurrent modification
+            // exception
             List nonpersonnelItemsTmp = new ArrayList(budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems());
 
             for (Iterator nonpersonnelItemsIter = nonpersonnelItemsTmp.iterator(); nonpersonnelItemsIter.hasNext();) {
@@ -136,7 +137,7 @@ public class BudgetNonpersonnelAction extends BudgetAction {
         // Needs to be done after the copy over check because copy over may be changing nonpersonnel & sequence number data.
         List nonpersonnelList = new ArrayList(budgetForm.getBudgetDocument().getBudget().getNonpersonnelItems());
         Integer nonpersonnelNextSequenceNumber = budgetForm.getBudgetDocument().getNonpersonnelNextSequenceNumber();
-        
+
         // we are only saving nonpersonnel items, so load the doc and set the nonpersonnel items to the proper ones.
         super.load(mapping, form, request, response);
         budgetForm.getBudgetDocument().getBudget().setNonpersonnelItems(nonpersonnelList);

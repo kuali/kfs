@@ -49,7 +49,6 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     }
 
     /**
-     * 
      * @param expenseTransferDocumentFormBase ExpenseTransferDocumentForm type
      * @param balance LedgerBalance type
      * @return none
@@ -63,11 +62,10 @@ public class BenefitExpenseTransferAction extends ExpenseTransferDocumentActionB
     }
 
     /**
-     * 
      * @param mapping ActionMapping
      * @param form ActionForm
      * @param request HttpServletRequest
-     * @param response HttpServletResponse 
+     * @param response HttpServletResponse
      * @see org.kuali.core.web.struts.action.KualiAction#performLookup(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */

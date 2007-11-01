@@ -113,7 +113,7 @@ public class AccountResponsibility extends TransientBusinessObjectBase implement
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (account != null) {
-          m.put("accountNumber", this.account.getAccountNumber());
+            m.put("accountNumber", this.account.getAccountNumber());
         }
         m.put("accountResponsibilityType", this.accountResponsibilityType);
         m.put("minimumDollarAmount", this.minimumDollarAmount);
@@ -121,7 +121,6 @@ public class AccountResponsibility extends TransientBusinessObjectBase implement
         m.put("documentTypeId", this.documentTypeId);
         return m;
     }
-    
-    
+
 
 }

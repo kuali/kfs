@@ -31,17 +31,14 @@ import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
 
 /**
- * 
- * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document
- * inner class for doing comparisons on {@link OrganizationReversionCategory}
- * populateBusinessObject
- * setBusinessObject - pre-populate the static list of details with each category
- * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
+ * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document inner class for doing
+ * comparisons on {@link OrganizationReversionCategory} populateBusinessObject setBusinessObject - pre-populate the static list of
+ * details with each category isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out
+ * accidentally
  */
 public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
 
     /**
-     * 
      * This comparator is used internally for sorting the list of categories
      */
     private class categoryComparator implements Comparator<OrganizationReversionDetail> {
@@ -60,7 +57,6 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
      */
     public Map populateBusinessObject(Map fieldValues) {
@@ -89,7 +85,7 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
             Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
 
             for (OrganizationReversionCategory category : categories) {
-                if (category.isOrganizationReversionCategoryActiveIndicator()){
+                if (category.isOrganizationReversionCategoryActiveIndicator()) {
                     OrganizationReversionDetail detail = new OrganizationReversionDetail();
                     detail.setOrganizationReversionCategoryCode(category.getOrganizationReversionCategoryCode());
                     detail.setOrganizationReversionCategory(category);
@@ -103,17 +99,19 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
 
         super.setBusinessObject(businessObject);
     }
-    
+
     /**
-     * A method that prevents lookups from refreshing the Organization Reversion Detail list (because, if it is refreshed before
-     * a save...it ends up destroying the list).
+     * A method that prevents lookups from refreshing the Organization Reversion Detail list (because, if it is refreshed before a
+     * save...it ends up destroying the list).
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {
         if (relationshipName.equals("organizationReversionDetail")) {
             return false;
-        } else {
+        }
+        else {
             return super.isRelationshipRefreshable(boClass, relationshipName);
         }
     }

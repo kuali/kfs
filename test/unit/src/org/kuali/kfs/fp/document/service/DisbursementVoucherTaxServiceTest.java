@@ -27,12 +27,9 @@ import org.kuali.module.financial.bo.DisbursementVoucherNonResidentAlienTax;
 import org.kuali.module.financial.bo.DisbursementVoucherPayeeDetail;
 import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
 
 /**
  * This class tests the DisbursementVoucherTax service.
- * 
- * 
  */
 @ConfigureContext
 public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
@@ -122,7 +119,6 @@ public class DisbursementVoucherTaxServiceTest extends KualiTestBase {
 
     /**
      * Test generation and clearing of nra tax lines.
-     * 
      */
     public void testGenerateNRATaxLines() {
         KualiDecimal orginalCheckAmount = new KualiDecimal(100);

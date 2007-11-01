@@ -30,7 +30,7 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public class RequisitionForm extends PurchasingFormBase {
 
     /**
-     * Constructs a RequisitionForm instance and sets up the appropriately casted document. 
+     * Constructs a RequisitionForm instance and sets up the appropriately casted document.
      */
     public RequisitionForm() {
         super();
@@ -51,8 +51,9 @@ public class RequisitionForm extends PurchasingFormBase {
     @Override
     public KeyLabelPair getAdditionalDocInfo1() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getPurapDocumentIdentifier())) {
-            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument)this.getDocument()).getPurapDocumentIdentifier().toString());
-        } else {
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", ((RequisitionDocument) this.getDocument()).getPurapDocumentIdentifier().toString());
+        }
+        else {
             return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.purapDocumentIdentifier", "Not Available");
         }
     }
@@ -63,8 +64,9 @@ public class RequisitionForm extends PurchasingFormBase {
     @Override
     public KeyLabelPair getAdditionalDocInfo2() {
         if (ObjectUtils.isNotNull(this.getRequisitionDocument().getStatus())) {
-            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument)this.getDocument()).getStatus().getStatusDescription());
-        } else {
+            return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", ((RequisitionDocument) this.getDocument()).getStatus().getStatusDescription());
+        }
+        else {
             return new KeyLabelPair("DataDictionary.RequisitionDocument.attributes.statusCode", "Not Available");
         }
     }
@@ -77,7 +79,7 @@ public class RequisitionForm extends PurchasingFormBase {
         RequisitionItem ri = new RequisitionItem();
         return ri;
     }
-    
+
     /**
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewPurchasingAccountingLine()
      */
@@ -85,7 +87,7 @@ public class RequisitionForm extends PurchasingFormBase {
     public RequisitionAccount setupNewPurchasingAccountingLine() {
         return new RequisitionAccount();
     }
-    
+
     /**
      * @see org.kuali.module.purap.web.struts.form.PurchasingFormBase#setupNewAccountDistributionAccountingLine()
      */

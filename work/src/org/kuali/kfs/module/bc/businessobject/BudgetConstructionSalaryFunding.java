@@ -30,281 +30,261 @@ import org.kuali.module.chart.bo.SubObjCd;
  */
 public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBase {
 
-	private String personUniversalIdentifier;
-	private String emplid;
-	private String positionNumber;
-	private Integer universityFiscalYear;
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private String subAccountNumber;
-	private String financialObjectCode;
-	private String financialSubObjectCode;
+    private String personUniversalIdentifier;
+    private String emplid;
+    private String positionNumber;
+    private Integer universityFiscalYear;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private String subAccountNumber;
+    private String financialObjectCode;
+    private String financialSubObjectCode;
 
     private ObjectCode financialObject;
-	private Account account;
-	private Chart chartOfAccounts;
+    private Account account;
+    private Chart chartOfAccounts;
     private SubAccount subAccount;
     private SubObjCd financialSubObject;
     private PendingBudgetConstructionAppointmentFunding pendingAppointmentFunding;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionSalaryFunding() {
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionSalaryFunding() {
 
-	}
-
-	/**
-	 * Gets the personUniversalIdentifier attribute.
-	 * 
-	 * @return Returns the personUniversalIdentifier
-	 * 
-	 */
-	public String getPersonUniversalIdentifier() { 
-		return personUniversalIdentifier;
-	}
-
-	/**
-	 * Sets the personUniversalIdentifier attribute.
-	 * 
-	 * @param personUniversalIdentifier The personUniversalIdentifier to set.
-	 * 
-	 */
-	public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
-		this.personUniversalIdentifier = personUniversalIdentifier;
-	}
-
-
-	/**
-	 * Gets the emplid attribute.
-	 * 
-	 * @return Returns the emplid
-	 * 
-	 */
-	public String getEmplid() { 
-		return emplid;
-	}
-
-	/**
-	 * Sets the emplid attribute.
-	 * 
-	 * @param emplid The emplid to set.
-	 * 
-	 */
-	public void setEmplid(String emplid) {
-		this.emplid = emplid;
-	}
-
-
-	/**
-	 * Gets the positionNumber attribute.
-	 * 
-	 * @return Returns the positionNumber
-	 * 
-	 */
-	public String getPositionNumber() { 
-		return positionNumber;
-	}
-
-	/**
-	 * Sets the positionNumber attribute.
-	 * 
-	 * @param positionNumber The positionNumber to set.
-	 * 
-	 */
-	public void setPositionNumber(String positionNumber) {
-		this.positionNumber = positionNumber;
-	}
-
-
-	/**
-	 * Gets the universityFiscalYear attribute.
-	 * 
-	 * @return Returns the universityFiscalYear
-	 * 
-	 */
-	public Integer getUniversityFiscalYear() { 
-		return universityFiscalYear;
-	}
-
-	/**
-	 * Sets the universityFiscalYear attribute.
-	 * 
-	 * @param universityFiscalYear The universityFiscalYear to set.
-	 * 
-	 */
-	public void setUniversityFiscalYear(Integer universityFiscalYear) {
-		this.universityFiscalYear = universityFiscalYear;
-	}
-
-
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
-
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
-
-
-	/**
-	 * Gets the accountNumber attribute.
-	 * 
-	 * @return Returns the accountNumber
-	 * 
-	 */
-	public String getAccountNumber() { 
-		return accountNumber;
-	}
-
-	/**
-	 * Sets the accountNumber attribute.
-	 * 
-	 * @param accountNumber The accountNumber to set.
-	 * 
-	 */
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
-
-	/**
-	 * Gets the subAccountNumber attribute.
-	 * 
-	 * @return Returns the subAccountNumber
-	 * 
-	 */
-	public String getSubAccountNumber() { 
-		return subAccountNumber;
-	}
-
-	/**
-	 * Sets the subAccountNumber attribute.
-	 * 
-	 * @param subAccountNumber The subAccountNumber to set.
-	 * 
-	 */
-	public void setSubAccountNumber(String subAccountNumber) {
-		this.subAccountNumber = subAccountNumber;
-	}
-
-
-	/**
-	 * Gets the financialObjectCode attribute.
-	 * 
-	 * @return Returns the financialObjectCode
-	 * 
-	 */
-	public String getFinancialObjectCode() { 
-		return financialObjectCode;
-	}
-
-	/**
-	 * Sets the financialObjectCode attribute.
-	 * 
-	 * @param financialObjectCode The financialObjectCode to set.
-	 * 
-	 */
-	public void setFinancialObjectCode(String financialObjectCode) {
-		this.financialObjectCode = financialObjectCode;
-	}
-
-
-	/**
-	 * Gets the financialSubObjectCode attribute.
-	 * 
-	 * @return Returns the financialSubObjectCode
-	 * 
-	 */
-	public String getFinancialSubObjectCode() { 
-		return financialSubObjectCode;
-	}
-
-	/**
-	 * Sets the financialSubObjectCode attribute.
-	 * 
-	 * @param financialSubObjectCode The financialSubObjectCode to set.
-	 * 
-	 */
-	public void setFinancialSubObjectCode(String financialSubObjectCode) {
-		this.financialSubObjectCode = financialSubObjectCode;
-	}
-
-
-	/**
-	 * Gets the financialObject attribute.
-	 * 
-	 * @return Returns the financialObject
-	 * 
-	 */
-	public ObjectCode getFinancialObject() { 
-		return financialObject;
-	}
-
-	/**
-	 * Sets the financialObject attribute.
-	 * 
-	 * @param financialObject The financialObject to set.
-	 * @deprecated
-	 */
-	public void setFinancialObject(ObjectCode financialObject) {
-		this.financialObject = financialObject;
-	}
-
-	/**
-	 * Gets the account attribute.
-	 * 
-	 * @return Returns the account
-	 * 
-	 */
-	public Account getAccount() { 
-		return account;
-	}
-
-	/**
-	 * Sets the account attribute.
-	 * 
-	 * @param account The account to set.
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
-
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
-
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the personUniversalIdentifier attribute.
+     * 
+     * @return Returns the personUniversalIdentifier
+     */
+    public String getPersonUniversalIdentifier() {
+        return personUniversalIdentifier;
+    }
+
+    /**
+     * Sets the personUniversalIdentifier attribute.
+     * 
+     * @param personUniversalIdentifier The personUniversalIdentifier to set.
+     */
+    public void setPersonUniversalIdentifier(String personUniversalIdentifier) {
+        this.personUniversalIdentifier = personUniversalIdentifier;
+    }
+
+
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid
+     */
+    public String getEmplid() {
+        return emplid;
+    }
+
+    /**
+     * Sets the emplid attribute.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
+
+
+    /**
+     * Gets the positionNumber attribute.
+     * 
+     * @return Returns the positionNumber
+     */
+    public String getPositionNumber() {
+        return positionNumber;
+    }
+
+    /**
+     * Sets the positionNumber attribute.
+     * 
+     * @param positionNumber The positionNumber to set.
+     */
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
+
+
+    /**
+     * Gets the universityFiscalYear attribute.
+     * 
+     * @return Returns the universityFiscalYear
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute.
+     * 
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return Returns the chartOfAccountsCode
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+
+    /**
+     * Gets the accountNumber attribute.
+     * 
+     * @return Returns the accountNumber
+     */
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    /**
+     * Sets the accountNumber attribute.
+     * 
+     * @param accountNumber The accountNumber to set.
+     */
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+
+    /**
+     * Gets the subAccountNumber attribute.
+     * 
+     * @return Returns the subAccountNumber
+     */
+    public String getSubAccountNumber() {
+        return subAccountNumber;
+    }
+
+    /**
+     * Sets the subAccountNumber attribute.
+     * 
+     * @param subAccountNumber The subAccountNumber to set.
+     */
+    public void setSubAccountNumber(String subAccountNumber) {
+        this.subAccountNumber = subAccountNumber;
+    }
+
+
+    /**
+     * Gets the financialObjectCode attribute.
+     * 
+     * @return Returns the financialObjectCode
+     */
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
+    }
+
+    /**
+     * Sets the financialObjectCode attribute.
+     * 
+     * @param financialObjectCode The financialObjectCode to set.
+     */
+    public void setFinancialObjectCode(String financialObjectCode) {
+        this.financialObjectCode = financialObjectCode;
+    }
+
+
+    /**
+     * Gets the financialSubObjectCode attribute.
+     * 
+     * @return Returns the financialSubObjectCode
+     */
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
+    }
+
+    /**
+     * Sets the financialSubObjectCode attribute.
+     * 
+     * @param financialSubObjectCode The financialSubObjectCode to set.
+     */
+    public void setFinancialSubObjectCode(String financialSubObjectCode) {
+        this.financialSubObjectCode = financialSubObjectCode;
+    }
+
+
+    /**
+     * Gets the financialObject attribute.
+     * 
+     * @return Returns the financialObject
+     */
+    public ObjectCode getFinancialObject() {
+        return financialObject;
+    }
+
+    /**
+     * Sets the financialObject attribute.
+     * 
+     * @param financialObject The financialObject to set.
+     * @deprecated
+     */
+    public void setFinancialObject(ObjectCode financialObject) {
+        this.financialObject = financialObject;
+    }
+
+    /**
+     * Gets the account attribute.
+     * 
+     * @return Returns the account
+     */
+    public Account getAccount() {
+        return account;
+    }
+
+    /**
+     * Sets the account attribute.
+     * 
+     * @param account The account to set.
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the subAccount attribute.
+     * 
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -313,15 +293,17 @@ public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBa
 
     /**
      * Sets the subAccount attribute value.
+     * 
      * @param subAccount The subAccount to set.
      * @deprecated
      */
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
     }
-    
+
     /**
-     * Gets the financialSubObject attribute. 
+     * Gets the financialSubObject attribute.
+     * 
      * @return Returns the financialSubObject.
      */
     public SubObjCd getFinancialSubObject() {
@@ -330,6 +312,7 @@ public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBa
 
     /**
      * Sets the financialSubObject attribute value.
+     * 
      * @param financialSubObject The financialSubObject to set.
      * @deprecated
      */
@@ -341,9 +324,8 @@ public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBa
      * Gets the pendingAppointmentFunding attribute.
      * 
      * @return Returns the pendingAppointmentFunding
-     * 
      */
-    public PendingBudgetConstructionAppointmentFunding getPendingAppointmentFunding() { 
+    public PendingBudgetConstructionAppointmentFunding getPendingAppointmentFunding() {
         return pendingAppointmentFunding;
     }
 
@@ -357,11 +339,11 @@ public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBa
         this.pendingAppointmentFunding = pendingAppointmentFunding;
     }
 
-/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personUniversalIdentifier", this.personUniversalIdentifier);
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
@@ -373,6 +355,6 @@ public class BudgetConstructionSalaryFunding extends PersistableBusinessObjectBa
         m.put("subAccountNumber", this.subAccountNumber);
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("financialSubObjectCode", this.financialSubObjectCode);
-	    return m;
+        return m;
     }
 }

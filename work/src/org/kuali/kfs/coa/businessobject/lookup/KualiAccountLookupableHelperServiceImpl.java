@@ -22,23 +22,23 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ChartUser;
 
 /**
- * 
- * This class overrids the base getActionUrls method 
+ * This class overrids the base getActionUrls method
  */
 public class KualiAccountLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     /**
-     * If the account is not closed or the user is an Administrator the "edit" link is added
-     * The "copy" link is added for Accounts
+     * If the account is not closed or the user is an Administrator the "edit" link is added The "copy" link is added for Accounts
+     * 
      * @returns links to edit and copy maintenance action for the current maintenance record.
      */
     @Override
     public String getActionUrls(BusinessObject bo) {
         StringBuffer actions = new StringBuffer();
-        Account theAccount = (Account)bo;
-        ChartUser user = (ChartUser)GlobalVariables.getUserSession().getUniversalUser().getModuleUser( ChartUser.MODULE_ID );
-        if (!theAccount.isAccountClosedIndicator()||user.isAdministratorUser()){
+        Account theAccount = (Account) bo;
+        ChartUser user = (ChartUser) GlobalVariables.getUserSession().getUniversalUser().getModuleUser(ChartUser.MODULE_ID);
+        if (!theAccount.isAccountClosedIndicator() || user.isAdministratorUser()) {
             actions.append(getMaintenanceUrl(bo, "edit"));
-        }else{
+        }
+        else {
             actions.append("&nbsp;&nbsp;&nbsp;&nbsp;");
         }
         actions.append("&nbsp;&nbsp;");

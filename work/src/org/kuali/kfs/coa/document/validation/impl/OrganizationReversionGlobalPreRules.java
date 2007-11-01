@@ -16,32 +16,27 @@
 package org.kuali.module.chart.rules;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.util.ObjectUtils;
-import org.apache.struts.action.ActionForm;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.OrganizationReversionGlobal;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
-import org.kuali.module.chart.rules.MaintenancePreRulesBase;
-import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.rule.event.PreRulesCheckEvent;
 
 public class OrganizationReversionGlobalPreRules extends MaintenancePreRulesBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalPreRules.class);
 
     /**
-     * 
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     public boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
-        OrganizationReversionGlobal globalOrgReversion = (OrganizationReversionGlobal)maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        OrganizationReversionGlobal globalOrgReversion = (OrganizationReversionGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
         checkForContinuationAccounts(globalOrgReversion);
         copyKeyAttributesToCollections(globalOrgReversion);
         return true;
     }
-    
+
     /**
-     * 
      * This method checks to see if the budget reversion or cash reversion accounts have continuation accounts.
      * 
      * @param globalOrgReversion Global Organization Reversion to check.
@@ -62,21 +57,19 @@ public class OrganizationReversionGlobalPreRules extends MaintenancePreRulesBase
             }
         }
     }
-    
+
     /**
-     * 
-     * This method updates all children of a Global Organization Reversion so that
-     * they all are associated with the Global Organization Reversion document, by
-     * upudating their primary keys.
+     * This method updates all children of a Global Organization Reversion so that they all are associated with the Global
+     * Organization Reversion document, by upudating their primary keys.
      * 
      * @param globalOrgRev the global organization reversion document to update.
      */
     public void copyKeyAttributesToCollections(OrganizationReversionGlobal globalOrgRev) {
-        for (OrganizationReversionGlobalDetail orgRevDetail: globalOrgRev.getOrganizationReversionGlobalDetails()) {
+        for (OrganizationReversionGlobalDetail orgRevDetail : globalOrgRev.getOrganizationReversionGlobalDetails()) {
             orgRevDetail.setDocumentNumber(globalOrgRev.getDocumentNumber());
         }
-        
-        for (OrganizationReversionGlobalOrganization orgRevOrg: globalOrgRev.getOrganizationReversionGlobalOrganizations()) {
+
+        for (OrganizationReversionGlobalOrganization orgRevOrg : globalOrgRev.getOrganizationReversionGlobalOrganizations()) {
             orgRevOrg.setDocumentNumber(globalOrgRev.getDocumentNumber());
         }
     }

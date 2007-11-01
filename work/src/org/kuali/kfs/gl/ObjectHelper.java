@@ -20,7 +20,6 @@ public class ObjectHelper {
     }
 
     /**
-     * 
      * @param lhs
      * @param rhs
      * @return true if both lhs and rhs are null or if lhs.equals(rhs)
@@ -30,7 +29,6 @@ public class ObjectHelper {
     }
 
     /**
-     * 
      * @param lhs
      * @param rhs
      * @return false if rhs is null. true if isEqual(lhs, rhs[i]) for any ith element of rhs.

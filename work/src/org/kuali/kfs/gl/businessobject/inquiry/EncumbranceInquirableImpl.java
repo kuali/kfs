@@ -21,8 +21,6 @@ import java.util.Properties;
 
 /**
  * This class...
- * 
- * 
  */
 public class EncumbranceInquirableImpl extends AbstractGLInquirableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EncumbranceInquirableImpl.class);

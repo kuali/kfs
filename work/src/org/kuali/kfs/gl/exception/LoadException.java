@@ -19,6 +19,7 @@ public class LoadException extends RuntimeException {
     public LoadException() {
         super();
     }
+
     public LoadException(String msg) {
         super(msg);
     }

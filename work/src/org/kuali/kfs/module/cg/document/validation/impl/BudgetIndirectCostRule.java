@@ -28,9 +28,10 @@ import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 import org.kuali.module.kra.budget.document.BudgetDocument;
 
 public class BudgetIndirectCostRule {
-    
-    protected BudgetIndirectCostRule() {}
-    
+
+    protected BudgetIndirectCostRule() {
+    }
+
     /**
      * Check indicator logic only.
      * 

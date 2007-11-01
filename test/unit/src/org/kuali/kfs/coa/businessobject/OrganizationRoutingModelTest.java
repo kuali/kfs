@@ -35,17 +35,17 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        Map<String,String> fieldValues=new HashMap<String, String>();
+        Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, "BL");
-        fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME,"CLAS");
-        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>)SpringContext.getBean(BusinessObjectService.class).findMatching(OrganizationRoutingModel.class, fieldValues);
+        fieldValues.put(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, "CLAS");
+        List<OrganizationRoutingModel> results = (List<OrganizationRoutingModel>) SpringContext.getBean(BusinessObjectService.class).findMatching(OrganizationRoutingModel.class, fieldValues);
         assertFalse("no models found", results.isEmpty());
 
-        model=results.get(0);
+        model = results.get(0);
     }
 
     public void testSaveModel() {
-        String name= model.getOrganizationRoutingModelName();
+        String name = model.getOrganizationRoutingModelName();
         OrganizationRoutingModel routingModel = new OrganizationRoutingModel();
         routingModel.setOrganizationRoutingModelName(name);
         routingModel.setChartOfAccountsCode(model.getChartOfAccountsCode());

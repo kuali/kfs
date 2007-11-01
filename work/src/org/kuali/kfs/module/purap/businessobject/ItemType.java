@@ -21,39 +21,38 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Item Type Business Object.
- * Defines various types of items.
+ * Item Type Business Object. Defines various types of items.
  */
 public class ItemType extends PersistableBusinessObjectBase {
 
-	private String itemTypeCode;
-	private String itemTypeDescription;
+    private String itemTypeCode;
+    private String itemTypeDescription;
     private boolean quantityBasedGeneralLedgerIndicator;
     private boolean itemTypeAboveTheLineIndicator;
-	private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public ItemType() {
+    private boolean active;
 
-	}
+    /**
+     * Default constructor.
+     */
+    public ItemType() {
 
-	public String getItemTypeCode() { 
-		return itemTypeCode;
-	}
+    }
 
-	public void setItemTypeCode(String itemTypeCode) {
-		this.itemTypeCode = itemTypeCode;
-	}
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
 
-	public String getItemTypeDescription() { 
-		return itemTypeDescription;
-	}
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
 
-	public void setItemTypeDescription(String itemTypeDescription) {
-		this.itemTypeDescription = itemTypeDescription;
-	}
+    public String getItemTypeDescription() {
+        return itemTypeDescription;
+    }
+
+    public void setItemTypeDescription(String itemTypeDescription) {
+        this.itemTypeDescription = itemTypeDescription;
+    }
 
     public boolean isQuantityBasedGeneralLedgerIndicator() {
         return quantityBasedGeneralLedgerIndicator;
@@ -85,12 +84,12 @@ public class ItemType extends PersistableBusinessObjectBase {
     public boolean isAmountBasedGeneralLedgerIndicator() {
         return !quantityBasedGeneralLedgerIndicator;
     }
-   
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("itemTypeCode", this.itemTypeCode);
         return m;
     }

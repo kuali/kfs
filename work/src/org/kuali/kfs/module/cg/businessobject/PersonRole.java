@@ -24,40 +24,39 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PersonRole extends PersistableBusinessObjectBase {
 
-	private String personRoleCode;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String personRoleDescription;
+    private String personRoleCode;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String personRoleDescription;
     private Integer personRoleSortNumber;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PersonRole() {
-
-	}
-
-	/**
-	 * Gets the personRoleCode attribute.
-	 * 
-	 * @return Returns the personRoleCode
-	 * 
-	 */
-	public String getPersonRoleCode() { 
-		return personRoleCode;
-	}
-
-	/**
-	 * Sets the personRoleCode attribute.
-	 * 
-	 * @param personRoleCode The personRoleCode to set.
-	 * 
-	 */
-	public void setPersonRoleCode(String personRoleCode) {
-		this.personRoleCode = personRoleCode;
-	}
 
     /**
-     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute. 
+     * Default constructor.
+     */
+    public PersonRole() {
+
+    }
+
+    /**
+     * Gets the personRoleCode attribute.
+     * 
+     * @return Returns the personRoleCode
+     */
+    public String getPersonRoleCode() {
+        return personRoleCode;
+    }
+
+    /**
+     * Sets the personRoleCode attribute.
+     * 
+     * @param personRoleCode The personRoleCode to set.
+     */
+    public void setPersonRoleCode(String personRoleCode) {
+        this.personRoleCode = personRoleCode;
+    }
+
+    /**
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
      * @return Returns the dataObjectMaintenanceCodeActiveIndicator.
      */
     public boolean isDataObjectMaintenanceCodeActiveIndicator() {
@@ -66,34 +65,34 @@ public class PersonRole extends PersistableBusinessObjectBase {
 
     /**
      * Sets the dataObjectMaintenanceCodeActiveIndicator attribute value.
+     * 
      * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
      */
     public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
         this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
     }
 
-	/**
-	 * Gets the personRoleDescription attribute.
-	 * 
-	 * @return Returns the personRoleDescription
-	 * 
-	 */
-	public String getPersonRoleDescription() { 
-		return personRoleDescription;
-	}
-
-	/**
-	 * Sets the personRoleDescription attribute.
-	 * 
-	 * @param personRoleDescription The personRoleDescription to set.
-	 * 
-	 */
-	public void setPersonRoleDescription(String personRoleDescription) {
-		this.personRoleDescription = personRoleDescription;
-	}
+    /**
+     * Gets the personRoleDescription attribute.
+     * 
+     * @return Returns the personRoleDescription
+     */
+    public String getPersonRoleDescription() {
+        return personRoleDescription;
+    }
 
     /**
-     * Gets the personRoleSortNumber attribute. 
+     * Sets the personRoleDescription attribute.
+     * 
+     * @param personRoleDescription The personRoleDescription to set.
+     */
+    public void setPersonRoleDescription(String personRoleDescription) {
+        this.personRoleDescription = personRoleDescription;
+    }
+
+    /**
+     * Gets the personRoleSortNumber attribute.
+     * 
      * @return Returns the personRoleSortNumber.
      */
     public Integer getPersonRoleSortNumber() {
@@ -102,6 +101,7 @@ public class PersonRole extends PersistableBusinessObjectBase {
 
     /**
      * Sets the personRoleSortNumber attribute value.
+     * 
      * @param personRoleSortNumber The personRoleSortNumber to set.
      */
     public void setPersonRoleSortNumber(Integer personRoleSortNumber) {
@@ -112,10 +112,10 @@ public class PersonRole extends PersistableBusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("personRoleCode", this.personRoleCode);
         return m;
     }
-  
-    
+
+
 }

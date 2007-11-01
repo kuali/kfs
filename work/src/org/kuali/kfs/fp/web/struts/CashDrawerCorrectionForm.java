@@ -16,20 +16,20 @@
 package org.kuali.module.financial.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiForm;
-
 import org.kuali.module.financial.bo.CashDrawer;
 
 public class CashDrawerCorrectionForm extends KualiForm {
     private CashDrawer cashDrawer;
     private String workgroupName;
-    
+
     public CashDrawerCorrectionForm() {
         super();
         cashDrawer = new CashDrawer();
     }
 
     /**
-     * Gets the cashDrawer attribute. 
+     * Gets the cashDrawer attribute.
+     * 
      * @return Returns the cashDrawer.
      */
     public CashDrawer getCashDrawer() {
@@ -38,6 +38,7 @@ public class CashDrawerCorrectionForm extends KualiForm {
 
     /**
      * Sets the cashDrawer attribute value.
+     * 
      * @param cashDrawer The cashDrawer to set.
      */
     public void setCashDrawer(CashDrawer cashDrawer) {
@@ -45,7 +46,8 @@ public class CashDrawerCorrectionForm extends KualiForm {
     }
 
     /**
-     * Gets the workgroupName attribute. 
+     * Gets the workgroupName attribute.
+     * 
      * @return Returns the workgroupName.
      */
     public String getWorkgroupName() {
@@ -54,10 +56,11 @@ public class CashDrawerCorrectionForm extends KualiForm {
 
     /**
      * Sets the workgroupName attribute value.
+     * 
      * @param workgroupName The workgroupName to set.
      */
     public void setWorkgroupName(String workgroupName) {
         this.workgroupName = workgroupName;
     }
-    
+
 }

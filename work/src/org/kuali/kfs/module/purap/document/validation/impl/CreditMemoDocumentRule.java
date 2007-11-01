@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -278,7 +277,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
                 String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
                 String documentType = documentTypeArray[documentTypeArray.length - 1];
                 valid &= validateBelowTheLineValues(documentType, item);
-                
+
                 if (item.getExtendedPrice() != null && item.getExtendedPrice().isNonZero()) {
                     valid &= processAccountValidation(purapDocument, item.getSourceAccountingLines(), item.getItemIdentifierString());
                 }

@@ -55,15 +55,15 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     /**
      * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByProcessIdDisbursementType(java.lang.Integer, java.lang.String)
      */
-    public Iterator getByProcessIdDisbursementType(Integer pid,String disbursementType) {
+    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType) {
         LOG.debug("getByProcessIdDisbursementType() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("processId",pid);
+        criteria.addEqualTo("processId", pid);
         criteria.addEqualTo("disbursementTypeCode", disbursementType);
 
-        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class,criteria);
-        qbc.addOrderBy("disbursementNbr",true);
+        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class, criteria);
+        qbc.addOrderBy("disbursementNbr", true);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -71,15 +71,15 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     /**
      * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByDisbursementTypeStatusCode(java.lang.String, java.lang.String)
      */
-    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode) {
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode) {
         LOG.debug("getByDisbursementTypeStatusCode() started");
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("disbursementTypeCode", disbursementType);
         criteria.addEqualTo("paymentStatusCode", paymentStatusCode);
 
-        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class,criteria);
-        qbc.addOrderBy("disbursementNbr",true);
+        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class, criteria);
+        qbc.addOrderBy("disbursementNbr", true);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -91,12 +91,12 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         LOG.debug("getByProcessId() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("processId",pid);
+        criteria.addEqualTo("processId", pid);
 
-        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class,criteria);
-        qbc.addOrderBy("sortValue",true);
-        qbc.addOrderBy("payeeName",true);
-        qbc.addOrderBy("line1Address",true);
+        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class, criteria);
+        qbc.addOrderBy("sortValue", true);
+        qbc.addOrderBy("payeeName", true);
+        qbc.addOrderBy("line1Address", true);
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
@@ -117,7 +117,7 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         Criteria criteria = new Criteria();
         criteria.addEqualTo("id", id);
 
-        PaymentGroup cp = (PaymentGroup)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
+        PaymentGroup cp = (PaymentGroup) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
 
         if (cp.getBatch() != null) {
             updateBatchUser(cp.getBatch());
@@ -141,14 +141,14 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         LOG.debug("getByDisbursementNumber() enter method");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("disbursementNbr", disbursementNbr);
-        return (List)getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class,criteria));
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
     }
-  
+
     public List getByBatchId(Integer batchId) {
         LOG.debug("getByBatchId() enter method");
         Criteria criteria = new Criteria();
         criteria.addEqualTo("batchId", batchId);
-        return (List)getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class,criteria));
+        return (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
     }
 
     private void updatePaymentGroupHistoryList(List l) {
@@ -159,28 +159,31 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
     }
 
     private void updateChangeUser(PaymentGroupHistory b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setChangeUser(null);
         }
     }
 
     private void updateBatchUser(Batch b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setSubmiterUser(null);
         }
     }
 
     private void updateProcessUser(PaymentProcess b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setProcessUser(null);
         }
     }

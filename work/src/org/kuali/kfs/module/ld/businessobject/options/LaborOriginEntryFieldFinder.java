@@ -90,7 +90,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
     /**
      * Get field display name.
      * 
-     * @param fieldName 
+     * @param fieldName
      * @return Returns the label
      */
     public String getFieldDisplayName(String fieldName) {
@@ -117,7 +117,7 @@ public class LaborOriginEntryFieldFinder extends KeyValuesBase {
                 return (String) klp.getKey();
             }
         }
-        
+
         return "Error";
     }
 

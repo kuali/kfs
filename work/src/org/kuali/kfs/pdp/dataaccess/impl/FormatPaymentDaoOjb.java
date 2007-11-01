@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.PaymentGroup;
@@ -45,7 +44,7 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         Timestamp now = new Timestamp((new Date()).getTime());
         java.sql.Date sqlDate = new java.sql.Date(paydate.getTime());
         Calendar c = Calendar.getInstance();
-        c.setTime( sqlDate );
+        c.setTime(sqlDate);
         c.set(Calendar.HOUR, 11);
         c.set(Calendar.MINUTE, 59);
         c.set(Calendar.SECOND, 59);
@@ -57,11 +56,11 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         LOG.debug("markPaymentsForFormat() entered paydate = " + paydate);
         LOG.debug("markPaymentsForFormat() actual paydate = " + paydateTs);
 
-        PaymentStatus format = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
+        PaymentStatus format = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.FORMAT);
 
         List customerIds = new ArrayList();
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
-            CustomerProfile element = (CustomerProfile)iter.next();
+            CustomerProfile element = (CustomerProfile) iter.next();
             customerIds.add(element.getId());
         }
 
@@ -72,20 +71,24 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         if ("SY".equals(paymentTypes)) {
             // special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.TRUE);
-        } else if ("SN".equals(paymentTypes)) {
+        }
+        else if ("SN".equals(paymentTypes)) {
             // no special handling only
             criteria.addEqualTo("pymtSpecialHandling", Boolean.FALSE);
-        } else if ("AY".equals(paymentTypes)) {
+        }
+        else if ("AY".equals(paymentTypes)) {
             // attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.TRUE);
-        } else if ("AN".equals(paymentTypes)) {
+        }
+        else if ("AN".equals(paymentTypes)) {
             // no attachments only
             criteria.addEqualTo("pymtAttachment", Boolean.FALSE);
         }
 
-        if ( immediate ) {
+        if (immediate) {
             criteria.addEqualTo("processImmediate", Boolean.TRUE);
-        } else {
+        }
+        else {
             // (Payment date <= usePaydate OR immediate = TRUE)
             Criteria criteria1 = new Criteria();
             criteria1.addEqualTo("processImmediate", Boolean.TRUE);
@@ -98,8 +101,8 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
         }
 
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
-        while ( groupIterator.hasNext() ) {
-            PaymentGroup paymentGroup = (PaymentGroup)groupIterator.next();
+        while (groupIterator.hasNext()) {
+            PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(paydateTs);
             paymentGroup.setPaymentStatus(format);
             paymentGroup.setProcess(proc);
@@ -112,15 +115,15 @@ public class FormatPaymentDaoOjb extends PlatformAwareDaoBaseOjb implements Form
 
         Timestamp now = new Timestamp((new Date()).getTime());
 
-        PaymentStatus openStatus = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        PaymentStatus openStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processId", proc.getId());
         criteria.addEqualTo("paymentStatusCode", PdpConstants.PaymentStatusCodes.FORMAT);
 
         Iterator groupIterator = getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentGroup.class, criteria));
-        while ( groupIterator.hasNext() ) {
-            PaymentGroup paymentGroup = (PaymentGroup)groupIterator.next();
+        while (groupIterator.hasNext()) {
+            PaymentGroup paymentGroup = (PaymentGroup) groupIterator.next();
             paymentGroup.setLastUpdate(now);
             paymentGroup.setPaymentStatus(openStatus);
             getPersistenceBrokerTemplate().store(paymentGroup);

@@ -30,7 +30,7 @@ public class DailyReport implements Comparable {
         amount = new BigDecimal("0");
     }
 
-    public DailyReport(String s,String c,BigDecimal a,Integer pm,Integer py) {
+    public DailyReport(String s, String c, BigDecimal a, Integer pm, Integer py) {
         this();
         sortOrder = s;
         customer = c;
@@ -40,7 +40,7 @@ public class DailyReport implements Comparable {
     }
 
     public int compareTo(Object o) {
-        DailyReport dro = (DailyReport)o;
+        DailyReport dro = (DailyReport) o;
         return getKey().compareTo(dro.getKey());
     }
 
@@ -57,30 +57,39 @@ public class DailyReport implements Comparable {
     public BigDecimal getAmount() {
         return amount;
     }
+
     public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
+
     public String getCustomer() {
         return customer;
     }
+
     public void setCustomer(String customer) {
         this.customer = customer;
     }
+
     public Integer getPayees() {
         return payees;
     }
+
     public void setPayees(Integer payees) {
         this.payees = payees;
     }
+
     public Integer getPayments() {
         return payments;
     }
+
     public void setPayments(Integer payments) {
         this.payments = payments;
     }
+
     public String getSortOrder() {
         return sortOrder;
     }
+
     public void setSortOrder(String sortOrder) {
         this.sortOrder = sortOrder;
     }

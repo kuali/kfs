@@ -20,8 +20,6 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * Fund Group Business Object
- * 
- * 
  */
 public class FundGroup extends KualiCodeBase {
     private static final long serialVersionUID = 6940405128416948259L;

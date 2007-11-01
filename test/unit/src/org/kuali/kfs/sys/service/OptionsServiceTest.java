@@ -25,8 +25,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Options service.
- * 
- * 
  */
 @ConfigureContext
 public class OptionsServiceTest extends KualiTestBase {
@@ -40,7 +38,7 @@ public class OptionsServiceTest extends KualiTestBase {
         LOG.debug("getUniversityFiscalYear = " + options.getUniversityFiscalYear());
         LOG.debug("getActualFinancialBalanceTypeCd = " + options.getActualFinancialBalanceTypeCd());
         LOG.debug("getBudgetCheckingBalanceTypeCd = " + options.getBudgetCheckingBalanceTypeCd());
-//        LOG.debug("getBudgetCheckingOptionsCode = " + options.getBudgetCheckingOptionsCode());
+        // LOG.debug("getBudgetCheckingOptionsCode = " + options.getBudgetCheckingOptionsCode());
         LOG.debug("getUniversityFiscalYearStartYr = " + options.getUniversityFiscalYearStartYr());
         LOG.debug("getUniversityFiscalYearStartMo = " + options.getUniversityFiscalYearStartMo());
         LOG.debug("getFinObjectTypeIncomecashCode = " + options.getFinObjectTypeIncomecashCode());

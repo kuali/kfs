@@ -14,19 +14,19 @@ import org.kuali.module.pdp.dao.AchAccountNumberDao;
  * @author HSTAPLET
  */
 public class AchAccountNumberDaoOjb extends PlatformAwareDaoBaseOjb implements AchAccountNumberDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchAccountNumberDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AchAccountNumberDaoOjb.class);
 
-  public AchAccountNumber get(Integer id) {
-    LOG.debug("get(id) started");
-    
-    Criteria criteria = new Criteria();
-    criteria.addEqualTo("id",id);
-  
-    return (AchAccountNumber)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(AchAccountNumber.class,criteria));
-  }
+    public AchAccountNumber get(Integer id) {
+        LOG.debug("get(id) started");
 
-  public void delete(AchAccountNumber achAccountNumber) {
-    LOG.debug("delete() enter method");
-    getPersistenceBrokerTemplate().delete(achAccountNumber);
-  }
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("id", id);
+
+        return (AchAccountNumber) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(AchAccountNumber.class, criteria));
+    }
+
+    public void delete(AchAccountNumber achAccountNumber) {
+        LOG.debug("delete() enter method");
+        getPersistenceBrokerTemplate().delete(achAccountNumber);
+    }
 }

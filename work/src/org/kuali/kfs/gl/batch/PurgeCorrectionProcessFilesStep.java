@@ -22,7 +22,6 @@ import java.util.GregorianCalendar;
 
 import org.apache.log4j.Logger;
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 
@@ -32,7 +31,7 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 public class PurgeCorrectionProcessFilesStep extends AbstractStep {
     private static Logger LOG = Logger.getLogger(PurgeCorrectionProcessFilesStep.class);
     private CorrectionDocumentService correctionDocumentService;
-    
+
     /**
      * Runs the process of purging old correction document origin entries from the database.
      * 

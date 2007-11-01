@@ -34,8 +34,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the <code>CreditCardReceiptDocumentRule</code>s
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class CreditCardReceiptDocumentRuleTest extends KualiTestBase {

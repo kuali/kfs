@@ -7,9 +7,9 @@ package org.kuali.module.pdp.dao;
 
 /**
  * @author delyea
- *
  */
 public interface BatchMaintenanceDao {
-  public boolean doBatchPaymentsHaveOpenStatus(Integer batchId);
-  public boolean doBatchPaymentsHaveHeldStatus(Integer batchId);
+    public boolean doBatchPaymentsHaveOpenStatus(Integer batchId);
+
+    public boolean doBatchPaymentsHaveHeldStatus(Integer batchId);
 }

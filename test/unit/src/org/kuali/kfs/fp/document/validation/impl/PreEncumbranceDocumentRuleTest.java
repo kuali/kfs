@@ -35,8 +35,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the <code>PreEncumbranceDocumentRule</code>s
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class PreEncumbranceDocumentRuleTest extends KualiTestBase {

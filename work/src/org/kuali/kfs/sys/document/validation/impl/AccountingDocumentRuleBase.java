@@ -576,7 +576,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
                 Class documentClass = getAccountingLineDocumentClass(financialDocument);
-                
+
                 // Check the object code to see if it's restricted or not
                 valid &= isObjectCodeAllowed(documentClass, accountingLine);
 
@@ -611,11 +611,10 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
 
     /**
+     * This method returns the document class associated with this accounting document and is used to find the appropriate parameter
+     * rule This can be overridden to return a different class depending on the situation, initially this is used for Year End
+     * documents so that they use the same rules as their parent docs
      * 
-     * This method returns the document class associated with this accounting document and is used to find
-     * the appropriate parameter rule
-     * This can be overridden to return a different class depending on the situation, initially this is
-     * used for Year End documents so that they use the same rules as their parent docs
      * @see org.kuali.module.financial.rules.YearEndGeneralErrorCorrectionDocumentRule#getAccountingLineDocumentClass(AccountingDocument)
      * @param financialDocument
      * @return documentClass associated with this accounting document

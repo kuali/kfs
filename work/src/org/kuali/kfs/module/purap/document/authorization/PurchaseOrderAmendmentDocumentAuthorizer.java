@@ -29,12 +29,13 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 
 /**
- * Document Authorizer for the PO Amendment document. 
+ * Document Authorizer for the PO Amendment document.
  */
 public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocumentAuthorizer {
 
     /**
-     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
+     * @see org.kuali.kfs.document.authorization.AccountingDocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser, java.util.List, java.util.List)
      */
     @Override
     public Map getEditMode(Document d, UniversalUser u, List sourceAccountingLines, List targetAccountingLines) {
@@ -42,12 +43,11 @@ public class PurchaseOrderAmendmentDocumentAuthorizer extends PurchaseOrderDocum
         String editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
 
         KualiWorkflowDocument workflowDocument = d.getDocumentHeader().getWorkflowDocument();
-        if (((PurchasingAccountsPayableDocument)d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) &&
-            (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
+        if (((PurchasingAccountsPayableDocument) d).getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS) && (workflowDocument.stateIsInitiated() || workflowDocument.stateIsSaved())) {
             editMode = PurapAuthorizationConstants.PurchaseOrderEditMode.AMENDMENT_ENTRY;
         }
         editModeMap.put(editMode, "TRUE");
-        
+
         return editModeMap;
     }
 }

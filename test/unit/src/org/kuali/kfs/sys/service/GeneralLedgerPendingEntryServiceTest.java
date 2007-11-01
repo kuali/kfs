@@ -28,8 +28,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the GeneralLedgerPending service.
- * 
- * 
  */
 @ConfigureContext
 public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {

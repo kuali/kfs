@@ -159,18 +159,10 @@ public class PurgeTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("DELETE FROM GL_ID_BILL_T");
 
         // Should be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " 
-                    + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " 
-                    + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2001, " 
-                    + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" 
-                    + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2001, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
 
         // Shouldn't be deleted
-        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, "
-                + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, "
-                + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2002, " 
-                + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" 
-                + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
+        unitTestSqlDao.sqlCommand("insert into GL_ID_BILL_T (FS_ORIGIN_CD,UNIV_FISCAL_PRD_CD, UNIV_FISCAL_YR, CREATE_DT, CREATE_SEQ, FIN_COA_CD, ACCOUNT_NBR, " + "SUB_ACCT_NBR, FIN_OBJECT_CD, FIN_SUB_OBJ_CD, FDOC_IDBIL_SEQ_NBR, FDOC_TYP_CD, FDOC_NBR, OBJ_ID, VER_NBR, FDOC_IDBIL_ITM_AMT, " + "FDOC_IDBIL_NTE_TXT, FIN_OBJ_TYP_CD, FIN_BALANCE_TYP_CD) values ('01','01', 2002, " + unitTestSqlDao.getDbPlatform().getCurTimeFunction() + ", '1', 'BL', '1031400', '-----', '5000', '---', '1', 'ID22', 'XXX','" + new Guid().toString() + "', 1, 0, 'x', 'EX', 'AC')");
 
         Step purgeStep = SpringContext.getBean(PurgeCollectorDetailStep.class);
 
@@ -232,13 +224,16 @@ public class PurgeTest extends KualiTestBase {
         Object o = values.get(field);
         if (o == null) {
             return -1;
-        } else if (o instanceof BigDecimal) {
+        }
+        else if (o instanceof BigDecimal) {
             BigDecimal number = (BigDecimal) o;
             return number.intValue();
-        } else if (o instanceof Long) {
+        }
+        else if (o instanceof Long) {
             Long number = (Long) o;
             return number.intValue();
-        } else {
+        }
+        else {
             return -1;
         }
     }

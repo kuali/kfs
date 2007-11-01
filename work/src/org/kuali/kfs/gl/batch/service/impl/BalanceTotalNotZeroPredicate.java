@@ -15,17 +15,18 @@
  */
 package org.kuali.module.gl.batch.closing.year.service.impl;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.batch.closing.year.service.BalancePredicate;
 import org.kuali.module.gl.bo.Balance;
 
 /**
- * A predicate that only allows the selection of balances with a total that isn't zero (those with zero as a total are somewhat pointless to process)
+ * A predicate that only allows the selection of balances with a total that isn't zero (those with zero as a total are somewhat
+ * pointless to process)
  */
 public class BalanceTotalNotZeroPredicate implements BalancePredicate {
 
     /**
-     * Selects only balances whose total (annual accounting line balance + beginning balance + contracts and grants beginning balance) is not zero
+     * Selects only balances whose total (annual accounting line balance + beginning balance + contracts and grants beginning
+     * balance) is not zero
      * 
      * @param balance the balance to qualify
      * @return true if the balance total is not zero, false if it is

@@ -42,17 +42,17 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     private Long proposalNumber;
     private Date proposalBeginningDate;
     private Date proposalEndingDate;
-    
+
     /**
-     * This field is for write-only to the database via OJB, not the 
-     * corresponding property of this BO. OJB uses reflection to read it, so 
-     * the compiler warns because it doesn't know.
+     * This field is for write-only to the database via OJB, not the corresponding property of this BO. OJB uses reflection to read
+     * it, so the compiler warns because it doesn't know.
+     * 
      * @see #getProposalTotalAmount
      * @see #setProposalTotalAmount
      */
-    @SuppressWarnings({"unused"})
+    @SuppressWarnings( { "unused" })
     private KualiDecimal proposalTotalAmount;
-    
+
     private KualiDecimal proposalDirectCostAmount;
     private KualiDecimal proposalIndirectCostAmount;
     private Date proposalRejectedDate;
@@ -90,10 +90,10 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     private LookupService lookupService;
     private Award award;
 
-	/**
+    /**
      * Default constructor.
      */
-    @SuppressWarnings({"unchecked"})
+    @SuppressWarnings( { "unchecked" })
     public Proposal() {
         // Must use TypedArrayList because its get() method automatically grows
         // the array for Struts.
@@ -106,8 +106,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     /**
      * Gets the award awarded to a proposal instance.
      * 
-     * @return the award corresponding to a proposal instance if the proposal
-     * has been awarded.
+     * @return the award corresponding to a proposal instance if the proposal has been awarded.
      */
     public Award getAward() {
         return award;
@@ -121,6 +120,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     public void setAward(Award award) {
         this.award = award;
     }
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */
@@ -200,45 +200,39 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     }
 
     /**
-     * Does nothing.  This property is determined by the direct and indirect cost amounts.
-     * This setter is here only because without it, the maintenance framework won't display this attribute.
+     * Does nothing. This property is determined by the direct and indirect cost amounts. This setter is here only because without
+     * it, the maintenance framework won't display this attribute.
      * 
      * @param proposalTotalAmount The proposalTotalAmount to set.
-     * 
      */
     public void setProposalTotalAmount(KualiDecimal proposalTotalAmount) {
         // do nothing
     }
 
     /**
-     * OJB calls this method as the first operation before this BO is inserted 
-     * into the database. The database contains CGPRPSL_TOT_AMT, a denormalized 
-     * column that Kuali does not use but needs to maintain with this method 
-     * because OJB bypasses the getter.
+     * OJB calls this method as the first operation before this BO is inserted into the database. The database contains
+     * CGPRPSL_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses
+     * the getter.
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker)
-        throws PersistenceBrokerException {
+    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeInsert(persistenceBroker);
         proposalTotalAmount = getProposalTotalAmount();
     }
 
     /**
-     * OJB calls this method as the first operation before this BO is updated 
-     * to the database. The database contains CGPRPSL_TOT_AMT, a denormalized 
-     * column that Kuali does not use but needs to maintain with this method 
-     * because OJB bypasses the getter.
+     * OJB calls this method as the first operation before this BO is updated to the database. The database contains
+     * CGPRPSL_TOT_AMT, a denormalized column that Kuali does not use but needs to maintain with this method because OJB bypasses
+     * the getter.
      * 
      * @param persistenceBroker from OJB
      * @throws PersistenceBrokerException
      */
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker)
-        throws PersistenceBrokerException
-    {
+    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.beforeUpdate(persistenceBroker);
         proposalTotalAmount = getProposalTotalAmount();
     }
@@ -586,8 +580,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     }
 
     /**
-     * Gets the active attribute. 
-	 *
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -596,7 +590,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 
     /**
      * Sets the active attribute value.
-	 *
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -700,7 +694,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 
     /**
      * Gets the {@link Cfda} attribute.
-     *
+     * 
      * @return Returns the {@link Cfda}
      */
     public Cfda getCfda() {
@@ -709,7 +703,7 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 
     /**
      * Sets the {@link Cfda} attribute.
-     *
+     * 
      * @param cfda The {@link Cfda} to set.
      * @deprecated
      */
@@ -736,8 +730,8 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     }
 
     /**
-	 * Gets the {@link List} of {@link ProposalOrganization}s associated with a {@link Proposal} instance.
-	 * 
+     * Gets the {@link List} of {@link ProposalOrganization}s associated with a {@link Proposal} instance.
+     * 
      * @return Returns the {@link ProposalOrganization}s.
      */
     public List<ProposalOrganization> getProposalOrganizations() {
@@ -794,97 +788,95 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     private transient String lookupPersonUniversalIdentifier;
     private transient UniversalUser lookupUniversalUser;
 
-	/**
-	 * Gets the lookup {@link UniversalUser}.
-	 *
-	 * @return the lookup {@link UniversalUser}
-	 */
-	public UniversalUser getLookupUniversalUser() {
-		return lookupUniversalUser;
-	}
-
-	/**
-	 * Sets the lookup {@link UniversalUser}
-	 * 
-	 * @param lookupUniversalUser
-	 */
-	public void setLookupUniversalUser(UniversalUser lookupUniversalUser) {
-		this.lookupUniversalUser = lookupUniversalUser;
-	}
-
-	/**
-	 * Gets the universal user id of the lookup person.
-	 *
-	 * @return the id of the lookup person
-	 */
-	public String getLookupPersonUniversalIdentifier() {
-		lookupUniversalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
-		return lookupPersonUniversalIdentifier;
-	}
-
-	/**
-	 * Sets the universal user id of the lookup person 
-	 *
-	 * @param lookupUniversalUserId the id of the lookup person
-	 */
-	public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
-		this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
-	}
-	
     /**
-     * I added this getter to the BO to resolve KULCG-300.  
-	 * I'm not sure if this is actually needed by the code,
-     * but the framework breaks all lookups on the proposal 
-	 * maintenance doc without this getter.
-	 * 
+     * Gets the lookup {@link UniversalUser}.
+     * 
+     * @return the lookup {@link UniversalUser}
+     */
+    public UniversalUser getLookupUniversalUser() {
+        return lookupUniversalUser;
+    }
+
+    /**
+     * Sets the lookup {@link UniversalUser}
+     * 
+     * @param lookupUniversalUser
+     */
+    public void setLookupUniversalUser(UniversalUser lookupUniversalUser) {
+        this.lookupUniversalUser = lookupUniversalUser;
+    }
+
+    /**
+     * Gets the universal user id of the lookup person.
+     * 
+     * @return the id of the lookup person
+     */
+    public String getLookupPersonUniversalIdentifier() {
+        lookupUniversalUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(lookupPersonUniversalIdentifier, lookupUniversalUser);
+        return lookupPersonUniversalIdentifier;
+    }
+
+    /**
+     * Sets the universal user id of the lookup person
+     * 
+     * @param lookupUniversalUserId the id of the lookup person
+     */
+    public void setLookupPersonUniversalIdentifier(String lookupUniversalUserId) {
+        this.lookupPersonUniversalIdentifier = lookupUniversalUserId;
+    }
+
+    /**
+     * I added this getter to the BO to resolve KULCG-300. I'm not sure if this is actually needed by the code, but the framework
+     * breaks all lookups on the proposal maintenance doc without this getter.
+     * 
      * @return the {@link LookupService} used by the instance.
      */
     public LookupService getLookupService() {
         return lookupService;
     }
-    
 
-	/**
-	 * Gets the id of the routing {@link Chart}
-	 *
-	 * @return the id of the routing {@link Chart}
-	 */
+
+    /**
+     * Gets the id of the routing {@link Chart}
+     * 
+     * @return the id of the routing {@link Chart}
+     */
     public String getRoutingChart() {
         return routingChart;
     }
 
-	/**
-	 * Sets the id of the routing {@link Chart}.
-	 *
-	 * @return the id of the routing {@link Chart}.
-	 */
+    /**
+     * Sets the id of the routing {@link Chart}.
+     * 
+     * @return the id of the routing {@link Chart}.
+     */
     public void setRoutingChart(String routingChart) {
         this.routingChart = routingChart;
     }
 
-	/**
-	 * Gets the id of the routing {@link Org}.
-	 *
-	 * @return the id of the routing {@link Org}
-	 */
+    /**
+     * Gets the id of the routing {@link Org}.
+     * 
+     * @return the id of the routing {@link Org}
+     */
     public String getRoutingOrg() {
         return routingOrg;
     }
 
-	/**
-	 * Sets the id of the routing {@link Org}.
-	 *
-	 * @param the id of the routing {@link Org}
-	 */
+    /**
+     * Sets the id of the routing {@link Org}.
+     * 
+     * @param the id of the routing {@link Org}
+     */
     public void setRoutingOrg(String routingOrg) {
         this.routingOrg = routingOrg;
     }
 
-	/**
-	 * Gets the primary {@link ProposalOrganization} for a proposal.
-	 *
-	 * @return the primary {@link ProposalOrganization} for a proposal
-	 */
+    /**
+     * Gets the primary {@link ProposalOrganization} for a proposal.
+     * 
+     * @return the primary {@link ProposalOrganization} for a proposal
+     */
     public ProposalOrganization getPrimaryProposalOrganization() {
         for (ProposalOrganization po : proposalOrganizations) {
             if (po != null && po.isProposalPrimaryOrganizationIndicator()) {
@@ -895,21 +887,21 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
 
         return primaryProposalOrganization;
     }
-    
-	/**
-	 * Sets the {@link LookupService}. For Spring compatibility.
-	 * 
-	 * @param lookupService
-	 */
+
+    /**
+     * Sets the {@link LookupService}. For Spring compatibility.
+     * 
+     * @param lookupService
+     */
     public void setLookupService(LookupService lookupService) {
         this.lookupService = lookupService;
     }
 
-	/**
-	 * Sets the primary {@link ProposalOrganization} for a proposal
-	 *
-	 * @param primaryProposalOrganization
-	 */
+    /**
+     * Sets the primary {@link ProposalOrganization} for a proposal
+     * 
+     * @param primaryProposalOrganization
+     */
     public void setPrimaryProposalOrganization(ProposalOrganization primaryProposalOrganization) {
         this.primaryProposalOrganization = primaryProposalOrganization;
         this.routingChart = primaryProposalOrganization.getChartOfAccountsCode();
@@ -917,4 +909,3 @@ public class Proposal extends PersistableBusinessObjectBase implements Alternate
     }
 
 }
-

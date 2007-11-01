@@ -16,10 +16,9 @@
 package org.kuali.module.pdp;
 
 import org.kuali.core.authorization.AuthorizationConstants;
-import org.kuali.core.authorization.AuthorizationConstants.EditMode;
 
 public class PdpAuthorizationConstants extends AuthorizationConstants {
-    
+
     public static class PDPEditMode extends EditMode {
         public static final String ENTRY = "entry";
     }

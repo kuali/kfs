@@ -23,7 +23,6 @@ import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.dao.A21SubAccountDao;
 
 /**
- * 
  * This class provides data access to {@link A21SubAccount} through OJB
  */
 public class A21SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements A21SubAccountDao {
@@ -34,7 +33,6 @@ public class A21SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements A21S
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {

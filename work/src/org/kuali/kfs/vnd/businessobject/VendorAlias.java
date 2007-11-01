@@ -26,63 +26,64 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class VendorAlias extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private String vendorAliasName;
-	private Integer vendorDetailAssignedIdentifier;
-	private Integer vendorHeaderGeneratedIdentifier;
+    private String vendorAliasName;
+    private Integer vendorDetailAssignedIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;
     private boolean active;
-    
+
     VendorDetail vendorDetail;
-    
-	/**
-	 * Default constructor.
-	 */
-	public VendorAlias() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public VendorAlias() {
 
-	public String getVendorAliasName() {
-        
-		return vendorAliasName;
-	}
+    }
 
-	public void setVendorAliasName(String vendorAliasName) {
-		this.vendorAliasName = vendorAliasName;
-	}
+    public String getVendorAliasName() {
 
-	public Integer getVendorDetailAssignedIdentifier() {
-        
-		return vendorDetailAssignedIdentifier;
-	}
+        return vendorAliasName;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
+    public void setVendorAliasName(String vendorAliasName) {
+        this.vendorAliasName = vendorAliasName;
+    }
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorDetailAssignedIdentifier() {
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+        return vendorDetailAssignedIdentifier;
+    }
+
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+
+    public Integer getVendorHeaderGeneratedIdentifier() {
+
+        return vendorHeaderGeneratedIdentifier;
+    }
+
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
+    }
 
     public VendorDetail getVendorDetail() {
-        
+
         return vendorDetail;
     }
 
     /**
      * Sets the vendorDetail attribute value.
+     * 
      * @param vendorDetail The vendorDetail to set.
      * @deprecated
      */
@@ -94,7 +95,7 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorAliasName", this.vendorAliasName);
         if (this.vendorDetailAssignedIdentifier != null) {
             m.put("vendorDetailAssignedIdentifier", this.vendorDetailAssignedIdentifier.toString());
@@ -102,19 +103,18 @@ public class VendorAlias extends PersistableBusinessObjectBase implements Inacti
         if (this.vendorHeaderGeneratedIdentifier != null) {
             m.put("vendorHeaderGeneratedIdentifier", this.vendorHeaderGeneratedIdentifier.toString());
         }
-        
+
         return m;
     }
 
     /**
-     *  This method has to be overriden so that we will print only the vendorAliasName in the
-     *  vendor lookup result.
+     * This method has to be overriden so that we will print only the vendorAliasName in the vendor lookup result.
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringBuilder(java.util.LinkedHashMap)
      */
     @Override
     public String toStringBuilder(LinkedHashMap mapper) {
-        
+
         return vendorAliasName;
     }
 }

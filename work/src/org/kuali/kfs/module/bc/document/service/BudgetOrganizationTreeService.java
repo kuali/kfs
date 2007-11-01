@@ -18,17 +18,14 @@ package org.kuali.module.budget.service;
 import java.util.List;
 
 /**
- * This interface defines methods that manipulate objects used by the Organization Selection screens.
- * 
- * Manipulated objects include BudgetConstructionPullup with methods that populate and depopulate the associated table
- * for a specific user.
- * 
+ * This interface defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include
+ * BudgetConstructionPullup with methods that populate and depopulate the associated table for a specific user.
  */
 public interface BudgetOrganizationTreeService {
 
     /**
-     * This method populates BudgetConstructionPullup with rows that represent the subtree of the passed in
-     * point of view organization for a user. All organizations reporting to the point of view are inserted.
+     * This method populates BudgetConstructionPullup with rows that represent the subtree of the passed in point of view
+     * organization for a user. All organizations reporting to the point of view are inserted.
      * 
      * @param personUserIdentifier
      * @param chartOfAccountsCode
@@ -38,7 +35,7 @@ public interface BudgetOrganizationTreeService {
 
     /**
      * This method depopulates BudgetConstructionPullup of any rows associated with the user
-     *  
+     * 
      * @param personUserIdentifier
      */
     public void cleanPullup(String personUserIdentifier);
@@ -52,9 +49,10 @@ public interface BudgetOrganizationTreeService {
      * @return
      */
     public List getPullupChildOrgs(String personUniversalIdentifier, String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * This method resets the pullflag for the BudgetConstructionPullup set of records owned by the user
+     * 
      * @param personUniversalIdentifier
      */
     public void resetPullFlag(String personUniversalIdentifier);

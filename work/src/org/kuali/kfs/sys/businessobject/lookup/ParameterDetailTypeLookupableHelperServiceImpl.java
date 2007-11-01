@@ -45,8 +45,9 @@ public class ParameterDetailTypeLookupableHelperServiceImpl extends KualiLookupa
         List<ParameterDetailType> components;
         try {
             components = parameterService.getNonDatabaseDetailTypes();
-        } catch ( DataDictionaryException ex ) {
-            throw new RuntimeException( "Problem parsing data dictionary during full load required for lookup to function: " + ex.getMessage(), ex );            
+        }
+        catch (DataDictionaryException ex) {
+            throw new RuntimeException("Problem parsing data dictionary during full load required for lookup to function: " + ex.getMessage(), ex);
         }
 
         String activeCheck = fieldValues.get("active");

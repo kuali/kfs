@@ -19,37 +19,36 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.fixtures.AmountsLimitsFixture;
-import org.kuali.module.purap.rules.RequisitionDocumentRule;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
 public class RequisitionDocumentRuleTest extends PurapRuleTestBase {
- 
+
     RequisitionDocumentRule rule;
     RequisitionDocument req;
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         req = new RequisitionDocument();
         rule = new RequisitionDocumentRule();
     }
-    
+
     protected void tearDown() throws Exception {
         rule = null;
         req = null;
-        super.tearDown();      
+        super.tearDown();
     }
 
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_ZeroAmountSmallLimit() {
         req = AmountsLimitsFixture.ZERO_AMOUNT_SMALL_LIMIT.populateRequisition();
         assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(req));
     }
-    
+
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_SmallAmountSmallLimit() {
         req = AmountsLimitsFixture.SMALL_AMOUNT_SMALL_LIMIT.populateRequisition();
         assertTrue(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(req));
     }
-    
+
     public void testValidateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit_LargeAmountSmallLimit() {
         req = AmountsLimitsFixture.LARGE_AMOUNT_SMALL_LIMIT.populateRequisition();
         assertFalse(rule.validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit(req));

@@ -30,8 +30,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class validates the ServiceBillingControl maintenance document.
- * 
- * 
  */
 public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
 

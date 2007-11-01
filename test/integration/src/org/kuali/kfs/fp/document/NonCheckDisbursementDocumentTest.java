@@ -37,8 +37,6 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
  * This class is used to test NonCheckDisbursementDocumentTest.
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class NonCheckDisbursementDocumentTest extends KualiTestBase {
@@ -47,17 +45,18 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     private Document getDocumentParameterFixture() throws Exception {
         return DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), NonCheckDisbursementDocument.class);
     }
+
     private List<AccountingLineFixture> getTargetAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE4);
         return list;
     }
+
     private List<AccountingLineFixture> getSourceAccountingLineParametersFromFixtures() {
         List<AccountingLineFixture> list = new ArrayList<AccountingLineFixture>();
         list.add(LINE4);
         return list;
     }
-
 
 
     public final void testAddAccountingLine() throws Exception {
@@ -74,30 +73,33 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
 
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
-       
+
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
-    
+
     public final void testConvertIntoErrorCorrection_invalidYear() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
-      }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    }
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
-    //test util methods
+
+    // test util methods
     private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
         // set accountinglines to document
@@ -120,16 +122,16 @@ public class NonCheckDisbursementDocumentTest extends KualiTestBase {
     private NonCheckDisbursementDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         NonCheckDisbursementDocument document = (NonCheckDisbursementDocument) getDocumentParameterFixture();
-    
+
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
             sourceFixture.addAsSourceTo(document);
         }
-    
+
         for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
             targetFixture.addAsTargetTo(document);
         }
-    
+
         return document;
     }
 

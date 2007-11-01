@@ -21,7 +21,7 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 /**
  * This defines methods common for all ledger posting.
  */
-public interface LedgerPostingDocument extends TransactionalDocument{
+public interface LedgerPostingDocument extends TransactionalDocument {
     /**
      * @return posting year for this document
      */
@@ -47,7 +47,7 @@ public interface LedgerPostingDocument extends TransactionalDocument{
      * @param postingPeriodCode The postingPeriodCode to set.
      */
     public void setPostingPeriodCode(String postingPeriodCode);
-    
+
 
     /**
      * This method retrieves the accounting period associated with this document.

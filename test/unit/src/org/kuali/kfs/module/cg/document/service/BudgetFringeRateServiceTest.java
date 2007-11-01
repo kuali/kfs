@@ -27,10 +27,7 @@ import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 import org.kuali.test.ConfigureContext;
 
 /**
- * 
  * This class...
- * 
- * 
  */
 @ConfigureContext
 public class BudgetFringeRateServiceTest extends KualiTestBase {
@@ -47,7 +44,6 @@ public class BudgetFringeRateServiceTest extends KualiTestBase {
     private static final KualiDecimal GOOD_FRINGE_RATE = new KualiDecimal("0.50");
     private static final KualiDecimal BAD_COST_SHARE = new KualiDecimal("20.50");
     private static final KualiDecimal GOOD_COST_SHARE = new KualiDecimal("0.50");
-
 
 
     public void testValidContractsAndGrantsFringeRate() throws Exception {

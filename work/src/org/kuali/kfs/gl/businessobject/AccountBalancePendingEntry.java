@@ -19,8 +19,6 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 
 /**
  * This class...
- * 
- * 
  */
 public class AccountBalancePendingEntry extends GeneralLedgerPendingEntry {
 

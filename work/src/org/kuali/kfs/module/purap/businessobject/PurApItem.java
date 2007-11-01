@@ -25,7 +25,7 @@ import org.kuali.core.util.KualiDecimal;
 /**
  * Purap Item Business Object.
  */
-public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware{
+public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerAware {
 
     public abstract Integer getItemIdentifier();
 
@@ -98,34 +98,34 @@ public interface PurApItem extends PersistableBusinessObject, PersistenceBrokerA
      * @deprecated
      */
     public abstract void setItemType(ItemType itemType);
-    
+
     /**
      * This method resets the transient new account method
      */
     public void resetAccount();
-    
+
     public KualiDecimal getExtendedPrice();
 
     public KualiDecimal calculateExtendedPrice();
 
     public void setExtendedPrice(KualiDecimal extendedPrice);
-    
+
     public PurApAccountingLine getNewSourceLine();
-    
+
     public void setNewSourceLine(PurApAccountingLine newAccountingLine);
-    
+
     public abstract Class getAccountingLineClass();
-    
+
     public List<PurApAccountingLine> getSourceAccountingLines();
 
     public List<PurApAccountingLine> getBaselineSourceAccountingLines();
-    
+
     public KualiDecimal getItemQuantity();
 
     public void setItemQuantity(KualiDecimal itemQuantity);
- 
+
     public String getItemIdentifierString();
-    
+
     public abstract boolean isConsideredEntered();
 
     public PurApSummaryItem getSummaryItem();

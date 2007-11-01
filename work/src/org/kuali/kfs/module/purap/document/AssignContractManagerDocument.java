@@ -47,7 +47,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
 
     private List<AssignContractManagerDetail> assignContractManagerDetails = new ArrayList();
 
-    // Not persisted (only for labels in tag) 
+    // Not persisted (only for labels in tag)
     private String requisitionNumber;
     private String deliveryCampusCode;
     private String vendorName;
@@ -57,13 +57,13 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     private String firstItemDescription;
     private String firstObjectCode;
 
-    
+
     /**
-	 * Default constructor.
-	 */
-	public AssignContractManagerDocument() {
+     * Default constructor.
+     */
+    public AssignContractManagerDocument() {
         super();
-	}
+    }
 
     public AssignContractManagerDetail getAssignContractManagerDetail(int index) {
         while (assignContractManagerDetails.size() <= index) {
@@ -88,25 +88,25 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         }
         LOG.debug("populateDocumentWithRequisitions() Leaving method.");
     }
-    
-	@Override
+
+    @Override
     public void handleRouteStatusChange() {
         LOG.debug("handleRouteStatusChange() Entering method.");
-        
+
         super.handleRouteStatusChange();
-        
+
         if (this.getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             boolean isSuccess = true;
             StringBuffer failedReqs = new StringBuffer();
             for (Iterator iter = this.getAssignContractManagerDetails().iterator(); iter.hasNext();) {
                 AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
-                
+
                 if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                     // Get the requisition for this AssignContractManagerDetail.
                     RequisitionDocument req = SpringContext.getBean(RequisitionService.class).getRequisitionById(detail.getRequisitionIdentifier());
 
                     if (req.getStatusCode().equals(PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN)) {
-                        //only update REQ if code is empty and status is correct
+                        // only update REQ if code is empty and status is correct
                         SpringContext.getBean(PurapService.class).updateStatus(req, PurapConstants.RequisitionStatuses.CLOSED);
                         SpringContext.getBean(RequisitionService.class).saveDocumentWithoutValidation(req);
                         SpringContext.getBean(PurchaseOrderService.class).createPurchaseOrderDocument(req, this.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId(), detail.getContractManagerCode());
@@ -130,7 +130,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
                     workflowDoc.appSpecificRouteDocumentToUser(EdenConstants.ACTION_REQUEST_FYI_REQ, currentNodeName, 0, PurapWorkflowConstants.AssignContractManagerDocument.ASSIGN_CONTRACT_DOC_ERROR_COMPLETING_POST_PROCESSING + failedReqs, new NetworkIdVO(workflowDoc.getInitiatorNetworkId()), "Initiator", true);
                 }
                 catch (WorkflowException e) {
-                    //do nothing; document should have processed successfully and problem is with sending FYI
+                    // do nothing; document should have processed successfully and problem is with sending FYI
                 }
             }
         }
@@ -147,7 +147,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
             return nodeNames[0];
         }
     }
-    
+
     /**
      * @see org.kuali.core.document.Document#getDocumentTitle()
      */
@@ -155,7 +155,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     public String getDocumentTitle() {
         String title = "";
         String specificTitle = SpringContext.getBean(ParameterService.class).getParameterValue(AssignContractManagerDocument.class, PurapParameterConstants.PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE);
-        if (StringUtils.equalsIgnoreCase(specificTitle,Boolean.TRUE.toString())) {
+        if (StringUtils.equalsIgnoreCase(specificTitle, Boolean.TRUE.toString())) {
             title = PurapWorkflowConstants.AssignContractManagerDocument.WORKFLOW_DOCUMENT_TITLE;
         }
         else {
@@ -163,26 +163,26 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
         }
         return title;
     }
-    
+
     public List getAssignContractManagerDetails() {
         return assignContractManagerDetails;
     }
- 
+
     public void setAssignContractManagerDetails(List assignContractManagerDetails) {
         this.assignContractManagerDetails = assignContractManagerDetails;
     }
 
     /**
-     * Gets the firstObjectCode attribute. 
+     * Gets the firstObjectCode attribute.
      * 
      * @return Returns the firstObjectCode.
      */
     public String getFirstObjectCode() {
         return firstObjectCode;
     }
-    
+
     /**
-     * Gets the deliveryCampusCode attribute. 
+     * Gets the deliveryCampusCode attribute.
      * 
      * @return Returns the deliveryCampusCode.
      */
@@ -191,7 +191,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the firstItemDescription attribute. 
+     * Gets the firstItemDescription attribute.
      * 
      * @return Returns the firstItemDescription.
      */
@@ -200,7 +200,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the generalDescription attribute. 
+     * Gets the generalDescription attribute.
      * 
      * @return Returns the generalDescription.
      */
@@ -209,7 +209,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the requisitionCreateDate attribute. 
+     * Gets the requisitionCreateDate attribute.
      * 
      * @return Returns the requisitionCreateDate.
      */
@@ -218,7 +218,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the requisitionNumber attribute. 
+     * Gets the requisitionNumber attribute.
      * 
      * @return Returns the requisitionNumber.
      */
@@ -227,7 +227,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the requisitionTotalAmount attribute. 
+     * Gets the requisitionTotalAmount attribute.
      * 
      * @return Returns the requisitionTotalAmount.
      */
@@ -236,7 +236,7 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the vendorName attribute. 
+     * Gets the vendorName attribute.
      * 
      * @return Returns the vendorName.
      */

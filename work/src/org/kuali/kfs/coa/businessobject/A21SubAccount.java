@@ -49,7 +49,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     private ICRTypeCode icrTypeCode;
     private Chart chartOfAccounts;
     private Account account;
-    
+
     /**
      * 
      */
@@ -391,7 +391,8 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
+     * 
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -400,6 +401,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
 
     /**
      * Sets the account attribute value.
+     * 
      * @param account The account to set.
      * @deprecated
      */
@@ -408,7 +410,8 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
+     * Gets the chartOfAccounts attribute.
+     * 
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -417,6 +420,7 @@ public class A21SubAccount extends PersistableBusinessObjectBase {
 
     /**
      * Sets the chartOfAccounts attribute value.
+     * 
      * @param chartOfAccounts The chartOfAccounts to set.
      * @deprecated
      */

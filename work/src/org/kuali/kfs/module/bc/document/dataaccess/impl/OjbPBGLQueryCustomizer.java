@@ -16,7 +16,6 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +27,15 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger
- * so as to fetch expenditure or revenue lines based on a set of object code types 
+ * This customizer constrains the relationship to PendingBudgetConstructionGeneralLedger so as to fetch expenditure or revenue lines
+ * based on a set of object code types
  */
 public class OjbPBGLQueryCustomizer implements QueryCustomizer {
 
     private Map attributes = new HashMap();
     private static final String revenueAttributeName = "REVENUE";
     private static final String objectCodeTypeField = KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE;
-    
+
     private ArrayList<String> revObjs = new ArrayList<String>();
 
     /**
@@ -61,15 +60,18 @@ public class OjbPBGLQueryCustomizer implements QueryCustomizer {
     }
 
     /**
-     * @see org.apache.ojb.broker.accesslayer.QueryCustomizer#customizeQuery(java.lang.Object, org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor, org.apache.ojb.broker.query.QueryByCriteria)
+     * @see org.apache.ojb.broker.accesslayer.QueryCustomizer#customizeQuery(java.lang.Object,
+     *      org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor,
+     *      org.apache.ojb.broker.query.QueryByCriteria)
      */
     public Query customizeQuery(Object arg0, PersistenceBroker arg1, CollectionDescriptor arg2, QueryByCriteria arg3) {
 
-        if ("TRUE".equals(getAttribute(revenueAttributeName))){
+        if ("TRUE".equals(getAttribute(revenueAttributeName))) {
             revObjs.add("IN");
             revObjs.add("IC");
             revObjs.add("CH");
-        } else {
+        }
+        else {
             revObjs.add("EE");
             revObjs.add("EX");
             revObjs.add("ES");

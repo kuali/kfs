@@ -23,6 +23,7 @@ import org.kuali.module.gl.util.CollectorReportData;
 public interface CollectorService {
     /**
      * performs collection
+     * 
      * @return status information related to the collection execution
      */
     public CollectorReportData performCollection();

@@ -29,8 +29,7 @@ import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.web.optionfinder.OEGTypeComparator;
 
 /**
- * Entries Finder for Labor Balance Type Code.
- * Returns a list of key values of Labor Origin Entry Groups for LLCP.
+ * Entries Finder for Labor Balance Type Code. Returns a list of key values of Labor Origin Entry Groups for LLCP.
  */
 public class CorrectionLaborGroupEntriesFinder extends KeyValuesBase {
 

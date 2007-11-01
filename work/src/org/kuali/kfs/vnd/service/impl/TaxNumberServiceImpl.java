@@ -23,7 +23,6 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorParameterConstants;
-import org.kuali.module.vendor.VendorParameterConstants;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.TaxNumberService;
 

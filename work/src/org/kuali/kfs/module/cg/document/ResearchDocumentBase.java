@@ -147,7 +147,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return this.getAdhocWorkgroups().get(index);
     }
-    
+
     /**
      * Clears all adhocs of a given type.
      * 
@@ -173,7 +173,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
             }
         }
     }
-    
+
     /**
      * Convert and return this document's adhoc persons as KFS-style AdHoc persons
      * 
@@ -181,7 +181,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
      */
     public List<AdHocRoutePerson> convertKraAdhocsToAdHocRoutePersons() {
         List<AdHocRoutePerson> adHocRoutePersons = new ArrayList<AdHocRoutePerson>();
-        for (AdhocPerson kraAdhocPerson: this.adhocPersons) {
+        for (AdhocPerson kraAdhocPerson : this.adhocPersons) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocPerson);
             AdHocRoutePerson adHocRoutePerson = new AdHocRoutePerson();
             adHocRoutePerson.setId(kraAdhocPerson.getUser().getPersonUserIdentifier());
@@ -190,7 +190,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return adHocRoutePersons;
     }
-    
+
     /**
      * Convert and return this document's adhoc workgroups as KFS-style AdHoc workgroups
      * 
@@ -198,7 +198,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
      */
     public List<AdHocRouteWorkgroup> convertKraAdhocsToAdHocRouteWorkgroups() {
         List<AdHocRouteWorkgroup> adHocRouteWorkgroups = new ArrayList<AdHocRouteWorkgroup>();
-        for (AdhocWorkgroup kraAdhocWorkgroup: this.adhocWorkgroups) {
+        for (AdhocWorkgroup kraAdhocWorkgroup : this.adhocWorkgroups) {
             SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(kraAdhocWorkgroup);
             AdHocRouteWorkgroup adHocRouteWorkgroup = new AdHocRouteWorkgroup();
             adHocRouteWorkgroup.setId(kraAdhocWorkgroup.getWorkgroupName());
@@ -233,7 +233,7 @@ public abstract class ResearchDocumentBase extends TransactionalDocumentBase imp
         }
         return xml.toString();
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

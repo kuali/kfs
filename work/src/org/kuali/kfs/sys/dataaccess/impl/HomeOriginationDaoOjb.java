@@ -24,8 +24,6 @@ import org.kuali.kfs.dao.HomeOriginationDao;
 
 /**
  * This class is the OJB implementation of the HomeOriginationDao interface.
- * 
- * 
  */
 public class HomeOriginationDaoOjb extends PlatformAwareDaoBaseOjb implements HomeOriginationDao {
 

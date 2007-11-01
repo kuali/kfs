@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
 public class ObjectCodeGlobalDetailTest extends KualiTestBase {
     private AccountingDocument document;
 

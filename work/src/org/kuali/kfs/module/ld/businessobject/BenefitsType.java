@@ -96,7 +96,7 @@ public class BenefitsType extends PersistableBusinessObjectBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put("positionBenefitTypeCode", this.positionBenefitTypeCode);
-        
+
         return m;
     }
 }

@@ -19,7 +19,6 @@ package org.kuali.module.purap.document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
@@ -37,11 +36,10 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     }
 
     public void customPrepareForSave(KualiDocumentEvent event) {
-        //do not set the accounts in sourceAccountingLines; this document should not create GL entries
+        // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
 
-    
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -49,9 +47,9 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            //set purap status and status history and status history note
-            //TODO: Once we have a note available here, add the note to the next line.
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD );
+            // set purap status and status history and status history note
+            // TODO: Once we have a note available here, add the note to the next line.
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
@@ -61,7 +59,7 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-        }        
+        }
     }
 
 }

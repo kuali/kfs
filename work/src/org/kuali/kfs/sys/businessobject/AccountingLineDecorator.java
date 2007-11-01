@@ -18,8 +18,6 @@ package org.kuali.kfs.web.ui;
 
 /**
  * AccountingLineDecoration contains information needed by the user interface to display a given AccountingLine.
- * 
- * 
  */
 public class AccountingLineDecorator {
     private boolean revertible;

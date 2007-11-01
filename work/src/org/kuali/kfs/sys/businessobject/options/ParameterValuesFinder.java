@@ -24,16 +24,17 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 
 /**
- * This class gets all the values of a parameter and then builds a list of key label pairs 
- * out of them, using each parameter value as both key and label
+ * This class gets all the values of a parameter and then builds a list of key label pairs out of them, using each parameter value
+ * as both key and label
  */
 public class ParameterValuesFinder extends KeyValuesBase {
     private Class componentClass;
     private String parameterName;
     private boolean insertBlankRow = true;
-    
-    public ParameterValuesFinder() {}
-    
+
+    public ParameterValuesFinder() {
+    }
+
     public ParameterValuesFinder(Class componentClass, String parameterName) {
         this.componentClass = componentClass;
         this.parameterName = parameterName;
@@ -46,7 +47,7 @@ public class ParameterValuesFinder extends KeyValuesBase {
             keyLabels.add(new KeyLabelPair("", ""));
         }
         if (parameterValues != null) {
-            for (String parameterValue: parameterValues) {
+            for (String parameterValue : parameterValues) {
                 keyLabels.add(new KeyLabelPair(parameterValue, parameterValue));
             }
         }
@@ -54,7 +55,8 @@ public class ParameterValuesFinder extends KeyValuesBase {
     }
 
     /**
-     * Gets the insertBlankRow attribute. 
+     * Gets the insertBlankRow attribute.
+     * 
      * @return Returns the insertBlankRow.
      */
     public boolean shouldInsertBlankRow() {
@@ -63,6 +65,7 @@ public class ParameterValuesFinder extends KeyValuesBase {
 
     /**
      * Sets the insertBlankRow attribute value.
+     * 
      * @param insertBlankRow The insertBlankRow to set.
      */
     public void setInsertBlankRow(boolean insertBlankRow) {
@@ -70,7 +73,8 @@ public class ParameterValuesFinder extends KeyValuesBase {
     }
 
     /**
-     * Gets the componentClass attribute. 
+     * Gets the componentClass attribute.
+     * 
      * @return Returns the componentClass.
      */
     public Class getComponentClass() {
@@ -78,7 +82,8 @@ public class ParameterValuesFinder extends KeyValuesBase {
     }
 
     /**
-     * Gets the parameterName attribute. 
+     * Gets the parameterName attribute.
+     * 
      * @return Returns the parameterName.
      */
     public String getParameterName() {
@@ -87,6 +92,7 @@ public class ParameterValuesFinder extends KeyValuesBase {
 
     /**
      * Sets the componentClass attribute value.
+     * 
      * @param componentClass The componentClass to set.
      */
     public void setComponentClass(Class componentClass) {
@@ -95,11 +101,12 @@ public class ParameterValuesFinder extends KeyValuesBase {
 
     /**
      * Sets the parameterName attribute value.
+     * 
      * @param parameterName The parameterName to set.
      */
     public void setParameterName(String parameterName) {
         this.parameterName = parameterName;
     }
 
-    
+
 }

@@ -46,7 +46,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -57,7 +56,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -67,7 +65,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the finDocumentNextFromLineNbr attribute.
      * 
      * @return Returns the finDocumentNextFromLineNbr
-     * 
      */
     public Integer getFinDocumentNextFromLineNbr() {
         return finDocumentNextFromLineNbr;
@@ -78,7 +75,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Sets the finDocumentNextFromLineNbr attribute.
      * 
      * @param finDocumentNextFromLineNbr The finDocumentNextFromLineNbr to set.
-     * 
      */
     public void setFinDocumentNextFromLineNbr(Integer finDocumentNextFromLineNbr) {
         this.finDocumentNextFromLineNbr = finDocumentNextFromLineNbr;
@@ -88,7 +84,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the finDocumentNextToLineNumber attribute.
      * 
      * @return Returns the finDocumentNextToLineNumber
-     * 
      */
     public Integer getFinDocumentNextToLineNumber() {
         return finDocumentNextToLineNumber;
@@ -99,7 +94,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Sets the finDocumentNextToLineNumber attribute.
      * 
      * @param finDocumentNextToLineNumber The finDocumentNextToLineNumber to set.
-     * 
      */
     public void setFinDocumentNextToLineNumber(Integer finDocumentNextToLineNumber) {
         this.finDocumentNextToLineNumber = finDocumentNextToLineNumber;
@@ -109,7 +103,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the financialDocumentPostingYear attribute.
      * 
      * @return Returns the financialDocumentPostingYear
-     * 
      */
     public Integer getFinancialDocumentPostingYear() {
         return financialDocumentPostingYear;
@@ -120,7 +113,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Sets the financialDocumentPostingYear attribute.
      * 
      * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
-     * 
      */
     public void setFinancialDocumentPostingYear(Integer financialDocumentPostingYear) {
         this.financialDocumentPostingYear = financialDocumentPostingYear;
@@ -130,7 +122,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the finDocumentPostingPeriodCode attribute.
      * 
      * @return Returns the finDocumentPostingPeriodCode
-     * 
      */
     public String getFinDocumentPostingPeriodCode() {
         return finDocumentPostingPeriodCode;
@@ -141,7 +132,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Sets the finDocumentPostingPeriodCode attribute.
      * 
      * @param finDocumentPostingPeriodCode The finDocumentPostingPeriodCode to set.
-     * 
      */
     public void setFinDocumentPostingPeriodCode(String finDocumentPostingPeriodCode) {
         this.finDocumentPostingPeriodCode = finDocumentPostingPeriodCode;
@@ -151,7 +141,6 @@ public class DistributionDoc extends PersistableBusinessObjectBase {
      * Gets the financialDocument attribute.
      * 
      * @return Returns the financialDocument
-     * 
      */
     public DocumentHeader getFinancialDocument() {
         return financialDocument;

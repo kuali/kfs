@@ -18,31 +18,9 @@ package org.kuali.test.fixtures;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 
 public enum GeneralLedgerPendingEntryFixture {
-    EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE("UA", "1912201", "BEER", "D", "AC", "TF", "TE", "9900", false, "KUL"),
-    EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "C", "AC", "TF", "TE", "9900", false, "KUL"),
-    EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "C", "AC", "GEC", "EX", "1940", false, "KUL"),
-    EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "GEC", "EX", "1940", false, "KUL"),
-    EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "C", "AC", "GEC", "AS", "8111", false, "KUL"),
-    EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "GEC", "AS", "8111", false, "KUL"),
-    EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY("BA", "6044900", null, "D", "AC", "GEC", "AS", "8000", true, "KUL"),
-    EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY(null, null, null, "C", "AC", "GEC", "AS", "8000", true, "KUL"),
-    EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "D", "AC", "JV", "EX", "9900", false, "KUL"),
-    EXPECTED_JV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "JV", "EX", "9900", false, null),
-    EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "JV", "AS", "9980", false, "KUL"),
-    EXPECTED_JV_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "JV", "TI", "9980", false, null),
-    EXPECTED_OFFSET_SOURCE_PENDING_ENTRY("UA", "1912201", "BEER", "C", "AC", "TF", "AS", "8000", true, "KUL"),
-    EXPECTED_OFFSET_TARGET_PENDING_ENTRY(null, null, "BEER", "D", "AC", "TF", "AS", "8000", true, "KUL"),
-    EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "TF", "AS", "9980", false, null),
-    EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "C", "AC", "TF", "AS", "9980", false, null),
-    EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2("BL", "2231401", null, "C", "AC", "TF", "TE", "9900", false, "KUL"),
-    EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE("BL", "2231401", null, "D", "AC", "TF", "TE", "9900", false, "KUL"),
-    EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY("UA", "1912201", null, "D", "AC", "TF", "AS", "8000", true, "KUL"),
-    EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION("BL", "2231401", null, "C", "AC", "TF", "--", "----", true, "KUL"),
-    EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "D", null, "AVAD", "ES", "9900", false, "KUL"),
-    EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "AVAD", "ES", "1940", false, "KUL"),
-    EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "AVAD", "AS", "8111", false, "KUL"),
-    EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "AVAD", "AS", "8111", false, "KUL"),
-    ;
+    EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE("UA", "1912201", "BEER", "D", "AC", "TF", "TE", "9900", false, "KUL"), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "C", "AC", "TF", "TE", "9900", false, "KUL"), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "C", "AC", "GEC", "EX", "1940", false, "KUL"), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "GEC", "EX", "1940", false, "KUL"), EXPECTED_GEC_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "C", "AC", "GEC", "AS", "8111", false, "KUL"), EXPECTED_GEC_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "GEC", "AS", "8111", false, "KUL"), EXPECTED_GEC_OFFSET_SOURCE_PENDING_ENTRY("BA", "6044900", null, "D", "AC", "GEC", "AS", "8000", true, "KUL"), EXPECTED_GEC_OFFSET_TARGET_PENDING_ENTRY(null, null, null, "C", "AC", "GEC", "AS", "8000", true, "KUL"), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "D", "AC",
+            "JV", "EX", "9900", false, "KUL"), EXPECTED_JV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "JV", "EX", "9900", false, null), EXPECTED_JV_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "JV", "AS", "9980", false, "KUL"), EXPECTED_JV_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "JV", "TI", "9980", false, null), EXPECTED_OFFSET_SOURCE_PENDING_ENTRY("UA", "1912201", "BEER", "C", "AC", "TF", "AS", "8000", true, "KUL"), EXPECTED_OFFSET_TARGET_PENDING_ENTRY(null, null, "BEER", "D", "AC", "TF", "AS", "8000", true, "KUL"), EXPECTED_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "TF", "AS", "9980", false, null), EXPECTED_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "C", "AC", "TF", "AS", "9980", false, null), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE2("BL", "2231401", null, "C", "AC", "TF", "TE", "9900", false, "KUL"), EXPECTED_FLEXIBLE_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE("BL", "2231401",
+            null, "D", "AC", "TF", "TE", "9900", false, "KUL"), EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY("UA", "1912201", null, "D", "AC", "TF", "AS", "8000", true, "KUL"), EXPECTED_FLEXIBLE_OFFSET_SOURCE_PENDING_ENTRY_MISSING_OFFSET_DEFINITION("BL", "2231401", null, "C", "AC", "TF", "--", "----", true, "KUL"), EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY_FOR_EXPENSE(null, null, "BEER", "D", null, "AVAD", "ES", "9900", false, "KUL"), EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY_FOR_EXPENSE(null, null, null, "D", "AC", "AVAD", "ES", "1940", false, "KUL"), EXPECTED_AV_EXPLICIT_SOURCE_PENDING_ENTRY(null, null, null, "D", "AC", "AVAD", "AS", "8111", false, "KUL"), EXPECTED_AV_EXPLICIT_TARGET_PENDING_ENTRY(null, null, null, "D", "AC", "AVAD", "AS", "8111", false, "KUL"), ;
 
     public final String chartOfAccountsCode;
     public final String accountNumber;

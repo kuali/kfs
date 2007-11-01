@@ -15,7 +15,6 @@
  */
 package org.kuali.module.financial.rules;
 
-import org.kuali.kfs.KFSKeyConstants.GeneralErrorCorrection;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
@@ -45,12 +44,13 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
 
     /**
      * Overriding to return parent class GeneralErrorCorrectionDocument instead
+     * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */
     @Override
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
         return GeneralErrorCorrectionDocument.class;
     }
-    
-    
+
+
 }

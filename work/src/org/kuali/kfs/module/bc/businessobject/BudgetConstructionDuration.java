@@ -25,61 +25,58 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
 
-	private String appointmentDurationCode;
-	private String appointmentDurationDescription;
-	private boolean rowActiveIndicator;
+    private String appointmentDurationCode;
+    private String appointmentDurationDescription;
+    private boolean rowActiveIndicator;
 
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionDuration() {
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionDuration() {
 
-	}
+    }
 
-	/**
-	 * Gets the appointmentDurationCode attribute.
-	 * 
-	 * @return Returns the appointmentDurationCode
-	 * 
-	 */
-	public String getAppointmentDurationCode() { 
-		return appointmentDurationCode;
-	}
+    /**
+     * Gets the appointmentDurationCode attribute.
+     * 
+     * @return Returns the appointmentDurationCode
+     */
+    public String getAppointmentDurationCode() {
+        return appointmentDurationCode;
+    }
 
-	/**
-	 * Sets the appointmentDurationCode attribute.
-	 * 
-	 * @param appointmentDurationCode The appointmentDurationCode to set.
-	 * 
-	 */
-	public void setAppointmentDurationCode(String appointmentDurationCode) {
-		this.appointmentDurationCode = appointmentDurationCode;
-	}
+    /**
+     * Sets the appointmentDurationCode attribute.
+     * 
+     * @param appointmentDurationCode The appointmentDurationCode to set.
+     */
+    public void setAppointmentDurationCode(String appointmentDurationCode) {
+        this.appointmentDurationCode = appointmentDurationCode;
+    }
 
 
-	/**
-	 * Gets the appointmentDurationDescription attribute.
-	 * 
-	 * @return Returns the appointmentDurationDescription
-	 * 
-	 */
-	public String getAppointmentDurationDescription() { 
-		return appointmentDurationDescription;
-	}
+    /**
+     * Gets the appointmentDurationDescription attribute.
+     * 
+     * @return Returns the appointmentDurationDescription
+     */
+    public String getAppointmentDurationDescription() {
+        return appointmentDurationDescription;
+    }
 
-	/**
-	 * Sets the appointmentDurationDescription attribute.
-	 * 
-	 * @param appointmentDurationDescription The appointmentDurationDescription to set.
-	 * 
-	 */
-	public void setAppointmentDurationDescription(String appointmentDurationDescription) {
-		this.appointmentDurationDescription = appointmentDurationDescription;
-	}
+    /**
+     * Sets the appointmentDurationDescription attribute.
+     * 
+     * @param appointmentDurationDescription The appointmentDurationDescription to set.
+     */
+    public void setAppointmentDurationDescription(String appointmentDurationDescription) {
+        this.appointmentDurationDescription = appointmentDurationDescription;
+    }
 
 
-	/**
-     * Gets the rowActiveIndicator attribute. 
+    /**
+     * Gets the rowActiveIndicator attribute.
+     * 
      * @return Returns the rowActiveIndicator.
      */
     public boolean isRowActiveIndicator() {
@@ -88,6 +85,7 @@ public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
 
     /**
      * Sets the rowActiveIndicator attribute value.
+     * 
      * @param rowActiveIndicator The rowActiveIndicator to set.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
@@ -95,11 +93,11 @@ public class BudgetConstructionDuration extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("appointmentDurationCode", this.appointmentDurationCode);
-	    return m;
+        return m;
     }
 }

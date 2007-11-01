@@ -22,17 +22,19 @@ import org.kuali.core.bo.TransientBusinessObjectBase;
 public class KualiModuleBO extends TransientBusinessObjectBase {
 
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiModuleBO.class);
-    
+
     private String moduleName;
-    
+
     private String moduleCode;
 
     private String moduleId;
-    
-        
+
+
     // for DD purposes only
-    public KualiModuleBO() {}
-    public KualiModuleBO(String moduleCode, String moduleId, String moduleName){
+    public KualiModuleBO() {
+    }
+
+    public KualiModuleBO(String moduleCode, String moduleId, String moduleName) {
         this.moduleCode = moduleCode;
         this.moduleId = moduleId;
         this.moduleName = moduleName;
@@ -83,11 +85,9 @@ public class KualiModuleBO extends TransientBusinessObjectBase {
         m.put("name", getModuleName());
         m.put("code", getModuleCode());
         m.put("id", getModuleId());
-        
+
         return m;
     }
-    
-    
+
+
 }
-
-

@@ -24,8 +24,6 @@ import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.ojb.broker.PersistenceBroker;
-import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.rule.event.KualiDocumentEvent;
@@ -88,8 +86,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private transient List<PaymentRequestView> relatedPaymentRequestViews;
     private transient List<PaymentRequestView> paymentHistoryPaymentRequestViews;
     private transient List<CreditMemoView> relatedCreditMemoViews;
-    private transient List<CreditMemoView> paymentHistoryCreditMemoViews;    
-    private List<SourceAccountingLine> accountsForRouting;  //don't use me for anything else!!
+    private transient List<CreditMemoView> paymentHistoryCreditMemoViews;
+    private List<SourceAccountingLine> accountsForRouting; // don't use me for anything else!!
 
     // REFERENCE OBJECTS
     private Status status;
@@ -98,7 +96,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // STATIC
     public transient String[] belowTheLineTypes;
-    
+
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = false;
 
@@ -113,7 +111,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getItemClass()
      */
     public abstract Class getItemClass();
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getPurApSourceDocumentIfPossible()
      */
@@ -134,9 +132,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     /**
-     * PURAP documents are all overriding this method to return false because sufficient funds
-     * checking should not be performed on route of any PURAP documents. Only the Purchase
-     * Order performs a sufficient funds check and it is manually forced during routing.
+     * PURAP documents are all overriding this method to return false because sufficient funds checking should not be performed on
+     * route of any PURAP documents. Only the Purchase Order performs a sufficient funds check and it is manually forced during
+     * routing.
      * 
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#documentPerformsSufficientFundsCheck()
      */
@@ -144,16 +142,17 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public boolean documentPerformsSufficientFundsCheck() {
         return false;
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#populateDocumentForRouting()
      */
     @Override
     public void populateDocumentForRouting() {
-        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);        
+        SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
         setAccountsForRouting(SpringContext.getBean(PurapAccountingService.class).generateSummary(getItems()));
 
-        //need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account objects) -hjs 
+        // need to refresh to get the references for the searchable attributes (ie status) and for invoking route levels (ie account
+        // objects) -hjs
         refreshNonUpdateableReferences();
         for (SourceAccountingLine sourceLine : getAccountsForRouting()) {
             sourceLine.refreshNonUpdateableReferences();
@@ -187,7 +186,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     protected void logAndThrowRuntimeException(String errorMessage) {
         this.logAndThrowRuntimeException(errorMessage, null);
     }
-    
+
     /**
      * Records the specified error message into the Log file and throws the specified runtime exception.
      * 
@@ -196,41 +195,41 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     protected void logAndThrowRuntimeException(String errorMessage, Exception e) {
         if (ObjectUtils.isNotNull(e)) {
-            LOG.error(errorMessage,e);
-            throw new RuntimeException(errorMessage,e);
-        } else {
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
+        }
+        else {
             LOG.error(errorMessage);
             throw new RuntimeException(errorMessage);
         }
-    }    
-    
+    }
+
     /**
-     * Allows child PO classes to customize the prepareForSave method.  
-     * Most of the subclasses need to call the super's method to get the GL entry creation, 
-     * but they each need to do different things to prepare for those entries to be created. 
-     * This is only for PO since it has children classes that need different prep work for GL creation.
+     * Allows child PO classes to customize the prepareForSave method. Most of the subclasses need to call the super's method to get
+     * the GL entry creation, but they each need to do different things to prepare for those entries to be created. This is only for
+     * PO since it has children classes that need different prep work for GL creation.
      * 
      * @param event the event involved in this action.
      */
     public void customPrepareForSave(KualiDocumentEvent event) {
-        //Need this here so that it happens before the GL work is done
+        // Need this here so that it happens before the GL work is done
         SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(this);
-        
-        //These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
-        //But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
-        //merge into Rice. KULPURAP-1370 is the related jira.
+
+        // These next 5 lines are temporary changes so that we can use PurApOjbCollectionHelper for release 2.
+        // But these 5 lines will not be necessary anymore if the changes in PurApOjbCollectionHelper is
+        // merge into Rice. KULPURAP-1370 is the related jira.
         this.allowDeleteAwareCollection = true;
         DocumentDaoOjb docDao = SpringContext.getBean(DocumentDaoOjb.class);
-        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase)docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
-        if(retrievedDocument!=null) {
+        PurchasingAccountsPayableDocumentBase retrievedDocument = (PurchasingAccountsPayableDocumentBase) docDao.findByDocumentHeaderId(this.getClass(), this.getDocumentNumber());
+        if (retrievedDocument != null) {
             retrievedDocument.allowDeleteAwareCollection = true;
         }
-        
+
         SpringContext.getBean(PurApOjbCollectionHelper.class).processCollections(docDao, this, retrievedDocument);
         this.allowDeleteAwareCollection = false;
-        if(retrievedDocument!=null) {
+        if (retrievedDocument != null) {
             retrievedDocument.allowDeleteAwareCollection = false;
-        }       
+        }
     }
 
     /**
@@ -242,9 +241,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List persistedSourceLines = new ArrayList();
 
-        for (PurApItem item : (List<PurApItem>)this.getItems()) {
-            //only check items that already have been persisted since last save
-            if(ObjectUtils.isNotNull(item.getItemIdentifier())) {
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
+            // only check items that already have been persisted since last save
+            if (ObjectUtils.isNotNull(item.getItemIdentifier())) {
                 persistedSourceLines.addAll(purApAccountingService.getAccountsFromItem(item));
             }
         }
@@ -259,24 +258,24 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         // TODO: Chris - cache this for performance
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List currentSourceLines = new ArrayList();
-        for (PurApItem item : (List<PurApItem>)this.getItems()) {
+        for (PurApItem item : (List<PurApItem>) this.getItems()) {
             currentSourceLines.addAll(item.getSourceAccountingLines());
         }
         return currentSourceLines;
     }
-    
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#buildListOfDeletionAwareLists()
      */
     @Override
     public List buildListOfDeletionAwareLists() {
         List managedLists = super.buildListOfDeletionAwareLists();
-        if(allowDeleteAwareCollection) {
+        if (allowDeleteAwareCollection) {
             managedLists.add(this.getItems());
         }
         return managedLists;
     }
-    
+
     /**
      * Populate the document for routing to the specified node.
      * 
@@ -296,7 +295,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         LinkedHashMap m = new LinkedHashMap();
         m.put("purapDocumentIdentifier", this.purapDocumentIdentifier);
         return m;
-    }    
+    }
 
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#addItem(PurApItem item)
@@ -332,25 +331,24 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             }
         }
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#itemSwap(int positionFrom, int positionTo)
      */
     public void itemSwap(int positionFrom, int positionTo) {
-        //if out of range do nothing
-        if((positionTo <0) ||
-           (positionTo>=getItemLinePosition())) {
+        // if out of range do nothing
+        if ((positionTo < 0) || (positionTo >= getItemLinePosition())) {
             return;
         }
         PurApItem item1 = this.getItem(positionFrom);
         PurApItem item2 = this.getItem(positionTo);
         Integer oldFirstPos = item1.getItemLineNumber();
-        //swap line numbers
+        // swap line numbers
         item1.setItemLineNumber(item2.getItemLineNumber());
         item2.setItemLineNumber(oldFirstPos);
-        //fix ordering in list
+        // fix ordering in list
         items.remove(positionFrom);
-        items.add(positionTo,item1);
+        items.add(positionTo, item1);
     }
 
     /**
@@ -372,10 +370,10 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public PurApItem getItem(int pos) {
         return (PurApItem) items.get(pos);
     }
-    
+
     /**
-     * Iterates through the items of the document and returns the item with
-     * the line number equal to the number given, or null if a match is not found.
+     * Iterates through the items of the document and returns the item with the line number equal to the number given, or null if a
+     * match is not found.
      * 
      * @param lineNumber line number to match on.
      * @return the PurchasingAp Item if a match is found, else null.
@@ -402,9 +400,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#setTotalDollarAmount(KualiDecimal amount)
      */
     public void setTotalDollarAmount(KualiDecimal amount) {
-      //do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
+        // do nothing, this is so that the jsp won't complain about totalDollarAmount have no setter method.
     }
-    
+
     /**
      * Computes the total dollar amount of all items.
      * 
@@ -413,12 +411,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public KualiDecimal getTotalDollarAmountAllItems() {
         return getTotalDollarAmountAllItems(null);
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#getTotalDollarAmountAllItems(String[] excludedTypes)
      */
     public KualiDecimal getTotalDollarAmountAllItems(String[] excludedTypes) {
-        return getTotalDollarAmountWithExclusions(excludedTypes,true);
+        return getTotalDollarAmountWithExclusions(excludedTypes, true);
     }
 
     /**
@@ -429,7 +427,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public KualiDecimal getTotalDollarAmountAboveLineItems() {
         return getTotalDollarAmountAboveLineItems(null);
     }
-    
+
     /**
      * Computes the total dollar amount of all above the line items with the specified item types excluded.
      * 
@@ -437,9 +435,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @return the total dollar amount of all above the line items with the specified item types excluded..
      */
     public KualiDecimal getTotalDollarAmountAboveLineItems(String[] excludedTypes) {
-        return getTotalDollarAmountWithExclusions(excludedTypes,false);
+        return getTotalDollarAmountWithExclusions(excludedTypes, false);
     }
-    
+
     /**
      * Computes the total dollar amount with the specified item types and possibly below the line items excluded.
      * 
@@ -448,16 +446,15 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      * @return the total dollar amount with the specified item types excluded.
      */
     public KualiDecimal getTotalDollarAmountWithExclusions(String[] excludedTypes, boolean includeBelowTheLine) {
-        if(excludedTypes==null) {
-            excludedTypes=new String[]{};
+        if (excludedTypes == null) {
+            excludedTypes = new String[] {};
         }
 
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurApItem item : (List<PurApItem>)getItems()) {
+        for (PurApItem item : (List<PurApItem>) getItems()) {
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
             ItemType it = item.getItemType();
-            if((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && 
-                    !ArrayUtils.contains(excludedTypes,it.getItemTypeCode())) {
+            if ((includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) && !ArrayUtils.contains(excludedTypes, it.getItemTypeCode())) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
@@ -465,7 +462,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         return total;
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#templateVendorAddress(VendorAddress)
      */
@@ -507,11 +504,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
             for (PurchaseOrderView view : tmpViews) {
                 if (!this.getDocumentNumber().equals(view.getDocumentNumber())) {
                     if (view.getPurchaseOrderCurrentIndicator()) {
-                        //If this is the current purchase order, we'll add it at the front of the List
+                        // If this is the current purchase order, we'll add it at the front of the List
                         relatedPurchaseOrderViews.add(0, view);
                     }
                     else {
-                        //If this is not the current purchase order, we'll just add it to the List
+                        // If this is not the current purchase order, we'll just add it to the List
                         relatedPurchaseOrderViews.add(view);
                     }
                 }
@@ -594,8 +591,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
         else if (ObjectUtils.isNotNull(vendorDetail)) {
             return vendorDetail.getVendorNumber();
-        } 
-        else  return "";
+        }
+        else
+            return "";
     }
 
     public void setVendorNumber(String vendorNumber) {
@@ -643,7 +641,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     }
 
     public Status getStatus() {
-        if(ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
+        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
             this.refreshReferenceObject(PurapPropertyConstants.STATUS);
         }
         return status;
@@ -759,11 +757,11 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public Country getVendorCountry() {
         return vendorCountry;
     }
-    
+
     /**
      * Added only to allow for {@link org.kuali.module.purap.util.PurApObjectUtils} class to work correctly.
      * 
-     * @deprecated 
+     * @deprecated
      */
     public void setVendorCountry(Country vendorCountry) {
         this.vendorCountry = vendorCountry;

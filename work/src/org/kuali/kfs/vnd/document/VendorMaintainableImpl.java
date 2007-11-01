@@ -48,7 +48,7 @@ import org.kuali.module.vendor.service.VendorService;
 
 public class VendorMaintainableImpl extends KualiMaintainableImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VendorMaintainableImpl.class);
-    
+
     /**
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#setGenerateDefaultValues(boolean)
      */
@@ -59,6 +59,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
         }
     }
+
     /**
      * Overrides the kuali default documents title with a Vendor-specific document title style
      * 
@@ -108,12 +109,12 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
 
-    
     /**
-     * Refreshes the vendorDetail. Currently we need this mainly for refreshing the soldToVendor object
-     * after returning from the lookup for a sold to vendor.
+     * Refreshes the vendorDetail. Currently we need this mainly for refreshing the soldToVendor object after returning from the
+     * lookup for a sold to vendor.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.core.document.MaintenanceDocument)
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map,
+     *      org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     public void refresh(String refreshCaller, Map fieldValues, MaintenanceDocument document) {
@@ -132,8 +133,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Temporarily saves vendorHeader into a temp object, then put back the vendorHeader into the VendorDetail after the refresh, 
-     * so that we don't lose the values
+     * Temporarily saves vendorHeader into a temp object, then put back the vendorHeader into the VendorDetail after the refresh, so
+     * that we don't lose the values
      */
     public void refreshBusinessObject() {
         VendorDetail vd = (VendorDetail) getBusinessObject();
@@ -147,18 +148,18 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
 
 
     /**
-     * Checks whether the vendor has already had a vendor detail assigned id. If not, it will call the private method to set the detail assigned id. 
-     * The method will also call the vendorService to determine whether it should save the vendor header (i.e. if this is a parent) and will save
-     * the vendor header accordingly. This is because we are not going to save vendor header automatically along with the
-     * saving of vendor detail, so if the vendor is a parent, we have to save the vendor header separately. Restriction-related
-     * information will be changed based on whether the Vendor Restricted Indicator was changed. If the Tax Number or Tax Type
-     * code have changed, the fact will be recorded with a new record in the Tax Change table. Finally the method will call the
-     * saveBusinessObject( ) of the super class to save the vendor detail.
+     * Checks whether the vendor has already had a vendor detail assigned id. If not, it will call the private method to set the
+     * detail assigned id. The method will also call the vendorService to determine whether it should save the vendor header (i.e.
+     * if this is a parent) and will save the vendor header accordingly. This is because we are not going to save vendor header
+     * automatically along with the saving of vendor detail, so if the vendor is a parent, we have to save the vendor header
+     * separately. Restriction-related information will be changed based on whether the Vendor Restricted Indicator was changed. If
+     * the Tax Number or Tax Type code have changed, the fact will be recorded with a new record in the Tax Change table. Finally
+     * the method will call the saveBusinessObject( ) of the super class to save the vendor detail.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#saveBusinessObject()
      */
     @Override
-    public void saveBusinessObject(){
+    public void saveBusinessObject() {
         VendorDetail vendorDetail = (VendorDetail) super.getBusinessObject();
         VendorHeader vendorHeader = vendorDetail.getVendorHeader();
 
@@ -173,24 +174,24 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
         }
         super.saveBusinessObject();
     }
-    
+
     /**
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
     @Override
     public void processAfterEdit() {
-        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);        
+        setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE);
     }
-    
+
     /**
      * Checks whether the previous note was an "Add" with the same document number as this one
      * 
-     * @param prefix String to determine if it is a note  "Add" or a note "Change" 
+     * @param prefix String to determine if it is a note "Add" or a note "Change"
      */
     private void setVendorCreateAndUpdateNote(String prefix) {
         boolean shouldAddNote = true;
         if (prefix.equals(VendorConstants.VendorCreateAndUpdateNotePrefixes.CHANGE)) {
-            //Check whether the previous note was an "Add" with the same document number as this one
+            // Check whether the previous note was an "Add" with the same document number as this one
             if (!this.getBusinessObject().getBoNotes().isEmpty()) {
                 Note previousNote = this.getBusinessObject().getBoNote(this.getBusinessObject().getBoNotes().size() - 1);
                 if (previousNote.getNoteText().contains(this.documentNumber)) {
@@ -207,13 +208,13 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
             catch (Exception e) {
                 throw new RuntimeException("Caught Exception While Trying To Add Note to Vendor", e);
             }
-            this.getBusinessObject().getBoNotes().add(newBONote);        
+            this.getBusinessObject().getBoNotes().add(newBONote);
         }
     }
-    
+
     /**
-     * Concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the
-     * vendorDetail object.
+     * Concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the vendorDetail
+     * object.
      * 
      * @param vendorDetail VendorDetail The vendor whose vebdir name field we are trying to assing
      */
@@ -224,11 +225,11 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * If the vendorFirstLastNameIndicator is true, this method will set the vendor first name and vendor last name fields from the vendorName field,
-     * then set the vendorName field to null. Then it sets the businessObject of this maintainable to the VendorDetail object that contains our
-     * modification to the name fields.
-     *      
-     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject() 
+     * If the vendorFirstLastNameIndicator is true, this method will set the vendor first name and vendor last name fields from the
+     * vendorName field, then set the vendorName field to null. Then it sets the businessObject of this maintainable to the
+     * VendorDetail object that contains our modification to the name fields.
+     * 
+     * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
     public void setBusinessObject(PersistableBusinessObject bo) {
@@ -252,13 +253,13 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Sets a valid detail assigned id to a vendor if the vendor has not had a detail assigned id yet. If this is a
-     * new parent whose header id is also null, this method will assign 0 as the detail assigned id. If this is a new division
-     * vendor, it will look for the count of vendor details in the database whose vendor header id match with the vendor header id
-     * of this new division, then look for the count of vendor details in the database, in a while loop, to find if a vendor detail
-     * with the same header id and detail id as the count has existed. If a vemdpr with such criterias has existed, this method will
-     * increment the count by 1 and look up in the database again. If it has not existed, assign the count as the vendor detail id
-     * and change the boolean flag to stop the loop, because we have already found the valid detail assigned id that we were looking for
+     * Sets a valid detail assigned id to a vendor if the vendor has not had a detail assigned id yet. If this is a new parent whose
+     * header id is also null, this method will assign 0 as the detail assigned id. If this is a new division vendor, it will look
+     * for the count of vendor details in the database whose vendor header id match with the vendor header id of this new division,
+     * then look for the count of vendor details in the database, in a while loop, to find if a vendor detail with the same header
+     * id and detail id as the count has existed. If a vemdpr with such criterias has existed, this method will increment the count
+     * by 1 and look up in the database again. If it has not existed, assign the count as the vendor detail id and change the
+     * boolean flag to stop the loop, because we have already found the valid detail assigned id that we were looking for
      * 
      * @param vendorDetail VendorDetail The vendor whose detail assigned id we're trying to assign.
      */
@@ -291,11 +292,11 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method returns the locking representation of the vendor. If the vendor detail id is not null, call the super class implementation of 
-     * generateMaintenanceLocks which will set the locking key to be the header and detail ids. However, if the detail id is null, that means this
-     * is a new vendor (parent or division) and we should ignore locking.
-     *      
-     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks() 
+     * This method returns the locking representation of the vendor. If the vendor detail id is not null, call the super class
+     * implementation of generateMaintenanceLocks which will set the locking key to be the header and detail ids. However, if the
+     * detail id is null, that means this is a new vendor (parent or division) and we should ignore locking.
+     * 
+     * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
@@ -309,25 +310,24 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Create a new division vendor if the user clicks on the "Create a new division" link. 
-     * By default, the vendorParentIndicator is set to true in the constructor of VendorDetail, but if we're creating a new division, 
-     * it's not a parent, so we need to set the vendorParentIndicator to false in this case.
-     *      
-     * @see org.kuali.core.maintenance.Maintainable#setupNewFromExisting() 
+     * Create a new division vendor if the user clicks on the "Create a new division" link. By default, the vendorParentIndicator is
+     * set to true in the constructor of VendorDetail, but if we're creating a new division, it's not a parent, so we need to set
+     * the vendorParentIndicator to false in this case.
+     * 
+     * @see org.kuali.core.maintenance.Maintainable#setupNewFromExisting()
      */
     @Override
     public void setupNewFromExisting() {
         ((VendorDetail) super.getBusinessObject()).setVendorParentIndicator(false);
         ((VendorDetail) super.getBusinessObject()).setActiveIndicator(true);
-        
+
         setVendorCreateAndUpdateNote(VendorConstants.VendorCreateAndUpdateNotePrefixes.ADD);
     }
 
     /**
      * Checks if the collection is the vendor supplier diversity and the vendor is not a parent, then do not display the add line.
-     *      
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#overrideDataDictionary(org.kuali.core.datadictionary.DataDictionaryDefinitionBase)
-     *      
      */
     @Override
     public void overrideDataDictionaryFieldConfiguration(DataDictionaryDefinitionBase definition) {
@@ -342,12 +342,14 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
                 collectionDefinition.setIncludeAddLine(false);
             }
         }
-        // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract organization
+        // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract
+        // organization
         String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
         if (!currentUser.isMember(vendorContractWorkgroup) && (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) || collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {
             collectionDefinition.setIncludeAddLine(false);
         }
     }
+
     /**
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */

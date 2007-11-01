@@ -25,37 +25,37 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class VendorInactiveReason extends PersistableBusinessObjectBase {
 
-	private String vendorInactiveReasonCode;
-	private String vendorInactiveReasonDescription;
-	private boolean active;
+    private String vendorInactiveReasonCode;
+    private String vendorInactiveReasonDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorInactiveReason() {
+    /**
+     * Default constructor.
+     */
+    public VendorInactiveReason() {
 
-	}
+    }
 
-	public String getVendorInactiveReasonCode() {
-        
-		return vendorInactiveReasonCode;
-	}
+    public String getVendorInactiveReasonCode() {
 
-	public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
-		this.vendorInactiveReasonCode = vendorInactiveReasonCode;
-	}
+        return vendorInactiveReasonCode;
+    }
 
-	public String getVendorInactiveReasonDescription() {
-        
-		return vendorInactiveReasonDescription;
-	}
+    public void setVendorInactiveReasonCode(String vendorInactiveReasonCode) {
+        this.vendorInactiveReasonCode = vendorInactiveReasonCode;
+    }
 
-	public void setVendorInactiveReasonDescription(String vendorInactiveReasonDescription) {
-		this.vendorInactiveReasonDescription = vendorInactiveReasonDescription;
-	}
+    public String getVendorInactiveReasonDescription() {
+
+        return vendorInactiveReasonDescription;
+    }
+
+    public void setVendorInactiveReasonDescription(String vendorInactiveReasonDescription) {
+        this.vendorInactiveReasonDescription = vendorInactiveReasonDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -64,12 +64,12 @@ public class VendorInactiveReason extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorInactiveReasonCode", this.vendorInactiveReasonCode);
-        
-	    return m;
+
+        return m;
     }
 }

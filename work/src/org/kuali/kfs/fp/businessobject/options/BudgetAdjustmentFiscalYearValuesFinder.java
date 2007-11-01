@@ -27,8 +27,6 @@ import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 /**
  * This class...
- * 
- * 
  */
 public class BudgetAdjustmentFiscalYearValuesFinder extends KeyValuesBase {
 

@@ -17,14 +17,11 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class...
- * 
- * 
  */
 public class AccountBalanceByLevel extends AccountBalance {
 
     /**
      * Constructs a AccountBalanceByLevel.java.
-     * 
      */
     public AccountBalanceByLevel() {
         super();

@@ -21,8 +21,6 @@ import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * The data access interface for persisting AccountingLineBase objects.
- * 
- * 
  */
 public interface AccountingLineDao {
     /**

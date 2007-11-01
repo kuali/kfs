@@ -35,7 +35,7 @@ import org.kuali.module.purap.service.PurapService;
  * Struts Action Form for Credit Memo document.
  */
 public class CreditMemoForm extends AccountsPayableFormBase {
-   
+
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -75,40 +75,39 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         return StringUtils.equals(((CreditMemoDocument) getDocument()).getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE);
     }
 
-    /** 
-     * This method determines if a user is able to reopen a purchase order.
-     * This is used by the checkbox "reopen PO" on the credit memo form.
+    /**
+     * This method determines if a user is able to reopen a purchase order. This is used by the checkbox "reopen PO" on the credit
+     * memo form.
      * 
      * @return - true if able to reopen a purchase order, false otherwise
      */
-    public boolean isAbleToReopenPurchaseOrder(){
+    public boolean isAbleToReopenPurchaseOrder() {
         boolean valid = false;
 
-        CreditMemoDocument creditMemo = (CreditMemoDocument)this.getDocument();
-        
-        if( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false &&
-            isApUser() &&
-            PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode()) ){
-            
+        CreditMemoDocument creditMemo = (CreditMemoDocument) this.getDocument();
+
+        if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo) == false && isApUser() && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(creditMemo.getPurchaseOrderDocument().getStatusCode())) {
+
             valid = true;
         }
 
-        return valid;        
+        return valid;
     }
 
     /**
      * Helper method to indicate if the current document has reached full document entry.
      * 
      * @return - true if document has been fully entered, false otherwise
-     */    
-    public boolean isFullDocumentEntryCompleted(){
-        CreditMemoDocument creditMemo = (CreditMemoDocument)this.getDocument();
-        return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);        
+     */
+    public boolean isFullDocumentEntryCompleted() {
+        CreditMemoDocument creditMemo = (CreditMemoDocument) this.getDocument();
+        return SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(creditMemo);
     }
 
     /**
      * Build additional credit memo specific buttons and set extraButtons list.
-     * @return - list of extra buttons to be displayed to the user 
+     * 
+     * @return - list of extra buttons to be displayed to the user
      */
     @Override
     public List<ExtraButton> getExtraButtons() {

@@ -47,53 +47,56 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     private static Log LOG = LogFactory.getLog(ResearchDocumentAuthorizer.class);
-    
+
     /**
      * @see org.kuali.core.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
     protected String getAdHocEditMode(ResearchDocument researchDocument, UniversalUser u) {
-        
+
         KualiConfigurationService kualiConfigurationService = SpringContext.getBean(KualiConfigurationService.class);
         ResearchDocumentPermissionsService permissionsService = SpringContext.getBean(ResearchDocumentPermissionsService.class);
         String permissionCode = AuthorizationConstants.EditMode.UNVIEWABLE;
         KualiWorkflowDocument workflowDocument = researchDocument.getDocumentHeader().getWorkflowDocument();
-        
+
         // Check ad-hoc user permissions
         AdhocPerson budgetAdHocPermission = permissionsService.getAdHocPerson(researchDocument.getDocumentNumber(), u.getPersonUniversalIdentifier());
         if (budgetAdHocPermission != null) {
             if (KraConstants.PERMISSION_MOD_CODE.equals(budgetAdHocPermission.getPermissionCode())) {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
-            } else {
+            }
+            else {
                 permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
             }
         }
-        
+
         // check ad-hoc workgroup permissions
         List<AdhocWorkgroup> adhocWorkgroups = permissionsService.getAllAdHocWorkgroups(researchDocument.getDocumentNumber());
         WorkflowInfo info2 = new WorkflowInfo();
         List<KualiGroup> personGroups = SpringContext.getBean(UniversalUserService.class).getUsersGroups(u);
-        
-        for (AdhocWorkgroup adhocWorkgroup: adhocWorkgroups) {
+
+        for (AdhocWorkgroup adhocWorkgroup : adhocWorkgroups) {
             WorkgroupVO workgroup;
             try {
                 workgroup = SpringContext.getBean(WorkflowGroupService.class).getWorkgroupByGroupName(adhocWorkgroup.getWorkgroupName());
-            } catch (WorkflowException ex) {
+            }
+            catch (WorkflowException ex) {
                 throw new RuntimeException("Caught workflow exception: " + ex);
             }
-            
+
             if (!ObjectUtils.isNull(workgroup)) {
                 if (kualiGroupsContainWorkgroup(workgroup.getWorkgroupName(), personGroups)) {
                     if (adhocWorkgroup.getPermissionCode().equals(KraConstants.PERMISSION_MOD_CODE)) {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
                         break;
-                    } else {
+                    }
+                    else {
                         permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
                     }
                 }
             }
         }
-        
+
         // now check ad-hoc workgroups in route log
         ReportCriteriaVO criteria = new ReportCriteriaVO();
         try {
@@ -110,31 +113,32 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
                     }
                 }
             }
-        } catch (WorkflowException ex) {
+        }
+        catch (WorkflowException ex) {
             throw new RuntimeException("Caught workflow exception: " + ex);
         }
-        
+
         // Check ad-hoc org permissions (mod first, then read)
         if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_MOD_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
-        
+
         if (permissionsService.isUserInOrgHierarchy(researchDocument.buildAdhocOrgReportXml(KraConstants.PERMISSION_READ_CODE, true), KualiWorkflowUtils.KRA_ROUTING_FORM_DOC_TYPE, u.getPersonUniversalIdentifier())) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
-        
+
         // Check global document type permissions
         if (canModify(workflowDocument.getDocumentType(), u)) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.FULL_ENTRY);
         }
-        
+
         if (canView(workflowDocument.getDocumentType(), u)) {
             permissionCode = getPermissionCodeByPrecedence(permissionCode, AuthorizationConstants.EditMode.VIEW_ONLY);
         }
-        
+
         return permissionCode;
     }
-    
+
     /**
      * Set the permission code to the "higher-precedent" value, based on the 2 values passed in
      * 
@@ -151,7 +155,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
         }
         return AuthorizationConstants.EditMode.UNVIEWABLE;
     }
-    
+
     /**
      * Finalize the permission code & the map and return
      * 
@@ -161,27 +165,24 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
      */
     protected Map finalizeEditMode(ResearchDocument researchDocument, String permissionCode) {
         // If doc is approved, full entry should become view only
-        if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) 
-                && (researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED)
-                        || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.DISAPPROVED)
-                        || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CANCELLED))) {
+        if (permissionCode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) && (researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.APPROVED) || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.DISAPPROVED) || researchDocument.getDocumentHeader().getFinancialDocumentStatusCode().equals(KFSConstants.DocumentStatusCodes.CANCELLED))) {
             permissionCode = AuthorizationConstants.EditMode.VIEW_ONLY;
         }
-        
+
         Map editModeMap = new HashMap();
         editModeMap.put(permissionCode, "TRUE");
         return editModeMap;
     }
-    
+
     private boolean kualiGroupsContainWorkgroup(String workgroupId, List<KualiGroup> groups) {
-        for (KualiGroup group: groups) {
+        for (KualiGroup group : groups) {
             if (group.getGroupName().equals(workgroupId)) {
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Check whether user is a global modifier
      * 
@@ -192,7 +193,7 @@ public class ResearchDocumentAuthorizer extends DocumentAuthorizerBase {
     public boolean canModify(String documentTypeName, UniversalUser user) {
         return SpringContext.getBean(AuthorizationService.class).isAuthorized(user, KFSConstants.PERMISSION_MODIFY, documentTypeName);
     }
-    
+
     /**
      * Check whether user is a global viewer
      * 

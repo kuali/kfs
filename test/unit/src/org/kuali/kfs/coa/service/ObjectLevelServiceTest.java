@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the ObjLevel service.
- * 
- * 
  */
 @ConfigureContext
 public class ObjectLevelServiceTest extends KualiTestBase {

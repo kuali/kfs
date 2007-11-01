@@ -28,8 +28,12 @@ import org.kuali.module.kra.bo.AdhocWorkgroup;
  */
 public interface ResearchDocument extends TransactionalDocument {
     public void initialize();
+
     public List<AdhocPerson> getAdhocPersons();
+
     public List<AdhocOrg> getAdhocOrgs();
+
     public List<AdhocWorkgroup> getAdhocWorkgroups();
+
     public String buildAdhocOrgReportXml(String permissionTypeCode, boolean encloseContent);
 }

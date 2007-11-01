@@ -30,27 +30,27 @@ import org.kuali.module.cg.bo.ProjectDirector;
 public interface ProjectDirectorService {
 
     /**
-     * Finds a ProjectDirector by username.  That's a secondary key to UniversalUser,
-     * used to get the ProjectDirector's primary key, the universal user ID number.
-     *
+     * Finds a ProjectDirector by username. That's a secondary key to UniversalUser, used to get the ProjectDirector's primary key,
+     * the universal user ID number.
+     * 
      * @param username the person user identifier of the ProjectDirector to get
      * @return the corresponding ProjectDirector, or null if none
      */
     public ProjectDirector getByPersonUserIdentifier(String username);
 
     /**
-     * Finds a ProjectDirector by universal user ID number.  That's the primary key to ProjectDirector,
-     * and coincidentally to UniversalUser too.
-     *
+     * Finds a ProjectDirector by universal user ID number. That's the primary key to ProjectDirector, and coincidentally to
+     * UniversalUser too.
+     * 
      * @param universalIdentifier the universal user ID number of the ProjectDirector to get
      * @return the corresponding ProjectDirector, or null if none
      */
     public ProjectDirector getByPrimaryId(String universalIdentifier);
 
     /**
-     * Checks for the existence of a ProjectDirector by universal user ID number.  That's the primary key
-     * to ProjectDirector, and coincidentally to UniversalUser too.
-     *
+     * Checks for the existence of a ProjectDirector by universal user ID number. That's the primary key to ProjectDirector, and
+     * coincidentally to UniversalUser too.
+     * 
      * @param universalIdentifier the universal user ID number of the ProjectDirector to get
      * @return whether the corresponding ProjectDirector exists
      */

@@ -41,7 +41,6 @@ import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.BalanceTypService;
-import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
@@ -64,7 +63,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
 
     private ParameterService parameterService;
     private BalanceTypService balanceTypService;
-    
+
     /**
      * @see org.kuali.module.gl.dao.GeneralLedgerPendingEntryDao#getTransactionSummary(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.util.Collection, java.util.Collection, java.lang.String, boolean)
@@ -584,7 +583,7 @@ public class GeneralLedgerPendingEntryDaoOjb extends PlatformAwareDaoBaseOjb imp
             String propertyValue = (String) fieldValues.get(propertyName);
             if (KFSConstants.AGGREGATE_ENCUMBRANCE_BALANCE_TYPE_CODE.equals(propertyValue)) {
                 localFieldValues.remove(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE);
-                
+
                 // parse the fiscal year (it's not a required field on the lookup screens
                 String universityFiscalYearStr = (String) localFieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
                 if (StringUtils.isNotBlank(universityFiscalYearStr)) {

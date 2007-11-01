@@ -33,7 +33,8 @@ import org.kuali.module.labor.bo.PositionData;
 public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableImpl {
 
     /**
-     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
+     * @see org.kuali.module.labor.web.inquirable.AbstractLaborInquirableImpl#addMoreParameters(java.util.Properties,
+     *      java.lang.String)
      */
     @Override
     protected void addMoreParameters(Properties parameter, String attributeName) {
@@ -98,7 +99,7 @@ public class PositionDataDetailsInquirableImpl extends AbstractLaborInquirableIm
     protected Map getUserDefinedAttributeMap() {
         Map userDefinedAttributeMap = new HashMap();
         userDefinedAttributeMap.put(KFSPropertyConstants.POSITION_NUMBER, KFSPropertyConstants.POSITION_NUMBER);
-        
+
         return userDefinedAttributeMap;
     }
 }

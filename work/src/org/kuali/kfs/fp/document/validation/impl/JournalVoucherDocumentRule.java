@@ -166,11 +166,12 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
         KualiDecimal returnKualiDecimal;
-            
+
         String budgetCodes = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear()).getBudgetCheckingBalanceTypeCd();
-        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) { 
+        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) {
             returnKualiDecimal = accountingLine.getAmount();
-        } else {
+        }
+        else {
             returnKualiDecimal = accountingLine.getAmount().abs();
         }
         LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
@@ -458,7 +459,6 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processSourceAccountingLineSufficientFundsCheckingPreparation(FinancialDocument,
      *      org.kuali.core.bo.SourceAccountingLine)
      */

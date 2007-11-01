@@ -27,14 +27,15 @@ public class CronTriggerDescriptor extends TriggerDescriptor {
      * @see org.kuali.kfs.batch.TriggerDescriptor#completeTriggerDescription(org.quartz.Trigger)
      */
     protected void completeTriggerDescription(Trigger trigger) {
-    	// prevent setting of the trigger information in test mode
+        // prevent setting of the trigger information in test mode
         try {
             ((CronTrigger) trigger).setTimeZone(getDateTimeService().getCurrentCalendar().getTimeZone());
-	    	if ( !isTestMode() ) {
-	            ((CronTrigger) trigger).setCronExpression(cronExpression);
-	    	} else {
-	            ((CronTrigger) trigger).setCronExpression("0 59 23 31 12 ? 2099");
-	    	}
+            if (!isTestMode()) {
+                ((CronTrigger) trigger).setCronExpression(cronExpression);
+            }
+            else {
+                ((CronTrigger) trigger).setCronExpression("0 59 23 31 12 ? 2099");
+            }
         }
         catch (ParseException e) {
             throw new RuntimeException("Caught exception while trying to set the cronExpression attribute of a CronTrigger: " + getJobName(), e);
@@ -43,6 +44,7 @@ public class CronTriggerDescriptor extends TriggerDescriptor {
 
     /**
      * Sets the cronExpression attribute value.
+     * 
      * @param cronExpression The cronExpression to set.
      */
     public void setCronExpression(String cronExpression) {

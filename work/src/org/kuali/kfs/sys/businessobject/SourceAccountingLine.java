@@ -16,14 +16,10 @@
 package org.kuali.kfs.bo;
 
 
-
-
 /**
  * This class represents the "source" grouping of accounting lines in a given document. Its counterpart is the TargetAccountingLine
  * class. Both objects' data is stored in the DB in a single table named "FP_ACCT_LINES_T." Most documents follow the "source" and
  * "target" patterns. Source Accounting Line Business Object
- * 
- * 
  */
 public class SourceAccountingLine extends AccountingLineBase {
 

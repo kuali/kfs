@@ -26,8 +26,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * Instances of this class are used to signal to the CloseBatchStep that a close
- * should occur on a particular day.
+ * Instances of this class are used to signal to the CloseBatchStep that a close should occur on a particular day.
  */
 public class Close extends TransactionalDocumentBase {
 
@@ -36,13 +35,14 @@ public class Close extends TransactionalDocumentBase {
     private Long awardClosedCount;
     private Long proposalClosedCount;
     private String personUserIdentifier;
-    
+
     private UniversalUser personUser;
 
     /**
      * Default constructor.
      */
-    public Close() {}
+    public Close() {
+    }
 
     /**
      * @return whether or not this document has been approved.
@@ -55,7 +55,6 @@ public class Close extends TransactionalDocumentBase {
      * Gets the closeOnOrBeforeDate attribute.
      * 
      * @return Returns the closeOnOrBeforeDate
-     * 
      */
     public Date getCloseOnOrBeforeDate() {
         return closeOnOrBeforeDate;
@@ -65,7 +64,6 @@ public class Close extends TransactionalDocumentBase {
      * Sets the closeOnOrBeforeDate attribute.
      * 
      * @param closeOnOrBeforeDate The closeOnOrBeforeDate to set.
-     * 
      */
     public void setCloseOnOrBeforeDate(Date closeOnOrBeforeDate) {
         this.closeOnOrBeforeDate = closeOnOrBeforeDate;
@@ -76,7 +74,6 @@ public class Close extends TransactionalDocumentBase {
      * Gets the awardClosedCount attribute.
      * 
      * @return Returns the awardClosedCount
-     * 
      */
     public Long getAwardClosedCount() {
         return awardClosedCount;
@@ -86,7 +83,6 @@ public class Close extends TransactionalDocumentBase {
      * Sets the awardClosedCount attribute.
      * 
      * @param awardClosedCount The awardClosedCount to set.
-     * 
      */
     public void setAwardClosedCount(Long awardClosedCount) {
         this.awardClosedCount = awardClosedCount;
@@ -97,7 +93,6 @@ public class Close extends TransactionalDocumentBase {
      * Gets the proposalClosedCount attribute.
      * 
      * @return Returns the proposalClosedCount
-     * 
      */
     public Long getProposalClosedCount() {
         return proposalClosedCount;
@@ -107,7 +102,6 @@ public class Close extends TransactionalDocumentBase {
      * Sets the proposalClosedCount attribute.
      * 
      * @param proposalClosedCount The proposalClosedCount to set.
-     * 
      */
     public void setProposalClosedCount(Long proposalClosedCount) {
         this.proposalClosedCount = proposalClosedCount;
@@ -118,7 +112,6 @@ public class Close extends TransactionalDocumentBase {
      * Gets the personUserIdentifier attribute.
      * 
      * @return Returns the personUserIdentifier
-     * 
      */
     public String getPersonUserIdentifier() {
         return personUserIdentifier;
@@ -128,7 +121,6 @@ public class Close extends TransactionalDocumentBase {
      * Sets the personUserIdentifier attribute.
      * 
      * @param personUserIdentifier The personUserIdentifier to set.
-     * 
      */
     public void setPersonUserIdentifier(String personUserIdentifier) {
         this.personUserIdentifier = personUserIdentifier;
@@ -139,7 +131,6 @@ public class Close extends TransactionalDocumentBase {
      * Gets the userInitiatedCloseDate attribute.
      * 
      * @return Returns the userInitiatedCloseDate
-     * 
      */
     public Date getUserInitiatedCloseDate() {
         return userInitiatedCloseDate;
@@ -149,7 +140,6 @@ public class Close extends TransactionalDocumentBase {
      * Sets the userInitiatedCloseDate attribute.
      * 
      * @param userInitiatedCloseDate The userInitiatedCloseDate to set.
-     * 
      */
     public void setUserInitiatedCloseDate(Date userInitiatedCloseDate) {
         this.userInitiatedCloseDate = userInitiatedCloseDate;
@@ -165,7 +155,6 @@ public class Close extends TransactionalDocumentBase {
 
     /**
      * @param personUser The personUser to set.
-     * 
      * @deprecated
      */
     public void setPersonUser(UniversalUser personUser) {

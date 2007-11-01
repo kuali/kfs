@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.rule;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 

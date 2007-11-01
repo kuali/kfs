@@ -39,7 +39,6 @@ public class CreditCardType extends PersistableBusinessObjectBase {
      * Gets the financialDocumentCreditCardTypeCode attribute.
      * 
      * @return Returns the financialDocumentCreditCardTypeCode
-     * 
      */
     public String getFinancialDocumentCreditCardTypeCode() {
         return financialDocumentCreditCardTypeCode;
@@ -49,7 +48,6 @@ public class CreditCardType extends PersistableBusinessObjectBase {
      * Sets the financialDocumentCreditCardTypeCode attribute.
      * 
      * @param financialDocumentCreditCardTypeCode The financialDocumentCreditCardTypeCode to set.
-     * 
      */
     public void setFinancialDocumentCreditCardTypeCode(String financialDocumentCreditCardTypeCode) {
         this.financialDocumentCreditCardTypeCode = financialDocumentCreditCardTypeCode;
@@ -60,7 +58,6 @@ public class CreditCardType extends PersistableBusinessObjectBase {
      * Gets the financialDocumentCreditCardCompanyName attribute.
      * 
      * @return Returns the financialDocumentCreditCardCompanyName
-     * 
      */
     public String getFinancialDocumentCreditCardCompanyName() {
         return financialDocumentCreditCardCompanyName;
@@ -70,7 +67,6 @@ public class CreditCardType extends PersistableBusinessObjectBase {
      * Sets the financialDocumentCreditCardCompanyName attribute.
      * 
      * @param financialDocumentCreditCardCompanyName The financialDocumentCreditCardCompanyName to set.
-     * 
      */
     public void setFinancialDocumentCreditCardCompanyName(String financialDocumentCreditCardCompanyName) {
         this.financialDocumentCreditCardCompanyName = financialDocumentCreditCardCompanyName;

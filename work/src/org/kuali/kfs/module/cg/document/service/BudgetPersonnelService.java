@@ -27,8 +27,6 @@ import org.kuali.module.kra.budget.document.BudgetDocument;
 
 /**
  * This class...
- * 
- * 
  */
 public interface BudgetPersonnelService {
 

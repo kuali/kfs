@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ExpenditureTransactionServiceImpl implements ExpenditureTransactionService {
     private ExpenditureTransactionDao expenditureTransactionDao;
-    
+
     public void deleteAllExpenditureTransactions() {
         expenditureTransactionDao.deleteAllExpenditureTransactions();
     }

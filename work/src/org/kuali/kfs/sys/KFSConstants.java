@@ -690,7 +690,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
 
     public static final String ACCOUNTING_LINE_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ACCOUNTING_LINE_IMPORT";
     public static final String ORIGIN_ENTRY_IMPORT_MAX_FILE_SIZE_PARM_NM = "MAX_FILE_SIZE_ORIGIN_ENTRY_IMPORT";
-    
+
     public static class ChartApcParms {
 
         public static final String FISCAL_YEAR_MAKER_REPLACE_MODE = "OVERRIDE_TARGET_YEAR_DATA_IND";
@@ -1020,7 +1020,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         }
         return DASH_SUB_ACCOUNT_NUMBER;
     }
-    
+
     private static String SPACE_SUB_ACCOUNT_NUMBER = null;
 
     public static String getSpaceSubAccountNumber() {

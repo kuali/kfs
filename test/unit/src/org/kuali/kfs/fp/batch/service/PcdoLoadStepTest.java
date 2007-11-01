@@ -23,17 +23,13 @@ import org.kuali.module.financial.batch.pcard.ProcurementCardInputFileType;
 import org.kuali.test.ConfigureContext;
 
 /**
- * Tests the PcdoLoadStep.
- * DEPENDENCIES:
- * 
- * Procurement card xml file transaction1.xml must be in /opt/kuali/dev/staging/PCDO/
- * this file can be obtained by running the project's ant dist-local, or copying from
- * build/externalConfigDirectory/static/staging/PCDO/
+ * Tests the PcdoLoadStep. DEPENDENCIES: Procurement card xml file transaction1.xml must be in /opt/kuali/dev/staging/PCDO/ this
+ * file can be obtained by running the project's ant dist-local, or copying from build/externalConfigDirectory/static/staging/PCDO/
  */
 @ConfigureContext
 public class PcdoLoadStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PcdoLoadStepTest.class);
-    
+
     public PcdoLoadStepTest() {
         super();
     }
@@ -46,28 +42,29 @@ public class PcdoLoadStepTest extends KualiTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        
+
         String doneFileName = SpringContext.getBean(ProcurementCardInputFileType.class).getDirectoryPath() + "/transactions1.done";
         File doneFile = new File(doneFileName);
         if (!doneFile.exists()) {
-            LOG.info( "Creating done file: " + doneFile.getAbsolutePath() );
+            LOG.info("Creating done file: " + doneFile.getAbsolutePath());
             doneFile.createNewFile();
         }
     }
-    
+
     /**
      * Tests the whole step completes successfully.
      */
     public void testAll() throws Exception {
         assertTrue("hold until figure out staging dir!", true);
-//        
-//        PcdoLoadStep pcdoLoadStep = SpringContext.getBean(PcdoLoadStep.class);
-//        boolean goodExit = pcdoLoadStep.execute();
-//        
-//        assertTrue("pcdo load step did not exit with pass", goodExit);
-//        
-//        Collection loadedTransactions = SpringContext.getBean(BusinessObjectService.class).findAll(ProcurementCardTransaction.class);
-//        assertNotNull("no transactions loaded ", loadedTransactions);
-//        assertEquals("incorrect number of transactions loaded ",10,loadedTransactions.size());
+        //        
+        // PcdoLoadStep pcdoLoadStep = SpringContext.getBean(PcdoLoadStep.class);
+        // boolean goodExit = pcdoLoadStep.execute();
+        //        
+        // assertTrue("pcdo load step did not exit with pass", goodExit);
+        //        
+        // Collection loadedTransactions =
+        // SpringContext.getBean(BusinessObjectService.class).findAll(ProcurementCardTransaction.class);
+        // assertNotNull("no transactions loaded ", loadedTransactions);
+        // assertEquals("incorrect number of transactions loaded ",10,loadedTransactions.size());
     }
 }

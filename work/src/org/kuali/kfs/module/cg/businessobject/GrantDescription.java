@@ -32,7 +32,8 @@ public class GrantDescription extends PersistableBusinessObjectBase {
     /**
      * Default constructor.
      */
-    public GrantDescription() {}
+    public GrantDescription() {
+    }
 
     /**
      * Gets the grantDescriptionCode attribute.
@@ -91,8 +92,7 @@ public class GrantDescription extends PersistableBusinessObjectBase {
     }
 
     /**
-     * This method returns a boolean identifying whether or not this grant 
-     * description is active or inactive.
+     * This method returns a boolean identifying whether or not this grant description is active or inactive.
      * 
      * @return True if the grant description is active, false if its inactive.
      */

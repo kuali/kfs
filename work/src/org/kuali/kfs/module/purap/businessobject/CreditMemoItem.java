@@ -37,7 +37,7 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     private KualiDecimal preqInvoicedTotalQuantity;
     private BigDecimal preqUnitPrice;
     private KualiDecimal preqExtendedPrice;
-    
+
     /**
      * Default constructor.
      */
@@ -45,7 +45,6 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * 
      * Constructs a CreditMemoItem object from an existing Purchase Order Item. - Delegate
      * 
      * @param cmDocument the Credit Memo Document this item belongs to.
@@ -56,8 +55,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Purchase Order Item, 
-     * and check and process expired or closed accounts item might contain.
+     * Constructs a CreditMemoItem object from an existing Purchase Order Item, and check and process expired or closed accounts
+     * item might contain.
      * 
      * @param cmDocument the Credit Memo Document this item belongs to.
      * @param poItem the Purchase Order Item to copy from.
@@ -72,14 +71,15 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         setPoUnitPrice(poItem.getItemUnitPrice());
         setPoExtendedPrice(poItem.getItemInvoicedTotalAmount());
         setItemTypeCode(poItem.getItemTypeCode());
-        
-        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
-            //setting unit price to be null to be more consistent with other below the line
+
+        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+            // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
-        } else {
+        }
+        else {
             setItemUnitPrice(poItem.getItemUnitPrice());
         }
-        
+
         setItemCatalogNumber(poItem.getItemCatalogNumber());
         setItemDescription(poItem.getItemDescription());
 
@@ -96,13 +96,13 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         for (Iterator iter = poItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
             PurchaseOrderAccount account = (PurchaseOrderAccount) iter.next();
 
-            //check if this account is expired/closed and replace as needed
+            // check if this account is expired/closed and replace as needed
             SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(account, expiredOrClosedAccountList);
 
             getSourceAccountingLines().add(new CreditMemoAccount(account));
         }
     }
-    
+
     /**
      * Constructs a CreditMemoItem object from an existing Payment Request or Purchase Order Item.
      * 
@@ -128,14 +128,15 @@ public class CreditMemoItem extends AccountsPayableItemBase {
 
         setPreqUnitPrice(preqItem.getItemUnitPrice());
         setItemTypeCode(preqItem.getItemTypeCode());
-        
-        if( (ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator()) ) {
-            //setting unit price to be null to be more consistent with other below the line
+
+        if ((ObjectUtils.isNotNull(this.getItemType()) && !this.getItemType().isQuantityBasedGeneralLedgerIndicator())) {
+            // setting unit price to be null to be more consistent with other below the line
             this.setItemUnitPrice(null);
-        } else {
+        }
+        else {
             setItemUnitPrice(preqItem.getItemUnitPrice());
         }
-        
+
         setItemCatalogNumber(preqItem.getItemCatalogNumber());
         setItemDescription(preqItem.getItemDescription());
 
@@ -156,8 +157,8 @@ public class CreditMemoItem extends AccountsPayableItemBase {
     }
 
     /**
-     * Constructs a CreditMemoItem object from an existing Payment Request Item,
-     * and check and process expired or closed accounts item might contain.
+     * Constructs a CreditMemoItem object from an existing Payment Request Item, and check and process expired or closed accounts
+     * item might contain.
      * 
      * @param cmDocument the Credit Memo Document this item belongs to.
      * @param preqItem the Payment Request Item to copy from.
@@ -199,9 +200,9 @@ public class CreditMemoItem extends AccountsPayableItemBase {
         for (Iterator iter = preqItem.getSourceAccountingLines().iterator(); iter.hasNext();) {
             PaymentRequestAccount account = (PaymentRequestAccount) iter.next();
 
-            //check if this account is expired/closed and replace as needed
+            // check if this account is expired/closed and replace as needed
             SpringContext.getBean(AccountsPayableService.class).processExpiredOrClosedAccount(account, expiredOrClosedAccountList);
-            
+
             getSourceAccountingLines().add(new CreditMemoAccount(account));
         }
     }

@@ -45,7 +45,6 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
      * 
      * @document document with pre-rules being applied
      * @return true if pre-rules fire without problem
-     * 
      * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
      */
     public boolean doRules(Document document) {
@@ -68,13 +67,13 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
     private boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
         // before prompting, check the document contains one or more labor object codes
         boolean hasLaborObjectCodes = SpringContext.getBean(BudgetAdjustmentLaborBenefitsService.class).hasLaborObjectCodes(budgetDocument);
-        
+
         // and check that the user can edit the document
         String documentTypeName = SpringContext.getBean(DataDictionaryService.class).getDocumentTypeNameByClass(BudgetAdjustmentDocument.class);
         BudgetAdjustmentDocumentAuthorizer budgetAdjustmentDocumentAuthorizer = (BudgetAdjustmentDocumentAuthorizer) SpringContext.getBean(DocumentAuthorizationService.class).getDocumentAuthorizer(documentTypeName);
         UniversalUser universalUser = GlobalVariables.getUserSession().getUniversalUser();
         Map map = budgetAdjustmentDocumentAuthorizer.getEditMode(budgetDocument, universalUser, budgetDocument.getSourceAccountingLines(), budgetDocument.getTargetAccountingLines());
-        
+
         if (map.containsKey(AuthorizationConstants.EditMode.FULL_ENTRY) && hasLaborObjectCodes) {
             String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.QUESTION_GENERATE_LABOR_BENEFIT_LINES);
             boolean generateBenefits = super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);

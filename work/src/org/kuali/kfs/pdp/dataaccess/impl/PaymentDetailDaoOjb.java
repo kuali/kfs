@@ -88,24 +88,25 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         q.addOrderByAscending("paymentGroup.batch.customerProfile.subUnitCode");
         q.addOrderByAscending("paymentGroup.id");
 
-        Map<Key,Numbers> summary = new HashMap<Key,Numbers>();
+        Map<Key, Numbers> summary = new HashMap<Key, Numbers>();
         Integer lastGroupId = null;
         Iterator i = getPersistenceBrokerTemplate().getIteratorByQuery(q);
-        while ( i.hasNext() ) {
-            PaymentDetail d = (PaymentDetail)i.next();
+        while (i.hasNext()) {
+            PaymentDetail d = (PaymentDetail) i.next();
             Key rsk = reportSortKey(d);
             Numbers n = summary.get(rsk);
-            if ( n == null ) {
+            if (n == null) {
                 n = new Numbers();
                 n.amount = d.getCalculatedPaymentAmount();
                 n.payments = 1;
                 n.payees = 1;
                 summary.put(rsk, n);
                 lastGroupId = d.getPaymentGroup().getId();
-            } else {
+            }
+            else {
                 n.payments++;
                 n.amount = n.amount.add(d.getCalculatedPaymentAmount());
-                if ( lastGroupId.intValue() != d.getPaymentGroup().getId().intValue() ) {
+                if (lastGroupId.intValue() != d.getPaymentGroup().getId().intValue()) {
                     n.payees++;
                     lastGroupId = d.getPaymentGroup().getId();
                 }
@@ -114,9 +115,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         // Now take the data and put it in our result list
         List<DailyReport> data = new ArrayList<DailyReport>();
         for (Iterator iter = summary.keySet().iterator(); iter.hasNext();) {
-            Key e = (Key)iter.next();
+            Key e = (Key) iter.next();
             Numbers n = summary.get(e);
-            DailyReport r = new DailyReport(e.sortOrder,e.customerShortName,n.amount,n.payments,n.payees);
+            DailyReport r = new DailyReport(e.sortOrder, e.customerShortName, n.amount, n.payments, n.payees);
             data.add(r);
         }
         Collections.sort(data);
@@ -126,14 +127,14 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     private Key reportSortKey(PaymentDetail d) {
         PaymentGroup pg = d.getPaymentGroup();
         CustomerProfile cp = pg.getBatch().getCustomerProfile();
-        return new Key(pg.getDailyReportSortOrder(),cp.getCustomerShortName());
+        return new Key(pg.getDailyReportSortOrder(), cp.getCustomerShortName());
     }
 
     class Key {
         public String sortOrder;
         public String customerShortName;
 
-        public Key(String s,String c) {
+        public Key(String s, String c) {
             sortOrder = s;
             customerShortName = c;
         }
@@ -147,7 +148,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
                 return false;
             }
             Key thisobj = (Key) obj;
-            return new EqualsBuilder().append(sortOrder,thisobj.sortOrder).append(customerShortName,thisobj.customerShortName).isEquals();
+            return new EqualsBuilder().append(sortOrder, thisobj.sortOrder).append(customerShortName, thisobj.customerShortName).isEquals();
         }
     }
 
@@ -200,8 +201,8 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Criteria criteria = new Criteria();
         criteria.addEqualTo("custPaymentDocNbr", custPaymentDocNbr);
         criteria.addEqualTo("financialDocumentTypeCode", fdocTypeCode);
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode",CustomerProfile.EPIC_ORG_CODE);
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode",CustomerProfile.EPIC_SUB_UNIT_CODE);
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", CustomerProfile.EPIC_ORG_CODE);
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", CustomerProfile.EPIC_SUB_UNIT_CODE);
 
         List paymentDetails = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
         PaymentDetail cp = null;
@@ -209,8 +210,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
             PaymentDetail pd = (PaymentDetail) iter.next();
             if (cp == null) {
                 cp = pd;
-            } else {
-                if ( (pd.getPaymentGroup().getBatch().getCustomerFileCreateTimestamp().compareTo(cp.getPaymentGroup().getBatch().getCustomerFileCreateTimestamp())) > 0 ) {
+            }
+            else {
+                if ((pd.getPaymentGroup().getBatch().getCustomerFileCreateTimestamp().compareTo(cp.getPaymentGroup().getBatch().getCustomerFileCreateTimestamp())) > 0) {
                     cp = pd;
                 }
             }
@@ -229,7 +231,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         }
         return cp;
     }
-  
+
     /**
      * @see org.kuali.module.pdp.dao.PaymentDetailDao#getDisbursementNumberRanges(java.lang.String)
      */
@@ -240,14 +242,14 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Timestamp nowTs = new Timestamp(now.getTime());
 
         Criteria criteria = new Criteria();
-        criteria.addGreaterOrEqualThan("disbNbrExpirationDt",nowTs);
-        criteria.addLessOrEqualThan("disbNbrEffectiveDt",nowTs);
-        criteria.addEqualTo("physCampusProcCode",campus);
+        criteria.addGreaterOrEqualThan("disbNbrExpirationDt", nowTs);
+        criteria.addLessOrEqualThan("disbNbrEffectiveDt", nowTs);
+        criteria.addEqualTo("physCampusProcCode", campus);
 
-        QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class,criteria);
-        qbc.addOrderBy("bankId",true);
+        QueryByCriteria qbc = new QueryByCriteria(DisbursementNumberRange.class, criteria);
+        qbc.addOrderBy("bankId", true);
 
-        List l = (List)getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        List l = (List) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
         updateDnr(l);
         return l;
     }
@@ -277,13 +279,13 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addIn("paymentGroup.paymentStatusCode", codes);
         criteria.addIsNull("paymentGroup.epicPaymentCancelledExtractedDate");
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,criteria));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
 
     /**
      * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedPaidDetails(String organization,String subUnit) {
+    public Iterator getUnprocessedPaidDetails(String organization, String subUnit) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
         Criteria criteria = new Criteria();
@@ -292,53 +294,57 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         criteria.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.EXTRACTED);
         criteria.addIsNull("paymentGroup.epicPaymentPaidExtractedDate");
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,criteria));
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
     }
 
     private void updateChangeUser(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateChangeUser( (PaymentGroupHistory)iter.next() );
+            updateChangeUser((PaymentGroupHistory) iter.next());
         }
     }
 
     private void updateChangeUser(PaymentGroupHistory b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setChangeUser(null);
         }
     }
 
     private void updateBatchUser(Batch b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setSubmiterUser(null);
         }
     }
 
     private void updateProcessUser(PaymentProcess b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setProcessUser(null);
         }
     }
 
     private void updateDnr(List l) {
         for (Iterator iter = l.iterator(); iter.hasNext();) {
-            updateDnr( (DisbursementNumberRange)iter.next() );
+            updateDnr((DisbursementNumberRange) iter.next());
         }
     }
 
     private void updateDnr(DisbursementNumberRange b) {
-        UserRequired ur = (UserRequired)b;
+        UserRequired ur = (UserRequired) b;
         try {
             ur.updateUser(userService);
-        } catch (UserNotFoundException e) {
+        }
+        catch (UserNotFoundException e) {
             b.setLastUpdateUser(null);
         }
     }

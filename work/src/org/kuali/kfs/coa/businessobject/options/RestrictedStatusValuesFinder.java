@@ -28,13 +28,12 @@ import org.kuali.module.chart.bo.RestrictedStatus;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link RestrictedStatus}s)
- * 
  */
 public class RestrictedStatusValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link OrgType}s using their code as their key, and
-     * their code "-" name as the display value
+     * Creates a list of {@link OrgType}s using their code as their key, and their code "-" name as the display value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

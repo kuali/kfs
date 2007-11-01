@@ -16,7 +16,8 @@
 package org.kuali.kfs.batch;
 
 /**
- * This methodless interface is merely to mark classes that would not typically be run during
- * the course of normal business production, but rather exist to facilitate testing.
+ * This methodless interface is merely to mark classes that would not typically be run during the course of normal business
+ * production, but rather exist to facilitate testing.
  */
-public interface TestingStep {}
+public interface TestingStep {
+}

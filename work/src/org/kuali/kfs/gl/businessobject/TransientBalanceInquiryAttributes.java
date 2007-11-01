@@ -35,11 +35,10 @@ public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBa
     private String reportingSortCode;
     private String consolidationReportingSortCode;
     private String levelObjectCode;
-    
+
 
     /**
      * Constructs a DummyBusinessObject.java.
-     * 
      */
     public TransientBalanceInquiryAttributes() {
         super();

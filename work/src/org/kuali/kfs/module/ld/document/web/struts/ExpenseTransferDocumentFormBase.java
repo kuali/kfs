@@ -31,9 +31,11 @@ import org.kuali.module.labor.bo.LaborAccountingLineOverride;
  */
 public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormBase implements MultipleValueLookupBroker {
 
-    private String lookupResultsSequenceNumber; //Indicates which result set we are using when refreshing/returning from a multi-value lookup.
-    private String lookupResultsBOClassName; //Type of result returned by the multi-value lookup. ?to be persisted in the lookup results service instead?
-    private String lookedUpCollectionName; //The name of the collection looked up (by a multiple value lookup)
+    private String lookupResultsSequenceNumber; // Indicates which result set we are using when refreshing/returning from a
+                                                // multi-value lookup.
+    private String lookupResultsBOClassName; // Type of result returned by the multi-value lookup. ?to be persisted in the lookup
+                                                // results service instead?
+    private String lookedUpCollectionName; // The name of the collection looked up (by a multiple value lookup)
     private Integer universityFiscalYear;
 
     /**
@@ -106,7 +108,7 @@ public abstract class ExpenseTransferDocumentFormBase extends LaborDocumentFormB
     /**
      * Sets the universityFiscalYear attribute value.
      * 
-     * @param universityFiscalYear  The universityFiscalYear to set.
+     * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;

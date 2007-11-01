@@ -16,22 +16,12 @@
 
 package org.kuali.module.purap.document;
 
-import static org.kuali.core.util.KualiDecimal.ZERO;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -55,22 +45,22 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
         setSourceAccountingLines(new ArrayList());
         setGeneralLedgerPendingEntries(new ArrayList());
     }
-    
+
 
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        
+
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
-            //generate GL entries
+            // generate GL entries
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesReopenPurchaseOrder(this);
 
-            //update indicators
+            // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            //set purap status and status history and status history note
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            // set purap status and status history and status history note
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED
@@ -88,5 +78,5 @@ public class PurchaseOrderReopenDocument extends PurchaseOrderDocument {
         // no statuses to set means no node details
         return null;
     }
-    
+
 }

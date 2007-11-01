@@ -27,17 +27,17 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
 
     private String documentNumber;
     private Integer purchaseOrderItemCapitalAssetIdentifier;
-	private Integer purchaseOrderItemIdentifier;
-	private Long capitalAssetNumber;
+    private Integer purchaseOrderItemIdentifier;
+    private Long capitalAssetNumber;
 
     private PurchaseOrderItem purchaseOrderItem;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderItemCapitalAsset() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderItemCapitalAsset() {
 
-	}
+    }
 
     public String getDocumentNumber() {
         return documentNumber;
@@ -47,54 +47,54 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
         this.documentNumber = documentNumber;
     }
 
-	public Integer getPurchaseOrderItemCapitalAssetIdentifier() { 
-		return purchaseOrderItemCapitalAssetIdentifier;
-	}
+    public Integer getPurchaseOrderItemCapitalAssetIdentifier() {
+        return purchaseOrderItemCapitalAssetIdentifier;
+    }
 
-	public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
-		this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
-	}
+    public void setPurchaseOrderItemCapitalAssetIdentifier(Integer purchaseOrderItemCapitalAssetIdentifier) {
+        this.purchaseOrderItemCapitalAssetIdentifier = purchaseOrderItemCapitalAssetIdentifier;
+    }
 
-	public Integer getPurchaseOrderItemIdentifier() { 
-		return purchaseOrderItemIdentifier;
-	}
+    public Integer getPurchaseOrderItemIdentifier() {
+        return purchaseOrderItemIdentifier;
+    }
 
-	public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
-		this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
-	}
+    public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
+        this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
+    }
 
-	public Long getCapitalAssetNumber() { 
-		return capitalAssetNumber;
-	}
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
 
-	public void setCapitalAssetNumber(Long capitalAssetNumber) {
-		this.capitalAssetNumber = capitalAssetNumber;
-	}
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
 
-	public PurchaseOrderItem getPurchaseOrderItem() { 
-		return purchaseOrderItem;
-	}
+    public PurchaseOrderItem getPurchaseOrderItem() {
+        return purchaseOrderItem;
+    }
 
-	/**
-	 * Sets the purchaseOrderItem attribute.
-	 * 
-	 * @param purchaseOrderItem The purchaseOrderItem to set.
-	 * @deprecated
-	 */
-	public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
-		this.purchaseOrderItem = purchaseOrderItem;
-	}
+    /**
+     * Sets the purchaseOrderItem attribute.
+     * 
+     * @param purchaseOrderItem The purchaseOrderItem to set.
+     * @deprecated
+     */
+    public void setPurchaseOrderItem(PurchaseOrderItem purchaseOrderItem) {
+        this.purchaseOrderItem = purchaseOrderItem;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("documentNumber", this.documentNumber);
         if (this.purchaseOrderItemCapitalAssetIdentifier != null) {
             m.put("purchaseOrderItemCapitalAssetIdentifier", this.purchaseOrderItemCapitalAssetIdentifier.toString());
         }
-	    return m;
+        return m;
     }
-    
+
 }

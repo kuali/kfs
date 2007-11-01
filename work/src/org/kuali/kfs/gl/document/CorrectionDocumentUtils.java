@@ -373,7 +373,7 @@ public class CorrectionDocumentUtils {
     public static boolean isBudget(OriginEntryFull oe) {
         return KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode());
     }
-    
+
     /**
      * Returns whether the origin entry represents a credit
      * 
@@ -383,7 +383,7 @@ public class CorrectionDocumentUtils {
     public static boolean isCredit(OriginEntryFull oe) {
         return KFSConstants.GL_CREDIT_CODE.equals(oe.getTransactionDebitCreditCode());
     }
-    
+
     /**
      * Given an instance of statistics, it adds information from the passed in entry to the statistics
      * 
@@ -395,7 +395,7 @@ public class CorrectionDocumentUtils {
         if (isDebit(entry)) {
             statistics.addDebit(entry.getTransactionLedgerEntryAmount());
         }
-        else if (isCredit(entry)){
+        else if (isCredit(entry)) {
             statistics.addCredit(entry.getTransactionLedgerEntryAmount());
         }
         else {

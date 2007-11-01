@@ -12,10 +12,11 @@ import org.kuali.module.pdp.bo.ProcessSummary;
 
 /**
  * @author jsissom
- *
  */
 public interface ProcessSummaryDao {
-  public void save(ProcessSummary ps);
-  public List getByPaymentProcess(PaymentProcess fp);
-  public List getByProcessId(Integer id);
+    public void save(ProcessSummary ps);
+
+    public List getByPaymentProcess(PaymentProcess fp);
+
+    public List getByProcessId(Integer id);
 }

@@ -21,8 +21,6 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 
 /**
  * This class...
- * 
- * 
  */
 public class OrganizationReversionTestCase extends KualiTestBase {
 

@@ -24,25 +24,24 @@ import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.ContractManager;
 
 /**
- * Assign Contract Manager Detail Business Object.
- * Defines attributes in Assign Contract Manager tab.
+ * Assign Contract Manager Detail Business Object. Defines attributes in Assign Contract Manager tab.
  */
 public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
-	private String documentNumber;
-	private Integer requisitionIdentifier;
-	private Integer contractManagerCode;
+    private String documentNumber;
+    private Integer requisitionIdentifier;
+    private Integer contractManagerCode;
 
     private RequisitionDocument requisition;
     private ContractManager contractManager;
     private AssignContractManagerDocument assignContractManagerDocument;
-    
+
     /**
      * Default constructor.
      */
     public AssignContractManagerDetail() {
 
-	}
+    }
 
     /**
      * Constructs a AssignContractManagerDetail object from an existing AssignContractManagerDocument object.
@@ -57,29 +56,29 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.requisitionIdentifier = requisitionDocument.getPurapDocumentIdentifier();
     }
 
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
 
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
 
-	public Integer getRequisitionIdentifier() { 
-		return requisitionIdentifier;
-	}
+    public Integer getRequisitionIdentifier() {
+        return requisitionIdentifier;
+    }
 
-	public void setRequisitionIdentifier(Integer requisitionIdentifier) {
-		this.requisitionIdentifier = requisitionIdentifier;
-	}
+    public void setRequisitionIdentifier(Integer requisitionIdentifier) {
+        this.requisitionIdentifier = requisitionIdentifier;
+    }
 
-	public Integer getContractManagerCode() { 
-		return contractManagerCode;
-	}
+    public Integer getContractManagerCode() {
+        return contractManagerCode;
+    }
 
-	public void setContractManagerCode(Integer contractManagerCode) {
-		this.contractManagerCode = contractManagerCode;
-	}
+    public void setContractManagerCode(Integer contractManagerCode) {
+        this.contractManagerCode = contractManagerCode;
+    }
 
     public ContractManager getContractManager() {
         return contractManager;
@@ -109,17 +108,17 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
     public void setAssignContractManagerDocument(AssignContractManagerDocument assignContractManagerDocument) {
         this.assignContractManagerDocument = assignContractManagerDocument;
-    }    
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         if (this.requisitionIdentifier != null) {
             m.put("requisitionIdentifier", this.requisitionIdentifier.toString());
         }
         return m;
-    }   
+    }
 }

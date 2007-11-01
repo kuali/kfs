@@ -24,11 +24,9 @@ import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 public class SufficientFundsCodeValuesFinder extends KualiSystemCodeValuesFinder {
 
     /**
-     * 
      * This method is used to tell the superclass what the class being looked up is.
      * 
      * @see org.kuali.core.lookup.keyvalues.KualiSystemCodeValuesFinder#getValuesClass()
-     * 
      */
     protected Class getValuesClass() {
         return SufficientFundsCode.class;

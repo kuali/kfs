@@ -17,81 +17,65 @@ package org.kuali.module.purap.fixtures;
 
 import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 public enum CreditMemoItemFixture {
-    
-    CM_QTY_UNRESTRICTED_ITEM_1 (
-            false,                              // itemRestrictedIndicator
-            PurApItemFixture.BASIC_QTY_ITEM_1,  // purApItemFixture
-            new CreditMemoAccountingLineFixture[] {CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1}   // creditMemoAccountMultiFixtures
-            ),
-    
-    CM_ITEM_NO_APO (
-            false,                              // itemRestrictedIndicator
-            PurApItemFixture.BASIC_QTY_ITEM_NO_APO,  // purApItemFixture
-            new CreditMemoAccountingLineFixture[] {CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1}   // creditMemoAccountMultiFixtures
-            ),
-    
-   /*
-    CM_QTY_APO_ITEM_1 (
-            false,                                  // itemRestrictedIndicator
-            PurApItemFixture.APO_QTY_ITEM_1,        // purApItemFixture
-            new CreditMemoAccountingLineFixture[] {CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_1}   // creditMemoAccountMultiFixtures
-            ),             
-    CM_SERVICE_APO_ITEM_1 (
-            false,                                  // itemRestrictedIndicator
-            PurApItemFixture.APO_SERVICE_ITEM_1,    // purApItemFixture
-            new RequisitionAccountingLineFixture[] {CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_2,
-                                                    CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_3}   // creditMemoAccountMultiFixtures
-            ),   
-    CM_FREIGHT_ITEM_1 (
-            false,                                  // itemRestrictedIndicator
-            PurApItemFixture.APO_FREIGHT_ITEM_1,    // purApItemFixture
-            new CreditMemoAccountingLineFixture[] {RequisitionAccountingLineFixture.APO_REQ_ACCOUNT_4}   // creditMemoAccountMultiFixtures
-            ),        
-        */    
-    
-    ;            
-            
-            
-    
+
+    CM_QTY_UNRESTRICTED_ITEM_1(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
+    ),
+
+    CM_ITEM_NO_APO(false, // itemRestrictedIndicator
+            PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
+    ),
+
+    /*
+     * CM_QTY_APO_ITEM_1 ( false, // itemRestrictedIndicator PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture new
+     * CreditMemoAccountingLineFixture[] {CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_1} // creditMemoAccountMultiFixtures ),
+     * CM_SERVICE_APO_ITEM_1 ( false, // itemRestrictedIndicator PurApItemFixture.APO_SERVICE_ITEM_1, // purApItemFixture new
+     * RequisitionAccountingLineFixture[] {CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_2,
+     * CreditMemoAccountingLineFixture.APO_CM_ACCOUNT_3} // creditMemoAccountMultiFixtures ), CM_FREIGHT_ITEM_1 ( false, //
+     * itemRestrictedIndicator PurApItemFixture.APO_FREIGHT_ITEM_1, // purApItemFixture new CreditMemoAccountingLineFixture[]
+     * {RequisitionAccountingLineFixture.APO_REQ_ACCOUNT_4} // creditMemoAccountMultiFixtures ),
+     */
+
+    ;
+
+
     private boolean itemRestrictedIndicator;
     private PurApItemFixture purApItemFixture;
     private CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures;
 
-    
-    private CreditMemoItemFixture(  
-            boolean itemRestrictedIndicator,
-            PurApItemFixture purApItemFixture,
-            CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures) {
+
+    private CreditMemoItemFixture(boolean itemRestrictedIndicator, PurApItemFixture purApItemFixture, CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures) {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
         this.purApItemFixture = purApItemFixture;
         this.creditMemoAccountingLineFixtures = creditMemoAccountingLineFixtures;
     }
-    
+
     public void addTo(CreditMemoDocument creditMemoDocument) {
-        CreditMemoItem item=null;
-        item = (CreditMemoItem)this.createCreditMemoItem(); 
+        CreditMemoItem item = null;
+        item = (CreditMemoItem) this.createCreditMemoItem();
         creditMemoDocument.addItem(item);
         // iterate over the accounts
         for (CreditMemoAccountingLineFixture creditMemoAccountMultiFixture : creditMemoAccountingLineFixtures) {
             creditMemoAccountMultiFixture.addTo(item);
         }
     }
-   
+
     public PurchasingItem createRequisitionItem() {
-        RequisitionItem item = (RequisitionItem)purApItemFixture.createPurApItem(RequisitionItem.class);
+        RequisitionItem item = (RequisitionItem) purApItemFixture.createPurApItem(RequisitionItem.class);
         item.setItemRestrictedIndicator(itemRestrictedIndicator);
         return item;
     }
-    
+
     public AccountsPayableItem createCreditMemoItem() {
-        CreditMemoItem item = (CreditMemoItem)purApItemFixture.createPurApItem(CreditMemoItem.class);
-        //item.setItemRestrictedIndicator(itemRestrictedIndicator);
+        CreditMemoItem item = (CreditMemoItem) purApItemFixture.createPurApItem(CreditMemoItem.class);
+        // item.setItemRestrictedIndicator(itemRestrictedIndicator);
         return item;
     }
 }

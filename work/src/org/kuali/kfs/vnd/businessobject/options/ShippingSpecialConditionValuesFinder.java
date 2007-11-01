@@ -44,7 +44,7 @@ public class ShippingSpecialConditionValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = sscs.iterator(); iter.hasNext();) {
             ShippingSpecialCondition ssc = (ShippingSpecialCondition) iter.next();
-            labels.add(new KeyLabelPair( ssc.getVendorShippingSpecialConditionCode(), ssc.getVendorShippingSpecialConditionDescription() ));
+            labels.add(new KeyLabelPair(ssc.getVendorShippingSpecialConditionCode(), ssc.getVendorShippingSpecialConditionDescription()));
         }
 
         return labels;

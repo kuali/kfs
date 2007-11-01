@@ -26,19 +26,18 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 /**
- * This annotation marks test classes or methods as members of the listed test suites.
- * This reverses the normal direction of the reference, from the test to the suite.
+ * This annotation marks test classes or methods as members of the listed test suites. This reverses the normal direction of the
+ * reference, from the test to the suite.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target( { ElementType.TYPE, ElementType.METHOD })
 public @interface AnnotationTestSuite {
 
     public Class<? extends Superclass>[] value();
 
     /**
-     * Test suites using the enclosing annotation must extend this nested class.
-     * They should have a static method named "suite" that IDEs can run for convenience.
-     * That method should return getSuite() or getNegativeSuite() on an instance of the suite class.
+     * Test suites using the enclosing annotation must extend this nested class. They should have a static method named "suite" that
+     * IDEs can run for convenience. That method should return getSuite() or getNegativeSuite() on an instance of the suite class.
      */
     public static abstract class Superclass {
 
@@ -55,9 +54,7 @@ public @interface AnnotationTestSuite {
          * @return the suite of all test classes or methods listing this (sub)class in a AnnotationTestSuite annotation.
          * @throws java.io.IOException if the directory containing the test class files cannot be scanned
          */
-        protected TestSuite getSuite()
-            throws Exception
-        {
+        protected TestSuite getSuite() throws Exception {
             TestSuiteBuilder.ClassCriteria classCriteria = new TestSuiteBuilder.ClassCriteria() {
                 public boolean includes(Class<? extends TestCase> testClass) {
                     return pointsToThisClass(testClass.getAnnotation(AnnotationTestSuite.class));
@@ -78,13 +75,11 @@ public @interface AnnotationTestSuite {
         }
 
         /**
-         * @return the suite of all test methods (including those within test class sub-suites)
-         *          which are not in the suite returned by {@link #getSuite()}.
+         * @return the suite of all test methods (including those within test class sub-suites) which are not in the suite returned
+         *         by {@link #getSuite()}.
          * @throws java.io.IOException if the directory containing the test class files cannot be scanned
          */
-        protected TestSuite getNegativeSuite()
-            throws Exception
-        {
+        protected TestSuite getNegativeSuite() throws Exception {
             TestSuiteBuilder.MethodCriteria negativeMethodCriteria = new TestSuiteBuilder.MethodCriteria() {
                 public boolean includes(Method method) {
                     AnnotationTestSuite testClassAnnotation = method.getDeclaringClass().getAnnotation(AnnotationTestSuite.class);

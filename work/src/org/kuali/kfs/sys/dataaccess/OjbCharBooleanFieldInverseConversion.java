@@ -15,21 +15,15 @@
  */
 package org.kuali.kfs.util;
 
-import org.apache.ojb.broker.accesslayer.conversions.ConversionException;
 import org.apache.ojb.broker.accesslayer.conversions.FieldConversion;
 
 /**
- * 
- * This class is intended to be used for inverting all the boolean values stored in the database
- * before loading them into the business object and vice versa.  This functionality is necessary for 
- * situations where a database table stores the opposite of the intented boolean attribute.  An example
- * is where a given business object has a pre-defined attribute, such as "inactive", while the user
- * wishes to display the value as an 'active' indicator rather than an 'inactive indicator.  
- * 
- * Ideally, it would be better to replace the field in the database with the appropriate representation 
- * of the data so we do not have to perform these confusing conversions on data.  Unfortunately, this is
- * not always an option.  
- * 
+ * This class is intended to be used for inverting all the boolean values stored in the database before loading them into the
+ * business object and vice versa. This functionality is necessary for situations where a database table stores the opposite of the
+ * intented boolean attribute. An example is where a given business object has a pre-defined attribute, such as "inactive", while
+ * the user wishes to display the value as an 'active' indicator rather than an 'inactive indicator. Ideally, it would be better to
+ * replace the field in the database with the appropriate representation of the data so we do not have to perform these confusing
+ * conversions on data. Unfortunately, this is not always an option.
  */
 public class OjbCharBooleanFieldInverseConversion implements FieldConversion {
 
@@ -37,8 +31,8 @@ public class OjbCharBooleanFieldInverseConversion implements FieldConversion {
     private static final String FALSE = "N";
 
     /**
-     * This method takes the value intended to be passed to the SQL statement and replaces that 
-     * value with its inverse.  Thus TRUE becomes FALSE and vice versa.  
+     * This method takes the value intended to be passed to the SQL statement and replaces that value with its inverse. Thus TRUE
+     * becomes FALSE and vice versa.
      * 
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#javaToSql(java.lang.Object)
      */
@@ -52,10 +46,10 @@ public class OjbCharBooleanFieldInverseConversion implements FieldConversion {
             }
         }
         else if (source instanceof String) {
-            if ("Y".equalsIgnoreCase((String)source)) {
+            if ("Y".equalsIgnoreCase((String) source)) {
                 return FALSE;
             }
-            else if ("N".equalsIgnoreCase((String)source)) {
+            else if ("N".equalsIgnoreCase((String) source)) {
                 return TRUE;
             }
         }
@@ -63,8 +57,8 @@ public class OjbCharBooleanFieldInverseConversion implements FieldConversion {
     }
 
     /**
-     * This method takes the value returned from the database and replaces it with its inverse, thus
-     * FALSE becomes TRUE and vice versa.
+     * This method takes the value returned from the database and replaces it with its inverse, thus FALSE becomes TRUE and vice
+     * versa.
      * 
      * @see org.apache.ojb.broker.accesslayer.conversions.FieldConversion#sqlToJava(java.lang.Object)
      */

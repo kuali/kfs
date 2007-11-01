@@ -34,8 +34,6 @@ import org.kuali.test.suite.CrossSectionSuite;
 
 /**
  * This class tests service methods in BudgetCostShareService.
- * 
- * 
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
 @ConfigureContext

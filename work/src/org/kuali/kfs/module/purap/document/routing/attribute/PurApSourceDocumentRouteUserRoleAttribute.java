@@ -37,11 +37,10 @@ import edu.iu.uis.eden.user.AuthenticationUserId;
 
 /**
  * TODO delyea - documentation
- * 
  */
 public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAttribute {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApSourceDocumentRouteUserRoleAttribute.class);    
-    
+    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApSourceDocumentRouteUserRoleAttribute.class);
+
     private static final String SOURCE_DOC_ROUTED_BY_USER_ROLE_KEY = "SOURCE_DOC_ROUTED_BY_USER";
     private static final String SOURCE_DOC_ROUTED_BY_USER_ROLE_LABEL = "User who Routed Source Document";
 
@@ -60,7 +59,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
     public List<Role> getRoleNames() {
         return ROLES;
     }
-    
+
     private void assertDocumentNotNull(PurchasingAccountsPayableDocument document) {
         if (ObjectUtils.isNull(document)) {
             String errorMessage = "Document with doc id '" + document.getDocumentNumber() + "' and class '" + document.getClass() + "' does not exist in system";
@@ -81,7 +80,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
         String documentNumber = null;
         try {
             documentNumber = routeContext.getDocument().getRouteHeaderId().toString();
-            PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+            PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
             assertDocumentNotNull(document);
             document.refreshNonUpdateableReferences();
             PurchasingAccountsPayableDocument sourceDocument = document.getPurApSourceDocumentIfPossible();
@@ -90,7 +89,7 @@ public class PurApSourceDocumentRouteUserRoleAttribute extends UnqualifiedRoleAt
             // return the user who routed the source document
             DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
             String label = "User Who Routed " + document.getPurApSourceDocumentLabelIfPossible() + " " + sourceDocument.getPurapDocumentIdentifier();
-            return new ResolvedQualifiedRole(label, Arrays.asList(new Id[] {new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId())}));
+            return new ResolvedQualifiedRole(label, Arrays.asList(new Id[] { new AuthenticationUserId(sourceDocument.getDocumentHeader().getWorkflowDocument().getRoutedByUserNetworkId()) }));
         }
         catch (WorkflowException e) {
             String errorMessage = "Workflow problem while trying to get document using doc id '" + documentNumber + "'";

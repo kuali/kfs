@@ -61,8 +61,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Action class for CashManagementForm
- * 
- * 
  */
 public class CashManagementAction extends KualiDocumentActionBase {
     private static Logger LOG = Logger.getLogger(CashManagementAction.class);
@@ -137,7 +135,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
 
     /**
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -156,7 +153,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
     }
 
     /**
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -212,7 +208,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
 
     /**
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -240,7 +235,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         // open the CashDrawer so that user can add new deposits
         cmDoc.getCashDrawer().setStatusCode(KFSConstants.CashDrawerConstants.STATUS_OPEN);
-        
+
         // display status message
         GlobalVariables.getMessageList().add(CashManagement.STATUS_DEPOSIT_CANCELED);
 
@@ -270,7 +265,6 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
 
     /**
-     * 
      * @param mapping
      * @param form
      * @param request
@@ -310,7 +304,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
         CashDrawerService cds = SpringContext.getBean(CashDrawerService.class);
         cds.openCashDrawer(cmDoc.getCashDrawer(), cmDoc.getDocumentNumber());
         // now that the cash drawer is open, let's create currency/coin detail records for this document
-        //      create and save the cumulative cash receipt, deposit, money in and money out curr/coin details
+        // create and save the cumulative cash receipt, deposit, money in and money out curr/coin details
         SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
         SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_IN);
         SpringContext.getBean(CashManagementService.class).createNewCashDetails(cmDoc, KFSConstants.CurrencyCoinSources.CASH_MANAGEMENT_OUT);
@@ -328,9 +322,10 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This action makes the last interim deposit a final deposit
+     * 
      * @param mapping the mapping of the actions
      * @param form the Struts form populated on the post
      * @param request the servlet request
@@ -339,26 +334,29 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception because you never know when something just might go wrong
      */
     public ActionForward finalizeLastInterimDeposit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementDocument cmDoc = ((CashManagementForm) form).getCashManagementDocument();
         CashManagementService cms = SpringContext.getBean(CashManagementService.class);
-        
+
         if (cmDoc.hasFinalDeposit()) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[]{});
-        } else if (cmDoc.getDeposits().size() == 0) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL, new String[]{});
-        } else if (!cms.allVerifiedCashReceiptsAreDeposited(cmDoc)) {
-            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS, new String[]{});
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_ALREADY_HAS_FINAL_DEPOSIT, new String[] {});
         }
-        
+        else if (cmDoc.getDeposits().size() == 0) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_DOCUMENT_NO_DEPOSITS_TO_MAKE_FINAL, new String[] {});
+        }
+        else if (!cms.allVerifiedCashReceiptsAreDeposited(cmDoc)) {
+            GlobalVariables.getErrorMap().putError(KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS, CashManagement.ERROR_NON_DEPOSITED_VERIFIED_CASH_RECEIPTS, new String[] {});
+        }
+
         cms.finalizeLastInterimDeposit(cmDoc);
-        
-        ((CashManagementForm)form).getCashDrawerSummary().resummarize(cmDoc);
-        
+
+        ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This action applies the current cashiering transaction to the cash drawer
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -367,18 +365,19 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward applyCashieringTransaction(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementDocument cmDoc = ((CashManagementForm) form).getCashManagementDocument();
         CashManagementService cmService = SpringContext.getBean(CashManagementService.class);
-        
+
         cmService.applyCashieringTransaction(cmDoc);
-        
-        ((CashManagementForm)form).getCashDrawerSummary().resummarize(cmDoc);
-        
+
+        ((CashManagementForm) form).getCashDrawerSummary().resummarize(cmDoc);
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * This action allows the user to go to the cash drawer correction screen
+     * 
      * @param mapping
      * @param form
      * @param request
@@ -387,9 +386,9 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward correctCashDrawer(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        return new ActionForward("CashDrawerCorrectionForm", buildCashDrawerCorrectionUrl(((CashManagementForm)form).getCashManagementDocument()), true);
+        return new ActionForward("CashDrawerCorrectionForm", buildCashDrawerCorrectionUrl(((CashManagementForm) form).getCashManagementDocument()), true);
     }
-    
+
     /**
      * @param cmDoc
      * @param depositTypeCode
@@ -402,7 +401,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
         return UrlFactory.parameterizeUrl("cashDrawerCorrection.do", params);
     }
-    
+
     /**
      * Adds Check instance created from the current "new check" line to the document
      * 
@@ -414,7 +413,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward addCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementDocument cmDoc = ((CashManagementForm) form).getCashManagementDocument();
 
         Check newCheck = cmDoc.getCurrentTransaction().getNewCheck();
         newCheck.setDocumentNumber(cmDoc.getDocumentNumber());
@@ -427,7 +426,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
 
             // clear the used newCheck
             cmDoc.getCurrentTransaction().setNewCheck(cmDoc.getCurrentTransaction().createNewCheck());
-            
+
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
@@ -444,7 +443,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
      * @throws Exception
      */
     public ActionForward deleteCheck(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CashManagementDocument cmDoc = ((CashManagementForm)form).getCashManagementDocument();
+        CashManagementDocument cmDoc = ((CashManagementForm) form).getCashManagementDocument();
 
         int deleteIndex = getLineToDelete(request);
         Check oldCheck = cmDoc.getCurrentTransaction().getCheck(deleteIndex);
@@ -460,7 +459,7 @@ public class CashManagementAction extends KualiDocumentActionBase {
             if (cmDoc.getCurrentTransaction().hasBaselineCheck(deleteIndex)) {
                 cmDoc.getCurrentTransaction().getBaselineChecks().remove(deleteIndex);
             }
-            
+
         }
         else {
             GlobalVariables.getErrorMap().putError("document.currentTransaction.check[" + deleteIndex + "]", KFSKeyConstants.Check.ERROR_CHECK_DELETERULE, Integer.toString(deleteIndex));

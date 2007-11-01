@@ -199,10 +199,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
-        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (KFSConstants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
-                KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
-                KFSConstants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || 
-                KFSConstants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
+        if ((sfrbAccount.getAccountSufficientFundsCode() != null) && (KFSConstants.SF_TYPE_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_CASH_AT_ACCOUNT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_CONSOLIDATION.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_LEVEL.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_OBJECT.equals(sfrbAccount.getAccountSufficientFundsCode()) || KFSConstants.SF_TYPE_NO_CHECKING.equals(sfrbAccount.getAccountSufficientFundsCode()))) {
             ++sfrbRecordsDeletedCount;
             sufficientFundBalancesDao.deleteByAccountNumber(universityFiscalYear, sfrb.getChartOfAccountsCode(), sfrbAccount.getAccountNumber());
 
@@ -280,19 +277,13 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         zero &= KualiDecimal.ZERO.equals(sfbl.getCurrentBudgetBalanceAmount());
         return !zero;
     }
-    
+
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
-        if ( options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || 
-                options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode()) || 
-                options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) ||
-                options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode()) ) {
+        if (options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) || options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode())) {
             if (options.getActualFinancialBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
                 processObjtAcctActual(balance);
             }
-            else if ( options.getExtrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || 
-                    options.getIntrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || 
-                    options.getPreencumbranceFinBalTypeCd().equals(balance.getBalanceTypeCode()) || 
-                    options.getCostShareEncumbranceBalanceTypeCd().equals(balance.getBalanceTypeCode()) ) {
+            else if (options.getExtrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equals(balance.getBalanceTypeCode()) || options.getPreencumbranceFinBalTypeCd().equals(balance.getBalanceTypeCode()) || options.getCostShareEncumbranceBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
                 processObjtAcctEncmbrnc(balance);
             }
             else if (options.getBudgetCheckingBalanceTypeCd().equals(balance.getBalanceTypeCode())) {

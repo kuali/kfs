@@ -19,8 +19,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber
- * and poster.
+ * A representation of LedgerEntries, which are summaries that show up on Ledger Reports created by the scrubber and poster.
  */
 public class LedgerEntry {
 
@@ -79,7 +78,7 @@ public class LedgerEntry {
 
         this.recordCount = this.creditCount + this.debitCount + this.noDCCount;
     }
-    
+
     /**
      * create or update a ledger entry with the array of information from the given entry summary object
      * 
@@ -122,7 +121,7 @@ public class LedgerEntry {
 
         return ledgerEntry;
     }
-    
+
     /**
      * Gets the balanceType attribute.
      * 

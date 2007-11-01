@@ -27,16 +27,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.PriorYearAccount;
-import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.PriorYearAccountService;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.GLConstants;
-import org.kuali.module.gl.batch.BalanceForwardStep;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
@@ -46,8 +42,7 @@ import org.kuali.module.gl.util.NonFatalErrorException;
 import org.kuali.module.gl.util.ObjectHelper;
 
 /**
- * A class to hold significant state for a balance forward job; it also has the methods that actually
- * accomplish the job
+ * A class to hold significant state for a balance forward job; it also has the methods that actually accomplish the job
  */
 public class BalanceForwardRuleHelper {
 
@@ -181,8 +176,8 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * Constructs a BalanceForwardRuleHelper, using a fiscal year.  This also initializes
-     * object type arrays based on the options of the closing fiscal year
+     * Constructs a BalanceForwardRuleHelper, using a fiscal year. This also initializes object type arrays based on the options of
+     * the closing fiscal year
      * 
      * @param closingFiscalYear the fiscal year that is closing out
      */
@@ -210,8 +205,8 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * Constructs a BalanceForwardRuleHelper, but this one goes whole hog: initializes all of the
-     * relevant parameters and the balance types to process
+     * Constructs a BalanceForwardRuleHelper, but this one goes whole hog: initializes all of the relevant parameters and the
+     * balance types to process
      * 
      * @param closingFiscalYear the fiscal year to close
      * @param transactionDate the date this job is being run
@@ -225,12 +220,12 @@ public class BalanceForwardRuleHelper {
         setClosedPriorYearAccountGroup(closedPriorYearAccountGroup);
         setUnclosedPriorYearAccountGroup(unclosedPriorYearAccountGroup);
         currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
-        
+
         balanceTypeEncumbranceIndicators = new HashMap<String, Boolean>();
-        for (Object balanceTypAsObj: SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps()) {
-            BalanceTyp balanceType = (BalanceTyp)balanceTypAsObj;
+        for (Object balanceTypAsObj : SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps()) {
+            BalanceTyp balanceType = (BalanceTyp) balanceTypAsObj;
             balanceTypeEncumbranceIndicators.put(balanceType.getCode(), (balanceType.isFinBalanceTypeEncumIndicator() ? Boolean.TRUE : Boolean.FALSE));
-    }
+        }
     }
 
 
@@ -244,9 +239,9 @@ public class BalanceForwardRuleHelper {
      */
     public void processGeneralForwardBalance(Balance balance, OriginEntryGroup closedPriorYearAccountGroup, OriginEntryGroup unclosedPriorYearAccountGroup) throws FatalErrorException {
         if (ObjectUtils.isNull(balance.getPriorYearAccount())) {
-            throw new FatalErrorException("COULD NOT RETRIEVE INFORMATION ON ACCOUNT "+balance.getChartOfAccountsCode()+"-"+balance.getAccountNumber());
+            throw new FatalErrorException("COULD NOT RETRIEVE INFORMATION ON ACCOUNT " + balance.getChartOfAccountsCode() + "-" + balance.getAccountNumber());
         }
-        
+
         if ((null == balance.getAccountNumber() && null == state.getAccountNumberHold()) || (null != balance.getAccountNumber() && balance.getAccountNumber().equals(state.getAccountNumberHold()))) {
 
             // 954 004770 ADD 1 TO WS-SEQ-NBR
@@ -838,8 +833,8 @@ public class BalanceForwardRuleHelper {
     }
 
     /**
-     * Retrieves the transaction encumbrance update code, based on the balance type code of the balance.
-     * These codes are cached, based off a cache generated in the big constructor
+     * Retrieves the transaction encumbrance update code, based on the balance type code of the balance. These codes are cached,
+     * based off a cache generated in the big constructor
      * 
      * @param balance the balance to find the encumbrance update code for
      * @return the transaction update code
@@ -857,9 +852,10 @@ public class BalanceForwardRuleHelper {
         Boolean encumIndicator = this.balanceTypeEncumbranceIndicators.get(balance.getBalanceTypeCode());
         if (encumIndicator == null) {
             throw new NonFatalErrorException(new StringBuffer(" ERROR ").append(balance.getBalanceTypeCode()).append(" NOT ON TABLE ").toString());
-        } else if (encumIndicator.booleanValue()) {
-                updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
-            }
+        }
+        else if (encumIndicator.booleanValue()) {
+            updateCode = KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD;
+        }
 
         return updateCode;
     }
@@ -1022,8 +1018,8 @@ public class BalanceForwardRuleHelper {
 
                 // 1425 END-IF
 
+            }
         }
-    }
     }
 
     /**

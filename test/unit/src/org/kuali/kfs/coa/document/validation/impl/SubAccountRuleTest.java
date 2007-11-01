@@ -51,15 +51,11 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     MaintenanceDocument maintDoc;
 
     /**
-     * 
      * This method creates a new SubAccount, and populates it with the data provided. No fields are required for this method, though
-     * some may be for the rules.
-     * 
-     * This method calls subAccount.refresh() before returning it, so all sub-objects should be populated, if the keys match any
-     * records in the corresponding tables.
-     * 
-     * This method does not populate anything in the contained A21SubAccount, though it does create a new A21SubAccount. So the
-     * A21SubAccount instance will be valid (ie, non-null), but all of its fields will be default or null.
+     * some may be for the rules. This method calls subAccount.refresh() before returning it, so all sub-objects should be
+     * populated, if the keys match any records in the corresponding tables. This method does not populate anything in the contained
+     * A21SubAccount, though it does create a new A21SubAccount. So the A21SubAccount instance will be valid (ie, non-null), but all
+     * of its fields will be default or null.
      * 
      * @param chartOfAccountsCode
      * @param accountNumber
@@ -70,7 +66,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
      * @param finReportOrgCode
      * @param finReportingCode
      * @return returns a SubAccount instance populated with the data provided
-     * 
      */
     private SubAccount newSubAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber, String subAccountName, boolean subAccountActiveIndicator, String finReportChartCode, String finReportOrgCode, String finReportingCode) {
 
@@ -211,7 +206,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     /**
-     * 
      * This method simulates a user that has permission to deal with CG accounts
      */
     public void testIsCgAuthorized_goodUser() throws UserNotFoundException {
@@ -228,7 +222,6 @@ public class SubAccountRuleTest extends ChartRuleTestBase {
     }
 
     /**
-     * 
      * This method simulates a user that does not have permission to deal with CG accounts
      */
     public void testIsCgAuthorized_badUser() throws UserNotFoundException {

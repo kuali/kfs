@@ -72,6 +72,6 @@ public class LaborGeneralLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb imple
      * @see org.kuali.module.labor.dao.LaborGeneralLedgerEntryDao#save(org.kuali.module.labor.bo.LaborGeneralLedgerEntry)
      */
     public void save(LaborGeneralLedgerEntry laborGeneralLedgerEntry) {
-        getPersistenceBrokerTemplate().store(laborGeneralLedgerEntry);       
+        getPersistenceBrokerTemplate().store(laborGeneralLedgerEntry);
     }
 }

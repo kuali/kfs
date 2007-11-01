@@ -16,40 +16,39 @@ import org.kuali.module.pdp.dao.FormatProcessDao;
 
 /**
  * @author jsissom
- *
  */
 public class FormatProcessDaoOjb extends PlatformAwareDaoBaseOjb implements FormatProcessDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatProcessDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatProcessDaoOjb.class);
 
-  public FormatProcessDaoOjb() {
-    super();
-  }
-
-  public FormatProcess getByCampus(String campus) {
-    LOG.debug("getByCampus() starting");
-
-    Criteria c = new Criteria();
-    c.addEqualTo("physicalCampusProcessCode",campus);
-
-    return (FormatProcess)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FormatProcess.class,c));
-  }
-
-  public void removeByCampus(String campus) {
-    LOG.debug("removeByCampus() starting");
-
-    FormatProcess fp = getByCampus(campus);
-    if ( fp != null ) {
-      getPersistenceBrokerTemplate().delete(fp);
+    public FormatProcessDaoOjb() {
+        super();
     }
-  }
 
-  public void add(String campus,Date now) {
-    LOG.debug("add() starting");
+    public FormatProcess getByCampus(String campus) {
+        LOG.debug("getByCampus() starting");
 
-    FormatProcess fp = new FormatProcess();
-    fp.setPhysicalCampusProcessCode(campus);
-    fp.setBeginFormat(new Timestamp(now.getTime()));
-    
-    getPersistenceBrokerTemplate().store(fp);
-  }
+        Criteria c = new Criteria();
+        c.addEqualTo("physicalCampusProcessCode", campus);
+
+        return (FormatProcess) getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(FormatProcess.class, c));
+    }
+
+    public void removeByCampus(String campus) {
+        LOG.debug("removeByCampus() starting");
+
+        FormatProcess fp = getByCampus(campus);
+        if (fp != null) {
+            getPersistenceBrokerTemplate().delete(fp);
+        }
+    }
+
+    public void add(String campus, Date now) {
+        LOG.debug("add() starting");
+
+        FormatProcess fp = new FormatProcess();
+        fp.setPhysicalCampusProcessCode(campus);
+        fp.setBeginFormat(new Timestamp(now.getTime()));
+
+        getPersistenceBrokerTemplate().store(fp);
+    }
 }

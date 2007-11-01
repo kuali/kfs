@@ -18,7 +18,6 @@ package org.kuali.module.purap.document;
 import java.sql.Date;
 
 import org.kuali.core.bo.Campus;
-import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Account;
@@ -31,7 +30,6 @@ import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
-import org.kuali.module.vendor.bo.ContractManager;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
@@ -103,8 +101,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     private String vendorContractName;
     private String supplierDiversityLabel;
     private String vendorContactsLabel;
-    private boolean deliveryBuildingOther; 
-    
+    private boolean deliveryBuildingOther;
+
     // REFERENCE OBJECTS
     private FundingSource fundingSource;
     private RequisitionSource requisitionSource;
@@ -135,14 +133,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         if (vendorDetail == null) {
             return;
         }
-    
+
         this.setVendorDetail(vendorDetail);
-        this.setVendorName(vendorDetail.getVendorName());     
+        this.setVendorName(vendorDetail.getVendorName());
         this.setVendorShippingTitleCode(vendorDetail.getVendorShippingTitleCode());
         this.setVendorPaymentTermsCode(vendorDetail.getVendorPaymentTermsCode());
         this.setVendorShippingPaymentTermsCode(vendorDetail.getVendorShippingPaymentTermsCode());
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingDocument#templateVendorContract(org.kuali.module.vendor.bo.VendorContract)
      */
@@ -153,15 +151,15 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         this.setVendorContract(vendorContract);
         this.setVendorContractName(vendorContract.getVendorContractName());
     }
-    
+
     /**
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#templateVendorAddress(org.kuali.module.vendor.bo.VendorAddress)
      */
     public void templateVendorAddress(VendorAddress vendorAddress) {
         super.templateVendorAddress(vendorAddress);
         this.setVendorFaxNumber(vendorAddress.getVendorFaxNumber());
-    }    
-    
+    }
+
     /**
      * Sets billing address fields based on the specified Billing Address.
      * 
@@ -180,8 +178,8 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         }
     }
 
-    // GETTERS AND SETTERS    
-    
+    // GETTERS AND SETTERS
+
     public String getBillingCityName() {
         return billingCityName;
     }
@@ -698,19 +696,19 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
         return supplierDiversityLabel;
     }
 
-    public PurchaseOrderCostSource getPurchaseOrderCostSource() { 
+    public PurchaseOrderCostSource getPurchaseOrderCostSource() {
         if (ObjectUtils.isNull(purchaseOrderCostSource))
             refreshReferenceObject(PurapPropertyConstants.PURCHASE_ORDER_COST_SOURCE);
-        return purchaseOrderCostSource; 
-    }    
-    
+        return purchaseOrderCostSource;
+    }
+
     /**
      * @deprecated
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
-    
+
     /**
      * @deprecated
      */
@@ -724,7 +722,7 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setDeliveryRequiredDateReason(DeliveryRequiredDateReason deliveryRequiredDateReason) {
         this.deliveryRequiredDateReason = deliveryRequiredDateReason;
     }
-    
+
     /**
      * @deprecated
      */
@@ -737,14 +735,14 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
      */
     public void setNonInstitutionFundAccount(Account nonInstitutionFundAccount) {
         this.nonInstitutionFundAccount = nonInstitutionFundAccount;
-    }   
+    }
 
     /**
      * @deprecated
      */
     public void setNonInstitutionFundChartOfAccounts(Chart nonInstitutionFundChartOfAccounts) {
         this.nonInstitutionFundChartOfAccounts = nonInstitutionFundChartOfAccounts;
-    } 
+    }
 
     /**
      * @deprecated
@@ -794,5 +792,5 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
     public void setRequisitionSource(RequisitionSource requisitionSource) {
         this.requisitionSource = requisitionSource;
     }
-    
+
 }

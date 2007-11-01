@@ -23,40 +23,40 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * Auto Approve Exclude Business Object.
- * Defines attributes in maintenance document for excluding payment request from automatic approval.
+ * Auto Approve Exclude Business Object. Defines attributes in maintenance document for excluding payment request from automatic
+ * approval.
  */
 public class AutoApproveExclude extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String accountNumber;
-	private boolean active;
+    private String chartOfAccountsCode;
+    private String accountNumber;
+    private boolean active;
 
     private Account account;
-	private Chart chartOfAccounts;
+    private Chart chartOfAccounts;
 
     /**
      * Default constructor.
      */
     public AutoApproveExclude() {
 
-	}
+    }
 
-    public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
-    public String getAccountNumber() { 
-		return accountNumber;
-	}
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
     public boolean isActive() {
         return active;
@@ -66,35 +66,35 @@ public class AutoApproveExclude extends PersistableBusinessObjectBase {
         this.active = active;
     }
 
-	public Account getAccount() { 
-		return account;
-	}
+    public Account getAccount() {
+        return account;
+    }
 
-	/**
-	 * @deprecated
-	 */
-	public void setAccount(Account account) {
-		this.account = account;
-	}
+    /**
+     * @deprecated
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
 
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
 
-	/**
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
-	    return m;
+        return m;
     }
 }

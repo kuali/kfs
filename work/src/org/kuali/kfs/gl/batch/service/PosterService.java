@@ -43,9 +43,8 @@ public interface PosterService {
 
     /**
      * Generate ICR GL entries.
-     * 
      */
     public void generateIcrTransactions();
-    
+
     public void setDateTimeService(DateTimeService dateTimeService);
 }

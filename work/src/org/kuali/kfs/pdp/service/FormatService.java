@@ -37,15 +37,15 @@ public interface FormatService {
     // Find out if the format is already running somewhere
     public Date getFormatProcessStartDate(String campus);
 
-    // Mark the process log so a format only happens once per campus.  Mark all the
-    // payments that will be formatted and return a summary.  attachments will be Y, N or null for both.
-    public List startFormatProcess(PdpUser user, String campus, List customers, Date paydate, boolean immediate,String paymentTypes);
+    // Mark the process log so a format only happens once per campus. Mark all the
+    // payments that will be formatted and return a summary. attachments will be Y, N or null for both.
+    public List startFormatProcess(PdpUser user, String campus, List customers, Date paydate, boolean immediate, String paymentTypes);
 
     // Mark the process as ended.
     public void endFormatProcess(String campus);
 
     // Called from a struts action class, select data to format
-    public FormatSelection formatSelectionAction(PdpUser user,boolean clearFormat);
+    public FormatSelection formatSelectionAction(PdpUser user, boolean clearFormat);
 
     // Actually format the data for check printing.
     // Return a list of Process Summaries to be displayed
@@ -56,10 +56,10 @@ public interface FormatService {
     public void clearUnfinishedFormat(Integer procId);
 
     // Get a list of FormatResults for a format
-    public List getFormatSummary(Integer procId); 
+    public List getFormatSummary(Integer procId);
 
     // Reset Payments after a format error
-    public void resetFormatPayments(Integer procId); 
+    public void resetFormatPayments(Integer procId);
 
     // Gets the most current Processes for Format Summary Viewing
     public List getMostCurrentProcesses();

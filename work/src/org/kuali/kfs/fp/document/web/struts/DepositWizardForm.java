@@ -26,14 +26,12 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.CheckBase;
 import org.kuali.module.financial.bo.CoinDetail;
 import org.kuali.module.financial.bo.CurrencyDetail;
-import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.bo.DepositWizardCashieringCheckHelper;
+import org.kuali.module.financial.bo.DepositWizardHelper;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * This class is the action form for the deposit document wizard.
- * 
- * 
  */
 public class DepositWizardForm extends KualiForm {
     private String cashDrawerVerificationUnit;
@@ -53,7 +51,7 @@ public class DepositWizardForm extends KualiForm {
 
     private String depositTypeCode;
     private String depositTicketNumber;
-    
+
     private CurrencyDetail currencyDetail;
     private CoinDetail coinDetail;
 
@@ -263,7 +261,8 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Gets the coinDetail attribute. 
+     * Gets the coinDetail attribute.
+     * 
      * @return Returns the coinDetail.
      */
     public CoinDetail getCoinDetail() {
@@ -273,6 +272,7 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Sets the coinDetail attribute value.
+     * 
      * @param coinDetail The coinDetail to set.
      */
     public void setCoinDetail(CoinDetail coinDetail) {
@@ -281,7 +281,8 @@ public class DepositWizardForm extends KualiForm {
 
 
     /**
-     * Gets the currencyDetail attribute. 
+     * Gets the currencyDetail attribute.
+     * 
      * @return Returns the currencyDetail.
      */
     public CurrencyDetail getCurrencyDetail() {
@@ -291,14 +292,16 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Sets the currencyDetail attribute value.
+     * 
      * @param currencyDetail The currencyDetail to set.
      */
     public void setCurrencyDetail(CurrencyDetail currencyDetail) {
         this.currencyDetail = currencyDetail;
     }
-    
+
     /**
      * Explains if this deposit form is for creating a final deposit or not
+     * 
      * @return true if this deposit form will create a final deposit, false if it will create an interim
      */
     public boolean isDepositFinal() {
@@ -306,7 +309,8 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Gets the depositableCashieringChecks attribute. 
+     * Gets the depositableCashieringChecks attribute.
+     * 
      * @return Returns the depositableCashieringChecks.
      */
     public List<Check> getDepositableCashieringChecks() {
@@ -315,14 +319,16 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Sets the depositableCashieringChecks attribute value.
+     * 
      * @param depositableCashieringChecks The depositableCashieringChecks to set.
      */
     public void setDepositableCashieringChecks(List<Check> depositableCashieringChecks) {
         this.depositableCashieringChecks = depositableCashieringChecks;
     }
-    
+
     /**
      * Return the deposit cashiering check at the given index
+     * 
      * @param index index of check to retrieve
      * @return a check
      */
@@ -334,7 +340,8 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Gets the depositWizardCashieringCheckHelpers attribute. 
+     * Gets the depositWizardCashieringCheckHelpers attribute.
+     * 
      * @return Returns the depositWizardCashieringCheckHelpers.
      */
     public List<DepositWizardCashieringCheckHelper> getDepositWizardCashieringCheckHelpers() {
@@ -342,7 +349,8 @@ public class DepositWizardForm extends KualiForm {
     }
 
     /**
-     * Gets the checkFreeCashReceipts attribute. 
+     * Gets the checkFreeCashReceipts attribute.
+     * 
      * @return Returns the checkFreeCashReceipts.
      */
     public List<CashReceiptDocument> getCheckFreeCashReceipts() {
@@ -352,6 +360,7 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Sets the checkFreeCashReceipts attribute value.
+     * 
      * @param checkFreeCashReceipts The checkFreeCashReceipts to set.
      */
     public void setCheckFreeCashReceipts(List<CashReceiptDocument> checkFreeCashReceipts) {
@@ -360,6 +369,7 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Retreive a single check free cash receipt
+     * 
      * @param index the index of the cash receipt
      * @return a cash receipt document
      */
@@ -372,12 +382,13 @@ public class DepositWizardForm extends KualiForm {
 
     /**
      * Sets the depositWizardCashieringCheckHelpers attribute value.
+     * 
      * @param depositWizardCashieringCheckHelpers The depositWizardCashieringCheckHelpers to set.
      */
     public void setDepositWizardCashieringCheckHelpers(List<DepositWizardCashieringCheckHelper> depositWizardCashieringCheckHelpers) {
         this.depositWizardCashieringCheckHelpers = depositWizardCashieringCheckHelpers;
     }
-    
+
     public DepositWizardCashieringCheckHelper getDepositWizardCashieringCheckHelper(int index) {
         while (this.depositWizardCashieringCheckHelpers.size() <= index) {
             this.depositWizardCashieringCheckHelpers.add(new DepositWizardCashieringCheckHelper());

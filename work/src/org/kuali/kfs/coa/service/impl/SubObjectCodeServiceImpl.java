@@ -39,7 +39,8 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
     }
 
     /**
-     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.service.SubObjectCodeService#getByPrimaryIdForCurrentYear(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public SubObjCd getByPrimaryIdForCurrentYear(String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode) {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);

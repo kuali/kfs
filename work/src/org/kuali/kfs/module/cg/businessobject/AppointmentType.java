@@ -28,8 +28,6 @@ import org.kuali.kfs.context.SpringContext;
 
 /**
  * Account Business Object
- * 
- * 
  */
 public class AppointmentType extends PersistableBusinessObjectBase {
 
@@ -52,7 +50,7 @@ public class AppointmentType extends PersistableBusinessObjectBase {
      */
     public AppointmentType() {
     }
-    
+
     public AppointmentType(String appointmentTypeCode) {
         this();
         this.appointmentTypeCode = appointmentTypeCode;
@@ -193,7 +191,6 @@ public class AppointmentType extends PersistableBusinessObjectBase {
      * Gets the appointmentTypeEffectiveDateItems attribute.
      * 
      * @return Returns the appointmentTypeEffectiveDateItems
-     * 
      */
     public List getAppointmentTypeEffectiveDateItems() {
         return appointmentTypeEffectiveDateItems;
@@ -203,7 +200,6 @@ public class AppointmentType extends PersistableBusinessObjectBase {
      * Sets the appointmentTypeEffectiveDateItems attribute.
      * 
      * @param appointmentTypeEffectiveDateItems The appointmentTypeEffectiveDateItems to set.
-     * 
      */
     public void setAppointmentTypeEffectiveDateItems(List appointmentTypeEffectiveDateItems) {
         this.appointmentTypeEffectiveDateItems = appointmentTypeEffectiveDateItems;

@@ -46,7 +46,8 @@ import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     /**
-     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizerBase#hasInitiateAuthorization(org.kuali.core.document.Document,
+     *      org.kuali.core.bo.user.UniversalUser)
      */
     @Override
     public boolean hasInitiateAuthorization(Document document, UniversalUser user) {
@@ -156,7 +157,7 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
             this.setAnnotateFlag(flags);
         }
-        
+
         return flags;
     }
 }

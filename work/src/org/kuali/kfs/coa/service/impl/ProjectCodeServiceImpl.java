@@ -30,7 +30,7 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeServiceImpl.class);
 
     private ProjectCodeDao projectCodeDao;
-    
+
     /**
      * Retrieves an ProjectCode object based on primary key.
      * 

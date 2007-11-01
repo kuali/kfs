@@ -21,7 +21,7 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
  * Defines a callback method for post processing handling in the question interface.
  */
 public interface PurQuestionCallback {
-    
+
     /**
      * Hooks for doing processing on the document after a question has been performed.
      * 

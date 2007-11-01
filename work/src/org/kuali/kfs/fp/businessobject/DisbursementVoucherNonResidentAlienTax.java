@@ -53,7 +53,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -64,7 +63,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -74,7 +72,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the federalIncomeTaxPercent attribute.
      * 
      * @return Returns the federalIncomeTaxPercent
-     * 
      */
     public KualiDecimal getFederalIncomeTaxPercent() {
         return federalIncomeTaxPercent;
@@ -85,7 +82,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the federalIncomeTaxPercent attribute.
      * 
      * @param federalIncomeTaxPercent The federalIncomeTaxPercent to set.
-     * 
      */
     public void setFederalIncomeTaxPercent(KualiDecimal federalIncomeTaxPercent) {
         this.federalIncomeTaxPercent = federalIncomeTaxPercent;
@@ -95,7 +91,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the stateIncomeTaxPercent attribute.
      * 
      * @return Returns the stateIncomeTaxPercent
-     * 
      */
     public KualiDecimal getStateIncomeTaxPercent() {
         return stateIncomeTaxPercent;
@@ -106,7 +101,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the stateIncomeTaxPercent attribute.
      * 
      * @param stateIncomeTaxPercent The stateIncomeTaxPercent to set.
-     * 
      */
     public void setStateIncomeTaxPercent(KualiDecimal stateIncomeTaxPercent) {
         this.stateIncomeTaxPercent = stateIncomeTaxPercent;
@@ -116,7 +110,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the incomeClassCode attribute.
      * 
      * @return Returns the incomeClassCode
-     * 
      */
     public String getIncomeClassCode() {
         return incomeClassCode;
@@ -127,7 +120,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the incomeClassCode attribute.
      * 
      * @param incomeClassCode The incomeClassCode to set.
-     * 
      */
     public void setIncomeClassCode(String incomeClassCode) {
         this.incomeClassCode = incomeClassCode;
@@ -137,7 +129,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the postalCountryCode attribute.
      * 
      * @return Returns the postalCountryCode
-     * 
      */
     public String getPostalCountryCode() {
         return postalCountryCode;
@@ -148,7 +139,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the postalCountryCode attribute.
      * 
      * @param postalCountryCode The postalCountryCode to set.
-     * 
      */
     public void setPostalCountryCode(String postalCountryCode) {
         this.postalCountryCode = postalCountryCode;
@@ -158,7 +148,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the incomeTaxTreatyExemptCode attribute.
      * 
      * @return Returns the incomeTaxTreatyExemptCode
-     * 
      */
     public boolean isIncomeTaxTreatyExemptCode() {
         return incomeTaxTreatyExemptCode;
@@ -169,7 +158,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the incomeTaxTreatyExemptCode attribute.
      * 
      * @param incomeTaxTreatyExemptCode The incomeTaxTreatyExemptCode to set.
-     * 
      */
     public void setIncomeTaxTreatyExemptCode(boolean incomeTaxTreatyExemptCode) {
         this.incomeTaxTreatyExemptCode = incomeTaxTreatyExemptCode;
@@ -179,7 +167,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the foreignSourceIncomeCode attribute.
      * 
      * @return Returns the foreignSourceIncomeCode
-     * 
      */
     public boolean isForeignSourceIncomeCode() {
         return foreignSourceIncomeCode;
@@ -190,7 +177,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the foreignSourceIncomeCode attribute.
      * 
      * @param foreignSourceIncomeCode The foreignSourceIncomeCode to set.
-     * 
      */
     public void setForeignSourceIncomeCode(boolean foreignSourceIncomeCode) {
         this.foreignSourceIncomeCode = foreignSourceIncomeCode;
@@ -200,7 +186,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the incomeTaxGrossUpCode attribute.
      * 
      * @return Returns the incomeTaxGrossUpCode
-     * 
      */
     public boolean isIncomeTaxGrossUpCode() {
         return incomeTaxGrossUpCode;
@@ -211,7 +196,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the incomeTaxGrossUpCode attribute.
      * 
      * @param incomeTaxGrossUpCode The incomeTaxGrossUpCode to set.
-     * 
      */
     public void setIncomeTaxGrossUpCode(boolean incomeTaxGrossUpCode) {
         this.incomeTaxGrossUpCode = incomeTaxGrossUpCode;
@@ -221,7 +205,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the referenceFinancialSystemOriginationCode attribute.
      * 
      * @return Returns the referenceFinancialSystemOriginationCode
-     * 
      */
     public String getReferenceFinancialSystemOriginationCode() {
         return referenceFinancialSystemOriginationCode;
@@ -232,7 +215,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the referenceFinancialSystemOriginationCode attribute.
      * 
      * @param referenceFinancialSystemOriginationCode The referenceFinancialSystemOriginationCode to set.
-     * 
      */
     public void setReferenceFinancialSystemOriginationCode(String referenceFinancialSystemOriginationCode) {
         this.referenceFinancialSystemOriginationCode = referenceFinancialSystemOriginationCode;
@@ -242,7 +224,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the referenceFinancialDocumentNumber attribute.
      * 
      * @return Returns the referenceFinancialDocumentNumber
-     * 
      */
     public String getReferenceFinancialDocumentNumber() {
         return referenceFinancialDocumentNumber;
@@ -253,7 +234,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Sets the referenceFinancialDocumentNumber attribute.
      * 
      * @param referenceFinancialDocumentNumber The referenceFinancialDocumentNumber to set.
-     * 
      */
     public void setReferenceFinancialDocumentNumber(String referenceFinancialDocumentNumber) {
         this.referenceFinancialDocumentNumber = referenceFinancialDocumentNumber;
@@ -277,7 +257,6 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
      * Gets the incomeClass attribute.
      * 
      * @return Returns the incomeClass
-     * 
      */
     public TaxIncomeClassCode getIncomeClass() {
         return incomeClass;

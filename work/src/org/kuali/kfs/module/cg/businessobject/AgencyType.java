@@ -24,7 +24,7 @@ import org.kuali.core.bo.KualiCodeBase;
 public class AgencyType extends KualiCodeBase {
 
     private boolean rowActiveIndicator;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -41,7 +41,7 @@ public class AgencyType extends KualiCodeBase {
         return rowActiveIndicator;
     }
 
-    
+
     /**
      * Sets the active indicator flag for this AgencyType object.
      * 

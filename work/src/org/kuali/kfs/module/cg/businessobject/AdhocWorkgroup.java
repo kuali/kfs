@@ -21,30 +21,29 @@ import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * This class represents an ad-hoc workgroup.
- * 
- * 
  */
 public class AdhocWorkgroup extends AbstractAdhoc {
-    
+
     private String workgroupName;
-    
+
     public AdhocWorkgroup() {
         super();
     }
-    
+
     public AdhocWorkgroup(String workgroupName) {
         this();
         this.workgroupName = workgroupName;
     }
-    
+
     public AdhocWorkgroup(String workgroupName, String documentNumber) {
         this();
         this.workgroupName = workgroupName;
         this.setDocumentNumber(documentNumber);
     }
-    
+
     /**
-     * Gets the workgroupName attribute. 
+     * Gets the workgroupName attribute.
+     * 
      * @return Returns the workgroupName.
      */
     public String getWorkgroupName() {
@@ -53,6 +52,7 @@ public class AdhocWorkgroup extends AbstractAdhoc {
 
     /**
      * Sets the workgroupName attribute value.
+     * 
      * @param workgroupName The workgroupName to set.
      */
     public void setWorkgroupName(String workgroupName) {
@@ -66,7 +66,7 @@ public class AdhocWorkgroup extends AbstractAdhoc {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());
         m.put("workgroupName", this.workgroupName);
-        
+
         return m;
     }
 }

@@ -44,7 +44,7 @@ import org.kuali.module.gl.util.CollectorReportData;
 public class CollectorBatch implements Serializable {
     // way to distinguish this batch from others
     private String batchName;
-    
+
     // header records
     private String chartOfAccountsCode;
     private String organizationCode;
@@ -52,7 +52,7 @@ public class CollectorBatch implements Serializable {
     private String personUserID;
     private Integer batchSequenceNumber;
     private String workgroupName;
-    
+
     private String campusCode;
     private String phoneNumber;
     private String mailingAddress;
@@ -128,7 +128,7 @@ public class CollectorBatch implements Serializable {
     public void setTotalAmount(KualiDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
-    
+
     /**
      * Sets the total amount from the String.
      */
@@ -142,7 +142,7 @@ public class CollectorBatch implements Serializable {
     public void clearTotalAmount() {
         this.totalAmount = null;
     }
-    
+
     /**
      * Gets the totalRecords attribute.
      */
@@ -198,14 +198,14 @@ public class CollectorBatch implements Serializable {
     public void setPersonUserID(String personUserID) {
         this.personUserID = personUserID;
     }
-    
+
     /**
      * Gets the idBillings attribute.
      */
-    public List<CollectorDetail>  getCollectorDetails() {
+    public List<CollectorDetail> getCollectorDetails() {
         return collectorDetails;
     }
-    
+
     /**
      * Sets the idBillings attribute value.
      */
@@ -240,7 +240,7 @@ public class CollectorBatch implements Serializable {
     public void addCollectorDetail(CollectorDetail collectorDetail) {
         this.collectorDetails.add(collectorDetail);
     }
-    
+
     /**
      * Attempts to retrieve a collector header already exists with the primary key values given for this object
      * 
@@ -249,15 +249,14 @@ public class CollectorBatch implements Serializable {
     public CollectorHeader retrieveDuplicateHeader() {
         // checkHeader is used to check whether a record with the same PK values exist already (i.e. only PK values are filled in).
         CollectorHeader checkHeader = createCollectorHeaderWithPKValuesOnly();
-        
+
         CollectorHeader foundHeader = (CollectorHeader) SpringContext.getBean(BusinessObjectService.class).retrieve(checkHeader);
         return foundHeader;
     }
-    
+
     /**
-     * Sets defaults for fields not populated from file. Store an origin entry group,
-     * all gl entries and id billing entries from the processed file. Also write the header
-     * for the duplicate file check.
+     * Sets defaults for fields not populated from file. Store an origin entry group, all gl entries and id billing entries from the
+     * processed file. Also write the header for the duplicate file check.
      * 
      * @param originEntryGroup the group into which to store the origin entries
      * @param collectorReportData report data
@@ -266,28 +265,28 @@ public class CollectorBatch implements Serializable {
         // persistHeader is used to persist a collector header record into the DB
         CollectorHeader persistHeader = createCollectorHeaderForStorage();
         CollectorHeader foundHeader = retrieveDuplicateHeader();
-        
-        if (foundHeader != null) { 
+
+        if (foundHeader != null) {
             // update the version number to prevent OptimisticLockingExceptions
             persistHeader.setVersionNumber(foundHeader.getVersionNumber());
         }
         SpringContext.getBean(BusinessObjectService.class).save(persistHeader);
-        
+
         OriginEntryService originEntryService = SpringContext.getBean(OriginEntryService.class);
-        for(OriginEntryFull entry: this.originEntries) {
+        for (OriginEntryFull entry : this.originEntries) {
             entry.setGroup(originEntryGroup);
             if (entry.getFinancialDocumentReversalDate() == null) {
                 entry.setFinancialDocumentReversalDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
             }
             // don't need to worry about previous origin entries existing in the DB because there'll never be a
             // duplicate record because a sequence # is a key
-            
+
             originEntryService.save(entry);
         }
-        
+
         CollectorDetailService collectorDetailService = SpringContext.getBean(CollectorDetailService.class);
         int numSavedDetails = 0;
-        for(CollectorDetail idDetail: this.collectorDetails) {
+        for (CollectorDetail idDetail : this.collectorDetails) {
             setDefaultsCollectorDetail(idDetail);
             CollectorDetail foundIdDetail = (CollectorDetail) SpringContext.getBean(BusinessObjectService.class).retrieve(idDetail);
             if (foundIdDetail != null) {
@@ -298,15 +297,14 @@ public class CollectorBatch implements Serializable {
         }
         collectorReportData.setNumSavedDetails(this, numSavedDetails);
     }
-    
+
     /**
      * Uppercases the appropriate fields in the batch, if told to do so by the data dictionary
-     * 
      */
     public void prepareDataForStorage() {
         BusinessObjectDictionaryService businessObjectDictionaryService = SpringContext.getBean(BusinessObjectDictionaryService.class);
         DataDictionaryService dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
-        
+
         // uppercase the data used to generate the collector header
         if (dataDictionaryService.getAttributeForceUppercase(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
             setChartOfAccountsCode(getChartOfAccountsCode().toUpperCase());
@@ -314,41 +312,43 @@ public class CollectorBatch implements Serializable {
         if (dataDictionaryService.getAttributeForceUppercase(Org.class, KFSPropertyConstants.ORGANIZATION_CODE)) {
             setOrganizationCode(getOrganizationCode().toUpperCase());
         }
-        
+
         // now uppercase all of the origin entry data
         for (OriginEntryFull entry : originEntries) {
             businessObjectDictionaryService.performForceUppercase(entry);
         }
-        
+
         // uppercase the id billing entries
         for (CollectorDetail collectorDetail : collectorDetails) {
             businessObjectDictionaryService.performForceUppercase(collectorDetail);
         }
     }
-    
+
     /**
      * Creates origin entry group from header fields.
+     * 
      * @return OriginEntryGroup
      */
     private OriginEntryGroup createOriginEntryGroup() {
         OriginEntryGroup group = new OriginEntryGroup();
-        
+
         group.setSourceCode(OriginEntrySource.COLLECTOR);
         group.setDate(new java.sql.Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
         group.setProcess(new Boolean(true));
         group.setScrub(new Boolean(true));
         group.setValid(new Boolean(true));
-        
+
         return group;
     }
-    
+
     /**
      * Creates a CollectorHeader from the batch to be used for storage
+     * 
      * @return CollectorHeader
      */
     public CollectorHeader createCollectorHeaderForStorage() {
         CollectorHeader header = new CollectorHeader();
-        
+
         header.setChartOfAccountsCode(getChartOfAccountsCode());
         header.setOrganizationCode(getOrganizationCode());
         header.setProcessTransmissionDate(getTransmissionDate());
@@ -359,41 +359,44 @@ public class CollectorBatch implements Serializable {
         header.setContactPersonPhoneNumber(getPhoneNumber());
         header.setContactMailingAddress(getMailingAddress());
         header.setContactDepartmentName(getDepartmentName());
-        
+
         return header;
     }
-    
+
     /**
-     * Creates an origin entry record with the PK values filled in only.  This is useful to check for duplicate headers.
+     * Creates an origin entry record with the PK values filled in only. This is useful to check for duplicate headers.
+     * 
      * @return
      */
     public CollectorHeader createCollectorHeaderWithPKValuesOnly() {
         CollectorHeader header = new CollectorHeader();
-        
+
         header.setChartOfAccountsCode(getChartOfAccountsCode());
         header.setOrganizationCode(getOrganizationCode());
         header.setProcessTransmissionDate(getTransmissionDate());
         header.setProcessBatchSequenceNumber(getBatchSequenceNumber());
         header.setProcessTotalRecordCount(getTotalRecords());
         header.setProcessTotalAmount(getTotalAmount());
-        
+
         return header;
     }
-    
+
     /**
      * Sets defaults for missing id billing fields.
+     * 
      * @param idBilling
      */
     private void setDefaultsCollectorDetail(CollectorDetail idDetail) {
         // TODO: Get current fiscal year and period if blank?
-//        idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
-//        idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
-//        idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
+        // idBilling.setUniversityFiscalPeriodCode(String.valueOf(RandomUtils.nextInt(2)));
+        // idBilling.setCreateSequence(String.valueOf(RandomUtils.nextInt(2)));
+        // idBilling.setInterDepartmentalBillingSequenceNumber(String.valueOf(RandomUtils.nextInt(2)));
         idDetail.setCreateDate(new Date(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime()));
     }
 
     /**
-     * Gets the campusCode attribute. 
+     * Gets the campusCode attribute.
+     * 
      * @return Returns the campusCode.
      */
     public String getCampusCode() {
@@ -402,6 +405,7 @@ public class CollectorBatch implements Serializable {
 
     /**
      * Sets the campusCode attribute value.
+     * 
      * @param campusCode The campusCode to set.
      */
     public void setCampusCode(String campusCode) {
@@ -409,7 +413,8 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
-     * Gets the departmentName attribute. 
+     * Gets the departmentName attribute.
+     * 
      * @return Returns the departmentName.
      */
     public String getDepartmentName() {
@@ -418,6 +423,7 @@ public class CollectorBatch implements Serializable {
 
     /**
      * Sets the departmentName attribute value.
+     * 
      * @param departmentName The departmentName to set.
      */
     public void setDepartmentName(String departmentName) {
@@ -425,7 +431,8 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
-     * Gets the mailingAddress attribute. 
+     * Gets the mailingAddress attribute.
+     * 
      * @return Returns the mailingAddress.
      */
     public String getMailingAddress() {
@@ -434,6 +441,7 @@ public class CollectorBatch implements Serializable {
 
     /**
      * Sets the mailingAddress attribute value.
+     * 
      * @param mailingAddress The mailingAddress to set.
      */
     public void setMailingAddress(String mailingAddress) {
@@ -441,7 +449,8 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
-     * Gets the phoneNumber attribute. 
+     * Gets the phoneNumber attribute.
+     * 
      * @return Returns the phoneNumber.
      */
     public String getPhoneNumber() {
@@ -450,6 +459,7 @@ public class CollectorBatch implements Serializable {
 
     /**
      * Sets the phoneNumber attribute value.
+     * 
      * @param phoneNumber The phoneNumber to set.
      */
     public void setPhoneNumber(String phoneNumber) {
@@ -457,7 +467,8 @@ public class CollectorBatch implements Serializable {
     }
 
     /**
-     * Gets the batchName attribute. 
+     * Gets the batchName attribute.
+     * 
      * @return Returns the batchName.
      */
     public String getBatchName() {
@@ -466,6 +477,7 @@ public class CollectorBatch implements Serializable {
 
     /**
      * Sets the batchName attribute value.
+     * 
      * @param batchName The batchName to set.
      */
     public void setBatchName(String batchName) {

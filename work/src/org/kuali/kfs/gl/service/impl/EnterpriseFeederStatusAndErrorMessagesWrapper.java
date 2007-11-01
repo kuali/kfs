@@ -18,10 +18,9 @@ package org.kuali.module.gl.util;
 import java.util.List;
 
 /**
- * This class serves as a wrapper containing references to the feeder status and
- * error messages list.  This works around java's inability to return a value and
- * throw an exception at the same time.  Exceptions in KFS are generally needed to
- * force the framework to rollback a transaction.
+ * This class serves as a wrapper containing references to the feeder status and error messages list. This works around java's
+ * inability to return a value and throw an exception at the same time. Exceptions in KFS are generally needed to force the
+ * framework to rollback a transaction.
  */
 public class EnterpriseFeederStatusAndErrorMessagesWrapper {
     private List<Message> errorMessages;
@@ -34,38 +33,42 @@ public class EnterpriseFeederStatusAndErrorMessagesWrapper {
         errorMessages = null;
         status = null;
     }
-    
+
     /**
-     * Gets the errorMessages attribute. 
+     * Gets the errorMessages attribute.
+     * 
      * @return Returns the errorMessages.
      */
     public List<Message> getErrorMessages() {
         return errorMessages;
     }
-    
+
     /**
      * Sets the errorMessages attribute value.
+     * 
      * @param errorMessages The errorMessages to set.
      */
     public void setErrorMessages(List<Message> errorMessages) {
         this.errorMessages = errorMessages;
     }
-    
+
     /**
-     * Gets the status attribute. 
+     * Gets the status attribute.
+     * 
      * @return Returns the status.
      */
     public EnterpriseFeederStatus getStatus() {
         return status;
     }
-    
+
     /**
      * Sets the status attribute value.
+     * 
      * @param status The status to set.
      */
     public void setStatus(EnterpriseFeederStatus status) {
         this.status = status;
     }
-    
-    
+
+
 }

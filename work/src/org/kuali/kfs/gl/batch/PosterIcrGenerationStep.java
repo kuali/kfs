@@ -19,8 +19,7 @@ import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.PosterService;
 
 /**
- * A step to run the process that creates indirect cost recover transactions, that the poster
- * can then post
+ * A step to run the process that creates indirect cost recover transactions, that the poster can then post
  */
 public class PosterIcrGenerationStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterIcrGenerationStep.class);

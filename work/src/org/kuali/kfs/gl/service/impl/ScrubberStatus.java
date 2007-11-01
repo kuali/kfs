@@ -26,72 +26,91 @@ public class ScrubberStatus {
     private OriginEntryGroup errorGroup;
     private OriginEntryGroup expiredGroup;
     private Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntries;
-    
+
     /**
-     * Gets the errorGroup attribute. 
+     * Gets the errorGroup attribute.
+     * 
      * @return Returns the errorGroup.
      */
     public OriginEntryGroup getErrorGroup() {
         return errorGroup;
     }
+
     /**
      * Sets the errorGroup attribute value.
+     * 
      * @param errorGroup The errorGroup to set.
      */
     public void setErrorGroup(OriginEntryGroup errorGroup) {
         this.errorGroup = errorGroup;
     }
+
     /**
-     * Gets the expiredGroup attribute. 
+     * Gets the expiredGroup attribute.
+     * 
      * @return Returns the expiredGroup.
      */
     public OriginEntryGroup getExpiredGroup() {
         return expiredGroup;
     }
+
     /**
      * Sets the expiredGroup attribute value.
+     * 
      * @param expiredGroup The expiredGroup to set.
      */
     public void setExpiredGroup(OriginEntryGroup expiredGroup) {
         this.expiredGroup = expiredGroup;
     }
+
     /**
-     * Gets the inputGroup attribute. 
+     * Gets the inputGroup attribute.
+     * 
      * @return Returns the inputGroup.
      */
     public OriginEntryGroup getInputGroup() {
         return inputGroup;
     }
+
     /**
      * Sets the inputGroup attribute value.
+     * 
      * @param inputGroup The inputGroup to set.
      */
     public void setInputGroup(OriginEntryGroup inputGroup) {
         this.inputGroup = inputGroup;
     }
+
     /**
-     * Gets the validGroup attribute. 
+     * Gets the validGroup attribute.
+     * 
      * @return Returns the validGroup.
      */
     public OriginEntryGroup getValidGroup() {
         return validGroup;
     }
+
     /**
      * Sets the validGroup attribute value.
+     * 
      * @param validGroup The validGroup to set.
      */
     public void setValidGroup(OriginEntryGroup validGroup) {
         this.validGroup = validGroup;
     }
+
     /**
-     * Gets the unscrubbedToScrubbedEntry attribute. 
+     * Gets the unscrubbedToScrubbedEntry attribute.
+     * 
      * @return Returns the unscrubbedToScrubbedEntry.
      */
     public Map<OriginEntry, OriginEntry> getUnscrubbedToScrubbedEntries() {
         return unscrubbedToScrubbedEntries;
     }
+
     /**
      * Sets the unscrubbedToScrubbedEntry attribute value.
+     * 
      * @param unscrubbedToScrubbedEntry The unscrubbedToScrubbedEntry to set.
      */
     public void setUnscrubbedToScrubbedEntries(Map<OriginEntry, OriginEntry> unscrubbedToScrubbedEntry) {

@@ -28,8 +28,6 @@ import org.kuali.module.gl.bo.UniversityDate;
 
 /**
  * This class...
- * 
- * 
  */
 public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 

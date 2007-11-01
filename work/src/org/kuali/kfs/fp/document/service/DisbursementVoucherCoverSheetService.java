@@ -25,12 +25,9 @@ import com.lowagie.text.DocumentException;
 
 /**
  * Service used for manipulating disbursement voucher cover sheets.
- * 
- * 
  */
 public interface DisbursementVoucherCoverSheetService {
     /**
-     * 
      * generates a disbursement voucher coversheet
      * 
      * @param templateName

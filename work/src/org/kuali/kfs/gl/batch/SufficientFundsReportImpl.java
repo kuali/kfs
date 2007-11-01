@@ -45,7 +45,7 @@ import com.lowagie.text.pdf.PdfWriter;
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
     private KualiConfigurationService configurationService;
-    
+
     public SufficientFundsReportImpl() {
         super();
     }
@@ -209,6 +209,7 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
 
     /**
      * Sets the configurationService attribute value.
+     * 
      * @param configurationService The configurationService to set.
      */
     public void setConfigurationService(KualiConfigurationService configurationService) {

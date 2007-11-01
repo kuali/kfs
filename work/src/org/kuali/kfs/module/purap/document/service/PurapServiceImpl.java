@@ -86,7 +86,7 @@ public class PurapServiceImpl implements PurapService {
     public void setPurApWorkflowIntegrationService(PurApWorkflowIntegrationService purApWorkflowIntegrationService) {
         this.purApWorkflowIntegrationService = purApWorkflowIntegrationService;
     }
-    
+
 
     /**
      * This method updates the status for a purap document.
@@ -230,15 +230,15 @@ public class PurapServiceImpl implements PurapService {
         String[] itemTypes = getBelowTheLineForDocument(document);
         boolean foundItemType = false;
         for (String itemType : itemTypes) {
-            if(StringUtils.equals(iT.getItemTypeCode(), itemType)) {
+            if (StringUtils.equals(iT.getItemTypeCode(), itemType)) {
                 foundItemType = true;
                 break;
             }
         }
-        if(!foundItemType) {
+        if (!foundItemType) {
             return null;
         }
-        
+
         PurApItem belowTheLineItem = null;
         for (PurApItem item : (List<PurApItem>) document.getItems()) {
             if (!item.getItemType().isItemTypeAboveTheLineIndicator()) {
@@ -350,9 +350,9 @@ public class PurapServiceImpl implements PurapService {
         // below code preferable to run in post processing
         else if (purapDocument instanceof CreditMemoDocument) {
             CreditMemoDocument creditMemo = (CreditMemoDocument) purapDocument;
-            //eliminate unentered items
+            // eliminate unentered items
             deleteUnenteredItems(creditMemo);
-            //update amounts
+            // update amounts
             SpringContext.getBean(PurapAccountingService.class).updateAccountAmounts(creditMemo);
             // do GL entries for CM creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreateCreditMemo(creditMemo);
@@ -377,8 +377,7 @@ public class PurapServiceImpl implements PurapService {
         if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
 
-            if (paymentRequest.isClosePurchaseOrderIndicator() && 
-                PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
+            if (paymentRequest.isClosePurchaseOrderIndicator() && PurapConstants.PurchaseOrderStatuses.OPEN.equals(paymentRequest.getPurchaseOrderDocument().getStatusCode())) {
                 // get the po id and get the current po
                 // check the current po: if status is not closed and there is no pending action... route close po as system user
                 processCloseReopenPo((AccountsPayableDocumentBase) purapDocument, PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT);
@@ -402,14 +401,15 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method should be moved to 
+     * This method should be moved to
+     * 
      * @param paymentRequest
      */
     private void deleteUnenteredItems(AccountsPayableDocument apDocument) {
         List<AccountsPayableItem> deletionList = new ArrayList<AccountsPayableItem>();
-        for (PurApItem item : (List<PurApItem>)apDocument.getItems()) {
-            AccountsPayableItem apItem = (AccountsPayableItem)item;
-            if(!apItem.isConsideredEntered()) {
+        for (PurApItem item : (List<PurApItem>) apDocument.getItems()) {
+            AccountsPayableItem apItem = (AccountsPayableItem) item;
+            if (!apItem.isConsideredEntered()) {
                 deletionList.add(apItem);
             }
         }
@@ -439,11 +439,12 @@ public class PurapServiceImpl implements PurapService {
             throw new RuntimeException(errorMessage);
         }
 
-        
+
         Integer poId = apDocument.getPurchaseOrderIdentifier();
         PurchaseOrderDocument purchaseOrderDocument = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poId);
-        if(!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(),docType)) {
-            //we are skipping the validation above because it would be too late to correct any errors (i.e. because in post-processing)
+        if (!StringUtils.equalsIgnoreCase(purchaseOrderDocument.getDocumentHeader().getWorkflowDocument().getDocumentType(), docType)) {
+            // we are skipping the validation above because it would be too late to correct any errors (i.e. because in
+            // post-processing)
             SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(purchaseOrderDocument.getDocumentNumber(), docType, assemblePurchaseOrderNote(apDocument, docType, action), new ArrayList(), newStatus);
         }
 

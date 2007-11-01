@@ -35,7 +35,7 @@ import org.kuali.module.financial.bo.InternalBillingItem;
  * eventually post transactions to the G/L. It integrates with workflow and also contains two groupings of accounting lines: Expense
  * and Income.
  */
-public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling{
+public class InternalBillingDocument extends AccountingDocumentBase implements Copyable, Correctable, AmountTotaling {
 
     private List items;
     private Integer nextItemLineNumber;
@@ -65,7 +65,6 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
      * initialized if necessary.
      * 
      * @param index
-     * 
      * @return the item
      */
     public InternalBillingItem getItem(int index) {

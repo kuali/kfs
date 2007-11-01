@@ -26,7 +26,7 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
     private static final String JSTL_CONSTANTS_MAIN_CLASS = "jstl.constants.main.class";
     private static final String JSTL_MAIN_CLASS_CONTEXT_NAME = "Constants";
     private Logger log;
-    
+
     public void contextInitialized(ServletContextEvent sce) {
         Log4jConfigurer.configureLogging(true);
         log = Logger.getLogger(WebApplicationInitListener.class);
@@ -36,8 +36,8 @@ public class WebApplicationInitListener extends JstlConstantsInitListener implem
                 Class jstlConstantsClass = Class.forName(jstlConstantsClassname);
                 Object jstlConstantsObj = jstlConstantsClass.newInstance();
                 sce.getServletContext().setAttribute(jstlConstantsClass.getSimpleName(), jstlConstantsObj);
-                if ( jstlConstantsClassname.equals(JSTL_CONSTANTS_MAIN_CLASS)) {
-                    sce.getServletContext().setAttribute(JSTL_MAIN_CLASS_CONTEXT_NAME, jstlConstantsObj );
+                if (jstlConstantsClassname.equals(JSTL_CONSTANTS_MAIN_CLASS)) {
+                    sce.getServletContext().setAttribute(JSTL_MAIN_CLASS_CONTEXT_NAME, jstlConstantsObj);
                 }
             }
             catch (Exception e) {

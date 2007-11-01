@@ -24,13 +24,12 @@ import org.kuali.module.chart.bo.AcctType;
 
 /**
  * This class is a comparator for Account Type Codes
- * 
- * 
  */
 public class AccountTypeCodeComparator implements Comparator {
 
     /**
      * If these two account type codes are the same codes
+     * 
      * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
      */
     public int compare(Object o1, Object o2) {

@@ -156,7 +156,7 @@ public class AccountStatusCurrentFunds extends LedgerBalance {
         }
         primaryKeyList.add(KFSPropertyConstants.POSITION_NUMBER);
         primaryKeyList.add(KFSPropertyConstants.EMPLID);
-        
+
         return primaryKeyList;
     }
 

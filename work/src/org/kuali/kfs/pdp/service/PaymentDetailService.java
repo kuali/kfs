@@ -28,25 +28,24 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 
 public interface PaymentDetailService {
     public PaymentDetail get(Integer id);
+
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
 
     /**
-     * This will return an iterator of all the cancelled payment details that haven't
-     * already been processed
+     * This will return an iterator of all the cancelled payment details that haven't already been processed
      * 
      * @param organization
      * @param subUnit
      * @return
      */
-    public Iterator getUnprocessedCancelledDetails(String organization,String subUnit);
+    public Iterator getUnprocessedCancelledDetails(String organization, String subUnit);
 
     /**
-     * This will return an iterator of all the paid payment details that haven't
-     * already been processed
+     * This will return an iterator of all the paid payment details that haven't already been processed
      * 
      * @param organization
      * @param subUnit
      * @return
      */
-    public Iterator getUnprocessedPaidDetails(String organization,String subUnit);
+    public Iterator getUnprocessedPaidDetails(String organization, String subUnit);
 }

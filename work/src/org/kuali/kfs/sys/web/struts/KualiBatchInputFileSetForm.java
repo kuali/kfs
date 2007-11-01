@@ -30,17 +30,17 @@ import org.kuali.kfs.bo.BatchUpload;
  */
 public class KualiBatchInputFileSetForm extends KualiForm {
     private Map<String, FormFile> uploadedFiles;
-    
+
     private BatchUpload batchUpload;
     private List<KeyLabelPair> fileUserIdentifiers;
-    
+
     private String titleKey;
     private BatchInputFileSetType batchInputFileSetType;
     private boolean supressDoneFileCreation;
 
     private String downloadFileType;
     private List<KeyLabelPair> fileTypes;
-    
+
     /**
      * Constructs a KualiBatchInputFileForm.java.
      */
@@ -66,7 +66,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the userFiles attribute. 
+     * Gets the userFiles attribute.
      */
     public List<KeyLabelPair> getFileUserIdentifiers() {
         return fileUserIdentifiers;
@@ -80,7 +80,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the titleKey attribute. 
+     * Gets the titleKey attribute.
      */
     public String getTitleKey() {
         return titleKey;
@@ -94,7 +94,8 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the batchInputFileSetType attribute. 
+     * Gets the batchInputFileSetType attribute.
+     * 
      * @return Returns the batchInputFileSetType.
      */
     public BatchInputFileSetType getBatchInputFileSetType() {
@@ -103,6 +104,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     /**
      * Sets the batchInputFileSetType attribute value.
+     * 
      * @param batchInputFileSetType The batchInputFileSetType to set.
      */
     public void setBatchInputFileSetType(BatchInputFileSetType batchInputFileSetType) {
@@ -110,7 +112,8 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the uploadedFiles attribute. 
+     * Gets the uploadedFiles attribute.
+     * 
      * @return Returns the uploadedFiles.
      */
     public Map<String, FormFile> getUploadedFiles() {
@@ -119,6 +122,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     /**
      * Sets the uploadedFiles attribute value.
+     * 
      * @param uploadedFiles The uploadedFiles to set.
      */
     public void setUploadedFiles(Map<String, FormFile> uploadedFiles) {
@@ -126,7 +130,8 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the supressDoneFileCreation attribute. 
+     * Gets the supressDoneFileCreation attribute.
+     * 
      * @return Returns the supressDoneFileCreation.
      */
     public boolean isSupressDoneFileCreation() {
@@ -135,6 +140,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     /**
      * Sets the supressDoneFileCreation attribute value.
+     * 
      * @param supressDoneFileCreation The supressDoneFileCreation to set.
      */
     public void setSupressDoneFileCreation(boolean supressDoneFileCreation) {
@@ -142,7 +148,8 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the fileAliases attribute. 
+     * Gets the fileAliases attribute.
+     * 
      * @return Returns the fileAliases.
      */
     public List<KeyLabelPair> getFileTypes() {
@@ -151,6 +158,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     /**
      * Sets the fileAliases attribute value.
+     * 
      * @param fileAliases The fileAliases to set.
      */
     public void setFileTypes(List<KeyLabelPair> fileAliases) {
@@ -158,7 +166,8 @@ public class KualiBatchInputFileSetForm extends KualiForm {
     }
 
     /**
-     * Gets the downloadFileAlias attribute. 
+     * Gets the downloadFileAlias attribute.
+     * 
      * @return Returns the downloadFileAlias.
      */
     public String getDownloadFileType() {
@@ -167,6 +176,7 @@ public class KualiBatchInputFileSetForm extends KualiForm {
 
     /**
      * Sets the downloadFileAlias attribute value.
+     * 
      * @param downloadFileAlias The downloadFileAlias to set.
      */
     public void setDownloadFileType(String downloadFileAlias) {

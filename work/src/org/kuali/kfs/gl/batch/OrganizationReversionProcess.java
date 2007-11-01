@@ -99,7 +99,7 @@ public class OrganizationReversionProcess {
     private final String FUND_CARRIED_MESSAGE;
     private final String FUND_REVERTED_TO_MESSAGE;
     private final String FUND_REVERTED_FROM_MESSAGE;
-    
+
     private Options priorYearOptions;
     private Options currentYearOptions;
     private Integer paramFiscalYear;
@@ -161,7 +161,7 @@ public class OrganizationReversionProcess {
         while (balances.hasNext()) {
             bal = balances.next();
             if (LOG.isDebugEnabled()) {
-                LOG.debug("BALANCE SELECTED: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
+                LOG.debug("BALANCE SELECTED: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
             }
 
             try {
@@ -186,7 +186,7 @@ public class OrganizationReversionProcess {
                 }
                 if (skipToNextUnitOfWork) {
                     continue; // if there is no org reversion or an org reversion detail is missing or the balances are off for
-                                // this unit of work,
+                    // this unit of work,
                     // just skip all the balances until we change unit of work
                 }
                 calculateBucketAmounts(bal);
@@ -254,17 +254,18 @@ public class OrganizationReversionProcess {
 
         categories = organizationReversionService.getCategories();
         categoryList = organizationReversionService.getCategoryList();
-        
+
         this.paramFiscalYear = (Integer) jobParameters.get(KFSConstants.UNIV_FISCAL_YR);
 
         organizationReversionCounts.put("balancesRead", balanceService.countBalancesForFiscalYear(paramFiscalYear));
         organizationReversionCounts.put("balancesSelected", new Integer(0));
         organizationReversionCounts.put("recordsWritten", new Integer(0));
-        
+
         this.priorYearOptions = SpringContext.getBean(OptionsService.class).getOptions(paramFiscalYear);
         if (this.endOfYear) {
             this.currentYearOptions = priorYearOptions;
-        } else {
+        }
+        else {
             this.currentYearOptions = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
         }
     }
@@ -282,17 +283,17 @@ public class OrganizationReversionProcess {
             options = currentYearOptions;
         }
         persistenceService.retrieveReferenceObject(bal, "financialObject");
-        
+
         if (LOG.isDebugEnabled()) {
-            LOG.debug("CONSIDERING IF TO ADD BALANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
+            LOG.debug("CONSIDERING IF TO ADD BALANCE: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()));
         }
-        
+
         if (cashOrganizationReversionCategoryLogic.containsObjectCode(bal.getFinancialObject()) && bal.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
             unitOfWork.addTotalCash(bal.getBeginningBalanceLineAmount());
             unitOfWork.addTotalCash(bal.getAccountLineAnnualBalanceAmount());
             incrementCount("balancesSelected");
             if (LOG.isDebugEnabled()) {
-                LOG.debug("ADDING BALANCE TO CASH: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO CASH, TOTAL CASH NOW = "+unitOfWork.getTotalCash());
+                LOG.debug("ADDING BALANCE TO CASH: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()) + " TO CASH, TOTAL CASH NOW = " + unitOfWork.getTotalCash());
             }
         }
         else {
@@ -305,7 +306,7 @@ public class OrganizationReversionProcess {
                         unitOfWork.addActualAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                         incrementCount("balancesSelected");
                         if (LOG.isDebugEnabled()) {
-                            LOG.debug("ADDING BALANCE TO ACTUAL: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO ACTUAL, ACTUAL FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getActual());
+                            LOG.debug("ADDING BALANCE TO ACTUAL: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()) + " TO ACTUAL, ACTUAL FOR CATEGORY " + cat.getOrganizationReversionCategoryName() + " NOW = " + unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getActual());
                         }
                     }
                     else if (options.getFinObjTypeExpenditureexpCd().equals(bal.getBalanceTypeCode()) || options.getCostShareEncumbranceBalanceTypeCd().equals(bal.getBalanceTypeCode()) || options.getIntrnlEncumFinBalanceTypCd().equals(bal.getBalanceTypeCode())) {
@@ -315,7 +316,7 @@ public class OrganizationReversionProcess {
                             unitOfWork.addEncumbranceAmount(cat.getOrganizationReversionCategoryCode(), amount);
                             incrementCount("balancesSelected");
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("ADDING BALANCE TO ENCUMBRANCE: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO ENCUMBRANCE, ENCUMBRANCE FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getEncumbrance());
+                                LOG.debug("ADDING BALANCE TO ENCUMBRANCE: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()) + " TO ENCUMBRANCE, ENCUMBRANCE FOR CATEGORY " + cat.getOrganizationReversionCategoryName() + " NOW = " + unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getEncumbrance());
                             }
                         }
                     }
@@ -326,7 +327,7 @@ public class OrganizationReversionProcess {
                             unitOfWork.addBudgetAmount(cat.getOrganizationReversionCategoryCode(), bal.getAccountLineAnnualBalanceAmount());
                             incrementCount("balancesSelected");
                             if (LOG.isDebugEnabled()) {
-                                LOG.debug("ADDING BALANCE TO BUDGET: "+bal.getUniversityFiscalYear()+bal.getChartOfAccountsCode()+bal.getAccountNumber()+bal.getSubAccountNumber()+bal.getObjectCode()+bal.getSubObjectCode()+bal.getBalanceTypeCode()+bal.getObjectTypeCode()+" "+bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount())+" TO CURRENT BUDGET, CURRENT BUDGET FOR CATEGORY "+cat.getOrganizationReversionCategoryName()+" NOW = "+unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getBudget());
+                                LOG.debug("ADDING BALANCE TO BUDGET: " + bal.getUniversityFiscalYear() + bal.getChartOfAccountsCode() + bal.getAccountNumber() + bal.getSubAccountNumber() + bal.getObjectCode() + bal.getSubObjectCode() + bal.getBalanceTypeCode() + bal.getObjectTypeCode() + " " + bal.getAccountLineAnnualBalanceAmount().add(bal.getBeginningBalanceLineAmount()) + " TO CURRENT BUDGET, CURRENT BUDGET FOR CATEGORY " + cat.getOrganizationReversionCategoryName() + " NOW = " + unitOfWork.getCategoryAmounts().get(cat.getOrganizationReversionCategoryCode()).getBudget());
                             }
                         }
                     }
@@ -409,7 +410,8 @@ public class OrganizationReversionProcess {
         entry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         if (entry.getUniversityFiscalYear().equals(paramFiscalYear)) {
             entry.setFinancialBalanceTypeCode(priorYearOptions.getNominalFinancialBalanceTypeCd());
-        } else {
+        }
+        else {
             entry.setFinancialBalanceTypeCode(currentYearOptions.getNominalFinancialBalanceTypeCd());
         }
 
@@ -753,15 +755,15 @@ public class OrganizationReversionProcess {
                 throw new FatalErrorException("Organization Reversion " + organizationReversion.getUniversityFiscalYear() + "-" + organizationReversion.getChartOfAccountsCode() + "-" + organizationReversion.getOrganizationCode() + " does not have a detail for category " + categoryCode);
             }
             String ruleCode = detail.getOrganizationReversionCode();
-            
+
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Unit of Work: "+unitOfWork.getChartOfAccountsCode()+unitOfWork.getAccountNumber()+unitOfWork.getSubAccountNumber()+", category "+category.getOrganizationReversionCategoryName()+": budget = "+amount.getBudget()+"; actual = "+amount.getActual()+"; encumbrance = "+amount.getEncumbrance()+"; available = "+amount.getAvailable()+"; apply rule code "+ruleCode);
+                LOG.debug("Unit of Work: " + unitOfWork.getChartOfAccountsCode() + unitOfWork.getAccountNumber() + unitOfWork.getSubAccountNumber() + ", category " + category.getOrganizationReversionCategoryName() + ": budget = " + amount.getBudget() + "; actual = " + amount.getActual() + "; encumbrance = " + amount.getEncumbrance() + "; available = " + amount.getAvailable() + "; apply rule code " + ruleCode);
             }
 
             if (KFSConstants.RULE_CODE_R1.equals(ruleCode) || KFSConstants.RULE_CODE_N1.equals(ruleCode) || KFSConstants.RULE_CODE_C1.equals(ruleCode)) {
                 if (amount.getAvailable().compareTo(KualiDecimal.ZERO) > 0) { // do we have budget left?
                     if (amount.getAvailable().compareTo(amount.getEncumbrance()) > 0) { // is it more than enough to cover our
-                                                                                        // encumbrances?
+                        // encumbrances?
                         unitOfWork.addTotalCarryForward(amount.getEncumbrance());
                         amount.addCarryForward(amount.getEncumbrance());
                         unitOfWork.addTotalReversion(amount.getEncumbrance().negated());
@@ -801,9 +803,9 @@ public class OrganizationReversionProcess {
                     amount.setAvailable(KualiDecimal.ZERO);
                 }
             }
-            
+
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Totals Now: "+unitOfWork.getChartOfAccountsCode()+unitOfWork.getAccountNumber()+unitOfWork.getSubAccountNumber()+", total cash now "+unitOfWork.getTotalCash()+": total available = "+unitOfWork.getTotalAvailable()+"; total reversion = "+unitOfWork.getTotalReversion()+"; total carry forward = "+unitOfWork.getTotalCarryForward());
+                LOG.debug("Totals Now: " + unitOfWork.getChartOfAccountsCode() + unitOfWork.getAccountNumber() + unitOfWork.getSubAccountNumber() + ", total cash now " + unitOfWork.getTotalCash() + ": total available = " + unitOfWork.getTotalAvailable() + "; total reversion = " + unitOfWork.getTotalReversion() + "; total carry forward = " + unitOfWork.getTotalCarryForward());
             }
         }
     }

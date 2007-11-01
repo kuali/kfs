@@ -29,8 +29,7 @@ import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 
 /**
- * Struts action class for Salary Expense Transfer Document. 
- * This class extends the parent KualiTransactionalDocumentActionBase
+ * Struts action class for Salary Expense Transfer Document. This class extends the parent KualiTransactionalDocumentActionBase
  * class, which contains all common action methods. Since the SEP follows the basic transactional document pattern, there are no
  * specific actions that it has to implement; however, this empty class is necessary for integrating into the framework.
  */

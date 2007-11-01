@@ -62,7 +62,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CorrectionDocumentServiceImpl implements CorrectionDocumentService {
     protected static Logger LOG = Logger.getLogger(CorrectionDocumentServiceImpl.class);
-    
+
     protected CorrectionChangeGroupDao correctionChangeGroupDao;
     protected CorrectionChangeDao correctionChangeDao;
     protected CorrectionCriteriaDao correctionCriteriaDao;
@@ -71,15 +71,15 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     private OriginEntryService originEntryService;
     private String glcpDirectoryName;
     protected OriginEntryGroupService originEntryGroupService;
-    
+
     protected static final String INPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-input.txt";
     protected static final String OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX = "-output.txt";
 
     protected CorrectionDocumentDao correctionDocumentDao;
-    
+
     /**
-     * 
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String, int)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionChangeGroupNumber(java.lang.String,
+     *      int)
      */
     public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i) {
 
@@ -87,8 +87,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * 
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String, int)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentHeaderIdAndCorrectionGroupNumber(java.lang.String,
+     *      int)
      */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i) {
 
@@ -96,8 +96,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * 
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String, int)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
+     *      int)
      */
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i) {
 
@@ -105,7 +105,6 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#findByCorrectionDocumentHeaderId(java.lang.String)
      */
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId) {
@@ -130,7 +129,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     private List<Column> cachedColumns = null;
-    
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#getTableRenderColumnMetadata(java.lang.String)
      */
@@ -139,7 +138,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             if (cachedColumns == null) {
                 cachedColumns = new ArrayList<Column>();
                 Column columnToAdd;
-                
+
                 columnToAdd = new Column();
                 columnToAdd.setColumnTitle("Fiscal Year");
                 columnToAdd.setPropertyName(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
@@ -289,7 +288,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
                 columnToAdd.setPropertyName(KFSPropertyConstants.TRANSACTION_ENCUMBRANCE_UPDT_CD);
                 columnToAdd.setValueComparator(StringValueComparator.getInstance());
                 cachedColumns.add(columnToAdd);
-                
+
                 cachedColumns = Collections.unmodifiableList(cachedColumns);
             }
         }
@@ -300,20 +299,20 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String docId = document.getDocumentHeader().getDocumentNumber();
         return generateInputOriginEntryFileName(docId);
     }
-    
+
     protected String generateOutputOriginEntryFileName(CorrectionDocument document) {
         String docId = document.getDocumentHeader().getDocumentNumber();
         return generateOutputOriginEntryFileName(docId);
     }
-    
+
     protected String generateInputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + INPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
-    
+
     protected String generateOutputOriginEntryFileName(String docId) {
         return getOriginEntryStagingDirectoryPath() + File.separator + docId + OUTPUT_ORIGIN_ENTRIES_FILE_SUFFIX;
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOriginEntriesToFile(java.lang.String, java.util.Iterator)
      */
@@ -326,9 +325,10 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         persistOriginEntries(fullPathUniqueFileName, entries);
     }
 
-    
+
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument, java.util.Iterator)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#persistOutputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument,
+     *      java.util.Iterator)
      */
     public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -346,7 +346,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         try {
             streamOut = new FileOutputStream(fileOut);
             bufferedStreamOut = new BufferedOutputStream(streamOut);
-            
+
             byte[] newLine = "\n".getBytes();
             while (entries.hasNext()) {
                 OriginEntryFull entry = entries.next();
@@ -369,13 +369,13 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             }
         }
     }
-    
+
     protected BufferedOutputStream openEntryOutputStreamForOutputGroup(CorrectionDocument document) throws IOException {
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         return new BufferedOutputStream(new FileOutputStream(fullPathUniqueFileName));
     }
-    
-    
+
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntriesForInitiatedOrSavedDocument(org.kuali.module.gl.document.CorrectionDocument)
      */
@@ -391,8 +391,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         removePersistedOriginEntries(fullPathUniqueFileName);
     }
-    
-    
+
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#removePersistedInputOriginEntries(java.lang.String)
      */
@@ -414,21 +414,23 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
     }
 
-    
+
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntries(org.kuali.module.gl.document.CorrectionDocument,
+     *      int)
      */
     public List<OriginEntryFull> retrievePersistedInputOriginEntries(CorrectionDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateInputOriginEntryFileName(document), abortThreshold);
     }
 
     /**
-     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument, int)
+     * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntries(org.kuali.module.gl.document.CorrectionDocument,
+     *      int)
      */
     public List<OriginEntryFull> retrievePersistedOutputOriginEntries(CorrectionDocument document, int abortThreshold) {
         return retrievePersistedOriginEntries(generateOutputOriginEntryFileName(document), abortThreshold);
     }
-    
+
     protected List<OriginEntryFull> retrievePersistedOriginEntries(String fullPathUniqueFileName, int abortThreshold) {
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
@@ -437,7 +439,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
         BufferedReader reader = null;
         FileReader fReader = null;
-        
+
         List<OriginEntryFull> entries = new ArrayList<OriginEntryFull>();
         int lineNumber = 0;
         try {
@@ -474,7 +476,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
         return entries;
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedInputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
      */
@@ -482,7 +484,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String fullPathUniqueFileName = generateInputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
-    
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#retrievePersistedOutputOriginEntriesAsIterator(org.kuali.module.gl.document.CorrectionDocument)
      */
@@ -490,7 +492,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         return retrievePersistedOriginEntriesAsIterator(fullPathUniqueFileName);
     }
-    
+
     protected Iterator<OriginEntryFull> retrievePersistedOriginEntriesAsIterator(String fullPathUniqueFileName) {
         File fileIn = new File(fullPathUniqueFileName);
         if (!fileIn.exists()) {
@@ -499,11 +501,11 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         }
         BufferedReader reader = null;
         FileReader fReader = null;
-        
+
         try {
             fReader = new FileReader(fileIn);
             reader = new BufferedReader(fReader);
-            
+
             return new OriginEntryFileIterator(reader);
         }
         catch (IOException e) {
@@ -515,6 +517,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Returns true if and only if the file corresponding to this document's input origin entries are on the file system.
+     * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#areInputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
      */
     public boolean areInputOriginEntriesPersisted(CorrectionDocument document) {
@@ -525,6 +528,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Returns true if and only if the file corresponding to this document's output origin entries are on the file system.
+     * 
      * @see org.kuali.module.gl.service.CorrectionDocumentService#areOutputOriginEntriesPersisted(org.kuali.module.gl.document.CorrectionDocument)
      */
     public boolean areOutputOriginEntriesPersisted(CorrectionDocument document) {
@@ -533,7 +537,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         return file.exists();
     }
 
-    
+
     /**
      * @see org.kuali.module.gl.service.CorrectionDocumentService#writePersistedInputOriginEntriesToStream(java.io.OutputStream)
      */
@@ -549,14 +553,14 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         String fullPathUniqueFileName = generateOutputOriginEntryFileName(document);
         writePersistedOriginEntriesToStream(fullPathUniqueFileName, out);
     }
-    
+
     protected void writePersistedOriginEntriesToStream(String fullPathUniqueFileName, OutputStream out) throws IOException {
         FileInputStream fileIn = new FileInputStream(fullPathUniqueFileName);
-        
+
         try {
             byte[] buf = new byte[1000];
             int bytesRead;
-            
+
             while ((bytesRead = fileIn.read(buf)) != -1) {
                 out.write(buf, 0, bytesRead);
             }
@@ -568,12 +572,13 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata) {
         if (correctionDocumentEntryMetadata.getAllEntries() == null && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
-            // if we don't have origin entries loaded and not in restricted functionality mode, then there's nothing worth persisting
+            // if we don't have origin entries loaded and not in restricted functionality mode, then there's nothing worth
+            // persisting
             removePersistedInputOriginEntries(document);
             removePersistedOutputOriginEntries(document);
             return;
         }
-        
+
         if (!correctionDocumentEntryMetadata.getDataLoadedFlag() && !correctionDocumentEntryMetadata.isRestrictedFunctionalityMode()) {
             // data is not loaded (maybe user selected a new group with no rows)
             // clear out existing data
@@ -581,18 +586,18 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             removePersistedOutputOriginEntries(document);
             return;
         }
-        
+
         // reload the group from the origin entry service
         Iterator<OriginEntryFull> inputGroupEntries;
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId()))) 
-                || workflowDocument.stateIsInitiated()) {
+        if ((workflowDocument.stateIsSaved() && !(correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad() != null && correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad().equals(document.getCorrectionInputGroupId()))) || workflowDocument.stateIsInitiated()) {
             // we haven't saved the origin entry group yet, so let's load the entries from the DB and persist them for the document
-            // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to repersist the input group
+            // this could be because we've previously saved the doc, but now we are now using a new input group, so we have to
+            // repersist the input group
             OriginEntryGroup group = originEntryGroupService.getExactMatchingEntryGroup(document.getCorrectionInputGroupId());
             inputGroupEntries = originEntryService.getEntriesByGroup(group);
             persistInputOriginEntriesForInitiatedOrSavedDocument(document, inputGroupEntries);
-            
+
             // we've exhausted the iterator for the origin entries group
             // reload the iterator from the file
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
@@ -602,39 +607,39 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
             inputGroupEntries = retrievePersistedInputOriginEntriesAsIterator(document);
         }
         else {
-            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " 
-                    + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputGroupId()
-                    + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
+            LOG.error("Unexpected state while trying to persist/retrieve GLCP origin entries during document save: document status is " + workflowDocument.getStatusDisplayValue() + " selected input group: " + document.getCorrectionInputGroupId() + " last saved input group: " + correctionDocumentEntryMetadata.getInputGroupIdFromLastDocumentLoad());
             throw new RuntimeException("Error persisting GLCP document origin entries.");
         }
-        
+
         OriginEntryStatistics statistics;
         if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionDocumentEntryMetadata.getEditMethod())) {
-            // persist the allEntries element as the output group, since it has all of the modifications made by during the manual edits 
+            // persist the allEntries element as the output group, since it has all of the modifications made by during the manual
+            // edits
             persistOutputOriginEntriesForInitiatedOrSavedDocument(document, correctionDocumentEntryMetadata.getAllEntries().iterator());
-            
+
             // even though the struts action handler may have computed the doc totals, let's recompute them
             statistics = CorrectionDocumentUtils.getStatistics(correctionDocumentEntryMetadata.getAllEntries());
         }
         else if (CorrectionDocumentService.CORRECTION_TYPE_CRITERIA.equals(correctionDocumentEntryMetadata.getEditMethod())) {
-            // we want to persist the values of the output group.  So reapply all of the criteria on each entry, one at a time
-            
+            // we want to persist the values of the output group. So reapply all of the criteria on each entry, one at a time
+
             BufferedOutputStream bufferedOutputStream = null;
             try {
                 bufferedOutputStream = openEntryOutputStreamForOutputGroup(document);
                 statistics = new OriginEntryStatistics();
                 byte[] newLine = "\n".getBytes();
-                
+
                 while (inputGroupEntries.hasNext()) {
                     OriginEntryFull entry = inputGroupEntries.next();
-                    
+
                     entry = CorrectionDocumentUtils.applyCriteriaToEntry(entry, correctionDocumentEntryMetadata.getMatchCriteriaOnly(), document.getCorrectionChangeGroup());
                     if (entry != null) {
                         CorrectionDocumentUtils.updateStatisticsWithEntry(entry, statistics);
                         bufferedOutputStream.write(entry.getLine().getBytes());
                         bufferedOutputStream.write(newLine);
                     }
-                    // else it was null, which means that the match criteria only flag was set, and the entry didn't match the criteria
+                    // else it was null, which means that the match criteria only flag was set, and the entry didn't match the
+                    // criteria
                 }
             }
             catch (IOException e) {
@@ -661,15 +666,17 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
         else {
             throw new RuntimeException("Unrecognized edit method: " + correctionDocumentEntryMetadata.getEditMethod());
         }
-        
+
         CorrectionDocumentUtils.copyStatisticsToDocument(statistics, document);
     }
-    
+
     protected String getOriginEntryStagingDirectoryPath() {
         return getGlcpDirectoryName();
     }
+
     /**
-     * Gets the kualiConfigurationService attribute. 
+     * Gets the kualiConfigurationService attribute.
+     * 
      * @return Returns the kualiConfigurationService.
      */
     public KualiConfigurationService getKualiConfigurationService() {
@@ -678,6 +685,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -685,7 +693,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Gets the originEntryService attribute. 
+     * Gets the originEntryService attribute.
+     * 
      * @return Returns the originEntryService.
      */
     public OriginEntryService getOriginEntryService() {
@@ -694,6 +703,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Sets the originEntryService attribute value.
+     * 
      * @param originEntryService The originEntryService to set.
      */
     public void setOriginEntryService(OriginEntryService originEntryService) {
@@ -701,7 +711,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Gets the glcpDirectoryName attribute. 
+     * Gets the glcpDirectoryName attribute.
+     * 
      * @return Returns the glcpDirectoryName.
      */
     public String getGlcpDirectoryName() {
@@ -710,6 +721,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Sets the glcpDirectoryName attribute value.
+     * 
      * @param glcpDirectoryName The glcpDirectoryName to set.
      */
     public void setGlcpDirectoryName(String glcpDirectoryName) {
@@ -717,7 +729,8 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
     }
 
     /**
-     * Gets the originEntryGroupService attribute. 
+     * Gets the originEntryGroupService attribute.
+     * 
      * @return Returns the originEntryGroupService.
      */
     public OriginEntryGroupService getOriginEntryGroupService() {
@@ -726,6 +739,7 @@ public class CorrectionDocumentServiceImpl implements CorrectionDocumentService 
 
     /**
      * Sets the originEntryGroupService attribute value.
+     * 
      * @param originEntryGroupService The originEntryGroupService to set.
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {

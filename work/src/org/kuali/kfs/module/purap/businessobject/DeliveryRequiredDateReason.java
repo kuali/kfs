@@ -21,21 +21,20 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Delivery Required Date Reason Business Object.
- * Defines the reason why a delivery date is required.
+ * Delivery Required Date Reason Business Object. Defines the reason why a delivery date is required.
  */
 public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
 
-	private String deliveryRequiredDateReasonCode;
-	private String deliveryRequiredDateReasonDescription;
-	private boolean active;
+    private String deliveryRequiredDateReasonCode;
+    private String deliveryRequiredDateReasonDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public DeliveryRequiredDateReason() {
+    /**
+     * Default constructor.
+     */
+    public DeliveryRequiredDateReason() {
 
-	}
+    }
 
     public boolean isActive() {
         return active;
@@ -62,11 +61,11 @@ public class DeliveryRequiredDateReason extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("deliveryRequiredDateReasonCode", this.deliveryRequiredDateReasonCode);
-	    return m;
+        return m;
     }
 }

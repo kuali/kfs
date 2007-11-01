@@ -30,13 +30,11 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class handles Actions for Research Administration permissions page.
- * 
- * 
  */
 public class BudgetPermissionsAction extends BudgetAction {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BudgetPermissionsAction.class);
-    
+
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
@@ -45,33 +43,33 @@ public class BudgetPermissionsAction extends BudgetAction {
         List adhocPermissions = budgetForm.getBudgetDocument().getAdhocPersons();
         List adhocOrgs = budgetForm.getBudgetDocument().getAdhocOrgs();
         List adhocWorkgroups = budgetForm.getBudgetDocument().getAdhocWorkgroups();
-        
+
         this.load(mapping, budgetForm, request, response);
 
         budgetForm.getBudgetDocument().setAdhocPersons(adhocPermissions);
         budgetForm.getBudgetDocument().setAdhocOrgs(adhocOrgs);
         budgetForm.getBudgetDocument().setAdhocWorkgroups(adhocWorkgroups);
-        
+
         ActionForward forward = super.save(mapping, budgetForm, request, response);
-        
+
         budgetForm.getBudgetDocument().populateDocumentForRouting();
         budgetForm.getBudgetDocument().getDocumentHeader().getWorkflowDocument().saveRoutingData();
-        
+
         return forward;
     }
-    
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         BudgetForm budgetForm = (BudgetForm) form;
-        
+
         budgetForm.setNewAdHocPerson(new AdhocPerson());
         budgetForm.setNewAdHocOrg(new AdhocOrg());
         budgetForm.setNewAdHocRouteWorkgroup(new AdHocRouteWorkgroup());
         budgetForm.setNewAdHocWorkgroupPermissionCode("");
-        
+
         ActionForward forward = super.reload(mapping, budgetForm, request, response);
-        
+
         return forward;
     }
 }

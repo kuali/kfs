@@ -36,7 +36,7 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     private Account account;
     private Chart continuationChartOfAccounts;
     private Account continuationAccount;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -63,7 +63,6 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -73,7 +72,6 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -91,27 +89,26 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
      */
     public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
         this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
-    }    
-    
+    }
+
     /**
      * @return Returns the continuationAccountNumber.
      */
     public String getContinuationAccountNumber() {
         return continuationAccountNumber;
-    }    
-    
+    }
+
     /**
      * @param continuationAccountNumber The continuationAccountNumber to set.
      */
     public void setContinuationAccountNumber(String continuationAccountNumber) {
         this.continuationAccountNumber = continuationAccountNumber;
-    }    
-    
+    }
+
     /**
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -128,7 +125,8 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
+     * 
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -137,15 +135,17 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
 
     /**
      * Sets the account attribute value.
+     * 
      * @param account The account to set.
      * @deprecated
      */
     public void setAccount(Account account) {
         this.account = account;
     }
-    
+
     /**
-     * Gets the continuationChartOfAccounts attribute. 
+     * Gets the continuationChartOfAccounts attribute.
+     * 
      * @return Returns the continuationChartOfAccounts.
      */
     public Chart getContinuationChartOfAccounts() {
@@ -154,13 +154,14 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
 
     /**
      * Sets the continuationChartOfAccounts attribute value.
+     * 
      * @param continuationChartOfAccounts The continuationChartOfAccounts to set.
      * @deprecated
      */
     public void setContinuationChartOfAccounts(Chart continuationChartOfAccounts) {
         this.continuationChartOfAccounts = continuationChartOfAccounts;
-    }    
-    
+    }
+
     /**
      * @return Returns the continuationAccount.
      */
@@ -175,7 +176,7 @@ public class BudgetConstructionAppointmentFundingLoad02Move extends PersistableB
     public void setContinuationAccount(Account continuationAccount) {
         this.continuationAccount = continuationAccount;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -22,89 +22,89 @@ import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Generic Phone Numbers for Vendors, 
- * as opposed to <code>VendorContactPhoneNumber</code> instances, which are specific to the Contact.
+ * Generic Phone Numbers for Vendors, as opposed to <code>VendorContactPhoneNumber</code> instances, which are specific to the
+ * Contact.
  * 
  * @see org.kuali.module.vendor.bo.VendorContactPhoneNumber
  */
 public class VendorPhoneNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private Integer vendorPhoneGeneratedIdentifier;
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-	private String vendorPhoneTypeCode;
-	private String vendorPhoneNumber;
-	private String vendorPhoneExtensionNumber;
+    private Integer vendorPhoneGeneratedIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorPhoneTypeCode;
+    private String vendorPhoneNumber;
+    private String vendorPhoneExtensionNumber;
     private boolean active;
-    
+
     private VendorDetail vendorDetail;
-	private VendorContact vendorContact;
-	private VendorAddress vendorAddress;
-	private PhoneType vendorPhoneType;
+    private VendorContact vendorContact;
+    private VendorAddress vendorAddress;
+    private PhoneType vendorPhoneType;
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorPhoneNumber() {
+    /**
+     * Default constructor.
+     */
+    public VendorPhoneNumber() {
 
-	}
+    }
 
-	public Integer getVendorPhoneGeneratedIdentifier() {
-        
-		return vendorPhoneGeneratedIdentifier;
-	}
+    public Integer getVendorPhoneGeneratedIdentifier() {
 
-	public void setVendorPhoneGeneratedIdentifier(Integer vendorPhoneGeneratedIdentifier) {
-		this.vendorPhoneGeneratedIdentifier = vendorPhoneGeneratedIdentifier;
-	}
+        return vendorPhoneGeneratedIdentifier;
+    }
 
-	public Integer getVendorHeaderGeneratedIdentifier() {
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public void setVendorPhoneGeneratedIdentifier(Integer vendorPhoneGeneratedIdentifier) {
+        this.vendorPhoneGeneratedIdentifier = vendorPhoneGeneratedIdentifier;
+    }
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public Integer getVendorDetailAssignedIdentifier() { 
-        
-		return vendorDetailAssignedIdentifier;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public String getVendorPhoneTypeCode() {
-        
-		return vendorPhoneTypeCode;
-	}
+    public Integer getVendorDetailAssignedIdentifier() {
 
-	public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
-		this.vendorPhoneTypeCode = vendorPhoneTypeCode;
-	}
+        return vendorDetailAssignedIdentifier;
+    }
 
-	public String getVendorPhoneNumber() {
-        
-		return vendorPhoneNumber;
-	}
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
 
-	public void setVendorPhoneNumber(String vendorPhoneNumber) {
-		this.vendorPhoneNumber = vendorPhoneNumber;
-	}
+    public String getVendorPhoneTypeCode() {
 
-	public String getVendorPhoneExtensionNumber() {
-        
-		return vendorPhoneExtensionNumber;
-	}
+        return vendorPhoneTypeCode;
+    }
 
-	public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
-		this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
-	}
+    public void setVendorPhoneTypeCode(String vendorPhoneTypeCode) {
+        this.vendorPhoneTypeCode = vendorPhoneTypeCode;
+    }
+
+    public String getVendorPhoneNumber() {
+
+        return vendorPhoneNumber;
+    }
+
+    public void setVendorPhoneNumber(String vendorPhoneNumber) {
+        this.vendorPhoneNumber = vendorPhoneNumber;
+    }
+
+    public String getVendorPhoneExtensionNumber() {
+
+        return vendorPhoneExtensionNumber;
+    }
+
+    public void setVendorPhoneExtensionNumber(String vendorPhoneExtensionNumber) {
+        this.vendorPhoneExtensionNumber = vendorPhoneExtensionNumber;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -112,75 +112,75 @@ public class VendorPhoneNumber extends PersistableBusinessObjectBase implements 
         this.active = active;
     }
 
-	public VendorDetail getVendorDetail() {
-        
-		return vendorDetail;
-	}
+    public VendorDetail getVendorDetail() {
 
-	/**
-	 * Sets the vendorDetail attribute.
-	 * 
-	 * @param vendorDetail The vendorDetail to set.
-	 * @deprecated
-	 */
-	public void setVendorDetail(VendorDetail vendorDetail) {
-		this.vendorDetail = vendorDetail;
-	}
+        return vendorDetail;
+    }
 
-	public VendorContact getVendorContact() {
-        
-		return vendorContact;
-	}
+    /**
+     * Sets the vendorDetail attribute.
+     * 
+     * @param vendorDetail The vendorDetail to set.
+     * @deprecated
+     */
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
+    }
 
-	/**
-	 * Sets the vendorContact attribute.
-	 * 
-	 * @param vendorContact The vendorContact to set.
-	 * @deprecated
-	 */
-	public void setVendorContact(VendorContact vendorContact) {
-		this.vendorContact = vendorContact;
-	}
+    public VendorContact getVendorContact() {
 
-	public VendorAddress getVendorAddress() {
-        
-		return vendorAddress;
-	}
+        return vendorContact;
+    }
 
-	/**
-	 * Sets the vendorAddress attribute.
-	 * 
-	 * @param vendorAddress The vendorAddress to set.
-	 * @deprecated
-	 */
-	public void setVendorAddress(VendorAddress vendorAddress) {
-		this.vendorAddress = vendorAddress;
-	}
+    /**
+     * Sets the vendorContact attribute.
+     * 
+     * @param vendorContact The vendorContact to set.
+     * @deprecated
+     */
+    public void setVendorContact(VendorContact vendorContact) {
+        this.vendorContact = vendorContact;
+    }
 
-	public PhoneType getVendorPhoneType() {
-        
-		return vendorPhoneType;
-	}
+    public VendorAddress getVendorAddress() {
 
-	/**
-	 * Sets the vendorPhoneType attribute.
-	 * 
-	 * @param vendorPhoneType The vendorPhoneType to set.
-	 * @deprecated
-	 */
-	public void setVendorPhoneType(PhoneType vendorPhoneType) {
-		this.vendorPhoneType = vendorPhoneType;
-	}
+        return vendorAddress;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * Sets the vendorAddress attribute.
+     * 
+     * @param vendorAddress The vendorAddress to set.
+     * @deprecated
+     */
+    public void setVendorAddress(VendorAddress vendorAddress) {
+        this.vendorAddress = vendorAddress;
+    }
+
+    public PhoneType getVendorPhoneType() {
+
+        return vendorPhoneType;
+    }
+
+    /**
+     * Sets the vendorPhoneType attribute.
+     * 
+     * @param vendorPhoneType The vendorPhoneType to set.
+     * @deprecated
+     */
+    public void setVendorPhoneType(PhoneType vendorPhoneType) {
+        this.vendorPhoneType = vendorPhoneType;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorPhoneGeneratedIdentifier != null) {
             m.put("vendorPhoneGeneratedIdentifier", this.vendorPhoneGeneratedIdentifier.toString());
         }
-        
-	    return m;
+
+        return m;
     }
 }

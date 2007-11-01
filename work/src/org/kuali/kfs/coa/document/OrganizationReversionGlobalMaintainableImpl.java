@@ -33,20 +33,18 @@ import org.kuali.module.chart.bo.OrganizationReversionGlobal;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
 import org.kuali.module.chart.service.OrganizationReversionService;
+
 /**
- * 
- * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document
- * inner class for doing comparisons on {@link OrganizationReversionCategory}
- * generateMaintenanceLocks - generates the appropriate maintenance locks on {@link OrganizationReversion}
- * setBusinessObject - populates the {@link OrganizationReversionGlobalDetail}s
+ * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document inner class for
+ * doing comparisons on {@link OrganizationReversionCategory} generateMaintenanceLocks - generates the appropriate maintenance locks
+ * on {@link OrganizationReversion} setBusinessObject - populates the {@link OrganizationReversionGlobalDetail}s
  * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
  * processGlobalsAfterRetrieve - provides special handling for the details (which aren't a true collection)
  */
 public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
-    
+
     /**
-     * 
      * This class is an inner class for comparing two {@link OrganizationReversionCategory}s
      */
     private class CategoryComparator implements Comparator<OrganizationReversionGlobalDetail> {
@@ -62,20 +60,29 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
     }
 
     /**
-     * This implementation locks all organization reversions that would be accessed
-     * by this global organization reversion.  It does not lock any OrganizationReversionDetail objects,
-     * as we expect that those will be inaccessible 
+     * This implementation locks all organization reversions that would be accessed by this global organization reversion. It does
+     * not lock any OrganizationReversionDetail objects, as we expect that those will be inaccessible
+     * 
      * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#generateMaintenaceLocks()
      */
     @Override
     public List<MaintenanceLock> generateMaintenanceLocks() {
         List<MaintenanceLock> locks = new ArrayList<MaintenanceLock>();
-        OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal)this.getBusinessObject();
-        if (globalOrgRev.getUniversityFiscalYear() != null && globalOrgRev.getOrganizationReversionGlobalOrganizations() != null && globalOrgRev.getOrganizationReversionGlobalOrganizations().size() > 0) { // only generate locks if we're going to have primary keys
-            for (OrganizationReversionGlobalOrganization orgRevOrg: globalOrgRev.getOrganizationReversionGlobalOrganizations()) {
+        OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) this.getBusinessObject();
+        if (globalOrgRev.getUniversityFiscalYear() != null && globalOrgRev.getOrganizationReversionGlobalOrganizations() != null && globalOrgRev.getOrganizationReversionGlobalOrganizations().size() > 0) { // only
+                                                                                                                                                                                                                // generate
+                                                                                                                                                                                                                // locks
+                                                                                                                                                                                                                // if
+                                                                                                                                                                                                                // we're
+                                                                                                                                                                                                                // going
+                                                                                                                                                                                                                // to
+                                                                                                                                                                                                                // have
+                                                                                                                                                                                                                // primary
+                                                                                                                                                                                                                // keys
+            for (OrganizationReversionGlobalOrganization orgRevOrg : globalOrgRev.getOrganizationReversionGlobalOrganizations()) {
                 MaintenanceLock maintenanceLock = new MaintenanceLock();
                 maintenanceLock.setDocumentNumber(globalOrgRev.getDocumentNumber());
-                
+
                 StringBuffer lockRep = new StringBuffer();
                 lockRep.append(OrganizationReversion.class.getName());
                 lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
@@ -91,19 +98,18 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
                 lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
                 lockRep.append(orgRevOrg.getOrganizationCode());
                 lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-                
+
                 maintenanceLock.setLockingRepresentation(lockRep.toString());
                 locks.add(maintenanceLock);
             }
         }
-        
+
         return locks;
     }
 
     /**
-     * Just like OrganizationReversionMaintainableImpl's setBusinessObject method populates the list of details
-     * so there is one detail per active Organization Reversion Category, this method populates a list of 
-     * Organization Reversion Change details.
+     * Just like OrganizationReversionMaintainableImpl's setBusinessObject method populates the list of details so there is one
+     * detail per active Organization Reversion Category, this method populates a list of Organization Reversion Change details.
      * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#setBusinessObject(org.kuali.core.bo.PersistableBusinessObject)
      */
@@ -113,7 +119,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
         OrganizationReversionService organizationReversionService = SpringContext.getBean(OrganizationReversionService.class);
         OrganizationReversionGlobal globalOrgRev = (OrganizationReversionGlobal) businessObject;
         List<OrganizationReversionGlobalDetail> details = globalOrgRev.getOrganizationReversionGlobalDetails();
-        LOG.debug("Details size before adding categories = "+details.size());
+        LOG.debug("Details size before adding categories = " + details.size());
 
         if (details == null) {
             details = new TypedArrayList(OrganizationReversionGlobalDetail.class);
@@ -124,7 +130,7 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
 
             Collection<OrganizationReversionCategory> categories = organizationReversionService.getCategoryList();
             for (OrganizationReversionCategory category : categories) {
-                if (category.isOrganizationReversionCategoryActiveIndicator()){
+                if (category.isOrganizationReversionCategoryActiveIndicator()) {
                     OrganizationReversionGlobalDetail detail = new OrganizationReversionGlobalDetail();
                     detail.setOrganizationReversionCategoryCode(category.getOrganizationReversionCategoryCode());
                     detail.setOrganizationReversionCategory(category);
@@ -132,35 +138,38 @@ public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMain
                     details.add(detail);
                 }
             }
-            LOG.debug("Details size after adding categories = "+details.size());
+            LOG.debug("Details size after adding categories = " + details.size());
             Collections.sort(details, new CategoryComparator());
         }
         super.setBusinessObject(businessObject);
     }
 
     /**
-     * Prevents Organization Reversion Change Details from being refreshed by a look up (because doing that refresh before
-     * a save would wipe out the list of organization reversion change details).
+     * Prevents Organization Reversion Change Details from being refreshed by a look up (because doing that refresh before a save
+     * would wipe out the list of organization reversion change details).
+     * 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#isRelationshipRefreshable(java.lang.Class, java.lang.String)
      */
     @Override
     protected boolean isRelationshipRefreshable(Class boClass, String relationshipName) {
         if (relationshipName.equals("organizationReversionGlobalDetails")) {
             return false;
-        } else {
+        }
+        else {
             return super.isRelationshipRefreshable(boClass, relationshipName);
         }
     }
 
     /**
-     * The org reversion detail collection does not behave like a true collection (no add lines). The records
-     * on the collection should not have the delete option.
+     * The org reversion detail collection does not behave like a true collection (no add lines). The records on the collection
+     * should not have the delete option.
+     * 
      * @see org.kuali.core.maintenance.KualiGlobalMaintainableImpl#processGlobalsAfterRetrieve()
      */
     @Override
     protected void processGlobalsAfterRetrieve() {
         super.processGlobalsAfterRetrieve();
-        for (OrganizationReversionGlobalDetail changeDetail : ((OrganizationReversionGlobal) businessObject).getOrganizationReversionGlobalDetails()){
+        for (OrganizationReversionGlobalDetail changeDetail : ((OrganizationReversionGlobal) businessObject).getOrganizationReversionGlobalDetails()) {
             changeDetail.setNewCollectionRecord(false);
         }
     }

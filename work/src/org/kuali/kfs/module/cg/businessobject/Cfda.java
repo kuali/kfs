@@ -21,10 +21,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Instances of this class refer to Catalog of Federal Domestic Assistance codes.
- * Some of these codes are taken directly from a government web-site. Additional
- * codes can be created manually however. Codes can be updated automatically
- * via the CfdaBatchStep.
+ * Instances of this class refer to Catalog of Federal Domestic Assistance codes. Some of these codes are taken directly from a
+ * government web-site. Additional codes can be created manually however. Codes can be updated automatically via the CfdaBatchStep.
  */
 public class Cfda extends PersistableBusinessObjectBase {
 
@@ -33,17 +31,17 @@ public class Cfda extends PersistableBusinessObjectBase {
     private boolean cfdaStatusCode;
     private String cfdaMaintenanceTypeId;
     private boolean rowActiveIndicator;
-    
+
     /**
      * Default constructor.
      */
-    public Cfda() {}
+    public Cfda() {
+    }
 
     /**
      * Gets the cfdaNumber attribute.
      * 
      * @return Returns the cfdaNumber
-     * 
      */
     public String getCfdaNumber() {
         return cfdaNumber;
@@ -53,7 +51,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Sets the cfdaNumber attribute.
      * 
      * @param cfdaNumber The cfdaNumber to set.
-     * 
      */
     public void setCfdaNumber(String cfdaNumber) {
         this.cfdaNumber = cfdaNumber;
@@ -64,7 +61,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Gets the cfdaProgramTitleName attribute.
      * 
      * @return Returns the cfdaProgramTitleName
-     * 
      */
     public String getCfdaProgramTitleName() {
         return cfdaProgramTitleName;
@@ -74,7 +70,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Sets the cfdaProgramTitleName attribute.
      * 
      * @param cfdaProgramTitleName The cfdaProgramTitleName to set.
-     * 
      */
     public void setCfdaProgramTitleName(String cfdaProgramTitleName) {
         this.cfdaProgramTitleName = cfdaProgramTitleName;
@@ -85,7 +80,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Gets the cfdaStatusCode attribute.
      * 
      * @return Returns the cfdaStatusCode
-     * 
      */
     public boolean getCfdaStatusCode() {
         return cfdaStatusCode;
@@ -95,7 +89,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Sets the cfdaStatusCode attribute.
      * 
      * @param cfdaStatusCode The cfdaStatusCode to set.
-     * 
      */
     public void setCfdaStatusCode(boolean cfdaStatusCode) {
         this.cfdaStatusCode = cfdaStatusCode;
@@ -106,7 +99,6 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Gets the cfdaMaintenanceTypeId attribute.
      * 
      * @return Returns the cfdaMaintenanceTypeId
-     * 
      */
     public String getCfdaMaintenanceTypeId() {
         return cfdaMaintenanceTypeId;
@@ -116,12 +108,11 @@ public class Cfda extends PersistableBusinessObjectBase {
      * Sets the cfdaMaintenanceTypeId attribute.
      * 
      * @param cfdaMaintenanceTypeId The cfdaMaintenanceTypeId to set.
-     * 
      */
     public void setCfdaMaintenanceTypeId(String cfdaMaintenanceTypeId) {
         this.cfdaMaintenanceTypeId = cfdaMaintenanceTypeId;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -143,8 +134,7 @@ public class Cfda extends PersistableBusinessObjectBase {
     /**
      * This method sets the row active indicator for this object.
      * 
-     * @param rowActiveIndicator The value to be assigned to the 
-     * rowActiveIndicator attribute.
+     * @param rowActiveIndicator The value to be assigned to the rowActiveIndicator attribute.
      */
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;

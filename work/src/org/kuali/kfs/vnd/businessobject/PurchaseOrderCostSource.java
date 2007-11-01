@@ -21,45 +21,44 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Arbitrary categories per Vendor Contract for the purpose of tracking various
- * kinds of costs that may be incurred by Purchase Orders which use the Vendors
- * which have these Contracts.
+ * Arbitrary categories per Vendor Contract for the purpose of tracking various kinds of costs that may be incurred by Purchase
+ * Orders which use the Vendors which have these Contracts.
  * 
  * @see org.kuali.module.vendor.bo.VendorContract
  */
 public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
 
-	private String purchaseOrderCostSourceCode;
-	private String purchaseOrderCostSourceDescription;
-	private boolean active;
+    private String purchaseOrderCostSourceCode;
+    private String purchaseOrderCostSourceDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurchaseOrderCostSource() {
+    /**
+     * Default constructor.
+     */
+    public PurchaseOrderCostSource() {
 
-	}
+    }
 
-	public String getPurchaseOrderCostSourceCode() {
-        
-		return purchaseOrderCostSourceCode;
-	}
+    public String getPurchaseOrderCostSourceCode() {
 
-	public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode) {
-		this.purchaseOrderCostSourceCode = purchaseOrderCostSourceCode;
-	}
+        return purchaseOrderCostSourceCode;
+    }
 
-	public String getPurchaseOrderCostSourceDescription() {
-        
-		return purchaseOrderCostSourceDescription;
-	}
+    public void setPurchaseOrderCostSourceCode(String purchaseOrderCostSourceCode) {
+        this.purchaseOrderCostSourceCode = purchaseOrderCostSourceCode;
+    }
 
-	public void setPurchaseOrderCostSourceDescription(String purchaseOrderCostSourceDescription) {
-		this.purchaseOrderCostSourceDescription = purchaseOrderCostSourceDescription;
-	}
+    public String getPurchaseOrderCostSourceDescription() {
+
+        return purchaseOrderCostSourceDescription;
+    }
+
+    public void setPurchaseOrderCostSourceDescription(String purchaseOrderCostSourceDescription) {
+        this.purchaseOrderCostSourceDescription = purchaseOrderCostSourceDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -68,12 +67,12 @@ public class PurchaseOrderCostSource extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("purchaseOrderCostSourceCode", this.purchaseOrderCostSourceCode);
-        
-	    return m;
+
+        return m;
     }
 }

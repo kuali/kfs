@@ -38,7 +38,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
@@ -57,7 +56,6 @@ import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.service.LaborReportService;
 import org.kuali.module.labor.service.LaborYearEndBalanceForwardService;
 import org.kuali.module.labor.util.DebitCreditUtil;
-import org.kuali.module.labor.util.MessageBuilder;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
@@ -152,7 +150,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
 
             for (String objectTypeCode : processableObjectTypeCodes) {
                 fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, objectTypeCode);
-                
+
                 fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[0]);
                 fieldValues.remove(LaborConstants.ACCOUNT_FIELDS[1]);
                 List<List<String>> accounts = laborLedgerBalanceService.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
@@ -219,7 +217,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
      * @return true if the balance is qualified; otherwise, false
      */
     private boolean validateBalance(LedgerBalanceForYearEndBalanceForward balance, List<Message> errors) {
-        /** This is the placeholder for addtional business rule validation. The former rules were moved down to data access layer. **/
+        /** This is the placeholder for addtional business rule validation. The former rules were moved down to data access layer. * */
         return true;
     }
 
@@ -258,7 +256,7 @@ public class LaborYearEndBalanceForwardServiceImpl implements LaborYearEndBalanc
             originEntry.setTransactionTotalHours(BigDecimal.ZERO);
             originEntry.setTransactionDate(postingDate);
 
-            laborOriginEntryService.save(originEntry);           
+            laborOriginEntryService.save(originEntry);
         }
         catch (Exception e) {
             LOG.error(e);

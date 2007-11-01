@@ -46,11 +46,10 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Accounts Payable Document Base
- * 
  */
 public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPayableDocumentBase implements AccountsPayableDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountsPayableDocumentBase.class);
-    
+
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     private Date accountsPayableApprovalDate;
     private String lastActionPerformedByUniversalUserId;
@@ -64,15 +63,15 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     private String noteLine3Text;
     private boolean continuationAccountIndicator;
     private boolean closePurchaseOrderIndicator;
-    private boolean reopenPurchaseOrderIndicator;  
+    private boolean reopenPurchaseOrderIndicator;
 
     private boolean unmatchedOverride; // not persisted
-    
+
     // NOT PERSISTED IN DB
     // BELOW USED BY ROUTING
     private String chartOfAccountsCode;
     private String organizationCode;
-    
+
     // NOT PERSISTED IN DB
     // BELOW USED BY GL ENTRY CREATION
     private boolean generateEncumbranceEntries;
@@ -90,23 +89,23 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         setUnmatchedOverride(false);
     }
 
-    /** 
+    /**
      * This method is here due to a setter requirement by the htmlControlAttribute
      * 
      * @param amount - Grand total for document, excluding discount
      */
     public void setGrandTotalExcludingDiscount(KualiDecimal amount) {
-        //do nothing
-    }  
-    
+        // do nothing
+    }
+
     public void setLineItemTotal(KualiDecimal total) {
-        //do nothing, this is so that the jsp won't complain about lineItemTotal have no setter method.
+        // do nothing, this is so that the jsp won't complain about lineItemTotal have no setter method.
     }
-    
+
     public void setGrandTotal(KualiDecimal total) {
-        //do nothing, this is so that the jsp won't complain about grandTotal have no setter method.
+        // do nothing, this is so that the jsp won't complain about grandTotal have no setter method.
     }
-    
+
     /**
      * Overriding to stop the deleting of general ledger entries.
      * 
@@ -114,7 +113,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     protected void removeGeneralLedgerPendingEntries() {
-        //do not delete entries for PREQ or CM (hjs)
+        // do not delete entries for PREQ or CM (hjs)
     }
 
     /**
@@ -133,11 +132,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     /**
      * Checks whether an attachment is required
-     *  
+     * 
      * @return - true if attachment is required, otherwise false
      */
     protected abstract boolean isAttachmentRequired();
-    
+
     /**
      * Checks all documents notes for attachments.
      * 
@@ -148,7 +147,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         if (ObjectUtils.isNotNull(boNotes)) {
             for (Object obj : boNotes) {
                 Note note = (Note) obj;
-                //may need to refresh this attachment because of a bug - see see KULPURAP-1397
+                // may need to refresh this attachment because of a bug - see see KULPURAP-1397
                 note.refreshReferenceObject("attachment");
                 if (ObjectUtils.isNotNull(note.getAttachment())) {
                     return false;
@@ -163,10 +162,10 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     @Override
     public void populateDocumentForRouting() {
-        if(ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
+        if (ObjectUtils.isNotNull(getPurchaseOrderDocument())) {
             this.setChartOfAccountsCode(getPurchaseOrderDocument().getChartOfAccountsCode());
             this.setOrganizationCode(getPurchaseOrderDocument().getOrganizationCode());
-            if(ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
+            if (ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
                 this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
             }
         }
@@ -174,29 +173,27 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     }
 
     /**
-     * Calls a custom prepare for save method, as the super class does GL entry creation
-     * that causes  problems with AP documents.
+     * Calls a custom prepare for save method, as the super class does GL entry creation that causes problems with AP documents.
      * 
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
      */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
 
-        //copied from super because we can't call super for AP docs
+        // copied from super because we can't call super for AP docs
         customPrepareForSave(event);
 
-        //DO NOT CALL SUPER HERE!!  Cannot call super because it will mess up the GL entry creation process (hjs)
-        //super.prepareForSave(event);
+        // DO NOT CALL SUPER HERE!! Cannot call super because it will mess up the GL entry creation process (hjs)
+        // super.prepareForSave(event);
     }
-    
+
     /**
-     * Helper method to be called from custom prepare for save and to be
-     * overriden by sub class.
+     * Helper method to be called from custom prepare for save and to be overriden by sub class.
      * 
      * @return - Po Document Type
      */
     public abstract String getPoDocumentTypeForAccountsPayableDocumentCancel();
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
@@ -210,8 +207,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                 if (StringUtils.isNotBlank(newNodeName)) {
                     ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
                     reportCriteriaVO.setTargetNodeName(newNodeName);
-                    if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(
-                            reportCriteriaVO, new String[]{EdenConstants.ACTION_REQUEST_APPROVE_REQ,EdenConstants.ACTION_REQUEST_COMPLETE_REQ})) {
+                    if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
                         NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
                         if (ObjectUtils.isNotNull(nodeDetailEnum)) {
                             String statusCode = nodeDetailEnum.getAwaitingStatusCode();
@@ -226,7 +222,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
                         else {
                             LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "' but node cannot be found to get awaiting status");
                         }
-                    } 
+                    }
                     else {
                         LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
                     }
@@ -238,7 +234,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             LOG.warn(errorMsg, e);
         }
     }
-    
+
     /**
      * Hook to allow processing after a route level is passed.
      * 
@@ -247,7 +243,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @return - true if process completes to valid state
      */
     public abstract boolean processNodeChange(String newNodeName, String oldNodeName);
-    
+
     /**
      * Retrieves node details object based on name.
      * 
@@ -255,13 +251,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @return - Information about the supplied route level
      */
     public abstract NodeDetails getNodeDetailEnum(String nodeName);
-    
+
     /**
      * Hook point to allow processing after a save.
      */
     public abstract void saveDocumentFromPostProcessing();
 
-    // GETTERS AND SETTERS    
+    // GETTERS AND SETTERS
     public Integer getPurchaseOrderIdentifier() {
         return purchaseOrderIdentifier;
     }
@@ -270,7 +266,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
 
-    public String getAccountsPayableProcessorIdentifier() { 
+    public String getAccountsPayableProcessorIdentifier() {
         return accountsPayableProcessorIdentifier;
     }
 
@@ -286,7 +282,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.lastActionPerformedByUniversalUserId = lastActionPerformedByUniversalUserId;
     }
 
-    public String getProcessingCampusCode() { 
+    public String getProcessingCampusCode() {
         return processingCampusCode;
     }
 
@@ -294,7 +290,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.processingCampusCode = processingCampusCode;
     }
 
-    public Date getAccountsPayableApprovalDate() { 
+    public Date getAccountsPayableApprovalDate() {
         return accountsPayableApprovalDate;
     }
 
@@ -342,7 +338,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
         this.noteLine3Text = noteLine3Text;
     }
 
-    public Campus getProcessingCampus() { 
+    public Campus getProcessingCampus() {
         return processingCampus;
     }
 
@@ -374,8 +370,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.module.purap.document.AccountsPayableDocument#getPurchaseOrderDocument()
      */
     public PurchaseOrderDocument getPurchaseOrderDocument() {
-        if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
-                && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
+        if ((ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
             setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
         }
         return purchaseOrderDocument;
@@ -386,11 +381,12 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      */
     public void setPurchaseOrderDocument(PurchaseOrderDocument purchaseOrderDocument) {
         if (ObjectUtils.isNull(purchaseOrderDocument)) {
-            //KUALI-PURAP 1185 PO Id not being set to null, instead throwing error on main screen that value is invalid.
-            //setPurchaseOrderIdentifier(null);
+            // KUALI-PURAP 1185 PO Id not being set to null, instead throwing error on main screen that value is invalid.
+            // setPurchaseOrderIdentifier(null);
             this.purchaseOrderDocument = null;
-        } else {
-            if(ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
+        }
+        else {
+            if (ObjectUtils.isNotNull(purchaseOrderDocument.getPurapDocumentIdentifier())) {
                 setPurchaseOrderIdentifier(purchaseOrderDocument.getPurapDocumentIdentifier());
             }
             this.purchaseOrderDocument = purchaseOrderDocument;
@@ -411,13 +407,13 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
 
     public void setReopenPurchaseOrderIndicator(boolean reopenPurchaseOrderIndicator) {
         this.reopenPurchaseOrderIndicator = reopenPurchaseOrderIndicator;
-    }    
+    }
 
-    //Helper methods
+    // Helper methods
     /**
      * Retrieves the universal user object for the last person to perform an action on the document.
      */
-    public UniversalUser getLastActionPerformedByUser(){
+    public UniversalUser getLastActionPerformedByUser() {
         try {
             UniversalUser user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getLastActionPerformedByUniversalUserId());
             return user;
@@ -432,7 +428,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * 
      * @return - the person's name who last performed an action on the document.
      */
-    public String getLastActionPerformedByPersonName(){
+    public String getLastActionPerformedByPersonName() {
         UniversalUser user = getLastActionPerformedByUser();
         if (ObjectUtils.isNull(user)) {
             return "";
@@ -471,7 +467,7 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public boolean isContinuationAccountIndicator() {
         return continuationAccountIndicator;
     }
-    
+
     public void setContinuationAccountIndicator(boolean continuationAccountIndicator) {
         this.continuationAccountIndicator = continuationAccountIndicator;
     }
@@ -479,17 +475,18 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public boolean isExtracted() {
         return (ObjectUtils.isNotNull(getExtractedDate()));
     }
-    
+
     public abstract AccountsPayableDocumentSpecificService getDocumentSpecificService();
 
     public AccountsPayableItem getAPItemFromPOItem(PurchaseOrderItem poi) {
-        for (AccountsPayableItem preqItem : (List<AccountsPayableItem>)this.getItems()) {
-            if(preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
-                if(preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber())==0) {
+        for (AccountsPayableItem preqItem : (List<AccountsPayableItem>) this.getItems()) {
+            if (preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
+                if (preqItem.getItemLineNumber().compareTo(poi.getItemLineNumber()) == 0) {
                     return preqItem;
                 }
-            } else {
-                return (AccountsPayableItem)SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
+            }
+            else {
+                return (AccountsPayableItem) SpringContext.getBean(PurapService.class).getBelowTheLineByType(this, poi.getItemType());
             }
         }
         return null;
@@ -525,12 +522,11 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     @Override
     public void afterLookup(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
         super.afterLookup(persistenceBroker);
-      if ( (ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) 
-              && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier())) ) {
-          this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
-          if(ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
-              this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
-          }
-      }
+        if ((ObjectUtils.isNull(purchaseOrderDocument) || ObjectUtils.isNull(purchaseOrderDocument.getPurapDocumentIdentifier())) && (ObjectUtils.isNotNull(getPurchaseOrderIdentifier()))) {
+            this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
+            if (ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
+                this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+            }
+        }
     }
 }

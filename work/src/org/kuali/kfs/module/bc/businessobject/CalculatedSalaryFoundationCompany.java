@@ -25,42 +25,40 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class CalculatedSalaryFoundationCompany extends PersistableBusinessObjectBase {
 
-	private String hrmsCompany;
+    private String hrmsCompany;
 
-	/**
-	 * Default constructor.
-	 */
-	public CalculatedSalaryFoundationCompany() {
+    /**
+     * Default constructor.
+     */
+    public CalculatedSalaryFoundationCompany() {
 
-	}
+    }
 
-	/**
-	 * Gets the hrmsCompany attribute.
-	 * 
-	 * @return Returns the hrmsCompany
-	 * 
-	 */
-	public String getHrmsCompany() { 
-		return hrmsCompany;
-	}
+    /**
+     * Gets the hrmsCompany attribute.
+     * 
+     * @return Returns the hrmsCompany
+     */
+    public String getHrmsCompany() {
+        return hrmsCompany;
+    }
 
-	/**
-	 * Sets the hrmsCompany attribute.
-	 * 
-	 * @param hrmsCompany The hrmsCompany to set.
-	 * 
-	 */
-	public void setHrmsCompany(String hrmsCompany) {
-		this.hrmsCompany = hrmsCompany;
-	}
+    /**
+     * Sets the hrmsCompany attribute.
+     * 
+     * @param hrmsCompany The hrmsCompany to set.
+     */
+    public void setHrmsCompany(String hrmsCompany) {
+        this.hrmsCompany = hrmsCompany;
+    }
 
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("hrmsCompany", this.hrmsCompany);
-	    return m;
+        return m;
     }
 }

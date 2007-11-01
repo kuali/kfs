@@ -1,4 +1,3 @@
-
 package org.kuali.module.purap.pdf;
 
 import java.io.File;
@@ -38,52 +37,52 @@ public class PurapPdf extends PdfPageEventHelper {
     public BaseFont helv;
     public String environment;
     public boolean isRetransmit = false;
-    
-    Font ver_4_normal = FontFactory.getFont("VERDANA",4,0);
-    Font ver_5_normal = FontFactory.getFont("VERDANA",5,0);
-    Font ver_6_normal = FontFactory.getFont("VERDANA",6,0);
-    Font ver_8_normal = FontFactory.getFont("VERDANA",8,0);
-    Font ver_10_normal = FontFactory.getFont("VERDANA",10,0);
-    Font ver_11_normal = FontFactory.getFont("VERDANA",11,0);
-    Font ver_12_normal = FontFactory.getFont("VERDANA",12,0);
-    Font ver_13_normal = FontFactory.getFont("VERDANA",13,0);
-    Font ver_14_normal = FontFactory.getFont("VERDANA",14,0);
-    Font ver_15_normal = FontFactory.getFont("VERDANA",15,0);
-    Font ver_16_normal = FontFactory.getFont("VERDANA",16,0);
-    Font ver_17_normal = FontFactory.getFont("VERDANA",17,0);
-    
-    Font ver_6_bold = FontFactory.getFont("VERDANA",6,1);
-    Font ver_8_bold = FontFactory.getFont("VERDANA",8,1);
-    Font ver_10_bold = FontFactory.getFont("VERDANA",10,1);
-    
-    Font cour_10_normal = FontFactory.getFont("COURIER",10,0);
-    
+
+    Font ver_4_normal = FontFactory.getFont("VERDANA", 4, 0);
+    Font ver_5_normal = FontFactory.getFont("VERDANA", 5, 0);
+    Font ver_6_normal = FontFactory.getFont("VERDANA", 6, 0);
+    Font ver_8_normal = FontFactory.getFont("VERDANA", 8, 0);
+    Font ver_10_normal = FontFactory.getFont("VERDANA", 10, 0);
+    Font ver_11_normal = FontFactory.getFont("VERDANA", 11, 0);
+    Font ver_12_normal = FontFactory.getFont("VERDANA", 12, 0);
+    Font ver_13_normal = FontFactory.getFont("VERDANA", 13, 0);
+    Font ver_14_normal = FontFactory.getFont("VERDANA", 14, 0);
+    Font ver_15_normal = FontFactory.getFont("VERDANA", 15, 0);
+    Font ver_16_normal = FontFactory.getFont("VERDANA", 16, 0);
+    Font ver_17_normal = FontFactory.getFont("VERDANA", 17, 0);
+
+    Font ver_6_bold = FontFactory.getFont("VERDANA", 6, 1);
+    Font ver_8_bold = FontFactory.getFont("VERDANA", 8, 1);
+    Font ver_10_bold = FontFactory.getFont("VERDANA", 10, 1);
+
+    Font cour_10_normal = FontFactory.getFont("COURIER", 10, 0);
+
     static KualiDecimal zero = new KualiDecimal(0);
 
     private DateTimeService dateTimeService;
-    
+
     public PurapPdf() {
         super();
     }
 
     public DateTimeService getDateTimeService() {
-        if (ObjectUtils.isNull(dateTimeService) ) {
+        if (ObjectUtils.isNull(dateTimeService)) {
             this.dateTimeService = SpringContext.getBean(DateTimeService.class);
         }
         return this.dateTimeService;
     }
-    
+
     public void onStartPage(PdfWriter writer, Document document) {
         if (!SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
             cb.saveState();
             cb.beginText();
             cb.setFontAndSize(helv, 48);
-            String watermarkText = "Test document ("+environment+")";
+            String watermarkText = "Test document (" + environment + ")";
             cb.showTextAligned(Element.ALIGN_CENTER, watermarkText, document.getPageSize().width() / 2, document.getPageSize().height() / 2, 45);
             cb.endText();
             cb.restoreState();
-        }      
+        }
     }
 
     public void onEndPage(PdfWriter writer, Document document) {
@@ -122,21 +121,22 @@ public class PurapPdf extends PdfPageEventHelper {
 
     /**
      * Gets a PageEvents object.
+     * 
      * @return a new PageEvents object
      */
     public PurapPdf getPageEvents() {
         LOG.debug("getPageEvents() started.");
         return new PurapPdf();
     }
-  
+
     public Document getDocument(float f1, float f2, float f3, float f4) {
         LOG.debug("getDocument() started");
         Document document = new Document(PageSize.A4);
-        //Margins: 36pt = 0.5 inch, 72pt = 1 inch. Left, right, top, bottom.
+        // Margins: 36pt = 0.5 inch, 72pt = 1 inch. Left, right, top, bottom.
         document.setMargins(f1, f2, f3, f4);
         return document;
     }
-    
+
     /**
      * Deletes an already created PDF.
      * 
@@ -147,6 +147,5 @@ public class PurapPdf extends PdfPageEventHelper {
         File f = new File(pdfFileLocation + pdfFilename);
         f.delete();
     }
-    
-}
 
+}

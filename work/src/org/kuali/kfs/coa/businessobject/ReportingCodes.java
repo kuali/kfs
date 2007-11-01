@@ -24,8 +24,6 @@ import org.kuali.kfs.context.SpringContext;
 
 /**
  * Reporting Codes Business Object
- * 
- * 
  */
 public class ReportingCodes extends PersistableBusinessObjectBase {
 
@@ -125,7 +123,7 @@ public class ReportingCodes extends PersistableBusinessObjectBase {
     public void setFinancialReportsToReportingCode(String financialReportsToReportingCode) {
         this.financialReportsToReportingCode = financialReportsToReportingCode;
     }
-    
+
     /**
      * @return Returns the chart.
      */

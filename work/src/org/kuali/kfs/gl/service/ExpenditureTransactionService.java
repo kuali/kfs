@@ -20,7 +20,7 @@ package org.kuali.module.gl.service;
  */
 public interface ExpenditureTransactionService {
     /**
-     * Deletes all ExpenditureTransactions from the system.  Use this method with caution.
+     * Deletes all ExpenditureTransactions from the system. Use this method with caution.
      */
     public void deleteAllExpenditureTransactions();
 }

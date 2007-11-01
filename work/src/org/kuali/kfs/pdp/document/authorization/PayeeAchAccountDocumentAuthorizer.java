@@ -19,35 +19,29 @@ import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
-import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.pdp.PdpAuthorizationConstants;
-import org.kuali.module.pdp.PdpConstants;
-import org.kuali.module.pdp.bo.PayeeAchAccount;
-
 
 
 public class PayeeAchAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
 
     /**
-     * If the current user is a member of KUALI_PDP_VIEWALL then
-     * add entry to the editMode Map and set it true.
-     *   
+     * If the current user is a member of KUALI_PDP_VIEWALL then add entry to the editMode Map and set it true.
+     * 
      * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.KualiUser)
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user) {
         Map editMode = super.getEditMode(document, user);
-        //String viewAllWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PayeeAchAccount.class, PdpConstants.Groups.VIEWALL_GROUP);
+        // String viewAllWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PayeeAchAccount.class,
+        // PdpConstants.Groups.VIEWALL_GROUP);
         String viewAllWorkgroup = "KUALI_PDP_ACH";
-        
+
         if (user.isMember(viewAllWorkgroup)) {
             editMode.put(PdpAuthorizationConstants.PDPEditMode.ENTRY, "TRUE");
         }
-        
+
         return editMode;
     }
 }

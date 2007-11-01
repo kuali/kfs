@@ -25,32 +25,32 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class RecurringPaymentFrequency extends PersistableBusinessObjectBase {
 
-	private String recurringPaymentFrequencyCode;
-	private String recurringPaymentFrequencyDescription;
-	private boolean active;
+    private String recurringPaymentFrequencyCode;
+    private String recurringPaymentFrequencyDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public RecurringPaymentFrequency() {
+    /**
+     * Default constructor.
+     */
+    public RecurringPaymentFrequency() {
 
-	}
+    }
 
-	public String getRecurringPaymentFrequencyCode() { 
-		return recurringPaymentFrequencyCode;
-	}
+    public String getRecurringPaymentFrequencyCode() {
+        return recurringPaymentFrequencyCode;
+    }
 
-	public void setRecurringPaymentFrequencyCode(String recurringPaymentFrequencyCode) {
-		this.recurringPaymentFrequencyCode = recurringPaymentFrequencyCode;
-	}
+    public void setRecurringPaymentFrequencyCode(String recurringPaymentFrequencyCode) {
+        this.recurringPaymentFrequencyCode = recurringPaymentFrequencyCode;
+    }
 
-	public String getRecurringPaymentFrequencyDescription() { 
-		return recurringPaymentFrequencyDescription;
-	}
+    public String getRecurringPaymentFrequencyDescription() {
+        return recurringPaymentFrequencyDescription;
+    }
 
-	public void setRecurringPaymentFrequencyDescription(String recurringPaymentFrequencyDescription) {
-		this.recurringPaymentFrequencyDescription = recurringPaymentFrequencyDescription;
-	}
+    public void setRecurringPaymentFrequencyDescription(String recurringPaymentFrequencyDescription) {
+        this.recurringPaymentFrequencyDescription = recurringPaymentFrequencyDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -61,12 +61,12 @@ public class RecurringPaymentFrequency extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("recurringPaymentFrequencyCode", this.recurringPaymentFrequencyCode);
-	    return m;
+        return m;
     }
-    
+
 }

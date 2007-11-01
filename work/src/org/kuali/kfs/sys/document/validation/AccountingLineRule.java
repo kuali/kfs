@@ -15,7 +15,6 @@
  */
 package org.kuali.kfs.rule;
 
-import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
@@ -94,7 +93,6 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * 
      * @param financialDocument
      * @param accountingLine
-     * 
      * @return boolean
      */
     public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine);

@@ -18,117 +18,110 @@ package org.kuali.module.vendor.util;
 import org.apache.commons.lang.StringUtils;
 
 public class VendorUtils {
-    
-    public static final char LEFT_COLLECTION_SEPERATOR='[';
-    public static final char RIGHT_COLLECTION_SEPERATOR=']';
-    public static final char FIELD_SEPERATOR='.';
+
+    public static final char LEFT_COLLECTION_SEPERATOR = '[';
+    public static final char RIGHT_COLLECTION_SEPERATOR = ']';
+    public static final char FIELD_SEPERATOR = '.';
 
     /**
-     * This method builds up a string and a position like so abc, 1 becomes abc[1] it is used
-     * for fields that require operations on collections.
+     * This method builds up a string and a position like so abc, 1 becomes abc[1] it is used for fields that require operations on
+     * collections.
+     * 
      * @param full
      * @param collections
      * @param pos
      * @return
      */
     public static String assembleWithPosition(String full, String[] collections, int[] positions) {
-        
-        if(collections.length != positions.length) {
+
+        if (collections.length != positions.length) {
             throw new IllegalArgumentException();
         }
-        
-        String[] parts = StringUtils.split(full,FIELD_SEPERATOR);
-        
-        for (int j = 0; j<parts.length; j++) {
+
+        String[] parts = StringUtils.split(full, FIELD_SEPERATOR);
+
+        for (int j = 0; j < parts.length; j++) {
             for (int i = 0; i < collections.length; i++) {
-                if(StringUtils.equals(parts[j],collections[i])) {
-                   parts[j] = collections[i]+LEFT_COLLECTION_SEPERATOR+positions[i]+RIGHT_COLLECTION_SEPERATOR;
-                   break;
+                if (StringUtils.equals(parts[j], collections[i])) {
+                    parts[j] = collections[i] + LEFT_COLLECTION_SEPERATOR + positions[i] + RIGHT_COLLECTION_SEPERATOR;
+                    break;
                 }
 
             }
         }
-        
-        return StringUtils.join(parts,FIELD_SEPERATOR);
+
+        return StringUtils.join(parts, FIELD_SEPERATOR);
     }
+
     /**
+     * This method is a helper to call assembleWithPosition(String full, String[] collections, int[] positions) when only one
+     * collection
      * 
-     * This method is a helper to call assembleWithPosition(String full, String[] collections, int[] positions) when
-     * only one collection
      * @param full
      * @param collection
      * @param position
      * @return
      */
     public static String assembleWithPosition(String full, String collection, int position) {
-        String[] collections = {collection};
-        int[] positions = {position};
-        return assembleWithPosition(full,collections,positions);
+        String[] collections = { collection };
+        int[] positions = { position };
+        return assembleWithPosition(full, collections, positions);
     }
-    
+
     /**
-     * 
      * This method returns the headerId portion from a composite vendor number.
      * 
      * @param vendorNumber - composite vendor number (detail and header)
      * @return returns the headerId number
-     * 
      */
     public static Integer getVendorHeaderId(String vendorNumber) {
-      
-      //    validate the vendorNumber passed in
-      if ( ! VendorUtils.validVendorNumberFormat(vendorNumber) ) {
-        return null;
-      }
 
-      //    return the headerId, everything before the dash (-)
-      String[] vendorNumberParts = vendorNumber.split("-");
-      return new Integer(Integer.parseInt(vendorNumberParts[0]));
+        // validate the vendorNumber passed in
+        if (!VendorUtils.validVendorNumberFormat(vendorNumber)) {
+            return null;
+        }
+
+        // return the headerId, everything before the dash (-)
+        String[] vendorNumberParts = vendorNumber.split("-");
+        return new Integer(Integer.parseInt(vendorNumberParts[0]));
     }
 
     /**
-     * 
      * This method returns the detailId portion from a composite vendor number.
      * 
      * @param vendorNumber - composite vendor number (detail and header)
      * @return returns the detailId number
-     * 
      */
     public static Integer getVendorDetailId(String vendorNumber) {
 
-      if ( ! VendorUtils.validVendorNumberFormat(vendorNumber) ) {
-        return null;
-      }
+        if (!VendorUtils.validVendorNumberFormat(vendorNumber)) {
+            return null;
+        }
 
-      //    return the headerId, everything before the dash (-)
-      String[] vendorNumberParts = vendorNumber.split("-");
-      return new Integer(Integer.parseInt(vendorNumberParts[1]));
+        // return the headerId, everything before the dash (-)
+        String[] vendorNumberParts = vendorNumber.split("-");
+        return new Integer(Integer.parseInt(vendorNumberParts[1]));
     }
-    
+
     /**
-     * 
-     * This method accepts a vendorNumber string, and evaluates it to make sure 
-     * it is of the correct format.
-     * 
-     * This method does not test whether the given vendor number exists in the 
-     * database, rather it just tests that the format is correct.
+     * This method accepts a vendorNumber string, and evaluates it to make sure it is of the correct format. This method does not
+     * test whether the given vendor number exists in the database, rather it just tests that the format is correct.
      * 
      * @param vendorNumber - String representing the vendor number
      * @return - returns an empty string on success, or an error message on a failure
-     * 
      */
     public static boolean validVendorNumberFormat(String vendorNumber) {
-  
-      //    disallow null string
-      if (vendorNumber == null) {
-        return false;
-      }
 
-      //    validate the overall format:  numbers - numbers
-      if (!vendorNumber.matches("\\d+-\\d+")) {
-        return false;
-      }
-          
-      return true;
+        // disallow null string
+        if (vendorNumber == null) {
+            return false;
+        }
+
+        // validate the overall format: numbers - numbers
+        if (!vendorNumber.matches("\\d+-\\d+")) {
+            return false;
+        }
+
+        return true;
     }
 }

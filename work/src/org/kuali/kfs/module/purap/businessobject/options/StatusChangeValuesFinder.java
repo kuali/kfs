@@ -33,11 +33,11 @@ public class StatusChangeValuesFinder extends KeyValuesBase {
      * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List getKeyValues() {       
+    public List getKeyValues() {
         List labels = new ArrayList();
         labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.IN_PROCESS, VendorConstants.NONE));
         labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_DEPARTMENT, "Department"));
-        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR,"Vendor"));       
+        labels.add(new KeyLabelPair(PurapConstants.PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Vendor"));
         return labels;
     }
 }

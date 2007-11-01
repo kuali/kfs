@@ -45,7 +45,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     private static String DEFAULT_UNIT_NAME;
 
     private static final String UNKNOWN_UNIT_NAME = "unknownUnit";
-    
+
     public void setUp() {
         TEST_UNIT_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX") + TEST_CAMPUS_CD;
         DEFAULT_UNIT_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX") + DEFAULT_CAMPUS_CD;
@@ -71,15 +71,13 @@ public class CashReceiptServiceTest extends KualiTestBase {
         assertNotNull(returnedCode);
         assertEquals(DEFAULT_CAMPUS_CD, returnedCode);
     }
+
     // TODO fix this so it doesn't use constants built into the non-test classes
     /*
-    public final void testGetCampusCodeForCashReceiptVerificationUnit_knownVerificationUnit() {
-        String returnedCode = SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(TEST_UNIT_NAME);
-
-        assertNotNull(returnedCode);
-        assertEquals(TEST_CAMPUS_CD, returnedCode);
-    }
-*/
+     * public final void testGetCampusCodeForCashReceiptVerificationUnit_knownVerificationUnit() { String returnedCode =
+     * SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(TEST_UNIT_NAME);
+     * assertNotNull(returnedCode); assertEquals(TEST_CAMPUS_CD, returnedCode); }
+     */
 
 
     public final void testGetCashReceiptVerificationUnitForCampusCode_blankCampusCode() {
@@ -102,15 +100,13 @@ public class CashReceiptServiceTest extends KualiTestBase {
         assertNotNull(returnedUnit);
         assertEquals(DEFAULT_UNIT_NAME, returnedUnit);
     }
-    // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
-/*
-    public final void testGetCashReceiptVerificationUnitForCampusCode_knownCampusCode() {
-        String returnedUnit = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(TEST_CAMPUS_CD);
 
-        assertNotNull(returnedUnit);
-        assertEquals(TEST_UNIT_NAME, returnedUnit);
-    }
-*/
+    // TODO: once we stop returning default campusCode for unknown verificationUnit, need a test for unknown verificationUnit
+    /*
+     * public final void testGetCashReceiptVerificationUnitForCampusCode_knownCampusCode() { String returnedUnit =
+     * SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(TEST_CAMPUS_CD);
+     * assertNotNull(returnedUnit); assertEquals(TEST_UNIT_NAME, returnedUnit); }
+     */
 
 
     public final void testGetCashReceiptVerificationUnit_nullUser() {
@@ -184,7 +180,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -209,7 +205,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -234,7 +230,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts1_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -343,7 +339,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
     }
 
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_interimReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -368,7 +364,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_verifiedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -393,7 +389,7 @@ public class CashReceiptServiceTest extends KualiTestBase {
         denatureCashReceipts(workgroup);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testGetCashReceipts2_knownVerificationUnit_mixedReceipts() throws Exception {
         final String workgroup = TEST_UNIT_NAME;
 
@@ -441,15 +437,15 @@ public class CashReceiptServiceTest extends KualiTestBase {
         crDoc.setCheckEntryMode(CashReceiptDocument.CHECK_ENTRY_TOTAL);
         crDoc.setTotalCashAmount(cashAmount);
         crDoc.setTotalCheckAmount(checkAmount);
-        
+
         crDoc.setCampusLocationCode(SpringContext.getBean(CashReceiptService.class).getCampusCodeForCashReceiptVerificationUnit(workgroupName));
-        
+
         crDoc.addSourceAccountingLine(CashReceiptFamilyTestUtil.buildSourceAccountingLine(crDoc.getDocumentNumber(), crDoc.getPostingYear(), crDoc.getNextSourceLineNumber()));
 
         try {
             SpringContext.getBean(DocumentService.class).saveDocument(crDoc);
         }
-        catch(ValidationException e) {
+        catch (ValidationException e) {
             // If the business rule evaluation fails then give us more info for debugging this test.
             fail(e.getMessage() + ", " + GlobalVariables.getErrorMap());
         }

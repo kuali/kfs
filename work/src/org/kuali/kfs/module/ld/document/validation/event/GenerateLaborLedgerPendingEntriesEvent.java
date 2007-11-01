@@ -58,7 +58,7 @@ public final class GenerateLaborLedgerPendingEntriesEvent extends KualiDocumentE
     public GenerateLaborLedgerPendingEntriesEvent(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         this("", accountingDocument, accountingLine, sequenceHelper);
     }
-    
+
     /**
      * Gets the transactionalDocument attribute.
      * 

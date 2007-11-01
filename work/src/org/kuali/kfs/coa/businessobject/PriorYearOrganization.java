@@ -76,7 +76,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -86,7 +85,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -97,7 +95,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationCode attribute.
      * 
      * @return Returns the organizationCode
-     * 
      */
     public String getOrganizationCode() {
         return organizationCode;
@@ -107,7 +104,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationCode attribute.
      * 
      * @param organizationCode The organizationCode to set.
-     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
@@ -118,7 +114,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationManagerUniversalId attribute.
      * 
      * @return Returns the organizationManagerUniversalId
-     * 
      */
     public String getOrganizationManagerUniversalId() {
         return organizationManagerUniversalId;
@@ -128,7 +123,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationManagerUniversalId attribute.
      * 
      * @param organizationManagerUniversalId The organizationManagerUniversalId to set.
-     * 
      */
     public void setOrganizationManagerUniversalId(String organizationManagerUniversalId) {
         this.organizationManagerUniversalId = organizationManagerUniversalId;
@@ -139,7 +133,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationName attribute.
      * 
      * @return Returns the organizationName
-     * 
      */
     public String getOrganizationName() {
         return organizationName;
@@ -149,7 +142,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationName attribute.
      * 
      * @param organizationName The organizationName to set.
-     * 
      */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
@@ -160,7 +152,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the responsibilityCenterCode attribute.
      * 
      * @return Returns the responsibilityCenterCode
-     * 
      */
     public String getResponsibilityCenterCode() {
         return responsibilityCenterCode;
@@ -170,7 +161,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the responsibilityCenterCode attribute.
      * 
      * @param responsibilityCenterCode The responsibilityCenterCode to set.
-     * 
      */
     public void setResponsibilityCenterCode(String responsibilityCenterCode) {
         this.responsibilityCenterCode = responsibilityCenterCode;
@@ -181,7 +171,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPhysicalCampusCode attribute.
      * 
      * @return Returns the organizationPhysicalCampusCode
-     * 
      */
     public String getOrganizationPhysicalCampusCode() {
         return organizationPhysicalCampusCode;
@@ -191,7 +180,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationPhysicalCampusCode attribute.
      * 
      * @param organizationPhysicalCampusCode The organizationPhysicalCampusCode to set.
-     * 
      */
     public void setOrganizationPhysicalCampusCode(String organizationPhysicalCampusCode) {
         this.organizationPhysicalCampusCode = organizationPhysicalCampusCode;
@@ -202,7 +190,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationTypeCode attribute.
      * 
      * @return Returns the organizationTypeCode
-     * 
      */
     public String getOrganizationTypeCode() {
         return organizationTypeCode;
@@ -212,7 +199,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationTypeCode attribute.
      * 
      * @param organizationTypeCode The organizationTypeCode to set.
-     * 
      */
     public void setOrganizationTypeCode(String organizationTypeCode) {
         this.organizationTypeCode = organizationTypeCode;
@@ -223,7 +209,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationDefaultAccountNumber attribute.
      * 
      * @return Returns the organizationDefaultAccountNumber
-     * 
      */
     public String getOrganizationDefaultAccountNumber() {
         return organizationDefaultAccountNumber;
@@ -233,7 +218,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationDefaultAccountNumber attribute.
      * 
      * @param organizationDefaultAccountNumber The organizationDefaultAccountNumber to set.
-     * 
      */
     public void setOrganizationDefaultAccountNumber(String organizationDefaultAccountNumber) {
         this.organizationDefaultAccountNumber = organizationDefaultAccountNumber;
@@ -243,7 +227,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationCityName attribute.
      * 
      * @return Returns the organizationCityName
-     * 
      */
     public String getOrganizationCityName() {
         return organizationCityName;
@@ -253,7 +236,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationCityName attribute.
      * 
      * @param organizationCityName The organizationCityName to set.
-     * 
      */
     public void setOrganizationCityName(String organizationCityName) {
         this.organizationCityName = organizationCityName;
@@ -264,7 +246,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationStateCode attribute.
      * 
      * @return Returns the organizationStateCode
-     * 
      */
     public String getOrganizationStateCode() {
         return organizationStateCode;
@@ -274,7 +255,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationStateCode attribute.
      * 
      * @param organizationStateCode The organizationStateCode to set.
-     * 
      */
     public void setOrganizationStateCode(String organizationStateCode) {
         this.organizationStateCode = organizationStateCode;
@@ -285,7 +265,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationZipCode attribute.
      * 
      * @return Returns the organizationZipCode
-     * 
      */
     public String getOrganizationZipCode() {
         return organizationZipCode;
@@ -295,7 +274,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationZipCode attribute.
      * 
      * @param organizationZipCode The organizationZipCode to set.
-     * 
      */
     public void setOrganizationZipCode(String organizationZipCode) {
         this.organizationZipCode = organizationZipCode;
@@ -306,7 +284,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationBeginDate attribute.
      * 
      * @return Returns the organizationBeginDate
-     * 
      */
     public Date getOrganizationBeginDate() {
         return organizationBeginDate;
@@ -316,7 +293,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationBeginDate attribute.
      * 
      * @param organizationBeginDate The organizationBeginDate to set.
-     * 
      */
     public void setOrganizationBeginDate(Date organizationBeginDate) {
         this.organizationBeginDate = organizationBeginDate;
@@ -327,7 +303,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationEndDate attribute.
      * 
      * @return Returns the organizationEndDate
-     * 
      */
     public Date getOrganizationEndDate() {
         return organizationEndDate;
@@ -337,7 +312,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationEndDate attribute.
      * 
      * @param organizationEndDate The organizationEndDate to set.
-     * 
      */
     public void setOrganizationEndDate(Date organizationEndDate) {
         this.organizationEndDate = organizationEndDate;
@@ -348,7 +322,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the reportsToChartOfAccountsCode attribute.
      * 
      * @return Returns the reportsToChartOfAccountsCode
-     * 
      */
     public String getReportsToChartOfAccountsCode() {
         return reportsToChartOfAccountsCode;
@@ -358,7 +331,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the reportsToChartOfAccountsCode attribute.
      * 
      * @param reportsToChartOfAccountsCode The reportsToChartOfAccountsCode to set.
-     * 
      */
     public void setReportsToChartOfAccountsCode(String reportsToChartOfAccountsCode) {
         this.reportsToChartOfAccountsCode = reportsToChartOfAccountsCode;
@@ -369,7 +341,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the reportsToOrganizationCode attribute.
      * 
      * @return Returns the reportsToOrganizationCode
-     * 
      */
     public String getReportsToOrganizationCode() {
         return reportsToOrganizationCode;
@@ -379,7 +350,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the reportsToOrganizationCode attribute.
      * 
      * @param reportsToOrganizationCode The reportsToOrganizationCode to set.
-     * 
      */
     public void setReportsToOrganizationCode(String reportsToOrganizationCode) {
         this.reportsToOrganizationCode = reportsToOrganizationCode;
@@ -390,7 +360,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationActiveIndicator attribute.
      * 
      * @return Returns the organizationActiveIndicator
-     * 
      */
     public boolean isOrganizationActiveIndicator() {
         return organizationActiveIndicator;
@@ -401,7 +370,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationActiveIndicator attribute.
      * 
      * @param organizationActiveIndicator The organizationActiveIndicator to set.
-     * 
      */
     public void setOrganizationActiveIndicator(boolean organizationActiveIndicator) {
         this.organizationActiveIndicator = organizationActiveIndicator;
@@ -412,7 +380,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationInFinancialProcessingIndicator attribute.
      * 
      * @return Returns the organizationInFinancialProcessingIndicator
-     * 
      */
     public boolean isOrganizationInFinancialProcessingIndicator() {
         return organizationInFinancialProcessingIndicator;
@@ -423,7 +390,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationInFinancialProcessingIndicator attribute.
      * 
      * @param organizationInFinancialProcessingIndicator The organizationInFinancialProcessingIndicator to set.
-     * 
      */
     public void setOrganizationInFinancialProcessingIndicator(boolean organizationInFinancialProcessingIndicator) {
         this.organizationInFinancialProcessingIndicator = organizationInFinancialProcessingIndicator;
@@ -434,7 +400,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPlantAccountNumber attribute.
      * 
      * @return Returns the organizationPlantAccountNumber
-     * 
      */
     public String getOrganizationPlantAccountNumber() {
         return organizationPlantAccountNumber;
@@ -444,7 +409,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationPlantAccountNumber attribute.
      * 
      * @param organizationPlantAccountNumber The organizationPlantAccountNumber to set.
-     * 
      */
     public void setOrganizationPlantAccountNumber(String organizationPlantAccountNumber) {
         this.organizationPlantAccountNumber = organizationPlantAccountNumber;
@@ -455,7 +419,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the campusPlantAccountNumber attribute.
      * 
      * @return Returns the campusPlantAccountNumber
-     * 
      */
     public String getCampusPlantAccountNumber() {
         return campusPlantAccountNumber;
@@ -465,7 +428,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the campusPlantAccountNumber attribute.
      * 
      * @param campusPlantAccountNumber The campusPlantAccountNumber to set.
-     * 
      */
     public void setCampusPlantAccountNumber(String campusPlantAccountNumber) {
         this.campusPlantAccountNumber = campusPlantAccountNumber;
@@ -476,7 +438,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPlantChartCode attribute.
      * 
      * @return Returns the organizationPlantChartCode
-     * 
      */
     public String getOrganizationPlantChartCode() {
         return organizationPlantChartCode;
@@ -486,7 +447,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the organizationPlantChartCode attribute.
      * 
      * @param organizationPlantChartCode The organizationPlantChartCode to set.
-     * 
      */
     public void setOrganizationPlantChartCode(String organizationPlantChartCode) {
         this.organizationPlantChartCode = organizationPlantChartCode;
@@ -497,7 +457,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the campusPlantChartCode attribute.
      * 
      * @return Returns the campusPlantChartCode
-     * 
      */
     public String getCampusPlantChartCode() {
         return campusPlantChartCode;
@@ -507,7 +466,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Sets the campusPlantChartCode attribute.
      * 
      * @param campusPlantChartCode The campusPlantChartCode to set.
-     * 
      */
     public void setCampusPlantChartCode(String campusPlantChartCode) {
         this.campusPlantChartCode = campusPlantChartCode;
@@ -571,7 +529,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -591,7 +548,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationDefaultAccount attribute.
      * 
      * @return Returns the organizationDefaultAccount
-     * 
      */
     public Account getOrganizationDefaultAccount() {
         return organizationDefaultAccount;
@@ -611,7 +567,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organization attribute.
      * 
      * @return Returns the organization
-     * 
      */
     public Org getOrganization() {
         return organization;
@@ -631,7 +586,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPhysicalCampus attribute.
      * 
      * @return Returns the organizationPhysicalCampus
-     * 
      */
     public Campus getOrganizationPhysicalCampus() {
         return organizationPhysicalCampus;
@@ -651,7 +605,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the reportsToOrganization attribute.
      * 
      * @return Returns the reportsToOrganization
-     * 
      */
     public Org getReportsToOrganization() {
         return reportsToOrganization;
@@ -671,7 +624,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the reportsToChartOfAccounts attribute.
      * 
      * @return Returns the reportsToChartOfAccounts
-     * 
      */
     public Chart getReportsToChartOfAccounts() {
         return reportsToChartOfAccounts;
@@ -691,7 +643,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPlantAccount attribute.
      * 
      * @return Returns the organizationPlantAccount
-     * 
      */
     public Account getOrganizationPlantAccount() {
         return organizationPlantAccount;
@@ -711,7 +662,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the campusPlantAccount attribute.
      * 
      * @return Returns the campusPlantAccount
-     * 
      */
     public Account getCampusPlantAccount() {
         return campusPlantAccount;
@@ -731,7 +681,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the organizationPlantChart attribute.
      * 
      * @return Returns the organizationPlantChart
-     * 
      */
     public Chart getOrganizationPlantChart() {
         return organizationPlantChart;
@@ -751,7 +700,6 @@ public class PriorYearOrganization extends PersistableBusinessObjectBase {
      * Gets the campusPlantChart attribute.
      * 
      * @return Returns the campusPlantChart
-     * 
      */
     public Chart getCampusPlantChart() {
         return campusPlantChart;

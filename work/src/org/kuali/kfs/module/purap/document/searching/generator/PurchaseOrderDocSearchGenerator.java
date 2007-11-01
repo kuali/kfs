@@ -33,9 +33,9 @@ import edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent;
  */
 public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDocSearchGenerator.class);
-    
+
     private boolean usingIncompleteStatusCriteria = false;
-    
+
     /**
      * @see org.kuali.workflow.module.purap.docsearch.KualiPurApDocumentSearchGenerator#getErrorMessageForNonSpecialUserInvalidCriteria()
      */
@@ -84,7 +84,8 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
     }
 
     /**
-     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent, java.lang.String, int)
+     * @see edu.iu.uis.eden.docsearch.StandardDocumentSearchGenerator#generateSearchableAttributeSql(edu.iu.uis.eden.docsearch.SearchAttributeCriteriaComponent,
+     *      java.lang.String, int)
      */
     @Override
     protected QueryComponent generateSearchableAttributeSql(SearchAttributeCriteriaComponent criteriaComponent, String whereSqlStarter, int tableIndex) {
@@ -92,17 +93,17 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
             if (isIncompleteStatusBeingUsed(criteriaComponent)) {
                 usingIncompleteStatusCriteria = true;
             }
-        } else if ("purchaseOrderDocumentStatusCode".equals(criteriaComponent.getFormKey())) {
+        }
+        else if ("purchaseOrderDocumentStatusCode".equals(criteriaComponent.getFormKey())) {
             // if we've previous found the criteria object for incomplete or if we find it now... exclude the statuses in criteria
-            if (usingIncompleteStatusCriteria || 
-                isIncompleteStatusBeingUsed(getSearchableAttributeByFieldName(KualiPurchaseOrderIncompleteStatusesAttribute.FIELD_DEF_NAME))) {
+            if (usingIncompleteStatusCriteria || isIncompleteStatusBeingUsed(getSearchableAttributeByFieldName(KualiPurchaseOrderIncompleteStatusesAttribute.FIELD_DEF_NAME))) {
                 // found the incomplete status checkbox value so ignore the status code search attribute entry
                 return new QueryComponent();
             }
         }
         return super.generateSearchableAttributeSql(criteriaComponent, whereSqlStarter, tableIndex);
     }
-    
+
     private boolean isIncompleteStatusBeingUsed(SearchAttributeCriteriaComponent incompleteStatusComponent) {
         return ((ObjectUtils.isNotNull(incompleteStatusComponent)) && (KualiPurchaseOrderIncompleteStatusesAttribute.VALUE_FOR_YES.equals(incompleteStatusComponent)));
     }

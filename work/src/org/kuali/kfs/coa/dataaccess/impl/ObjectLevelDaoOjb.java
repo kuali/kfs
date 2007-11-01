@@ -28,7 +28,6 @@ public class ObjectLevelDaoOjb extends PlatformAwareDaoBaseOjb implements Object
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectLevelDaoOjb.class);
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.ObjectLevelDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public ObjLevel getByPrimaryId(String chartOfAccountsCode, String objectLevelCode) {

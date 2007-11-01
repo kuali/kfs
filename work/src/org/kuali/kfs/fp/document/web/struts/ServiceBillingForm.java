@@ -19,8 +19,6 @@ import org.kuali.module.financial.document.ServiceBillingDocument;
 
 /**
  * This class is the action form for Service Billing.
- * 
- * 
  */
 public class ServiceBillingForm extends InternalBillingForm {
     public ServiceBillingForm() {

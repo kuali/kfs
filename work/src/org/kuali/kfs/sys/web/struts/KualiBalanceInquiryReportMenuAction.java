@@ -33,8 +33,6 @@ import org.kuali.kfs.web.struts.form.KualiBalanceInquiryReportMenuForm;
 
 /**
  * This class handles Actions for the balance inquiry report menu
- * 
- * 
  */
 public class KualiBalanceInquiryReportMenuAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KualiBalanceInquiryReportMenuAction.class);

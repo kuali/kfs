@@ -39,11 +39,11 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
     private Map reportsTo;
 
     public ObjectCodePreRules() {
-    	if ( objectLevelService == null ) {
-    		objectLevelService = SpringContext.getBean(ObjectLevelService.class);
-    		chartService = SpringContext.getBean(ChartService.class);
-    	}
-    	
+        if (objectLevelService == null) {
+            objectLevelService = SpringContext.getBean(ObjectLevelService.class);
+            chartService = SpringContext.getBean(ChartService.class);
+        }
+
         reportsTo = chartService.getReportsToHierarchy();
     }
 
@@ -68,16 +68,15 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
 
         // force reportsTo to the right value regardless of user input
         newObjectCode.setReportsToChartOfAccountsCode(reportsToChart);
-        
+
         // If Object Level is inactive, ask user confirmation question
-        ObjLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());         
+        ObjLevel financialObjectLevel = objectLevelService.getByPrimaryId(chart, newObjectCode.getFinancialObjectLevelCode());
         if (!(financialObjectLevel == null)) {
-            if (!financialObjectLevel.isFinancialObjectLevelActiveIndicator()){
+            if (!financialObjectLevel.isFinancialObjectLevelActiveIndicator()) {
                 String objectLevelChartOfAccountCode = financialObjectLevel.getChartOfAccountsCode();
                 String objectLevelFinancialObjectLevelCode = financialObjectLevel.getFinancialObjectLevelCode();
                 String objectLevelFinancialObjectLevelName = financialObjectLevel.getFinancialObjectLevelName();
-                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                        KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
+                String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSKeyConstants.ObjectCode.QUESTION_INACTIVE_OBJECT_LEVEL_CONFIRMATION);
                 questionText = StringUtils.replace(questionText, "{0}", objectLevelChartOfAccountCode);
                 questionText = StringUtils.replace(questionText, "{1}", objectLevelFinancialObjectLevelCode);
                 questionText = StringUtils.replace(questionText, "{2}", objectLevelFinancialObjectLevelName);
@@ -85,7 +84,7 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
                 if (!useInactiveObjectLevel) {
                     event.setActionForwardName(KFSConstants.MAPPING_BASIC);
                     return false;
-                }                                     
+                }
             }
         }
 

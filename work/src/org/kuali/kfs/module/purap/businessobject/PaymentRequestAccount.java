@@ -27,13 +27,13 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
 
     private KualiDecimal disencumberedAmount = KualiDecimal.ZERO;
     private PaymentRequestItem paymentRequestItem;
-    
-	/**
-	 * Default constructor.
-	 */
-	public PaymentRequestAccount() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public PaymentRequestAccount() {
+
+    }
 
     /**
      * Constructor.

@@ -15,22 +15,18 @@
  */
 package org.kuali.module.kra.service;
 
-import org.kuali.core.util.OjbCollectionAware;
 import org.kuali.module.kra.document.ResearchDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * This class...
- * 
- * 
  */
 public interface ResearchDocumentService {
 
     /**
      * This method will prepare a research document for being saved. This will include cleansing lists of deleted items and removing
      * dependencies of deleted items.
-     * 
      */
     public void prepareResearchDocumentForSave(ResearchDocument researchDocument) throws WorkflowException;
 

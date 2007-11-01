@@ -24,12 +24,9 @@ import org.kuali.kfs.bo.AccountingLine;
 
 /**
  * Util class to consolidate BA accounting line code
- * 
- * 
  */
 public class BudgetAdjustmentAccountingLineUtil {
     /**
-     * 
      * initialize attributes
      * 
      * @param accountingLine
@@ -108,7 +105,6 @@ public class BudgetAdjustmentAccountingLineUtil {
     }
 
     /**
-     * 
      * calculates monthlyLines total amount@param accountingLine
      * 
      * @return

@@ -28,14 +28,13 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.ICRTypeCode;
 
 /**
- * 
  * This class creates a new finder for our forms view (creates a drop-down of {@link ICRTypeCode}s)
  */
 public class ICRTypeValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link ICRTypeCode}s using their code as their key, and
-     * their code "-" name as the display value
+     * Creates a list of {@link ICRTypeCode}s using their code as their key, and their code "-" name as the display value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

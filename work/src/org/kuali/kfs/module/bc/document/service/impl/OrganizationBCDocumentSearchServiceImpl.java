@@ -31,7 +31,8 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
     private OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao;
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String,
+     *      java.lang.Integer)
      */
     public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
 
@@ -40,7 +41,8 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
     }
 
     /**
-     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#cleanAccountSelectPullList(java.lang.String, java.lang.Integer)
+     * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#cleanAccountSelectPullList(java.lang.String,
+     *      java.lang.Integer)
      */
     public void cleanAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
 
@@ -49,6 +51,7 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
 
     /**
      * Sets the organizationBCDocumentSearchDao attribute value.
+     * 
      * @param organizationBCDocumentSearchDao The organizationBCDocumentSearchDao to set.
      */
     public void setOrganizationBCDocumentSearchDao(OrganizationBCDocumentSearchDao organizationBCDocumentSearchDao) {

@@ -25,8 +25,6 @@ import org.kuali.module.gl.bo.Transaction;
 /**
  * This class provides a placeholder that can connect General Ledger business object with financial document in the presentation
  * tier. The typical method is to generate url for the inquirable financial document.
- * 
- * 
  */
 public class InquirableFinancialDocument {
 

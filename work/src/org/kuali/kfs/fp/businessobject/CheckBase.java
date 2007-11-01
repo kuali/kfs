@@ -27,8 +27,6 @@ import org.kuali.core.util.NumberUtils;
 /**
  * This class represents a check in the system. It is a generalized check business object that will be used by the Cash Receipts
  * document, the Cashier document, etc.
- * 
- * 
  */
 
 public class CheckBase extends PersistableBusinessObjectBase implements Check {
@@ -41,7 +39,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     private String financialDocumentTypeCode;
     private String cashieringRecordSource;
     private Integer financialDocumentDepositLineNumber;
-    
+
     /**
      * Constructs a CheckBase business object.
      */
@@ -161,7 +159,8 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * Gets the cashieringRecordSource attribute. 
+     * Gets the cashieringRecordSource attribute.
+     * 
      * @return Returns the cashieringRecordSource.
      */
     public String getCashieringRecordSource() {
@@ -170,6 +169,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
     /**
      * Sets the cashieringRecordSource attribute value.
+     * 
      * @param cashieringRecordSource The cashieringRecordSource to set.
      */
     public void setCashieringRecordSource(String financialDocumentColumnTypeCode) {
@@ -177,7 +177,8 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * Gets the financialDocumentTypeCode attribute. 
+     * Gets the financialDocumentTypeCode attribute.
+     * 
      * @return Returns the financialDocumentTypeCode.
      */
     public String getFinancialDocumentTypeCode() {
@@ -186,6 +187,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
     /**
      * Sets the financialDocumentTypeCode attribute value.
+     * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
@@ -193,7 +195,8 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
     }
 
     /**
-     * Gets the financialDocumentDepositLineNumber attribute. 
+     * Gets the financialDocumentDepositLineNumber attribute.
+     * 
      * @return Returns the financialDocumentDepositLineNumber.
      */
     public Integer getFinancialDocumentDepositLineNumber() {
@@ -202,6 +205,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
 
     /**
      * Sets the financialDocumentDepositLineNumber attribute value.
+     * 
      * @param financialDocumentDepositLineNumber The financialDocumentDepositLineNumber to set.
      */
     public void setFinancialDocumentDepositLineNumber(Integer financialDocumentDepositLineNumber) {
@@ -223,7 +227,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
         m.put("documentHeaderId", this.documentNumber);
         m.put("financialDocumentTypeCode", this.financialDocumentTypeCode);
         m.put("cashieringRecordSource", this.cashieringRecordSource);
-        
+
         return m;
     }
 
@@ -240,7 +244,7 @@ public class CheckBase extends PersistableBusinessObjectBase implements Check {
                     if (StringUtils.equals(documentNumber, other.getDocumentNumber())) {
                         if (NumberUtils.equals(sequenceId, other.getSequenceId())) {
                             if (NumberUtils.equals(financialDocumentDepositLineNumber, other.getFinancialDocumentDepositLineNumber())) {
-    
+
                                 if (DateUtils.isSameDay(checkDate, other.getCheckDate())) {
                                     if ((amount != null) && amount.equals(other.getAmount())) {
                                         like = true;

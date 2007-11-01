@@ -25,41 +25,41 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class VendorStipulation extends PersistableBusinessObjectBase {
 
-	private Integer vendorStipulationIdentifier;
-	private String vendorStipulationName;
-	private String vendorStipulationDescription;
-	private boolean active;
+    private Integer vendorStipulationIdentifier;
+    private String vendorStipulationName;
+    private String vendorStipulationDescription;
+    private boolean active;
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorStipulation() {
+    /**
+     * Default constructor.
+     */
+    public VendorStipulation() {
 
-	}
+    }
 
-	public Integer getVendorStipulationIdentifier() { 
-		return vendorStipulationIdentifier;
-	}
+    public Integer getVendorStipulationIdentifier() {
+        return vendorStipulationIdentifier;
+    }
 
-	public void setVendorStipulationIdentifier(Integer vendorStipulationIdentifier) {
-		this.vendorStipulationIdentifier = vendorStipulationIdentifier;
-	}
+    public void setVendorStipulationIdentifier(Integer vendorStipulationIdentifier) {
+        this.vendorStipulationIdentifier = vendorStipulationIdentifier;
+    }
 
-	public String getVendorStipulationName() { 
-		return vendorStipulationName;
-	}
+    public String getVendorStipulationName() {
+        return vendorStipulationName;
+    }
 
-	public void setVendorStipulationName(String vendorStipulationName) {
-		this.vendorStipulationName = vendorStipulationName;
-	}
+    public void setVendorStipulationName(String vendorStipulationName) {
+        this.vendorStipulationName = vendorStipulationName;
+    }
 
-	public String getVendorStipulationDescription() { 
-		return vendorStipulationDescription;
-	}
+    public String getVendorStipulationDescription() {
+        return vendorStipulationDescription;
+    }
 
     public void setVendorStipulationDescription(String vendorStipulationDescription) {
-		this.vendorStipulationDescription = vendorStipulationDescription;
-	}
+        this.vendorStipulationDescription = vendorStipulationDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -70,14 +70,14 @@ public class VendorStipulation extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorStipulationIdentifier != null) {
             m.put("vendorStipulationIdentifier", this.vendorStipulationIdentifier.toString());
         }
         return m;
     }
-    
+
 }

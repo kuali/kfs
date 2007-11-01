@@ -29,20 +29,25 @@ import org.springframework.transaction.annotation.Transactional;
  * @param chartOfAccountsCode The FIN_COA_CD that is being searched for
  * @param organizationCode the ORG_CD that is being searched for
  * @return BudgetConstructionOrganizationReports Business Object
- * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String, java.lang.String)
+ * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
+ *      java.lang.String)
  */
 @Transactional
 public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetConstructionOrganizationReportsService {
 
     private BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao;
+
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getByPrimaryId(java.lang.String,
+     *      java.lang.String)
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return budgetConstructionOrganizationReportsDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
+
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String,
+     *      java.lang.String)
      */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode) {
 
@@ -55,22 +60,28 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
 
         return budgetConstructionOrganizationReportsDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
+
     /**
-     * Gets the budgetConstructionOrganizationReportsDao attribute. 
+     * Gets the budgetConstructionOrganizationReportsDao attribute.
+     * 
      * @return Returns the budgetConstructionOrganizationReportsDao.
      */
     public BudgetConstructionOrganizationReportsDao getBudgetConstructionOrganizationReportsDao() {
         return budgetConstructionOrganizationReportsDao;
     }
+
     /**
      * Sets the budgetConstructionOrganizationReportsDao attribute value.
+     * 
      * @param budgetConstructionOrganizationReportsDao The budgetConstructionOrganizationReportsDao to set.
      */
     public void setBudgetConstructionOrganizationReportsDao(BudgetConstructionOrganizationReportsDao budgetConstructionOrganizationReportsDao) {
         this.budgetConstructionOrganizationReportsDao = budgetConstructionOrganizationReportsDao;
     }
+
     /**
-     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#isLeafOrg(java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#isLeafOrg(java.lang.String,
+     *      java.lang.String)
      */
     public boolean isLeafOrg(String chartOfAccountsCode, String organizationCode) {
 
@@ -80,7 +91,7 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
         if (StringUtils.isBlank(organizationCode)) {
             throw new IllegalArgumentException("String parameter organizationCode was null or blank.");
         }
-        
+
         return budgetConstructionOrganizationReportsDao.isLeafOrg(chartOfAccountsCode, organizationCode);
     }
 

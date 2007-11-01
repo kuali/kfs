@@ -20,11 +20,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.util.spring.Cached;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.dao.OptionsDao;
 import org.kuali.kfs.service.KualiCodeService;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.dao.BalanceTypeDao;
 import org.kuali.module.chart.service.BalanceTypService;
@@ -44,10 +42,10 @@ public class BalanceTypServiceImpl implements BalanceTypService {
 
     private KualiCodeService kualiCodeService;
     private BalanceTypeDao balanceTypeDao;
-    
+
     private UniversityDateService universityDateService;
     private OptionsDao optionsDao;
-    
+
     /**
      * @see org.kuali.module.chart.service.BalanceTypService#getActualBalanceTyp()
      */
@@ -56,7 +54,6 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.service.BalanceTypService#getEncumbranceBalanceTypes()
      */
     public Collection getEncumbranceBalanceTypes() {
@@ -99,7 +96,7 @@ public class BalanceTypServiceImpl implements BalanceTypService {
     public void setOptionsDao(OptionsDao optionsDao) {
         this.optionsDao = optionsDao;
     }
-    
+
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
     }

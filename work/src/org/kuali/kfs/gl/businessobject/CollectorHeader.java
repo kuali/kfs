@@ -15,199 +15,185 @@ import org.kuali.module.chart.bo.Org;
  */
 public class CollectorHeader extends PersistableBusinessObjectBase {
 
-	private String chartOfAccountsCode;
-	private String organizationCode;
-	private Date processTransmissionDate;
-	private Integer processBatchSequenceNumber;
-	private Integer processTotalRecordCount;
-	private KualiDecimal processTotalAmount;
+    private String chartOfAccountsCode;
+    private String organizationCode;
+    private Date processTransmissionDate;
+    private Integer processBatchSequenceNumber;
+    private Integer processTotalRecordCount;
+    private KualiDecimal processTotalAmount;
     private String campusCode;
     private String contactPersonPhoneNumber;
     private String contactMailingAddress;
     private String contactDepartmentName;
-    
+
     private Org organization;
-	private Chart chartOfAccounts;
+    private Chart chartOfAccounts;
     private Campus campus;
 
-	/**
-	 * Default constructor.
-	 */
-	public CollectorHeader() {
+    /**
+     * Default constructor.
+     */
+    public CollectorHeader() {
 
-	}
+    }
 
-	/**
-	 * Gets the chartOfAccountsCode attribute.
-	 * 
-	 * @return Returns the chartOfAccountsCode
-	 * 
-	 */
-	public String getChartOfAccountsCode() { 
-		return chartOfAccountsCode;
-	}
+    /**
+     * Gets the chartOfAccountsCode attribute.
+     * 
+     * @return Returns the chartOfAccountsCode
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
 
-	/**
-	 * Sets the chartOfAccountsCode attribute.
-	 * 
-	 * @param chartOfAccountsCode The chartOfAccountsCode to set.
-	 * 
-	 */
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    /**
+     * Sets the chartOfAccountsCode attribute.
+     * 
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
 
 
-	/**
-	 * Gets the organizationCode attribute.
-	 * 
-	 * @return Returns the organizationCode
-	 * 
-	 */
-	public String getOrganizationCode() { 
-		return organizationCode;
-	}
+    /**
+     * Gets the organizationCode attribute.
+     * 
+     * @return Returns the organizationCode
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
 
-	/**
-	 * Sets the organizationCode attribute.
-	 * 
-	 * @param organizationCode The organizationCode to set.
-	 * 
-	 */
-	public void setOrganizationCode(String organizationCode) {
-		this.organizationCode = organizationCode;
-	}
+    /**
+     * Sets the organizationCode attribute.
+     * 
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
+    }
 
 
-	/**
-	 * Gets the processTransmissionDate attribute.
-	 * 
-	 * @return Returns the processTransmissionDate
-	 * 
-	 */
-	public Date getProcessTransmissionDate() { 
-		return processTransmissionDate;
-	}
+    /**
+     * Gets the processTransmissionDate attribute.
+     * 
+     * @return Returns the processTransmissionDate
+     */
+    public Date getProcessTransmissionDate() {
+        return processTransmissionDate;
+    }
 
-	/**
-	 * Sets the processTransmissionDate attribute.
-	 * 
-	 * @param processTransmissionDate The processTransmissionDate to set.
-	 * 
-	 */
-	public void setProcessTransmissionDate(Date processTransmissionDate) {
-		this.processTransmissionDate = processTransmissionDate;
-	}
+    /**
+     * Sets the processTransmissionDate attribute.
+     * 
+     * @param processTransmissionDate The processTransmissionDate to set.
+     */
+    public void setProcessTransmissionDate(Date processTransmissionDate) {
+        this.processTransmissionDate = processTransmissionDate;
+    }
 
 
-	/**
-	 * Gets the processBatchSequenceNumber attribute.
-	 * 
-	 * @return Returns the processBatchSequenceNumber
-	 * 
-	 */
-	public Integer getProcessBatchSequenceNumber() { 
-		return processBatchSequenceNumber;
-	}
+    /**
+     * Gets the processBatchSequenceNumber attribute.
+     * 
+     * @return Returns the processBatchSequenceNumber
+     */
+    public Integer getProcessBatchSequenceNumber() {
+        return processBatchSequenceNumber;
+    }
 
-	/**
-	 * Sets the processBatchSequenceNumber attribute.
-	 * 
-	 * @param processBatchSequenceNumber The processBatchSequenceNumber to set.
-	 * 
-	 */
-	public void setProcessBatchSequenceNumber(Integer processBatchSequenceNumber) {
-		this.processBatchSequenceNumber = processBatchSequenceNumber;
-	}
+    /**
+     * Sets the processBatchSequenceNumber attribute.
+     * 
+     * @param processBatchSequenceNumber The processBatchSequenceNumber to set.
+     */
+    public void setProcessBatchSequenceNumber(Integer processBatchSequenceNumber) {
+        this.processBatchSequenceNumber = processBatchSequenceNumber;
+    }
 
 
-	/**
-	 * Gets the processTotalRecordCount attribute.
-	 * 
-	 * @return Returns the processTotalRecordCount
-	 * 
-	 */
-	public Integer getProcessTotalRecordCount() { 
-		return processTotalRecordCount;
-	}
+    /**
+     * Gets the processTotalRecordCount attribute.
+     * 
+     * @return Returns the processTotalRecordCount
+     */
+    public Integer getProcessTotalRecordCount() {
+        return processTotalRecordCount;
+    }
 
-	/**
-	 * Sets the processTotalRecordCount attribute.
-	 * 
-	 * @param processTotalRecordCount The processTotalRecordCount to set.
-	 * 
-	 */
-	public void setProcessTotalRecordCount(Integer processTotalRecordCount) {
-		this.processTotalRecordCount = processTotalRecordCount;
-	}
+    /**
+     * Sets the processTotalRecordCount attribute.
+     * 
+     * @param processTotalRecordCount The processTotalRecordCount to set.
+     */
+    public void setProcessTotalRecordCount(Integer processTotalRecordCount) {
+        this.processTotalRecordCount = processTotalRecordCount;
+    }
 
 
-	/**
-	 * Gets the processTotalAmount attribute.
-	 * 
-	 * @return Returns the processTotalAmount
-	 * 
-	 */
-	public KualiDecimal getProcessTotalAmount() { 
-		return processTotalAmount;
-	}
+    /**
+     * Gets the processTotalAmount attribute.
+     * 
+     * @return Returns the processTotalAmount
+     */
+    public KualiDecimal getProcessTotalAmount() {
+        return processTotalAmount;
+    }
 
-	/**
-	 * Sets the processTotalAmount attribute.
-	 * 
-	 * @param processTotalAmount The processTotalAmount to set.
-	 * 
-	 */
-	public void setProcessTotalAmount(KualiDecimal processTotalAmount) {
-		this.processTotalAmount = processTotalAmount;
-	}
+    /**
+     * Sets the processTotalAmount attribute.
+     * 
+     * @param processTotalAmount The processTotalAmount to set.
+     */
+    public void setProcessTotalAmount(KualiDecimal processTotalAmount) {
+        this.processTotalAmount = processTotalAmount;
+    }
 
 
-	/**
-	 * Gets the organization attribute.
-	 * 
-	 * @return Returns the organization
-	 * 
-	 */
-	public Org getOrganization() { 
-		return organization;
-	}
+    /**
+     * Gets the organization attribute.
+     * 
+     * @return Returns the organization
+     */
+    public Org getOrganization() {
+        return organization;
+    }
 
-	/**
-	 * Sets the organization attribute.
-	 * 
-	 * @param organization The organization to set.
-	 * @deprecated
-	 */
-	public void setOrganization(Org organization) {
-		this.organization = organization;
-	}
+    /**
+     * Sets the organization attribute.
+     * 
+     * @param organization The organization to set.
+     * @deprecated
+     */
+    public void setOrganization(Org organization) {
+        this.organization = organization;
+    }
 
-	/**
-	 * Gets the chartOfAccounts attribute.
-	 * 
-	 * @return Returns the chartOfAccounts
-	 * 
-	 */
-	public Chart getChartOfAccounts() { 
-		return chartOfAccounts;
-	}
+    /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap<String, String> m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap();
         m.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
         m.put(KFSPropertyConstants.ORGANIZATION_CODE, this.organizationCode);
         if (this.processTransmissionDate != null) {
@@ -222,11 +208,12 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
         if (this.processTotalAmount != null) {
             m.put(KFSPropertyConstants.PROCESS_TOTAL_AMOUNT, this.processTotalAmount.toString());
         }
-	    return m;
+        return m;
     }
 
     /**
-     * Gets the campusCode attribute. 
+     * Gets the campusCode attribute.
+     * 
      * @return Returns the campusCode.
      */
     public String getCampusCode() {
@@ -235,6 +222,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campusCode attribute value.
+     * 
      * @param campusCode The campusCode to set.
      */
     public void setContactCampusCode(String campusCode) {
@@ -242,7 +230,8 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the departmentName attribute. 
+     * Gets the departmentName attribute.
+     * 
      * @return Returns the departmentName.
      */
     public String getContactDepartmentName() {
@@ -251,6 +240,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the departmentName attribute value.
+     * 
      * @param departmentName The departmentName to set.
      */
     public void setContactDepartmentName(String contactDepartmentName) {
@@ -258,7 +248,8 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the mailingAddress attribute. 
+     * Gets the mailingAddress attribute.
+     * 
      * @return Returns the mailingAddress.
      */
     public String getContactMailingAddress() {
@@ -267,6 +258,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the mailingAddress attribute value.
+     * 
      * @param mailingAddress The mailingAddress to set.
      */
     public void setContactMailingAddress(String contactMailingAddress) {
@@ -274,7 +266,8 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the phoneNumber attribute. 
+     * Gets the phoneNumber attribute.
+     * 
      * @return Returns the phoneNumber.
      */
     public String getContactPersonPhoneNumber() {
@@ -283,6 +276,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the phoneNumber attribute value.
+     * 
      * @param phoneNumber The phoneNumber to set.
      */
     public void setContactPersonPhoneNumber(String contactPersonPhoneNumber) {
@@ -290,7 +284,8 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the campus attribute. 
+     * Gets the campus attribute.
+     * 
      * @return Returns the campus.
      */
     public Campus getCampus() {
@@ -299,6 +294,7 @@ public class CollectorHeader extends PersistableBusinessObjectBase {
 
     /**
      * Sets the campus attribute value.
+     * 
      * @param campus The campus to set.
      */
     public void setCampus(Campus campus) {

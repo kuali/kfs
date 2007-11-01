@@ -15,20 +15,18 @@
  */
 package org.kuali.module.gl.service;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
- * Implementations of this interface are used to store a list of origin entries to be used
- * by the GLCP.  These persisted entries are not stored permanently, but are stored for a period
- * of time during the page views of a GLCP document.  This is similar to a HTTP session in that origin entries can be stored,
- * but data can be cleared out after a specific lifetime.
+ * Implementations of this interface are used to store a list of origin entries to be used by the GLCP. These persisted entries are
+ * not stored permanently, but are stored for a period of time during the page views of a GLCP document. This is similar to a HTTP
+ * session in that origin entries can be stored, but data can be cleared out after a specific lifetime.
  */
 public interface GlCorrectionProcessOriginEntryService {
-    
-    
+
+
     /**
      * Retrieves the origin entries stored under the given sequence number
      * 
@@ -37,10 +35,10 @@ public interface GlCorrectionProcessOriginEntryService {
      * @throws Exception
      */
     public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception;
-    
+
     /**
-     * Persists the origin entries under a given sequence number.  If entries are persisted again under the same sequence number, then
-     * they will be overridden.
+     * Persists the origin entries under a given sequence number. If entries are persisted again under the same sequence number,
+     * then they will be overridden.
      * 
      * @param glcpSearchResuiltsSequenceNumber a sequence number
      * @param allEntries a list of origin entries

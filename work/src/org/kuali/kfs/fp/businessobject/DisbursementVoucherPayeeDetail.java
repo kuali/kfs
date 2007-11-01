@@ -64,7 +64,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -75,7 +74,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -85,7 +83,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPaymentReasonCode attribute.
      * 
      * @return Returns the disbVchrPaymentReasonCode
-     * 
      */
     public String getDisbVchrPaymentReasonCode() {
         return disbVchrPaymentReasonCode;
@@ -96,7 +93,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPaymentReasonCode attribute.
      * 
      * @param disbVchrPaymentReasonCode The disbVchrPaymentReasonCode to set.
-     * 
      */
     public void setDisbVchrPaymentReasonCode(String disbVchrPaymentReasonCode) {
         this.disbVchrPaymentReasonCode = disbVchrPaymentReasonCode;
@@ -106,7 +102,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrAlienPaymentCode attribute.
      * 
      * @return Returns the disbVchrAlienPaymentCode
-     * 
      */
     public boolean isDisbVchrAlienPaymentCode() {
         return disbVchrAlienPaymentCode;
@@ -117,7 +112,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrAlienPaymentCode attribute.
      * 
      * @param disbVchrAlienPaymentCode The disbVchrAlienPaymentCode to set.
-     * 
      */
     public void setDisbVchrAlienPaymentCode(boolean disbVchrAlienPaymentCode) {
         this.disbVchrAlienPaymentCode = disbVchrAlienPaymentCode;
@@ -127,7 +121,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeIdNumber attribute.
      * 
      * @return Returns the disbVchrPayeeIdNumber
-     * 
      */
     public String getDisbVchrPayeeIdNumber() {
         return disbVchrPayeeIdNumber;
@@ -138,7 +131,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeIdNumber attribute.
      * 
      * @param disbVchrPayeeIdNumber The disbVchrPayeeIdNumber to set.
-     * 
      */
     public void setDisbVchrPayeeIdNumber(String disbVchrPayeeIdNumber) {
         this.disbVchrPayeeIdNumber = disbVchrPayeeIdNumber;
@@ -148,7 +140,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeePersonName attribute.
      * 
      * @return Returns the disbVchrPayeePersonName
-     * 
      */
     public String getDisbVchrPayeePersonName() {
         return disbVchrPayeePersonName;
@@ -159,7 +150,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeePersonName attribute.
      * 
      * @param disbVchrPayeePersonName The disbVchrPayeePersonName to set.
-     * 
      */
     public void setDisbVchrPayeePersonName(String disbVchrPayeePersonName) {
         this.disbVchrPayeePersonName = disbVchrPayeePersonName;
@@ -169,7 +159,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeLine1Addr attribute.
      * 
      * @return Returns the disbVchrPayeeLine1Addr
-     * 
      */
     public String getDisbVchrPayeeLine1Addr() {
         return disbVchrPayeeLine1Addr;
@@ -180,7 +169,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeLine1Addr attribute.
      * 
      * @param disbVchrPayeeLine1Addr The disbVchrPayeeLine1Addr to set.
-     * 
      */
     public void setDisbVchrPayeeLine1Addr(String disbVchrPayeeLine1Addr) {
         this.disbVchrPayeeLine1Addr = disbVchrPayeeLine1Addr;
@@ -190,7 +178,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeLine2Addr attribute.
      * 
      * @return Returns the disbVchrPayeeLine2Addr
-     * 
      */
     public String getDisbVchrPayeeLine2Addr() {
         return disbVchrPayeeLine2Addr;
@@ -201,7 +188,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeLine2Addr attribute.
      * 
      * @param disbVchrPayeeLine2Addr The disbVchrPayeeLine2Addr to set.
-     * 
      */
     public void setDisbVchrPayeeLine2Addr(String disbVchrPayeeLine2Addr) {
         this.disbVchrPayeeLine2Addr = disbVchrPayeeLine2Addr;
@@ -211,7 +197,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeCityName attribute.
      * 
      * @return Returns the disbVchrPayeeCityName
-     * 
      */
     public String getDisbVchrPayeeCityName() {
         return disbVchrPayeeCityName;
@@ -222,7 +207,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeCityName attribute.
      * 
      * @param disbVchrPayeeCityName The disbVchrPayeeCityName to set.
-     * 
      */
     public void setDisbVchrPayeeCityName(String disbVchrPayeeCityName) {
         this.disbVchrPayeeCityName = disbVchrPayeeCityName;
@@ -232,7 +216,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeStateCode attribute.
      * 
      * @return Returns the disbVchrPayeeStateCode
-     * 
      */
     public String getDisbVchrPayeeStateCode() {
         return disbVchrPayeeStateCode;
@@ -243,7 +226,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeStateCode attribute.
      * 
      * @param disbVchrPayeeStateCode The disbVchrPayeeStateCode to set.
-     * 
      */
     public void setDisbVchrPayeeStateCode(String disbVchrPayeeStateCode) {
         this.disbVchrPayeeStateCode = disbVchrPayeeStateCode;
@@ -253,7 +235,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeZipCode attribute.
      * 
      * @return Returns the disbVchrPayeeZipCode
-     * 
      */
     public String getDisbVchrPayeeZipCode() {
         return disbVchrPayeeZipCode;
@@ -264,7 +245,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeZipCode attribute.
      * 
      * @param disbVchrPayeeZipCode The disbVchrPayeeZipCode to set.
-     * 
      */
     public void setDisbVchrPayeeZipCode(String disbVchrPayeeZipCode) {
         this.disbVchrPayeeZipCode = disbVchrPayeeZipCode;
@@ -274,7 +254,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeCountryCode attribute.
      * 
      * @return Returns the disbVchrPayeeCountryCode
-     * 
      */
     public String getDisbVchrPayeeCountryCode() {
         return disbVchrPayeeCountryCode;
@@ -285,7 +264,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeCountryCode attribute.
      * 
      * @param disbVchrPayeeCountryCode The disbVchrPayeeCountryCode to set.
-     * 
      */
     public void setDisbVchrPayeeCountryCode(String disbVchrPayeeCountryCode) {
         this.disbVchrPayeeCountryCode = disbVchrPayeeCountryCode;
@@ -295,7 +273,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitPersonName attribute.
      * 
      * @return Returns the disbVchrRemitPersonName
-     * 
      */
     public String getDisbVchrRemitPersonName() {
         return disbVchrRemitPersonName;
@@ -306,7 +283,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitPersonName attribute.
      * 
      * @param disbVchrRemitPersonName The disbVchrRemitPersonName to set.
-     * 
      */
     public void setDisbVchrRemitPersonName(String disbVchrRemitPersonName) {
         this.disbVchrRemitPersonName = disbVchrRemitPersonName;
@@ -316,7 +292,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitLine1Addr attribute.
      * 
      * @return Returns the disbVchrRemitLine1Addr
-     * 
      */
     public String getDisbVchrRemitLine1Addr() {
         return disbVchrRemitLine1Addr;
@@ -327,7 +302,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitLine1Addr attribute.
      * 
      * @param disbVchrRemitLine1Addr The disbVchrRemitLine1Addr to set.
-     * 
      */
     public void setDisbVchrRemitLine1Addr(String disbVchrRemitLine1Addr) {
         this.disbVchrRemitLine1Addr = disbVchrRemitLine1Addr;
@@ -337,7 +311,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitLine2Addr attribute.
      * 
      * @return Returns the disbVchrRemitLine2Addr
-     * 
      */
     public String getDisbVchrRemitLine2Addr() {
         return disbVchrRemitLine2Addr;
@@ -348,7 +321,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitLine2Addr attribute.
      * 
      * @param disbVchrRemitLine2Addr The disbVchrRemitLine2Addr to set.
-     * 
      */
     public void setDisbVchrRemitLine2Addr(String disbVchrRemitLine2Addr) {
         this.disbVchrRemitLine2Addr = disbVchrRemitLine2Addr;
@@ -358,7 +330,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitCityName attribute.
      * 
      * @return Returns the disbVchrRemitCityName
-     * 
      */
     public String getDisbVchrRemitCityName() {
         return disbVchrRemitCityName;
@@ -369,7 +340,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitCityName attribute.
      * 
      * @param disbVchrRemitCityName The disbVchrRemitCityName to set.
-     * 
      */
     public void setDisbVchrRemitCityName(String disbVchrRemitCityName) {
         this.disbVchrRemitCityName = disbVchrRemitCityName;
@@ -379,7 +349,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitStateCode attribute.
      * 
      * @return Returns the disbVchrRemitStateCode
-     * 
      */
     public String getDisbVchrRemitStateCode() {
         return disbVchrRemitStateCode;
@@ -390,7 +359,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitStateCode attribute.
      * 
      * @param disbVchrRemitStateCode The disbVchrRemitStateCode to set.
-     * 
      */
     public void setDisbVchrRemitStateCode(String disbVchrRemitStateCode) {
         this.disbVchrRemitStateCode = disbVchrRemitStateCode;
@@ -400,7 +368,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitZipCode attribute.
      * 
      * @return Returns the disbVchrRemitZipCode
-     * 
      */
     public String getDisbVchrRemitZipCode() {
         return disbVchrRemitZipCode;
@@ -411,7 +378,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitZipCode attribute.
      * 
      * @param disbVchrRemitZipCode The disbVchrRemitZipCode to set.
-     * 
      */
     public void setDisbVchrRemitZipCode(String disbVchrRemitZipCode) {
         this.disbVchrRemitZipCode = disbVchrRemitZipCode;
@@ -421,7 +387,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrRemitCountryCode attribute.
      * 
      * @return Returns the disbVchrRemitCountryCode
-     * 
      */
     public String getDisbVchrRemitCountryCode() {
         return disbVchrRemitCountryCode;
@@ -432,7 +397,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrRemitCountryCode attribute.
      * 
      * @param disbVchrRemitCountryCode The disbVchrRemitCountryCode to set.
-     * 
      */
     public void setDisbVchrRemitCountryCode(String disbVchrRemitCountryCode) {
         this.disbVchrRemitCountryCode = disbVchrRemitCountryCode;
@@ -442,7 +406,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPayeeEmployeeCode attribute.
      * 
      * @return Returns the disbVchrPayeeEmployeeCode
-     * 
      */
     public boolean isDisbVchrPayeeEmployeeCode() {
         return disbVchrPayeeEmployeeCode;
@@ -453,7 +416,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the disbVchrPayeeEmployeeCode attribute.
      * 
      * @param disbVchrPayeeEmployeeCode The disbVchrPayeeEmployeeCode to set.
-     * 
      */
     public void setDisbVchrPayeeEmployeeCode(boolean disbVchrPayeeEmployeeCode) {
         this.disbVchrPayeeEmployeeCode = disbVchrPayeeEmployeeCode;
@@ -463,7 +425,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the dvPayeeRevolvingFundCode attribute.
      * 
      * @return Returns the dvPayeeRevolvingFundCode
-     * 
      */
     public boolean isDvPayeeRevolvingFundCode() {
         return dvPayeeRevolvingFundCode;
@@ -474,7 +435,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Sets the dvPayeeRevolvingFundCode attribute.
      * 
      * @param dvPayeeRevolvingFundCode The dvPayeeRevolvingFundCode to set.
-     * 
      */
     public void setDvPayeeRevolvingFundCode(boolean dvPayeeRevolvingFundCode) {
         this.dvPayeeRevolvingFundCode = dvPayeeRevolvingFundCode;
@@ -484,7 +444,6 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
      * Gets the disbVchrPaymentReason attribute.
      * 
      * @return Returns the disbVchrPaymentReason
-     * 
      */
     public PaymentReasonCode getDisbVchrPaymentReason() {
         return disbVchrPaymentReason;

@@ -22,32 +22,33 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 public interface OrganizationReversionProcessService {
     /**
      * Organization Reversion Year End Process for the end of a fiscal year
-     * 
      */
     public void organizationReversionProcessEndOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts);
 
     /**
      * Organization Reversion Year End Process for the beginning of a fiscal year
-     * 
      */
     public void organizationReversionProcessBeginningOfYear(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts);
-    
+
     /**
      * Generates reports for a run of the organization reversion process
+     * 
      * @param outputGroup
      * @param jobParameters
      * @param organizationReversionCounts
      */
     public void generateOrganizationReversionProcessReports(OriginEntryGroup outputGroup, Map jobParameters, Map<String, Integer> organizationReversionCounts);
-    
+
     /**
      * This method returns the parameters for this organization reversion job
+     * 
      * @return a Map of standard parameters for the job
      */
     public Map getJobParameters();
-    
+
     /**
      * creates an origin entry group for this run of the organization reversion process
+     * 
      * @return a properly initialized origin entry group
      */
     public OriginEntryGroup createOrganizationReversionProcessOriginEntryGroup();

@@ -18,39 +18,35 @@ package org.kuali.module.vendor.fixtures;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import org.kuali.module.vendor.fixtures.VendorTestConstants.FaxNumbers;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.fixtures.VendorTestConstants.FaxNumbers;
 
 public enum VendorRuleFaxNumberFixture {
-    
-    TWO_DEFAULT_FORMATS( FaxNumbers.defaultFormat, FaxNumbers.defaultFormat ),
-    TWO_SHORT_FAXES( FaxNumbers.shortFax, FaxNumbers.shortFax ),
-    ONE_DEFAULT_ONE_SHORT_FAX( FaxNumbers.defaultFormat, FaxNumbers.shortFax ),;
-    
+
+    TWO_DEFAULT_FORMATS(FaxNumbers.defaultFormat, FaxNumbers.defaultFormat), TWO_SHORT_FAXES(FaxNumbers.shortFax, FaxNumbers.shortFax), ONE_DEFAULT_ONE_SHORT_FAX(FaxNumbers.defaultFormat, FaxNumbers.shortFax), ;
+
     public final String fax1;
     public final String fax2;
-    
-    VendorRuleFaxNumberFixture( String fax1, String fax2 ) {
+
+    VendorRuleFaxNumberFixture(String fax1, String fax2) {
         this.fax1 = fax1;
         this.fax2 = fax2;
     }
-    
+
     /**
-     * This method does the setup for the tests which examine the implementation of the
-     * requirement that the fax numbers in the VendorAddress collection must be of a 
-     * valid format
+     * This method does the setup for the tests which examine the implementation of the requirement that the fax numbers in the
+     * VendorAddress collection must be of a valid format
      * 
-     * @param fax1  A fax number in String form
-     * @param fax2  Another fax number in String form
-     * @return  A List<VendorAddress>, appropriately populated with fax numbers.
+     * @param fax1 A fax number in String form
+     * @param fax2 Another fax number in String form
+     * @return A List<VendorAddress>, appropriately populated with fax numbers.
      */
     public List<VendorAddress> getAddresses() {
         List<VendorAddress> addrList = new ArrayList();
         VendorAddress addr1 = new VendorAddress();
         VendorAddress addr2 = new VendorAddress();
-        addr1.setVendorFaxNumber( fax1 );
-        addr2.setVendorFaxNumber( fax2 );
+        addr1.setVendorFaxNumber(fax1);
+        addr2.setVendorFaxNumber(fax2);
         addrList.add(addr1);
         addrList.add(addr2);
         return addrList;

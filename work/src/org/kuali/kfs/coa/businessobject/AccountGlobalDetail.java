@@ -34,7 +34,7 @@ import org.kuali.kfs.context.SpringContext;
 public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
 
     private static final long serialVersionUID = -6329389744704772474L;
-    private static final Logger LOG = Logger.getLogger( AccountGlobalDetail.class );
+    private static final Logger LOG = Logger.getLogger(AccountGlobalDetail.class);
 
     private String chartOfAccountsCode;
     private String accountNumber;
@@ -51,24 +51,25 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
     }
 
     /**
-     * Returns a map of the keys<propName,value> based on the primary key names of the underlying BO
-     * and reflecting into this object.
+     * Returns a map of the keys<propName,value> based on the primary key names of the underlying BO and reflecting into this
+     * object.
      */
     public Map<String, Object> getPrimaryKeys() {
         try {
-            List<String> keys = SpringContext.getBean(PersistenceStructureService.class).getPrimaryKeys( Account.class );
-            HashMap<String,Object> pks = new HashMap<String,Object>( keys.size() );
-            for ( String key : keys ) {
+            List<String> keys = SpringContext.getBean(PersistenceStructureService.class).getPrimaryKeys(Account.class);
+            HashMap<String, Object> pks = new HashMap<String, Object>(keys.size());
+            for (String key : keys) {
                 // attempt to read the property of the current object
                 // this requires that the field names match between the underlying BO object
                 // and this object
-                pks.put( key, ObjectUtils.getPropertyValue( this, key ) );
+                pks.put(key, ObjectUtils.getPropertyValue(this, key));
             }
             return pks;
-        } catch ( Exception ex ) {
-            LOG.error( "unable to get primary keys for global detail object", ex );
         }
-        return new HashMap<String,Object>( 0 );
+        catch (Exception ex) {
+            LOG.error("unable to get primary keys for global detail object", ex);
+        }
+        return new HashMap<String, Object>(0);
     }
 
     public AccountGlobalDetail(String chartOfAccountsCode, String accountNumber) {
@@ -80,7 +81,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -90,7 +90,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -101,7 +100,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -111,7 +109,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -121,7 +118,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -141,7 +137,6 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -162,7 +157,7 @@ public class AccountGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber() );
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("accountNumber", this.accountNumber);
         return m;

@@ -19,5 +19,6 @@ import org.kuali.module.gl.util.CollectorReportData;
 
 public interface CollectorReportService {
     public void sendEmails(CollectorReportData collectorReportData);
+
     public void generateCollectorRunReports(CollectorReportData collectorReportData);
 }

@@ -21,8 +21,6 @@ import org.kuali.core.service.DocumentService;
 
 /**
  * DocumentWorkflowStatusMonitor
- * 
- * 
  */
 public class DocumentWorkflowStatusMonitor extends ChangeMonitor {
     final DocumentService documentService;

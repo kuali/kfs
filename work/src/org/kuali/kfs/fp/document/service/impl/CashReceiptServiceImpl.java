@@ -49,7 +49,6 @@ import org.kuali.module.financial.service.CashReceiptService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-import edu.iu.uis.eden.workgroup.WorkgroupService;
 
 @Transactional
 public class CashReceiptServiceImpl implements CashReceiptService {
@@ -71,14 +70,14 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             throw new IllegalArgumentException("invalid (blank) campusCode");
         }
 
-        vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX")+campusCode;
-        
+        vunit = parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX") + campusCode;
+
         KualiGroup group = null;
         try {
             group = kualiGroupService.getByGroupName(vunit);
         }
         catch (GroupNotFoundException e) {
-            throw new IllegalArgumentException(vunit+" does not have a corresponding workgroup");
+            throw new IllegalArgumentException(vunit + " does not have a corresponding workgroup");
         }
 
         return vunit;
@@ -97,9 +96,9 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
         // pretend that a lookup is actually happening
         campusCode = unitName.replace(parameterService.getParameterValue(CashReceiptDocument.class, "VERIFICATION_UNIT_GROUP_PREFIX"), "").toUpperCase();
-        
+
         if (!verifyCampus(campusCode)) {
-            throw new IllegalArgumentException("The campus "+campusCode+" does not exist");
+            throw new IllegalArgumentException("The campus " + campusCode + " does not exist");
         }
 
         return campusCode;
@@ -108,19 +107,20 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * This method...
+     * 
      * @param campusCode
      */
     private boolean verifyCampus(String campusCode) {
         Iterator campiiIter = businessObjectService.findAll(Campus.class).iterator();
         boolean foundCampus = false;
         while (campiiIter.hasNext() && !foundCampus) {
-            Campus campus = (Campus)campiiIter.next();
+            Campus campus = (Campus) campiiIter.next();
             if (campus.getCampusCode().equals(campusCode)) {
                 foundCampus = true;
             }
         }
         return foundCampus;
-        
+
     }
 
 
@@ -230,7 +230,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
                 UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
 
                 workflowDocument = getWorkflowDocumentService().createWorkflowDocument(documentHeaderId, user);
-            } catch (WorkflowException e) {
+            }
+            catch (WorkflowException e) {
                 throw new InfrastructureException("unable to retrieve workflow document for documentHeaderId '" + docHeader.getDocumentNumber() + "'", e);
             }
 
@@ -248,32 +249,33 @@ public class CashReceiptServiceImpl implements CashReceiptService {
             CurrencyDetail cumulativeCurrencyDetail = cashManagementDao.findCurrencyDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCurrencyDetail.add(crDoc.getCurrencyDetail());
             businessObjectService.save(cumulativeCurrencyDetail);
-            
+
             drawer.addCurrency(crDoc.getCurrencyDetail());
         }
         if (crDoc.getCoinDetail() != null && !crDoc.getCoinDetail().isEmpty()) {
             CoinDetail cumulativeCoinDetail = cashManagementDao.findCoinDetailByCashieringRecordSource(drawer.getReferenceFinancialDocumentNumber(), CashieringTransaction.DETAIL_DOCUMENT_TYPE, KFSConstants.CurrencyCoinSources.CASH_RECEIPTS);
             cumulativeCoinDetail.add(crDoc.getCoinDetail());
             businessObjectService.save(cumulativeCoinDetail);
-            
+
             drawer.addCoin(crDoc.getCoinDetail());
         }
         SpringContext.getBean(BusinessObjectService.class).save(drawer);
     }
-    
+
     /**
      * This method finds the appropriate cash drawer for this cash receipt document to add cash to
+     * 
      * @return the right cash drawer, just the right one
      */
     private CashDrawer retrieveCashDrawer(CashReceiptDocument crDoc) {
         String workgroupName = getCashReceiptVerificationUnitForCampusCode(crDoc.getCampusLocationCode());
         if (workgroupName == null) {
-            throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: "+crDoc.getDocumentNumber());
+            throw new RuntimeException("Cannot find workgroup name for Cash Receipt document: " + crDoc.getDocumentNumber());
         }
-        
+
         CashDrawer drawer = cashDrawerService.getByWorkgroupName(workgroupName, false);
         if (drawer == null) {
-            throw new RuntimeException("There is no Cash Drawer for Workgroup "+workgroupName);
+            throw new RuntimeException("There is no Cash Drawer for Workgroup " + workgroupName);
         }
         return drawer;
     }
@@ -313,7 +315,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
 
     /**
-     * Gets the cashManagementDao attribute. 
+     * Gets the cashManagementDao attribute.
+     * 
      * @return Returns the cashManagementDao.
      */
     public CashManagementDao getCashManagementDao() {
@@ -323,6 +326,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * Sets the cashManagementDao attribute value.
+     * 
      * @param cashManagementDao The cashManagementDao to set.
      */
     public void setCashManagementDao(CashManagementDao cashManagementDao) {
@@ -330,7 +334,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
     }
 
     /**
-     * Gets the cashDrawerService attribute. 
+     * Gets the cashDrawerService attribute.
+     * 
      * @return Returns the cashDrawerService.
      */
     public CashDrawerService getCashDrawerService() {
@@ -340,6 +345,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * Sets the cashDrawerService attribute value.
+     * 
      * @param cashDrawerService The cashDrawerService to set.
      */
     public void setCashDrawerService(CashDrawerService cashDrawerService) {
@@ -348,7 +354,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
 
     /**
-     * Gets the kualiGroupService attribute. 
+     * Gets the kualiGroupService attribute.
+     * 
      * @return Returns the kualiGroupService.
      */
     public KualiGroupService getKualiGroupService() {
@@ -358,6 +365,7 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * Sets the kualiGroupService attribute value.
+     * 
      * @param kualiGroupService The kualiGroupService to set.
      */
     public void setKualiGroupService(KualiGroupService kualiGroupService) {
@@ -366,7 +374,8 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
 
     /**
-     * Gets the parameterService attribute. 
+     * Gets the parameterService attribute.
+     * 
      * @return Returns the parameterService.
      */
     public ParameterService getParameterService() {
@@ -376,11 +385,12 @@ public class CashReceiptServiceImpl implements CashReceiptService {
 
     /**
      * Sets the parameterService attribute value.
+     * 
      * @param parameterService The parameterService to set.
      */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
-    
+
+
 }

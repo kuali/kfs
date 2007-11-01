@@ -50,7 +50,7 @@ public class BudgetTaskServiceImpl implements BudgetTaskService {
         Map fieldValues = new HashMap();
         fieldValues.put(KFSPropertyConstants.DOCUMENT_NUMBER, documentNumber);
         List budgetTasks = new ArrayList(businessObjectService.findMatchingOrderBy(BudgetTask.class, fieldValues, KFSPropertyConstants.BUDGET_TASK_SEQUENCE_NUMBER, true));
-        
+
         // there should always be a budgetTask by the time we get to here, so we want an exception thrown if there's not
         return (BudgetTask) budgetTasks.get(0);
     }

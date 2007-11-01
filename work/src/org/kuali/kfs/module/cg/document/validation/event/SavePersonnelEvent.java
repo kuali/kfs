@@ -21,8 +21,6 @@ import org.kuali.core.rule.event.KualiDocumentEvent;
 
 /**
  * Class capturing a save personnel event.
- * 
- * 
  */
 public interface SavePersonnelEvent extends KualiDocumentEvent {
     /**

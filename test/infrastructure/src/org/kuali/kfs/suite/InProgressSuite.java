@@ -18,28 +18,23 @@ package org.kuali.test.suite;
 import junit.framework.TestSuite;
 
 /**
- * The suite of all test classes or methods which {@link org.kuali.test.suite.RelatesTo} a Kuali JIRA issue in-progress.
- * IDEs or Ant can run this as JUnit tests.
- *
+ * The suite of all test classes or methods which {@link org.kuali.test.suite.RelatesTo} a Kuali JIRA issue in-progress. IDEs or Ant
+ * can run this as JUnit tests.
+ * 
  * @see RelatesTo
  */
 public class InProgressSuite extends JiraRelatedSuite {
 
-    public static TestSuite suite()
-        throws Exception
-    {
+    public static TestSuite suite() throws Exception {
         return new InProgressSuite().getSuite(JiraRelatedSuite.State.IN_PROGRESS);
     }
 
     /**
-     * The suite of all test methods (including those within test class sub-suites)
-     * which do not {@link org.kuali.test.suite.RelatesTo} a JIRA issue in-progress.
-     * IDEs or Ant can run this as JUnit tests.
+     * The suite of all test methods (including those within test class sub-suites) which do not
+     * {@link org.kuali.test.suite.RelatesTo} a JIRA issue in-progress. IDEs or Ant can run this as JUnit tests.
      */
     public static class Not extends JiraRelatedSuite {
-        public static TestSuite suite()
-            throws Exception
-        {
+        public static TestSuite suite() throws Exception {
             return new InProgressSuite().getNegativeSuite(JiraRelatedSuite.State.IN_PROGRESS);
         }
     }

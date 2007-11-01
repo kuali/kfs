@@ -30,8 +30,6 @@ import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class returns list of country value pairs.
- * 
- * 
  */
 public class CountryNotRestrictedValuesFinder extends KeyValuesBase {
 
@@ -39,15 +37,15 @@ public class CountryNotRestrictedValuesFinder extends KeyValuesBase {
      * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         Map criteria = new HashMap();
-        
+
         List<String> criteriaValues = new ArrayList<String>();
         criteriaValues.add(null);
         criteriaValues.add("N");
-        
+
         criteria.put("postalCountryRestrictedIndicator", criteriaValues);
-       	List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class,criteria,"postalCountryName", true);
+        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(Country.class, criteria, "postalCountryName", true);
         List keyValues = new ArrayList();
 
         Country usCountry = null;

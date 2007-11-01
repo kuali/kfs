@@ -50,8 +50,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class handles Actions for Research Administration.
- * 
- * 
  */
 
 public class BudgetParametersAction extends BudgetAction {
@@ -61,14 +59,13 @@ public class BudgetParametersAction extends BudgetAction {
     /**
      * This method overrides the BudgetAction execute method. It does so for the purpose of recalculating Personnel expenses any
      * time the Personnel page is accessed
-     * 
      */
     public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward superForward = super.execute(mapping, form, request, response);
 
         BudgetForm budgetForm = (BudgetForm) form;
-        
-//      On first load, set the default task name for the initial task.
+
+        // On first load, set the default task name for the initial task.
         if (budgetForm.getBudgetDocument().getTaskListSize() == 0) {
             String DEFAULT_BUDGET_TASK_NAME = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.DEFAULT_BUDGET_TASK_NAME);
             budgetForm.getNewTask().setBudgetTaskName(DEFAULT_BUDGET_TASK_NAME + " 1");
@@ -108,9 +105,9 @@ public class BudgetParametersAction extends BudgetAction {
         referenceObjects.add("thirdPartyCostShareItems");
         referenceObjects.add("institutionCostShareItems");
         referenceObjects.add("institutionCostSharePersonnelItems");
-        
+
         SpringContext.getBean(PersistenceService.class).retrieveReferenceObjects(budgetForm.getBudgetDocument().getBudget(), referenceObjects);
-        
+
         List docReferenceObjects = new ArrayList();
         docReferenceObjects.add("adhocPersons");
         docReferenceObjects.add("adhocOrgs");
@@ -141,10 +138,10 @@ public class BudgetParametersAction extends BudgetAction {
             if (budgetForm.isAuditActivated()) {
                 return mapping.findForward("auditmode");
             }
-            
-            // This is so that tab states are not shared between parameters and overview. 
-            budgetForm.newTabState(true, true); 
-            
+
+            // This is so that tab states are not shared between parameters and overview.
+            budgetForm.newTabState(true, true);
+
             return super.overview(mapping, budgetForm, request, response);
         }
 
@@ -166,7 +163,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward copyInstitutionCostShareLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
-        
+
         BudgetFringeRateService bfrService = SpringContext.getBean(BudgetFringeRateService.class);
         for (BudgetFringeRate budgetFringeRate : budgetForm.getBudgetDocument().getBudget().getFringeRates()) {
             budgetFringeRate.setInstitutionCostShareFringeRateAmount(budgetFringeRate.getAppointmentTypeCostShareFringeRateAmount());
@@ -182,7 +179,7 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward copySystemGraduateAssistantLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         // get the form
         BudgetForm budgetForm = (BudgetForm) form;
-        
+
         for (BudgetGraduateAssistantRate budgetGraduateAssistantRate : budgetForm.getBudgetDocument().getBudget().getGraduateAssistantRates()) {
             budgetGraduateAssistantRate.refreshNonUpdateableReferences();
             GraduateAssistantRate systemRate = budgetGraduateAssistantRate.getGraduateAssistantRate();
@@ -218,7 +215,7 @@ public class BudgetParametersAction extends BudgetAction {
         if (preRulesForward != null) {
             return preRulesForward;
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -231,13 +228,13 @@ public class BudgetParametersAction extends BudgetAction {
     }
 
     public ActionForward deleteTaskLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         ((BudgetForm) form).getBudgetDocument().setTaskToDelete(Integer.toString(getLineToDelete(request)));
         ActionForward preRulesForward = preRulesCheck(mapping, form, request, response);
         if (preRulesForward != null) {
             return preRulesForward;
         }
-        
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
@@ -296,13 +293,13 @@ public class BudgetParametersAction extends BudgetAction {
     public ActionForward clearFedPassthrough(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         BudgetForm budgetForm = (BudgetForm) form;
         Budget budget = budgetForm.getBudgetDocument().getBudget();
-        
+
         budget.setFederalPassThroughAgencyNumber(null);
         budget.setFederalPassThroughAgency(null);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward basic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

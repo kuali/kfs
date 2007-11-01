@@ -27,20 +27,18 @@ import org.kuali.module.kra.routingform.bo.ResearchRiskType;
 
 /**
  * Authorizer class for ResearchRiskTypeMaintenanceDocument - allows for targeted field disabling.
- * 
- * 
  */
 public class ResearchRiskTypeMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
-    
+
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        
+
         MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
         ResearchRiskType researchRisk = (ResearchRiskType) document.getNewMaintainableObject().getBusinessObject();
         BusinessObjectService service = SpringContext.getBean(BusinessObjectService.class);
         ResearchRiskType persistedResearchRisk = (ResearchRiskType) service.retrieve(researchRisk);
-        
-        //If the research risk exists in db, set read-only fields
+
+        // If the research risk exists in db, set read-only fields
         if (ObjectUtils.isNotNull(persistedResearchRisk) && persistedResearchRisk.getResearchRiskTypeCode() != null) {
             auths.addReadonlyAuthField(KraPropertyConstants.RESEARCH_RISK_TYPE_DESCRIPTION);
             auths.addReadonlyAuthField(KraPropertyConstants.CONTROL_ATTRIBUTE_TYPE_CODE);

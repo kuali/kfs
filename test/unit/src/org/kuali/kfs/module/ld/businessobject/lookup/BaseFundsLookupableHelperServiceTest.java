@@ -54,10 +54,9 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     private int csfNumberOfTestData;
     private int csfExpectedInsertion;
     private int baseFundsNumberOfTestData;
-    private int baseFundsExpectedInsertion;    
+    private int baseFundsExpectedInsertion;
 
     @Override
-
     /**
      * Get things ready for the test
      */
@@ -73,98 +72,69 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         Map keys = new HashMap();
         keys.put(KFSPropertyConstants.ACCOUNT_NUMBER, "1031400");
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
-        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");        
+        keys.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, "BL");
         businessObjectService.deleteMatching(LedgerBalance.class, keys);
-        businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, keys);        
+        businessObjectService.deleteMatching(CalculatedSalaryFoundationTracker.class, keys);
     }
 
     /**
+     * This method will run the base funds balance inquiry to test that the BaseFundsLookupableHelperService is returning data
+     * correctly.
      * 
-     * This method will run the base funds balance inquiry to test that the BaseFundsLookupableHelperService 
-     * is returning data correctly.
      * @throws Exception
      */
     public void testGetSearchResults() throws Exception {
         /*
-        insertBaseFundsRecords();
-        insertCSFRecords();
-
-        AccountStatusBaseFunds accountStatusBaseFunds = new AccountStatusBaseFunds();
-        accountStatusBaseFunds.setAccountNumber("1031400");
-        accountStatusBaseFunds.setUniversityFiscalYear(2007);
-        accountStatusBaseFunds.setChartOfAccountsCode("BL");
-
-        // test the search results before the specified entry is inserted into the database
-        Map fieldValues = buildFieldValues(accountStatusBaseFunds, this.getLookupFields(false));
-
-        // Tells the lookupable I want detailed results
-        getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.DETAIL);
-        fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.DETAIL);
-
-        List<String> groupByList = new ArrayList<String>();
-        List<AccountStatusBaseFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
-        
-        // Make sure the basic search parameters are returned from the inquiry
-        for (AccountStatusBaseFunds accountStatusBaseFundsReturn : searchResults) {
-              assertFalse(!(accountStatusBaseFundsReturn.getAccountNumber().equals(accountStatusBaseFunds.getAccountNumber()) &&
-              accountStatusBaseFundsReturn.getUniversityFiscalYear().equals(accountStatusBaseFunds.getUniversityFiscalYear()) &&
-              accountStatusBaseFundsReturn.getChartOfAccountsCode().equals(accountStatusBaseFunds.getChartOfAccountsCode())));
-        }            
-               
-        if (searchResults != null) {
-            System.out.println("Results Size:" + searchResults.size());
-        }
-
-        // compare the search results with the expected and see if they match with each other        
-        assertEquals(this.baseFundsExpectedInsertion,searchResults.size());
-        */
+         * insertBaseFundsRecords(); insertCSFRecords(); AccountStatusBaseFunds accountStatusBaseFunds = new
+         * AccountStatusBaseFunds(); accountStatusBaseFunds.setAccountNumber("1031400");
+         * accountStatusBaseFunds.setUniversityFiscalYear(2007); accountStatusBaseFunds.setChartOfAccountsCode("BL"); // test the
+         * search results before the specified entry is inserted into the database Map fieldValues =
+         * buildFieldValues(accountStatusBaseFunds, this.getLookupFields(false)); // Tells the lookupable I want detailed results
+         * getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.DETAIL);
+         * fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.DETAIL); List<String> groupByList = new ArrayList<String>();
+         * List<AccountStatusBaseFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues); // Make sure the
+         * basic search parameters are returned from the inquiry for (AccountStatusBaseFunds accountStatusBaseFundsReturn :
+         * searchResults) {
+         * assertFalse(!(accountStatusBaseFundsReturn.getAccountNumber().equals(accountStatusBaseFunds.getAccountNumber()) &&
+         * accountStatusBaseFundsReturn.getUniversityFiscalYear().equals(accountStatusBaseFunds.getUniversityFiscalYear()) &&
+         * accountStatusBaseFundsReturn.getChartOfAccountsCode().equals(accountStatusBaseFunds.getChartOfAccountsCode()))); } if
+         * (searchResults != null) { System.out.println("Results Size:" + searchResults.size()); } // compare the search results
+         * with the expected and see if they match with each other
+         * assertEquals(this.baseFundsExpectedInsertion,searchResults.size());
+         */
     }
 
     /**
+     * This method will run the base funds balance inquiry to test that the BaseFundsLookupableHelperService is returning data
+     * correctly.
      * 
-     * This method will run the base funds balance inquiry to test that the BaseFundsLookupableHelperService 
-     * is returning data correctly.
      * @throws Exception
      */
     public void testGetSearchResultsConsolidated() throws Exception {
         /*
-        insertBaseFundsRecords();
-        insertCSFRecords();
-
-        AccountStatusBaseFunds accountStatusBaseFunds = new AccountStatusBaseFunds();
-        accountStatusBaseFunds.setAccountNumber("1031400");
-        accountStatusBaseFunds.setUniversityFiscalYear(2007);
-        accountStatusBaseFunds.setChartOfAccountsCode("BL");
-
-        // test the search results before the specified entry is inserted into the database
-        Map fieldValues = buildFieldValues(accountStatusBaseFunds, this.getLookupFields(false));
-
-        // Tells the lookupable I want consolidated results
-        getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.CONSOLIDATION);
-        fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.CONSOLIDATION);
-
-        List<String> groupByList = new ArrayList<String>();
-        List<AccountStatusBaseFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues);
-        
-        // Make sure the basic search parameters are returned from the inquiry
-        for (AccountStatusBaseFunds accountStatusBaseFundsReturn : searchResults) {
-              assertFalse(!(accountStatusBaseFundsReturn.getAccountNumber().equals(accountStatusBaseFunds.getAccountNumber()) &&
-              accountStatusBaseFundsReturn.getUniversityFiscalYear().equals(accountStatusBaseFunds.getUniversityFiscalYear()) &&
-              accountStatusBaseFundsReturn.getChartOfAccountsCode().equals(accountStatusBaseFunds.getChartOfAccountsCode())));
-        }            
-               
-        if (searchResults != null) {
-            System.out.println("Results Size:" + searchResults.size());
-        }
-
-        // compare the search results with the expected and see if they match with each other        
-        assertEquals(this.baseFundsExpectedInsertion,searchResults.size());
-        */
+         * insertBaseFundsRecords(); insertCSFRecords(); AccountStatusBaseFunds accountStatusBaseFunds = new
+         * AccountStatusBaseFunds(); accountStatusBaseFunds.setAccountNumber("1031400");
+         * accountStatusBaseFunds.setUniversityFiscalYear(2007); accountStatusBaseFunds.setChartOfAccountsCode("BL"); // test the
+         * search results before the specified entry is inserted into the database Map fieldValues =
+         * buildFieldValues(accountStatusBaseFunds, this.getLookupFields(false)); // Tells the lookupable I want consolidated
+         * results
+         * getInquiryOptionsService().getConsolidationField(lookupableHelperService.getRows()).setPropertyValue(Constant.CONSOLIDATION);
+         * fieldValues.put(Constant.CONSOLIDATION_OPTION, Constant.CONSOLIDATION); List<String> groupByList = new ArrayList<String>();
+         * List<AccountStatusBaseFunds> searchResults = lookupableHelperService.getSearchResults(fieldValues); // Make sure the
+         * basic search parameters are returned from the inquiry for (AccountStatusBaseFunds accountStatusBaseFundsReturn :
+         * searchResults) {
+         * assertFalse(!(accountStatusBaseFundsReturn.getAccountNumber().equals(accountStatusBaseFunds.getAccountNumber()) &&
+         * accountStatusBaseFundsReturn.getUniversityFiscalYear().equals(accountStatusBaseFunds.getUniversityFiscalYear()) &&
+         * accountStatusBaseFundsReturn.getChartOfAccountsCode().equals(accountStatusBaseFunds.getChartOfAccountsCode()))); } if
+         * (searchResults != null) { System.out.println("Results Size:" + searchResults.size()); } // compare the search results
+         * with the expected and see if they match with each other
+         * assertEquals(this.baseFundsExpectedInsertion,searchResults.size());
+         */
     }
 
     /**
+     * This method uses property file parameters to create insert database records for this test
      * 
-     * This method uses property file parameters to create insert database records for this test   
      * @param accountStatusBaseFunds
      * @param lookupFields
      * @return
@@ -180,8 +150,8 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     }
 
     /**
-     * 
      * This method adds property constatants for future lookups
+     * 
      * @param isExtended
      * @return
      */
@@ -196,7 +166,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method will add temporary test data to the CSF Tracker table 
+     * This method will add temporary test data to the CSF Tracker table
      */
     protected void insertCSFRecords() {
         String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
@@ -206,7 +176,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         documentFieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
-        
+
         CalculatedSalaryFoundationTracker cleanup = new CalculatedSalaryFoundationTracker();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         Map fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
@@ -224,17 +194,17 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
             CalculatedSalaryFoundationTracker inputData = new CalculatedSalaryFoundationTracker();
             ObjectUtil.populateBusinessObject(inputData, properties, propertyKey, documentFieldNames, deliminator);
             inputDataList.add(inputData);
-            //System.out.println(ObjectUtil.buildPropertyMap(inputData, ObjectUtil.split(fieldNames, deliminator)));
+            // System.out.println(ObjectUtil.buildPropertyMap(inputData, ObjectUtil.split(fieldNames, deliminator)));
         }
-        
+
         String testTarget = "getCSFTracker.";
         this.csfNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numberOfDocuments"));
         this.csfExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));
         businessObjectService.save(inputDataList);
     }
-    
+
     /**
-     * This method will add temporary test data to the Ledger Balance table 
+     * This method will add temporary test data to the Ledger Balance table
      */
     protected void insertBaseFundsRecords() {
         String messageFileName = "test/src/org/kuali/module/labor/web/testdata/message.properties";
@@ -262,7 +232,7 @@ public class BaseFundsLookupableHelperServiceTest extends KualiTestBase {
         this.baseFundsNumberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
         this.baseFundsExpectedInsertion = Integer.valueOf(properties.getProperty(testTarget + "expectedInsertion"));
         businessObjectService.save(inputDataList);
-    }  
+    }
 
     private LaborInquiryOptionsService getInquiryOptionsService() {
         return SpringContext.getBean(LaborInquiryOptionsService.class);

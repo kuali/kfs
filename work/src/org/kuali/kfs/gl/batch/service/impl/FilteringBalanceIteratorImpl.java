@@ -24,8 +24,8 @@ import org.kuali.module.gl.batch.closing.year.service.FilteringBalanceIterator;
 import org.kuali.module.gl.bo.Balance;
 
 /**
- * An implementation of FilteringBalanceIterator that only selects balances that should be selected,
- * according to the predicate that has been injected in
+ * An implementation of FilteringBalanceIterator that only selects balances that should be selected, according to the predicate that
+ * has been injected in
  */
 public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     private FilterIterator filteredBalances;
@@ -56,7 +56,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
         if (!initialized) {
             initialize();
         }
-        return (Balance)filteredBalances.next();
+        return (Balance) filteredBalances.next();
     }
 
     /**
@@ -72,8 +72,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     }
 
     /**
-     * A convenience method to get the enhanced for loops to work with this thing,
-     * this simply returns this iterator
+     * A convenience method to get the enhanced for loops to work with this thing, this simply returns this iterator
      * 
      * @return an iterator of Balances...which is this Iterator
      * @see java.lang.Iterable#iterator()
@@ -81,7 +80,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
     public Iterator<Balance> iterator() {
         return this;
     }
-    
+
     /**
      * Creates the FilterIterator that underlies this Iterator
      */
@@ -89,7 +88,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
         if (!initialized) {
             filteredBalances = new FilterIterator(balancesSource, new Predicate() {
                 public boolean evaluate(Object obj) {
-                    return balancePredicate.select((Balance)obj);
+                    return balancePredicate.select((Balance) obj);
                 }
             });
             initialized = true;
@@ -98,6 +97,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
 
     /**
      * Sets the balancePredicate attribute value.
+     * 
      * @param balancePredicate The balancePredicate to set.
      */
     public void setBalancePredicate(BalancePredicate balancePredicate) {
@@ -106,6 +106,7 @@ public class FilteringBalanceIteratorImpl implements FilteringBalanceIterator {
 
     /**
      * Sets the balancesSource attribute value.
+     * 
      * @param balancesSource The balancesSource to set.
      */
     public void setBalancesSource(Iterator<Balance> balancesSource) {

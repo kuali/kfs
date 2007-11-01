@@ -110,7 +110,7 @@ public class JobListener implements org.quartz.JobListener {
             StringBuffer mailMessageSubject = new StringBuffer(configurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY)).append(": ").append(jobExecutionContext.getJobDetail().getGroup()).append(": ").append(jobExecutionContext.getJobDetail().getName());
             MailMessage mailMessage = new MailMessage();
             mailMessage.setFromAddress(mailService.getBatchMailingList());
-            if (jobExecutionContext.getMergedJobDataMap().containsKey(REQUESTOR_EMAIL_ADDRESS_KEY) && !StringUtils.isBlank( jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY) ) ) {
+            if (jobExecutionContext.getMergedJobDataMap().containsKey(REQUESTOR_EMAIL_ADDRESS_KEY) && !StringUtils.isBlank(jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY))) {
                 mailMessage.addToAddress(jobExecutionContext.getMergedJobDataMap().getString(REQUESTOR_EMAIL_ADDRESS_KEY));
             }
             if (SchedulerService.FAILED_JOB_STATUS_CODE.equals(jobStatus) || SchedulerService.CANCELLED_JOB_STATUS_CODE.equals(jobStatus)) {
@@ -137,7 +137,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the schedulerService attribute value.
-     *
+     * 
      * @param schedulerService The schedulerService to set.
      */
     public void setSchedulerService(SchedulerService schedulerService) {
@@ -146,7 +146,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the configurationService attribute value.
-     *
+     * 
      * @param configurationService The configurationService to set.
      */
     public void setConfigurationService(KualiConfigurationService configurationService) {
@@ -155,7 +155,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the mailService attribute value.
-     *
+     * 
      * @param mailService The mailService to set.
      */
     public void setMailService(MailService mailService) {
@@ -164,7 +164,7 @@ public class JobListener implements org.quartz.JobListener {
 
     /**
      * Sets the dateTimeService attribute value.
-     *
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {

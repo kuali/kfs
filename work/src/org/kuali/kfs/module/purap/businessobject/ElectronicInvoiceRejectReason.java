@@ -25,22 +25,22 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase {
 
-	private Integer invoiceRejectReasonIdentifier;
-	private Integer invoiceHeaderInformationIdentifier;
-	private String invoiceRejectReasonTypeCode;
-	private String invoiceRejectReasonDescription;
+    private Integer invoiceRejectReasonIdentifier;
+    private Integer invoiceHeaderInformationIdentifier;
+    private String invoiceRejectReasonTypeCode;
+    private String invoiceRejectReasonDescription;
 
     private ElectronicInvoiceHeaderInformation invoiceHeaderInformation;
-	private ElectronicInvoiceRejectTypeCode invoiceRejectReasonType;
+    private ElectronicInvoiceRejectTypeCode invoiceRejectReasonType;
 
-	/**
-	 * Default constructor.
-	 */
-	public ElectronicInvoiceRejectReason() {
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceRejectReason() {
 
-	}
+    }
 
-	public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() {
+    public ElectronicInvoiceHeaderInformation getInvoiceHeaderInformation() {
         return invoiceHeaderInformation;
     }
 
@@ -95,13 +95,13 @@ public class ElectronicInvoiceRejectReason extends PersistableBusinessObjectBase
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.invoiceRejectReasonIdentifier != null) {
             m.put("invoiceRejectReasonIdentifier", this.invoiceRejectReasonIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 }

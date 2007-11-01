@@ -27,18 +27,18 @@ import org.kuali.module.labor.bo.LedgerEntry;
 /**
  * The LaborInquiryOptionsService interface provides hooks for Pending Ledger and Consilidation options for balance inquiries.
  */
-public interface LaborInquiryOptionsService{
-   
+public interface LaborInquiryOptionsService {
+
     /**
      * The expected name of the consolidation option field name
-     *
+     * 
      * @return String
      */
     public String getConsolidationFieldName();
 
     /**
      * Examine a collection of <code>{@link Row}</code> instances for the consolidation field
-     *
+     * 
      * @param rows
      * @return Field
      */
@@ -50,16 +50,16 @@ public interface LaborInquiryOptionsService{
      * @return String
      */
     public String getConsolidationOption(Map fieldValues);
-        
+
     /**
      * This method tests if the user selects to see the details or consolidated results
      * 
      * @param fieldValues the map containing the search fields and values
-     * @param rows 
+     * @param rows
      * @return true if consolidation is selected and subaccount is not specified
      */
     public boolean isConsolidationSelected(Map fieldValues, Collection<Row> rows);
-    
+
     /**
      * This method tests if the user selects to see the details or consolidated results
      * 
@@ -70,6 +70,7 @@ public interface LaborInquiryOptionsService{
 
     /**
      * update a given balance collection with the pending entry obtained from the given field values and pending entry option
+     * 
      * @param balanceCollection the given ledger balance collection
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
@@ -77,9 +78,10 @@ public interface LaborInquiryOptionsService{
      * @see org.kuali.module.labor.bo.LedgerBalance
      */
     public void updateLedgerBalanceByPendingLedgerEntry(Collection<LedgerBalance> balanceCollection, Map fieldValues, String pendingEntryOption, boolean isConsolidated);
-    
+
     /**
      * update a given balance collection with the pending entry obtained from the given field values and pending entry option
+     * 
      * @param balanceCollection the given ledger balance collection
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
@@ -90,18 +92,19 @@ public interface LaborInquiryOptionsService{
 
     /**
      * update a given ledger entry collection with the pending entry obtained from the given field values and pending entry option
+     * 
      * @param entryCollection the given ledger entry collection
      * @param fieldValues the given field values
      * @param pendingEntryOption the given pending entry option: all, approved or none
      * @see org.kuali.module.labor.bo.LedgerEntry
      */
     public void updateLedgerEntryByPendingLedgerEntry(Collection<LedgerEntry> entryCollection, Map fieldValues, String pendingEntryOption);
- 
+
     /**
-     * Get the Pending Entry Option selected 
+     * Get the Pending Entry Option selected
      * 
      * @param fieldValues
-     * @return String 
+     * @return String
      */
     public String getSelectedPendingEntryOption(Map fieldValues);
 }

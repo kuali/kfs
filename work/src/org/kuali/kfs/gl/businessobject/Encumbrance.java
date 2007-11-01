@@ -136,9 +136,10 @@ public class Encumbrance extends PersistableBusinessObjectBase {
     public KualiDecimal getAccountLineEncumbranceClosedAmount() {
         return accountLineEncumbranceClosedAmount;
     }
-    
-    public void setAccountLineEncumbranceOutstandingAmount() {}
-    
+
+    public void setAccountLineEncumbranceOutstandingAmount() {
+    }
+
     public KualiDecimal getAccountLineEncumbranceOutstandingAmount() {
         return accountLineEncumbranceAmount.subtract(accountLineEncumbranceClosedAmount);
     }

@@ -20,7 +20,6 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;

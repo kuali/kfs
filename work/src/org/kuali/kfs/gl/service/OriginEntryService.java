@@ -43,11 +43,11 @@ public interface OriginEntryService {
     /**
      * Copy a set of entries into a new group
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntryFull> entries);
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<OriginEntryFull> entries);
 
     /**
-     * Copy a set of entries into a new group.  This method can use less space than the method that takes in a collection, because iterators can
-     * be implemented to load data one chunk at a time, similar to how java ResultSets work.
+     * Copy a set of entries into a new group. This method can use less space than the method that takes in a collection, because
+     * iterators can be implemented to load data one chunk at a time, similar to how java ResultSets work.
      * 
      * @param date
      * @param sourceCode
@@ -57,8 +57,8 @@ public interface OriginEntryService {
      * @param entries
      * @return
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Iterator<OriginEntryFull> entries);
-    
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<OriginEntryFull> entries);
+
     /**
      * Delete entry
      * 
@@ -89,7 +89,7 @@ public interface OriginEntryService {
      * @return
      */
     public Iterator<OriginEntryFull> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
-    
+
     /**
      * Return all entries for a group sorted across the columns in report from left to right.
      * 
@@ -174,7 +174,7 @@ public interface OriginEntryService {
      * @param bw
      */
     public void flatFile(Iterator<OriginEntryFull> entries, BufferedOutputStream bw);
-    
+
     /**
      * get the summarized information of the entries that belong to the entry groups with the given group id list
      * 
@@ -184,7 +184,7 @@ public interface OriginEntryService {
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
     public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria);
-    
+
     /**
      * Retrieves a list of origin entries that match the search criteria.
      * 
@@ -200,9 +200,9 @@ public interface OriginEntryService {
      * 
      * @param groupIdList the origin entry groups
      * @return a map of summarized information of poster input entries within the specified groups
-     */    
-    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList);
-    
+     */
+    public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList);
+
     /**
      * Get count of transactions in a group
      */

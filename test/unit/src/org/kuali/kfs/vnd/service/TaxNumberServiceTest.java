@@ -58,7 +58,7 @@ public class TaxNumberServiceTest extends KualiTestBase {
     }
 
     private String[] getNotAllowedTaxNumbers() {
-        String[] notAllowedTaxNumbers = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS).toArray(new String[]{});
+        String[] notAllowedTaxNumbers = SpringContext.getBean(ParameterService.class).getParameterValues(VendorDetail.class, VendorParameterConstants.PURAP_NOT_ALLOWED_TAX_NUMBERS).toArray(new String[] {});
         return notAllowedTaxNumbers;
     }
 }

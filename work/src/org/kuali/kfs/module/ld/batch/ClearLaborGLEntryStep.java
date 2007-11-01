@@ -29,7 +29,7 @@ public class ClearLaborGLEntryStep extends AbstractStep {
      * Deletes labor general ledger entries.
      * 
      * @param jobName String that contains the job that will be executed.
-     * @return boolean 
+     * @return boolean
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) {

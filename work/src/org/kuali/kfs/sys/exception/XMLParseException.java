@@ -19,7 +19,7 @@ package org.kuali.kfs.exceptions;
  * Exception thrown when an error occurs parsing xml contents.
  */
 public class XMLParseException extends RuntimeException {
-    
+
     /**
      * @param message
      */

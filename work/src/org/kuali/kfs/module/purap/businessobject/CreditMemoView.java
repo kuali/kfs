@@ -12,18 +12,18 @@ import org.kuali.core.util.KualiDecimal;
  * Credit Memo View Business Object.
  */
 public class CreditMemoView extends AbstractRelatedView {
-    private String creditMemoNumber;    
+    private String creditMemoNumber;
     private Integer paymentRequestIdentifier;
     private Integer purchaseOrderIdentifier;
-    private String creditMemoStatusCode;    
+    private String creditMemoStatusCode;
     private boolean creditHoldIndicator;
-    private String vendorCustomerNumber;    
+    private String vendorCustomerNumber;
     private Date accountsPayableApprovalDate;
-    private Date creditMemoExtractedDate;    
+    private Date creditMemoExtractedDate;
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
-    private KualiDecimal totalAmount;    
-   
+    private KualiDecimal totalAmount;
+
     public Date getAccountsPayableApprovalDate() {
         return accountsPayableApprovalDate;
     }
@@ -113,8 +113,8 @@ public class CreditMemoView extends AbstractRelatedView {
     }
 
     /**
-     * The next three methods are overridden but shouldnt be!
-     * If they arent overridden, they dont show up in the tag, not sure why at this point! (AAP)
+     * The next three methods are overridden but shouldnt be! If they arent overridden, they dont show up in the tag, not sure why
+     * at this point! (AAP)
      */
     @Override
     public Integer getPurapDocumentIdentifier() {
@@ -125,7 +125,7 @@ public class CreditMemoView extends AbstractRelatedView {
     public List<Note> getNotes() {
         return super.getNotes();
     }
-    
+
     @Override
     public String getUrl() {
         return super.getUrl();

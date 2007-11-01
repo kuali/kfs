@@ -27,21 +27,22 @@ import org.kuali.kfs.KFSPropertyConstants;
  */
 public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
-	private String projectTypeCode;
-	private String documentNumber;
+    private String projectTypeCode;
+    private String documentNumber;
     private boolean projectTypeSelectedIndicator;
-    
-    private ProjectType projectType;
-    
-	/**
-	 * Default constructor.
-	 */
-	public RoutingFormProjectType() {
 
-	}
+    private ProjectType projectType;
+
+    /**
+     * Default constructor.
+     */
+    public RoutingFormProjectType() {
+
+    }
 
     /**
      * Constructs a RoutingFormProjectType.
+     * 
      * @param documentNumber
      * @param projectType
      */
@@ -51,58 +52,56 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
         this.projectTypeCode = projectType.getProjectTypeCode();
         this.projectType = projectType;
     }
-    
+
     /**
      * Constructs with projectTypeCode argument.
+     * 
      * @param projectTypeCode
      */
     public RoutingFormProjectType(String projectTypeCode) {
         this.projectTypeCode = projectTypeCode;
     }
-    
-	/**
-	 * Gets the projectTypeCode attribute.
-	 * 
-	 * @return Returns the projectTypeCode
-	 * 
-	 */
-	public String getProjectTypeCode() { 
-		return projectTypeCode;
-	}
-
-	/**
-	 * Sets the projectTypeCode attribute.
-	 * 
-	 * @param projectTypeCode The projectTypeCode to set.
-	 * 
-	 */
-	public void setProjectTypeCode(String projectTypeCode) {
-		this.projectTypeCode = projectTypeCode;
-	}
-
-
-	/**
-	 * Gets the documentNumber attribute.
-	 * 
-	 * @return Returns the documentNumber
-	 * 
-	 */
-	public String getDocumentNumber() { 
-		return documentNumber;
-	}
-
-	/**
-	 * Sets the documentNumber attribute.
-	 * 
-	 * @param documentNumber The documentNumber to set.
-	 * 
-	 */
-	public void setDocumentNumber(String documentNumber) {
-		this.documentNumber = documentNumber;
-	}
 
     /**
-     * Gets the projectTypeSelectedIndicator attribute. 
+     * Gets the projectTypeCode attribute.
+     * 
+     * @return Returns the projectTypeCode
+     */
+    public String getProjectTypeCode() {
+        return projectTypeCode;
+    }
+
+    /**
+     * Sets the projectTypeCode attribute.
+     * 
+     * @param projectTypeCode The projectTypeCode to set.
+     */
+    public void setProjectTypeCode(String projectTypeCode) {
+        this.projectTypeCode = projectTypeCode;
+    }
+
+
+    /**
+     * Gets the documentNumber attribute.
+     * 
+     * @return Returns the documentNumber
+     */
+    public String getDocumentNumber() {
+        return documentNumber;
+    }
+
+    /**
+     * Sets the documentNumber attribute.
+     * 
+     * @param documentNumber The documentNumber to set.
+     */
+    public void setDocumentNumber(String documentNumber) {
+        this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the projectTypeSelectedIndicator attribute.
+     * 
      * @return Returns the projectTypeSelectedIndicator.
      */
     public boolean isProjectTypeSelectedIndicator() {
@@ -111,14 +110,16 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the projectTypeSelectedIndicator attribute value.
+     * 
      * @param projectTypeSelectedIndicator The projectTypeSelectedIndicator to set.
      */
     public void setProjectTypeSelectedIndicator(boolean projectTypeSelectedIndicator) {
         this.projectTypeSelectedIndicator = projectTypeSelectedIndicator;
     }
-    
+
     /**
-     * Gets the projectType attribute. 
+     * Gets the projectType attribute.
+     * 
      * @return Returns the projectType.
      */
     public ProjectType getProjectType() {
@@ -127,6 +128,7 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
     /**
      * Sets the projectType attribute value.
+     * 
      * @param projectType The projectType to set.
      * @deprecated
      */
@@ -142,18 +144,18 @@ public class RoutingFormProjectType extends PersistableBusinessObjectBase {
 
         if (ObjectUtils.isNotNull(obj) && obj instanceof RoutingFormProjectType) {
             RoutingFormProjectType routingFormProjectType = (RoutingFormProjectType) obj;
-            
+
             equals = this.projectTypeCode.equals(routingFormProjectType.getProjectTypeCode());
         }
-        
+
         return equals;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("projectTypeCode", this.projectTypeCode);
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;

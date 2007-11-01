@@ -36,7 +36,7 @@ import org.kuali.test.KualiTestConstants.TestConstants.Data4;
 @ConfigureContext
 public class BatchInputFileTypeTest extends KualiTestBase {
     private static final String TEST_BATCH_XML_DIRECTORY = "org/kuali/kfs/batch/xml/";
-    
+
     private BatchInputFileType pcdoBatchInputFileType;
     private BatchInputFileType collectorBatchInputFileType;
 
@@ -61,7 +61,7 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         File collectorDirectory = new File(collectorBatchInputFileType.getDirectoryPath());
         assertTrue("collector directory " + collectorBatchInputFileType.getDirectoryPath() + " does not exist on local file system", collectorDirectory.exists());
     }
-    
+
     /**
      * Assures any workgroup user is granted permission for a pcdo file.
      */
@@ -69,14 +69,14 @@ public class BatchInputFileTypeTest extends KualiTestBase {
         Object parsedContents = new ArrayList();
         UniversalUser createUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID2);
         UniversalUser nonCreateUser = SpringContext.getBean(UniversalUserService.class).getUniversalUserByAuthenticationUserId(Data4.USER_ID1);
-        
+
         String saveFileName = pcdoBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
-        
+
         assertTrue("user who created batch file does not have file authorization", pcdoBatchInputFileType.checkAuthorization(createUser, batchFile));
         assertTrue("other user does not have file authorization", pcdoBatchInputFileType.checkAuthorization(nonCreateUser, batchFile));
     }
-    
+
     /**
      * Assures that only the user who created the collector file is granted permission to manage.
      */
@@ -87,9 +87,9 @@ public class BatchInputFileTypeTest extends KualiTestBase {
 
         String saveFileName = collectorBatchInputFileType.getFileName(createUser, parsedContents, "testFile.xml");
         File batchFile = new File(saveFileName);
-        
+
         assertTrue("user who created batch file does not have file authorization", collectorBatchInputFileType.checkAuthorization(createUser, batchFile));
         assertFalse("user who did not create batch file has authorization", collectorBatchInputFileType.checkAuthorization(nonCreateUser, batchFile));
     }
-    
+
 }

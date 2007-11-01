@@ -31,7 +31,6 @@ import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Entry;
-import org.kuali.module.gl.bo.SufficientFundBalances;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.springframework.transaction.annotation.Transactional;
@@ -153,7 +152,6 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     }
 
     /**
-     * 
      * @param t
      * @param enc
      */
@@ -183,7 +181,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Encumbrance.class).getFullTableName();
     }
-    
+
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;

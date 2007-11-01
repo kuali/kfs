@@ -15,13 +15,9 @@
  */
 package org.kuali.module.purap.rules;
 
-import java.util.ArrayList;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
@@ -42,52 +38,50 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     @Override
     public boolean doRules(Document document) {
         boolean preRulesOK = true;
-        
-        PaymentRequestDocument preq = (PaymentRequestDocument)document;
-        if ( (!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) ||
-             (StringUtils.equals(preq.getStatusCode(),PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW))){
-            if (!confirmPayDayNotOverThresholdDaysAway( preq )) {
+
+        PaymentRequestDocument preq = (PaymentRequestDocument) document;
+        if ((!SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq)) || (StringUtils.equals(preq.getStatusCode(), PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW))) {
+            if (!confirmPayDayNotOverThresholdDaysAway(preq)) {
                 return false;
             }
         }
         preRulesOK &= super.doRules(document);
         return preRulesOK;
     }
-    
-    private boolean askForConfirmation( String questionType, String messageConstant ) {
-        
+
+    private boolean askForConfirmation(String questionType, String messageConstant) {
+
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
-        if(questionText.contains("{")) {
-            questionText = prepareQuestionText(questionType,questionText);
+        if (questionText.contains("{")) {
+            questionText = prepareQuestionText(questionType, questionText);
         }
-            
+
         boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(questionType, questionText);
-                    
+
         if (!confirmOverride) {
             event.setActionForwardName(KFSConstants.MAPPING_BASIC);
             return false;
         }
         return true;
     }
-    
+
     private String prepareQuestionText(String questionType, String questionText) {
-        if (StringUtils.equals(questionType,PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
+        if (StringUtils.equals(questionType, PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
             questionText = StringUtils.replace(questionText, "{0}", new Integer(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING).toString());
         }
         return questionText;
     }
-    
-    public boolean confirmPayDayNotOverThresholdDaysAway( PaymentRequestDocument preq ) {
+
+    public boolean confirmPayDayNotOverThresholdDaysAway(PaymentRequestDocument preq) {
         // If the pay date is more than the threshold number of days in the future, ask for confirmation.
         PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
-        if (!rule.validatePayDateNotOverThresholdDaysAway(preq)) {   
-            return askForConfirmation(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION,
-                    PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
+        if (!rule.validatePayDateNotOverThresholdDaysAway(preq)) {
+            return askForConfirmation(PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION, PurapKeyConstants.MESSAGE_PAYMENT_REQUEST_PAYDATE_OVER_THRESHOLD_DAYS);
         }
         return true;
     }
-        
-    public String getDocumentName(){
+
+    public String getDocumentName() {
         return "Payment Request";
     }
 }

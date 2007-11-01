@@ -28,19 +28,19 @@ public class OriginEntryStatistics {
             debitTotalAmount = debitTotalAmount.add(d);
         }
     }
-    
+
     public void addCredit(KualiDecimal c) {
         if (c != null) {
             creditTotalAmount = creditTotalAmount.add(c);
         }
     }
-    
+
     public void addBudget(KualiDecimal b) {
         if (b != null) {
             budgetTotalAmount = budgetTotalAmount.add(b);
         }
     }
-    
+
     public void incrementCount() {
         rowCount++;
     }
@@ -48,24 +48,31 @@ public class OriginEntryStatistics {
     public KualiDecimal getCreditTotalAmount() {
         return creditTotalAmount;
     }
+
     public void setCreditTotalAmount(KualiDecimal creditTotalAmount) {
         this.creditTotalAmount = creditTotalAmount;
     }
+
     public KualiDecimal getDebitTotalAmount() {
         return debitTotalAmount;
     }
+
     public void setDebitTotalAmount(KualiDecimal debitTotalAmount) {
         this.debitTotalAmount = debitTotalAmount;
     }
+
     public KualiDecimal getBudgetTotalAmount() {
         return budgetTotalAmount;
     }
+
     public void setBudgetTotalAmount(KualiDecimal budgetTotalAmount) {
         this.budgetTotalAmount = budgetTotalAmount;
     }
+
     public Integer getRowCount() {
         return rowCount;
     }
+
     public void setRowCount(Integer rowCount) {
         this.rowCount = rowCount;
     }

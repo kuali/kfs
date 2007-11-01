@@ -54,7 +54,7 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     private String vendorFaxNumber;
     private boolean vendorDefaultAddressIndicator;
     private boolean active;
-    
+
     private List<VendorDefaultAddress> vendorDefaultAddresses;
 
     private VendorDetail vendorDetail;
@@ -279,8 +279,8 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
-    
+    }
+
     public List<VendorDefaultAddress> getVendorDefaultAddresses() {
         return vendorDefaultAddresses;
     }
@@ -288,40 +288,22 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
     public void setVendorDefaultAddresses(List<VendorDefaultAddress> vendorDefaultAddresses) {
         this.vendorDefaultAddresses = vendorDefaultAddresses;
     }
-    
+
     /**
      * @see org.kuali.module.vendor.util.VendorRoutingComparable#isEqualForRouting(java.lang.Object)
      */
-    public boolean isEqualForRouting( Object toCompare ) {
-        LOG.debug( "Entering isEqualForRouting." );
-        if( ( ObjectUtils.isNull( toCompare ) ) || !( toCompare instanceof VendorAddress ) ) {
-            LOG.debug( "Exiting isEqualForRouting" );
+    public boolean isEqualForRouting(Object toCompare) {
+        LOG.debug("Entering isEqualForRouting.");
+        if ((ObjectUtils.isNull(toCompare)) || !(toCompare instanceof VendorAddress)) {
+            LOG.debug("Exiting isEqualForRouting");
             return false;
-        } else {
-            VendorAddress va = (VendorAddress)toCompare;
-            boolean eq = new EqualsBuilder()
-                .append( this.getVendorAddressGeneratedIdentifier(), va.getVendorAddressGeneratedIdentifier() )
-                .append( this.getVendorHeaderGeneratedIdentifier(), va.getVendorHeaderGeneratedIdentifier() )
-                .append( this.getVendorDetailAssignedIdentifier(), va.getVendorDetailAssignedIdentifier() )
-                .append( this.getVendorAddressTypeCode(), va.getVendorAddressTypeCode() )
-                .append( this.getVendorLine1Address(), va.getVendorLine1Address() )
-                .append( this.getVendorLine2Address(), va.getVendorLine2Address() )
-                .append( this.getVendorCityName(), va.getVendorCityName() )
-                .append( this.getVendorStateCode(), va.getVendorStateCode() )
-                .append( this.getVendorZipCode(), va.getVendorZipCode() )
-                .append( this.getVendorCountryCode(), va.getVendorCountryCode() )
-                .append( this.getVendorAttentionName(), va.getVendorAttentionName() )
-                .append( this.getVendorAddressInternationalProvinceName(),
-                        va.getVendorAddressInternationalProvinceName() )
-                .append( this.getVendorAddressEmailAddress(), va.getVendorAddressEmailAddress() )
-                .append( this.getVendorBusinessToBusinessUrlAddress(),
-                        va.getVendorBusinessToBusinessUrlAddress() )
-                .append( this.getVendorFaxNumber(), va.getVendorFaxNumber() )
-                .append( this.isVendorDefaultAddressIndicator(), va.isVendorDefaultAddressIndicator() )
-                .isEquals();
-            eq &= SpringContext.getBean(VendorService.class).equalMemberLists( this.getVendorDefaultAddresses(),
-                    va.getVendorDefaultAddresses() );
-            LOG.debug( "Exiting isEqualForRouting." );
+        }
+        else {
+            VendorAddress va = (VendorAddress) toCompare;
+            boolean eq = new EqualsBuilder().append(this.getVendorAddressGeneratedIdentifier(), va.getVendorAddressGeneratedIdentifier()).append(this.getVendorHeaderGeneratedIdentifier(), va.getVendorHeaderGeneratedIdentifier()).append(this.getVendorDetailAssignedIdentifier(), va.getVendorDetailAssignedIdentifier()).append(this.getVendorAddressTypeCode(), va.getVendorAddressTypeCode()).append(this.getVendorLine1Address(), va.getVendorLine1Address()).append(this.getVendorLine2Address(), va.getVendorLine2Address()).append(this.getVendorCityName(), va.getVendorCityName()).append(this.getVendorStateCode(), va.getVendorStateCode()).append(this.getVendorZipCode(), va.getVendorZipCode()).append(this.getVendorCountryCode(), va.getVendorCountryCode()).append(this.getVendorAttentionName(), va.getVendorAttentionName()).append(this.getVendorAddressInternationalProvinceName(), va.getVendorAddressInternationalProvinceName()).append(this.getVendorAddressEmailAddress(),
+                    va.getVendorAddressEmailAddress()).append(this.getVendorBusinessToBusinessUrlAddress(), va.getVendorBusinessToBusinessUrlAddress()).append(this.getVendorFaxNumber(), va.getVendorFaxNumber()).append(this.isVendorDefaultAddressIndicator(), va.isVendorDefaultAddressIndicator()).isEquals();
+            eq &= SpringContext.getBean(VendorService.class).equalMemberLists(this.getVendorDefaultAddresses(), va.getVendorDefaultAddresses());
+            LOG.debug("Exiting isEqualForRouting.");
             return eq;
         }
     }
@@ -336,5 +318,5 @@ public class VendorAddress extends PersistableBusinessObjectBase implements Vend
         }
         return m;
     }
-    
+
 }

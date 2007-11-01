@@ -45,7 +45,7 @@ public class DemergerReportData {
         costShareTransactionsBypassed += anotherReport.costShareTransactionsBypassed;
         costShareEncumbranceTransactionsBypassed += anotherReport.costShareEncumbranceTransactionsBypassed;
     }
-    
+
     public void incrementErrorTransactionsRead() {
         errorTransactionsRead++;
     }
@@ -128,6 +128,7 @@ public class DemergerReportData {
 
     /**
      * Sets the validTransactionsSaved attribute value.
+     * 
      * @param validTransactionsSaved The validTransactionsSaved to set.
      */
     public void setValidTransactionsSaved(int validTransactionsSaved) {

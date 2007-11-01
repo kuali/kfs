@@ -34,8 +34,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * Action for BudgetCostShare page.
- * 
- * 
  */
 public class BudgetCostShareAction extends BudgetAction {
 
@@ -55,13 +53,13 @@ public class BudgetCostShareAction extends BudgetAction {
         budget.refreshReferenceObject("personnel");
         budget.refreshReferenceObject("nonpersonnelItems");
         budget.refreshReferenceObject("indirectCost");
-        
+
         // super.execute has to be called before re-creating BudgetCostShareFormHelper because the super call may
         // completly reload data such as for example for the reload button
         ActionForward forward = super.execute(mapping, form, request, response);
-        
+
         budgetForm.setBudgetCostShareFormHelper(new BudgetCostShareFormHelper(budgetForm));
-        
+
         setupBudgetCostSharePermissionDisplay(budgetForm);
 
         return forward;
@@ -210,7 +208,7 @@ public class BudgetCostShareAction extends BudgetAction {
 
         return super.save(mapping, form, request, response);
     }
-    
+
     @Override
     public ActionForward reload(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.reload(mapping, form, request, response);

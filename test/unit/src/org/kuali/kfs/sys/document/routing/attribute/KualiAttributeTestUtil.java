@@ -31,8 +31,6 @@ import edu.iu.uis.eden.routeheader.StandardDocumentContent;
 
 /**
  * This class contains various utility methods for doing tests on workflow attributes.
- * 
- * 
  */
 public class KualiAttributeTestUtil {
 
@@ -45,7 +43,6 @@ public class KualiAttributeTestUtil {
     public static final String PURCHASE_ORDER_DOCUMENT = "PurchaseOrderDocument_AmountTest.xml";
 
     /**
-     * 
      * This method loads a document XML from a file in this directory, and loads it into a DocumentContent class, which is then
      * returned.
      * 

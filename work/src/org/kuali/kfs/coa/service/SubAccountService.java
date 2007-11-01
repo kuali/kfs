@@ -21,8 +21,6 @@ import org.kuali.module.chart.bo.SubAccount;
 
 /**
  * This interface defines methods that a SubAccount Service must provide.
- * 
- * 
  */
 public interface SubAccountService {
     /**
@@ -35,7 +33,7 @@ public interface SubAccountService {
      * @see SubAccountService
      */
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
-    
+
     /**
      * Method is used by KualiSubAccountAttribute to enable caching for routing.
      * 

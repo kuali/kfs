@@ -20,8 +20,6 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 
 /**
  * Holds constants for <code>{@link org.kuali.module.financial.document.GeneralErrorCorrectionDocument}</code> business rules.
- * 
- * 
  */
 public interface GeneralErrorCorrectionDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups

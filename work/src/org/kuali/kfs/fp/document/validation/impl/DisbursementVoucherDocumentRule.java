@@ -903,7 +903,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
      */
     private void validateDocumentationLocation(DisbursementVoucherDocument document) {
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
-        
+
         // payment reason restrictions
         getParameterService().getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
 
@@ -1160,7 +1160,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             errors.putError(errorKey, KFSKeyConstants.ERROR_INACTIVE, "object code");
             objectCodeAllowed = false;
         }
-        
+
         String documentPaymentReason = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
         if (StringUtils.isBlank(documentPaymentReason)) {
             return objectCodeAllowed;
@@ -1199,7 +1199,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         if (accountNumberAllowed) {
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, FUNCTION_CODE_GLOBAL_RESTRICTION_PARM_NM, accountingLine.getAccount().getFinancialHigherEdFunctionCd());
             // accountNumberAllowed is true now
-            accountNumberAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class,  "account.financialHigherEdFunctionCd", KFSPropertyConstants.ACCOUNT_NUMBER);
+            accountNumberAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, "account.financialHigherEdFunctionCd", KFSPropertyConstants.ACCOUNT_NUMBER);
         }
 
         String documentPaymentReason = dvDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode();
@@ -1400,7 +1400,7 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
         }
         return user;
     }
-    
+
     /**
      * Performs a lookup on universal users for the given ssn number.
      * 

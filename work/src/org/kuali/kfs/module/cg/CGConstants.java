@@ -26,8 +26,8 @@ public class CGConstants extends JstlConstants {
      * The key for the document error map to grab errors for the close document.
      */
     public static final String CLOSE_DOCUMENT_TAB_ERRORS = "document.close*";
-    
+
     public static final String POST_AWARD_GROUP = "POST_AWARD_GROUP";
     public static final String PRE_AWARD_GROUP = "PRE_AWARD_GROUP";
-    
+
 }

@@ -28,8 +28,6 @@ import org.kuali.kfs.context.SpringContext;
 
 /**
  * This class...
- * 
- * 
  */
 public class FiscalYearValuesFinder extends KeyValuesBase {
 

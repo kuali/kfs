@@ -226,7 +226,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
      * determine whether the employees in the source accouting lines are same
      * 
      * @param accountingDocument the given accouting document
-     * @return true if the employees in the source accouting lines are same; otherwise, false 
+     * @return true if the employees in the source accouting lines are same; otherwise, false
      */
     private boolean hasAccountingLinesSameEmployee(AccountingDocument accountingDocument) {
         LOG.debug("stared hasDocumentsSameEmployee");
@@ -306,7 +306,7 @@ public class SalaryExpenseTransferDocumentRule extends LaborExpenseTransferDocum
                 return true;
             }
         }
-        
+
         return false;
     }
 

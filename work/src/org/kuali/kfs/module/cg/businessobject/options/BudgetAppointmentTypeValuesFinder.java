@@ -29,8 +29,6 @@ import org.kuali.module.kra.budget.service.BudgetFringeRateService;
 
 /**
  * This class...
- * 
- * 
  */
 public class BudgetAppointmentTypeValuesFinder extends KeyValuesBase {
 
@@ -47,19 +45,29 @@ public class BudgetAppointmentTypeValuesFinder extends KeyValuesBase {
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-      if (summerAppointmentType == null) {
-        summerAppointmentType = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
-    }
-
-    List<AppointmentType> appointmentTypes = (List) SpringContext.getBean(BudgetFringeRateService.class).getDefaultFringeRates(); // getDefaultFringeRates is, perhaps, misnamed. It returns a list of appointment types.
-    List appointmentTypeKeyLabelPairList = new ArrayList();
-    for (AppointmentType element : appointmentTypes) {
-        if (!element.getAppointmentTypeCode().equals(summerAppointmentType)) {
-            appointmentTypeKeyLabelPairList.add(new KeyLabelPair(element.getAppointmentTypeCode(), element.getAppointmentTypeDescription()));
+        if (summerAppointmentType == null) {
+            summerAppointmentType = SpringContext.getBean(ParameterService.class).getParameterValue(BudgetDocument.class, KraConstants.KRA_BUDGET_PERSONNEL_SUMMER_GRID_APPOINTMENT_TYPE);
         }
-    }
 
-    return appointmentTypeKeyLabelPairList;
+        List<AppointmentType> appointmentTypes = (List) SpringContext.getBean(BudgetFringeRateService.class).getDefaultFringeRates(); // getDefaultFringeRates
+                                                                                                                                        // is,
+                                                                                                                                        // perhaps,
+                                                                                                                                        // misnamed.
+                                                                                                                                        // It
+                                                                                                                                        // returns
+                                                                                                                                        // a
+                                                                                                                                        // list
+                                                                                                                                        // of
+                                                                                                                                        // appointment
+                                                                                                                                        // types.
+        List appointmentTypeKeyLabelPairList = new ArrayList();
+        for (AppointmentType element : appointmentTypes) {
+            if (!element.getAppointmentTypeCode().equals(summerAppointmentType)) {
+                appointmentTypeKeyLabelPairList.add(new KeyLabelPair(element.getAppointmentTypeCode(), element.getAppointmentTypeDescription()));
+            }
+        }
+
+        return appointmentTypeKeyLabelPairList;
     }
 
 }

@@ -16,12 +16,7 @@
 package org.kuali.module.financial.rules;
 
 import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.CAPITAL_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_FUND_GROUP_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_LEVEL_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_SUB_TYPE_CODES;
-import static org.kuali.module.financial.rules.InternalBillingDocumentRuleConstants.RESTRICTED_OBJECT_TYPE_CODES;
 
-import org.kuali.core.bo.Parameter;
 import org.kuali.core.document.Document;
 import org.kuali.core.util.ExceptionUtils;
 import org.kuali.core.util.GlobalVariables;
@@ -29,16 +24,11 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
-import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.rules.AttributeReference;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.financial.document.InternalBillingDocument;
 
 /**

@@ -18,14 +18,11 @@ package org.kuali.module.gl.bo;
 
 /**
  * This class...
- * 
- * 
  */
 public class AccountBalanceByObject extends AccountBalance {
 
     /**
      * Constructs a AccountBalanceByObject.java.
-     * 
      */
     public AccountBalanceByObject() {
         super();

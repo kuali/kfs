@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;

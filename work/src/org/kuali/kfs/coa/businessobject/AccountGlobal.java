@@ -65,7 +65,7 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     private Boolean pendingAcctSufficientFundsIndicator;
     private String accountSearchCriteriaTxt;
     private List<AccountGlobalDetail> accountGlobalDetails;
-    
+
     private DocumentHeader financialDocument;
     private UniversalUser accountFiscalOfficerUser;
     private UniversalUser accountSupervisoryUser;
@@ -97,7 +97,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * 
      * @see org.kuali.core.document.GlobalBusinessObject#applyGlobalChanges(org.kuali.core.bo.BusinessObject)
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
@@ -111,10 +110,10 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
 
             // load the object by keys
             Account account = (Account) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Account.class, detail.getPrimaryKeys());
-            
+
             // if we got a valid account, do the processing
             if (account != null) {
-                
+
                 // NOTE that the list of fields that are updated may be a subset of the total
                 // number of fields in this class. This is because the class may contain a superset
                 // of the fields actually used in the Global Maintenance Document.
@@ -221,7 +220,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -231,7 +229,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -259,7 +256,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the organizationCode attribute.
      * 
      * @return Returns the organizationCode
-     * 
      */
     public String getOrganizationCode() {
         return organizationCode;
@@ -269,7 +265,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the organizationCode attribute.
      * 
      * @param organizationCode The organizationCode to set.
-     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
@@ -279,7 +274,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the subFundGroupCode attribute.
      * 
      * @return Returns the subFundGroupCode
-     * 
      */
     public String getSubFundGroupCode() {
         return subFundGroupCode;
@@ -289,7 +283,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the subFundGroupCode attribute.
      * 
      * @param subFundGroupCode The subFundGroupCode to set.
-     * 
      */
     public void setSubFundGroupCode(String subFundGroupCode) {
         this.subFundGroupCode = subFundGroupCode;
@@ -299,7 +292,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountCityName attribute.
      * 
      * @return Returns the accountCityName
-     * 
      */
     public String getAccountCityName() {
         return accountCityName;
@@ -309,7 +301,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountCityName attribute.
      * 
      * @param accountCityName The accountCityName to set.
-     * 
      */
     public void setAccountCityName(String accountCityName) {
         this.accountCityName = accountCityName;
@@ -320,7 +311,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountStateCode attribute.
      * 
      * @return Returns the accountStateCode
-     * 
      */
     public String getAccountStateCode() {
         return accountStateCode;
@@ -330,7 +320,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountStateCode attribute.
      * 
      * @param accountStateCode The accountStateCode to set.
-     * 
      */
     public void setAccountStateCode(String accountStateCode) {
         this.accountStateCode = accountStateCode;
@@ -341,7 +330,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountStreetAddress attribute.
      * 
      * @return Returns the accountStreetAddress
-     * 
      */
     public String getAccountStreetAddress() {
         return accountStreetAddress;
@@ -351,7 +339,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountStreetAddress attribute.
      * 
      * @param accountStreetAddress The accountStreetAddress to set.
-     * 
      */
     public void setAccountStreetAddress(String accountStreetAddress) {
         this.accountStreetAddress = accountStreetAddress;
@@ -362,7 +349,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountZipCode attribute.
      * 
      * @return Returns the accountZipCode
-     * 
      */
     public String getAccountZipCode() {
         return accountZipCode;
@@ -372,7 +358,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountZipCode attribute.
      * 
      * @param accountZipCode The accountZipCode to set.
-     * 
      */
     public void setAccountZipCode(String accountZipCode) {
         this.accountZipCode = accountZipCode;
@@ -382,7 +367,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountExpirationDate attribute.
      * 
      * @return Returns the accountExpirationDate
-     * 
      */
     public Timestamp getAccountExpirationDate() {
         return accountExpirationDate;
@@ -392,7 +376,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountExpirationDate attribute.
      * 
      * @param accountExpirationDate The accountExpirationDate to set.
-     * 
      */
     public void setAccountExpirationDate(Timestamp accountExpirationDate) {
         this.accountExpirationDate = accountExpirationDate;
@@ -403,7 +386,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the continuationFinChrtOfAcctCd attribute.
      * 
      * @return Returns the continuationFinChrtOfAcctCd
-     * 
      */
     public String getContinuationFinChrtOfAcctCd() {
         return continuationFinChrtOfAcctCd;
@@ -413,7 +395,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the continuationFinChrtOfAcctCd attribute.
      * 
      * @param continuationFinChrtOfAcctCd The continuationFinChrtOfAcctCd to set.
-     * 
      */
     public void setContinuationFinChrtOfAcctCd(String continuationFinChrtOfAcctCd) {
         this.continuationFinChrtOfAcctCd = continuationFinChrtOfAcctCd;
@@ -424,7 +405,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the continuationAccountNumber attribute.
      * 
      * @return Returns the continuationAccountNumber
-     * 
      */
     public String getContinuationAccountNumber() {
         return continuationAccountNumber;
@@ -434,7 +414,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the continuationAccountNumber attribute.
      * 
      * @param continuationAccountNumber The continuationAccountNumber to set.
-     * 
      */
     public void setContinuationAccountNumber(String continuationAccountNumber) {
         this.continuationAccountNumber = continuationAccountNumber;
@@ -444,7 +423,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the incomeStreamFinancialCoaCode attribute.
      * 
      * @return Returns the incomeStreamFinancialCoaCode
-     * 
      */
     public String getIncomeStreamFinancialCoaCode() {
         return incomeStreamFinancialCoaCode;
@@ -454,7 +432,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the incomeStreamFinancialCoaCode attribute.
      * 
      * @param incomeStreamFinancialCoaCode The incomeStreamFinancialCoaCode to set.
-     * 
      */
     public void setIncomeStreamFinancialCoaCode(String incomeStreamFinancialCoaCode) {
         this.incomeStreamFinancialCoaCode = incomeStreamFinancialCoaCode;
@@ -465,7 +442,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the incomeStreamAccountNumber attribute.
      * 
      * @return Returns the incomeStreamAccountNumber
-     * 
      */
     public String getIncomeStreamAccountNumber() {
         return incomeStreamAccountNumber;
@@ -475,7 +451,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the incomeStreamAccountNumber attribute.
      * 
      * @param incomeStreamAccountNumber The incomeStreamAccountNumber to set.
-     * 
      */
     public void setIncomeStreamAccountNumber(String incomeStreamAccountNumber) {
         this.incomeStreamAccountNumber = incomeStreamAccountNumber;
@@ -485,7 +460,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountSufficientFundsCode attribute.
      * 
      * @return Returns the accountSufficientFundsCode
-     * 
      */
     public String getAccountSufficientFundsCode() {
         return accountSufficientFundsCode;
@@ -495,7 +469,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountSufficientFundsCode attribute.
      * 
      * @param accountSufficientFundsCode The accountSufficientFundsCode to set.
-     * 
      */
     public void setAccountSufficientFundsCode(String accountSufficientFundsCode) {
         this.accountSufficientFundsCode = accountSufficientFundsCode;
@@ -506,7 +479,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @return Returns the pendingAcctSufficientFundsIndicator
-     * 
      */
     public Boolean getPendingAcctSufficientFundsIndicator() {
         return pendingAcctSufficientFundsIndicator;
@@ -517,7 +489,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the pendingAcctSufficientFundsIndicator attribute.
      * 
      * @param pendingAcctSufficientFundsIndicator The pendingAcctSufficientFundsIndicator to set.
-     * 
      */
     public void setPendingAcctSufficientFundsIndicator(Boolean pendingAcctSufficientFundsIndicator) {
         this.pendingAcctSufficientFundsIndicator = pendingAcctSufficientFundsIndicator;
@@ -527,7 +498,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountCfdaNumber attribute.
      * 
      * @return Returns the accountCfdaNumber
-     * 
      */
     public String getAccountCfdaNumber() {
         return accountCfdaNumber;
@@ -537,7 +507,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountCfdaNumber attribute.
      * 
      * @param accountCfdaNumber The accountCfdaNumber to set.
-     * 
      */
     public void setAccountCfdaNumber(String accountCfdaNumber) {
         this.accountCfdaNumber = accountCfdaNumber;
@@ -547,7 +516,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the accountSearchCriteriaTxt attribute.
      * 
      * @return Returns the accountSearchCriteriaTxt
-     * 
      */
     public String getAccountSearchCriteriaTxt() {
         return accountSearchCriteriaTxt;
@@ -557,7 +525,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Sets the accountSearchCriteriaTxt attribute.
      * 
      * @param accountSearchCriteriaTxt The accountSearchCriteriaTxt to set.
-     * 
      */
     public void setAccountSearchCriteriaTxt(String accountSearchCriteriaTxt) {
         this.accountSearchCriteriaTxt = accountSearchCriteriaTxt;
@@ -568,7 +535,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the financialDocument attribute.
      * 
      * @return Returns the financialDocument
-     * 
      */
     public DocumentHeader getFinancialDocument() {
         return financialDocument;
@@ -630,7 +596,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the continuationFinChrtOfAcct attribute.
      * 
      * @return Returns the continuationFinChrtOfAcct
-     * 
      */
     public Chart getContinuationFinChrtOfAcct() {
         return continuationFinChrtOfAcct;
@@ -650,7 +615,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the continuationAccount attribute.
      * 
      * @return Returns the continuationAccount
-     * 
      */
     public Account getContinuationAccount() {
         return continuationAccount;
@@ -670,7 +634,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the incomeStreamAccount attribute.
      * 
      * @return Returns the incomeStreamAccount
-     * 
      */
     public Account getIncomeStreamAccount() {
         return incomeStreamAccount;
@@ -690,7 +653,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
      * Gets the incomeStreamFinancialCoa attribute.
      * 
      * @return Returns the incomeStreamFinancialCoa
-     * 
      */
     public Chart getIncomeStreamFinancialCoa() {
         return incomeStreamFinancialCoa;
@@ -929,7 +891,6 @@ public class AccountGlobal extends PersistableBusinessObjectBase implements Glob
     }
 
     /**
-     * 
      * @see org.kuali.core.document.GlobalBusinessObject#isPersistable()
      */
     public boolean isPersistable() {

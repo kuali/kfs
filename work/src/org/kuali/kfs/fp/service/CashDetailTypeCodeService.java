@@ -20,8 +20,6 @@ import org.kuali.module.financial.bo.CashDetailTypeCode;
 /**
  * This service interface defines methods necessary for retreiving fully populated CashDetailTypeCode business objects from the
  * database.
- * 
- * 
  */
 public interface CashDetailTypeCodeService {
     /**

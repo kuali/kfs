@@ -25,8 +25,6 @@ import org.kuali.kfs.KFSConstants;
 /**
  * <code>{@link KeyValuesBase}</code> class that handles
  * <code>{@link org.kuali.module.financial.document.AuxiliaryVoucherDocument}</code> types.
- * 
- * 
  */
 public class AuxiliaryVoucherTypeCodeValuesFinder extends KeyValuesBase {
 

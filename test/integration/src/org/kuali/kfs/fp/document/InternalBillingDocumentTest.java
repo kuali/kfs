@@ -50,11 +50,9 @@ import org.kuali.test.suite.CrossSectionSuite;
 
 /**
  * This class is used to test InternalBillingDocument.
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
-//@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
+// @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class InternalBillingDocumentTest extends KualiTestBase {
     public static final Class<InternalBillingDocument> DOCUMENT_CLASS = InternalBillingDocument.class;
 
@@ -83,7 +81,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         return 12;
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_addAccessibleAccount_ChangingTotals() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -118,7 +116,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_addInaccessibleAccount_sourceLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -154,7 +152,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_addInaccessibleAccount_targetLine() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -191,7 +189,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_deleteAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -228,7 +226,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_deleteLastAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -268,7 +266,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
 
 
     @AnnotationTestSuite(CrossSectionSuite.class)
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_updateAccessibleAccount() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -314,7 +312,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         }
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_updateInaccessibleAccount_sourceLine() throws Exception {
         AccountingDocument retrieved;
         AccountingDocument original;
@@ -351,7 +349,7 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testApprove_updateInaccessibleAccount_targetLine() throws Exception {
         // switch user to WESPRICE, build and route document with
         // accountingLines
@@ -415,22 +413,22 @@ public class InternalBillingDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }

@@ -23,7 +23,7 @@ import org.kuali.module.labor.service.LaborNightlyOutService;
  */
 public class LaborNightlyOutStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborNightlyOutStep.class);
-    
+
     private LaborNightlyOutService laborNightlyOutService;
 
     /**
@@ -34,10 +34,10 @@ public class LaborNightlyOutStep extends AbstractStep {
      * @see org.kuali.kfs.batch.Step#execute()
      */
     public boolean execute(String jobName) {
-        try{
+        try {
             laborNightlyOutService.copyApprovedPendingLedgerEntries();
         }
-        catch(Exception e){
+        catch (Exception e) {
             LOG.fatal(e);
             return false;
         }
@@ -46,6 +46,7 @@ public class LaborNightlyOutStep extends AbstractStep {
 
     /**
      * Sets the laborNightlyOutService attribute value.
+     * 
      * @param laborNightlyOutService the laborNightlyOutService to set.
      */
     public void setLaborNightlyOutService(LaborNightlyOutService laborNightlyOutService) {

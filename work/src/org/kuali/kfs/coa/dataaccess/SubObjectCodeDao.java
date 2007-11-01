@@ -20,14 +20,12 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * This interface defines basic methods that SubObjectCode Dao's must provide
- * 
- * 
  */
 public interface SubObjectCodeDao {
 
     /**
-     * 
      * Retrieves a SubObjectCode by primary key.
+     * 
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key

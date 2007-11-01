@@ -40,11 +40,11 @@ public class AchBankDaoOjb extends PlatformAwareDaoBaseOjb implements AchBankDao
         LOG.debug("emptyTable() started");
 
         Criteria criteria = new Criteria();
-        QueryByCriteria qbc = new QueryByCriteria(AchBank.class,criteria);
+        QueryByCriteria qbc = new QueryByCriteria(AchBank.class, criteria);
         getPersistenceBrokerTemplate().deleteByQuery(qbc);
 
-        // You must always clear the cache after a delete by query or you risk 
-        // getting bad data.  See the OJB docs for more information.
+        // You must always clear the cache after a delete by query or you risk
+        // getting bad data. See the OJB docs for more information.
         getPersistenceBrokerTemplate().clearCache();
     }
 }

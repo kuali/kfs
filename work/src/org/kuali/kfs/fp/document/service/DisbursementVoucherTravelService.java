@@ -22,8 +22,6 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * Performs calculations of travel per diem and mileage amounts.
- * 
- * 
  */
 public interface DisbursementVoucherTravelService {
 

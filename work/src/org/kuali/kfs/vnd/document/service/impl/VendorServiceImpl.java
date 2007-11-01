@@ -39,7 +39,6 @@ import org.kuali.module.vendor.bo.VendorContractOrganization;
 import org.kuali.module.vendor.bo.VendorDefaultAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.bo.VendorHeader;
-import org.kuali.module.vendor.bo.VendorUser;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorRoutingComparable;
 import org.springframework.transaction.annotation.Transactional;
@@ -297,12 +296,15 @@ public class VendorServiceImpl implements VendorService {
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
+
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
     }
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
+
     public void setPersistenceService(PersistenceService persistenceService) {
         this.persistenceService = persistenceService;
     }

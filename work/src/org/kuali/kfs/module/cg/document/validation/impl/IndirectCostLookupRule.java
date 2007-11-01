@@ -31,53 +31,52 @@ public class IndirectCostLookupRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostLookupRule.class);
 
     private IndirectCostLookup icLookup;
-    
+
     /**
      * This method performs any necessary custom business rules on the document.
+     * 
      * @param document An instance of the maintenance document that is being processed.
      * @return True if all the business rule checks succeed, false otherwise.
-
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
-        
+
         setupConvenienceObjects();
-        
+
         success &= super.processCustomSaveDocumentBusinessRules(document);
         success &= validateIndirectCostRate(icLookup);
-        
+
         return true;
     }
-    
+
     private boolean validateIndirectCostRate(IndirectCostLookup icLookup) {
         boolean success = true;
-        
+
         KualiDecimal rate = icLookup.getBudgetIndirectCostRate();
-        String costRate = null == rate? "" : rate.toString();
+        String costRate = null == rate ? "" : rate.toString();
         // If the cost rate value does not already contain a decimal and two zeros, append them.
-        if(costRate.indexOf('.') < 0) {
+        if (costRate.indexOf('.') < 0) {
             costRate = costRate + ".00";
         }
         // If the cost rate value is longer than 6 characters, display an error message
-        if(costRate.length()>6) {
-            String[] params = {costRate};
-            String propertyName = KraPropertyConstants.DOCUMENT + "." + KraPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." +KraPropertyConstants.COST_RATE;
+        if (costRate.length() > 6) {
+            String[] params = { costRate };
+            String propertyName = KraPropertyConstants.DOCUMENT + "." + KraPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + KraPropertyConstants.COST_RATE;
             GlobalVariables.getErrorMap().putError(propertyName, KraKeyConstants.ERROR_INDIRECT_COST_RATE_MALFORMED, params);
             success = false;
         }
-        
+
         return success;
     }
 
     /**
-     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
     public void setupConvenienceObjects() {
-        icLookup = (IndirectCostLookup)super.getNewBo();
+        icLookup = (IndirectCostLookup) super.getNewBo();
     }
-    
+
 }

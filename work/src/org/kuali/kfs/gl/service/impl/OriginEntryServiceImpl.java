@@ -56,11 +56,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
     private OriginEntryDao originEntryDao;
     private OriginEntryGroupService originEntryGroupService;
-    
+
     private DateTimeService dateTimeService;
 
     /**
-     * 
      * @param originEntryDao
      */
     public void setOriginEntryDao(OriginEntryDao originEntryDao) {
@@ -68,7 +67,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @param originEntryGroupService
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
@@ -95,10 +93,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
-     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean, java.util.Collection)
+     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean,
+     *      java.util.Collection)
      */
-    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid,boolean process,boolean scrub,Collection<OriginEntryFull> entries) {
+    public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<OriginEntryFull> entries) {
         LOG.debug("copyEntries() started");
 
         OriginEntryGroup newOriginEntryGroup = originEntryGroupService.createGroup(date, sourceCode, valid, process, scrub);
@@ -112,9 +110,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return newOriginEntryGroup;
     }
 
-    
+
     /**
-     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean, java.util.Iterator)
+     * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean,
+     *      java.util.Iterator)
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<OriginEntryFull> entries) {
         LOG.debug("copyEntries() started");
@@ -132,7 +131,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#delete(org.kuali.module.gl.bo.OriginEntryFull)
      */
     public void delete(OriginEntryFull oe) {
@@ -142,7 +140,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Collection<OriginEntryFull> getDocumentsByGroup(OriginEntryGroup oeg) {
@@ -150,20 +147,19 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         Collection<OriginEntryFull> results = new ArrayList<OriginEntryFull>();
         Iterator i = originEntryDao.getDocumentsByGroup(oeg);
-        while ( i.hasNext() ) {
-            Object[] data = (Object[])i.next();
+        while (i.hasNext()) {
+            Object[] data = (Object[]) i.next();
             OriginEntryFull oe = new OriginEntryFull();
-            oe.setDocumentNumber((String)data[0]);
-            oe.setFinancialDocumentTypeCode((String)data[1]);
-            oe.setFinancialSystemOriginationCode((String)data[2]);
+            oe.setDocumentNumber((String) data[0]);
+            oe.setFinancialDocumentTypeCode((String) data[1]);
+            oe.setFinancialSystemOriginationCode((String) data[2]);
             results.add(oe);
-    }
+        }
 
         return results;
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Iterator<OriginEntryFull> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
@@ -189,7 +185,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         return originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_REPORT);
     }
-    
+
     public Iterator<OriginEntryFull> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
@@ -197,7 +193,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
@@ -220,13 +215,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         e.setGroup(originEntryGroup);
 
         originEntryDao.saveOriginEntry(e);
-        
+
         // add 1 to the rows in the origin entry group, so we can unit test against that
         originEntryGroup.setRows(originEntryGroup.getRows().intValue() + 1);
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#save(org.kuali.module.gl.bo.OriginEntryFull)
      */
     public void save(OriginEntryFull entry) {
@@ -236,7 +230,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#exportFlatFile(java.lang.String, java.lang.Integer)
      */
     public void exportFlatFile(String filename, Integer groupId) {
@@ -270,7 +263,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
      *      boolean)
      */
@@ -306,7 +298,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(Collection)
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
@@ -366,7 +357,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#flatFile(java.lang.Integer, java.io.BufferedOutputStream)
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw) {
@@ -375,10 +365,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         oeg.setId(groupId);
         flatFile(getEntriesByGroup(oeg), bw);
     }
-    
+
     /**
-     * This method writes origin entries into a file format.  This particular implementation
-     * will use the OriginEntryFull.getLine method to generate the text for this file.
+     * This method writes origin entries into a file format. This particular implementation will use the OriginEntryFull.getLine
+     * method to generate the text for this file.
      * 
      * @param entries An iterator of OriginEntries
      * @param bw an opened, ready-for-output bufferedOutputStream.
@@ -397,7 +387,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
      */
     public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria) {
@@ -425,7 +414,6 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getExactMatchingEntry(java.lang.Integer)
      */
     public OriginEntryFull getExactMatchingEntry(Integer entryId) {
@@ -435,13 +423,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.service.OriginEntryService#getPosterOutputSummaryByGroupId(java.util.Collection)
      */
-    public Map<String,PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList) {
+    public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList) {
         LOG.debug("getPosterOutputSummaryByGroupId() started");
 
-        Map<String,PosterOutputSummaryEntry> output = new HashMap<String,PosterOutputSummaryEntry>();
+        Map<String, PosterOutputSummaryEntry> output = new HashMap<String, PosterOutputSummaryEntry>();
 
         if (groupIdList.size() == 0) {
             return output;
@@ -449,7 +436,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
         Iterator entrySummaryIterator = originEntryDao.getPosterOutputSummaryByGroupId(groupIdList);
         while (entrySummaryIterator.hasNext()) {
-            Object[] entrySummary = (Object[]) entrySummaryIterator.next();            
+            Object[] entrySummary = (Object[]) entrySummaryIterator.next();
             PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
             int indexOfField = 0;
 
@@ -477,16 +464,17 @@ public class OriginEntryServiceImpl implements OriginEntryService {
             String debitCreditCode = (tempEntry == null) ? KFSConstants.GL_BUDGET_CODE : tempEntry.toString();
 
             tempEntry = entrySummary[indexOfField];
-            entry = (tempEntry == null) ? "0" : tempEntry.toString();            
+            entry = (tempEntry == null) ? "0" : tempEntry.toString();
             KualiDecimal amount = new KualiDecimal(entry);
 
             posterOutputSummaryEntry.setAmount(debitCreditCode, objectTypeCode, amount);
 
-            if ( output.containsKey(posterOutputSummaryEntry.getKey()) ) {
+            if (output.containsKey(posterOutputSummaryEntry.getKey())) {
                 PosterOutputSummaryEntry pose = output.get(posterOutputSummaryEntry.getKey());
                 pose.add(posterOutputSummaryEntry);
-            } else {
-                output.put(posterOutputSummaryEntry.getKey(),posterOutputSummaryEntry);
+            }
+            else {
+                output.put(posterOutputSummaryEntry.getKey(), posterOutputSummaryEntry);
             }
         }
         return output;

@@ -23,13 +23,12 @@ import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
-import org.kuali.module.purap.bo.PurchaseOrderAccount;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.dao.PurApAccountingDao;
 
 /**
- * OJB Implementation of PurApAccountingDao. 
+ * OJB Implementation of PurApAccountingDao.
  */
 public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements PurApAccountingDao {
 
@@ -41,16 +40,16 @@ public class PurApAccountingDaoOjb extends PlatformAwareDaoBaseOjb implements Pu
         Class clazz = item.getAccountingLineClass();
         Criteria criteria = new Criteria();
         criteria.addEqualTo("itemIdentifier", itemIdentifier);
-        //if it's a purchaseOrderItem, we need to make sure we're getting for the right doc number
-        if(item instanceof PurchaseOrderItem) {
-            criteria.addEqualTo("documentNumber", ((PurchaseOrderItem)item).getDocumentNumber());
+        // if it's a purchaseOrderItem, we need to make sure we're getting for the right doc number
+        if (item instanceof PurchaseOrderItem) {
+            criteria.addEqualTo("documentNumber", ((PurchaseOrderItem) item).getDocumentNumber());
         }
-        
+
         QueryByCriteria query = QueryFactory.newQuery(clazz, criteria);
         Collection lines = getPersistenceBrokerTemplate().getCollectionByQuery(query);
 
         return new ArrayList(lines);
-        
+
     }
-    
+
 }

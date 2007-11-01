@@ -19,7 +19,6 @@ package org.kuali.module.budget.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Account;
@@ -79,7 +78,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -89,7 +87,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -100,7 +97,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -110,7 +106,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -121,7 +116,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -131,7 +125,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -142,7 +135,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -152,7 +144,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -163,7 +154,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the subAccountNumber attribute.
      * 
      * @return Returns the subAccountNumber
-     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -173,7 +163,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the subAccountNumber attribute.
      * 
      * @param subAccountNumber The subAccountNumber to set.
-     * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -184,7 +173,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -194,7 +182,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -205,7 +192,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialSubObjectCode attribute.
      * 
      * @return Returns the financialSubObjectCode
-     * 
      */
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
@@ -215,7 +201,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the financialSubObjectCode attribute.
      * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
-     * 
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -226,7 +211,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialBalanceTypeCode attribute.
      * 
      * @return Returns the financialBalanceTypeCode
-     * 
      */
     public String getFinancialBalanceTypeCode() {
         return financialBalanceTypeCode;
@@ -236,7 +220,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the financialBalanceTypeCode attribute.
      * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
-     * 
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
         this.financialBalanceTypeCode = financialBalanceTypeCode;
@@ -247,7 +230,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialObjectTypeCode attribute.
      * 
      * @return Returns the financialObjectTypeCode
-     * 
      */
     public String getFinancialObjectTypeCode() {
         return financialObjectTypeCode;
@@ -257,7 +239,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Sets the financialObjectTypeCode attribute.
      * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
-     * 
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
         this.financialObjectTypeCode = financialObjectTypeCode;
@@ -265,7 +246,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
 
     /**
-     * Gets the financialDocumentMonth10LineAmount attribute. 
+     * Gets the financialDocumentMonth10LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth10LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth10LineAmount() {
@@ -274,6 +256,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth10LineAmount attribute value.
+     * 
      * @param financialDocumentMonth10LineAmount The financialDocumentMonth10LineAmount to set.
      */
     public void setFinancialDocumentMonth10LineAmount(KualiInteger financialDocumentMonth10LineAmount) {
@@ -281,7 +264,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth11LineAmount attribute. 
+     * Gets the financialDocumentMonth11LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth11LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth11LineAmount() {
@@ -290,6 +274,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth11LineAmount attribute value.
+     * 
      * @param financialDocumentMonth11LineAmount The financialDocumentMonth11LineAmount to set.
      */
     public void setFinancialDocumentMonth11LineAmount(KualiInteger financialDocumentMonth11LineAmount) {
@@ -297,7 +282,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth12LineAmount attribute. 
+     * Gets the financialDocumentMonth12LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth12LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth12LineAmount() {
@@ -306,6 +292,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth12LineAmount attribute value.
+     * 
      * @param financialDocumentMonth12LineAmount The financialDocumentMonth12LineAmount to set.
      */
     public void setFinancialDocumentMonth12LineAmount(KualiInteger financialDocumentMonth12LineAmount) {
@@ -313,7 +300,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth1LineAmount attribute. 
+     * Gets the financialDocumentMonth1LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth1LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth1LineAmount() {
@@ -322,6 +310,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth1LineAmount attribute value.
+     * 
      * @param financialDocumentMonth1LineAmount The financialDocumentMonth1LineAmount to set.
      */
     public void setFinancialDocumentMonth1LineAmount(KualiInteger financialDocumentMonth1LineAmount) {
@@ -329,7 +318,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth2LineAmount attribute. 
+     * Gets the financialDocumentMonth2LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth2LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth2LineAmount() {
@@ -338,6 +328,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth2LineAmount attribute value.
+     * 
      * @param financialDocumentMonth2LineAmount The financialDocumentMonth2LineAmount to set.
      */
     public void setFinancialDocumentMonth2LineAmount(KualiInteger financialDocumentMonth2LineAmount) {
@@ -345,7 +336,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth3LineAmount attribute. 
+     * Gets the financialDocumentMonth3LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth3LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth3LineAmount() {
@@ -354,6 +346,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth3LineAmount attribute value.
+     * 
      * @param financialDocumentMonth3LineAmount The financialDocumentMonth3LineAmount to set.
      */
     public void setFinancialDocumentMonth3LineAmount(KualiInteger financialDocumentMonth3LineAmount) {
@@ -361,7 +354,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth4LineAmount attribute. 
+     * Gets the financialDocumentMonth4LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth4LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth4LineAmount() {
@@ -370,6 +364,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth4LineAmount attribute value.
+     * 
      * @param financialDocumentMonth4LineAmount The financialDocumentMonth4LineAmount to set.
      */
     public void setFinancialDocumentMonth4LineAmount(KualiInteger financialDocumentMonth4LineAmount) {
@@ -377,7 +372,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth5LineAmount attribute. 
+     * Gets the financialDocumentMonth5LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth5LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth5LineAmount() {
@@ -386,6 +382,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth5LineAmount attribute value.
+     * 
      * @param financialDocumentMonth5LineAmount The financialDocumentMonth5LineAmount to set.
      */
     public void setFinancialDocumentMonth5LineAmount(KualiInteger financialDocumentMonth5LineAmount) {
@@ -393,7 +390,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth6LineAmount attribute. 
+     * Gets the financialDocumentMonth6LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth6LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth6LineAmount() {
@@ -402,6 +400,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth6LineAmount attribute value.
+     * 
      * @param financialDocumentMonth6LineAmount The financialDocumentMonth6LineAmount to set.
      */
     public void setFinancialDocumentMonth6LineAmount(KualiInteger financialDocumentMonth6LineAmount) {
@@ -409,7 +408,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth7LineAmount attribute. 
+     * Gets the financialDocumentMonth7LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth7LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth7LineAmount() {
@@ -418,6 +418,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth7LineAmount attribute value.
+     * 
      * @param financialDocumentMonth7LineAmount The financialDocumentMonth7LineAmount to set.
      */
     public void setFinancialDocumentMonth7LineAmount(KualiInteger financialDocumentMonth7LineAmount) {
@@ -425,7 +426,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth8LineAmount attribute. 
+     * Gets the financialDocumentMonth8LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth8LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth8LineAmount() {
@@ -434,6 +436,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth8LineAmount attribute value.
+     * 
      * @param financialDocumentMonth8LineAmount The financialDocumentMonth8LineAmount to set.
      */
     public void setFinancialDocumentMonth8LineAmount(KualiInteger financialDocumentMonth8LineAmount) {
@@ -441,7 +444,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocumentMonth9LineAmount attribute. 
+     * Gets the financialDocumentMonth9LineAmount attribute.
+     * 
      * @return Returns the financialDocumentMonth9LineAmount.
      */
     public KualiInteger getFinancialDocumentMonth9LineAmount() {
@@ -450,6 +454,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialDocumentMonth9LineAmount attribute value.
+     * 
      * @param financialDocumentMonth9LineAmount The financialDocumentMonth9LineAmount to set.
      */
     public void setFinancialDocumentMonth9LineAmount(KualiInteger financialDocumentMonth9LineAmount) {
@@ -460,7 +465,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the pendingBudgetConstructionGeneralLedger attribute.
      * 
      * @return Returns the pendingBudgetConstructionGeneralLedger
-     * 
      */
     public PendingBudgetConstructionGeneralLedger getPendingBudgetConstructionGeneralLedger() {
         return pendingBudgetConstructionGeneralLedger;
@@ -480,7 +484,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialBalance attribute.
      * 
      * @return Returns the financialBalance
-     * 
      */
     public Balance getFinancialBalance() {
         return financialBalance;
@@ -500,7 +503,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the financialObject attribute.
      * 
      * @return Returns the financialObject
-     * 
      */
     public ObjectCode getFinancialObject() {
         return financialObject;
@@ -520,7 +522,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -540,7 +541,6 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -595,7 +595,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the balanceType attribute. 
+     * Gets the balanceType attribute.
+     * 
      * @return Returns the balanceType.
      */
     public BalanceTyp getBalanceType() {
@@ -604,6 +605,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the balanceType attribute value.
+     * 
      * @param balanceType The balanceType to set.
      */
     public void setBalanceType(BalanceTyp balanceType) {
@@ -611,7 +613,8 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the objectType attribute. 
+     * Gets the objectType attribute.
+     * 
      * @return Returns the objectType.
      */
     public ObjectType getObjectType() {
@@ -620,6 +623,7 @@ public class BudgetConstructionMonthly extends PersistableBusinessObjectBase {
 
     /**
      * Sets the objectType attribute value.
+     * 
      * @param objectType The objectType to set.
      */
     public void setObjectType(ObjectType objectType) {

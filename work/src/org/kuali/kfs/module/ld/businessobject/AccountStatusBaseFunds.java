@@ -103,7 +103,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         result = PRIME * result + ((getFinancialSubObjectCode() == null) ? 0 : getFinancialSubObjectCode().hashCode());
         result = PRIME * result + ((getSubAccountNumber() == null) ? 0 : getSubAccountNumber().hashCode());
         result = PRIME * result + ((getUniversityFiscalYear() == null) ? 0 : getUniversityFiscalYear().hashCode());
-        
+
         return result;
     }
 
@@ -167,7 +167,7 @@ public class AccountStatusBaseFunds extends LedgerBalance {
         else if (!getUniversityFiscalYear().equals(other.getUniversityFiscalYear())) {
             return false;
         }
-        
+
         return true;
     }
 }

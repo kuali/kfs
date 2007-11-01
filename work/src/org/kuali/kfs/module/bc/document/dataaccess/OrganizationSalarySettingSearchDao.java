@@ -19,17 +19,16 @@ package org.kuali.module.budget.dao;
  * This class defines methods an OrganizationSalarySettingSearchDao must provide
  */
 public interface OrganizationSalarySettingSearchDao {
-    
+
     /**
-     * This method populates BudgetConstructionIntendedIncumbentSelect with rows associated with a set of
-     * selected organizations in the Organization Tree for the user and that have active funding
-     * (PendingBudgetConstructionAppointmentFunding).
+     * This method populates BudgetConstructionIntendedIncumbentSelect with rows associated with a set of selected organizations in
+     * the Organization Tree for the user and that have active funding (PendingBudgetConstructionAppointmentFunding).
      * 
      * @param personUserIdentifier
      * @param universityFiscalYear
      */
     public void buildIntendedIncumbentSelect(String personUserIdentifier, Integer universityFiscalYear);
-    
+
     /**
      * This method depopulates BudgetConstructionIntendedIncumbentSelect rows associated with a user
      * 
@@ -38,9 +37,9 @@ public interface OrganizationSalarySettingSearchDao {
     public void cleanIntendedIncumbentSelect(String personUserIdentifier);
 
     /**
-     * This method populates BudgetConstructionPositionSelect with rows associated with a set of
-     * selected organizations in the Organization Tree for the user and that are associated with
-     * BudgetConstructionPosition (ld_bcn_pos_t) using the positionDepartmentIdentifier (pos_dept_id))
+     * This method populates BudgetConstructionPositionSelect with rows associated with a set of selected organizations in the
+     * Organization Tree for the user and that are associated with BudgetConstructionPosition (ld_bcn_pos_t) using the
+     * positionDepartmentIdentifier (pos_dept_id))
      * 
      * @param personUserIdentifier
      * @param universityFiscalYear

@@ -23,8 +23,6 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 /**
  * This class...
- * 
- * 
  */
 public class SubObjectPreRules extends MaintenancePreRulesBase {
     private SubObjCd newAccount;

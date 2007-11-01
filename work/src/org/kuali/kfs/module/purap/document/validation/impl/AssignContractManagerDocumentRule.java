@@ -57,40 +57,39 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean isValid = true;
         AssignContractManagerDocument acmDocument = (AssignContractManagerDocument) approveEvent.getDocument();
-//        isValid &= processValidation(acmDocument);
+        // isValid &= processValidation(acmDocument);
         return isValid;
     }
 
     /**
      * Perform validation for Contract Manager Assignment document such as validating contract manager codes.
      * 
-     * @param document  Contract Manager Assignment document
+     * @param document Contract Manager Assignment document
      * @return Boolean indicating if validation succeeded
      */
     private boolean processValidation(AssignContractManagerDocument document) {
         return validateContractManagerCodes(document.getAssignContractManagerDetails());
     }
-    
+
     /**
-     * Review the list of AssignContractManagerDetails where the user has
-     * entered ContractManagerCodes and validates that each code is valid.
+     * Review the list of AssignContractManagerDetails where the user has entered ContractManagerCodes and validates that each code
+     * is valid.
      * 
-     * @param assignContractManagerDetails   A list containing the code to be validated.
+     * @param assignContractManagerDetails A list containing the code to be validated.
      * @return Boolean indicating if validation succeeded
      */
-    public boolean validateContractManagerCodes(List assignContractManagerDetails){
+    public boolean validateContractManagerCodes(List assignContractManagerDetails) {
         LOG.debug("validateContractManagerCodes(): entered method.");
         boolean isValid = true;
         for (Iterator iter = assignContractManagerDetails.iterator(); iter.hasNext();) {
             AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
-            
+
             // Look for the contractManagerCode in the table. If not there the code is invalid.
-            if ( ObjectUtils.isNotNull( detail.getContractManagerCode() ) ) {
+            if (ObjectUtils.isNotNull(detail.getContractManagerCode())) {
                 Map fieldValues = new HashMap();
                 fieldValues.put(PurapPropertyConstants.CONTRACT_MANAGER_CODE, detail.getContractManagerCode());
-                if ( SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1 ) {
-                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS,
-                            PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE,detail.getContractManagerCode().toString() );
+                if (SpringContext.getBean(BusinessObjectService.class).countMatching(ContractManager.class, fieldValues) != 1) {
+                    GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
             }

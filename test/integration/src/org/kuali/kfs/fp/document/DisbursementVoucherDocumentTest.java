@@ -52,11 +52,9 @@ import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class is used to test DisbursementVoucherDocument.
- * 
- * 
  */
 @ConfigureContext(session = HSCHREIN)
-//@RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
+// @RelatesTo(RelatesTo.JiraIssue.KULRNE5908)
 public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     public static final Class<DisbursementVoucherDocument> DOCUMENT_CLASS = DisbursementVoucherDocument.class;
@@ -112,8 +110,8 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
-    //@RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE4834)
     public final void testWorkflowRouting() throws Exception {
         // save and route the document
         Document document = buildDocument();
@@ -128,7 +126,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
         assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(document, ACCOUNT_REVIEW));
         assertTrue("Document should be enroute.", document.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
         assertTrue("VPUTMAN should have an approve request.", document.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
-        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as VPUTMAN", null); 
+        SpringContext.getBean(DocumentService.class).approveDocument(document, "Test approving as VPUTMAN", null);
 
         WorkflowTestUtils.waitForNodeChange(document.getDocumentHeader().getWorkflowDocument(), ORG_REVIEW);
         // now doc should be in Org Review routing to CSWINSON
@@ -245,12 +243,12 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
 
-    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         // get document parameter
         AccountingDocument document = buildDocument();
@@ -266,7 +264,7 @@ public class DisbursementVoucherDocumentTest extends KualiTestBase {
 
     }
 
-    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions=true)
+    @ConfigureContext(session = HSCHREIN, shouldCommitTransactions = true)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }

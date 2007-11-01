@@ -28,10 +28,10 @@ public class OriginEntryTotals {
     protected KualiDecimal creditAmount;
     protected KualiDecimal debitAmount;
     protected KualiDecimal otherAmount;
-    protected int numCreditEntries; 
+    protected int numCreditEntries;
     protected int numDebitEntries;
     protected int numOtherEntries;
-    
+
     public OriginEntryTotals() {
         creditAmount = KualiDecimal.ZERO;
         debitAmount = KualiDecimal.ZERO;
@@ -42,7 +42,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the creditAmount attribute. 
+     * Gets the creditAmount attribute.
+     * 
      * @return Returns the creditAmount.
      */
     public KualiDecimal getCreditAmount() {
@@ -51,6 +52,7 @@ public class OriginEntryTotals {
 
     /**
      * Sets the creditAmount attribute value.
+     * 
      * @param creditAmount The creditAmount to set.
      */
     public void setCreditAmount(KualiDecimal creditAmount) {
@@ -58,7 +60,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the debitAmount attribute. 
+     * Gets the debitAmount attribute.
+     * 
      * @return Returns the debitAmount.
      */
     public KualiDecimal getDebitAmount() {
@@ -67,6 +70,7 @@ public class OriginEntryTotals {
 
     /**
      * Sets the debitAmount attribute value.
+     * 
      * @param debitAmount The debitAmount to set.
      */
     public void setDebitAmount(KualiDecimal debitAmount) {
@@ -74,7 +78,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the numCreditEntries attribute. 
+     * Gets the numCreditEntries attribute.
+     * 
      * @return Returns the numCreditEntries.
      */
     public int getNumCreditEntries() {
@@ -83,6 +88,7 @@ public class OriginEntryTotals {
 
     /**
      * Sets the numCreditEntries attribute value.
+     * 
      * @param numCreditEntries The numCreditEntries to set.
      */
     public void setNumCreditEntries(int numCreditEntries) {
@@ -90,7 +96,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the numDebitEntries attribute. 
+     * Gets the numDebitEntries attribute.
+     * 
      * @return Returns the numDebitEntries.
      */
     public int getNumDebitEntries() {
@@ -99,6 +106,7 @@ public class OriginEntryTotals {
 
     /**
      * Sets the numDebitEntries attribute value.
+     * 
      * @param numDebitEntries The numDebitEntries to set.
      */
     public void setNumDebitEntries(int numDebitEntries) {
@@ -106,7 +114,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the numOtherEntries attribute. 
+     * Gets the numOtherEntries attribute.
+     * 
      * @return Returns the numOtherEntries.
      */
     public int getNumOtherEntries() {
@@ -115,6 +124,7 @@ public class OriginEntryTotals {
 
     /**
      * Sets the numOtherEntries attribute value.
+     * 
      * @param numOtherEntries The numOtherEntries to set.
      */
     public void setNumOtherEntries(int numOtherEntries) {
@@ -122,7 +132,8 @@ public class OriginEntryTotals {
     }
 
     /**
-     * Gets the otherAmount attribute. 
+     * Gets the otherAmount attribute.
+     * 
      * @return Returns the otherAmount.
      */
     public KualiDecimal getOtherAmount() {
@@ -131,12 +142,13 @@ public class OriginEntryTotals {
 
     /**
      * Sets the otherAmount attribute value.
+     * 
      * @param otherAmount The otherAmount to set.
      */
     public void setOtherAmount(KualiDecimal otherAmount) {
         this.otherAmount = otherAmount;
     }
-    
+
     public void addToTotals(Iterator<OriginEntryFull> entries) {
         while (entries.hasNext()) {
             OriginEntryFull originEntry = entries.next();
@@ -150,22 +162,23 @@ public class OriginEntryTotals {
             }
             else {
                 otherAmount = otherAmount.add(originEntry.getTransactionLedgerEntryAmount());
-                numOtherEntries++;;
+                numOtherEntries++;
+                ;
             }
         }
     }
-    
+
     /**
      * Adds up the values in the parameter totals object to the corresponding fields in this object
      * 
      * @param anotherTotals
      */
     public void incorporateTotals(OriginEntryTotals anotherTotals) {
-       creditAmount = creditAmount.add(anotherTotals.creditAmount);
-       debitAmount = debitAmount.add(anotherTotals.debitAmount);
-       otherAmount = otherAmount.add(anotherTotals.otherAmount);
-       numCreditEntries += anotherTotals.numCreditEntries;
-       numDebitEntries += anotherTotals.numDebitEntries;
-       numOtherEntries += anotherTotals.numOtherEntries;
+        creditAmount = creditAmount.add(anotherTotals.creditAmount);
+        debitAmount = debitAmount.add(anotherTotals.debitAmount);
+        otherAmount = otherAmount.add(anotherTotals.otherAmount);
+        numCreditEntries += anotherTotals.numCreditEntries;
+        numDebitEntries += anotherTotals.numDebitEntries;
+        numOtherEntries += anotherTotals.numOtherEntries;
     }
 }

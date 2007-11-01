@@ -26,21 +26,20 @@ import org.kuali.module.cg.bo.Close;
 public interface AwardDao {
 
     /**
-     * Get a {@link Collection} of {@link Award}s to close. This is used by 
-     * the {@link CloseBatchStep}.
+     * Get a {@link Collection} of {@link Award}s to close. This is used by the {@link CloseBatchStep}.
      * 
      * @param c
      * @return
      */
     public Collection<Award> getAwardsToClose(Close c);
-    
+
     /**
      * Save an {@link Award}.
      * 
      * @param award
      */
     public void save(Award award);
-    
+
     /**
      * Delete all Awards.
      */

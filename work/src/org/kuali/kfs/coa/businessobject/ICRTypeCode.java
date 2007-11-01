@@ -19,8 +19,6 @@ import org.kuali.core.bo.KualiCodeBase;
 
 /**
  * This class...
- * 
- * 
  */
 public class ICRTypeCode extends KualiCodeBase {
 

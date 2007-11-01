@@ -14,7 +14,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.UserNameFixture;
 
-@ConfigureContext(session=UserNameFixture.KULUSER)
+@ConfigureContext(session = UserNameFixture.KULUSER)
 public class LaborBatchRunner extends KualiTestBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBatchRunner.class);
 
@@ -24,11 +24,11 @@ public class LaborBatchRunner extends KualiTestBase {
             runStep(step);
         }
     }
-    
-    private void runStep(Step step){
+
+    private void runStep(Step step) {
         try {
             String stepName = step.getName();
-            
+
             long start = System.currentTimeMillis();
             System.out.println(stepName + " started at " + start);
 
@@ -39,6 +39,6 @@ public class LaborBatchRunner extends KualiTestBase {
         }
         catch (Exception e) {
             System.out.println(e);
-        } 
+        }
     }
 }

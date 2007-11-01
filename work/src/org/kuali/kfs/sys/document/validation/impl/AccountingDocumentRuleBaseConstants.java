@@ -17,10 +17,9 @@ package org.kuali.kfs.rules;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.context.SpringContext;
 
 /**
  * Holds common constants for all Transaction Processing eDoc rule classes.
@@ -29,9 +28,9 @@ public interface AccountingDocumentRuleBaseConstants {
     // Security grouping constants used to do application parameter lookups
     public static final class APPLICATION_PARAMETER_SECURITY_GROUP {
         public static final String KUALI_TRANSACTION_PROCESSING_GLOBAL_RULES_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.GlobalRules";
-        //WorkGroup for sales tax collection parameters
+        // WorkGroup for sales tax collection parameters
         public static final String KUALI_TRANSACTION_PROCESSING_SALES_TAX_COLLECTION_GROUPING = "Kuali.FinancialTransactionProcessing.SalesTaxCollection";
-        
+
     }
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
@@ -48,10 +47,11 @@ public interface AccountingDocumentRuleBaseConstants {
         public static final String FUND_GROUP_BALANCING_SET = "FUND_GROUP_BALANCING_SET";
         // doctype parameter
         public static final String DOCTYPE_SALES_TAX_CHECK = "SALES_TAX_APPLICABLE_DOCUMENT_TYPES";
-        
+
         // combination object code and account parameter
         public static final String SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES = "SALES_TAX_APPLICABLE_ACCOUNTS_AND_OBJECT_CODES";
     }
+
     /**
      * Constant to statically define reusable error paths
      */
@@ -71,35 +71,35 @@ public interface AccountingDocumentRuleBaseConstants {
         private static String BLANK_OBJECT_TYPE_CODE = null; // Max length is 4 for this field
         public static final String GL_PE_OFFSET_STRING = "TP Generated Offset";
         public static final int GLPE_DESCRIPTION_MAX_LENGTH = 40;
-        
+
         public static String getBlankProjectCode() {
             if (BLANK_PROJECT_STRING == null) {
                 BLANK_PROJECT_STRING = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.PROJECT_CODE), '-');
             }
             return BLANK_PROJECT_STRING;
         }
-        
+
         public static String getBlankFinancialSubObjectCode() {
             if (BLANK_SUB_OBJECT_CODE == null) {
                 BLANK_SUB_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.FINANCIAL_SUB_OBJECT_CODE), '-');
             }
             return BLANK_SUB_OBJECT_CODE;
         }
-        
+
         public static String getBlankSubAccountNumber() {
             if (BLANK_SUB_ACCOUNT_NUMBER == null) {
                 BLANK_SUB_ACCOUNT_NUMBER = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.SUB_ACCOUNT_NUMBER), '-');
             }
             return BLANK_SUB_ACCOUNT_NUMBER;
         }
-        
+
         public static String getBlankFinancialObjectCode() {
             if (BLANK_OBJECT_CODE == null) {
                 BLANK_OBJECT_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE), '-');
             }
             return BLANK_OBJECT_CODE;
         }
-        
+
         public static String getBlankFinancialObjectType() {
             if (BLANK_OBJECT_TYPE_CODE == null) {
                 BLANK_OBJECT_TYPE_CODE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeMaxLength(GeneralLedgerPendingEntry.class, KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE), '-');

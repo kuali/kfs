@@ -450,7 +450,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             throw new RuntimeException(e.getMessage());
         }
 
-        //FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
+        // FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(cmDocument, "");
         LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedCreditMemo() ended");
@@ -566,7 +566,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
-        //always return false, never reverse
+        // always return false, never reverse
         return false;
     }
 
@@ -597,10 +597,10 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
-    
-        public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
-        //if the po item is not active... skip it
-        if(!poItem.isItemActiveIndicator()) {
+
+    public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
+        // if the po item is not active... skip it
+        if (!poItem.isItemActiveIndicator()) {
             return false;
         }
 

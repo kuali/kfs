@@ -16,10 +16,6 @@
 
 package org.kuali.module.purap.bo;
 
-import java.util.LinkedHashMap;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.kuali.core.util.KualiDecimal;
 
 /**
  * Requisition Account Business Object.
@@ -27,21 +23,21 @@ import org.kuali.core.util.KualiDecimal;
 public class RequisitionAccount extends PurApAccountingLineBase {
 
     private static final long serialVersionUID = -8655437895493693864L;
-    
+
     private RequisitionItem requisitionItem;
 
-	public RequisitionItem getRequisitionItem() { 
-		return requisitionItem;
-	}
+    public RequisitionItem getRequisitionItem() {
+        return requisitionItem;
+    }
 
-	/**
-	 * Sets the requisitionItem attribute.
-	 * 
-	 * @param requisitionItem The requisitionItem to set.
-	 * @deprecated
-	 */
-	public void setRequisitionItem(RequisitionItem requisitionItem) {
-		this.requisitionItem = requisitionItem;
-	}
+    /**
+     * Sets the requisitionItem attribute.
+     * 
+     * @param requisitionItem The requisitionItem to set.
+     * @deprecated
+     */
+    public void setRequisitionItem(RequisitionItem requisitionItem) {
+        this.requisitionItem = requisitionItem;
+    }
 
 }

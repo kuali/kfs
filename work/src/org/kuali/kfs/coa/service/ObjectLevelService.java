@@ -19,8 +19,6 @@ import org.kuali.module.chart.bo.ObjLevel;
 
 /**
  * This interface defines methods that an ObjLevel Service must provide.
- * 
- * 
  */
 public interface ObjectLevelService {
     /**

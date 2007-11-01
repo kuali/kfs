@@ -35,8 +35,8 @@ public class BuildingValuesFinder extends KeyValuesBase {
         List labels = new ArrayList();
         labels.add(new KeyLabelPair("", ""));
         for (Iterator iter = buildings.iterator(); iter.hasNext();) {
-            Building building = (Building)iter.next();
-            labels.add(new KeyLabelPair( building.getBuildingCode(), building.getBuildingCode()+" - "+building.getBuildingName()));
+            Building building = (Building) iter.next();
+            labels.add(new KeyLabelPair(building.getBuildingCode(), building.getBuildingCode() + " - " + building.getBuildingName()));
         }
         return labels;
     }

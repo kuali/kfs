@@ -44,7 +44,7 @@ import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class LaborLedgerEntryPosterTest extends KualiTestBase {
-    
+
     private Properties properties;
     private String fieldNames;
     private String deliminator;
@@ -68,51 +68,51 @@ public class LaborLedgerEntryPosterTest extends KualiTestBase {
         fieldNames = properties.getProperty("fieldNames");
         deliminator = properties.getProperty("deliminator");
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
-        
+
         laborLedgerEntryPoster = SpringContext.getBeansOfType(PostTransaction.class).get("laborLedgerEntryPoster");
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         originEntryGroupService = SpringContext.getBean(OriginEntryGroupService.class);
         laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
-        
-        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);        
+
+        group1 = originEntryGroupService.createGroup(dateTimeService.getCurrentSqlDate(), LABOR_MAIN_POSTER_VALID, false, false, false);
         today = dateTimeService.getCurrentDate();
-        
+
         LedgerEntry cleanup = new LedgerEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
         businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
     }
-    
-    public void testPost() throws Exception {       
+
+    public void testPost() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("post.numOfData"));
         int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
-        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));        
-        
+        int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
+
         List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
-        
-        for(LaborOriginEntry transaction : transactionList){
+
+        for (LaborOriginEntry transaction : transactionList) {
             String operation = laborLedgerEntryPoster.post(transaction, 0, today);
             Integer currentNumber = operationType.get(operation);
             Integer numberOfOperation = currentNumber != null ? currentNumber + 1 : 1;
             operationType.put(operation, numberOfOperation);
         }
-        
+
         Collection returnValues = businessObjectService.findMatching(LedgerEntry.class, fieldValues);
         assertEquals(numberOfTestData, returnValues.size());
-        
+
         assertEquals(1, operationType.size());
         assertEquals(expectedInsertion, operationType.get(KFSConstants.OperationType.INSERT).intValue());
-        
+
         LedgerEntry expected1 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(expected1, properties, "post.expected1", fieldNames, deliminator);
         assertEquals(expectedMaxSequenceNumber, laborLedgerEntryService.getMaxSequenceNumber(expected1).intValue());
-        
+
         LedgerEntry expected2 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(expected2, properties, "post.expected2", fieldNames, deliminator);
         assertEquals(expectedMaxSequenceNumber, laborLedgerEntryService.getMaxSequenceNumber(expected2).intValue());
-        
+
         LedgerEntry expected3 = new LedgerEntry();
         ObjectUtil.populateBusinessObject(expected3, properties, "post.expected3", fieldNames, deliminator);
         assertEquals(expectedMaxSequenceNumber, laborLedgerEntryService.getMaxSequenceNumber(expected3).intValue());

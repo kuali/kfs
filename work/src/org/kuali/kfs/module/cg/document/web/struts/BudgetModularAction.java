@@ -34,8 +34,6 @@ import org.kuali.module.kra.budget.web.struts.form.BudgetForm;
 
 /**
  * This class handles Actions for the Budget Modular page.
- * 
- * 
  */
 public class BudgetModularAction extends BudgetAction {
 
@@ -114,7 +112,7 @@ public class BudgetModularAction extends BudgetAction {
         SpringContext.getBean(BudgetModularService.class).generateModularBudget(budgetForm.getBudgetDocument().getBudget(), budgetForm.getNonpersonnelCategories());
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     /**
      * Reload from the database & recalculate all derived values.
      * 

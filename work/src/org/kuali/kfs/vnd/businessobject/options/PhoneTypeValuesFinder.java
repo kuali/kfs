@@ -46,7 +46,7 @@ public class PhoneTypeValuesFinder extends KeyValuesBase {
             PhoneType type = (PhoneType) iter.next();
             labels.add(new KeyLabelPair(type.getVendorPhoneTypeCode(), type.getVendorPhoneTypeDescription()));
         }
-        
+
         return labels;
     }
 

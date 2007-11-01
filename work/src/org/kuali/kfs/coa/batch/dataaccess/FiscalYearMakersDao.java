@@ -16,155 +16,139 @@
 package org.kuali.module.chart.dao;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
-import java.lang.*;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 
-/*  
- *   data access methods for fiscal year makers
+/*
+ * data access methods for fiscal year makers
  */
 public interface FiscalYearMakersDao {
 
-public static final boolean replaceMode=true;
+    public static final boolean replaceMode = true;
 
-//@@TODO: remove these test routines
-   public void testUpdateTwoDigitYear(); 
-   public void testRIRelationships()  throws NoSuchMethodException,
-                                             IllegalAccessException,
-                                             InvocationTargetException;
+    // @@TODO: remove these test routines
+    public void testUpdateTwoDigitYear();
 
-   
+    public void testRIRelationships() throws NoSuchMethodException, IllegalAccessException, InvocationTargetException;
+
+
     /**
-     * 
      * This method...
+     * 
      * @return
      */
     public Integer fiscalYearFromToday();
-    
+
     /**
+     * this is the only routine that simply replaces what is there, if anything but, we have to do a delete--otherwise, we can get
+     * an optimistic locking exception when we try to store a new row on top of something already in the database. we will delete by
+     * fiscal year. the accounting period is assumed to correspond to the month, with the month of the start date being the first
+     * period and the month of the last day of the fiscal year being the twelfth. the fiscal year tag is always the year of the
+     * ending date of the fiscal year
      * 
-     * this is the only routine that simply replaces what is there, if anything
-     * but, we have to do a delete--otherwise, we can get an optimistic locking
-     * exception when we try to store a new row on top of something already in 
-     * the database.  we will delete by fiscal year.
-     * the accounting period is assumed to correspond to the month, with the month of the start date being the first period and the month of the last
-     * day of the fiscal year being the twelfth.
-     * the fiscal year tag is always the year of the ending date of the fiscal year
      * @param newYearStartDate
      */
     public void makeUniversityDate(GregorianCalendar newYearStartDate);
-    
 
-    /********************************************************************************
-     *                      Routines for RI                                         *
-     ********************************************************************************                      
-     * some kuali objects represent reference tables keyed by fiscal period
-     * (usually a fiscal year).
-     * when a new fiscal period is created, these objects are copied from the predecessor
-     * period so that it is not necessary for someone to type literally thousands of
-     * rows into a maintenance document, changing only the fiscal period key.
-     * if there is referential integrity in the data base, these objects must be copied
-     * in a certain order.  the implementation of this interface allows us to "inject"
-     * that order into a spring bean, and access and manipulate it during the copy
-     * process (informally known as "fiscal year makers").
-     * this object makes adding a new object to the process simpler, by allowing the
-     * RI relationships to be expressed in XML.
-     * 
-     * ALL "fiscal year makers" objects should be included in this bean, even if they
-     * have no RI relationship with any other "fiscal year maker" object.  The object
-     * list from this bean is used to trigger the copying of every fiscal year maker
-     * object.  
+
+    /*******************************************************************************************************************************
+     * Routines for RI * ******************************************************************************* some kuali objects
+     * represent reference tables keyed by fiscal period (usually a fiscal year). when a new fiscal period is created, these objects
+     * are copied from the predecessor period so that it is not necessary for someone to type literally thousands of rows into a
+     * maintenance document, changing only the fiscal period key. if there is referential integrity in the data base, these objects
+     * must be copied in a certain order. the implementation of this interface allows us to "inject" that order into a spring bean,
+     * and access and manipulate it during the copy process (informally known as "fiscal year makers"). this object makes adding a
+     * new object to the process simpler, by allowing the RI relationships to be expressed in XML. ALL "fiscal year makers" objects
+     * should be included in this bean, even if they have no RI relationship with any other "fiscal year maker" object. The object
+     * list from this bean is used to trigger the copying of every fiscal year maker object.
      */
-    
+
     /**
-     * fetch and set a map of child classes involved in fiscal year makers
-     * (ALL such classes should be included, even those which have no parent(s)
-     * in the RI tree.)
-     * @return HashMap containing the 
-     */
-    public HashMap<String,Class> getMakerObjectsList();
-    
-    /**
+     * fetch and set a map of child classes involved in fiscal year makers (ALL such classes should be included, even those which
+     * have no parent(s) in the RI tree.)
      * 
+     * @return HashMap containing the
+     */
+    public HashMap<String, Class> getMakerObjectsList();
+
+    /**
      * This method...
+     * 
      * @param makerObjectList
      */
-    public void setMakerObjectsList(HashMap<String,Class> makerObjectList);
-    
+    public void setMakerObjectsList(HashMap<String, Class> makerObjectList);
+
     /**
-     * fetch and set a map of child classes involved in fiscal year makers
-     * and a list of their RI parents
+     * fetch and set a map of child classes involved in fiscal year makers and a list of their RI parents
+     * 
      * @return
      */
-    public HashMap<String,ArrayList<Class>> getChildParentMap();
-    
+    public HashMap<String, ArrayList<Class>> getChildParentMap();
+
     /**
-     * 
      * This method...
+     * 
      * @param childParentArrayMap
      */
-    public void setChildParentArrayMap(HashMap<String,Class[]> childParentArrayMap);
-    
+    public void setChildParentArrayMap(HashMap<String, Class[]> childParentArrayMap);
+
     /**
-     *  the "lagging copy cycle" objects are those which are always one fiscal period
-     behind.  in other words, the base period for the other objects (the source 
-     period for the copy) is the request period for them (the target period for 
-     their copy).
-     * This method...
+     * the "lagging copy cycle" objects are those which are always one fiscal period behind. in other words, the base period for the
+     * other objects (the source period for the copy) is the request period for them (the target period for their copy). This
+     * method...
+     * 
      * @param laggingCopyCycle
      */
-    public void setLaggingCopyCycle (HashSet<String> laggingCopyCycle);
-    
+    public void setLaggingCopyCycle(HashSet<String> laggingCopyCycle);
+
     /**
-     *  auto-update or auto-delete in OJB will interfere with the copy order prescribed above.
-     (Tables A and C may be a parents of Table B, but A may have no relation to C.  If A has
-      an auto-xxx on B, then B will be written when A is, even if C is later in the copy order
-      than A, and an RI exception will result.)  So, the code resets any auto-xxx properties
-      on tables involved in a fiscal-year-makers parent-child relationship.
-      this routine resets the original values at the end of fiscal year makers
+     * auto-update or auto-delete in OJB will interfere with the copy order prescribed above. (Tables A and C may be a parents of
+     * Table B, but A may have no relation to C. If A has an auto-xxx on B, then B will be written when A is, even if C is later in
+     * the copy order than A, and an RI exception will result.) So, the code resets any auto-xxx properties on tables involved in a
+     * fiscal-year-makers parent-child relationship. this routine resets the original values at the end of fiscal year makers
      */
     public void resetCascades();
-    
-    
+
+
     /**
-     *  when the reference objects for a base fiscal period are copied into the
-     next fiscal period, there is an option to delete all of the next period
-     objects that already exit and replace them with their base period counterparts
-     this method reads a list of the delete order which satisfies RI (i.e.,
-     the dependent object must be deleted before the parent object) and does the
-     job in the proper order.  
-     * This method...
+     * when the reference objects for a base fiscal period are copied into the next fiscal period, there is an option to delete all
+     * of the next period objects that already exit and replace them with their base period counterparts this method reads a list of
+     * the delete order which satisfies RI (i.e., the dependent object must be deleted before the parent object) and does the job in
+     * the proper order. This method...
+     * 
      * @param RequestYear
      */
     public void deleteNewYearRows(Integer requestYear);
-    
+
     /**
-     * when we want to copy two years at a time for some tables, we use this method
-     * with "slash and burn" mode to delete any rows for the year after RequestYear
-     * that already exist for the parents
+     * when we want to copy two years at a time for some tables, we use this method with "slash and burn" mode to delete any rows
+     * for the year after RequestYear that already exist for the parents
+     * 
      * @param RequestYear
      * @param childClass
      */
-    public void deleteYearAfterNewYearRowsForParents(Integer requestYear,
-                                                     Class childClass);
-    
+    public void deleteYearAfterNewYearRowsForParents(Integer requestYear, Class childClass);
+
     /**
-     * 
      * This method checks to see whether the test class is in the parent list for the child class
+     * 
      * @param testClassName
      * @param childClass
      * @return true if testClassName is a parent class of childClass
      */
     public boolean isAParentOf(String testClassName, Class childClass);
 
-    
+
     /**
-     * this returns the data structure containing a copy order that is consistent
-     * with the RI relationships configured in the XML
+     * this returns the data structure containing a copy order that is consistent with the RI relationships configured in the XML
+     * 
      * @param baseYear
      * @param replaceMode
      * @return
      */
-    public LinkedHashMap<String,FiscalYearMakersCopyAction> 
-                setUpRun(Integer baseYear, boolean replaceMode);
+    public LinkedHashMap<String, FiscalYearMakersCopyAction> setUpRun(Integer baseYear, boolean replaceMode);
 
 }

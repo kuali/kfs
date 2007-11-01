@@ -34,8 +34,6 @@ import org.kuali.module.kra.budget.service.BudgetPeriodService;
 
 /**
  * This is used by the UI to get totals, counts, and other things needed to render nonpersonnel copy over properly.
- * 
- * 
  */
 public class BudgetNonpersonnelCopyOverFormHelper {
 
@@ -148,8 +146,6 @@ public class BudgetNonpersonnelCopyOverFormHelper {
     /**
      * Class that stores the nonpersonnel items. From the copy over page seen this is a category with each having the line items for
      * all tasks.
-     * 
-     * 
      */
     public class NonpersonnelCopyOverCategoryHelper {
         private String nonpersonnelCategoryCode; // this field isn't critical, but it is helpful
@@ -389,8 +385,6 @@ public class BudgetNonpersonnelCopyOverFormHelper {
          * For each item NonpersonnelCopyOverCategoryHelper we have this object to essentially represent each nonpersonnel item per
          * period (it helps to look at the nonpersonnel copy over page -- periods go out horizontally, that is what this object with
          * its list represents).
-         * 
-         * 
          */
         public class NonpersonnelCopyOverLineItemHelper {
             // these two are the same for each item in the periodAmounts list. It is in this object
@@ -400,7 +394,8 @@ public class BudgetNonpersonnelCopyOverFormHelper {
 
             private Integer originBudgetPeriodSequenceNumber; // for ease of determining where the boss is
             private List periodAmounts; // mostly static in size (would have preferred []), but ArrayList will make implementation
-                                        // of getPeriodAmount easier which is needed by struts for hidden variables
+
+            // of getPeriodAmount easier which is needed by struts for hidden variables
 
             /**
              * Constructs a NonpersonnelCopyOverCategoryHelper. Default, no arg constructor
@@ -444,7 +439,8 @@ public class BudgetNonpersonnelCopyOverFormHelper {
             }
 
             /**
-             * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm budgetForm)
+             * @see org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverFormHelper#deconstruct(BudgetForm
+             *      budgetForm)
              * @param budgetDocument Budget.document
              */
             public void deconstruct(BudgetDocument budgetDocument) {
@@ -475,8 +471,8 @@ public class BudgetNonpersonnelCopyOverFormHelper {
                             budgetNonpersonnel.setBudgetThirdPartyCostShareCopyIndicator(budgetNonpersonnelCopyOverBoHelper.getBudgetThirdPartyCostShareCopyIndicator());
 
                             budgetNonpersonnel.setCopyToFuturePeriods(false); // nothing to do with copy over, just make sure the
-                                                                                // checkbox is unchecked if "save" is used to copy
-                                                                                // over items on NPRS page
+                            // checkbox is unchecked if "save" is used to copy
+                            // over items on NPRS page
 
                             // update amounts. If indicator set, use inflated amounts, otherwise use original amounts. Need to
                             // check both cases because we don't know if user checked or unchecked field.

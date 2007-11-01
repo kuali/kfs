@@ -16,7 +16,6 @@
 package org.kuali.module.labor.util.testobject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,17 +23,17 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 
-public class LedgerEntryForTesting extends LedgerEntry{
-    @ Override
-    public boolean equals(Object otherLedgerEntry){
+public class LedgerEntryForTesting extends LedgerEntry {
+    @Override
+    public boolean equals(Object otherLedgerEntry) {
         return ObjectUtil.compareObject(this, otherLedgerEntry, getPrimaryKeyList());
     }
-    
+
     public Map getPrimaryKeyMap() {
         return ObjectUtil.buildPropertyMap(this, this.getPrimaryKeyList());
     }
-    
-    public List<String> getPrimaryKeyList(){
+
+    public List<String> getPrimaryKeyList() {
         List<String> primaryKeyList = new ArrayList<String>();
         primaryKeyList.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         primaryKeyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);

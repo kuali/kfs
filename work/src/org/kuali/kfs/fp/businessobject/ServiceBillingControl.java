@@ -23,8 +23,6 @@ import org.kuali.module.chart.bo.Chart;
 
 /**
  * ServiceBillingControl Business Object
- * 
- * 
  */
 public class ServiceBillingControl extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = -615796117852059115L;
@@ -38,7 +36,6 @@ public class ServiceBillingControl extends PersistableBusinessObjectBase {
 
     /**
      * This constructor sets up empty instances for the dependent objects...
-     * 
      */
     public ServiceBillingControl() {
         account = new Account();

@@ -38,7 +38,7 @@ public class NextSubcontractorNumberFinder implements ValueFinder {
      */
     public static Long getLongValue() {
         // no constant because this is the only place the sequence name is used
-        Long nextVal = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CG_SUBCNR_NBR_SEQ"); 
+        Long nextVal = SpringContext.getBean(SequenceAccessorService.class).getNextAvailableSequenceNumber("CG_SUBCNR_NBR_SEQ");
         return nextVal;
     }
 
@@ -48,5 +48,5 @@ public class NextSubcontractorNumberFinder implements ValueFinder {
     public static String getStringValue() {
         return getLongValue().toString();
     }
-    
+
 }

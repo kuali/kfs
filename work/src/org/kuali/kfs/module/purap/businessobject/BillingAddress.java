@@ -26,108 +26,108 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class BillingAddress extends PersistableBusinessObjectBase {
 
-	private String billingCampusCode;
-	private String billingName;
-	private String billingLine1Address;
-	private String billingLine2Address;
-	private String billingCityName;
-	private String billingStateCode;
-	private String billingPostalCode;
-	private String billingCountryCode;
-	private String billingPhoneNumber;
+    private String billingCampusCode;
+    private String billingName;
+    private String billingLine1Address;
+    private String billingLine2Address;
+    private String billingCityName;
+    private String billingStateCode;
+    private String billingPostalCode;
+    private String billingCountryCode;
+    private String billingPhoneNumber;
     private boolean active;
-    
+
     private Campus billingCampus;
 
     /**
      * Default constructor.
      */
-	public BillingAddress() {
+    public BillingAddress() {
 
-	}
+    }
 
-	public String getBillingCampusCode() { 
-		return billingCampusCode;
-	}
+    public String getBillingCampusCode() {
+        return billingCampusCode;
+    }
 
-	public void setBillingCampusCode(String billingCampusCode) {
-		this.billingCampusCode = billingCampusCode;
-	}
+    public void setBillingCampusCode(String billingCampusCode) {
+        this.billingCampusCode = billingCampusCode;
+    }
 
-	public String getBillingName() { 
-		return billingName;
-	}
+    public String getBillingName() {
+        return billingName;
+    }
 
-	public void setBillingName(String billingName) {
-		this.billingName = billingName;
-	}
+    public void setBillingName(String billingName) {
+        this.billingName = billingName;
+    }
 
-	public String getBillingLine1Address() { 
-		return billingLine1Address;
-	}
+    public String getBillingLine1Address() {
+        return billingLine1Address;
+    }
 
-	public void setBillingLine1Address(String billingLine1Address) {
-		this.billingLine1Address = billingLine1Address;
-	}
+    public void setBillingLine1Address(String billingLine1Address) {
+        this.billingLine1Address = billingLine1Address;
+    }
 
-	public String getBillingLine2Address() { 
-		return billingLine2Address;
-	}
+    public String getBillingLine2Address() {
+        return billingLine2Address;
+    }
 
-	public void setBillingLine2Address(String billingLine2Address) {
-		this.billingLine2Address = billingLine2Address;
-	}
+    public void setBillingLine2Address(String billingLine2Address) {
+        this.billingLine2Address = billingLine2Address;
+    }
 
-	public String getBillingCityName() { 
-		return billingCityName;
-	}
+    public String getBillingCityName() {
+        return billingCityName;
+    }
 
-	public void setBillingCityName(String billingCityName) {
-		this.billingCityName = billingCityName;
-	}
+    public void setBillingCityName(String billingCityName) {
+        this.billingCityName = billingCityName;
+    }
 
-	public String getBillingStateCode() { 
-		return billingStateCode;
-	}
+    public String getBillingStateCode() {
+        return billingStateCode;
+    }
 
-	public void setBillingStateCode(String billingStateCode) {
-		this.billingStateCode = billingStateCode;
-	}
+    public void setBillingStateCode(String billingStateCode) {
+        this.billingStateCode = billingStateCode;
+    }
 
-	public String getBillingPostalCode() { 
-		return billingPostalCode;
-	}
+    public String getBillingPostalCode() {
+        return billingPostalCode;
+    }
 
-	public void setBillingPostalCode(String billingPostalCode) {
-		this.billingPostalCode = billingPostalCode;
-	}
+    public void setBillingPostalCode(String billingPostalCode) {
+        this.billingPostalCode = billingPostalCode;
+    }
 
-    public String getBillingCountryCode() { 
-		return billingCountryCode;
-	}
+    public String getBillingCountryCode() {
+        return billingCountryCode;
+    }
 
-	public void setBillingCountryCode(String billingCountryCode) {
-		this.billingCountryCode = billingCountryCode;
-	}
+    public void setBillingCountryCode(String billingCountryCode) {
+        this.billingCountryCode = billingCountryCode;
+    }
 
-    public String getBillingPhoneNumber() { 
-		return billingPhoneNumber;
-	}
+    public String getBillingPhoneNumber() {
+        return billingPhoneNumber;
+    }
 
-	public void setBillingPhoneNumber(String billingPhoneNumber) {
-		this.billingPhoneNumber = billingPhoneNumber;
-	}
+    public void setBillingPhoneNumber(String billingPhoneNumber) {
+        this.billingPhoneNumber = billingPhoneNumber;
+    }
 
-	public Campus getBillingCampus() { 
-		return billingCampus;
-	}
+    public Campus getBillingCampus() {
+        return billingCampus;
+    }
 
-	/**
-	 * @deprecated
-	 */
-	public void setBillingCampus(Campus billingCampus) {
-		this.billingCampus = billingCampus;
-	}
+    /**
+     * @deprecated
+     */
+    public void setBillingCampus(Campus billingCampus) {
+        this.billingCampus = billingCampus;
+    }
 
     public boolean isActive() {
         return active;
@@ -141,7 +141,7 @@ public class BillingAddress extends PersistableBusinessObjectBase {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("billingCampusCode", this.billingCampusCode);
         return m;
     }

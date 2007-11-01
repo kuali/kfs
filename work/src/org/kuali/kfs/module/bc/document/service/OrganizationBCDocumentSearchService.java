@@ -16,19 +16,16 @@
 package org.kuali.module.budget.service;
 
 /**
- * This class defines methods an OrganizationBCDocumentSearchService must provide
- * 
- * The OrganizationBCDocumentSearchService provides methods that build and clean the temporary
- * tables used in the Organization Account (Budget Document) Selection lookups.  It is assumed that the
- * Organization Tree exists and that the user has selected at least one organization before deriving
- * the list of budgeted accounts (Budget Documents).
- * 
+ * This class defines methods an OrganizationBCDocumentSearchService must provide The OrganizationBCDocumentSearchService provides
+ * methods that build and clean the temporary tables used in the Organization Account (Budget Document) Selection lookups. It is
+ * assumed that the Organization Tree exists and that the user has selected at least one organization before deriving the list of
+ * budgeted accounts (Budget Documents).
  */
 public interface OrganizationBCDocumentSearchService {
-    
+
     /**
-     * This method populates BudgetConstructionAccountSelect with rows associated with a set of
-     * selected organizations in the Organization Tree for the user and where Budget Documents exist.
+     * This method populates BudgetConstructionAccountSelect with rows associated with a set of selected organizations in the
+     * Organization Tree for the user and where Budget Documents exist.
      * 
      * @param personUserIdentifier
      * @param universityFiscalYear

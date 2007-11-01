@@ -23,8 +23,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing an enter modular event.
- * 
- * 
  */
 public class EnterModularEvent extends KualiDocumentEventBase implements KualiDocumentEvent {
 

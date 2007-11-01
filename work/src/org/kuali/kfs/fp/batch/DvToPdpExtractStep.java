@@ -17,7 +17,6 @@ package org.kuali.module.financial.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.financial.service.DisbursementVoucherExtractService;
-import org.springframework.transaction.annotation.Transactional;
 
 public class DvToPdpExtractStep extends AbstractStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DvToPdpExtractStep.class);

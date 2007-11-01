@@ -36,8 +36,6 @@ import org.kuali.test.fixtures.AccountingLineFixture;
 
 /**
  * This class is used to test the IndirectCostAdjustmentDocument.
- * 
- * 
  */
 @ConfigureContext(session = KHUNTLEY)
 public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
@@ -58,54 +56,57 @@ public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
     }
 
 
-
-
     public final void testAddAccountingLine() throws Exception {
         List<SourceAccountingLine> sourceLines = generateSouceAccountingLines();
         List<TargetAccountingLine> targetLines = generateTargetAccountingLines();
         int expectedSourceTotal = sourceLines.size();
-        int expectedTargetTotal = targetLines.size()+expectedSourceTotal;
+        int expectedTargetTotal = targetLines.size() + expectedSourceTotal;
         AccountingDocumentTestUtils.testAddAccountingLine(DocumentTestUtils.createDocument(SpringContext.getBean(DocumentService.class), DOCUMENT_CLASS), sourceLines, targetLines, expectedSourceTotal, expectedTargetTotal);
     }
 
     public final void testGetNewDocument() throws Exception {
         testGetNewDocument_byDocumentClass(DOCUMENT_CLASS, SpringContext.getBean(DocumentService.class));
     }
+
     public final void testConvertIntoCopy_copyDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy_copyDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
-       
+
     }
 
     public final void testConvertIntoErrorCorrection_documentAlreadyCorrected() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_documentAlreadyCorrected(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
+
     public final void testConvertIntoErrorCorrection_errorCorrectionDisallowed() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_errorCorrectionDisallowed(buildDocument(), SpringContext.getBean(DataDictionaryService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    //@RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection(buildDocument(), getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    //@RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testRouteDocument() throws Exception {
         AccountingDocumentTestUtils.testRouteDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    //@RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
-    //@RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
+
+    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
+    // @RelatesTo(RelatesTo.JiraIssue.KULRNE5779)
     public final void testConvertIntoCopy() throws Exception {
         AccountingDocumentTestUtils.testConvertIntoCopy(buildDocument(), SpringContext.getBean(DocumentService.class), getExpectedPrePeCount());
     }
-    
-    
-    //test util methods
+
+
+    // test util methods
     private List<SourceAccountingLine> generateSouceAccountingLines() throws Exception {
         List<SourceAccountingLine> sourceLines = new ArrayList<SourceAccountingLine>();
         // set accountinglines to document
@@ -128,16 +129,16 @@ public class IndirectCostAdjustmentDocumentTest extends KualiTestBase {
     private IndirectCostAdjustmentDocument buildDocument() throws Exception {
         // put accounting lines into document parameter for later
         IndirectCostAdjustmentDocument document = (IndirectCostAdjustmentDocument) getDocumentParameterFixture();
-    
+
         // set accountinglines to document
         for (AccountingLineFixture sourceFixture : getSourceAccountingLineParametersFromFixtures()) {
             sourceFixture.addAsSourceTo(document);
         }
-    
+
         for (AccountingLineFixture targetFixture : getTargetAccountingLineParametersFromFixtures()) {
             targetFixture.addAsTargetTo(document);
         }
-    
+
         return document;
     }
 

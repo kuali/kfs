@@ -51,7 +51,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     private String documentNumber;
     private KualiDecimal collectorDetailItemAmount;
     private String collectorDetailNoteText;
-    
+
     private ObjectCode financialObject;
     private Account account;
     private Chart chartOfAccounts;
@@ -70,7 +70,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the universityFiscalPeriodCode attribute.
      * 
      * @return Returns the universityFiscalPeriodCode
-     * 
      */
     public String getUniversityFiscalPeriodCode() {
         return universityFiscalPeriodCode;
@@ -80,7 +79,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the universityFiscalPeriodCode attribute.
      * 
      * @param universityFiscalPeriodCode The universityFiscalPeriodCode to set.
-     * 
      */
     public void setUniversityFiscalPeriodCode(String universityFiscalPeriodCode) {
         this.universityFiscalPeriodCode = universityFiscalPeriodCode;
@@ -91,7 +89,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -101,7 +98,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -112,7 +108,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the createDate attribute.
      * 
      * @return Returns the createDate
-     * 
      */
     public Date getCreateDate() {
         return createDate;
@@ -122,7 +117,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the createDate attribute.
      * 
      * @param createDate The createDate to set.
-     * 
      */
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
@@ -133,7 +127,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the createSequence attribute.
      * 
      * @return Returns the createSequence
-     * 
      */
     public String getCreateSequence() {
         return createSequence;
@@ -143,7 +136,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the createSequence attribute.
      * 
      * @param createSequence The createSequence to set.
-     * 
      */
     public void setCreateSequence(String createSequence) {
         this.createSequence = createSequence;
@@ -154,7 +146,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -164,7 +155,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -175,7 +165,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the accountNumber attribute.
      * 
      * @return Returns the accountNumber
-     * 
      */
     public String getAccountNumber() {
         return accountNumber;
@@ -185,7 +174,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the accountNumber attribute.
      * 
      * @param accountNumber The accountNumber to set.
-     * 
      */
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
@@ -196,7 +184,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the subAccountNumber attribute.
      * 
      * @return Returns the subAccountNumber
-     * 
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
@@ -206,7 +193,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the subAccountNumber attribute.
      * 
      * @param subAccountNumber The subAccountNumber to set.
-     * 
      */
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
@@ -217,7 +203,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the financialObjectCode attribute.
      * 
      * @return Returns the financialObjectCode
-     * 
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
@@ -227,7 +212,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the financialObjectCode attribute.
      * 
      * @param financialObjectCode The financialObjectCode to set.
-     * 
      */
     public void setFinancialObjectCode(String financialObjectCode) {
         this.financialObjectCode = financialObjectCode;
@@ -238,7 +222,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the financialSubObjectCode attribute.
      * 
      * @return Returns the financialSubObjectCode
-     * 
      */
     public String getFinancialSubObjectCode() {
         return financialSubObjectCode;
@@ -248,7 +231,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the financialSubObjectCode attribute.
      * 
      * @param financialSubObjectCode The financialSubObjectCode to set.
-     * 
      */
     public void setFinancialSubObjectCode(String financialSubObjectCode) {
         this.financialSubObjectCode = financialSubObjectCode;
@@ -259,7 +241,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the collectorDetailSequenceNumber attribute.
      * 
      * @return Returns the collectorDetailSequenceNumber
-     * 
      */
     public String getCollectorDetailSequenceNumber() {
         return collectorDetailSequenceNumber;
@@ -269,7 +250,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the collectorDetailSequenceNumber attribute.
      * 
      * @param collectorDetailSequenceNumber The collectorDetailSequenceNumber to set.
-     * 
      */
     public void setCollectorDetailSequenceNumber(String collectorDetailSequenceNumber) {
         this.collectorDetailSequenceNumber = collectorDetailSequenceNumber;
@@ -280,7 +260,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the financialDocumentTypeCode attribute.
      * 
      * @return Returns the financialDocumentTypeCode
-     * 
      */
     public String getFinancialDocumentTypeCode() {
         return financialDocumentTypeCode;
@@ -290,7 +269,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the financialDocumentTypeCode attribute.
      * 
      * @param financialDocumentTypeCode The financialDocumentTypeCode to set.
-     * 
      */
     public void setFinancialDocumentTypeCode(String financialDocumentTypeCode) {
         this.financialDocumentTypeCode = financialDocumentTypeCode;
@@ -301,7 +279,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the financialSystemOriginationCode attribute.
      * 
      * @return Returns the financialSystemOriginationCode
-     * 
      */
     public String getFinancialSystemOriginationCode() {
         return financialSystemOriginationCode;
@@ -311,7 +288,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the financialSystemOriginationCode attribute.
      * 
      * @param financialSystemOriginationCode The financialSystemOriginationCode to set.
-     * 
      */
     public void setFinancialSystemOriginationCode(String financialSystemOriginationCode) {
         this.financialSystemOriginationCode = financialSystemOriginationCode;
@@ -322,7 +298,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -332,7 +307,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -343,7 +317,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the collectorDetailItemAmount attribute.
      * 
      * @return Returns the collectorDetailItemAmount
-     * 
      */
     public KualiDecimal getCollectorDetailItemAmount() {
         return collectorDetailItemAmount;
@@ -353,7 +326,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the collectorDetailItemAmount attribute.
      * 
      * @param collectorDetailItemAmount The collectorDetailItemAmount to set.
-     * 
      */
     public void setCollectorDetailItemAmount(KualiDecimal collectorDetailItemAmount) {
         this.collectorDetailItemAmount = collectorDetailItemAmount;
@@ -362,16 +334,15 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     public void setCollectorDetailItemAmount(String collectorDetailItemAmount) {
         this.collectorDetailItemAmount = new KualiDecimal(collectorDetailItemAmount);
     }
-    
+
     public void clearcollectorDetailItemAmount() {
         this.collectorDetailItemAmount = null;
     }
-    
+
     /**
      * Gets the collectorDetailNoteText attribute.
      * 
      * @return Returns the collectorDetailNoteText
-     * 
      */
     public String getCollectorDetailNoteText() {
         return collectorDetailNoteText;
@@ -381,7 +352,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Sets the collectorDetailNoteText attribute.
      * 
      * @param collectorDetailNoteText The collectorDetailNoteText to set.
-     * 
      */
     public void setCollectorDetailNoteText(String collectorDetailNoteText) {
         this.collectorDetailNoteText = collectorDetailNoteText;
@@ -392,7 +362,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the financialObject attribute.
      * 
      * @return Returns the financialObject
-     * 
      */
     public ObjectCode getFinancialObject() {
         return financialObject;
@@ -412,7 +381,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the account attribute.
      * 
      * @return Returns the account
-     * 
      */
     public Account getAccount() {
         return account;
@@ -432,7 +400,6 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -473,7 +440,8 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the balanceTyp attribute. 
+     * Gets the balanceTyp attribute.
+     * 
      * @return Returns the balanceTyp.
      */
     public BalanceTyp getBalanceType() {
@@ -482,6 +450,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the balanceTyp attribute value.
+     * 
      * @param balanceTyp The balanceTyp to set.
      */
     public void setBalanceType(BalanceTyp balanceTyp) {
@@ -489,7 +458,8 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialBalanceTypeCode attribute. 
+     * Gets the financialBalanceTypeCode attribute.
+     * 
      * @return Returns the financialBalanceTypeCode.
      */
     public String getFinancialBalanceTypeCode() {
@@ -498,6 +468,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialBalanceTypeCode attribute value.
+     * 
      * @param financialBalanceTypeCode The financialBalanceTypeCode to set.
      */
     public void setFinancialBalanceTypeCode(String financialBalanceTypeCode) {
@@ -505,7 +476,8 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialObjectTypeCode attribute. 
+     * Gets the financialObjectTypeCode attribute.
+     * 
      * @return Returns the financialObjectTypeCode.
      */
     public String getFinancialObjectTypeCode() {
@@ -514,6 +486,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the financialObjectTypeCode attribute value.
+     * 
      * @param financialObjectTypeCode The financialObjectTypeCode to set.
      */
     public void setFinancialObjectTypeCode(String financialObjectTypeCode) {
@@ -521,7 +494,8 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the objectType attribute. 
+     * Gets the objectType attribute.
+     * 
      * @return Returns the objectType.
      */
     public ObjectType getObjectType() {
@@ -530,6 +504,7 @@ public class CollectorDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the objectType attribute value.
+     * 
      * @param objectType The objectType to set.
      */
     public void setObjectType(ObjectType objectType) {

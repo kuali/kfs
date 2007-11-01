@@ -42,9 +42,8 @@ public class NominalActivityClosingStep extends AbstractStep {
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
-     * Runs the nominal activity process, including retrieving system parameters for the process,
-     * creating the origin entry group for output origin entries, and generating reports based
-     * on the run
+     * Runs the nominal activity process, including retrieving system parameters for the process, creating the origin entry group
+     * for output origin entries, and generating reports based on the run
      * 
      * @param jobName the name of the job this step is being run as part of
      * @return true if the job completed successfully, false if otherwise
@@ -53,7 +52,7 @@ public class NominalActivityClosingStep extends AbstractStep {
     public boolean execute(String jobName) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        
+
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
@@ -75,8 +74,8 @@ public class NominalActivityClosingStep extends AbstractStep {
         yearEndService.generateCloseNominalActivityReports(nominalClosingOriginEntryGroup, nominalClosingJobParameters, nominalActivityClosingCounts);
 
         stopWatch.stop();
-        LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
-        
+        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
+
         return true;
     }
 

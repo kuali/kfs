@@ -20,8 +20,6 @@ import org.kuali.core.service.DocumentService;
 
 /**
  * DocumentVersionMonitor
- * 
- * 
  */
 public class DocumentVersionMonitor extends ChangeMonitor {
     private final DocumentService documentService;

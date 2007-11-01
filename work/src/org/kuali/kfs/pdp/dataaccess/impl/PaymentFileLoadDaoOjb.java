@@ -19,39 +19,38 @@ import org.kuali.module.pdp.dao.PaymentFileLoadDao;
 
 /**
  * @author jsissom
- *
  */
 public class PaymentFileLoadDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentFileLoadDao {
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileLoadDaoOjb.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentFileLoadDaoOjb.class);
 
-  public PaymentFileLoadDaoOjb() {
-    super();
-  }
+    public PaymentFileLoadDaoOjb() {
+        super();
+    }
 
-  public boolean isDuplicateBatch(CustomerProfile customer, Integer count, BigDecimal totalAmount, Timestamp now) {
-    LOG.debug("isDuplicateBatch() starting");
+    public boolean isDuplicateBatch(CustomerProfile customer, Integer count, BigDecimal totalAmount, Timestamp now) {
+        LOG.debug("isDuplicateBatch() starting");
 
-    Criteria criteria = new Criteria();
-    criteria.addEqualTo("customerId",customer.getId());
-    criteria.addEqualTo("customerFileCreateTimestamp",now);
-    criteria.addEqualTo("paymentCount",count);
-    criteria.addEqualTo("paymentTotalAmount",totalAmount);
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("customerId", customer.getId());
+        criteria.addEqualTo("customerFileCreateTimestamp", now);
+        criteria.addEqualTo("paymentCount", count);
+        criteria.addEqualTo("paymentTotalAmount", totalAmount);
 
-    return getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Batch.class,criteria)) != null;
-  }
+        return getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(Batch.class, criteria)) != null;
+    }
 
-  public void createBatch(Batch batch) {
-    LOG.debug("createBatch() started");
+    public void createBatch(Batch batch) {
+        LOG.debug("createBatch() started");
 
-    getPersistenceBrokerTemplate().store(batch);
-  }
+        getPersistenceBrokerTemplate().store(batch);
+    }
 
-  public void createGroup(PaymentGroup group) {
-    LOG.debug("createGroup() started");
-    getPersistenceBrokerTemplate().store(group);
-  }
+    public void createGroup(PaymentGroup group) {
+        LOG.debug("createGroup() started");
+        getPersistenceBrokerTemplate().store(group);
+    }
 
-  public void createPaymentAccountHistory(PaymentAccountHistory pah) {
-    getPersistenceBrokerTemplate().store(pah);
-  }
+    public void createPaymentAccountHistory(PaymentAccountHistory pah) {
+        getPersistenceBrokerTemplate().store(pah);
+    }
 }

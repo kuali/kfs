@@ -15,17 +15,8 @@
  */
 package org.kuali.module.chart.lookup;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.kfs.KFSConstants;
 
 /**
  * This class overrides the base getActionUrls to set it to an empty string
@@ -34,7 +25,6 @@ public class IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl exte
 
     /**
      * @returns Empty string because we don't want any action links to be displayed on the lookups results page.
-     *
      * @see org.kuali.core.lookup.LookupableHelperService#getActionUrls(org.kuali.core.bo.BusinessObject)
      */
     public String getActionUrls(BusinessObject businessObject) {

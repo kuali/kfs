@@ -26,5 +26,5 @@ public interface ScrubberProcessObjectCodeOverride {
      * @return new originEntryObjectCode
      */
     public String getOriginEntryObjectCode(String originEntryObjectLevelCode, String originEntryObjectCode);
-    
+
 }

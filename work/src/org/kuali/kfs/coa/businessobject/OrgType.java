@@ -21,8 +21,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Org Type Business Object
- * 
- * 
  */
 public class OrgType extends PersistableBusinessObjectBase {
     private String organizationTypeCode;

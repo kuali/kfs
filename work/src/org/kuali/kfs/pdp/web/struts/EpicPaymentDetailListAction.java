@@ -51,10 +51,12 @@ public class EpicPaymentDetailListAction extends BaseAction {
         if (pd.equals(null)) {
             // Handle Session expiration
             return mapping.findForward("pdp_session_timeout");
-        } else if (GeneralUtilities.isStringEmpty(listType)) {
+        }
+        else if (GeneralUtilities.isStringEmpty(listType)) {
             // Invalid call to Action
             return mapping.findForward("pdp_system_error");
-        } else {
+        }
+        else {
             if ((!("disbursement".equals(listType))) && (!("group".equals(listType)))) {
                 // Invalid List Type
                 return mapping.findForward("pdp_system_error");

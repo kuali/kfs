@@ -57,13 +57,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
-  
+
     // Retransmit.
     private String[] retransmitItemsSelected = {};
     private String retransmitTransmissionMethod;
     private String retransmitFaxNumber;
     private String retransmitHeader;
-    
+
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
 
@@ -94,7 +94,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
     public void setAwardedVendorNumber(Long awardedVendorNumber) {
         this.awardedVendorNumber = awardedVendorNumber;
-    }   
+    }
 
     public PurchaseOrderVendorStipulation getNewPurchaseOrderVendorStipulationLine() {
         return newPurchaseOrderVendorStipulationLine;
@@ -119,7 +119,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     public void setPurchaseOrderIdentifier(Integer purchaseOrderIdentifier) {
         this.purchaseOrderIdentifier = purchaseOrderIdentifier;
     }
-  
+
     public String[] getRetransmitItemsSelected() {
         return retransmitItemsSelected;
     }
@@ -212,9 +212,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // which condition e.g. we might not want to display the close button
         // on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
 
-        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object 
+        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object
         // so that button duplication never occurs.
-        // Only problem would be if same 'methodToCall' string was used on two different button images... 
+        // Only problem would be if same 'methodToCall' string was used on two different button images...
         // in which case an if-else could be fix
 
         Map buttonsMap = createButtonsMap();
@@ -227,7 +227,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
         boolean isUserAuthorized = false;
-        
+
         try {
             isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
         }
@@ -243,26 +243,27 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as
         // the button for creating a retransmit document but this may change someday. It should only appear on Retransmit
         // Document.
-        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {        
+        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {
             ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }
 
-        // show the PO Print button if the status is Pending Print and the user is either authorized 
+        // show the PO Print button if the status is Pending Print and the user is either authorized
         // or an action is requested of them for the document transmission route node
         boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
         if (PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) && (isUserAuthorized || isDocumentTransmissionActionRequested)) {
             ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
             this.getExtraButtons().add(printButton);
         }
-        
+
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
             this.getExtraButtons().add(reopenButton);
         }
-        
+
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
-            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any other
+            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any
+            // other
             // statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This button
             // is available to all faculty/staff (everyone ?)
             boolean validForDisplayingCloseButton = true;
@@ -280,7 +281,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                     }
                 }
             }
-            
+
             if (validForDisplayingCloseButton) {
                 ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
                 this.getExtraButtons().add(closeButton);
@@ -294,7 +295,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
                 this.getExtraButtons().add(amendButton);
             }
         }
-        
+
         // Conditions for displaying Void button (in addition to the purchaseOrder current indicator is true and
         // pending indicator is false and the user is member of kuali purap purchasing):
         // 1. If the PO is in Pending Print status, or
@@ -313,9 +314,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
 
     /**
+     * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.
      * 
-     * Creates a MAP for all the buttons to appear on the Purchase Order Form, 
-     * and sets the attributes of these buttons.
      * @return the button map created.
      */
     private Map<String, ExtraButton> createButtonsMap() {
@@ -396,15 +396,15 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
         po.getDocumentBusinessObject();
-        
+
         super.populate(request);
 
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
-        
-        //TODO: RELEASE 3 (KULPURAP-1397 ctk) temporary workaround remove once linked RNE issue is resolved
-        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>)po.getDocumentBusinessObject().getBoNotes()) {
+
+        // TODO: RELEASE 3 (KULPURAP-1397 ctk) temporary workaround remove once linked RNE issue is resolved
+        for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
     }

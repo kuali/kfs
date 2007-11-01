@@ -44,7 +44,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * Retrieves account business object by primary key
-     *
+     * 
      * @param chartOfAccountsCode - the FIN_COA_CD of the Chart Code that is part of the composite key of Account
      * @param accountNumber - the ACCOUNT_NBR part of the composite key of Accont
      * @return Account
@@ -62,7 +62,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * fetch the accounts that the user is either the fiscal officer or a delegate of the fiscal officer
-     *
+     * 
      * @param kualiUser
      * @return a list of Accounts that the user has responsibility for
      */
@@ -76,8 +76,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     *
      * This method determines if the given user has any responsibilities on the given account
+     * 
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user is somehow responsible for account, false if otherwise
@@ -91,10 +91,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * Resolves the Primary Delegate for the given delegate example.  If the primary delegate exists for a specific
-     * Document Type Code and for a Document Type Code of "ALL", the delegate for the specific document type code
-     * is returned;
-     *
+     * Resolves the Primary Delegate for the given delegate example. If the primary delegate exists for a specific Document Type
+     * Code and for a Document Type Code of "ALL", the delegate for the specific document type code is returned;
+     * 
      * @see org.kuali.module.chart.dao.AccountDao#getPrimaryDelegationByExample(org.kuali.module.chart.bo.Delegate,
      *      java.lang.String)
      */
@@ -109,7 +108,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
                 return delegate;
             }
         }
-        return (Delegate)collection.iterator().next();
+        return (Delegate) collection.iterator().next();
     }
 
     /**
@@ -121,9 +120,9 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
+     * This method creates a {@link Criteria} based on {@link Delegate}, dollar amount and whether or not it is the primary
+     * delegate
      * 
-     * This method creates a {@link Criteria} based on {@link Delegate}, dollar amount and whether
-     * or not it is the primary delegate
      * @param delegateExample
      * @param totalDollarAmount
      * @param accountsDelegatePrmrtIndicator
@@ -161,6 +160,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * method to get the fo responsibilities for the account
+     * 
      * @param universalUser - fiscal officer to check for
      * @return list of {@link AccountResponsibility} for this fiscal officer
      */
@@ -178,8 +178,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     *
      * This method determines if a given user has fiscal officer responsiblity on a given account.
+     * 
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user does have fiscal officer responsibility on account, false if otherwise
@@ -192,7 +192,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         criteria.addEqualTo("accountNumber", account.getAccountNumber());
         Collection accounts = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Account.class, criteria));
         if (accounts != null && accounts.size() > 0) {
-            Account retrievedAccount = (Account)accounts.iterator().next();
+            Account retrievedAccount = (Account) accounts.iterator().next();
             if (ObjectUtils.isNotNull(retrievedAccount)) {
                 hasFiscalOfficerResponsibility = true;
             }
@@ -202,6 +202,7 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * method to get the fo delegated responsibilities for the account
+     * 
      * @param universalUser - user to check against
      * @return a list of {@link AccountResponsibility} objects for a delegate
      */
@@ -229,8 +230,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     *
      * This method determines if a user has delegated responsibilities on a given account.
+     * 
      * @param universalUser the user to check responsibilities for
      * @param account the account to check responsibilities on
      * @return true if user has delegated responsibilities
@@ -259,7 +260,6 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.AccountDao#getAllAccounts()
      * @return an iterator for all accounts
      */

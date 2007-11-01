@@ -16,7 +16,7 @@
 package org.kuali.module.labor.rules;
 
 /**
- *  Business rule(s) applicable to Year End Benefit Expense Transfer documents.
+ * Business rule(s) applicable to Year End Benefit Expense Transfer documents.
  */
 public class YearEndBenefitExpenseTransferDocumentRule extends BenefitExpenseTransferDocumentRule {
 

@@ -27,31 +27,26 @@ import org.kuali.core.dao.LookupDao;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.BeanPropertyComparator;
-import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.module.purap.bo.PurapUser;
 import org.kuali.module.vendor.bo.VendorContract;
-import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class VendorContractLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private LookupDao lookupDao;
     private DateTimeService dateTimeService;
-    
+
     public void setLookupDao(LookupDao lookupDao) {
         this.lookupDao = lookupDao;
     }
-    
+
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
     /**
-     * Overrides the getSearchResults in the super class so that we can do some customization 
-     * in our vendor contract lookup.
-     *  
+     * Overrides the getSearchResults in the super class so that we can do some customization in our vendor contract lookup.
+     * 
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -66,7 +61,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         additionalCriteria.addLessOrEqualThan("vendorContractBeginningDate", now);
         additionalCriteria.addGreaterOrEqualThan("vendorContractEndDate", now);
 
-        //We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
+        // We ought to call the findCollectionBySearchHelper that would accept the additionalCriteria
         boolean usePrimaryKeyValuesOnly = getLookupService().allPrimaryKeyValuesPresentAndNotWildcard(getBusinessObjectClass(), fieldValues);
         List<PersistableBusinessObject> searchResults = (List) lookupDao.findCollectionBySearchHelper(getBusinessObjectClass(), fieldValues, unbounded, usePrimaryKeyValuesOnly, additionalCriteria);
 
@@ -84,7 +79,7 @@ public class VendorContractLookupableHelperServiceImpl extends AbstractLookupabl
         if (defaultSortColumns.size() > 0) {
             Collections.sort(finalSearchResults, new BeanPropertyComparator(getDefaultSortColumns(), true));
         }
-        
+
         return finalSearchResults;
     }
 

@@ -16,32 +16,31 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author delyea
- *
  */
 @Transactional
-public class BankServiceImpl implements BankService{
-  private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
+public class BankServiceImpl implements BankService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankServiceImpl.class);
 
-  private BankDao bankDao;
+    private BankDao bankDao;
 
-  public void setBankDao(BankDao c) {
-    bankDao = c;
-  }
+    public void setBankDao(BankDao c) {
+        bankDao = c;
+    }
 
-  public List getAll() {
-    return bankDao.getAll();
-  }
+    public List getAll() {
+        return bankDao.getAll();
+    }
 
-  public Bank get(Integer bankId) {
-    return bankDao.get(bankId);
-  }
+    public Bank get(Integer bankId) {
+        return bankDao.get(bankId);
+    }
 
-  public List getAllBanksForDisbursementType(String type) {
-    return bankDao.getAllBanksForDisbursementType(type);
-  }
+    public List getAllBanksForDisbursementType(String type) {
+        return bankDao.getAllBanksForDisbursementType(type);
+    }
 
-  public void save(Bank b) {
-    bankDao.save(b);
-  }
+    public void save(Bank b) {
+        bankDao.save(b);
+    }
 
 }

@@ -11,12 +11,13 @@ import org.kuali.module.pdp.bo.DisbursementNumberRange;
 
 /**
  * @author jsissom
- *
  */
 public interface DisbursementNumberRangeDao {
 
-  public List getAll();
-  public DisbursementNumberRange get(Integer id);
-  public void save(DisbursementNumberRange dnr);
+    public List getAll();
+
+    public DisbursementNumberRange get(Integer id);
+
+    public void save(DisbursementNumberRange dnr);
 
 }

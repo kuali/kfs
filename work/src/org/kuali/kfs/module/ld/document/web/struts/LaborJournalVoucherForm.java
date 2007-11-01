@@ -35,7 +35,7 @@ import org.kuali.module.labor.document.LaborJournalVoucherDocument;
  * Struts Action Form for the Labor Journal Voucher Document.
  */
 public class LaborJournalVoucherForm extends JournalVoucherForm {
-    
+
     private String originalOffsetTypeCode = JournalVoucherOffsetType.NO_OFFSET.typeCode;
 
     /**
@@ -57,9 +57,10 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
             sourceLine.setBalanceTypeCode(selectedBalanceType.getCode());
 
             /*
-             * set the encumbrance update code appropriately. If balance type is an external encumbrance, update code can be D or R. For all other encumbrance types it must
-             * be D. If the balance type is not an encumbrance type the update code is set to null 
-             */ 
+             * set the encumbrance update code appropriately. If balance type is an external encumbrance, update code can be D or R.
+             * For all other encumbrance types it must be D. If the balance type is not an encumbrance type the update code is set
+             * to null
+             */
             if (selectedBalanceType.isFinBalanceTypeEncumIndicator()) {
                 if (StringUtils.isBlank(sourceLine.getEncumbranceUpdateCode()) || !KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(sourceLine.getEncumbranceUpdateCode())) {
                     sourceLine.setEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
@@ -71,7 +72,7 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
         }
         else {
             // it's the first time in, the form will be empty the first time in set up default selection value
-            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL); 
+            selectedBalanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(KFSConstants.BALANCE_TYPE_ACTUAL);
             setSelectedBalanceType(selectedBalanceType);
             setOriginalBalanceType(selectedBalanceType.getCode());
 

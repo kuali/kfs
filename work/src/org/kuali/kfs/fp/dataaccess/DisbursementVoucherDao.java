@@ -23,7 +23,7 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 public interface DisbursementVoucherDao {
     /**
      * Saves the Disbursement Voucher Document
-     *
+     * 
      * @param document
      */
     public void save(DisbursementVoucherDocument document);

@@ -43,7 +43,6 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the universityFiscalYear attribute.
      * 
      * @return Returns the universityFiscalYear
-     * 
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
@@ -53,7 +52,6 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the universityFiscalYear attribute.
      * 
      * @param universityFiscalYear The universityFiscalYear to set.
-     * 
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
@@ -64,7 +62,6 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the chartOfAccountsCode attribute.
      * 
      * @return Returns the chartOfAccountsCode
-     * 
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
@@ -74,7 +71,6 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Sets the chartOfAccountsCode attribute.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
@@ -85,7 +81,6 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      * Gets the chartOfAccounts attribute.
      * 
      * @return Returns the chartOfAccounts
-     * 
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
@@ -106,7 +101,7 @@ public class ObjectCodeGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber() );
+        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, getDocumentNumber());
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }

@@ -22,8 +22,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the Chart service.
- * 
- * 
  */
 @ConfigureContext
 public class ChartServiceTest extends KualiTestBase {

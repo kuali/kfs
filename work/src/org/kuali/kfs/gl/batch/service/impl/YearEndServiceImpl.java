@@ -89,15 +89,12 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * This class actually generates all the origin entries for nominal activity closing and
-     * saves them to the proper origin entry group.
-     * 
-     * Note: Much (but no longer all) of the original COBOL program this code is based off of
-     * is within the comments.
+     * This class actually generates all the origin entries for nominal activity closing and saves them to the proper origin entry
+     * group. Note: Much (but no longer all) of the original COBOL program this code is based off of is within the comments.
      * 
      * @param nominalClosingOriginEntryGroup the origin entry group to save the generated nominal closing entries to
-     * @param nominalClosingJobParameters a map of parameters for the job: 
-     * @param nominalClosingCounts various statistical counts 
+     * @param nominalClosingJobParameters a map of parameters for the job:
+     * @param nominalClosingCounts various statistical counts
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#closeNominalActivity()
      */
     public void closeNominalActivity(OriginEntryGroup nominalClosingOriginEntryGroup, Map nominalClosingJobParameters, Map<String, Integer> nominalClosingCounts) {
@@ -108,8 +105,8 @@ public class YearEndServiceImpl implements YearEndService {
         String varNetRevenueObjectCode = null;
         String varFundBalanceObjectCode = null;
         String varFundBalanceObjectTypeCode = null;
-        Integer varFiscalYear = (Integer)nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
-        Date varTransactionDate = (Date)nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIV_DT);
+        Integer varFiscalYear = (Integer) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIVERSITY_FISCAL_YEAR);
+        Date varTransactionDate = (Date) nominalClosingJobParameters.get(GLConstants.ColumnNames.UNIV_DT);
 
         // 678 003650 DISPLAY "UNIV_FISCAL_YR" UPON ENVIRONMENT-NAME.
         // 679 003660 ACCEPT VAR-UNIV-FISCAL-YR FROM ENVIRONMENT-VALUE.
@@ -907,7 +904,7 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Generates the transaction ledger entry description for a given balance 
+     * Generates the transaction ledger entry description for a given balance
      * 
      * @param descriptorIntro the introduction to the description
      * @param balance the balance the transaction description will refer to
@@ -962,9 +959,12 @@ public class YearEndServiceImpl implements YearEndService {
      * origin entries are generated, etc. This relationship makes YearEndServiceImpl and BalanceForwardRuleHelper heavily dependent
      * upon one another in terms of expected behavior.
      * 
-     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with open accounts 
-     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with closed accounts
-     * @param balanceForwardRuleHelper the BalanceForwardRuleHelper which holds the important state - the job parameters and statistics - for the job to run
+     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with
+     *        open accounts
+     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group to save balance forwarding origin entries with
+     *        closed accounts
+     * @param balanceForwardRuleHelper the BalanceForwardRuleHelper which holds the important state - the job parameters and
+     *        statistics - for the job to run
      */
     public void forwardBalances(OriginEntryGroup balanceForwardsUnclosedPriorYearAccountGroup, OriginEntryGroup balanceForwardsClosedPriorYearAccountGroup, BalanceForwardRuleHelper balanceForwardRuleHelper) {
         LOG.debug("forwardBalances() started");
@@ -989,7 +989,8 @@ public class YearEndServiceImpl implements YearEndService {
                 if (balanceForwardRuleHelper.getState().getGlobalSelectCount() % 1000 == 0) {
                     persistenceService.clearCache();
                 }
-            } catch (FatalErrorException fee) {
+            }
+            catch (FatalErrorException fee) {
                 LOG.info(fee.getMessage());
             }
         }
@@ -1009,8 +1010,10 @@ public class YearEndServiceImpl implements YearEndService {
     /**
      * This generates a PDF that summarizes the activity of a forward balance job that's just been run
      * 
-     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with open accounts are stored
-     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with closed accounts are stored
+     * @param balanceForwardsUnclosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with open
+     *        accounts are stored
+     * @param balanceForwardsClosedPriorYearAccountGroup the origin entry group where balance forwarding origin entries with closed
+     *        accounts are stored
      * @param balanceForwardRuleHelper the BalanceForwardRuleHelper that held the state of the balance forward job to report on
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#generateForwardBalanceReports(org.kuali.module.gl.bo.OriginEntryGroup,
      *      org.kuali.module.gl.bo.OriginEntryGroup,
@@ -1051,7 +1054,8 @@ public class YearEndServiceImpl implements YearEndService {
      * Create origin entries to carry forward all open encumbrances from the closing fiscal year into the opening fiscal year.
      * 
      * @param originEntryGroup the origin entry group where generated origin entries should be saved
-     * @param jobParameters the parameters necessary to run this job: the fiscal year to close and the university date the job was run
+     * @param jobParameters the parameters necessary to run this job: the fiscal year to close and the university date the job was
+     *        run
      * @param forwardEncumbrancesCounts the statistical counts generated by this job
      */
     public void forwardEncumbrances(OriginEntryGroup originEntryGroup, Map jobParameters, Map<String, Integer> counts) {
@@ -1174,7 +1178,6 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * 
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingPriorYearAccounts(java.lang.Integer)
      */
@@ -1187,7 +1190,6 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * 
      * @param balanceFiscalYear the fiscal year to find balances encumbrances for
      * @see org.kuali.module.gl.batch.closing.year.service.YearEndService#logAllMissingSubFundGroups(java.lang.Integer)
      */
@@ -1201,7 +1203,8 @@ public class YearEndServiceImpl implements YearEndService {
     }
 
     /**
-     * Sets the encumbranceDao attribute, allowing the injection of an implementation of the data access object that uses a specific O/R mechanism.
+     * Sets the encumbranceDao attribute, allowing the injection of an implementation of the data access object that uses a specific
+     * O/R mechanism.
      * 
      * @param encumbranceDao the implementation of encumbranceDao to set
      * @see org.kuali.module.gl.dao.EncumbranceDao

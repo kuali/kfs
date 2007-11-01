@@ -24,150 +24,149 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code>
- * and/or <code>Org</code>.
+ * Customer numbers that may have been assigned by the Vendor to various <code>Chart</code> and/or <code>Org</code>.
  * 
  * @see org.kuali.module.chart.bo.Chart
  * @see org.kuali.module.chart.bo.Org
  */
 public class VendorCustomerNumber extends PersistableBusinessObjectBase implements Inactivateable {
 
-	private Integer vendorCustomerNumberGeneratedIdentifier;
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-	private String vendorCustomerNumber;
-	private String chartOfAccountsCode;
-	private String vendorOrganizationCode;
+    private Integer vendorCustomerNumberGeneratedIdentifier;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String vendorCustomerNumber;
+    private String chartOfAccountsCode;
+    private String vendorOrganizationCode;
     private boolean active;
-    
+
     private VendorDetail vendorDetail;
-	private Org vendorOrganization;
-	private Chart chartOfAccounts;
+    private Org vendorOrganization;
+    private Chart chartOfAccounts;
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorCustomerNumber() {
+    /**
+     * Default constructor.
+     */
+    public VendorCustomerNumber() {
 
-	}
+    }
 
-	public Integer getVendorCustomerNumberGeneratedIdentifier() {
-        
-		return vendorCustomerNumberGeneratedIdentifier;
-	}
+    public Integer getVendorCustomerNumberGeneratedIdentifier() {
 
-	public void setVendorCustomerNumberGeneratedIdentifier(Integer vendorCustomerNumberGeneratedIdentifier) {
-		this.vendorCustomerNumberGeneratedIdentifier = vendorCustomerNumberGeneratedIdentifier;
-	}
+        return vendorCustomerNumberGeneratedIdentifier;
+    }
 
-	public Integer getVendorHeaderGeneratedIdentifier() { 
-        
-		return vendorHeaderGeneratedIdentifier;
-	}
+    public void setVendorCustomerNumberGeneratedIdentifier(Integer vendorCustomerNumberGeneratedIdentifier) {
+        this.vendorCustomerNumberGeneratedIdentifier = vendorCustomerNumberGeneratedIdentifier;
+    }
 
-	public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
-		this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
-	}
+    public Integer getVendorHeaderGeneratedIdentifier() {
 
-	public Integer getVendorDetailAssignedIdentifier() {
-        
-		return vendorDetailAssignedIdentifier;
-	}
+        return vendorHeaderGeneratedIdentifier;
+    }
 
-	public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
-		this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
-	}
+    public void setVendorHeaderGeneratedIdentifier(Integer vendorHeaderGeneratedIdentifier) {
+        this.vendorHeaderGeneratedIdentifier = vendorHeaderGeneratedIdentifier;
+    }
 
-	public String getVendorCustomerNumber() {
-        
-		return vendorCustomerNumber;
-	}
+    public Integer getVendorDetailAssignedIdentifier() {
 
-	public void setVendorCustomerNumber(String vendorCustomerNumber) {
-		this.vendorCustomerNumber = vendorCustomerNumber;
-	}
+        return vendorDetailAssignedIdentifier;
+    }
 
-	public String getChartOfAccountsCode() {
-        
-		return chartOfAccountsCode;
-	}
+    public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
+        this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
 
-	public void setChartOfAccountsCode(String chartOfAccountsCode) {
-		this.chartOfAccountsCode = chartOfAccountsCode;
-	}
+    public String getVendorCustomerNumber() {
 
-	public String getVendorOrganizationCode() {
-        
-		return vendorOrganizationCode;
-	}
+        return vendorCustomerNumber;
+    }
 
-	public void setVendorOrganizationCode(String vendorOrganizationCode) {
-		this.vendorOrganizationCode = vendorOrganizationCode;
-	}
+    public void setVendorCustomerNumber(String vendorCustomerNumber) {
+        this.vendorCustomerNumber = vendorCustomerNumber;
+    }
+
+    public String getChartOfAccountsCode() {
+
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    public String getVendorOrganizationCode() {
+
+        return vendorOrganizationCode;
+    }
+
+    public void setVendorOrganizationCode(String vendorOrganizationCode) {
+        this.vendorOrganizationCode = vendorOrganizationCode;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
     public void setActive(boolean active) {
         this.active = active;
-    }    
+    }
 
-	public VendorDetail getVendorDetail() { 
-        
-		return vendorDetail;
-	}
+    public VendorDetail getVendorDetail() {
 
-	/**
-	 * Sets the vendorDetail attribute.
-	 * 
-	 * @param vendorDetail The vendorDetail to set.
-	 * @deprecated
-	 */
-	public void setVendorDetail(VendorDetail vendorDetail) {
-		this.vendorDetail = vendorDetail;
-	}
+        return vendorDetail;
+    }
 
-	public Org getVendorOrganization() {
-        
-		return vendorOrganization;
-	}
+    /**
+     * Sets the vendorDetail attribute.
+     * 
+     * @param vendorDetail The vendorDetail to set.
+     * @deprecated
+     */
+    public void setVendorDetail(VendorDetail vendorDetail) {
+        this.vendorDetail = vendorDetail;
+    }
 
-	/**
-	 * Sets the vendorOrganization attribute.
-	 * 
-	 * @param vendorOrganization The vendorOrganization to set.
-	 * @deprecated
-	 */
-	public void setVendorOrganization(Org vendorOrganization) {
-		this.vendorOrganization = vendorOrganization;
-	}
+    public Org getVendorOrganization() {
 
-	public Chart getChartOfAccounts() {
-        
-		return chartOfAccounts;
-	}
+        return vendorOrganization;
+    }
 
-	/**
-	 * Sets the chartOfAccounts attribute.
-	 * 
-	 * @param chartOfAccounts The chartOfAccounts to set.
-	 * @deprecated
-	 */
-	public void setChartOfAccounts(Chart chartOfAccounts) {
-		this.chartOfAccounts = chartOfAccounts;
-	}
+    /**
+     * Sets the vendorOrganization attribute.
+     * 
+     * @param vendorOrganization The vendorOrganization to set.
+     * @deprecated
+     */
+    public void setVendorOrganization(Org vendorOrganization) {
+        this.vendorOrganization = vendorOrganization;
+    }
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    public Chart getChartOfAccounts() {
+
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     * @deprecated
+     */
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.vendorCustomerNumberGeneratedIdentifier != null) {
             m.put("vendorCustomerNumberGeneratedIdentifier", this.vendorCustomerNumberGeneratedIdentifier.toString());
         }
-        
-	    return m;
+
+        return m;
     }
 }

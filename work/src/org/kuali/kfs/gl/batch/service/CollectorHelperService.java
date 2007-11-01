@@ -17,7 +17,6 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
-import org.kuali.core.util.ErrorMap;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.util.CollectorReportData;
@@ -34,8 +33,8 @@ public interface CollectorHelperService {
      * @param fileName - name of file to load (including path)
      * @param group the group into which to persist the origin entries for the collector batch/file
      * @param collectorReportData the object used to store all of the collector status information for reporting
-     * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status info of the collector status
-     * run is added to the end of this list
+     * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status
+     *        info of the collector status run is added to the end of this list
      * @return boolean - true if load was successful, false if errors were encountered
      */
     public boolean loadCollectorFile(String fileName, OriginEntryGroup group, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses);
@@ -52,11 +51,11 @@ public interface CollectorHelperService {
      * Reconciles the trailer total count and amount to the actual parsed contents.
      * 
      * @param batch - batch to check trailer
-     * @param collectorReportData if running the actual collector batch process, should be the object representing the reporting data for
-     * the batch run.  Otherwise, if running in the batch upload screen or in a manner in which reporting information is not needed, then
-     * null may be passed in 
+     * @param collectorReportData if running the actual collector batch process, should be the object representing the reporting
+     *        data for the batch run. Otherwise, if running in the batch upload screen or in a manner in which reporting information
+     *        is not needed, then null may be passed in
      * @return boolean - true if trailer check was OK, false if totals did not match
      */
     public boolean checkTrailerTotals(CollectorBatch batch, CollectorReportData collectorReportData);
-    
+
 }

@@ -23,10 +23,9 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.kra.budget.bo.BudgetNonpersonnel;
 import org.kuali.module.kra.budget.web.struts.form.BudgetNonpersonnelCopyOverBoHelper;
 import org.kuali.test.ConfigureContext;
+
 /**
  * This class tests methods in BudgetNonpersonnelCopyOverBoHelper.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetNonpersonnelCopyOverBoHelperTest extends KualiTestBase {

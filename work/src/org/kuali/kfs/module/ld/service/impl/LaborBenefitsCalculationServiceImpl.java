@@ -25,7 +25,7 @@ import org.kuali.module.labor.service.LaborBenefitsCalculationService;
 public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalculationService {
 
     private BusinessObjectService businessObjectService;
-    
+
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
@@ -33,9 +33,9 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode) {
         Map fieldValues = new HashMap();
         fieldValues.put("universityFiscalYear", universityFiscalYear);
-        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);        
+        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);
         fieldValues.put("positionBenefitTypeCode", benefitTypeCode);
-        
-        return (BenefitsCalculation)businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+
+        return (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
     }
 }

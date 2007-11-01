@@ -1250,7 +1250,7 @@ public class ScrubberProcess {
             liabilityEntry.setFinancialObjectCode(scrubbedEntryChart.getFundBalanceObjectCode());
             if (ObjectUtils.isNotNull(scrubbedEntryChart.getFundBalanceObject())) {
                 liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryChart.getFundBalanceObject().getFinancialObjectTypeCode());
-            } 
+            }
             else {
                 liabilityEntry.setFinancialObjectTypeCode(scrubbedEntryOption.getFinObjectTypeFundBalanceCd());
             }

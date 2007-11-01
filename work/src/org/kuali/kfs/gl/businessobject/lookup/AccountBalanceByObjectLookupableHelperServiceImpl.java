@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
-import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.CollectionIncomplete;
 import org.kuali.kfs.KFSConstants;

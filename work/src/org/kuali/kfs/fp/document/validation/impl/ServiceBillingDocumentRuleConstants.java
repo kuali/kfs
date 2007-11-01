@@ -17,8 +17,6 @@ package org.kuali.module.financial.rules;
 
 /**
  * This class...
- * 
- * 
  */
 public class ServiceBillingDocumentRuleConstants {
     public static final String SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.ServiceBillingDocument";

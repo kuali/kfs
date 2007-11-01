@@ -34,10 +34,8 @@ import org.kuali.test.DocumentTestUtils;
 
 /**
  * This class tests the AccountingLine service.
- * 
- * 
  */
-@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+@ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
 public class AccountingLineServiceTest extends KualiTestBase {
 
     private SourceAccountingLine sline;

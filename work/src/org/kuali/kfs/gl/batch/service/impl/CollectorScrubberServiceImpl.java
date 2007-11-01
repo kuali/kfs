@@ -41,13 +41,13 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     private KualiConfigurationService kualiConfigurationService;
     private PersistenceService persistenceService;
     private ScrubberService scrubberService;
-    
+
     /**
-     * @see org.kuali.module.gl.service.CollectorScrubberService#scrub(org.kuali.module.gl.batch.collector.CollectorBatch, org.kuali.module.gl.util.CollectorReportData)
+     * @see org.kuali.module.gl.service.CollectorScrubberService#scrub(org.kuali.module.gl.batch.collector.CollectorBatch,
+     *      org.kuali.module.gl.util.CollectorReportData)
      */
     public CollectorScrubberStatus scrub(CollectorBatch batch, CollectorReportData collectorReportData) {
-        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), 
-                kualiConfigurationService, persistenceService, scrubberService, collectorReportData);
+        CollectorScrubberProcess collectorScrubberProcess = new CollectorScrubberProcess(batch, SpringContext.getBean(OriginEntryService.class), SpringContext.getBean(OriginEntryGroupService.class), kualiConfigurationService, persistenceService, scrubberService, collectorReportData);
         return collectorScrubberProcess.scrub();
     }
 
@@ -58,7 +58,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
         for (CollectorScrubberStatus collectorScrubberStatus : allStatusObjectsFromCollectorExecution) {
             OriginEntryGroupService originEntryGroupService = collectorScrubberStatus.getOriginEntryGroupService();
             Collection<OriginEntryGroup> groupsToDelete = new ArrayList<OriginEntryGroup>();
-            
+
             if (collectorScrubberStatus.getInputGroup() != null && collectorScrubberStatus.getInputGroup().getId() != null) {
                 groupsToDelete.add(collectorScrubberStatus.getInputGroup());
             }
@@ -82,7 +82,8 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     }
 
     /**
-     * Gets the dateTimeService attribute. 
+     * Gets the dateTimeService attribute.
+     * 
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -91,6 +92,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
     /**
      * Sets the dateTimeService attribute value.
+     * 
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -98,7 +100,8 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     }
 
     /**
-     * Gets the kualiConfigurationService attribute. 
+     * Gets the kualiConfigurationService attribute.
+     * 
      * @return Returns the kualiConfigurationService.
      */
     public KualiConfigurationService getKualiConfigurationService() {
@@ -107,6 +110,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
     /**
      * Sets the kualiConfigurationService attribute value.
+     * 
      * @param kualiConfigurationService The kualiConfigurationService to set.
      */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
@@ -115,6 +119,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
     /**
      * Sets the universityDateDao attribute value.
+     * 
      * @param universityDateDao The universityDateDao to set.
      */
     public void setUniversityDateDao(UniversityDateDao universityDateDao) {
@@ -122,7 +127,8 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     }
 
     /**
-     * Gets the persistenceService attribute. 
+     * Gets the persistenceService attribute.
+     * 
      * @return Returns the persistenceService.
      */
     public PersistenceService getPersistenceService() {
@@ -131,6 +137,7 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
     /**
      * Sets the persistenceService attribute value.
+     * 
      * @param persistenceService The persistenceService to set.
      */
     public void setPersistenceService(PersistenceService persistenceService) {
@@ -138,7 +145,8 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
     }
 
     /**
-     * Gets the universityDateDao attribute. 
+     * Gets the universityDateDao attribute.
+     * 
      * @return Returns the universityDateDao.
      */
     public UniversityDateDao getUniversityDateDao() {
@@ -147,11 +155,12 @@ public class CollectorScrubberServiceImpl implements CollectorScrubberService {
 
     /**
      * Sets the scrubberService attribute value.
+     * 
      * @param scrubberService The scrubberService to set.
      */
     public void setScrubberService(ScrubberService scrubberService) {
         this.scrubberService = scrubberService;
     }
-    
+
 
 }

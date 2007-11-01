@@ -25,28 +25,29 @@ import org.kuali.module.chart.bo.PriorYearAccount;
  */
 public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
 
-    /** Constant used to retrieve row counts for tables.  Obj_Id value exists in all tables in DB. */
+    /** Constant used to retrieve row counts for tables. Obj_Id value exists in all tables in DB. */
     private static final String OBJ_ID = "OBJ_ID";
-    
+
     /**
      * This method purges all records in the Prior Year Account table in the DB.
-     * @return Number of records that were purged.
      * 
+     * @return Number of records that were purged.
      */
     public int purgePriorYearAccounts() {
         String priorYrAcctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearAccount.class).getFullTableName();
 
         // 1. Count how many rows are currently in the prior year acct table
-        int count = getSimpleJdbcTemplate().queryForInt("SELECT COUNT("+OBJ_ID+") from "+priorYrAcctTableName);
-        
+        int count = getSimpleJdbcTemplate().queryForInt("SELECT COUNT(" + OBJ_ID + ") from " + priorYrAcctTableName);
+
         // 2. Purge all the rows from the prior year acct table
-        getSimpleJdbcTemplate().update("DELETE from "+priorYrAcctTableName);
-        
+        getSimpleJdbcTemplate().update("DELETE from " + priorYrAcctTableName);
+
         return count;
     }
-    
+
     /**
      * This method copies all organization records from the current Account table to the Prior Year Account table.
+     * 
      * @return Number of records that were copied.
      */
     public int copyCurrentAccountsToPriorYearTable() {
@@ -54,9 +55,9 @@ public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
         String acctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Account.class).getFullTableName();
 
         // 1. Copy all the rows from the current org table to the prior year acct table
-        getSimpleJdbcTemplate().update("INSERT into "+priorYrAcctTableName+" SELECT * from "+acctTableName);
+        getSimpleJdbcTemplate().update("INSERT into " + priorYrAcctTableName + " SELECT * from " + acctTableName);
 
         // 2. Count how many rows are currently in the prior year acct table
-        return getSimpleJdbcTemplate().queryForInt("SELECT COUNT("+OBJ_ID+") from "+priorYrAcctTableName);
+        return getSimpleJdbcTemplate().queryForInt("SELECT COUNT(" + OBJ_ID + ") from " + priorYrAcctTableName);
     }
 }

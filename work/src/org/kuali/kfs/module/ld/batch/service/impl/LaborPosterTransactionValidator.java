@@ -18,7 +18,6 @@ package org.kuali.module.labor.batch.poster.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
@@ -35,10 +34,10 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
     /**
      * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
      */
-    public List<Message> verifyTransaction(Transaction transaction) {        
+    public List<Message> verifyTransaction(Transaction transaction) {
         List<Message> messageList = new ArrayList<Message>();
-        
-        LaborTransaction laborTransaction = (LaborTransaction)transaction;
+
+        LaborTransaction laborTransaction = (LaborTransaction) transaction;
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkChartOfAccountsCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkAccountNumber(laborTransaction));
@@ -54,7 +53,7 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionDebitCreditCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkTransactionLedgerEntrySequenceNumber(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkEmplid(laborTransaction));
-                
+
         return messageList;
     }
 }

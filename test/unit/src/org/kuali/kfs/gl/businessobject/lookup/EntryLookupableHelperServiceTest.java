@@ -30,8 +30,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class contains the test cases that can be applied to the method in EntryLookupableImpl class.
- * 
- * 
  */
 @ConfigureContext
 public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {

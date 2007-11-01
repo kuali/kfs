@@ -23,8 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class returns list of tax payer type value pairs.
- * 
- * 
  */
 public class TaxPayerTypeValuesFinder extends KeyValuesBase {
 

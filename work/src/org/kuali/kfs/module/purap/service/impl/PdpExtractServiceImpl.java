@@ -85,7 +85,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private DocumentService documentService;
 
     private PaymentStatus openPaymentStatus;
-    
+
     // This should only be set to true when testing this system. Setting this to true will run the code but
     // won't set the extracted date on the credit memos or payment requests
     boolean testMode = false;
@@ -111,8 +111,8 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void extractPayments(boolean immediateOnly) {
         LOG.debug("extractPayments() started");
 
-        if ( openPaymentStatus == null ) {
-            openPaymentStatus = (PaymentStatus)referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
+        if (openPaymentStatus == null) {
+            openPaymentStatus = (PaymentStatus) referenceService.getCode("PaymentStatus", PdpConstants.PaymentStatusCodes.OPEN);
         }
 
         Date processRunDate = dateTimeService.getCurrentDate();
@@ -310,10 +310,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updateCreditMemo(CreditMemoDocument cmd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
             try {
-                CreditMemoDocument doc = (CreditMemoDocument)documentService.getByDocumentHeaderId(cmd.getDocumentNumber());
+                CreditMemoDocument doc = (CreditMemoDocument) documentService.getByDocumentHeaderId(cmd.getDocumentNumber());
                 doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
                 creditMemoService.saveDocumentWithoutValidation(doc);
-            } catch (WorkflowException e) {
+            }
+            catch (WorkflowException e) {
                 throw new IllegalArgumentException("Unable to retrieve credit memo: " + cmd.getDocumentNumber());
             }
         }
@@ -329,10 +330,11 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private void updatePaymentRequest(PaymentRequestDocument prd, PdpUser puser, Date processRunDate) {
         if (!testMode) {
             try {
-                PaymentRequestDocument doc = (PaymentRequestDocument)documentService.getByDocumentHeaderId(prd.getDocumentNumber());
+                PaymentRequestDocument doc = (PaymentRequestDocument) documentService.getByDocumentHeaderId(prd.getDocumentNumber());
                 doc.setExtractedDate(new java.sql.Date(processRunDate.getTime()));
                 paymentRequestService.saveDocumentWithoutValidation(doc);
-            } catch (WorkflowException e) {
+            }
+            catch (WorkflowException e) {
                 throw new IllegalArgumentException("Unable to retrieve payment request: " + prd.getDocumentNumber());
             }
         }

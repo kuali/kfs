@@ -31,5 +31,5 @@ public interface PurApAccountingDao {
      * @return - list of accounting lines
      */
     public List getAccountingLinesForItem(PurApItem item);
-    
+
 }

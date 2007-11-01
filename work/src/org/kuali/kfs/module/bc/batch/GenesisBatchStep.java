@@ -16,20 +16,19 @@
 package org.kuali.module.budget.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
-import org.kuali.module.budget.service.GenesisService;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.service.GenesisService;
 
 public class GenesisBatchStep extends AbstractStep {
 
-private GenesisService genesisService;
+    private GenesisService genesisService;
 
-public boolean execute(String jobName) 
-{
-    genesisService = SpringContext.getBean(GenesisService.class);
-    //@@TODO: in production, we will use the current fiscal year, not the last one
-    Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday()-1;
-    genesisService.genesisStep(baseFiscalYear);
-    return true;
-}
-    
+    public boolean execute(String jobName) {
+        genesisService = SpringContext.getBean(GenesisService.class);
+        // @@TODO: in production, we will use the current fiscal year, not the last one
+        Integer baseFiscalYear = genesisService.genesisFiscalYearFromToday() - 1;
+        genesisService.genesisStep(baseFiscalYear);
+        return true;
+    }
+
 }

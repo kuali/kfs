@@ -30,7 +30,8 @@ import org.springframework.jdbc.core.RowMapper;
 
 public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndDao {
 
-    // All of the Comparators and RowMappers are stateless, so I can simply create them as variables and avoid unnecessary object creation
+    // All of the Comparators and RowMappers are stateless, so I can simply create them as variables and avoid unnecessary object
+    // creation
     private final Comparator<Map<String, String>> subFundGroupPrimaryKeyComparator = new Comparator<Map<String, String>>() {
         public int compare(Map<String, String> firstSubFundGroupPK, Map<String, String> secondSubFundGroupPK) {
             return firstSubFundGroupPK.get("subFundGroupCode").compareTo(secondSubFundGroupPK.get("subFundGroupCode"));
@@ -41,7 +42,8 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
         public int compare(Map<String, String> firstPriorYearPK, Map<String, String> secondPriorYearPK) {
             if (firstPriorYearPK.get("chartOfAccountsCode").equals(secondPriorYearPK.get("chartOfAccountsCode"))) {
                 return firstPriorYearPK.get("accountNumber").compareTo(secondPriorYearPK.get("accountNumber"));
-            } else {
+            }
+            else {
                 return firstPriorYearPK.get("chartOfAccountsCode").compareTo(secondPriorYearPK.get("chartOfAccountsCode"));
             }
         }
@@ -70,48 +72,50 @@ public class YearEndDaoJdbc extends PlatformAwareDaoBaseJdbc implements YearEndD
     public Set<Map<String, String>> findKeysOfMissingPriorYearAccountsForBalances(Integer balanceFiscalYear) {
         // 1. get a sorted list of the prior year account keys that are used by balances for the given fiscal year
         List priorYearKeys = getJdbcTemplate().query("select distinct fin_coa_cd, account_nbr from gl_balance_t where univ_fiscal_yr = ? order by fin_coa_cd, account_nbr", new Object[] { balanceFiscalYear }, priorYearAccountRowMapper);
-        
+
         // 2. go through that list, finding which prior year accounts don't show up in the database
         return selectMissingPriorYearAccounts(priorYearKeys);
     }
 
     /**
-     * This method puts all of the prior year accounts that aren't in the database, based on the list of 
-     * keys sent in, into the given set
+     * This method puts all of the prior year accounts that aren't in the database, based on the list of keys sent in, into the
+     * given set
+     * 
      * @param priorYearKeys the prior year keys to search for
      * @return the set of those prior year accounts that are missing
      */
     private Set<Map<String, String>> selectMissingPriorYearAccounts(List priorYearKeys) {
         Set<Map<String, String>> missingPriorYears = new TreeSet<Map<String, String>>(priorYearAccountPrimaryKeyComparator);
-        for (Object priorYearKeyAsObject: priorYearKeys) {
-            Map<String, String> priorYearKey = (Map<String, String>)priorYearKeyAsObject;
+        for (Object priorYearKeyAsObject : priorYearKeys) {
+            Map<String, String> priorYearKey = (Map<String, String>) priorYearKeyAsObject;
             int count = getJdbcTemplate().queryForInt("select count(*) from ca_prior_yr_acct_t where fin_coa_cd = ? and account_nbr = ? order by sub_fund_grp_cd", new Object[] { priorYearKey.get("chartOfAccountsCode"), priorYearKey.get("accountNumber") });
             if (count == 0) {
                 missingPriorYears.add(priorYearKey);
             }
         }
         return missingPriorYears;
-    } 
+    }
 
     /**
      * @see org.kuali.module.gl.dao.YearEndDao#findKeysOfMissingSubFundGroupsForBalances(java.lang.Integer)
      */
-    public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForBalances(Integer balanceFiscalYear) {        
+    public Set<Map<String, String>> findKeysOfMissingSubFundGroupsForBalances(Integer balanceFiscalYear) {
         // see algorithm for findKeysOfMissingPriorYearAccountsForBalances
         List subFundGroupKeys = getJdbcTemplate().query("select distinct ca_prior_yr_acct_t.sub_fund_grp_cd from ca_prior_yr_acct_t, gl_balance_t where ca_prior_yr_acct_t.fin_coa_cd = gl_balance_t.fin_coa_cd and ca_prior_yr_acct_t.account_nbr = gl_balance_t.account_nbr and gl_balance_t.univ_fiscal_yr = ? and ca_prior_yr_acct_t.sub_fund_grp_cd is not null order by ca_prior_yr_acct_t.sub_fund_grp_cd", new Object[] { balanceFiscalYear }, subFundGroupRowMapper);
         return selectMissingSubFundGroups(subFundGroupKeys);
     }
 
     /**
-     * This method puts all of the sub fund groups that are in the given list of subFundGroupKeys but aren't in the
-     * database into the given set
+     * This method puts all of the sub fund groups that are in the given list of subFundGroupKeys but aren't in the database into
+     * the given set
+     * 
      * @param subFundGroupKeys the list of sub fund group keys to search through
      * @return a set of those sub fund group keys that are missing
      */
     private Set<Map<String, String>> selectMissingSubFundGroups(List subFundGroupKeys) {
         Set<Map<String, String>> missingSubFundGroups = new TreeSet<Map<String, String>>(subFundGroupPrimaryKeyComparator);
-        for (Object subFundGroupKeyAsObject: subFundGroupKeys) {
-            Map<String, String> subFundGroupKey = (Map<String, String>)subFundGroupKeyAsObject;
+        for (Object subFundGroupKeyAsObject : subFundGroupKeys) {
+            Map<String, String> subFundGroupKey = (Map<String, String>) subFundGroupKeyAsObject;
             int count = getJdbcTemplate().queryForInt("select count(*) from ca_sub_fund_grp_t where sub_fund_grp_cd = ?", new Object[] { subFundGroupKey.get("subFundGroupCode") });
             if (count == 0) {
                 missingSubFundGroups.add(subFundGroupKey);

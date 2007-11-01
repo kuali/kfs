@@ -28,14 +28,13 @@ import org.kuali.module.chart.bo.SubFundGroupType;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link SubFundGroupType}s)
- * 
- * 
  */
 public class SubFundGroupTypeValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link SubFundGroupType}s using their code as their key, and
-     * their code "-" description as the display value
+     * Creates a list of {@link SubFundGroupType}s using their code as their key, and their code "-" description as the display
+     * value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

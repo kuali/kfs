@@ -26,8 +26,6 @@ import org.kuali.module.kra.budget.bo.BudgetTaskPeriodIndirectCost;
 
 /**
  * Used by UI to get totals, counts, aggregations, and other things to render the Indirect Cost page.
- * 
- * 
  */
 public class BudgetIndirectCostFormHelper {
 
@@ -79,7 +77,7 @@ public class BudgetIndirectCostFormHelper {
     public BudgetIndirectCostFormHelper(Budget budget) {
         this(budget.getTasks(), budget.getPeriods(), budget.getIndirectCost().getBudgetTaskPeriodIndirectCostItems());
     }
-    
+
     /**
      * Update all Indirect Cost totals. This is the function generally called from the action class. Used this method to consolidate
      * all calls.

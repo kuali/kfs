@@ -17,12 +17,12 @@ package org.kuali.module.gl.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
+import org.kuali.module.chart.bo.SubAccount;
 
 public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
@@ -34,13 +34,13 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     private KualiDecimal encumbrance = KualiDecimal.ZERO;
     private KualiDecimal carryForward = KualiDecimal.ZERO;
     private KualiDecimal available = KualiDecimal.ZERO;
-    
+
     private Chart chartOfAccounts;
     private Account account;
     private SubAccount subAccount;
     private OrganizationReversionCategory organizationReversionCategory;
     private OrgReversionUnitOfWork organizationReversionUnitOfWork;
-    
+
     public OrgReversionUnitOfWorkCategoryAmount(String cat) {
         this.categoryCode = cat;
     }
@@ -121,7 +121,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the accountNbr attribute. 
+     * Gets the accountNbr attribute.
+     * 
      * @return Returns the accountNbr.
      */
     public String getAccountNumber() {
@@ -130,6 +131,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the accountNbr attribute value.
+     * 
      * @param accountNbr The accountNbr to set.
      */
     public void setAccountNumber(String accountNbr) {
@@ -137,7 +139,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -146,6 +149,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -153,7 +157,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the subAccountNbr attribute. 
+     * Gets the subAccountNbr attribute.
+     * 
      * @return Returns the subAccountNbr.
      */
     public String getSubAccountNumber() {
@@ -162,6 +167,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the subAccountNbr attribute value.
+     * 
      * @param subAccountNbr The subAccountNbr to set.
      */
     public void setSubAccountNumber(String subAccountNbr) {
@@ -169,7 +175,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the account attribute. 
+     * Gets the account attribute.
+     * 
      * @return Returns the account.
      */
     public Account getAccount() {
@@ -178,6 +185,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the account attribute value.
+     * 
      * @param account The account to set.
      */
     public void setAccount(Account account) {
@@ -185,7 +193,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
+     * Gets the chartOfAccounts attribute.
+     * 
      * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
@@ -194,6 +203,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the chartOfAccounts attribute value.
+     * 
      * @param chartOfAccounts The chartOfAccounts to set.
      */
     public void setChartOfAccounts(Chart chartOfAccounts) {
@@ -201,7 +211,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the organizationReversionCategory attribute. 
+     * Gets the organizationReversionCategory attribute.
+     * 
      * @return Returns the organizationReversionCategory.
      */
     public OrganizationReversionCategory getOrganizationReversionCategory() {
@@ -210,6 +221,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the organizationReversionCategory attribute value.
+     * 
      * @param organizationReversionCategory The organizationReversionCategory to set.
      */
     public void setOrganizationReversionCategory(OrganizationReversionCategory organizationReversionCategory) {
@@ -217,7 +229,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the organizationReversionUnitOfWork attribute. 
+     * Gets the organizationReversionUnitOfWork attribute.
+     * 
      * @return Returns the organizationReversionUnitOfWork.
      */
     public OrgReversionUnitOfWork getOrganizationReversionUnitOfWork() {
@@ -226,6 +239,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the organizationReversionUnitOfWork attribute value.
+     * 
      * @param organizationReversionUnitOfWork The organizationReversionUnitOfWork to set.
      */
     public void setOrganizationReversionUnitOfWork(OrgReversionUnitOfWork organizationReversionUnitOfWork) {
@@ -233,7 +247,8 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
     }
 
     /**
-     * Gets the subAccount attribute. 
+     * Gets the subAccount attribute.
+     * 
      * @return Returns the subAccount.
      */
     public SubAccount getSubAccount() {
@@ -242,6 +257,7 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
 
     /**
      * Sets the subAccount attribute value.
+     * 
      * @param subAccount The subAccount to set.
      */
     public void setSubAccount(SubAccount subAccount) {
@@ -260,5 +276,5 @@ public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObj
         pkMap.put("categoryCode", this.categoryCode);
         return pkMap;
     }
-    
+
 }

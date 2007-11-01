@@ -32,8 +32,6 @@ import org.kuali.module.financial.document.CreditCardReceiptDocument;
 
 /**
  * Common Credit Card Receipt Document rule utilities.
- * 
- * 
  */
 public class CreditCardReceiptDocumentRuleUtil {
     /**

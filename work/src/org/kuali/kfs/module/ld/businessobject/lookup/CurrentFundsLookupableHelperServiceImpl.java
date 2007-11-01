@@ -64,8 +64,8 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
     /**
      * Returns URL
      * 
-     * @param bo 
-     * @param propertyName 
+     * @param bo
+     * @param propertyName
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -75,7 +75,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Gets a list with the fields that will be displayed on page
-     *  
+     * 
      * @param fieldValues list of fields that are used as a key to filter out data
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
@@ -102,7 +102,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             objectCodeFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
             objectCodeFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
             objectCodeFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, searchObjectCodeVal);
-            
+
             LaborObject foundObjectCode = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
             if (foundObjectCode == null) {
@@ -319,10 +319,11 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
 
     /**
      * Sets the businessObjectService attribute value.
+     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
-    
+
 }

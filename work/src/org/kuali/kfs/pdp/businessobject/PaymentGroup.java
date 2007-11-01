@@ -113,13 +113,16 @@ public class PaymentGroup implements Serializable, PersistenceBrokerAware {
     }
 
     public String getDailyReportSortOrder() {
-        if ( processImmediate ) {
+        if (processImmediate) {
             return "Immediate       ";
-        } else if ( pymtSpecialHandling ) {
+        }
+        else if (pymtSpecialHandling) {
             return "Special Handling";
-        } else if ( pymtAttachment ) {
+        }
+        else if (pymtAttachment) {
             return "Attachment      ";
-        } else {
+        }
+        else {
             return "Other           ";
         }
     }

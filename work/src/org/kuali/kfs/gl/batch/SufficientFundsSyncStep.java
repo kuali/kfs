@@ -20,10 +20,9 @@ import org.kuali.kfs.batch.TestingStep;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 
 /**
- * A step to run the sufficient funds sync process.  One typically doesn't need to do this - which is
- * why it's marked as TestingStep - as Account, Chart, and Object Code records, when saved, will populate
- * the sufficient funds tables, making this task redundant.  However, if that information has not been
- * built, this job will generate that information.
+ * A step to run the sufficient funds sync process. One typically doesn't need to do this - which is why it's marked as TestingStep -
+ * as Account, Chart, and Object Code records, when saved, will populate the sufficient funds tables, making this task redundant.
+ * However, if that information has not been built, this job will generate that information.
  */
 public class SufficientFundsSyncStep extends AbstractStep implements TestingStep {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncStep.class);
@@ -43,6 +42,7 @@ public class SufficientFundsSyncStep extends AbstractStep implements TestingStep
 
     /**
      * Sets the sufficientFundsSyncService, allowing the injection of an implementation of that service
+     * 
      * @param sufficientFundsSyncService an implementation sufficientFundsSyncService to set
      * @see org.kuali.module.gl.service.SufficientFundsSyncService
      */

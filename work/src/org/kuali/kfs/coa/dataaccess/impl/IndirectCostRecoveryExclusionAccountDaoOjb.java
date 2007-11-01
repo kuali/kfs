@@ -26,7 +26,6 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao;
 
 /**
- * 
  * This class implements the {@link IndirectCostRecoveryExclusionAccountDao} data access methods using Ojb
  */
 public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoveryExclusionAccountDao {
@@ -37,8 +36,8 @@ public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDao
     }
 
     /**
-     * 
-     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     *      java.lang.String, java.lang.String)
      */
     public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode) {
         LOG.debug("getByPrimaryKey() started");
@@ -54,7 +53,6 @@ public class IndirectCostRecoveryExclusionAccountDaoOjb extends PlatformAwareDao
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionAccountDao#existByAccount(java.lang.String, java.lang.String)
      */
     public boolean existByAccount(String chartOfAccountsCode, String accountNumber) {

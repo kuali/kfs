@@ -33,7 +33,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * Unit tests for the Lookup Helper Service of the <code>{@link LaborLedgerPendingEntry}</code> business object
- * 
  */
 @ConfigureContext
 public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase {
@@ -70,7 +69,7 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
         date = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         pendingEntry = new LaborLedgerPendingEntry();
         testDataGenerator = new TestDataGenerator(propertiesFileName, messageFileName);
-        lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl)LookupableSpringContext.getLookupableHelperService("laborPendingEntryLookupableHelperService");
+        lookupableHelperServiceImpl = (LaborPendingEntryLookupableHelperServiceImpl) LookupableSpringContext.getLookupableHelperService("laborPendingEntryLookupableHelperService");
         setPendingEntryService(SpringContext.getBean(LaborLedgerPendingEntryService.class));
     }
 
@@ -138,7 +137,7 @@ public class LaborPendingEntryLookupableHelperServiceTest extends KualiTestBase 
      */
     public Map getLookupFieldValues(PersistableBusinessObject businessObject, boolean isExtended) throws Exception {
         List lookupFields = this.getLookupFields(isExtended);
-        //return testDataGenerator.generateLookupFieldValues(businessObject, lookupFields);
+        // return testDataGenerator.generateLookupFieldValues(businessObject, lookupFields);
         return null;
     }
 

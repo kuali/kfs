@@ -28,8 +28,6 @@ import org.kuali.module.chart.bo.ObjLevel;
 
 /**
  * This class...
- * 
- * 
  */
 public class ObjectLevelCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
 

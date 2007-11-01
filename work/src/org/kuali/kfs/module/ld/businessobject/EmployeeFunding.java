@@ -225,7 +225,7 @@ public class EmployeeFunding extends LedgerBalance {
         result = PRIME * result + ((getUniversityFiscalYear() == null) ? 0 : getUniversityFiscalYear().hashCode());
         result = PRIME * result + ((getEmplid() == null) ? 0 : getEmplid().hashCode());
         result = PRIME * result + ((getPositionNumber() == null) ? 0 : getPositionNumber().hashCode());
-        
+
         return result;
     }
 
@@ -267,7 +267,7 @@ public class EmployeeFunding extends LedgerBalance {
         else if (!ObjectUtils.equals(getPositionNumber(), other.getPositionNumber())) {
             return false;
         }
-        
+
         return true;
     }
 

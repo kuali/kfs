@@ -21,21 +21,20 @@ import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.OriginEntryGroup;
-import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.util.ObjectUtil;
 
 public class OriginEntryGroupForTesting extends OriginEntryGroup {
-    
-    @ Override
-    public boolean equals(Object otherOriginEntryGroup){
+
+    @Override
+    public boolean equals(Object otherOriginEntryGroup) {
         return ObjectUtil.compareObject(this, otherOriginEntryGroup, this.getKeyValueList());
     }
-    
+
     public Map getKeyValueMap() {
         return ObjectUtil.buildPropertyMap(this, this.getKeyValueList());
     }
-    
-    public List<String> getKeyValueList(){
+
+    public List<String> getKeyValueList() {
         List<String> keyValueList = new ArrayList<String>();
         keyValueList.add(KFSPropertyConstants.SOURCE_CODE);
         keyValueList.add(KFSPropertyConstants.PROCESS);

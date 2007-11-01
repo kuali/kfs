@@ -63,11 +63,10 @@ public interface AccountingDocumentAuthorizer extends TransactionalDocumentAutho
      *         be allowed to edit
      */
     public Map getEditableAccounts(TransactionalDocument document, ChartUser user);
-    
+
     /**
-     * This method takes a list of accounting lines, and it returns a map with the keys
-     * being well-formatted representations of the primary keys of the accounts that
-     * the given user can actually edit. 
+     * This method takes a list of accounting lines, and it returns a map with the keys being well-formatted representations of the
+     * primary keys of the accounts that the given user can actually edit.
      * 
      * @param lines the accountingLine objects to check for editability.
      * @param user the user to authorize each accounting line for

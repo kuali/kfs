@@ -19,60 +19,46 @@ import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLine;
-import org.kuali.module.purap.bo.PurApItem;
-import org.kuali.module.purap.bo.RequisitionAccount;
-import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
 public enum PurApAccountingLineFixture {
-    BASIC_ACCOUNT_1(
-        null,                   //accountIdentifier;
-        null,                   //itemIdentifier;
-        new BigDecimal("100"),  //accountLinePercent;
-        null                    //alternateAmountForGLEntryCreation; 
-    ),
-    BASIC_ACCOUNT_2(
-        null,                   //accountIdentifier;
-        null,                   //itemIdentifier;
-        new BigDecimal("100"),  //accountLinePercent;
-        null                    //alternateAmountForGLEntryCreation; 
-    ),
-    ACCOUNT_50_PERCENT(
-        null,                   //accountIdentifier;
-        null,                   //itemIdentifier;
-        new BigDecimal("50"),   //accountLinePercent;
-        null                    //alternateAmountForGLEntryCreation; 
-    );    
+    BASIC_ACCOUNT_1(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("100"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    ), BASIC_ACCOUNT_2(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("100"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    ), ACCOUNT_50_PERCENT(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("50"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    );
     private Integer accountIdentifier;
     private Integer itemIdentifier;
     private BigDecimal accountLinePercent;
     private KualiDecimal alternateAmountForGLEntryCreation;
-    
-    private PurApAccountingLineFixture(
-            Integer accountIdentifier,
-            Integer itemIdentifier,
-            BigDecimal accountLinePercent,
-            KualiDecimal alternateAmountForGLEntryCreation
-    ) {
+
+    private PurApAccountingLineFixture(Integer accountIdentifier, Integer itemIdentifier, BigDecimal accountLinePercent, KualiDecimal alternateAmountForGLEntryCreation) {
         this.accountIdentifier = accountIdentifier;
         this.itemIdentifier = itemIdentifier;
         this.accountLinePercent = accountLinePercent;
         this.alternateAmountForGLEntryCreation = alternateAmountForGLEntryCreation;
     }
-    
+
     public PurApAccountingLine createPurApAccountingLine(Class clazz, AccountingLineFixture alFixture) {
         PurApAccountingLine line = null;
         try {
-            //TODO: what should this debit code really be
+            // TODO: what should this debit code really be
             line = (PurApAccountingLine) alFixture.createAccountingLine(clazz, KFSConstants.GL_DEBIT_CODE);
         }
         catch (InstantiationException e) {
-            throw new RuntimeException("item creation failed. class = "+clazz);
+            throw new RuntimeException("item creation failed. class = " + clazz);
         }
         catch (IllegalAccessException e) {
-            throw new RuntimeException("item creation failed. class = "+clazz);
+            throw new RuntimeException("item creation failed. class = " + clazz);
         }
         line.setAccountIdentifier(this.accountIdentifier);
         line.setItemIdentifier(this.itemIdentifier);

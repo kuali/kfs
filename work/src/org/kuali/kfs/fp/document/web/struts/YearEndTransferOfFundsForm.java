@@ -22,7 +22,6 @@ import org.kuali.module.financial.document.YearEndTransferOfFundsDocument;
  * version and the non-yearEnd version of a document is the glpe's generation.
  * 
  * @see org.kuali.module.financial.web.struts.form.TransferOfFundsForm
- * 
  */
 public class YearEndTransferOfFundsForm extends TransferOfFundsForm {
 

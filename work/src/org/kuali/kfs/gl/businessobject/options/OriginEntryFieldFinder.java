@@ -56,14 +56,14 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         activeLabels.add(new KeyLabelPair("referenceFinancialSystemOriginationCode", "Ref Origin code"));
         activeLabels.add(new KeyLabelPair("referenceFinancialDocumentNumber", "Ref Doc Number"));
         activeLabels.add(new KeyLabelPair("financialDocumentReversalDate", "Reversal Date"));
-        activeLabels.add(new KeyLabelPair("transactionEncumbranceUpdateCode", "Enc Update Code"));        
+        activeLabels.add(new KeyLabelPair("transactionEncumbranceUpdateCode", "Enc Update Code"));
         return activeLabels;
     }
 
     public String getFieldDisplayName(String fieldName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
-            KeyLabelPair klp = (KeyLabelPair)iter.next();
-            if ( klp.getKey().equals(fieldName) ) {
+            KeyLabelPair klp = (KeyLabelPair) iter.next();
+            if (klp.getKey().equals(fieldName)) {
                 return klp.getLabel();
             }
         }
@@ -72,50 +72,55 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
 
     public String getFieldName(String fieldDisplayName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
-            KeyLabelPair klp = (KeyLabelPair)iter.next();
-            if ( klp.getLabel().equals(fieldDisplayName) ) {
-                return (String)klp.getKey();
+            KeyLabelPair klp = (KeyLabelPair) iter.next();
+            if (klp.getLabel().equals(fieldDisplayName)) {
+                return (String) klp.getKey();
             }
         }
         return "Error";
     }
 
-    public boolean isValidValue(String fieldName,String value) {
+    public boolean isValidValue(String fieldName, String value) {
         if (StringUtils.isBlank(fieldName)) {
             return false;
         }
         String fieldType = getFieldType(fieldName);
         int fieldLength = getFieldLength(fieldName);
 
-        if ( allowNull(fieldName) && (value == null || value.length() == 0)) {
+        if (allowNull(fieldName) && (value == null || value.length() == 0)) {
             return true;
         }
         if (!allowNull(fieldName) && (value == null || value.length() == 0)) {
             return false;
         }
-        if ( value.length() > fieldLength ) {
+        if (value.length() > fieldLength) {
             return false;
         }
-        if ( "KualiDecimal".equals(fieldType) ) {
+        if ("KualiDecimal".equals(fieldType)) {
             try {
                 KualiDecimal d = new KualiDecimal(value);
                 return true;
-            } catch (NumberFormatException nfe) {
+            }
+            catch (NumberFormatException nfe) {
                 return false;
             }
-        } else if ( "Integer".equals(fieldType) ) {
+        }
+        else if ("Integer".equals(fieldType)) {
             try {
                 Integer d = new Integer(value);
                 return true;
-            } catch (NumberFormatException nfe) {
+            }
+            catch (NumberFormatException nfe) {
                 return false;
             }
-        } else if ( "Date".equals(fieldType) ) {
+        }
+        else if ("Date".equals(fieldType)) {
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             try {
                 Date d = df.parse(value);
                 return true;
-            } catch (ParseException e) {
+            }
+            catch (ParseException e) {
                 return false;
             }
         }
@@ -147,57 +152,81 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         }
         return true;
     }
-    
+
     public int getFieldLength(String fieldName) {
         if (fieldName.equals("universityFiscalYear")) {
             return 4;
-        } else if (fieldName.equals("transactionLedgerEntrySequenceNumber")) {
+        }
+        else if (fieldName.equals("transactionLedgerEntrySequenceNumber")) {
             return 5;
-        } else if (fieldName.equals("transactionLedgerEntryAmount")) {
+        }
+        else if (fieldName.equals("transactionLedgerEntryAmount")) {
             return 19;
-        } else if (fieldName.equals("transactionDate")) {
+        }
+        else if (fieldName.equals("transactionDate")) {
             return 10;
-        } else if (fieldName.equals("financialDocumentReversalDate")) {
+        }
+        else if (fieldName.equals("financialDocumentReversalDate")) {
             return 10;
-        } else if (fieldName.equals("chartOfAccountsCode")) {
+        }
+        else if (fieldName.equals("chartOfAccountsCode")) {
             return 2;
-        } else if (fieldName.equals("accountNumber")) {
+        }
+        else if (fieldName.equals("accountNumber")) {
             return 7;
-        } else if (fieldName.equals("subAccountNumber")) {
+        }
+        else if (fieldName.equals("subAccountNumber")) {
             return 5;
-        } else if (fieldName.equals("financialObjectCode")) {
+        }
+        else if (fieldName.equals("financialObjectCode")) {
             return 4;
-        } else if (fieldName.equals("financialSubObjectCode")) {
+        }
+        else if (fieldName.equals("financialSubObjectCode")) {
             return 3;
-        } else if (fieldName.equals("financialBalanceTypeCode")) {
+        }
+        else if (fieldName.equals("financialBalanceTypeCode")) {
             return 2;
-        } else if (fieldName.equals("financialObjectTypeCode")) {
+        }
+        else if (fieldName.equals("financialObjectTypeCode")) {
             return 2;
-        } else if (fieldName.equals("universityFiscalPeriodCode")) {
+        }
+        else if (fieldName.equals("universityFiscalPeriodCode")) {
             return 2;
-        } else if (fieldName.equals("financialDocumentTypeCode")) {
+        }
+        else if (fieldName.equals("financialDocumentTypeCode")) {
             return 4;
-        } else if (fieldName.equals("financialSystemOriginationCode")) {
+        }
+        else if (fieldName.equals("financialSystemOriginationCode")) {
             return 2;
-        } else if (fieldName.equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
+        }
+        else if (fieldName.equals(KFSPropertyConstants.DOCUMENT_NUMBER)) {
             return 14;
-        } else if (fieldName.equals("transactionLedgerEntryDescription")) {
+        }
+        else if (fieldName.equals("transactionLedgerEntryDescription")) {
             return 40;
-        } else if (fieldName.equals("transactionDebitCreditCode")) {
+        }
+        else if (fieldName.equals("transactionDebitCreditCode")) {
             return 1;
-        } else if (fieldName.equals("organizationDocumentNumber")) {
+        }
+        else if (fieldName.equals("organizationDocumentNumber")) {
             return 10;
-        } else if (fieldName.equals("projectCode")) {
+        }
+        else if (fieldName.equals("projectCode")) {
             return 10;
-        } else if (fieldName.equals("organizationReferenceId")) {
+        }
+        else if (fieldName.equals("organizationReferenceId")) {
             return 8;
-        } else if (fieldName.equals("referenceFinancialDocumentTypeCode")) {
+        }
+        else if (fieldName.equals("referenceFinancialDocumentTypeCode")) {
             return 4;
-        } else if (fieldName.equals("referenceFinancialSystemOriginationCode")) {
+        }
+        else if (fieldName.equals("referenceFinancialSystemOriginationCode")) {
             return 2;
-        } else if (fieldName.equals("referenceFinancialDocumentNumber")) {
+        }
+        else if (fieldName.equals("referenceFinancialDocumentNumber")) {
             return 14;
-        } else if (fieldName.equals("transactionEncumbranceUpdateCode")) {
+        }
+        else if (fieldName.equals("transactionEncumbranceUpdateCode")) {
             return 1;
         }
         return 0;

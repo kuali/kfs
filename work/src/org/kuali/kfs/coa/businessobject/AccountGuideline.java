@@ -22,8 +22,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Account Guideline Business Object
- * 
- * 
  */
 public class AccountGuideline extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = 807136405105252199L;

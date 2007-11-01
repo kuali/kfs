@@ -16,8 +16,7 @@
 package org.kuali.module.gl.util;
 
 /**
- * This class indicates that some files of the file set are missing, and 
- * the feeder cannot continue.
+ * This class indicates that some files of the file set are missing, and the feeder cannot continue.
  */
 public class RequiredFilesMissingStatus extends EnterpriseFeederStatusBase {
 

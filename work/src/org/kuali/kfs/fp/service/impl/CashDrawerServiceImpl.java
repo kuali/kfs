@@ -42,7 +42,7 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         CashDrawer drawer = getByWorkgroupName(workgroupName, true);
         this.closeCashDrawer(drawer);
     }
-    
+
     /**
      * @see org.kuali.module.financial.service.CashDrawerService#closeCashDrawer(org.kuali.module.financial.bo.CashDrawer)
      */
@@ -64,9 +64,10 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         CashDrawer drawer = getByWorkgroupName(workgroupName, true);
         return this.openCashDrawer(drawer, documentId);
     }
-    
+
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#openCashDrawer(org.kuali.module.financial.bo.CashDrawer,
+     *      java.lang.String)
      */
     public CashDrawer openCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {
@@ -91,15 +92,16 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         CashDrawer drawer = getByWorkgroupName(workgroupName, true);
         this.lockCashDrawer(drawer, documentId);
     }
-    
+
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#lockCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#lockCashDrawer(org.kuali.module.financial.bo.CashDrawer,
+     *      java.lang.String)
      */
     public void lockCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {
             throw new IllegalArgumentException("invalid (blank) documentId");
         }
-        
+
         if (!StringUtils.equals(KFSConstants.CashDrawerConstants.STATUS_OPEN, drawer.getStatusCode())) {
             throw new IllegalStateException("CashDrawer '" + drawer.getWorkgroupName() + "' cannot be locked because it is not open");
         }
@@ -126,7 +128,8 @@ public class CashDrawerServiceImpl implements CashDrawerService {
     }
 
     /**
-     * @see org.kuali.module.financial.service.CashDrawerService#unlockCashDrawer(org.kuali.module.financial.bo.CashDrawer, java.lang.String)
+     * @see org.kuali.module.financial.service.CashDrawerService#unlockCashDrawer(org.kuali.module.financial.bo.CashDrawer,
+     *      java.lang.String)
      */
     public void unlockCashDrawer(CashDrawer drawer, String documentId) {
         if (StringUtils.isBlank(documentId)) {

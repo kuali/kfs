@@ -51,7 +51,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Gets the documentNumber attribute.
      * 
      * @return Returns the documentNumber
-     * 
      */
     public String getDocumentNumber() {
         return documentNumber;
@@ -61,7 +60,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Sets the documentNumber attribute.
      * 
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
@@ -71,7 +69,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Gets the budgetPeriodSequenceNumber attribute.
      * 
      * @return Returns the budgetPeriodSequenceNumber
-     * 
      */
     public Integer getBudgetPeriodSequenceNumber() {
         return budgetPeriodSequenceNumber;
@@ -81,7 +78,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Sets the budgetPeriodSequenceNumber attribute.
      * 
      * @param budgetPeriodSequenceNumber The budgetPeriodSequenceNumber to set.
-     * 
      */
     public void setBudgetPeriodSequenceNumber(Integer budgetPeriodSequenceNumber) {
         this.budgetPeriodSequenceNumber = budgetPeriodSequenceNumber;
@@ -91,7 +87,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Gets the budgetAdjustedModularDirectCostAmount attribute.
      * 
      * @return Returns the budgetAdjustedModularDirectCostAmount
-     * 
      */
     public KualiInteger getBudgetAdjustedModularDirectCostAmount() {
         return budgetAdjustedModularDirectCostAmount;
@@ -101,7 +96,6 @@ public class BudgetModularPeriod extends PersistableBusinessObjectBase {
      * Sets the budgetAdjustedModularDirectCostAmount attribute.
      * 
      * @param budgetAdjustedModularDirectCostAmount The budgetAdjustedModularDirectCostAmount to set.
-     * 
      */
     public void setBudgetAdjustedModularDirectCostAmount(KualiInteger budgetAdjustedModularDirectCostAmount) {
         this.budgetAdjustedModularDirectCostAmount = budgetAdjustedModularDirectCostAmount;

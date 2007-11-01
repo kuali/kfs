@@ -35,200 +35,202 @@ import org.kuali.module.purap.util.PurApObjectUtils;
  */
 public abstract class PurApItemBase extends PersistableBusinessObjectBase implements PurApItem {
 
-	private Integer itemIdentifier;
-	private Integer itemLineNumber;
-	private String capitalAssetTransactionTypeCode;
-	private String itemUnitOfMeasureCode;
-	private String itemCatalogNumber;
-	private String itemDescription;
-	private String itemCapitalAssetNoteText;
-	private BigDecimal itemUnitPrice;
-	private String itemTypeCode;
-	private String itemAuxiliaryPartIdentifier;
-	private String externalOrganizationB2bProductReferenceNumber;
-	private String externalOrganizationB2bProductTypeName;
-	private boolean itemAssignedToTradeInIndicator;
-    private KualiDecimal extendedPrice; //not currently in DB
-    
+    private Integer itemIdentifier;
+    private Integer itemLineNumber;
+    private String capitalAssetTransactionTypeCode;
+    private String itemUnitOfMeasureCode;
+    private String itemCatalogNumber;
+    private String itemDescription;
+    private String itemCapitalAssetNoteText;
+    private BigDecimal itemUnitPrice;
+    private String itemTypeCode;
+    private String itemAuxiliaryPartIdentifier;
+    private String externalOrganizationB2bProductReferenceNumber;
+    private String externalOrganizationB2bProductTypeName;
+    private boolean itemAssignedToTradeInIndicator;
+    private KualiDecimal extendedPrice; // not currently in DB
+
     private List<PurApAccountingLine> sourceAccountingLines;
     private transient List<PurApAccountingLine> baselineSourceAccountingLines;
     private transient PurApAccountingLine newSourceLine;
-        
-	private CapitalAssetTransactionType capitalAssetTransactionType;
-	private ItemType itemType;
+
+    private CapitalAssetTransactionType capitalAssetTransactionType;
+    private ItemType itemType;
     private Integer purapDocumentIdentifier;
     private KualiDecimal itemQuantity;
 
-	/**
-	 * Default constructor.
-	 */
-	public PurApItemBase() {
+    /**
+     * Default constructor.
+     */
+    public PurApItemBase() {
         itemTypeCode = PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE;
         sourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         baselineSourceAccountingLines = new TypedArrayList(getAccountingLineClass());
         resetAccount();
-	}
-	
+    }
+
     /**
      * @see org.kuali.module.purap.bo.PurApItem#getItemIdentifierString()
      */
     public String getItemIdentifierString() {
         String itemLineNumberString = (getItemLineNumber() != null ? getItemLineNumber().toString() : "");
-        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + itemLineNumberString : getItemType().getItemTypeDescription()); 
+        String identifierString = (getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + itemLineNumberString : getItemType().getItemTypeDescription());
         return identifierString;
     }
 
-	public Integer getItemIdentifier() { 
-		return itemIdentifier;
-	}
+    public Integer getItemIdentifier() {
+        return itemIdentifier;
+    }
 
-	public void setItemIdentifier(Integer ItemIdentifier) {
-		this.itemIdentifier = ItemIdentifier;
-	}
+    public void setItemIdentifier(Integer ItemIdentifier) {
+        this.itemIdentifier = ItemIdentifier;
+    }
 
-	public Integer getItemLineNumber() { 
-		return itemLineNumber;
-	}
+    public Integer getItemLineNumber() {
+        return itemLineNumber;
+    }
 
-	public void setItemLineNumber(Integer itemLineNumber) {
-		this.itemLineNumber = itemLineNumber;
-	}
+    public void setItemLineNumber(Integer itemLineNumber) {
+        this.itemLineNumber = itemLineNumber;
+    }
 
-	public String getCapitalAssetTransactionTypeCode() { 
-		return capitalAssetTransactionTypeCode;
-	}
+    public String getCapitalAssetTransactionTypeCode() {
+        return capitalAssetTransactionTypeCode;
+    }
 
-	public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
-		this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
-	}
+    public void setCapitalAssetTransactionTypeCode(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
 
-	public String getItemUnitOfMeasureCode() { 
-		return itemUnitOfMeasureCode;
-	}
+    public String getItemUnitOfMeasureCode() {
+        return itemUnitOfMeasureCode;
+    }
 
-	public void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode) {
-		this.itemUnitOfMeasureCode = itemUnitOfMeasureCode;
-	}
+    public void setItemUnitOfMeasureCode(String itemUnitOfMeasureCode) {
+        this.itemUnitOfMeasureCode = itemUnitOfMeasureCode;
+    }
 
-	public String getItemCatalogNumber() { 
-		return itemCatalogNumber;
-	}
+    public String getItemCatalogNumber() {
+        return itemCatalogNumber;
+    }
 
-	public void setItemCatalogNumber(String itemCatalogNumber) {
-		this.itemCatalogNumber = itemCatalogNumber;
-	}
+    public void setItemCatalogNumber(String itemCatalogNumber) {
+        this.itemCatalogNumber = itemCatalogNumber;
+    }
 
-	public String getItemDescription() { 
-		return itemDescription;
-	}
+    public String getItemDescription() {
+        return itemDescription;
+    }
 
-	public void setItemDescription(String itemDescription) {
-		this.itemDescription = itemDescription;
-	}
+    public void setItemDescription(String itemDescription) {
+        this.itemDescription = itemDescription;
+    }
 
-	public String getItemCapitalAssetNoteText() { 
-		return itemCapitalAssetNoteText;
-	}
+    public String getItemCapitalAssetNoteText() {
+        return itemCapitalAssetNoteText;
+    }
 
-	public void setItemCapitalAssetNoteText(String itemCapitalAssetNoteText) {
-		this.itemCapitalAssetNoteText = itemCapitalAssetNoteText;
-	}
+    public void setItemCapitalAssetNoteText(String itemCapitalAssetNoteText) {
+        this.itemCapitalAssetNoteText = itemCapitalAssetNoteText;
+    }
 
-	public BigDecimal getItemUnitPrice() {
-        //KULPURAP-1096 Setting scale on retrieval of unit price
-        if(itemUnitPrice!=null) {
-            if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+    public BigDecimal getItemUnitPrice() {
+        // KULPURAP-1096 Setting scale on retrieval of unit price
+        if (itemUnitPrice != null) {
+            if (itemUnitPrice.scale() < PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
-            } else if(itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
+            }
+            else if (itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }
 
         return itemUnitPrice;
-	}
+    }
 
-	public void setItemUnitPrice(BigDecimal itemUnitPrice) {
-		if(itemUnitPrice!=null) {
-            if(itemUnitPrice.scale()<PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
+    public void setItemUnitPrice(BigDecimal itemUnitPrice) {
+        if (itemUnitPrice != null) {
+            if (itemUnitPrice.scale() < PurapConstants.DOLLAR_AMOUNT_MIN_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.DOLLAR_AMOUNT_MIN_SCALE, KualiDecimal.ROUND_BEHAVIOR);
-            } else if(itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
+            }
+            else if (itemUnitPrice.scale() > PurapConstants.UNIT_PRICE_MAX_SCALE) {
                 itemUnitPrice = itemUnitPrice.setScale(PurapConstants.UNIT_PRICE_MAX_SCALE, KualiDecimal.ROUND_BEHAVIOR);
             }
         }
         this.itemUnitPrice = itemUnitPrice;
-	}
+    }
 
-	public String getItemTypeCode() { 
-		return itemTypeCode;
-	}
+    public String getItemTypeCode() {
+        return itemTypeCode;
+    }
 
-	public void setItemTypeCode(String itemTypeCode) {
-		this.itemTypeCode = itemTypeCode;
-	}
+    public void setItemTypeCode(String itemTypeCode) {
+        this.itemTypeCode = itemTypeCode;
+    }
 
-	public String getItemAuxiliaryPartIdentifier() { 
-		return itemAuxiliaryPartIdentifier;
-	}
+    public String getItemAuxiliaryPartIdentifier() {
+        return itemAuxiliaryPartIdentifier;
+    }
 
-	public void setItemAuxiliaryPartIdentifier(String itemAuxiliaryPartIdentifier) {
-		this.itemAuxiliaryPartIdentifier = itemAuxiliaryPartIdentifier;
-	}
+    public void setItemAuxiliaryPartIdentifier(String itemAuxiliaryPartIdentifier) {
+        this.itemAuxiliaryPartIdentifier = itemAuxiliaryPartIdentifier;
+    }
 
-	public String getExternalOrganizationB2bProductReferenceNumber() { 
-		return externalOrganizationB2bProductReferenceNumber;
-	}
+    public String getExternalOrganizationB2bProductReferenceNumber() {
+        return externalOrganizationB2bProductReferenceNumber;
+    }
 
-	public void setExternalOrganizationB2bProductReferenceNumber(String externalOrganizationB2bProductReferenceNumber) {
-		this.externalOrganizationB2bProductReferenceNumber = externalOrganizationB2bProductReferenceNumber;
-	}
+    public void setExternalOrganizationB2bProductReferenceNumber(String externalOrganizationB2bProductReferenceNumber) {
+        this.externalOrganizationB2bProductReferenceNumber = externalOrganizationB2bProductReferenceNumber;
+    }
 
-	public String getExternalOrganizationB2bProductTypeName() { 
-		return externalOrganizationB2bProductTypeName;
-	}
+    public String getExternalOrganizationB2bProductTypeName() {
+        return externalOrganizationB2bProductTypeName;
+    }
 
-	public void setExternalOrganizationB2bProductTypeName(String externalOrganizationB2bProductTypeName) {
-		this.externalOrganizationB2bProductTypeName = externalOrganizationB2bProductTypeName;
-	}
+    public void setExternalOrganizationB2bProductTypeName(String externalOrganizationB2bProductTypeName) {
+        this.externalOrganizationB2bProductTypeName = externalOrganizationB2bProductTypeName;
+    }
 
-	public boolean getItemAssignedToTradeInIndicator() { 
-		return itemAssignedToTradeInIndicator;
-	}
+    public boolean getItemAssignedToTradeInIndicator() {
+        return itemAssignedToTradeInIndicator;
+    }
 
-	public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
-		this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
-	}
+    public void setItemAssignedToTradeInIndicator(boolean itemAssignedToTradeInIndicator) {
+        this.itemAssignedToTradeInIndicator = itemAssignedToTradeInIndicator;
+    }
 
-	public CapitalAssetTransactionType getCapitalAssetTransactionType() { 
-		return capitalAssetTransactionType;
-	}
+    public CapitalAssetTransactionType getCapitalAssetTransactionType() {
+        return capitalAssetTransactionType;
+    }
 
-	/**
-	 * Sets the capitalAssetTransactionType attribute.
-	 * 
-	 * @param capitalAssetTransactionType The capitalAssetTransactionType to set.
-	 * @deprecated
-	 */
-	public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
-		this.capitalAssetTransactionType = capitalAssetTransactionType;
-	}
+    /**
+     * Sets the capitalAssetTransactionType attribute.
+     * 
+     * @param capitalAssetTransactionType The capitalAssetTransactionType to set.
+     * @deprecated
+     */
+    public void setCapitalAssetTransactionType(CapitalAssetTransactionType capitalAssetTransactionType) {
+        this.capitalAssetTransactionType = capitalAssetTransactionType;
+    }
 
-	public ItemType getItemType() { 
+    public ItemType getItemType() {
         if (ObjectUtils.isNull(itemType)) {
             refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
         }
-		return itemType;
-	}
+        return itemType;
+    }
 
-	/**
-	 * Sets the itemType attribute.
-	 * 
-	 * @param itemType The itemType to set.
-	 * @deprecated
-	 */
-	public void setItemType(ItemType itemType) {
-		this.itemType = itemType;
-	}
-   
+    /**
+     * Sets the itemType attribute.
+     * 
+     * @param itemType The itemType to set.
+     * @deprecated
+     */
+    public void setItemType(ItemType itemType) {
+        this.itemType = itemType;
+    }
+
     public KualiDecimal getExtendedPrice() {
         return calculateExtendedPrice();
     }
@@ -237,21 +239,22 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         KualiDecimal extendedPrice = KualiDecimal.ZERO;
         if (ObjectUtils.isNotNull(itemUnitPrice)) {
             if (!this.itemType.isQuantityBasedGeneralLedgerIndicator()) {
-                //SERVICE ITEM: return unit price as extended price
+                // SERVICE ITEM: return unit price as extended price
                 extendedPrice = new KualiDecimal(this.itemUnitPrice.toString());
-            } else if (ObjectUtils.isNotNull(this.getItemQuantity())) {
+            }
+            else if (ObjectUtils.isNotNull(this.getItemQuantity())) {
                 BigDecimal calcExtendedPrice = this.itemUnitPrice.multiply(this.itemQuantity.bigDecimalValue());
-                //ITEM TYPE (qty driven): return (unitPrice x qty)
+                // ITEM TYPE (qty driven): return (unitPrice x qty)
                 extendedPrice = new KualiDecimal(calcExtendedPrice);
             }
         }
         return extendedPrice;
     }
-    
+
     public void setExtendedPrice(KualiDecimal extendedPrice) {
         this.extendedPrice = extendedPrice;
     }
-    
+
     public List<PurApAccountingLine> getSourceAccountingLines() {
         return sourceAccountingLines;
     }
@@ -277,19 +280,19 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
      * 
      * @see org.kuali.core.document.FinancialDocument#getTargetAccountingLine(int)
      */
-    public PurApAccountingLine getSourceAccountingLine(int index) {        
+    public PurApAccountingLine getSourceAccountingLine(int index) {
         return (PurApAccountingLine) getSourceAccountingLines().get(index);
     }
 
     public PurApAccountingLine getBaselineSourceAccountingLine(int index) {
         return (PurApAccountingLine) getBaselineSourceAccountingLines().get(index);
     }
-    
+
     private PurApAccountingLine getNewAccount() throws RuntimeException {
-        
-        PurApAccountingLine newAccount=null;
+
+        PurApAccountingLine newAccount = null;
         try {
-            newAccount = (PurApAccountingLine)getAccountingLineClass().newInstance();
+            newAccount = (PurApAccountingLine) getAccountingLineClass().newInstance();
         }
         catch (InstantiationException e) {
             throw new RuntimeException("Unable to get class");
@@ -304,13 +307,13 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     public abstract Class getAccountingLineClass();
-    
+
     public void resetAccount() {
-        //add a blank accounting line
+        // add a blank accounting line
         PurApAccountingLine purApAccountingLine = getNewAccount();
         setNewSourceLine(purApAccountingLine);
     }
-    
+
     /**
      * @see org.kuali.core.document.DocumentBase#buildListOfDeletionAwareLists()
      */
@@ -324,14 +327,14 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.itemIdentifier != null) {
             m.put("requisitionItemIdentifier", this.itemIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 
     public PurApAccountingLine getNewSourceLine() {
@@ -357,7 +360,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public void setItemQuantity(KualiDecimal itemQuantity) {
         this.itemQuantity = itemQuantity;
     }
-    
+
     public boolean isAccountListEmpty() {
         List<PurApAccountingLine> accounts = getSourceAccountingLines();
         if (ObjectUtils.isNotNull(accounts)) {
@@ -369,11 +372,11 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
         }
         return true;
     }
-    
+
     public PurApSummaryItem getSummaryItem() {
         PurApSummaryItem summaryItem = new PurApSummaryItem();
         PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, this, summaryItem, new HashMap());
         return summaryItem;
     }
-       
+
 }

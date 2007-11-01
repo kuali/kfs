@@ -29,8 +29,6 @@ import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
 /**
  * The values are the same as the disbursementVoucherDocumentationLocationCode in the DisbursementVoucherDocumentationLocation
  * class.
- * 
- * 
  */
 public class DocumentationLocationCodeDescriptionFormatter extends CodeDescriptionFormatterBase {
     @Override

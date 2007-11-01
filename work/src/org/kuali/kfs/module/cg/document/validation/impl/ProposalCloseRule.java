@@ -35,14 +35,14 @@ public class ProposalCloseRule extends MaintenanceDocumentRuleBase {
     @Override
     public boolean processSaveDocument(Document document) {
         boolean isOk = super.processSaveDocument(document);
-        if(!isOk) {
+        if (!isOk) {
             return isOk;
         }
         Close close = (Close) document.getDocumentBusinessObject();
         Date userDate = close.getUserInitiatedCloseDate();
         Date today = SpringContext.getBean(DateTimeService.class).getCurrentSqlDateMidnight();
         isOk = today.getTime() <= userDate.getTime();
-        if(!isOk) {
+        if (!isOk) {
             putFieldError("userInitiatedCloseDate", KFSKeyConstants.ContractsAndGrants.USER_INITIATED_DATE_TOO_EARLY, userDate.toString());
         }
         return isOk;

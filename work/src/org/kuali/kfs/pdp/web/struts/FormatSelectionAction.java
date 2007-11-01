@@ -29,7 +29,6 @@ import org.kuali.module.pdp.service.SecurityRecord;
 
 /**
  * @author jsissom
- *
  */
 public class FormatSelectionAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatSelectionAction.class);
@@ -38,31 +37,31 @@ public class FormatSelectionAction extends BaseAction {
 
     public FormatSelectionAction() {
         super();
-        setFormatService( SpringContext.getBean(FormatService.class) );
-        setParameterService( SpringContext.getBean(ParameterService.class) );
+        setFormatService(SpringContext.getBean(FormatService.class));
+        setParameterService(SpringContext.getBean(ParameterService.class));
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isProcessRole();
     }
 
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) throws Exception {
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("executeLogic() starting");
 
         HttpSession session = request.getSession();
 
         PdpUser user = getUser(request);
-        FormatSelection fs = formatService.formatSelectionAction(user,request.getParameter("clear") != null);
+        FormatSelection fs = formatService.formatSelectionAction(user, request.getParameter("clear") != null);
 
         // Get the user's campus
-        session.setAttribute("campus",user.getUniversalUser().getCampusCode());
+        session.setAttribute("campus", user.getUniversalUser().getCampusCode());
 
         // Note, customers, ranges and FormatSelectionForm have to be in session so
-        // validate works.  If they weren't in session, the page wouldn't have all the
+        // validate works. If they weren't in session, the page wouldn't have all the
         // data it needs to display after a validate failure.
 
-        if ( fs.getStartDate() != null ) {
+        if (fs.getStartDate() != null) {
             LOG.debug("executeLogic() Format is already running for " + user.getUniversalUser().getCampusCode());
 
             session.removeAttribute("customers");
@@ -70,7 +69,7 @@ public class FormatSelectionAction extends BaseAction {
             session.removeAttribute("PdPFormatSelectionForm");
 
             // Format is already running, put up message
-            request.setAttribute("formatStart",fs.getStartDate());
+            request.setAttribute("formatStart", fs.getStartDate());
             return mapping.findForward("running");
         }
 
@@ -85,8 +84,8 @@ public class FormatSelectionAction extends BaseAction {
 
         int i = 0;
         for (Iterator iter = customers.iterator(); iter.hasNext();) {
-            CustomerProfile element = (CustomerProfile)iter.next();
-            if ( fs.getCampus().equals(element.getDefaultPhysicalCampusProcessingCode()) ) {
+            CustomerProfile element = (CustomerProfile) iter.next();
+            if (fs.getCampus().equals(element.getDefaultPhysicalCampusProcessingCode())) {
                 cid[i] = "on";
             }
             i++;
@@ -97,10 +96,10 @@ public class FormatSelectionAction extends BaseAction {
         fsf.setPaymentDate(sdf.format(today));
 
         // Save all the stuff in the session
-        session.setAttribute("customers",customers);
-        session.setAttribute("ranges",ranges);
+        session.setAttribute("customers", customers);
+        session.setAttribute("ranges", ranges);
 
-        session.setAttribute("PdpFormatSelectionForm",fsf);
+        session.setAttribute("PdpFormatSelectionForm", fsf);
 
         return mapping.findForward("selection");
     }

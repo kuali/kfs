@@ -19,8 +19,6 @@ import org.kuali.kfs.bo.HomeOrigination;
 
 /**
  * This is the data access interface for HomeOrigination objects.
- * 
- * 
  */
 public interface HomeOriginationDao {
     /**

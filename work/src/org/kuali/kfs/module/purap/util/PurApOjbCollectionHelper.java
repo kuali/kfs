@@ -30,6 +30,7 @@ import org.springframework.orm.ObjectRetrievalFailureException;
  */
 public class PurApOjbCollectionHelper {
     public final static int MAX_DEPTH = 2;
+
     /**
      * OJB RemovalAwareLists do not survive through the response/request lifecycle. This method is a work-around to forcibly remove
      * business objects that are found in Collections stored in the database but not in memory.
@@ -39,20 +40,21 @@ public class PurApOjbCollectionHelper {
      * @param template
      */
     public void processCollections(OjbCollectionAware template, PersistableBusinessObject orig, PersistableBusinessObject copy) {
-        processCollectionsRecurse(template, orig, copy,MAX_DEPTH);
+        processCollectionsRecurse(template, orig, copy, MAX_DEPTH);
     }
 
     /**
      * This method processes collections recursively up to the depth level specified
+     * 
      * @param template
      * @param orig
      * @param copy
      */
     private void processCollectionsRecurse(OjbCollectionAware template, PersistableBusinessObject orig, PersistableBusinessObject copy, int depth) {
-        if (copy == null || depth<1) {
+        if (copy == null || depth < 1) {
             return;
         }
-        
+
         List originalCollections = orig.buildListOfDeletionAwareLists();
 
         if (originalCollections != null && !originalCollections.isEmpty()) {
@@ -71,9 +73,9 @@ public class PurApOjbCollectionHelper {
                 for (int i = 0; i < size; i++) {
                     Collection<PersistableBusinessObject> origSource = (Collection<PersistableBusinessObject>) originalCollections.get(i);
                     Collection<PersistableBusinessObject> copySource = (Collection<PersistableBusinessObject>) copyCollections.get(i);
-                    List list = findUnwantedElements(copySource, origSource, template, depth-1);
+                    List list = findUnwantedElements(copySource, origSource, template, depth - 1);
                     cleanse(template, origSource, list);
-                    
+
                 }
             }
             catch (ObjectRetrievalFailureException orfe) {
@@ -81,7 +83,7 @@ public class PurApOjbCollectionHelper {
             }
         }
     }
-    
+
     /**
      * OJB RemovalAwareLists do not survive through the response/request lifecycle. This method is a work-around to forcibly remove
      * business objects that are found in Collections stored in the database but not in memory.
@@ -95,7 +97,7 @@ public class PurApOjbCollectionHelper {
         if (copy == null) {
             return;
         }
-        
+
         List originalCollections = orig.buildListOfDeletionAwareLists();
 
         if (originalCollections != null && !originalCollections.isEmpty()) {
@@ -116,7 +118,7 @@ public class PurApOjbCollectionHelper {
                     Collection copySource = (Collection) copyCollections.get(i);
                     List list = findUnwantedElements(copySource, origSource, null, 0);
                     cleanse(template, origSource, list);
-                    
+
                 }
             }
             catch (ObjectRetrievalFailureException orfe) {
@@ -134,8 +136,9 @@ public class PurApOjbCollectionHelper {
      */
     private void cleanse(OjbCollectionAware template, Collection origSource, List unwantedItems) {
         if (unwantedItems.size() > 0) {
-         // removing the following line because it seems to screw up when overriding equals (and it seems purposeless) see discussion on KULPURAP-1370
-//            origSource.removeAll(unwantedItems);
+            // removing the following line because it seems to screw up when overriding equals (and it seems purposeless) see
+            // discussion on KULPURAP-1370
+            // origSource.removeAll(unwantedItems);
             Iterator iter = unwantedItems.iterator();
             while (iter.hasNext()) {
                 template.getPersistenceBrokerTemplate().delete(iter.next());
@@ -158,11 +161,12 @@ public class PurApOjbCollectionHelper {
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
             PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
-            //FIXME ckirschenman see notes in PurApObjectUtils and KULPURAP-1370 about why it's necessary to call that
-            PersistableBusinessObject line = (PersistableBusinessObject) PurApObjectUtils.retrieveObjectWithIdentitcalKey(controlList,copyLine);
-            if(ObjectUtils.isNull(line)) {
+            // FIXME ckirschenman see notes in PurApObjectUtils and KULPURAP-1370 about why it's necessary to call that
+            PersistableBusinessObject line = (PersistableBusinessObject) PurApObjectUtils.retrieveObjectWithIdentitcalKey(controlList, copyLine);
+            if (ObjectUtils.isNull(line)) {
                 toRemove.add(copyLine);
-            } else { //since we're not deleting try to recurse on this element
+            }
+            else { // since we're not deleting try to recurse on this element
                 processCollectionsRecurse(template, line, copyLine, depth);
             }
         }

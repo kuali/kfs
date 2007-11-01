@@ -31,7 +31,6 @@ import javax.xml.xpath.XPathExpressionException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.LookupService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;

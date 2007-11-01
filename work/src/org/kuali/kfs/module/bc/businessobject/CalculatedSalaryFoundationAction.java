@@ -25,87 +25,81 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class CalculatedSalaryFoundationAction extends PersistableBusinessObjectBase {
 
-	private String action;
-	private String actionReason;
-	private String csfFundingStatusCode;
+    private String action;
+    private String actionReason;
+    private String csfFundingStatusCode;
 
-	/**
-	 * Default constructor.
-	 */
-	public CalculatedSalaryFoundationAction() {
+    /**
+     * Default constructor.
+     */
+    public CalculatedSalaryFoundationAction() {
 
-	}
+    }
 
-	/**
-	 * Gets the action attribute.
-	 * 
-	 * @return Returns the action
-	 * 
-	 */
-	public String getAction() { 
-		return action;
-	}
+    /**
+     * Gets the action attribute.
+     * 
+     * @return Returns the action
+     */
+    public String getAction() {
+        return action;
+    }
 
-	/**
-	 * Sets the action attribute.
-	 * 
-	 * @param action The action to set.
-	 * 
-	 */
-	public void setAction(String action) {
-		this.action = action;
-	}
+    /**
+     * Sets the action attribute.
+     * 
+     * @param action The action to set.
+     */
+    public void setAction(String action) {
+        this.action = action;
+    }
 
 
-	/**
-	 * Gets the actionReason attribute.
-	 * 
-	 * @return Returns the actionReason
-	 * 
-	 */
-	public String getActionReason() { 
-		return actionReason;
-	}
+    /**
+     * Gets the actionReason attribute.
+     * 
+     * @return Returns the actionReason
+     */
+    public String getActionReason() {
+        return actionReason;
+    }
 
-	/**
-	 * Sets the actionReason attribute.
-	 * 
-	 * @param actionReason The actionReason to set.
-	 * 
-	 */
-	public void setActionReason(String actionReason) {
-		this.actionReason = actionReason;
-	}
+    /**
+     * Sets the actionReason attribute.
+     * 
+     * @param actionReason The actionReason to set.
+     */
+    public void setActionReason(String actionReason) {
+        this.actionReason = actionReason;
+    }
 
 
-	/**
-	 * Gets the csfFundingStatusCode attribute.
-	 * 
-	 * @return Returns the csfFundingStatusCode
-	 * 
-	 */
-	public String getCsfFundingStatusCode() { 
-		return csfFundingStatusCode;
-	}
+    /**
+     * Gets the csfFundingStatusCode attribute.
+     * 
+     * @return Returns the csfFundingStatusCode
+     */
+    public String getCsfFundingStatusCode() {
+        return csfFundingStatusCode;
+    }
 
-	/**
-	 * Sets the csfFundingStatusCode attribute.
-	 * 
-	 * @param csfFundingStatusCode The csfFundingStatusCode to set.
-	 * 
-	 */
-	public void setCsfFundingStatusCode(String csfFundingStatusCode) {
-		this.csfFundingStatusCode = csfFundingStatusCode;
-	}
+    /**
+     * Sets the csfFundingStatusCode attribute.
+     * 
+     * @param csfFundingStatusCode The csfFundingStatusCode to set.
+     */
+    public void setCsfFundingStatusCode(String csfFundingStatusCode) {
+        this.csfFundingStatusCode = csfFundingStatusCode;
+    }
 
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("action", this.action);
         m.put("actionReason", this.actionReason);
-	    return m;
+        return m;
     }
 }

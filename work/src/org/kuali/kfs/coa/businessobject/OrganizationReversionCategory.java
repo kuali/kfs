@@ -29,7 +29,7 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
     private String organizationReversionCategoryName;
     private String organizationReversionSortCode;
     private boolean organizationReversionCategoryActiveIndicator;
-    
+
     /**
      * Default constructor.
      */
@@ -41,7 +41,6 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Gets the organizationReversionCategoryCode attribute.
      * 
      * @return Returns the organizationReversionCategoryCode
-     * 
      */
     public String getOrganizationReversionCategoryCode() {
         return organizationReversionCategoryCode;
@@ -51,7 +50,6 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Sets the organizationReversionCategoryCode attribute.
      * 
      * @param organizationReversionCategoryCode The organizationReversionCategoryCode to set.
-     * 
      */
     public void setOrganizationReversionCategoryCode(String organizationReversionCategoryCode) {
         this.organizationReversionCategoryCode = organizationReversionCategoryCode;
@@ -62,7 +60,6 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Gets the organizationReversionCategoryName attribute.
      * 
      * @return Returns the organizationReversionCategoryName
-     * 
      */
     public String getOrganizationReversionCategoryName() {
         return organizationReversionCategoryName;
@@ -72,7 +69,6 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Sets the organizationReversionCategoryName attribute.
      * 
      * @param organizationReversionCategoryName The organizationReversionCategoryName to set.
-     * 
      */
     public void setOrganizationReversionCategoryName(String organizationReversionCategoryName) {
         this.organizationReversionCategoryName = organizationReversionCategoryName;
@@ -83,7 +79,6 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Gets the organizationReversionSortCode attribute.
      * 
      * @return Returns the organizationReversionSortCode
-     * 
      */
     public String getOrganizationReversionSortCode() {
         return organizationReversionSortCode;
@@ -93,14 +88,14 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
      * Sets the organizationReversionSortCode attribute.
      * 
      * @param organizationReversionSortCode The organizationReversionSortCode to set.
-     * 
      */
     public void setOrganizationReversionSortCode(String organizationReversionSortCode) {
         this.organizationReversionSortCode = organizationReversionSortCode;
     }
 
     /**
-     * Gets the organizationReversionCategoryActiveIndicator attribute. 
+     * Gets the organizationReversionCategoryActiveIndicator attribute.
+     * 
      * @return Returns the organizationReversionCategoryActiveIndicator.
      */
     public boolean isOrganizationReversionCategoryActiveIndicator() {
@@ -109,6 +104,7 @@ public class OrganizationReversionCategory extends PersistableBusinessObjectBase
 
     /**
      * Sets the organizationReversionCategoryActiveIndicator attribute value.
+     * 
      * @param organizationReversionCategoryActiveIndicator The organizationReversionCategoryActiveIndicator to set.
      */
     public void setOrganizationReversionCategoryActiveIndicator(boolean organizationReversionCategoryActiveIndicator) {

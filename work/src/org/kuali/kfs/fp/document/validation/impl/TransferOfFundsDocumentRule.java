@@ -33,7 +33,6 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 
 /**

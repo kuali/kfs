@@ -58,7 +58,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
 
         laborLedgerEntryService = SpringContext.getBean(LaborLedgerEntryService.class);
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        
+
         LedgerEntry cleanup = new LedgerEntry();
         ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", fieldNames, deliminator);
         fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
@@ -122,7 +122,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
         maxSeqNumber = laborLedgerEntryService.getMaxSequenceNumber(input2);
         assertEquals(Integer.valueOf(expectedSeqNumber2), maxSeqNumber);
     }
-    
+
     public void testFind() throws Exception {
         String testTarget = "find.";
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
@@ -133,7 +133,7 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
 
         Iterator<LedgerEntry> ledgerEntries = laborLedgerEntryService.find(fieldValues);
         int counter = 0;
-        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerEntryForTesting.class, properties, testTarget + "expected", fieldNames, deliminator, expectedNumOfData);       
+        List expectedDataList = TestDataPreparator.buildExpectedValueList(LedgerEntryForTesting.class, properties, testTarget + "expected", fieldNames, deliminator, expectedNumOfData);
         while (ledgerEntries != null && ledgerEntries.hasNext()) {
             LedgerEntry entry = ledgerEntries.next();
             LedgerEntryForTesting ledgerEntryForTesting = new LedgerEntryForTesting();
@@ -142,5 +142,5 @@ public class LaborLedgerEntryServiceTest extends KualiTestBase {
             counter++;
         }
         assertEquals(expectedNumOfData, counter);
-    }    
+    }
 }

@@ -45,7 +45,7 @@ public class FundingSourceValuesFinder extends KeyValuesBase {
             FundingSource source = (FundingSource) iter.next();
             labels.add(new KeyLabelPair(source.getFundingSourceCode(), source.getFundingSourceDescription()));
         }
-        
+
         return labels;
     }
 }

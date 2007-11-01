@@ -19,8 +19,7 @@ import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.test.KualiTestConstants.TestConstants.Data1;
 
 /**
- * Mock object for CollectorBatch. Used so the object does not need built from
- * XML everytime we need it for a parameter.
+ * Mock object for CollectorBatch. Used so the object does not need built from XML everytime we need it for a parameter.
  */
 public class MockCollectorBatch extends CollectorBatch {
 

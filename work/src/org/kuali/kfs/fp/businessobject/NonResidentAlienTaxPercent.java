@@ -43,7 +43,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Gets the incomeClassCode attribute.
      * 
      * @return Returns the incomeClassCode
-     * 
      */
     public String getIncomeClassCode() {
         return incomeClassCode;
@@ -54,7 +53,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Sets the incomeClassCode attribute.
      * 
      * @param incomeClassCode The incomeClassCode to set.
-     * 
      */
     public void setIncomeClassCode(String incomeClassCode) {
         this.incomeClassCode = incomeClassCode;
@@ -64,7 +62,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Gets the incomeTaxTypeCode attribute.
      * 
      * @return Returns the incomeTaxTypeCode
-     * 
      */
     public String getIncomeTaxTypeCode() {
         return incomeTaxTypeCode;
@@ -75,7 +72,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Sets the incomeTaxTypeCode attribute.
      * 
      * @param incomeTaxTypeCode The incomeTaxTypeCode to set.
-     * 
      */
     public void setIncomeTaxTypeCode(String incomeTaxTypeCode) {
         this.incomeTaxTypeCode = incomeTaxTypeCode;
@@ -85,7 +81,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Gets the incomeTaxPercent attribute.
      * 
      * @return Returns the incomeTaxPercent
-     * 
      */
     public KualiDecimal getIncomeTaxPercent() {
         return incomeTaxPercent;
@@ -96,7 +91,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Sets the incomeTaxPercent attribute.
      * 
      * @param incomeTaxPercent The incomeTaxPercent to set.
-     * 
      */
     public void setIncomeTaxPercent(KualiDecimal incomeTaxPercent) {
         this.incomeTaxPercent = incomeTaxPercent;
@@ -106,7 +100,6 @@ public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
      * Gets the incomeClass attribute.
      * 
      * @return Returns the incomeClass
-     * 
      */
     public TaxIncomeClassCode getIncomeClass() {
         return incomeClass;

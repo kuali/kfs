@@ -750,7 +750,8 @@ public class Balance extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the priorYearAccount attribute. 
+     * Gets the priorYearAccount attribute.
+     * 
      * @return Returns the priorYearAccount.
      */
     public PriorYearAccount getPriorYearAccount() {
@@ -759,6 +760,7 @@ public class Balance extends PersistableBusinessObjectBase {
 
     /**
      * Sets the priorYearAccount attribute value.
+     * 
      * @param priorYearAccount The priorYearAccount to set.
      */
     public void setPriorYearAccount(PriorYearAccount priorYearAccount) {

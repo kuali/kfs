@@ -19,7 +19,7 @@ public class PurapConfigurationException extends RuntimeException {
     public PurapConfigurationException() {
         super();
     }
-    
+
     public PurapConfigurationException(String msg) {
         super(msg);
     }

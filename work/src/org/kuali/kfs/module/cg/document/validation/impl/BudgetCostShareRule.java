@@ -34,6 +34,7 @@ public class BudgetCostShareRule {
 
     /**
      * Error checks for Cost Share.
+     * 
      * @param budget
      * @return
      */
@@ -51,9 +52,10 @@ public class BudgetCostShareRule {
 
         return valid;
     }
-    
+
     /**
      * Audit checks for Cost Share.
+     * 
      * @param budget
      * @return
      */
@@ -62,19 +64,17 @@ public class BudgetCostShareRule {
         BudgetCostShareFormHelper budgetCostShareFormHelper = new BudgetCostShareFormHelper(budget.getPeriods(), budget.getPersonnel(), budget.getNonpersonnelItems(), budget.getInstitutionCostSharePersonnelItems(), budget.getInstitutionCostShareItems(), budget.getThirdPartyCostShareItems());
 
         if (!budgetCostShareFormHelper.getInstitutionDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed",
-            KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.institution.distributed", KraKeyConstants.AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED, "costshare"));
         }
         if (!budgetCostShareFormHelper.getThirdPartyDirect().getTotalBalanceToBeDistributed().equals(new KualiInteger(0))) {
-            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed",
-            KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
+            costShareAuditErrors.add(new AuditError("document.budget.audit.costShare.3rdParty.distributed", KraKeyConstants.AUDIT_COST_SHARE_3P_DISTRIBUTED, "costshare"));
         }
-        
+
         if (!costShareAuditErrors.isEmpty()) {
             GlobalVariables.getAuditErrorMap().put("costShareAuditErrors", new AuditCluster("Cost Share", costShareAuditErrors));
             return false;
         }
-        
+
         return true;
     }
 }

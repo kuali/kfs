@@ -15,7 +15,6 @@
  */
 package org.kuali.module.labor.rules;
 
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_EXTERNAL_ENCUMBRANCE;
 import static org.kuali.kfs.KFSConstants.GENERIC_CODE_PROPERTY_NAME;
 
 import java.util.Collection;
@@ -50,9 +49,10 @@ import org.kuali.module.labor.util.ObjectUtil;
  */
 public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
-    
+
     /**
-     * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
+     * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
      */
     @Override
     public boolean processCustomUpdateAccountingLineBusinessRules(AccountingDocument document, AccountingLine originalAccountingLine, AccountingLine updatedAccountingLine) {
@@ -104,7 +104,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
         return isValid;
     }
-    
+
     /**
      * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#isExternalEncumbranceSpecificBusinessRulesValid(org.kuali.kfs.bo.AccountingLine)
      */
@@ -139,13 +139,12 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
     }
 
     /**
-     * 
      * @param accountingDocument
      * @param accountingLine
      * @param sequenceHelper
      * @return boolean
-     *  
-     * @see org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.module.labor.document.LaborLedgerPostingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @see org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule#processGenerateLaborLedgerPendingEntries(org.kuali.module.labor.document.LaborLedgerPostingDocument,
+     *      org.kuali.kfs.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateLaborLedgerPendingEntries(LaborLedgerPostingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         LOG.debug("processGenerateLaborLedgerPendingEntries() started");

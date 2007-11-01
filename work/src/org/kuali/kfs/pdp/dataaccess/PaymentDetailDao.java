@@ -31,9 +31,13 @@ import org.kuali.module.pdp.bo.PaymentDetail;
 
 public interface PaymentDetailDao {
     public PaymentDetail get(Integer id);
+
     public void save(PaymentDetail pd);
+
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
+
     public List getDisbursementNumberRanges(String campus);
+
     public void saveDisbursementNumberRange(DisbursementNumberRange range);
 
     /**
@@ -44,8 +48,7 @@ public interface PaymentDetailDao {
     public List<DailyReport> getDailyReportData();
 
     /**
-     * This will return an iterator of all the cancelled payment details that haven't
-     * already been processed
+     * This will return an iterator of all the cancelled payment details that haven't already been processed
      * 
      * @param organization
      * @param subUnit
@@ -54,12 +57,11 @@ public interface PaymentDetailDao {
     public Iterator getUnprocessedCancelledDetails(String organization, String subUnit);
 
     /**
-     * This will return an iterator of all the paid payment details that haven't
-     * already been processed
+     * This will return an iterator of all the paid payment details that haven't already been processed
      * 
      * @param organization
      * @param subUnit
      * @return
      */
-    public Iterator getUnprocessedPaidDetails(String organization,String subUnit);
+    public Iterator getUnprocessedPaidDetails(String organization, String subUnit);
 }

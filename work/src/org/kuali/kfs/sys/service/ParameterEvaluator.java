@@ -16,15 +16,11 @@
 package org.kuali.kfs.service;
 
 import java.io.Serializable;
-import java.util.List;
-
-import org.kuali.core.bo.Parameter;
 
 /**
- * This is a stateful wrapper for Parameters, which provides convenient methods to evaluate a constrained value against a
- * Parameter.
+ * This is a stateful wrapper for Parameters, which provides convenient methods to evaluate a constrained value against a Parameter.
  */
-public interface ParameterEvaluator extends Serializable{
+public interface ParameterEvaluator extends Serializable {
     /**
      * This method determines whether the constrainedValue specified when the ParameterEvaluator was created matches the parameter.
      * 
@@ -67,14 +63,14 @@ public interface ParameterEvaluator extends Serializable{
 
     /**
      * This method creates a pretty String representation of parameter values for the user messages.
-     *
+     * 
      * @return user-friendly String representation of Parameter values
      */
     public String getParameterValuesForMessage();
 
     /**
      * This method returns the value of the correspnding Parameter.
-     *
+     * 
      * @return String value of underlying Parameter
      */
     public String getValue();

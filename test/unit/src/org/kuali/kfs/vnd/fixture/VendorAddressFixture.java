@@ -15,26 +15,20 @@
  */
 package org.kuali.module.vendor.fixtures;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kuali.kfs.KFSConstants;
-import org.kuali.module.vendor.bo.VendorAddress;
-import org.kuali.module.vendor.bo.VendorDefaultAddress;
-
-import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusBL;
 import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusIN;
 import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusKO;
 import static org.kuali.module.vendor.fixtures.VendorDefaultAddressFixture.campusSB;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorDefaultAddress;
+
 public enum VendorAddressFixture {
 
-    address1(new Integer(1), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", true, null),
-    address2(new Integer(2), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", false, new VendorDefaultAddressFixture[] {campusKO, campusIN}),
-    address3(new Integer(3), "RM", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", true, null),
-    address4(new Integer(4), "RM", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", false, new VendorDefaultAddressFixture[] {campusSB}),
-    ;
-    
+    address1(new Integer(1), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", true, null), address2(new Integer(2), "PO", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", false, new VendorDefaultAddressFixture[] { campusKO, campusIN }), address3(new Integer(3), "RM", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", true, null), address4(new Integer(4), "RM", "line1", "line2", "thisCity", "IN", "44444", "US", "attentionTo", "", "test@email.com", "", "555-555-5555", false, new VendorDefaultAddressFixture[] { campusSB }), ;
+
     public final Integer vendorAddressGeneratedIdentifier;
     public final String vendorAddressTypeCode;
     public final String vendorLine1Address;
@@ -50,13 +44,8 @@ public enum VendorAddressFixture {
     public final String vendorFaxNumber;
     public final boolean vendorDefaultAddressIndicator;
     public final List defaultAddresses = new ArrayList();
-    
-    private VendorAddressFixture( Integer vendorAddressGeneratedIdentifier, String vendorAddressTypeCode, 
-            String vendorLine1Address, String vendorLine2Address, String vendorCityName, String vendorStateCode, 
-            String vendorZipCode, String vendorCountryCode, String vendorAttentionName, 
-            String vendorAddressInternationalProvinceName, String vendorAddressEmailAddress, 
-            String vendorBusinessToBusinessUrlAddress, String vendorFaxNumber, boolean vendorDefaultAddressIndicator,
-            VendorDefaultAddressFixture[] campuses) {
+
+    private VendorAddressFixture(Integer vendorAddressGeneratedIdentifier, String vendorAddressTypeCode, String vendorLine1Address, String vendorLine2Address, String vendorCityName, String vendorStateCode, String vendorZipCode, String vendorCountryCode, String vendorAttentionName, String vendorAddressInternationalProvinceName, String vendorAddressEmailAddress, String vendorBusinessToBusinessUrlAddress, String vendorFaxNumber, boolean vendorDefaultAddressIndicator, VendorDefaultAddressFixture[] campuses) {
         this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
         this.vendorAddressTypeCode = vendorAddressTypeCode;
         this.vendorLine1Address = vendorLine1Address;
@@ -99,5 +88,5 @@ public enum VendorAddressFixture {
         address.setVendorDefaultAddresses(defaultAddresses);
         return address;
     }
-    
+
 }

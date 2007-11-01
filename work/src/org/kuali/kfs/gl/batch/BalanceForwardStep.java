@@ -42,18 +42,17 @@ public class BalanceForwardStep extends AbstractStep {
     public static final String TRANSACTION_DATE_FORMAT_STRING = "yyyy-MM-dd";
 
     /**
-     * This step runs the balance forward service, specifically finding the parameters the job needs,
-     * creating the origin entry groups for the output origin entries, and creating the process's 
-     * reports.
+     * This step runs the balance forward service, specifically finding the parameters the job needs, creating the origin entry
+     * groups for the output origin entries, and creating the process's reports.
      * 
-     * @param jobName the name of the job that this step is a part of 
+     * @param jobName the name of the job that this step is a part of
      * @return that the job finished successfully
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start(jobName);
-        
+
         Date varTransactionDate;
         try {
             DateFormat transactionDateFormat = new SimpleDateFormat(TRANSACTION_DATE_FORMAT_STRING);
@@ -79,13 +78,14 @@ public class BalanceForwardStep extends AbstractStep {
         yearEndService.generateForwardBalanceReports(balanceForwardsUnclosedPriorYearAccountGroup, balanceForwardsClosedPriorYearAccountGroup, balanceForwardRuleHelper);
 
         stopWatch.stop();
-        LOG.info(jobName+" took "+(stopWatch.getTotalTimeSeconds()/60.0)+" minutes to complete");
+        LOG.info(jobName + " took " + (stopWatch.getTotalTimeSeconds() / 60.0) + " minutes to complete");
 
         return true;
     }
 
     /**
      * Sets the yearEndService attribute, allowing injection of an implementation of the service
+     * 
      * @param yearEndService an implementation of the yearEndService
      * @see org.kuali.module.gl.service.yearEndService
      */

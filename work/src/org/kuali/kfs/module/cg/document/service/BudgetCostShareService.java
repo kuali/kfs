@@ -17,16 +17,13 @@ package org.kuali.module.kra.budget.service;
 
 import java.util.List;
 
-import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetInstitutionCostShare;
+import org.kuali.module.kra.budget.bo.BudgetThirdPartyCostShare;
 import org.kuali.module.kra.budget.bo.BudgetUser;
 import org.kuali.module.kra.budget.bo.InstitutionCostSharePersonnel;
 
 /**
- * 
  * This interface defines methods that a BudgetCostShareService must provide.
- * 
- * 
  */
 public interface BudgetCostShareService {
 
@@ -45,8 +42,8 @@ public interface BudgetCostShareService {
     public void cleanseCostShare(boolean institutionCostShareIndicator, List<BudgetInstitutionCostShare> budgetInstitutionCostShare, boolean budgetThirdPartyCostShareIndicator, List<BudgetThirdPartyCostShare> budgetThirdPartyCostShare, List<BudgetUser> personnel, List<InstitutionCostSharePersonnel> institutionCostSharePersonnel);
 
     /**
-     * This method will add Institution Cost Share Personnel entries that have personnel entries if they don't already exist. It does
-     * not add entries that don't have a chart or org set (this happens for TO BE NAMEDs).
+     * This method will add Institution Cost Share Personnel entries that have personnel entries if they don't already exist. It
+     * does not add entries that don't have a chart or org set (this happens for TO BE NAMEDs).
      * 
      * @param documentNumber
      * @param personnel

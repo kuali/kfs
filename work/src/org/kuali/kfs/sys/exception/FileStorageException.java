@@ -19,7 +19,7 @@ package org.kuali.kfs.exceptions;
  * Exception thrown when an error occurs storing a file.
  */
 public class FileStorageException extends RuntimeException {
-    
+
     /**
      * @param message
      */

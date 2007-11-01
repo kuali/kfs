@@ -28,7 +28,6 @@ import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
  * This class overrides the getCoreSections method to provide specific field conversions for the postal code
  */
 public class KualiOrgMaintainable extends KualiMaintainableImpl {
@@ -78,15 +77,15 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
 
                             // build the fieldConversions for the UserID field lookup
                             Map fieldConversions = new HashMap();
-                            fieldConversions.put(KFSPropertyConstants.POSTAL_ZIP_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE );
-                            fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE );
-                            fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME );
-                            
-                            
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_ZIP_CODE, KFSPropertyConstants.ORGANIZATION_ZIP_CODE);
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_STATE_CODE, KFSPropertyConstants.ORGANIZATION_STATE_CODE);
+                            fieldConversions.put(KFSPropertyConstants.POSTAL_CITY_NAME, KFSPropertyConstants.ORGANIZATION_CITY_NAME);
+
+
                             // add the fieldConversions, lookupParameters and the lookup class
                             field.setFieldConversions(fieldConversions);
-                            //field.setLookupParameters(lookupParameters);
-                            //field.setQuickFinderClassNameImpl(UniversalUser.class.getName());
+                            // field.setLookupParameters(lookupParameters);
+                            // field.setQuickFinderClassNameImpl(UniversalUser.class.getName());
                         }
                     }
                 }

@@ -17,8 +17,7 @@ package org.kuali.module.pdp.service;
 
 public interface ExtractPaymentService {
     /**
-     * Extract checks to be cut into a file to be processed
-     * by the check printing service
+     * Extract checks to be cut into a file to be processed by the check printing service
      */
     public void extractChecks();
 
@@ -28,8 +27,7 @@ public interface ExtractPaymentService {
     public void extractAchPayments();
 
     /**
-     * Extract canceled checks to be used for a bank's positive
-     * pay program.
+     * Extract canceled checks to be used for a bank's positive pay program.
      */
     public void extractCanceledChecks();
 }

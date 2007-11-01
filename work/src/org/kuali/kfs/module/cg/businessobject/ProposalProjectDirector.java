@@ -23,7 +23,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.ObjectUtils;
 
 /**
- * 
  * Represents a relationship between a {@link Proposal} and a {@link ProjectDirector}.
  */
 public class ProposalProjectDirector extends PersistableBusinessObjectBase implements Primaryable, CGProjectDirector, Inactivateable {
@@ -33,7 +32,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     private boolean proposalPrimaryProjectDirectorIndicator;
     private String proposalProjectDirectorProjectTitle;
     private boolean active = true;
-    
+
     private ProjectDirector projectDirector;
 
     /**
@@ -122,7 +121,8 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -131,7 +131,7 @@ public class ProposalProjectDirector extends PersistableBusinessObjectBase imple
 
     /**
      * Sets the active attribute value.
-	 *
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {

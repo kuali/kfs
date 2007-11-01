@@ -36,9 +36,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
     OrganizationReversion newOrgReversion;
 
     /**
-     * 
      * No-Args Constructor for an OrganizationReversionRule.
-     * 
      */
     public OrganizationReversionRule() {
 
@@ -66,7 +64,6 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
      * Tests each option attached to the main business object and validates its properties.
      * 
      * @param orgReversion
@@ -92,10 +89,10 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         boolean result = true; // let's assume this detail will pass the rule
         // 1. makes sure the financial object code exists
         detail.refreshReferenceObject("organizationReversionObject");
-        LOG.debug("organization reversion finanical object = "+detail.getOrganizationReversionObject());
+        LOG.debug("organization reversion finanical object = " + detail.getOrganizationReversionObject());
         if (ObjectUtils.isNull(detail.getOrganizationReversionObject())) {
             result = false;
-            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: "+detail.getOrganizationReversionObjectCode() });
+            GlobalVariables.getErrorMap().putError("organizationReversionObjectCode", KFSKeyConstants.ERROR_EXISTENCE, new String[] { "Financial Object Code: " + detail.getOrganizationReversionObjectCode() });
         }
         return result;
     }

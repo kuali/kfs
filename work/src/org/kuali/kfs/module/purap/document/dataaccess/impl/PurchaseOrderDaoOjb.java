@@ -31,7 +31,7 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
  */
 public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements PurchaseOrderDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderDaoOjb.class);
-    
+
     /**
      * @see org.kuali.module.purap.dao.PurchaseOrderDao#getDocumentNumberForPurchaseOrderId(java.lang.Integer)
      */
@@ -46,7 +46,7 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
      */
     public String getDocumentNumberForCurrentPurchaseOrder(Integer id) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id );
+        criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         criteria.addEqualTo(PurapPropertyConstants.PURCHASE_ORDER_CURRENT_INDICATOR, "Y");
         return getDocumentNumberUsingPurchaseOrderCriteria(criteria);
     }
@@ -58,19 +58,18 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
         Criteria criteria = new Criteria();
         criteria.addEqualTo(PurapPropertyConstants.PURAP_DOC_ID, id);
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         Iterator<Object[]> iter = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
         String oldestDocumentNumber = null;
         if (iter.hasNext()) {
-            oldestDocumentNumber = (String)(iter.next())[0];
+            oldestDocumentNumber = (String) (iter.next())[0];
         }
         return oldestDocumentNumber;
     }
 
     /**
-     * Retrieves the document number of the purchase order returned by the passed in
-     * criteria.
+     * Retrieves the document number of the purchase order returned by the passed in criteria.
      * 
      * @param criteria - list of criteria to use in the retrieve
      * @return Document number string if a valid purchase order is found, null if no purchase order is found
@@ -87,21 +86,20 @@ public class PurchaseOrderDaoOjb extends PlatformAwareDaoBaseOjb implements Purc
                 throw new RuntimeException(errorMsg);
             }
             // at this part of the code, we know there's no more elements in iterator
-            return (String)cols[0];
+            return (String) cols[0];
         }
         return null;
     }
-    
+
     /**
-     * Retrieves a list of document numbers of the purchase order returned by the passed in
-     * criteria.
+     * Retrieves a list of document numbers of the purchase order returned by the passed in criteria.
      * 
      * @param criteria - list of criteria to use in the retrieve
      * @return Iterator of document numbers
      */
     private Iterator<Object[]> getDocumentNumbersUsingPurchaseOrderCriteria(Criteria criteria) {
         ReportQueryByCriteria rqbc = new ReportQueryByCriteria(PurchaseOrderDocument.class, criteria);
-        rqbc.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        rqbc.setAttributes(new String[] { KFSPropertyConstants.DOCUMENT_NUMBER });
         rqbc.addOrderByAscending(KFSPropertyConstants.DOCUMENT_NUMBER);
         return getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rqbc);
     }

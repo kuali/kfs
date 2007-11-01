@@ -27,12 +27,15 @@ public class GroupHolder implements Serializable {
     public CorrectionChange getCorrectionChange() {
         return correctionChange;
     }
+
     public void setCorrectionChange(CorrectionChange correctionChange) {
         this.correctionChange = correctionChange;
     }
+
     public CorrectionCriteria getCorrectionCriteria() {
         return correctionCriteria;
     }
+
     public void setCorrectionCriteria(CorrectionCriteria correctionCriteria) {
         this.correctionCriteria = correctionCriteria;
     }

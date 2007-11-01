@@ -20,8 +20,6 @@ import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH
 
 /**
  * Contains Credit Card Receipt rule related constants
- * 
- * 
  */
 public class CreditCardReceiptDocumentRuleConstants {
     // Security grouping constants used to do application parameter lookups
@@ -29,6 +27,6 @@ public class CreditCardReceiptDocumentRuleConstants {
 
     // Application parameter lookup constants to be used in conjunction with the grouping constants above
     public static final String CASH_OFFSET_BANK_ACCOUNT = "CASH_OFFSET_BANK_ACCOUNT";
-    
+
     public static final String CREDIT_CARD_RECEIPT_PREFIX = DOCUMENT_ERROR_PREFIX + "creditCardReceipt" + DELIMITER;
 }

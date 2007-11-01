@@ -27,8 +27,6 @@ import org.kuali.module.financial.bo.TaxControlCode;
 
 /**
  * This class returns list of tax control value pairs.
- * 
- * 
  */
 public class TaxControlValuesFinder extends KeyValuesBase {
 

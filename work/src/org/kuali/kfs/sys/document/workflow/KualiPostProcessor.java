@@ -29,26 +29,17 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 import edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO;
 
 /**
- * 
- * This class is the public entry point by which workflow communicates status changes, 
- * level changes, and other useful changes.
- * 
- * Note that this class delegates all of these activities to the PostProcessorService, 
- * which does the actual work.  This is done to ensure proper transaction scoping, and 
- * to resolve some issues present otherwise.
- * 
- * Because of this, its important to understand that a transaction will be started at 
- * the PostProcessorService method call, so any work that needs to be done within the 
- * same transaction needs to happen inside that service implementation, rather than 
- * in here.
- * 
+ * This class is the public entry point by which workflow communicates status changes, level changes, and other useful changes. Note
+ * that this class delegates all of these activities to the PostProcessorService, which does the actual work. This is done to ensure
+ * proper transaction scoping, and to resolve some issues present otherwise. Because of this, its important to understand that a
+ * transaction will be started at the PostProcessorService method call, so any work that needs to be done within the same
+ * transaction needs to happen inside that service implementation, rather than in here.
  */
 public class KualiPostProcessor implements PostProcessorRemote {
 
     private static Logger LOG = Logger.getLogger(KualiPostProcessor.class);
 
     /**
-     * 
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteStatusChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteStatusChangeVO)
      */
     public boolean doRouteStatusChange(DocumentRouteStatusChangeVO statusChangeEvent) throws RemoteException {
@@ -56,7 +47,6 @@ public class KualiPostProcessor implements PostProcessorRemote {
     }
 
     /**
-     * 
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doActionTaken(edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO)
      */
     public boolean doActionTaken(ActionTakenEventVO event) throws RemoteException {
@@ -64,7 +54,6 @@ public class KualiPostProcessor implements PostProcessorRemote {
     }
 
     /**
-     * 
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doDeleteRouteHeader(edu.iu.uis.eden.clientapp.vo.DeleteEventVO)
      */
     public boolean doDeleteRouteHeader(DeleteEventVO event) throws RemoteException {
@@ -72,11 +61,10 @@ public class KualiPostProcessor implements PostProcessorRemote {
     }
 
     /**
-     * 
      * @see edu.iu.uis.eden.clientapp.PostProcessorRemote#doRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     public boolean doRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) throws RemoteException {
         return SpringContext.getBean(PostProcessorService.class).doRouteLevelChange(levelChangeEvent);
     }
 
- }
+}

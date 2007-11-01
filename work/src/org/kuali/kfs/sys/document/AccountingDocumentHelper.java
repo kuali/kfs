@@ -35,15 +35,14 @@ import org.kuali.kfs.service.AccountingLineService;
 
 
 /**
- * Helper class used for delegating tasks of an <code>{@link AccountingDocument}</code> that effect a
- * parallel hierarchy. Basically, this is here because it is the alternative to duplicating code. 
- * Rather than having the encapsulated methods exist in multiple documents that use it, but aren't necessarily
- * <code>{@link AccountingDocument}</code> instances, use the <code>{@link AccountingDocumentHelper}</code>.<br/>
- *
- * <p>This is the result of having <code>{@link SourceAccountingLine}</code> and <code>{@link TargetAccountingLine}</code> 
- * parallel hierarchies that may need to be extended at the <code>{@link AccountingLine}</code> hierarchical level and the
- * higher.
- *
+ * Helper class used for delegating tasks of an <code>{@link AccountingDocument}</code> that effect a parallel hierarchy.
+ * Basically, this is here because it is the alternative to duplicating code. Rather than having the encapsulated methods exist in
+ * multiple documents that use it, but aren't necessarily <code>{@link AccountingDocument}</code> instances, use the
+ * <code>{@link AccountingDocumentHelper}</code>.<br/>
+ * <p>
+ * This is the result of having <code>{@link SourceAccountingLine}</code> and <code>{@link TargetAccountingLine}</code> parallel
+ * hierarchies that may need to be extended at the <code>{@link AccountingLine}</code> hierarchical level and the higher.
+ * 
  * @see org.kuali.kfs.bo.SourceAccountingLine
  * @see org.kuali.kfs.bo.TargetAccountingLine
  * @see org.kuali.kfs.document.AccountingDocument
@@ -55,24 +54,24 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
     private KfsDocument document;
 
     /**
-     * Since documents that use this may not necessarily need to be <code>{@link AccountingDocument}</code> instances,
-     * they must be at least <code>{@link GeneralLedgerPostingDocument}</code> instances.
+     * Since documents that use this may not necessarily need to be <code>{@link AccountingDocument}</code> instances, they must
+     * be at least <code>{@link GeneralLedgerPostingDocument}</code> instances.
      */
     public AccountingDocumentHelper(KfsDocument document) {
         setDocument(document);
     }
-    
+
     public void setDocument(KfsDocument document) {
         this.document = document;
     }
-    
+
     public KfsDocument getDocument() {
         return document;
     }
 
     /**
      * Wrapper for getTargetAccountingLineClass
-     *
+     * 
      * @return Class
      */
     private Class getTargetAccountingLineClass() {
@@ -80,15 +79,14 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
             return (Class) getProperty(getDocument(), "targetAccountingLineClass");
         }
         catch (Exception e) {
-            LOG.warn("Something went very wrong when trying to get the targetAccountingLineClass property from the "
-                     + getDocument().getClass() + " class");
+            LOG.warn("Something went very wrong when trying to get the targetAccountingLineClass property from the " + getDocument().getClass() + " class");
             return null;
         }
     }
 
     /**
      * Wrapper for getSourceAccountingLineClass
-     *
+     * 
      * @return Class
      */
     private Class getSourceAccountingLineClass() {
@@ -96,15 +94,14 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
             return (Class) getProperty(getDocument(), "sourceAccountingLineClass");
         }
         catch (Exception e) {
-            LOG.warn("Something went very wrong when trying to get the sourceAccountingLineClass property from the "
-                     + getDocument().getClass() + " class");
+            LOG.warn("Something went very wrong when trying to get the sourceAccountingLineClass property from the " + getDocument().getClass() + " class");
             return null;
         }
     }
 
     /**
      * Wrapper for getTargetAccountingLines
-     *
+     * 
      * @return List
      */
     private List getTargetAccountingLines() {
@@ -112,15 +109,14 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
             return (List) getProperty(getDocument(), "targetAccountingLines");
         }
         catch (Exception e) {
-            LOG.warn("Something went very wrong when trying to get the targetAccountingLines property from the "
-                     + getDocument().getClass() + " class");
+            LOG.warn("Something went very wrong when trying to get the targetAccountingLines property from the " + getDocument().getClass() + " class");
             return null;
         }
     }
 
     /**
      * Wrapper for getSourceAccountingLines
-     *
+     * 
      * @return List
      */
     private List getSourceAccountingLines() {
@@ -128,8 +124,7 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
             return (List) getProperty(getDocument(), "sourceAccountingLines    ");
         }
         catch (Exception e) {
-            LOG.warn("Something went very wrong when trying to get the sourceAccountingLines property from the "
-                     + getDocument().getClass() + " class");
+            LOG.warn("Something went very wrong when trying to get the sourceAccountingLines property from the " + getDocument().getClass() + " class");
             return null;
         }
     }
@@ -137,13 +132,13 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
     /**
      * Local <code>{@link AccountingLineService}</code> delegation. To override which <code>{@link AccountingLineService}</code>
      * is used, just override this.
-     *
+     * 
      * @return AccountingLineService;
      */
     protected AccountingLineService getAccountingLineService() {
         return SpringContext.getBean(AccountingLineService.class);
     }
-    
+
     public List generateSaveEvents() {
         List events = new ArrayList();
 
@@ -168,14 +163,14 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
         List currentTargetLines = getTargetAccountingLines();
 
         List targetEvents = generateEvents(persistedTargetLines, currentTargetLines, KFSConstants.DOCUMENT_PROPERTY_NAME + "." + KFSConstants.EXISTING_TARGET_ACCT_LINE_PROPERTY_NAME);
-        for (Object event: targetEvents) {
+        for (Object event : targetEvents) {
             AccountingLineEvent targetEvent = (AccountingLineEvent) event;
             events.add(targetEvent);
         }
 
         return events;
     }
-    
+
     /**
      * Generates a List of instances of AccountingLineEvent subclasses, one for each accountingLine in the union of the
      * persistedLines and currentLines lists. Events in the list will be grouped in order by event-type (review, update, add,
@@ -249,7 +244,7 @@ public class AccountingDocumentHelper<KfsDocument extends GeneralLedgerPostingDo
         return lineEvents;
     }
 
-    
+
     /**
      * @param accountingLines
      * @return Map containing accountingLines from the given List, indexed by their sequenceNumber

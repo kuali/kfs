@@ -22,8 +22,6 @@ import org.kuali.module.kra.budget.rules.budget.BudgetDocumentRule;
 
 /**
  * Class capturing a calculate personnel event.
- * 
- * 
  */
 public class CalculatePersonnelEvent extends KualiDocumentEventBase {
 

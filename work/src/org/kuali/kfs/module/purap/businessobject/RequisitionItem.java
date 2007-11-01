@@ -16,10 +16,6 @@
 
 package org.kuali.module.purap.bo;
 
-import java.math.BigDecimal;
-
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
@@ -27,15 +23,15 @@ import org.kuali.module.purap.document.RequisitionDocument;
  */
 public class RequisitionItem extends PurchasingItemBase {
 
-	private boolean itemRestrictedIndicator;
+    private boolean itemRestrictedIndicator;
 
     private RequisitionDocument requisition;
-	
-	/**
-	 * Default constructor.
-	 */
-	public RequisitionItem() {
-	}
+
+    /**
+     * Default constructor.
+     */
+    public RequisitionItem() {
+    }
 
     public boolean isItemRestrictedIndicator() {
         return itemRestrictedIndicator;
@@ -58,7 +54,7 @@ public class RequisitionItem extends PurchasingItemBase {
      */
     @Override
     public Class getAccountingLineClass() {
-       return RequisitionAccount.class;
+        return RequisitionAccount.class;
     }
-    
+
 }

@@ -23,8 +23,6 @@ import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
  * This class returns list containg O = Open or C = Closed
- * 
- * 
  */
 public class FiscalPeriodValuesFinder extends KeyValuesBase {
 

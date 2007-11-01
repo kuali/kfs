@@ -46,7 +46,6 @@ public class NightlyOutServiceImpl implements NightlyOutService {
 
     /**
      * Constructs a NightlyOutServiceImpl.java.
-     * 
      */
     public NightlyOutServiceImpl() {
     }
@@ -83,7 +82,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         }
 
         // Print reports
-        reportService.generatePendingEntryReport(today,group);
+        reportService.generatePendingEntryReport(today, group);
         reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
 

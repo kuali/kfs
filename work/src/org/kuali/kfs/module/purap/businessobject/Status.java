@@ -25,19 +25,19 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class Status extends PersistableBusinessObjectBase {
 
-	private String statusCode;
-	private String statusDescription;
-	private boolean active;
+    private String statusCode;
+    private String statusDescription;
+    private boolean active;
     protected String ojbConcreteClass; // attribute needed for OJB polymorphism - do not alter!
 
-	/**
-	 * Default constructor.
-	 */
-	public Status() {
+    /**
+     * Default constructor.
+     */
+    public Status() {
 
-	}
+    }
 
-	public String getStatusCode() {
+    public String getStatusCode() {
         return statusCode;
     }
 
@@ -70,12 +70,12 @@ public class Status extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("statusCode", this.statusCode);
-	    return m;
+        return m;
     }
-    
+
 }

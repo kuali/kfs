@@ -38,8 +38,6 @@ import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 /**
  * These service performs methods related to the generation of labor benefit accounting lines for the budget adjustment document.
- * 
- * 
  */
 public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmentLaborBenefitsService {
     private BusinessObjectService businessObjectService;
@@ -92,7 +90,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
                     // clear monthly lines per KULEDOCS-1606
                     benefitLine.clearFinancialDocumentMonthLineAmounts();
-                    
+
                     // set flag on line so we know it was a generated benefit line and can clear it out later if needed
                     benefitLine.setFringeBenefitIndicator(true);
 

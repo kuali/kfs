@@ -29,7 +29,7 @@ public class Country extends PersistableBusinessObjectBase {
     private String postalCountryCode;
     private String postalCountryName;
     private boolean postalCountryRestrictedIndicator;
-    
+
     /**
      * Default no-arg constructor.
      */
@@ -67,7 +67,8 @@ public class Country extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the postalCountryRestrictedIndicator attribute. 
+     * Gets the postalCountryRestrictedIndicator attribute.
+     * 
      * @return Returns the postalCountryRestrictedIndicator.
      */
     public boolean isPostalCountryRestrictedIndicator() {
@@ -76,6 +77,7 @@ public class Country extends PersistableBusinessObjectBase {
 
     /**
      * Sets the postalCountryRestrictedIndicator attribute value.
+     * 
      * @param postalCountryRestrictedIndicator The postalCountryRestrictedIndicator to set.
      */
     public void setPostalCountryRestrictedIndicator(boolean postalCountryRestrictedIndicator) {

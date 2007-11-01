@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.core.bo.BusinessObject;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
@@ -30,7 +29,6 @@ import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.LaborConstants.SalaryExpenseTransfer;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ConsolidationUtil;
-import org.kuali.module.labor.web.inquirable.LedgerBalanceForExpenseTransferInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

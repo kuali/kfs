@@ -52,7 +52,7 @@ public class CreditCardReceiptDocument extends CashReceiptFamilyBase implements 
         super();
     }
 
-    
+
     @Override
     public boolean documentPerformsSufficientFundsCheck() {
         return false;

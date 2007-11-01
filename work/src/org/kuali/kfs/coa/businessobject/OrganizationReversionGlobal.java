@@ -35,41 +35,36 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.OrganizationReversionService;
 
 /**
- * 
- * The representation of a Global Organization Reversion.
- * 
- * A Global Organization Reversion is made up of three sections:
- * 1. The University Fiscal Year and Chart of Accounts code for the Organizations
- *    going through reversion, with some account information.
- * 2. A list of the appropriate Object Reversion Details
- * 3. A list of Organizations to apply the Organization Reversion to
+ * The representation of a Global Organization Reversion. A Global Organization Reversion is made up of three sections: 1. The
+ * University Fiscal Year and Chart of Accounts code for the Organizations going through reversion, with some account information.
+ * 2. A list of the appropriate Object Reversion Details 3. A list of Organizations to apply the Organization Reversion to
  */
 public class OrganizationReversionGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobal.class);
     private String documentNumber;
-    
+
     private Integer universityFiscalYear;
     private String budgetReversionChartOfAccountsCode;
     private String budgetReversionAccountNumber;
     private Boolean carryForwardByObjectCodeIndicator;
     private String cashReversionFinancialChartOfAccountsCode;
     private String cashReversionAccountNumber;
-    
+
     private Account cashReversionAccount;
     private Account budgetReversionAccount;
     private Chart budgetReversionChartOfAccounts;
     private Chart cashReversionFinancialChartOfAccounts;
     private Options universityFiscal;
-    
+
     private List<OrganizationReversionGlobalDetail> organizationReversionGlobalDetails;
     private List<OrganizationReversionGlobalOrganization> organizationReversionGlobalOrganizations;
-    
+
     public OrganizationReversionGlobal() {
         super();
         organizationReversionGlobalDetails = new TypedArrayList(OrganizationReversionGlobalDetail.class);
         organizationReversionGlobalOrganizations = new TypedArrayList(OrganizationReversionGlobalOrganization.class);
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -82,7 +77,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the budgetReversionAccount attribute. 
+     * Gets the budgetReversionAccount attribute.
+     * 
      * @return Returns the budgetReversionAccount.
      */
     public Account getBudgetReversionAccount() {
@@ -90,7 +86,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -99,6 +96,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -107,6 +105,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the budgetReversionAccount attribute value.
+     * 
      * @param budgetReversionAccount The budgetReversionAccount to set.
      * @deprecated
      */
@@ -115,7 +114,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the budgetReversionAccountNumber attribute. 
+     * Gets the budgetReversionAccountNumber attribute.
+     * 
      * @return Returns the budgetReversionAccountNumber.
      */
     public String getBudgetReversionAccountNumber() {
@@ -124,6 +124,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the budgetReversionAccountNumber attribute value.
+     * 
      * @param budgetReversionAccountNumber The budgetReversionAccountNumber to set.
      */
     public void setBudgetReversionAccountNumber(String budgetReversionAccountNumber) {
@@ -131,7 +132,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the budgetReversionChartOfAccounts attribute. 
+     * Gets the budgetReversionChartOfAccounts attribute.
+     * 
      * @return Returns the budgetReversionChartOfAccounts.
      */
     public Chart getBudgetReversionChartOfAccounts() {
@@ -140,6 +142,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the budgetReversionChartOfAccounts attribute value.
+     * 
      * @param budgetReversionChartOfAccounts The budgetReversionChartOfAccounts to set.
      * @deprecated
      */
@@ -148,7 +151,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the budgetReversionChartOfAccountsCode attribute. 
+     * Gets the budgetReversionChartOfAccountsCode attribute.
+     * 
      * @return Returns the budgetReversionChartOfAccountsCode.
      */
     public String getBudgetReversionChartOfAccountsCode() {
@@ -157,6 +161,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the budgetReversionChartOfAccountsCode attribute value.
+     * 
      * @param budgetReversionChartOfAccountsCode The budgetReversionChartOfAccountsCode to set.
      */
     public void setBudgetReversionChartOfAccountsCode(String budgetReversionChartOfAccountsCode) {
@@ -164,16 +169,18 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the carryForwardByObjectCodeIndicator attribute. 
+     * Gets the carryForwardByObjectCodeIndicator attribute.
+     * 
      * @return Returns the carryForwardByObjectCodeIndicator.
      */
     public Boolean isCarryForwardByObjectCodeIndicator() {
         return carryForwardByObjectCodeIndicator;
     }
-    
+
     /**
-     * Gets the carryForwardByObjectCodeIndicator attribute: but for other methods
-     * that don't like to call "is" and would rather call "get"
+     * Gets the carryForwardByObjectCodeIndicator attribute: but for other methods that don't like to call "is" and would rather
+     * call "get"
+     * 
      * @return Returns the carryForwardByObjectCodeIndicator.
      */
     public Boolean getCarryForwardByObjectCodeIndicator() {
@@ -182,6 +189,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the carryForwardByObjectCodeIndicator attribute value.
+     * 
      * @param carryForwardByObjectCodeIndicator The carryForwardByObjectCodeIndicator to set.
      */
     public void setCarryForwardByObjectCodeIndicator(Boolean carryForwardByObjectCodeIndicator) {
@@ -189,7 +197,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the cashReversionAccount attribute. 
+     * Gets the cashReversionAccount attribute.
+     * 
      * @return Returns the cashReversionAccount.
      */
     public Account getCashReversionAccount() {
@@ -198,6 +207,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the cashReversionAccount attribute value.
+     * 
      * @param cashReversionAccount The cashReversionAccount to set.
      * @deprecated
      */
@@ -206,7 +216,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the cashReversionAccountNumber attribute. 
+     * Gets the cashReversionAccountNumber attribute.
+     * 
      * @return Returns the cashReversionAccountNumber.
      */
     public String getCashReversionAccountNumber() {
@@ -215,6 +226,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the cashReversionAccountNumber attribute value.
+     * 
      * @param cashReversionAccountNumber The cashReversionAccountNumber to set.
      */
     public void setCashReversionAccountNumber(String cashReversionAccountNumber) {
@@ -222,7 +234,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the cashReversionFinancialChartOfAccounts attribute. 
+     * Gets the cashReversionFinancialChartOfAccounts attribute.
+     * 
      * @return Returns the cashReversionFinancialChartOfAccounts.
      */
     public Chart getCashReversionFinancialChartOfAccounts() {
@@ -231,6 +244,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the cashReversionFinancialChartOfAccounts attribute value.
+     * 
      * @param cashReversionFinancialChartOfAccounts The cashReversionFinancialChartOfAccounts to set.
      * @deprecated
      */
@@ -239,7 +253,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the cashReversionFinancialChartOfAccountsCode attribute. 
+     * Gets the cashReversionFinancialChartOfAccountsCode attribute.
+     * 
      * @return Returns the cashReversionFinancialChartOfAccountsCode.
      */
     public String getCashReversionFinancialChartOfAccountsCode() {
@@ -248,6 +263,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the cashReversionFinancialChartOfAccountsCode attribute value.
+     * 
      * @param cashReversionFinancialChartOfAccountsCode The cashReversionFinancialChartOfAccountsCode to set.
      */
     public void setCashReversionFinancialChartOfAccountsCode(String cashReversionFinancialChartOfAccountsCode) {
@@ -255,7 +271,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the organizationReversionGlobalOrganizations attribute. 
+     * Gets the organizationReversionGlobalOrganizations attribute.
+     * 
      * @return Returns the organizationReversionGlobalOrganizations.
      */
     public List<OrganizationReversionGlobalOrganization> getOrganizationReversionGlobalOrganizations() {
@@ -264,6 +281,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the organizationReversionGlobalOrganizations attribute value.
+     * 
      * @param organizationReversionGlobalOrganizations The organizationReversionGlobalOrganizations to set.
      * @deprecated
      */
@@ -272,7 +290,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the organizationReversionGlobalDocumentDetails attribute. 
+     * Gets the organizationReversionGlobalDocumentDetails attribute.
+     * 
      * @return Returns the organizationReversionGlobalDocumentDetails.
      */
     public List<OrganizationReversionGlobalDetail> getOrganizationReversionGlobalDetails() {
@@ -281,6 +300,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the organizationReversionGlobalDocumentDetails attribute value.
+     * 
      * @param organizationReversionGlobalDocumentDetails The organizationReversionGlobalDocumentDetails to set.
      */
     public void setOrganizationReversionGlobalDetails(List<OrganizationReversionGlobalDetail> organizationReversionGlobalDetails) {
@@ -288,7 +308,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -297,6 +318,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -304,7 +326,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * Gets the universityFiscal attribute. 
+     * Gets the universityFiscal attribute.
+     * 
      * @return Returns the universityFiscal.
      */
     public Options getUniversityFiscal() {
@@ -313,6 +336,7 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
 
     /**
      * Sets the universityFiscal attribute value.
+     * 
      * @param universityFiscal The universityFiscal to set.
      */
     public void setUniversityFiscal(Options universityFiscal) {
@@ -320,33 +344,29 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.core.bo.GlobalBusinessObject#generateDeactivationsToPersist()
-     * 
-     * As global organization reversions only update existing records, deactivations
-     * will never be produced by creating one; thus, this method always returns
-     * an empty list.
+     * @see org.kuali.core.bo.GlobalBusinessObject#generateDeactivationsToPersist() As global organization reversions only update
+     *      existing records, deactivations will never be produced by creating one; thus, this method always returns an empty list.
      */
     public List<PersistableBusinessObject> generateDeactivationsToPersist() {
         return null;
     }
 
     /**
-     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist()
-     * 
-     * This creates a list of changes to be made to the existing Organization Reversion
-     * records impacted by this global reversion.
+     * @see org.kuali.core.bo.GlobalBusinessObject#generateGlobalChangesToPersist() This creates a list of changes to be made to the
+     *      existing Organization Reversion records impacted by this global reversion.
      */
     public List<PersistableBusinessObject> generateGlobalChangesToPersist() {
         List<PersistableBusinessObject> persistingChanges = new ArrayList<PersistableBusinessObject>();
-        
+
         BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
         Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> detailsMap = this.rearrangeOrganizationReversionDetailsAsMap();
-        
-        for (OrganizationReversionGlobalOrganization orgRevOrg: this.getOrganizationReversionGlobalOrganizations()) {
+
+        for (OrganizationReversionGlobalOrganization orgRevOrg : this.getOrganizationReversionGlobalOrganizations()) {
             // 1. find that organization reversion
             OrganizationReversion currOrgRev = SpringContext.getBean(OrganizationReversionService.class).getByPrimaryId(this.getUniversityFiscalYear(), orgRevOrg.getChartOfAccountsCode(), orgRevOrg.getOrganizationCode());
 
-            if (currOrgRev != null) { // only proceed if there's a pre-existing org reversion; we don't want to insert any new records
+            if (currOrgRev != null) { // only proceed if there's a pre-existing org reversion; we don't want to insert any new
+                                        // records
                 if (!StringUtils.isBlank(this.getBudgetReversionChartOfAccountsCode())) {
                     currOrgRev.setBudgetReversionChartOfAccountsCode(this.getBudgetReversionChartOfAccountsCode());
                 }
@@ -359,13 +379,13 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
                 if (!StringUtils.isBlank(this.getCashReversionAccountNumber())) {
                     currOrgRev.setCashReversionAccountNumber(this.getCashReversionAccountNumber());
                 }
-                
+
                 if (this.isCarryForwardByObjectCodeIndicator() != null) {
                     currOrgRev.setCarryForwardByObjectCodeIndicator(this.isCarryForwardByObjectCodeIndicator().booleanValue());
                 }
-                
+
                 // 3. now, go through each org reversion detail and update each of those
-                for (OrganizationReversionDetail orgRevDetail: currOrgRev.getOrganizationReversionDetail()) {
+                for (OrganizationReversionDetail orgRevDetail : currOrgRev.getOrganizationReversionDetail()) {
                     OrganizationReversionGlobalDetail changeDetail = detailsMap.get(orgRevDetail.getOrganizationReversionCategory());
                     if (changeDetail != null) {
                         if (!StringUtils.isBlank(changeDetail.getOrganizationReversionCode())) {
@@ -376,22 +396,24 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
                         }
                     }
                 }
-                
+
                 currOrgRev.refreshNonUpdateableReferences();
                 persistingChanges.add(currOrgRev);
             }
-                        
+
         }
         return persistingChanges;
     }
-    
+
     /**
-     * This sticks all of the Organization Reversion Change Details into a map, for quicker access in generateGlobalChangesToPersist.
+     * This sticks all of the Organization Reversion Change Details into a map, for quicker access in
+     * generateGlobalChangesToPersist.
+     * 
      * @return a map of all organization reversion change details, keyed by OrganizationReversionCategory
      */
     private Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> rearrangeOrganizationReversionDetailsAsMap() {
         Map<OrganizationReversionCategory, OrganizationReversionGlobalDetail> orgRevMap = new HashMap<OrganizationReversionCategory, OrganizationReversionGlobalDetail>();
-        for (OrganizationReversionGlobalDetail orgRevDetail: this.getOrganizationReversionGlobalDetails()) {
+        for (OrganizationReversionGlobalDetail orgRevDetail : this.getOrganizationReversionGlobalDetails()) {
             if (!StringUtils.isBlank(orgRevDetail.getOrganizationReversionObjectCode()) && !StringUtils.isBlank(orgRevDetail.getOrganizationReversionCode())) {
                 orgRevMap.put(orgRevDetail.getOrganizationReversionCategory(), orgRevDetail);
             }
@@ -400,10 +422,8 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.core.bo.GlobalBusinessObject#getAllDetailObjects()
-     * 
-     * This returns a list of all the detail objects held within this main global
-     * organization reversion container.
+     * @see org.kuali.core.bo.GlobalBusinessObject#getAllDetailObjects() This returns a list of all the detail objects held within
+     *      this main global organization reversion container.
      */
     public List<? extends GlobalBusinessObjectDetail> getAllDetailObjects() {
         List<GlobalBusinessObjectDetail> detailObjects = new ArrayList<GlobalBusinessObjectDetail>();
@@ -413,35 +433,33 @@ public class OrganizationReversionGlobal extends PersistableBusinessObjectBase i
     }
 
     /**
-     * @see org.kuali.core.bo.GlobalBusinessObject#isPersistable()
-     * 
-     * returns whether this global object reversion can be stored in the database,
-     * which is really a question of whether it and all of its details have all of
-     * their appropriate primary keys set.
+     * @see org.kuali.core.bo.GlobalBusinessObject#isPersistable() returns whether this global object reversion can be stored in the
+     *      database, which is really a question of whether it and all of its details have all of their appropriate primary keys
+     *      set.
      */
     public boolean isPersistable() {
         PersistenceStructureService persistenceStructureService = SpringContext.getBean(PersistenceStructureService.class);
-        
+
         if (!persistenceStructureService.hasPrimaryKeyFieldValues(this)) {
             return false;
         }
-        
-        for (OrganizationReversionGlobalDetail orgRevDetail: this.getOrganizationReversionGlobalDetails()) {
+
+        for (OrganizationReversionGlobalDetail orgRevDetail : this.getOrganizationReversionGlobalDetails()) {
             if (!persistenceStructureService.hasPrimaryKeyFieldValues(orgRevDetail)) {
                 return false;
             }
         }
-        
-        for (OrganizationReversionGlobalOrganization orgRevOrg: this.getOrganizationReversionGlobalOrganizations()) {
+
+        for (OrganizationReversionGlobalOrganization orgRevOrg : this.getOrganizationReversionGlobalOrganizations()) {
             if (!persistenceStructureService.hasPrimaryKeyFieldValues(orgRevOrg)) {
                 return false;
             }
         }
-        
-        // are we still here?  really?  Then, hey, let's persist!
+
+        // are we still here? really? Then, hey, let's persist!
         return true;
     }
-    
+
     /**
      * @see org.kuali.core.bo.PersistableBusinessObjectBase#buildListOfDeletionAwareLists()
      */

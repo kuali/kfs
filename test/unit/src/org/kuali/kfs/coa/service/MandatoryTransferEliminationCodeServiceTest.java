@@ -25,16 +25,15 @@ import org.kuali.test.suite.CrossSectionSuite;
 
 /**
  * This class tests the MandatoryTransferEliminationCode service.
- * 
- * 
  */
 @AnnotationTestSuite(CrossSectionSuite.class)
 @ConfigureContext
 public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
-    private static final String GOOD_CODE="N";
-    private static final String GOOD_NAME="NEITHER";
-    private static final String NONEXISTENT_CODE = "A";  // This code is not in the database.  Please do not add it, or you will break this test.
+    private static final String GOOD_CODE = "N";
+    private static final String GOOD_NAME = "NEITHER";
+    private static final String NONEXISTENT_CODE = "A"; // This code is not in the database. Please do not add it, or you will break
+                                                        // this test.
     private static final String NONEXISTENT_NAME = "BAD";
 
     /**
@@ -125,13 +124,13 @@ public class MandatoryTransferEliminationCodeServiceTest extends KualiTestBase {
 
     private void validateTestFixtures() {
         MandatoryTransferEliminationCode code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, GOOD_CODE);
-        assertEquals(GOOD_CODE,code.getCode());
-        assertEquals(GOOD_NAME,code.getName());
+        assertEquals(GOOD_CODE, code.getCode());
+        assertEquals(GOOD_NAME, code.getName());
 
         code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, GOOD_NAME);
-        assertEquals(GOOD_CODE,code.getCode());
-        assertEquals(GOOD_NAME,code.getName());
-        
+        assertEquals(GOOD_CODE, code.getCode());
+        assertEquals(GOOD_NAME, code.getName());
+
         code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByCode(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);
         assertNull(code);
         code = (MandatoryTransferEliminationCode) SpringContext.getBean(KualiCodeService.class).getByName(MandatoryTransferEliminationCode.class, NONEXISTENT_CODE);

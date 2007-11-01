@@ -44,10 +44,10 @@ import org.kuali.module.kra.routingform.web.struts.form.RoutingForm;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class RoutingFormLinkAction extends RoutingFormAction {
-    
+
     public ActionForward linkBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
-    
+        RoutingForm routingForm = (RoutingForm) form;
+
         List selectedBudgetPeriodsList = new ArrayList();
         List<BudgetOverviewFormHelper> linkedPeriods = new ArrayList();
         Integer i = 0;
@@ -62,44 +62,46 @@ public class RoutingFormLinkAction extends RoutingFormAction {
             i++;
         }
         routingForm.setAllPeriodsSelected(false);
-        
+
         Collections.sort(selectedBudgetPeriodsList);
-        
-        String[] selectedBudgetPeriods = (String[])selectedBudgetPeriodsList.toArray(new String[selectedBudgetPeriodsList.size()]);
+
+        String[] selectedBudgetPeriods = (String[]) selectedBudgetPeriodsList.toArray(new String[selectedBudgetPeriodsList.size()]);
 
         boolean isBudgetValidForLink = SpringContext.getBean(KualiRuleService.class).applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), selectedBudgetPeriods, routingForm.getAllPeriodsSelected(), true));
-        
-        //if no errors, proceed with the link and return to the RF Main Page
+
+        // if no errors, proceed with the link and return to the RF Main Page
         if (isBudgetValidForLink) {
             String budgetDocumentHeaderId = routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber();
-            
-            //load RF Document data
+
+            // load RF Document data
             super.load(mapping, form, request, response);
-            
+
             routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(budgetDocumentHeaderId);
             routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMinimumPeriodNumber(linkedPeriods.get(0).getBudgetPeriod().getBudgetPeriodSequenceNumber());
             routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(linkedPeriods.get(linkedPeriods.size() - 1).getBudgetPeriod().getBudgetPeriodSequenceNumber());
 
-            
-            //service method to link budget data
+
+            // service method to link budget data
             SpringContext.getBean(RoutingFormService.class).linkImportBudgetDataToRoutingForm(routingForm.getRoutingFormDocument(), routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber(), routingForm.getPeriodBudgetOverviewFormHelpers());
 
-            // TODO : set federal passthrough agency, so when it return to main page for the first time, it can be displayed properly ?
+            // TODO : set federal passthrough agency, so when it return to main page for the first time, it can be displayed
+            // properly ?
             SpringContext.getBean(PersistenceService.class).retrieveReferenceObject(routingForm.getRoutingFormDocument(), "federalPassThroughAgency");
-            //save the new budget data into the RF
+            // save the new budget data into the RF
             super.save(mapping, form, request, response);
-            
-            
-            //check for errors saving
+
+
+            // check for errors saving
             if (GlobalVariables.getErrorMap().isEmpty()) {
-                
+
                 super.load(mapping, form, request, response);
-                //return to the main page
+                // return to the main page
                 return super.mainpage(mapping, form, request, response);
             }
         }
 
-        //if we're refreshing this page, it's because there was some problem with the data or saving.  re-setup the budget data so the use doesn't have to re-load the budget themselves.
+        // if we're refreshing this page, it's because there was some problem with the data or saving. re-setup the budget data so
+        // the use doesn't have to re-load the budget themselves.
         this.loadBudget(mapping, form, request, response);
 
         i = 0;
@@ -110,15 +112,16 @@ public class RoutingFormLinkAction extends RoutingFormAction {
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-    
+
     public ActionForward loadBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
+        RoutingForm routingForm = (RoutingForm) form;
 
         if (routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber() != null) {
             boolean isBudgetValidForLink = SpringContext.getBean(KualiRuleService.class).applyRules(new RoutingFormBudgetLinkEvent(routingForm.getRoutingFormDocument(), null, false, false));
             if (isBudgetValidForLink) {
                 setupBudgetPeriodData(routingForm);
-            } else {
+            }
+            else {
                 routingForm.setPeriodBudgetOverviewFormHelpers(null);
             }
         }
@@ -126,13 +129,13 @@ public class RoutingFormLinkAction extends RoutingFormAction {
     }
 
     public ActionForward deleteBudget(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
+        RoutingForm routingForm = (RoutingForm) form;
 
         Integer subcontractorNextSequenceNumber = routingForm.getRoutingFormDocument().getSubcontractorNextSequenceNumber();
         Integer institutionCostShareNextSequenceNumber = routingForm.getRoutingFormDocument().getInstitutionCostShareNextSequenceNumber();
         Integer otherCostShareNextSequenceNumber = routingForm.getRoutingFormDocument().getOtherCostShareNextSequenceNumber();
 
-        
+
         super.load(mapping, form, request, response);
 
         routingForm.getRoutingFormDocument().setRoutingFormBudgetNumber(null);
@@ -140,66 +143,69 @@ public class RoutingFormLinkAction extends RoutingFormAction {
         routingForm.getRoutingFormDocument().getRoutingFormBudget().setRoutingFormBudgetMaximumPeriodNumber(null);
 
         super.save(mapping, form, request, response);
-        
+
         return super.mainpage(mapping, form, request, response);
     }
 
-    
+
     /**
      * This method...
+     * 
      * @param routingForm
      * @throws WorkflowException
      */
     protected void setupBudgetPeriodData(RoutingForm routingForm) throws WorkflowException {
         RoutingFormService routingFormService = SpringContext.getBean(RoutingFormService.class);
-   
+
         BudgetDocument budgetDocument = routingFormService.retrieveBudgetForLinking(routingForm.getRoutingFormDocument().getRoutingFormBudgetNumber());
-   
+
         if (budgetDocument != null) {
             SpringContext.getBean(BudgetIndirectCostService.class).refreshIndirectCost(budgetDocument);
-      
+
             List allNonpersonnelCategories = SpringContext.getBean(BudgetNonpersonnelService.class).getAllNonpersonnelCategories();
-      
+
             BudgetIndirectCostFormHelper budgetIndirectCostFormHelper = new BudgetIndirectCostFormHelper(budgetDocument.getBudget());
-      
+
             BudgetPeriod summaryPeriod = new BudgetPeriod();
             summaryPeriod.setBudgetPeriodSequenceNumber(0);
-      
+
             List<BudgetOverviewFormHelper> periodBudgetOverviewFormHelpers = new ArrayList();
             for (BudgetPeriod budgetPeriod : budgetDocument.getBudget().getPeriods()) {
-      
+
                 if (summaryPeriod.getBudgetPeriodBeginDate() == null) {
                     summaryPeriod.setBudgetPeriodBeginDate(budgetPeriod.getBudgetPeriodBeginDate());
                 }
-      
+
                 BudgetOverviewFormHelper budgetOverviewFormHelper = new BudgetOverviewFormHelper();
                 budgetOverviewFormHelper.recalculate(KraConstants.TASK_SUMMATION, budgetPeriod.getBudgetPeriodSequenceNumber(), allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
                 budgetOverviewFormHelper.setBudgetPeriod(budgetPeriod);
-      
+
                 periodBudgetOverviewFormHelpers.add(budgetOverviewFormHelper);
-      
+
                 summaryPeriod.setBudgetPeriodEndDate(budgetPeriod.getBudgetPeriodEndDate());
             }
-      
+
             BudgetOverviewFormHelper summaryBudgetOverviewFormHelper = new BudgetOverviewFormHelper();
             summaryBudgetOverviewFormHelper.recalculate(KraConstants.TASK_SUMMATION, KraConstants.PERIOD_SUMMATION, allNonpersonnelCategories, budgetIndirectCostFormHelper, budgetDocument.getBudget());
             summaryBudgetOverviewFormHelper.setBudgetPeriod(summaryPeriod);
-            
+
             routingForm.setPeriodBudgetOverviewFormHelpers(periodBudgetOverviewFormHelpers);
             routingForm.setSummaryBudgetOverviewFormHelper(summaryBudgetOverviewFormHelper);
         }
     }
 
     /**
-     * Save shouldn't do anything on this page.  The only action that should cause the budget linking to occur is the actual "link" button.
+     * Save shouldn't do anything on this page. The only action that should cause the budget linking to occur is the actual "link"
+     * button.
      * 
-     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     * @see org.kuali.module.kra.routingform.web.struts.action.RoutingFormAction#save(org.apache.struts.action.ActionMapping,
+     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
     public ActionForward save(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        RoutingForm routingForm = (RoutingForm)form;
+        RoutingForm routingForm = (RoutingForm) form;
         routingForm.setPeriodBudgetOverviewFormHelpers(null);
-        
+
         return super.load(mapping, form, request, response);
     }
 }

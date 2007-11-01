@@ -16,7 +16,7 @@
 package org.kuali.module.pdp;
 
 
-// This is a utility to help load data from a spreadsheet.  It is not needed for production or unit tests.
+// This is a utility to help load data from a spreadsheet. It is not needed for production or unit tests.
 // It should be deleted before the release.
 
 import java.io.BufferedInputStream;
@@ -62,23 +62,26 @@ public class DataLoader {
         String pks[] = null;
 
         for (Iterator iter = lines.iterator(); iter.hasNext();) {
-            String line = (String)iter.next();
+            String line = (String) iter.next();
 
             String fields[] = line.split(",");
-            if ( fields.length > 1 ) {
-                if ( ! StringUtils.isEmpty(fields[0]) ) {
-                    if ( "Types".equals(fields[0]) ) {
+            if (fields.length > 1) {
+                if (!StringUtils.isEmpty(fields[0])) {
+                    if ("Types".equals(fields[0])) {
                         fieldTypes = fields;
-                    } else if ( "PK".equals(fields[0]) ) {
+                    }
+                    else if ("PK".equals(fields[0])) {
                         pks = fields;
-                    } else if ( "DATA".equals(fields[0]) ){
+                    }
+                    else if ("DATA".equals(fields[0])) {
                         SqlData sd = new SqlData();
                         sd.tableFields = tableFields;
                         sd.fieldTypes = fieldTypes;
                         sd.pks = pks;
                         sd.fields = fields;
                         output.add(sd);
-                    } else {
+                    }
+                    else {
                         tableFields = fields;
                     }
                 }
@@ -110,9 +113,11 @@ public class DataLoader {
             bis.close();
             dis.close();
             return data;
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         return null;
@@ -120,13 +125,13 @@ public class DataLoader {
 
     private void processDeletes(List dater) {
         for (Iterator iter = dater.iterator(); iter.hasNext();) {
-            SqlData sd = (SqlData)iter.next();
+            SqlData sd = (SqlData) iter.next();
 
-            generateDelete(sd.tableFields,sd.fieldTypes,sd.pks,sd.fields);
+            generateDelete(sd.tableFields, sd.fieldTypes, sd.pks, sd.fields);
         }
     }
 
-    private void print(String[] fields,String title) {
+    private void print(String[] fields, String title) {
         System.out.print(title + " ");
         for (int i = 0; i < fields.length; i++) {
             System.out.print(fields[i] + ",");
@@ -136,13 +141,13 @@ public class DataLoader {
 
     private void processInserts(List dater) {
         for (Iterator iter = dater.iterator(); iter.hasNext();) {
-            SqlData sd = (SqlData)iter.next();
+            SqlData sd = (SqlData) iter.next();
 
-            generateInsert(sd.tableFields,sd.fieldTypes,sd.pks,sd.fields);
+            generateInsert(sd.tableFields, sd.fieldTypes, sd.pks, sd.fields);
         }
     }
-    
-    private void generateDelete(String[] tableFields,String[] fieldTypes,String[] pks,String[] values) {
+
+    private void generateDelete(String[] tableFields, String[] fieldTypes, String[] pks, String[] values) {
         StringBuffer sb = new StringBuffer("SELECT ");
         sb.append(DataLoader.count++);
         sb.append(" FROM DUAL\n/\nDELETE FROM ");
@@ -150,13 +155,13 @@ public class DataLoader {
         sb.append(" WHERE ");
         boolean stuff = false;
         for (int i = 1; i < tableFields.length; i++) {
-            if ( "X".equals(pks[i]) ) {
-                if ( stuff ) {
+            if ("X".equals(pks[i])) {
+                if (stuff) {
                     sb.append(" AND ");
                 }
                 sb.append(tableFields[i]);
                 sb.append(" = ");
-                sb.append(value(values[i],fieldTypes[i]));
+                sb.append(value(values[i], fieldTypes[i]));
                 stuff = true;
             }
         }
@@ -164,7 +169,7 @@ public class DataLoader {
         System.out.println(sb);
     }
 
-    private void generateInsert(String[] tableFields,String[] fieldTypes,String[] pks,String[] values) {
+    private void generateInsert(String[] tableFields, String[] fieldTypes, String[] pks, String[] values) {
         StringBuffer sb = new StringBuffer("SELECT ");
         sb.append(DataLoader.count++);
         sb.append(" FROM DUAL\n/\nINSERT INTO ");
@@ -172,8 +177,8 @@ public class DataLoader {
         sb.append(" (");
         boolean stuff = false;
         for (int i = 1; i < tableFields.length; i++) {
-            if ( ! StringUtils.isEmpty(values[i]) ) {
-                if ( stuff ) {
+            if (!StringUtils.isEmpty(values[i])) {
+                if (stuff) {
                     sb.append(",");
                 }
                 sb.append(tableFields[i]);
@@ -183,11 +188,11 @@ public class DataLoader {
         sb.append(") VALUES (");
         stuff = false;
         for (int i = 1; i < values.length; i++) {
-            if ( ! StringUtils.isEmpty(values[i]) ) {
-                if ( stuff ) {
+            if (!StringUtils.isEmpty(values[i])) {
+                if (stuff) {
                     sb.append(",");
                 }
-                sb.append(value(values[i],fieldTypes[i]));
+                sb.append(value(values[i], fieldTypes[i]));
                 stuff = true;
             }
         }
@@ -195,19 +200,22 @@ public class DataLoader {
         System.out.println(sb);
     }
 
-    private String value(String value,String type) {
+    private String value(String value, String type) {
         StringBuffer sb = new StringBuffer();
-        if ( "S".equals(type) ) {
+        if ("S".equals(type)) {
             sb.append("'");
             sb.append(value);
             sb.append("'");
-        } else if ( "D".equals(type) ) {
+        }
+        else if ("D".equals(type)) {
             sb.append("to_date('");
             sb.append(value);
             sb.append("','MM/DD/YYYY')");
-        } else if ( "N".equals(type) ) {
+        }
+        else if ("N".equals(type)) {
             sb.append(value);
-        } else if ( "F".equals(type) ) {
+        }
+        else if ("F".equals(type)) {
             sb.append("sys_guid()");
         }
         return sb.toString();

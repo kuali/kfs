@@ -23,15 +23,14 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType;
 import org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao;
 
 /**
- * 
  * This class implements the {@link IndirectCostRecoveryExclusionTypeDao} data access methods using Ojb
  */
 public class IndirectCostRecoveryExclusionTypeDaoOjb extends PlatformAwareDaoBaseOjb implements IndirectCostRecoveryExclusionTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IndirectCostRecoveryExclusionTypeDaoOjb.class);
 
     /**
-     * 
-     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.IndirectCostRecoveryExclusionTypeDao#getByPrimaryKey(java.lang.String, java.lang.String,
+     *      java.lang.String)
      */
     public IndirectCostRecoveryExclusionType getByPrimaryKey(String accountIndirectCostRecoveryTypeCode, String chartOfAccountsCode, String objectCode) {
         LOG.debug("getByPrimaryKey() started");

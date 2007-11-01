@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.kra.budget.bo.Budget;
-import org.kuali.module.kra.budget.bo.BudgetFringeRate;
 import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 
 /**
@@ -30,6 +29,7 @@ import org.kuali.module.kra.budget.bo.BudgetGraduateAssistantRate;
 public interface BudgetGraduateAssistantRateService {
     /**
      * Returns active GraduateAssistantRates.
+     * 
      * @return active GraduateAssistantRate objects
      */
     public List getAllGraduateAssistantRates();
@@ -37,7 +37,7 @@ public interface BudgetGraduateAssistantRateService {
     public boolean isValidGraduateAssistantRate(KualiDecimal fringeRate);
 
     public void setupDefaultGradAssistantRates(Budget budget);
-    
+
     public BudgetGraduateAssistantRate getBudgetGraduateAssistantRate(String documentNumber, String campusCode);
 
 }

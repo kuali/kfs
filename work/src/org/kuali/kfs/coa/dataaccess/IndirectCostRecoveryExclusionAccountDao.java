@@ -19,12 +19,11 @@ import org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount;
 
 /**
  * This interface defines the data access methods for {@link IndirectCostRecoveryExclusionAccount}
- * 
  */
 public interface IndirectCostRecoveryExclusionAccountDao {
     /**
-     * 
      * This method retrieves a given {@link IndirectCostRecoveryExclusionAccount}
+     * 
      * @param chartOfAccountsCode
      * @param accountNumber
      * @param objectChartOfAccountsCode
@@ -34,9 +33,8 @@ public interface IndirectCostRecoveryExclusionAccountDao {
     public IndirectCostRecoveryExclusionAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String objectChartOfAccountsCode, String objectCode);
 
     /**
+     * This method determines whether a given {@link IndirectCostRecoveryExclusionAccount} exists from a specific {@link Account}
      * 
-     * This method determines whether a given {@link IndirectCostRecoveryExclusionAccount} exists from a 
-     * specific {@link Account}
      * @param chartOfAccountsCode
      * @param accountNumber
      * @return true if it does exist

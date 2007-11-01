@@ -26,12 +26,10 @@ import junit.framework.AssertionFailedError;
  * This class implements a mock object for any service, using a dynamic proxy. It returns results for specific methods and
  * arguments, and can also relay unspecified methods or arguments to a fallback service. Note that this proxy does not do Spring
  * things like AOP transactions, altho the fallback service may.
- * 
- * 
  */
 public class MockService implements InvocationHandler {
 
-    private final HashMap<String,MockMethod> nameToMockMethodMap = new HashMap<String, MockMethod>();
+    private final HashMap<String, MockMethod> nameToMockMethodMap = new HashMap<String, MockMethod>();
     private final Object noMethodFallback;
 
     private MockService(MockMethod[] mockMethods, Object noMethodFallback) {
@@ -43,7 +41,8 @@ public class MockService implements InvocationHandler {
 
     /**
      * Returns the result associated with the given method and list of arguments. If there is no mock method, invokes the given
-     * method on the noMethodFallback Object. If the noMethodFallback Object is null, throws a {@link junit.framework.AssertionFailedError}.
+     * method on the noMethodFallback Object. If the noMethodFallback Object is null, throws a
+     * {@link junit.framework.AssertionFailedError}.
      * 
      * @see java.lang.reflect.InvocationHandler#invoke
      */
@@ -69,7 +68,7 @@ public class MockService implements InvocationHandler {
      * @return a dynamic proxy implementing the given interface
      */
     public static <I> I createProxy(Class<I> iface, MockMethod[] mockMethods, Object noMethodFallback) {
-        //noinspection unchecked
+        // noinspection unchecked
         return (I) Proxy.newProxyInstance(iface.getClassLoader(), new Class[] { iface }, new MockService(mockMethods, noMethodFallback));
     }
 

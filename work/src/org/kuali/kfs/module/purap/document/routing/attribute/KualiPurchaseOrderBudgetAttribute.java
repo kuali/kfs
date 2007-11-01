@@ -70,7 +70,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     public KualiPurchaseOrderBudgetAttribute() {
         ruleRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
         ruleRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
-        
+
         routingDataRows = new ArrayList<edu.iu.uis.eden.lookupable.Row>();
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Options.class, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, UNIVERSITY_FISCAL_YEAR_KEY));
         routingDataRows.add(KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, FIN_COA_CD_KEY));
@@ -88,7 +88,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#getDocContent()
      */
     public String getDocContent() {
-        if ( (StringUtils.isBlank(getFinCoaCd())) && (StringUtils.isBlank(getFiscalYear())) ) {
+        if ((StringUtils.isBlank(getFinCoaCd())) && (StringUtils.isBlank(getFiscalYear()))) {
             return "";
         }
         StringBuffer returnValue = new StringBuffer(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_PREFIX);
@@ -124,7 +124,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
      * This method will return true for a match if all the following conditions are met:
      * <ol>
      * <li>The fiscal year of the document is less than or equal to the system's current fiscal year
-     * <li>At least one account with the rule extension chart code (passed in via the ruleExtensions parameter) has insufficient funds on it
+     * <li>At least one account with the rule extension chart code (passed in via the ruleExtensions parameter) has insufficient
+     * funds on it
      * </ol>
      * 
      * @param docContent - contains the data in XML format that will be compared with the rules saved in workflow
@@ -137,29 +138,35 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         String currentXpathExpression = null;
         try {
             String ruleChartCode = getRuleExtentionValue(FIN_COA_CD_KEY, ruleExtensions);
-            if ( (StringUtils.isBlank(ruleChartCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleChartCode)) ) {
+            if ((StringUtils.isBlank(ruleChartCode)) || (KFSConstants.WILDCARD_CHARACTER.equalsIgnoreCase(ruleChartCode))) {
                 // if rule extension is blank or the Wildcard character... always match this rule if criteria is true
                 alwaysRoutes = true;
-//                String errorMsg = "Attempted matching of Rule Extension where " + KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + " is blank but is required";
-//                LOG.error(errorMsg);
-//                throw new RuntimeException(errorMsg);
+                // String errorMsg = "Attempted matching of Rule Extension where " +
+                // KualiWorkflowUtils.getBusinessObjectAttributeLabel(Chart.class, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE) + "
+                // is blank but is required";
+                // LOG.error(errorMsg);
+                // throw new RuntimeException(errorMsg);
             }
             XPath xPath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             currentXpathExpression = KualiWorkflowUtils.xstreamSafeXPath(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX);
-            boolean isReport = ((Boolean)xPath.evaluate(currentXpathExpression, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
+            boolean isReport = ((Boolean) xPath.evaluate(currentXpathExpression, docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
             if (isReport) {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR;
-            } else {
+            }
+            else {
                 currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + "document/postingYear";
             }
             String documentFiscalYearString = KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent());
             // if document's fiscal year is less than or equal to the current fiscal year
-            if ( SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0 ) {
-                if (alwaysRoutes) { return true; }
+            if (SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().compareTo(Integer.valueOf(documentFiscalYearString)) >= 0) {
+                if (alwaysRoutes) {
+                    return true;
+                }
                 if (isReport) {
                     currentXpathExpression = KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX + KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX + "/" + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE;
                     return ruleChartCode.equalsIgnoreCase(KualiWorkflowUtils.xstreamSafeEval(xPath, currentXpathExpression, docContent.getDocContent()));
-                } else {
+                }
+                else {
                     documentHeaderId = docContent.getRouteContext().getDocument().getRouteHeaderId().toString();
                     PurchaseOrderDocument po = (PurchaseOrderDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentHeaderId);
                     // get list of sufficientfundItems
@@ -175,13 +182,13 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         }
         catch (WorkflowException we) {
             String errorMsg = "Error attempted to get document using doc id  " + documentHeaderId;
-            LOG.error(errorMsg,we);
-            throw new RuntimeException(errorMsg,we);
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
         }
         catch (XPathExpressionException xee) {
             String errorMsg = "Error trying to use xpath expression " + currentXpathExpression;
-            LOG.error(errorMsg,xee);
-            throw new RuntimeException(errorMsg,xee);
+            LOG.error(errorMsg, xee);
+            throw new RuntimeException(errorMsg, xee);
         }
         return false;
     }
@@ -212,7 +219,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         if (StringUtils.isBlank(getFinCoaCd())) {
             String errorMessage = label + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
-        } else {
+        }
+        else {
             // not blank so check value for validity
             Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(getFinCoaCd());
             if (chart == null) {
@@ -224,7 +232,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         if (StringUtils.isBlank(getFiscalYear())) {
             String errorMessage = label + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
-        } else {
+        }
+        else {
             // not blank so check value for validity
             Options options = SpringContext.getBean(OptionsService.class).getOptions(Integer.valueOf(getFiscalYear()));
             if (options == null) {
@@ -246,7 +255,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
             // value is blank but required
             String errorMessage = label + " is required";
             errors.add(new WorkflowServiceErrorImpl(errorMessage, "routetemplate.xmlattribute.error", errorMessage));
-        } else if (StringUtils.isNotBlank(getFinCoaCd())) {
+        }
+        else if (StringUtils.isNotBlank(getFinCoaCd())) {
             // not blank so check value for validity
             Chart chart = SpringContext.getBean(ChartService.class).getByPrimaryId(getFinCoaCd());
             if (chart == null) {
@@ -256,9 +266,10 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
         }
         return errors;
     }
-    
+
     /**
-     * Gets the required attribute. 
+     * Gets the required attribute.
+     * 
      * @return Returns the required.
      */
     public boolean isRequired() {
@@ -267,6 +278,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 
     /**
      * Sets the required attribute value.
+     * 
      * @param required The required to set.
      */
     public void setRequired(boolean required) {
@@ -274,7 +286,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * Gets the finCoaCd attribute. 
+     * Gets the finCoaCd attribute.
+     * 
      * @return Returns the finCoaCd.
      */
     public String getFinCoaCd() {
@@ -283,6 +296,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 
     /**
      * Sets the finCoaCd attribute value.
+     * 
      * @param finCoaCd The finCoaCd to set.
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -290,7 +304,8 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
     }
 
     /**
-     * Gets the fiscalYear attribute. 
+     * Gets the fiscalYear attribute.
+     * 
      * @return Returns the fiscalYear.
      */
     public String getFiscalYear() {
@@ -299,6 +314,7 @@ public class KualiPurchaseOrderBudgetAttribute implements WorkflowAttribute {
 
     /**
      * Sets the fiscalYear attribute value.
+     * 
      * @param fiscalYear The fiscalYear to set.
      */
     public void setFiscalYear(String fiscalYear) {

@@ -35,7 +35,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
 
     private AccountingPeriod accountingPeriod;
     private Options options;
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -105,7 +105,8 @@ public class UniversityDate extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the options attribute. 
+     * Gets the options attribute.
+     * 
      * @return Returns the options.
      */
     public Options getOptions() {
@@ -114,6 +115,7 @@ public class UniversityDate extends PersistableBusinessObjectBase {
 
     /**
      * Sets the options attribute value.
+     * 
      * @param options The options to set.
      * @deprecated
      */

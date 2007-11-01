@@ -48,7 +48,6 @@ import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.document.LaborExpenseTransferDocument;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
@@ -61,10 +60,10 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     /**
      * Updates an accounting line
      * 
-     * @param  accountingDocument document to be processed
-     * @param  originalAccountingLine accounting line with old data
-     * @param  updatedAccountingLine accounting line with the new data
-     * @return boolean 
+     * @param accountingDocument document to be processed
+     * @param originalAccountingLine accounting line with old data
+     * @param updatedAccountingLine accounting line with the new data
+     * @return boolean
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.AccountingLine)
      */
@@ -76,10 +75,10 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     /**
      * Adds an accounting line
      * 
-     * @param  accountingDocument document to be processed
-     * @param  originalAccountingLine accounting line with old data
-     * @param  updatedAccountingLine accounting line with the new data
-     * @return boolean 
+     * @param accountingDocument document to be processed
+     * @param originalAccountingLine accounting line with old data
+     * @param updatedAccountingLine accounting line with the new data
+     * @return boolean
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */

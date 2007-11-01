@@ -42,38 +42,37 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     }
 
     public void customPrepareForSave(KualiDocumentEvent event) {
-        //do not set the accounts in sourceAccountingLines; this document should not create GL entries
+        // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
     /**
-     * Adds up the total amount of the items selected by the user for retransmit, 
-     * then return the amount.
+     * Adds up the total amount of the items selected by the user for retransmit, then return the amount.
      * 
      * @return KualiDecimal the total amount of the items selected by the user for retransmit.
      */
     public KualiDecimal getTotalDollarAmountForRetransmit() {
-        //We should only add up the amount of the items that were selected for retransmit.
+        // We should only add up the amount of the items that were selected for retransmit.
         KualiDecimal total = new KualiDecimal(BigDecimal.ZERO);
-        for (PurchaseOrderItem item : (List<PurchaseOrderItem>)getItems()) {
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getItems()) {
             if (item.isItemSelectedForRetransmitIndicator()) {
                 KualiDecimal extendedPrice = item.getExtendedPrice();
                 KualiDecimal itemTotal = (extendedPrice != null) ? extendedPrice : KualiDecimal.ZERO;
                 total = total.add(itemTotal);
             }
         }
-        
+
         return total;
     }
-    
+
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
-        
+
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
             setPurchaseOrderLastTransmitDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
-            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN );
+            SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
         // DOCUMENT DISAPPROVED

@@ -22,14 +22,12 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 /**
  * Special case <code>{@link SourceAccountingLine}</code> type for
  * <code>{@link org.kuali.module.financial.document.VoucherDocument}</code>
- * 
- * 
  */
 public class VoucherSourceAccountingLine extends SourceAccountingLine {
 
     public VoucherSourceAccountingLine() {
         super();
-        
+
         // default is debit. This is important for single sided accounting lines (example: JV w/BB) so that
         // totals get calculated correctly
         this.setDebitCreditCode(KFSConstants.GL_DEBIT_CODE);

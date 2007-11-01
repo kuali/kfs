@@ -20,71 +20,68 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.fixtures.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
 
 /**
- * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase.
- * These should include any tests that test functionality that is common to all Purchasing documents.
+ * This class contains tests of the rule validation methods present in PurchasingDocumentRuleBase. These should include any tests
+ * that test functionality that is common to all Purchasing documents.
  */
 @ConfigureContext(session = KHUNTLEY)
 public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
-    
-    PurchasingDocumentRuleBase rules; 
-    
+
+    PurchasingDocumentRuleBase rules;
+
     protected void setUp() throws Exception {
         super.setUp();
         rules = new PurchasingDocumentRuleBase();
     }
-    
+
     protected void tearDown() throws Exception {
         rules = null;
-        super.tearDown();      
+        super.tearDown();
     }
-    
+
     /**
-     * These methods test how the method validating the input to the Payment Info tab on Purchasing
-     * documents, PurchasingDocumentRuleBase.processPaymentInfoValidation, works for
-     * Requisitions and POs with different combinations of beginning and ending dates, fiscal years, 
-     * and recurring payment types.
+     * These methods test how the method validating the input to the Payment Info tab on Purchasing documents,
+     * PurchasingDocumentRuleBase.processPaymentInfoValidation, works for Requisitions and POs with different combinations of
+     * beginning and ending dates, fiscal years, and recurring payment types.
      */
     public void testProcessPaymentInfoValidation_Req_RightOrder() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.REQ_RIGHT_ORDER.populateDocument();
-        assertTrue( rules.processPaymentInfoValidation( document ) );
+        assertTrue(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_Req_WrongOrder() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.REQ_WRONG_ORDER.populateDocument();
-        assertFalse( rules.processPaymentInfoValidation( document ) );
+        assertFalse(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_Req_Sequential_Next_FY() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.REQ_SEQUENTIAL_NEXT_FY.populateDocument();
-        assertTrue( rules.processPaymentInfoValidation( document ) );
+        assertTrue(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_Req_Non_Sequential_Next_FY() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.REQ_NON_SEQUENTIAL_NEXT_FY.populateDocument();
-        assertFalse( rules.processPaymentInfoValidation( document ) );
-    }  
+        assertFalse(rules.processPaymentInfoValidation(document));
+    }
 
     public void testProcessPaymentInfoValidation_PO_RightOrder() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.PO_RIGHT_ORDER.populateDocument();
-        assertTrue( rules.processPaymentInfoValidation( document ) );
+        assertTrue(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_PO_WrongOrder() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.PO_WRONG_ORDER.populateDocument();
-        assertFalse( rules.processPaymentInfoValidation( document ) );
+        assertFalse(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_PO_Sequential_Next_FY() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.PO_SEQUENTIAL_NEXT_FY.populateDocument();
-        assertTrue( rules.processPaymentInfoValidation( document ) );
+        assertTrue(rules.processPaymentInfoValidation(document));
     }
-    
+
     public void testProcessPaymentInfoValidation_PO_Non_Sequential_Next_FY() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.PO_NON_SEQUENTIAL_NEXT_FY.populateDocument();
-        assertFalse( rules.processPaymentInfoValidation( document ) );
-    }   
+        assertFalse(rules.processPaymentInfoValidation(document));
+    }
 }
-

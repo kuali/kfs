@@ -28,77 +28,77 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class ElectronicInvoiceHeaderInformation extends PersistableBusinessObjectBase {
 
-	private Integer invoiceHeaderInformationIdentifier;
-	private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
-	private Date invoiceProcessDate;
-	private String invoiceFileName;
-	private String vendorDunsNumber;
-	private Integer vendorHeaderGeneratedIdentifier;
-	private Integer vendorDetailAssignedIdentifier;
-	private String invoiceFileDate;
-	private String invoiceFileNumber;
-	private String invoiceFilePurposeIdentifier;
-	private String invoiceFileOperationIdentifier;
-	private String invoiceFileDeploymentModeValue;
-	private boolean invoiceFileHeaderTypeIndicator;
-	private boolean invoiceFileInformationOnlyIndicator;
-	private boolean invoiceFileTaxInLineIndicator;
-	private boolean invoiceFileSpecialHandlingInLineIndicator;
-	private boolean invoiceFileShippingInLineIndicator;
-	private boolean invoiceFileDiscountInLineIndicator;
-	private String invoiceOrderReferenceOrderIdentifier;
-	private String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
-	private String invoiceOrderReferenceDocumentReferenceText;
-	private String invoiceOrderMasterAgreementReferenceIdentifier;
-	private String invoiceOrderMasterAgreementReferenceDate;
-	private String invoiceOrderMasterAgreementInformationIdentifier;
-	private String invoiceOrderMasterAgreementInformationDate;
-	private String invoiceOrderPurchaseOrderIdentifier;
-	private String invoiceOrderPurchaseOrderDate;
-	private String invoiceOrderSupplierOrderInformationIdentifier;
-	private Integer epicPurchaseOrderIdentifier;
-	private BigDecimal invoiceItemSubTotalAmount;
-	private String invoiceItemSubTotalCurrencyCode;
-	private BigDecimal invoiceItemSpecialHandlingAmount;
-	private String invoiceItemSpecialHandlingCurrencyCode;
-	private BigDecimal invoiceItemShippingAmount;
-	private String invoiceItemShippingCurrencyCode;
-	private String invoiceItemShippingDescription;
-	private BigDecimal invoiceItemTaxAmount;
-	private String invoiceItemTaxCurrencyCode;
-	private String invoiceItemTaxDescription;
-	private BigDecimal invoiceItemGrossAmount;
-	private String invoiceItemGrossCurrencyCode;
-	private BigDecimal invoiceItemDiscountAmount;
-	private String invoiceItemDiscountCurrencyCode;
-	private BigDecimal invoiceItemNetAmount;
-	private String invoiceItemNetCurrencyCode;
-	private Date invoiceRejectExtractDate;
-	private String epicPurchaseOrderDeliveryCampusCode;
-	private Date invoiceShipDate;
-	private String invoiceAddressName;
-	private String invoiceShipToLine1Address;
-	private String invoiceShipToLine2Address;
-	private String invoiceShipToLine3Address;
-	private String invoiceCustomerNumber;
-	private String invoiceShipToStateCode;
-	private String invoiceShipToCountryCode;
-	private String invoiceShipToCityName;
-	private String invoiceShipToPostalCode;
-	private String invoicePurchaseOrderNumber;
+    private Integer invoiceHeaderInformationIdentifier;
+    private Long accountsPayableElectronicInvoiceLoadSummaryIdentifier;
+    private Date invoiceProcessDate;
+    private String invoiceFileName;
+    private String vendorDunsNumber;
+    private Integer vendorHeaderGeneratedIdentifier;
+    private Integer vendorDetailAssignedIdentifier;
+    private String invoiceFileDate;
+    private String invoiceFileNumber;
+    private String invoiceFilePurposeIdentifier;
+    private String invoiceFileOperationIdentifier;
+    private String invoiceFileDeploymentModeValue;
+    private boolean invoiceFileHeaderTypeIndicator;
+    private boolean invoiceFileInformationOnlyIndicator;
+    private boolean invoiceFileTaxInLineIndicator;
+    private boolean invoiceFileSpecialHandlingInLineIndicator;
+    private boolean invoiceFileShippingInLineIndicator;
+    private boolean invoiceFileDiscountInLineIndicator;
+    private String invoiceOrderReferenceOrderIdentifier;
+    private String invoiceOrderReferenceDocumentReferencePayloadIdentifier;
+    private String invoiceOrderReferenceDocumentReferenceText;
+    private String invoiceOrderMasterAgreementReferenceIdentifier;
+    private String invoiceOrderMasterAgreementReferenceDate;
+    private String invoiceOrderMasterAgreementInformationIdentifier;
+    private String invoiceOrderMasterAgreementInformationDate;
+    private String invoiceOrderPurchaseOrderIdentifier;
+    private String invoiceOrderPurchaseOrderDate;
+    private String invoiceOrderSupplierOrderInformationIdentifier;
+    private Integer epicPurchaseOrderIdentifier;
+    private BigDecimal invoiceItemSubTotalAmount;
+    private String invoiceItemSubTotalCurrencyCode;
+    private BigDecimal invoiceItemSpecialHandlingAmount;
+    private String invoiceItemSpecialHandlingCurrencyCode;
+    private BigDecimal invoiceItemShippingAmount;
+    private String invoiceItemShippingCurrencyCode;
+    private String invoiceItemShippingDescription;
+    private BigDecimal invoiceItemTaxAmount;
+    private String invoiceItemTaxCurrencyCode;
+    private String invoiceItemTaxDescription;
+    private BigDecimal invoiceItemGrossAmount;
+    private String invoiceItemGrossCurrencyCode;
+    private BigDecimal invoiceItemDiscountAmount;
+    private String invoiceItemDiscountCurrencyCode;
+    private BigDecimal invoiceItemNetAmount;
+    private String invoiceItemNetCurrencyCode;
+    private Date invoiceRejectExtractDate;
+    private String epicPurchaseOrderDeliveryCampusCode;
+    private Date invoiceShipDate;
+    private String invoiceAddressName;
+    private String invoiceShipToLine1Address;
+    private String invoiceShipToLine2Address;
+    private String invoiceShipToLine3Address;
+    private String invoiceCustomerNumber;
+    private String invoiceShipToStateCode;
+    private String invoiceShipToCountryCode;
+    private String invoiceShipToCityName;
+    private String invoiceShipToPostalCode;
+    private String invoicePurchaseOrderNumber;
 
     private ElectronicInvoiceRejectReason invoiceHeaderInformation;
-	private ElectronicInvoiceLoadSummary accountsPayableElectronicInvoiceLoadSummary;
-	private Campus epicPurchaseOrderDeliveryCampus;
+    private ElectronicInvoiceLoadSummary accountsPayableElectronicInvoiceLoadSummary;
+    private Campus epicPurchaseOrderDeliveryCampus;
 
-	/**
-	 * Default constructor.
-	 */
-	public ElectronicInvoiceHeaderInformation() {
+    /**
+     * Default constructor.
+     */
+    public ElectronicInvoiceHeaderInformation() {
 
-	}
+    }
 
-	public ElectronicInvoiceLoadSummary getAccountsPayableElectronicInvoiceLoadSummary() {
+    public ElectronicInvoiceLoadSummary getAccountsPayableElectronicInvoiceLoadSummary() {
         return accountsPayableElectronicInvoiceLoadSummary;
     }
 
@@ -596,13 +596,13 @@ public class ElectronicInvoiceHeaderInformation extends PersistableBusinessObjec
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         if (this.invoiceHeaderInformationIdentifier != null) {
             m.put("invoiceHeaderInformationIdentifier", this.invoiceHeaderInformationIdentifier.toString());
         }
-	    return m;
+        return m;
     }
 }

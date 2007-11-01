@@ -28,13 +28,13 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
 /**
  * This class creates a new finder for our forms view (creates a drop-down of {@link OrganizationReversionCategory}s)
- * 
  */
 public class OrganizationReversionCategoryValuesFinder extends KeyValuesBase {
 
     /**
-     * Creates a list of {@link MandatoryTransferEliminationCode}s using their code as their key, and
-     * their name as the display value
+     * Creates a list of {@link MandatoryTransferEliminationCode}s using their code as their key, and their name as the display
+     * value
+     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

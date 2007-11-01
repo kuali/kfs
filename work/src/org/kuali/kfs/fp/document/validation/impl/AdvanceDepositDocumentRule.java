@@ -15,6 +15,8 @@
  */
 package org.kuali.module.financial.rules;
 
+import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
+
 import org.kuali.core.document.Document;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -30,8 +32,6 @@ import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
-
-import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.ERROR_PATH.DOCUMENT_ERROR_PREFIX;
 
 /**
  * Business rules applicable to Advance Deposit documents.
@@ -119,7 +119,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
      * DataDictionary validation.
      * 
      * @param advanceDepositDocument submitted Advance Deposit Document
-     * @return boolean true if all advance deposits are valid (i.e. advance deposit amount is not 0, bank and bank account number are not blank)
+     * @return boolean true if all advance deposits are valid (i.e. advance deposit amount is not 0, bank and bank account number
+     *         are not blank)
      */
     private boolean validateAdvanceDeposits(AdvanceDepositDocument advanceDepositDocument) {
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);

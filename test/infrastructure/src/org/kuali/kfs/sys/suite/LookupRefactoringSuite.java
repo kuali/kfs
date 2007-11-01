@@ -16,7 +16,6 @@
 package org.kuali.test.suite;
 
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 public class LookupRefactoringSuite extends AnnotationTestSuite.Superclass {
     public static Test suite() throws Exception {
@@ -28,10 +27,7 @@ public class LookupRefactoringSuite extends AnnotationTestSuite.Superclass {
      * JUnit tests.
      */
     /*
-    public static class Not {
-        public static Test suite() throws Exception {
-            return new LookupRefactoringSuite().getNegativeSuite();
-        }
-    }
-    */
+     * public static class Not { public static Test suite() throws Exception { return new
+     * LookupRefactoringSuite().getNegativeSuite(); } }
+     */
 }

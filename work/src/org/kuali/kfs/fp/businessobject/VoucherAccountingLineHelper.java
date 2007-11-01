@@ -19,8 +19,6 @@ import org.kuali.core.util.KualiDecimal;
 
 /**
  * Interface to aid voucher documents for handling debit/credit amounts.
- * 
- * 
  */
 public interface VoucherAccountingLineHelper {
     /**

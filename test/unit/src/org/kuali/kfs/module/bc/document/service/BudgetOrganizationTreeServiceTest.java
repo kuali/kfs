@@ -30,11 +30,11 @@ import org.kuali.test.ConfigureContext;
 public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
     private BudgetOrganizationTreeService budgetOrganizationTreeService;
     private BusinessObjectService businessObjectService;
-    
+
     private String personUniversalIdentifier = "1111111111";
     private String chartOfAccountsCode = "UA";
     private String organizationCode = "UA";
-    
+
     private boolean runTests() { // change this to return false to prevent running tests
         return true;
     }
@@ -50,10 +50,11 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
     }
 
-    @ConfigureContext(shouldCommitTransactions=true)
+    @ConfigureContext(shouldCommitTransactions = true)
     public void testBuildPullup() throws Exception {
 
-        if (!runTests()) return;
+        if (!runTests())
+            return;
 
         budgetOrganizationTreeService.buildPullup(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
         HashMap map = new HashMap();
@@ -65,7 +66,7 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         assertTrue(bcPullup.getChartOfAccountsCode().equalsIgnoreCase(chartOfAccountsCode));
         assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
         assertTrue(bcPullup.getPersonUniversalIdentifier().equalsIgnoreCase(personUniversalIdentifier));
-        
+
         budgetOrganizationTreeService.cleanPullup(personUniversalIdentifier);
         bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
         assertTrue(bcPullup == null);

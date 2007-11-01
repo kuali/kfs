@@ -18,7 +18,6 @@ package org.kuali.module.cg.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * 

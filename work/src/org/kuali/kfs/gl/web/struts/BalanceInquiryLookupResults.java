@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.lookup.LookupUtils;
-import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.struts.form.KualiTableRenderFormMetadata;
+import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.kfs.KFSConstants;
 
 /**
@@ -33,42 +33,41 @@ import org.kuali.kfs.KFSConstants;
  */
 public class BalanceInquiryLookupResults extends LookupForm implements LookupResultsSelectable {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceInquiryLookupResults.class);
-    
+
     private KualiTableRenderFormMetadata tableMetadata;
-    
+
     private String lookupResultsSequenceNumber;
-    
+
     /**
      * The number of rows that match the query criteria
      */
     private int resultsActualSize;
-    
+
     /**
-     * The number of rows that match the query criteria or
-     *  the max results limit size (if applicable), whichever is less
+     * The number of rows that match the query criteria or the max results limit size (if applicable), whichever is less
      */
     private int resultsLimitedSize;
-    
+
     /**
-     * when the looked results screen was rendered, the index of the column that the results were sorted on.  -1 for unknown, index numbers
-     * starting at 0
+     * when the looked results screen was rendered, the index of the column that the results were sorted on. -1 for unknown, index
+     * numbers starting at 0
      */
     private String previouslySortedColumnIndex;
-    
+
     /**
      * Comment for <code>columnToSortIndex</code>
      */
     private int columnToSortIndex;
-    
+
     /**
-     * the name of the collection being looked up by the calling page.  This value will be returned unmodified to the 
-     * calling page (indicated by super.getBackLocation()), which should use it to determine in which collection the 
-     * selected results will be returned.
+     * the name of the collection being looked up by the calling page. This value will be returned unmodified to the calling page
+     * (indicated by super.getBackLocation()), which should use it to determine in which collection the selected results will be
+     * returned.
      */
     private String lookedUpCollectionName;
-    
+
     /**
-     * Those object IDs that were selected before the current page is rendered 
+     * Those object IDs that were selected before the current page is rendered
      */
     private Set<String> previouslySelectedObjectIdSet;
     /**
@@ -80,21 +79,22 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
      */
     private Set<String> selectedObjectIdSet;
     /**
-     * The object IDs that are selected after the struts action is complete; the obj IDs in the keys of this Map will be considered checked in the UI
+     * The object IDs that are selected after the struts action is complete; the obj IDs in the keys of this Map will be considered
+     * checked in the UI
      */
     private Map<String, String> compositeObjectIdMap;
-    
+
     public BalanceInquiryLookupResults() {
         tableMetadata = new KualiTableRenderFormMetadata();
     }
-    
+
     protected String getMethodToCall(HttpServletRequest request) {
         return request.getParameter(KFSConstants.DISPATCH_REQUEST_PARAMETER);
     }
-        
+
     /**
      * Named appropriately as it is intended to be called from a <code>{@link LookupForm}</code>
-     *
+     * 
      * @param request HttpServletRequest
      */
     public void populate(HttpServletRequest request) {
@@ -106,11 +106,11 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         else {
             setViewedPageNumber(0); // first page is page 0
         }
-        
+
         if (KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD.equals(getMethodToCall(request))) {
             // look for the page number to switch to
             setSwitchToPageNumber(-1);
-            
+
             // the param we're looking for looks like: methodToCall.switchToPage.1.x , where 1 is the page nbr
             String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SWITCH_TO_PAGE_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
@@ -124,10 +124,10 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
                 throw new RuntimeException("Couldn't find page number");
             }
         }
-        
+
         if (KFSConstants.TableRenderConstants.SORT_METHOD.equals(getMethodToCall(request))) {
             setColumnToSortIndex(-1);
-            
+
             // the param we're looking for looks like: methodToCall.sort.1.x , where 1 is the column to sort on
             String paramPrefix = KFSConstants.DISPATCH_REQUEST_PARAMETER + "." + KFSConstants.TableRenderConstants.SORT_METHOD + ".";
             for (Enumeration i = request.getParameterNames(); i.hasMoreElements();) {
@@ -141,7 +141,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
                 throw new RuntimeException("Couldn't find column to sort");
             }
         }
-        
+
         setPreviouslySelectedObjectIdSet(parsePreviouslySelectedObjectIds(request));
         setSelectedObjectIdSet(parseSelectedObjectIdSet(request));
         setDisplayedObjectIdSet(parseDisplayedObjectIdSet(request));
@@ -154,6 +154,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
 
     /**
      * This method converts the composite object IDs into a String
+     * 
      * @return
      */
     public String getCompositeSelectedObjectIds() {
@@ -164,10 +165,10 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         String previouslySelectedObjectIds = request.getParameter(KFSConstants.MULTIPLE_VALUE_LOOKUP_PREVIOUSLY_SELECTED_OBJ_IDS_PARAM);
         return LookupUtils.convertStringOfObjectIdsToSet(previouslySelectedObjectIds);
     }
-    
+
     protected Set<String> parseSelectedObjectIdSet(HttpServletRequest request) {
         Set<String> set = new HashSet<String>();
-        
+
         Enumeration paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
@@ -177,10 +178,10 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         }
         return set;
     }
-    
+
     protected Set<String> parseDisplayedObjectIdSet(HttpServletRequest request) {
         Set<String> set = new HashSet<String>();
-        
+
         Enumeration paramNames = request.getParameterNames();
         while (paramNames.hasMoreElements()) {
             String paramName = (String) paramNames.nextElement();
@@ -190,13 +191,12 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         }
         return set;
     }
-    
+
     /**
      * Iterates through the request params, looks for the parameter representing the method to call in the format like
      * methodToCall.sort.1.(::;true;::).x, and returns the boolean value in the (::; and ;::) delimiters.
      * 
      * @see MultipleValueLookupForm#parseSearchUsingOnlyPrimaryKeyValues(String)
-     * 
      * @param request
      * @return
      */
@@ -209,15 +209,13 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
                 return parseSearchUsingOnlyPrimaryKeyValues(parameterName);
             }
         }
-        // maybe doing an initial search, so no value will be present 
+        // maybe doing an initial search, so no value will be present
         return false;
     }
-    
+
     /**
-     * Parses the method to call parameter passed in as a post parameter
-     * 
-     * The parameter should be something like methodToCall.sort.1.(::;true;::).x, this method will return the value
-     * between (::; and ;::) as a boolean
+     * Parses the method to call parameter passed in as a post parameter The parameter should be something like
+     * methodToCall.sort.1.(::;true;::).x, this method will return the value between (::; and ;::) as a boolean
      * 
      * @param methodToCallParam the method to call in a format described above
      * @return the value between the delimiters, false if there are no delimiters
@@ -229,7 +227,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
         }
         return Boolean.parseBoolean(searchUsingOnlyPrimaryKeyValuesStr);
     }
-    
+
     public int getViewedPageNumber() {
         return tableMetadata.getViewedPageNumber();
     }
@@ -245,7 +243,7 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     public void setLookupResultsSequenceNumber(String lookupResultSequenceNumber) {
         this.lookupResultsSequenceNumber = lookupResultSequenceNumber;
     }
-    
+
     public int getTotalNumberOfPages() {
         return tableMetadata.getTotalNumberOfPages();
     }
@@ -327,9 +325,9 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     /**
-     * gets the name of the collection being looked up by the calling page.  This value will be returned unmodified to the 
-     * calling page (indicated by super.getBackLocation()), which should use it to determine in which collection the 
-     * selected results will be returned.
+     * gets the name of the collection being looked up by the calling page. This value will be returned unmodified to the calling
+     * page (indicated by super.getBackLocation()), which should use it to determine in which collection the selected results will
+     * be returned.
      * 
      * @return
      */
@@ -338,9 +336,9 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     }
 
     /**
-     * sets the name of the collection being looked up by the calling page.  This value will be returned unmodified to the 
-     * calling page (indicated by super.getBackLocation()), which should use it to determine in which collection the 
-     * selected results will be returned
+     * sets the name of the collection being looked up by the calling page. This value will be returned unmodified to the calling
+     * page (indicated by super.getBackLocation()), which should use it to determine in which collection the selected results will
+     * be returned
      * 
      * @param lookedUpCollectionName
      */
@@ -363,17 +361,17 @@ public class BalanceInquiryLookupResults extends LookupForm implements LookupRes
     public void setResultsLimitedSize(int resultsLimitedSize) {
         this.resultsLimitedSize = resultsLimitedSize;
     }
-    
+
     public void jumpToFirstPage(int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToFirstPage(listSize, maxRowsPerPage);
     }
-    
+
     public void jumpToLastPage(int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToLastPage(listSize, maxRowsPerPage);
     }
-    
+
     public void jumpToPage(int pageNumber, int listSize, int maxRowsPerPage) {
         tableMetadata.jumpToPage(pageNumber, listSize, maxRowsPerPage);
     }
-    
+
 }

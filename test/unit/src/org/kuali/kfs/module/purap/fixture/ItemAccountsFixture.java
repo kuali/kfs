@@ -27,38 +27,32 @@ import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.fixtures.PurapTestConstants.ItemsAccounts;
 
 public enum ItemAccountsFixture {
-    
-    WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC,ItemsAccounts.ITEM_UOM,ItemsAccounts.UNIT_PRICE,ItemsAccounts.PO_ACCOUNT),
-    WITH_DESC_NULL_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC,null,ItemsAccounts.UNIT_PRICE,ItemsAccounts.PO_ACCOUNT),
-    WITH_DESC_EMPTY_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC,"",ItemsAccounts.UNIT_PRICE,ItemsAccounts.PO_ACCOUNT),
-    WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT(ItemsAccounts.ITEM_DESC,ItemsAccounts.ITEM_UOM,ItemsAccounts.UNIT_PRICE,null),
-    NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT(null,null,null,ItemsAccounts.PO_ACCOUNT),
-    EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT("","",null,ItemsAccounts.PO_ACCOUNT),
-    ;
-    
+
+    WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, ItemsAccounts.ITEM_UOM, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_NULL_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, null, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_EMPTY_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, "", ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT(ItemsAccounts.ITEM_DESC, ItemsAccounts.ITEM_UOM, ItemsAccounts.UNIT_PRICE, null), NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT(null, null, null, ItemsAccounts.PO_ACCOUNT), EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT("", "", null, ItemsAccounts.PO_ACCOUNT), ;
+
     private PurchaseOrderItem poItem;
     private String itemDescription;
     private String itemUnitOfMeasure;
     private BigDecimal unitPrice;
     private PurchaseOrderAccount poAccount;
     private String acctNumber;
-    
-    private ItemAccountsFixture(String itemDesc, String itemUOM, BigDecimal unitPrice, PurchaseOrderAccount acct ) {
+
+    private ItemAccountsFixture(String itemDesc, String itemUOM, BigDecimal unitPrice, PurchaseOrderAccount acct) {
         this.poItem = ItemsAccounts.PO_ITEM;
         this.itemDescription = itemDesc;
         this.itemUnitOfMeasure = itemUOM;
         this.unitPrice = unitPrice;
         this.poAccount = acct;
     }
-    
+
     public PurchaseOrderItem populateItem() {
         this.poItem.setItemDescription(this.itemDescription);
         this.poItem.setItemUnitOfMeasureCode(this.itemUnitOfMeasure);
-        this.poItem.setItemUnitPrice(this.unitPrice);        
-        if ( ObjectUtils.isNotNull(this.poAccount) ) {
+        this.poItem.setItemUnitPrice(this.unitPrice);
+        if (ObjectUtils.isNotNull(this.poAccount)) {
             this.poAccount.setAccountNumber(ItemsAccounts.ACCOUNT_NUMBER);
             List<PurApAccountingLine> lines = new ArrayList();
-            lines.add((PurApAccountingLine)this.poAccount);
+            lines.add((PurApAccountingLine) this.poAccount);
             this.poItem.setSourceAccountingLines(lines);
         }
         this.poItem.setItemTypeCode(ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
@@ -66,5 +60,5 @@ public enum ItemAccountsFixture {
         this.poItem.refreshNonUpdateableReferences();
         return this.poItem;
     }
-    
+
 }

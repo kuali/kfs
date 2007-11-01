@@ -20,12 +20,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 import org.kuali.core.lookup.LookupUtils;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.web.inquirable.PositionFundingInquirableImpl;
-import org.kuali.core.lookup.AbstractLookupableHelperServiceImpl;
 
 public class PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     /**

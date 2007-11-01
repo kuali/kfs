@@ -63,26 +63,26 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         super();
     }
 
-    
-    /***
-     *BA Documents should only do SF checking on PLEs with a Balance Type of 'CB' - not 'BB' or 'MB'.
-     *
+
+    /*******************************************************************************************************************************
+     * BA Documents should only do SF checking on PLEs with a Balance Type of 'CB' - not 'BB' or 'MB'.
+     * 
      * @Override
      * @see org.kuali.kfs.document.AccountingDocumentBase#getPendingLedgerEntriesForSufficientFundsChecking()
      */
     public List<GeneralLedgerPendingEntry> getPendingLedgerEntriesForSufficientFundsChecking() {
-        List <GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
+        List<GeneralLedgerPendingEntry> pendingLedgerEntries = new ArrayList();
 
         GeneralLedgerPendingEntrySequenceHelper glpeSequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
         BudgetAdjustmentDocumentRule budgetAdjustmentDocumentRule = new BudgetAdjustmentDocumentRule();
-        
+
         BudgetAdjustmentDocument copiedBa = (BudgetAdjustmentDocument) ObjectUtils.deepCopy(this);
         copiedBa.getGeneralLedgerPendingEntries().clear();
-        for (BudgetAdjustmentAccountingLine fromLine : (List<BudgetAdjustmentAccountingLine>)copiedBa.getSourceAccountingLines()) {
-            budgetAdjustmentDocumentRule.processGenerateGeneralLedgerPendingEntries(copiedBa, fromLine, glpeSequenceHelper);    
+        for (BudgetAdjustmentAccountingLine fromLine : (List<BudgetAdjustmentAccountingLine>) copiedBa.getSourceAccountingLines()) {
+            budgetAdjustmentDocumentRule.processGenerateGeneralLedgerPendingEntries(copiedBa, fromLine, glpeSequenceHelper);
         }
-        
-        
+
+
         for (GeneralLedgerPendingEntry ple : copiedBa.getGeneralLedgerPendingEntries()) {
             if (!KFSConstants.BALANCE_TYPE_BASE_BUDGET.equals(ple.getFinancialBalanceTypeCode()) && !KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET.equals(ple.getFinancialBalanceTypeCode())) {
                 pendingLedgerEntries.add(ple);
@@ -119,14 +119,15 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
         // BudgetAdjustmentDocumentAuthorizer.canInitiate would have failed.
         List allowedYears = SpringContext.getBean(FiscalYearFunctionControlService.class).getBudgetAdjustmentAllowedYears();
         Integer currentYearParam = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        
+
         FiscalYearFunctionControl fiscalYearFunctionControl = new FiscalYearFunctionControl();
         fiscalYearFunctionControl.setUniversityFiscalYear(currentYearParam);
-        
+
         // use 'this.postingYear =' because setPostingYear has logic we want to circumvent on initiateDocument
-        if(allowedYears.contains(fiscalYearFunctionControl)) {
+        if (allowedYears.contains(fiscalYearFunctionControl)) {
             this.postingYear = currentYearParam;
-        } else {
+        }
+        else {
             this.postingYear = ((FiscalYearFunctionControl) allowedYears.get(0)).getUniversityFiscalYear();
         }
     }
@@ -183,7 +184,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public String getCurrencyFormattedSourceCurrentBudgetTotal() {
         return (String) new CurrencyFormatter().format(getSourceCurrentBudgetTotal());
     }
-    
+
     /**
      * Returns the total current budget income amount from the source lines.
      * 
@@ -235,7 +236,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
 
         return currentBudgetTotal;
     }
-    
+
     /**
      * This method retrieves the total current budget amount formatted as currency.
      * 
@@ -306,7 +307,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public String getCurrencyFormattedSourceBaseBudgetTotal() {
         return (String) new CurrencyFormatter().format(getSourceBaseBudgetTotal());
     }
-    
+
     /**
      * Returns the total base budget income amount from the source lines.
      * 
@@ -367,7 +368,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public String getCurrencyFormattedTargetBaseBudgetTotal() {
         return (String) new CurrencyFormatter().format(getTargetBaseBudgetTotal());
     }
-    
+
     /**
      * Returns the total base budget income amount from the target lines.
      * 
@@ -466,7 +467,6 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     }
 
     /**
-     * 
      * @see org.kuali.core.document.DocumentBase#toStringMapper()
      */
     @Override
@@ -503,7 +503,7 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     public boolean getAllowsErrorCorrection() {
         return true;
     }
-  
+
     /**
      * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLinesSectionTitle()
      */
@@ -526,19 +526,18 @@ public class BudgetAdjustmentDocument extends AccountingDocumentBase implements 
     @Override
     public void populateDocumentForRouting() {
         super.populateDocumentForRouting();
-        
+
         // set amount fields of line for routing to current amount field
         for (Iterator iter = this.getSourceAccountingLines().iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             line.setAmount(line.getCurrentBudgetAdjustmentAmount());
         }
-        
+
         for (Iterator iter = this.getTargetAccountingLines().iterator(); iter.hasNext();) {
             BudgetAdjustmentAccountingLine line = (BudgetAdjustmentAccountingLine) iter.next();
             line.setAmount(line.getCurrentBudgetAdjustmentAmount());
         }
     }
-    
-    
-    
+
+
 }

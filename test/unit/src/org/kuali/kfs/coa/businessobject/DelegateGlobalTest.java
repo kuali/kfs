@@ -64,7 +64,7 @@ public class DelegateGlobalTest extends KualiTestBase {
     private static final String ACCOUNT3 = "1031467";
     private static final String ACCOUNT_BAD = "1031421";
 
-    
+
     public void testApplyGlobalChanges_Empty() throws WorkflowException {
 
         MaintenanceDocument document;

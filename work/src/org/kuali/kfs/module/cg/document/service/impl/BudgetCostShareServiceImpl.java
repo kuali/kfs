@@ -43,7 +43,7 @@ public class BudgetCostShareServiceImpl implements BudgetCostShareService {
 
         // Make a copy of the list so to avoid ConcurrentModificationException.
         List<InstitutionCostSharePersonnel> institutionCostSharePersonnelCopy = new ArrayList(institutionCostSharePersonnel);
-        
+
         // Check that all the institutionCostSharePersonnel chart/orgs still have personnel associated with them, if not, remove
         // the ones that are orphans. I could use BudgetUser.contains here but for the type of comparision I need, I would need
         // a misleading BudgetUser.equals method... I'm not so sure if that's useful.

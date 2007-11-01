@@ -18,8 +18,6 @@ package org.kuali.kfs.rule;
 
 /**
  * Defines a rule which gets invoked to determine if there are sufficient funds for an account
- * 
- * 
  */
 public interface SufficientFundsCheckingPreparationRule extends AccountingLineRule {
     /**

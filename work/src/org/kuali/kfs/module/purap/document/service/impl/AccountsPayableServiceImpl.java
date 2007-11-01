@@ -71,15 +71,19 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
+
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
+
     public void setPurapAccountingService(PurapAccountingService purapAccountingService) {
         this.purapAccountingService = purapAccountingService;
     }
+
     public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
         this.purapGeneralLedgerService = purapGeneralLedgerService;
     }
+
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
@@ -358,12 +362,12 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 // just update encumberances, items shouldn't change, get to them through po (or through preq)
                 List<PaymentRequestItem> items = cm.getPaymentRequestDocument().getItems();
                 for (PaymentRequestItem preqItem : items) {
-                    //skip inactive and below the line
+                    // skip inactive and below the line
                     if (!preqItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                         continue;
                     }
                     PurchaseOrderItem poItem = preqItem.getPurchaseOrderItem();
-                    CreditMemoItem cmItem = (CreditMemoItem)cm.getAPItemFromPOItem(poItem);
+                    CreditMemoItem cmItem = (CreditMemoItem) cm.getAPItemFromPOItem(poItem);
                     // take invoiced quantities from the lower of the preq and po if different
                     updateEncumberances(preqItem, poItem, cmItem);
                 }
@@ -375,26 +379,29 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                 List<CreditMemoItem> cmItems = cm.getItems();
                 // iterate through the above the line poItems to find matching
                 for (PurchaseOrderItem purchaseOrderItem : poItems) {
-                    //skip inactive and below the line
+                    // skip inactive and below the line
                     if (!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                         continue;
                     }
-                    
-                    CreditMemoItem cmItem = (CreditMemoItem)cm.getAPItemFromPOItem(purchaseOrderItem);
-                    //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
-                    if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
-                        //if eligible and not there - add
+
+                    CreditMemoItem cmItem = (CreditMemoItem) cm.getAPItemFromPOItem(purchaseOrderItem);
+                    // check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
+                    if (apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
+                        // if eligible and not there - add
                         if (ObjectUtils.isNull(cmItem)) {
                             cmItems.add(new CreditMemoItem(cm, purchaseOrderItem));
-                        } else {
-                            //is eligible and on doc, update encumberances
-                            //(this is only qty and amount for now NOTE we should also update other key fields, like description etc in case ammendment modified a line
+                        }
+                        else {
+                            // is eligible and on doc, update encumberances
+                            // (this is only qty and amount for now NOTE we should also update other key fields, like description
+                            // etc in case ammendment modified a line
                             updateEncumberance(purchaseOrderItem, cmItem);
                         }
-                    } else { //if not eligible and there - remove
-                        if(ObjectUtils.isNotNull(cmItem)) {
+                    }
+                    else { // if not eligible and there - remove
+                        if (ObjectUtils.isNotNull(cmItem)) {
                             cmItems.remove(cmItem);
-                            //don't update encumberance
+                            // don't update encumberance
                             continue;
                         }
                     }
@@ -418,21 +425,23 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             List<PaymentRequestItem> preqItems = preq.getItems();
             // iterate through the above the line poItems to find matching
             for (PurchaseOrderItem purchaseOrderItem : poItems) {
-                //skip below the line
+                // skip below the line
                 if (!purchaseOrderItem.getItemType().isItemTypeAboveTheLineIndicator()) {
                     continue;
                 }
                 PaymentRequestItem preqItem = (PaymentRequestItem) preq.getAPItemFromPOItem(purchaseOrderItem);
-                //check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
-                if(apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
-                    //if eligible and not there - add
+                // check if any action needs to be taken on the items (i.e. add for new eligible items or remove for ineligible)
+                if (apDocument.getDocumentSpecificService().poItemEligibleForAp(apDocument, purchaseOrderItem)) {
+                    // if eligible and not there - add
                     if (ObjectUtils.isNull(preqItem)) {
                         preqItems.add(new PaymentRequestItem(purchaseOrderItem, preq));
-                    } else {
-                        updatePossibleAmmendedFields(purchaseOrderItem, preqItem);                        
                     }
-                } else { //if not eligible and there - remove
-                    if(ObjectUtils.isNotNull(preqItem)) {
+                    else {
+                        updatePossibleAmmendedFields(purchaseOrderItem, preqItem);
+                    }
+                }
+                else { // if not eligible and there - remove
+                    if (ObjectUtils.isNotNull(preqItem)) {
                         preqItems.remove(preqItem);
                     }
                 }
@@ -443,6 +452,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
 
     /**
      * This method updates fields that could've been changed on ammendment
+     * 
      * @param sourceItem
      * @param destItem
      */

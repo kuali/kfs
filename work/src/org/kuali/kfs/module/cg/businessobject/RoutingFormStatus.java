@@ -25,86 +25,80 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class RoutingFormStatus extends PersistableBusinessObjectBase {
 
-	private String routingFormStatusCode;
-	private boolean dataObjectMaintenanceCodeActiveIndicator;
-	private String routingFormStatusDescription;
+    private String routingFormStatusCode;
+    private boolean dataObjectMaintenanceCodeActiveIndicator;
+    private String routingFormStatusDescription;
 
-	/**
-	 * Default constructor.
-	 */
-	public RoutingFormStatus() {
+    /**
+     * Default constructor.
+     */
+    public RoutingFormStatus() {
 
-	}
+    }
 
-	/**
-	 * Gets the routingFormStatusCode attribute.
-	 * 
-	 * @return Returns the routingFormStatusCode
-	 * 
-	 */
-	public String getRoutingFormStatusCode() { 
-		return routingFormStatusCode;
-	}
+    /**
+     * Gets the routingFormStatusCode attribute.
+     * 
+     * @return Returns the routingFormStatusCode
+     */
+    public String getRoutingFormStatusCode() {
+        return routingFormStatusCode;
+    }
 
-	/**
-	 * Sets the routingFormStatusCode attribute.
-	 * 
-	 * @param routingFormStatusCode The routingFormStatusCode to set.
-	 * 
-	 */
-	public void setRoutingFormStatusCode(String routingFormStatusCode) {
-		this.routingFormStatusCode = routingFormStatusCode;
-	}
+    /**
+     * Sets the routingFormStatusCode attribute.
+     * 
+     * @param routingFormStatusCode The routingFormStatusCode to set.
+     */
+    public void setRoutingFormStatusCode(String routingFormStatusCode) {
+        this.routingFormStatusCode = routingFormStatusCode;
+    }
 
 
-	/**
-	 * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @return Returns the dataObjectMaintenanceCodeActiveIndicator
-	 * 
-	 */
-	public boolean getDataObjectMaintenanceCodeActiveIndicator() { 
-		return dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Gets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @return Returns the dataObjectMaintenanceCodeActiveIndicator
+     */
+    public boolean getDataObjectMaintenanceCodeActiveIndicator() {
+        return dataObjectMaintenanceCodeActiveIndicator;
+    }
 
-	/**
-	 * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
-	 * 
-	 * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
-	 * 
-	 */
-	public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
-		this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
-	}
+    /**
+     * Sets the dataObjectMaintenanceCodeActiveIndicator attribute.
+     * 
+     * @param dataObjectMaintenanceCodeActiveIndicator The dataObjectMaintenanceCodeActiveIndicator to set.
+     */
+    public void setDataObjectMaintenanceCodeActiveIndicator(boolean dataObjectMaintenanceCodeActiveIndicator) {
+        this.dataObjectMaintenanceCodeActiveIndicator = dataObjectMaintenanceCodeActiveIndicator;
+    }
 
 
-	/**
-	 * Gets the routingFormStatusDescription attribute.
-	 * 
-	 * @return Returns the routingFormStatusDescription
-	 * 
-	 */
-	public String getRoutingFormStatusDescription() { 
-		return routingFormStatusDescription;
-	}
+    /**
+     * Gets the routingFormStatusDescription attribute.
+     * 
+     * @return Returns the routingFormStatusDescription
+     */
+    public String getRoutingFormStatusDescription() {
+        return routingFormStatusDescription;
+    }
 
-	/**
-	 * Sets the routingFormStatusDescription attribute.
-	 * 
-	 * @param routingFormStatusDescription The routingFormStatusDescription to set.
-	 * 
-	 */
-	public void setRoutingFormStatusDescription(String routingFormStatusDescription) {
-		this.routingFormStatusDescription = routingFormStatusDescription;
-	}
+    /**
+     * Sets the routingFormStatusDescription attribute.
+     * 
+     * @param routingFormStatusDescription The routingFormStatusDescription to set.
+     */
+    public void setRoutingFormStatusDescription(String routingFormStatusDescription) {
+        this.routingFormStatusDescription = routingFormStatusDescription;
+    }
 
 
-	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("routingFormStatusCode", this.routingFormStatusCode);
-	    return m;
+        return m;
     }
 }

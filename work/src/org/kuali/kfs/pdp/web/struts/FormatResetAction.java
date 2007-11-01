@@ -18,7 +18,6 @@ import org.kuali.module.pdp.service.SecurityRecord;
 
 /**
  * @author delyea
- *
  */
 public class FormatResetAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(FormatResetAction.class);
@@ -26,27 +25,27 @@ public class FormatResetAction extends BaseAction {
 
     public FormatResetAction() {
         super();
-        setFormatService( SpringContext.getBean(FormatService.class) );
+        setFormatService(SpringContext.getBean(FormatService.class));
     }
 
     public void setFormatService(FormatService fas) {
         formatService = fas;
     }
 
-    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request,HttpServletResponse response) {
+    protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
         SecurityRecord sr = getSecurityRecord(request);
         return sr.isProcessRole();
     }
 
-    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response) throws Exception {
+    protected ActionForward executeLogic(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("executeLogic() started");
 
         Integer procId = new Integer(request.getParameter("processId"));
-    
+
         if ((procId != new Integer(0)) && (procId != null)) {
             formatService.resetFormatPayments(procId);
         }
-    
+
         return mapping.findForward("selection");
     }
 }

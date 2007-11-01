@@ -30,7 +30,7 @@ public class NextProposalNumberFinder implements ValueFinder {
     public String getValue() {
         return getLongValue().toString();
     }
-    
+
     /**
      * Gets the next sequence number as a long.
      * 

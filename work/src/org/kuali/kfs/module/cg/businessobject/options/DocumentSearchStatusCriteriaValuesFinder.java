@@ -30,7 +30,7 @@ import org.kuali.module.cg.bo.ProposalStatus;
  * Allows some filtering of document search criteria.
  */
 public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
-    
+
     private static final String STATUS_SPACE_PREFIX = "&nbsp;&nbsp;";
 
     /**
@@ -43,20 +43,20 @@ public class DocumentSearchStatusCriteriaValuesFinder extends KeyValuesBase {
         labels.add(new KeyLabelPair(" ", "AWARD STATUSES"));
         Collection<AwardStatus> awardCodes = SpringContext.getBean(KeyValuesService.class).findAll(AwardStatus.class);
         for (AwardStatus awardStatus : awardCodes) {
-            if(awardStatus.isRowActiveIndicator()) {
-                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode()+"-"+awardStatus.getAwardStatusDescription()));
+            if (awardStatus.isRowActiveIndicator()) {
+                labels.add(new KeyLabelPair(awardStatus.getAwardStatusCode(), STATUS_SPACE_PREFIX + awardStatus.getAwardStatusCode() + "-" + awardStatus.getAwardStatusDescription()));
             }
         }
 
         labels.add(new KeyLabelPair(" ", "PROPOSAL STATUSES"));
         Collection<ProposalStatus> proposalCodes = SpringContext.getBean(KeyValuesService.class).findAll(ProposalStatus.class);
         for (ProposalStatus proposalStatus : proposalCodes) {
-            if(proposalStatus.isRowActiveIndicator()) {
-                labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode()+"-"+proposalStatus.getProposalStatusDescription()));
+            if (proposalStatus.isRowActiveIndicator()) {
+                labels.add(new KeyLabelPair(proposalStatus.getProposalStatusCode(), STATUS_SPACE_PREFIX + proposalStatus.getProposalStatusCode() + "-" + proposalStatus.getProposalStatusDescription()));
             }
         }
 
         return labels;
     }
-    
+
 }

@@ -35,18 +35,18 @@ public interface SubFundGroupService {
      * @return
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber);
-    
+
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup);
-    
+
     public String getContractsAndGrantsDenotingAttributeLabel();
-    
+
     /**
-     * Extracts the appropriate value from the sub fund group for the C&G method selected. 
+     * Extracts the appropriate value from the sub fund group for the C&G method selected.
      * 
      * @param subFundGroup
      * @return
      */
-    public String getContractsAndGrantsDenotingValue( SubFundGroup subFundGroup );
-    
+    public String getContractsAndGrantsDenotingValue(SubFundGroup subFundGroup);
+
     public String getContractsAndGrantsDenotingValue();
 }

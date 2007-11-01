@@ -23,13 +23,11 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
 
 /**
- * 
  * This class implements the {@link SubFundGroupDao} data access methods using Ojb
  */
 public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFundGroupDao {
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByPrimaryId(java.lang.String)
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode) {
@@ -40,7 +38,6 @@ public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFu
     }
 
     /**
-     * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber) {

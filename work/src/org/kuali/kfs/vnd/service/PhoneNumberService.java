@@ -16,11 +16,11 @@
 package org.kuali.module.vendor.service;
 
 public interface PhoneNumberService {
-    
-    public String formatNumberIfPossible( String unformattedNumber );
-    
-    public boolean isValidPhoneNumber( String phone );
-    
-    public boolean isDefaultFormatPhoneNumber( String phone );
+
+    public String formatNumberIfPossible(String unformattedNumber);
+
+    public boolean isValidPhoneNumber(String phone);
+
+    public boolean isDefaultFormatPhoneNumber(String phone);
 
 }

@@ -16,7 +16,6 @@
 package org.kuali.kfs.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -25,22 +24,22 @@ import org.apache.commons.lang.StringUtils;
  * Miscalenious Utility Methods.
  */
 public class KFSUtils {
-    
+
     /**
      * Picks off the filename from the full path. Takes care of different OS seperators.
      */
     public final static List<String> getFileNameFromPath(List<String> fullFileNames) {
         List<String> fileNameList = new ArrayList();
-        
-        for (String fullFileName: fullFileNames) {
+
+        for (String fullFileName : fullFileNames) {
             if (StringUtils.contains(fullFileName, "/")) {
                 fileNameList.add(StringUtils.substringAfterLast(fullFileName, "/"));
             }
             else {
                 fileNameList.add(StringUtils.substringAfterLast(fullFileName, "\\"));
             }
-        }    
-        
+        }
+
         return fileNameList;
     }
 }

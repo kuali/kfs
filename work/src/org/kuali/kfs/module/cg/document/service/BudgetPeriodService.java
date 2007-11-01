@@ -20,10 +20,7 @@ import java.util.List;
 import org.kuali.module.kra.budget.bo.BudgetPeriod;
 
 /**
- * 
  * This interface defines methods that a BudgetPeriod service must provide
- * 
- * 
  */
 public interface BudgetPeriodService {
 

@@ -47,13 +47,12 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo(SOURCE_CODE, sourceCode);
-        
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(OriginEntryGroup.class, criteria));
-        
+
     }
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getOlderGroups(Date)
      */
     public Collection<OriginEntryGroup> getOlderGroups(Date day) {
@@ -66,7 +65,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#deleteGroups(java.util.Collection)
      */
     public void deleteGroups(Collection<OriginEntryGroup> groups) {
@@ -85,7 +83,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getMatchingGroups(java.util.Map)
      */
     public Collection getMatchingGroups(Map searchCriteria) {
@@ -102,7 +99,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getPosterGroups(java.lang.String)
      */
     public Collection getPosterGroups(String groupSourceCode) {
@@ -116,7 +112,7 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
+
     /**
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getAllScrubbableBackupGroups()
      */
@@ -132,7 +128,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getLaborBackupGroups(java.sql.Date)
      */
     public Collection getLaborBackupGroups(Date groupDate) {
@@ -147,10 +142,9 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
-    
+
+
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getScrubberGroups(java.sql.Date)
      */
     public Collection getGroupsToBackup(Date groupDate) {
@@ -166,9 +160,8 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
-    
+
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getLaborScrubberGroups(java.sql.Date)
      */
     public Collection getLaborGroupsToBackup(Date groupDate) {
@@ -183,12 +176,9 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
         QueryByCriteria qbc = QueryFactory.newQuery(OriginEntryGroup.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
-    
-    
-    
-    
+
+
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#save(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public void save(OriginEntryGroup group) {
@@ -198,7 +188,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getExactMatchingEntryGroup(java.lang.Integer)
      */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id) {
@@ -238,7 +227,6 @@ public class OriginEntryGroupDaoOjb extends PlatformAwareDaoBaseOjb implements O
     }
 
     /**
-     * 
      * @see org.kuali.module.gl.dao.OriginEntryGroupDao#getRecentGroups(Date)
      */
     public Collection<OriginEntryGroup> getRecentGroups(Date day) {

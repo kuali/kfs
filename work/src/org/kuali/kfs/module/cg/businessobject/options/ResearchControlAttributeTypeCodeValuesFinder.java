@@ -25,44 +25,44 @@ import org.kuali.module.kra.routingform.bo.ControlAttributeType;
 import org.kuali.module.kra.service.ResearchDocumentControlAttributeTypeService;
 
 /**
- * This class is used to acquire and build a collection of possible ControlAttributeTypes that can be used to generate 
- * user drop downs.
+ * This class is used to acquire and build a collection of possible ControlAttributeTypes that can be used to generate user drop
+ * downs.
  */
 public class ResearchControlAttributeTypeCodeValuesFinder extends KeyValuesBase {
-    
+
     /**
-     * 
      * Constructs a ResearchControlAttributeTypeCodeValuesFinder.java.
      */
     public ResearchControlAttributeTypeCodeValuesFinder() {
         super();
     }
-    
+
     /**
-     * Retrieves the list of possible control attribute type codes from the DB and builds a KeyLabelPair collection 
-     * from these values.
+     * Retrieves the list of possible control attribute type codes from the DB and builds a KeyLabelPair collection from these
+     * values.
      * 
      * @return A collection of KeyLabelPair objects representing the possible ControlAttributeType codes.
-     * 
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
-        
+
         List<ControlAttributeType> controlAttributeTypeCodes = new ArrayList(SpringContext.getBean(ResearchDocumentControlAttributeTypeService.class).getControlAttributeTypeCodes());
         List<KeyLabelPair> controlAttributeTypeCodePairs = new ArrayList(3);
 
-        for(ControlAttributeType controlAttributeType : controlAttributeTypeCodes) {
-            
+        for (ControlAttributeType controlAttributeType : controlAttributeTypeCodes) {
+
             String description = "";
-            if(ControlAttributeType.TYPE_CODE_A.equalsIgnoreCase(controlAttributeType.getControlAttributeTypeCode())) {
+            if (ControlAttributeType.TYPE_CODE_A.equalsIgnoreCase(controlAttributeType.getControlAttributeTypeCode())) {
                 description = ControlAttributeType.TYPE_CODE_A_DESC;
-            } else if(ControlAttributeType.TYPE_CODE_S.equalsIgnoreCase(controlAttributeType.getControlAttributeTypeCode())) {
+            }
+            else if (ControlAttributeType.TYPE_CODE_S.equalsIgnoreCase(controlAttributeType.getControlAttributeTypeCode())) {
                 description = ControlAttributeType.TYPE_CODE_S_DESC;
-            } else if(ControlAttributeType.TYPE_CODE_D.equals(controlAttributeType.getControlAttributeTypeCode())) {
+            }
+            else if (ControlAttributeType.TYPE_CODE_D.equals(controlAttributeType.getControlAttributeTypeCode())) {
                 description = ControlAttributeType.TYPE_CODE_D_DESC;
             }
-            
-            controlAttributeTypeCodePairs.add(new KeyLabelPair(controlAttributeType.getControlAttributeTypeCode(), controlAttributeType.getControlAttributeTypeCode()+" - "+description));
+
+            controlAttributeTypeCodePairs.add(new KeyLabelPair(controlAttributeType.getControlAttributeTypeCode(), controlAttributeType.getControlAttributeTypeCode() + " - " + description));
         }
 
         return controlAttributeTypeCodePairs;

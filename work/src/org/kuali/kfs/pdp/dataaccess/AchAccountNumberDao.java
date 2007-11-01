@@ -10,8 +10,8 @@ import org.kuali.module.pdp.bo.AchAccountNumber;
  */
 public interface AchAccountNumberDao {
 
-  public AchAccountNumber get(Integer id);
-  
-  public void delete(AchAccountNumber achAccountNumber);
+    public AchAccountNumber get(Integer id);
+
+    public void delete(AchAccountNumber achAccountNumber);
 
 }

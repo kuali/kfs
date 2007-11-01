@@ -15,8 +15,6 @@
  */
 package org.kuali.module.gl.batch;
 
-import java.io.IOException;
-
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.gl.service.EnterpriseFeederService;
 
@@ -24,9 +22,9 @@ import org.kuali.module.gl.service.EnterpriseFeederService;
  * This step executes the enterprise feeder
  */
 public class EnterpriseFeedStep extends AbstractStep {
-    
+
     private EnterpriseFeederService enterpriseFeederService;
-    
+
     /**
      * Runs the enterprise feeder process
      * 
@@ -40,7 +38,8 @@ public class EnterpriseFeedStep extends AbstractStep {
     }
 
     /**
-     * Gets the enterpriseFeederService attribute. 
+     * Gets the enterpriseFeederService attribute.
+     * 
      * @return Returns the enterpriseFeederService.
      * @see org.kuali.module.gl.service.EnterpriseFeederService
      */
@@ -50,6 +49,7 @@ public class EnterpriseFeedStep extends AbstractStep {
 
     /**
      * Sets the enterpriseFeederService attribute value.
+     * 
      * @param enterpriseFeederService The enterpriseFeederService to set.
      * @see org.kuali.module.gl.service.EnterpriseFeederService
      */

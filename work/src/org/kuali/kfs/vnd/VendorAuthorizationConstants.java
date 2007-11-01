@@ -15,13 +15,10 @@
  */
 package org.kuali.module.vendor;
 
-import org.kuali.core.JstlConstants;
 import org.kuali.core.authorization.AuthorizationConstants;
 
 /**
  * Defines constants used in authorization-related code.
- * 
- * 
  */
 public class VendorAuthorizationConstants extends AuthorizationConstants {
 

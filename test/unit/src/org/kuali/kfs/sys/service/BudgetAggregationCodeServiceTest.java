@@ -23,8 +23,6 @@ import org.kuali.test.ConfigureContext;
 
 /**
  * This class tests the BudgetAggregationCode service.
- * 
- * 
  */
 @ConfigureContext
 public class BudgetAggregationCodeServiceTest extends KualiTestBase {
@@ -85,8 +83,6 @@ public class BudgetAggregationCodeServiceTest extends KualiTestBase {
      * This tests the caching mechanism by looping five times through some get calls. The first time through, the data should be
      * retrieved from the DB. Every time after that, the object should be retrieved from the cache therefore time to retrieve should
      * be less than or equal to.
-     * 
-     * 
      */
     public void testCache() {
         long tsStart;

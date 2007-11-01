@@ -17,8 +17,6 @@ package org.kuali.module.chart.bo;
 
 /**
  * This is for ojb only to map to the object code view. Should not be used by application code.
- * 
- * 
  */
 public class SubObjCdCurrent extends SubObjCd {
 

@@ -40,7 +40,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Gets the financialSystemFunctionControlCode attribute.
      * 
      * @return Returns the financialSystemFunctionControlCode
-     * 
      */
     public String getFinancialSystemFunctionControlCode() {
         return financialSystemFunctionControlCode;
@@ -50,7 +49,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Sets the financialSystemFunctionControlCode attribute.
      * 
      * @param financialSystemFunctionControlCode The financialSystemFunctionControlCode to set.
-     * 
      */
     public void setFinancialSystemFunctionControlCode(String financialSystemFunctionControlCode) {
         this.financialSystemFunctionControlCode = financialSystemFunctionControlCode;
@@ -61,7 +59,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Gets the financialSystemFunctionDefaultIndicator attribute.
      * 
      * @return Returns the financialSystemFunctionDefaultIndicator
-     * 
      */
     public boolean isFinancialSystemFunctionDefaultIndicator() {
         return financialSystemFunctionDefaultIndicator;
@@ -72,7 +69,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Sets the financialSystemFunctionDefaultIndicator attribute.
      * 
      * @param financialSystemFunctionDefaultIndicator The financialSystemFunctionDefaultIndicator to set.
-     * 
      */
     public void setFinancialSystemFunctionDefaultIndicator(boolean financialSystemFunctionDefaultIndicator) {
         this.financialSystemFunctionDefaultIndicator = financialSystemFunctionDefaultIndicator;
@@ -83,7 +79,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Gets the financialSystemFunctionDescription attribute.
      * 
      * @return Returns the financialSystemFunctionDescription
-     * 
      */
     public String getFinancialSystemFunctionDescription() {
         return financialSystemFunctionDescription;
@@ -93,7 +88,6 @@ public class FunctionControlCode extends PersistableBusinessObjectBase {
      * Sets the financialSystemFunctionDescription attribute.
      * 
      * @param financialSystemFunctionDescription The financialSystemFunctionDescription to set.
-     * 
      */
     public void setFinancialSystemFunctionDescription(String financialSystemFunctionDescription) {
         this.financialSystemFunctionDescription = financialSystemFunctionDescription;

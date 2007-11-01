@@ -32,14 +32,14 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
     private KualiDecimal budgetIndirectCostRate;
     private Purpose budgetPurpose;
     private boolean active;
-    
+
     /**
      * Default no-arg constructor.
      */
     public IndirectCostLookup() {
 
     }
-    
+
     public IndirectCostLookup(boolean budgetOnCampusIndicator, String budgetPurposeCode) {
         this();
         this.budgetOnCampusIndicator = budgetOnCampusIndicator;
@@ -50,7 +50,6 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Gets the budgetOnCampusIndicator attribute.
      * 
      * @return Returns the budgetOnCampusIndicator
-     * 
      */
     public boolean getBudgetOnCampusIndicator() {
         return budgetOnCampusIndicator;
@@ -60,7 +59,6 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Sets the budgetOnCampusIndicator attribute.
      * 
      * @param budgetOnCampusIndicator The budgetOnCampusIndicator to set.
-     * 
      */
     public void setBudgetOnCampusIndicator(boolean budgetOnCampusIndicator) {
         this.budgetOnCampusIndicator = budgetOnCampusIndicator;
@@ -70,7 +68,6 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Gets the budgetPurposeCode attribute.
      * 
      * @return Returns the budgetPurposeCode
-     * 
      */
     public String getBudgetPurposeCode() {
         return budgetPurposeCode;
@@ -80,7 +77,6 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Sets the budgetPurposeCode attribute.
      * 
      * @param budgetPurposeCode The budgetPurposeCode to set.
-     * 
      */
     public void setBudgetPurposeCode(String budgetPurposeCode) {
         this.budgetPurposeCode = budgetPurposeCode;
@@ -90,7 +86,6 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Gets the budgetIndirectCostRate attribute.
      * 
      * @return Returns the budgetIndirectCostRate
-     * 
      */
     public KualiDecimal getBudgetIndirectCostRate() {
         return budgetIndirectCostRate;
@@ -100,14 +95,14 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
      * Sets the budgetIndirectCostRate attribute.
      * 
      * @param budgetIndirectCostRate The budgetIndirectCostRate to set.
-     * 
      */
     public void setBudgetIndirectCostRate(KualiDecimal budgetIndirectCostRate) {
         this.budgetIndirectCostRate = budgetIndirectCostRate;
     }
-    
+
     /**
-     * Gets the budgetPurpose attribute. 
+     * Gets the budgetPurpose attribute.
+     * 
      * @return Returns the budgetPurpose.
      */
     public Purpose getBudgetPurpose() {
@@ -116,6 +111,7 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
 
     /**
      * Sets the budgetPurpose attribute value.
+     * 
      * @param budgetPurpose The budgetPurpose to set.
      */
     public void setBudgetPurpose(Purpose budgetPurpose) {
@@ -123,7 +119,8 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -132,12 +129,13 @@ public class IndirectCostLookup extends PersistableBusinessObjectBase {
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
-    }    
-    
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

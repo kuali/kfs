@@ -21,45 +21,44 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Broad categories in which a vendor may be included, exclusively, as opposed to a kind of 
- * basic business organization that the vendor may have, which would be an instance of 
- * <code>OwnershipType</code>.
+ * Broad categories in which a vendor may be included, exclusively, as opposed to a kind of basic business organization that the
+ * vendor may have, which would be an instance of <code>OwnershipType</code>.
  * 
  * @see org.kuali.module.vendor.bo.OwnershipType
  */
 public class OwnershipCategory extends PersistableBusinessObjectBase {
 
-	private String vendorOwnershipCategoryCode;
-	private String vendorOwnershipCategoryDescription;
+    private String vendorOwnershipCategoryCode;
+    private String vendorOwnershipCategoryDescription;
     private boolean active;
-    
-	/**
-	 * Default constructor.
-	 */
-	public OwnershipCategory() {
 
-	}
+    /**
+     * Default constructor.
+     */
+    public OwnershipCategory() {
 
-	public String getVendorOwnershipCategoryCode() {
-        
-		return vendorOwnershipCategoryCode;
-	}
+    }
 
-	public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
-		this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
-	}
+    public String getVendorOwnershipCategoryCode() {
 
-	public String getVendorOwnershipCategoryDescription() {
-        
-		return vendorOwnershipCategoryDescription;
-	}
+        return vendorOwnershipCategoryCode;
+    }
 
-	public void setVendorOwnershipCategoryDescription(String vendorOwnershipCategoryDescription) {
-		this.vendorOwnershipCategoryDescription = vendorOwnershipCategoryDescription;
-	}
+    public void setVendorOwnershipCategoryCode(String vendorOwnershipCategoryCode) {
+        this.vendorOwnershipCategoryCode = vendorOwnershipCategoryCode;
+    }
+
+    public String getVendorOwnershipCategoryDescription() {
+
+        return vendorOwnershipCategoryDescription;
+    }
+
+    public void setVendorOwnershipCategoryDescription(String vendorOwnershipCategoryDescription) {
+        this.vendorOwnershipCategoryDescription = vendorOwnershipCategoryDescription;
+    }
 
     public boolean isActive() {
-        
+
         return active;
     }
 
@@ -68,12 +67,12 @@ public class OwnershipCategory extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("vendorOwnershipCategoryCode", this.vendorOwnershipCategoryCode);
-        
-	    return m;
+
+        return m;
     }
 }

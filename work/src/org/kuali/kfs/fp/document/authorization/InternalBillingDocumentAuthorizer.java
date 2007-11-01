@@ -25,7 +25,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
 
-public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase{
+public class InternalBillingDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
 
     @Override
     public Map getEditMode(Document document, UniversalUser user, List sourceAccountingLines, List targetAccountingLines) {

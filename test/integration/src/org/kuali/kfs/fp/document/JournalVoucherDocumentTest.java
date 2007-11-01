@@ -51,8 +51,6 @@ import edu.iu.uis.eden.EdenConstants;
 
 /**
  * This class is used to test JournalVoucherDocument.
- * 
- * 
  */
 @ConfigureContext(session = DFOGLE)
 public class JournalVoucherDocumentTest extends KualiTestBase {
@@ -81,8 +79,8 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoCopy()
      */
-    //@RelatesTo(JiraIssue.KULRNE4926)
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
+    // @RelatesTo(JiraIssue.KULRNE4926)
+    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public void testConvertIntoCopy() throws Exception {
         // save the original doc, wait for status change
         AccountingDocument document = buildDocument();
@@ -92,7 +90,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         String preCopyCopiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
 
         int preCopyPECount = document.getGeneralLedgerPendingEntries().size();
-//        int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
+        // int preCopyNoteCount = document.getDocumentHeader().getNotes().size();
 
         ArrayList preCopySourceLines = (ArrayList) ObjectUtils.deepCopy((ArrayList) document.getSourceAccountingLines());
         ArrayList preCopyTargetLines = (ArrayList) ObjectUtils.deepCopy((ArrayList) document.getTargetAccountingLines());
@@ -101,7 +99,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertNull(preCopyCopiedFromId);
 
         assertEquals(1, preCopyPECount);
-//        assertEquals(0, preCopyNoteCount);
+        // assertEquals(0, preCopyNoteCount);
 
         // do the copy
         ((Copyable) document).toCopy();
@@ -113,12 +111,12 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // pending entries should be cleared
         int postCopyPECount = document.getGeneralLedgerPendingEntries().size();
         assertEquals(0, postCopyPECount);
-//      TODO: revisit this is it still needed
+        // TODO: revisit this is it still needed
         // count 1 note, compare to "copied" text
-//        int postCopyNoteCount = document.getDocumentHeader().getNotes().size();
-//        assertEquals(1, postCopyNoteCount);
-//        DocumentNote note = document.getDocumentHeader().getNote(0);
-//        assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
+        // int postCopyNoteCount = document.getDocumentHeader().getNotes().size();
+        // assertEquals(1, postCopyNoteCount);
+        // DocumentNote note = document.getDocumentHeader().getNote(0);
+        // assertTrue(note.getFinancialDocumentNoteText().indexOf("copied from") != -1);
         // copiedFrom should be equal to old id
         String copiedFromId = document.getDocumentHeader().getFinancialDocumentTemplateNumber();
         assertEquals(preCopyId, copiedFromId);
@@ -150,8 +148,8 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.AccountingDocumentTestBase#testConvertIntoErrorCorrection()
      */
-    //@RelatesTo(JiraIssue.KULRNE4926)
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
+    // @RelatesTo(JiraIssue.KULRNE4926)
+    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public void testConvertIntoErrorCorrection() throws Exception {
         AccountingDocument document = buildDocument();
 
@@ -186,7 +184,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         String preCorrectCorrectsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
 
         int preCorrectPECount = document.getGeneralLedgerPendingEntries().size();
-//        int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
+        // int preCorrectNoteCount = document.getDocumentHeader().getNotes().size();
         String preCorrectStatus = document.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus();
 
         ArrayList preCorrectSourceLines = (ArrayList) ObjectUtils.deepCopy(new ArrayList(document.getSourceAccountingLines()));
@@ -195,7 +193,7 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         assertNotNull(preCorrectId);
         assertNull(preCorrectCorrectsId);
 
-//        assertEquals(0, preCorrectNoteCount);
+        // assertEquals(0, preCorrectNoteCount);
         assertEquals("F", preCorrectStatus);
         // do the copy
         ((Correctable) document).toErrorCorrection();
@@ -206,12 +204,12 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         // pending entries should be cleared
         int postCorrectPECount = document.getGeneralLedgerPendingEntries().size();
         assertEquals(0, postCorrectPECount);
-//      TODO: revisit this is it still needed
+        // TODO: revisit this is it still needed
         // count 1 note, compare to "correction" text
-//        int postCorrectNoteCount = document.getDocumentHeader().getNotes().size();
-//        assertEquals(1, postCorrectNoteCount);
-//        DocumentNote note = document.getDocumentHeader().getNote(0);
-//        assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
+        // int postCorrectNoteCount = document.getDocumentHeader().getNotes().size();
+        // assertEquals(1, postCorrectNoteCount);
+        // DocumentNote note = document.getDocumentHeader().getNote(0);
+        // assertTrue(note.getFinancialDocumentNoteText().indexOf("correction") != -1);
         // correctsId should be equal to old id
         String correctsId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
         assertEquals(preCorrectId, correctsId);
@@ -242,8 +240,8 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
      * 
      * @see org.kuali.core.document.DocumentTestBase#testRouteDocument()
      */
-    //@RelatesTo(JiraIssue.KULRNE4926)
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
+    // @RelatesTo(JiraIssue.KULRNE4926)
+    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public void testRouteDocument() throws Exception {
         // save the original doc, wait for status change
         Document document = buildDocument();
@@ -304,8 +302,8 @@ public class JournalVoucherDocumentTest extends KualiTestBase {
         AccountingDocumentTestUtils.testConvertIntoErrorCorrection_invalidYear(buildDocument(), SpringContext.getBean(TransactionalDocumentDictionaryService.class), SpringContext.getBean(AccountingPeriodService.class));
     }
 
-    //@RelatesTo(JiraIssue.KULRNE4926)
-    @ConfigureContext(session = DFOGLE, shouldCommitTransactions=true)
+    // @RelatesTo(JiraIssue.KULRNE4926)
+    @ConfigureContext(session = DFOGLE, shouldCommitTransactions = true)
     public final void testSaveDocument() throws Exception {
         AccountingDocumentTestUtils.testSaveDocument(buildDocument(), SpringContext.getBean(DocumentService.class));
     }

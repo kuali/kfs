@@ -25,29 +25,29 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class Carrier extends PersistableBusinessObjectBase {
 
-	private String carrierCode;
-	private String carrierDescription;
-	private boolean active;
+    private String carrierCode;
+    private String carrierDescription;
+    private boolean active;
 
-	public Carrier() {
+    public Carrier() {
 
-	}
+    }
 
-	public String getCarrierCode() { 
-		return carrierCode;
-	}
+    public String getCarrierCode() {
+        return carrierCode;
+    }
 
-	public void setCarrierCode(String carrierCode) {
-		this.carrierCode = carrierCode;
-	}
+    public void setCarrierCode(String carrierCode) {
+        this.carrierCode = carrierCode;
+    }
 
-	public String getCarrierDescription() { 
-		return carrierDescription;
-	}
+    public String getCarrierDescription() {
+        return carrierDescription;
+    }
 
-	public void setCarrierDescription(String carrierDescription) {
-		this.carrierDescription = carrierDescription;
-	}
+    public void setCarrierDescription(String carrierDescription) {
+        this.carrierDescription = carrierDescription;
+    }
 
     public boolean isActive() {
         return active;
@@ -58,11 +58,11 @@ public class Carrier extends PersistableBusinessObjectBase {
     }
 
     /**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
-	protected LinkedHashMap toStringMapper() {
-	    LinkedHashMap m = new LinkedHashMap();	    
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();
         m.put("carrierCode", this.carrierCode);
-	    return m;
+        return m;
     }
 }

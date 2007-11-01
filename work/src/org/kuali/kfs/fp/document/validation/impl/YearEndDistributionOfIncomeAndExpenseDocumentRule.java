@@ -20,7 +20,6 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
-import org.kuali.module.financial.document.GeneralErrorCorrectionDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
 
 /**
@@ -46,11 +45,12 @@ public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends Distribut
 
     /**
      * Overriding to return parent class DistributionOfIncomeAndExpenseDocument instead
+     * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */
     @Override
     protected Class getAccountingLineDocumentClass(AccountingDocument financialDocument) {
         return DistributionOfIncomeAndExpenseDocument.class;
     }
-    
+
 }

@@ -40,7 +40,7 @@ public class CorrectionChange extends PersistableBusinessObjectBase implements C
 
     }
 
-    public CorrectionChange(String documentNumber,Integer correctionChangeGroupLineNumber,Integer correctionChangeLineNumber) {
+    public CorrectionChange(String documentNumber, Integer correctionChangeGroupLineNumber, Integer correctionChangeLineNumber) {
         super();
         this.documentNumber = documentNumber;
         this.correctionChangeGroupLineNumber = correctionChangeGroupLineNumber;
@@ -93,24 +93,26 @@ public class CorrectionChange extends PersistableBusinessObjectBase implements C
     }
 
     public int compareTo(Object o) {
-        CorrectionChange cc = (CorrectionChange)o;
+        CorrectionChange cc = (CorrectionChange) o;
 
         String thisFdocNbr = documentNumber == null ? "" : documentNumber;
         String thatFdocNbr = cc.documentNumber == null ? "" : cc.documentNumber;
         int c = thisFdocNbr.compareTo(thatFdocNbr);
 
-        if ( c == 0 ) {
+        if (c == 0) {
             Integer thisGn = correctionChangeGroupLineNumber == null ? 0 : correctionChangeGroupLineNumber;
             Integer thatGn = cc.correctionChangeGroupLineNumber == null ? 0 : cc.correctionChangeGroupLineNumber;
             c = thisGn.compareTo(thatGn);
-            if( c == 0 ) {
+            if (c == 0) {
                 Integer thisCln = correctionChangeLineNumber == null ? 0 : correctionChangeLineNumber;
                 Integer thatCln = correctionChangeLineNumber == null ? 0 : cc.correctionChangeLineNumber;
                 return c = thisCln.compareTo(thatCln);
-            } else {
+            }
+            else {
                 return c;
             }
-        } else {
+        }
+        else {
             return c;
         }
     }

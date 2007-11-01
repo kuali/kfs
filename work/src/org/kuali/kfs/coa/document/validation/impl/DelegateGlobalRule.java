@@ -35,7 +35,6 @@ import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
 
 /**
- * 
  * This class executes specific rules for the {@link DelegateGlobalMaintenanceDocument}
  */
 public class DelegateGlobalRule extends GlobalDocumentRuleBase {
@@ -72,14 +71,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This checks some basic rules for document approval
-     * Specifically it calls the following:
+     * This checks some basic rules for document approval Specifically it calls the following:
      * <ul>
      * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
      * <li>{@link DelegateGlobalRule#checkOnlyOneChartErrorWrapper(List)}</li>
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -97,14 +96,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This checks some basic rules for document routing
-     * Specifically it calls the following:
+     * This checks some basic rules for document routing Specifically it calls the following:
      * <ul>
      * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
      * <li>{@link DelegateGlobalRule#checkAccountDetails(List)}</li>
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -122,14 +121,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This checks some basic rules for document saving
-     * Specifically it calls the following:
+     * This checks some basic rules for document saving Specifically it calls the following:
      * <ul>
      * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
      * <li>{@link DelegateGlobalRule#checkOnlyOneChartErrorWrapper(List)}</li>
      * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
      * </ul>
      * fails if any rules fail
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -146,9 +145,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This checks to see if there are any accounts in the details collection if there are then it calls
+     * {@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}
      * 
-     * This checks to see if there are any accounts in the details collection
-     * if there are then it calls {@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}
      * @param details - collection of {@link AccountGlobalDetail}s
      * @return false if there are no objects in the collection or any one of the {@link AccountGlobalDetail} fail
      */
@@ -177,8 +176,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks to make sure that each {@link AccountGlobalDetail} has a valid {@link Account}
+     * 
      * @param dtl - the {@link AccountGlobalDetail}
      * @return false if it does not have a valid {@link Account}
      */
@@ -198,8 +197,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add
-     * Specifically it calls the following:
+     * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add Specifically
+     * it calls the following:
      * <ul>
      * <li>{@link DelegateGlobalRule#checkDelegateUserRules(DelegateGlobalDetail, int, boolean)}</li>
      * <li>{@link DelegateGlobalRule#checkDelegateForNullToAmount(KualiDecimal, KualiDecimal, int, boolean)}</li>
@@ -207,6 +206,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkDelegateFromAmtGreaterThanEqualZero(KualiDecimal, int, boolean)}</li>
      * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
      * </ul>
+     * 
      * @return
      */
     protected boolean checkSimpleRulesAllLines() {
@@ -447,9 +447,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This checks that the primary routing for delegates is correct, specifically that - there is not already a primary route
+     * delegate setup for this {@link Account}
      * 
-     * This checks that the primary routing for delegates is correct, specifically that
-     * - there is not already a primary route delegate setup for this {@link Account}
      * @param delegateGlobals
      * @param delegateGlobalToTest
      * @param lineNum
@@ -480,8 +480,8 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * 
      * This checks that the delegate for this {@link Account} exists and is valid (active and a professional)
+     * 
      * @param delegateGlobal
      * @param lineNum
      * @param add
@@ -537,10 +537,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This checks that when a new line is added (either {@link AccountGlobalDetail} or {@link DelegateGlobalDetail})
-     * that the appropriate rules are run on the new lines being added
-     * on {@link AccountGlobalDetail}:
-     * - make sure that the account number and chart are entered
+     * This checks that when a new line is added (either {@link AccountGlobalDetail} or {@link DelegateGlobalDetail}) that the
+     * appropriate rules are run on the new lines being added on {@link AccountGlobalDetail}: - make sure that the account number
+     * and chart are entered
      * <ul>
      * <li>{@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}</li>
      * </ul>
@@ -552,7 +551,9 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * <li>{@link DelegateGlobalRule#checkDelegateUserRules(DelegateGlobalDetail, int, boolean)}</li>
      * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
      * </ul>
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
+     *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
      */
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;

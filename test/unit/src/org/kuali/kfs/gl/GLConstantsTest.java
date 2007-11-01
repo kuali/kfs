@@ -15,8 +15,8 @@
  */
 package org.kuali.module.gl;
 
-import org.kuali.test.ConfigureContext;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class GLConstantsTest extends KualiTestBase {

@@ -27,8 +27,6 @@ import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Document Authorizer for the Year End Budget Adjustment document.
- * 
- * 
  */
 public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentDocumentAuthorizer {
 
@@ -46,7 +44,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
         if (allowedYears == null || allowedYears.isEmpty()) {
             throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
         }
-        
+
         boolean previousActive = false;
         for (Iterator iter = allowedYears.iterator(); iter.hasNext();) {
             FiscalYearFunctionControl fyControl = (FiscalYearFunctionControl) iter.next();
@@ -54,7 +52,7 @@ public class YearEndBudgetAdjustmentDocumentAuthorizer extends BudgetAdjustmentD
                 previousActive = true;
             }
         }
-        
+
         if (!previousActive) {
             throw new InactiveDocumentTypeAuthorizationException("initiate", "BudgetAdjustmentDocument");
         }

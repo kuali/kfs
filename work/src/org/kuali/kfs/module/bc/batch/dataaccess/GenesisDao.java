@@ -14,79 +14,71 @@
  * limitations under the License.
  */
 package org.kuali.module.budget.dao;
-import java.util.*;
 
-import org.apache.ojb.broker.query.Criteria;
-import org.apache.ojb.broker.query.QueryByCriteria;
-import org.kuali.module.budget.bo.*;
-
-import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
+import java.util.Map;
 
 public interface GenesisDao {
-    
+
     /*
-     * return a map of values for the budget construction control flags
-     * for the fiscal year (flag name, flag value)
+     * return a map of values for the budget construction control flags for the fiscal year (flag name, flag value)
      */
-   public Map<String,String> getBudgetConstructionControlFlags 
-                             (Integer universityFiscalYear);
-   /*
-    *   fetch the fiscal year corresponding to today's date
-    */
-   public Integer fiscalYearFromToday();
-   /*
-    *  check the value of a specific budget construction control flag
-    *  (on = true, off = false)
-    */
-   public boolean getBudgetConstructionControlFlag (Integer universityFiscalYear,
-               String FlagID);
-   
-   // clear locks in headers
-   public void clearHangingBCLocks (Integer currentFiscalYear);
+    public Map<String, String> getBudgetConstructionControlFlags(Integer universityFiscalYear);
 
-   // control flags
-   public void setControlFlagsAtTheStartOfGenesis(Integer currentFiscalYear);
-   public void setControlFlagsAtTheEndOfGenesis(Integer currentFiscalYear);
-   
-   // chart and organization hierarchy
-   public void createChartForNextBudgetCycle();
-   public void rebuildOrganizationHierarchy(Integer currentFiscalYear);
-   
-   // intialization for genesis
-   public void clearDBForGenesis(Integer BaseYear);
-    
-   // pending budget construction general ledger
-   public void ensureObjectClassRIForBudget(Integer BaseYear);
-   public void initialLoadToPBGL(Integer currentFiscalYear);
-   public void updateToPBGL(Integer currentFiscalYear);
-   
-   // document creation
-   // create document with embedded workflow
-   public void createNewBCDocumentsFromGLCSF(Integer BaseYear,
-                                             boolean GLUpdatesAllowed,
-                                             boolean CSFUpdatesAllowed);
-   
-   // budget construction position
-   // (this table depends on an institution's payroll, but it must be consstructed
-   //  before budget construction appointment funding because the latter has a 
-   //  referential integrity constraint on it.  so, we provide a method here that
-   //  each institution can implement in their genesisDao.)
-   public void createNewBCPosition(Integer BaseYear,
-                                   boolean PosSyncAllowed,
-                                   boolean CSFUpdatesAllowed);
+    /*
+     * fetch the fiscal year corresponding to today's date
+     */
+    public Integer fiscalYearFromToday();
 
-   // budget construction CSF and budget construction appointment funding
-   public void buildAppointmentFundingAndBCSF(Integer BaseYear);
-   
-   // this is a junk method in genesis that was used to unit test various SQL
-   public void genesisUnitTest(Integer BaseYear);
-   
-   // this is used to test the document route log
-   public Object returnWkflwDocHeader();
-   // this is a junk method to do some testing for batch
-   public void testObjectID();
-          
-   
+    /*
+     * check the value of a specific budget construction control flag (on = true, off = false)
+     */
+    public boolean getBudgetConstructionControlFlag(Integer universityFiscalYear, String FlagID);
+
+    // clear locks in headers
+    public void clearHangingBCLocks(Integer currentFiscalYear);
+
+    // control flags
+    public void setControlFlagsAtTheStartOfGenesis(Integer currentFiscalYear);
+
+    public void setControlFlagsAtTheEndOfGenesis(Integer currentFiscalYear);
+
+    // chart and organization hierarchy
+    public void createChartForNextBudgetCycle();
+
+    public void rebuildOrganizationHierarchy(Integer currentFiscalYear);
+
+    // intialization for genesis
+    public void clearDBForGenesis(Integer BaseYear);
+
+    // pending budget construction general ledger
+    public void ensureObjectClassRIForBudget(Integer BaseYear);
+
+    public void initialLoadToPBGL(Integer currentFiscalYear);
+
+    public void updateToPBGL(Integer currentFiscalYear);
+
+    // document creation
+    // create document with embedded workflow
+    public void createNewBCDocumentsFromGLCSF(Integer BaseYear, boolean GLUpdatesAllowed, boolean CSFUpdatesAllowed);
+
+    // budget construction position
+    // (this table depends on an institution's payroll, but it must be consstructed
+    // before budget construction appointment funding because the latter has a
+    // referential integrity constraint on it. so, we provide a method here that
+    // each institution can implement in their genesisDao.)
+    public void createNewBCPosition(Integer BaseYear, boolean PosSyncAllowed, boolean CSFUpdatesAllowed);
+
+    // budget construction CSF and budget construction appointment funding
+    public void buildAppointmentFundingAndBCSF(Integer BaseYear);
+
+    // this is a junk method in genesis that was used to unit test various SQL
+    public void genesisUnitTest(Integer BaseYear);
+
+    // this is used to test the document route log
+    public Object returnWkflwDocHeader();
+
+    // this is a junk method to do some testing for batch
+    public void testObjectID();
+
+
 }
-
-

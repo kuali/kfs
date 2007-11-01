@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.RiceConstants;
 import org.kuali.core.web.struts.action.KualiHelpAction;
 import org.kuali.kfs.KFSConstants;
 
@@ -40,5 +39,5 @@ public class DisbursementVoucherHelpAction extends KualiHelpAction {
     public ActionForward showTravelPerDiemLinks(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         return mapping.findForward(KFSConstants.MAPPING_DV_PER_DIEM_LINKS);
     }
-    
+
 }

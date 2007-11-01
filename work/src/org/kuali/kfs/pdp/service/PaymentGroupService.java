@@ -37,7 +37,7 @@ public interface PaymentGroupService {
      * @param disbursementType
      * @return
      */
-    public Iterator getByProcessIdDisbursementType(Integer pid,String disbursementType);
+    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType);
 
     /**
      * Get all payment groups by a disbursement type code and status code
@@ -46,11 +46,11 @@ public interface PaymentGroupService {
      * @param paymentStatusCode
      * @return
      */
-    public Iterator getByDisbursementTypeStatusCode(String disbursementType,String paymentStatusCode);
-    
+    public Iterator getByDisbursementTypeStatusCode(String disbursementType, String paymentStatusCode);
+
     /**
-     * Get all payment groups by Payment Process Id
-     * This method...
+     * Get all payment groups by Payment Process Id This method...
+     * 
      * @param processId
      * @return
      */
@@ -65,8 +65,11 @@ public interface PaymentGroupService {
     public Iterator getByProcess(PaymentProcess p);
 
     public void save(PaymentGroup pg);
+
     public PaymentGroup get(Integer id);
+
     public List getByBatchId(Integer batchId);
+
     public List getByDisbursementNumber(Integer disbursementNbr);
 
     /**
@@ -83,5 +86,5 @@ public interface PaymentGroupService {
      * @param group
      * @param processDate
      */
-    public void processCancelledGroup(PaymentGroup group,Date processDate);
+    public void processCancelledGroup(PaymentGroup group, Date processDate);
 }

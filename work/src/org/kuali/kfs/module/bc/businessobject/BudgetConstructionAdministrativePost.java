@@ -25,84 +25,78 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class BudgetConstructionAdministrativePost extends PersistableBusinessObjectBase {
 
-	private String emplid;
-	private String positionNumber;
-	private String administrativePost;
-  
-	/**
-	 * Default constructor.
-	 */
-	public BudgetConstructionAdministrativePost() {
+    private String emplid;
+    private String positionNumber;
+    private String administrativePost;
 
-	}
+    /**
+     * Default constructor.
+     */
+    public BudgetConstructionAdministrativePost() {
 
-	/**
-	 * Gets the emplid attribute.
-	 * 
-	 * @return Returns the emplid
-	 * 
-	 */
-	public String getEmplid() { 
-		return emplid;
-	}
+    }
 
-	/**
-	 * Sets the emplid attribute.
-	 * 
-	 * @param emplid The emplid to set.
-	 * 
-	 */
-	public void setEmplid(String emplid) {
-		this.emplid = emplid;
-	}
+    /**
+     * Gets the emplid attribute.
+     * 
+     * @return Returns the emplid
+     */
+    public String getEmplid() {
+        return emplid;
+    }
+
+    /**
+     * Sets the emplid attribute.
+     * 
+     * @param emplid The emplid to set.
+     */
+    public void setEmplid(String emplid) {
+        this.emplid = emplid;
+    }
 
 
-	/**
-	 * Gets the positionNumber attribute.
-	 * 
-	 * @return Returns the positionNumber
-	 * 
-	 */
-	public String getPositionNumber() { 
-		return positionNumber;
-	}
+    /**
+     * Gets the positionNumber attribute.
+     * 
+     * @return Returns the positionNumber
+     */
+    public String getPositionNumber() {
+        return positionNumber;
+    }
 
-	/**
-	 * Sets the positionNumber attribute.
-	 * 
-	 * @param positionNumber The positionNumber to set.
-	 * 
-	 */
-	public void setPositionNumber(String positionNumber) {
-		this.positionNumber = positionNumber;
-	}
+    /**
+     * Sets the positionNumber attribute.
+     * 
+     * @param positionNumber The positionNumber to set.
+     */
+    public void setPositionNumber(String positionNumber) {
+        this.positionNumber = positionNumber;
+    }
 
 
-	/**
-	 * Gets the administrativePost attribute.
-	 * 
-	 * @return Returns the administrativePost
-	 * 
-	 */
-	public String getAdministrativePost() { 
-		return administrativePost;
-	}
+    /**
+     * Gets the administrativePost attribute.
+     * 
+     * @return Returns the administrativePost
+     */
+    public String getAdministrativePost() {
+        return administrativePost;
+    }
 
-	/**
-	 * Sets the administrativePost attribute.
-	 * 
-	 * @param administrativePost The administrativePost to set.
-	 * 
-	 */
-	public void setAdministrativePost(String administrativePost) {
-		this.administrativePost = administrativePost;
-	}
+    /**
+     * Sets the administrativePost attribute.
+     * 
+     * @param administrativePost The administrativePost to set.
+     */
+    public void setAdministrativePost(String administrativePost) {
+        this.administrativePost = administrativePost;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
+        LinkedHashMap m = new LinkedHashMap();
         m.put("emplid", this.emplid);
         m.put("positionNumber", this.positionNumber);
         return m;

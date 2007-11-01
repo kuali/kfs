@@ -101,17 +101,14 @@
                   <html:hidden property="newRoutingFormProjectDirector.chartOfAccountsCode"/>
                   <html:hidden property="newRoutingFormProjectDirector.organizationCode"/>
 
-                <div id="newRoutingFormProjectDirector.user.primaryDepartmentCode.div" >
+                <div id="newRoutingFormProjectDirector.user.primaryDepartmentCode.div" style="float: left; text-align: left;">
              
-                  <c:choose>
-                    <c:when test="${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode ne null and KualiForm.newRoutingFormProjectDirector.organizationCode ne null}">
+                    <c:if test="${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode ne null and KualiForm.newRoutingFormProjectDirector.organizationCode ne null}">
                       ${KualiForm.newRoutingFormProjectDirector.chartOfAccountsCode} / ${KualiForm.newRoutingFormProjectDirector.organizationCode}
-                    </c:when>
-                    <c:otherwise>&nbsp;</c:otherwise>
-                  </c:choose>
+                    </c:if>
                </div>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
+                    &nbsp;<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormProjectDirector.chartOfAccountsCode,organizationCode:newRoutingFormProjectDirector.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><div align="center">
@@ -206,20 +203,17 @@
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
-                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" >
+                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" style="float: left; text-align: left;">
                   
-                    <c:choose>
-                      <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
+                      <c:if test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
-                      </c:when>
-                      <c:otherwise>&nbsp;</c:otherwise>
-                    </c:choose>
+                      </c:if>
                     </div>
                     <c:if test="${!viewOnly}">
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                          &nbsp;<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>
@@ -304,16 +298,13 @@
                 <td class="infoline">
                   <html:hidden property="newRoutingFormOtherPerson.chartOfAccountsCode"/>
                   <html:hidden property="newRoutingFormOtherPerson.organizationCode"/>
-                 <div id="newRoutingFormOtherPerson.user.primaryDepartmentCode.div" >
-                  <c:choose>
-                    <c:when test="${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormOtherPerson.organizationCode ne null}">
+                 <div id="newRoutingFormOtherPerson.user.primaryDepartmentCode.div" style="float: left; text-align: left;">
+                    <c:if test="${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode ne null and KualiForm.newRoutingFormOtherPerson.organizationCode ne null}">
                       ${KualiForm.newRoutingFormOtherPerson.chartOfAccountsCode} / ${KualiForm.newRoutingFormOtherPerson.organizationCode}
-                    </c:when>
-                    <c:otherwise>&nbsp;</c:otherwise>
-                  </c:choose>
+                    </c:if>
                  </div>
                   <c:if test="${!viewOnly}">
-                    <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOtherPerson.chartOfAccountsCode,organizationCode:newRoutingFormOtherPerson.organizationCode" anchor="${currentTabIndex}" />
+                    &nbsp;<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:newRoutingFormOtherPerson.chartOfAccountsCode,organizationCode:newRoutingFormOtherPerson.organizationCode" anchor="${currentTabIndex}" />
                   </c:if>
                 </td>
                 <td class="infoline"><div align="center">
@@ -408,19 +399,16 @@
                   </td>
                   <td><kul:htmlControlAttribute property="document.routingFormPersonnel[${status.index}].personRoleText" attributeEntry="${routingFormPersonnel.personRoleText}" readOnly="${viewOnly or (budgetLinked and isProjectDirector)}"/></td>
                   <td>
-                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" >
-                    <c:choose>
-                      <c:when test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
+                   <div id="document.routingFormPersonnel[${status.index}].user.primaryDepartmentCode.div" style="float: left; text-align: left;">
+                      <c:if test="${person.chartOfAccountsCode ne null and person.organizationCode ne null}">
                         ${person.chartOfAccountsCode} / ${person.organizationCode}
-                      </c:when>
-                      <c:otherwise>&nbsp;</c:otherwise>
-                    </c:choose>
+                      </c:if>
                    </div>
                     <c:if test="${!viewOnly}">
                       <c:choose>
                         <c:when test="${budgetLinked and isProjectDirector }" />
                         <c:otherwise>
-                          <kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
+                          &nbsp;<kul:lookup boClassName="org.kuali.module.chart.bo.Org" fieldConversions="chartOfAccounts.chartOfAccountsCode:document.routingFormPersonnel[${status.index}].chartOfAccountsCode,organizationCode:document.routingFormPersonnel[${status.index}].organizationCode" anchor="${currentTabIndex}" />
                         </c:otherwise>
                       </c:choose>
                     </c:if>

@@ -1,4 +1,3 @@
-
 <%--
  Copyright 2005-2007 The Kuali Foundation.
  

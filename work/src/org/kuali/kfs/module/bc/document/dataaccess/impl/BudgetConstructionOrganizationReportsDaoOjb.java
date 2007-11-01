@@ -84,12 +84,14 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         Criteria childExistsCriteria = new Criteria();
         childExistsCriteria.addEqualTo("reportsToChartOfAccountsCode", chartOfAccountsCode);
         childExistsCriteria.addEqualTo("reportsToOrganizationCode", organizationCode);
+        childExistsCriteria.addEqualTo("organization.organizationActiveIndicator", Boolean.TRUE);
 
         QueryByCriteria childExistsQuery = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, childExistsCriteria);
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
+        
         criteria.addExists(childExistsQuery);
 
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE };

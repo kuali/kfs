@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.ChartUser;
 
 /**
  * 
- * This class holds utilities to assist with the 
+ * This class holds utilities to assist with finding current chart and universal users
  */
 public class ValueFinderUtil {
     
@@ -34,6 +34,7 @@ public class ValueFinderUtil {
      * 
      * This method returns the currently logged in Chart User.
      * @return the currently logged in Chart User
+     * @see ChartUser
      */
     public static ChartUser getCurrentChartUser() {
         UniversalUser currentUser = ValueFinderUtil.getCurrentUniversalUser();
@@ -49,6 +50,7 @@ public class ValueFinderUtil {
      * 
      * This method returns the currently logged in Universal User.
      * @return the currently logged in Universal User
+     * @see UniversalUser
      */
     private static UniversalUser getCurrentUniversalUser() {
         if (GlobalVariables.getUserSession() != null) {

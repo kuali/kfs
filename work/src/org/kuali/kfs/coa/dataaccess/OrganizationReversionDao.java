@@ -22,24 +22,24 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
 
 /**
- * This class...
+ * This interface provides data access methods for {@link OrganizationReversion} and {@link OrganizationReversionCategory}
  * 
  * 
  */
 public interface OrganizationReversionDao {
 
     /**
+     * 
+     * Retrieves an OrganizationReversion by primary key.
      * @param universityFiscalYear - part of composite key
      * @param financialChartOfAccountsCode - part of composite key
      * @param organizationCode - part of composite key
-     * @return OrganizationReversion
-     * 
-     * Retrieves an OrganizationReversion by primary key.
+     * @return {@link OrganizationReversion} based on primary key
      */
     public OrganizationReversion getByPrimaryId(Integer universityFiscalYear, String financialChartOfAccountsCode, String organizationCode);
 
     /**
-     * Get all the categories
+     * Get all the categories {@link OrganizationReversionCategory}
      * 
      * @return list of categories
      */

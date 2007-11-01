@@ -15,10 +15,21 @@
  */
 package org.kuali.module.chart.dao;
 
+/**
+ * 
+ * This class...
+ */
 public interface FiscalYearMakersFieldChangeAction<T> {
 
-    public void customFieldChangeMethod(Integer BaseYear,
-                                        Integer RequestYear,
-                                        T BusinessObject);
+    /**
+     * 
+     * This method...
+     * @param baseYear
+     * @param requestYear
+     * @param businessObject
+     */
+    public void customFieldChangeMethod(Integer baseYear,
+                                        Integer requestYear,
+                                        T businessObject);
     
 }

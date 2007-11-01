@@ -30,6 +30,10 @@ import org.springframework.transaction.annotation.Transactional;
 // if UniversityDate moves, its new location must be imported here
 import org.kuali.module.gl.bo.*;
 
+/**
+ * 
+ * This class implements the DataMakerService
+ */
 @Transactional
 public class DateMakerServiceImpl implements DateMakerService
 {
@@ -44,12 +48,15 @@ public class DateMakerServiceImpl implements DateMakerService
        fiscalYearMakers(BaseYear, replaceMode);
    }
 
-   // use this when you want to start with a specified base year (which does not
-   // necessarily correspond to the current fiscal year).  this could be used
-   // to implement a "budget year", for example
-   //             = false only adds what isn't there, leaving anything existing for
-   //               the target year undisturbed
    
+   /**
+    * use this when you want to start with a specified base year (which does not
+    * necessarily correspond to the current fiscal year).  this could be used
+    * to implement a "budget year", for example
+    *   = false only adds what isn't there, leaving anything existing for
+    *   the target year undisturbed
+    * @see org.kuali.module.chart.service.DateMakerService#fiscalYearMakers(java.lang.Integer, boolean)
+    */
    public void fiscalYearMakers(Integer baseYear, boolean replaceMode)
    {
        Integer requestYear = baseYear+1;

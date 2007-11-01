@@ -26,6 +26,10 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
 
+/**
+ * 
+ * This class executes specific pre-rules for the {@link DelegateGlobalMaintenanceDocument}
+ */
 public class DelegateGlobalPreRules implements PreRulesCheck {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegatePreRules.class);
@@ -35,6 +39,7 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
     }
 
     /**
+     * This sets some defaults on the {@link DelegateGlobal} object
      * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
      */
@@ -52,12 +57,23 @@ public class DelegateGlobalPreRules implements PreRulesCheck {
         return true;
     }
 
+    /**
+     * 
+     * This method checks to see if a string is empty or not
+     * @param s
+     * @return
+     */
     private boolean empty(String s) {
         if (s == null)
             return true;
         return s.length() == 0;
     }
 
+    /**
+     * 
+     * This method sets the approval from and to amount to "0"
+     * @param newDelegateGlobal
+     */
     private void setUnconditionalDefaults(DelegateGlobal newDelegateGlobal) {
 
         for (DelegateGlobalDetail newDelegateGlobalDetail : newDelegateGlobal.getDelegateGlobals()) {

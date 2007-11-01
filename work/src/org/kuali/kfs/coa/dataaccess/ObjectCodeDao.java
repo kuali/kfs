@@ -28,16 +28,23 @@ import org.kuali.module.chart.bo.ObjectCode;
 public interface ObjectCodeDao {
 
     /**
+     * 
+     * Retrieves an ObjectCode object by primary key.
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param financialObjectCode - part of composite key
      * @return ObjectCode
-     * 
-     * Retrieves an ObjectCode object by primary key.
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode);
 
 
+    /**
+     * 
+     * This method retrieves a list of years based on the chart of accounts code and object code passed in
+     * @param chartOfAccountsCode
+     * @param financialObjectCode
+     * @return list of years that match the chart and object code passed in
+     */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
 
 }

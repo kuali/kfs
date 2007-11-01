@@ -31,6 +31,7 @@ public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
     /**
      * This method purges all records in the Prior Year Account table in the DB.
      * @return Number of records that were purged.
+     * 
      */
     public int purgePriorYearAccounts() {
         String priorYrAcctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearAccount.class).getFullTableName();

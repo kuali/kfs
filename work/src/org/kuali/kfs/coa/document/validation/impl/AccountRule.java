@@ -110,6 +110,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method calls the route rules
+     * but does not fail if any of them fail (this only happens on routing)
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -122,6 +124,20 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * This method calls the following rules:
+     * checkAccountGuidelinesValidation
+     * checkEmptyValues
+     * checkGeneralRules
+     * checkCloseAccount
+     * checkContractsAndGrants
+     * checkExpirationDate
+     * checkFundGroup
+     * checkSubFundGroup
+     * checkFiscalOfficerIsValidKualiUser
+     * this rule will fail on routing
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");
@@ -147,9 +163,16 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks the basic rules for empty values in an account and associated objects with this account
-     * 
+     * If guidelines are required for this Business Object it checks to make sure that it is filled out
+     * It also checks for partially filled out reference keys on the following:
+     * continuationAccount
+     * incomeStreamAccount
+     * endowmentIncomeAccount
+     * reportsToAccount
+     * contractControlAccount
+     * indirectCostRecoveryAcct
      * @param maintenanceDocument
-     * @return
+     * @return false if any of these are empty 
      */
     protected boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) {
 
@@ -168,7 +191,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             success &= checkEmptyBOField("accountGuideline.accountPurposeText", newAccount.getAccountGuideline().getAccountPurposeText(), "Account Purpose");
         }
 
-        // this set confirms that all fields which are grouped (ie, foreign keys of a referenc
+        // this set confirms that all fields which are grouped (ie, foreign keys of a reference
         // object), must either be none filled out, or all filled out.
         success &= checkForPartiallyFilledOutReferenceForeignKeys("continuationAccount");
         success &= checkForPartiallyFilledOutReferenceForeignKeys("incomeStreamAccount");
@@ -180,6 +203,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method validates that the account guidelines object is valid
+     * @param accountGuideline
+     * @return true if account guideline is valid
+     */
     protected boolean checkAccountGuidelinesValidation(AccountGuideline accountGuideline) {
         ErrorMap map = GlobalVariables.getErrorMap();
         int errorCount = map.getErrorCount();
@@ -260,7 +289,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * Restricted Status Date, which is required when the code is T.
      * 
      * @param account
-     * @return
+     * @return true if the account is temporarily restricted but the status date is empty
      */
     protected boolean hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate(Account account) {
 
@@ -280,7 +309,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * Checks whether the account restricted status code is the default from the sub fund group.
      * 
      * @param account
-     * @return
+     * @return true if the restricted status code is the same as the sub fund group's
      */
     protected boolean hasDefaultRestrictedStatusCode(Account account) {
         boolean result = false;
@@ -294,7 +323,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks some of the general business rules associated with this document
-     * 
+     * Calls the following rules:
+     * accountNumberStartsWithAllowedPrefix
+     * isNonSystemSupervisorEditingAClosedAccount
+     * hasTemporaryRestrictedStatusCodeButNoRestrictedStatusDate
+     * checkFringeBenefitAccountRule
+     * checkUserStatusAndType (on fiscal officer, supervisor and manager)
+     * ensures that the fiscal officer, supervisor and manager are not the same
+     * isContinuationAccountExpired
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -360,7 +396,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * This method tests whether the continuation account entered (if any) has expired or not.
      * 
      * @param newAccount
-     * @return
+     * @return true if continuation account has expired
      */
     protected boolean isContinuationAccountExpired(Account newAccount) {
 
@@ -394,9 +430,14 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
 
-    // the fringe benefit account (otherwise known as the reportsToAccount) is required if
-    // the fringe benefit code is set to N.
-    // The fringe benefit code of the account designated to accept the fringes must be Y.
+    /**
+     * 
+     *  the fringe benefit account (otherwise known as the reportsToAccount) is required if
+     *  the fringe benefit code is set to N.
+     *  The fringe benefit code of the account designated to accept the fringes must be Y.
+     * @param newAccount
+     * @return
+     */
     protected boolean checkFringeBenefitAccountRule(Account newAccount) {
 
         boolean result = true;
@@ -449,15 +490,36 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         return result;
     }
-
+    
+    /**
+     * 
+     * This method is a helper method for checking if the supervisor user is the same as the fiscal officer
+     * Calls {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * @param accountGlobals
+     * @return true if the two users are the same
+     */
     protected boolean isSupervisorSameAsFiscalOfficer(Account account) {
         return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountFiscalOfficerUser());
     }
 
+    /**
+     * 
+     * This method is a helper method for checking if the supervisor user is the same as the manager
+     * Calls {@link AccountRule#areTwoUsersTheSame(UniversalUser, UniversalUser)}
+     * @param accountGlobals
+     * @return true if the two users are the same
+     */
     protected boolean isSupervisorSameAsManager(Account account) {
         return areTwoUsersTheSame(account.getAccountSupervisoryUser(), account.getAccountManagerUser());
     }
 
+    /**
+     * 
+     * This method checks to see if two users are the same BusinessObject using their identifiers
+     * @param user1
+     * @param user2
+     * @return true if these two users are the same 
+     */
     protected boolean areTwoUsersTheSame(UniversalUser user1, UniversalUser user2) {
         if (ObjectUtils.isNull(user1)) {
             return false;
@@ -477,7 +539,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * This method checks to see if the user passed in is of the type requested. If so, it returns true. If not, it returns false,
      * and adds an error to the GlobalErrors.
      * 
-     * @param propertyName -
+     * @param propertyName - property to attach error to
      * @param user - UniversalUser to be tested
      * @return true if user is of the requested employee type, false if not, true if the user object is null
      */
@@ -485,7 +547,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         boolean success = true;
 
-        // if the user isnt populated, exit with success
+        // if the user isn't populated, exit with success
         // the actual existence check is performed in the general rules so not testing here
         if (ObjectUtils.isNull(user)) {
             return success;
@@ -508,6 +570,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks to see if the user is trying to close the account and if so if any rules are being violated
+     * Calls the additional rule
+     * checkAccountExpirationDateValidTodayOrEarlier
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -572,6 +636,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method checsk to see if the account expiration date is today's date or earlier
+     * @param newAccount
+     * @return fails if the expiration date is null or after today's date
+     */
     protected boolean checkAccountExpirationDateValidTodayOrEarlier(Account newAccount) {
 
         // get today's date, with no time component
@@ -598,6 +668,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks to see if any Contracts and Grants business rules were violated
+     * Calls the following sub-rules:
+     * checkCgRequiredFields
+     * checkCgIncomeStreamRequired
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -618,6 +691,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method checks to see if the income stream account is required
+     * @param newAccount
+     * @return fails if it is required and not entered, or not valid
+     */
     protected boolean checkCgIncomeStreamRequired(Account newAccount) {
 
         boolean result = true;
@@ -668,7 +747,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             incomeStreamAccountIsValid = false;
         }
 
-        // if both fields arent present, then we're done
+        // if both fields aren't present, then we're done
         if (incomeStreamAccountIsValid) {
             // KULCG-310
             // If the object ID is null then the new account has not yet been saved. It would therefore fail this check even though
@@ -698,6 +777,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
 
+    /**
+     * 
+     * This method checks to make sure that if the contracts and grants fields are required they are entered
+     * correctly
+     * @param newAccount
+     * @return
+     */
     protected boolean checkCgRequiredFields(Account newAccount) {
 
         boolean result = true;
@@ -733,6 +819,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
 
+    /**
+     * 
+     * This method is a helper method that replaces error tokens with values for contracts and grants labels
+     * @param errorConstant
+     * @return error string that has had tokens "{0}" and "{1}" replaced
+     */
     private String replaceTokens(String errorConstant) {
         String cngLabel = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingAttributeLabel();
         String cngValue = SpringContext.getBean(SubFundGroupService.class).getContractsAndGrantsDenotingValue();
@@ -742,6 +834,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return result;
     }
 
+    /**
+     * 
+     * This method checks to make sure that if the contract control account exists it is the same as the 
+     * Account that we are working on
+     * @param newAccount
+     * @return false if the contract control account is entered and is not the same as the account we are maintaining
+     */
     protected boolean checkContractControlAccountNumberRequired(Account newAccount) {
 
         boolean result = true;
@@ -829,6 +928,13 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method checks to see if the new expiration date is different from the old
+     * expiration and if it has if it is invalid
+     * @param maintDoc
+     * @return true if expiration date has changed and is invalid
+     */
     protected boolean isUpdatedExpirationDateInvalid(MaintenanceDocument maintDoc) {
 
         // if this isnt an Edit document, we're not interested
@@ -877,6 +983,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks to see if any Fund Group rules were violated
+     * Specifically:
+     * if we are dealing with a "GF" (General Fund) we cannot have an account with a
+     * budget recording level of "M" (Mixed)
      * 
      * @param maintenanceDocument
      * @return false on rules violation
@@ -919,7 +1028,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      * This method insures the fiscal officer is a valid Kuali User
      * 
      * @param fiscalOfficerUserId
-     * @return
+     * @return true if they are a valid Kuali user
      */
     protected boolean checkFiscalOfficerIsValidKualiUser(String fiscalOfficerUserId) {
         boolean result = true;
@@ -939,7 +1048,9 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method checks to see if any SubFund Group rules were violated
-     * 
+     * Specifically:
+     * if SubFundGroup is empty or not "PFCMR" we cannot have a campus code or building code
+     * if SubFundGroup is "PFCMR" then campus code and building code "must" be entered and be valid codes
      * @param maintenanceDocument
      * @return false on rules violation
      */
@@ -1051,14 +1162,47 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method checks to see if the contracts and grants fields are filled in or not
+     * @param account
+     * @param propertyName - property to attach error to
+     * @return false if the contracts and grants fields are blank
+     */
+    protected boolean checkCGFieldNotFilledIn(Account account, String propertyName) {
+        boolean success = true;
+        Object value = ObjectUtils.getPropertyValue(account, propertyName);
+        if ((value instanceof String && !StringUtils.isBlank(value.toString())) || (value != null)) {
+            success = false;
+            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, new String[] { account.getSubFundGroupCode() });
+        }
+
+        return success;
+    }
+
+    /**
+     * 
+     * This method sets the generalLedgerPendingEntryService
+     * @param generalLedgerPendingEntryService
+     */
     public void setGeneralLedgerPendingEntryService(GeneralLedgerPendingEntryService generalLedgerPendingEntryService) {
         this.generalLedgerPendingEntryService = generalLedgerPendingEntryService;
     }
 
+    /**
+     * 
+     * This method sets the laborLedgerPendingEntryService
+     * @param laborLedgerPendingEntryService
+     */
     public void setLaborLedgerPendingEntryService(LaborLedgerPendingEntryService laborLedgerPendingEntryService) {
         this.laborLedgerPendingEntryService = laborLedgerPendingEntryService;
     }
 
+    /**
+     * 
+     * This method sets the balanceService
+     * @param balanceService
+     */
     public void setBalanceService(BalanceService balanceService) {
         this.balanceService = balanceService;
     }
@@ -1070,17 +1214,6 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
      */
     public final void setAccountService(AccountService accountService) {
         this.accountService = accountService;
-    }
-
-    protected boolean checkCGFieldNotFilledIn(Account account, String propertyName) {
-        boolean success = true;
-        Object value = ObjectUtils.getPropertyValue(account, propertyName);
-        if ((value instanceof String && !StringUtils.isBlank(value.toString())) || (value != null)) {
-            success = false;
-            putFieldError(propertyName, KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_CG_FIELDS_FILLED_FOR_NON_CG_ACCOUNT, new String[] { account.getSubFundGroupCode() });
-        }
-
-        return success;
     }
 
 }

@@ -26,14 +26,14 @@ import org.kuali.module.chart.bo.SubObjCd;
 public interface SubObjectCodeDao {
 
     /**
+     * 
+     * Retrieves a SubObjectCode by primary key.
      * @param universityFiscalYear - part of composite key
      * @param chartOfAccountsCode - part of composite key
      * @param accountNumber - part of composite key
      * @param financialObjectCode - part of composite key
      * @param financialSubObjectCode - part of composite key
-     * @return SubObjectCode
-     * 
-     * Retrieves a SubObjectCode by primary key.
+     * @return a {@link SubObjectCode} based on primary keys
      */
     public SubObjCd getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectCode, String financialSubObjectCode);
 }

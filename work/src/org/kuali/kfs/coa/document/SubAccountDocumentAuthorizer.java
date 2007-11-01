@@ -46,7 +46,7 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
      * 
      * @param document
      * @param user
-     * @return
+     * @return a new set of {@link MaintenanceDocumentAuthorizations} with certain fields marked read-only if necessary
      */
     @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
@@ -89,6 +89,8 @@ public class SubAccountDocumentAuthorizer extends MaintenanceDocumentAuthorizerB
     }
 
     /**
+     * Adds in a can blanket approve flag for Sub Accounts if the workflow document state is 
+     * not canceled 
      * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase#getDocumentActionFlags(org.kuali.core.document.Document,
      *      org.kuali.core.bo.user.UniversalUser)
      */

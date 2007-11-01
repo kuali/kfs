@@ -19,11 +19,19 @@ import java.util.Comparator;
 
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 
+/**
+ * 
+ * This class allows us to compare two {@link BudgetAggregationCode} objects using their codes for comparison
+ */
 public class BudgetAggregationCodeComparator implements Comparator {
 
     public BudgetAggregationCodeComparator() {
     }
 
+    /**
+     * compares two {@link BudgetAggregationCode}
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
     public int compare(Object o1, Object o2) {
 
         BudgetAggregationCode obj1 = (BudgetAggregationCode) o1;

@@ -27,7 +27,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
- * Business rule(s) applicable to AccountMaintenance documents.
+ * Business rule(s) applicable to AccountingPeriodMaintence documents.
  * 
  * 
  */
@@ -73,7 +73,9 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * 
+     * This method checks the following rules:
+     * calls processCustomRouteDocumentBusinessRules
+     * but does not fail if any of them fail (this only happens on routing)
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -86,6 +88,11 @@ public class AccountingPeriodRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * This method checks to see if the fiscal year for any of {@link Options} is the same as the 
+     * {@link AccountingPeriod}'s fiscal year
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("processCustomRouteDocumentBusinessRules called");

@@ -32,11 +32,18 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 import org.kuali.module.chart.bo.ObjectCodeGlobal;
 
+/**
+ * 
+ * This class provides some specific functionality for the {@link ObjectCodeGlobal} maintenance document
+ * refresh - sets the current fiscal year from the {@link ObjectCodeGlobalDetail}
+ * prepareGlobalsForSave - sets the object code on each detail object in the collection
+ * generateMaintenanceLocks - generates the appropriate maintenance locks for the {@link ObjectCode}
+ */
 public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     private static String CHANGE_DETAIL_COLLECTION = "objectCodeGlobalDetails";
     
     /**
-     * 
+     * This method sets the current fiscal year from the {@link ObjectCodeGlobalDetail} on the {@link ObjectCodeGlobal}
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#refresh(java.lang.String, java.util.Map, org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -79,7 +86,7 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
 //    } 
     
     /**
-     * This method does special-case handling for Globals, filling out various fields that need to be filled, etc.
+     * This method sets the object code on each detail object in the collection
      */
     @Override
     protected void prepareGlobalsForSave() {
@@ -93,7 +100,7 @@ public class ObjectCodeGlobalMaintainableImpl extends KualiGlobalMaintainableImp
     }
 
     /**
-     * This creates the particular locking representation for this global document.
+     * This generates the appropriate maintenance locks for the {@link ObjectCode}
      * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override

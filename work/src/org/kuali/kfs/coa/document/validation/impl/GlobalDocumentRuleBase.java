@@ -25,8 +25,6 @@ import java.util.List;
 
 /**
  * This class contains common Business Rule functionality for Global Documents.
- * 
- * 
  */
 public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
@@ -114,7 +112,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountGlobalRule.java.
+         * Constructs a CheckOnlyOneChartResult
          */
         public CheckOnlyOneChartResult() {
             firstLineNumber = -1;
@@ -124,8 +122,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountGlobalRule.java.
-         * 
+         * Constructs a CheckOnlyOneChartResult
          * @param success
          */
         public CheckOnlyOneChartResult(boolean success) {
@@ -135,7 +132,7 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
 
         /**
          * 
-         * Constructs a AccountGlobalRule.java.
+         * Constructs a CheckOnlyOneChartResult
          * 
          * @param success
          * @param firstLineNumber
@@ -163,8 +160,8 @@ public class GlobalDocumentRuleBase extends MaintenanceDocumentRuleBase {
         boolean success = checkOnlyOneChartAddLine(newAccountLine, accountGlobalDetails);
         if (!success) {
             //putGlobalError(KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY_ADDNEW);
-            // TODO: KULCOA-1091 Need to add this error to the add line, but this doesnt work right, as the
-            // error message comes out at the bottom, and the field doesnt get highlighted.
+            // TODO: KULCOA-1091 Need to add this error to the add line, but this doesn't work right, as the
+            // error message comes out at the bottom, and the field doesn't get highlighted.
             // putFieldError("newAccountGlobalDetail.chartOfAccountsCode",
             // KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_ONE_CHART_ONLY);
             

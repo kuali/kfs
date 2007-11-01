@@ -26,23 +26,23 @@ import org.kuali.module.chart.bo.ProjectCode;
 public interface ProjectCodeDao {
 
     /**
-     * @param projectCode - primary key
-     * @return ProjectCode
      * 
      * Retrieves a ProjectCode object by primary key.
+     * @param projectCode - primary key
+     * @return {@link ProjectCode} by primary key
      */
     public ProjectCode getByPrimaryId(String projectCode);
 
     /**
-     * @param name
-     * @return ProjectCode
      * 
      * Retrieves a ProjectCode object by primary name.
+     * @param name
+     * @return {@link ProjectCode} by name
      */
     public ProjectCode getByName(String name);
 
     /**
-     * 
+     * This method saves a given {@link ProjectCode}
      * @param projectCode - a populated ProjectCode object to be saved
      */
     public void save(ProjectCode projectCode);

@@ -18,9 +18,18 @@ package org.kuali.module.chart.dao;
 import java.util.Collection;
 
 /**
- * 
+ * This interface defines the data access methods for {@link IcrAutomatedEntry}
  * 
  */
 public interface IcrAutomatedEntryDao {
+    
+    /**
+     * 
+     * This method looks up all @{link IcrAutomatedEntry} by the fiscal year, series ID, and balance type code
+     * @param universityFiscalYear
+     * @param financialSeriesId
+     * @param balanceTypeCode
+     * @return collection of @{link IcrAutomatedEntry}s that match these criteria
+     */
     public Collection getEntriesBySeries(Integer universityFiscalYear, String financialSeriesId, String balanceTypeCode);
 }

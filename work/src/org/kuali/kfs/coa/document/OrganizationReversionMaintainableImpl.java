@@ -30,13 +30,19 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 import org.kuali.module.chart.service.OrganizationReversionService;
 
+/**
+ * 
+ * This class provides some specific functionality for the {@link OrganizationReversion} maintenance document
+ * inner class for doing comparisons on {@link OrganizationReversionCategory}
+ * populateBusinessObject
+ * setBusinessObject - pre-populate the static list of details with each category
+ * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
+ */
 public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl {
 
     /**
      * 
      * This comparator is used internally for sorting the list of categories
-     * 
-     * 
      */
     private class categoryComparator implements Comparator<OrganizationReversionDetail> {
 
@@ -53,6 +59,10 @@ public class OrganizationReversionMaintainableImpl extends KualiMaintainableImpl
 
     }
 
+    /**
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#populateBusinessObject(java.util.Map)
+     */
     public Map populateBusinessObject(Map fieldValues) {
         Map result = super.populateBusinessObject(fieldValues);
         return result;

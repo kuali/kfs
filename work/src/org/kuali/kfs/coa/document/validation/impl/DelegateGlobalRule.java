@@ -34,6 +34,10 @@ import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
 
+/**
+ * 
+ * This class executes specific rules for the {@link DelegateGlobalMaintenanceDocument}
+ */
 public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DelegateGlobalRule.class);
@@ -68,6 +72,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This checks some basic rules for document approval
+     * Specifically it calls the following:
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
+     * <li>{@link DelegateGlobalRule#checkOnlyOneChartErrorWrapper(List)}</li>
+     * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
+     * </ul>
+     * fails if any rules fail
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -85,6 +97,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This checks some basic rules for document routing
+     * Specifically it calls the following:
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
+     * <li>{@link DelegateGlobalRule#checkAccountDetails(List)}</li>
+     * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
+     * </ul>
+     * fails if any rules fail
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -102,6 +122,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This checks some basic rules for document saving
+     * Specifically it calls the following:
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkSimpleRulesAllLines()}</li>
+     * <li>{@link DelegateGlobalRule#checkOnlyOneChartErrorWrapper(List)}</li>
+     * <li>{@link DelegateGlobalRule#checkForPrimaryDelegateAllLines()}</li>
+     * </ul>
+     * fails if any rules fail
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -117,6 +145,13 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This checks to see if there are any accounts in the details collection
+     * if there are then it calls {@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}
+     * @param details - collection of {@link AccountGlobalDetail}s
+     * @return false if there are no objects in the collection or any one of the {@link AccountGlobalDetail} fail
+     */
     public boolean checkAccountDetails(List<AccountGlobalDetail> details) {
         boolean success = true;
 
@@ -141,6 +176,12 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to make sure that each {@link AccountGlobalDetail} has a valid {@link Account}
+     * @param dtl - the {@link AccountGlobalDetail}
+     * @return false if it does not have a valid {@link Account}
+     */
     public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -158,7 +199,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add
-     * 
+     * Specifically it calls the following:
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkDelegateUserRules(DelegateGlobalDetail, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateForNullToAmount(KualiDecimal, KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateToAmtGreaterThanFromAmt(KualiDecimal, KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateFromAmtGreaterThanEqualZero(KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
+     * </ul>
      * @return
      */
     protected boolean checkSimpleRulesAllLines() {
@@ -199,7 +247,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * This method will check through each delegate referenced in the DelegateGlobal to ensure that there is one and only primary
      * for each account and doctype
      * 
-     * @return
+     * @return false if there is more than one primary delegate
      */
     protected boolean checkForPrimaryDelegateAllLines() {
         boolean success = true;
@@ -243,7 +291,7 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
      * @param fromAmount
      * @param toAmount
      * @param lineNum
-     * @return false if from amount valid and to amount null
+     * @return false if from amount valid and to amount are null
      */
     protected boolean checkDelegateForNullToAmount(KualiDecimal fromAmount, KualiDecimal toAmount, int lineNum, boolean add) {
         boolean success = true;
@@ -398,6 +446,16 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return null;
     }
 
+    /**
+     * 
+     * This checks that the primary routing for delegates is correct, specifically that
+     * - there is not already a primary route delegate setup for this {@link Account}
+     * @param delegateGlobals
+     * @param delegateGlobalToTest
+     * @param lineNum
+     * @param add
+     * @return
+     */
     protected boolean checkPrimaryRouteRules(List<DelegateGlobalDetail> delegateGlobals, DelegateGlobalDetail delegateGlobalToTest, Integer lineNum, boolean add) {
         boolean success = true;
 
@@ -421,6 +479,14 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that the delegate for this {@link Account} exists and is valid (active and a professional)
+     * @param delegateGlobal
+     * @param lineNum
+     * @param add
+     * @return false if the delegate for the {@link Account} doesn't exist or isn't valid
+     */
     protected boolean checkDelegateUserRules(DelegateGlobalDetail delegateGlobal, int lineNum, boolean add) {
 
         boolean success = true;
@@ -470,6 +536,24 @@ public class DelegateGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * This checks that when a new line is added (either {@link AccountGlobalDetail} or {@link DelegateGlobalDetail})
+     * that the appropriate rules are run on the new lines being added
+     * on {@link AccountGlobalDetail}:
+     * - make sure that the account number and chart are entered
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkAccountDetails(AccountGlobalDetail)}</li>
+     * </ul>
+     * on {@link DelegateGlobalDetail}
+     * <ul>
+     * <li>{@link DelegateGlobalRule#checkDelegateFromAmtGreaterThanEqualZero(KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateForNullToAmount(KualiDecimal, KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateToAmtGreaterThanFromAmt(KualiDecimal, KualiDecimal, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkDelegateUserRules(DelegateGlobalDetail, int, boolean)}</li>
+     * <li>{@link DelegateGlobalRule#checkPrimaryRouteRules(List, DelegateGlobalDetail, Integer, boolean)}</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     */
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
         if (bo instanceof AccountGlobalDetail) {

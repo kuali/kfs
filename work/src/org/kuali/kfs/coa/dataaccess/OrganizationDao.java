@@ -20,17 +20,44 @@ import java.util.List;
 import org.kuali.module.chart.bo.Org;
 
 /**
- * This interface defines basic methods that Org Dao's must provide
+ * This interface defines data access methods for {@link Org}
  * 
  * 
  */
 public interface OrganizationDao {
+    /**
+     * 
+     * This method retrieves a {@link Org} based on primary keys
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return an {@link Org} based on primary keys
+     */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * 
+     * This method saves a specific {@link Org}
+     * @param organization
+     */
     public void save(Org organization);
 
+    /**
+     * 
+     * This method retrieves a list of active {@link Org}s defined by their chart and organization code
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return a list of active {@link Org}s by chart and organization code
+     */
     public List getActiveAccountsByOrg(String chartOfAccountsCode, String organizationCode);
 
+    /**
+     * 
+     * This method retrieves a list of active child {@link Org}s based on their parent's 
+     * organization code and chart code
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     * @return a list of active {@link Org}s by their parent's chart and organization code
+     */
     public List getActiveChildOrgs(String chartOfAccountsCode, String organizationCode);
     
     /**
@@ -38,10 +65,18 @@ public interface OrganizationDao {
      * Returns a list of active organizations with the given organization type code.
      * 
      * @param organizationType
-     * @return
+     * @return a list of active {@link Org}s based on their organization type code
      */
     public List<Org> getActiveOrgsByType( String organizationTypeCode );
     
+    /**
+     * 
+     * This method retrieves a list of root organization codes (as a string array)
+     * based on their root chart and reports to org type code
+     * @param rootChart
+     * @param selfReportsOrgTypeCode
+     * @return a string array of root org codes based on root chart and reports to org type code
+     */
     public String[] getRootOrganizationCode(String rootChart,
             String selfReportsOrgTypeCode);
 

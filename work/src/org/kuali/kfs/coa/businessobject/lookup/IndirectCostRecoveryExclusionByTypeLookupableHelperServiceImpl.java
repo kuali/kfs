@@ -28,7 +28,7 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * This class...
+ * This class overrides the base getActionUrls to set it to an empty string
  */
 public class IndirectCostRecoveryExclusionByTypeLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
 

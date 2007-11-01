@@ -33,8 +33,10 @@ import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
  */
 public class BudgetAggregationCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link BudgetAggregationCode}s using their code as their key, and
+     * their code "-" aggregation code as the display value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

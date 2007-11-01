@@ -44,7 +44,7 @@ public class OrgDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
      * 
      * @param document
      * @param user
-     * @return
+     * @return a new set of {@link MaintenanceDocumentAuthorizations} that marks certain fields read-only if necessary
      */
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
 

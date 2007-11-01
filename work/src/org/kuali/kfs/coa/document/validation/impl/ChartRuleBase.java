@@ -25,6 +25,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.Account;
 
+/**
+ * 
+ * This class provides some basic saving and routing rules for Chart documents
+ */
 public class ChartRuleBase implements RouteDocumentRule, SaveDocumentRule {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartRuleBase.class);
 

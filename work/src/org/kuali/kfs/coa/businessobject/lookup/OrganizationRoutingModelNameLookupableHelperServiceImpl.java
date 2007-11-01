@@ -24,10 +24,16 @@ import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.chart.bo.DelegateGlobal;
 
+/**
+ * 
+ * This class overrides the getBackLocation, getReturnUrl, setFieldConversions and getActionUrls for
+ * {@link OrganizationRoutingModelName}
+ */
 public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends KualiLookupableHelperServiceImpl {
     private boolean initializingDelegate = true;
 
     /**
+     * Overrides the base implementation to always return to {@link KFSConstants.MAINTENANCE_ACTION}
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getBackLocation()
      */
     @Override
@@ -38,6 +44,13 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     }
 
     /**
+     * Overrides the base implementation to add in new parameters to the return url
+     * <ul>
+     * <li>{@link KFSConstants.DISPATCH_REQUEST_PARAMETER}</li>
+     * <li>{@link KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE}</li>
+     * <li>{@link KFSConstants.OVERRIDE_KEYS}</li>
+     * </ul>
+     * {@link KFSConstants.DISPATCH_REQUEST_PARAMETER}
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getReturnUrl(org.kuali.core.bo.BusinessObject, java.util.Map, java.lang.String)
      */
     @Override
@@ -50,6 +63,8 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     }
 
     /**
+     * Overrides base implementation to determine whether or not we are dealing with looking up
+     * the model or editing it
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#setFieldConversions(java.util.Map)
      */
     @Override
@@ -66,6 +81,7 @@ public class OrganizationRoutingModelNameLookupableHelperServiceImpl extends Kua
     }
 
     /**
+     * Overrides base implementation to remove the action urls if we are initializing the delegate model
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getActionUrls(org.kuali.core.bo.BusinessObject)
      */
     @Override

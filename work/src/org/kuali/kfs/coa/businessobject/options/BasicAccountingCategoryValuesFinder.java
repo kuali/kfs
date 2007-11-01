@@ -26,8 +26,17 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.BasicAccountingCategory;
 
+/**
+ * 
+ * This class creates a new finder for our forms view (creates a drop-down of {@link BasicAccountingCategory})
+ */
 public class BasicAccountingCategoryValuesFinder extends KeyValuesBase {
 
+    /**
+     * Creates a list of {@link BasicAccountingCategory} with their code as the key
+     * and their code and description as the display value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection codes = boService.findAllOrderBy(BasicAccountingCategory.class, "sortCode", true);

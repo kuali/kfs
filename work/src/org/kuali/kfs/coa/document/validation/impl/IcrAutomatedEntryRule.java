@@ -36,9 +36,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 
 
 /**
- * This class...
- * 
- * 
+ * Business rule(s) applicable to IcrAutomatedEntryMaintenance documents.
  */
 public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryRule.class);
@@ -51,6 +49,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
 
     }
 
+    /**
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
 
@@ -59,6 +61,15 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * Calls custom rules prior to routing document
+     * <ul>
+     * <li>{@link IcrAutomatedEntryRule#checkCorrectWildcards(IcrAutomatedEntry)} </li>
+     * <li>if no wildcards then it verifies that the fields exist in the database</li>
+     * <li>Award Indirect Cost Recovery Rate Percent validation</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -193,7 +204,7 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
 
         }
 
-        // Award Indirect Cost Recovey Rate Percent
+        // Award Indirect Cost Recovery Rate Percent
         if (awardIndrCostRcvyRatePct != null) {
             if (awardIndrCostRcvyRatePct.doubleValue() < 0.00) {
                 putFieldError("awardIndrCostRcvyRatePct", KFSKeyConstants.ERROR_INVALIDNEGATIVEAMOUNT, "ICR Percent");
@@ -207,7 +218,10 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-
+    /**
+     * Normally this method calls any custom save rules, but this does not (right now)
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -217,6 +231,11 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * This method sets the convenience objects like newIcrAutomatedEntry and oldIcrAutomatedEntry, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     */
     public void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup oldICRAutomatedEntry convenience objects, make sure all possible sub-objects are populated
@@ -227,7 +246,15 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
     }
 
 
-    // Check existence of each field from table.
+    /**
+     * 
+     * This checks the existence of each field from table.
+     * @param clazz
+     * @param fieldValues
+     * @param errorField
+     * @param errorMessage
+     * @return true if there exists more than one record that matches
+     */
     private boolean checkExistenceFromTable(Class clazz, Map fieldValues, String errorField, String errorMessage) {
         boolean success = true;
         success = getBoService().countMatching(clazz, fieldValues) != 0;
@@ -237,6 +264,16 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         return success;
     }
     
+    /**
+     * 
+     * This checks to see if the correct wildcards are being used
+     * <ul>
+     * <li>"@" should be valid for chart, account, sub account.</li>
+     * <li>"#" should be valid for chart, account, sub account. </li>
+     * </ul>
+     * @param newIcrAutomatedEntry
+     * @return true if they are valid wildcards
+     */
     protected boolean checkCorrectWildcards(IcrAutomatedEntry newIcrAutomatedEntry) {
         String chartOfAccountsCode = newIcrAutomatedEntry.getChartOfAccountsCode();
         String accountNumber = newIcrAutomatedEntry.getAccountNumber();
@@ -281,6 +318,15 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         
     }
     
+    /**
+     * 
+     * This checks to see if this is a valid wildcard character the user is attempting to use
+     * @param newIcrAutomatedEntry
+     * @param fieldName
+     * @param fieldValue
+     * @param allowedWildcards
+     * @return true if it is an allowed wildcard and generates an appropriate error message for the user otherwise
+     */
     private boolean isValidWildcard(IcrAutomatedEntry newIcrAutomatedEntry, String fieldName, String fieldValue, String... allowedWildcards) {
         if (!StringUtils.isBlank(fieldValue)) {
             if (!StringUtils.isAlphanumeric(fieldValue)) {
@@ -302,6 +348,13 @@ public class IcrAutomatedEntryRule extends MaintenanceDocumentRuleBase {
         return true;
     }
     
+    /**
+     * 
+     * This builds up a string of allowed wildcards and sticks in the error message
+     * @param instance
+     * @param fieldName
+     * @param allowedWildcards
+     */
     private void putInvalidWildcardError(IcrAutomatedEntry instance, String fieldName, String... allowedWildcards) {
         StringBuilder sb = new StringBuilder();
         // build a human readable string listing all the possible values for the allowed values string.

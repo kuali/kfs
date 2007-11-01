@@ -26,10 +26,15 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCdGlobal;
 
+/**
+ * 
+ * This class provides some specific functionality for the {@link SubObjCdGlobal} maintenance document
+ * generateMaintenanceLocks - generates maintenance locks on {@link SubObjCd}
+ */
 public class SubObjCdGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**
-     * This creates the particular locking representation for this global document.
+     * This generates maintenance locks on {@link SubObjCd}
      * @see org.kuali.core.maintenance.Maintainable#generateMaintenanceLocks()
      */
     @Override

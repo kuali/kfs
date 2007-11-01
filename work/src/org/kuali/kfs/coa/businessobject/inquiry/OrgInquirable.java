@@ -25,6 +25,12 @@ import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.inquiry.KfsInquirableImpl;
 import org.kuali.module.chart.bo.Org;
 
+/**
+ * 
+ * This class adds in some new sections for {@link Org} inquiries, specifically
+ * Org Hierarchy
+ * Org Review Hierarchy
+ */
 public class OrgInquirable extends KfsInquirableImpl {
 
     public void addAdditionalSections(List sections, BusinessObject bo) {

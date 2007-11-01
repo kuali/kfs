@@ -25,9 +25,17 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.dao.IcrAutomatedEntryDao;
 
+/**
+ * 
+ * This class implements the {@link IcrAutomatedEntryDao} data access methods using Ojb
+ */
 public class IcrAutomatedEntryDaoOjb extends PlatformAwareDaoBaseOjb implements IcrAutomatedEntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(IcrAutomatedEntryDaoOjb.class);
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.IcrAutomatedEntryDao#getEntriesBySeries(java.lang.Integer, java.lang.String, java.lang.String)
+     */
     public Collection getEntriesBySeries(Integer universityFiscalYear, String financialIcrSeriesIdentifier, String balanceTypeCode) {
         LOG.debug("getEntriesBySeries() started");
 

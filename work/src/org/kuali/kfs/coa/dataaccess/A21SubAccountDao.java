@@ -18,7 +18,17 @@ package org.kuali.module.chart.dao;
 import org.kuali.module.chart.bo.A21SubAccount;
 
 /**
+ * This interface defines what methods of data retrieval should be allowed for 
+ * {@link org.kuali.module.chart.bo.A21SubAccount}
  */
 public interface A21SubAccountDao {
+    /**
+     * 
+     * This method retrieves an A21SubAccount based on it's primary keys
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @return the A21SubAccount that matches this primary key
+     */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }

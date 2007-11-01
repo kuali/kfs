@@ -36,11 +36,7 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
     /**
      * Retrieves object code business object by primary key
      * 
-     * @param universityFiscalYear - part of composite key
-     * @param chartOfAccountsCode - part of composite key
-     * @param financialObjectCode - part of composite key
-     * @return ObjectCode
-     * @see ObjectCodeDao
+     * @see org.kuali.module.chart.dao.ObjectCodeDao#getByPrimaryId(Integer, String, String)
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         Criteria criteria = new Criteria();
@@ -51,6 +47,10 @@ public class ObjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectC
         return (ObjectCode) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(ObjectCode.class, criteria));
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.ObjectCodeDao#getYearList(java.lang.String, java.lang.String)
+     */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
 
         List returnList = new ArrayList();

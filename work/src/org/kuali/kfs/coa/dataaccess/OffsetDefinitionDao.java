@@ -25,5 +25,14 @@ import org.kuali.module.chart.bo.OffsetDefinition;
  */
 public interface OffsetDefinitionDao {
 
+    /**
+     * 
+     * This method retrieves a {@link OffsetDefinition} based on primary keys
+     * @param universityFiscalYear
+     * @param chartOfAccountsCode
+     * @param financialDocumentTypeCode
+     * @param financialBalanceTypeCode
+     * @return a specific {@link OffsetDefinition} based on primary keys
+     */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode);
 }

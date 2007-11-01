@@ -75,11 +75,14 @@ import org.apache.ojb.broker.metadata.CollectionDescriptor;
 import org.apache.ojb.broker.metadata.DescriptorRepository; 
 import org.apache.ojb.broker.metadata.ObjectReferenceDescriptor;
 import org.apache.ojb.broker.metadata.MetadataManager;
-/****************************************************************************************************************************************************/
 
-
+/**
+ * 
+ * This class...
+ */
 public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb
-implements FiscalYearMakersDao {
+                                    implements FiscalYearMakersDao 
+{
 
 /*
  *   These routines are designed to create rows for the next fiscal year for
@@ -149,12 +152,16 @@ implements FiscalYearMakersDao {
 
     public static final boolean replaceMode = true;
     
+    /**
+     * delete all the rows (if any) for the request year for all the
+     * classes in the ordered delete list
+     * the delete order is set so that referential integrity will not cause 
+     * an exception: children first, then parents
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#deleteNewYearRows(java.lang.Integer)
+     */
     public void deleteNewYearRows(Integer requestYear)
     {
-        // delete all the rows (if any) for the request year for all the
-        // classes in the ordered delete list
-        // the delete order is set so that referential integrity will not cause 
-        // an exception: children first, then parents
+        
         for (Map.Entry<String,Class> classesToDelete : getDeleteOrder().entrySet())
         {
             Integer RequestYear = requestYear;
@@ -168,10 +175,13 @@ implements FiscalYearMakersDao {
         getPersistenceBrokerTemplate().clearCache();
     }
     
-    // this routine gets rid of existing rows for the request year + 1 for
-    // the parents of the child passed as a parameter
-    // it is uses when, for some classes, we want to create two years' worth
-    // of rows on each run
+    /**
+     *  this routine gets rid of existing rows for the request year + 1 for
+     *  the parents of the child passed as a parameter
+     *  it is uses when, for some classes, we want to create two years' worth
+     *  of rows on each run
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#deleteYearAfterNewYearRowsForParents(java.lang.Integer, java.lang.Class)
+     */
     public void deleteYearAfterNewYearRowsForParents(Integer RequestYear, 
                                                       Class childClass)
     {
@@ -191,6 +201,10 @@ implements FiscalYearMakersDao {
         }
     }
     
+    /**
+     * This method checks to see if a given child class is a parent of another class (denoted by a String)
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#isAParentOf(java.lang.String, java.lang.Class)
+     */
     public boolean isAParentOf(String testClassName, Class childClass)
     {
         ArrayList<Class> parentClasses = childParentMap.get(childClass.getName());
@@ -206,14 +220,18 @@ implements FiscalYearMakersDao {
         return false;
     }
     
+    /**
+     * this is the routine where you designate which objects
+     * should participate and whether they should use customized
+     * field setters or customized query filters
+     * the objects participating MUST match the object list
+     * configured in the XML
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setUpRun(java.lang.Integer, boolean)
+     */
     public LinkedHashMap<String,FiscalYearMakersCopyAction> 
            setUpRun(Integer BaseYear, boolean replaceMode)
     {
-        // this is the routine where you designate which objects
-        // should participate and whether they should use customized
-        // field setters or customized query filters
-        // the objects participating MUST match the object list
-        // configured in the XML
+        
         
         //  added October, 2007, to remove all OJB auto-update and auto-delete codes 
         //  which would alter the delete and copy order set by the XML-encoded parent-child relationships
@@ -270,12 +288,12 @@ implements FiscalYearMakersDao {
                      }
                   };
             
-               public void copyMethod(Integer BaseYear, boolean replaceMode)
+               public void copyMethod(Integer baseYear, boolean replaceMode)
                {
                  MakersMethods<AccountingPeriod> makersMethod =
                      new MakersMethods<AccountingPeriod>();
                  makersMethod.makeMethod(AccountingPeriod.class,
-                                         BaseYear,
+                                         baseYear,
                                          replaceMode,
                                          fieldAction);
                }
@@ -288,12 +306,12 @@ implements FiscalYearMakersDao {
         FiscalYearMakersCopyAction copyActionBenCalc =
             new FiscalYearMakersCopyAction()
             {
-               public void copyMethod(Integer BaseYear, boolean replaceMode)
+               public void copyMethod(Integer baseYear, boolean replaceMode)
                {
                  MakersMethods<BenefitsCalculation> makersMethod =
                      new MakersMethods<BenefitsCalculation>();
                  makersMethod.makeMethod(BenefitsCalculation.class,
-                                         BaseYear,
+                                         baseYear,
                                          replaceMode);
                }
             };
@@ -305,12 +323,12 @@ implements FiscalYearMakersDao {
          FiscalYearMakersCopyAction copyActionIcrAuto =
              new FiscalYearMakersCopyAction()
              {
-                public void copyMethod(Integer BaseYear, boolean replaceMode)
+                public void copyMethod(Integer baseYear, boolean replaceMode)
                 {
                   MakersMethods<IcrAutomatedEntry> makersMethod =
                       new MakersMethods<IcrAutomatedEntry>();
                   makersMethod.makeMethod(IcrAutomatedEntry.class,
-                                          BaseYear,
+                                          baseYear,
                                           replaceMode);
                 }
              };
@@ -322,12 +340,12 @@ implements FiscalYearMakersDao {
          FiscalYearMakersCopyAction copyActionLabObj =
              new FiscalYearMakersCopyAction()
              {
-                public void copyMethod(Integer BaseYear, boolean replaceMode)
+                public void copyMethod(Integer baseYear, boolean replaceMode)
                 {
                   MakersMethods<LaborObject> makersMethod =
                       new MakersMethods<LaborObject>();
                   makersMethod.makeMethod(LaborObject.class,
-                                          BaseYear,
+                                          baseYear,
                                           replaceMode);
                 }
              };
@@ -357,12 +375,12 @@ implements FiscalYearMakersDao {
                          return criteriaID;        
                      }
                   };
-            public void copyMethod(Integer BaseYear, boolean replaceMode)
+            public void copyMethod(Integer baseYear, boolean replaceMode)
             {
                 MakersMethods<ObjectCode> makersMethod =
                     new MakersMethods<ObjectCode>();
                 makersMethod.makeMethod(ObjectCode.class,
-                                        BaseYear,
+                                        baseYear,
                                         replaceMode,
                                         filterObjectCode);
             }
@@ -375,12 +393,12 @@ implements FiscalYearMakersDao {
          FiscalYearMakersCopyAction copyActionOffDef =
              new FiscalYearMakersCopyAction()
              {
-                public void copyMethod(Integer BaseYear, boolean replaceMode)
+                public void copyMethod(Integer baseYear, boolean replaceMode)
                 {
                   MakersMethods<OffsetDefinition> makersMethod =
                       new MakersMethods<OffsetDefinition>();
                   makersMethod.makeMethod(OffsetDefinition.class,
-                                          BaseYear,
+                                          baseYear,
                                           replaceMode);
                 }
              };
@@ -417,12 +435,12 @@ implements FiscalYearMakersDao {
                      }
                   };
             
-               public void copyMethod(Integer BaseYear, boolean replaceMode)
+               public void copyMethod(Integer baseYear, boolean replaceMode)
                {
                  MakersMethods<Options> makersMethod =
                      new MakersMethods<Options>();
                  makersMethod.makeMethod(Options.class,
-                                         BaseYear,
+                                         baseYear,
                                          replaceMode,
                                          fieldAction);
                }
@@ -435,12 +453,12 @@ implements FiscalYearMakersDao {
         FiscalYearMakersCopyAction copyActionOrgRev =
             new FiscalYearMakersCopyAction()
             {
-               public void copyMethod(Integer BaseYear, boolean replaceMode)
+               public void copyMethod(Integer baseYear, boolean replaceMode)
                {
                  MakersMethods<OrganizationReversion> makersMethod =
                      new MakersMethods<OrganizationReversion>();
                  makersMethod.makeMethod(OrganizationReversion.class,
-                                         BaseYear,
+                                         baseYear,
                                          replaceMode);
                }
             };
@@ -453,12 +471,12 @@ implements FiscalYearMakersDao {
         FiscalYearMakersCopyAction copyActionOrgRevDtl =
             new FiscalYearMakersCopyAction()
             {
-               public void copyMethod(Integer BaseYear, boolean replaceMode)
+               public void copyMethod(Integer baseYear, boolean replaceMode)
                {
                  MakersMethods<OrganizationReversionDetail> makersMethod =
                      new MakersMethods<OrganizationReversionDetail>();
                  makersMethod.makeMethod(OrganizationReversionDetail.class,
-                                         BaseYear,
+                                         baseYear,
                                          replaceMode);
                }
             };
@@ -470,12 +488,12 @@ implements FiscalYearMakersDao {
          FiscalYearMakersCopyAction copyActionPosObjBen =
              new FiscalYearMakersCopyAction()
              {
-                public void copyMethod(Integer BaseYear, boolean replaceMode)
+                public void copyMethod(Integer baseYear, boolean replaceMode)
                 {
                   MakersMethods<PositionObjectBenefit> makersMethod =
                       new MakersMethods<PositionObjectBenefit>();
                   makersMethod.makeMethod(PositionObjectBenefit.class,
-                                          BaseYear,
+                                          baseYear,
                                           replaceMode);
                 }
              };
@@ -502,12 +520,12 @@ implements FiscalYearMakersDao {
                      }
                   };
                  */
-                 public void copyMethod(Integer BaseYear, boolean replaceMode)
+                 public void copyMethod(Integer baseYear, boolean replaceMode)
                  {
                    MakersMethods<SubObjCd> makersMethod =
                        new MakersMethods<SubObjCd>();
                    makersMethod.makeMethod(SubObjCd.class,
-                                           BaseYear,
+                                           baseYear,
                                            replaceMode);
                    /*  not for phase II
                                            replaceMode,
@@ -557,26 +575,29 @@ implements FiscalYearMakersDao {
     /********************************************************************************
      *                University Date Database Access                               *
      ********************************************************************************/
-    //  this is the only routine that simply replaces what is there, if anything
-    //  but, we have to do a delete--otherwise, we can get an optimistic locking
-    //  exception when we try to store a new row on top of something already in 
-    //  the database.  we will delete by fiscal year.
-    //  the accounting period is assumed to correspond to the month, with the 
-    //  month of the start date being the first period and the month of the last
-    //  day of the fiscal year being the twelfth.
-    //  the fiscal year tag is always the year of the ending date of the fiscal year
-    public void makeUniversityDate(GregorianCalendar FiscalYearStartDate)
+    
+    /**
+     * this is the only routine that simply replaces what is there, if anything
+     * but, we have to do a delete--otherwise, we can get an optimistic locking
+     * exception when we try to store a new row on top of something already in 
+     * the database.  we will delete by fiscal year.
+     * the accounting period is assumed to correspond to the month, with the month of the start date being the first period and the month of the last
+     * day of the fiscal year being the twelfth.
+     * the fiscal year tag is always the year of the ending date of the fiscal year
+     * @param fiscalYearStartDate
+     */
+    public void makeUniversityDate(GregorianCalendar fiscalYearStartDate)
     {
         // loop through a year's worth of dates for the new year
         GregorianCalendar shunivdate = 
-            new GregorianCalendar(FiscalYearStartDate.get(Calendar.YEAR),
-                                  FiscalYearStartDate.get(Calendar.MONTH),
-                                  FiscalYearStartDate.get(Calendar.DAY_OF_MONTH));
+            new GregorianCalendar(fiscalYearStartDate.get(Calendar.YEAR),
+                                  fiscalYearStartDate.get(Calendar.MONTH),
+                                  fiscalYearStartDate.get(Calendar.DAY_OF_MONTH));
         // set up the end date
         GregorianCalendar enddate  = 
-            new GregorianCalendar(FiscalYearStartDate.get(Calendar.YEAR),
-                                  FiscalYearStartDate.get(Calendar.MONTH),
-                                  FiscalYearStartDate.get(Calendar.DAY_OF_MONTH));
+            new GregorianCalendar(fiscalYearStartDate.get(Calendar.YEAR),
+                                  fiscalYearStartDate.get(Calendar.MONTH),
+                                  fiscalYearStartDate.get(Calendar.DAY_OF_MONTH));
         enddate.add(Calendar.MONTH,12);
         enddate.add(Calendar.DAY_OF_MONTH,-1);
         // the fiscal year is always the year of the ending date of the fiscal year
@@ -588,7 +609,7 @@ implements FiscalYearMakersDao {
         String periodString = String.format("%02d",period);
         int compareMonth = shunivdate.get(Calendar.MONTH);
         int currentMonth = shunivdate.get(Calendar.MONTH);
-     // loop through the dates until we hit the last one
+        // loop through the dates until we hit the last one
         while (!(shunivdate.equals(enddate)))
         {   
            //TODO: temporary debugging code 
@@ -628,8 +649,12 @@ implements FiscalYearMakersDao {
                                periodString, shunivdate, shunivdate));
  }
     
-    // these are private utility methods
-    
+    /**
+     * 
+     * This method is a private utility method to perform some date operations
+     * @param inDate
+     * @return date with one year added
+     */
     private java.sql.Date addYearToDate(Date inDate)
     {
         // OK.  Apparently the JDK is trying to offer a generic calendar to all
@@ -651,15 +676,22 @@ implements FiscalYearMakersDao {
         return (new Date(currentCalendarDate.getTimeInMillis()));
     }
     
-    private HashSet<String> buildMapOfExistingKeys(Integer RequestYear,
+    /**
+     * 
+     * This method  builds and returns a hash set containing the composite
+     * key string of rows that already exist in the relevant table for the
+     * new fiscal year (we assume all the members of the composite key are
+     * strings except the fiscal year.
+     * @param requestYear
+     * @param businessObject
+     * @return a hash set with the composite key string of rows
+     */
+    private HashSet<String> buildMapOfExistingKeys(Integer requestYear,
                                                    Class businessObject)
     {
-        // this code builds and returns a hash set containing the composite
-        // key string of rows that already exist in the relevant table for the
-        // new fiscal year (we assume all the members of the composite key are
-        // strings except the fiscal year.
+        
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
         // get space for the map
         HashSet<String> returnHash =
             new HashSet<String>(hashObjectSize(businessObject,criteriaID));
@@ -688,23 +720,32 @@ implements FiscalYearMakersDao {
         return returnHash;        
     }
     
-    private void deleteNewYearRows(Integer RequestYear, Class businessObject)
+    /**
+     * 
+     * This method gets rid of all the rows in the new fiscal year
+     * @param requestYear
+     * @param businessObject
+     */
+    private void deleteNewYearRows(Integer requestYear, Class businessObject)
     {
-        //  this gets rid of all the rows in the new fiscal year
         LOG.warn(String.format("\ndeleting %s for %d",
-                               businessObject.getName(),RequestYear));
+                               businessObject.getName(),requestYear));
         Criteria criteriaID = new Criteria();
-        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,RequestYear);
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear);
         QueryByCriteria queryID = new QueryByCriteria(businessObject,criteriaID);
         getPersistenceBrokerTemplate().deleteByQuery(queryID);
-        LOG.warn(String.format("\n rows for %d deleted",RequestYear));
+        LOG.warn(String.format("\n rows for %d deleted",requestYear));
         getPersistenceBrokerTemplate().clearCache();
     }
     
+    /**
+     * we look up the fiscal year for today's date, and return it
+     * we return 0 if nothing is found
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#fiscalYearFromToday()
+     */
     public Integer fiscalYearFromToday()
     {
-        //  we look up the fiscal year for today's date, and return it
-        //  we return 0 if nothing is found
+        
         Integer currentFiscalYear = new Integer(0);
         Date lookUpDate =
             dateTimeService.getCurrentSqlDateMidnight();
@@ -734,16 +775,30 @@ implements FiscalYearMakersDao {
     // if this thing catches on, maybe we should make the hashObjectSize method 
     // a public method in a service
     //
+    /**
+     * This method determines a hash capacity given by a hash size
+     * this corresponds to a little more than the default load factor of .75
+     * a rehash supposedly occurs when the actual number of elements exceeds
+     * (load factor)*capacity
+     * N rows < .75 capacity ==> capacity > 4N/3 or 1.3333N.  We add a little slop.
+     * @param hashSize
+     * @return recommended hash capacity based on hash size
+     */
     private Integer hashCapacity(Integer hashSize)
     {
-        // this corresponds to a little more than the default load factor of .75
-        // a rehash supposedly occurs when the actual number of elements exceeds
-        // (load factor)*capacity
-        // N rows < .75 capacity ==> capacity > 4N/3 or 1.3333N.  We add a little slop.
+        
         Double tempValue = hashSize.floatValue()*(1.45);
         return (Integer) tempValue.intValue();
     }
     
+    /**
+     * 
+     * This method calculates a given hash set size based on objects retrieved
+     * or 1 if no objects
+     * @param classID
+     * @param criteriaID
+     * @return hash set size
+     */
     private Integer hashObjectSize(Class classID, Criteria criteriaID)
     {
         // this counts all rows
@@ -759,32 +814,42 @@ implements FiscalYearMakersDao {
         return (new Integer(1));
     }
   
+    /**
+     * 
+     * this routine is reminiscent of computing in 1970, when disk space was
+     * scarce and every byte was fraught with meaning.  some fields are captions
+     * and titles, and they contain things like the fiscal year.  for the new
+     * year, we have to update these substrings in place, so they don't have to be
+     * updated by hand to display correct information in the application.
+     * we use the regular expression utilities in java
+     * @param newYearString
+     * @param oldYearString
+     * @param currentField
+     * @return the updated string
+     */
     private String updateStringField(String newYearString,
                                      String oldYearString,
                                      String currentField)
     {
-    /*
-     *  this routine is reminiscent of computing in 1970, when disk space was
-     *  scarce and every byte was fraught with meaning.  some fields are captions
-     *  and titles, and they contain things like the fiscal year.  for the new
-     *  year, we have to update these substrings in place, so they don't have to be
-     *  updated by hand to display correct information in the application.
-     *  we use the regular expression utilities in java
-     */    
       Pattern pattern = Pattern.compile(oldYearString);
       Matcher matcher = pattern.matcher(currentField);
       return matcher.replaceAll(newYearString);
     }
 
+    /**
+     * 
+     *  this routine is provided to update string fields which contain two-digit years
+     *  that need to be updated for display. it is very specific, but it's necessary.
+     *  "two-digit year" means the two numeric characters preceded by a non-numeric character.
+     * @param newYear
+     * @param oldYear
+     * @param currentString
+     * @return the updated string for a two digit year
+     */
     private String updateTwoDigitYear (String newYear,
                                        String oldYear,
                                        String currentString)
     {
-    /*
-     *  this routine is provided to update string fields which contain two-digit years
-     *  that need to be updated for display. it is very specific, but it's necessary.
-     *  "two-digit year" means the two numeric characters preceded by a non-numeric character.
-     */
         // group 1 is the bounded by the outermost set of parentheses
         // group 2 is the first inner set
         // group 3 is the second inner set--a two-digit year at the beginning of the line
@@ -844,7 +909,10 @@ implements FiscalYearMakersDao {
         this.fiscalYearStartDate = fiscalYearStartDate;
     }
 
-    // generic class to pass in types to the generic routines
+    /**
+     * 
+     * This class is a generic class to pass in types to the generic routines
+     */
     private class MakersMethods<T> 
     {
         // this is the signature used for an object that requires no
@@ -892,8 +960,16 @@ implements FiscalYearMakersDao {
                     filterAction);
         }
         
-        // this is the signature used for an object which has both special
-        // filter criteria and required changes to additional fields
+        
+        /**
+         * this is the signature used for an object which has both special
+         * filter criteria and required changes to additional fields
+         * @param ojbMappedClass
+         * @param currentFiscalYear
+         * @param replaceMode
+         * @param changeAction
+         * @param filterAction
+         */
         private void makeMethod(Class ojbMappedClass,
                                 Integer currentFiscalYear,
                                 boolean replaceMode,
@@ -994,9 +1070,19 @@ implements FiscalYearMakersDao {
         }
 
 
-        // routine to build rows for the coming fiscal year, replacing any that
-        // already exist
-        
+        /**
+         * 
+         * routine to build rows for the coming fiscal year, replacing any that
+         * already exist
+         * @param ojbMappedClass
+         * @param currentFiscalYear
+         * @param changeAction
+         * @param filterAction
+         * @throws NoSuchFieldException
+         * @throws NoSuchMethodException
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         */
         private void genericSlashAndBurn(Class ojbMappedClass,
                                          Integer currentFiscalYear,
                                          FiscalYearMakersFieldChangeAction changeAction,
@@ -1087,8 +1173,18 @@ implements FiscalYearMakersDao {
             getPersistenceBrokerTemplate().clearCache();
         }
         
-       // routine to only add, not replace, rows for the coming fiscal year
-        
+       /**
+        * 
+        * routine to only add, not replace, rows for the coming fiscal year
+        * @param ojbMappedClass
+        * @param currentFiscalYear
+        * @param changeAction
+        * @param filterAction
+        * @throws NoSuchFieldException
+        * @throws NoSuchMethodException
+        * @throws IllegalAccessException
+        * @throws InvocationTargetException
+        */
         private void genericWarmAndFuzzy(Class ojbMappedClass,
                                          Integer currentFiscalYear,
                                          FiscalYearMakersFieldChangeAction changeAction,
@@ -1191,18 +1287,27 @@ implements FiscalYearMakersDao {
            getPersistenceBrokerTemplate().clearCache();
         }
         
+        /**
+         * 
+         * the compiler doesn't know the class of the object at this point,
+         * so we can't use the methods contained in the object
+         * the compiler would not be able to find them
+         * PropertyUtils uses reflection at run time to find the correct set
+         * method
+         * @param ourBO
+         * @param newFiscalYear
+         * @throws NoSuchFieldException
+         * @throws IllegalAccessException
+         * @throws NoSuchMethodException
+         * @throws InvocationTargetException
+         */
         private void setCommonFields(T ourBO, Integer newFiscalYear)
         throws NoSuchFieldException, 
                IllegalAccessException, 
                NoSuchMethodException,
                InvocationTargetException
         {
-            // the compiler doesn't know the class of the object at this point,
-            // so we can't use the methods contained in the object
-            // the compiler would not be able to find them
-            // PropertyUtils uses reflection at run time to find the correct set
-            // method
-            //
+            
             // set the fiscal year
             PropertyUtils.setSimpleProperty(ourBO,
                                             KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
@@ -1245,34 +1350,49 @@ implements FiscalYearMakersDao {
     // current year, instead of from the CURRENT YEAR to the next year
     private HashSet<String> laggingCopyCycle = new HashSet<String>(20);
     
-    
-    // the list of all the fiscal year makers objects
+    /**
+     * the list of all the fiscal year makers objects
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#getMakerObjectsList()
+     */
     public HashMap<String,Class> getMakerObjectsList()
     {
         return this.makerObjectsList;
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setMakerObjectsList(java.util.HashMap)
+     */
     public void setMakerObjectsList(HashMap<String,Class> makerObjectsList)
     {
         this.makerObjectsList = makerObjectsList;
         classSpecificActions = 
             new HashMap<String,FiscalYearMakersCopyAction>(makerObjectsList.size());
     }
-    // this list of child/parent relationships for the fiscal year makers objects
+    
+    /**
+     * this list of child/parent relationships for the fiscal year makers objects
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#getChildParentMap()
+     */
     public HashMap<String,ArrayList<Class>> getChildParentMap()
     {
         return this.childParentMap;
     }
     
+    /**
+     * Spring did not do the conversions of the XML necessary to create 
+     * HashMap<String,ArrayList<Class>>.  (We got an ArrayList of strings.)
+     * Since everything was written
+     * for an ArrayList, we will convert the Class[] version (which Spring
+     * can handle) to an ArrayList here.  (There is a way to get a "list"
+     * view of an array, and this view is an ArrayList.  But we will create
+     * a new one, which will be extensible, unlike the view.)
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setChildParentArrayMap(java.util.HashMap)
+     */
     public void setChildParentArrayMap(HashMap<String,Class[]> childParentArrayMap)
     {
         this.childParentArrayMap = childParentArrayMap;
-        // Spring did not do the conversions of the XML necessary to create 
-        // HashMap<String,ArrayList<Class>>.  (We got an ArrayList of strings.)
-        // Since everything was written
-        // for an ArrayList, we will convert the Class[] version (which Spring
-        // can handle) to an ArrayList here.  (There is a way to get a "list"
-        // view of an array, and this view is an ArrayList.  But we will create
-        // a new one, which will be extensible, unlike the view.)
+        
         childParentMap = 
             new HashMap<String,ArrayList<Class>>(childParentArrayMap.size());
         for (Map.Entry<String,Class[]> fromMap: childParentArrayMap.entrySet())
@@ -1287,15 +1407,24 @@ implements FiscalYearMakersDao {
         }
     }
     
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setLaggingCopyCycle(java.util.HashSet)
+     */
     public void setLaggingCopyCycle (HashSet<String> laggingCopyCycle)
     {
         this.laggingCopyCycle = laggingCopyCycle;
     }
     
-    // this is a map of the execution order for the classes
-    // the class name is followed by a class ID which contains the copy method
-    // it is called at the end of setUp, and uses the classSpecificActions map 
-    // built during setUp to get the copy action required
+    /**
+     * 
+     * this is a map of the execution order for the classes
+     * the class name is followed by a class ID which contains the copy method
+     * it is called at the end of setUp, and uses the classSpecificActions map 
+     * built during setUp to get the copy action required
+     * @return
+     * @throws RuntimeException
+     */
     private LinkedHashMap<String,FiscalYearMakersCopyAction> getCopyOrder()
     throws RuntimeException
     {
@@ -1417,7 +1546,12 @@ implements FiscalYearMakersDao {
         return returnMap;
     }
     
-    // this list specifies the delete order for the objects in the list
+    /**
+     * 
+     * this list specifies the delete order for the objects in the list
+     * @return
+     * @throws RuntimeException
+     */
     private LinkedHashMap<String,Class> getDeleteOrder() throws RuntimeException
     {
         // throw an exception if the lists don't match
@@ -1514,17 +1648,26 @@ implements FiscalYearMakersDao {
         return returnList;
     }
     
-    // this is an "action", or callback, class
-    // it allows us to build an instance at run time for each child, after the parents
-    // have already been built for the coming fiscal period
-    // (1) for each parent, store the values that exist for the child's foreign keys
-    // (2) provide a method that can be called by each child row read from the base
-    //     period.  the method will check that the child has the proper RI relationship
-    //     with at least one row from each parent.
+    /**
+     * 
+     *  this is an "action", or callback, class
+     *  it allows us to build an instance at run time for each child, after the parents
+     *  have already been built for the coming fiscal period
+     *  (1) for each parent, store the values that exist for the child's foreign keys
+     *  (2) provide a method that can be called by each child row read from the base
+     *  period.  the method will check that the child has the proper RI relationship
+     *  with at least one row from each parent.
+     */
     public class ParentKeyChecker<C> 
     {
         private ParentClass<C>[] parentClassList = null;
-        public ParentKeyChecker(Class childClass, Integer RequestYear)
+        /**
+         * 
+         * Constructs a FiscalYearMakersDaoOjb.java.
+         * @param childClass
+         * @param requestYear
+         */
+        public ParentKeyChecker(Class childClass, Integer requestYear)
         {
             String testString = childClass.getName();
             if (childParentMap.containsKey(testString))
@@ -1536,10 +1679,20 @@ implements FiscalYearMakersDao {
                 {
                     parentClassList[i] = new ParentClass<C>(parentClasses.get(i),
                                                             childClass, 
-                                                            RequestYear);
+                                                            requestYear);
                 }
             }
         }
+        
+        /**
+         * 
+         * This method...
+         * @param ourBO
+         * @return true if child row satisfies referential integrity
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         * @throws NoSuchMethodException
+         */
         public boolean childRowSatisfiesRI (C ourBO)
         throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
         {
@@ -1557,25 +1710,35 @@ implements FiscalYearMakersDao {
     };
     
 
-    // this class is used to construct a parent key hashmap, and provide a method
-    // to verify that a business object of type C matches on its foreign key 
-    // fields with the parent
+    /**
+     * 
+     * this class is used to construct a parent key hashmap, and provide a method
+     * to verify that a business object of type C matches on its foreign key 
+     * fields with the parent
+     */
     public class ParentClass<C>
     {
         private String[] childKeyFields;
         private String[] parentKeyFields;
         private HashSet<String> parentKeys = new HashSet<String>(1);
         
-        // the constructor will initialize the key hashmap for this parent object
-        // it will also get the foreign key fields from the persistence data structure
-        // (the assumption is that the fields names returned are the same in both the
-        //  parent class and the child class).
-        // try to set this up so that if the parent/child relationship does not exist
-        // in OJB, we can issue a warning message and go on, and all the methods
-        // will still behave properly
+        /**
+         * 
+         * Constructs a FiscalYearMakersDaoOjb.java.
+         * the constructor will initialize the key hashmap for this parent object
+         * it will also get the foreign key fields from the persistence data structure
+         * (the assumption is that the fields names returned are the same in both the
+         * parent class and the child class).
+         * try to set this up so that if the parent/child relationship does not exist
+         * in OJB, we can issue a warning message and go on, and all the methods
+         * will still behave properly
+         * @param parentClass
+         * @param childClass
+         * @param requestYear
+         */
         public ParentClass(Class parentClass, 
                            Class childClass,
-                           Integer RequestYear)
+                           Integer requestYear)
         {   
             // fill in the key field names
             //TODO: fix this--we need the child class as well as the parentClass
@@ -1588,7 +1751,7 @@ implements FiscalYearMakersDao {
             {
               // build a query to get the keys already added to the parent
               Criteria criteriaID = new Criteria();
-              criteriaID.addEqualTo(KFSConstants.UNIV_FISCAL_YR,RequestYear);
+              criteriaID.addEqualTo(KFSConstants.UNIV_FISCAL_YR,requestYear);
               ReportQueryByCriteria queryID =
                   new ReportQueryByCriteria(parentClass, parentKeyFields,
                                             criteriaID, true);
@@ -1603,6 +1766,15 @@ implements FiscalYearMakersDao {
             }
         }
         
+        /**
+         * 
+         * This method...
+         * @param ourBO
+         * @return
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         * @throws NoSuchMethodException
+         */
         private String buildChildTestKey(C ourBO)
         throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
         {
@@ -1615,7 +1787,15 @@ implements FiscalYearMakersDao {
             return returnKey.toString();
         }
         
-        // method to test whether a key of the child row matches one in parent
+        /**
+         * 
+         * method to test whether a key of the child row matches one in parent
+         * @param ourBO
+         * @return
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         * @throws NoSuchMethodException
+         */
         public boolean isInParent(C ourBO)
         throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
         {
@@ -1632,20 +1812,32 @@ implements FiscalYearMakersDao {
  *                                     private methods
  *************************************************************************************/    
 
-    
+    /**
+     * This method takes an object to copy and a copy action and places it in our action
+     * list
+     * @param objectToCopy
+     * @param copyAction
+     */
     private void addCopyAction(Class objectToCopy,
                                FiscalYearMakersCopyAction copyAction)
     {
         classSpecificActions.put(objectToCopy.getName(),copyAction);
     }
     
+    /**
+     * 
+     * This method...
+     * we always assume the first key is the fiscal year
+     * OJB returns a BigDecimal for this (it's a numeric field, and
+     * in some databases--notably Oracle--every numeric field is stored
+     * as a number)
+     * @param inKeys
+     * @return a string of keys from the array
+     */
     private String buildKeyString (Object[] inKeys)
     {
         StringBuffer stringBuilder = new StringBuffer();
-        // we always assume the first key is the fiscal year
-        // OJB returns a BigDecimal for this (it's a numeric field, and
-        // in some databases--notably Oracle--every numeric field is stored
-        // as a number)
+        
         // stringBuilder.append(((Integer)((BigDecimal) inKeys[0]).intValue()).toString());
         // for (int i = 1; i < inKeys.length; i++)
         // {
@@ -1664,6 +1856,11 @@ implements FiscalYearMakersDao {
         return stringBuilder.toString();
     }
     
+    /**
+     * 
+     * This method creates a HashMap of parent->child relationships
+     * @return HashMap that contains a parent key with children as an array
+     */
     private HashMap<String,ArrayList<Class>> createParentChildMap()
     {
         HashMap<String,ArrayList<Class>> returnMap =
@@ -1695,11 +1892,16 @@ implements FiscalYearMakersDao {
         return returnMap;
     }
     
+    /**
+     * 
+     * this routine looks for two types of errors
+     * (1) a child or parent is NOT in the makers object list (fatal) from XML
+     * (2) some of the child's parents are listed more than once (warning)
+     * @return true if there are problems in the XML data
+     */
     private boolean findChildParentXMLErrors ()
     {
-        // this routine looks for two types of errors
-        // (1) a child or parent is NOT in the makers object list (fatal) from XML
-        // (2) some of the child's parents are listed more than once (warning)
+        
         boolean problemsInXML = false;
         for (Map.Entry<String,ArrayList<Class>> childMap : childParentMap.entrySet())
         {
@@ -1744,24 +1946,31 @@ implements FiscalYearMakersDao {
         return problemsInXML;
     }
     
+    /**
+     * 
+     * we can have two kinds of relationships in Kuali
+     * (1) a child contains a foreign key to the primary keys of its RI parent (a 1:1
+     * relationship in OJB).  The parent object is coded in XML with a 
+     * reference-descriptor
+     * (2) a child has a many:1 relationship with its RI parent.  in this case, the
+     * parent has foreign keys into the primary keys of the child.  The child
+     * object is coded in XML with a collection-descriptor
+     * this routine gets the parent keys and the child keys for the relationship,
+     * so we can build a map of all the values for those keys that have already
+     * been copied into the parent for the new year.  as each child row is about
+     * to be copied, we check to see whether its key values match one of the sets
+     * of values in the parent.  if they do not, we skip the child row.  
+     * this routine gives us the key field names we need to accomplish that.
+     * @param childClass
+     * @param parentClass
+     * @return foreign keys for parent class
+     */
     private ReturnedPair<String[],String[]> fetchForeignKeysToParent(Class childClass,
                                                                      Class parentClass)
     {
      ReturnedPair<String[],String[]> returnObject =
          new ReturnedPair<String[],String[]>();
-     // we can have two kinds of relationships in Kuali
-     // (1) a child contains a foreign key to the primary keys of its RI parent (a 1:1
-     //     relationship in OJB).  The parent object is coded in XML with a 
-     //     reference-descriptor
-     // (2) a child has a many:1 relationship with its RI parent.  in this case, the
-     //     parent has foreign keys into the primary keys of the child.  The child
-     //     object is coded in XML with a collection-descriptor
-     //  this routine gets the parent keys and the child keys for the relationship,
-     //  so we can build a map of all the values for those keys that have already
-     //  been copied into the parent for the new year.  as each child row is about
-     //  to be copied, we check to see whether its key values match one of the sets
-     //  of values in the parent.  if they do not, we skip the child row.  
-     //  this routine gives us the key field names we need to accomplish that.
+     
      /*
       *  first look for the 1:1 relationship 
       */       
@@ -1779,6 +1988,13 @@ implements FiscalYearMakersDao {
         return (fetchFKToChild(parentClass,childClass));
     }
 
+    /**
+     * 
+     * This method...
+     * @param parentClass
+     * @param childClass
+     * @return foreign keys for child class
+     */
     private ReturnedPair<String[],String[]> fetchFKToChild(Class parentClass,
                                                            Class childClass)
     {
@@ -1836,6 +2052,13 @@ implements FiscalYearMakersDao {
         return returnObject;
     }
 
+    /**
+     * 
+     * This method takes a child class and parent class and 
+     * @param childClass
+     * @param parentClass
+     * @return foreign keys for a given parent class
+     */
     private ReturnedPair<String[],String[]> fetchFKToParent(Class childClass,
                                                             Class parentClass)
     {
@@ -1890,6 +2113,13 @@ implements FiscalYearMakersDao {
         return returnObject;
     }
 
+    /**
+     * 
+     * This method determines the capacity of the hash based on the item count
+     * returned by the query
+     * @param queryID
+     * @return hash capacity based on query result set size
+     */
     private Integer hashCapacity(ReportQueryByCriteria queryID)
     {
         // this corresponds to a load factor of a little more than the default load factor
@@ -1903,9 +2133,13 @@ implements FiscalYearMakersDao {
 
     private PersistenceStructureWindow persistenceStructureWindow = null;
     
+    /**
+     * turnOffCascades should always be called, but if it hasn't been, 
+     * there is no need to call this
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#resetCascades()
+     */
     public void resetCascades()
     {
-        // turnOffCascades should always be called, but if it hasn't been, there is no need to call this
         if (persistenceStructureWindow == null)
         {
             return;
@@ -1913,23 +2147,25 @@ implements FiscalYearMakersDao {
         persistenceStructureWindow.restoreCascading();
     }
     
+    /**
+     * 
+     * this routine is designed to solve a problem caused by auto-xxx settings in the OJB-repostiory
+     * auto-update or auto-delete settings other than "none" will cause row(s) for a linked object to be written or 
+     * deleted as soon as the row for the linking object is.  this circumvents our parent-child paradigm by which we
+     * ensure deletes and copies are done in an order that will not violate referential integrity constraints.
+     * for example, suppose a parent A is linked to a child B, which has auto-update="object".  B may have an RI 
+     * constraint on C, while A has nothing to do with C.  our copy order will allow A to be copied before C.  auto-update="object"
+     * copies row(s) from B at the same time a row from A is copied.  since no rows from C have been copied yet (C follows A
+     * in the copy order, the attempt to store the rows of B will violate RI--the required rows from C are not in the DB yet.
+     * (an example as of October, 2007 is A = OrganizationReversion, B = OrganizationReversionDetail, and C = ObjectCode)
+     * 
+     * this routine dynamically switches off the auto-update and auto-delete in the OJB repository loaded in memory.  this should
+     * affect only the current run, makes no permanent changes, and will not affect the performance of any documents.  the 
+     * assumption is that this code is running in its own Java container, which will go away when the run is complete.
+     */
     private void turnOffCascades()
     {
-        //
-        //  this routine is designed to solve a problem caused by auto-xxx settings in the OJB-repostiory
-        //  auto-update or auto-delete settings other than "none" will cause row(s) for a linked object to be written or 
-        //  deleted as soon as the row for the linking object is.  this circumvents our parent-child paradigm by which we
-        //  ensure deletes and copies are done in an order that will not violate referential integrity constraints.
-        //  for example, suppose a parent A is linked to a child B, which has auto-update="object".  B may have an RI 
-        //  constraint on C, while A has nothing to do with C.  our copy order will allow A to be copied before C.  auto-update="object"
-        //  copies row(s) from B at the same time a row from A is copied.  since no rows from C have been copied yet (C follows A
-        //  in the copy order, the attempt to store the rows of B will violate RI--the required rows from C are not in the DB yet.
-        //  (an example as of October, 2007 is A = OrganizationReversion, B = OrganizationReversionDetail, and C = ObjectCode)
-        //  
-        //  this routine dynamically switches off the auto-update and auto-delete in the OJB repository loaded in memory.  this should
-        //  affect only the current run, makes no permanent changes, and will not affect the performance of any documents.  the 
-        //  assumption is that this code is running in its own Java container, which will go away when the run is complete.
-        //
+        
         // set up the window into the OJB persistence structure
         persistenceStructureWindow = new PersistenceStructureWindow(); 
         for (Map.Entry<String,ArrayList<Class>> childMap : childParentMap.entrySet())
@@ -1955,6 +2191,9 @@ implements FiscalYearMakersDao {
  *   for fiscal year makers, this condition is met.  for batch routines that use a plug-in or create and store documents, it may not be.
  * 
  ****************************************************************************************************************************************************/    
+    /**
+     * This class
+     */
     private class PersistenceStructureWindow
     {
       private DescriptorRepository descriptorRepository;
@@ -1974,13 +2213,18 @@ implements FiscalYearMakersDao {
           
       }
       
+      /**
+       * This method looks for reference descriptors and collection descriptors in the source class that refer to 
+       * the target class and specify an auto-delete or auto-update.  it turns those functions off for the
+       * remainder of the batch run.
+       * @param referencingClass
+       * @param targetClass
+       * 
+       */
       public void inhibitCascading (Class referencingClass, Class targetClass)
       {
-        /* this mehtod should be public in the persistence structure service */
-        /* it looks for reference descriptors and collection descriptors in the source class that refer to 
-         * the target class and specify an auto-delete or auto-update.  it turns those functions off for the
-         * remainder of the batch run.
-         */
+        /* this method should be public in the persistence structure service */
+        
          /* a given class will not have a 1:1 reference and a 1:m reference to the same target class */ 
          if  (fixReferences(referencingClass, targetClass)) 
          {
@@ -1989,6 +2233,12 @@ implements FiscalYearMakersDao {
          fixCollections(referencingClass, targetClass);
       }
 
+      /**
+       * 
+       * This method returns a specific ClassDescriptor based on a BusinessObject class
+       * @param boClass
+       * @return class descriptor for this BO class
+       */
       private ClassDescriptor getOJBDescriptor (Class boClass)
       {
           ClassDescriptor classDescriptor = null;
@@ -2006,6 +2256,14 @@ implements FiscalYearMakersDao {
             return classDescriptor;
       }
       
+      /**
+       * 
+       * This method turns off cascading updates on the target class
+       * as it is referenced from the referencing class
+       * @param referencingClass
+       * @param targetClass
+       * @return true if it finds the reference (or isn't persistable), false if it can't find the reference
+       */
       private boolean fixReferences (Class referencingClass, Class targetClass)
       {
           ClassDescriptor classDescriptor = getOJBDescriptor(referencingClass);
@@ -2049,6 +2307,14 @@ implements FiscalYearMakersDao {
           return false;
       }
       
+      /**
+       * 
+       * This method turns off cascading updates on the target class
+       * as it is referenced from the referencing class as a collection
+       * @param referencingClass
+       * @param targetClass
+       * @return true if it finds the reference (or isn't persistable), false if it can't find the reference
+       */
       private boolean fixCollections (Class referencingClass, Class targetClass)
       {
           ClassDescriptor classDescriptor = getOJBDescriptor(referencingClass);
@@ -2092,6 +2358,11 @@ implements FiscalYearMakersDao {
           return false;
       }
       
+      /**
+       * 
+       * This method restores the cascading saves and updates to what they were before
+       * the change
+       */
       public void restoreCascading()
       {
         // auto deletes in collections
@@ -2137,7 +2408,10 @@ implements FiscalYearMakersDao {
       }
     }
     
-//  this is a handy junk inner class that allows us to return two things from a method
+/**
+ * 
+ * this is a handy junk inner class that allows us to return two things from a method
+ */
  private class ReturnedPair<S,T>
  {
      S firstObject;

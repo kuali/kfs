@@ -25,6 +25,10 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.dao.OrganizationReversionDao;
 
+/**
+ * 
+ * This class implements the {@link OrganizationReversionDao} data access methods using Ojb
+ */
 public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationReversionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionDaoOjb.class);
 
@@ -43,6 +47,10 @@ public class OrganizationReversionDaoOjb extends PlatformAwareDaoBaseOjb impleme
         return (OrganizationReversion) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(OrganizationReversion.class, criteria));
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.OrganizationReversionDao#getCategories()
+     */
     public List<OrganizationReversionCategory> getCategories() {
         LOG.debug("getCategories() started");
 

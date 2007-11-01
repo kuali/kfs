@@ -33,7 +33,7 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
      * 
      * @param projectCode - part of composite key
      * @return Project
-     * @see ProjectCodeDao
+     * @see ProjectCodeDao#getByPrimaryId(String)
      */
     public ProjectCode getByPrimaryId(String projectCode) {
         Criteria criteria = new Criteria();
@@ -47,7 +47,7 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
      * 
      * @param name - part of composite key
      * @return Project
-     * @see ProjectCodeDao
+     * @see ProjectCodeDao#getByName(String)
      */
     public ProjectCode getByName(String name) {
         Criteria criteria = new Criteria();
@@ -61,6 +61,7 @@ public class ProjectCodeDaoOjb extends PlatformAwareDaoBaseOjb implements Projec
      * @param projectCode - a populated ProjectCode object to be saved
      * @throws IllegalObjectStateException
      * @throws ValidationErrorList
+     * @see ProjectCodeDaoOjb#save(ProjectCode)
      */
     public void save(ProjectCode projectCode) {
         getPersistenceBrokerTemplate().store(projectCode);

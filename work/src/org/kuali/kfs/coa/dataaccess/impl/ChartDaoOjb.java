@@ -35,10 +35,9 @@ import org.kuali.module.chart.dao.ChartDao;
 public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ChartDaoOjb.class);
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see edu.iu.uis.kuali.dao.ChartDao#getAll()
+     * @see org.kuali.module.chart.dao.ChartDao#getAll()
      */
     public Collection getAll() {
         QueryByCriteria qbc = QueryFactory.newQuery(Chart.class, (Criteria) null);
@@ -48,13 +47,20 @@ public class ChartDaoOjb extends PlatformAwareDaoBaseOjb implements ChartDao {
         return chartList;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.ChartDao#getUniversityChart()
+     */
     public Chart getUniversityChart() {
         Criteria criteria = new Criteria();
         criteria.addEqualToField("FIN_COA_CD", "RPTS_TO_FIN_COA_CD");
         return (Chart) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Chart.class, criteria)).iterator().next();
     }
 
-
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.ChartDao#getByPrimaryId(java.lang.String)
+     */
     public Chart getByPrimaryId(String chartOfAccountsCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);

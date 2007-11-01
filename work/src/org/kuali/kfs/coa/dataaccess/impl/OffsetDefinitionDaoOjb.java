@@ -28,10 +28,9 @@ import org.kuali.module.chart.dao.OffsetDefinitionDao;
 public class OffsetDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements OffsetDefinitionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OffsetDefinitionDaoOjb.class);
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.dao.OffsetDefinitionDao#getByPrimaryId(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.OffsetDefinitionDao#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
     public OffsetDefinition getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialDocumentTypeCode, String financialBalanceTypeCode) {
         Criteria criteria = new Criteria();

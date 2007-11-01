@@ -18,12 +18,17 @@ package org.kuali.module.chart.lookup.keyvalues;
 import org.kuali.module.chart.bo.codes.BudgetRecordingLevel;
 
 /**
- * This class...
+ * This class creates a new finder for our forms view (creates a drop-down of {@link BudgetRecordingLevel}s)
  * 
  * 
  */
 public class BudgetRecordingLevelValuesFinder extends KualiSystemCodeValuesFinder {
 
+    /**
+     * This method is called by the {@link KualiSystemCodeValuesFinder} that creates
+     * a list out of the code and the code and description from the class
+     * @see org.kuali.module.chart.lookup.keyvalues.KualiSystemCodeValuesFinder#getValuesClass()
+     */
     protected Class getValuesClass() {
         return BudgetRecordingLevel.class;
     }

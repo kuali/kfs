@@ -23,5 +23,13 @@ import org.kuali.module.chart.bo.ObjectCons;
  * 
  */
 public interface ObjectConsDao {
+    
+    /**
+     * 
+     * This method retrieves a {@link ObjectCons} based on primary keys
+     * @param chartOfAccountsCode
+     * @param objectConsCode
+     * @return a specific {@link ObjectCons} based on primary keys
+     */
     public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode);
 }

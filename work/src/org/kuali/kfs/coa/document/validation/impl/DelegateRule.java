@@ -56,11 +56,16 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document saving
-     * 
-     * @param document
-     * @return boolean
+     * This runs specific rules that are called when a document is saved:
+     * <ul>
+     * <li>{@link DelegateRule#checkSimpleRules()}</li>
+     * <li>{@link DelegateRule#checkOnlyOnePrimaryRoute(MaintenanceDocument)}</li>
+     * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @return doesn't fail on save, even if sub-rules fail
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         LOG.info("Entering processCustomSaveDocumentBusinessRules()");
@@ -79,10 +84,14 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document routing
-     * 
-     * @param document
-     * @return boolean
+     * This runs specific rules that are called when a document is routed:
+     * <ul>
+     * <li>{@link DelegateRule#checkSimpleRules()}</li>
+     * <li>{@link DelegateRule#checkOnlyOnePrimaryRoute(MaintenanceDocument)}</li>
+     * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @return fails if sub-rules fail
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -104,10 +113,13 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document approval.
-     * 
-     * @param document
-     * @return booelan
+     * This runs specific rules that are called when a document is approved:
+     * <ul>
+     * <li>{@link DelegateRule#checkSimpleRules()}</li>
+     * <li>{@link DelegateRule#checkOnlyOnePrimaryRoute(MaintenanceDocument)}</li>
+     * <li>{@link DelegateRule#checkDelegateUserRules(MaintenanceDocument)}</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
 
@@ -144,6 +156,18 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * 
+     * This checks to see if 
+     * <ul>
+     * <li>the delegate start date is valid and they are active</li>
+     * <li>from amount is >= 0</li>
+     * <li>to amount cannot be empty when from amount is filled out</li>
+     * <li>to amount is >= from amount</li>
+     * <li>account cannot be closed</li>
+     * </ul>
+     * @return
+     */
     protected boolean checkSimpleRules() {
 
         boolean success = true;
@@ -207,8 +231,12 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-
-    // checks to see if there is already a record
+    /**
+     * 
+     * This checks to see if there is already a record for the primary route
+     * @param document
+     * @return false if there is a record
+     */
     protected boolean checkOnlyOnePrimaryRoute(MaintenanceDocument document) {
 
         boolean success = true;
@@ -282,6 +310,12 @@ public class DelegateRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to see if the user is valid and active for this module
+     * @param document
+     * @return false if this user is not valid or active for being a delegate
+     */
     protected boolean checkDelegateUserRules(MaintenanceDocument document) {
 
         boolean success = true;

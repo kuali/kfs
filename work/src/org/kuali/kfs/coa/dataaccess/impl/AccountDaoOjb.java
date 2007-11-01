@@ -120,6 +120,15 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         return new ArrayList(getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(Delegate.class, getDelegateByExampleCriteria(delegateExample, totalDollarAmount, "N"))));
     }
 
+    /**
+     * 
+     * This method creates a {@link Criteria} based on {@link Delegate}, dollar amount and whether
+     * or not it is the primary delegate
+     * @param delegateExample
+     * @param totalDollarAmount
+     * @param accountsDelegatePrmrtIndicator
+     * @return example {@link Delegate} {@link Criteria}
+     */
     private Criteria getDelegateByExampleCriteria(Delegate delegateExample, String totalDollarAmount, String accountsDelegatePrmrtIndicator) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, delegateExample.getChartOfAccountsCode());
@@ -152,6 +161,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * method to get the fo responsibilities for the account
+     * @param universalUser - fiscal officer to check for
+     * @return list of {@link AccountResponsibility} for this fiscal officer
      */
     private List getFiscalOfficerResponsibilities(UniversalUser universalUser) {
         List fiscalOfficerResponsibilities = new ArrayList();
@@ -191,6 +202,8 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
 
     /**
      * method to get the fo delegated responsibilities for the account
+     * @param universalUser - user to check against
+     * @return a list of {@link AccountResponsibility} objects for a delegate
      */
     private List getDelegatedResponsibilities(UniversalUser universalUser) {
         List delegatedResponsibilities = new ArrayList();
@@ -245,6 +258,11 @@ public class AccountDaoOjb extends PlatformAwareDaoBaseOjb implements AccountDao
         return hasResponsibility;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.AccountDao#getAllAccounts()
+     * @return an iterator for all accounts
+     */
     public Iterator getAllAccounts() {
         LOG.debug("getAllAccounts() started");
 

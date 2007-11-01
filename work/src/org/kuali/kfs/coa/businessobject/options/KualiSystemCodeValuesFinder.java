@@ -38,8 +38,12 @@ import org.kuali.kfs.context.SpringContext;
  */
 public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Calls getValuesClass() to generate a list of key/value pairs from
+     * the {@link KualiCodeBase}'s code as the key and the code and description as the
+     * value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @return list of key/value pairs for displaying on the client side
      */
     public List getKeyValues() {
 
@@ -59,8 +63,12 @@ public abstract class KualiSystemCodeValuesFinder extends KeyValuesBase {
         return keyLabels;
     }
 
-    // must be implemented by the base class, should return the Class of the
-    // object being looked up
+    /**
+     * 
+     * This method must be implemented by the base class, should return the Class of the
+     * object being looked up
+     * @return class of object being looked up
+     */
     protected abstract Class getValuesClass();
 
 }

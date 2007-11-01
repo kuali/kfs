@@ -31,11 +31,8 @@ import org.kuali.module.chart.service.AccountService;
 
 /**
  * 
- * PreRules checks for the Account that needs to occur while still in the Struts processing. This includes defaults, confirmations,
- * etc.
- * 
- * 
- * 
+ * PreRules checks for the Account that needs to occur while still in the Struts processing. 
+ * This includes defaults, confirmations, etc.
  */
 public class AccountPreRules extends MaintenancePreRulesBase {
 
@@ -65,6 +62,16 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         configService = SpringContext.getBean(KualiConfigurationService.class);
     }
 
+    /**
+     * Executes the following pre rules
+     * <ul>
+     * <li>{@link AccountPreRules#checkForContinuationAccount(String, String, String, String)}</li>
+     * <li>{@link AccountPreRules#checkForDefaultSubFundGroupStatus()}</li>
+     * <li>{@link AccountPreRules#newAccountDefaults(MaintenanceDocument)}</li>
+     * <li>{@link AccountPreRules#setStateFromZip}</li>
+     * </ul>
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
@@ -201,7 +208,11 @@ public class AccountPreRules extends MaintenancePreRulesBase {
         }
     }
 
-    // lookup state and city from populated zip, set the values on the form
+    /**
+     * 
+     * This method lookups state and city from populated zip, set the values on the form
+     * @param maintenanceDocument
+     */
     private void setStateFromZip(MaintenanceDocument maintenanceDocument) {
 
         // acct_zip_cd, acct_state_cd, acct_city_nm all are populated by looking up

@@ -37,7 +37,7 @@ public class SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements SubAcco
      * @param accountNumber - part of composite key
      * @param subAccountNumber - part of composite key
      * @return SubAccount
-     * @see SubAccountDao
+     * @see SubAccountDao#getByPrimaryId(String, String, String)
      */
     public SubAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         Criteria criteria = new Criteria();
@@ -55,6 +55,7 @@ public class SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements SubAcco
      * @param organizationCode - 'Reports To' Organization Code
      * @param subAccountNumber - Sub Account Number
      * @return a list of SubAccount objects
+     * @see SubAccountDao#getSubAccountsByReportsToOrganization(String, String, String)
      */
     public List getSubAccountsByReportsToOrganization(String chartOfAccountsCode, String organizationCode, String subAccountNumber) {
         Criteria criteria = new Criteria();

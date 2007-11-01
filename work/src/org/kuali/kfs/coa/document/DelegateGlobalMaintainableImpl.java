@@ -34,10 +34,16 @@ import org.kuali.module.chart.bo.DelegateGlobal;
 import org.kuali.module.chart.bo.DelegateGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
-
+/**
+ * 
+ * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific
+ * maintenance locks for Global delegates and to help with using delegate models
+ * @see OrganizationRoutingModelName
+ */
 public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**
+     * This method is used for the creation of a delegate from a {@link OrganizationRoutingModelName}
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#setupNewFromExisting()
      */
     @Override

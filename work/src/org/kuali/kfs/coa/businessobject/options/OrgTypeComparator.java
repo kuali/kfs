@@ -19,6 +19,10 @@ import java.util.Comparator;
 
 import org.kuali.module.chart.bo.OrgType;
 
+/**
+ * 
+ * This class allows us to compare two {@link OrgType}s by their codes
+ */
 public class OrgTypeComparator implements Comparator {
 
     public OrgTypeComparator() {

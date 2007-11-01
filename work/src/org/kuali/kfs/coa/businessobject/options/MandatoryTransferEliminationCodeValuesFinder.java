@@ -27,14 +27,15 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 
 /**
- * This class returns list of Budget Aggregation Code type value pairs.
- * 
+ * This class creates a new finder for our forms view (creates a drop-down of {@link MandatoryTransferEliminationCode}s)
  * 
  */
 public class MandatoryTransferEliminationCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link MandatoryTransferEliminationCode}s using their code as their key, and
+     * their code "-" name as the display value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

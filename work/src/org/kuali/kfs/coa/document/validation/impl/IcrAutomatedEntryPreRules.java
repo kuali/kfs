@@ -23,9 +23,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 
 /**
- * This class...
- * 
- * 
+ * PreRules checks for the {@link IcrAutomatedEntry} that needs to occur while still in the Struts processing. 
+ * This includes defaults, confirmations, etc.
  */
 public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
 
@@ -38,6 +37,14 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
 
     }
 
+    /**
+     * Executes the following pre rules
+     * <ul>
+     * <li>{@link IcrAutomatedEntryPreRules#setSubAccountToDashesIfBlank()}</li>
+     * <li>{@link IcrAutomatedEntryPreRules#setSubObjectToDashesIfBlank()}</li>
+     * </ul>
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
@@ -50,6 +57,10 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * 
+     * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
+     */
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
@@ -62,6 +73,10 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
         }
     }
 
+    /**
+     * 
+     * This sets the {@link SubAccount} number to padded dashes ("-") if blank
+     */
     protected void setSubAccountToDashesIfBlank() {
         String newSubAccount = newAccount.getSubAccountNumber();
         if (StringUtils.isBlank(newSubAccount)) {
@@ -69,6 +84,10 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
         }
     }
     
+    /**
+     * 
+     * This sets the {@link org.kuali.module.chart.bo.SubObjCd} code to padded dashes ("-") if blank
+     */
     protected void setSubObjectToDashesIfBlank() {
         String newSubObject = newAccount.getFinancialSubObjectCode();
         if (StringUtils.isBlank(newSubObject)) {
@@ -76,6 +95,11 @@ public class IcrAutomatedEntryPreRules extends MaintenancePreRulesBase {
         }
     }
     
+    /**
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated

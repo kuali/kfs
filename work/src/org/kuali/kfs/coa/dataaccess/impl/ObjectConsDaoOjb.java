@@ -27,6 +27,10 @@ import org.kuali.module.chart.dao.ObjectConsDao;
 public class ObjectConsDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectConsDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectConsDaoOjb.class);
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.ObjectConsDao#getByPrimaryId(java.lang.String, java.lang.String)
+     */
     public ObjectCons getByPrimaryId(String chartOfAccountsCode, String objectConsCode) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);

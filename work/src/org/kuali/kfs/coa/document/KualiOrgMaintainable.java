@@ -29,10 +29,8 @@ import org.kuali.kfs.KFSPropertyConstants;
 
 /**
  * 
- * 
- * 
+ * This class overrides the getCoreSections method to provide specific field conversions for the postal code
  */
-
 public class KualiOrgMaintainable extends KualiMaintainableImpl {
 
     private static final long serialVersionUID = -3182120468758958991L;
@@ -40,7 +38,7 @@ public class KualiOrgMaintainable extends KualiMaintainableImpl {
     public static final String KUALI_ORG_SECTION = "Edit Organization Code";
 
     /**
-     *
+     * Provides special field conversions for the Org.organizationZipCode
      * 
      * @see org.kuali.core.maintenance.Maintainable#getCoreSections(org.kuali.core.maintenance.Maintainable)
      */

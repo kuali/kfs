@@ -27,14 +27,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
 
 /**
- * This class...
+ * This class returns list of {@link FederalFundedCode} key value pairs.
  * 
  * 
  */
 public class FederalFundedCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link FederalFundedCode} using their code as the key and their
+     * code "-" name
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

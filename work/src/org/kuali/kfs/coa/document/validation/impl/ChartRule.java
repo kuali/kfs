@@ -25,10 +25,18 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.service.ChartService;
 
+/**
+ * 
+ * Business rule(s) applicable to {@link ChartMaintenance} documents.
+ */
 public class ChartRule extends MaintenanceDocumentRuleBase {
    
     /**
+     * This method calls specific rules for routing on Chart Maintenance documents
+     * Specifically it checks to make sure that reportsToChart exists if it is not the same code as the newly created Chart
+     * and it checks to make sure that the chart manager is valid for the Chart Module
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     * @return false if reports to chart code doesn't exist or user is invalid for this module
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         

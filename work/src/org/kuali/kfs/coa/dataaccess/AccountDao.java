@@ -25,9 +25,9 @@ import org.kuali.module.chart.bo.Delegate;
 
 
 /**
- * This interface defines basic methods that Account Dao's must provide
- * 
- * 
+ * This interface defines what methods of data retrieval should be allowed for 
+ * {@link org.kuali.module.chart.bo.Account}, and {@link org.kuali.module.chart.bo.Delegate}.
+ * It also defines a method for checking if a given User is responsible for an Account
  */
 public interface AccountDao {
 

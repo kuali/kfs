@@ -26,7 +26,8 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Delegate;
 
 /**
- * This class...
+ * PreRules checks for the {@link Delegate} that needs to occur while still in the Struts processing. 
+ * This includes defaults
  * 
  * 
  */
@@ -43,6 +44,7 @@ public class DelegatePreRules implements PreRulesCheck {
     }
 
     /**
+     * This method sets some defaults on the {@link Delegate}
      * @see org.kuali.core.rule.PreRulesCheck#processPreRuleChecks(org.apache.struts.action.ActionForm,
      *      javax.servlet.http.HttpServletRequest, org.kuali.core.rule.event.PreRulesCheckEvent)
      */
@@ -59,6 +61,11 @@ public class DelegatePreRules implements PreRulesCheck {
         return true;
     }
 
+    /**
+     * 
+     * This method sets the approval from and to amounts to "0"
+     * @param delegate
+     */
     private void setUnconditionalDefaults(Delegate delegate) {
 
         // FROM amount defaults to zero

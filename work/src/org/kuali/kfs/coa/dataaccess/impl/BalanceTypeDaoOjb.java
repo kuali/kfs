@@ -24,9 +24,18 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.dao.BalanceTypeDao;
 
+/**
+ * 
+ * This class implements the {@link BalanceTypeDao} data access methods using Ojb
+ */
 public class BalanceTypeDaoOjb extends PlatformAwareDaoBaseOjb implements BalanceTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceTypeDaoOjb.class);
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.BalanceTypeDao#getEncumbranceBalanceTypes()
+     * @return a list of {@link BalanceTyp} that hare tied to encumbrances
+     */
     public Collection getEncumbranceBalanceTypes() {
         LOG.debug("getEncumbranceBalanceTypes() started");
 

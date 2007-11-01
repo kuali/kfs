@@ -27,6 +27,11 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.AccountGlobal;
 
+/**
+ * 
+ * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific
+ * maintenance locks for Global accounts
+ */
 public class AccountGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
     /**

@@ -28,8 +28,9 @@ import org.kuali.core.web.ui.KeyLabelPair;
  */
 public class CheckingSavingsValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a simple list of static values for either checking or savings
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();

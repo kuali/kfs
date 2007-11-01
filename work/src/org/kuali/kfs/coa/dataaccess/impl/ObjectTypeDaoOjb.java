@@ -29,8 +29,7 @@ import org.kuali.module.chart.dao.ObjectTypeDao;
 public class ObjectTypeDaoOjb extends PlatformAwareDaoBaseOjb implements ObjectTypeDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectTypeDaoOjb.class);
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.kuali.module.chart.dao.ObjectTypeDao#getByPrimaryKey(java.lang.String)
      */

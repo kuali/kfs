@@ -19,6 +19,10 @@ import java.util.Comparator;
 
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
 
+/**
+ * 
+ * This class allows us to compare two {@link MandatoryTransferEliminationCode}
+ */
 public class MandatoryTransferEliminationCodeComparator implements Comparator {
 
     public MandatoryTransferEliminationCodeComparator() {

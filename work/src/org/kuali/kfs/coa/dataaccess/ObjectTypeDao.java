@@ -18,9 +18,15 @@ package org.kuali.module.chart.dao;
 import org.kuali.module.chart.bo.ObjectType;
 
 /**
- * 
+ * This interface specifies data access methods for {@link ObjectType}
  * 
  */
 public interface ObjectTypeDao {
+    /**
+     * 
+     * This method retrieves a {@link ObjectType} based on primary keys
+     * @param code
+     * @return a specific {@link ObjectType} based on primary keys
+     */
     public ObjectType getByPrimaryKey(String code);
 }

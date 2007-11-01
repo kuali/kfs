@@ -33,8 +33,10 @@ import org.kuali.module.chart.bo.Chart;
  */
 public class ChartValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link Chart} using their code as the key and their
+     * code "-" description
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);

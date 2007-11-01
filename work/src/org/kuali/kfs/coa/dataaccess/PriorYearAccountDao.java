@@ -18,17 +18,17 @@ package org.kuali.module.chart.dao;
 import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
- * This class...
+ * This interface defines data access methods for {@link PriorYearAccount}
  * 
  * 
  */
 public interface PriorYearAccountDao {
     /**
-     * @param chartOfAccountsCode - part of composite key
-     * @param accountNumber - part of composite key
-     * @return PriorYearAccount
      * 
      * Retrieves an Account object based on primary key.
+     * @param chartOfAccountsCode - part of composite key
+     * @param accountNumber - part of composite key
+     * @return {@link PriorYearAccount} based on primary key
      */
     public PriorYearAccount getByPrimaryId(String chartOfAccountsCode, String accountNumber);
 }

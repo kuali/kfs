@@ -27,14 +27,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.SubFundGroupType;
 
 /**
- * This class returns list of chart key value pairs.
+ * This class creates a new finder for our forms view (creates a drop-down of {@link SubFundGroupType}s)
  * 
  * 
  */
 public class SubFundGroupTypeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link SubFundGroupType}s using their code as their key, and
+     * their code "-" description as the display value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);

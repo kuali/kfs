@@ -22,17 +22,21 @@ import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
 /**
- * This class returns list containg E = Employee
- *                                  F = FEIN
- *                                  P = DV Payee
- *                                  S = SSN
- *                                  V = Vendor
- * 
+ * This class returns list containing 
+ 
  */
 public class PayeeTypeCodeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * This method creates a static list of {@link PayeeTypeCode}s
+     * <ul>
+     * <li>E = Employee</li>
+     * <li>F = FEIN</li>
+     * <li>P = DV Payee</li>
+     * <li>S = SSN</li>
+     * <li>V = Vendor</li>
+     * </ul>
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List keyValues = new ArrayList();

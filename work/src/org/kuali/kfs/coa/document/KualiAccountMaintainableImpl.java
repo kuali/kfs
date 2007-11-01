@@ -26,15 +26,19 @@ import org.kuali.module.chart.bo.Account;
 
 /**
  * 
- * This class overrides the saveBusinessObject() method which is called during post process from the KualiPostProcessor so that it
+ * This class overrides the saveBusinessObject() method which is called during post process from 
+ * the KualiPostProcessor so that it
  * can automatically deactivate the Sub-Accounts related to the account
+ * It also overrides the processAfterCopy so that it sets specific fields that shouldn't be copied
+ * to default values
  * 
  * 
- * @link KualiPostProcessor
+ * {@link KualiPostProcessor}
  */
 public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     /**
-     * 
+     * Automatically deactivates {@link SubAccount}s after saving
+     * the {@link Account}
      * @see org.kuali.core.maintenance.Maintainable#saveBusinessObject()
      */
     @Override
@@ -54,7 +58,7 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * 
+     * After a copy is done set specific fields on {@link Account} to default values
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override

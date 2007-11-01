@@ -33,9 +33,22 @@ import org.kuali.module.chart.bo.OrganizationReversionGlobal;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
 import org.kuali.module.chart.service.OrganizationReversionService;
-
+/**
+ * 
+ * This class provides some specific functionality for the {@link OrganizationReversionGlobal} maintenance document
+ * inner class for doing comparisons on {@link OrganizationReversionCategory}
+ * generateMaintenanceLocks - generates the appropriate maintenance locks on {@link OrganizationReversion}
+ * setBusinessObject - populates the {@link OrganizationReversionGlobalDetail}s
+ * isRelationshipRefreshable - makes sure that {@code organizationReversionGlobalDetails} isn't wiped out accidentally
+ * processGlobalsAfterRetrieve - provides special handling for the details (which aren't a true collection)
+ */
 public class OrganizationReversionGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalMaintainableImpl.class);
+    
+    /**
+     * 
+     * This class is an inner class for comparing two {@link OrganizationReversionCategory}s
+     */
     private class CategoryComparator implements Comparator<OrganizationReversionGlobalDetail> {
         public int compare(OrganizationReversionGlobalDetail detailA, OrganizationReversionGlobalDetail detailB) {
             OrganizationReversionCategory categoryA = detailA.getOrganizationReversionCategory();

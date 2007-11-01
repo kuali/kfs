@@ -22,6 +22,10 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.dao.A21SubAccountDao;
 
+/**
+ * 
+ * This class provides data access to {@link A21SubAccount} through OJB
+ */
 public class A21SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements A21SubAccountDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(A21SubAccountDaoOjb.class);
 
@@ -29,10 +33,9 @@ public class A21SubAccountDaoOjb extends PlatformAwareDaoBaseOjb implements A21S
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.module.gl.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.A21SubAccountDao#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         LOG.debug("getByPrimaryKey() started");

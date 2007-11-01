@@ -23,7 +23,11 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.ObjectCodeGlobal;
 import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 
-
+/**
+ * 
+ * PreRules checks for the {@link ObjectCodeGlobal} that needs to occur while still in the Struts processing. 
+ * This includes defaults
+ */
 public class ObjectCodeGlobalPreRules extends MaintenancePreRulesBase {
 
     

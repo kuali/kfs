@@ -28,14 +28,16 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.AcctType;
 
 /**
- * This class...
+ * This class creates a new finder for our forms view (creates a drop-down of Account types)
  * 
  * 
  */
 public class AcctTypeValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Creates a list of {@link AcctType}s using their code as their key, and
+     * their code "-" account type name as the display value
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
 

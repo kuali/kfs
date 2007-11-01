@@ -22,10 +22,13 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.chart.dao.SubFundGroupDao;
 
+/**
+ * 
+ * This class implements the {@link SubFundGroupDao} data access methods using Ojb
+ */
 public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFundGroupDao {
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByPrimaryId(java.lang.String)
      */
@@ -36,8 +39,7 @@ public class SubFundGroupDaoOjb extends PlatformAwareDaoBaseOjb implements SubFu
         return (SubFundGroup) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(SubFundGroup.class, criteria));
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.kuali.module.chart.dao.SubFundGroupDao#getByChartAndAccount(java.lang.String, java.lang.String)
      */

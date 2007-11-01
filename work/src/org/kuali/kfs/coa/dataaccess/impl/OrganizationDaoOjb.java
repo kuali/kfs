@@ -37,10 +37,9 @@ import org.kuali.module.chart.dao.OrganizationDao;
 public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements OrganizationDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationDaoOjb.class);
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.dao.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
+     * @see org.kuali.module.chart.dao.OrganizationDao#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         Criteria criteria = new Criteria();
@@ -50,10 +49,9 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
         return (Org) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(Org.class, criteria));
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.dao.OrganizationDao#save(org.kuali.bo.Org)
+     * @see org.kuali.module.chart.dao.OrganizationDao#save(org.kuali.module.chart.bo.Org)
      */
     public void save(Org organization) {
         getPersistenceBrokerTemplate().store(organization);
@@ -119,10 +117,10 @@ public class OrganizationDaoOjb extends PlatformAwareDaoBaseOjb implements Organ
         }
         return orgs;
     }
+    
     /**
-     * 
-     *  get the root organization based on the root chart and the organization type
-     *  we insist that the root organization be active
+     * we insist that the root organization be active
+     * @see org.kuali.module.chart.dao.OrganizationDao#getRootOrganizationCode(java.lang.String, java.lang.String)
      */
     public String[] getRootOrganizationCode(String rootChart,
                                             String selfReportsOrgTypeCode)

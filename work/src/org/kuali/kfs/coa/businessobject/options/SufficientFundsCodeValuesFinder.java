@@ -19,9 +19,7 @@ import org.kuali.module.chart.bo.codes.SufficientFundsCode;
 
 
 /**
- * This class...
- * 
- * 
+ * This class creates a new finder for our forms view (creates a drop-down of {@link SufficientFundsCode}s)
  */
 public class SufficientFundsCodeValuesFinder extends KualiSystemCodeValuesFinder {
 

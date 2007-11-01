@@ -32,7 +32,8 @@ import org.kuali.rice.KNSServiceLocator;
 
 /**
  * 
- * This class is a special implementation of Maintainable specifically for Account Delegates.  It was created to correctly update the
+ * This class is a special implementation of Maintainable specifically for Account Delegates.  
+ * It was created to correctly update the
  * default Start Date on edits and copies, ala JIRA #KULRNE-62.
  */
 public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
@@ -46,11 +47,19 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
         super.processAfterCopy();
     }
     
+    /**
+     * This method will reset AccountDelegate's Start Date to the current timestamp on edits and copies
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit()
+     */
     public void processAfterEdit() {
         this.setStartDateDefault();
         super.processAfterEdit();
     }
     
+    /**
+     * 
+     * This method sets the start date on {@link Delegate} BO
+     */
     private void setStartDateDefault() {
         if (this.businessObject != null && this.businessObject instanceof Delegate) {
             Delegate delegate = (Delegate)this.businessObject;
@@ -59,6 +68,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
+     * Generates the appropriate maintenance locks for the {@link Delegate}
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#generateMaintenanceLocks()
      */
     @Override
@@ -75,7 +85,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * 
      * This method creates a maintenance lock for the field names supplied
      * @param fieldNames
-     * @return
+     * @return the maintenance lock for supplied field names
      */
     private MaintenanceLock createMaintenanceLock(String[] fieldNames) {
         MaintenanceLock lock = new MaintenanceLock();
@@ -89,7 +99,7 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * 
      * This method create a locking representation for the field names supplied
      * @param fieldNames
-     * @return
+     * @return locking representation string
      */
     private String createLockingRepresentation(String[] fieldNames) {
         StringBuilder lockRepresentation = new StringBuilder();
@@ -117,10 +127,11 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
     
     /**
      * 
-     * This method returns the field value of a given field, converting the value to a String and encrypting it if necessary
+     * This method returns the field value of a given field, converting the value 
+     * to a String and encrypting it if necessary
      * @param fieldName
      * @param ddService
-     * @return
+     * @return string field value for a lock
      */
     private String retrieveFieldValueForLock(String fieldName, DataDictionaryService ddService, EncryptionService encryptionService) {
         Object fieldValue = ObjectUtils.getPropertyValue(this.businessObject, fieldName);

@@ -33,7 +33,24 @@ public static final boolean replaceMode=true;
                                              InvocationTargetException;
 
    
+    /**
+     * 
+     * This method...
+     * @return
+     */
     public Integer fiscalYearFromToday();
+    
+    /**
+     * 
+     * this is the only routine that simply replaces what is there, if anything
+     * but, we have to do a delete--otherwise, we can get an optimistic locking
+     * exception when we try to store a new row on top of something already in 
+     * the database.  we will delete by fiscal year.
+     * the accounting period is assumed to correspond to the month, with the month of the start date being the first period and the month of the last
+     * day of the fiscal year being the twelfth.
+     * the fiscal year tag is always the year of the ending date of the fiscal year
+     * @param newYearStartDate
+     */
     public void makeUniversityDate(GregorianCalendar newYearStartDate);
     
 
@@ -58,48 +75,96 @@ public static final boolean replaceMode=true;
      * object.  
      */
     
-    // fetch and set a map of child classes involved in fiscal year makers
-    // (ALL such classes should be included, even those which have no parent(s)
-    //  in the RI tree.)
+    /**
+     * fetch and set a map of child classes involved in fiscal year makers
+     * (ALL such classes should be included, even those which have no parent(s)
+     * in the RI tree.)
+     * @return HashMap containing the 
+     */
     public HashMap<String,Class> getMakerObjectsList();
+    
+    /**
+     * 
+     * This method...
+     * @param makerObjectList
+     */
     public void setMakerObjectsList(HashMap<String,Class> makerObjectList);
-    // fetch and set a map of child classes involved in fiscal year makers
-    // and a list of their RI parents
+    
+    /**
+     * fetch and set a map of child classes involved in fiscal year makers
+     * and a list of their RI parents
+     * @return
+     */
     public HashMap<String,ArrayList<Class>> getChildParentMap();
+    
+    /**
+     * 
+     * This method...
+     * @param childParentArrayMap
+     */
     public void setChildParentArrayMap(HashMap<String,Class[]> childParentArrayMap);
-    // the "lagging copy cycle" objects are those which are always one fiscal period
-    // behind.  in other words, the base period for the other objects (the source 
-    // period for the copy) is the request period for them (the target period for 
-    // their copy).
+    
+    /**
+     *  the "lagging copy cycle" objects are those which are always one fiscal period
+     behind.  in other words, the base period for the other objects (the source 
+     period for the copy) is the request period for them (the target period for 
+     their copy).
+     * This method...
+     * @param laggingCopyCycle
+     */
     public void setLaggingCopyCycle (HashSet<String> laggingCopyCycle);
-    // auto-update or auto-delete in OJB will interfere with the copy order prescribed above.
-    // (Tables A and C may be a parents of Table B, but A may have no relation to C.  If A has
-    //  an auto-xxx on B, then B will be written when A is, even if C is later in the copy order
-    //  than A, and an RI exception will result.)  So, the code resets any auto-xxx properties
-    //  on tables involved in a fiscal-year-makers parent-child relationship.
-    //  this routine resets the original values at the end of fiscal year makers
+    
+    /**
+     *  auto-update or auto-delete in OJB will interfere with the copy order prescribed above.
+     (Tables A and C may be a parents of Table B, but A may have no relation to C.  If A has
+      an auto-xxx on B, then B will be written when A is, even if C is later in the copy order
+      than A, and an RI exception will result.)  So, the code resets any auto-xxx properties
+      on tables involved in a fiscal-year-makers parent-child relationship.
+      this routine resets the original values at the end of fiscal year makers
+     */
     public void resetCascades();
     
     
-    // when the reference objects for a base fiscal period are copied into the
-    // next fiscal period, there is an option to delete all of the next period
-    // objects that already exit and replace them with their base period counterparts
-    // this method reads a list of the delete order which satisfies RI (i.e.,
-    // the dependent object must be deleted before the parent object) and does the
-    // job in the proper order.  
-    public void deleteNewYearRows(Integer RequestYear);
-    // when we want to copy two years at a time for some tables, we use this method
-    // with "slash and burn" mode to delete any rows for the year after RequestYear
-    // that already exist for the parents
-    public void deleteYearAfterNewYearRowsForParents(Integer RequestYear,
+    /**
+     *  when the reference objects for a base fiscal period are copied into the
+     next fiscal period, there is an option to delete all of the next period
+     objects that already exit and replace them with their base period counterparts
+     this method reads a list of the delete order which satisfies RI (i.e.,
+     the dependent object must be deleted before the parent object) and does the
+     job in the proper order.  
+     * This method...
+     * @param RequestYear
+     */
+    public void deleteNewYearRows(Integer requestYear);
+    
+    /**
+     * when we want to copy two years at a time for some tables, we use this method
+     * with "slash and burn" mode to delete any rows for the year after RequestYear
+     * that already exist for the parents
+     * @param RequestYear
+     * @param childClass
+     */
+    public void deleteYearAfterNewYearRowsForParents(Integer requestYear,
                                                      Class childClass);
-    // check to see whether the test class is in the parent list for the child class
+    
+    /**
+     * 
+     * This method checks to see whether the test class is in the parent list for the child class
+     * @param testClassName
+     * @param childClass
+     * @return true if testClassName is a parent class of childClass
+     */
     public boolean isAParentOf(String testClassName, Class childClass);
 
     
-    // this returns the data structure containing a copy order that is consistent
-    // with the RI relationships configured in the XML
+    /**
+     * this returns the data structure containing a copy order that is consistent
+     * with the RI relationships configured in the XML
+     * @param baseYear
+     * @param replaceMode
+     * @return
+     */
     public LinkedHashMap<String,FiscalYearMakersCopyAction> 
-    setUpRun(Integer BaseYear, boolean replaceMode);
+                setUpRun(Integer baseYear, boolean replaceMode);
 
 }

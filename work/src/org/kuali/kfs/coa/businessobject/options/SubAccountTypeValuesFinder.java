@@ -25,8 +25,19 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.SubAccount;
 
+/**
+ * 
+ * This class creates a new finder for our forms view (creates a drop-down of {@link SubAccount}s)
+ * It only pulls {@link SubAccount}s that are allowed codes from our {@link ParameterService}
+ */
 public class SubAccountTypeValuesFinder extends KeyValuesBase {
 
+    /**
+     * Creates an allowed list of {@link SubAccount}s from the {@link ParameterService}
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     * @see ParameterService
+     * @see KFSConstants.ChartApcParms.CG_ALLOWED_SUBACCOUNT_TYPE_CODES
+     */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("", ""));

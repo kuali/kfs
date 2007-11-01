@@ -32,6 +32,7 @@ import org.kuali.module.chart.service.BalanceTypService;
 public class BalanceTypeValuesFinder extends KeyValuesBase {
 
     /**
+     * Creates a list of {@link BalanceTyp) with their code as their key and display value
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

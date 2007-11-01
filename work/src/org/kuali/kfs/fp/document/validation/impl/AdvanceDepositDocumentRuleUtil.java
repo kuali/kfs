@@ -35,8 +35,8 @@ public class AdvanceDepositDocumentRuleUtil {
      * existence of the Bank and BankAccount attributes that hang off of it. This method assumes that the document hierarchy for the
      * error map path is managed outside of this call.
      * 
-     * @param advanceDeposit
-     * @return boolean
+     * @param advanceDeposit advanceDeposit object being validated
+     * @return boolean returns true if dollar amount is not 0 and bank-related references (i.e. bank and bank account) are valid
      */
     public static boolean validateAdvanceDeposit(AdvanceDepositDetail advanceDeposit) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();

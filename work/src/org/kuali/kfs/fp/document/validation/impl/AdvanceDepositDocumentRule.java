@@ -41,6 +41,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
      * For Advance Deposit documents, the document is balanced if the sum total of advance deposits equals the sum total of the
      * accounting lines.
      * 
+     * @param financialDocument submitted financial document
+     * @return true if document is balanced (i.e. sum of advance deposits equals the sum total of accounting lines)
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -60,6 +62,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
     /**
      * Overrides to call super and then make sure the minimum number of deposit lines exist on this document.
      * 
+     * @param document submitted document
+     * @return true if associated rules are all valid
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -76,8 +80,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
     /**
      * This method is a helper that checks to make sure that at least one deposit line exists for the document.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted document
+     * @return boolean true if the there is a least one deposit line for document
      */
     private boolean isMinimumNumberOfAdvanceDepositsMet(Document document) {
         AdvanceDepositDocument ad = (AdvanceDepositDocument) document;
@@ -94,6 +98,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
     /**
      * Overrides to validate all of the deposits associated with this document.
      * 
+     * @param document submitted document
+     * @return true if associated rules are all valid
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -112,8 +118,8 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
      * Validates all of the Advance Deposits in the given Document, adding global errors for invalid items. It just uses the
      * DataDictionary validation.
      * 
-     * @param advanceDepositDocument
-     * @return boolean
+     * @param advanceDepositDocument submitted Advance Deposit Document
+     * @return boolean true if all advance deposits are valid (i.e. advance deposit amount is not 0, bank and bank account number are not blank)
      */
     private boolean validateAdvanceDeposits(AdvanceDepositDocument advanceDepositDocument) {
         GlobalVariables.getErrorMap().addToErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
@@ -138,6 +144,9 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
      * 
+     * @param financialDocument submitted financial document
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @return true if there are no issues creating GLPE's
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {

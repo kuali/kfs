@@ -91,14 +91,16 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * Get from APC the offset object code that is used for the <code>{@link GeneralLedgerPendingEntry}</code>
      * 
-     * @return String
+     * @return String returns GLPE parameter name
      */
     protected String getGeneralLedgerPendingEntryOffsetObjectCode() {
         return GENERAL_LEDGER_PENDING_ENTRY_OFFSET_CODE;
     }
 
     /**
-     * the following are credits (return false)
+     * Returns true if an accounting line is a debit or credit
+     * 
+     * The following are credits (return false)
      * <ol>
      * <li> debitCreditCode != 'D'
      * </ol>
@@ -110,6 +112,9 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * <ol>
      * <li> debitCreditCode isBlank
      * </ol>
+     * 
+     * @param financialDocument submitted accounting document
+     * @param accounttingLine accounting line being tested if it is a debit or not
      * 
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -123,13 +128,15 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * overrides the parent to display correct error message for a single sided document
+     * Overrides the parent to display correct error message for a single sided document
+     * 
+     * @param financialDocument submitted accounting document
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
-        if (0 == FinancialDocument.getSourceAccountingLines().size()) {
+    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
+        if (0 == financialDocument.getSourceAccountingLines().size()) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
@@ -143,10 +150,11 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or submitted to
      * post - it's called automatically by the parent's processRouteDocument method.
      * 
+     * @param financialDocument submitted accounting document
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
+    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
         return true;
     }
 
@@ -154,6 +162,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * Overrides the parent to return true, because Auxiliary Voucher documents aren't restricted from using any object code. This
      * is part of the "save" check that gets done. This method is called automatically by the parent's processSaveDocument method.
      * 
+     * @param documentClass submitted document class (not used in overriden method)
+     * @param accountingLine accountingLine where object code is being checked (not used in overriden method)
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isObjectCodeAllowed(org.kuali.core.bo.AccountingLine)
      */
     @Override
@@ -162,10 +172,14 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Accounting lines for Auxiliary Vouchers can be positive or negative, just not "$0.00".
+     * Accounting lines for Auxiliary Vouchers can only be positive non-zero numbers
      * 
+     * @param document submitted AccountingDocument
+     * @param accountingLine accountingLine where amount is being validated
+     * @return true if amount is NOT 0 or negative
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
+     * 
      */
     @Override
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
@@ -200,8 +214,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * This method looks at the current full key path that exists in the ErrorMap structure to determine how to build the error map
      * for the special journal voucher credit and debit fields since they don't conform to the standard pattern of accounting lines.
      * 
-     * @param isDebit
-     * @return String
+     * @param isDebit boolean to determine whether or not value isDebit or not
+     * @return String represents error map key to use
      */
     private String buildErrorMapKeyPathForDebitCreditAmount(boolean isDebit) {
         // determine if we are looking at a new line add or an update
@@ -231,6 +245,10 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * This method sets the appropriate document type and object type codes into the GLPEs based on the type of AV document chosen.
      * 
+     * @param document submitted AccountingDocument
+     * @param accountingLine represents accounting line where object type code is retrieved from
+     * @param explicitEntry GeneralPendingLedgerEntry object that has its document type, object type, period code, and fiscal year set
+     * 
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
@@ -258,20 +276,27 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * An Accrual Voucher only generates offsets if it is a recode (AVRC). So this method overrides to do nothing more than return
      * true if it's not a recode. If it is a recode, then it is responsible for generating two offsets with a document type of DI.
      * 
+     * @param financialDocument submitted accounting document 
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if general ledger pending entry is processed successfully for accurals, adjustments, and recodes
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
     @Override
-    protected boolean processOffsetGeneralLedgerPendingEntry(AccountingDocument FinancialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        AuxiliaryVoucherDocument auxVoucher = (AuxiliaryVoucherDocument) FinancialDocument;
+    protected boolean processOffsetGeneralLedgerPendingEntry(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        AuxiliaryVoucherDocument auxVoucher = (AuxiliaryVoucherDocument) financialDocument;
 
         // do not generate an offset entry if this is a normal or adjustment AV type
         if (auxVoucher.isAccrualType() || auxVoucher.isAdjustmentType()) {
-            return processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(FinancialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+            return processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(financialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
         }
         else if (auxVoucher.isRecodeType()) { // recodes generate offsets
-            return processOffsetGeneralLedgerPendingEntryForRecodes(FinancialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+            return processOffsetGeneralLedgerPendingEntryForRecodes(financialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
         }
         else {
             throw new IllegalStateException("Illegal auxiliary voucher type: " + auxVoucher.getTypeCode());
@@ -281,14 +306,14 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * This method handles generating or not generating the appropriate offsets if the AV type is a recode.
      * 
-     * @param FinancialDocument
-     * @param sequenceHelper
-     * @param accountingLineCopy
-     * @param explicitEntry
-     * @param offsetEntry
-     * @return boolean
+     * @param financialDocument submitted accounting document 
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if offset general ledger pending entry is processed
      */
-    private boolean processOffsetGeneralLedgerPendingEntryForRecodes(AccountingDocument FinancialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    private boolean processOffsetGeneralLedgerPendingEntryForRecodes(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         // the explicit entry has already been generated and added to the list, so to get the right offset, we have to set the value
         // of the document type code on the explicit
         // to the type code for a DI document so that it gets passed into the next call and we retrieve the right offset definition
@@ -303,14 +328,14 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
 
         // call the super to process an offset entry; see the customize method below for AVRC specific attribute values
         // pass in the explicit deep copy
-        boolean success = super.processOffsetGeneralLedgerPendingEntry(FinancialDocument, sequenceHelper, accountingLineCopy, explicitEntryDeepCopy, offsetEntry);
+        boolean success = super.processOffsetGeneralLedgerPendingEntry(financialDocument, sequenceHelper, accountingLineCopy, explicitEntryDeepCopy, offsetEntry);
 
         // increment the sequence appropriately
         sequenceHelper.increment();
 
         // now generate the AVRC DI entry
         // pass in the explicit deep copy
-        success &= processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(FinancialDocument, sequenceHelper, explicitEntryDeepCopy);
+        success &= processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(financialDocument, sequenceHelper, explicitEntryDeepCopy);
 
         return success;
     }
@@ -318,18 +343,18 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * This method handles generating or not generating the appropriate offsets if the AV type is accrual or adjustment.
      * 
-     * @param FinancialDocument
-     * @param sequenceHelper
-     * @param accountingLineCopy
-     * @param explicitEntry
-     * @param offsetEntry
-     * @return boolean
+     * @param financialDocument submitted accounting document 
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param accountingLineCopy accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * @return true if offset general ledger pending entry is processed successfully
      */
-    private boolean processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(AccountingDocument FinancialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+    private boolean processOffsetGeneralLedgerPendingEntryForAccrualsAndAdjustments(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         boolean success = true;
 
-        if (isDocumentForMultipleAccounts(FinancialDocument)) {
-            success &= super.processOffsetGeneralLedgerPendingEntry(FinancialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
+        if (isDocumentForMultipleAccounts(financialDocument)) {
+            success &= super.processOffsetGeneralLedgerPendingEntry(financialDocument, sequenceHelper, accountingLineCopy, explicitEntry, offsetEntry);
         }
         else {
             sequenceHelper.decrement(); // the parent already increments; b/c it assumes that all documents have offset entries all
@@ -341,17 +366,17 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
 
     /**
      * This method is responsible for iterating through all of the accounting lines in the document (source only) and checking to
-     * see if they are all for the same account or not. It recognized the first account element as the base, and then it iterates
+     * see if they are all for the same account or not. It recognizes the first account element as the base, and then it iterates
      * through the rest. If it comes across one that doesn't match, then we know it's for multiple accounts.
      * 
-     * @param FinancialDocument
-     * @return boolean
+     * @param financialDocument submitted accounting document
+     * @return true if multiple accounts are being used
      */
-    private boolean isDocumentForMultipleAccounts(AccountingDocument FinancialDocument) {
+    private boolean isDocumentForMultipleAccounts(AccountingDocument financialDocument) {
         String baseAccountNumber = "";
 
         int index = 0;
-        List<AccountingLine> lines = FinancialDocument.getSourceAccountingLines();
+        List<AccountingLine> lines = financialDocument.getSourceAccountingLines();
         for (AccountingLine line : lines) {
             if (index == 0) {
                 baseAccountNumber = line.getAccountNumber();
@@ -370,12 +395,17 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * document type is set to DI. This uses the explicit entry as its model. In addition, an offset is generated for accruals
      * (AVAE) and adjustments (AVAD), but only if the document contains accounting lines for more than one account.
      * 
+     * @param financialDocument submitted accounting document 
+     * @param accountingLine accounting line from accounting document
+     * @param explicitEntry represents explicit entry
+     * @param offsetEntry represents offset entry
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument FinancialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        AuxiliaryVoucherDocument auxDoc = (AuxiliaryVoucherDocument) FinancialDocument;
+    protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        AuxiliaryVoucherDocument auxDoc = (AuxiliaryVoucherDocument) financialDocument;
 
         // set the document type to that of a Distrib. Of Income and Expense if it's a recode
         if (auxDoc.isRecodeType()) {
@@ -412,15 +442,15 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method creates an AV recode specifc GLPE with a document type of DI. The sequence is managed outside of this method. It
+     * This method creates an AV recode specific GLPE with a document type of DI. The sequence is managed outside of this method. It
      * uses the explicit entry as its model and then tweaks values appropriately.
      * 
-     * @param FinancialDocument
-     * @param sequenceHelper
-     * @param explicitEntry
-     * @return
+     * @param financialDocument submitted accounting document 
+     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
+     * @param explicitEntry represents explicit entry
+     * @return true if recode GLPE is added to the financial document successfully
      */
-    private boolean processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(AccountingDocument FinancialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
+    private boolean processAuxiliaryVoucherRecodeDistributionOfIncomeAndExpenseGeneralLedgerPendingEntry(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
         // create a new instance based off of the explicit entry
         GeneralLedgerPendingEntry recodeGlpe = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
 
@@ -440,7 +470,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
         recodeGlpe.setTransactionEntryOffsetIndicator(false);
 
         // add the new recode offset entry to the document now
-        FinancialDocument.getGeneralLedgerPendingEntries().add(recodeGlpe);
+        financialDocument.getGeneralLedgerPendingEntries().add(recodeGlpe);
 
         return true;
     }
@@ -449,8 +479,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * This method examines the accounting line passed in and returns the appropriate object type code. This rule converts specific
      * objects types from an object code on an accounting line to more general values. This is specific to the AV document.
      * 
-     * @param line
-     * @return object type for an AuxiliaryVoucher document
+     * @param line accounting line where object type code is retrieved from
+     * @return object type from a accounting line ((either financial object type code, financial object type not expenditure code, or financial object type income not cash code))
      */
     protected String getObjectTypeCode(AccountingLine line) {
         Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
@@ -471,7 +501,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * recodes (AVRCs).
      * 
      * @param explicitEntry
-     * @return object type code
+     * @return object type code from explicit entry (either financial object type code, financial object type expenditure code, or financial object type income cash code)
      */
     protected String getObjectTypeCodeForRecodeDistributionOfIncomeAndExpenseEntry(GeneralLedgerPendingEntry explicitEntry) {
         Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
@@ -488,8 +518,12 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Overrides to call super and then validate that the
+     * Validates added accounting line. Override calls parent method and also checks whether or not the document
+     * and line have a valid sub object and object level
      * 
+     * @param document submitted accounting document
+     * @param accountingLine validated accounting line from accounting document
+     * @return return true if accounting line is valid
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -506,6 +540,12 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
+     * Validates reviewed accounting line. Override calls parent method and also checks whether or not the document
+     * and line have a valid sub object and object level  
+     * 
+     * @param document submitted accounting document
+     * @param accountingLine validated accounting line from accounting document
+     * @return return true if accounting line is valid
      * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -527,6 +567,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * requires all <code>{@link AccountingLine}</code> instances belong to the same Fund Group. That's done here by iterating
      * through the <code>{@link AccountingLine}</code> instances.
      * 
+     * @param document submitted document
      * @see FinancialDocumentRuleBase#processCustomRouteDocumentBusinessRules(Document)
      */
     @Override
@@ -560,8 +601,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * Iterates <code>{@link AccountingLine}</code> instances in a given <code>{@link FinancialDocument}</code> instance and
      * compares them to see if they are all in the same Chart.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted document
+     * @return true if only one chart of accounts code is used in a document's source accounting lines 
      */
     protected boolean isSingleChartUsed(AccountingDocument document) {
         boolean valid = true;
@@ -590,8 +631,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * Iterates <code>{@link AccountingLine}</code> instances in a given <code>{@link FinancialDocument}</code> instance and
      * compares them to see if they are all in the same Sub-Fund Group.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted document
+     * @return true if only one sub fund group code is used in a document's source accounting lines
      */
     protected boolean isSingleSubFundGroupUsed(AccountingDocument document) {
         boolean valid = true;
@@ -619,8 +660,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * This method verifies that the user entered a reversal date, but only if it's an accrual.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted document
+     * @return returns true if document is NOT an accrual type OR has a reversal date
      */
     protected boolean isValidReversalDate(AuxiliaryVoucherDocument document) {
         if (document.isAccrualType() && document.getReversalDate() == null) {
@@ -632,23 +673,26 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Overrides the parent implemenation to sum all of the debit GLPEs up and sum all of the credit GLPEs up and then compare the
+     * Overrides the parent implementation to sum all of the debit GLPEs up and sum all of the credit GLPEs up and then compare the
      * totals to each other, returning true if they are equal and false if they are not. The difference is that we ignore any DI
      * specific entries because while these are offsets, their offset indicators do not show this, so they would be counted in the
      * balancing and we don't want that. Added a check for simple balance between credit and debit values as entered on the
      * accountingLines, since that is also a requirement.
      * 
-     * @param FinancialDocument
-     * @return boolean
+     * @param financialDocument submitted accounting document
+     * @return true if a document's accounting lines credit/debit lines are in balance and a document's non-DI credit and debit GLPEs are also in balance
      */
     @Override
-    protected boolean isDocumentBalanceValidConsideringDebitsAndCredits(AccountingDocument FinancialDocument) {
-        AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) FinancialDocument;
+    protected boolean isDocumentBalanceValidConsideringDebitsAndCredits(AccountingDocument finanacialDocument) {
+        AuxiliaryVoucherDocument avDoc = (AuxiliaryVoucherDocument) finanacialDocument;
 
         return accountingLinesBalance(avDoc) && glpesBalance(avDoc);
     }
 
     /**
+     * Returns true if credit/debit entries are in balance
+     * 
+     * @param avDoc submitted AuxiliaryVoucherDocument
      * @return true if the credit and debit entries from all accountingLines for the given document are in balance
      */
     private boolean accountingLinesBalance(AuxiliaryVoucherDocument avDoc) {
@@ -664,7 +708,9 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * @param avDoc
+     * Returns true if the explicit, non-DI credit and debit GLPEs derived from the document's accountingLines are in balance
+     * 
+     * @param avDoc submitted AuxiliaryVoucherDocument
      * @return true if the explicit, non-DI credit and debit GLPEs derived from the document's accountingLines are in balance
      */
     private boolean glpesBalance(AuxiliaryVoucherDocument avDoc) {
@@ -700,7 +746,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * Fixes <code>{@link ObjectType}</code> for the given <code>{@link AccountingLine}</code> instance
      * 
-     * @param line
+     * @param line accounting line
      */
     private void buildAccountingLineObjectType(AccountingLine line) {
         String objectTypeCode = line.getObjectCode().getFinancialObjectTypeCode();
@@ -711,9 +757,9 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     /**
      * This method checks to see if there is a valid combination of sub type and object level
      * 
-     * @param document
-     * @param accountingLine
-     * @return boolean
+     * @param document submitted accounting document
+     * @param accountingLine validated accounting line
+     * @return return true if line contains a valid combination of object sub type and object level 
      */
     private boolean isValidDocWithSubAndLevel(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
@@ -732,11 +778,9 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method determins if the posting period is valid for the document type.
+     * This method determines if the posting period is valid for the document type.
      * 
-     * @param document
-     * @param period
-     * @param year
+     * @param document submitted AuxiliaryVoucherDocument
      * @return true if it is a valid period for posting into
      */
     protected boolean isPeriodAllowed(AuxiliaryVoucherDocument document) {
@@ -821,8 +865,8 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
      * This method checks if a given moment of time is within an accounting period, or its auxiliary voucher grace period.
      * 
      * @param today a date to check if it is within the period
-     * @param periodToCheck the
-     * @return
+     * @param periodToCheck the account period to check against
+     * @return true if a given moment in time is within an accounting period or an auxiliary voucher grace period
      */
     public static boolean calculateIfWithinGracePeriod(Date today, AccountingPeriod periodToCheck) {
         boolean result = false;

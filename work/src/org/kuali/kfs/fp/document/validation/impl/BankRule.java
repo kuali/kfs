@@ -20,14 +20,33 @@ import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 
 public class BankRule extends MaintenanceDocumentRuleBase {
 
+    
+    /**
+     * Returns MaintenanceDocumentRuleBase.processCustomApproveDocumentBusinessRules()
+     * 
+     * @param document submitted document
+     * @return true
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomApproveDocumentBusinessRules(document);
     }
 
+    /**
+     * Returns MaintenanceDocumentRuleBase.processCustomRouteDocumentBusinessRules()
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomRouteDocumentBusinessRules(document);
     }
 
+    /**
+     * Returns MaintenanceDocumentRuleBase.processCustomSaveDocumentBusinessRules()
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         return super.processCustomSaveDocumentBusinessRules(document);
     }

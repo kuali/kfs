@@ -40,6 +40,12 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     BankAccount newBankAccount;
 
     /**
+     * Validates a bank account maintenance document when it is approved.  Method returns true if objects are completely filled out, 
+     * sub account number exists, and sub object code exists
+     * 
+     * @param document submitted document
+     * @return true if objects are completed filled out, sub account number exists, and sub object code exists
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -54,6 +60,12 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * Validates a bank account maintenance document when it is routed.  Method returns true if objects are completely filled out, 
+     * sub account number exists, and sub object code exists
+     * 
+     * @param document submitted document
+     * @return true if objects are completed filled out, sub account number exists, and sub object code exists
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -68,6 +80,12 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * Validates a bank account maintenance document when it is save.  Although method checks if objects are completely filled out, 
+     * sub account number exists, and sub object code exists, this method always returns TRUE.
+     * 
+     * @param document submitted document
+     * @return true always
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -85,7 +103,7 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * It also calls the BusinessObjectBase.refresh(), which will attempt to load all sub-objects from the DB by their primary keys,
      * if available.
      * 
-     * @param document - the maintenanceDocument being evaluated
+     * @param document the maintenanceDocument being evaluated
      * 
      */
     public void setupConvenienceObjects() {
@@ -99,8 +117,8 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     /**
      * This method checks for partially filled out objects.
      * 
-     * @param document
-     * @return
+     * @param document maintenance document being evaluated
+     * @return true if there are no partially filled out references
      */
     private boolean checkPartiallyFilledOutReferences() {
 
@@ -113,8 +131,8 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     /**
      * This method validates that the Cash Offset subAccountNumber exists, if it is entered
      * 
-     * @param document
-     * @return
+     * @param document maintenance document being evaluated
+     * @return true if sub account number exists
      */
     private boolean checkSubAccountNumberExistence() {
 
@@ -152,8 +170,8 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
     /**
      * This method validates that the Cash Offset subObjectCode exists, if it is entered
      * 
-     * @param document
-     * @return
+     * @param document maintenance document being evaluated
+     * @return true if sub object code exists
      */
     private boolean checkSubObjectCodeExistence() {
 
@@ -197,8 +215,8 @@ public class BankAccountRule extends MaintenanceDocumentRuleBase {
      * This method has been taken out of service to be replaced by the defaultExistenceChecks happening through the
      * BankAccountMaintenanceDocument.xml
      * 
-     * @param document
-     * @return
+     * @param document maintenance document being evaluated
+     * @return true if sub object code exists
      */
     private boolean checkSubObjectExistence(MaintenanceDocument document) {
         // default to success

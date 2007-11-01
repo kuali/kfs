@@ -41,6 +41,11 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
 
 
     /**
+     * Execute pre-rules for BudgetAdjustmentDocument
+     * 
+     * @document document with pre-rules being applied
+     * @return true if pre-rules fire without problem
+     * 
      * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
      */
     public boolean doRules(Document document) {
@@ -57,8 +62,8 @@ public class BudgetAdjustmentDocumentPreRules extends PreRulesContinuationBase {
      * Calls service to determine if any labor object codes are present on the ba document. If so, asks the user if they want the
      * system to automatically generate the benefit lines. If Yes, calls service to generate the accounting lines.
      * 
-     * @param budgetDocument
-     * @return
+     * @param budgetDocument submitted budget document
+     * @return true if labor benefits generation question is NOT asked
      */
     private boolean askLaborBenefitsGeneration(BudgetAdjustmentDocument budgetDocument) {
         // before prompting, check the document contains one or more labor object codes

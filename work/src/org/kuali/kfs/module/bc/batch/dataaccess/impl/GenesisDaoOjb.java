@@ -85,22 +85,6 @@ import edu.iu.uis.eden.actions.CompleteAction;
 import edu.iu.uis.eden.actions.ActionTakenEvent;
 import edu.iu.uis.eden.clientapp.vo.NetworkIdVO;
 import edu.iu.uis.eden.server.BeanConverter;
-//@@TODO:
-// additions to support the attempt to by-pass the workflow engine
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.exceptions.InactiveDocumentTypeAuthorizationException;
-import org.kuali.core.exceptions.UnknownDocumentTypeException;
-import org.kuali.core.service.DocumentTypeService;
-import org.kuali.core.service.DocumentAuthorizationService;
-import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.document.authorization.DocumentAuthorizer;
-import org.kuali.core.workflow.service.impl.KualiWorkflowDocumentImpl;
-import edu.iu.uis.eden.clientapp.vo.UserIdVO;
-import edu.iu.uis.eden.clientapp.vo.RouteHeaderVO;
-import edu.iu.uis.eden.user.WorkflowUser;
-import java.sql.Timestamp;
-import java.util.GregorianCalendar;
 
 
 public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb 
@@ -851,13 +835,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             BudgetConstructionDocument newBCHdr;
             try
             {
-            /*@@TODO: code replaced for test with lines below    
             newBCHdr = (BudgetConstructionDocument)
             documentService.getNewDocument(
                     BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-            */
-            newBCHdr = (BudgetConstructionDocument)
-                    getNewDocumentTest(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
             catch (WorkflowException wex)
             {
@@ -934,13 +914,9 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
             BudgetConstructionDocument newBCHdr;
             try
             {
-            /*@@TODO: code replaced with lines below
             newBCHdr = (BudgetConstructionDocument)
             documentService.getNewDocument(
                     BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
-             */
-            newBCHdr = (BudgetConstructionDocument)
-            getNewDocumentTest(BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_NAME);
             }
             catch (WorkflowException wex)
             {
@@ -4584,133 +4560,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
     }
     
-    //@@TODO:
-    //  These are only for test.  We are trying to by-pass the workflow engine to see if that speeds performance in FIS1STG
-    //
-    private KualiWorkflowDocument createWorkflowDocumentTest(String documentTypeId, UniversalUser universalUser)
-    throws WorkflowException
-    {
-        // lifted mostly from KualiWorkflowDocumentServiceImpl createWorkflowDocument
-        if (StringUtils.isBlank(documentTypeId)) {
-            throw new IllegalArgumentException("invalid (blank) documentTypeId");
-        }
-        if (universalUser == null) {
-            throw new IllegalArgumentException("invalid (null) universalUser");
-        }
         
-        if ((null == universalUser) || StringUtils.isBlank(universalUser.getPersonUserIdentifier())) {
-            throw new IllegalArgumentException("invalid (empty) authenticationUserId");
-        }
-
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("creating workflowDoc(" + documentTypeId + "," + universalUser.getPersonUserIdentifier() + ")");
-        }
-        UserIdVO userIdVO =
-            new NetworkIdVO(universalUser.getPersonUserIdentifier());
-
-        KualiWorkflowDocument document = new KualiWorkflowDocumentImpl(userIdVO, documentTypeId);
-        // this stuff is added to create and save an EN_DOC_HDR_T row without going through the engine
-        // these come from createDocument in WorkflowDoucmentActionsWebServiceImpl.
-        RouteHeaderVO routeHeaderVO = document.getRouteHeader();
-        WorkflowUser user = KEWServiceLocator.getUserService().getWorkflowUser(userIdVO);
-        DocumentRouteHeaderValue routeHeader = BeanConverter.convertRouteHeaderVO(routeHeaderVO);
-        routeHeader.setInitiatorWorkflowId(user.getWorkflowUserId().getWorkflowId());
-        GregorianCalendar itsTime = new GregorianCalendar();
-        // now steal from workflow's WorkflowDocumentService createDocument
-        if (routeHeader.getDocRouteStatus() == null) {
-            routeHeader.setDocRouteStatus(EdenConstants.ROUTE_HEADER_INITIATED_CD);
-        }
-        if (routeHeader.getDocRouteLevel() == null) {
-            routeHeader.setDocRouteLevel(new Integer(EdenConstants.ADHOC_ROUTE_LEVEL));
-        }
-        if (routeHeader.getCreateDate() == null) {
-            routeHeader.setCreateDate(new Timestamp(itsTime.getTimeInMillis()));
-        }
-        if (routeHeader.getDocVersion() == null) {
-            routeHeader.setDocVersion(new Integer(EdenConstants.CURRENT_DOCUMENT_VERSION));
-        }
-        if (routeHeader.getDocContent() == null) {
-            routeHeader.setDocContent(EdenConstants.DEFAULT_DOCUMENT_CONTENT);
-        }
-        routeHeader.setStatusModDate(new Timestamp(itsTime.getTimeInMillis()));
-        KEWServiceLocator.getRouteHeaderService().saveRouteHeader(routeHeader);
-        // it is our contention that the engine's initializeDocument only sets a routing context and a node--
-        // rows in tables the budget construction document does not use. 
-
-        // the route header "flex doc" in the Kuali workflow document needs to contain the ID of the newly saved workflow header
-        // we can't change the route header itself (it's in the workflow document), but we can point it to what we've just saved.
-        // that's enough for us--the flex doc goes away, and we don't need to route anything.
-        document.getRouteHeader().setRouteHeaderId(routeHeader.getRouteHeaderId());
-        return document;
-
-    }
-    
-    private Document getNewDocumentTest(String documentTypeName) throws WorkflowException 
-    {
-        // lifted from DocumentServiceImpl getNewDocument
-        // argument validation
-        if (StringUtils.isBlank(documentTypeName)) {
-            throw new IllegalArgumentException("invalid (blank) documentTypeName");
-        }
-        if (GlobalVariables.getUserSession() == null) {
-            throw new IllegalStateException("GlobalVariables must be populated with a valid UserSession before a new document can be created");
-        }
-
-        // get the class for this docTypeName
-        DocumentTypeService documentTypeService = SpringContext.getBean(DocumentTypeService.class);
-        Class documentClass = documentTypeService.getClassByName(documentTypeName);
-        if (documentClass == null) {
-            throw new UnknownDocumentTypeException("unknown document type '" + documentTypeName + "'");
-        }
-
-        // get the current user
-        UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
-
-        // document must be maint doc or finanancial doc
-        if (!documentTypeService.getDocumentTypeByName(documentTypeName).isFinDocumentTypeActiveIndicator()) {
-            throw new InactiveDocumentTypeAuthorizationException("initiate", documentTypeName);
-        }
-
-        // get the authorization
-        DocumentAuthorizationService documentAuthorizationService = SpringContext.getBean(DocumentAuthorizationService.class);
-        DocumentAuthorizer documentAuthorizer = documentAuthorizationService.getDocumentAuthorizer(documentTypeName);
-
-        // make sure this person is authorized to initiate
-        LOG.debug("calling canInitiate from getNewDocument()");
-        documentAuthorizer.canInitiate(documentTypeName, currentUser);
-
-        // initiate new workflow entry, get the workflow doc
-        //@@TODO: the line below was replaced
-        //KualiWorkflowDocument workflowDocument = workflowDocumentService.createWorkflowDocument(documentTypeName, GlobalVariables.getUserSession().getUniversalUser());
-        KualiWorkflowDocument workflowDocument = 
-                   createWorkflowDocumentTest(documentTypeName, GlobalVariables.getUserSession().getUniversalUser());
-        //@@TODO: end additions
-        GlobalVariables.getUserSession().setWorkflowDocument(workflowDocument);
-
-        // create a new document header object
-        DocumentHeader documentHeader = new DocumentHeader();
-        documentHeader.setWorkflowDocument(workflowDocument);
-        documentHeader.setDocumentNumber(workflowDocument.getRouteHeaderId().toString());
-        // status and notes are initialized correctly in the constructor
-        Document document;
-        try
-        {
-        document = (Document) documentClass.newInstance();
-        }
-        catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-        catch (InstantiationException e) {
-            throw new RuntimeException(e);
-        }
-        document.setDocumentHeader(documentHeader);
-        document.setDocumentNumber(documentHeader.getDocumentNumber());
-
-        return document;
-
-        
-    }
-    
 
 
     //

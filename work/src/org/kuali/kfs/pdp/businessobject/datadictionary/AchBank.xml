@@ -77,6 +77,12 @@
                 <control>
                     <text size="9" />
                 </control>
+                <attributeAuthorization>
+					<displayWorkgroup>KUALI_PDP_ACH</displayWorkgroup>
+					<displayMask>
+						<maskLiteral literal="*********" />
+					</displayMask>
+				</attributeAuthorization>
                 <summary>Bank Routing Number</summary>
                 <description>The institution's routing number.</description>
             </attribute>

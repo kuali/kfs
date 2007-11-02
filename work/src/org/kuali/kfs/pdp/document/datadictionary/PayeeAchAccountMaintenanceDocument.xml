@@ -51,7 +51,12 @@
             <maintainableSection title="Edit Payee ACH Account">
                 <maintainableItems>
                     <maintainableField name="achAccountGeneratedIdentifier" />
-                    <maintainableField name="bankRoutingNumber" required="true" />
+                    <maintainableField name="bankRoutingNumber" required="true" >
+                    	<fieldAuthorization>
+ 							<displayEditMode>entry</displayEditMode>
+ 							<displayMask><maskLiteral literal="*********"/></displayMask>
+ 						</fieldAuthorization>
+ 					</maintainableField>
                     <maintainableField name="bankAccountNumber" required="true" >
                     	<fieldAuthorization>
                     		<displayEditMode>entry</displayEditMode>

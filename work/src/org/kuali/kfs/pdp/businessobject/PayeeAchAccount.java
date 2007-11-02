@@ -37,6 +37,7 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
     private String psdTransactionCode;
     private boolean active;
     private String bankAccountTypeCode;
+    private String idNumber; // not persisted in the db
 
     private AchBank bankRouting;
     private VendorDetail vendorDetail;
@@ -367,6 +368,27 @@ public class PayeeAchAccount extends PersistableBusinessObjectBase {
 
     public void setVendorDetail(VendorDetail vendorDetail) {
         this.vendorDetail = vendorDetail;
+    }
+
+    // ID Number for the associated ID Type
+    public String getIdNumber() {
+        
+        if ((payeeIdentifierTypeCode == null) | payeeIdentifierTypeCode.equals(""))
+            idNumber = "";
+        else if (payeeIdentifierTypeCode.equals("E"))
+            idNumber = personUniversalIdentifier;
+        else if (payeeIdentifierTypeCode.equals("F"))
+            idNumber = payeeFederalEmployerIdentificationNumber;
+        else if (payeeIdentifierTypeCode.equals("P"))
+            idNumber = disbVchrPayeeIdNumber;
+        else if (payeeIdentifierTypeCode.equals("S"))
+            idNumber = "*********";
+        else if (payeeIdentifierTypeCode.equals("V")){
+            if ((vendorHeaderGeneratedIdentifier != null) && !vendorHeaderGeneratedIdentifier.equals("") &&
+                (vendorDetailAssignedIdentifier != null) && !vendorDetailAssignedIdentifier.equals(""))
+                idNumber = vendorHeaderGeneratedIdentifier.toString() + "-" + vendorDetailAssignedIdentifier.toString();
+        }
+        return idNumber;
     }
 
 }

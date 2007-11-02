@@ -66,9 +66,13 @@
             </lookupFields>
 
             <resultFields>
+            	<field attributeName="bankRoutingNumber" />
+            	<field attributeName="bankAccountNumber" />
+            	<field attributeName="bankAccountTypeCode" />
                 <field attributeName="payeeName" />
-                <field attributeName="payeeEmailAddress" />
                 <field attributeName="payeeIdentifierTypeCode" />
+                <field attributeName="idNumber" />
+                <field attributeName="psdTransactionCode" />
                 <field attributeName="active" />
             </resultFields>
         </lookup>
@@ -198,10 +202,24 @@
                     <alphaNumeric />
                 </validationPattern>
                 <control>
-                    <text size="9" />
+                    <text size="20" />
                 </control>
                 <summary>Federal Employee Identification Number</summary>
                 <description>Federal Employee Identification Number.</description>
+            </attribute>
+            
+             <attribute name="idNumber" forceUppercase="true">
+                <label>ID Number</label>
+                <shortLabel>ID Number</shortLabel>
+                <maxLength>20</maxLength>
+                <validationPattern>
+                	<anyCharacter />
+                </validationPattern>
+                <control>
+                    <text size="21" />
+                </control>
+                <summary>ID Number for the associated ID Type</summary>
+                <description>ID Number for the associated ID Type.</description>
             </attribute>
 
              <attribute name="psdTransactionCode" forceUppercase="true">
@@ -232,6 +250,7 @@
 			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
                 <label>Vendor</label>
                 <shortLabel>Vendor</shortLabel>
+
                 <control>
                     <hidden />
                 </control>

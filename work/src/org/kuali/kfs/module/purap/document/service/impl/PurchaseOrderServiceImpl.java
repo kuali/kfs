@@ -550,6 +550,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      java.lang.String, java.lang.String)
      */
     public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String currentDocumentStatusCode) {
+        //TODO: Release 3 (KULPURAP-2115), remove the SpringContext.getBean(PurchaseOrderService.class). from this next line 
+        //because the getPurchaseOrderByDocumentNumber is already in this class, no need to get the PurchaseOrderService 
+        //anymore (we're already currently in PurchaseOrderService).
         PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);

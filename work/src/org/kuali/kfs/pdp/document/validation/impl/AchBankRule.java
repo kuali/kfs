@@ -15,9 +15,17 @@
  */
 package org.kuali.module.pdp.rules;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.State;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.pdp.bo.AchBank;
 
 public class AchBankRule extends MaintenanceDocumentRuleBase {
@@ -85,8 +93,40 @@ public class AchBankRule extends MaintenanceDocumentRuleBase {
             putFieldError("bankDataViewCode", KFSKeyConstants.ERROR_DOCUMENT_ACHBANKMAINT_INVALID_DATA_VIEW_CODE);
             validEntry = false;
         }
+        
+        String stateCode = newAchBank.getBankStateCode();
+        if (stateCode != null)
+            validEntry &= validateStateCode(stateCode);
 
         return validEntry;
+    }
+    
+    /**
+     * This method retrieves the entered state code and checks that this value is valid by comparing it against known values in the
+     * SH_STATE_T database table.
+     * 
+     * @param stateCode
+     * @return Whether state code entered is valid
+     */
+    private boolean validateStateCode(String stateCode) {
+        boolean valid = true;
+
+        // Create a query to do a lookup on.
+        Map criteria = new HashMap();
+        List<String> criteriaValues = new ArrayList<String>();
+        criteriaValues.add(stateCode);
+        criteria.put("postalStateCode", criteriaValues);
+
+        // Perform lookup for state code provided
+        List boList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(State.class, criteria);
+
+        // If no values returned, state code is invalid, throw error
+        if (boList.size() < 1) {
+            putFieldError("bankStateCode", KFSKeyConstants.ERROR_STATE_CODE_INVALID, stateCode);
+            valid = false;
+        }
+
+        return valid;
     }
 
 }

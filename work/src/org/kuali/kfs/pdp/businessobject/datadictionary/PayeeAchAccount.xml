@@ -261,8 +261,8 @@
             </attributeReference> 
 
              <attributeReference name="personUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
-                <label>Payee User ID</label>
-                <shortLabel>Payee User ID</shortLabel>
+                <label>Employee ID</label>
+                <shortLabel>Employee ID</shortLabel>
             </attributeReference>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" >

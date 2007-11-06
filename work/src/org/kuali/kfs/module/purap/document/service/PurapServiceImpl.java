@@ -209,6 +209,8 @@ public class PurapServiceImpl implements PurapService {
         String documentTypeClassName = document.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
         String documentType = documentTypeArray[documentTypeArray.length - 1];
+
+        //FIXME RELEASE 3 (hjs) why is this "if" here with no code in it?  is it supposed to be doing somethign?
         // If it's a credit memo, we'll have to append the source of the credit memo
         // whether it's created from a Vendor, a PO or a PREQ.
         if (documentType.equals("CreditMemoDocument")) {

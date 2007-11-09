@@ -14,4 +14,149 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
+<class-descriptor class="org.kuali.module.cams.bo.RetirementReason" table="CM_RETIRE_REAS_T">
+	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="retirementReasonName" column="AST_RETIRE_REAS_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="retirementReasonRestrictionIndicator" column="AST_RETIRE_REAS_RSTR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetType" table="CM_ASSET_TYPE_T">
+	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="capitalAssetTypeDescription" column="CPTLAST_TYP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depreciableLifeLimit" column="CPTLAST_DEPRLF_LMT" jdbc-type="INTEGER"/>
+	<field-descriptor name="movingIndicator" column="CPTLAST_MOVING_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="requiredBuildingIndicator" column="CPTLAST_RQDBLDG_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.SecurityDetailDocument" table="CM_SEC_DETL_DOC_T">
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityTypeCode" column="CPTLAST_SEC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityChartOfAccountsCode" column="AST_SEC_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="securityOrganizationCode" column="CPTLAST_SEC_ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="securityOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="securityChartOfAccountsCode" />
+		<foreignkey field-ref="securityOrganizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="securityChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="securityChartOfAccountsCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetStatus" table="CM_AST_STATUS_T">
+	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="inventoryStatusName" column="AST_INVN_STAT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetDocumentType" table="CM_AST_DOC_TYP_T">
+	<field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="financialDocumentName" column="FDOC_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AquisitionType" table="CM_ACQ_TYPE_T">
+	<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="acquisitionTypeName" column="CPTLAST_ACQ_TYP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="incomeAssetObjectCode" column="CPTLAST_INC_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetCondition" table="CM_AST_CONDITION_T">
+	<field-descriptor name="assetConditionCode" column="CPTLAST_COND_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="assetConditionName" column="CPTLAST_COND_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetDepreciationMethod" table="CM_AST_DEPR_MTHD_T">
+	<field-descriptor name="depreciationMethodCode" column="AST_DEPR_METHOD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="depreciationMethodName" column="AST_DEPR_METHOD_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetLocationType" table="CM_AST_LOC_TYP_T">
+	<field-descriptor name="assetLocationTypeCode" column="CPTLAST_LOC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="assetLocationTypeName" column="CPTLAST_LOC_TYP_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetObject" table="CM_CPTLAST_OBJ_T">
+	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="capitalizationFinancialObjectCode" column="CPTLZTN_FOBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="accumulatedDepreciationFinancialObjectCode" column="ACCUM_DEPR_FOBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="depreciationExpenseFinancialObjectCode" column="DEPR_EXP_FOBJ_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="accumulatedDepreciationFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="accumulatedDepreciationFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="capitalizationFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="capitalizationFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="depreciationExpenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="depreciationExpenseFinancialObjectCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="financialObjectSubTypeCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.TableMaintenanceSecurity" table="CM_TBL_MAINT_SEC_T">
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

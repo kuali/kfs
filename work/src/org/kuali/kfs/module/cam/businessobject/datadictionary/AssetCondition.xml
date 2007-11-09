@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetCondition">
+ 
+        <inquiry>
+            <title>Asset Condition Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="active" />
+                        <field attributeName="assetConditionCode" />
+                        <field attributeName="assetConditionName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Condition Lookup</title>
+
+            <instructions>Look up an Asset Condition</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="assetConditionCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="assetConditionCode" required="false" />
+                <lookupField attributeName="assetConditionName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="active" />
+                <field attributeName="assetConditionCode" />
+                <field attributeName="assetConditionName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="active" forceUppercase="true">
+                <label>Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>active</summary>
+                <description>active description...</description>
+			</attribute>
+
+            <attribute name="assetConditionCode" forceUppercase="true">
+                <label>Asset Condition Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>assetConditionCode</summary>
+                <description>assetConditionCode description...</description>
+			</attribute>
+
+            <attribute name="assetConditionName" forceUppercase="true">
+                <label>Asset Condition Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>assetConditionName</summary>
+                <description>assetConditionName description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

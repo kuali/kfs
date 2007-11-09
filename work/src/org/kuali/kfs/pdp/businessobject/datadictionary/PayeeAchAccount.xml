@@ -238,21 +238,20 @@
             </attribute>
             
             <attributeReference name="bankRoutingNumber" sourceClassName="org.kuali.module.pdp.bo.AchBank" sourceAttributeName="bankRoutingNumber" />
-            
+
 			<attributeReference name="vendorHeaderGeneratedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorHeaderGeneratedIdentifier">
                 <label>Vendor</label>
                 <shortLabel>Vendor</shortLabel>
                 <control>
-                    <lookupHidden/>
+                    <lookupReadonly/>
                 </control>
 			</attributeReference>
 			
 			<attributeReference name="vendorDetailAssignedIdentifier" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorDetailAssignedIdentifier">
                 <label>Vendor</label>
                 <shortLabel>Vendor</shortLabel>
-
                 <control>
-                    <hidden />
+                    <lookupReadonly />
                 </control>
 			</attributeReference>
              

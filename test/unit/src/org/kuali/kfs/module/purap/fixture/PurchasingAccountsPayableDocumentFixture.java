@@ -70,6 +70,34 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null, // vendorCustomerNumber
             null), // accountsPayablePurchasingDocumentLinkIdentifier
 
+    REQ_WITH_RESTRICTED_VENDOR(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1005, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "RESTRICTED LEGAL SERVICES VENDOR", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "48823", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+                    
+    REQ_WITH_VENDOR_NOT_IN_DATABASE(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            -999999999, // vendorHeaderGeneratedIdentifier
+            -9, // vendorDetailAssignedIdentifier
+            "MY UNEXISTING VENDOR", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "48823", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+                    
     // PURCHASE ORDER FIXTURES
     // TODO f2f: fix the PO one because actually, the vendor must be selected from the database
     PO_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier

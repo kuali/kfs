@@ -85,11 +85,97 @@ public enum RequisitionDocumentFixture {
             null, // alternate4VendorName
             null, // alternate5VendorName
             null, // organizationAutomaticPurchaseOrderLimit
-            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
-    );
+    ),
 
+    REQ_APO_INVALID_TOTAL_NOT_GREATER_THAN_ZERO(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO_TOTAL_NOT_GREATER_THAN_ZERO } // requisitionItemMultiFixtures
+    ),
+    
+    REQ_APO_INVALID_CONTAINS_RESTRICTED_ITEM (null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_ITEM_NO_APO_CONTAIN_RESTRICTED_ITEM } // requisitionItemMultiFixtures
+    ),
+
+    REQ_APO_INVALID_ERROR_RETRIEVING_VENDOR_FROM_DATABASE (null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_WITH_VENDOR_NOT_IN_DATABASE, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
+    ),
+    
+    
+    REQ_APO_INVALID_WITH_RESTRICTED_VENDOR (null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_WITH_RESTRICTED_VENDOR, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
+    ), 
+    
+    REQ_APO_INVALID_PAYMENT_TYPE_RECURRING(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_WITH_RECURRING_PAYMENT_TYPE, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
+    ), 
+    
+    REQ_APO_INVALID_PO_TOTAL_LIMIT_NON_ZERO(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_WITH_PO_TOTAL_LIMIT_NON_ZERO, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
+    ), ;
+    
+    
     public final String requisitionOrganizationReference1Text;
     public final String requisitionOrganizationReference2Text;
     public final String requisitionOrganizationReference3Text;

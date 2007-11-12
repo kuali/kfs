@@ -54,6 +54,17 @@ public class PurapKeyConstants {
     public static final String ERROR_NOT_100_PERCENT = "error.requisition.items.not.100.percent";
     public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
 
+    // Requisition APO Ineligibility reasons
+    public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
+    public static final String NON_APO_REQUISITION_TOTAL_NOT_GREATER_THAN_ZERO="requisition.nonAPO.requisitionTotal.notGreaterThan.zero";
+    public static final String NON_APO_REQUISITION_CONTAINS_RESTRICTED_ITEM="requisition.nonAPO.requisition.contains.restricted.item";
+    public static final String NON_APO_VENDOR_NOT_SELECTED_FROM_VENDOR_DATABASE="requisition.nonAPO.vendor.not.selected.from.vendor.database";
+    public static final String NON_APO_ERROR_RETRIEVING_VENDOR_FROM_DATABASE="requisition.nonAPO.error.retrieving.vendor.from.database";
+    public static final String NON_APO_SELECTED_VENDOR_IS_RESTRICTED="requisition.nonAPO.selected.vendor.is.restricted";
+    public static final String NON_APO_PAYMENT_TYPE_IS_RECURRING="requisition.nonAPO.paymentType.is.recurring";
+    public static final String NON_APO_PO_TOTAL_LIMIT_IS_NOT_EMPTY="requisition.nonAPO.po.total.limit.is.not.empty";
+    public static final String NON_APO_REQUISITION_CONTAINS_ALTERNATE_VENDOR_NAMES="requisition.nonAPO.requisition.contains.alternate.vendor.names";
+    
     // Purchase Order
     public static final String PURCHASE_ORDER_QUESTION_DOCUMENT = "purchaseOrder.question.text";
     public static final String PURCHASE_ORDER_MESSAGE_CLOSE_DOCUMENT = "purchaseOrder.route.message.close.text";

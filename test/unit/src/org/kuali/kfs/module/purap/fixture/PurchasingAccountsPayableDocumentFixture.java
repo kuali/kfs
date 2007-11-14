@@ -97,6 +97,104 @@ public enum PurchasingAccountsPayableDocumentFixture {
             "US", // vendorCountryCode
             null, // vendorCustomerNumber
             null), // accountsPayablePurchasingDocumentLinkIdentifier
+
+    REQ_WITH_DEBARRED_VENDOR(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1004, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "DEBARRED VENDOR", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "48823", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+
+    REQ_WITH_INACTIVE_VENDOR(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1019, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "INACTIVE PO VENDOR", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "48823", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+
+    REQ_WITH_DV_VENDOR(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1003, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "BASIC CORP ACTIVE", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "48823", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+            
+    REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1002, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "BASIC CORP ACTIVE", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "ABC12", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+                    
+    REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_BAD_FORMAT(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1002, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "BASIC CORP ACTIVE", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "EAST LANSING", // vendorCityName
+            "MI", // vendorStateCode
+            "123456", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+                    
+    REQ_WITH_INVALID_NON_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1002, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "BASIC CORP ACTIVE", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "TOKYO", // vendorCityName
+            null, // vendorStateCode
+            "ABC12", // vendorPostalCode
+            "JP", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+                    
+    REQ_WITH_VALID_US_VENDOR_ZIP_CODE_WITH_4_TRAILING_NUMBERS(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1002, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "BASIC CORP ACTIVE", // vendorName
+            "123 Hagadorn Rd", // vendorLine1Address
+            null, // vendorLine2Address
+            "East Lansing", // vendorCityName
+            null, // vendorStateCode
+            "48823-1234", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
                     
     // PURCHASE ORDER FIXTURES
     // TODO f2f: fix the PO one because actually, the vendor must be selected from the database

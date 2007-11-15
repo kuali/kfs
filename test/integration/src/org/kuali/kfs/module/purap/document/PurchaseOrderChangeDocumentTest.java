@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
 import java.util.ArrayList;
 
@@ -84,7 +84,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         }
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreateAmendPurchaseOrder() throws Exception {
         try {
             testPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(
@@ -100,7 +100,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         assertMatch(testPO, retrievedPO);
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderPaymentHold() throws Exception {
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_PAYMENT_HOLD);       
@@ -109,7 +109,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         assertMatch(testPO, retrievedPO);
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderRemoveHold() throws Exception {
         testPO.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT,
@@ -120,7 +120,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     /*
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
         // TODO: Add a PREQ, once there is a PaymentRequestDocumentFixture.
@@ -129,9 +129,9 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         PurchaseOrderCloseDocument retrievedPO = (PurchaseOrderCloseDocument)documentService.getByDocumentHeaderId(
                 testPO.getDocumentNumber()); 
         assertMatch(testPO, retrievedPO);
-    }
+    }   
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderReopen() throws Exception {
         testPO.setStatusCode(PurchaseOrderStatuses.CLOSED);
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT,
@@ -141,7 +141,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         assertMatch(testPO, retrievedPO);
     }
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderVoid() throws Exception {
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_VOID);      
@@ -151,7 +151,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     */
     
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderRetransmit() throws Exception {
         testPO.setStatusCode(PurchaseOrderStatuses.CLOSED);
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT,

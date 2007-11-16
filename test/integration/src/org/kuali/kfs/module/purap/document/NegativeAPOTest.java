@@ -35,8 +35,6 @@ import org.kuali.test.ConfigureContext;
  */
 @ConfigureContext(session = KHUNTLEY)
 public class NegativeAPOTest extends KualiTestBase {
-    public static final Class<RequisitionDocument> DOCUMENT_CLASS = RequisitionDocument.class;
-    private static final String ACCOUNT_REVIEW = "Account Review";
 
     private RequisitionDocument requisitionDocument = null;
 

@@ -56,10 +56,16 @@
 	        				<c:out value="${preqHistory.statusCode}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.paymentHoldIndicator}" />
+		        			<c:choose>
+		        				<c:when test="${preqHistory.paymentHoldIndicator == true}">Yes</c:when>
+	        					<c:otherwise>No</c:otherwise>
+	        				</c:choose>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.paymentRequestedCancelIndicator}" />
+		        			<c:choose>
+		        				<c:when test="${preqHistory.paymentRequestedCancelIndicator == true}">Yes</c:when>
+		        				<c:otherwise>No</c:otherwise>
+		        			</c:choose>
 		        		</td>
 	        			<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${preqHistory.vendorName}" />
@@ -138,7 +144,10 @@
 	        				<c:out value="${cmHistory.creditMemoStatusCode}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${cmHistory.creditHoldIndicator}" />
+		        			<c:choose>
+		        				<c:when test="${cmHistory.creditHoldIndicator == true}">Yes</c:when>
+		        				<c:otherwise>No</c:otherwise>
+		        			</c:choose>
 		        		</td>
 	        			<td align="left" valign="middle" class="datacell">
 	        				<c:out value="${cmHistory.vendorName}" />

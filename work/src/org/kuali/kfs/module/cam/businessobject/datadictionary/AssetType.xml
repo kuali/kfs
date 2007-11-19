@@ -54,19 +54,7 @@
 
         <attributes>
 
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="capitalAssetTypeCode" forceUppercase="true">
                 <label>Capital Asset Type Code</label>

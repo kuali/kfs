@@ -16,6 +16,8 @@
 package org.kuali.kfs;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.JstlConstants;
@@ -941,6 +943,11 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
          * object code which stores amounts by which pending general ledger rows in budget construction are out of balance
          */
         public final static String OBJECT_CODE_2PLG = "2PLG";
+        /*
+         * fund groups and subfund groups that are NOT loaded to the GL from budget construction  
+         */
+        public final static List<String> NO_BC_GL_LOAD_SUBFUND_GROUPS = Arrays.asList("SIDC");
+        public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
         /*
          * initial sizes for hash maps used in genesis supposedly starting the map out with about the right amount of space makes
          * look-ups more efficient these numbers shouldn't need to be very precise

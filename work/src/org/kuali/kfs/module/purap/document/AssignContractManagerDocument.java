@@ -25,6 +25,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.context.SpringContext;
@@ -78,15 +79,31 @@ public class AssignContractManagerDocument extends TransactionalDocumentBase {
      */
     public void populateDocumentWithRequisitions() {
         LOG.debug("populateDocumentWithRequisitions() Entering method.");
-
+        
         Map fieldValues = new HashMap();
         fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
         List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
-
+        List<String>documentHeaderIds = new ArrayList();
         for (RequisitionDocument req : unassignedRequisitions) {
+            documentHeaderIds.add(req.getDocumentNumber());
+        }
+        
+        List<RequisitionDocument> requisitionDocumentsFromDocService = new ArrayList();
+        try {
+            if ( documentHeaderIds.size() > 0 )
+                requisitionDocumentsFromDocService = SpringContext.getBean(DocumentService.class).getDocumentsByListOfDocumentHeaderIds(RequisitionDocument.class, documentHeaderIds);
+        }
+        catch (WorkflowException we) {
+            String errorMsg = "Workflow Exception caught: " + we.getLocalizedMessage();
+            LOG.error(errorMsg, we);
+            throw new RuntimeException(errorMsg, we);
+        }
+  
+        for (RequisitionDocument req : requisitionDocumentsFromDocService) {
             assignContractManagerDetails.add(new AssignContractManagerDetail(this, req));
         }
-        LOG.debug("populateDocumentWithRequisitions() Leaving method.");
+
+        LOG.debug("populateDocumentWithRequisitions() Leaving method.");   
     }
 
     @Override

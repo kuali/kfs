@@ -18,6 +18,8 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
+import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -36,6 +38,8 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
     private ContractManager contractManager;
     private AssignContractManagerDocument assignContractManagerDocument;
 
+    private String createDate;
+    
     /**
      * Default constructor.
      */
@@ -108,6 +112,18 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
 
     public void setAssignContractManagerDocument(AssignContractManagerDocument assignContractManagerDocument) {
         this.assignContractManagerDocument = assignContractManagerDocument;
+    }
+    
+    public String getCreateDate() {
+        if (createDate == null) {
+            Formatter formatter = new DateViewTimestampObjectFormatter();
+            createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getCreateDate());
+        }
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     /**

@@ -27,7 +27,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher pre-conference detail.
  */
 public class DisbursementVoucherPreConferenceDetail extends PersistableBusinessObjectBase {
 

@@ -392,12 +392,14 @@ public class LaborScrubberProcess {
                 ParameterEvaluator costShareEncDocTypeCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_ENC_DOC_TYPE_CODES, scrubbedEntry.getFinancialDocumentTypeCode().trim());
                 ParameterEvaluator costShareFiscalPeriodCodes = parameterService.getParameterEvaluator(ScrubberStep.class, GLConstants.GlScrubberGroupRules.COST_SHARE_FISCAL_PERIOD_CODES, scrubbedEntry.getUniversityFiscalPeriodCode());
 
-                if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
-                    if (scrubbedEntry.isDebit()) {
-                        scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
-                    }
-                    else {
-                        scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
+                if (scrubbedEntry.getAccount() != null) {
+                    if (costShareObjectTypeCodes.evaluationSucceeds() && scrubbedEntry.getOption().getActualFinancialBalanceTypeCd().equals(scrubbedEntry.getFinancialBalanceTypeCode()) && scrubbedEntry.getAccount().isForContractsAndGrants() && KFSConstants.COST_SHARE.equals(subAccountTypeCode) && costShareFiscalPeriodCodes.evaluationSucceeds() && costShareEncDocTypeCodes.evaluationSucceeds()) {
+                        if (scrubbedEntry.isDebit()) {
+                            scrubCostShareAmount = scrubCostShareAmount.subtract(transactionAmount);
+                        }
+                        else {
+                            scrubCostShareAmount = scrubCostShareAmount.add(transactionAmount);
+                        }
                     }
                 }
 

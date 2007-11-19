@@ -42,6 +42,11 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
 
 
     /**
+     * Executes pre-rules for Disbursement Voucher Document
+     * 
+     * @param document submitted document
+     * @return true if pre-rules execute successfully
+     * 
      * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.MaintenanceDocument)
      */
     public boolean doRules(Document document) {
@@ -62,7 +67,7 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     /**
      * If the special handling name and address 1 fields have value, this will mark the special handling indicator for the user.
      * 
-     * @param dvDocument
+     * @param dvDocument submitted disbursement voucher document
      */
     private void checkSpecialHandlingIndicator(DisbursementVoucherDocument dvDocument) {
         if (StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitPersonName()) && StringUtils.isNotBlank(dvDocument.getDvPayeeDetail().getDisbVchrRemitLine1Addr())) {
@@ -71,10 +76,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * This method checks non-employee travel tab state is valid
      * 
-     * @param dvDocument
-     * @return Returns true if the state of all the tabs is valid, false otherwise.
+     * @param dvDocument submitted disbursement voucher document
+     * @return true if the state of all the tabs is valid, false otherwise.
      */
     private boolean checkNonEmployeeTravelTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
@@ -121,9 +126,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * Returns true if non-employee travel tab contains any data in any of its fields
      * 
-     * @param dvNonEmplTrav
+     * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains any data in any fields.
      */
     private boolean hasNonEmployeeTravelValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
@@ -153,9 +158,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * Returns true if any values are not blank on non employee travel tab
      * 
-     * @param dvNonEmplTrav
+     * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if any values are found in the non employee travel tab
      */
     private boolean hasNonEmployeeTravelGeneralValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
@@ -163,9 +168,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * Returns true if non employee travel tab contains data in any of the fields in the per diem section
      * 
-     * @param dvNonEmplTrav
+     * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the per diem section
      */
     private boolean hasNonEmployeeTravelPerDiemValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
@@ -173,9 +178,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * Returns true if non employee travel tab contains data in any of the fields in the personal vehicle section
      * 
-     * @param dvNonEmplTrav
+     * @param dvNonEmplTrav disbursement voucher non employee travel object
      * @return True if non employee travel tab contains data in any of the fields in the personal vehicle section
      */
     private boolean hasNonEmployeeTravelPersonalVehicleValues(DisbursementVoucherNonEmployeeTravel dvNonEmplTrav) {
@@ -183,10 +188,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * Returns true if the state of all the tabs is valid, false otherwise.
      * 
-     * @param dvDocument
-     * @return Returns true if the state of all the tabs is valid, false otherwise.
+     * @param dvDocument submitted disbursemtn voucher document
+     * @return true if the state of all the tabs is valid, false otherwise.
      */
     private boolean checkForeignDraftTabState(DisbursementVoucherDocument dvDocument) {
         boolean tabStatesOK = true;
@@ -216,9 +221,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method... NOTE: Currently does not validate based on only required fields. Checks all fields within tab for data.
+     * Returns true if foreign draft tab contains any data in any fields. 
+     * NOTE: Currently does not validate based on only required fields. Checks all fields within tab for data.
      * 
-     * @param dvForeignDraft
+     * @param dvForeignDraft disbursement foreign draft object
      * @return True if foreign draft tab contains any data in any fields.
      */
     private boolean hasForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
@@ -232,9 +238,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * This method sets foreign currency type code and name to null for passed in disbursement foreign draft object
      * 
-     * @param dvForeignDraft
+     * @param dvForeignDraft disbursement foreign draft object
      */
     private void clearForeignDraftValues(DisbursementVoucherWireTransfer dvForeignDraft) {
         dvForeignDraft.setDisbursementVoucherForeignCurrencyTypeCode(null);
@@ -242,9 +248,9 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * This method returns true if the state of all the tabs is valid, false otherwise.
      * 
-     * @param dvDocument
+     * @param dvDocument submitted disbursement voucher document
      * @return Returns true if the state of all the tabs is valid, false otherwise.
      */
     private boolean checkWireTransferTabState(DisbursementVoucherDocument dvDocument) {
@@ -275,10 +281,10 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method... NOTE: Currently does not validate based on only required fields. Checks all fields within tab for data.
+     * Returns true if wire transfer tab contains any data in any fields.
      * 
-     * @param dvWireTransfer
-     * @return True if wire transfer tab contains any data in any fields.
+     * @param dvWireTransfer disbursement voucher wire transfer
+     * @return true if wire transfer tab contains any data in any fields.
      */
     private boolean hasWireTransferValues(DisbursementVoucherWireTransfer dvWireTransfer) {
         boolean hasValues = false;
@@ -300,7 +306,7 @@ public class DisbursementVoucherDocumentPreRules extends PreRulesContinuationBas
     }
 
     /**
-     * This method...
+     * This method sets all values in the passed in disbursement wire transfer object to null
      * 
      * @param dvWireTransfer
      */

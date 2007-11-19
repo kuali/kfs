@@ -18,22 +18,23 @@ package org.kuali.module.financial.service;
 import org.kuali.module.financial.document.BudgetAdjustmentDocument;
 
 /**
- * Service interface for implementing methods to generate labor benefit budget adjustment accounting lines.
+ * This service interface defines methods that a BudgetAdjustmentLaborBenefitService implementation must provide.
+ * 
  */
 public interface BudgetAdjustmentLaborBenefitsService {
 
     /**
      * Checks the object codes from the document accounting lines against the labor object code table.
      * 
-     * @param budgetDocument
-     * @return true if any labor object codes were found
+     * @param budgetDocument The budget document to be analyzed.
+     * @return True if any labor object codes were found
      */
     public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument);
 
     /**
      * Generates labor benefit accounting lines for the budget document.
      * 
-     * @param budgetDocument
+     * @param budgetDocument The budget document used to generate the labor benefit accounting lines.
      */
     public void generateLaborBenefitsAccountingLines(BudgetAdjustmentDocument budgetDocument);
 

@@ -26,6 +26,9 @@ import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryLiteService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of OriginEntryLiteService
+ */
 @Transactional
 public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLiteServiceImpl.class);
@@ -36,6 +39,16 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
     private static final String FINANCIAL_DOCUMENT_TYPE_CODE = "financialDocumentTypeCode";
     private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
 
+    /**
+     * Return all the entries for a specific document in a specific group
+     * 
+     * @param oeg the origin entry group to find entries in
+     * @param documentNumber the document number of origin entries to return
+     * @param documentTypeCode the document type code of origin entries to return
+     * @param originCode the origination code to return
+     * @return iterator to all qualifying entries
+     * @see org.kuali.module.gl.service.OriginEntryLiteService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup, java.lang.String, java.lang.String, java.lang.String)
+     */
     public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup originEntryGroup, String documentNumber, String documentTypeCode, String originCode) {
         LOG.debug("getEntriesByDocument() started");
 
@@ -48,6 +61,13 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
         return originEntryDao.getMatchingEntries(criteria);
     }
 
+    /**
+     * Return all the entries in a specific group
+     * 
+     * @param oeg Group used to select entries
+     * @return Iterator to all the entires
+     * @see org.kuali.module.gl.service.OriginEntryLiteService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public Iterator<OriginEntryLite> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
         LOG.debug("getEntriesByGroup() started");
 
@@ -72,11 +92,21 @@ public class OriginEntryLiteServiceImpl implements OriginEntryLiteService {
         this.originEntryDao = originEntryDao;
     }
 
+    /**
+     * Saves an origin entry to the persistence store, defers to the DAO
+     * @param entry the origin entry lite to save
+     * @see org.kuali.module.gl.service.OriginEntryLiteService#save(org.kuali.module.gl.bo.OriginEntryLite)
+     */
     public void save(OriginEntryLite entry) {
         LOG.debug("save() started");
         originEntryDao.saveOriginEntry(entry);
     }
 
+    /**
+     * Deletes an origin entry from the persistence store, defers to the DAO
+     * @param entry the origin entry lite to delete
+     * @see org.kuali.module.gl.service.OriginEntryLiteService#delete(org.kuali.module.gl.bo.OriginEntryLite)
+     */
     public void delete(OriginEntryLite entry) {
         LOG.debug("delete() started");
         originEntryDao.deleteEntry(entry);

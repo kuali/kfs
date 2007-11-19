@@ -35,12 +35,21 @@ import org.kuali.module.chart.maintenance.OrganizationReversionGlobalMaintainabl
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.OrganizationReversionService;
 
+/**
+ * 
+ * This class implements the business rules for {@link OrganizationReversionGlobal}
+ */
 public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalRule.class);
     private OrganizationReversionGlobal globalOrganizationReversion;
     private OrganizationReversionService organizationReversionService;
     private ObjectCodeService objectCodeService;
 
+    /**
+     * 
+     * Constructs a OrganizationReversionGlobalRule
+     * Pseudo-injects services 
+     */
     public OrganizationReversionGlobalRule() {
         super();
         setOrganizationReversionService(SpringContext.getBean(OrganizationReversionService.class));
@@ -48,6 +57,11 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     * 
+     * @param document - the maintenanceDocument being evaluated
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
@@ -62,22 +76,11 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
-    @Override
-    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSimpleRules(getGlobalOrganizationReversion());
-    }
-
-    /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
-     */
-    @Override
-    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
-        return checkSimpleRules(getGlobalOrganizationReversion());
-    }
-
-    /**
+     * Calls the basic rules check on document save:
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
+     * </ul>
+     * Does not fail on rules failure
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -87,6 +90,45 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * Calls the basic rules check on document approval:
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
+     * </ul>
+     * Fails on rules failure
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
+        return checkSimpleRules(getGlobalOrganizationReversion());
+    }
+
+    /**
+     * Calls the basic rules check on document routing:
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalRule#checkSimpleRules(OrganizationReversionGlobal)}</li>
+     * </ul>
+     * Fails on rules failure
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+        return checkSimpleRules(getGlobalOrganizationReversion());
+    }
+
+    /**
+     * This performs rules checks whenever a new {@link OrganizationReversionGlobalDetail} or {@link OrganizationReversionGlobalOrganization} is added
+     * <p>
+     * This includes:
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalRule#checkDetailObjectCodeValidity(OrganizationReversionGlobal, OrganizationReversionGlobalDetail)}</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkDetailObjectReversionCodeValidity(OrganizationReversionGlobalDetail)}</li>
+     * <li>ensure that the chart of accounts code and organization codes for {@link OrganizationReversionGlobalOrganization} are not empty values</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkAllObjectCodesForValidity(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)}</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkOrganizationChartValidity(OrganizationReversionGlobalOrganization)</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkOrganizationValidity(OrganizationReversionGlobalOrganization)</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkOrganizationReversionForOrganizationExists(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkOrganizationIsNotAmongOrgRevOrganizations(OrganizationReversionGlobal, OrganizationReversionGlobalOrganization)</li>
+     * </ul>
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
      */
@@ -118,13 +160,14 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
-    private OrganizationReversionGlobal getGlobalOrganizationReversion() {
-        return this.globalOrganizationReversion;
-    }
-
     /**
-     * Convenient convenience method to test all the simple rules in one go.
-     * 
+     * Convenient convenience method to test all the simple rules in one go. Including:
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalRule#checkBudgetReversionAccountPair(OrganizationReversionGlobal)}</li>
+     * <li>{@link OrganizationReversionGlobalRule#checkCashReversionAccountPair(OrganizationReversionGlobal)}</li>
+     * <li>{@link OrganizationReversionGlobalRule#areAllDetailsValid(OrganizationReversionGlobal)}</li>
+     * <li>{@link OrganizationReversionGlobalRule#areAllOrganizationsValid(OrganizationReversionGlobal)</li>
+     * </ul>
      * @param globalOrgRev the global organization reversion to check
      * @return true if the new global organization reversion passes all tests, false if it deviates even a tiny little bit
      */
@@ -145,7 +188,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * error is thrown.
      * 
      * @param globalOrgRev the Global Organization Reversion to check
-     * @return if budget reversion chart/account pair is specified correctly, false if otherwise
+     * @return true if budget reversion chart/account pair is specified correctly, false if otherwise
      */
     public boolean checkBudgetReversionAccountPair(OrganizationReversionGlobal globalOrgRev) {
         boolean success = true;
@@ -161,7 +204,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * error is thrown.
      * 
      * @param globalOrgRev the Global Organization Reversion to check
-     * @return if cash reversion chart/account pair is specified correctly, false if otherwise
+     * @return true if cash reversion chart/account pair is specified correctly, false if otherwise
      */
     public boolean checkCashReversionAccountPair(OrganizationReversionGlobal globalOrgRev) {
         boolean success = true;
@@ -173,7 +216,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * Tests if all of the OrganizationReversionGlobalDetail objects associated with the given global organization reversion are
+     * Tests if all of the {@link OrganizationReversionGlobalDetail} objects associated with the given global organization reversion are
      * valid.
      * 
      * @param globalOrgRev the global organization reversion to check
@@ -259,7 +302,7 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
      * @param universityFiscalYear the university fiscal year of the object code
      * @param chartOfAccountsCode the chart of accounts code of the object code
      * @param objectCode the object code itself
-     * @return true if it exists, false if otherwise
+     * @return true if it exists (or was not filled in to begin with), false if otherwise
      */
     public boolean validObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String objectCode) {
         if (!StringUtils.isBlank(objectCode) && universityFiscalYear != null && !StringUtils.isBlank(chartOfAccountsCode)) {
@@ -417,14 +460,6 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
-    public void setOrganizationReversionService(OrganizationReversionService organizationReversionService) {
-        this.organizationReversionService = organizationReversionService;
-    }
-
-    public void setObjectCodeService(ObjectCodeService objectCodeService) {
-        this.objectCodeService = objectCodeService;
-    }
-
     /**
      * This method tests if two OrganizationReversionGlobalOrganization objects are holding the same underlying Organization.
      * 
@@ -438,5 +473,17 @@ public class OrganizationReversionGlobalRule extends GlobalDocumentRuleBase {
             containingSame = (orgRevOrgA.getChartOfAccountsCode().equals(orgRevOrgB.getChartOfAccountsCode()) && orgRevOrgA.getOrganizationCode().equals(orgRevOrgB.getOrganizationCode()));
         }
         return containingSame;
+    }
+
+    public void setOrganizationReversionService(OrganizationReversionService organizationReversionService) {
+        this.organizationReversionService = organizationReversionService;
+    }
+
+    public void setObjectCodeService(ObjectCodeService objectCodeService) {
+        this.objectCodeService = objectCodeService;
+    }
+
+    private OrganizationReversionGlobal getGlobalOrganizationReversion() {
+        return this.globalOrganizationReversion;
     }
 }

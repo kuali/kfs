@@ -24,15 +24,20 @@ import org.kuali.module.financial.document.DisbursementVoucherDocument;
 import com.lowagie.text.DocumentException;
 
 /**
- * Service used for manipulating disbursement voucher cover sheets.
+ * This service interface defines the methods that a DisbursementVoucherCoverSheetService implementation must provide.
+ * 
  */
 public interface DisbursementVoucherCoverSheetService {
+
     /**
-     * generates a disbursement voucher coversheet
+     * Generates a disbursement voucher cover sheet.
      * 
-     * @param templateName
-     * @param document
-     * @param outputStream
+     * @param templateDirectory The file system directory which contains the template.
+     * @param templateName The name of the template file used to generate the cover sheet.
+     * @param document The DisbursementVoucherDocument used to generate the cover sheet.
+     * @param outputStream The stream to write out the new cover sheet.
+     * @throws DocumentException Thrown if there is a problem pulling data from the document to create the cover sheet.
+     * @throws IOException Thrown if there is a problem writing the cover sheet to the output stream.
      */
     public void generateDisbursementVoucherCoverSheet(String templateDirectory, String templateName, DisbursementVoucherDocument document, OutputStream outputStream) throws DocumentException, IOException;
 }

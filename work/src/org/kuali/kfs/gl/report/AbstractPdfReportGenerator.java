@@ -27,7 +27,7 @@ import com.lowagie.text.PageSize;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * This class...
+ * This class is used to generate PDF reports for G/L related information
  */
 public abstract class AbstractPdfReportGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractPdfReportGenerator.class);
@@ -35,6 +35,13 @@ public abstract class AbstractPdfReportGenerator {
     private static String REPORT_FILE_DATE_FORMAT = "yyyyMMdd_HHmmss";
 
     // generate the PDF report with the given information
+    /**
+     * This method generates a PDF report
+     * 
+     * @param reportingDate date report supposed to be for
+     * @param title title of report
+     * @param reportFileName file name used for saving report
+     */
     public void generatePdfReport(Date reportingDate, String title, String reportFileName) {
         Document document = this.getDocument();
 
@@ -59,8 +66,21 @@ public abstract class AbstractPdfReportGenerator {
         }
     }
 
+    /**
+     * This method returns an Element object which is used to display the actual content of a PDF report
+     * 
+     * @return Element represents report contents
+     */
     public abstract Element getReportContents();
 
+    /**
+     * This method returns a reports file name
+     * 
+     * @param reportNamePrefix prefix of file name
+     * @param destinationDirectory destination directory of file
+     * @param reportingDate date report is for
+     * @return
+     */
     protected String generateReportFileName(String reportNamePrefix, String destinationDirectory, Date reportingDate) {
         String reportFilename = destinationDirectory + "/" + reportNamePrefix + "_";
         SimpleDateFormat dateFormat = new SimpleDateFormat(REPORT_FILE_DATE_FORMAT);
@@ -70,19 +90,38 @@ public abstract class AbstractPdfReportGenerator {
         return reportFilename;
     }
 
+    /**
+     * Returns a new document
+     * 
+     * @return Document PDF document
+     */
     protected Document getDocument() {
         return new Document(PageSize.A4.rotate());
     }
 
+    /**
+     * Returns font for header
+     * 
+     * @return Font font for header
+     */
     protected Font getHeaderFont() {
         return FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
     }
 
+    /**
+     * Return font for content
+     * 
+     * @return
+     */
     protected Font getTextFont() {
         return FontFactory.getFont(FontFactory.COURIER, 8, Font.BOLD);
     }
 
-    // close the document and release the resource
+    /**
+     * Close access to document
+     * 
+     * @param document document being closed
+     */
     private void closeDocument(Document document) {
         try {
             if ((document != null) && document.isOpen()) {

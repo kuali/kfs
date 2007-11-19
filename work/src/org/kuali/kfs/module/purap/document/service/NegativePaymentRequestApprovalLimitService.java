@@ -26,37 +26,44 @@ public interface NegativePaymentRequestApprovalLimitService {
      * Find limits by chart.
      * 
      * @param chartCode
-     * @return
+     * @return - collection of negative payment request approval limits
      */
-    Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode);
+    public Collection<NegativePaymentRequestApprovalLimit> findByChart(String chartCode);
 
     /**
      * Find limits by chart and account.
      * 
      * @param chartCode
      * @param accountNumber
-     * @return
+     * @return - collection of negative payment request approval limits
      */
-    Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber);
+    public Collection<NegativePaymentRequestApprovalLimit> findByChartAndAccount(String chartCode, String accountNumber);
 
     /**
      * Find limits by chart and organization.
      * 
      * @param chartCode
      * @param organizationCode
-     * @return
+     * @return - collection of negative payment request approval limits
      */
-    Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
+    public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
 
     /**
-     * @param limit
-     * @return
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is greater
+     * than the limit passed in.  (Used for Testing.)
+     * 
+     * @param limit - lower limit
+     * @return - collection of negative payment request approval limits
      */
-    Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
+    public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit);
 
     /**
-     * @param limit
-     * @return
+     * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is less than
+     * the limit passed in.  (Used for Testing.)
+     * 
+     * @param limit - upper limit
+     * @return - collection of negative payment request approval limits
      */
-    Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit);
+    public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit);
+    
 }

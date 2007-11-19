@@ -27,14 +27,22 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
- * Performs prompts and other pre business rule checks for the Payment Request Docuemnt.
+ * Business pre rule(s) applicable to Payment Request documents.
  */
 public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRulesBase {
 
+    /**
+     * Default Constructor
+     */
     public PaymentRequestDocumentPreRules() {
         super();
     }
 
+    /**
+     * Main hook point to perform rules check.
+     * 
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     @Override
     public boolean doRules(Document document) {
         boolean preRulesOK = true;
@@ -49,6 +57,13 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         return preRulesOK;
     }
 
+    /**
+     * Prompts user to confirm with a Yes or No to a question being asked.
+     * 
+     * @param questionType - type of question
+     * @param messageConstant - key to retrieve message
+     * @return - true if overriding, false otherwise
+     */
     private boolean askForConfirmation(String questionType, String messageConstant) {
 
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(messageConstant);
@@ -65,6 +80,13 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         return true;
     }
 
+    /**
+     * Creates the actual text of the question, replacing place holders like pay date threshold with an actual constant value.
+     * 
+     * @param questionType - type of question
+     * @param questionText - actual text of question pulled from resource file
+     * @return - question text with place holders replaced
+     */
     private String prepareQuestionText(String questionType, String questionText) {
         if (StringUtils.equals(questionType, PREQDocumentsStrings.THRESHOLD_DAYS_OVERRIDE_QUESTION)) {
             questionText = StringUtils.replace(questionText, "{0}", new Integer(PurapConstants.PREQ_PAY_DATE_DAYS_BEFORE_WARNING).toString());
@@ -72,6 +94,13 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         return questionText;
     }
 
+    /**
+     * Validates if the pay date threshold has not been passed, if so confirmation is required by the user to
+     * exceed the threshold.
+     * 
+     * @param preq - payment request document
+     * @return - true if threshold has not been surpassed or if user confirmed ok to override, false otherwise
+     */
     public boolean confirmPayDayNotOverThresholdDaysAway(PaymentRequestDocument preq) {
         // If the pay date is more than the threshold number of days in the future, ask for confirmation.
         PaymentRequestDocumentRule rule = new PaymentRequestDocumentRule();
@@ -81,6 +110,10 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
         return true;
     }
 
+    /**
+     * @see org.kuali.module.purap.rules.AccountsPayableDocumentPreRulesBase#getDocumentName()
+     */
+    @Override
     public String getDocumentName() {
         return "Payment Request";
     }

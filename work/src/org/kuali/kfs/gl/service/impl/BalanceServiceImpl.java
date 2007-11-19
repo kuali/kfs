@@ -55,11 +55,20 @@ public class BalanceServiceImpl implements BalanceService {
     String[] incomeObjectTypeCodes = null;
     String[] expenseObjectTypeCodes = null;
 
+    /**
+     * Turns an array of Strings into a List of Strings
+     * 
+     * @param s an array of Strings
+     * @return an implementation of Collection (a List) of Strings
+     */
     private Collection wrap(String[] s) {
         return Arrays.asList(s);
     }
 
     /**
+     * @param universityFiscalYear the fiscal year to find balances for
+     * @param balanceTypeCodes the balance types to summarize
+     * @return a list of summarized GL balances
      * @see org.kuali.module.gl.service.BalanceService#getGlSummary(int, java.util.List)
      */
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes) {
@@ -76,30 +85,34 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * This method... Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM gl_balance_t WHERE
-     * univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND fin_object_cd != '9899'
-     * AND fin_obj_typ_cd IN ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING
-     * ABS(SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)) > 0); added absolute value function to sum--prevents the case of 2 entries
-     * (1 pos and 1 neg) from canceling each other out and allowing the acct to be closed when it shouldn't be.
+     * Defers to the DAO to find all balances in the fiscal year.
      * 
-     * @param account
-     * @return
-     */
-
-    /*
-     * (non-Javadoc)
-     * 
+     * @param fiscalYear the fiscal year to find balances for
+     * @return an Iterator full of balances from the given fiscal year
      * @see org.kuali.module.gl.service.BalanceService#findBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear) {
+        
 
         return (Iterator<Balance>) balanceDao.findBalancesForFiscalYear(fiscalYear);
     }
 
     /**
+     * Checks the given account to see if there are any non zero asset fund liability fund balances for them
+     * 
+     * @param account an account to find balances for
+     * @return true if there are non zero asset liability fund balances, false if otherwise
      * @see org.kuali.module.gl.service.BalanceService#hasAssetLiabilityFundBalanceBalances(org.kuali.module.chart.bo.Account)
      */
     public boolean hasAssetLiabilityFundBalanceBalances(Account account) {
+        
+        /*
+         * Here is an excerpt from the original Oracle trigger: SELECT fin_object_cd FROM gl_balance_t WHERE
+         * univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND fin_object_cd != '9899'
+         * AND fin_obj_typ_cd IN ('AS', 'LI', 'FB') AND fin_balance_typ_cd = 'AC' GROUP BY fin_object_cd HAVING
+         * ABS(SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt)) > 0); added absolute value function to sum--prevents the case of 2 entries
+         * (1 pos and 1 neg) from canceling each other out and allowing the acct to be closed when it shouldn't be.
+         */
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         ArrayList fundBalanceObjectCodes = new ArrayList();
@@ -146,7 +159,12 @@ public class BalanceServiceImpl implements BalanceService {
 
     }
 
-
+    /**
+     * Given an iterator of balances, this returns the sum of each balance's beginning balance line amount + annual account linge balance amount
+     * 
+     * @param balances an Iterator of balances to sum
+     * @return the sum of all of those balances
+     */
     private KualiDecimal sumBalances(Iterator balances) {
         KualiDecimal runningTotal = new KualiDecimal(0);
 
@@ -167,18 +185,20 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND
-     * fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND (fin_object_cd = '9899' OR fin_obj_typ_cd IN ('CH', 'IC', 'IN',
-     * 'TI')) AND fin_balance_typ_cd = 'AC';
+     * Returns the sum of balances considered as income for the given account
      * 
-     * @return
-     */
-
-    /**
-     * 
-     * 
+     * @param account the account to find income balances for
+     * @return the sum of income balances
      */
     protected KualiDecimal incomeBalances(Account account) {
+        
+        /*
+         * SELECT SUM(fin_beg_bal_ln_amt + acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND
+         * fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND (fin_object_cd = '9899' OR fin_obj_typ_cd IN ('CH', 'IC', 'IN',
+         * 'TI')) AND fin_balance_typ_cd = 'AC';
+         * 
+         * @return
+         */
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
 
@@ -190,18 +210,19 @@ public class BalanceServiceImpl implements BalanceService {
 
     }
 
-
     /**
-     * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt || acln_annl_bal_amt) INTO v_x FROM
-     * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
-     * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC'; This method...
+     * Sums all the balances associated with a given account that would be considered "expense" balances
      * 
-     * @param account
-     * @return
+     * @param account an account to find expense balances for
+     * @return the sum of those balances
      */
-
     protected KualiDecimal expenseBalances(Account account) {
-
+        /*
+         * Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt || acln_annl_bal_amt) INTO v_x FROM
+         * gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND account_nbr = p_account_nbr AND
+         * fin_obj_typ_cd IN ('EE', 'ES', 'EX', 'TE') AND fin_balance_typ_cd = 'AC'; This method...
+         */
+        
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, wrap(getExpenseObjectTypeCodes()), wrap(getActualBalanceCodes()));
 
@@ -209,8 +230,11 @@ public class BalanceServiceImpl implements BalanceService {
 
     }
 
-
     /**
+     * Checks to see if the total income balances for the given account equal the total expense balances for the given account
+     * 
+     * @param an account to find balances for
+     * @return true if income balances equal expense balances, false otherwise
      * @see org.kuali.module.gl.service.BalanceService#fundBalanceWillNetToZero(org.kuali.module.chart.bo.Account)
      */
     public boolean fundBalanceWillNetToZero(Account account) {
@@ -220,16 +244,20 @@ public class BalanceServiceImpl implements BalanceService {
         return income.equals(expense);
     }
 
-    /*
-     * check for Encumbrances and base budgets Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt +
-     * acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND
-     * account_nbr = p_account_nbr AND fin_balance_typ_cd IN ('EX', 'IE', 'PE', 'BB'); v_rowcnt := SQL%ROWCOUNT;
-     */
-
     /**
+     * Finds all of the encumbrance balances for the given account, and figures out if those encumbrances will have a net impact on the budget
+     *
+     * @param account an account to find balances for
+     * @return true if summed encumbrances for the account are not zero (meaning encumbrances will have a net impact on the budget), false if otherwise
      * @see org.kuali.module.gl.service.BalanceService#hasEncumbrancesOrBaseBudgets(org.kuali.module.chart.bo.Account)
      */
     public boolean hasEncumbrancesOrBaseBudgets(Account account) {
+        
+        /*
+         * check for Encumbrances and base budgets Here is an excerpt from the original Oracle Trigger: SELECT SUM(fin_beg_bal_ln_amt +
+         * acln_annl_bal_amt) INTO v_y FROM gl_balance_t WHERE univ_fiscal_yr = p_univ_fiscal_yr AND fin_coa_cd = p_fin_coa_cd AND
+         * account_nbr = p_account_nbr AND fin_balance_typ_cd IN ('EX', 'IE', 'PE', 'BB'); v_rowcnt := SQL%ROWCOUNT;
+         */
 
         Integer fiscalYear = SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
         Iterator balances = balanceDao.findBalances(account, fiscalYear, null, null, null, wrap(getEncumbranceBaseBudgetBalanceTypeCodes()));
@@ -238,6 +266,12 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns whether or not the beginning budget is loaded for the given account.  Of course, it doesn't
+     * really check the account...just the options for the current year to see if all the beginning balances
+     * have been loaded
+     * 
+     * @param an account to check whether the beginning balance is loaded for
+     * @return true if the beginning balance is loaded, false otherwise
      * @see org.kuali.module.gl.service.BalanceService#beginningBalanceLoaded(org.kuali.module.chart.bo.Account)
      */
     public boolean beginningBalanceLoaded(Account account) {
@@ -245,6 +279,10 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Determines if the account has asset/liability balances associated with it that will have a net impact
+     * 
+     * @param account an account to check balances for
+     * @return true if the account has an asset liability balance, false otherwise
      * @see org.kuali.module.gl.service.BalanceService#hasAssetLiabilityOrFundBalance(org.kuali.module.chart.bo.Account)
      */
     public boolean hasAssetLiabilityOrFundBalance(Account account) {
@@ -252,6 +290,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Saves the balance in a no-nonsense, straight away, three piece suit sort of way
+     * 
+     * @param b the balance to save
      * @see org.kuali.module.gl.service.BalanceService#save(org.kuali.module.gl.bo.Balance)
      */
     public void save(Balance b) {
@@ -267,6 +308,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method finds the summary records of balance entries according to input fields an values, using the DAO
+     * 
+     * @param fieldValues the input fields an values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the summary records of balance entries
      * @see org.kuali.module.gl.service.BalanceService#findCashBalance(java.util.Map, boolean)
      */
     public Iterator findCashBalance(Map fieldValues, boolean isConsolidated) {
@@ -276,6 +322,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method gets the size of cash balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the count of cash balance entries
      * @see org.kuali.module.gl.service.BalanceService#getCashBalanceRecordCount(java.util.Map, boolean)
      */
     public Integer getCashBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
@@ -295,6 +346,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method gets the size of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the size of balance entries
      * @see org.kuali.module.gl.service.BalanceService#findBalance(java.util.Map, boolean)
      */
     public Iterator findBalance(Map fieldValues, boolean isConsolidated) {
@@ -303,6 +359,11 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method finds the summary records of balance entries according to input fields and values
+     * 
+     * @param fieldValues the input fields and values
+     * @param isConsolidated consolidation option is applied or not
+     * @return the summary records of balance entries
      * @see org.kuali.module.gl.service.BalanceService#getBalanceRecordCount(java.util.Map, boolean)
      */
     public Integer getBalanceRecordCount(Map fieldValues, boolean isConsolidated) {
@@ -322,10 +383,10 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
-     * Purge the sufficient funds balance table by year/chart
+     * Purge the balance table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chart the chart of balances to purge
+     * @param year the year of balances to purge
      */
     public void purgeYearByChart(String chart, int year) {
         LOG.debug("purgeYearByChart() started");
@@ -366,6 +427,11 @@ public class BalanceServiceImpl implements BalanceService {
         };
     }
 
+    /**
+     * Use the options table to get a list of all the balance type codes associated with actual balances 
+     *
+     * @return an array of balance type codes for actual balances
+     */
     private String[] getActualBalanceCodes() {
         if (actualBalanceCodes == null) {
             loadConstantsFromOptions();
@@ -373,6 +439,11 @@ public class BalanceServiceImpl implements BalanceService {
         return actualBalanceCodes;
     }
 
+    /**
+     * Uses the options table to find all the balance type codes associated with income
+     * 
+     * @return an array of income balance type codes
+     */
     private String[] getIncomeObjectTypeCodes() {
         if (incomeObjectTypeCodes == null) {
             loadConstantsFromOptions();
@@ -380,6 +451,11 @@ public class BalanceServiceImpl implements BalanceService {
         return incomeObjectTypeCodes;
     }
 
+    /**
+     * Uses the options table to find all the balance type codes associated with expenses
+     * 
+     * @return an array of expense option type codes
+     */
     private String[] getExpenseObjectTypeCodes() {
         if (expenseObjectTypeCodes == null) {
             loadConstantsFromOptions();
@@ -387,6 +463,11 @@ public class BalanceServiceImpl implements BalanceService {
         return expenseObjectTypeCodes;
     }
 
+    /**
+     * Uses the options table to find all the balance type codes associated with asset/liability
+     * 
+     * @return an array of asset/liability balance type codes
+     */
     private String[] getAssetLiabilityFundBalanceBalanceTypeCodes() {
         if (assetLiabilityFundBalanceObjectTypeCodes == null) {
             loadConstantsFromOptions();
@@ -394,6 +475,11 @@ public class BalanceServiceImpl implements BalanceService {
         return assetLiabilityFundBalanceObjectTypeCodes;
     }
 
+    /**
+     * Uses the options table to create a list of all the balance type codes associated with encumbrances
+     * 
+     * @return an array of encumbrance balance type codes
+     */
     private String[] getEncumbranceBaseBudgetBalanceTypeCodes() {
         if (encumbranceBaseBudgetBalanceTypeCodes == null) {
             loadConstantsFromOptions();
@@ -402,6 +488,10 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Uses the DAO to count the number of balances associated with the given fiscal year
+     * 
+     * @param fiscal year a fiscal year to count balances for
+     * @return an integer with the number of balances 
      * @see org.kuali.module.gl.service.BalanceService#countBalancesForFiscalYear(java.lang.Integer)
      */
     public int countBalancesForFiscalYear(Integer year) {
@@ -409,6 +499,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * This method returns all of the balances specifically for the nominal activity closing job 
+     * @param year year to find balances for
+     * @return an Iterator of nominal activity balances
      * @see org.kuali.module.gl.service.BalanceService#findNominalActivityBalancesForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findNominalActivityBalancesForFiscalYear(Integer year) {
@@ -416,6 +509,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns all the balances to be forwarded for the "cumulative" rule
+     * @param year the fiscal year to find balances for
+     * @return an Iterator of balances to process for the cumulative/active balance forward process
      * @see org.kuali.module.gl.service.BalanceService#findCumulativeBalancesToForwardForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year) {
@@ -423,6 +519,9 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
+     * @param year the fiscal year to find balances for
+     * @return an Iterator of balances to process for the general balance forward process
      * @see org.kuali.module.gl.service.BalanceService#findGeneralBalancesToForwardForFiscalYear(java.lang.Integer)
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year) {
@@ -430,6 +529,10 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     /**
+     * Returns all of the balances to be forwarded for the organization reversion process
+     * @param year the year of balances to find
+     * @param endOfYear whether the organization reversion process is running end of year (before the fiscal year change over) or beginning of year (after the fiscal year change over)
+     * @return an iterator of balances to put through the strenuous organization reversion process
      * @see org.kuali.module.gl.service.BalanceService#findOrganizationReversionBalancesForFiscalYear(java.lang.Integer, boolean)
      */
     public Iterator<Balance> findOrganizationReversionBalancesForFiscalYear(Integer year, boolean endOfYear) {

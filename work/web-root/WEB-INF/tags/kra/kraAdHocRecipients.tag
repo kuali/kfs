@@ -163,7 +163,7 @@
 	                    </td>
 	                    <td>
 	                    	<div align=center>
-	                    		${person.user.campusCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.campusCode" /> / ${person.orgCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.primaryDepartmentCode" />
+	                    		${person.user.campusCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.campusCode" /> / ${person.primaryDepartmentCode}<html:hidden property="document.adhocPersonItem[${status.index}].user.primaryDepartmentCode" />
 	                    	</div>
 	                    </td>
 	                    <td>

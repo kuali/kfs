@@ -38,6 +38,12 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         super();
     }
 
+    /**
+     * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
+     * processed. Overriding this method so that entries are not created yet.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
@@ -45,7 +51,13 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
         setGeneralLedgerPendingEntries(new ArrayList());
     }
 
-    @Override
+    /**
+     * When Purchase Order Amendment document has been Processed through Workflow, the general ledger entries are created and the PO
+     * status remains "OPEN".
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     */
+   @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
 
@@ -57,7 +69,7 @@ public class PurchaseOrderAmendmentDocument extends PurchaseOrderDocument {
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            // set purap status and status history and status history note
+            // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.OPEN);
 
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);

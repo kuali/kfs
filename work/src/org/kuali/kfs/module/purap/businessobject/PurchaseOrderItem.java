@@ -16,6 +16,7 @@
 
 package org.kuali.module.purap.bo;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -205,7 +206,50 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     public Class getAccountingLineClass() {
         return PurchaseOrderAccount.class;
     }
+    
+    /**
+     * 
+     * This method returns the total item paid amount
+     * @return
+     */
+    public KualiDecimal getItemPaidAmount() {
+        if (!(this.isItemActiveIndicator())) {
+            return KualiDecimal.ZERO;
+        }
+        return this.getItemInvoicedTotalAmount();
+    }
 
+    public KualiDecimal getItemEncumbranceRelievedAmount() {
+        // check that it is active else return zero
+        if (this == null || !this.isItemActiveIndicator()) {
+            return KualiDecimal.ZERO;
+        }
+        // setup outstanding amount and get totalEncumberance from this.getExtendedCost()
+        KualiDecimal outstandingAmount = KualiDecimal.ZERO;
+        KualiDecimal totalEncumberance = this.getExtendedPrice();
+
+        ItemType iT = this.getItemType();
+        // if service add the po outstanding amount to outstandingamount
+        if (!iT.isQuantityBasedGeneralLedgerIndicator()) {
+            outstandingAmount = outstandingAmount.add(this.getItemOutstandingEncumberedAmount());
+        }
+        else {
+            // else add outstanding quantity * unitprice
+            BigDecimal qty = new BigDecimal(this.getOutstandingQuantity().toString());
+            outstandingAmount = outstandingAmount.add(new KualiDecimal(this.getItemUnitPrice().multiply(qty)));
+        }
+
+
+        // return the total encumberance subtracted by the outstandingamount from above
+        return totalEncumberance.subtract(outstandingAmount);
+    }
+    
+    public KualiDecimal getOutstandingQuantity() {
+            KualiDecimal outstandingQuantity = (this.getItemQuantity() != null) ? this.getItemQuantity() : KualiDecimal.ZERO;
+            KualiDecimal invoicedQuantity = (this.getItemInvoicedTotalQuantity() != null) ? this.getItemInvoicedTotalQuantity() : KualiDecimal.ZERO;
+            return outstandingQuantity.subtract(invoicedQuantity);
+    }
+    
     public boolean isCanInactivateItem() {
         if (versionNumber == null) {
             // don't allow newly added item to be inactivatable.

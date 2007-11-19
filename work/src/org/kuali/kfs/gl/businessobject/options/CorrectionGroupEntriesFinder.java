@@ -28,12 +28,15 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 
 /**
- * This class returns list of payment method key value pairs.
+ * This class returns list of correction group entries key value pairs.
  */
 public class CorrectionGroupEntriesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns a list of key/value pairs to display correction groups that can be used in a Labor Ledger Correction Document
+     * 
+     * @return a List of key/value pairs for correction groups
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
         List activeLabels = new ArrayList();

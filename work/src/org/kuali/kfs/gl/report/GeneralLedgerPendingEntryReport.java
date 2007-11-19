@@ -34,6 +34,9 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * This class represents functionality needed to generate a general ledger pending entry report
+ */
 public class GeneralLedgerPendingEntryReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerPendingEntryReport.class);
 
@@ -43,6 +46,14 @@ public class GeneralLedgerPendingEntryReport {
     private NumberFormat amountFormat;
     private NumberFormat countFormat;
 
+    /**
+     * This method generates the actual report body for the general ledger pending entry report
+     * 
+     * @param runDate date report is run
+     * @param batchReportsDirectory directory where batch reports reside
+     * @param sdf simple date format
+     * @param entries iterator containing origin entries
+     */
     public void generateReport(Date runDate, String batchReportsDirectory, SimpleDateFormat sdf, Iterator entries) {
         LOG.debug("generateReport() started");
 
@@ -237,6 +248,14 @@ public class GeneralLedgerPendingEntryReport {
         document.close();
     }
 
+    /**
+     * Methods prints totals in report
+     * 
+     * @param title title for total
+     * @param credit credit amount
+     * @param debit debit amount
+     * @param blank blank amount
+     */
     private void printTotal(String title, KualiDecimal credit, KualiDecimal debit, KualiDecimal blank) {
         PdfPCell column = new PdfPCell(new Phrase(title, headerFont));
         column.setColspan(6);

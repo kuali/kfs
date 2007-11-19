@@ -16,9 +16,12 @@
 package org.kuali.module.financial.rules;
 
 /**
- * This class...
+ * Defines constants for the service billing document.
  */
 public class ServiceBillingDocumentRuleConstants {
+    
+    // Security grouping constants used to do application parameter lookups
     public static final String SERVICE_BILLING_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.ServiceBillingDocument";
+
     public static final String RESTRICTED_OBJECT_TYPE_CODES = "RestrictedObjectTypeCodes";
 }

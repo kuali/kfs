@@ -30,23 +30,26 @@ import org.kuali.module.purap.document.PurchaseOrderDocument;
 public interface CreditMemoService extends AccountsPayableDocumentSpecificService {
 
     /**
-     * Gets the Credit memos that can be extracted
+     * Gets the Credit memos that can be extracted.
      * 
-     * @param chartCode Chart to select from
-     * @return Iterator of credit memos
+     * @param chartCode Chart to select from.
+     * @return Iterator of credit memos.
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
     /**
-     * Get a credit memo
+     * Get a credit memo by document number.
      * 
-     * @param documentNumber
-     * @return
+     * @param documentNumber  The document number of the credit memo to be retrieved.
+     * @return                The credit memo document whose document number matches the input parameter.
      */
     public CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber);
 
     /**
-     * Retrieves the Credit Memo document by document number.
+     * Retrieves the Credit Memo document by the purapDocumentIdentifier.
+     * 
+     * @param purchasingDocumentIdentifier  The purapDocumentIdentifier of the credit memo to be retrieved.
+     * @return                              The credit memo document whose purapDocumentIdentifier matches the input parameter.
      */
     public CreditMemoDocument getCreditMemoDocumentById(Integer purchasingDocumentIdentifier);
 
@@ -55,95 +58,119 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      * if there is an existing credit memo with the same vendor number and credit memo number as the one which is being created, or
      * same vendor number and credit memo date.
      * 
-     * @param cmDocument - CreditMemoDocument to run duplicate check on
-     * @return String - message indicating a duplicate was found
+     * @param cmDocument - CreditMemoDocument to run duplicate check on.
+     * @return String - message indicating a duplicate was found.
      */
     public String creditMemoDuplicateMessages(CreditMemoDocument cmDocument);
 
     /**
      * Iterates through the items of the purchase order document and checks for items that have been invoiced.
      * 
-     * @param poDocument - purchase order document containing the lines to check
-     * @return List<PurchaseOrderItem> - list of invoiced items found
+     * @param poDocument - purchase order document containing the lines to check.
+     * @return List<PurchaseOrderItem> - list of invoiced items found.
      */
     public List<PurchaseOrderItem> getPOInvoicedItems(PurchaseOrderDocument poDocument);
 
     /**
      * Persists the credit memo without business rule checks.
      * 
-     * @param creditMemoDocument - credit memo document to save
+     * @param creditMemoDocument - credit memo document to save.
      */
     public void saveDocumentWithoutValidation(CreditMemoDocument creditMemoDocument);
 
     /**
      * Persists the credit memo with business rule checks.
      * 
-     * @param creditMemoDocument - credit memo document to save
+     * @param creditMemoDocument - credit memo document to save.
      */
     public void populateAndSaveCreditMemo(CreditMemoDocument creditMemoDocument);
 
     /**
      * Performs the credit memo item extended price calculation.
      * 
-     * @param cmDocument - credit memo document to calculate
+     * @param cmDocument - credit memo document to calculate.
      */
     public void calculateCreditMemo(CreditMemoDocument cmDocument);
 
     /**
      * Marks a credit memo as on hold.
      * 
-     * @param cmDocument - credit memo document to hold
-     * @param note - note explaining why the document is being put on hold
+     * @param cmDocument - credit memo document to hold.
+     * @param note - note explaining why the document is being put on hold.
      * @throws Exception
      */
     public void addHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be put on hold and if the user has permission to do so.
+     * Must be an Accounts Payable user, credit memo not already on hold, extracted date is null, and credit memo 
+     * status approved or complete.
      * 
-     * @param cmDocument - credit memo document to hold
-     * @param user - user requesting the hold
-     * @return boolean - true if hold can occur, false if not allowed
+     * 
+     * @param cmDocument - credit memo document to hold.
+     * @param user - user requesting the hold.
+     * @return boolean - true if hold can occur, false if not allowed.
      */
     public boolean canHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
 
     /**
      * Removes a hold on the credit memo document.
      * 
-     * @param cmDocument - credit memo document to remove hold on
-     * @param note - note explaining why the cm is being taken off hold
+     * @param cmDocument - credit memo document to remove hold on.
+     * @param note - note explaining why the credit memo is being taken off hold.
      */
     public void removeHoldOnCreditMemo(CreditMemoDocument cmDocument, String note) throws Exception;
 
     /**
      * Determines if the document can be taken off hold and if the given user has permission to do so.
+     * Must be person who put credit memo on hold or accounts payable supervisor and credit memo must be on hold.
      * 
-     * @param cmDocument - credit memo document that is on hold
-     * @param user - user requesting to remove the hold
-     * @return boolean - true if user can take document off hold, false if they cannot
+     * @param cmDocument - credit memo document that is on hold.
+     * @param user - user requesting to remove the hold.
+     * @return boolean - true if user can take document off hold, false if they cannot.
      */
     public boolean canRemoveHoldCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
 
     /**
      * Determines if the document can be canceled and if the given user has permission to do so.
+     * Document can be canceled if not in canceled status already, extracted date is null, hold indicator is false, and user is
+     * member of the accounts payable workgroup.
      * 
-     * @param cmDocument - credit memo document to cancel
-     * @param user - user requesting the cancel
-     * @return boolean - true if document can be canceled, false if it cannot be
+     * @param cmDocument - credit memo document to cancel.
+     * @param user - user requesting the cancel.
+     * @return boolean - true if document can be canceled, false if it cannot be.
      */
     public boolean canCancelCreditMemo(CreditMemoDocument cmDocument, UniversalUser user);
 
+    /**
+     * This is called by PDP to cancel a CreditMemoDocument that has already been extracted     
+     * @param cmDocument  The credit memo document to be resetted.
+     * @param note        The note to be added to the credit memo document.
+     */
     public void resetExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
 
+    /**
+     * This is called by PDP to cancel a CreditMemoDocument that has already been extracted
+     * 
+     * @param cmDocument  The credit memo document to be canceled.
+     * @param note        The note to be added to the document to be canceled.
+     */
     public void cancelExtractedCreditMemo(CreditMemoDocument cmDocument, String note);
 
+    /**
+     * Reopens the purchase order document related to the given credit memo
+     * document if it is closed.
+     * 
+     * @param cmDocument  The credit memo document to be used to obtained the 
+     *                    purchase order document to be closed.
+     */
     public void reopenClosedPO(CreditMemoDocument cmDocument);
 
     /**
      * Mark a credit memo is being used on a payment
      * 
-     * @param cm
-     * @param processDate
+     * @param cm           The credit memo document to be marked as paid.
+     * @param processDate  The date to be set as the credit memo's paid timestamp.
      */
     public void markPaid(CreditMemoDocument cm, Date processDate);
 }

@@ -48,6 +48,13 @@ public class InquirableFinancialDocument {
         return getUrl(originationCode, docNumber);
     }
 
+    /**
+     * Creates the url for a document drill down
+     * 
+     * @param originCode the originatino code of the document
+     * @param docNumber the document number of the document to drill down on
+     * @return the URL for the drill down
+     */
     private String getUrl(String originCode, String docNumber) {
         if (KFSConstants.ORIGIN_CODE_KUALI.equals(originCode) && !StringUtils.isBlank(docNumber)) {
             return kualiConfigurationService.getPropertyString(KFSConstants.WORKFLOW_URL_KEY) + "/DocHandler.do?docId=" + docNumber + "&command=displayDocSearchView";

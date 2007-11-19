@@ -47,6 +47,8 @@ public class LaborJournalVoucherForm extends JournalVoucherForm {
     }
 
     /**
+     * Populates source a accounting line encumbrance code (D, R or null) for a given source accounting line 
+     * 
      * @see org.kuali.module.financial.web.struts.form.JournalVoucherForm#populateSourceAccountingLineEncumbranceCode(org.kuali.kfs.bo.SourceAccountingLine)
      */
     @Override

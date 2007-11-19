@@ -20,9 +20,24 @@ import java.util.Iterator;
 import org.kuali.module.pdp.bo.PaymentDetail;
 
 public interface PaymentDetailService {
+    /**
+     * Get ACH Payments that need an email
+     * 
+     * @return
+     */
+    public Iterator getAchPaymentsWithUnsentEmail();
+
     public PaymentDetail get(Integer id);
 
     public PaymentDetail getDetailForEpic(String custPaymentDocNbr, String fdocTypeCode);
+
+    /**
+     * Return an iterator of all the payment details for a specific disbursement number
+     * 
+     * @param disbursementNumber
+     * @return
+     */
+    public Iterator getByDisbursementNumber(Integer disbursementNumber);
 
     /**
      * This will return an iterator of all the cancelled payment details that haven't already been processed

@@ -46,8 +46,6 @@ public interface ObjectCodeService {
      * @param financialObjectCode - Financial Object Code
      * @return a list containing integer years, given object code. The list may be empty, but will not be null.
      */
-
-
     public List getYearList(String chartOfAccountsCode, String financialObjectCode);
 
     /**

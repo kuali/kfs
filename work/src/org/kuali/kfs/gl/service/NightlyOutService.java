@@ -23,12 +23,12 @@ package org.kuali.module.gl.service;
 public interface NightlyOutService {
 
     /**
-     * Delete all the records that were copied to the GL.
+     * Deletes all the records that were copied to the GL.
      */
     public void deleteCopiedPendingLedgerEntries();
 
     /**
-     * This method copies the approved pending ledger entries to orign entry table
+     * Copies the approved pending ledger entries to orign entry table
      */
     public void copyApprovedPendingLedgerEntries();
 }

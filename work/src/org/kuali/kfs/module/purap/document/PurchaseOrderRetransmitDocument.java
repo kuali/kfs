@@ -29,7 +29,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * Purchase Order Document
+ * Purchase Order Retransmit Document
  */
 public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderRetransmitDocument.class);
@@ -41,6 +41,12 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         super();
     }
 
+    /**
+     * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
@@ -64,6 +70,12 @@ public class PurchaseOrderRetransmitDocument extends PurchaseOrderDocument {
         return total;
     }
 
+    /**
+     * When Purchase Order Retransmit document has been Processed through Workflow, the PO status remains to "OPEN" and the last
+     * transmit date is updated.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();

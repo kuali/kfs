@@ -21,9 +21,11 @@ package org.kuali.module.gl.service;
 public interface ScrubberProcessObjectCodeOverride {
 
     /**
-     * @param originEntryObjectLevelCode
+     * Potentially overrides the object code for origin entries the scrubber generates
+     * 
+     * @param originEntryObjectLevelCode the current level code of the object code that could potentially be overriden
      * @param originEntryObjectCode current originEntryObjectCode
-     * @return new originEntryObjectCode
+     * @return the overriden object code, or the same object code if overriding wasn't necessary
      */
     public String getOriginEntryObjectCode(String originEntryObjectLevelCode, String originEntryObjectCode);
 

@@ -21,48 +21,38 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.bo.PurApSummaryItem;
 
+/**
+ * 
+ * Summary Account.
+ * This is a special class used to display summary information i.e. what items are associated
+ * with this account. 
+ */
 public class SummaryAccount {
 
     private SourceAccountingLine account;
     private List<PurApSummaryItem> items;
 
+    /**
+     * 
+     * Constructs a Summary Account
+     */
     public SummaryAccount() {
         super();
         items = new TypedArrayList(PurApSummaryItem.class);
     }
 
-    /**
-     * Gets the account attribute.
-     * 
-     * @return Returns the account.
-     */
     public SourceAccountingLine getAccount() {
         return account;
     }
 
-    /**
-     * Sets the account attribute value.
-     * 
-     * @param account The account to set.
-     */
     public void setAccount(SourceAccountingLine account) {
         this.account = account;
     }
 
-    /**
-     * Gets the items attribute.
-     * 
-     * @return Returns the items.
-     */
     public List<PurApSummaryItem> getItems() {
         return items;
     }
 
-    /**
-     * Sets the items attribute value.
-     * 
-     * @param items The items to set.
-     */
     public void setItems(List<PurApSummaryItem> items) {
         this.items = items;
     }

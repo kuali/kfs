@@ -26,7 +26,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
- * 
+ * Header for cash receipt that is used to uniquely identify a cash receipt
  */
 public class CashReceiptHeader extends PersistableBusinessObjectBase {
 

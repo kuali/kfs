@@ -48,6 +48,9 @@ import org.kuali.module.gl.service.SufficientFundsService;
 import org.kuali.module.gl.util.Summary;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The default implementation of SufficientFundsRebuilderService
+ */
 @Transactional
 public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebuilderService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceImpl.class);
@@ -80,16 +83,28 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
 
     private SufficientFundBalances currentSfbl = null;
 
+    /**
+     * Constructs a SufficientFundsRebuilderServiceImpl instance
+     */
     public SufficientFundsRebuilderServiceImpl() {
         super();
     }
 
+    /**
+     * Returns the fiscal year, set in a parameter, of sufficient funds to rebuild
+     * 
+     * @return the fiscal year
+     */
     private Integer getFiscalYear() {
         String val = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM);
         int yr = Integer.parseInt(val);
         return new Integer(yr);
     }
 
+    /**
+     * Rebuilds all necessary sufficient funds balances.
+     * @see org.kuali.module.gl.service.SufficientFundsRebuilderService#rebuildSufficientFunds()
+     */
     public void rebuildSufficientFunds() { // driver
         LOG.debug("rebuildSufficientFunds() started");
 
@@ -159,6 +174,9 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         reportService.generateSufficientFundsReport(batchError, reportSummary, runDate, 0);
     }
 
+    /**
+     * Initializes the process at the beginning of a run.
+     */
     private void initService() {
         batchError = new HashMap();
         reportSummary = new ArrayList();
@@ -176,7 +194,7 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
      * Given an O SF rebuild type, it will look up all of the matching balances in the table and add each account it finds as an A
      * SF rebuild type.
      * 
-     * @param sfrb
+     * @param sfrb the sufficient fund rebuild record to convert
      */
     private void convertOtypeToAtypes(SufficientFundRebuild sfrb) {
         ++sfrbRecordsConvertedCount;
@@ -196,6 +214,11 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    /**
+     * Updates sufficient funds balances for the given account
+     * 
+     * @param sfrb the sufficient fund rebuild record, with a chart and account number
+     */
     private void calculateSufficientFundsByAccount(SufficientFundRebuild sfrb) {
         Account sfrbAccount = accountService.getByPrimaryId(sfrb.getChartOfAccountsCode(), sfrb.getAccountNumberFinancialObjectCode());
 
@@ -270,6 +293,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    /**
+     * Determines if all sums associated with a sufficient funds balance are zero
+     * 
+     * @param sfbl the sufficient funds balance to check
+     * @return true if all sums in the balance are zero, false otherwise
+     */
     private boolean amountsAreNonZero(SufficientFundBalances sfbl) {
         boolean zero = true;
         zero &= KualiDecimal.ZERO.equals(sfbl.getAccountActualExpenditureAmt());
@@ -278,6 +307,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         return !zero;
     }
 
+    /**
+     * Determines how best to process the given balance
+     * 
+     * @param sfrbAccount the account of the current sufficient funds balance rebuild record
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processObjectOrAccount(Account sfrbAccount, Balance balance) {
         if (options.getFinObjTypeExpenditureexpCd().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpendNotExpCode().equals(balance.getObjectTypeCode()) || options.getFinObjTypeExpNotExpendCode().equals(balance.getObjectTypeCode()) || options.getFinancialObjectTypeTransferExpenseCd().equals(balance.getObjectTypeCode())) {
             if (options.getActualFinancialBalanceTypeCd().equals(balance.getBalanceTypeCode())) {
@@ -292,20 +327,41 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    /**
+     * Updates the current sufficient fund balance record with a non-cash actual balance
+     * 
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processObjtAcctActual(Balance balance) {
         currentSfbl.setAccountActualExpenditureAmt(currentSfbl.getAccountActualExpenditureAmt().add(balance.getAccountLineAnnualBalanceAmount()));
     }
 
+    /**
+     * Updates the current sufficient fund balance record with a non-cash encumbrance balance
+     * 
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processObjtAcctEncmbrnc(Balance balance) {
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
 
+    /**
+     * Updates the current sufficient fund balance record with a non-cash budget balance
+     * 
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processObjtAcctBudget(Balance balance) {
         currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
 
+    /**
+     * Determines how best to process a cash balance
+     * 
+     * @param sfrbAccount the account of the current sufficient funds balance record
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processCash(Account sfrbAccount, Balance balance) {
         if (balance.getBalanceTypeCode().equals(options.getActualFinancialBalanceTypeCd())) {
             if (balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode()) || balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinAccountsPayableObjectCode())) {
@@ -319,6 +375,12 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    /**
+     * Updates the current sufficient fund balance record with a cash actual balance
+     * 
+     * @param sfrbAccount the account of the current sufficient funds balance record
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processCashActual(Account sfrbAccount, Balance balance) {
         if (balance.getObjectCode().equals(sfrbAccount.getChartOfAccounts().getFinancialCashObjectCode())) {
             currentSfbl.setCurrentBudgetBalanceAmount(currentSfbl.getCurrentBudgetBalanceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
@@ -330,13 +392,19 @@ public class SufficientFundsRebuilderServiceImpl implements SufficientFundsRebui
         }
     }
 
+    /**
+     * Updates the current sufficient funds balance with a cash encumbrance balance
+     * 
+     * @param balance the cash encumbrance balance to update the sufficient funds balance with
+     */
     private void processCashEncumbrance(Balance balance) {
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getAccountLineAnnualBalanceAmount()));
         currentSfbl.setAccountEncumbranceAmount(currentSfbl.getAccountEncumbranceAmount().add(balance.getBeginningBalanceLineAmount()));
     }
 
     /**
-     * @param errorMessage
+     * Adds an error message to this instance's List of error messages
+     * @param errorMessage the error message to keep
      */
     private void addTransactionError(String errorMessage) {
         transactionErrors.add(errorMessage);

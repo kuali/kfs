@@ -237,7 +237,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     protected List getPersistedSourceAccountingLinesForComparison() {
-        // TODO: Chris - cache this for performance
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List persistedSourceLines = new ArrayList();
 
@@ -255,7 +254,6 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
      */
     @Override
     protected List getSourceAccountingLinesForComparison() {
-        // TODO: Chris - cache this for performance
         PurapAccountingService purApAccountingService = SpringContext.getBean(PurapAccountingService.class);
         List currentSourceLines = new ArrayList();
         for (PurApItem item : (List<PurApItem>) this.getItems()) {

@@ -7,3 +7,5 @@ ${test.xml.results.directory}
 spy.log
 batch-results
 temp
+log4j.properties
+security.properties

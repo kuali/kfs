@@ -120,20 +120,49 @@ public class DisbursementNumberMaintenanceForm extends ActionForm {
             }
 
             // Check that the Disbursement Numbers are Integers
-            if (!GeneralUtilities.isStringAllNumbers(this.getBeginDisbursementNbr())) {
+            int begin = 0;
+            int end = 0;
+            int last = 0;
+
+            try {
+                beginDisbursementNbr = beginDisbursementNbr.trim();
+                begin = Integer.parseInt(beginDisbursementNbr);
+                if ( begin <= 0 ) {
+                    actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.beginDisbursementNbr.invalid"));
+                }
+            } catch (NumberFormatException nfe) {
                 actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.beginDisbursementNbr.invalid"));
             }
-            if (!GeneralUtilities.isStringAllNumbers(this.getEndDisbursementNbr())) {
+            try {
+                endDisbursementNbr = endDisbursementNbr.trim();
+                end = Integer.parseInt(endDisbursementNbr);
+                if ( end <= 0 ) {
+                    actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.endDisbursementNbr.invalid"));
+                }
+            } catch (NumberFormatException nfe) {
                 actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.endDisbursementNbr.invalid"));
             }
-
-            if (!GeneralUtilities.isStringEmpty(this.getLastAssignedDisbNbr())) {
-                if (!GeneralUtilities.isStringAllNumbers(this.getLastAssignedDisbNbr())) {
+            lastAssignedDisbNbr = lastAssignedDisbNbr.trim();
+            if ( ! GeneralUtilities.isStringEmpty(this.getLastAssignedDisbNbr())) {
+                try {
+                    last = Integer.parseInt(lastAssignedDisbNbr);
+                    if ( last <= 0 ) {
+                        actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.invalid"));
+                    }
+                } catch (NumberFormatException nfe) {
                     actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.invalid"));
                 }
+            } else {
+                last = begin;
+                lastAssignedDisbNbr = beginDisbursementNbr;
             }
-            else {
-                this.setLastAssignedDisbNbr(this.getBeginDisbursementNbr());
+            if ( actionErrors.size() == 0 ) {
+                if ( end < begin ) {
+                    actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.endAssignedDisburseNbr.smaller"));
+                }
+                if ( (last < begin) || (last > end) ) {
+                    actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.lastAssignedDisburseNbr.outofrange"));
+                }
             }
             if (GeneralUtilities.isStringEmpty(this.getPhysCampusProcCode())) {
                 actionErrors.add("errors", new ActionMessage("DisbursementNumberMaintenanceForm.physCampusProcCode.invalid"));

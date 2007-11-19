@@ -26,11 +26,14 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.OptionsService;
 
 /**
- * This class...
+ * An implementation of ValueFinder that returns all balance types, but which defaults to external encumbrance
  */
 public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns the default value of this ValueFinder, in this case, external encumbrance
+     * 
+     * @return a String with the key of the default value
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
@@ -41,6 +44,9 @@ public class GLEncumbranceBalanceTypeOptionFinder extends KeyValuesBase implemen
     }
 
     /**
+     * Returns a list of all balance types
+     * 
+     * @return a List of key/value pairs to populate a drop down box
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

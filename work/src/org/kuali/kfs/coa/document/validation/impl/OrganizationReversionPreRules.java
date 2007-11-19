@@ -21,7 +21,7 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 
 /**
- * This class...
+ * PreRules checks for the {@link OrganizationReversion} that needs to occur while still in the Struts processing. This includes defaults
  */
 public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
 
@@ -31,8 +31,10 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
     }
 
     /**
+     * This calls the {@link OrganizationReversionPreRules#copyKeyAttributesToDetail(OrganizationReversion)}
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
 
         OrganizationReversion orgRev = (OrganizationReversion) document.getNewMaintainableObject().getBusinessObject();
@@ -42,6 +44,13 @@ public class OrganizationReversionPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * 
+     * This copies the chart of accounts, and the fiscal year from the parent {@link OrganizationReversion} to the 
+     * {@link OrganizationReversionDetail} objects and refreshes the reference object on them if the values have 
+     * been filled out
+     * @param orgRev
+     */
     protected void copyKeyAttributesToDetail(OrganizationReversion orgRev) {
         if (orgRev.getUniversityFiscalYear() != null && orgRev.getUniversityFiscalYear().intValue() != 0 && StringUtils.isNotBlank(orgRev.getChartOfAccountsCode())) {
             // loop over detail records, copying their details

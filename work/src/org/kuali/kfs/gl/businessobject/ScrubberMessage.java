@@ -15,34 +15,71 @@
  */
 package org.kuali.module.gl.service.impl.scrubber;
 
+/**
+ * A class that holds an error message that would have been encountered during a GL batch job
+ */
 public class Message {
+    /**
+     * To mark Fatal errors, ones that should abend a batch process
+     */
     public static int TYPE_FATAL = 1;
+    /**
+     * To mark warning errors, ones that should simply be logged but not abend the process
+     */
     public static int TYPE_WARNING = 0;
 
     private String message;
     private int type;
 
+    /**
+     * Constructs a Message instance
+     * @param m the message
+     * @param t the type of message
+     */
     public Message(String m, int t) {
         message = m;
         type = t;
     }
 
+    /**
+     * Returns the message
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         return message;
     }
 
+    /**
+     * Returns the error message of this object
+     * 
+     * @return the error message held by this object
+     */
     public String getMessage() {
         return message;
     }
 
+    /**
+     * Sets the error message for this object
+     * @param message the message to set
+     */
     public void setMessage(String message) {
         this.message = message;
     }
 
+    /**
+     * Returns the error type for this object 
+     * 
+     * @return the error type of this object
+     */
     public int getType() {
         return type;
     }
 
+    /**
+     * Sets the error type for this object
+     * 
+     * @param type an error type to set
+     */
     public void setType(int type) {
         this.type = type;
     }

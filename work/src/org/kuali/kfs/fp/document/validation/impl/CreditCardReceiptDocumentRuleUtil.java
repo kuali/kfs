@@ -39,8 +39,8 @@ public class CreditCardReceiptDocumentRuleUtil {
      * existence of the CreditCardType and CreditCardVendor attributes that hang off of it. This method assumes that the document
      * hierarchy for the error map path is managed outside of this call.
      * 
-     * @param creditCardReceipt
-     * @return boolean
+     * @param creditCardReceipt credit card detail
+     * @return true if credit card detail amount is non zero and credit card vendor and type references exist
      */
     public static boolean validateCreditCardReceipt(CreditCardDetail creditCardReceipt) {
         ErrorMap errorMap = GlobalVariables.getErrorMap();
@@ -81,8 +81,8 @@ public class CreditCardReceiptDocumentRuleUtil {
     /**
      * Checks whether the CashReceiptDocument's cash totals are invalid, generating global errors if so.
      * 
-     * @param cashReceiptDocument
-     * @return whether any of the CashReceiptDocument's cash totals are invalid
+     * @param cashReceiptDocument submitted cash receipt document
+     * @return true if any of the cash totals on cash credit card receipt document are invalid
      */
     public static boolean areCashTotalsInvalid(CreditCardReceiptDocument ccrDocument) {
         String documentEntryName = ccrDocument.getDocumentHeader().getWorkflowDocument().getDocumentType();
@@ -93,7 +93,7 @@ public class CreditCardReceiptDocumentRuleUtil {
     }
 
     /**
-     * puts an error message in the error map for that property if the amount is negative.
+     * Returns true if total is invalid and puts an error message in the error map for that property if the amount is negative
      * 
      * @param cashReceiptDocument
      * @param totalAmount

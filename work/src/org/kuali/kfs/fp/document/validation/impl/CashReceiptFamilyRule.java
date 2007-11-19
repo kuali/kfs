@@ -43,6 +43,10 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     /**
      * Cash Receipt documents allow both positive and negative values, so we only need to check for zero amounts.
      * 
+     * @param document submitted accounting document
+     * @param accountingLine accounting line in accounting doducment
+     * @return true if amount is non-zero
+     * 
      * @see org.kuali.core.rule.AccountingLineRule#isAmountValid(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -61,6 +65,9 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     /**
      * This overrides to call super, then to make sure that the cash drawer for the verification unit associated with this CR doc is
      * open. If it's not, the the rule fails.
+     * 
+     * @param approveEvent event fired when approving a document
+     * @return true if verification unit associated with cash receipt is open
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
@@ -89,11 +96,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * For Cash Receipt documents, the document is balanced if the sum total of checks and cash and coin equals the sum total of the
      * accounting lines. In addition, the sum total of checks and cash and coin must be greater than zero.
      * 
+     * @param financialDocument submitted accounting document
+     * @return true if cash and check total matches the total of all the accounting lines and cash and check totals are greater than zero
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(AccountingDocument FinancialDocument) {
-        CashReceiptFamilyBase cr = (CashReceiptFamilyBase) FinancialDocument;
+    protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
+        CashReceiptFamilyBase cr = (CashReceiptFamilyBase) financialDocument;
 
         // make sure that cash reconciliation total is greater than zero
         boolean isValid = cr.getTotalDollarAmount().compareTo(KFSConstants.ZERO) > 0;
@@ -117,21 +127,27 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
      * Cash receipt documents do not utilize the target accounting line list. A CR doc is one sided, so this method should always
      * return true.
      * 
+     * @param financialDocument submitted financial document
+     * @return true
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
+    protected boolean isTargetAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
         return true;
     }
 
     /**
      * Cash receipt documents need at least one accounting line. Had to override to supply a Cash Receipt specific method.
      * 
+     * @param financialDocument submitted financial document
+     * @return true if there is at least one accounting line
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument FinancialDocument) {
-        if (0 == FinancialDocument.getSourceAccountingLines().size()) {
+    protected boolean isSourceAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
+        if (0 == financialDocument.getSourceAccountingLines().size()) {
             GlobalVariables.getErrorMap().putError(DOCUMENT_ERROR_PREFIX + KFSPropertyConstants.SOURCE_ACCOUNTING_LINES, KFSKeyConstants.ERROR_DOCUMENT_SINGLE_SECTION_NO_ACCOUNTING_LINES);
             return false;
         }
@@ -143,10 +159,14 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     /**
      * Overrides to set the entry's description to the description from the accounting line, if a value exists.
      * 
+     * @param financialDocument submitted accounting document
+     * @param accountingLine accounting line in accounting document
+     * @param explicitEntry general ledger pending entry
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument FinancialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
         if (StringUtils.isNotBlank(accountingLineDescription)) {
             explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
@@ -154,19 +174,27 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     }
 
     /**
+     * Returns true if accounting line is debit
+     * 
+     * @param financialDocument
+     * @param accountingLine
+     * @param true if accountline line 
+     * 
      * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
-    public boolean isDebit(AccountingDocument FinancialDocument, AccountingLine accountingLine) {
+    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
         // error corrections are not allowed
-        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, FinancialDocument);
-        return IsDebitUtils.isDebitConsideringType(this, FinancialDocument, accountingLine);
+        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, financialDocument);
+        return IsDebitUtils.isDebitConsideringType(this, financialDocument, accountingLine);
     }
 
 
     /**
-     * @param crdoc
+     * Return true if source total is non-zero
+     * 
+     * @param crdoc cash receipt family base document
      * @return true if the sum of the accountingLine values is non-zero
      */
     protected boolean validateAccountingLineTotal(CashReceiptFamilyBase crdoc) {

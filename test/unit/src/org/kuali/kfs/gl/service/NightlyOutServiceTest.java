@@ -25,7 +25,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
- * This class...
+ * Tests the NighlyOutService
  */
 @ConfigureContext
 public class NightlyOutServiceTest extends KualiTestBase {
@@ -34,6 +34,10 @@ public class NightlyOutServiceTest extends KualiTestBase {
     private UnitTestSqlDao unitTestSqlDao;
     private DateTimeService dateTimeService;
 
+    /**
+     * Initializes the services needed for this test
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -46,7 +50,7 @@ public class NightlyOutServiceTest extends KualiTestBase {
     /**
      * This test validates that the correct data is copied into origin_entry
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testCopyPendingLedgerEntry() throws Exception {
         // Empty out the origin entry group & origin entry tables

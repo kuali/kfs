@@ -20,7 +20,7 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.bo.AccountingLine;
 
 /**
- * 
+ * This class represents a budget adjustment accounting line
  */
 public interface BudgetAdjustmentAccountingLine extends AccountingLine {
 

@@ -51,17 +51,29 @@ public class PurapConstants extends JstlConstants {
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
 
+/* 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ */
     // STANDARD PARAMETER PREFIXES
     public static class QuoteTypes {
         public static final String COMPETITIVE = "COMP";
         public static final String PRICE_CONFIRMATION = "CONF";
     }
 
+    /* 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ */
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
     }
 
-    public static class QuoteStatusCode {
+/* 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+*/
+        public static class QuoteStatusCode {
         public static final String DELV = "DELV";
         public static final String FUIP = "FUIP";
         public static final String IIQ = "IIQ";
@@ -106,7 +118,6 @@ public class PurapConstants extends JstlConstants {
     public static final String PDF_IMAGES_AVAILABLE_INDICATOR = "PDF_IMAGES_AVAILABLE_IND";
 
     public static class RequisitionStatuses {
-        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED = "CANC";
         public static final String CLOSED = "CLOS";
@@ -120,9 +131,8 @@ public class PurapConstants extends JstlConstants {
         public static final String DAPRVD_FISCAL = "DFIS";
         public static final String DAPRVD_CHART = "DCHA";
         public static final String DAPRVD_SEP_OF_DUTY = "DSOD";
-        public static final String DAPRVD_SPECIAL = "DGEN";
         public static final String AWAIT_CONTRACT_MANAGER_ASSGN = "ACMR";
-        public static final String CONTRACT_MANAGER_ASSGN = "CMRA";
+        
     }
 
     public static class POCostSources {
@@ -173,10 +183,7 @@ public class PurapConstants extends JstlConstants {
     public static final String ASSIGN_CONTRACT_MANAGER_DEFAULT_DESC = "Contract Manager Assigned";
     public static final String ASSIGN_CONTRACT_MANAGER_TAB_ERRORS = "document.unassignedRequisition*";
 
-    // Credit Memo Tab Constants
-
     public static class PurchaseOrderStatuses {
-        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked
         public static final String IN_PROCESS = "INPR";
         public static final String WAITING_FOR_VENDOR = "WVEN";
         public static final String WAITING_FOR_DEPARTMENT = "WDPT";
@@ -188,13 +195,10 @@ public class PurapConstants extends JstlConstants {
         public static final String AWAIT_BUDGET_REVIEW = "WBUD";
         public static final String AWAIT_CONTRACTS_GRANTS_REVIEW = "WCG";
         public static final String AWAIT_PURCHASING_REVIEW = "WPUR";
-        @Deprecated
-        public static final String AWAIT_SPECIAL_REVIEW = "WSPC";
         public static final String DAPRVD_TAX = "DTAX";
         public static final String DAPRVD_BUDGET = "DBUD";
         public static final String DAPRVD_CONTRACTS_GRANTS = "DCG";
         public static final String DAPRVD_PURCHASING = "DPUR";
-        public static final String DAPRVD_SPECIAL = "DSPC";
         public static final String CXML_ERROR = "CXER";
         public static final String PENDING_CXML = "CXPE";
         public static final String PENDING_FAX = "FXPE";
@@ -220,7 +224,6 @@ public class PurapConstants extends JstlConstants {
             INCOMPLETE_STATUSES.add(AWAIT_BUDGET_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_CONTRACTS_GRANTS_REVIEW);
             INCOMPLETE_STATUSES.add(AWAIT_PURCHASING_REVIEW);
-            INCOMPLETE_STATUSES.add(AWAIT_SPECIAL_REVIEW);
             INCOMPLETE_STATUSES.add(QUOTE);
             INCOMPLETE_STATUSES.add(CXML_ERROR);
             INCOMPLETE_STATUSES.add(PENDING_CXML);
@@ -355,7 +358,6 @@ public class PurapConstants extends JstlConstants {
     }
 
     public static final class PaymentRequestStatuses {
-        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED_IN_PROCESS = "CIPR";
@@ -441,30 +443,6 @@ public class PurapConstants extends JstlConstants {
 
             STATUSES_DISALLOWING_REMOVE_REQUEST_CANCEL.addAll(Arrays.asList(CANCELLED_STATUSES.toArray(new String[CANCELLED_STATUSES.size()])));
         }
-        /*
-         * Modify as required: public static final String CANCELLED = "CANC"; public static final String CLOSED = "CLOS"; public
-         * static final String AWAIT_CONTENT_APRVL = "ACNT"; public static final String AWAIT_SUB_ACCT_APRVL = "ASUB"; public static
-         * final String AWAIT_FISCAL_APRVL = "AFIS"; public static final String AWAIT_CHART_APRVL = "ACHA"; public static final
-         * String AWAIT_SEP_OF_DUTY_APRVL = "ASOD"; public static String DAPRVD_CONTENT = "DCNT"; public static final String
-         * DAPRVD_SUB_ACCT = "DSUB"; public static final String DAPRVD_FISCAL = "DFIS"; public static final String DAPRVD_CHART =
-         * "DCHA"; public static final String DAPRVD_SEP_OF_DUTY = "DSOD"; public static String AWAIT_CONTRACT_MANAGER_ASSGN =
-         * "ACMR"; public static final String CONTRACT_MANAGER_ASSGN = "CMRA";
-         */
-        /*
-         * // PAYMENT REQUEST STATUSES public static final String PREQ_STAT_IN_PROCESS = "INPR"; // In process (not routed yet)
-         * public static String PREQ_STAT_CANCELLED_POST_APPROVE = "CANC"; public static final String PREQ_STAT_CANCELLED_IN_PROCESS =
-         * "VOID"; public static final String PREQ_STAT_AP_APPROVED = "APAD"; public static final String PREQ_STAT_AUTO_APPROVED =
-         * "AUTO"; public static String PREQ_STAT_DEPARTMENT_APPROVED = "DPTA"; public static final String
-         * PREQ_STAT_AWAIT_SUB_ACCOUNT_APRVL = "ASAA"; // Waiting for Sub Acct Manager approval public static final String
-         * PREQ_STAT_AWAIT_FISCAL_OFFICER_APRVL = "AFOA"; // Waiting for Fiscal Officer approval public static final String
-         * PREQ_STAT_AWAIT_CHART_APRVL = "ACHA"; // Waiting for Chart/Org approval public static final String
-         * PREQ_STAT_AWAIT_TAX_APRVL = "ATAX"; // Waiting for Tax approval public static final String PREQ_STAT_PENDING_E_INVOICE =
-         * "PEIN"; // PAYMENT REQUEST STATUSES TO BE AUTO APPROVED public static final String[] PREQ_STATUSES_FOR_AUTO_APPROVE =
-         * {PREQ_STAT_AWAIT_SUB_ACCOUNT_APRVL,PREQ_STAT_AWAIT_FISCAL_OFFICER_APRVL,PREQ_STAT_AWAIT_CHART_APRVL}; // PAYMENT REQUEST
-         * PAY DATE CALCULATION DAYS public static int PREQ_PAY_DATE_CALCULATION_DAYS = 28; // PREQ CANCEL FORWARDS public static
-         * String PREQ_CANCEL_FORWARD_DOC_HANDLER = "dochandler"; public static final String PREQ_CANCEL_FORWARD_TAB_PAGE =
-         * "editpreq";
-         */
     }
 
     public static class PREQDocumentsStrings {
@@ -497,7 +475,6 @@ public class PurapConstants extends JstlConstants {
     public static final String ITEM_ALLOWS_NEGATIVE = "ITEM_TYPES_ALLOWING_NEGATIVE";
     public static final String ITEM_REQUIRES_USER_ENTERED_DESCRIPTION = "ITEM_TYPES_REQUIRING_USER_ENTERED_DESCRIPTION";
 
-    // TODO RELEASE 2 (KULPURAP-2049, delyea) - DD Labels
     public static class ItemFields {
         public static final String QUANTITY = "Quantity";
         public static final String UNIT_OF_MEASURE = "Unit of Measure";
@@ -512,7 +489,6 @@ public class PurapConstants extends JstlConstants {
     public static final String CREDIT_MEMO_ACTION_NAME = "CreditMemo";
 
     public static class CreditMemoStatuses {
-        // TODO RELEASE 2 (KULPURAP-2050, delyea) - Status Codes need checked
         public static final String INITIATE = "INIT";
         public static final String IN_PROCESS = "INPR";
         public static final String CANCELLED_IN_PROCESS = "CIPR";
@@ -522,7 +498,6 @@ public class PurapConstants extends JstlConstants {
         public static final String AWAITING_ACCOUNTS_PAYABLE_REVIEW = "APAD"; // Waiting for Accounts Payable approval
         public static final String AWAITING_FISCAL_REVIEW = "AFOA"; // Waiting for Fiscal Officer approval
 
-        // TODO: Chris - these methods are the same as in PaymentRequestStatus.STATUS_ORDER combine
         public enum STATUS_ORDER {
             CANCELLED_IN_PROCESS(PurapConstants.CreditMemoStatuses.CANCELLED_IN_PROCESS, false), CANCELLED_PRIOR_TO_AP_APPROVAL(PurapConstants.CreditMemoStatuses.CANCELLED_PRIOR_TO_AP_APPROVAL, false), CANCELLED_POST_AP_APPROVE(PurapConstants.CreditMemoStatuses.CANCELLED_POST_AP_APPROVE, false), INITIATE(PurapConstants.CreditMemoStatuses.INITIATE, true), IN_PROCESS(PurapConstants.CreditMemoStatuses.IN_PROCESS, true), AWAITING_ACCOUNTS_PAYABLE_REVIEW(PurapConstants.CreditMemoStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW, false), AWAITING_FISCAL_REVIEW(PurapConstants.CreditMemoStatuses.AWAITING_FISCAL_REVIEW, false), COMPLETE(PurapConstants.CreditMemoStatuses.COMPLETE, false), ;
 

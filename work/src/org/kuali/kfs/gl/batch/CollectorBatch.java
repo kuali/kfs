@@ -366,7 +366,8 @@ public class CollectorBatch implements Serializable {
     /**
      * Creates an origin entry record with the PK values filled in only. This is useful to check for duplicate headers.
      * 
-     * @return
+     * @return CollectorHeader with chart of accounts code, organization code, process transmission date, batch sequence number
+     * total record count, and process total amount from this CollectorBatch
      */
     public CollectorHeader createCollectorHeaderWithPKValuesOnly() {
         CollectorHeader header = new CollectorHeader();
@@ -384,7 +385,7 @@ public class CollectorBatch implements Serializable {
     /**
      * Sets defaults for missing id billing fields.
      * 
-     * @param idBilling
+     * @param idDetail CollectorDetail object which has its create date being set
      */
     private void setDefaultsCollectorDetail(CollectorDetail idDetail) {
         // TODO: Get current fiscal year and period if blank?

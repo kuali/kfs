@@ -22,20 +22,43 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.financial.service.BankService;
 
+/**
+ * 
+ * This is the default implementation of the BankService interface.
+ * 
+ */
 public class BankServiceImpl implements BankService {
 
-    BusinessObjectService businessObjectService;
+    BusinessObjectService businessObjectService;    
 
+    /**
+     * This method retrieves an instance of a Bank object by using the attributes given as the primary keys to perform the database query.
+     * 
+     * @param financialDocumentBankCode The bank code to be used to perform the database lookup.
+     * @return The bank object which has a matching primary key to the values provided.
+     * 
+     * @see org.kuali.module.financial.service.BankService#getByPrimaryId(java.lang.String)
+     */
     public Bank getByPrimaryId(String financialDocumentBankCode) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("financialDocumentBankCode", financialDocumentBankCode);
         return (Bank) businessObjectService.findByPrimaryKey(Bank.class, primaryKeys);
     }
 
+    /**
+     * 
+     * This method is a simple getter for retrieving an instance of a BusinessObjectService.
+     * @return A BusinessObjectService instance.
+     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    /**
+     * 
+     * This method is a simple setter for setting the local BusinessObjectService attribute.
+     * @param businessObjectService The BusinessObjectService to be set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

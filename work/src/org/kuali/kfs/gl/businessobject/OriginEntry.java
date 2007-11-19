@@ -19,6 +19,9 @@ import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * Represents an origin entry
+ */
 public interface OriginEntry {
 
     /**

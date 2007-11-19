@@ -46,6 +46,9 @@ import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of OriginEntryService
+ */
 @Transactional
 public class OriginEntryServiceImpl implements OriginEntryService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryServiceImpl.class);
@@ -60,26 +63,34 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     private DateTimeService dateTimeService;
 
     /**
-     * @param originEntryDao
+     * Sets the originEntryDao attribute
+     * @param originEntryDao the implementation of OriginEntryDao to set
      */
     public void setOriginEntryDao(OriginEntryDao originEntryDao) {
         this.originEntryDao = originEntryDao;
     }
 
     /**
-     * @param originEntryGroupService
+     * Sets the originEntryGroupService attribute
+     * @param originEntryGroupService the implementation of OriginEntryGroupService to set
      */
     public void setOriginEntryGroupService(OriginEntryGroupService originEntryGroupService) {
         this.originEntryGroupService = originEntryGroupService;
     }
 
     /**
-     * 
+     * Constructs a new instance of OriginEntryServiceImpl
      */
     public OriginEntryServiceImpl() {
         super();
     }
 
+    /**
+     * Retrieves teh credit total, debit total, and row count for a given origin entry group.
+     * @param groupId the id of the group to find statistics for
+     * @return an OriginEntryStatistics object with the statistics for the group
+     * @see org.kuali.module.gl.service.OriginEntryService#getStatistics(java.lang.Integer)
+     */
     public OriginEntryStatistics getStatistics(Integer groupId) {
         LOG.debug("getStatistics() started");
 
@@ -93,6 +104,16 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Creates a new origin entry group with the given parameters and saves copies all of the entries in the given Collection
+     * of entries into that new group.
+     * 
+     * @param date the date that the copied entries should list as their post date
+     * @param sourceCode the source code of the origin entry group to create
+     * @param valid whether the new group should be considered valid
+     * @param process whether the new group should be ready to be processed
+     * @param scrub whether the new group should be processed by the scrubber
+     * @param entries a Collection of entries to copy
+     * @return a new origin entry full of copied entries
      * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.util.Date, java.lang.String, boolean, boolean, boolean,
      *      java.util.Collection)
      */
@@ -112,6 +133,14 @@ public class OriginEntryServiceImpl implements OriginEntryService {
 
 
     /**
+     * Creates a new origin entry group with the given parameters and creates copies of all the origin entries in the
+     * iterator, saving the copies in the new group
+     * @param date the date that the copied entries should list as their post date
+     * @param sourceCode the source code of the origin entry group to create
+     * @param valid whether the new group should be considered valid
+     * @param process whether the new group should be ready to be processed
+     * @param scrub whether the new group should be processed by the scrubber
+     * @param entries a Iterator of entries to copy
      * @see org.kuali.module.gl.service.OriginEntryService#copyEntries(java.sql.Date, java.lang.String, boolean, boolean, boolean,
      *      java.util.Iterator)
      */
@@ -131,6 +160,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Deletes an origin entry (full) from the database
+     * @param oe the origin entry (full) to delete
      * @see org.kuali.module.gl.service.OriginEntryService#delete(org.kuali.module.gl.bo.OriginEntryFull)
      */
     public void delete(OriginEntryFull oe) {
@@ -140,6 +171,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * This returns all of distinct primary key sets of documents that created origin entries that exist
+     * in the given origin entry group.  It returns this information in OriginEntryFull objects
+     * that just don't have any other information besides the document keys (doc number, doc type code,
+     * and origination code) filled in.
+     * @param oeg the group with the origin entries to get the documents of
+     * @return Collection to qualifying documents
      * @see org.kuali.module.gl.service.OriginEntryService#getDocumentsByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Collection<OriginEntryFull> getDocumentsByGroup(OriginEntryGroup oeg) {
@@ -160,6 +197,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Returns an iterator of all the origin entries in a given group.  Defers to the DAO.
+     * @param originEntryGroup an origin entry group
+     * @return an iterator of OriginEntryFull objects in that group
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroup(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public Iterator<OriginEntryFull> getEntriesByGroup(OriginEntryGroup originEntryGroup) {
@@ -168,24 +208,52 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return originEntryDao.getEntriesByGroup(originEntryGroup, OriginEntryDao.SORT_DOCUMENT);
     }
 
+    /**
+     * Return all entries for the groups where the balance type is empty. Defers to the DAO.
+     * 
+     * @param groups a Collection of groups to look through all the entries of
+     * @return an Iterator of entries without balance types 
+     * @see org.kuali.module.gl.service.OriginEntryService#getBadBalanceEntries(java.util.Collection)
+     */
     public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups) {
         LOG.debug("getBadBalanceEntries() started");
 
         return originEntryDao.getBadBalanceEntries(groups);
     }
 
+    /**
+     * Return all entries for a group sorted by account number.  Defers to the DAO.
+     * 
+     * @param oeg an origin entry group to get entries from
+     * @return an Iterator of origin entries sorted by account number
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroupAccountOrder(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public Iterator<OriginEntryFull> getEntriesByGroupAccountOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
         return originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_ACCOUNT);
     }
 
+    /**
+     * Return all entries for a group sorted for display on the pending entry report.  Defers to the DAO.
+     * 
+     * @param oeg a origin entry group to get entries from
+     * @return an Iterator of origin entries sorted in the order needed for an origin entry report
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroupReportOrder(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public Iterator<OriginEntryFull> getEntriesByGroupReportOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
         return originEntryDao.getEntriesByGroup(oeg, OriginEntryDao.SORT_REPORT);
     }
 
+    /**
+     * Return all entries for a group sorted across the columns in report from left to right.  Defers to the DAO.
+     * 
+     * @param oeg an origin entry group to get entries from
+     * @return an Iterator of origin entries sorted in the proper order
+     * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByGroupListingReportOrder(org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public Iterator<OriginEntryFull> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg) {
         LOG.debug("getEntriesByGroupAccountOrder() started");
 
@@ -193,6 +261,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Return all the entries for a specific document in a specific group.  Defers to the DAO.
+     * 
+     * @param oeg an origin entry group to find entries in
+     * @param documentNumber the document number of entries to select
+     * @param documentTypeCode the document type of entries to select
+     * @param originCode the origination code of entries to select
+     * @return iterator to all the qualifying entries
      * @see org.kuali.module.gl.service.OriginEntryService#getEntriesByDocument(org.kuali.module.gl.bo.OriginEntryGroup,
      *      java.lang.String, java.lang.String, java.lang.String)
      */
@@ -208,6 +283,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return originEntryDao.getMatchingEntries(criteria);
     }
 
+    /**
+     * Given a transaction, creates an origin entry out of the transaction and saves it in the given origin entry group
+     * @param transaction the transaction to turn into an origin entry
+     * @param originEntryGroup the group to save the new origin entry in
+     * @see org.kuali.module.gl.service.OriginEntryService#createEntry(org.kuali.module.gl.bo.Transaction, org.kuali.module.gl.bo.OriginEntryGroup)
+     */
     public void createEntry(Transaction transaction, OriginEntryGroup originEntryGroup) {
         LOG.debug("createEntry() started");
 
@@ -221,6 +302,8 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Saves the given origin entry full record
+     * @param entry the origin entry to save
      * @see org.kuali.module.gl.service.OriginEntryService#save(org.kuali.module.gl.bo.OriginEntryFull)
      */
     public void save(OriginEntryFull entry) {
@@ -230,6 +313,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Export all origin entries in a group to a flat text file
+     * 
+     * @param filename Filename to save the text
+     * @param groupId Group to save
      * @see org.kuali.module.gl.service.OriginEntryService#exportFlatFile(java.lang.String, java.lang.Integer)
      */
     public void exportFlatFile(String filename, Integer groupId) {
@@ -263,6 +350,13 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Creates a new origin entry group, reads all of the origin entries in the file and saves all of them in the group
+     * 
+     * @param filename Filename with the text
+     * @param groupSourceCode Source of the new group
+     * @param valid Valid flag for new group
+     * @param processed Process flag for new group
+     * @param scrub Scrub flag for new group
      * @see org.kuali.module.gl.service.OriginEntryService#loadFlatFile(java.lang.String, java.lang.String, boolean, boolean,
      *      boolean)
      */
@@ -298,6 +392,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Given a collection of group ids, summarize the entries in each group.
+     * @param groupIdList a Collection of the ids of origin entry groups to summarize
+     * @return a LedgerEntryHolder with all of the summarized information
      * @see org.kuali.module.gl.service.OriginEntryService#getSummaryByGroupId(Collection)
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList) {
@@ -318,7 +415,12 @@ public class OriginEntryServiceImpl implements OriginEntryService {
         return ledgerEntryHolder;
     }
 
-    // create or update a ledger entry with the array of information from the given entry summary object
+    /**
+     * Creates or updates a ledger entry with the array of information from the given entry summary object
+     * 
+     * @param entrySummary a collection of java.lang.Objects, which is what OJB report queries return
+     * @return a LedgerEntry holding the given report summarization data
+     */
     public static LedgerEntry buildLedgerEntry(Object[] entrySummary) {
         // extract the data from an array and use them to populate a ledger entry
         Object oFiscalYear = entrySummary[0];
@@ -357,6 +459,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Write all of the origin entries in a group to an output stream
+     * 
+     * @param groupId the id of the origin entry group to get entries from
+     * @param bw the output stream to dump the entries as text to
      * @see org.kuali.module.gl.service.OriginEntryService#flatFile(java.lang.Integer, java.io.BufferedOutputStream)
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw) {
@@ -372,6 +478,7 @@ public class OriginEntryServiceImpl implements OriginEntryService {
      * 
      * @param entries An iterator of OriginEntries
      * @param bw an opened, ready-for-output bufferedOutputStream.
+     * @see org.kuali.module.gl.service.OriginEntryService#flatFile(java.util.Iterator, java.io.BufferedOutputStream)
      */
     public void flatFile(Iterator<OriginEntryFull> entries, BufferedOutputStream bw) {
         try {
@@ -387,6 +494,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Finds all origin entries matching certain criteria
+     * 
+     * @param searchCriteria the criteria to be used in forming a query
+     * @return a Collection of qualifying origin entries
      * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByCollection(java.util.Map)
      */
     public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria) {
@@ -396,6 +507,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Given the id of an origin entry group, returns a list of all the origin entries in that group (actually uses
+     * getMatchingEntriesByCollection() to accomplish this).
+     * @param groupId the id of the group to get all entries from
+     * @return a List of Origin Entries
      * @see org.kuali.module.gl.service.OriginEntryService#getMatchingEntriesByList(java.util.Map)
      */
     public List<OriginEntryFull> getEntriesByGroupId(Integer groupId) {
@@ -414,6 +529,9 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Returns the origin entry with the given id.  Defers to the DAO.
+     * @param entryId the unique id of an origin entry
+     * @return the origin entry if found, or null otherwise
      * @see org.kuali.module.gl.service.OriginEntryService#getExactMatchingEntry(java.lang.Integer)
      */
     public OriginEntryFull getExactMatchingEntry(Integer entryId) {
@@ -423,6 +541,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * get the summarized information of poster input entries that belong to the entry groups with the given group id list
+     * 
+     * @param groupIdList the origin entry groups
+     * @return a map of summarized information of poster input entries within the specified groups
      * @see org.kuali.module.gl.service.OriginEntryService#getPosterOutputSummaryByGroupId(java.util.Collection)
      */
     public Map<String, PosterOutputSummaryEntry> getPosterOutputSummaryByGroupId(Collection groupIdList) {
@@ -481,6 +603,10 @@ public class OriginEntryServiceImpl implements OriginEntryService {
     }
 
     /**
+     * Returns the number of origin entries in a group.  Defers to the DAO.
+     * Get count of transactions in a group
+     * @param groupId the group to get the count of entries from
+     * @return a count of entries
      * @see org.kuali.module.gl.service.OriginEntryService#getGroupCount(java.lang.Integer)
      */
     public Integer getGroupCount(Integer groupId) {

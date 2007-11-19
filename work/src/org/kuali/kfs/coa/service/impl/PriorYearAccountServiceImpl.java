@@ -38,25 +38,6 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
     }
 
     /**
-     * This method sets the local dao variable to the value provided.
-     * 
-     * @param priorYearAccountDao The priorYearAccountDao to set.
-     */
-    public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
-        this.priorYearAccountDao = priorYearAccountDao;
-    }
-
-    /**
-     * This method sets the local dao jdbc variable to the value provided.
-     * 
-     * @param priorYearAccountDaoJdbc The priorYearAccountDaoJdbc to set.
-     */
-    public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbc priorYearAccountDaoJdbc) {
-        this.priorYearAccountDaoJdbc = priorYearAccountDaoJdbc;
-    }
-
-    /**
-     * (non-Javadoc)
      * 
      * @see org.kuali.module.chart.service.PriorYearAccountService#getByPrimaryKey(java.lang.String, java.lang.String)
      */
@@ -78,5 +59,24 @@ public class PriorYearAccountServiceImpl implements PriorYearAccountService {
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year accounts copied to prior year : " + copiedCount);
         }
+    }
+
+
+    /**
+     * This method sets the local dao variable to the value provided.
+     * 
+     * @param priorYearAccountDao The priorYearAccountDao to set.
+     */
+    public void setPriorYearAccountDao(PriorYearAccountDao priorYearAccountDao) {
+        this.priorYearAccountDao = priorYearAccountDao;
+    }
+
+    /**
+     * This method sets the local dao jdbc variable to the value provided.
+     * 
+     * @param priorYearAccountDaoJdbc The priorYearAccountDaoJdbc to set.
+     */
+    public void setPriorYearAccountDaoJdbc(PriorYearAccountDaoJdbc priorYearAccountDaoJdbc) {
+        this.priorYearAccountDaoJdbc = priorYearAccountDaoJdbc;
     }
 }

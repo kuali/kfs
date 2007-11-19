@@ -34,6 +34,11 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link SubObjCdRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -47,6 +52,11 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link SubObjCdRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -62,6 +72,11 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link SubObjCdRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -77,7 +92,7 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * This method sets the convenience objects like newSubObjectCode and oldSubObjectCode, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      * 
@@ -92,6 +107,11 @@ public class SubObjCdRule extends MaintenanceDocumentRuleBase {
         newSubObjectCode = (SubObjCd) super.getNewBo();
     }
 
+    /**
+     * 
+     * This checks that the account on the sub object code is not closed
+     * @return false if the account is closed
+     */
     protected boolean checkExistenceAndActive() {
 
         LOG.info("Entering checkExistenceAndActive()");

@@ -23,20 +23,25 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.rule.CalculateAccountsPayableRule;
 
 /**
- * This class represents the Calculate step event for AccountsPayableDocument (right now it's either PaymentRequestDocument or
- * CreditMemoDocument. This could be triggered when a user presses the Calculate button to calculate the doc.
+ * Calculate event for Accounts Payable Document
+ * This could be triggered when a user presses the Calculate button to calculate the doc.
  */
 public final class CalculateAccountsPayableEvent extends KualiDocumentEventBase {
 
+    /**
+     * Overridden constructor.
+     * 
+     * @param document the document for this event
+     */
     public CalculateAccountsPayableEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
 
     /**
-     * Constructs a CalculateAccountsPayableEvent with the given errorPathPrefix and document.
+     * Constructs a CalculateAccountsPayableEvent with the given errorPathPrefix, document, and item.
      * 
-     * @param errorPathPrefix
-     * @param document
+     * @param errorPathPrefix the error path
+     * @param document document the event was invoked upon
      */
     public CalculateAccountsPayableEvent(String errorPathPrefix, Document document) {
         super("calculating on document " + getDocumentId(document), errorPathPrefix, document);

@@ -182,15 +182,6 @@ public class TestUtils {
         return formatted.toString();
     }
 
-    public static boolean methodIsCached(Method method, Object[] arguments) {
-        for (MethodCacheInterceptor methodCacheInterceptor : SpringContext.getMethodCacheInterceptors()) {
-            if (methodCacheInterceptor.containsCacheKey(methodCacheInterceptor.buildCacheKey(method.toString(), arguments))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private static String buildIndent(int level) {
         int indentSize = level * 4;
         char[] indent = new char[indentSize];

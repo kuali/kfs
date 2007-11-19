@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Indirect Cost Recovery Exclusion Type Inquiry</title>
+            <title>Indirect Cost Recovery Exclusion By Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="accountIndirectCostRecoveryTypeCode" />
@@ -33,9 +33,9 @@
 
         <lookup>
         	<lookupableID>indirectCostRecoveryExclusionByTypeLookupable</lookupableID>
-            <title>Indirect Cost Recovery Exclusion Type Lookup</title>
+            <title>Indirect Cost Recovery Exclusion By Type Lookup</title>
 
-            <instructions>Lookup an Indirect Cost Recovery Exclusion by type</instructions>
+            <instructions>Lookup an Indirect Cost Recovery Exclusion By type</instructions>
 
             <defaultSort attributeName="accountIndirectCostRecoveryTypeCode" sortAscending="true" />
 
@@ -80,7 +80,7 @@
 
         </attributes>
         
-        <objectLabel>Indirect Cost Recovery Exclusion Type</objectLabel>
+        <objectLabel>Indirect Cost Recovery Exclusion By Type</objectLabel>
     </businessObject>
 </dictionaryEntry>
 

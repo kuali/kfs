@@ -35,6 +35,7 @@ public interface EnterpriseFeederService {
 
     /**
      * Returns the directory name from which files are loaded.
+     * @return the staging directory name
      */
     public String getDirectoryName();
 }

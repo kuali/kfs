@@ -32,7 +32,7 @@ import org.kuali.module.gl.util.ReconciliationBlock;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Default implementation for reconciliation
+ * Default implementation of ReconciliationService
  */
 @Transactional
 public class ReconciliationServiceImpl implements ReconciliationService {
@@ -92,9 +92,9 @@ public class ReconciliationServiceImpl implements ReconciliationService {
         }
 
         /**
-         * This method...
+         * Returns the number of attributes this object is holing
          * 
-         * @return
+         * @return the count of attributes this holding
          */
         protected int size() {
             return javaAttributeNames.size();
@@ -102,6 +102,11 @@ public class ReconciliationServiceImpl implements ReconciliationService {
     }
 
     /**
+     * Performs the reconciliation on origin entries using the data from the {@link ReconciliationBlock} parameter
+     * 
+     * @param entries origin entries
+     * @param reconBlock reconciliation data
+     * @param errorMessages a non-null list onto which error messages will be appended. This list will be modified by reference.
      * @see org.kuali.module.gl.service.ReconciliationService#reconcile(java.util.Iterator,
      *      org.kuali.module.gl.util.ReconciliationBlock, java.util.List)
      */

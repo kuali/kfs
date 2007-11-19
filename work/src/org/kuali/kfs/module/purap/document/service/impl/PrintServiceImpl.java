@@ -51,40 +51,25 @@ public class PrintServiceImpl implements PrintService {
     private static Log LOG = LogFactory.getLog(PrintServiceImpl.class);
     private static final boolean TRANSMISSION_IS_RETRANSMIT = true;
     private static final boolean TRANSMISSION_IS_NOT_RETRANSMIT = !TRANSMISSION_IS_RETRANSMIT;
+
     private ImageDao imageDao;
-    // private PurchaseOrderVendorStipulationsService purchaseOrderVendorStipulationsService;
-    // private VendorService vendorService;
-    // private ReferenceService referenceService;
-    // private PurchaseOrderContractLanguageDao purchaseOrderContractLanguageDao;
-    // private UserService userService;
     private ParameterService parameterService;
     private BusinessObjectService businessObjectService;
-
 
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
-    /**
-     * @param imageDao The imageDao to set
-     */
     public void setImageDao(ImageDao imageDao) {
         this.imageDao = imageDao;
     }
 
-    /**
-     * @param businessObjectService The businessObjectService to set
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
     /**
-     * Create the Purchase Order Quote Requests List Pdf document and send it back to the Action so that it can be dealt with.
-     * 
-     * @param po PurchaseOrder that holds the Quote
-     * @param byteArrayOutputStream ByteArrayOutputStream that the action is using
-     * @return Collection of ServiceError objects
+     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderQuoteRequestsListPdf(org.kuali.module.purap.document.PurchaseOrderDocument, java.io.ByteArrayOutputStream)
      */
     public Collection generatePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream) {
         LOG.debug("generatePurchaseOrderQuoteRequestsListPdf() started");
@@ -97,14 +82,8 @@ public class PrintServiceImpl implements PrintService {
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuoteRequestsPdf.generatePOQuoteRequestsListPdf(po, byteArrayOutputStream);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes
-                // temporary
-                // images;
-                // only
-                // need
-                // to
-                // call
-                // once.
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); 
             }
         }
         catch (PurError pe) {
@@ -125,35 +104,18 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * Create the Purchase Order Quote Requests List Pdf document and save it so that it can be faxed in a later process.
-     * 
-     * @param po PurchaseOrderDocument that holds the Quote
-     * @return Collection of ServiceError objects
+     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderQuoteRequestsListPdf(org.kuali.module.purap.document.PurchaseOrderDocument)
      */
     public Collection savePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po) {
-        /*
-         * TODO: Uncomment this method when we find out what to do for Kuali LOG.debug("savePurchaseOrderQuoteRequestsListPdf()
-         * started"); LOG.debug("savePurchaseOrderQuoteRequestsListPdf() started"); String pdfQuotesRequestsListFilename =
-         * "PURAP_PO_"+po.getId().toString()+"_Quotes_Requests_List_"+System.currentTimeMillis()+".pdf";
-         * PurchaseOrderQuoteRequestsPdf poQuoteRequestsPdf = new PurchaseOrderQuoteRequestsPdf(); Collection pdfErrorsIn = new
-         * ArrayList(); Collection pdfErrorsOut = new ArrayList(); String pdfFileLocation =
-         * applicationSettingService.getString("PDF_DIRECTORY"); if (pdfFileLocation == null) {
-         * LOG.debug("savePurchaseOrderQuoteRequestsListPdf() ended"); throw new ConfigurationException("Application Setting
-         * PDF_DIRECTORY is missing."); } try { pdfErrorsIn = poQuoteRequestsPdf.savePOQuoteRequestsListPdf(po, pdfFileLocation,
-         * pdfQuotesRequestsListFilename); } catch (PurError e) { ServiceError se = new ServiceError("errors","error.blank");
-         * se.addParameter(e.getMessage()); pdfErrorsIn.add(se); } finally { try { poQuoteRequestsPdf.deletePdf(pdfFileLocation,
-         * pdfQuotesRequestsListFilename); } catch (Throwable e) { LOG.error("savePurchaseOrderQuoteRequestsListPdf() Error deleting
-         * Quote Requests PDF" + pdfQuotesRequestsListFilename + " - Exception was " + e.getMessage(), e); ServiceError se = new
-         * ServiceError("errors","error.blank"); se.addParameter("Your PO Quote Requests PDF was saved successfully but an error
-         * occurred. Please report this problem to Purchasing"); pdfErrorsIn.add(se); } } if (!pdfErrorsIn.isEmpty()) { for
-         * (Iterator iter = pdfErrorsIn.iterator(); iter.hasNext();) { String errorMessage = (String) iter.next(); ServiceError se =
-         * new ServiceError("pdf.error", errorMessage); pdfErrorsOut.add(se); } } LOG.debug("savePurchaseOrderQuoteRequestsListPdf()
-         * ended"); return pdfErrorsOut;
-         */
         return null;
     }
 
-
+    /**
+     * Returns the PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     * 
+     * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
+     * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     */
     private PurchaseOrderPdfParameters getPurchaseOrderQuotePdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
@@ -208,6 +170,12 @@ public class PrintServiceImpl implements PrintService {
         return pdfParameters;
     }
 
+    /**
+     * Returns the PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     * 
+     * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
+     * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     */
     private PurchaseOrderPdfParameters getPurchaseOrderQuoteRequestsListPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
@@ -259,13 +227,8 @@ public class PrintServiceImpl implements PrintService {
         return pdfParameters;
     }
 
-    /*******************************************************************************************************************************
-     * /** Create the Purchase Order Quote Pdf document and send it back to the Action so that it can be dealt with.
-     * 
-     * @param po PurchaseOrderDocument that holds the Quote
-     * @param povq PurchaseOrderVendorQuote that is being transmitted to
-     * @param byteArrayOutputStream ByteArrayOutputStream that the action is using
-     * @return Collection of ServiceError objects
+    /**
+     * @see org.kuali.module.purap.service.PrintService#generatePurchaseOrderQuotePdf(org.kuali.module.purap.document.PurchaseOrderDocument, org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream, java.lang.String)
      */
     public Collection generatePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream byteArrayOutputStream, String environment) {
         LOG.debug("generatePurchaseOrderQuotePdf() started");
@@ -278,14 +241,8 @@ public class PrintServiceImpl implements PrintService {
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuotePdf.generatePOQuotePDF(po, povq, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), byteArrayOutputStream, environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes
-                // temporary
-                // images;
-                // only
-                // need
-                // to
-                // call
-                // once.
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
             }
         }
         catch (PurError pe) {
@@ -306,11 +263,7 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * Create the Purchase Order Quote Pdf document and save it so that it can be faxed in a later process.
-     * 
-     * @param po PurchaseOrderDocument that holds the Quote
-     * @param povq PurchaseOrderVendorQuote that is being transmitted to
-     * @return Collection of ServiceError objects
+     * @see org.kuali.module.purap.service.PrintService#savePurchaseOrderQuotePdf(org.kuali.module.purap.document.PurchaseOrderDocument, org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.lang.String)
      */
     public Collection savePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, String environment) {
         LOG.debug("savePurchaseOrderQuotePdf() started");
@@ -325,14 +278,8 @@ public class PrintServiceImpl implements PrintService {
             String deliveryCampusName = pdfParameters.getCampusParameter().getCampus().getCampusName();
             poQuotePdf.savePOQuotePDF(po, povq, pdfParameters.getPdfFileLocation(), pdfQuoteFilename, deliveryCampusName, pdfParameters.getContractManagerCampusCode(), pdfParameters.getLogoImage(), environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes
-                // temporary
-                // images;
-                // only
-                // need
-                // to
-                // call
-                // once.
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
             }
         }
         catch (PurError e) {
@@ -356,7 +303,13 @@ public class PrintServiceImpl implements PrintService {
         LOG.debug("savePurchaseOrderQuotePdf() ended");
         return errors;
     }
-
+    
+    /**
+     * Returns the PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     * 
+     * @param po  The PurchaseOrderDocument object to be used to obtain the PurchaseOrderPdfParameters.
+     * @return    The PurchaseOrderPdfParameters given the PurchaseOrderDocument.
+     */
     private PurchaseOrderPdfParameters getPurchaseOrderPdfParameters(PurchaseOrderDocument po) {
         String key = po.getPurapDocumentIdentifier().toString(); // key can be any string; chose to use the PO number.
         String campusCode = po.getDeliveryCampusCode().toLowerCase();
@@ -435,11 +388,14 @@ public class PrintServiceImpl implements PrintService {
     }
 
     /**
-     * Create the Purchase Order Pdf document and send it back to the Action so that it can be dealt with.
+     * Creates purchase order pdf document given the input parameters.
      * 
-     * @param po PurchaseOrderDocument that holds the Quote
-     * @param byteArrayOutputStream ByteArrayOutputStream that the action is using
-     * @return Collection of ServiceError objects
+     * @param po                     The PurchaseOrderDocument.
+     * @param byteArrayOutputStream  ByteArrayOutputStream that the action is using, where the pdf will be printed to.
+     * @param isRetransmit           boolean true if this is a retransmit purchase order document.
+     * @param environment            The current environment used (e.g. DEV if it is a development environment).
+     * @param retransmitItems        The items selected by the user to be retransmitted.
+     * @return                       Collection of error strings.
      */
     private Collection generatePurchaseOrderPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream, boolean isRetransmit, String environment, List<PurchaseOrderItem> retransmitItems) {
         LOG.debug("generatePurchaseOrderPdf() started");
@@ -450,15 +406,8 @@ public class PrintServiceImpl implements PrintService {
             PurchaseOrderPdfParameters pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.generatePdf(po, pdfParameters, byteArrayOutputStream, isRetransmit, environment, retransmitItems);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes
-                // the
-                // temporary
-                // images;
-                // only
-                // need
-                // to
-                // call
-                // once.
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
             }
         }
         catch (PurError e) {
@@ -490,11 +439,14 @@ public class PrintServiceImpl implements PrintService {
         return generatePurchaseOrderPdf(po, byteArrayOutputStream, TRANSMISSION_IS_RETRANSMIT, environment, retransmitItems);
     }
 
+
     /**
-     * Create the Purchase Order Pdf document and save it so that it can be faxed in a later process.
+     * Saves the purchase order pdf document.
      * 
-     * @param po PurchaseOrderDocument that holds the Quote
-     * @return Collection of ServiceError objects
+     * @param po            The PurchaseOrderDocument.
+     * @param isRetransmit  boolean true if this is a retransmit purchase order document.
+     * @param environment   The current environment used (e.g. DEV if it is a development environment).
+     * @return              Collection of error strings.
      */
     private Collection savePurchaseOrderPdf(PurchaseOrderDocument po, boolean isRetransmit, String environment) {
         LOG.debug("savePurchaseOrderPdf() started");
@@ -508,15 +460,8 @@ public class PrintServiceImpl implements PrintService {
             pdfParameters = getPurchaseOrderPdfParameters(po);
             poPdf.savePdf(po, pdfParameters, isRetransmit, environment);
             if (pdfParameters.isUseImage()) {
-                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation()); // Removes
-                // the
-                // temporary
-                // images;
-                // only
-                // need
-                // to
-                // call
-                // once.
+                // Removes temporary images; only need to call once.
+                imageDao.removeImages(po.getPurapDocumentIdentifier().toString(), pdfParameters.getImageTempLocation());
             }
         }
         catch (PurError e) {
@@ -536,7 +481,6 @@ public class PrintServiceImpl implements PrintService {
                 errors.add("Error while deleting the pdf after savePurchaseOrderPdf" + e.getMessage());
             }
         }
-
 
         LOG.debug("savePurchaseOrderPdf() ended");
         return errors;

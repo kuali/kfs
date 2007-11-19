@@ -17,11 +17,11 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants;
 
-
 /**
- * Holds constants for transfer of funds document.
+ * Defines constants for the transfer of funds document.
  */
 public interface TransferOfFundsDocumentRuleConstants extends AccountingDocumentRuleBaseConstants {
+    
     // Security grouping constants used to do application parameter lookups
     public static final String KUALI_TRANSACTION_PROCESSING_TRANSFER_OF_FUNDS_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.TransferOfFundsDocument";
 
@@ -29,7 +29,7 @@ public interface TransferOfFundsDocumentRuleConstants extends AccountingDocument
     public static final String TRANSFER_OF_FUNDS_INCOME_OBJECT_TYPE_CODE = "TransferOfFundsIncomeObjectTypeCode";
     public static final String TRANSFER_OF_FUNDS_EXPENSE_OBJECT_TYPE_CODE = "TransferOfFundsExpenseObjectTypeCode";
 
-    // doc type constant
+    // Document type constants
     public static final String TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "TF";
     public static final String YEAR_END_TRANSFER_OF_FUNDS_DOC_TYPE_CODE = "YETF";
 }

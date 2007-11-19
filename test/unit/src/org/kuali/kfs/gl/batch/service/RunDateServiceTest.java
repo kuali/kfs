@@ -29,6 +29,9 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests the cutoff time functionality of RunDateService
+ */
 @ConfigureContext
 public class RunDateServiceTest extends KualiTestBase {
 
@@ -36,6 +39,10 @@ public class RunDateServiceTest extends KualiTestBase {
 
     protected RunDateService runDateService;
 
+    /**
+     * Initializes the RunDateService implementation to test
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -43,6 +50,12 @@ public class RunDateServiceTest extends KualiTestBase {
         runDateService = SpringContext.getBean(RunDateService.class);
     }
 
+    /**
+     * Tests that the cutoff time is parsed correct and tests several times to see where they lie
+     * against the cut off time
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testCalculateCutoff() throws Exception {
         // cutoff time should be set to 10am in the master data source, see FS_PARM_T, script name GL.SCRUBBER, param name
         // SCRUBBER_CUTOFF_TIME
@@ -71,6 +84,11 @@ public class RunDateServiceTest extends KualiTestBase {
         }
     }
 
+    /**
+     * Tests an edge case where the cutoff time is at midnight
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testCalculateCutoffDuringMidnightHour() throws Exception {
         TestUtils.setSystemParameter(ScrubberStep.class, GLConstants.GlScrubberGroupParameters.SCRUBBER_CUTOFF_TIME, "0:05:00");
         Map<String, String> expectedCurrentToRunTimeMappings = new LinkedHashMap<String, String>();

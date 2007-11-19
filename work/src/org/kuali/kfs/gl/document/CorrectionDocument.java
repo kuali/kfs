@@ -44,6 +44,9 @@ import edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO;
 
 /**
  * 
+ * The General Ledger Correction Document, a document that allows editing and processing of 
+ * origin entry groups and the origin entries within them.
+ * 
  */
 public class CorrectionDocument extends TransactionalDocumentBase implements AmountTotaling {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocument.class);
@@ -76,6 +79,9 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     }
 
     /**
+     * Returns a Map representation of the primary key of this document
+     * 
+     * @return a Map that represents the database key of this document
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
@@ -85,6 +91,12 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         return m;
     }
 
+    /**
+     * Returns the editing method to use on the origin entries in the document, either "Manual Edit,"
+     * "Using Criteria," "Remove Group from Processing," or "Not Available"
+     * 
+     * @return the String representation of the method this document is using
+     */
     public String getMethod() {
         if (CorrectionDocumentService.CORRECTION_TYPE_MANUAL.equals(correctionTypeCode)) {
             return "Manual Edit";
@@ -100,6 +112,12 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         }
     }
 
+    /**
+     * Returns the source of the origin entries this document uses: either an uploaded file of origin entries
+     * or the database  
+     * 
+     * @return a String with the name of the system in use
+     */
     public String getSystem() {
         if (correctionInputFileName != null) {
             return "File Upload";
@@ -109,12 +127,22 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         }
     }
 
+    /**
+     * 
+     * This method...
+     * @param ccg
+     */
     public void addCorrectionChangeGroup(CorrectionChangeGroup ccg) {
         ccg.setDocumentNumber(documentNumber);
         ccg.setCorrectionChangeGroupLineNumber(correctionChangeGroupNextLineNumber++);
         correctionChangeGroup.add(ccg);
     }
 
+    /**
+     * 
+     * This method...
+     * @param changeNumber
+     */
     public void removeCorrectionChangeGroup(int changeNumber) {
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
             CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
@@ -124,6 +152,12 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
         }
     }
 
+    /**
+     * 
+     * This method...
+     * @param groupNumber
+     * @return
+     */
     public CorrectionChangeGroup getCorrectionChangeGroupItem(int groupNumber) {
         for (Iterator iter = correctionChangeGroup.iterator(); iter.hasNext();) {
             CorrectionChangeGroup element = (CorrectionChangeGroup) iter.next();
@@ -180,6 +214,10 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     private static final Integer WORKGROUP_APPROVAL_ROUTE_LEVEL = new Integer(1);
 
     /**
+     * Waits for the event of the route level changing to "Approve" and at that point, saving all the entries as origin entries in a newly created
+     * origin entry group, then scrubbing those entries
+     * 
+     * @param cahnge a representation of the route level changed that just occurred
      * @see org.kuali.core.document.DocumentBase#handleRouteLevelChange(edu.iu.uis.eden.clientapp.vo.DocumentRouteLevelChangeVO)
      */
     @Override
@@ -223,6 +261,8 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     }
 
     /**
+     * Returns the total dollar amount associated with this document
+     * 
      * @return if credit total is zero, debit total, otherwise credit total
      */
     public KualiDecimal getTotalDollarAmount() {
@@ -230,8 +270,9 @@ public class CorrectionDocument extends TransactionalDocumentBase implements Amo
     }
 
     /**
-     * We need to make sure this is set on all the child objects also
+     * Sets this document's document number, but also sets the document number on all children objects 
      * 
+     * @param documentNumber the document number for this document
      * @see org.kuali.core.document.DocumentBase#setDocumentNumber(java.lang.String)
      */
     @Override

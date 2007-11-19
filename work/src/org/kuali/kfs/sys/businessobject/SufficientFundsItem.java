@@ -27,6 +27,9 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.bo.Transaction;
 
+/**
+ * Represents a sufficient fund item which is used to show if a document has sufficient funds
+ */
 public class SufficientFundsItem implements Serializable, Comparable {
     private Options year;
     private Account account;
@@ -49,6 +52,12 @@ public class SufficientFundsItem implements Serializable, Comparable {
         amount = KualiDecimal.ZERO;
     }
 
+    /**
+     * Constructs a SufficientFundsItem.java.
+     * @param universityFiscalYear
+     * @param tran
+     * @param sufficientFundsObjectCode
+     */
     public SufficientFundsItem(Options universityFiscalYear, Transaction tran, String sufficientFundsObjectCode) {
 
         amount = KualiDecimal.ZERO;
@@ -62,6 +71,12 @@ public class SufficientFundsItem implements Serializable, Comparable {
         add(tran);
     }
 
+    /**
+     * Constructs a SufficientFundsItem.java.
+     * @param universityFiscalYear
+     * @param accountLine
+     * @param sufficientFundsObjectCode
+     */
     public SufficientFundsItem(Options universityFiscalYear, AccountingLine accountLine, String sufficientFundsObjectCode) {
 
         amount = KualiDecimal.ZERO;
@@ -75,6 +90,10 @@ public class SufficientFundsItem implements Serializable, Comparable {
         add(accountLine);
     }
 
+    /**
+     * Adds an accounting line's amount to this sufficient funds item
+     * @param a accounting line
+     */
     public void add(AccountingLine a) {
         if (a.getObjectType().getFinObjectTypeDebitcreditCd().equals(a.getDebitCreditCode()) || KFSConstants.EMPTY_STRING.equals(a.getDebitCreditCode())) {
             amount = amount.add(a.getAmount());
@@ -84,6 +103,10 @@ public class SufficientFundsItem implements Serializable, Comparable {
         }
     }
 
+    /**
+     * Adds a transactions amount to this sufficient funds item
+     * @param t transactions
+     */
     public void add(Transaction t) {
         if (t.getObjectType().getFinObjectTypeDebitcreditCd().equals(t.getTransactionDebitCreditCode()) || KFSConstants.EMPTY_STRING.equals(t.getTransactionDebitCreditCode())) {
             amount = amount.add(t.getTransactionLedgerEntryAmount());
@@ -93,11 +116,21 @@ public class SufficientFundsItem implements Serializable, Comparable {
         }
     }
 
+    /**
+     * Compare to other sufficient funds item based on key
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(Object arg0) {
         SufficientFundsItem item = (SufficientFundsItem) arg0;
         return getKey().compareTo(item.getKey());
     }
 
+    /**
+     * Returns string to uniquely represent this sufficient funds item
+     * 
+     * @return string with the following concatenated: fiscal year, chart of accounts code, account number, financial object type code, sufficient funds object code and balance type code
+     */
     public String getKey() {
         return year.getUniversityFiscalYear() + account.getChartOfAccountsCode() + account.getAccountNumber() + financialObjectType.getCode() + sufficientFundsObjectCode + balanceTyp.getCode();
     }

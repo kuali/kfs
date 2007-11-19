@@ -41,6 +41,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     private Class businessObjectClass;
 
     /**
+     * Builds a list of attributes for finding the values for this inquiry.
+     * 
+     * @return a List of attribute keys to inquire on
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
@@ -59,6 +62,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * Generates an attribute map of fields created simply for this inquiry
+     * 
+     * @return a Map with a link button attribute in it
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
@@ -70,6 +76,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * Converts attribute names for the inquiry screen
+     * 
+     * @return the converted name of the attribute
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
@@ -80,6 +89,11 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * Overrides the key value with a blank string if it's an exclusive value
+     * 
+     * @param keyName the keyName of the key to check
+     * @param keyValue the value of the key to check
+     * @return a new value
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
@@ -90,6 +104,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * Given a key name, returns the key name; this implementation just passes back what it gets
+     * 
+     * @return the key name passed in
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
@@ -97,6 +114,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * The name of this inquiry
+     * 
+     * @return a String with this inquiry's name
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
@@ -104,6 +124,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * The base url that inquires of this type need to be sent to
+     * 
+     * @return the base url
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
@@ -111,6 +134,10 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * The business object class this inquiry should be returning for a given attribute - in this case, AccountBalanceByLevel for the LINK_BUTTON_OPTION
+     * 
+     * @param attributeName the attribute to return a class for
+     * @return a class for the attribute
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
@@ -122,6 +149,9 @@ public class AccountBalanceByConsolidationInquirableImpl extends AbstractGLInqui
     }
 
     /**
+     * For a given attribute, lets this inquiry add more parameters
+     * @param parameter the set of parameters for the inquiry
+     * @param attributeName the attributeName parameters are being set for
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {

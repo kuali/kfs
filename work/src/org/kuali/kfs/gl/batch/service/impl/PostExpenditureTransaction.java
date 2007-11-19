@@ -37,6 +37,10 @@ import org.kuali.module.gl.service.IcrTransaction;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+/**
+ * This implementation of PostTransaction creates ExpenditureTransactions, temporary records used
+ * for ICR generation
+ */
 @Transactional
 public class PostExpenditureTransaction implements IcrTransaction, PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostExpenditureTransaction.class);
@@ -63,7 +67,7 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
     }
 
     /**
-     * 
+     * Creates a PostExpenditureTransaction instance
      */
     public PostExpenditureTransaction() {
         super();
@@ -72,7 +76,12 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
     /**
      * This will determine if this transaction is an ICR eligible transaction
      * 
-     * @return
+     * @param objectType the object type of the transaction
+     * @param account the account of the transaction
+     * @param subAccountNumber the subAccountNumber of the transaction
+     * @param objectCode the object code of the transaction
+     * @param universityFiscalPeriodCode the accounting period code of the transactoin
+     * @return true if the transaction is an ICR transaction and therefore should have an expenditure transaction created for it; false if otherwise
      */
     public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode) {
         LOG.debug("isIcrTransaction() started");
@@ -145,21 +154,32 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
         }
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * If the transaction is a valid ICR transaction, posts an expenditure transaction record for the transaction
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
 
         if (isIcrTransaction(t.getObjectType(), t.getAccount(), t.getSubAccountNumber(), t.getFinancialObject(), t.getUniversityFiscalPeriodCode())) {
-            return postTransaction(t, mode, postDate);
+            return postTransaction(t, mode);
         }
         return GLConstants.EMPTY_CODE;
     }
 
-    private String postTransaction(Transaction t, int mode, Date postDate) {
+    /**
+     * Actually posts the transaction to the appropriate expenditure transaction record
+     * 
+     * @param t the transaction to post
+     * @param mode the mode of the poster as it is currently running
+     * @return the accomplished post type
+     */
+    private String postTransaction(Transaction t, int mode) {
         LOG.debug("postTransaction() started");
 
         String returnCode = GLConstants.UPDATE_CODE;
@@ -187,6 +207,9 @@ public class PostExpenditureTransaction implements IcrTransaction, PostTransacti
         return returnCode;
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(ExpenditureTransaction.class).getFullTableName();
     }

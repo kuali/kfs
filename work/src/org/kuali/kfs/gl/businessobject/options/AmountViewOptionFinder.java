@@ -24,11 +24,13 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * An implementation of ValuesFinder that allows GL inquiries to select either monthly totals or accumulated totals on balance inquiries
  */
 public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns the default value of this ValueFinder: here, MONTHLY
+     * @return the default value for this finder, which should be "monthly totals"
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
@@ -36,6 +38,8 @@ public class GLAmountViewOptionFinder extends KeyValuesBase implements ValueFind
     }
 
     /**
+     * Returns a list of key values to populate a drop down to choose between monthly totals and accumulated totals
+     * @return a List of key value pairs
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

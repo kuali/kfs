@@ -17,13 +17,12 @@ package org.kuali.module.gl.service;
 
 
 /**
- * 
- * 
+ * An interface declaring a method that runs the sufficient funds rebuilder process.
  */
 public interface SufficientFundsRebuilderService {
 
     /**
-     * 
+     * Rebuilds all necessary sufficient funds balances.
      */
     public void rebuildSufficientFunds();
 }

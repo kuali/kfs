@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -30,7 +31,11 @@ import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests the SufficientFundsRebuilderService
+ */
 @ConfigureContext
+@RawSQL
 public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsRebuilderServiceTest.class);
 
@@ -40,6 +45,10 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     protected PersistenceService persistenceService;
     protected UnitTestSqlDao unitTestSqlDao = null;
 
+    /**
+     * Initializes the services needed for the test
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -52,7 +61,11 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         unitTestSqlDao = SpringContext.getBean(UnitTestSqlDao.class);
     }
 
-    // testAddedSFBLRecords
+    /**
+     * Tests SF fund rebuilding conversion
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testConversion() throws Exception {
         String[] expectedOutput = new String[] { "2007BL2220090    H                1                1                1", "2007BL2231406PRINL                0           180.35                0", "2007BL2231406S&E L            12000             9.55                0", "2007BL2231406TRAVL                0           2558.9                0", "2007BL2231407GENXC                1                1                1", "2007BL22314084938O                0           348.27                0", "2007BL22314085215O                0              100                0", };
 
@@ -67,7 +80,11 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         assertSFBLEntries(expectedOutput);
     }
 
-    // testAddedSFBLRecords
+    /**
+     * Tests that added SF balance records exist after all SF balances are rebuilt
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testAddedSFBLRecords() throws Exception {
         String[] expectedOutput = new String[] { "2007BL2220090    H         10756.57                0            503.5", "2007BL2231406PRINL                0           180.35                0", "2007BL2231406S&E L            12000             9.55                0", "2007BL2231406TRAVL                0           2558.9                0", "2007BL2231407GENXC                0          -984.12                0", "2007BL22314084938O                0           348.27                0", "2007BL22314085215O                0              100                0", "2007BL2231415    A            12000           2748.8                0" };
 
@@ -81,12 +98,23 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         assertSFBLEntries(expectedOutput);
     }
 
+    /**
+     * This converts an array of String-transactions to SF balances in the database
+     * 
+     * @param transactions an array of String-formatted sufficient fund rebuild record
+     */
     protected void loadInputTransactions(String[] transactions) {
         for (int i = 0; i < transactions.length; i++) {
             createSFRB(transactions[i]);
         }
     }
 
+    /**
+     * Inserts a String-formatted sufficient fund rebuild record into the database as a sufficient fund rebuild record
+     * 
+     * @param line the String-formatted sufficient fund rebuild record to convert and save
+     * @return the converted sufficient fund rebuild record
+     */
     protected SufficientFundRebuild createSFRB(String line) {
         SufficientFundRebuild sfrb = new SufficientFundRebuild(line);
 
@@ -99,10 +127,16 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         return sfrb;
     }
 
+    /**
+     * Deletes all records in the sufficient funds balances table
+     */
     protected void clearSufficientFundBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t");
     }
 
+    /**
+     * Deletes all records in the sufficient funds rebuild table
+     */
     protected void clearSufficientFundRebuildTable() {
         unitTestSqlDao.sqlCommand("delete from gl_sf_rebuild_t");
     }
@@ -118,7 +152,7 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
     /**
      * Check all the entries in gl_sf_balances_t against the data passed in. If any of them are different, assert an error.
      * 
-     * @param requiredSFBLs
+     * @param requiredSFBLs an array of expected sufficient fund balance records, formatted as Strings
      */
     protected void assertSFBLEntries(String[] requiredSFBLs) {
 
@@ -140,6 +174,9 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         }
     }
 
+    /**
+     * Updates the accounts used by this test, so that each algorithm of sufficient funds checking is used
+     */
     private void updateAccount() {
         unitTestSqlDao.sqlCommand("update ca_account_t set acct_sf_cd = 'H' where account_nbr = '2220090'");
         unitTestSqlDao.sqlCommand("update ca_account_t set acct_sf_cd = 'L' where account_nbr = '2231406'");
@@ -148,6 +185,9 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("update ca_account_t set acct_sf_cd = 'A' where account_nbr = '2231415'");
     }
 
+    /**
+     * Rebuilds the SF rebuild table completely, to have a set of expected data for testAddedSFBLRecords()
+     */
     private void populateGLSFRebuildTable() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BA','A','6044913','" + new Guid().toString() + "',1)");
@@ -159,12 +199,18 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','A','2231415','" + new Guid().toString() + "',1)");
     }
 
+    /**
+     * Populates the SF rebuild table for testConversion()
+     */
     private void populateGLSFRebuildTableForConversion() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_REBUILD_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','PRIN','" + new Guid().toString() + "',1)");
         unitTestSqlDao.sqlCommand("insert into GL_SF_REBUILD_T (fin_coa_cd,acct_fobj_typ_cd,acct_nbr_fobj_cd,obj_id,ver_nbr) values ('BL','O','4938','" + new Guid().toString() + "',1)");
     }
 
+    /**
+     * Populates the SF balances table with expected values for testConversion()
+     */
     private void populateGLSFBalanceTableForConversion() {
         unitTestSqlDao.sqlCommand("delete from GL_SF_BALANCES_T");
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2007','BL','2220090','    ','H',1,1,1)");
@@ -176,6 +222,9 @@ public class SufficientFundsRebuilderServiceTest extends KualiTestBase {
         unitTestSqlDao.sqlCommand("insert into GL_SF_BALANCES_T (UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, FIN_OBJECT_CD, ACCT_SF_CD, CURR_BDGT_BAL_AMT, ACCT_ACTL_XPND_AMT, ACCT_ENCUM_AMT) values ('2007','BL','2231408','5215','H',1,1,1)");
     }
 
+    /**
+     * Populates the SF balances table with expected values for testAddedSFBLRecords()
+     */
     private void prepareGLBalancesTable() {
         unitTestSqlDao.sqlCommand("delete from gl_balance_t where account_nbr in ('6044913','1031420','2220090','2231406','2231407','2231408','2231415')");
         unitTestSqlDao.sqlCommand("insert into gl_balance_t (UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FIN_OBJECT_CD,FIN_SUB_OBJ_CD,FIN_BALANCE_TYP_CD,FIN_OBJ_TYP_CD,ACLN_ANNL_BAL_AMT,FIN_BEG_BAL_LN_AMT,CONTR_GR_BB_AC_AMT,MO1_ACCT_LN_AMT,MO2_ACCT_LN_AMT,MO3_ACCT_LN_AMT,MO4_ACCT_LN_AMT,MO5_ACCT_LN_AMT,MO6_ACCT_LN_AMT,MO7_ACCT_LN_AMT,MO8_ACCT_LN_AMT,MO9_ACCT_LN_AMT,MO10_ACCT_LN_AMT,MO11_ACCT_LN_AMT,MO12_ACCT_LN_AMT,MO13_ACCT_LN_AMT) values ('2007','BL','1031420','-----','8000','---','AC','AS',0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0)");

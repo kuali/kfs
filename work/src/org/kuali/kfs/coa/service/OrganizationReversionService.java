@@ -23,6 +23,9 @@ import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
 /**
+ * 
+ * This service interface defines methods necessary for retrieving fully populated OrganizationReversion business objects from the database
+ * that are necessary for transaction processing in the application. It also defines methods to retrieve org reversion categories
  */
 public interface OrganizationReversionService {
     /**

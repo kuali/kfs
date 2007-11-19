@@ -22,7 +22,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * 
+ * This class is used to represent a non-resident alien tax percent.  This is the percentage of a total 
+ * reimbursement that is collected in taxes for non-resident aliens.
  */
 public class NonResidentAlienTaxPercent extends PersistableBusinessObjectBase {
 

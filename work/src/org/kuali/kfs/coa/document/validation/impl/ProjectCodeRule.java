@@ -18,7 +18,9 @@ package org.kuali.module.chart.rules;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
 import org.kuali.module.chart.bo.ProjectCode;
-
+/**
+ * This class implements the business rules specific to the {@link ProjectCode} Maintenance Document.
+ */
 public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProjectCodeRule.class);
@@ -31,6 +33,11 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link ProjectCodeRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -44,6 +51,11 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link ProjectCodeRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -59,6 +71,11 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link ProjectCodeRule#checkExistenceAndActive()}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -74,7 +91,7 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * This method sets the convenience objects like newProjectCode and oldProjectCode, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      * 
@@ -89,6 +106,11 @@ public class ProjectCodeRule extends MaintenanceDocumentRuleBase {
         newProjectCode = (ProjectCode) super.getNewBo();
     }
 
+    /**
+     * 
+     * This method currently doesn't do anything
+     * @return true
+     */
     protected boolean checkExistenceAndActive() {
 
         LOG.info("Entering checkExistenceAndActive()");

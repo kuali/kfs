@@ -24,14 +24,14 @@ import java.util.Map;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * This class...
+ * This class converts field values from G/L Business Objects to G?L transactions
  */
 public class BusinessObjectFieldConverter {
 
     /**
      * This method converts the field values from normal GL business objects to GL transaction
      * 
-     * @param fields
+     * @param fields list of fields in GL business object
      * @return the list of fields for GL transaction
      */
     public static List convertToTransactionFields(List fields) {
@@ -181,6 +181,13 @@ public class BusinessObjectFieldConverter {
         return transactionPropertyName;
     }
 
+    /**
+     * Escapes any special characters in map name/property values
+     * 
+     * @param fieldValues map of field keys and their values
+     * @param specialCharacter special characters to replace
+     * @param replacement value to replace special characters with
+     */
     public static void escapeSpecialCharacter(Map fieldValues, String specialCharacter, String replacement) {
         Iterator propsIter = fieldValues.keySet().iterator();
         while (propsIter.hasNext()) {
@@ -192,6 +199,10 @@ public class BusinessObjectFieldConverter {
         }
     }
 
+    /**
+     * Escapes any single quotes in map name/property values
+     * @param fieldValues
+     */
     public static void escapeSingleQuote(Map fieldValues) {
         String specialCharacter = "'";
         String replacement = " ";

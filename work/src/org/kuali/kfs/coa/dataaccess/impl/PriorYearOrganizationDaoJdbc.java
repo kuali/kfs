@@ -17,6 +17,7 @@ package org.kuali.module.chart.dao.jdbc;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.PriorYearOrganization;
 import org.kuali.module.chart.dao.PriorYearOrganizationDao;
@@ -24,6 +25,7 @@ import org.kuali.module.chart.dao.PriorYearOrganizationDao;
 /**
  * This class performs actions against the database through direct SQL command calls.
  */
+@RawSQL
 public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc implements PriorYearOrganizationDao {
 
     /** Constant used to retrieve row counts for tables. Obj_Id value exists in all tables in DB. */
@@ -35,6 +37,7 @@ public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc imple
      * @return Number of records that were purged.
      * @see org.kuali.module.chart.dao.PriorYearOrganizationDao#purgePriorYearOrganizations()
      */
+    @RawSQL
     public int purgePriorYearOrganizations() {
         String priorYrOrgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearOrganization.class).getFullTableName();
 
@@ -53,6 +56,7 @@ public class PriorYearOrganizationDaoJdbc extends PlatformAwareDaoBaseJdbc imple
      * @return Number of records that were copied.
      * @see org.kuali.module.chart.dao.PriorYearOrganizationDao#copyCurrentOrganizationsToPriorYearTable()
      */
+    @RawSQL
     public int copyCurrentOrganizationsToPriorYearTable() {
         String priorYrOrgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearOrganization.class).getFullTableName();
         String orgTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Org.class).getFullTableName();

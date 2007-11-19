@@ -81,40 +81,34 @@ public class DailyReportServiceImpl implements DailyReportService {
             addHeader(dataTable);
 
             boolean rows = false;
-            String lastSortOrder = "";
             DailyReport sortTotal = new DailyReport();
             DailyReport total = new DailyReport();
-            total.setSortOrder("Total");
 
             for (Iterator iter = data.iterator(); iter.hasNext();) {
-                rows = true;
                 DailyReport dr = (DailyReport) iter.next();
-                if (sortTotal.getSortOrder() == null) {
-                    sortTotal.setSortOrder(dr.getSortOrder());
-                }
 
-                if (!sortTotal.getSortOrder().equals(dr.getSortOrder())) {
-                    sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
-                    addRow(dataTable, sortTotal, true);
-                    sortTotal = new DailyReport();
-                    sortTotal.setSortOrder(dr.getSortOrder());
+                if ( ! rows ) {
+                    rows = true;
+                    sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
-                }
-                else {
+                    addRow(dataTable, dr, false,dr.getSortGroupName());
+                } else if (!sortTotal.getSortGroupId().equals(dr.getSortGroupId())) {
+                    addRow(dataTable, sortTotal, true,"Total for " + sortTotal.getSortGroupName());
+                    sortTotal = new DailyReport(dr);
                     sortTotal.addRow(dr);
+                    addRow(dataTable, dr, false,dr.getSortGroupName());
+                } else {
+                    sortTotal.addRow(dr);
+                    addRow(dataTable, dr, false,"");
                 }
-
-                addRow(dataTable, dr, false);
-                lastSortOrder = dr.getSortOrder();
 
                 total.addRow(dr);
             }
 
             if (rows) {
-                sortTotal.setSortOrder("Total for " + sortTotal.getSortOrder());
-                addRow(dataTable, sortTotal, true);
+                addRow(dataTable, sortTotal, true,"Total for " + sortTotal.getSortGroupName());
             }
-            addRow(dataTable, total, true);
+            addRow(dataTable, total, true,"Total");
 
             document.add(dataTable);
         }
@@ -145,6 +139,10 @@ public class DailyReportServiceImpl implements DailyReportService {
     }
 
     private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold) {
+        addRow(dataTable,dr,bold,dr.getSortGroupName());
+    }
+
+    private void addRow(PdfPTable dataTable, DailyReport dr, boolean bold,String name) {
         DecimalFormat af = new DecimalFormat("###,###,##0.00");
         DecimalFormat nf = new DecimalFormat("###,##0");
 
@@ -162,11 +160,15 @@ public class DailyReportServiceImpl implements DailyReportService {
             f = textFont;
         }
 
-        PdfPCell cell = new PdfPCell(new Phrase(dr.getSortOrder(), f));
+        PdfPCell cell = new PdfPCell(new Phrase(name, f));
         cell.setBorder(Rectangle.NO_BORDER);
         dataTable.addCell(cell);
 
-        cell = new PdfPCell(new Phrase(dr.getCustomer(), f));
+        if ( ! bold ) {
+            cell = new PdfPCell(new Phrase(dr.getCustomer(), f));
+        } else {
+            cell = new PdfPCell(new Phrase("", f));
+        }
         cell.setBorder(Rectangle.NO_BORDER);
         dataTable.addCell(cell);
 

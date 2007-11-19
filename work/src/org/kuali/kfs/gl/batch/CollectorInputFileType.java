@@ -62,6 +62,11 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
      * from the batch header append the username of the user who is uploading the file then the user supplied indentifier finally
      * the timestamp
      * 
+     * @param user who uploaded the file
+     * @param parsedFileContents represents collector batch object
+     * @param userIdentifier user identifier for user who uploaded file
+     * @return String returns file name using the convention mentioned in the description
+     * 
      * @see org.kuali.kfs.batch.BatchInputFileType#getFileName(org.kuali.core.bo.user.UniversalUser, java.lang.Object,
      *      java.lang.String)
      */
@@ -90,6 +95,10 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     /**
      * Verifies user created the file by checking for the username in the file name.
      * 
+     * @param user user who created file
+     * @param batchFile uploaded batch file
+     * @return true if user's username in in file
+     * 
      * @see org.kuali.kfs.batch.BatchInputFileType#checkAuthorization(org.kuali.core.bo.user.UniversalUser, java.io.File)
      */
     public boolean checkAuthorization(UniversalUser user, File batchFile) {
@@ -111,6 +120,7 @@ public class CollectorInputFileType extends BatchInputFileTypeBase {
     /**
      * Checks that the file contents parsed from the file are valid Collector data
      * 
+     * @param parsedFileContents represents collector batch
      * @return true if valid, false if not
      * @see org.kuali.kfs.batch.BatchInputFileType#validate(java.lang.Object)
      */

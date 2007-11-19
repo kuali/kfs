@@ -62,7 +62,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         // refresh the account summary (note this also updates the account amounts)
         purapForm.refreshAccountSummmary();
 
-        // FIXME: temporary workaround see KULPURAP-1397
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) document.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
@@ -226,7 +225,6 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
 
         // add it to the baseline, to prevent generation of spurious update events
         item.getBaselineSourceAccountingLines().remove(accountIndex);
-        // TODO: Chris we should probabl also add to baselineSourceList on form
 
 
         // remove the decorator
@@ -294,7 +292,7 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
     @Override
     public ActionForward downloadBOAttachment(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) ((PurchasingAccountsPayableFormBase) form).getDocument();
-        // FIXME: temporary workaround see KULPURAP-1397
+
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) document.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }

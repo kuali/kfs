@@ -28,8 +28,16 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSPropertyConstants;
 
+/**
+ * An extension of KeyValuesBase that 
+ */
 public class OriginEntryFieldFinder extends KeyValuesBase {
 
+    /**
+     * Returns a list of all field names and display field names for the Origin Entry class
+     * @return a List of key/value pair options
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("universityFiscalYear", "Fiscal Year"));
@@ -60,6 +68,12 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return activeLabels;
     }
 
+    /**
+     * Given the property field name for a field, returns the display name
+     * 
+     * @param fieldName the property field name for a field
+     * @return the display field name of that field
+     */
     public String getFieldDisplayName(String fieldName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
             KeyLabelPair klp = (KeyLabelPair) iter.next();
@@ -70,6 +84,12 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return "Error";
     }
 
+    /**
+     * Given the display name of a field, returns the property field name
+     * 
+     * @param fieldDisplayName the display name of the field
+     * @return the property field name for that field
+     */
     public String getFieldName(String fieldDisplayName) {
         for (Iterator iter = getKeyValues().iterator(); iter.hasNext();) {
             KeyLabelPair klp = (KeyLabelPair) iter.next();
@@ -80,6 +100,13 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return "Error";
     }
 
+    /**
+     * Given a field name and a value, determines if that value is valid for the field
+     * 
+     * @param fieldName the name of a field to inquire on
+     * @param value the value that the field will potentially be set to
+     * @return true if the value is valid, false if otherwise
+     */
     public boolean isValidValue(String fieldName, String value) {
         if (StringUtils.isBlank(fieldName)) {
             return false;
@@ -127,6 +154,12 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return true;
     }
 
+    /**
+     * Returns a String with the name of the type of the given field
+     * 
+     * @param fieldName the name of the field to inquire on
+     * @return a String with the name of the class that field returns
+     */
     public String getFieldType(String fieldName) {
         if (fieldName.equals("universityFiscalYear")) {
             return "Integer";
@@ -146,6 +179,12 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return "String";
     }
 
+    /**
+     * Returns whether the given field can be set to null or not
+     * 
+     * @param fieldName the name of the field to inquire about
+     * @return true if it can be set to null, false otherwise
+     */
     public boolean allowNull(String fieldName) {
         if (fieldName.equals("transactionLedgerEntryAmount")) {
             return false;
@@ -153,7 +192,14 @@ public class OriginEntryFieldFinder extends KeyValuesBase {
         return true;
     }
 
+    /**
+     * Returns the length of a given field in Origin Entry
+     * 
+     * @param fieldName the name of the Origin Entry field to get a length for
+     * @return the length of the field
+     */
     public int getFieldLength(String fieldName) {
+        // TODO  AUGH!!!!!  BASE THIS ON THE DATA DICTIONARY!!!!!
         if (fieldName.equals("universityFiscalYear")) {
             return 4;
         }

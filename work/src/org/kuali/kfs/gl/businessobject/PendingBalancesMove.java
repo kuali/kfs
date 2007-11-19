@@ -22,6 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
+ * This class represents a pending balances move
  * 
  */
 public class PendingBalancesMove extends PersistableBusinessObjectBase {

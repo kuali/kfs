@@ -25,26 +25,58 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * The DAO interface that declares methods needed to query the database about balances
  */
 public interface BalanceDao {
 
     /**
      * Get the GL Summary data
      * 
-     * @param universityFiscalYear
-     * @param balanceTypeCodes
-     * @return iterator to Object[]
+     * @param universityFiscalYear the fiscal year of balances to search for
+     * @param balanceTypeCodes a list of balance type codes of balances to search for
+     * @return iterator of reported on java.lang.Object arrays with the report data
      */
     public Iterator getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
 
+    /**
+     * Given a transaction, finds the balance record it would affect
+     * 
+     * @param t a transaction
+     * @return the balance record it would affect
+     */
     public Balance getBalanceByTransaction(Transaction t);
 
+    /**
+     * Given the primary keys of a balance, finds the balance in the database. Although not all of the
+     * primary keys are sent into this method...
+     * 
+     * Programmers are seriously advised not to use this method; the default implementation does not work
+     * 
+     * @param universityFiscalYear the university fiscal year of the balance to find
+     * @param chartOfAccountsCode the chart of accounts code of the balance to find
+     * @param accountNumber the account number of the balance to find
+     * @return the balance that is specified by those...er...partially defined primary keys.
+     */
     public Balance getBalanceByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
 
+    /**
+     * Based on specific query types, return an Iterator of balance records
+     * 
+     * @param account the account of balances to find
+     * @param fiscalYear the fiscal year of balances to find
+     * @param includedObjectCodes a Collection of object codes found balances should have one of
+     * @param excludedObjectCodes a Collection of object codes found balances should not have one of
+     * @param objectTypeCodes a Collection of object type codes found balances should have one of
+     * @param balanceTypeCodes a Collection of balance type codes found balances should have one of
+     * @return an Iterator of Balances
+     */
     public Iterator findBalances(Account account, Integer fiscalYear, Collection includedObjectCodes, Collection excludedObjectCodes, Collection objectTypeCodes, Collection balanceTypeCodes);
 
+    /**
+     * Saves a balance to the database
+     * 
+     * @param b a balance to save
+     */
     public void save(Balance b);
 
     /**
@@ -95,9 +127,9 @@ public interface BalanceDao {
     /**
      * Returns the balance entries for the given year, chart, and account.
      * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
+     * @param universityFiscalYear the unversity fiscal year of balances to return
+     * @param chartOfAccountsCode the chart of accounts code of balances to return
+     * @param accountNumber the account number of balances to return
      * @param sfCode Sufficient Funds Code (used to determine sorting)
      * @return balance entries matching above
      */
@@ -106,9 +138,9 @@ public interface BalanceDao {
     /**
      * Returns the balance entries for the given year, chart, and account.
      * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
+     * @param universityFiscalYear the fiscal year of balances to return
+     * @param chartOfAccountsCode the chart of accounts code of balances to return
+     * @param accountNumber the account number of balances to return
      * @return balance entries matching above sorted by object code
      */
     public Iterator<Balance> findAccountBalances(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber);
@@ -116,10 +148,10 @@ public interface BalanceDao {
     /**
      * Returns the CB (current budget) record for the given year, chart, account, and object code if one is found.
      * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param objectCode
+     * @param universityFiscalYear the fiscal year of the CB balance to return
+     * @param chartOfAccountsCode the chart of the accounts code of the CB balanes to return
+     * @param accountNumber the account number of the CB balance to return
+     * @param objectCode the object code of the CB balance to return
      * @return the CB Balance record
      */
     public Balance getCurrentBudgetForObjectCode(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String objectCode);
@@ -127,13 +159,15 @@ public interface BalanceDao {
     /**
      * Purge the sufficient funds balance table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chart the chart of balances to purge
+     * @param year the university fiscal year of balances to purge
      */
     public void purgeYearByChart(String chart, int year);
 
     /**
-     * @param year
+     * Returns all of the balances of a given fiscal year
+     * 
+     * @param year the university fiscal year of balances to return
      * @return an iterator over all balances for a given fiscal year
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer year);

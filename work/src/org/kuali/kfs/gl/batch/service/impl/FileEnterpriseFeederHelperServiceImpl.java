@@ -172,8 +172,8 @@ public class FileEnterpriseFeederHelperServiceImpl implements FileEnterpriseFeed
      * the reconciliation does not succeed if at least one of the error messages in the list has a type of
      * {@link Message#TYPE_FATAL}
      * 
-     * @param errorMessages
-     * @return
+     * @param errorMessages a List of errorMessages
+     * @return true if any of those error messages were fatal
      */
     protected boolean reconciliationProcessSucceeded(List<Message> errorMessages) {
         for (Message message : errorMessages) {

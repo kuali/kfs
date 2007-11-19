@@ -27,6 +27,10 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
  * Value Finder for Purchase Order Vendor Quote Statuses.
+ * 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ * 
  */
 public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBase {
 

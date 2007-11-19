@@ -496,7 +496,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getItemClass()
      */
     public Class getItemClass() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -504,7 +503,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentIfPossible()
      */
     public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -512,7 +510,6 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
      * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase#getPurApSourceDocumentLabelIfPossible()
      */
     public String getPurApSourceDocumentLabelIfPossible() {
-        // TODO Auto-generated method stub
         return null;
     }
 

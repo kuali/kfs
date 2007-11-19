@@ -82,6 +82,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                 for (int div = 0; div < supplierDivs.size(); div++) {
                     VendorSupplierDiversity vsd = supplierDivs.get(div);
                     auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_CODE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
+                    auths.addReadonlyAuthField(VendorUtils.assembleWithPosition(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITY_ACTIVE, VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES, div));
                 }
             }
         }
@@ -156,6 +157,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                 auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorShippingTitleCode");
                 auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractExtensionDate");
                 auths.addReadonlyAuthField("vendorContracts[" + i + "].organizationAutomaticPurchaseOrderLimit");
+                auths.addReadonlyAuthField("vendorContracts[" + i + "].active");
 
                 // contract organization sub collection fields
                 int j = 0;
@@ -165,6 +167,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
                     auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].organizationCode");
                     auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractPurchaseOrderLimitAmount");
                     auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].vendorContractExcludeIndicator");
+                    auths.addReadonlyAuthField("vendorContracts[" + i + "].vendorContractOrganizations[" + j + "].active");
                     j++;
                 }
                 i++;

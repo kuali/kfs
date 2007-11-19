@@ -18,12 +18,20 @@ package org.kuali.module.gl.service;
 import org.kuali.core.service.DateTimeService;
 
 /**
- * 
- * 
+ * An interface of methods to run the Poster
  */
 public interface PosterService {
+    /**
+     * a poster mode, where the poster will post entries
+     */
     public static int MODE_ENTRIES = 1;
+    /**
+     * a poster mode, where the poster will post reversals that are due to reverse
+     */
     public static int MODE_REVERSAL = 2;
+    /**
+     * a poster mode, where the poster will post indirect cost recovery entries
+     */
     public static int MODE_ICR = 3;
 
     /**
@@ -46,5 +54,10 @@ public interface PosterService {
      */
     public void generateIcrTransactions();
 
+    /**
+     * Sets the dateTimeAttribute of the service
+     * 
+     * @param dateTimeService the dateTimeService implementation to set
+     */
     public void setDateTimeService(DateTimeService dateTimeService);
 }

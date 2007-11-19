@@ -35,8 +35,8 @@
         <documentTypeCode>LLCP</documentTypeCode>
         <label>Labor Ledger Correction Process</label>
         <summary>Labor Ledger Correction Process Document</summary>
-        <description>Labor Ledger Correction Process Document</description>
-        <help parameterNamespace="KFS-FP" parameterName="FINANCIAL_HELP_GENERAL_LEDGER_CORRECTION_PROCESS_DOCUMENT" />       
+        <description>Labor Ledger Correction Process Document</description>     
+        <help parameterNamespace="KFS-GL" parameterDetailType="Correction" parameterName="GENERAL_LEDGER_CORRECTION_PROCESS" />  
         <allowsErrorCorrection>false</allowsErrorCorrection>
     </transactionalDocument>
 </dictionaryEntry>

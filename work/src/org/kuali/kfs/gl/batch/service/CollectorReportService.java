@@ -17,8 +17,21 @@ package org.kuali.module.gl.service;
 
 import org.kuali.module.gl.util.CollectorReportData;
 
+/**
+ * Services to help the Collector report 
+ */
 public interface CollectorReportService {
+    /**
+     * Send e-mails with the report data generated from a Collector run
+     * 
+     * @param collectorReportData the collector data to report on
+     */
     public void sendEmails(CollectorReportData collectorReportData);
 
+    /**
+     * Generates reports on a Collector run
+     * 
+     * @param collectorReportData the collector data to report on
+     */
     public void generateCollectorRunReports(CollectorReportData collectorReportData);
 }

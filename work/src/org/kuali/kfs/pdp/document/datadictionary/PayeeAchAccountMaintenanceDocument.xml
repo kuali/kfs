@@ -41,7 +41,6 @@
 
         <summary>Payee ACH account maintenance document</summary>
         <description>Document used to create or update Payee ACH Account objects</description>
-        <help parameterNamespace="X" parameterName="OTHER_HELP_BANK" />
 
         <lockingKeys>
             <field attributeName="achAccountGeneratedIdentifier" />

@@ -41,7 +41,7 @@ import org.kuali.module.chart.service.ObjectLevelService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
- * This class implements the business rules from: KULCOA/Object+Code
+ * This class implements the business rules for {@link ObjectCode}
  */
 public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
@@ -54,6 +54,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     private Map reportsTo;
     private static List illegalValues;
 
+    /**
+     * 
+     * Constructs a ObjectCodeRule
+     * Pseudo-injects some services as well as fills out the reports to chart hierarchy
+     */
     public ObjectCodeRule() {
 
         if (objectConsService == null) {
@@ -70,11 +75,19 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * This method calls the following rules on document save:
+     * <ul>
+     * <li>{@link ObjectCodeRule#processObjectCodeRules(ObjectCode)}</li>
+     * </ul>
+     * It does not fail if rules fail
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
 
         // default to success
         boolean success = true;
-        // success &= checkEmptyValues(document);
 
         Object maintainableObject = document.getNewMaintainableObject().getBusinessObject();
 
@@ -84,6 +97,14 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     }
 
+    /**
+     * This method calls the following rules on document route:
+     * <ul>
+     * <li>{@link ObjectCodeRule#processObjectCodeRules(ObjectCode)}</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         LOG.debug("processCustomRouteDocumentBusinessRules called");
 
@@ -92,15 +113,21 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         Object maintainableObject = document.getNewMaintainableObject().getBusinessObject();
         success &= processObjectCodeRules((ObjectCode) maintainableObject);
 
-        // success &= checkEmptyValues(document);
-
         return success;
     }
 
-    /*
-     * private boolean checkEmptyValues(MaintenanceDocument maintenanceDocument) { boolean success = true; // success &=
-     * checkEmptyBOField("chartOfAccountsCode", newAccount.getChartOfAccountsCode(), "Chart of Accounts Code"); // success &=
-     * checkEmptyBOField("accountNumber", newAccount.getAccountNumber(), "Account Number"); return success; }
+    /**
+     * 
+     * This checks the following rules:
+     * <ul>
+     * <li>object code valid</li>
+     * <li>reports to chart code is valid (similar to what {@link ObjectCodePreRules} does)</li>
+     * <li>is the budget aggregation code valid</li>
+     * <li>then checks to make sure that this object code hasn't already been entered in the consolidation and level table</li>
+     * <li>finally checks to make sure that the next year object code (if filled out) isn't already in there and that this object code has a valid fiscal year</li> 
+     * </ul>
+     * @param objectCode
+     * @return
      */
     private boolean processObjectCodeRules(ObjectCode objectCode) {
 
@@ -186,7 +213,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * 
      * @param chartCode
      * @param objectCode
-     * @return
+     * @return false if this object code already exists in the object level table
      */
     public boolean objectLevelTableDoesNotHave(String chartCode, String objectCode) {
         try {
@@ -204,7 +231,11 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Check whether newly added object code already exists in Consolidation table
+     * 
+     * This Check whether newly added object code already exists in Consolidation table
+     * @param chartCode
+     * @param objectCode
+     * @return false if this object code already exists in the object consolidation table
      */
     public boolean consolidationTableDoesNotHave(String chartCode, String objectCode) {
         try {
@@ -220,6 +251,14 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This checks to see if the next year object code already exists in the next fiscal year
+     * @param year
+     * @param chartCode
+     * @param objCode
+     * @return false if this object code exists in the next fiscal year
+     */
     public boolean nextYearObjectCodeDoesNotExistThisYear(Integer year, String chartCode, String objCode) {
         try {
             ObjectCode objectCode = objectCodeService.getByPrimaryId(year, chartCode, objCode);
@@ -235,6 +274,9 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
+     * This checks to make sure the fiscal year they are trying to assign is valid
+     * @param year
+     * @return true if this is a valid year
      */
     public boolean isValidYear(Integer year) {
         if (year == null)
@@ -261,6 +303,13 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return false;
     }
 
+    /**
+     * 
+     * This method is a null-safe wrapper around Set.contains()
+     * @param set
+     * @param value
+     * @return true if this value is not contained in the Set or Set is null
+     */
     protected boolean denied(List set, Object value) {
         if (set != null) {
             return !set.contains(value);
@@ -283,7 +332,7 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
      * Budget Aggregation Code (fobj_bdgt_aggr_cd) must have an institutionally specified value
      * 
      * @param budgetAggregationCode
-     * @return
+     * @return true if this is a legal budget aggregation code
      */
     protected boolean isLegalBudgetAggregationCode(String budgetAggregationCode) {
 
@@ -297,10 +346,32 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return budgetAggregationCodes.size() > 0;
     }
 
+    /**
+     * 
+     * This checks to see if the object code already exists in the system
+     * @param year
+     * @param chart
+     * @param objectCode
+     * @return true if it exists
+     */
     protected boolean verifyObjectCode(Integer year, String chart, String objectCode) {
         return null != objectCodeService.getByPrimaryId(year, chart, objectCode);
     }
 
+    /**
+     * 
+     * This method checks When the value of reportsToChartCode does not have an institutional exception, the Reports to Object
+     * (rpts_to_fin_obj_cd) fiscal year, and chart code must exist in the object code table
+     * if the chart and object are the same, then skip the check
+     * this assumes that the validity of the reports-to object code has already been tested (and corrected if necessary)
+     * @param year
+     * @param chart
+     * @param objectCode
+     * @param reportsToChartCode
+     * @param reportsToObjectCode
+     * @return true if the object code's reports to chart and chart are the same and reports to object and object code are the same
+     * or if the object code already exists
+     */
     protected boolean verifyReportsToChartCode(Integer year, String chart, String objectCode, String reportsToChartCode, String reportsToObjectCode) {
         // TODO: verify this ambiguously stated rule against the UNIFACE source
         // When the value of reportsToChartCode does not have an institutional exception, the Reports to Object
@@ -316,6 +387,12 @@ public class ObjectCodeRule extends MaintenanceDocumentRuleBase {
         return verifyObjectCode(year, reportsToChartCode, reportsToObjectCode);
     }
 
+    /**
+     * 
+     * This method retrieves the list of {@link org.kuali.core.bo.Parameter} for the {@link ObjectCode} and specific parameterName
+     * @param parameterName
+     * @return List of parameters
+     */
     private List<String> retrieveParameterSet(String parameterName) {
         return SpringContext.getBean(ParameterService.class).getParameterValues(ObjectCode.class, parameterName);
     }

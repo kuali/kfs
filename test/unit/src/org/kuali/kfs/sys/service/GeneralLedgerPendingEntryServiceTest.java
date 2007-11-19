@@ -34,6 +34,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private final String docHeaderId = "1003";
 
+    /**
+     * Initalizes the services needef or this test; also, since this test creates a fake document, deletes
+     * any entries from the real version of that document if they exist
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -45,6 +50,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
 
+    /**
+     * Tests that pending entries are saved and retrieved properly
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSave() throws Exception {
         GeneralLedgerPendingEntry testEntry = this.createGeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.save(testEntry);
@@ -53,6 +63,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
 
+    /**
+     * Covers GeneralPendingLedgerEntryService.getByPrimaryId (though, yeah, testSave does too, technically)
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testGetByPrimaryId() throws Exception {
         GeneralLedgerPendingEntry testEntry = this.createGeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.save(testEntry);
@@ -61,6 +76,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         generalLedgerPendingEntryService.delete(docHeaderId);
     }
 
+    /**
+     * Covers GeneralLedgerPendingEntryService.delete
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testDelete() throws Exception {
         GeneralLedgerPendingEntry generalLedgerPendingEntry = this.createGeneralLedgerPendingEntry();
         generalLedgerPendingEntryService.save(generalLedgerPendingEntry);
@@ -69,6 +89,9 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         assertNull("Delete didn't delete this entry", generalLedgerPendingEntry);
     }
 
+    /**
+     * Covers GeneralLedgerPendingEntryService.findApprovedPendingLedgerEntries
+     */
     public void testFindApprovedPendingLedgerEntries() {
         try {
             GeneralLedgerPendingEntry generalLedgerPendingEntry = this.createGeneralLedgerPendingEntry();
@@ -92,6 +115,11 @@ public class GeneralLedgerPendingEntryServiceTest extends KualiTestBase {
         }
     }
 
+    /**
+     * Creates a pending entry fixture
+     * 
+     * @return a pending entry to test against
+     */
     private GeneralLedgerPendingEntry createGeneralLedgerPendingEntry() {
         GeneralLedgerPendingEntry generalLedgerPendingEntry = new GeneralLedgerPendingEntry();
 

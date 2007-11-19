@@ -34,17 +34,14 @@ public class AchBankDaoOjb extends PlatformAwareDaoBaseOjb implements AchBankDao
     }
 
     /**
-     * @see org.kuali.module.pdp.dao.AchBankDao#emptyTable()
+     * @see org.kuali.module.pdp.dao.AchBankDao#getBank(java.lang.String)
      */
-    public void emptyTable() {
-        LOG.debug("emptyTable() started");
+    public AchBank getBank(String bankRoutingNumber) {
+        LOG.debug("getBank() started");
 
         Criteria criteria = new Criteria();
-        QueryByCriteria qbc = new QueryByCriteria(AchBank.class, criteria);
-        getPersistenceBrokerTemplate().deleteByQuery(qbc);
+        criteria.addEqualTo("bankRoutingNumber", bankRoutingNumber);
 
-        // You must always clear the cache after a delete by query or you risk
-        // getting bad data. See the OJB docs for more information.
-        getPersistenceBrokerTemplate().clearCache();
+        return (AchBank)getPersistenceBrokerTemplate().getObjectByQuery(new QueryByCriteria(AchBank.class,criteria));
     }
 }

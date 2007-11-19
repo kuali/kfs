@@ -18,6 +18,7 @@ package org.kuali.module.gl.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -27,13 +28,22 @@ import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.util.SufficientFundsItem;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests the sufficient funds service
+ * @see org.kuali.module.gl.service.SufficientFundsService
+ */
 @ConfigureContext
+@RawSQL
 public class SufficientFundsServiceTest extends KualiTestBase {
 
     private SufficientFundsService sufficientFundsService = null;
     private UnitTestSqlDao unitTestSqlDao = null;
     private DateTimeService dateTimeService;
 
+    /**
+     * Initializes the services needed by this test
+     * @see junit.framework.TestCase#setUp()
+     */
     protected void setUp() throws Exception {
         super.setUp();
 
@@ -42,6 +52,17 @@ public class SufficientFundsServiceTest extends KualiTestBase {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
+    /**
+     * Puts test sufficient funds balances into the database
+     * 
+     * @param accountNumber the account number for sf balances to use
+     * @param sfType the type of the sf balance
+     * @param sfObjCd the object code of the sf balance
+     * @param budgetAmt the budget amount of the sf balance
+     * @param actualAmt the actual amount of the sf balance
+     * @param encAmt the encumbrance amount of the sf balance
+     * @param createPles true if pending ledger entries should also be created, false otherwise
+     */
     private void prepareSufficientFundsData(String accountNumber, String sfType, String sfObjCd, Integer budgetAmt, Integer actualAmt, Integer encAmt, boolean createPles) {
         unitTestSqlDao.sqlCommand("delete from gl_pending_entry_t");
 
@@ -55,7 +76,10 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method...
+     * Inserts pending ledger entries into the database
+     * 
+     * @param accountNumber the account number of pending entries to save
+     * @param sfObjCd the object code of pending entries to save
      */
     private void insertPendingLedgerEntries(String accountNumber, String sfObjCd) {
         unitTestSqlDao.sqlCommand("delete from fp_doc_header_t where fdoc_nbr = '1'");
@@ -67,6 +91,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
     }
 
 
+    /**
+     * Tests the basic consolidation sufficient funds checking
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 100, false);
@@ -88,6 +117,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 100, 300, 200, false);
@@ -109,6 +143,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationNegativeBalanceDebitExpense() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", -1000, 300, 200, false);
@@ -130,7 +169,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests consolidation sufficient funds checking on a positive sufficient funds balance and two transactions that will cancel each other out 
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationSameAccountPositiveBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 200, false);
@@ -152,6 +195,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a negative sufficient funds balance and two transactions that will cancel each other out 
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationSameAccountNegativeBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 100, 300, 200, false);
@@ -173,6 +221,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a sufficient funds balance that do not have sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 300, 200, false);
@@ -194,6 +247,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a sufficient funds balance where pending entries will provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationPendingLedgerEntriesSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 100, 100, true);
@@ -215,6 +273,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests consolidation sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ConsolidationPendingLedgerEntriesInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211101", "C", "GENX", 1000, 100, 100, true);
@@ -236,6 +299,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests basic cash sufficient funds checking
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 300, 200, false);
@@ -257,6 +325,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a negative sufficient funds balance and a transaction that is a credit expense
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 100, 300, 200, false);
@@ -278,6 +351,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a negative sufficient funds balance and a transaction that is a debit expense
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashNegativeBalanceDebitExpense() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", -1000, 300, 200, false);
@@ -299,7 +377,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests cash sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashSameAccountPositiveBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 300, 200, false);
@@ -321,6 +403,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashSameAccountNegativeBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 100, 300, 200, false);
@@ -342,6 +429,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 0, 500, false);
@@ -363,6 +455,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a sufficient funds balance where pending entries will provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashPendingLedgerEntriesSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 100, 100, true);
@@ -384,6 +481,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests cash sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_CashPendingLedgerEntriesInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211301", "H", "    ", 1000, 0, 200, true);
@@ -405,6 +507,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests basic level sufficient funds checking
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 100, false);
@@ -426,6 +533,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a negative sufficient funds balance and a transaction that is a credit expense
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 100, 300, 200, false);
@@ -447,6 +559,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a negative sufficient funds balance and a transaction that is a debit expense
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelNegativeBalanceDebitExpense() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", -1000, 300, 200, false);
@@ -468,7 +585,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests level sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelSameAccountPositiveBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 200, false);
@@ -490,6 +611,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelSameAccountNegativeBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 100, 300, 200, false);
@@ -511,6 +637,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 300, 200, false);
@@ -532,6 +663,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a sufficient funds balance where pending entries will provide the sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelPendingLedgerEntriesSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 100, 100, true);
@@ -553,6 +689,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests level sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_LevelPendingLedgerEntriesInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211501", "L", "S&E", 1000, 100, 100, true);
@@ -574,6 +715,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests basic object sufficient funds checking
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 100, false);
@@ -595,6 +741,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 100, 300, 200, false);
@@ -616,6 +767,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectNegativeBalanceDebitExpense() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", -1000, 300, 200, false);
@@ -637,7 +793,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests object sufficient funds checking on a positive sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectSameAccountPositiveBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 200, false);
@@ -659,6 +819,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a negative sufficient funds balance and two transactions that cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectSameAccountNegativeBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 100, 300, 200, false);
@@ -680,6 +845,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a sufficient funds balance with insufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 300, 200, false);
@@ -701,6 +871,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a sufficient funds balance where pending entries will provide sufficent funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectPendingLedgerEntriesSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 100, 100, true);
@@ -722,6 +897,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests object sufficient funds checking on a sufficient funds balance where pending entries will not provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_ObjectPendingLedgerEntriesInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211701", "O", "5000", 1000, 100, 100, true);
@@ -743,7 +923,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests basic account sufficient funds checking 
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 100, false);
@@ -765,6 +949,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a negative sufficient funds balance and a credit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountNegativeBalanceCreditExpense() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 100, 300, 200, false);
@@ -786,6 +975,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a negative sufficient funds balance and a debit expense transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountNegativeBalanceDebitExpense() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", -1000, 300, 200, false);
@@ -807,7 +1001,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
-
+    /**
+     * Tests account sufficient funds checking on a positive sufficient funds balance and two transactions that will cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountSameAccountPositiveBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 200, false);
@@ -829,6 +1027,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a negative sufficient funds balance and two transactions that will cancel each other out
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountSameAccountNegativeBalanceNetZeroChange() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 100, 300, 200, false);
@@ -850,6 +1053,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a sufficient funds balance without sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 300, 200, false);
@@ -871,6 +1079,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a sufficient funds balance where pending ledger entries will provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountPendingLedgerEntriesSufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 100, 100, true);
@@ -892,6 +1105,11 @@ public class SufficientFundsServiceTest extends KualiTestBase {
 
     }
 
+    /**
+     * Tests account sufficient funds checking on a sufficient funds balance where pending ledger entries will not provide sufficient funds for a transaction
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testSufficientFunds_AccountPendingLedgerEntriesInsufficientFunds() throws Exception {
 
         prepareSufficientFundsData("0211901", "A", "    ", 1000, 100, 100, true);

@@ -123,15 +123,15 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         // get parameter to see if fiscal officers may see the continuation account warning
         String showContinuationAccountWaringFO = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_FISCAL_OFFICERS);
 
-        // TODO (KULPURAP-1569: dlemus) See if/how we want to allow AP users to view the continuation account warning
         // get parameter to see if ap users may see the continuation account warning
         String showContinuationAccountWaringAP = parameterService.getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapConstants.PURAP_AP_SHOW_CONTINUATION_ACCOUNT_WARNING_AP_USERS);
 
         // versus doing it in their respective documents (preq, credit memo)
-        // if not initiate or in process and
+        // document is past full entry and
         // user is a fiscal officer and a system parameter is set to allow viewing
         // and if the continuation account indicator is set
-        if (!(PurapConstants.PaymentRequestStatuses.INITIATE.equals(document.getStatusCode()) || PurapConstants.PaymentRequestStatuses.IN_PROCESS.equals(document.getStatusCode()) || PurapConstants.PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(document.getStatusCode())) && (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO)) && (document.isContinuationAccountIndicator())) {
+        if (purapService.isFullDocumentEntryCompleted(document) &&
+            (isFiscalUser(document, user) && "Y".equals(showContinuationAccountWaringFO)) && (document.isContinuationAccountIndicator())) {
 
             GlobalVariables.getMessageList().add(PurapKeyConstants.MESSAGE_CLOSED_OR_EXPIRED_ACCOUNTS_REPLACED);
         }
@@ -160,10 +160,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method creates and adds a note indicating accounts replaced and what they replaced and attaches it to the document.
+     * Creates and adds a note indicating accounts replaced and what they replaced and attaches it to the document.
      * 
-     * @param document
-     * @param accounts
+     * @param document  The accounts payable document to which we're adding the note.
+     * @param accounts  The HashMap where the keys are the string representations of the chart and account of the 
+     *                  original account and the values are the ExpiredOrClosedAccountEntry.
      */
     private void addContinuationAccountsNote(AccountsPayableDocument document, HashMap<String, ExpiredOrClosedAccountEntry> accounts) {
         String noteText;
@@ -204,11 +205,14 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method generates a list of replacement accounts for expired or closed accounts, as well as expired/closed accounts
+     * Generates a list of replacement accounts for expired or closed accounts, as well as expired/closed accounts
      * without a continuation account.
      * 
-     * @param document
-     * @return
+     * @param document  The accounts payable document from which we're obtaining the purchase order id to be used
+     *                  to obtain the purchase order document, whose accounts we'll use to generate the list of
+     *                  replacement accounts for expired or closed accounts.
+     * @return          The HashMap where the keys are the string representations of the chart
+     *                  and account of the original account and the values are the ExpiredOrClosedAccountEntry.
      */
     private HashMap<String, ExpiredOrClosedAccountEntry> expiredOrClosedAccountsList(AccountsPayableDocument document) {
 
@@ -224,15 +228,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         if (po != null) {
             // get list of active accounts
             PurapAccountingService pas = SpringContext.getBean(PurapAccountingService.class);
-            List<PurApItem> apItems = document.getItems();
-            List<PurchaseOrderItem> poItems = po.getItemsActiveOnly();
-            List<PurApItem> poItemsOnDoc = new ArrayList<PurApItem>();
-            for (PurchaseOrderItem purchaseOrderItem : poItems) {
-                if (ObjectUtils.isNotNull(document.getAPItemFromPOItem(purchaseOrderItem))) {
-                    poItemsOnDoc.add(purchaseOrderItem);
-                }
-            }
-            List<SourceAccountingLine> accountList = pas.generateSummary(poItemsOnDoc);
+            List<SourceAccountingLine> accountList = pas.generateSummary(po.getItemsActiveOnly());            
 
             // loop through accounts
             for (SourceAccountingLine poAccountingLine : accountList) {
@@ -303,10 +299,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method creates a chart-account string.
+     * Creates a chart-account string.
      * 
-     * @param ecAccount
-     * @return
+     * @param ecAccount  The account whose chart and account number we're going to use to create the resulting String for this method.
+     * @return           The string representing the chart and account number of the given ecAccount.
      */
     private String createChartAccountString(ExpiredOrClosedAccount ecAccount) {
         StringBuffer buff = new StringBuffer("");
@@ -319,11 +315,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method determines if the user is a fiscal officer.
+     * Determines if the user is a fiscal officer.  Currently this only checks the doc and workflow status for approval requested
      * 
-     * @param document
-     * @param user
-     * @return
+     * @param document  The document to be used to check the status code and whether the workflow approval is requested.
+     * @param user      The current user.
+     * @return          boolean true if the user is a fiscal officer.
      */
     private boolean isFiscalUser(AccountsPayableDocument document, UniversalUser user) {
         boolean isFiscalUser = false;
@@ -336,7 +332,7 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * Sets ap doc to canceled. If gl entries have been created cancel entries are created.
+     * @see org.kuali.module.purap.service.AccountsPayableService#cancelAccountsPayableDocument(org.kuali.module.purap.document.AccountsPayableDocument, java.lang.String)
      */
     public void cancelAccountsPayableDocument(AccountsPayableDocument apDocument, String currentNodeName) {
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
@@ -346,17 +342,19 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         accountsPayableDocumentSpecificService.updateStatusByNode(currentNodeName, apDocument);
         apDocument.refreshReferenceObject(PurapPropertyConstants.STATUS);
 
-        // close/reopen po?
+        // close/reopen purchase order.
         accountsPayableDocumentSpecificService.takePurchaseOrderCancelAction(apDocument);
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableService#updateItemList(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public void updateItemList(AccountsPayableDocument apDocument) {
         // don't run the following if past full entry
         if (purapService.isFullDocumentEntryCompleted(apDocument)) {
             return;
         }
         if (apDocument instanceof CreditMemoDocument) {
-            // TODO: merge this CM code with below PREQ code, it is almost identical
             CreditMemoDocument cm = (CreditMemoDocument) apDocument;
             if (cm.isSourceDocumentPaymentRequest()) {
                 // just update encumberances, items shouldn't change, get to them through po (or through preq)
@@ -407,17 +405,15 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
                     }
 
                 }
-
-
             } // else do nothing
             return;
 
-            // finally update encumberances (or try to do it as I'm going
+            // finally update encumbrances
         }
         else if (apDocument instanceof PaymentRequestDocument) {
 
 
-            // get a fresh po
+            // get a fresh purchase order
             PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(apDocument.getPurchaseOrderIdentifier());
             PaymentRequestDocument preq = (PaymentRequestDocument) apDocument;
 
@@ -451,10 +447,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method updates fields that could've been changed on ammendment
+     * Updates fields that could've been changed on amendment.
      * 
-     * @param sourceItem
-     * @param destItem
+     * @param sourceItem   The purchase order item from which we're getting the unit price, catalog number and description to be set in the destItem.
+     * @param destItem     The payment request item to which we're setting the unit price, catalog number and description.
      */
     private void updatePossibleAmmendedFields(PurchaseOrderItem sourceItem, PaymentRequestItem destItem) {
         destItem.setPurchaseOrderItemUnitPrice(sourceItem.getItemUnitPrice());
@@ -463,11 +459,11 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method updates encumberances
+     * Updates encumberances.
      * 
-     * @param preqItem
-     * @param poItem
-     * @param cmItem
+     * @param preqItem  The payment request item from which we're obtaining the item quantity, unit price and extended price.
+     * @param poItem    The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
+     * @param cmItem    The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
      */
     private void updateEncumberances(PaymentRequestItem preqItem, PurchaseOrderItem poItem, CreditMemoItem cmItem) {
         if (poItem.getItemInvoicedTotalQuantity() != null && preqItem.getItemQuantity() != null && poItem.getItemInvoicedTotalQuantity().isLessThan(preqItem.getItemQuantity())) {
@@ -483,10 +479,10 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
     }
 
     /**
-     * This method updates the encumberance related fields.
+     * Updates the encumberance related fields.
      * 
-     * @param purchaseOrderItem
-     * @param cmItem
+     * @param purchaseOrderItem  The purchase order item from which we're obtaining the invoice total quantity, unit price and invoice total amount.
+     * @param cmItem             The credit memo item whose invoice total quantity, unit price and extended price are to be updated.
      */
     private void updateEncumberance(PurchaseOrderItem purchaseOrderItem, CreditMemoItem cmItem) {
         cmItem.setPoInvoicedTotalQuantity(purchaseOrderItem.getItemInvoicedTotalQuantity());
@@ -494,15 +490,16 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
         cmItem.setPoExtendedPrice(purchaseOrderItem.getItemInvoicedTotalAmount());
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableService#purchaseOrderItemEligibleForPayment(org.kuali.module.purap.bo.PurchaseOrderItem)
+     */
     public boolean purchaseOrderItemEligibleForPayment(PurchaseOrderItem poi) {
         if (ObjectUtils.isNull(poi)) {
-            // LOG.debug("poi was null");
             throw new RuntimeException("item null in purchaseOrderItemEligibleForPayment ... this should never happen");
         }
 
         // if the po item is not active... skip it
         if (!poi.isItemActiveIndicator()) {
-            // LOG.debug("poi was not active: "+poi.toString());
             return false;
         }
 
@@ -520,7 +517,6 @@ public class AccountsPayableServiceImpl implements AccountsPayableService {
             }
             return false;
         }
-
     }
 
 }

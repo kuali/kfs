@@ -36,6 +36,9 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.gl.exception.LoadException;
 
+/**
+ * This class represents a full origin entry
+ */
 public class OriginEntryFull extends OriginEntryLite implements Transaction, OriginEntry {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryFull.class);
 

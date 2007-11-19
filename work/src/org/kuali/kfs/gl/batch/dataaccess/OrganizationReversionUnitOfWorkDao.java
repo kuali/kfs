@@ -15,6 +15,10 @@
  */
 package org.kuali.module.gl.dao;
 
+/**
+ * A data access object interface, declaring methods needed by the org reversion process to 
+ * properly report the unit of work summaries
+ */
 public interface OrgReversionUnitOfWorkDao {
 
     /**

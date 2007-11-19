@@ -17,33 +17,38 @@ package org.kuali.module.gl.service;
 
 import org.kuali.module.chart.bo.ObjectCode;
 
+/**
+ * An interface that represents the logic of a category associated with the Organization Reversion Process
+ */
 public interface OrganizationReversionCategoryLogic {
+    
     /**
-     * Determine if this object code is contained in this category
+     * Given an object code, determins if balances with the object code should be added to the bucket
+     * for this category or not
      * 
-     * @param oc Object Code
-     * @return true if object code is in this category, false if not
+     * @param oc the object code of a balance
+     * @return true if object code indicates that the balance should be added to this category, false if not
      */
     public boolean containsObjectCode(ObjectCode oc);
 
     /**
-     * Name of this code
+     * Returns the code of the organization reversion category this logic is associated with
      * 
-     * @return code
+     * @return the category code of this organization reversion category
      */
     public String getCode();
 
     /**
-     * Name of this category
+     * Returns the name of the organization reversion category this logic is associated with?
      * 
-     * @return name
+     * @return the name of this organization reversion category
      */
     public String getName();
 
     /**
-     * Is this category an expense?
+     * Does this category represent an expense?
      * 
-     * @return true if expense, false if not
+     * @return true if it represents an expense, false if not
      */
     public boolean isExpense();
 }

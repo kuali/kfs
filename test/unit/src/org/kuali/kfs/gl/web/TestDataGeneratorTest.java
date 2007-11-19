@@ -27,7 +27,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.gl.bo.AccountBalance;
 
 /**
- * This class...
+ * A test of the TestDataGenerator fixtures.
  */
 public class TestDataGeneratorTest extends KualiTestBase {
 
@@ -35,6 +35,10 @@ public class TestDataGeneratorTest extends KualiTestBase {
     private GeneralLedgerPendingEntry pendingEntry;
     private AccountBalance accountBalance;
 
+    /**
+     * Sets up the test by creating a new TestDataGenerator as well as an account balance and pending entry
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -43,7 +47,10 @@ public class TestDataGeneratorTest extends KualiTestBase {
         accountBalance = new AccountBalance();
     }
 
-    // test case for generateTransactionDate method of TestDataGenerator class
+    /**
+     * test case for generateTransactionDate method of TestDataGenerator class
+     * @throws Exception thrown if an exception is encountered for any reason
+     */
     public void testGenerateTransactionData() throws Exception {
         testDataGenerator.generateTransactionData(pendingEntry);
         assertEquals(pendingEntry.getAccountNumber(), testDataGenerator.getProperties().getProperty("accountNumber"));
@@ -57,7 +64,10 @@ public class TestDataGeneratorTest extends KualiTestBase {
         }
     }
 
-    // test case for generateTransactionDate method of TestDataGenerator class
+    /**
+     * test case for generateTransactionDate method of TestDataGenerator class
+     * @throws Exception thrown if an exception is encountered for any reason
+     */
     public void testGenerateFieldValues() throws Exception {
         Map fieldValues = new HashMap();
 
@@ -76,7 +86,11 @@ public class TestDataGeneratorTest extends KualiTestBase {
         assertNull(fieldValues.get("finacialObjectCode"));
     }
 
-    // test case for generateTransactionDate method of TestDataGenerator class
+    /**
+     * test case for generateTransactionDate method of TestDataGenerator class
+     * @param test an unused parameter
+     * @throws Exception thrown if an exception is encountered for any reason
+     */
     public void testGenerateFieldValues(String test) throws Exception {
         Map fieldValues = new HashMap();
 
@@ -98,6 +112,12 @@ public class TestDataGeneratorTest extends KualiTestBase {
         assertNull(fieldValues.get("finacialObjectCode"));
     }
 
+    /**
+     * Generates a list of lookup fields
+     * 
+     * @param isExtended should the lookup fields include extended fields?
+     * @return a List of lookup field names
+     */
     protected List getLookupFields(boolean isExtended) {
         List lookupFields = new ArrayList();
 

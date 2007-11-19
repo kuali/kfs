@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 package org.kuali.module.purap.util;
-
+/**
+ * 
+ * Expired or Closed Account Entry.
+ */
 public class ExpiredOrClosedAccountEntry {
 
     private ExpiredOrClosedAccount originalAccount;

@@ -19,10 +19,30 @@ import java.util.List;
 
 import org.kuali.module.gl.bo.CorrectionCriteria;
 
+/**
+ * A DAO interface that 
+ */
 public interface CorrectionCriteriaDao {
+    /**
+     * Saves a GLCP criterion
+     * 
+     * @param criterion the criterion to save
+     */
     void save(CorrectionCriteria criterion);
 
+    /**
+     * Deletes a correction criterion
+     * 
+     * @param criterion the criterion to delete
+     */
     void delete(CorrectionCriteria criterion);
 
+    /**
+     * Returns a list of all the correction criteria associated with the given GLCP document and correction group
+     * 
+     * @param documentNumber the GLCP document number of correction criteria to find
+     * @param correctionGroupLineNumber the correction group of correction criteria to find
+     * @return a List of collection criteria
+     */
     List findByDocumentNumberAndCorrectionGroupNumber(String documentNumber, Integer correctionGroupLineNumber);
 }

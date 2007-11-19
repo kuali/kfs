@@ -44,6 +44,13 @@ public class ReconciliationDaoOjb extends PlatformAwareDaoBaseOjb implements Rec
     }
 
     /**
+     * Converts a list of DB column names to a list of java attribute names. The returned list is the same size as arrap parameter
+     * 
+     * @param clazz a class for the OriginEntryFull class
+     * @param columnNames an array of database columns
+     * @param caseInsensitive whether to do matching
+     * @return for every valid index in the return value and the array, the value in the array is the db column name, and the value
+     *         in the list is the java attribute name
      * @see org.kuali.module.gl.dao.ReconciliationDao#convertDBColumnNamesToJavaName(java.lang.String[])
      */
     public List<String> convertDBColumnNamesToJavaName(Class<? extends OriginEntryFull> clazz, String[] columnNames, boolean caseInsensitive) {

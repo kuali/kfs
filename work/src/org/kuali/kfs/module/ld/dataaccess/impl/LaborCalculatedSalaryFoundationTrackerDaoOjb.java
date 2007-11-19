@@ -40,7 +40,7 @@ import org.kuali.module.labor.util.ObjectUtil;
 /**
  * This is the data access object for calculated salary foundation tracker
  * 
- * @see org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker
+ * @see org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker
  */
 public class LaborCalculatedSalaryFoundationTrackerDaoOjb extends PlatformAwareDaoBaseOjb implements LaborCalculatedSalaryFoundationTrackerDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborCalculatedSalaryFoundationTrackerDaoOjb.class);

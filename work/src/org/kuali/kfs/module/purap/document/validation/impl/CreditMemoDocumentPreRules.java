@@ -18,19 +18,29 @@ package org.kuali.module.purap.rules;
 import org.kuali.core.document.Document;
 
 /**
- * Performs prompts and other pre business rule checks for the Credit Memo Docuemnt.
+ * Business rule(s) applicable to the Credit Memo document.
  */
 public class CreditMemoDocumentPreRules extends AccountsPayableDocumentPreRulesBase {
 
+    /**
+     * Default constructor
+     */
     public CreditMemoDocumentPreRules() {
         super();
     }
 
+    /**
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     @Override
     public boolean doRules(Document document) {
         return super.doRules(document);
     }
 
+    /**
+     * @see org.kuali.module.purap.rules.AccountsPayableDocumentPreRulesBase#getDocumentName()
+     */
+    @Override
     public String getDocumentName() {
         return "Credit Memo";
     }

@@ -35,6 +35,9 @@ import org.kuali.module.gl.bo.Reversal;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
 
+/**
+ * An OJB implementation of the Reversal DAO
+ */
 public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ReversalDaoOjb.class);
 
@@ -51,6 +54,9 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
     private final static String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
     private final static String MAX_CONSTANT = "max(documentNumber)";
 
+    /**
+     * Constructs a ReversalDaoOjb instance
+     */
     public ReversalDaoOjb() {
         super();
     }
@@ -58,6 +64,9 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
     /**
      * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make
      * sure that rows added have a unique primary key.
+     * 
+     * @param t a transaction to find the maximum sequence number for
+     * @return the max sequence number for the given transaction
      */
     public int getMaxSequenceNumber(Transaction t) {
         LOG.debug("getSequenceNumber() ");
@@ -96,6 +105,13 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
         }
     }
 
+    /**
+     * Fetches the reversal record that would affected by the posting of the given transaction
+     * 
+     * @param t the transaction to find the related reversal for
+     * @return the reversal affected by the given transaction
+     * @see org.kuali.module.gl.dao.ReversalDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
+     */
     public Reversal getByTransaction(Transaction t) {
         LOG.debug("getByTransaction() started");
 
@@ -119,12 +135,26 @@ public class ReversalDaoOjb extends PlatformAwareDaoBaseOjb implements ReversalD
         return (Reversal) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
+    /**
+     * Saves a reversal record
+     * 
+     * @param re a reversal record to save
+     * @see org.kuali.module.gl.dao.ReversalDao#save(org.kuali.module.gl.bo.Reversal)
+     */
     public void save(Reversal re) {
         LOG.debug("save() started");
 
         getPersistenceBrokerTemplate().store(re);
     }
 
+    /**
+     * Fetches all reversals that have been set to reverse on or before the given date - that is to say,
+     * returns all the reversal records ready to be reversed!
+     * 
+     * @param before the date that reversals must reverse on or before
+     * @return an Iterator of reversal records to reverse
+     * @see org.kuali.module.gl.dao.ReversalDao#getByDate(java.util.Date)
+     */
     public Iterator getByDate(Date before) {
         LOG.debug("getByDate() started");
 

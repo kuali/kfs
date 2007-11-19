@@ -43,6 +43,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     private Class businessObjectClass;
 
     /**
+     * Builds the keys for this inquiry.
+     * @return a List of Strings, holding the keys of this inquiry
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
@@ -61,6 +63,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * The addition of user attributes - current budget, actual budget, and encumbrance balance
+     * @return a Map of user defined attributes
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
@@ -77,6 +81,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Changes the name of attributes on the fly...in this case, doesn't do anything
+     * @param attributeName the attribute to rename
+     * @return a String with the new attribute name
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
@@ -84,6 +91,10 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * If the key name sent in represents an "exclusive field", returns "" as the key value
+     * @param keyName the name of the key that may be changed
+     * @param keyValue the value of the key that may be changed
+     * @return an Object with the perhaps modified value for the key
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
@@ -94,6 +105,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Justs returns the key name given
+     * @param keyName a key name
+     * @return the key name given
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
@@ -101,6 +115,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Return a Spring bean for the drill up lookup, which is the balance lookup
+     * @return the name of the Spring bean of the lookup
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
@@ -108,6 +124,8 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Return the page name of this lookup
+     * @return the page name for inquiry options
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
@@ -115,6 +133,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Retrieves the business class to use as the basis of an inquiry for the given attribute; in this case, it's always Balance
+     * @param attributeName the name to build the inquiry link to
+     * @return the Class of the business object that should be inquired on
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
@@ -122,6 +143,9 @@ public class AccountBalanceInquirableImpl extends AbstractGLInquirableImpl {
     }
 
     /**
+     * Addes the lookup impl and balance type attributes to the parameters
+     * @param parameter the parameters used in the lookup
+     * @param attributeName the attribute name that an inquiry URL is being built for
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {

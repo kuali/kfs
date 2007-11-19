@@ -17,7 +17,8 @@ package org.kuali.module.chart.service;
 
 
 /**
- * This class...
+ * 
+ * This service interface defines methods necessary for populating the prior year organization table with values from current year
  */
 public interface PriorYearOrganizationService {
 

@@ -190,7 +190,7 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
     /**
      * This method builds the inquiry url for user-defined attribute
      * 
-     * @return key list
+     * @return a List of attribute keys for the inquiry url
      */
     protected abstract List buildUserDefinedAttributeKeyList();
 
@@ -291,10 +291,10 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
     /**
      * This method recovers the values of the given keys
      * 
-     * @param fieldValues
-     * @param keyName
-     * @param keyValue
-     * @return
+     * @param fieldValues unconsolidated values
+     * @param keyName a key name that may be in the fieldValues map
+     * @param keyValue a key value that may be in the fieldValues map
+     * @return the original value for a previously consolidated value
      */
     protected String recoverFieldValueFromConsolidation(Map fieldValues, Object keyName, Object keyValue) {
         if (fieldValues == null || keyName == null || keyValue == null) {
@@ -317,7 +317,13 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
         return Constant.EMPTY_STRING;
     }
 
-    // get the value of the given key from the field values
+    /**
+     * Utility method to get the value of the given key from the field values
+     * 
+     * @param fieldValues a Map of key values
+     * @param keyName the name of the key to retrieve the value from
+     * @return the value for the key, or, if not found, an empty String
+     */
     private String getValueFromFieldValues(Map fieldValues, Object keyName) {
         String keyValue = Constant.EMPTY_STRING;
 
@@ -327,12 +333,26 @@ public abstract class AbstractGLInquirableImpl extends KfsInquirableImpl {
         return keyValue;
     }
 
+    /**
+     * This takes a map of field values and then returns it without processing it, making this a sort
+     * of identity method for Maps
+     * 
+     * @param fieldValues field values to return to the user
+     * @return the Map you sent in as a parameter
+     */
     public Map getFieldValues(Map fieldValues) {
         return fieldValues;
     }
 
-    // TODO: not finished
+    /**
+     * Given the nested name of an attribute in an object, returns the class that attribute will return
+     * 
+     * @param businessObject the business object to find the propery class for
+     * @param attributeName the nested name of the attribute to find the class for
+     * @return the class of the nested attribute
+     */
     public Class getNestedInquiryBusinessObjectClass(BusinessObject businessObject, String attributeName) {
+        // TODO: not finished
         Class inquiryBusinessObjectClass = null;
         String entryName = businessObject.getClass().getName();
         LOG.debug("businessObject: " + entryName);

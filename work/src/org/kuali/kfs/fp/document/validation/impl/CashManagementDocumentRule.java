@@ -58,9 +58,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
 
     /**
      * Overrides to validate that the person saving the document is the initiator, validates that the cash drawer is open for
-     * initial creation, validates that the cash drawer for the specfic verification unit is closed for subsequent saves, and
+     * initial creation, validates that the cash drawer for the specific verification unit is closed for subsequent saves, and
      * validates that the associate cash receipts are still verified.
      * 
+     * @param document submitted cash management document
+     * @return true if there are no issues processing rules associated with saving a cash management document
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -79,6 +81,10 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     }
 
     /**
+     * Overrides to validate that all cash receipts are deposited when routing cash management document.
+     * 
+     * @param document submitted cash management document
+     * @return true if there are no issues processing rules associated with routing a cash management document
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -94,7 +100,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     /**
      * This method checks to make sure that the current system user is the person that initiated this document in the first place.
      * 
-     * @param cmd
+     * @param cmd submitted cash management document
      */
     private void verifyUserIsDocumentInitiator(CashManagementDocument cmd) {
         UniversalUser currentUser = GlobalVariables.getUserSession().getUniversalUser();
@@ -110,7 +116,7 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * This method checks to make sure that the cash drawer is closed for the associated verification unit, for post initiation
      * saves for CashManagementDocuments which don't have Final
      * 
-     * @param cmd
+     * @param cmd submitted cash management document
      */
     private void verifyCashDrawerForVerificationUnitIsOpenForPostInitiationSaves(CashManagementDocument cmd) {
         if (cmd.getDocumentHeader() != null && cmd.getDocumentHeader().getWorkflowDocument() != null && cmd.getDocumentHeader().getWorkflowDocument().getRouteHeader() != null) {
@@ -135,7 +141,8 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     /**
      * Validates all Deposits associated with the given CashManagementDocument
      * 
-     * @param cmd
+     * @param cmd submitted cash management document
+     * @return true if all deposits in a cash management are valid
      */
     private boolean validateDeposits(CashManagementDocument cmd) {
         boolean isValid = true;
@@ -161,9 +168,9 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * If documentIsInitiated, performs complete dataDictionary-driven validation of the given Deposit. Unconditionally validates
      * the CashReceipts associated with the given Deposit.
      * 
-     * @param deposit
-     * @param documentIsInitiated
-     * @return validation results
+     * @param deposit individual deposit from cash management document
+     * @param documentIsInitiated if document is initiated
+     * @return true if deposit is valid
      */
     private boolean validateDeposit(Deposit deposit, boolean documentIsInitiated) {
         boolean isValid = true;
@@ -185,8 +192,8 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
      * Verifies that all CashReceipts associated with the given document are of an appropriate status for the given
      * CashManagementDocument state
      * 
-     * @param deposit
-     * @param documentIsInitiated
+     * @param deposit deposit from cash management document
+     * @param documentIsInitiated if document is initiated
      */
     private void verifyCashReceipts(Deposit deposit, boolean documentIsInitiated) {
         List desiredCRStates = null;
@@ -229,7 +236,8 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     /**
      * Performs complete, recursive dataDictionary-driven validation of the given Deposit.
      * 
-     * @param deposit
+     * @param deposit deposit from cash management document
+     * @return true if deposit is validated against data dictionary entry
      */
     private boolean performDataDictionaryValidation(Deposit deposit) {
         // check for required fields
@@ -252,7 +260,11 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
      * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class to keep track of sequence of general ledger pending entries
+     * @return true if bank offset GLPE's for deposits are generated successfully
+     * 
+     * @see org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.kfs.document.GeneralLedgerPostingDocument, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
     public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
         boolean success = true;
@@ -285,7 +297,9 @@ public class CashManagementDocumentRule extends GeneralLedgerPostingDocumentRule
     }
 
     /**
-     * @param deposit
+     * Create description for deposit
+     * 
+     * @param deposit deposit from cash management document
      * @param interimDepositNumber
      * @return the description for the given deposit's GLPE bank offset
      */

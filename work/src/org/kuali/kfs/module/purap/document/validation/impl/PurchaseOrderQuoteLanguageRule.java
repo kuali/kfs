@@ -24,6 +24,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 
+/* 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+*/
 public class PurchaseOrderQuoteLanguageRule extends MaintenanceDocumentRuleBase {
 
     private PurchaseOrderQuoteLanguage newQuoteLanguage;

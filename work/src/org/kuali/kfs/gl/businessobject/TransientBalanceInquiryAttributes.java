@@ -21,6 +21,9 @@ import org.kuali.core.bo.TransientBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.gl.util.OJBUtility;
 
+/**
+ * This class represents the transient balance inquiry attributes which is typically used as a "dummy business object"
+ */
 public class TransientBalanceInquiryAttributes extends TransientBusinessObjectBase {
 
     private String pendingEntryOption;

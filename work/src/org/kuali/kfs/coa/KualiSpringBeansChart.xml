@@ -60,11 +60,6 @@
 				<value>populatePriorYearDataJob</value>
 			</list>
 		</property>
-		<property name="triggerNames">
-			<list>
-				<value>populatePriorYearDataJobTrigger</value>
-			</list>
-		</property>
 	</bean>
 
 	<bean id="chartUserService" class="org.kuali.module.chart.service.impl.ChartUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -415,7 +410,7 @@
 		</property>
 	</bean>
 	
-	<bean id="populatePriorYearDataJob" parent="scheduledJobDescriptor">
+	<bean id="populatePriorYearDataJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="updatePriorYearDataStep" />
@@ -423,11 +418,6 @@
 		</property>
 	</bean>
 	
-	<bean id="populatePriorYearDataJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="populatePriorYearDataJob" />
-		<property name="cronExpression" value="00 00 00 30 6 ?" />
-	</bean>
-
 	<bean id="fiscalYearStartDate" class="org.springframework.beans.factory.config.FieldRetrievingFactoryBean">
     	<property name="staticField"><value>org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb.START_JULY</value>
     	</property>

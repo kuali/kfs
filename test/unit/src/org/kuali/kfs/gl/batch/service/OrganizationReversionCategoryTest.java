@@ -25,6 +25,9 @@ import org.kuali.module.chart.service.OrganizationReversionService;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * A test to make sure that canonical object codes are put into the correct Organization Reversion categories
+ */
 @ConfigureContext
 public class OrganizationReversionCategoryTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionCategoryTest.class);
@@ -33,6 +36,10 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
     private Map<String, OrganizationReversionCategoryLogic> categories;
     private ObjectCodeService objectCodeService;
 
+    /**
+     * Sets up services and initializes the categories for this test.
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -43,6 +50,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         objectCodeService = SpringContext.getBean(ObjectCodeService.class);
     }
 
+    /**
+     * Tests that C01 (Org. Wages) category accepts the right object codes
+     */
     public void testC01Reversion() {
         String category = "C01";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -59,6 +69,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         assertTrue("Wages object is wages", cat.containsObjectCode(wages));
     }
 
+    /**
+     * Tests that C02 (Salary & Fringes) Category accepts the right object codes
+     */
     public void testC02Reversion() {
         String category = "C02";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -80,6 +93,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         assertTrue("Wages object is salary/fringes", cat.containsObjectCode(sal));
     }
 
+    /**
+     * Tests that C03 (Financial Aid) Category accepts the right object codes
+     */
     public void testC03Reversion() {
         String category = "C03";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -96,6 +112,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         assertTrue("Fee Remission object is financial aid", cat.containsObjectCode(fr));
     }
 
+    /**
+     * Tests that C04 (Capital Equip) Category accepts the right object codes
+     */
     public void testC04Reversion() {
         String category = "C04";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -112,6 +131,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         assertTrue("Art object is capital equipment", cat.containsObjectCode(ce));
     }
 
+    /**
+     * Tests that C05 (Reserve) Category accepts the right object codes
+     */
     public void testC05Reversion() {
         String category = "C05";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -124,6 +146,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO True test
     }
 
+    /**
+     * Tests that C06 (Transfer Out) Category accepts the right object codes
+     */
     public void testC06Reversion() {
         String category = "C06";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -136,6 +161,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO True test
     }
 
+    /**
+     * Tests that C07 (Transfer In) Category accepts the right object codes
+     */
     public void testC07Reversion() {
         String category = "C07";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -148,6 +176,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO True test
     }
 
+    /**
+     * Tests that C08 (Travel) Category accepts the right object codes
+     */
     public void testC08Reversion() {
         String category = "C08";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -160,6 +191,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO True test
     }
 
+    /**
+     * Tests that C09 (Other Expenses) Category accepts the right object codes
+     */
     public void testC09Reversion() {
         String category = "C09";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -172,6 +206,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO False test
     }
 
+    /**
+     * Tests that C10 (Assess Expend) Category accepts the right object codes
+     */
     public void testC10Reversion() {
         String category = "C10";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);
@@ -184,6 +221,9 @@ public class OrganizationReversionCategoryTest extends KualiTestBase {
         // TODO True test
     }
 
+    /**
+     * Tests that C11 (Revenue) Category accepts the right object codes
+     */
     public void testC11Reversion() {
         String category = "C11";
         OrganizationReversionCategoryLogic cat = (OrganizationReversionCategoryLogic) categories.get(category);

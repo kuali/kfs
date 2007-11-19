@@ -22,9 +22,8 @@ import org.kuali.core.util.KualiInteger;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 
-
 /**
- * 
+ * This class represents a target accounting line for budget adjustment
  */
 public class BudgetAdjustmentTargetAccountingLine extends TargetAccountingLine implements BudgetAdjustmentAccountingLine {
 

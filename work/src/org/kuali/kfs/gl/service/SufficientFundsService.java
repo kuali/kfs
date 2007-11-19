@@ -29,15 +29,15 @@ import org.kuali.module.gl.util.SufficientFundsItem;
 public interface SufficientFundsService {
 
     /**
-     * This method checks for sufficient funds on a single document
+     * Checks for sufficient funds on a single document
      * 
-     * @param document document
+     * @param document document to check
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
      */
     public List<SufficientFundsItem> checkSufficientFunds(GeneralLedgerPostingDocument document);
 
     /**
-     * This method checks for sufficient funds on a list of transactions
+     * Checks for sufficient funds on a list of transactions
      * 
      * @param transactions list of transactions
      * @return Empty List if has sufficient funds for all accounts, List of SufficientFundsItem if not
@@ -48,17 +48,17 @@ public interface SufficientFundsService {
      * This operation derives the acct_sf_finobj_cd which is used to populate the General Ledger Pending entry table, so that later
      * we can do Suff Fund checking against that entry
      * 
-     * @param financialObject
-     * @param accountSufficientFundsCode
-     * @return
+     * @param financialObject the object code being checked against
+     * @param accountSufficientFundsCode the kind of sufficient funds checking turned on in this system
+     * @return the object code that should be used for the sufficient funds inquiry, or a blank String
      */
     public String getSufficientFundsObjectCode(ObjectCode financialObject, String accountSufficientFundsCode);
 
     /**
      * Purge the sufficient funds balance table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chart chart of sufficient fund balances to purge
+     * @param year fiscal year of sufficent fund balances to purge
      */
     public void purgeYearByChart(String chart, int year);
 }

@@ -15,13 +15,18 @@
  */
 package org.kuali.module.gl.util;
 
+/**
+ * This class is used to compare objects with one another
+ */
 public class ObjectHelper {
     protected ObjectHelper() {
     }
 
     /**
-     * @param lhs
-     * @param rhs
+     * Returns true if object on left side is equal to object on right side
+     * 
+     * @param lhs object on left side of equation
+     * @param rhs object on right side of equation
      * @return true if both lhs and rhs are null or if lhs.equals(rhs)
      */
     static public boolean isEqual(Object lhs, Object rhs) {
@@ -29,8 +34,10 @@ public class ObjectHelper {
     }
 
     /**
-     * @param lhs
-     * @param rhs
+     * Return true if object on left side is one of the items in array of objects
+     * 
+     * @param lhs object on left side of equation
+     * @param rhs object on right side of equation
      * @return false if rhs is null. true if isEqual(lhs, rhs[i]) for any ith element of rhs.
      */
     static public boolean isOneOf(Object lhs, Object[] rhs) {

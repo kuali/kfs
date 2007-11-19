@@ -21,7 +21,7 @@ import java.util.Collection;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
- * This service interface defines methods necessary for retreiving fully populated AccountingPeriod business objects from the
+ * This service interface defines methods necessary for retrieving fully populated AccountingPeriod business objects from the
  * database that are necessary for transaction processing in the application.
  */
 public interface AccountingPeriodService {

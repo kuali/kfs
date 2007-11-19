@@ -31,7 +31,8 @@ import org.kuali.module.financial.bo.ProcurementCardTransaction;
 import org.kuali.module.financial.service.ProcurementCardLoadTransactionsService;
 
 /**
- * Implementation of ProcurementCardDocumentService. Handles loading, parsing, and storing of incoming procurement card batch files.
+ * This is the default implementation of the ProcurementCardLoadTransactionsService interface.
+ * Handles loading, parsing, and storing of incoming procurement card batch files.
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  */
@@ -43,7 +44,10 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
     private BatchInputFileType procurementCardInputFileType;
 
     /**
-     * Validates and parses given file, then stores transactions into temp table.
+     * Validates and parses the given file, then stores transactions into a temp table.
+     * 
+     * @param fileName The name of the file to be parsed.
+     * @return This method always returns true.  An exception is thrown if a problem occurs while loading the file.
      * 
      * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#loadProcurementCardFile()
      */
@@ -82,22 +86,23 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
     }
 
     /**
-     * Calls businessObjectService to remove all the rows from the transaction load table.
+     * Calls businessObjectService to remove all the procurement card transaction rows from the transaction load table.
      */
     public void cleanTransactionsTable() {
         businessObjectService.deleteMatching(ProcurementCardTransaction.class, new HashMap());
     }
 
     /**
-     * Loads all the parsed xml transactions into the temp transaction table.
+     * Loads all the parsed XML transactions into the temp transaction table.
      * 
-     * @param transactions - List of ProcurementCardTransaction to load.
+     * @param transactions List of ProcurementCardTransactions to load.
      */
     private void loadTransactions(List transactions) {
         businessObjectService.save(transactions);
     }
 
     /**
+     * Sets the businessObjectService attribute value.
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -105,6 +110,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
     }
 
     /**
+     * Sets the batchInputFileService attribute value.
      * @param batchInputFileService The batchInputFileService to set.
      */
     public void setBatchInputFileService(BatchInputFileService batchInputFileService) {
@@ -113,6 +119,7 @@ public class ProcurementCardLoadTransactionsServiceImpl implements ProcurementCa
 
     /**
      * Sets the procurementCardInputFileType attribute value.
+     * @param procurementCardInputFileType The procurementCardInputFileType to set.
      */
     public void setProcurementCardInputFileType(BatchInputFileType procurementCardInputFileType) {
         this.procurementCardInputFileType = procurementCardInputFileType;

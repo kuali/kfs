@@ -67,6 +67,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * Implementation of PdpExtractService
+ */
 @Transactional
 public class PdpExtractServiceImpl implements PdpExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PdpExtractServiceImpl.class);
@@ -169,7 +172,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     }
 
     /**
-     * Get all the payments that could be combined wih credit memos
+     * Get all the payments that could be combined with credit memos
      * 
      * @param campusCode
      * @param puser
@@ -351,8 +354,14 @@ public class PdpExtractServiceImpl implements PdpExtractService {
     private PaymentGroup buildPaymentGroup(List<PaymentRequestDocument> prds, List<CreditMemoDocument> cmds, Batch batch) {
 
         // There should always be at least one Payment Request Document in the list.
-        PaymentRequestDocument firstPrd = prds.get(0);
-        PaymentGroup pg = populatePaymentGroup(firstPrd, batch);
+        PaymentGroup pg = null;
+        if ( cmds.size() > 0 ) {
+            CreditMemoDocument firstCmd = cmds.get(0);
+            pg = populatePaymentGroup(firstCmd, batch);
+        } else {
+            PaymentRequestDocument firstPrd = prds.get(0);
+            pg = populatePaymentGroup(firstPrd, batch);
+        }
 
         for (Iterator iter = prds.iterator(); iter.hasNext();) {
             PaymentRequestDocument p = (PaymentRequestDocument) iter.next();
@@ -436,7 +445,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setInvTotOtherCreditAmount(creditAmount);
         pd.setInvTotOtherDebitAmount(debitAmount);
 
-        addAccounts(cmd, pd);
+        addAccounts(cmd, pd,"CM");
         addNotes(cmd, pd);
         return pd;
     }
@@ -508,7 +517,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pd.setInvTotOtherCreditAmount(creditAmount);
         pd.setInvTotOtherDebitAmount(debitAmount);
 
-        addAccounts(prd, pd);
+        addAccounts(prd, pd,"PREQ");
         addNotes(prd, pd);
         return pd;
     }
@@ -519,7 +528,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @param prd
      * @param pd
      */
-    private void addAccounts(AccountsPayableDocumentBase prd, PaymentDetail pd) {
+    private void addAccounts(AccountsPayableDocumentBase prd, PaymentDetail pd,String documentType) {
         // Calculate the total amount for each account across all items
         Map accounts = new HashMap();
         for (Iterator iter = prd.getItems().iterator(); iter.hasNext();) {
@@ -527,12 +536,18 @@ public class PdpExtractServiceImpl implements PdpExtractService {
             for (Iterator iterator = item.getSourceAccountingLines().iterator(); iterator.hasNext();) {
                 PurApAccountingLine account = (PurApAccountingLine) iterator.next();
                 AccountingInfo ai = new AccountingInfo(account.getChartOfAccountsCode(), account.getAccountNumber(), account.getSubAccountNumber(), account.getFinancialObjectCode(), account.getFinancialSubObjectCode(), account.getOrganizationReferenceId(), account.getProjectCode());
+
+                BigDecimal amt = account.getAmount().bigDecimalValue();
+                if ( "CM".equals(documentType) ) {
+                    amt = amt.negate();
+                }
+
                 if (accounts.containsKey(ai)) {
-                    BigDecimal total = account.getAmount().bigDecimalValue().add((BigDecimal) accounts.get(ai));
+                    BigDecimal total = amt.add( (BigDecimal)accounts.get(ai) );
                     accounts.put(ai, total);
                 }
                 else {
-                    accounts.put(ai, account.getAmount().bigDecimalValue());
+                    accounts.put(ai, amt);
                 }
             }
         }
@@ -612,7 +627,7 @@ public class PdpExtractServiceImpl implements PdpExtractService {
      * @return
      */
     private PaymentGroup populatePaymentGroup(PaymentRequestDocument prd, Batch batch) {
-        LOG.debug("populatePaymentGroup() documentNumber: " + prd.getDocumentNumber());
+        LOG.debug("populatePaymentGroup() payment request documentNumber: " + prd.getDocumentNumber());
         PaymentGroup pg = new PaymentGroup();
         pg.setBatch(batch);
         pg.setPaymentStatus(openPaymentStatus);
@@ -653,6 +668,52 @@ public class PdpExtractServiceImpl implements PdpExtractService {
         pg.setPymtSpecialHandling((prd.getSpecialHandlingInstructionLine1Text() != null) || (prd.getSpecialHandlingInstructionLine2Text() != null) || (prd.getSpecialHandlingInstructionLine3Text() != null));
         pg.setTaxablePayment(Boolean.FALSE);
         pg.setNraPayment(VendorConstants.OwnerTypes.NR.equals(prd.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
+        pg.setCombineGroups(Boolean.TRUE);
+        return pg;
+    }
+
+    private PaymentGroup populatePaymentGroup(CreditMemoDocument cmd, Batch batch) {
+        LOG.debug("populatePaymentGroup() credit memo documentNumber: " + cmd.getDocumentNumber());
+        PaymentGroup pg = new PaymentGroup();
+        pg.setBatch(batch);
+        pg.setPaymentStatus(openPaymentStatus);
+
+        String postalCode = cmd.getVendorPostalCode();
+        if ("US".equals(cmd.getVendorCountry())) {
+            // Add a dash in the zip code if necessary
+            if (postalCode.length() > 5) {
+                postalCode = postalCode.substring(0, 5) + "-" + postalCode.substring(5);
+            }
+        }
+
+        pg.setPayeeName(cmd.getVendorName());
+        pg.setPayeeId(cmd.getVendorHeaderGeneratedIdentifier() + "-" + cmd.getVendorDetailAssignedIdentifier());
+        pg.setPayeeIdTypeCd(PdpConstants.PayeeTypeCodes.VENDOR);
+
+        if (cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode() != null) {
+            pg.setPayeeOwnerCd(cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCategoryCode());
+        }
+
+        if (cmd.getVendorCustomerNumber() != null) {
+            pg.setCustomerInstitutionNumber(cmd.getVendorCustomerNumber());
+        }
+        pg.setLine1Address(cmd.getVendorLine1Address());
+        pg.setLine2Address(cmd.getVendorLine2Address());
+        pg.setLine3Address("");
+        pg.setLine4Address("");
+        pg.setCity(cmd.getVendorCityName());
+        pg.setState(cmd.getVendorStateCode());
+        pg.setZipCd(postalCode);
+        pg.setCountry(cmd.getVendorCountryCode());
+        pg.setCampusAddress(Boolean.FALSE);
+        if (cmd.getCreditMemoDate() != null) {
+            pg.setPaymentDate(new Timestamp(cmd.getCreditMemoDate().getTime()));
+        }
+        pg.setPymtAttachment(Boolean.FALSE);
+        pg.setProcessImmediate(Boolean.FALSE);
+        pg.setPymtSpecialHandling(Boolean.FALSE);
+        pg.setTaxablePayment(Boolean.FALSE);
+        pg.setNraPayment(VendorConstants.OwnerTypes.NR.equals(cmd.getVendorDetail().getVendorHeader().getVendorOwnershipCode()));
         pg.setCombineGroups(Boolean.TRUE);
         return pg;
     }

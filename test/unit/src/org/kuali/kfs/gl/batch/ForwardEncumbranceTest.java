@@ -32,10 +32,17 @@ import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.util.OriginEntryOffsetPair;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests that the forward encumbrance process is generating cost share encumbrance forwarding origin entries correctly
+ */
 @ConfigureContext
 public class ForwardEncumbranceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ForwardEncumbranceTest.class);
 
+    /**
+     * An enum with a set of encumbrances to test; here, we've only got one encumbrance, an encumbrance
+     * that should force forward encumbrances to generate a cost share forwarding entry/offset pair
+     */
     enum ENCUMBRANCE_FIXTURE {
         COST_SHARE_ENCUMBRANCE("BL", "4531413", "CS001", "7100", "EX", "EE");
 
@@ -53,6 +60,15 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
         private String balanceType;
         private String objectTypeCode;
 
+        /**
+         * Constructs a ForwardEncumbranceTest.ENCUMBRANCE_FIXTURE
+         * @param chart the chart of the encumbrance
+         * @param accountNumber the account of the encumbrance
+         * @param subAccountNumber the sub account of the encumbrance
+         * @param objectCode the object code of the encumbrance
+         * @param balanceType the balance type code of the encumbrance
+         * @param objectTypeCode the object type code of the encumbrance
+         */
         private ENCUMBRANCE_FIXTURE(String chart, String accountNumber, String subAccountNumber, String objectCode, String balanceType, String objectTypeCode) {
             this.chart = chart;
             this.accountNumber = accountNumber;
@@ -62,6 +78,11 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
             this.objectTypeCode = objectTypeCode;
         }
 
+        /**
+         * Converts one of the members of this enum to an actual Encumbrance
+         * 
+         * @return a real encumbrance!
+         */
         public Encumbrance convertToEncumbrance() {
             Encumbrance e = new Encumbrance();
             Integer fy = new Integer(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear().intValue() - 1);
@@ -84,11 +105,19 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
             return e;
         }
 
+        /**
+         * Returns the object type code of this enum
+         * 
+         * @return this enum's object type code
+         */
         public String getObjectType() {
             return this.objectTypeCode;
         }
     }
 
+    /**
+     * Tests that the expected encumbrance fixtures would be selected by the forward encumbrance process
+     */
     public void testEncumbranceSelection() {
         EncumbranceClosingRuleHelper helper = new EncumbranceClosingRuleHelper();
         helper.setA21SubAccountService(SpringContext.getBean(A21SubAccountService.class));
@@ -99,6 +128,11 @@ public class ForwardEncumbranceTest extends OriginEntryTestBase {
         assertTrue(helper.anEntryShouldBeCreatedForThisEncumbrance(ENCUMBRANCE_FIXTURE.COST_SHARE_ENCUMBRANCE.convertToEncumbrance()));
     }
 
+    /**
+     * Tests that the expted fixtures would be selected for cost share entry/offset generation by the forward encumbrance process
+     * 
+     * @throws Exception thrown if something goes wrong
+     */
     public void testCostShareSelection() throws Exception {
         EncumbranceClosingRuleHelper helper = new EncumbranceClosingRuleHelper();
         helper.setA21SubAccountService(SpringContext.getBean(A21SubAccountService.class));

@@ -25,6 +25,9 @@ import org.kuali.kfs.bo.SourceAccountingLine;
  */
 public class VoucherSourceAccountingLine extends SourceAccountingLine {
 
+    /**
+     * Constructs a VoucherSourceAccountingLine.java.
+     */
     public VoucherSourceAccountingLine() {
         super();
 

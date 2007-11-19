@@ -33,38 +33,23 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.rice.KNSServiceLocator;
-
+/**
+ * Purap Object Utils.
+ * Similar to the nervous system ObjectUtils this class contains methods to reflectively set and get values on
+ * BusinessObjects that are passed in.
+ */
 public class PurApObjectUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurApObjectUtils.class);
 
     /**
-     * This method copies based on a class template it does not copy fields in Known Uncopyable Fields Note: this only copies fields
-     * actually in the base class, it doesn't copy inherited fields currently
      * 
-     * @param base the base class
-     * @param src the class to copy from
-     * @param target the class to copy to
+     * Populates a class using a base class to determine fields
+     * 
+     * @param base the class to determine what fields to copy
+     * @param src the source class
+     * @param target the target class
+     * @param supplementalUncopyable a list of fields to never copy
      */
-    // public static void populateFromBaseClass(Class base,BusinessObject src,BusinessObject target,Map supplementalUncopyable) {
-    // List<String> fieldNames = new ArrayList<String>();
-    // Field[] fields = base.getDeclaredFields();
-    // for (Field field : fields) {
-    // fieldNames.add(field.getName());
-    // }
-    // for (String fieldName : fieldNames) {
-    // if(!PurapConstants.KNOWN_UNCOPYABLE_FIELDS.containsKey(fieldName) && !supplementalUncopyable.containsKey(fieldName)) {
-    // try {
-    // ObjectUtils.setObjectProperty(target, fieldName, ObjectUtils.getPropertyValue(src, fieldName));
-    // }
-    // catch (Exception e) {
-    // //purposefully skip for now
-    // //(I wish objectUtils getPropertyValue threw named errors instead of runtime) so I could
-    // //selectively skip
-    // LOG.debug("couldn't set field '"+fieldName+"' due to exception with class name '"+e.getClass().getName()+"'");
-    // }
-    // }
-    // }
-    // }
     public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target, Map supplementalUncopyable) {
         List<String> fieldNames = new ArrayList<String>();
         Field[] fields = base.getDeclaredFields();
@@ -87,7 +72,16 @@ public class PurApObjectUtils {
         }
         LOG.debug("Population complete for " + counter + " fields out of a total of " + fieldNames.size() + " potential fields in object with base class '" + base + "'");
     }
-
+    
+    /**
+     * 
+     * True if a field is processable
+     * 
+     * @param baseClass the base class
+     * @param fieldName the field name to detrmine if processable
+     * @param excludedFieldNames field names to exclude
+     * @return true if a field is processable
+     */
     private static boolean isProcessableField(Class baseClass, String fieldName, Map excludedFieldNames) {
         if (excludedFieldNames.containsKey(fieldName)) {
             Class potentialClassName = (Class) excludedFieldNames.get(fieldName);
@@ -98,6 +92,15 @@ public class PurApObjectUtils {
         return true;
     }
 
+    /**
+     * 
+     * Attempts to copy a field
+     * @param baseClass the base class
+     * @param fieldName the field name to determine if processable
+     * @param sourceObject source object
+     * @param targetObject target object
+     * @param supplementalUncopyable
+     */
     private static void attemptCopyOfFieldName(String baseClassName, String fieldName, BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyable) {
         try {
 
@@ -120,6 +123,19 @@ public class PurApObjectUtils {
         }
     }
 
+    /**
+     * 
+     * Copies a collection
+     * 
+     * @param fieldName field to copy
+     * @param targetObject the object of the collection
+     * @param propertyValue value to copy
+     * @param supplementalUncopyable uncopyable fields
+     * @throws FormatException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     * @throws NoSuchMethodException
+     */
     private static void copyCollection(String fieldName, BusinessObject targetObject, Object propertyValue, Map supplementalUncopyable) throws FormatException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Collection sourceList = (Collection) propertyValue;
         Collection listToSet = null;
@@ -152,7 +168,6 @@ public class PurApObjectUtils {
         }
 
 
-        // }
         for (Iterator iterator = sourceList.iterator(); iterator.hasNext();) {
             BusinessObject sourceCollectionObject = (BusinessObject) iterator.next();
             LOG.debug("attempting to copy collection member with class '" + sourceCollectionObject.getClass() + "'");
@@ -170,21 +185,24 @@ public class PurApObjectUtils {
     }
 
     /**
-     * This method copies based on a class template it does not copy fields in Known Uncopyable Fields
+     * Copies based on a class template it does not copy fields in Known Uncopyable Fields
      * 
      * @param base the base class
-     * @param src
-     * @param target
+     * @param src source
+     * @param target target
      */
     public static void populateFromBaseClass(Class base, BusinessObject src, BusinessObject target) {
         populateFromBaseClass(base, src, target, new HashMap());
     }
 
     /**
-     * FIXME: this needs to be fixed! This method is a temporary place holder until I get this done right
      * 
-     * @param po
-     * @param newPO
+     * Populates from a base class traversing up the object hierarchy.
+     * 
+     * @param sourceObject object to copy from
+     * @param targetObject object to copy to
+     * @param supplementalUncopyableFieldNames fields to exclude
+     * @param classesToExclude classes to exclude
      */
     public static void populateFromBaseWithSuper(BusinessObject sourceObject, BusinessObject targetObject, Map supplementalUncopyableFieldNames, Set<Class> classesToExclude) {
         List<Class> classesToCopy = new ArrayList<Class>();
@@ -202,31 +220,7 @@ public class PurApObjectUtils {
         }
     }
 
-    // public static void populateFromBaseWithSuper(PurchaseOrderDocument po, PurchaseOrderDocument newPO) {
-    // List<Class> classesToCopy = new ArrayList<Class>();
-    // Class sourceObjectClass = po.getClass();
-    // classesToCopy.add(sourceObjectClass);
-    // while (sourceObjectClass.getSuperclass() != null) {
-    // sourceObjectClass = sourceObjectClass.getSuperclass();
-    // classesToCopy.add(sourceObjectClass);
-    // }
-    // for (int i = (classesToCopy.size() - 1); i > 0; i--) {
-    // Class temp = classesToCopy.get(i);
-    // populateFromBaseClass(temp, po, newPO);
-    // }
-    // // PurApObjectUtils.populateFromBaseClass(DocumentBase.class, po, newPO);
-    // newPO.getDocumentHeader().setFinancialDocumentDescription(po.getDocumentHeader().getFinancialDocumentDescription());
-    // newPO.getDocumentHeader().setOrganizationDocumentNumber(po.getDocumentHeader().getOrganizationDocumentNumber());
-    // PurApObjectUtils.populateFromBaseClass(TransactionalDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(LedgerPostingDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(GeneralLedgerPostingDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(AccountingDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(PurchasingAccountsPayableDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(PurchasingDocumentBase.class, po, newPO);
-    // PurApObjectUtils.populateFromBaseClass(PurchaseOrderDocument.class, po, newPO);
-    // }
-
-    // KULPURAP-1370 - following changes are to work around an ObjectUtils bug
+    // ***** following changes are to work around an ObjectUtils bug and are copied from ObjectUtils.java
     /**
      * Compares a business object with a List of BOs to determine if an object with the same key as the BO exists in the list. If it
      * does, the item is returned.
@@ -277,7 +271,7 @@ public class PurApObjectUtils {
                     }
                 }
                 else {
-                    // CHANGE FOR KULPURAP-1370 if one is null we are likely looking at a new object (sequence) which is definitely
+                    // CHANGE FOR PurapOjbCollectionHelper change if one is null we are likely looking at a new object (sequence) which is definitely
                     // not equal
                     equal = false;
                 }
@@ -287,5 +281,5 @@ public class PurApObjectUtils {
 
         return equal;
     }
-    // END KULPURAP-1370 changes
+    // ***** END copied from ObjectUtils.java changes
 }

@@ -20,22 +20,25 @@ import java.util.List;
 import org.kuali.module.financial.bo.Check;
 
 /**
- * This interface defines methods that a Check service implementation must provide.
+ * This service interface defines methods that a Check service implementation must provide.
+ * 
+ * 
  */
 public interface CheckService {
+    
     /**
      * Retrieves a list of checks for the given document id.
      * 
-     * @param documentHeaderId
-     * @return List of of Checks
+     * @param documentHeaderId The document header id.
+     * @return A list of Check instances associated with the doc header id provided.
      */
     public List getByDocumentHeaderId(String documentHeaderId);
 
     /**
      * Saves a check.
      * 
-     * @param check
-     * @return the saved Check
+     * @param check The check to be saved.
+     * @return The saved Check instance.
      */
     public Check save(Check check);
 
@@ -43,7 +46,7 @@ public interface CheckService {
     /**
      * Deletes the given Check.
      * 
-     * @param check
+     * @param check The check to be deleted.
      */
     public void deleteCheck(Check check);
 }

@@ -19,7 +19,9 @@ import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
+ * 
  * This interface defines methods that a FlexibleOffsetAccount Service must provide.
+ * 
  */
 public interface FlexibleOffsetAccountService {
 
@@ -27,9 +29,9 @@ public interface FlexibleOffsetAccountService {
      * Retrieves the OffsetAccount by its composite primary key (all passed in as parameters) if the SYSTEM parameter
      * FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      * 
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param financialOffsetObjectCode
+     * @param chartOfAccountsCode The chart code of the account to be retrieved.
+     * @param accountNumber The account number of the account to be retrieved.
+     * @param financialOffsetObjectCode Offset object code used to retrieve the OffsetAccount.
      * @return An OffsetAccount object instance. Returns null if there is none with the given key, or if the SYSTEM parameter
      *         FLEXIBLE_OFFSET_ENABLED_FLAG is false.
      */
@@ -38,17 +40,19 @@ public interface FlexibleOffsetAccountService {
     /**
      * Retrieves whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      * 
-     * @return whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
+     * @return Whether the SYSTEM parameter FLEXIBLE_OFFSET_ENABLED_FLAG is true.
      */
     public boolean getEnabled();
 
     /**
      * This method will apply the flexible offset account if necessary. It will only change the chart, account, sub account and sub
-     * object on the transaction. If the flexible offset isn't enabled or valid for this transaction, it will be unchanged. It
-     * throws a FlexibleOffset
+     * object on the transaction. If the flexible offset isn't enabled or valid for this transaction, it will be unchanged.
      * 
-     * @param transaction
-     * @return true if transaction was changed, false if not
+     * It throws an InvalidFlexibleOffsetException if the flexible offset account associated with the transaction
+     * is invalid, closed or expired or if the object code is invalid for the flexible offset.
+     * 
+     * @param transaction The OriginEntryFull object to be updated.
+     * @return True if transaction was changed, false if not.
      */
     public boolean updateOffset(OriginEntryFull transaction);
 }

@@ -23,7 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher non-employee expense, often associated with a trip or a service rendered.
  */
 public class DisbursementVoucherNonEmployeeExpense extends PersistableBusinessObjectBase {
 

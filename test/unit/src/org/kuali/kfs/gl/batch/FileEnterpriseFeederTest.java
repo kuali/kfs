@@ -78,6 +78,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     public static final int ORIGIN_ENTRY_TEXT_LINE_LENGTH = 173;
 
     /**
+     * Sets up the proper file names needed for the test.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -99,7 +100,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     /**
      * Tests to ensure that the feeder will not feed upon anything if no done files exist.
      * 
-     * @throws Exception
+     * @throws Exception thrown if some vague thing goes wrong
      */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testNoDoneFiles() throws Exception {
@@ -125,7 +126,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     /**
      * This method tests that the uploading of a single OK file set
      * 
-     * @throws Exception
+     * @throws Exception thrown if some vague thing goes wrong
      */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testOneOkFileSet() throws Exception {
@@ -151,9 +152,9 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     }
 
     /**
-     * This method...
+     * Tests the uploading of two files, one parsable, the other not
      * 
-     * @throws Exception
+     * @throws Exception thrown if anything goes wrong
      */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testOneOkOneBadFileSet() throws Exception {
@@ -179,6 +180,11 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraTestDoneFilesExistAfterTest();
     }
 
+    /**
+     * Tests that the enterprise feeder will successfully run, even when fed a bad reconciliation file
+     * 
+     * @throws Exception
+     */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testBadReconFileSet() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
@@ -203,6 +209,11 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraTestDoneFilesExistAfterTest();
     }
 
+    /**
+     * Tests that the enterprise feeder will successfully run, even when there's a missing data file
+     * 
+     * @throws Exception thrown if anything goes wrong
+     */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     public final void testDataFileMissing() throws Exception {
         List<Integer> fileSets = new ArrayList<Integer>();
@@ -226,10 +237,19 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertNoExtraTestDoneFilesExistAfterTest();
     }
 
+    /**
+     * Clears out the origin entry and origin entry group tables to prepare for the test
+     */
     protected void initializeDatabaseForTest() {
         clearOriginEntryTables();
     }
 
+    /**
+     * Returns the origin entry group created by the enterprise feed process and does some
+     * basic assertions against it.
+     * 
+     * @return the OriginEntryGroup created by the enterprise feed process
+     */
     protected OriginEntryGroup getGroupCreatedByFeed() {
         Collection<OriginEntryGroup> groups = originEntryGroupService.getAllOriginEntryGroup();
         assertEquals("Either the initializeDatabaseFOrTest method was not called before " + "running the test, or more than one group was created by the feeder service.", groups.size(), 1);
@@ -243,6 +263,9 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         return group;
     }
 
+    /**
+     * Makes sure that the data files for this test exist; if not, throws an exception
+     */
     // @RelatesTo(RelatesTo.JiraIssue.KULUT30)
     protected void checkNecessaryFilesPresentAndReadable() {
         boolean invalidFiles = false;
@@ -266,6 +289,12 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         }
     }
 
+    /**
+     * Zero pads an integer to be at least 3 digits long
+     * 
+     * @param value an integer value
+     * @return a left zero padded String
+     */
     protected String convertIntToString(int value) {
         if (value < 10) {
             return "00" + Integer.toString(value);
@@ -276,16 +305,34 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         return Integer.toString(value);
     }
 
+    /**
+     * Generates the full path and file name of a generated enterprise feed data file
+     * 
+     * @param fileSetId the integer id of the file that should have been generated
+     * @return the full path and file name for the file
+     */
     protected String generateDataFilename(int fileSetId) {
         String directoryPrefix = ((FileEnterpriseFeederServiceImpl) SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.DATA_FILE_SUFFIX;
     }
 
+    /**
+     * Generates the full path and file name of a generated enterprise feed reconciliation file
+     * 
+     * @param fileSetId the integer id of the file that should have been generated
+     * @return the full path and file name for the file
+     */
     protected String generateReconFilename(int fileSetId) {
         String directoryPrefix = ((FileEnterpriseFeederServiceImpl) SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.RECON_FILE_SUFFIX;
     }
 
+    /**
+     * Generates the full path and file name of a generated enterprise feed .done file
+     * 
+     * @param fileSetId the integer id of the file that should have been generated
+     * @return the full path and file name for the file
+     */
     protected String generateDoneFilename(int fileSetId) {
         String directoryPrefix = ((FileEnterpriseFeederServiceImpl) SpringContext.getBean(FileEnterpriseFeederServiceImpl.class)).getDirectoryName() + File.separator;
         return directoryPrefix + TEST_FILE_PREFIX + convertIntToString(fileSetId) + FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX;
@@ -298,7 +345,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * 
      * @param fileSets A list of Integers, representing the done files that will be created. (see class description) to see how
      *        these integers map into file names.
-     * @throws IOException
+     * @throws IOException if a file cannot be successfully read
      */
     protected void assertNoExtraDoneFilesExistAndCreateDoneFilesForSets(List<Integer> fileSets) throws IOException {
         FileFilter fileFilter = new SuffixFileFilter(FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX);
@@ -330,7 +377,7 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     /**
      * Asserts true if no test done files exist. If so, method removes done files before assert.
      * 
-     * @throws IOException
+     * @throws IOException thrown if a data file cannot be successfully read
      */
     protected void assertNoExtraTestDoneFilesExistAfterTest() throws IOException {
         FileFilter fileFilter = new AndFileFilter(new PrefixFileFilter(TEST_FILE_PREFIX), new SuffixFileFilter(FileEnterpriseFeederServiceImpl.DONE_FILE_SUFFIX));
@@ -346,6 +393,12 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertTrue("The following test done files existed ( " + buf.toString() + " ), but shouldn't have.  These test done files have been deleted. ", buf.length() == 0);
     }
 
+    /**
+     * Asserts that there are no longer any existing .done files
+     * 
+     * @param fileSets a List of file sets to check .done files for
+     * @throws IOException thrown if one of the files cannot be read for any reason
+     */
     protected void assertDoneFilesDeleted(List<Integer> fileSets) throws IOException {
         StringBuilder buf = new StringBuilder();
 
@@ -359,6 +412,14 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
         assertTrue("The following done files were not deleted: " + buf.toString(), buf.length() == 0);
     }
 
+    /**
+     * Converts the entries generated by the enterprise feed to String-formatted entries
+     * 
+     * @param fileSets the file sets to convert entries for
+     * @param group not used as such
+     * @return a List of String-formatted generated origin entries
+     * @throws IOException thrown if one of the data files cannot be read successfully
+     */
     protected List<String> buildVerificationEntries(List<Integer> fileSets, OriginEntryGroup group) throws IOException {
         List<String> entries = new ArrayList<String>();
 
@@ -379,8 +440,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
     /**
      * Fails if the origin entries in the list do not match the origin entries associated with the passed in group.
      * 
-     * @param expectedEntries
-     * @param groupOfLoadedEntries
+     * @param expectedEntries the entries that were the expected output of the enterprise feed process
+     * @param groupOfLoadedEntries the entries that were really the output of the enterprise feed process
      */
     protected void assertOriginEntriesLoaded(List<String> expectedEntries, OriginEntryGroup groupOfLoadedEntries) {
         Collection<OriginEntryFull> actualEntries = originEntryDao.testingGetAllEntries();
@@ -405,8 +466,8 @@ public class FileEnterpriseFeederTest extends OriginEntryTestBase {
      * Determines whether the files in a set are able to be loaded because of the lack of parse errors and the lack of
      * reconciliation errors
      * 
-     * @param fileSetId
-     * @return
+     * @param fileSetId the integer id of the file set
+     * @return true if it can be loaded, false otherwise
      */
     protected boolean isFilesetLoadable(int fileSetId) {
         Set<Integer> loadableSets = new HashSet<Integer>();

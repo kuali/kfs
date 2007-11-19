@@ -29,7 +29,8 @@ import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.OrganizationExtension;
 
 /**
- * This class...
+ * PreRules checks for the {@link Org} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
  */
 public class OrgPreRules extends MaintenancePreRulesBase {
     private Org newOrg;
@@ -40,6 +41,12 @@ public class OrgPreRules extends MaintenancePreRulesBase {
 
     }
 
+    /**
+     * This checks to see if a continuation account is necessary and if the HRMS data has changed
+     * 
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(); // run this first to avoid side effects
@@ -51,6 +58,10 @@ public class OrgPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * 
+     * This looks for the org default account number and then sets the values to the continuation account value if it exists
+     */
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
@@ -63,6 +74,13 @@ public class OrgPreRules extends MaintenancePreRulesBase {
         }
     }
 
+    /**
+     * 
+     * This method sets the convenience objects like newOrg and copyOrg, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     * @param document
+     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newOrg convenience objects, make sure all possible sub-objects are populated
@@ -96,6 +114,11 @@ public class OrgPreRules extends MaintenancePreRulesBase {
         }
     }
 
+    /**
+     * 
+     * This takes the org zip code and fills in state, city and country code based off of it
+     * @param maintenanceDocument
+     */
     private void setLocationFromZip(MaintenanceDocument maintenanceDocument) {
 
         // organizationStateCode , organizationCityName are populated by looking up

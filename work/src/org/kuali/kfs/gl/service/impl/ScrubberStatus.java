@@ -20,6 +20,9 @@ import java.util.Map;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
+/**
+ * This class represents the status for origin entries through the different origin entry groups (i.e. input, valid, error, and expired)
+ */
 public class ScrubberStatus {
     private OriginEntryGroup inputGroup;
     private OriginEntryGroup validGroup;

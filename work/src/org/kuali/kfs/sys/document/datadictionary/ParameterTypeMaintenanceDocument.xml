@@ -43,9 +43,6 @@
         <description>
             This document can be used to create or update parameter types.
         </description>
-        <help parameterNamespace="KR-NS" parameterDetailType="N/A"
-            parameterName="NERVOUS_SYSTEM_HELP_PARAMETER_TYPE"
-        />
 
         <lockingKeys>
             <field attributeName="code" />

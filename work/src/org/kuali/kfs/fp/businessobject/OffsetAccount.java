@@ -24,7 +24,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCodeCurrent;
 
 /**
- * 
+ * This class represents an offset account business object.
  */
 public class OffsetAccount extends PersistableBusinessObjectBase {
 

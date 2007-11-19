@@ -25,7 +25,7 @@ import org.kuali.module.financial.lookup.keyvalues.PaymentReasonValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher payee detail.
  */
 public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBase {
 
@@ -508,6 +508,11 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         return new PayeeTypeValuesFinder().getKeyLabel(disbursementVoucherPayeeTypeCode);
     }
 
+    /**
+     * 
+     * This method is a dummy method defined for OJB.
+     * @param name
+     */
     public void setDisbursementVoucherPayeeTypeName(String name) {
     }
 
@@ -520,6 +525,10 @@ public class DisbursementVoucherPayeeDetail extends PersistableBusinessObjectBas
         return new PaymentReasonValuesFinder().getKeyLabel(disbVchrPaymentReasonCode);
     }
 
+    /**
+     * This method is a dummy method defined for OJB.
+     * @param name
+     */
     public void setDisbVchrPaymentReasonName(String name) {
     }
 

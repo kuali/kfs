@@ -42,14 +42,29 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * The default implementation of SufficientFundsReport
+ */
 public class SufficientFundsReportImpl extends PdfPageEventHelper implements SufficientFundsReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsReportImpl.class);
     private KualiConfigurationService configurationService;
 
+    /**
+     * Constructs a SufficientFundsReportImpl instance
+     */
     public SufficientFundsReportImpl() {
         super();
     }
 
+    /**
+     * Generates the sufficient funds rebuild report and saves it to PDF
+     * 
+     * @param reportErrors a Map of errors encountered during the sufficient funds rebuild process
+     * @param reportSummary a List of Strings that summarize the sufficient funds rebuild process 
+     * @param runDate the date the sufficient funds rebuild process was run
+     * @param mode the mode the sufficient funds rebuild process was run in
+     * @see org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
+     */
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         LOG.debug("generateReport() started");
 
@@ -174,11 +189,18 @@ public class SufficientFundsReportImpl extends PdfPageEventHelper implements Suf
         document.close();
     }
 
+    /**
+     * An inner class to help set up the PDF that is written
+     */
     class PageHelper extends PdfPageEventHelper {
         public Date runDate;
         public Font headerFont;
         public String title;
 
+        /**
+         * Writes the footer on the last page
+         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+         */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
                 Rectangle page = document.getPageSize();

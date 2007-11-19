@@ -35,23 +35,23 @@ import org.kuali.module.financial.service.ServiceBillingControlService;
 public class ServiceBillingDocumentRuleUtil {
 
     /**
-     * Checks the account and current user against the SB control table.
+     * Checks the account and current user against the service billing control table.
      * 
-     * @param accountingLine from the income section
-     * @param action kind of error messages to generate, if not null
-     * @return whether the current user is authorized to use the given account in the SB income section
+     * @param accountingLine The accounting line from the income section of the service billing document.
+     * @param action The type of error messages to generate, if not null.
+     * @return Whether the current user is authorized to use the given account in the service billing income section.
      */
     public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action) {
         return serviceBillingIncomeAccountIsAccessible(accountingLine, action, GlobalVariables.getUserSession().getUniversalUser());
     }
 
     /**
-     * Checks the account and user against the SB control table.
+     * Checks the account and user against the service billing control table.
      * 
-     * @param accountingLine from the income section
-     * @param action kind of error messages to generate, if not null
-     * @param user the user for whom to check accessibility
-     * @return whether the given user is authorized to use the given account in the SB income section
+     * @param accountingLine The accounting line from the income section of the service billing document.
+     * @param action The type of error messages to generate, if not null.
+     * @param user The user for whom to check accessibility.
+     * @return Whether the given user is authorized to use the given account in the service billing income section.
      */
     public static boolean serviceBillingIncomeAccountIsAccessible(AccountingLine accountingLine, AccountingDocumentRuleBase.AccountingLineAction action, UniversalUser user) {
         assertThat(accountingLine.isSourceAccountingLine(), accountingLine);
@@ -81,8 +81,13 @@ public class ServiceBillingDocumentRuleUtil {
     }
 
     /**
-     * @param action
-     * @return the error key for not having an SB control
+     * This method determines what error key to use when posting the associated error.  The error key is determined 
+     * based on the constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
+     * 
+     * @param action The constant used to identify which error key to return.
+     * @return The error key for not having a service billing control.
+     * 
+     * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     private static String noServiceBillingControlErrorKey(AccountingDocumentRuleBase.AccountingLineAction action) {
         switch (action) {
@@ -98,8 +103,13 @@ public class ServiceBillingDocumentRuleUtil {
     }
 
     /**
-     * @param action
-     * @return the error key for not being a member of the Workgroup of the necessary SB control
+     * This method determines what error key to use when posting the associated error.  The error key is determined 
+     * based on the constants passed in, which are values defined in the AccountingDocumentRuleBase.AccountingLineAction.
+     * 
+     * @param action The constant used to identify which error key to return.
+     * @return The error key for not being a member of the workgroup of the necessary service billing control.
+     * 
+     * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     private static String notControlGroupMemberErrorKey(AccountingDocumentRuleBase.AccountingLineAction action) {
         switch (action) {

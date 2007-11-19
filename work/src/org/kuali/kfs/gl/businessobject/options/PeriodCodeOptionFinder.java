@@ -27,11 +27,13 @@ import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.bo.UniversityDate;
 
 /**
- * This class...
+ * An implementation of ValueFinder that allows the selection of a period code
  */
 public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns this default value of this ValueFinder, in this case the current period code
+     * @return the key of the default Key/Value pair
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
@@ -40,6 +42,8 @@ public class GLPeriodCodeOptionFinder extends KeyValuesBase implements ValueFind
     }
 
     /**
+     * Returns a list of possible options for this ValueFinder; here, each of the fiscal periods
+     * @return a List of key/value pair options
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

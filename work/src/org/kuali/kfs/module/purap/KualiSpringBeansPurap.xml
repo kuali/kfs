@@ -119,63 +119,30 @@
 	</bean>
 
 	<bean id="purapService" class="org.kuali.module.purap.service.impl.PurapServiceImpl">
-		<property name="businessObjectService">
-			<ref bean="businessObjectService" />
-		</property>
-		<property name="dateTimeService">
-			<ref bean="dateTimeService" />
-		</property>
-		<property name="parameterService">
-			<ref bean="parameterService" />
-		</property>
-        <property name="universityDateService">
-            <ref bean="universityDateService" />
-        </property>
-        <property name="purApWorkflowIntegrationService">
-            <ref bean="purapWorkflowIntegrationService" />
-        </property>
+		<property name="businessObjectService" ref="businessObjectService"/>
+		<property name="dateTimeService" ref="dateTimeService"/>
+		<property name="parameterService" ref="parameterService"/>
 	</bean>
 	
 	<bean id="purapWorkflowIntegrationService" class="org.kuali.module.purap.service.impl.PurApWorkflowIntegrationServiceImpl">
-        <property name="kualiWorkflowInfo">
-            <ref bean="workflowInfoService" />
-        </property>
-        <property name="workflowDocumentService">
-            <ref bean="workflowDocumentService" />
-        </property>
+        <property name="kualiWorkflowInfo" ref="workflowInfoService"/>
+        <property name="workflowDocumentService" ref="workflowDocumentService"/>
 	</bean>
 	
     <bean id="purapGeneralLedgerService" class="org.kuali.module.purap.service.impl.PurapGeneralLedgerServiceImpl">
-        <property name="businessObjectService">
-            <ref bean="businessObjectService" />
-        </property>
-        <property name="dateTimeService">
-            <ref bean="dateTimeService" />
-        </property>
-        <property name="generalLedgerPendingEntryService">
-            <ref bean="generalLedgerPendingEntryService" />
-        </property> 
-        <property name="kualiConfigurationService">
-            <ref bean="kualiConfigurationService" />
-        </property>
-        <property name="kualiRuleService">
-            <ref bean="kualiRuleService" />
-        </property>
-        <property name="paymentRequestService">
-            <ref bean="paymentRequestService"/>
-        </property>
-        <property name="purapAccountingService">
-            <ref bean="purapAccountingService" />
-        </property> 
-        <property name="universityDateService">
-            <ref bean="universityDateService" />
-        </property>
+        <property name="businessObjectService" ref="businessObjectService"/>
+        <property name="dateTimeService" ref="dateTimeService"/>
+        <property name="generalLedgerPendingEntryService" ref="generalLedgerPendingEntryService"/>
+        <property name="kualiConfigurationService" ref="kualiConfigurationService"/>
+        <property name="kualiRuleService" ref="kualiRuleService"/>
+        <property name="paymentRequestService" ref="paymentRequestService"/>
+        <property name="purapAccountingService" ref="purapAccountingService"/>
+        <property name="purchaseOrderService" ref="purchaseOrderService"/>
+        <property name="universityDateService" ref="universityDateService"/>
     </bean>
     
 	<bean id="purapAccountingService" class="org.kuali.module.purap.service.impl.PurapAccountingServiceImpl">
-		<property name="purApAccountingDao">
-			<ref bean="purApAccountingDao" />
-		</property>
+		<property name="purApAccountingDao" ref="purApAccountingDao"/>
 	</bean>
 
     <bean id="accountsPayableService" class="org.kuali.module.purap.service.impl.AccountsPayableServiceImpl">

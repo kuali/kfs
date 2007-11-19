@@ -23,16 +23,17 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 
 /**
- * This class contains item utilities
+ * Purchasing Accounts Payable Item Utilities.
+ * This class contains item utilities.
  */
 public class PurApItemUtils {
 
     /**
-     * This method checks if an item is active. It is used mainly when were dealing with generic items (which may be po) And need to
+     * Checks if an item is active. It is used mainly when were dealing with generic items (which may be po) And need to
      * make sure the active rules are applied if it is a poitem
      * 
-     * @param item
-     * @return
+     * @param item the purap item passed in
+     * @return true if item is active
      */
     public static boolean checkItemActive(PurApItem item) {
         boolean active = true;
@@ -48,10 +49,10 @@ public class PurApItemUtils {
     }
 
     /**
-     * This method is a helper to get aboveTheLineItems only from an item list
+     * Helper to get aboveTheLineItems only from an item list
      * 
-     * @param items
-     * @return
+     * @param items a list of items including above and below the line
+     * @return below the line items only
      */
     public static List<PurApItem> getAboveTheLineOnly(List<PurApItem> items) {
         List<PurApItem> returnItems = new ArrayList<PurApItem>();
@@ -64,9 +65,9 @@ public class PurApItemUtils {
     }
 
     /**
-     * This method counts the below the line, currently it relies on below the line being at the bottom
+     * Counts the below the line, currently it relies on below the line being at the bottom
      * 
-     * @return
+     * @return a count of below the line items
      */
     public static int countBelowTheLineItems(List<PurApItem> items) {
         int count = 0;

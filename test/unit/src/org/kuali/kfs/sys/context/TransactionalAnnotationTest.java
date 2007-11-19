@@ -22,8 +22,10 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.PreCommitSuite;
 import org.springframework.aop.framework.AopProxyUtils;
-
+@AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
 public class TransactionalAnnotationTest extends KualiTestBase {
 

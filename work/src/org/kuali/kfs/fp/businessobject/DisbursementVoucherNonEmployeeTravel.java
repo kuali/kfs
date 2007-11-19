@@ -31,7 +31,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 
 /**
- * 
+ * This class is used to represent a non-employee trip for a disbursement voucher .
  */
 public class DisbursementVoucherNonEmployeeTravel extends PersistableBusinessObjectBase {
 

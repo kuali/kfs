@@ -33,8 +33,10 @@ public class DateMakerServiceImpl implements DateMakerService {
     private FiscalYearMakersDao fiscalYearMakersDao;
 
 
-    // use this when you want to copy the current fiscal year (as of today's date)
-    // into the coming fiscal year
+    /**
+     * 
+     * @see org.kuali.module.chart.service.DateMakerService#fiscalYearMakers(boolean)
+     */
     public void fiscalYearMakers(boolean replaceMode) {
         Integer BaseYear = fiscalYearMakersDao.fiscalYearFromToday();
         fiscalYearMakers(BaseYear, replaceMode);
@@ -42,10 +44,7 @@ public class DateMakerServiceImpl implements DateMakerService {
 
 
     /**
-     * use this when you want to start with a specified base year (which does not necessarily correspond to the current fiscal
-     * year). this could be used to implement a "budget year", for example = false only adds what isn't there, leaving anything
-     * existing for the target year undisturbed
-     * 
+     *  
      * @see org.kuali.module.chart.service.DateMakerService#fiscalYearMakers(java.lang.Integer, boolean)
      */
     public void fiscalYearMakers(Integer baseYear, boolean replaceMode) {
@@ -101,6 +100,11 @@ public class DateMakerServiceImpl implements DateMakerService {
         }
     }
 
+    /**
+     * 
+     * This method injects the FiscalYearMakersDao
+     * @param fiscalYearMakersDao
+     */
     public void setFiscalYearMakersDao(FiscalYearMakersDao fiscalYearMakersDao) {
         this.fiscalYearMakersDao = fiscalYearMakersDao;
     }

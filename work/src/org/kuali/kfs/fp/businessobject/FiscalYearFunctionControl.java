@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Options;
 
 /**
- * 
+ * This class is used to represent a fiscal year function control business object.
  */
 public class FiscalYearFunctionControl extends PersistableBusinessObjectBase {
 

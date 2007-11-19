@@ -19,7 +19,7 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 
 
 /**
- * 
+ * This class is used to represent a procurement card target accounting line.
  */
 public class ProcurementCardTargetAccountingLine extends TargetAccountingLine {
     private Integer financialDocumentTransactionLineNumber;

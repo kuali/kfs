@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * Represents a GLCP criteria
  */
 public class CorrectionCriteria extends PersistableBusinessObjectBase implements Comparable {
 
@@ -109,6 +109,12 @@ public class CorrectionCriteria extends PersistableBusinessObjectBase implements
         this.correctionFieldName = correctionFieldName;
     }
 
+    /**
+     * Compares this object with another CorrectionCriteria based on document number, 
+     * correction change group line number, and correction criteria line number
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(Object o) {
         CorrectionCriteria cc = (CorrectionCriteria) o;
 

@@ -17,13 +17,17 @@ package org.kuali.module.chart.service;
 
 import org.kuali.module.chart.bo.SubFundGroup;
 
+/**
+ * This service interface defines methods necessary for retrieving fully populated SubFundGroup business objects from the
+ * database that are necessary for transaction processing in the application.
+ */
 public interface SubFundGroupService {
 
     /**
      * Retrieves a SubFundGroupCode by it's primary key - the sub fund group code.
      * 
      * @param subFundGroupCode
-     * @return
+     * @return the sub fund group specfied by its code
      */
     public SubFundGroup getByPrimaryId(String subFundGroupCode);
 
@@ -32,21 +36,37 @@ public interface SubFundGroupService {
      * 
      * @param chartCode
      * @param accountNumber
-     * @return
+     * @return the sub fund group specified by a chart and and account number
      */
     public SubFundGroup getByChartAndAccount(String chartCode, String accountNumber);
 
+    /**
+     * 
+     * This checks to see if a particular SubFundGroup is related to Contracts and Grants through its Account
+     * @param subFundGroup
+     * @return true if it is for contracts and grants
+     */
     public boolean isForContractsAndGrants(SubFundGroup subFundGroup);
 
+    /**
+     * 
+     * This retrieves the attribute label for Contracts and Grants
+     * @return string representation of Contracts and Grants label
+     */
     public String getContractsAndGrantsDenotingAttributeLabel();
 
     /**
      * Extracts the appropriate value from the sub fund group for the C&G method selected.
      * 
      * @param subFundGroup
-     * @return
+     * @return string representation of either Fund Group code or SubFund Group code
      */
     public String getContractsAndGrantsDenotingValue(SubFundGroup subFundGroup);
 
+    /**
+     * 
+     * This retrieves the appropriate value for Contracts and Grants
+     * @return string representation of the Contracts and Grants value
+     */
     public String getContractsAndGrantsDenotingValue();
 }

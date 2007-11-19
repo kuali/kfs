@@ -27,7 +27,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativePaymentRequestApprovalLimitService {
     private static Logger LOG = Logger.getLogger(NegativePaymentRequestApprovalLimitServiceImpl.class);
+
     private NegativePaymentRequestApprovalLimitDao dao;
+
+    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao dao) {
+        this.dao = dao;
+    }
 
     /**
      * @see org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService#findByChart(java.lang.String)
@@ -58,13 +63,8 @@ public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativeP
         return dao.findByChartAndOrganization(chartCode, organizationCode);
     }
 
-    public void setNegativePaymentRequestApprovalLimitDao(NegativePaymentRequestApprovalLimitDao dao) {
-        this.dao = dao;
-    }
-
     /**
-     * @param limit
-     * @return
+     * @see org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService#findAboveLimit(org.kuali.core.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findAboveLimit(KualiDecimal limit) {
         LOG.debug("Entering findAboveLimit(KualiDecimal)");
@@ -73,8 +73,7 @@ public class NegativePaymentRequestApprovalLimitServiceImpl implements NegativeP
     }
 
     /**
-     * @param limit
-     * @return
+     * @see org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService#findBelowLimit(org.kuali.core.util.KualiDecimal)
      */
     public Collection<NegativePaymentRequestApprovalLimit> findBelowLimit(KualiDecimal limit) {
         LOG.debug("Entering findBelowLimit(KualiDecimal)");

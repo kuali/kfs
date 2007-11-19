@@ -41,12 +41,20 @@ import org.kuali.module.financial.document.TransferOfFundsDocument;
 public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase implements TransferOfFundsDocumentRuleConstants {
 
     /**
-     * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.
+     * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.  The current rules
+     * require setting the balance type code to 'actual'.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry the offset entry is generated for.
+     * @param offsetEntry The offset general ledger pending entry being customized.
+     * @return This method always returns true.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
      *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
         offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
         return true;
@@ -55,9 +63,14 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     /**
      * Set attributes of an explicit pending entry according to rules specific to TransferOfFundsDocument.
      * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      */
+    @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
 
@@ -76,12 +89,15 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * adds the following restrictions in addtion to those provided by
-     * <code>IsDebitUtils.isDebitConsideringNothingPositiveOnly</code>
+     * Adds the following restrictions in addition to those provided by <code>IsDebitUtils.isDebitConsideringNothingPositiveOnly</code>
      * <ol>
-     * <li> only allow income or expense object type codes
-     * <li> target lines have the oposite debit/credit codes as the source lines
+     * <li> Only allow income or expense object type codes
+     * <li> Target lines have the opposite debit/credit codes as the source lines
      * </ol>
+     * 
+     * @param financialDocument The document used to determine if the accounting line is a debit line.
+     * @param accountingLine The accounting line to be analyzed.
+     * @return True if the accounting line provided is a debit line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
@@ -107,7 +123,10 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * Overrides to check balances across mandator transfers and non-mandatory transfers. Also checks balances across fund groups.
+     * Overrides to check balances across mandatory transfers and non-mandatory transfers. Also checks balances across fund groups.
+     * 
+     * @param financialDocument The document to retrieve the balance from and validate against.
+     * @return True if the document balance is valid based on a collection of validation checks performed, false otherwise.
      * 
      * @see FinancialDocumentRuleBase#isDocumentBalanceValid(FinancialDocument)
      */
@@ -130,11 +149,13 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the APC that is
-     * associated with this check. See the document's specification for details.
+     * This is a helper method that wraps the fund group balancing check. This check can be configured by updating the 
+     * application parameter table that is associated with this check. See the document's specification for details.
      * 
-     * @param tofDoc
-     * @return boolean
+     * @param tofDoc The transfer of funds document the fund groups will be pulled from and validated.
+     * @return True if the fund group balance if valid, false otherwise.
+     * 
+     * @see #isFundGroupSetBalanceValid(TransferOfFundsDocument)
      */
     private boolean isFundGroupsBalanceValid(TransferOfFundsDocument tofDoc) {
         return isFundGroupSetBalanceValid(tofDoc, TransferOfFundsDocument.class, APPLICATION_PARAMETER.FUND_GROUP_BALANCING_SET);
@@ -146,7 +167,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * with non-mandatory transfer object code. This is to enforce the rule that the document must balance within the object code
      * object sub-type codes of mandatory transfers and non-mandatory transfers.
      * 
-     * @param tofDoc
+     * @param tofDoc The transfer of funds document to be validated.
      * @return True if they balance; false otherwise.
      */
     private boolean isMandatoryTransferTotalAndNonMandatoryTransferTotalBalanceValid(TransferOfFundsDocument tofDoc) {
@@ -183,8 +204,7 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
             }
         }
 
-        // check that the amounts balance across mandatory transfers and
-        // non-mandatory transfers
+        // check that the amounts balance across mandatory transfers and non-mandatory transfers
         boolean isValid = true;
 
         if (mandatoryTransferFromAmount.compareTo(mandatoryTransferToAmount) != 0) {
@@ -204,9 +224,11 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
      * Overrides the parent to make sure that the chosen object code's object sub-type code is either Mandatory Transfer or
      * Non-Mandatory Transfer. This is called by the parent's processAddAccountingLine() method.
      * 
-     * @param accountingLine
+     * @param documentClass A value required to override this method, but one that is not used in this class, so null can be passed.
+     * @param accountingLine The accounting line the object code will be retrieved from for validation.
      * @return True if the object code's object sub-type code is a mandatory or non-mandatory transfer; false otherwise.
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isObjectSubTypeAllowed(Class, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isObjectSubTypeAllowed(Class documentClass, AccountingLine accountingLine) {
@@ -228,11 +250,11 @@ public class TransferOfFundsDocumentRule extends AccountingDocumentRuleBase impl
     }
 
     /**
-     * Overrides the parent to make sure that the chosen object code's object code is Income/Expense
+     * Overrides the parent to make sure that the chosen object code's object code is Income/Expense.
      * 
-     * @param accountingLine
-     * @return True if the object code's is income or expense, otherwise false.
-     * @see org.kuali.core.rule.AccountingLineRule#isObjectSubTypeAllowed(org.kuali.core.bo.AccountingLine)
+     * @param accountingLine The accounting line the object code will be retrieved from and validated.
+     * @return True if the object code is income or expense, otherwise false.
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isObjectCodeAllowed(Class, org.kuali.core.bo.AccountingLine)
      */
     @Override
     public boolean isObjectCodeAllowed(Class documentClass, AccountingLine accountingLine) {

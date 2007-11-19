@@ -22,6 +22,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
+/**
+ * This class represents an origin entry key
+ */
 public class OriginEntryKey {
     static BalanceTypService balanceTypService = (BalanceTypService) SpringContext.getBean(BalanceTypService.class);
     static DocumentTypeService documentTypeService = (DocumentTypeService) SpringContext.getBean(DocumentTypeService.class);

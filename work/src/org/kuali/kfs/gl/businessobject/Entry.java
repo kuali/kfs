@@ -39,6 +39,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
+ * Represents a G/L entry
  * 
  */
 public class Entry extends PersistableBusinessObjectBase implements Transaction {

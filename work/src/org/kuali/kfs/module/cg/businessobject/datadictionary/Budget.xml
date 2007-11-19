@@ -449,8 +449,6 @@
 
         <objectLabel>Budget</objectLabel>
         <objectDescription>Help description for budget parameters - general.</objectDescription>
-
-		<objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="PARAMETERS_GENERAL" />
 		
     </businessObject>
 </dictionaryEntry>

@@ -64,7 +64,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
 
 
 /**
- * Implementation of ProcurementCardCreateDocumentService
+ * This is the default implementation of the ProcurementCardCreateDocumentService interface.
  * 
  * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService
  */
@@ -80,6 +80,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
+     * This method retrieves a collection of credit card transactions and traverses through this list, creating 
+     * ProcurementCardDocuments for each card.
+     * 
+     * @return True if the procurement card documents were created successfully.  If any problem occur while creating the 
+     * documents, a runtime exception will be thrown.
+     * 
      * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#createProcurementCardDocuments()
      */
     public boolean createProcurementCardDocuments() {
@@ -108,7 +114,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Routes all pcard documents in 'I' status.
+     * This method retrieves all the procurement card documents with a status of 'I' and routes them to the next step in the
+     * routing path.
+     * 
+     * @return True if the routing was performed successfully.  A runtime exception will be thrown if any errors occur while routing.
      * 
      * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#routeProcurementCardDocuments(java.util.List)
      */
@@ -140,13 +149,20 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * This method determines if procurement card documents can be auto approved.  A document can be auto approved if 
+     * the grace period for allowing auto approval of a procurement card document has passed.  The grace period is defined
+     * by a parameter in the parameters table.  The create date of the document is then compared against the current date and 
+     * if the difference is larger than the grace period defined, then the document is auto approved.
+     * 
+     * @return This method always returns true.
+     * 
      * @see org.kuali.module.financial.service.ProcurementCardCreateDocumentService#autoApproveProcurementCardDocuments()
      */
     public boolean autoApproveProcurementCardDocuments() {
         // check if auto approve is turned on
         boolean autoApproveOn = parameterService.getIndicatorParameter(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_DOCUMENTS_IND);
 
-        if (!autoApproveOn) {
+        if (!autoApproveOn) { // This doesn't make sense - ????
             return true;
         }
 
@@ -159,7 +175,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             throw new RuntimeException(e1.getMessage());
         }
 
-        // get number of days and type for autoapprove
+        // get number of days and type for auto approve
         int autoApproveNumberDays = Integer.parseInt(parameterService.getParameterValue(ProcurementCardAutoApproveDocumentsStep.class, AUTO_APPROVE_NUMBER_OF_DAYS));
 
         Timestamp currentDate = dateTimeService.getCurrentTimestamp();
@@ -188,10 +204,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
-     * retrieves list of transactions from temporary table, and groups them into document lists, based on single transaction
-     * indicator or grouping of card
+     * This method retrieves a list of transactions from a temporary table, and groups them into document lists, based on 
+     * single transaction indicator or a grouping by card.
      * 
-     * @return List of List containing transactions for document
+     * @return List containing transactions for document.
      */
     private List retrieveTransactions() {
         List groupedTransactions = new ArrayList();
@@ -199,7 +215,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         // retrieve records from transaction table order by card number
         List transactions = (List) businessObjectService.findMatchingOrderBy(ProcurementCardTransaction.class, new HashMap(), KFSPropertyConstants.TRANSACTION_CREDIT_CARD_NUMBER, true);
 
-        // check apc for single transaction documents or multple by card
+        // check apc for single transaction documents or multiple by card
         boolean singleTransaction = parameterService.getIndicatorParameter(ProcurementCardCreateDocumentsStep.class, SINGLE_TRANSACTION_IND_PARM_NM);
 
         List documentTransactions = new ArrayList();
@@ -231,10 +247,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
-     * Creates a ProcurementCardDocument from the List of transactions
+     * Creates a ProcurementCardDocument from the List of transactions given.
      * 
-     * @param transactions - List of ProcurementCardTransaction objects
-     * @return ProcurementCardDocument
+     * @param transactions List of ProcurementCardTransaction objects to be used for creating the document.
+     * @return A ProcurementCardDocument populated with the transactions provided.
      */
     private ProcurementCardDocument createProcurementCardDocument(List transactions) {
         ProcurementCardDocument pcardDocument = null;
@@ -288,10 +304,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Creates card holder record and sets in document.
+     * Creates card holder record and sets that record to the document given.
      * 
-     * @param pcardDocument - document to place record in
-     * @param transaction - transaction to set fields from
+     * @param pcardDocument Procurement card document to place the record in.
+     * @param transaction The transaction to set the card holder record fields from.
      */
     private void createCardHolderRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction) {
         ProcurementCardHolder cardHolder = new ProcurementCardHolder();
@@ -319,10 +335,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Creates transaction detail record and adds to document.
+     * Creates a transaction detail record and adds that record to the document provided.
      * 
-     * @param pcardDocument - document to place record in
-     * @param transaction - transaction to set fields from
+     * @param pcardDocument Document to place record in.
+     * @param transaction Transaction to set fields from.
+     * @param transactionLineNumber Line number of the new transaction detail record within the procurement card document.
+     * @return The error text that was generated from the creation of the detail records.  If the text is empty, no errors were encountered.
      */
     private String createTransactionDetailRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, Integer transactionLineNumber) {
         ProcurementCardTransactionDetail transactionDetail = new ProcurementCardTransactionDetail();
@@ -366,10 +384,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
-     * Creates transaction vendor detail record and adds to transaction detail.
+     * Creates a transaction vendor detail record and adds it to the transaction detail.
      * 
-     * @param pcardDocument - document to set fields in
-     * @param transaction - transaction to set fields from
+     * @param pcardDocument The procurement card document to retrieve values from.
+     * @param transaction Transaction to set fields from.
+     * @param transactionDetail The transaction detail to set the vendor record on.
      */
     private void createTransactionVendorRecord(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail transactionDetail) {
         ProcurementCardVendor transactionVendor = new ProcurementCardVendor();
@@ -391,11 +410,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * From the transaction accounting attributes, creates source and target accounting lines. Attributes are validated first, and
-     * replaced with default and error values if needed. There will be 1 source and 1 target line generated
+     * replaced with default and error values if needed. There will be 1 source and 1 target line generated.
      * 
-     * @param transaction - transaction to process
-     * @param docTransactionDetail - Object to put accounting lines into
-     * @return String containing any error messages
+     * @param pcardDocument The procurement card document to add the new accounting lines to.
+     * @param transaction The transaction to process into account lines.
+     * @param docTransactionDetail The transaction detail to create source and target accounting lines from.
+     * @return String containing any error messages.
      */
     private String createAndValidateAccountingLines(ProcurementCardDocument pcardDocument, ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         // build source lines
@@ -414,11 +434,12 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Creates the to record for the transaction. The COA attributes from the transaction are used to create the accounting line.
+     * Creates the to record for the transaction. The chart of account attributes from the transaction are used to create 
+     * the accounting line.
      * 
-     * @param transaction
-     * @param docTransactionDetail
-     * @return ProcurementCardSourceAccountingLine
+     * @param transaction The transaction to pull information from to create the accounting line.
+     * @param docTransactionDetail The transaction detail to pull information from to populate the accounting line.
+     * @return The target accounting line fully populated with values from the parameters passed in. 
      */
     private ProcurementCardTargetAccountingLine createTargetAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardTargetAccountingLine targetLine = new ProcurementCardTargetAccountingLine();
@@ -445,9 +466,9 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     /**
      * Creates the from record for the transaction. The clearing chart, account, and object code is used for creating the line.
      * 
-     * @param transaction
-     * @param docTransactionDetail
-     * @return ProcurementCardSourceAccountingLine
+     * @param transaction The transaction to pull information from to create the accounting line.
+     * @param docTransactionDetail The transaction detail to pull information from to populate the accounting line.
+     * @return The source accounting line fully populated with values from the parameters passed in.
      */
     private ProcurementCardSourceAccountingLine createSourceAccountingLine(ProcurementCardTransaction transaction, ProcurementCardTransactionDetail docTransactionDetail) {
         ProcurementCardSourceAccountingLine sourceLine = new ProcurementCardSourceAccountingLine();
@@ -469,11 +490,11 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * Validates the COA attributes for existence and active indicator. Will substitute for defined default parameters or set fields
-     * to empty that have errors.
+     * Validates the chart of account attributes for existence and active indicator. Will substitute for defined 
+     * default parameters or set fields to empty that if they have errors.
      * 
-     * @param sourceLine
-     * @return String with error messages
+     * @param targetLine The target accounting line to be validated.
+     * @return String with error messages discovered during validation.  An empty string indicates no validation errors were found.
      */
     private String validateTargetAccountingLine(ProcurementCardTargetAccountingLine targetLine) {
         String errorText = "";
@@ -532,62 +553,71 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
-     * @return error chart code defined in the apc
+     * Retrieves the error chart code from the parameter table.
+     * @return The error chart code defined in the parameter table.
      */
     private String getErrorChartCode() {
         return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
-     * @return error account number defined in the apc
+     * Retrieves the error account number from the parameter table.
+     * @return The error account number defined in the parameter table.
      */
     private String getErrorAccountNumber() {
         return parameterService.getParameterValue(ProcurementCardCreateDocumentsStep.class, ERROR_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
-     * @return default chart code defined in the apc
+     * Retrieves the default chard code from the parameter table.
+     * @return The default chart code defined in the parameter table.
      */
     private String getDefaultChartCode() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_CHART_CODE_PARM_NM);
     }
 
     /**
-     * @return default account number defined in the apc
+     * Retrieves the default account number from the parameter table.
+     * @return The default account number defined in the parameter table.
      */
     private String getDefaultAccountNumber() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_ACCOUNT_PARM_NM);
     }
 
     /**
-     * @return default object code defined in the apc
+     * Retrieves the default object code from the parameter table.
+     * @return The default object code defined in the parameter table.
      */
     private String getDefaultObjectCode() {
         return parameterService.getParameterValue(ProcurementCardLoadStep.class, DEFAULT_TRANS_OBJECT_CODE_PARM_NM);
     }
 
     /**
-     * Calls businessObjectService to remove all the rows from the transaction load table.
+     * Calls businessObjectService to remove all the procurement card transaction rows from the transaction load table.
      */
     private void cleanTransactionsTable() {
         businessObjectService.deleteMatching(ProcurementCardTransaction.class, new HashMap());
     }
 
     /**
-     * Loads all the parsed xml transactions into the temp transaction table.
+     * Loads all the parsed XML transactions into the temp transaction table.
      * 
-     * @param transactions - List of ProcurementCardTransaction to load.
+     * @param transactions List of ProcurementCardTransactions to load.
      */
     private void loadTransactions(List transactions) {
         businessObjectService.save(transactions);
     }
 
-
+    /**
+     * Sets the parameterService attribute.
+     * @param parameterService
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     /**
+     * Gets the businessObjectService attribute.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -595,6 +625,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Sets the businessObjectService attribute.
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -602,6 +633,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Gets the documentService attribute.
      * @return Returns the documentService.
      */
     public DocumentService getDocumentService() {
@@ -609,6 +641,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Sets the documentService attribute.
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {
@@ -617,6 +650,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
+     * Gets the dataDictionaryService attribute.
      * @return Returns the dataDictionaryService.
      */
     public DataDictionaryService getDataDictionaryService() {
@@ -624,6 +658,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Sets the dataDictionaryService attribute.
      * @param dataDictionaryService dataDictionaryService to set.
      */
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
@@ -632,6 +667,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
 
     /**
+     * Gets the dateTimeService attribute.
      * @return Returns the dateTimeService.
      */
     public DateTimeService getDateTimeService() {
@@ -639,6 +675,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     }
 
     /**
+     * Sets the dateTimeService attribute.
      * @param dateTimeService The dateTimeService to set.
      */
     public void setDateTimeService(DateTimeService dateTimeService) {
@@ -647,7 +684,6 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Gets the workflowDocumentService attribute.
-     * 
      * @return Returns the workflowDocumentService.
      */
     public WorkflowDocumentService getWorkflowDocumentService() {
@@ -656,12 +692,10 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
     /**
      * Sets the workflowDocumentService attribute value.
-     * 
      * @param workflowDocumentService The workflowDocumentService to set.
      */
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
     }
-
 
 }

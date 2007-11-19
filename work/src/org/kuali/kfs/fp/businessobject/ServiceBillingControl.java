@@ -22,7 +22,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * ServiceBillingControl Business Object
+ * This class is used to represent a ServiceBillingControl business object.
  */
 public class ServiceBillingControl extends PersistableBusinessObjectBase {
     private static final long serialVersionUID = -615796117852059115L;

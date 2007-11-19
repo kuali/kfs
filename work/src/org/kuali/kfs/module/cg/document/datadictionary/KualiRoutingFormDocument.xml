@@ -754,12 +754,12 @@
         	<headerNavigationTab>
         		<navigateTo>personnel</navigateTo>
         		<displayName>Personnel</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_PERSONNEL"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingFormPersonnel" parameterName="ROUTING_FORM_PERSONNEL"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>researchrisks</navigateTo>
         		<displayName>Research Risks</displayName>
-        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingForm" parameterName="ROUTING_FORM_RESEARCH_RISK"/>
+        		<pageHelp parameterNamespace="KFS-RA" parameterDetailType="RoutingFormResearchRisk" parameterName="ROUTING_FORM_RESEARCH_RISK"/>
         	</headerNavigationTab>
         	<headerNavigationTab>
         		<navigateTo>projectdetails</navigateTo>

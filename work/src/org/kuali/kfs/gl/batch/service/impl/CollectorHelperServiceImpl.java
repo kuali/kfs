@@ -60,6 +60,7 @@ import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.module.gl.util.OriginEntryTotals;
 
 /**
+ * The base implementation of CollectorHelperService
  * @see org.kuali.module.gl.service.CollectorService
  */
 public class CollectorHelperServiceImpl implements CollectorHelperService {
@@ -80,7 +81,12 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * Parses the given file, validates the batch, stores the entries, and sends email.
-     * 
+     * @param fileName - name of file to load (including path)
+     * @param group the group into which to persist the origin entries for the collector batch/file
+     * @param collectorReportData the object used to store all of the collector status information for reporting
+     * @param collectorScrubberStatuses if the collector scrubber is able to be invoked upon this collector batch, then the status
+     *        info of the collector status run is added to the end of this list
+     * @return boolean - true if load was successful, false if errors were encountered
      * @see org.kuali.module.gl.service.CollectorService#loadCollectorFile(java.lang.String)
      */
     public boolean loadCollectorFile(String fileName, OriginEntryGroup originEntryGroup, CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
@@ -138,10 +144,12 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
     /**
      * After a parse error, tries to go through the file to see if the email address can be determined. This method will not throw
-     * an exception
+     * an exception.
      * 
-     * @param fileName
-     * @return
+     * It's not doing much right now, just returning null
+     * 
+     * @param fileName the name of the file that a parsing error occurred on
+     * @return the email from the file
      */
     protected String attemptToParseEmailAfterParseError(String fileName) {
         return null;
@@ -150,7 +158,9 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
     /**
      * Calls batch input service to parse the xml contents into an object. Any errors will be contained in GlobalVariables.errorMap
      * 
-     * @param fileName
+     * @param fileName the name of the file to parse
+     * @param errorMap a map of errors resultant from the parsing
+     * @return the CollectorBatch of details parsed from the file
      */
     private CollectorBatch doCollectorFileParse(String fileName, ErrorMap errorMap) {
 
@@ -182,6 +192,10 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
 
 
     /**
+     * Validates the contents of a parsed file.
+     * 
+     * @param batch - batch to validate
+     * @return boolean - true if validation was OK, false if there were errors
      * @see org.kuali.module.gl.service.CollectorHelperService#performValidation(org.kuali.module.gl.batch.collector.CollectorBatch)
      */
     public boolean performValidation(CollectorBatch batch) {
@@ -222,7 +236,7 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
      * see the {@link #negateAmountIfNecessary(InterDepartmentalBilling, BalanceTyp, ObjectType, CollectorBatch)} method to see how
      * the billing detail amounts are modified.
      * 
-     * @param batch
+     * @param batch a CollectorBatch to process
      */
     protected void processInterDepartmentalBillingAmounts(CollectorBatch batch) {
         for (CollectorDetail collectorDetail : batch.getCollectorDetails()) {
@@ -382,10 +396,24 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         return detailKeysFound;
     }
 
+    /**
+     * Generates a String representation of the OriginEntryFull's primary key
+     * 
+     * @param entry origin entry to get key from
+     * @param delimiter the String delimiter to separate parts of the key
+     * @return the key as a String
+     */
     private String generateOriginEntryMatchingKey(OriginEntryFull entry, String delimiter) {
         return StringUtils.join(new String[] { entry.getUniversityFiscalYear().toString(), entry.getUniversityFiscalPeriodCode(), entry.getChartOfAccountsCode(), entry.getAccountNumber(), entry.getSubAccountNumber(), entry.getFinancialObjectCode(), entry.getFinancialSubObjectCode(), entry.getFinancialBalanceTypeCode(), entry.getFinancialObjectTypeCode(), entry.getDocumentNumber(), entry.getFinancialDocumentTypeCode(), entry.getFinancialSystemOriginationCode() }, delimiter);
     }
 
+    /**
+     * Generates a String representation of the CollectorDetail's primary key
+     * 
+     * @param collectorDetail collector detail to get key from
+     * @param delimiter the String delimiter to separate parts of the key
+     * @return the key as a String
+     */
     private String generateCollectorDetailMatchingKey(CollectorDetail collectorDetail, String delimiter) {
         return StringUtils.join(new String[] { collectorDetail.getUniversityFiscalYear().toString(), collectorDetail.getUniversityFiscalPeriodCode(), collectorDetail.getChartOfAccountsCode(), collectorDetail.getAccountNumber(), collectorDetail.getSubAccountNumber(), collectorDetail.getFinancialObjectCode(), collectorDetail.getFinancialSubObjectCode(), collectorDetail.getFinancialBalanceTypeCode(), collectorDetail.getFinancialObjectTypeCode(), collectorDetail.getDocumentNumber(), collectorDetail.getFinancialDocumentTypeCode(), collectorDetail.getFinancialSystemOriginationCode() }, delimiter);
     }
@@ -478,7 +506,11 @@ public class CollectorHelperServiceImpl implements CollectorHelperService {
         this.originEntryService = originEntryService;
     }
 
-
+    /**
+     * Returns the name of the directory where Collector files are saved
+     * 
+     * @return the name of the staging directory
+     */
     public String getStagingDirectory() {
         return configurationService.getPropertyString(KFSConstants.GL_COLLECTOR_STAGING_DIRECTORY);
     }

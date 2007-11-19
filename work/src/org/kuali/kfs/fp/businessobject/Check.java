@@ -22,6 +22,9 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.util.KualiDecimal;
 
 
+/**
+ * This class represents a check is cashiering related documents
+ */
 public interface Check extends PersistableBusinessObject, PersistenceBrokerAware {
 
     /**
@@ -154,6 +157,8 @@ public interface Check extends PersistableBusinessObject, PersistenceBrokerAware
     public void setCashieringRecordSource(String cashieringRecordSource);
 
     /**
+     * Returns true if this check has the same primitive field values as the given one
+     * 
      * @param other
      * @return true if this Check has the same primitive field values as the given one
      */

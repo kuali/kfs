@@ -46,8 +46,6 @@ public class AchBankServiceImpl implements AchBankService {
     public boolean reloadTable(String filename) {
         LOG.debug("reloadTable() started");
 
-        achBankDao.emptyTable();
-
         BufferedReader inputStream = null;
 
         try {
@@ -55,7 +53,13 @@ public class AchBankServiceImpl implements AchBankService {
 
             String str = null;
             while ((str = inputStream.readLine()) != null) {
+                String bankRoutingNumber = getField(str, 1, 9);
+
+                AchBank tableBank = achBankDao.getBank(bankRoutingNumber);
                 AchBank ab = new AchBank(str);
+                if ( tableBank != null ) {
+                    ab.setVersionNumber(tableBank.getVersionNumber());
+                }
                 achBankDao.save(ab);
             }
         }
@@ -78,6 +82,10 @@ public class AchBankServiceImpl implements AchBankService {
             }
         }
         return true;
+    }
+
+    private String getField(String data, int startChar, int length) {
+        return data.substring(startChar - 1, startChar + length - 1).trim();
     }
 
     public void setAchBankDao(AchBankDao abd) {

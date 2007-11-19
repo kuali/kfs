@@ -22,26 +22,61 @@ import java.util.Map;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.bo.Balance;
 
+/**
+ * An interface which declares methods needed for using Balance
+ */
 public interface BalanceService {
     /**
-     * Save
+     * Save.  Like.  OK.  You know.  Save a balance?  You know?  That's what this method should do.  Yeah.  It should save a balance.  In the DB and stuff.
      * 
-     * @param b
+     * @param b the balance to, like, totally save
      */
     public void save(Balance b);
 
+    /**
+     * 
+     * This method...
+     * @param account
+     * @return
+     */
     public boolean hasAssetLiabilityFundBalanceBalances(Account account);
 
+    /**
+     * 
+     * This method...
+     * @param account
+     * @return
+     */
     public boolean fundBalanceWillNetToZero(Account account);
 
+    /**
+     * 
+     * This method...
+     * @param account
+     * @return
+     */
     public boolean hasEncumbrancesOrBaseBudgets(Account account);
 
+    /**
+     * 
+     * This method...
+     * @param account
+     * @return
+     */
     public boolean beginningBalanceLoaded(Account account);
 
+    /**
+     * 
+     * This method...
+     * @param account
+     * @return
+     */
     public boolean hasAssetLiabilityOrFundBalance(Account account);
 
     /**
-     * @param fiscalYear
+     * Returns all of the balances for a given fiscal year.
+     * 
+     * @param fiscalYear the fiscal year to find balances for
      * @return an Iterator over all balances for a given year
      */
     public Iterator<Balance> findBalancesForFiscalYear(Integer fiscalYear);
@@ -60,7 +95,7 @@ public interface BalanceService {
      * 
      * @param fieldValues the input fields and values
      * @param isConsolidated consolidation option is applied or not
-     * @return the size of cash balance entries
+     * @return the count of cash balance entries
      */
     public Integer getCashBalanceRecordCount(Map fieldValues, boolean isConsolidated);
 
@@ -85,8 +120,8 @@ public interface BalanceService {
     /**
      * Purge the sufficient funds balance table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chart the chart purged balances should have
+     * @param year the fiscal year purged balances should have
      */
     public void purgeYearByChart(String chart, int year);
 
@@ -95,7 +130,7 @@ public interface BalanceService {
      * 
      * @param universityFiscalYear
      * @param balanceTypeCodes
-     * @return
+     * @return a list of summarized GL balances
      */
     public List getGlSummary(int universityFiscalYear, List<String> balanceTypeCodes);
 
@@ -117,17 +152,15 @@ public interface BalanceService {
 
     /**
      * Returns all the balances specifically to be processed by the balance forwards job for the "general" rule
-     * 
-     * @param year
-     * @return
+     * @param year the fiscal year to find balances for
+     * @return an Iterator of balances to process for the general balance forward process
      */
     public Iterator<Balance> findGeneralBalancesToForwardForFiscalYear(Integer year);
 
     /**
      * Returns all the balances to be forwarded for the "cumulative" rule
-     * 
-     * @param year
-     * @return
+     * @param year the fiscal year to find balances for
+     * @return an Iterator of balances to process for the cumulative/active balance forward process
      */
     public Iterator<Balance> findCumulativeBalancesToForwardForFiscalYear(Integer year);
 

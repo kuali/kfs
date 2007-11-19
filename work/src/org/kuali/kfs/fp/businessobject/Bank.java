@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class represents a bank
  */
 
 public class Bank extends PersistableBusinessObjectBase {

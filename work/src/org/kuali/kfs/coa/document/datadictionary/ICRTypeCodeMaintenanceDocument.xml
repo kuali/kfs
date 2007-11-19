@@ -34,7 +34,7 @@
         </authorizations>
 
         <documentTypeName>ICRTypeCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ICRT</documentTypeCode>
+        <documentTypeCode>ITYP</documentTypeCode>
         <label>Indirect Cost Recovery Type</label>
         <summary>ICR Type Code Maintenance Document</summary>
         <description>Maintenance document which allows you to create new ICR Type Codes, or modify existing ICR Type Codes.</description>

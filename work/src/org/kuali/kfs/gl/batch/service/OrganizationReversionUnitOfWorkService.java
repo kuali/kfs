@@ -30,7 +30,7 @@ public interface OrgReversionUnitOfWorkService {
     public void destroyAllUnitOfWorkSummaries();
 
     /**
-     * This method takes an OJB retrieved unit of work and loads its categories
+     * This method takes a unit of work retrieved from the persistence store and loads its categories
      * 
      * @param orgRevUnitOfWork org reversion unit of work to load categories for
      * @return the org reversion unit of work with loaded categories

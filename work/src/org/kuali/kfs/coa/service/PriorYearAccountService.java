@@ -19,6 +19,8 @@ import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
  * 
+ * This service interface defines methods necessary for retrieving fully populated PriorYearAccount business objects from the database
+ * that are necessary for transaction processing in the application. It also defines a method for populating the account db table with prior year values
  */
 public interface PriorYearAccountService {
 

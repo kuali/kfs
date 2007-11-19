@@ -42,6 +42,9 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * A class to support Account Balance lookups
+ */
 @Transactional
 public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
 
@@ -50,6 +53,10 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
     private OptionsService optionsService;
 
     /**
+     * Returns the url for the account balance inquiry
+     * @param bo the business object with a property that an inquiry drill down url is being asked for
+     * @param propertyName the property of that bo that the inquiry drill down url is being asked for
+     * @return the URL for the inquiry
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -58,6 +65,9 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
     }
 
     /**
+     * Given a map of fieldValues, actually searches for the appropriate account balance records to return
+     * @param fieldValues a map of keys for the search
+     * @return a List of AccountBalance records that match the search criteria
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     public List getSearchResults(Map fieldValues) {
@@ -214,6 +224,13 @@ public class AccountBalanceLookupableHelperServiceImpl extends AbstractGLLookupa
     }
 
     /**
+     * Updates the collection of entries that will be applied to the results of the inquiry
+     * 
+     * @param entryCollection a collection of balance entries
+     * @param fieldValues the map containing the search fields and values
+     * @param isApproved flag whether the approved entries or all entries will be processed
+     * @param isConsolidated flag whether the results are consolidated or not
+     * @param isCostShareExcluded flag whether the user selects to see the results with cost share subaccount
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
      *      boolean, boolean, boolean)
      */

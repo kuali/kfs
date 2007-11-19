@@ -32,7 +32,7 @@ public interface GlCorrectionProcessOriginEntryService {
      * 
      * @param glcpSearchResuiltsSequenceNumber a sequence number
      * @return a list of origin entries, or null if no results are currently not in the system.
-     * @throws Exception
+     * @throws Exception thrown if something goes wrong
      */
     public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception;
 
@@ -42,7 +42,7 @@ public interface GlCorrectionProcessOriginEntryService {
      * 
      * @param glcpSearchResuiltsSequenceNumber a sequence number
      * @param allEntries a list of origin entries
-     * @throws Exception
+     * @throws Exception thrown if anything goes wrong
      */
     public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntryFull> allEntries) throws Exception;
 }

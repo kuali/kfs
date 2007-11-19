@@ -31,6 +31,9 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.exception.LoadException;
 
+/**
+ * This class represents an origin entry used primarily in the scrubber process
+ */
 public class OriginEntryLite extends PersistableBusinessObjectBase implements OriginEntry {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryLite.class);
 

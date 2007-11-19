@@ -20,8 +20,7 @@ import java.util.List;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * An interface declaring methods needed by the Poster to ascertain if a transaction is suitable for posting
  */
 public interface VerifyTransaction {
     /**

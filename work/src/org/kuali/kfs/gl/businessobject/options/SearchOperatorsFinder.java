@@ -21,8 +21,17 @@ import java.util.List;
 import org.kuali.core.lookup.keyvalues.KeyValuesBase;
 import org.kuali.core.web.ui.KeyLabelPair;
 
+/**
+ * An extension of KeyValueBase that gives the user a choice of search operator options
+ */
 public class SearchOperatorsFinder extends KeyValuesBase {
 
+    /**
+     * Returns a list of all valid search operations that can be carried out by certain GL inquiries
+     * 
+     * @return a List of key/value pair options
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
+     */
     public List getKeyValues() {
         List activeLabels = new ArrayList();
         activeLabels.add(new KeyLabelPair("eq", "Equals"));

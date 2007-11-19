@@ -20,6 +20,11 @@ import java.util.Iterator;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntryLite;
 
+/**
+ * An interface declaring methods that interact with OriginEntryLite objects.  OriginEntryLite objects
+ * hold all the base data of OriginEntry, but don't have any references, which means that the O/RM layer
+ * can read them much quicker.  Most of the OriginEntryFull methods are covered by OriginEntryService.
+ */
 public interface OriginEntryLiteService {
     /**
      * Return all the entries in a specific group
@@ -32,15 +37,25 @@ public interface OriginEntryLiteService {
     /**
      * Return all the entries for a specific document in a specific group
      * 
-     * @param oeg Group selection
-     * @param documentNumber Document number selection
-     * @param documentTypeCode Document type selection
-     * @param originCode Origin Code selection
-     * @return iterator to all the entries
+     * @param oeg the origin entry group to find entries in
+     * @param documentNumber the document number of origin entries to return
+     * @param documentTypeCode the document type code of origin entries to return
+     * @param originCode the origination code to return
+     * @return iterator to all qualifying entries
      */
     public Iterator<OriginEntryLite> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
+    /**
+     * Saves an origin entry lite object to the database
+     * 
+     * @param entry an entry to save
+     */
     public void save(OriginEntryLite entry);
 
+    /**
+     * Deletes an origin entry record from the database
+     * 
+     * @param entry the entry to delete
+     */
     public void delete(OriginEntryLite entry);
 }

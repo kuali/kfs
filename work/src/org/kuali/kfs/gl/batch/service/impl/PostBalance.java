@@ -30,6 +30,9 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This implementation of PostTransaction updates the appropriate Balance
+ */
 @Transactional
 public class PostBalance implements PostTransaction, BalanceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostBalance.class);
@@ -37,16 +40,20 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
     private BalanceDao balanceDao;
 
     /**
-     * 
+     * Constructs a PostBalance instance
      */
     public PostBalance() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * This posts the effect of the transaction upon the appropriate balance record.
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -78,8 +85,15 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         return postType;
     }
 
+    /**
+     * Given a list of balances, determines which one the given trsnaction should post to
+     * 
+     * @param balanceList a Collection of balances
+     * @param t the transaction that is being posted
+     * @return the balance, either found from the list, or, if not present in the list, newly created
+     * @see org.kuali.module.gl.batch.poster.BalanceCalculator#findBalance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     */
     public Balance findBalance(Collection balanceList, Transaction t) {
-
         // Try to find one that already exists
         for (Iterator iter = balanceList.iterator(); iter.hasNext();) {
             Balance b = (Balance) iter.next();
@@ -138,6 +152,9 @@ public class PostBalance implements PostTransaction, BalanceCalculator {
         b.addAmount(period, amount);
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return "GL_BALANCE_T";
     }

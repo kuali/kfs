@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a distribution document.
  */
 public class DistributionDoc extends PersistableBusinessObjectBase {
 

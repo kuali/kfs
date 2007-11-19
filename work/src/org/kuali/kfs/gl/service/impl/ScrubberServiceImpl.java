@@ -39,6 +39,9 @@ import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.ScrubberStatus;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The default implementation of ScrubberService
+ */
 @Transactional
 public class ScrubberServiceImpl implements ScrubberService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ScrubberServiceImpl.class);
@@ -60,6 +63,10 @@ public class ScrubberServiceImpl implements ScrubberService {
     private OriginEntryLiteService originEntryLiteService;
 
     /**
+     * This process will call the scrubber in a read only mode. It will scrub a single group, won't create any output in origin
+     * entry. It will create a the scrubber report
+     * @param group the origin entry group to scrub for report
+     * @param documentNumber the id of documents which generated origin entries that should be scrubbed
      * @see org.kuali.module.gl.service.ScrubberService#scrubGroupReportOnly(org.kuali.module.gl.bo.OriginEntryGroup)
      */
     public void scrubGroupReportOnly(OriginEntryGroup group, String documentNumber) {
@@ -75,6 +82,7 @@ public class ScrubberServiceImpl implements ScrubberService {
     }
 
     /**
+     * Scrubs all of the entries in all origin entry groups that are up for scrubbing
      * @see org.kuali.module.gl.service.ScrubberService#scrubEntries()
      */
     public void scrubEntries() {
@@ -89,6 +97,16 @@ public class ScrubberServiceImpl implements ScrubberService {
         sp.setReferenceLookup(null);
     }
 
+    /**
+     * Scrubs data read in by the Collector
+     * 
+     * @param batch the data read by the Collector
+     * @param collectorReportData statistics about 
+     * @param overrideOriginEntryService the implementation of origin entry service to use for this specific Collector scrub
+     * @param overrideOriginEntryGroupService the implementation of origin entry group service to use for this specific Collector scrub
+     * @return the status returned by the Scrubber
+     * @see org.kuali.module.gl.service.ScrubberService#scrubCollectorBatch(org.kuali.module.gl.batch.collector.CollectorBatch, org.kuali.module.gl.util.CollectorReportData, org.kuali.module.gl.service.OriginEntryService, org.kuali.module.gl.service.OriginEntryGroupService)
+     */
     public ScrubberStatus scrubCollectorBatch(CollectorBatch batch, CollectorReportData collectorReportData, OriginEntryService overrideOriginEntryService, OriginEntryGroupService overrideOriginEntryGroupService) {
         if (overrideOriginEntryService == null && overrideOriginEntryGroupService == null) {
             throw new NullPointerException("for scrubCollectorBatch, the OriginEntryService and OriginEntryGroupService services must be specified in the parameters");

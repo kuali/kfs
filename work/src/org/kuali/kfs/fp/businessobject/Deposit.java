@@ -29,7 +29,7 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 
 
 /**
- * 
+ * This class represents a deposit used in the cash management document
  */
 public class Deposit extends PersistableBusinessObjectBase {
     // primary key
@@ -266,6 +266,8 @@ public class Deposit extends PersistableBusinessObjectBase {
 
 
     /**
+     * Returns true if this deposit has the same document deposit line number as the passed in Deposit
+     * 
      * @param other
      * @return true if the given Deposit has primary key values equal to this Deposit
      */

@@ -42,6 +42,8 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
+ * This class represents the functionality for creating a Expenditure Transaction Report
+ * 
  */
 public class ExpenditureTransactionReport {
     // copied from TransactionReport
@@ -52,6 +54,11 @@ public class ExpenditureTransactionReport {
         public Font headerFont;
         public String title;
 
+        /**
+         * Generates the end page information for a expenditure transaction report
+         * 
+         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+         */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
                 Rectangle page = document.getPageSize();
@@ -85,14 +92,14 @@ public class ExpenditureTransactionReport {
     }
 
     /**
-     * Generate expenditure transaction report
+     * Generate expenditure transaction report. Creates a list of errors from expenditure transactions.
      * 
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * @param reportErrors map of errors associated with each expenditure transaction
+     * @param reportSummary list of summary objects about report 
+     * @param runDate date report is run
+     * @param title title of the report
+     * @param fileprefix prefix of report name
+     * @param destinationDirectory directory where report file resides
      */
     public void generateReport(Map<ExpenditureTransaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
@@ -105,12 +112,14 @@ public class ExpenditureTransactionReport {
     }
 
     /**
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * Generate expenditure transaction report
+     * 
+     * @param reportErrors list of errors associated 
+     * @param reportSummary list of summary objects about report
+     * @param runDate date report is run
+     * @param title title of report
+     * @param fileprefix prefix of report name
+     * @param destinationDirectory directory where report file resides
      */
     public void generateReport(List<ExpenditureTransaction> errorSortedList, Map<ExpenditureTransaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
@@ -154,13 +163,13 @@ public class ExpenditureTransactionReport {
     /**
      * Appends the scrubber totals/statistics and error report to the given (iText) document object.
      * 
-     * @param document
-     * @param headerFont
-     * @param textFont
-     * @param errorSortedList
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
+     * @param document document representing report
+     * @param headerFont header font
+     * @param textFont text font
+     * @param errorSortedList list of expenditure transactions
+     * @param reportErrors map containing expenditure transactions/list of messages pairs
+     * @param reportSummary list of summary objects
+     * @param runDate date report is run
      * @throws DocumentException
      */
     public void appendReport(Document document, Font headerFont, Font textFont, List<ExpenditureTransaction> errorSortedList, Map<ExpenditureTransaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate) throws DocumentException {

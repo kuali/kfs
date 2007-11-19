@@ -17,6 +17,9 @@ package org.kuali.module.gl.util;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * This class represents origin entry statistics for debit, credit, and budget total amounts 
+ */
 public class OriginEntryStatistics {
     private KualiDecimal debitTotalAmount = KualiDecimal.ZERO;
     private KualiDecimal creditTotalAmount = KualiDecimal.ZERO;

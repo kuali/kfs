@@ -39,7 +39,7 @@
 
         <summary>Ownership Type Code Maintenance Document</summary>
         <description>Document used to create or update Ownership Type objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="OwnershipType" parameterName="OWNERSHIP_TYPE" />
+        <help parameterNamespace="KFS-VN" parameterDetailType="OwnershipType" parameterName="OWNERSHIP_TYPE" />
 
         <lockingKeys>
             <field attributeName="code" />

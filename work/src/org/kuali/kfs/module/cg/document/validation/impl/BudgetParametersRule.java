@@ -70,8 +70,9 @@ public class BudgetParametersRule {
         boolean valid = true;
         valid &= isProjectDirectorValid(budgetDocument);
         valid &= isAgencyValid(budgetDocument);
+        valid &= isFedPassThroughAgencyValid(budgetDocument);
         valid &= isInflationRatesValid(budgetDocument);
-        valid &= isPeriodListValid(budgetDocument.getBudget().getPeriods(), budgetDocument.getBudget().isAgencyModularIndicator());
+        valid &= isPeriodListValid(budgetDocument.getBudget().getPeriods(), budgetDocument.getBudget().isAgencyModularIndicator(), true);
         valid &= isTaskListValid(budgetDocument.getBudget().getTasks());
         valid &= isFringeRateListValid(budgetDocument);
         valid &= isGraduateAssistantRateListValid(budgetDocument);
@@ -95,7 +96,7 @@ public class BudgetParametersRule {
 
         GlobalVariables.getErrorMap().addToErrorPath("document");
 
-        valid &= isPeriodValid(budgetPeriod, NEW_PERIOD_IDENTIFIER, new Integer(0));
+        valid &= isPeriodValid(budgetPeriod, NEW_PERIOD_IDENTIFIER, new Integer(0), false);
 
         List currentPeriods = budgetDocument.getBudget().getPeriods();
         if (currentPeriods != null && currentPeriods.size() > 0) {
@@ -131,7 +132,7 @@ public class BudgetParametersRule {
      * @param List periods
      * @return boolean True if the list is valid, false otherwise.
      */
-    protected boolean isPeriodListValid(List periods, boolean modularBudget) {
+    protected boolean isPeriodListValid(List periods, boolean modularBudget, boolean validatePeriodDatesValid) {
         boolean valid = true;
 
         valid &= isNumPeriodsValid(periods, modularBudget);
@@ -139,7 +140,7 @@ public class BudgetParametersRule {
         for (int i = 0; i < periods.size(); i++) {
             BudgetPeriod currentPeriod = (BudgetPeriod) periods.get(i);
 
-            valid &= isPeriodValid(currentPeriod, PERIOD_IDENTIFIER + " " + currentPeriod.getBudgetPeriodSequenceNumber().toString(), currentPeriod.getBudgetPeriodSequenceNumber());
+            valid &= isPeriodValid(currentPeriod, PERIOD_IDENTIFIER + " " + currentPeriod.getBudgetPeriodSequenceNumber().toString(), currentPeriod.getBudgetPeriodSequenceNumber(), validatePeriodDatesValid);
 
             if (i > 0) {
                 BudgetPeriod previousPeriod = (BudgetPeriod) periods.get(i - 1);
@@ -174,15 +175,42 @@ public class BudgetParametersRule {
      */
     protected boolean isAgencyValid(BudgetDocument budgetDocument) {
 
-        if (!StringUtils.isBlank(budgetDocument.getBudget().getBudgetAgencyNumber()) || budgetDocument.getBudget().isAgencyToBeNamedIndicator()) {
+        boolean valid = true;
+        
+        if (budgetDocument.getBudget().isAgencyToBeNamedIndicator()) {
             return true;
         }
+        
+        budgetDocument.getBudget().refreshReferenceObject("budgetAgency");
+        if (StringUtils.isBlank(budgetDocument.getBudget().getBudgetAgencyNumber()) || budgetDocument.getBudget().getBudgetAgency() ==  null) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetAgency") });
+        }
 
-        GlobalVariables.getErrorMap().putError("budget.budgetAgencyNumber", KraKeyConstants.ERROR_MISSING, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "budgetAgency") });
-
-        return false;
+        return valid;
     }
 
+    /**
+     * Checks whether budgetDocument has a valid Agency.
+     * 
+     * @param BudgetDocument budgetDocument
+     * @return boolean True if the Agency is valid, false otherwise.
+     */
+    protected boolean isFedPassThroughAgencyValid(BudgetDocument budgetDocument) {
+
+        boolean valid = true;
+        
+        
+        budgetDocument.getBudget().refreshReferenceObject("federalPassThroughAgency");
+        
+        if (!StringUtils.isBlank(budgetDocument.getBudget().getFederalPassThroughAgencyNumber()) && budgetDocument.getBudget().getFederalPassThroughAgency() ==  null) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("budget.federalPassThroughAgencyNumber", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(Budget.class, "federalPassThroughAgency") });
+        }
+
+        return valid;
+    }
+    
     /**
      * Checks whether budgetPeriod is valid - start & end date are in proper order, period is not too long.
      * 
@@ -191,7 +219,7 @@ public class BudgetParametersRule {
      * @param Integer periodNumber The budgetPeriod's sequence number.
      * @return boolean True if the budgetPeriod is valid, false otherwise.
      */
-    protected boolean isPeriodValid(BudgetPeriod budgetPeriod, String periodLabel, Integer periodNumber) {
+    protected boolean isPeriodValid(BudgetPeriod budgetPeriod, String periodLabel, Integer periodNumber, boolean validateDatesExist) {
         boolean valid = true;
 
         if (budgetPeriod.getBudgetPeriodBeginDate() != null && budgetPeriod.getBudgetPeriodEndDate() != null) {
@@ -202,6 +230,9 @@ public class BudgetParametersRule {
             if (valid) {
                 valid &= isPeriodLengthValid(budgetPeriod.getBudgetPeriodBeginDate(), budgetPeriod.getBudgetPeriodEndDate(), KraConstants.maximumPeriodLengthUnits, Integer.parseInt(MAXIMUM_PERIOD_LENGTH), periodLabel, "budget.period.invalidLength_" + periodNumber);
             }
+        } else if (validateDatesExist) {
+            GlobalVariables.getErrorMap().putError("budget.period.invalidLength_" + periodNumber, KraKeyConstants.ERROR_PARAMETERS_DATES_MISSING, new String[] { periodLabel });
+            valid = false;
         }
 
         return valid;

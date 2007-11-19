@@ -33,6 +33,11 @@ public interface ChartService {
      */
     public Chart getByPrimaryId(String chartOfAccountsCode);
 
+    /**
+     * 
+     * This method returns the university chart
+     * @return
+     */
     public Chart getUniversityChart();
 
     /**

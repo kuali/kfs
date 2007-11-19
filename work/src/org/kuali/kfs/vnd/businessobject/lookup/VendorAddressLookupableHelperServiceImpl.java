@@ -47,7 +47,6 @@ public class VendorAddressLookupableHelperServiceImpl extends KualiLookupableHel
             searchResults = (List) getUniversalUserService().findUniversalUsers(fieldValues);
         }
         else if (getUniversalUserService().hasUniversalUserProperty(getBusinessObjectClass(), fieldValues)) {
-            // TODO WARNING: this does not support nested joins, because i don't have a test case
             searchResults = (List) getUniversalUserService().findWithUniversalUserJoin(getBusinessObjectClass(), fieldValues, unbounded);
         }
         else {

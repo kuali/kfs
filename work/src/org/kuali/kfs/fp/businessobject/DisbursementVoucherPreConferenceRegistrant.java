@@ -23,7 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher pre-conference registrant.  
  */
 public class DisbursementVoucherPreConferenceRegistrant extends PersistableBusinessObjectBase {
 

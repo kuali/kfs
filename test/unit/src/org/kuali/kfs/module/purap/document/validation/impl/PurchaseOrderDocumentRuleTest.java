@@ -16,6 +16,7 @@
 package org.kuali.module.purap.rules;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,23 +50,21 @@ public class PurchaseOrderDocumentRuleTest extends PurapRuleTestBase {
     /*
      * Tests of validateEmptyItemWithAccounts
      */
+    @ConfigureContext(session = PARKE)
     public void testValidateEmptyItemWithAccounts_NullItemWithAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT.populateItem();
+        PurchaseOrderItem poItem = ItemAccountsFixture.NULL_ITEM_WITH_ACCOUNT.populateItem();
         assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
 
-    public void testValidateEmptyItemWithAccounts_EmptyItemWithAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT.populateItem();
-        assertFalse(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
-    }
-
+    @ConfigureContext(session = PARKE)
     public void testValidateEmptyItemWithAccounts_WithItemWithAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT.populateItem();
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_WITH_ACCOUNT.populateItem();
         assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
 
+    @ConfigureContext(session = PARKE)
     public void testValidateEmptyItemWithAccounts_WithItemWithoutAccount() {
-        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT.populateItem();
+        PurchaseOrderItem poItem = ItemAccountsFixture.WITH_QUANTITY_WITH_PRICE_NULL_ACCOUNT.populateItem();
         assertTrue(rule.validateEmptyItemWithAccounts(poItem, "Item " + poItem.getItemLineNumber().toString()));
     }
 

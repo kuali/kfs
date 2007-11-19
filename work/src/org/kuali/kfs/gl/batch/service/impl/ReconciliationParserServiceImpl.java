@@ -74,6 +74,12 @@ public class ReconciliationParserServiceImpl implements ReconciliationParserServ
     private static final String COMMENT_STRING = "#";
 
     /**
+     * Parses a reconciliation file
+     * 
+     * @param reader a source of data from which to build a reconciliation
+     * @param tableId defined within the reconciliation file; defines which block to parse
+     * @return parsed reconciliation data
+     * @throws IOException thrown if the file cannot be written for any reason
      * @see org.kuali.module.gl.service.ReconciliationParserService#parseReconciliatioData(java.io.Reader)
      */
     public ReconciliationBlock parseReconciliationBlock(Reader reader, String tableId) throws IOException {

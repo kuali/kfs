@@ -22,6 +22,7 @@ package org.kuali.module.pdp.action.bank;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -34,10 +35,6 @@ import org.kuali.module.pdp.service.BankService;
 import org.kuali.module.pdp.service.ReferenceService;
 import org.kuali.module.pdp.service.SecurityRecord;
 
-
-/**
- * @author jsissom
- */
 public class BankSaveAction extends BaseAction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BankSaveAction.class);
 
@@ -48,14 +45,6 @@ public class BankSaveAction extends BaseAction {
         super();
         setBankService(SpringContext.getBean(BankService.class));
         setReferenceService(SpringContext.getBean(ReferenceService.class));
-    }
-
-    public void setBankService(BankService b) {
-        bankService = b;
-    }
-
-    public void setReferenceService(ReferenceService r) {
-        referenceService = r;
     }
 
     protected boolean isAuthorized(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) {
@@ -70,10 +59,17 @@ public class BankSaveAction extends BaseAction {
 
         if ("btnCancel".equals(btnPressed)) {
             LOG.debug("executeLogic() Cancelled, returning to list");
-        }
-        else if ("btnSave".equals(btnPressed)) {
+        } else if ("btnSave".equals(btnPressed)) {
             LOG.debug("executeLogic() Saving");
+
             BankForm bankForm = (BankForm) form;
+
+            ActionErrors errors = bankForm.validate(mapping, request);
+            if ( errors.size() > 0 ) {
+                saveErrors(request, errors);
+                return mapping.getInputForward();
+            }
+
             Bank bank = new Bank();
 
             bank.setAccountNumber(bankForm.getAccountNumber());
@@ -82,8 +78,7 @@ public class BankSaveAction extends BaseAction {
             bank.setDisbursementType((DisbursementType) referenceService.getCode("DisbursementType", bankForm.getDisbursementTypeCode()));
             if ((bankForm.getId() == null) || (bankForm.getId().intValue() == 0)) {
                 bank.setId(null);
-            }
-            else {
+            } else {
                 bank.setId(bankForm.getId());
             }
             bank.setName(bankForm.getName());
@@ -94,5 +89,13 @@ public class BankSaveAction extends BaseAction {
             bankService.save(bank);
         }
         return mapping.findForward("list");
+    }
+
+    public void setBankService(BankService b) {
+        bankService = b;
+    }
+
+    public void setReferenceService(ReferenceService r) {
+        referenceService = r;
     }
 }

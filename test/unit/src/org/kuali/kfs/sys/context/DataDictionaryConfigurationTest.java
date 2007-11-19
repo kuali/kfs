@@ -35,9 +35,10 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.suite.RelatesTo;
-import org.kuali.test.suite.RelatesTo.JiraIssue;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.PreCommitSuite;
 
+@AnnotationTestSuite(PreCommitSuite.class)
 @ConfigureContext
 public class DataDictionaryConfigurationTest extends KualiTestBase {
     private static final Logger LOG = Logger.getLogger(DataDictionaryConfigurationTest.class);
@@ -45,7 +46,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
     private Map<String, Exception> dataDictionaryLoadFailures;
     private Map<String, String> dataDictionaryWarnings;
 
-    @RelatesTo(JiraIssue.KULRNE6047)
     public void testLoadDataDictionaryConfiguration() throws Exception {
         loadDataDictionary();
         StringBuffer failureMessage = new StringBuffer("Unable to load DataDictionaryEntrys for some file locations:");
@@ -62,7 +62,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         assertTrue(failureMessage.toString(), dataDictionaryLoadFailures.isEmpty());
     }
 
-    @RelatesTo(JiraIssue.KULRNE6048)
     public void testAllDataDictionaryDocumentTypesExistInDocumentTypeTable() throws Exception {
         loadDataDictionary();
         List<String> documentTypeCodes = new ArrayList<String>();
@@ -74,7 +73,7 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
         List<String> ddEntriesWithMissingTypes = new ArrayList<String>();
         for (DocumentEntry documentEntry : documentEntries) {
             String code = documentEntry.getDocumentTypeCode();
-            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code)) {
+            if (!documentTypeCodes.contains(code) && !"RUSR".equals(code) &&!"PRPL".equals(code)) { //PRPL is added here because two doc types reference it.  This should be fixed
                 ddEntriesWithMissingTypes.add(code + " (" + documentEntry.getDocumentTypeName() + ")");
             }
             else {
@@ -89,7 +88,6 @@ public class DataDictionaryConfigurationTest extends KualiTestBase {
 
     }
 
-    @RelatesTo(JiraIssue.KULRNE6049)
     public void testAllDataDicitionaryDocumentTypesExistInWorkflowDocumentTypeTable() throws Exception {
         loadDataDictionary();
         List<String> workflowDocumentTypeNames = new ArrayList<String>();

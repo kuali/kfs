@@ -33,18 +33,19 @@ public interface ReversalDao {
     public void save(Reversal re);
 
     /**
-     * Returns
+     * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make
+     * sure that rows added have a unique primary key.
      * 
-     * @param t
-     * @return
+     * @param t a transaction to find the maximum sequence number for
+     * @return the max sequence number for the given transaction
      */
     public int getMaxSequenceNumber(Transaction t);
 
     /**
      * Looks up the reversal that matches the keys from the given transaction
      * 
-     * @param t
-     * @return
+     * @param t the given transaction
+     * @return the reversal that matches the keys of that transaction
      */
     public Reversal getByTransaction(Transaction t);
 

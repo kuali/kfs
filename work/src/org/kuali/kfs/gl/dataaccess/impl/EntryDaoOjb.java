@@ -29,6 +29,9 @@ import org.kuali.module.gl.bo.Entry;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EntryDao;
 
+/**
+ * An OJB implementation of EntryDao
+ */
 public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryDaoOjb.class);
 
@@ -46,10 +49,20 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
     private final static String MAX_CONSTANT = "max(documentNumber)";
 
 
+    /**
+     * Constructs a EntryDaoOjb instance
+     */
     public EntryDaoOjb() {
         super();
     }
 
+    /**
+     * Turns the given transaction into an entry and then saves that entry in the database
+     * 
+     * @param t the transaction to save
+     * @param postDate the officially reported posting date
+     * @see org.kuali.module.gl.dao.EntryDao#addEntry(org.kuali.module.gl.bo.Transaction, java.util.Date)
+     */
     public void addEntry(Transaction t, Date postDate) {
         LOG.debug("addEntry() started");
 
@@ -61,6 +74,9 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
     /**
      * Find the maximum transactionLedgerEntrySequenceNumber in the entry table for a specific transaction. This is used to make
      * sure that rows added have a unique primary key.
+     * 
+     * @param t the transaction to check
+     * @return the max sequence number
      */
     public int getMaxSequenceNumber(Transaction t) {
         LOG.debug("getSequenceNumber() ");
@@ -100,8 +116,8 @@ public class EntryDaoOjb extends PlatformAwareDaoBaseOjb implements EntryDao {
     /**
      * Purge the entry table by chart/year
      * 
-     * @param chart
-     * @param year
+     * @param chart the chart of accounts code of entries to purge
+     * @param year the university fiscal year of entries to purge
      */
     public void purgeYearByChart(String chartOfAccountsCode, int year) {
         LOG.debug("purgeYearByChart() started");

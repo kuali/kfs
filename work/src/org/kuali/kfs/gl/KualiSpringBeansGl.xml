@@ -57,18 +57,15 @@
 				<value>sufficientFundsJob</value>
 				<value>posterSummaryReportJob</value>
 				<value>clearPendingEntriesJob</value>
-				<value>yearEndJob</value>
+				<value>encumbranceForwardJob</value>
+				<value>balanceForwardJob</value>
+				<value>nominalActivityClosingJob</value>
+				<value>organizationReversionClosingJob</value>
+				<value>organizationReversionOpeningJob</value>
 				<value>sufficientFundsSyncJob</value>
 				<value>manualPurgeJob</value>
 				<value>clearOldOriginEntriesJob</value>
 				<value>purgeCorrectionProcessFilesJob</value>
-				<value>markScrubbableBackupGroupsAsUnscrubbableJob</value>
-				<value>markPostableGroupsAsUnpostableJob</value>
-			</list>
-		</property>
-		<property name="triggerNames">
-			<list>
-				<value>yearEndJobTrigger</value>
 			</list>
 		</property>
 	</bean>
@@ -1153,6 +1150,7 @@
 				<entry key="enterpriseFeedJob" value="hardDependency"/>
 				<entry key="collectorJob" value="softDependency" />
 				<entry key="nightlyOutJob" value="hardDependency" />
+				<entry key="laborBatchJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>	
@@ -1247,23 +1245,71 @@
 		</property>
 	</bean>
 	
-	<bean id="yearEndJobTrigger" parent="cronTrigger">
-		<property name="jobName" value="yearEndJob" />
-		<property name="cronExpression" value="00 00 08 ? * *" />
-	</bean>
-	
-	<bean id="yearEndJob" parent="scheduledJobDescriptor">
+	<bean id="encumbranceForwardJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="encumbranceForwardStep" />
-				<ref bean="balanceForwardStep" />
-				<ref bean="nominalActivityClosingStep" />
-				<ref bean="organizationReversionClosingStep" />
-				<ref bean="organizationReversionOpeningStep" />
 			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
 		</property>
 	</bean>
 	
+	<bean id="balanceForwardJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="balanceForwardStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="nominalActivityClosingJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="nominalActivityClosingStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="organizationReversionClosingJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="organizationReversionClosingStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+		
+	<bean id="organizationReversionOpeningJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="organizationReversionOpeningStep" />
+			</list>
+		</property>
+		<property name="dependencies">
+			<map>
+				<entry key="posterJob" value="hardDependency" />
+			</map>
+		</property>
+	</bean>
+		
 	<bean id="purgeEntryStep" class="org.kuali.module.gl.batch.PurgeEntryStep" parent="step">
 		<property name="entryService">
 			<ref bean="glEntryService" />
@@ -1366,18 +1412,6 @@
 		</property>
 	</bean>
 
-	<bean id="textFileLoaderStep" class="org.kuali.module.gl.batch.TextFileLoaderStep" parent="step">
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
-		</property>
-	</bean>
-
-	<bean id="textExportStep" class="org.kuali.module.gl.batch.TextExportStep" parent="step">
-		<property name="originEntryService">
-			<ref bean="originEntryService" />
-		</property>
-	</bean>
-
 	<bean id="sufficientFundsSyncStep" class="org.kuali.module.gl.batch.SufficientFundsSyncStep" parent="step">
 		<property name="sufficientFundsSyncService">
 			<ref bean="glSufficientFundsSyncService" />
@@ -1476,13 +1510,13 @@
 		</property>
 	</bean>
 
-	<bean id="markScrubbableBackupGroupsAsUnscrubbableJob" parent="unscheduledJobDescriptor">
+<!-- <bean id="markScrubbableBackupGroupsAsUnscrubbableJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="markScrubbableBackupGroupsAsUnscrubbableStep" />
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<bean id="markPostableScrubberValidGroupsAsUnpostableStep" class="org.kuali.module.gl.batch.MarkPostableScrubberValidGroupsAsUnpostableStep" parent="step">
 		<property name="originEntryGroupService">
@@ -1502,7 +1536,7 @@
 		</property>
 	</bean>
 	
-	<bean id="markPostableGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
+<!-- 	<bean id="markPostableGroupsAsUnpostableJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="markPostableScrubberValidGroupsAsUnpostableStep" />
@@ -1510,7 +1544,7 @@
 				<ref bean="deleteAllExpenditureTransactionsStep" />
 			</list>
 		</property>
-	</bean>
+	</bean> -->
 	
 	<bean id="correctionProcessOriginEntryService" class="org.kuali.module.gl.service.impl.GlCorrectionProcessOriginEntryServiceImpl">
 		<property name="businessObjectService">

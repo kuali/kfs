@@ -31,15 +31,22 @@ import org.kuali.module.gl.service.SufficientFundsRebuilderServiceTest;
 import org.kuali.module.gl.util.OJBUtilityTest;
 
 /**
- * 
- * 
+ * Runs all the tests in the GL test suite.
  */
 public class AllTests {
 
+    /**
+     * Constructs a AllTests instance
+     */
     public AllTests() {
         super();
     }
 
+    /**
+     * Returns a suite of all the tests in GL...except, of course, for those tests that were never
+     * added to this class.
+     * @return a Test suite with most all GL tests
+     */
     public static Test suite() {
         TestSuite suite = new TestSuite();
 
@@ -67,6 +74,11 @@ public class AllTests {
         return suite;
     }
 
+    /**
+     * Runs all the tests in the all test test suite
+     * 
+     * @param args command line arguments
+     */
     public static void main(String[] args) {
         junit.textui.TestRunner.run(suite());
     }

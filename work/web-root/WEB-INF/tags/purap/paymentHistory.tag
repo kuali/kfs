@@ -87,9 +87,7 @@
 	        			    <c:param name="docTypeCode" value="PREQ"/>
 	        			  </c:url>
 	        			  <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
-						  <a href="${page}" target="_pdp">
-							    &nbsp;<img src="${image}" border="0"/>
-						  </a>
+						  &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
 	        			</c:if>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
@@ -169,9 +167,7 @@
 	        			        <c:param name="docTypeCode" value="CM"/>
                  			  </c:url>
 	        			      <c:url var="image" value="/pdp/images/tinybutton-disbursinfo.gif"/>
-					          <a href="${page}" target="_pdp">
-							      &nbsp;<img src="${image}" border="0"/>
-                              </a>
+					          &nbsp;<a href="${page}" target="_pdp"><img src="${image}" border="0"/></a>
 	        			    </c:if>
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">

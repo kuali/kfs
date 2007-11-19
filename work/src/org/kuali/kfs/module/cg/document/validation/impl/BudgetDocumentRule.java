@@ -163,12 +163,12 @@ public class BudgetDocumentRule extends ResearchDocumentRuleBase {
         return budgetParametersRule.processAddPeriodBusinessRules(document, budgetPeriod);
     }
 
-    public boolean isPeriodListValid(List periodList, boolean isModularBudget) {
-        return budgetParametersRule.isPeriodListValid(periodList, isModularBudget);
+    public boolean isPeriodListValid(List periodList, boolean isModularBudget, boolean validatePeriodDatesExist) {
+        return budgetParametersRule.isPeriodListValid(periodList, isModularBudget, validatePeriodDatesExist);
     }
 
-    public boolean isPeriodValid(BudgetPeriod budgetPeriod, String periodLabel, Integer periodNumber) {
-        return budgetParametersRule.isPeriodValid(budgetPeriod, periodLabel, periodNumber);
+    public boolean isPeriodValid(BudgetPeriod budgetPeriod, String periodLabel, Integer periodNumber, boolean validatePeriodDatesExist) {
+        return budgetParametersRule.isPeriodValid(budgetPeriod, periodLabel, periodNumber, validatePeriodDatesExist);
     }
 
     public boolean isTaskListValid(List tasks) {

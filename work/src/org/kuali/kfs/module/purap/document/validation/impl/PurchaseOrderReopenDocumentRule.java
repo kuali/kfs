@@ -92,7 +92,6 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
             throw new ValidationException("Purchase Order Reopen document was null on validation.");
         }
         else {
-            // TODO: Get this from Business Rules.
             // Check the PO status.
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
             if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.CLOSED) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurapConstants.PurchaseOrderStatuses.PENDING_REOPEN)) {

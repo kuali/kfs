@@ -15,8 +15,10 @@
  */
 package org.kuali.kfs.web.struts;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.util.MessageResources;
 import org.apache.struts.util.PropertyMessageResourcesFactory;
+import org.kuali.kfs.context.PropertyLoadingFactoryBean;
 
 public class KFSMessageResourcesFactory extends PropertyMessageResourcesFactory {
 
@@ -27,6 +29,9 @@ public class KFSMessageResourcesFactory extends PropertyMessageResourcesFactory 
      */
     @Override
     public MessageResources createResources(String config) {
+        if (StringUtils.isBlank(config)) {
+            config = PropertyLoadingFactoryBean.getBaseProperty("struts.message.resources");
+        }
         return new KFSPropertyMessageResources(this, config, this.returnNull);
     }
 }

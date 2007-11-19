@@ -22,6 +22,9 @@ import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.util.Message;
 
+/**
+ * An interface that declares methods that would be needed to validate origin entries and transactions run through the scrubber
+ */
 public interface ScrubberValidator {
     /**
      * Validate a transaction in the scrubber

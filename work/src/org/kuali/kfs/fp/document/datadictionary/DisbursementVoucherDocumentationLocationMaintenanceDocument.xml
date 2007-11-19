@@ -39,7 +39,7 @@
 
         <summary>Documentation Location Maintenance Document</summary>
         <description>Document used to create or update Documentation Location objects</description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="DocumentationLocation" parameterName="DOCUMENTATION_LOCATION" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="DisbursementVoucher" parameterName="DOCUMENTATION_LOCATION" />
 
         <lockingKeys>
             <field attributeName="disbursementVoucherDocumentationLocationCode" />

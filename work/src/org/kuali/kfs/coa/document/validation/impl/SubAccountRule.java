@@ -40,7 +40,7 @@ import org.kuali.module.chart.service.SubFundGroupService;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
- * This class...
+ * This class implements the business rules specific to the {@link SubAccount} Maintenance Document.
  */
 public class SubAccountRule extends MaintenanceDocumentRuleBase {
 
@@ -55,7 +55,7 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     private boolean cgAuthorized;
 
     /**
-     * Constructs a SubAccountRule.java.
+     * Constructs a SubAccountRule and pseudo-inject some services
      */
     public SubAccountRule() {
         super();
@@ -63,6 +63,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link SubAccountRule#setCgAuthorized(boolean)}</li>
+     * <li>{@link SubAccountRule#checkForPartiallyEnteredReportingFields()}</li>
+     * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -82,6 +89,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link SubAccountRule#setCgAuthorized(boolean)}</li>
+     * <li>{@link SubAccountRule#checkForPartiallyEnteredReportingFields()}</li>
+     * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -103,6 +117,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link SubAccountRule#setCgAuthorized(boolean)}</li>
+     * <li>{@link SubAccountRule#checkForPartiallyEnteredReportingFields()}</li>
+     * <li>{@link SubAccountRule#checkCgRules(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -139,6 +160,11 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         newSubAccount = (SubAccount) super.getNewBo();
     }
 
+    /**
+     * 
+     * This checks that the reporting fields are entered altogether or none at all
+     * @return false if only one reporting field filled out and not all of them, true otherwise
+     */
     protected boolean checkForPartiallyEnteredReportingFields() {
 
         LOG.info("Entering checkExistenceAndActive()");
@@ -235,6 +261,17 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to make sure that if cgAuthorized is false it succeeds immediately, otherwise it checks that all the 
+     * information for CG is correctly entered and identified including:
+     * <ul>
+     * <li>If the {@link SubFundGroup} isn't for Contracts and Grants then check to make sure that the cost share and ICR fields are not empty</li>
+     * <li>If it isn't a child of CG, then the SubAccount must be of type ICR</li>
+     * </ul>
+     * @param document
+     * @return true if the user is not authorized to change CG fields, otherwise it checks the above conditions
+     */
     protected boolean checkCgRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -312,6 +349,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that if the cost share information is filled out that it is valid and exists, or if fields are missing 
+     * (such as the chart of accounts code and account number) an error is recorded
+     * @return true if all cost share fields filled out correctly, false if the chart of accounts code and account number for
+     * cost share are missing
+     */
     protected boolean checkCgCostSharingRules() {
 
         boolean success = true;
@@ -363,6 +407,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that if the ICR information is entered that it is valid for this fiscal year and that
+     * all of its fields are valid as well (such as account)
+     * @return true if the ICR information is filled in and it is valid
+     */
     protected boolean checkCgIcrRules() {
 
         boolean success = true;
@@ -535,6 +585,13 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This compares two string values to see if the newValue has changed from the oldValue
+     * @param oldValue - original value
+     * @param newValue - new value
+     * @return true if the two fields are different from each other
+     */
     protected boolean isFieldValueChanged(String oldValue, String newValue) {
 
         if (StringUtils.isBlank(oldValue) && StringUtils.isBlank(newValue)) {
@@ -557,6 +614,12 @@ public class SubAccountRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * 
+     * This method retrieves the label name for a specific property
+     * @param propertyName - property to retrieve label for (from the DD)
+     * @return the label
+     */
     private String getDisplayName(String propertyName) {
         return getDdService().getAttributeLabel(SubAccount.class, propertyName);
     }

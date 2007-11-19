@@ -17,6 +17,9 @@ package org.kuali.module.gl.bo;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * This class represents a G/L Summary object which contains monthly amounts
+ */
 public class GlSummary {
     private String fundGroup;
     private KualiDecimal beginningBalance;

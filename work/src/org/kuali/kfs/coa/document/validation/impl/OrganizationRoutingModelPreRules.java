@@ -19,16 +19,34 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
 
+/**
+ * 
+ * This class...
+ */
 public class OrganizationRoutingModelPreRules extends MaintenancePreRulesBase {
     public OrganizationRoutingModelPreRules() {
     }
 
+    /**
+     * This performs pre rules checks 
+     * <ul>
+     * <li>{@link OrganizationRoutingModelPreRules#copyKeyAttributesToModelDetail(OrganizationRoutingModelName)}</li>
+     * </ul>
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
+    @Override
     protected boolean doCustomPreRules(MaintenanceDocument maintDoc) {
         OrganizationRoutingModelName model = (OrganizationRoutingModelName) maintDoc.getNewMaintainableObject().getBusinessObject();
         copyKeyAttributesToModelDetail(model);
         return true;
     }
 
+    /**
+     * 
+     * This copies the chart of accounts, object code, and organization model name from the parent {@link OrganizationRoutingModelName} to the 
+     * {@link OrganizationRoutingModel} objects  
+     * @param model
+     */
     protected void copyKeyAttributesToModelDetail(OrganizationRoutingModelName model) {
         for (OrganizationRoutingModel modelDelegate : model.getOrganizationRoutingModel()) {
             modelDelegate.setChartOfAccountsCode(model.getChartOfAccountsCode());

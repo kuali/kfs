@@ -38,6 +38,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByObjectInquirableImpl.class);
 
     /**
+     * Builds the keys for this inquiry.
+     * @return a List of Strings, holding the keys of this inquiry
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#buildUserDefinedAttributeKeyList()
      */
     protected List buildUserDefinedAttributeKeyList() {
@@ -56,6 +58,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * The addition of a couple attributes to the lookup - object code, object level, and link button
+     * @return a Map of user defined attributes
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getUserDefinedAttributeMap()
      */
     protected Map getUserDefinedAttributeMap() {
@@ -67,6 +71,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Changes the name of attributes on the fly...in this case, turns the link button to display its name as glpe
+     * @param attributeName the attribute to rename
+     * @return a String with the new attribute name
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getAttributeName(java.lang.String)
      */
     protected String getAttributeName(String attributeName) {
@@ -77,6 +84,10 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * If the key name sent in represents an "exclusive field", returns "" as the key value
+     * @param keyName the name of the key that may be changed
+     * @param keyValue the value of the key that may be changed
+     * @return an Object with the perhaps modified value for the key
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyValue(java.lang.String, java.lang.Object)
      */
     protected Object getKeyValue(String keyName, Object keyValue) {
@@ -87,6 +98,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Justs returns the key name given
+     * @param keyName a key name
+     * @return the key name given
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getKeyName(java.lang.String)
      */
     protected String getKeyName(String keyName) {
@@ -95,6 +109,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Return a Spring bean for the lookup
+     * @return the name of the Spring bean of the lookup
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getLookupableImplAttributeName()
      */
     protected String getLookupableImplAttributeName() {
@@ -102,6 +118,8 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Return the page name of this lookup
+     * @return the page name for all GL lookups
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getBaseUrl()
      */
     protected String getBaseUrl() {
@@ -109,6 +127,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Retrieves the business class to use as the basis of an inquiry for the given attribute
+     * @param attributeName the name to build the inquiry link to
+     * @return the Class of the business object that should be inquired on
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#getInquiryBusinessObjectClass(String)
      */
     protected Class getInquiryBusinessObjectClass(String attributeName) {
@@ -119,6 +140,9 @@ public class AccountBalanceByObjectInquirableImpl extends AbstractGLInquirableIm
     }
 
     /**
+     * Addes the lookup impl attribute to the parameters
+     * @param parameter the parameters used in the lookup
+     * @param attributeName the attribute name that an inquiry URL is being built for
      * @see org.kuali.module.gl.web.inquirable.AbstractGLInquirableImpl#addMoreParameters(java.util.Properties, java.lang.String)
      */
     protected void addMoreParameters(Properties parameter, String attributeName) {

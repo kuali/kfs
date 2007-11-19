@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class represents a deposit cash receipt control which contains cash receipt header used for validating receipts
  */
 public class DepositCashReceiptControl extends PersistableBusinessObjectBase {
     private String financialDocumentDepositNumber;

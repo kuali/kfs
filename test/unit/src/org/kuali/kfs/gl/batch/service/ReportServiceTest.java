@@ -18,21 +18,27 @@ package org.kuali.module.gl.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.UnitTestSqlDao;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
 /**
- * 
+ * A test that allows manual testing of report generation for nightly out (ie, creates results and then people can look at those results and make certain they were expected)
  */
 @ConfigureContext
+@RawSQL
 public class ReportServiceTest extends KualiTestBase {
 
     private NightlyOutService nightlyOutService;
     private ReportService reportService;
     private UnitTestSqlDao unitTestSqlDao;
 
+    /**
+     * Sets up the services needed by this test
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -43,9 +49,9 @@ public class ReportServiceTest extends KualiTestBase {
     }
 
     /**
-     * This method isn't as much a test as an easy way for me to fire off the report generation process so that I can check it.
+     * This method isn't as much a test as an easy way to fire off the report generation process so that the reports can be checked.
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPendingEntryReport() throws Exception {
 

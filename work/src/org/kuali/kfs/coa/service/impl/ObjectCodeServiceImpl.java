@@ -38,11 +38,8 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     private UniversityDateService universityDateService;
 
     /**
-     * Retrieves an Account object based on primary key.
      * 
-     * @param universityFiscalYear - University Fiscal Year
-     * @param chartOfAccountsCode - Chart of Accounts Code
-     * @param financialObjectCode - Financial Object Code
+     * @see org.kuali.module.chart.service.ObjectCodeService#getByPrimaryId(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public ObjectCode getByPrimaryId(Integer universityFiscalYear, String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getByPrimaryId(universityFiscalYear, chartOfAccountsCode, financialObjectCode);
@@ -56,6 +53,7 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
     }
 
     /**
+     * Injects the ObjectCodeDao
      * @param objectCodeDao
      */
     public void setObjectCodeDao(ObjectCodeDao objectCodeDao) {
@@ -80,6 +78,10 @@ public class ObjectCodeServiceImpl implements ObjectCodeService {
         this.universityDateService = universityDateService;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectCodeService#getYearList(java.lang.String, java.lang.String)
+     */
     public List getYearList(String chartOfAccountsCode, String financialObjectCode) {
         return objectCodeDao.getYearList(chartOfAccountsCode, financialObjectCode);
     }

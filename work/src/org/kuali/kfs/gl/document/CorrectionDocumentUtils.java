@@ -34,6 +34,9 @@ import org.kuali.module.gl.web.optionfinder.OriginEntryFieldFinder;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.web.optionfinder.LaborOriginEntryFieldFinder;
 
+/**
+ * This class provides utility methods for the correction document
+ */
 public class CorrectionDocumentUtils {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionDocumentUtils.class);
     public static final int DEFAULT_RECORD_COUNT_FUNCTIONALITY_LIMIT = 1000;
@@ -50,6 +53,11 @@ public class CorrectionDocumentUtils {
 
     public static final int DEFAULT_RECORDS_PER_PAGE = 10;
 
+    /**
+     * This method returns the limit for record count functionality
+     * 
+     * @return limit for record count functionality
+     */
     public static int getRecordCountFunctionalityLimit() {
         String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORD_COUNT_FUNCTIONALITY_LIMIT);
         if (limitString != null) {
@@ -59,6 +67,12 @@ public class CorrectionDocumentUtils {
         return DEFAULT_RECORD_COUNT_FUNCTIONALITY_LIMIT;
     }
 
+    /**
+     * This method returns the number of records per page
+     * 
+     * @return number of records per page
+     * 
+     */
     public static int getRecordsPerPage() {
         String limitString = SpringContext.getBean(ParameterService.class).getParameterValue(CorrectionDocument.class, KFSConstants.GeneralLedgerCorrectionProcessApplicationParameterKeys.RECORDS_PER_PAGE);
         if (limitString != null) {
@@ -68,8 +82,11 @@ public class CorrectionDocumentUtils {
     }
 
     /**
-     * @param correctionForm
-     * @return
+     * This method returns true if input group size is greater than or equal to record count functionality limit
+     * 
+     * @param inputGroupSize size of input groups
+     * @param recordCountFunctionalityLimit limit for record count functionality 
+     * @return true if input group size is greater than or equal to record count functionality limit
      */
     public static boolean isRestrictedFunctionalityMode(int inputGroupSize, int recordCountFunctionalityLimit) {
         return (recordCountFunctionalityLimit != CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED && inputGroupSize >= recordCountFunctionalityLimit) || recordCountFunctionalityLimit == CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_NONE;
@@ -79,8 +96,8 @@ public class CorrectionDocumentUtils {
      * When a correction criterion is about to be added to a group, this will check if it is valid, meaning that the field name is
      * not blank
      * 
-     * @param correctionCriteria
-     * @return
+     * @param correctionCriteria validated correction criteria
+     * @return true if correction criteria is valid for adding
      */
     public static boolean validCorrectionCriteriaForAdding(CorrectionCriteria correctionCriteria) {
         String fieldName = correctionCriteria.getCorrectionFieldName();
@@ -93,8 +110,8 @@ public class CorrectionDocumentUtils {
     /**
      * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
      * 
-     * @param correctionCriteria
-     * @return
+     * @param correctionCriteria validated correction criteria
+     * @return true if correction criteria is valid for saving
      */
     public static boolean validCorrectionCriteriaForSaving(CorrectionCriteria correctionCriteria) {
         return correctionCriteria == null || (StringUtils.isBlank(correctionCriteria.getCorrectionFieldName()) && StringUtils.isBlank(correctionCriteria.getCorrectionFieldValue()));
@@ -104,8 +121,8 @@ public class CorrectionDocumentUtils {
      * When a correction change is about to be added to a group, this will check if it is valid, meaning that the field name is not
      * blank
      * 
-     * @param correctionCriteria
-     * @return
+     * @param correctionChange validated correction change
+     * @return true is correction change is valid for adding
      */
     public static boolean validCorrectionChangeForAdding(CorrectionChange correctionChange) {
         String fieldName = correctionChange.getCorrectionFieldName();
@@ -118,8 +135,8 @@ public class CorrectionDocumentUtils {
     /**
      * When a document is about to be saved, this will check if it is valid, meaning that the field name and value are both blank
      * 
-     * @param correctionCriteria
-     * @return
+     * @param correctionCriteria validated correction criteria
+     * @return true if correction change is valid for saving (i.e. correction change is null or correction field name and field value are blank)
      */
     public static boolean validCorrectionChangeForSaving(CorrectionChange correctionChange) {
         return correctionChange == null || (StringUtils.isBlank(correctionChange.getCorrectionFieldName()) && StringUtils.isBlank(correctionChange.getCorrectionFieldValue()));
@@ -128,7 +145,7 @@ public class CorrectionDocumentUtils {
     /**
      * Sets all origin entries' entry IDs to null within the collection.
      * 
-     * @param originEntries
+     * @param originEntries collection of origin entries
      */
     public static void setAllEntryIdsToNull(Collection<OriginEntryFull> originEntries) {
         for (OriginEntryFull entry : originEntries) {
@@ -139,7 +156,7 @@ public class CorrectionDocumentUtils {
     /**
      * Sets all origin entries' entry IDs to be sequential starting from 0 in the collection
      * 
-     * @param originEntries
+     * @param originEntries collection of origin entries
      */
     public static void setSequentialEntryIds(Collection<OriginEntryFull> originEntries) {
         int index = 0;
@@ -153,9 +170,9 @@ public class CorrectionDocumentUtils {
      * Returns whether an origin entry matches the passed in criteria. If both the criteria and actual value are both String types
      * and are empty, null, or whitespace only, then they will match.
      * 
-     * @param cc
-     * @param oe
-     * @return
+     * @param cc correction criteria to test against origin entry
+     * @param oe origin entry to test
+     * @return true if origin entry matches the passed in criteria
      */
     public static boolean entryMatchesCriteria(CorrectionCriteria cc, OriginEntryFull oe) {
         OriginEntryFieldFinder oeff = new OriginEntryFieldFinder();
@@ -190,9 +207,9 @@ public class CorrectionDocumentUtils {
      * Returns whether an origin entry matches the passed in criteria. If both the criteria and actual value are both String types
      * and are empty, null, or whitespace only, then they will match.
      * 
-     * @param cc
-     * @param oe
-     * @return
+     * @param cc correction criteria to test against origin entry
+     * @param oe origin entry to test
+     * @return true if origin entry matches the passed in criteria
      */
     public static boolean laborEntryMatchesCriteria(CorrectionCriteria cc, OriginEntryFull oe) {
         LaborOriginEntryFieldFinder loeff = new LaborOriginEntryFieldFinder();
@@ -227,9 +244,9 @@ public class CorrectionDocumentUtils {
     /**
      * Converts the value into a string, with the appropriate formatting
      * 
-     * @param fieldActualValue
-     * @param fieldType
-     * @return
+     * @param fieldActualValue actual field value
+     * @param fieldType field type (i.e. "String", "Integer", "Date")
+     * @return String object value as a string
      */
     public static String convertToString(Object fieldActualValue, String fieldType) {
         if (fieldActualValue == null) {
@@ -258,9 +275,9 @@ public class CorrectionDocumentUtils {
      * Applies a list of change criteria groups to an origin entry. Note that the returned value, if not null, is a reference to the
      * same instance as the origin entry passed in (i.e. intentional side effect)
      * 
-     * @param entry
+     * @param entry origin entry
      * @param matchCriteriaOnly if true and no criteria match, then this method will return null
-     * @param changeCriteriaGroups
+     * @param changeCriteriaGroups list of change criteria groups to apply
      * @return the passed in entry instance, or null (see above)
      */
     public static OriginEntryFull applyCriteriaToEntry(OriginEntryFull entry, boolean matchCriteriaOnly, List<CorrectionChangeGroup> changeCriteriaGroups) {
@@ -290,9 +307,9 @@ public class CorrectionDocumentUtils {
     /**
      * Returns whether the entry matches any of the criteria groups
      * 
-     * @param entry
-     * @param groups
-     * @return
+     * @param entry origin entry
+     * @param groups collection of correction change group
+     * @return true if origin entry matches any of the criteria groups
      */
     public static boolean doesEntryMatchAnyCriteriaGroups(OriginEntryFull entry, Collection<CorrectionChangeGroup> groups) {
         boolean anyGroupMatch = false;
@@ -314,11 +331,11 @@ public class CorrectionDocumentUtils {
     }
 
     /**
-     * Returns whether the entry matches any of the criteria groups
+     * Returns whether the labor entry matches any of the criteria groups
      * 
-     * @param entry
-     * @param groups
-     * @return
+     * @param entry labor origin entry
+     * @param groups collection of correction change group
+     * @return true if labor origin entry matches any of the criteria groups
      */
     public static boolean doesLaborEntryMatchAnyCriteriaGroups(OriginEntryFull entry, Collection<CorrectionChangeGroup> groups) {
         boolean anyGroupMatch = false;
@@ -342,8 +359,8 @@ public class CorrectionDocumentUtils {
     /**
      * Computes the statistics (credit amount, debit amount, row count) of a collection of origin entries.
      * 
-     * @param entries
-     * @return
+     * @param entries list of orgin entry entries
+     * @return {@link OriginEntryStatistics} statistics (credit amount, debit amount, row count) of a collection of origin entries.
      */
     public static OriginEntryStatistics getStatistics(Collection<OriginEntryFull> entries) {
         OriginEntryStatistics oes = new OriginEntryStatistics();
@@ -357,8 +374,8 @@ public class CorrectionDocumentUtils {
     /**
      * Returns whether the origin entry represents a debit
      * 
-     * @param oe
-     * @return
+     * @param oe origin entry
+     * @return true if origin entry represents a debit
      */
     public static boolean isDebit(OriginEntryFull oe) {
         return (KFSConstants.GL_DEBIT_CODE.equals(oe.getTransactionDebitCreditCode()));
@@ -367,8 +384,8 @@ public class CorrectionDocumentUtils {
     /**
      * Returns whether the origin entry represents a budget
      * 
-     * @param oe
-     * @return
+     * @param oe origin entry
+     * @return true if origin entry represents a budget
      */
     public static boolean isBudget(OriginEntryFull oe) {
         return KFSConstants.GL_BUDGET_CODE.equals(oe.getTransactionDebitCreditCode());
@@ -377,8 +394,8 @@ public class CorrectionDocumentUtils {
     /**
      * Returns whether the origin entry represents a credit
      * 
-     * @param oe
-     * @return
+     * @param oe origin entry
+     * @return true if origin entry represents a credit
      */
     public static boolean isCredit(OriginEntryFull oe) {
         return KFSConstants.GL_CREDIT_CODE.equals(oe.getTransactionDebitCreditCode());
@@ -387,8 +404,8 @@ public class CorrectionDocumentUtils {
     /**
      * Given an instance of statistics, it adds information from the passed in entry to the statistics
      * 
-     * @param entry
-     * @param statistics
+     * @param entry origin entry
+     * @param statistics adds statistics from the passed in origin entry to the passed in statistics
      */
     public static void updateStatisticsWithEntry(OriginEntryFull entry, OriginEntryStatistics statistics) {
         statistics.incrementCount();
@@ -406,8 +423,8 @@ public class CorrectionDocumentUtils {
     /**
      * Sets document with the statistics data
      * 
-     * @param statistics
-     * @param document
+     * @param statistics origin entry statistics that are being used to set document
+     * @param document document with statistic information being set
      */
     public static void copyStatisticsToDocument(OriginEntryStatistics statistics, CorrectionDocument document) {
         document.setCorrectionCreditTotalAmount(statistics.getCreditTotalAmount());

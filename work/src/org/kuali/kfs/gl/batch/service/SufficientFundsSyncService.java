@@ -15,6 +15,14 @@
  */
 package org.kuali.module.gl.service;
 
+/**
+ * An interface declaring methods needed to run the sufficient funds sync service.  It should be noted, though,
+ * that this service is only run under unusual circumstances; most of the time, simply saving object codes and
+ * accounts will save the records that this service would, in general, generate
+ */
 public interface SufficientFundsSyncService {
+    /**
+     * Makes certain that sufficient fund balances will be rebuilt for all accounts and object codes
+     */
     public void syncSufficientFunds();
 }

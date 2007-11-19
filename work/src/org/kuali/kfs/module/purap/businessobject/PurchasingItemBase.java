@@ -29,8 +29,6 @@ public abstract class PurchasingItemBase extends PurApItemBase implements Purcha
      * @see org.kuali.module.purap.bo.PurApItem#isConsideredEntered()
      */
     public boolean isConsideredEntered() {
-        // TODO PURAP - this check is here because PO 'Change' docs all extend this class not PurchaseOrderDocumentRule... is that
-        // hierarchy necessary?
         if (this instanceof PurchaseOrderItem) {
             // if item is PO item... only validate active items
             PurchaseOrderItem poi = (PurchaseOrderItem) this;

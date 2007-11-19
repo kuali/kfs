@@ -165,7 +165,7 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
                 item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
             }
-            // make restocking fee is negative
+            // make sure restocking fee is negative
             else if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
                 item.setExtendedPrice(item.getExtendedPrice().abs().negated());
                 if (item.getItemUnitPrice() != null) {
@@ -175,8 +175,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         }
 
         // proration
-        // TODO (KULPURAP-1575: ckirschenman) move this to the accounts payable service and call, since it is essentially the
-        // easiest case from that
         if (cmDocument.isSourceVendor()) {
             // no proration on vendor
             return;
@@ -209,6 +207,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         // end proration
     }
 
+    /**
+     * @see org.kuali.module.purap.service.CreditMemoService#getCreditMemoByDocumentNumber(java.lang.String)
+     */
     public CreditMemoDocument getCreditMemoByDocumentNumber(String documentNumber) {
         LOG.debug("getCreditMemoByDocumentNumber() started");
 
@@ -241,7 +242,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     public void saveDocumentWithoutValidation(CreditMemoDocument document) {
         try {
             documentService.saveDocument(document, DocumentSystemSaveEvent.class);
-            // documentService.saveDocumentWithoutRunningValidation(document);
 
         }
         catch (WorkflowException we) {
@@ -277,13 +277,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * This method reopens PO if closed
-     * 
-     * @param cmDocument
+     * @see org.kuali.module.purap.service.CreditMemoService#reopenClosedPO(org.kuali.module.purap.document.CreditMemoDocument)
      */
     public void reopenClosedPO(CreditMemoDocument cmDocument) {
-
-        // TODO (KULPURAP-1576: dlemus) CHRIS/DELYEA - THIS SHOULD HAPPEN WITH GL AND PERCENT CONVERT AT 'route document'
         // reopen PO if closed
         Integer purchaseOrderDocumentId = cmDocument.getPurchaseOrderIdentifier();
         if (cmDocument.isSourceDocumentPaymentRequest() && ObjectUtils.isNull(purchaseOrderDocumentId)) {
@@ -295,14 +291,12 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             PurchaseOrderDocument purchaseOrderDocument = purchaseOrderService.getCurrentPurchaseOrder(purchaseOrderDocumentId);
             // only reopen if the po is not null, it does not have a pending change already scheduled, and it is in closed status
             if (ObjectUtils.isNotNull(purchaseOrderDocument) && (!purchaseOrderDocument.isPendingActionIndicator()) && PurapConstants.PurchaseOrderStatuses.CLOSED.equals(purchaseOrderDocument.getStatusCode())) {
-                // TODO (KULPURAP-1576: dlemus) call reopen purchasing order service method when avaliable
+
             }
         }
     }
 
     /**
-     * Must be an AP user, cm not already on hold, extracted date is null, and cm status approved or complete
-     * 
      * @see org.kuali.module.purap.service.CreditMemoService#canHoldPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
@@ -339,8 +333,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
     }
 
     /**
-     * Must be person who put cm on hold or ap supervisor and cm must be on hold
-     * 
      * @see org.kuali.module.purap.service.CreditMemoService#canRemoveHoldPaymentRequest(org.kuali.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
@@ -378,9 +370,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
 
     /**
-     * Document can be canceled if not in canceled status already, extracted date is null, hold indicator is false, and user is
-     * member of the ap workgroup.
-     * 
      * @see org.kuali.module.purap.service.CreditMemoService#canCancelCreditMemo(org.kuali.module.purap.document.CreditMemoDocument,
      *      org.kuali.core.bo.user.UniversalUser)
      */
@@ -395,16 +384,19 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         return canCancel;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#updateStatusByNode(java.lang.String, org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public String updateStatusByNode(String currentNodeName, AccountsPayableDocument apDoc) {
         return updateStatusByNode(currentNodeName, (CreditMemoDocument) apDoc);
     }
 
     /**
-     * This method updates the status of a cm document
+     * Updates the status of a credit memo document, currently this is used by the cancel action
      * 
-     * @param cmDocument
-     * @param currentNodeName
-     * @param cmDoc
+     * @param currentNodeName  The string representing the current node to be used to obtain the canceled status code.
+     * @param cmDoc            The credit memo document to be updated.
+     * @return                 The string representing the canceledStatusCode, if empty it is assumed to be not from workflow. 
      */
     private String updateStatusByNode(String currentNodeName, CreditMemoDocument cmDoc) {
         // update the status on the document
@@ -450,7 +442,6 @@ public class CreditMemoServiceImpl implements CreditMemoService {
             throw new RuntimeException(e.getMessage());
         }
 
-        // FIXME shouldn't be using springcontext inside a service, but having problems with adding to spring bean file (hjs)
         SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(cmDocument, "");
         LOG.debug("cancelExtractedCreditMemo() CM " + cmDocument.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedCreditMemo() ended");
@@ -484,97 +475,62 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         LOG.debug("resetExtractedCreditMemo() ended");
     }
 
-    /**
-     * Sets the creditMemoDao attribute value.
-     * 
-     * @param creditMemoDao The creditMemoDao to set.
-     */
+
     public void setCreditMemoDao(CreditMemoDao creditMemoDao) {
         this.creditMemoDao = creditMemoDao;
     }
 
-    /**
-     * Sets the kualiConfigurationService attribute value.
-     * 
-     * @param kualiConfigurationService The kualiConfigurationService to set.
-     */
     public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
-    /**
-     * Sets the businessObjectService attribute value.
-     * 
-     * @param businessObjectService The businessObjectService to set.
-     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }
 
-    /**
-     * Sets the documentService attribute value.
-     * 
-     * @param documentService The documentService to set.
-     */
     public void setDocumentService(DocumentService documentService) {
         this.documentService = documentService;
     }
 
-    /**
-     * Sets the noteService attribute value.
-     * 
-     * @param noteService The noteService to set.
-     */
     public void setNoteService(NoteService noteService) {
         this.noteService = noteService;
     }
 
-    /**
-     * Sets the purapService attribute value.
-     * 
-     * @param purapService The purapService to set.
-     */
     public void setPurapService(PurapService purapService) {
         this.purapService = purapService;
     }
 
-    /**
-     * Sets the generalLedgerService attribute value.
-     * 
-     * @param generalLedgerService The generalLedgerService to set.
-     */
     public void setPurapGeneralLedgerService(PurapGeneralLedgerService purapGeneralLedgerService) {
         this.purapGeneralLedgerService = purapGeneralLedgerService;
     }
 
-    /**
-     * Sets the paymentRequestService attribute value.
-     * 
-     * @param paymentRequestService The paymentRequestService to set.
-     */
     public void setPaymentRequestService(PaymentRequestService paymentRequestService) {
         this.paymentRequestService = paymentRequestService;
     }
 
-    /**
-     * Sets the purchaseOrderService attribute value.
-     * 
-     * @param purchaseOrderService The purchaseOrderService to set.
-     */
     public void setPurchaseOrderService(PurchaseOrderService purchaseOrderService) {
         this.purchaseOrderService = purchaseOrderService;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#shouldPurchaseOrderBeReversed(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public boolean shouldPurchaseOrderBeReversed(AccountsPayableDocument apDoc) {
         // always return false, never reverse
         return false;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#getUniversalUserForCancel(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public UniversalUser getUniversalUserForCancel(AccountsPayableDocument apDoc) {
         // return null, since superuser is fine for CM
         return null;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#takePurchaseOrderCancelAction(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public void takePurchaseOrderCancelAction(AccountsPayableDocument apDoc) {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
         if (cmDocument.isReopenPurchaseOrderIndicator()) {
@@ -598,6 +554,9 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         this.parameterService = parameterService;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.AccountsPayableDocumentSpecificService#poItemEligibleForAp(org.kuali.module.purap.document.AccountsPayableDocument, org.kuali.module.purap.bo.PurchaseOrderItem)
+     */
     public boolean poItemEligibleForAp(AccountsPayableDocument apDoc, PurchaseOrderItem poItem) {
         // if the po item is not active... skip it
         if (!poItem.isItemActiveIndicator()) {

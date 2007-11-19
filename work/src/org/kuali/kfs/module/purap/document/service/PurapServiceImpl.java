@@ -68,8 +68,6 @@ public class PurapServiceImpl implements PurapService {
     private BusinessObjectService businessObjectService;
     private DateTimeService dateTimeService;
     private ParameterService parameterService;
-    private UniversityDateService universityDateService;
-    private PurApWorkflowIntegrationService purApWorkflowIntegrationService;
 
     public void setBusinessObjectService(BusinessObjectService boService) {
         this.businessObjectService = boService;
@@ -79,20 +77,16 @@ public class PurapServiceImpl implements PurapService {
         this.dateTimeService = dateTimeService;
     }
 
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
+    public void setParameterService(ParameterService parameterService) {
+        this.parameterService = parameterService;
     }
-
-    public void setPurApWorkflowIntegrationService(PurApWorkflowIntegrationService purApWorkflowIntegrationService) {
-        this.purApWorkflowIntegrationService = purApWorkflowIntegrationService;
-    }
-
 
     /**
-     * This method updates the status for a purap document.
+     * @see org.kuali.module.purap.service.PurapService#updateStatus(org.kuali.module.purap.document.PurchasingAccountsPayableDocument, java.lang.String)
      */
     public boolean updateStatus(PurchasingAccountsPayableDocument document, String newStatus) {
-        LOG.debug("updateStatus(): entered method.");
+        LOG.debug("updateStatus() started");
+
         if (ObjectUtils.isNotNull(document) || ObjectUtils.isNotNull(newStatus)) {
             String oldStatus = document.getStatusCode();
             document.setStatusCode(newStatus);
@@ -104,7 +98,12 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurapService#getRelatedViews(java.lang.Class, java.lang.Integer)
+     */
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier) {
+        LOG.debug("getRelatedViews() started");
+
         Map criteria = new HashMap();
         criteria.put("accountsPayablePurchasingDocumentLinkIdentifier", accountsPayablePurchasingDocumentLinkIdentifier);
         List boList = (List) businessObjectService.findMatchingOrderBy(clazz, criteria, KFSPropertyConstants.DOCUMENT_NUMBER, true);
@@ -112,12 +111,11 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method will add the below line items to the corresponding document based on the item types specified in the
-     * "BELOW_THE_LINE_ITEMS" system parameter of the document.
-     * 
-     * @param document
+     * @see org.kuali.module.purap.service.PurapService#addBelowLineItems(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void addBelowLineItems(PurchasingAccountsPayableDocument document) {
+        LOG.debug("addBelowLineItems() started");
+
         String[] itemTypes = getBelowTheLineForDocument(document);
 
         List<PurApItem> existingItems = document.getItems();
@@ -156,13 +154,15 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method sorts the below the line elements
+     * Sorts the below the line elements
      * 
      * @param itemTypes
      * @param existingItems
      * @param belowTheLine
      */
     private void sortBelowTheLine(String[] itemTypes, List<PurApItem> existingItems, List<PurApItem> belowTheLine) {
+        LOG.debug("sortBelowTheLine() started");
+
         // sort existing below the line if any
         for (int i = 0; i < existingItems.size(); i++) {
             PurApItem purApItem = existingItems.get(i);
@@ -189,6 +189,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#sortBelowTheLine(java.lang.String[], java.util.List, java.util.List)
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document) {
+        LOG.debug("sortBelowTheLine() started");
+
         String[] itemTypes = getBelowTheLineForDocument(document);
 
         List<PurApItem> existingItems = document.getItems();
@@ -199,12 +201,11 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method get the Below the line item type codes from the parameters table
-     * 
-     * @param document
-     * @return
+     * @see org.kuali.module.purap.service.PurapService#getBelowTheLineForDocument(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document) {
+        LOG.debug("getBelowTheLineForDocument() started");
+
         // Obtain a list of below the line items from system parameter
         String documentTypeClassName = document.getClass().getName();
         String[] documentTypeArray = StringUtils.split(documentTypeClassName, ".");
@@ -229,6 +230,8 @@ public class PurapServiceImpl implements PurapService {
      *      org.kuali.module.purap.bo.ItemType)
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT) {
+        LOG.debug("getBelowTheLineByType() started");
+
         String[] itemTypes = getBelowTheLineForDocument(document);
         boolean foundItemType = false;
         for (String itemType : itemTypes) {
@@ -257,6 +260,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)
      */
     public boolean isDateInPast(Date compareDate) {
+        LOG.debug("isDateInPast() started");
+
         Date today = dateTimeService.getCurrentSqlDate();
         int diffFromToday = dateTimeService.dateDiff(today, compareDate, false);
         return (diffFromToday < 0);
@@ -266,6 +271,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#isDateMoreThanANumberOfDaysAway(java.sql.Date, int)
      */
     public boolean isDateMoreThanANumberOfDaysAway(Date compareDate, int daysAway) {
+        LOG.debug("isDateMoreThanANumberOfDaysAway() started");
+
         Date todayAtMidnight = dateTimeService.getCurrentSqlDateMidnight();
         Calendar daysAwayCalendar = dateTimeService.getCalendar(todayAtMidnight);
         daysAwayCalendar.add(Calendar.DATE, daysAway);
@@ -284,6 +291,8 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#isDateAYearAfterToday(java.sql.Date)
      */
     public boolean isDateAYearBeforeToday(Date compareDate) {
+        LOG.debug("isDateAYearBeforeToday() started");
+
         Calendar calendar = dateTimeService.getCurrentCalendar();
         calendar.add(Calendar.YEAR, -1);
         Date yearAgo = new Date(calendar.getTimeInMillis());
@@ -291,10 +300,12 @@ public class PurapServiceImpl implements PurapService {
         return (diffFromYearAgo > 0);
     }
 
-    /*
-     * PURCHASING DOCUMENT METHODS
+    /**
+     * @see org.kuali.module.purap.service.PurapService#getApoLimit(java.lang.Integer, java.lang.String, java.lang.String)
      */
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org) {
+        LOG.debug("getApoLimit() started");
+
         KualiDecimal purchaseOrderTotalLimit = SpringContext.getBean(VendorService.class).getApoLimitFromContract(vendorContractGeneratedIdentifier, chart, org);
         if (ObjectUtils.isNull(purchaseOrderTotalLimit)) {
             // We didn't find the limit on the vendor contract, get it from the org parameter table.
@@ -312,12 +323,11 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method returns true if full entry mode has ended for this document
-     * 
-     * @param preqDocument
-     * @return a boolean
+     * @see org.kuali.module.purap.service.PurapService#isFullDocumentEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
+        LOG.debug("isFullDocumentEntryCompleted() started");
+
         // for now just return true if not in one of the first few states
         boolean value = false;
         if (purapDocument instanceof PaymentRequestDocument) {
@@ -329,15 +339,14 @@ public class PurapServiceImpl implements PurapService {
         return value;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurapService#performLogicForFullEntryCompleted(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument) {
-        if (purapDocument instanceof RequisitionDocument) {
-            /*
-             * not sure if this can be used or not? The fact that the REQ is editable by anyone while it's In Process but only
-             * Content Approvers can edit the doc in Content Level does that leave this method as holding too many if-else cases?
-             */
-        }
+        LOG.debug("performLogicForFullEntryCompleted() started");
+
         // below code preferable to run in post processing
-        else if (purapDocument instanceof PaymentRequestDocument) {
+        if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
             // eliminate unentered items
             deleteUnenteredItems(paymentRequest);
@@ -346,7 +355,6 @@ public class PurapServiceImpl implements PurapService {
             // do GL entries for PREQ creation
             SpringContext.getBean(PurapGeneralLedgerService.class).generateEntriesCreatePaymentRequest(paymentRequest);
 
-            // TODO ctk - David is this save ok here?!?! It seems like my updates don't happen without it
             SpringContext.getBean(PaymentRequestService.class).saveDocumentWithoutValidation(paymentRequest);
         }
         // below code preferable to run in post processing
@@ -375,6 +383,7 @@ public class PurapServiceImpl implements PurapService {
      * @see org.kuali.module.purap.service.PurapService#performLogicForCloseReopenPO(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument) {
+        LOG.debug("performLogicForCloseReopenPO() started");
 
         if (purapDocument instanceof PaymentRequestDocument) {
             PaymentRequestDocument paymentRequest = (PaymentRequestDocument) purapDocument;
@@ -403,11 +412,14 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method should be moved to
+     * Remove items that have not been "entered" which means no data has been added to them so no more processing needs to continue
+     * on these items.
      * 
-     * @param paymentRequest
+     * @param apDocument  AccountsPayableDocument which contains list of items to be reviewed
      */
     private void deleteUnenteredItems(AccountsPayableDocument apDocument) {
+        LOG.debug("deleteUnenteredItems() started");
+        
         List<AccountsPayableItem> deletionList = new ArrayList<AccountsPayableItem>();
         for (PurApItem item : (List<PurApItem>) apDocument.getItems()) {
             AccountsPayableItem apItem = (AccountsPayableItem) item;
@@ -421,9 +433,12 @@ public class PurapServiceImpl implements PurapService {
     /**
      * Actual method that will close or reopen a po.
      * 
+     * @param apDocument  AccountsPayableDocument
      * @param docType
      */
     public void processCloseReopenPo(AccountsPayableDocumentBase apDocument, String docType) {
+        LOG.debug("processCloseReopenPo() started");
+        
         String action = null;
         String newStatus = null;
         // setup text for note that will be created, will either be closed or reopened
@@ -464,13 +479,15 @@ public class PurapServiceImpl implements PurapService {
     }
 
     /**
-     * This method generates a note for the close/reopen po method.
+     * Generate a note for the close/reopen po method.
      * 
      * @param docType
      * @param preqId
-     * @return
+     * @return Note to be saved
      */
     private String assemblePurchaseOrderNote(AccountsPayableDocumentBase apDocument, String docType, String action) {
+        LOG.debug("assemblePurchaseOrderNote() started");
+
         String documentLabel = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(getClass());
         StringBuffer closeReopenNote = new StringBuffer("");
         String userName = GlobalVariables.getUserSession().getUniversalUser().getPersonName();
@@ -489,7 +506,12 @@ public class PurapServiceImpl implements PurapService {
         return closeReopenNote.toString();
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurapService#performLogicWithFakedUserSession(java.lang.String, org.kuali.module.purap.service.LogicContainer, java.lang.Object[])
+     */
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception {
+        LOG.debug("performLogicWithFakedUserSession() started");
+
         if (StringUtils.isBlank(requiredUniversalUserPersonUserId)) {
             throw new RuntimeException("Attempted to perform logic with a fake user session with a blank user person id: '" + requiredUniversalUserPersonUserId + "'");
         }
@@ -506,7 +528,4 @@ public class PurapServiceImpl implements PurapService {
         }
     }
 
-    public void setParameterService(ParameterService parameterService) {
-        this.parameterService = parameterService;
     }
-}

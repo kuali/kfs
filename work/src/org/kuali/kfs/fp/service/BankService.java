@@ -17,6 +17,17 @@ package org.kuali.module.financial.service;
 
 import org.kuali.module.financial.bo.Bank;
 
+/**
+ * 
+ * This service interface defines methods that a BankService implementation must provide.
+ */
 public interface BankService {
-    Bank getByPrimaryId(String financialDocumentBankCode);
+
+    /**
+     * This method retrieves a bank object who's primary id matches the values provided.
+     * 
+     * @param financialDocumentBankCode The bank code to be looked up by.
+     * @return A Bank object with a matching primary id.
+     */
+    Bank getByPrimaryId( String financialDocumentBankCode );
 }

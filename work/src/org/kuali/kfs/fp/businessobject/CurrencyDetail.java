@@ -24,7 +24,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * Represents a breakdown of currency amounts (i.e. $100, $50, $20, etc.)
  */
 public class CurrencyDetail extends PersistableBusinessObjectBase {
 

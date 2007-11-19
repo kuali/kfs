@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 
 /**
  * Labor business object for LaborCalculatedSalaryFoundationTracker.

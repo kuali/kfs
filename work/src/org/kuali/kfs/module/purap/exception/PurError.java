@@ -15,6 +15,10 @@
  */
 package org.kuali.module.purap.exceptions;
 
+/**
+ * Represents the error that is thrown when there is abnormal condition 
+ * within Purchasing Accounts Payable module.
+ */
 public class PurError extends Error {
     public PurError() {
         super();

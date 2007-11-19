@@ -46,7 +46,7 @@ import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfStamper;
 
 /**
- * Service used for manipulating disbursement voucher cover sheets.
+ * This is the default implementation of the DisbursementVoucherCoverSheetService interface.
  */
 public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVoucherCoverSheetService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherCoverSheetServiceImpl.class);
@@ -65,6 +65,13 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     private PersistenceStructureService persistenceStructureService;
 
     /**
+     * This method uses the values provided to build and populate a cover sheet associated with a given DisbursementVoucher.
+     * 
+     * @param templateDirectory The directory where the cover sheet template can be found.
+     * @param templateName The name of the cover sheet template to be used to build the cover sheet.
+     * @param document The DisbursementVoucher the cover sheet will be populated from.
+     * @param outputStream The stream the cover sheet file will be written to.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherCoverSheetService#generateDisbursementVoucherCoverSheet(java.lang.String,
      *      java.lang.String, org.kuali.module.financial.document.DisbursementVoucherDocument, java.io.OutputStream)
      */
@@ -149,11 +156,12 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     }
 
     /**
-     * used to retrieve BO's that have a single primary key field without hardcoding the key field name.
+     * This method is used to retrieve business objects that have a single primary key field without hard-coding 
+     * the key field name.
      * 
-     * @param clazz
-     * @param keyValue
-     * @return
+     * @param clazz The class type that will be used to retrieve the primary key field names.
+     * @param keyValue The primary key value to be used to lookup the object by.
+     * @return An instance of a business object matching the class type and primary key value given.
      */
     private PersistableBusinessObject retrieveObjectByKey(Class clazz, String keyValue) {
         List primaryKeyFields = persistenceStructureService.listPrimaryKeyFieldNames(clazz);
@@ -168,11 +176,11 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     }
 
     /**
-     * helper method to retrieve values from a list
+     * This method is a helper method to retrieve values from a list based on a primary key provided.
      * 
-     * @param keyValuesFinder
-     * @param key
-     * @return
+     * @param keyValuesFinder KeyValuesFinder that the value will be retrieved from.
+     * @param key The key to the value being retrieved.
+     * @return The value associated with the key provided, or empty string if no value is found.
      */
     private String getValueForKey(KeyValuesFinder keyValuesFinder, String key) {
         for (Iterator i = keyValuesFinder.getKeyValues().iterator(); i.hasNext();) {
@@ -185,10 +193,10 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
     }
 
     /**
-     * contains logic to determine adress the cover sheet should be sent to
+     * This method contains logic to determine the address the cover sheet should be sent to.
      * 
-     * @param docLocCd
-     * @return
+     * @param docLocCd A key used to retrieve the document location.  
+     * @return The address the cover sheet will be sent to or empty string if no location is found.
      */
     private String retrieveAddress(String docLocCd) {
         String address = "";
@@ -206,7 +214,6 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     /**
      * Sets the businessObjectService attribute value.
-     * 
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -215,13 +222,16 @@ public class DisbursementVoucherCoverSheetServiceImpl implements DisbursementVou
 
     /**
      * Sets the persistenceStructureService attribute value.
-     * 
      * @param persistenceStructureService The persistenceService to set.
      */
     public void setPersistenceStructureService(PersistenceStructureService persistenceStructureService) {
         this.persistenceStructureService = persistenceStructureService;
     }
 
+    /**
+     * Sets the parameterService attribute value.
+     * @param parameterService The parameterService to set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

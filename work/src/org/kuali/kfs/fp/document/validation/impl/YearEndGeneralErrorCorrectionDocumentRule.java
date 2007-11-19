@@ -31,7 +31,11 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
      * Set attributes of an explicit pending entry according to rules specific to GeneralErrorCorrectionDocument.<br/> <br/> Uses
      * <code>{@link YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntry)}</code>
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
+     * 
+     * @see org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
      * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
@@ -43,7 +47,10 @@ public class YearEndGeneralErrorCorrectionDocumentRule extends GeneralErrorCorre
     }
 
     /**
-     * Overriding to return parent class GeneralErrorCorrectionDocument instead
+     * Overriding to return the corresponding parent class GeneralErrorCorrectionDocument.
+     * 
+     * @param financialDocument The financial document the class will be determined for.
+     * @return The class type of the document passed in.
      * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */

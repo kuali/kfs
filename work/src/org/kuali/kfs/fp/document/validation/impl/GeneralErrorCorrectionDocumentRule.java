@@ -44,7 +44,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * Convenience method for accessing delimiter for the <code>TransactionLedgerEntryDescription</code> of a
      * <code>{@link GeneralLedgerPendingEntry}</code>
      * 
-     * @return String
+     * @return String delimiter for transaction ledger entry description
      */
     protected String getEntryDescriptionDelimiter() {
         return TRANSACTION_LEDGER_ENTRY_DESCRIPTION_DELIMITER;
@@ -53,9 +53,9 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     /**
      * Helper method for business rules concerning <code>{@link AccountingLine}</code> instances.
      * 
-     * @param document
-     * @param accountingLine
-     * @return boolean pass or fail
+     * @param document submitted accounting document
+     * @param accountingLine accounting line of submitted accounting document
+     * @return true if object and object sub type are allowed and if required reference fields are valid
      */
     private boolean processGenericAccountingLineBusinessRules(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
@@ -72,6 +72,12 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     }
 
     /**
+     * Returns true if accounting line is debit
+     * 
+     * @param transactionalDocument submitted accounting document
+     * @param accountingLine accounting line in account document
+     *  
+     * 
      * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -84,6 +90,9 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
      * it. The balancing rules take care of validation of amounts.
      * 
+     * @param transactionalDocument submitted accounting document
+     * @return true if number of account line required is met
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -93,6 +102,10 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
 
     /**
      * Overrides to call super and then GEC specific accounting line rules.
+     * 
+     * @param document submitted accounting document
+     * @param accountingLine accounting line in accounting document
+     * @return true if accounting line can be added without any problems
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -111,6 +124,10 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     /**
      * Overrides to call super and then GEC specific accounting line rules.
      * 
+     * @param document submitted accounting document
+     * @param accountingLine accounting line in document
+     * @return true if accounting line can be reviewed without any problems
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -127,6 +144,13 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     }
 
     /**
+     * Customizes a GLPE by setting financial document number, financial system origination code and document type code to null
+     * 
+     *  @param transactionalDocument submitted accounting document
+     *  @param accountingLine accounting line in document 
+     *  @param explicitEntry general ledger pending entry
+     *  
+     * 
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
@@ -134,7 +158,7 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
         explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(transactionalDocument, accountingLine));
 
         // Clearing fields that are already handled by the parent algorithm - we don't actually want
-        // these to copy over from the accounting lines b/c they don't belond in the GLPEs
+        // these to copy over from the accounting lines b/c they don't belong in the GLPEs
         // if the aren't nulled, then GECs fail to post
         explicitEntry.setReferenceFinancialDocumentNumber(null);
         explicitEntry.setReferenceFinancialSystemOriginationCode(null);
@@ -145,9 +169,9 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
      * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
      * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
      * 
-     * @param line
-     * @param transactionalDocument
-     * @return String
+     * @param line accounting line
+     * @param transactionalDocument submitted accounting document 
+     * @return String formatted string to be used for transaction ledger entry description
      */
     private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(AccountingDocument transactionalDocument, AccountingLine line) {
         String description = "";
@@ -170,8 +194,8 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     /**
      * Used to determine of object code sub types are valid with the object type code.
      * 
-     * @param code
-     * @return boolean
+     * @param code object code
+     * @return true if object type and object sub type for passed in object code are allowed
      */
     protected boolean isObjectTypeAndObjectSubTypeAllowed(ObjectCode code) {
         return SpringContext.getBean(ParameterService.class).getParameterEvaluator(GeneralErrorCorrectionDocument.class, GeneralErrorCorrectionDocumentRuleConstants.VALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, GeneralErrorCorrectionDocumentRuleConstants.INVALID_OBJECT_SUB_TYPES_BY_OBJECT_TYPE, code.getFinancialObjectTypeCode(), code.getFinancialObjectSubTypeCode()).evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
@@ -180,8 +204,8 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     /**
      * This method checks that values exist in the two reference fields ENCUMBRANCE.
      * 
-     * @param accountingLine
-     * @return True if all of the required external encumbrance reference fields are valid, false otherwise.
+     * @param accountingLine accounting line
+     * @return true if all of the required external encumbrance reference fields are valid, false otherwise.
      */
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
         boolean valid = true;

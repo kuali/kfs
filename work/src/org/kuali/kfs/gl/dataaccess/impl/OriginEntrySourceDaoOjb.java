@@ -24,6 +24,9 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.dao.OriginEntrySourceDao;
 
+/**
+ * An OJB implementation of OriginEntrySourceDao
+ */
 public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements OriginEntrySourceDao {
 
     private static final String FINANCIAL_DOCUMENT_REVERSAL_DATE = "financialDocumentReversalDate";
@@ -40,13 +43,17 @@ public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements 
     private static final String FINANCIAL_SYSTEM_ORIGINATION_CODE = "financialSystemOriginationCode";
     private static final String TRANSACTION_LEDGER_ENTRY_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
 
+    /**
+     * Constructs a OriginEntrySourceDaoOjb instance
+     */
     public OriginEntrySourceDaoOjb() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Fetches all origin entry full records in the database
      * 
+     * @return a Collection of all origin entry source records
      * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findAll()
      */
     public Collection findAll() {
@@ -57,9 +64,11 @@ public class OriginEntrySourceDaoOjb extends PlatformAwareDaoBaseOjb implements 
         return thawed;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Finds an origin entry source record based on its source code
      * 
+     * @param code the code of the origin entry source record to find
+     * @return an Origin Entry Source record if found, or null if not found
      * @see org.kuali.module.gl.dao.OriginEntrySourceDao#findBySourceCode(java.lang.String)
      */
     public OriginEntrySource findBySourceCode(String code) {

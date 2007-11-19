@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * 
+ * This class is used to represent a Wire Charge business object, which is a method of payment to an institution.
  */
 public class WireCharge extends PersistableBusinessObjectBase {
 

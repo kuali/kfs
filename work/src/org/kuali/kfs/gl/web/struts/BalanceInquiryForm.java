@@ -58,6 +58,8 @@ public class BalanceInquiryForm extends LookupForm {
 
     /**
      * Picks out business object name from the request to get retrieve a lookupable and set properties.
+     * 
+     * @see org.kuali.core.web.struts.form.LookupForm#populate(javax.servlet.http.HttpServletRequest)
      */
     public void populate(HttpServletRequest request) {
         super.populate(request);

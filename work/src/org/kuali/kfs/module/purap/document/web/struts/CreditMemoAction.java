@@ -151,13 +151,6 @@ public class CreditMemoAction extends AccountsPayableActionBase {
     protected void customCalculate(AccountsPayableDocument apDoc) {
         CreditMemoDocument cmDocument = (CreditMemoDocument) apDoc;
 
-        // check rules before doing calculation
-        // TODO (KULPURAP-1346: dlemus) ckirschenman - the way this rule is currently implemented interferes with proration. Either
-        // make the rules it calls simpler or remove this
-        // boolean valid = SpringContext.getBean(KualiRuleService.class).applyRules(new
-        // PreCalculateAccountsPayableEvent(cmDocument));
-
-        // if (valid) {
         // call service method to finish up calculation
         SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(cmDocument);
 

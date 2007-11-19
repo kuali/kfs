@@ -30,6 +30,10 @@ import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 import org.kuali.module.gl.service.impl.orgreversion.GenericOrganizationReversionCategory;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This service implementation is the default implementation of the OrganizationReversion service that is delivered with Kuali.
+ */
 @Transactional
 public class OrganizationReversionServiceImpl implements OrganizationReversionService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionServiceImpl.class);
@@ -76,13 +80,22 @@ public class OrganizationReversionServiceImpl implements OrganizationReversionSe
         return categories;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationReversionService#getCategoryList()
+     */
     public List<OrganizationReversionCategory> getCategoryList() {
         LOG.debug("getCategoryList() started");
 
         return organizationReversionDao.getCategories();
     }
 
-    public void setOrganizationReversionDao(OrganizationReversionDao orDao) {
-        organizationReversionDao = orDao;
+    /**
+     * 
+     * This method injects the OrganizationReversionDao
+     * @param orgDao
+     */
+    public void setOrganizationReversionDao(OrganizationReversionDao orgDao) {
+        organizationReversionDao = orgDao;
     }
 }

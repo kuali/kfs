@@ -27,9 +27,18 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * Utilities for helping set up and run GL tests, mostly giving GL unit test writers the ability
+ * to load flat files of String-formatted origin entries from the classpath
  */
 public class GeneralLedgerTestHelper {
 
+    /**
+     * Loads a file of String-formatted Origin Entries from the class path
+     * 
+     * @param nameOfOutputOriginEntryFileFromFis the name of the file to load
+     * @return a List of origin entries
+     * @throws IOException thrown if the file cannot be read
+     */
     static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis) throws IOException {
         return loadOutputOriginEntriesFromClasspath(nameOfOutputOriginEntryFileFromFis, null);
     }
@@ -39,9 +48,9 @@ public class GeneralLedgerTestHelper {
      * file from an absolute file path. This allows and in fact requires that the file from which the entries will be loaded be
      * checked into the source repository along with this test.
      * 
-     * @param nameOfOutputOriginEntryFileFromFis
-     * @return
-     * @throws IOException
+     * @param nameOfOutputOriginEntryFileFromFis the name of the file to load
+     * @return a List of origin entries
+     * @throws IOException  thrown if the file cannot be read
      */
     static public List loadOutputOriginEntriesFromClasspath(String nameOfOutputOriginEntryFileFromFis, Date date) throws IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();

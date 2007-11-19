@@ -248,7 +248,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     }
 
     /**
-     * overload the method in order to have balance importing section be populated with the last search critera
+     * Overload the method in order to have balance importing section be populated with the last search criteria
      * 
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#loadDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
@@ -260,8 +260,14 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     }
 
     /**
-     * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAllAccountingLines(ActionMapping, ActionForm,
-     *      HttpServletRequest, HttpServletResponse)
+     * This method copies all accounting lines from financial document form if they pass validation rules
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
      */
     public ActionForward copyAllAccountingLines(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ExpenseTransferDocumentFormBase financialDocumentForm = (ExpenseTransferDocumentFormBase) form;
@@ -318,6 +324,8 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
 
 
     /**
+     * Copy a single accounting line
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#copyAccountingLine(ActionMapping, ActionForm,
      *      HttpServletRequest, HttpServletResponse)
      */
@@ -344,7 +352,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     }
 
     /**
-     * reset the looup fields in the given expense transfer form with the given ledger balance
+     * Reset the lookup fields in the given expense transfer form with the given ledger balance
      * 
      * @param expenseTransferDocumentForm the given expense transfer form
      * @param the given ledger balance
@@ -408,6 +416,8 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     }
 
     /**
+     * Processes accounting line overrides for output to JSP
+     * 
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#processAccountingLineOverrides(java.util.List)
      */
     @Override
@@ -423,6 +433,8 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
     }
 
     /**
+     * Clear all overrides that are not needed.
+     * 
      * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#clearOverridesThatBecameUnneeded(org.kuali.kfs.bo.AccountingLine)
      */
     @Override
@@ -435,6 +447,11 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
         formLine.setOverrideCode(currentOverride.mask(currentlyNeeded).getCode());
     }
 
+    /**
+     * For given accounting line, set the corresponding override code
+     * 
+     * @param line accounting line
+     */
     private void updateAccountOverrideCode(ExpenseTransferAccountingLine line) {
         AccountingLineOverride override = LaborAccountingLineOverride.determineNeededOverrides(line);
         line.setOverrideCode(override.getCode());
@@ -444,6 +461,7 @@ public class ExpenseTransferDocumentActionBase extends KualiAccountingDocumentAc
      * Executes for the given event. This is more of a convenience method.
      * 
      * @param event to run the rules for
+     * @return true if rule passes
      */
     private boolean runRule(KualiDocumentEventBase event) {
         // check any business rules

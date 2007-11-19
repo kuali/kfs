@@ -59,6 +59,10 @@ import org.kuali.module.pdp.service.PaymentGroupService;
 import org.kuali.module.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This is the default implementation of the DisbursementVoucherExtractService interface.
+ */
 @Transactional
 public class DisbursementVoucherExtractServiceImpl implements DisbursementVoucherExtractService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherExtractServiceImpl.class);
@@ -79,6 +83,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
     // won't set the doc status to extracted
     boolean testMode = false;
 
+    /**
+     * This method extracts all payments from a disbursement voucher with a status code of "A" and uploads them as a
+     * batch for processing.
+     * 
+     * @return Always returns true if the method completes.
+     * 
+     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#extractPayments()
+     */
     public boolean extractPayments() {
         LOG.debug("extractPayments() started");
 
@@ -114,6 +126,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return true;
     }
 
+    /**
+     * 
+     * This method extracts all outstanding payments from all the disbursement vouchers in approved status for a given campus
+     * and adds these payments to a batch file that is uploaded for processing.
+     * 
+     * @param campusCode The id code of the campus the payments will be retrieved for.
+     * @param user The user object used when creating the batch file to upload with outstanding payments.
+     * @param processRunDate This is the date that the batch file is created, often this value will be today's date.
+     */
     private void extractPaymentsForCampus(String campusCode, UniversalUser user, Date processRunDate) {
         LOG.debug("extractPaymentsForCampus() started for campus: " + campusCode);
 
@@ -134,6 +155,13 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         paymentFileService.sendLoadEmail(batch);
     }
 
+    /**
+     * 
+     * This method creates a payment group from the disbursement voucher and batch provided and persists that group to the database.
+     * @param document The document used to build a payment group detail.
+     * @param batch The batch file used to build a payment group and detail.
+     * @param processRunDate The date the batch file is to post.
+     */
     private void addPayment(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("addPayment() started");
 
@@ -150,6 +178,19 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         }
     }
 
+    /**
+     * 
+     * This method creates a PaymentGroup from the disbursement voucher and batch provided.  The values provided by the 
+     * disbursement voucher are used to assign appropriate attributes to the payment group, including address and payee detail
+     * information.  
+     * 
+     * The information added to the payment group includes tax encoding to identify if taxes should be taken out of the 
+     * payment.  The tax rules vary depending on the type of individual or entity being paid 
+     * 
+     * @param document The document to be used for retrieving the information about the payee being paid.
+     * @param batch The batch that the payment group will be associated with.
+     * @return A PaymentGroup object fully populated with all the values necessary to make a payment.
+     */
     private PaymentGroup buildPaymentGroup(DisbursementVoucherDocument document, Batch batch) {
         LOG.debug("buildPaymentGroup() started");
 
@@ -163,8 +204,6 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         if (pd.isVendor()) {
             // TODO Write this when Vendor support is added
-
-            pg.setTaxablePayment(Boolean.FALSE);
 
             // These are taxable
             // ((VH.vndr_ownr_cd IN ('NP', 'FC')
@@ -223,7 +262,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         pg.setPaymentDate(batch.getFileProcessTimestamp());
 
-        // It doesn't look like the DV has a way to do immediates
+        // It doesn't look like the DV has a way to do immediate processes
         pg.setProcessImmediate(Boolean.FALSE);
         pg.setPymtAttachment(document.isDisbVchrAttachmentCode());
         pg.setPymtSpecialHandling(document.isDisbVchrSpecialHandlingCode());
@@ -235,6 +274,16 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return pg;
     }
 
+    /**
+     * 
+     * This method builds a payment detail object from the disbursement voucher document provided and links that detail file
+     * to the batch and process run date given.  
+     * 
+     * @param document The disbursement voucher document to retrieve payment information from to populate the PaymentDetail.
+     * @param batch The batch file associated with the payment.
+     * @param processRunDate The date of the payment detail invoice.
+     * @return A fully populated PaymentDetail instance.
+     */
     private PaymentDetail buildPaymentDetail(DisbursementVoucherDocument document, Batch batch, Date processRunDate) {
         LOG.debug("buildPaymentDetail() started");
 
@@ -399,7 +448,11 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 if (line < (maxNoteLines - 3)) {
                     pnt = new PaymentNoteText();
                     pnt.setCustomerNoteLineNbr(line++);
-                    pnt.setCustomerNoteText(lines[i]);
+                    if ( lines[i].length() > 90 ) {
+                        pnt.setCustomerNoteText(lines[i].substring(0,90));
+                    } else {
+                        pnt.setCustomerNoteText(lines[i]);
+                    }
                     pd.addNote(pnt);
                 }
             }
@@ -407,6 +460,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return pd;
     }
 
+    /**
+     * 
+     * This method creates a Batch instance and populates it with the information provided.  
+     * 
+     * @param campusCode The campus code used to retrieve a customer profile to be set on the batch.
+     * @param user The user who submitted the batch.
+     * @param processRunDate The date the batch was submitted and the date the customer profile was generated.
+     * @return A fully populated batch instance.
+     */
     private Batch createBatch(String campusCode, UniversalUser user, Date processRunDate) {
         String orgCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_ORG_CODE);
         String subUnitCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
@@ -431,6 +493,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return batch;
     }
 
+    /**
+     * 
+     * This method retrieves a collection of campus instances representing all the campuses which currently have 
+     * disbursement vouchers with the status code provided.
+     * 
+     * @param statusCode The status code to retrieve disbursement vouchers by.
+     * @return A collection of campus codes of all the campuses with disbursement vouchers in the status given.
+     */
     private Set<String> getCampusListByDocumentStatusCode(String statusCode) {
         LOG.debug("getCampusListByDocumentStatusCode() started");
 
@@ -453,6 +523,14 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return campusSet;
     }
 
+    /**
+     * 
+     * This method retrieves a list of disbursement voucher documents that are in the status provided for the campus code given.
+     * 
+     * @param statusCode The status of the disbursement vouchers to be retrieved.
+     * @param campusCode The campus code that the disbursement vouchers will be associated with.
+     * @return A collection of disbursement voucher objects that meet the search criteria given.
+     */
     private Collection<DisbursementVoucherDocument> getListByDocumentStatusCodeCampus(String statusCode, String campusCode) {
         LOG.debug("getListByDocumentStatusCodeCampus() started");
 
@@ -479,34 +557,74 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         return list;
     }
 
+    /**
+     * 
+     * This method sets the disbursementVoucherDao instance.
+     * @param disbursementVoucherDao The DisbursementVoucherDao to be set.
+     */
     public void setDisbursementVoucherDao(DisbursementVoucherDao disbursementVoucherDao) {
         this.disbursementVoucherDao = disbursementVoucherDao;
     }
 
+    /**
+     * 
+     * This method sets the ParameterService instance.
+     * @param parameterService The ParameterService to be set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
+    /**
+     * 
+     * This method sets the dateTimeService instance.
+     * @param dateTimeService The DateTimeService to be set.
+     */
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
 
+    /**
+     * 
+     * This method sets the universalUserService instance.
+     * @param universalUserService The UniversalUserService to be set.
+     */
     public void setUniversalUserService(UniversalUserService universalUserService) {
         this.universalUserService = universalUserService;
     }
 
+    /**
+     * 
+     * This method sets the customerProfileService instance.
+     * @param customerProfileService The CustomerProfileService to be set.
+     */
     public void setCustomerProfileService(CustomerProfileService customerProfileService) {
         this.customerProfileService = customerProfileService;
     }
 
+    /**
+     * 
+     * This method sets the paymentFileService instance.
+     * @param paymentFileService The PaymentFileService to be set.
+     */
     public void setPaymentFileService(PaymentFileService paymentFileService) {
         this.paymentFileService = paymentFileService;
     }
 
+    /**
+     * 
+     * This method sets the paymentGroupService instance.
+     * @param paymentGroupService The PaymentGroupService to be set.
+     */
     public void setPaymentGroupService(PaymentGroupService paymentGroupService) {
         this.paymentGroupService = paymentGroupService;
     }
 
+    /**
+     * 
+     * This method sets the referenceService instance.
+     * @param rs The ReferenceService to be set.
+     */
     public void setReferenceService(ReferenceService rs) {
         this.referenceService = rs;
     }

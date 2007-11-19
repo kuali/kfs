@@ -31,7 +31,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.gl.GLConstants;
 
 /**
- * 
+ * This class represents sufficient fund balances
  */
 public class SufficientFundBalances extends PersistableBusinessObjectBase {
 
@@ -58,10 +58,19 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
 
     }
 
+    /**
+     * Constructs a SufficientFundBalances.java.
+     * @param line
+     */
     public SufficientFundBalances(String line) {
         setFromTextFile(line);
     }
 
+    /**
+     * This method sets this object's attributes from the passed in line
+     * 
+     * @param line with sufficient fund balance related attributes
+     */
     public void setFromTextFile(String line) {
 
         // Just in case
@@ -83,6 +92,11 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
         setTransactionDateTimeStamp(parseDate(line.substring(75, 85), true));
     }
 
+    /**
+     * This method returns a string representing this sufficient fund balance object and its attributes
+     * 
+     * @return String representing this sufficient fund balance object and its attributes
+     */
     public String getLine() {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(2);
@@ -130,6 +144,13 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
 
     private static String SPACES = "          ";
 
+    /**
+     * Returns value passed in with additional spaces if need be 
+     * 
+     * @param size
+     * @param value
+     * @return
+     */
     private String getField(int size, String value) {
         if (value == null) {
             return SPACES.substring(0, size);
@@ -144,6 +165,13 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * This method parses a date as yyyy-MM-dd
+     * 
+     * @param sdate
+     * @param beLenientWithDates
+     * @return
+     */
     private java.sql.Date parseDate(String sdate, boolean beLenientWithDates) {
         if ((sdate == null) || (sdate.trim().length() == 0)) {
             return null;
@@ -162,6 +190,12 @@ public class SufficientFundBalances extends PersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * This method returns a string representation of date as yyyy-MM-dd 
+     * 
+     * @param date
+     * @return
+     */
     private String formatDate(Date date) {
         if (date == null) {
             return "          ";

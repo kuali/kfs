@@ -23,7 +23,9 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.bo.PurApItem;
 
 /**
- * ItemEvents.
+ * Event Base class for Purchasing Accounts Payable Item
+ * 
+ * contains the base methods for item events
  */
 public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocumentEventBase implements PurchasingAccountsPayableItemEvent {
     private static final Logger LOG = Logger.getLogger(PurchasingAccountsPayableItemEventBase.class);
@@ -32,12 +34,12 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
     private final PurApItem item;
 
     /**
-     * Initializes fields common to all subclasses
+     * Copies the item and calls the super constructor
      * 
-     * @param description
-     * @param errorPathPrefix
-     * @param document
-     * @param check
+     * @param description the description of the event
+     * @param errorPathPrefix the error path
+     * @param document the document the event is being called on
+     * @param item the item that is having the event called on
      */
     public PurchasingAccountsPayableItemEventBase(String description, String errorPathPrefix, Document document, PurApItem item) {
         super(description, errorPathPrefix, document);
@@ -49,9 +51,9 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
         logEvent();
     }
 
-
     /**
-     * @see org.kuali.core.rule.event.CheckEvent#getCheck()
+     * 
+     * @see org.kuali.module.purap.rule.event.PurchasingAccountsPayableItemEvent#getItem()
      */
     public PurApItem getItem() {
         return item;
@@ -69,7 +71,7 @@ public abstract class PurchasingAccountsPayableItemEventBase extends KualiDocume
     }
 
     /**
-     * Logs the event type and some information about the associated accountingLine
+     * Logs the event type and some information about the associated item
      */
     private void logEvent() {
         StringBuffer logMessage = new StringBuffer(StringUtils.substringAfterLast(this.getClass().getName(), "."));

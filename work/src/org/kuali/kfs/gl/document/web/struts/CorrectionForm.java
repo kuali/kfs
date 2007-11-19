@@ -37,6 +37,9 @@ import org.kuali.module.gl.service.CorrectionDocumentService;
 import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 
 
+/**
+ * This class represents the action form for the Correction Document
+ */
 public class CorrectionForm extends KualiDocumentFormBase implements CorrectionDocumentEntryMetadata {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionForm.class);
 
@@ -184,15 +187,30 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         }
     }
 
+    /**
+     * This method synchronizes number of group holders added with the group count
+     * 
+     */
     public void syncGroups() {
         int groupCount = getCorrectionDocument().getCorrectionChangeGroup().size();
         getGroupsItem(groupCount);
     }
 
+    /**
+     * Return group sizes
+     * 
+     * @return
+     */
     public int getGroupsSize() {
         return groups.size();
     }
 
+    /**
+     * Returns group item with given ID
+     * 
+     * @param i index of group
+     * @return
+     */
     public GroupHolder getGroupsItem(int i) {
         while (i >= groups.size()) {
             groups.add(new GroupHolder());
@@ -200,6 +218,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         return groups.get(i);
     }
 
+    /**
+     * Clears correction document form
+     */
     public void clearForm() {
         chooseSystem = "";
         editMethod = "";
@@ -236,6 +257,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         entryForManualEdit.setEntryId(0);
     }
 
+    /**
+     * Update origin entry for manual edit with correction document attributes (i.e. university fiscal year, entry transaction ledger 
+     * sequence number, entry transaction ledger entry amount, entry transaction date, entry financial document reversal date)
+     */
     public void updateEntryForManualEdit() {
         entryForManualEdit.setFieldValue("universityFiscalYear", getEntryUniversityFiscalYear());
         entryForManualEdit.setFieldValue("transactionLedgerEntrySequenceNumber", getEntryTransactionLedgerEntrySequenceNumber());
@@ -244,6 +269,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         entryForManualEdit.setFieldValue("financialDocumentReversalDate", getEntryFinancialDocumentReversalDate());
     }
 
+    /**
+     * Clears origin entry for manual edit
+     * 
+     */
     public void clearEntryForManualEdit() {
         OriginEntryFull oe = new OriginEntryFull();
         oe.setEntryId(0);
@@ -258,6 +287,10 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         setEntryForManualEdit(oe);
     }
 
+    /**
+     * Return size of list of all OriginEntry objects
+     * @return size of entries size
+     */
     public Integer getAllEntriesSize() {
         return (allEntries == null) ? null : allEntries.size();
     }
@@ -447,6 +480,12 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         return originEntrySearchResultTableMetadata;
     }
 
+    
+    /**
+     * Returns list of Column objects for table render column meta data
+     * 
+     * @return list of column objects
+     */
     public List<Column> getTableRenderColumnMetadata() {
         return SpringContext.getBean(CorrectionDocumentService.class).getTableRenderColumnMetadata(getDocument().getDocumentNumber());
     }
@@ -621,6 +660,9 @@ public class CorrectionForm extends KualiDocumentFormBase implements CorrectionD
         this.htmlFormAction = htmlFormAction;
     }
 
+    /**
+     * Set document type = "GLCP", document title = "General Ledger Correction Process", html form action = "generalLedgerCorrect"
+     */
     public void setDocType() {
         setDocumentType("GLCP");
         setDocTitle("General Ledger Correction Process");

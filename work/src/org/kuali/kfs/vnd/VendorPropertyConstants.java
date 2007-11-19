@@ -39,6 +39,7 @@ public class VendorPropertyConstants {
     public static final String VENDOR_DEFAULT_ADDRESS_INDICATOR = "vendorDefaultAddressIndicator";
     public static final String VENDOR_DEFAULT_ADDRESS_CAMPUS = "vendorCampusCode";
     public static final String VENDOR_SUPPLIER_DIVERSITY_CODE = "vendorSupplierDiversities.vendorSupplierDiversityCode";
+    public static final String VENDOR_SUPPLIER_DIVERSITY_ACTIVE = "vendorSupplierDiversities.active";
     public static final String VENDOR_FEIN_SSN_INDICATOR = "vendorFeinSocialSecurityNumberIndicator";
     public static final String VENDOR_TAX_NUMBER_ONLY = "vendorTaxNumber";
     public static final String VENDOR_NAME = "vendorName";

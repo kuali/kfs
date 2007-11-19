@@ -26,6 +26,9 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 
+/**
+ * This class represents a unit of work for the organization reversion
+ */
 public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
     public String chartOfAccountsCode = "";
     public String accountNumber = "";
@@ -47,6 +50,11 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         subAccountNumber = subAcct;
     }
 
+    /**
+     * Returns true if COA code and account number are not blank.
+     * 
+     * @return true if COA code and account number are not blank.
+     */
     public boolean isInitialized() {
         return !StringUtils.isBlank(chartOfAccountsCode) && !StringUtils.isBlank(accountNumber);
     }
@@ -59,6 +67,10 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         clearAmounts();
     }
 
+    /**
+     * Set category amounts
+     * @param cats list of organization reversion categories
+     */
     public void setCategories(List<OrganizationReversionCategory> cats) {
         for (OrganizationReversionCategory element : cats) {
             OrgReversionUnitOfWorkCategoryAmount ca = new OrgReversionUnitOfWorkCategoryAmount(element.getOrganizationReversionCategoryCode());
@@ -66,26 +78,49 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * This method adds to the actual amount for a specific category code
+     * @param categoryCode category code
+     * @param amount amount
+     */
     public void addActualAmount(String categoryCode, KualiDecimal amount) {
         OrgReversionUnitOfWorkCategoryAmount ca = amounts.get(categoryCode);
         ca.setActual(ca.getActual().add(amount));
     }
 
+    /**
+     * This method adds to the budget amount for a specific category code
+     * @param categoryCode category code
+     * @param amount amount
+     */
     public void addBudgetAmount(String categoryCode, KualiDecimal amount) {
         OrgReversionUnitOfWorkCategoryAmount ca = amounts.get(categoryCode);
         ca.setBudget(ca.getBudget().add(amount));
     }
 
+    /**
+     * This method adds to the encumbrance amount for a specific category code
+     * @param categoryCode category code
+     * @param amount amount
+     */
     public void addEncumbranceAmount(String categoryCode, KualiDecimal amount) {
         OrgReversionUnitOfWorkCategoryAmount ca = amounts.get(categoryCode);
         ca.setEncumbrance(ca.getEncumbrance().add(amount));
     }
 
+    /**
+     * This method adds to the carry forward amount for a specific category code
+     * @param categoryCode category code
+     * @param amount amount
+     */
     public void addCarryForwardAmount(String categoryCode, KualiDecimal amount) {
         OrgReversionUnitOfWorkCategoryAmount ca = amounts.get(categoryCode);
         ca.setCarryForward(ca.getCarryForward().add(amount));
     }
 
+    /**
+     * This method clears all amounts for this unit of work
+     */
     public void clearAmounts() {
         totalAvailable = KualiDecimal.ZERO;
         totalCarryForward = KualiDecimal.ZERO;
@@ -112,10 +147,22 @@ public class OrgReversionUnitOfWork extends PersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * This method returns true if this unit of work's chart of accounts code, account number, and sub account number match the passed in parameter values
+     * @param chart
+     * @param acct
+     * @param subAcct
+     * @return true if this unit of work's chart of accounts code, account number, and sub account number match the passed in parameter values
+     */
     public boolean isSame(String chart, String acct, String subAcct) {
         return (chartOfAccountsCode.equals(chart) && accountNumber.equals(acct) && subAccountNumber.equals(subAcct));
     }
 
+    /**
+     * Return true of this unit of work has the same chart of accounts code, account number, and sub account number as the passed in balance
+     * @param balance
+     * @return
+     */
     public boolean wouldHold(Balance balance) {
         return StringUtils.equals(chartOfAccountsCode, balance.getChartOfAccountsCode()) && StringUtils.equals(accountNumber, balance.getAccountNumber()) && StringUtils.equals(subAccountNumber, balance.getSubAccountNumber());
     }

@@ -34,13 +34,23 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
 
     /**
-     * @return the new BO that this maint doc is creating
+     * This method creates a new ServiceBillingControl instance and returns it.
+     * 
+     * @return The new business object that this maintenance doc is creating.
      */
     private ServiceBillingControl getNewServiceBillingControl() {
         return (ServiceBillingControl) getNewBo();
     }
 
     /**
+     * This method performs custom business rule checks on the document being saved.  The rules include confirming the 
+     * validity of the work group.  This method always returns true, because saves should always succeed, regardless 
+     * of business rule failures.
+     * 
+     * @param document The document being saved.
+     * @return This method always returns true.  Saves should always succeed, regardless of business rule errors encountered 
+     * or reported in the data.
+     * 
      * @see MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -51,6 +61,12 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method performs custom route business rule checks on the document being routed.  The rules include confirming the 
+     * validity of the work group.
+     * 
+     * @param document The document being routed.
+     * @return True if all the business rules pass, false otherwise.
+     * 
      * @see MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -63,7 +79,7 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
     /**
      * Adds a global error for the workgroupName field if it doesn't exist or is inactive.
      * 
-     * @return whether it exists and is active
+     * @return Whether it exists and is active
      */
     private boolean isValidWorkgroup() {
         String name = getNewServiceBillingControl().getWorkgroupName();
@@ -79,8 +95,8 @@ public class ServiceBillingControlRule extends MaintenanceDocumentRuleBase {
     /**
      * Checks whether the given workgroup exists and is active.
      * 
-     * @param name the workgroup to check
-     * @return whether the given workgroup exists and is active.
+     * @param name The name of the workgroup to check.
+     * @return Whether the given workgroup exists and is active.
      */
     private static boolean workgroupExistsAndIsActive(String name) {
         try {

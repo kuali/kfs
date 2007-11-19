@@ -57,6 +57,9 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
     }
 
     /**
+     * Gets the associated check type code for a CashReceipt.
+     * 
+     * @return Returns the CashReceipt check type code.
      * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCheckTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCheckTypeCode() {
@@ -64,6 +67,9 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
     }
 
     /**
+     * Gets the associated coin type code for a CashReceipt.
+     * 
+     * @return Returns the CashReceipt coin type code.
      * @see org.kuali.core.service.CashDetailTypeCode#getCashReceiptCoinTypeCode()
      */
     public CashDetailTypeCode getCashReceiptCoinTypeCode() {
@@ -72,7 +78,15 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
 
     /**
      * Retrieves a populated instance corresponding to the code passed into this method. This is retrieved via the KualiCodeService
-     * and in turn from the database. TODO - uncomment the commented out line and remove the others when the table is in place
+     * and in turn from the database. 
+     * 
+     * TODO - uncomment the commented out line and remove the others when the table is in place
+     * 
+     * @param cashDetailTypeCode The identifier used to retrieve the appropriate type code object.
+     * @return A CashDetailTypeCode instance based on the code provided.
+     * 
+     * @see #CASH_RECEIPT_CHECK
+     * @see #CASH_RECEIPT_COIN
      */
     private CashDetailTypeCode getCashDetailTypeCodeByCode(String cashDetailTypeCode) {
         // return (CashDetailTypeCode) kualiCodeService.getByCode(CashDetailTypeCode.class, cashDetailTypeCode);
@@ -81,11 +95,12 @@ public class CashDetailTypeCodeServiceImpl implements CashDetailTypeCodeService 
 
     /**
      * This method is a temporary helper method. This should be removed when the lookup table for CashDetailTypeCode business
-     * objects is put in place. Then we'll be retrieving the stuff from the database. TODO - remove this method after the table is
-     * in place; this is a temp helper method
+     * objects is put in place. Then we'll be retrieving the stuff from the database. 
      * 
-     * @param cashDetailTypeCodeCode The code to popluate the dummy instance with.
-     * @return
+     * TODO - remove this method after the table is in place; this is a temp helper method
+     * 
+     * @param cashDetailTypeCodeCode The code to populate the dummy instance with.
+     * @return A CashDetailTypeCode instance based on the value provided.
      */
     private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {
         CashDetailTypeCode cashDetailTypeCode = new CashDetailTypeCode();

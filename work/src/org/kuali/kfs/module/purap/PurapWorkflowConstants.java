@@ -20,6 +20,9 @@ import java.util.List;
 
 import org.kuali.workflow.KualiWorkflowUtils;
 
+/**
+ * Holds Workflow constants for PURAP documents
+ */
 public class PurapWorkflowConstants {
 
     public interface NodeDetails {

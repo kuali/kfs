@@ -718,6 +718,8 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
             return result;
         }
 
+        DictionaryValidationService dvService = super.getDictionaryValidationService();
+
         // make sure both coaCode and accountNumber are filled out
         boolean incomeStreamAccountIsValid = true;
         if (!checkEmptyValue(newAccount.getIncomeStreamFinancialCoaCode())) {
@@ -727,18 +729,12 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
         if (!checkEmptyValue(newAccount.getIncomeStreamAccountNumber())) {
             putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_DOCUMENT_ACCMAINT_INCOME_STREAM_ACCT_NBR_CANNOT_BE_EMPTY, new String[] { requiredByLabel, requiredByValue });
             incomeStreamAccountIsValid = false;
-        }
-
-        // if both fields aren't present, then we're done
-        if (incomeStreamAccountIsValid) {
-            // KULCG-310
-            // If the object ID is null then the new account has not yet been saved. It would therefore fail this check even though
-            // it satisfies the rule. So, we don't want to check that the reference exists in that case.
-            if (!(newAccount.getIncomeStreamAccountNumber() == newAccount.getAccountNumber() && null == newAccount.getObjectId())) {
-                // do an existence/active test
-                DictionaryValidationService dvService = super.getDictionaryValidationService();
-                boolean referenceExists = dvService.validateReferenceExists(newAccount, "incomeStreamAccount");
-                if (!referenceExists) {
+        } else {
+            // validate that the income stream account exists
+            if(null != newAccount.getIncomeStreamAccountNumber() && null != newAccount.getIncomeStreamFinancialCoaCode()) {
+                if(newAccount.getIncomeStreamAccountNumber().equals(newAccount.getAccountNumber()) && newAccount.getIncomeStreamFinancialCoaCode().equals(newAccount.getChartOfAccountsCode())) {
+                    // income stream account is valid
+                } else if (!dvService.validateReferenceExists(newAccount, "incomeStreamAccount")) {
                     putFieldError("incomeStreamAccountNumber", KFSKeyConstants.ERROR_EXISTENCE, "Income Stream Account: " + newAccount.getIncomeStreamFinancialCoaCode() + "-" + newAccount.getIncomeStreamAccountNumber());
                     incomeStreamAccountIsValid = false;
                 }
@@ -747,8 +743,7 @@ public class AccountRule extends MaintenanceDocumentRuleBase {
 
         if (incomeStreamAccountIsValid) {
             result = true;
-        }
-        else {
+        } else {
             result = null != newAccount.getAccountNumber() && null != newAccount.getIncomeStreamAccountNumber();
             if (result) {
                 result &= newAccount.getAccountNumber().equals(newAccount.getIncomeStreamAccountNumber());

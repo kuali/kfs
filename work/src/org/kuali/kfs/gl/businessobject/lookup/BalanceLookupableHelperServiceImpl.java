@@ -35,6 +35,9 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.BalanceInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An extension of KualiLookupableImpl to support balance lookups
+ */
 @Transactional
 public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
     private BalanceCalculator postBalance;
@@ -42,6 +45,10 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
     private Map fieldValues;
 
     /**
+     * Returns the url for any drill down links within the lookup
+     * @param bo the business object with a property being drilled down on
+     * @param propertyName the name of the property being drilled down on
+     * @return a String with the URL of the property
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -50,6 +57,9 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
     }
 
     /**
+     * Generates the list of search results for this inquiry
+     * @param fieldValues the field values of the query to carry out
+     * @return List the search results returned by the lookup
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -107,7 +117,7 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
     /**
      * This method builds the balance collection with consolidation option from an iterator
      * 
-     * @param iterator
+     * @param iterator th iterator of balance results
      * @param pendingEntryOption the selected pending entry option
      * @return the consolidated balance collection
      */
@@ -284,6 +294,13 @@ public class BalanceLookupableHelperServiceImpl extends AbstractGLLookupableHelp
     }
 
     /**
+     * Updates pending entries before their results are included in the lookup results
+     * 
+     * @param entryCollection a collection of balance entries
+     * @param fieldValues the map containing the search fields and values
+     * @param isApproved flag whether the approved entries or all entries will be processed
+     * @param isConsolidated flag whether the results are consolidated or not
+     * @param isCostShareExcluded flag whether the user selects to see the results with cost share subaccount
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
      *      boolean, boolean, boolean)
      */

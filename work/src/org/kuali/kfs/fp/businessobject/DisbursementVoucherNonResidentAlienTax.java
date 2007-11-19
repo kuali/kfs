@@ -24,7 +24,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.financial.lookup.keyvalues.TaxIncomeClassValuesFinder;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher non-resident alien tax.
  */
 public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessObjectBase {
 
@@ -282,6 +282,11 @@ public class DisbursementVoucherNonResidentAlienTax extends PersistableBusinessO
         return new TaxIncomeClassValuesFinder().getKeyLabel(incomeClassCode);
     }
 
+    /**
+     * Sets the incomeClassName attribute.
+     * 
+     * @param name The incomeClass name to set.
+     */
     public void setincomeClassName(String name) {
     }
 

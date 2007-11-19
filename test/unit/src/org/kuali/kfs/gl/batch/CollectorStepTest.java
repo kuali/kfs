@@ -32,6 +32,9 @@ import org.kuali.test.ConfigureContext;
 public class CollectorStepTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorStepTest.class);
 
+    /**
+     * Constructs a CollectorStepTest instance
+     */
     public CollectorStepTest() {
         super();
     }
@@ -78,11 +81,21 @@ public class CollectorStepTest extends KualiTestBase {
         }
     }
 
+    /**
+     * Determines if the .done file with the expected file name exists
+     * 
+     * @return true if the done file exists, false otherwise
+     */
     protected boolean isDoneFileExists() {
         File doneFile = new File(generateDoneFileName());
         return doneFile.exists();
     }
 
+    /**
+     * Generates the standard name of the .done file to check
+     * 
+     * @return the full path and name of the done file to check
+     */
     protected String generateDoneFileName() {
         return SpringContext.getBean(CollectorInputFileType.class).getDirectoryPath() + "/gl_collector1.done";
     }

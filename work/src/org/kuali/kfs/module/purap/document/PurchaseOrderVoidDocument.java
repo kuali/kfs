@@ -26,7 +26,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * Purchase Order Document
+ * Purchase Order Void Document
  */
 public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderVoidDocument.class);
@@ -38,6 +38,12 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         super();
     }
 
+    /**
+     * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
+     * processed. Overriding this method so that entries are not created yet.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
@@ -45,7 +51,12 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
         setGeneralLedgerPendingEntries(new ArrayList());
     }
 
-
+    /**
+     * When Purchase Order Void document has been processed through Workflow, the general ledger entries are created and the PO
+     * status changes to "VOID".
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -58,7 +69,7 @@ public class PurchaseOrderVoidDocument extends PurchaseOrderDocument {
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            // set purap status and status history and status history note
+            // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.VOID);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }

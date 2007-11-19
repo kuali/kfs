@@ -15,12 +15,15 @@
  */
 package org.kuali.module.pdp.dao.ojb;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
+import org.apache.ojb.broker.query.QueryFactory;
+import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
@@ -40,25 +43,30 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         super();
     }
 
-    // Inject
-    public void setUniversalUserService(UniversalUserService us) {
-        userService = us;
-    }
-
     /**
-     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getByProcessIdDisbursementType(java.lang.Integer, java.lang.String)
+     * @see org.kuali.module.pdp.dao.PaymentGroupDao#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
      */
-    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType) {
-        LOG.debug("getByProcessIdDisbursementType() started");
+    public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType) {
+        LOG.debug("getDisbursementNumbersByDisbursementType() started");
+
+        List<Integer> results = new ArrayList<Integer>();
 
         Criteria criteria = new Criteria();
         criteria.addEqualTo("processId", pid);
         criteria.addEqualTo("disbursementTypeCode", disbursementType);
 
-        QueryByCriteria qbc = new QueryByCriteria(PaymentGroup.class, criteria);
-        qbc.addOrderBy("disbursementNbr", true);
+        String[] fields = new String[] { "disbursementNbr" };
 
-        return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
+        ReportQueryByCriteria rq = QueryFactory.newReportQuery(PaymentGroup.class, fields, criteria, true);
+        rq.addOrderBy("disbursementNbr",true);
+
+        Iterator i = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(rq);
+        while ( i.hasNext() ) {
+            Object[] data = (Object[])i.next();
+            BigDecimal d = (BigDecimal)data[0];
+            results.add( new Integer(d.intValue()) );
+        }
+        return results;
     }
 
     /**
@@ -179,5 +187,10 @@ public class PaymentGroupDaoOjb extends PlatformAwareDaoBaseOjb implements Payme
         catch (UserNotFoundException e) {
             b.setProcessUser(null);
         }
+    }
+
+    // Inject
+    public void setUniversalUserService(UniversalUserService us) {
+        userService = us;
     }
 }

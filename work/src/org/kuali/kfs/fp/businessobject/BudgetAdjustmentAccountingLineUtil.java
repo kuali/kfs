@@ -23,11 +23,11 @@ import org.kuali.kfs.bo.AccountingLine;
 
 
 /**
- * Util class to consolidate BA accounting line code
+ * This class is a utility class to consolidate budget adjustment accounting line code
  */
 public class BudgetAdjustmentAccountingLineUtil {
     /**
-     * initialize attributes
+     * Initialize attributes
      * 
      * @param accountingLine
      */
@@ -50,10 +50,10 @@ public class BudgetAdjustmentAccountingLineUtil {
     }
 
     /**
-     * adds {@link BudgetAdjustmentAccountingLine} attributes to map
+     * Adds {@link BudgetAdjustmentAccountingLine} attributes to map
      * 
-     * @param simpleValues
-     * @param accountingLine
+     * @param simpleValues map used to add values to
+     * @param accountingLine accounting line that provides attributes to add to map
      * @return
      */
     public static Map appendToValuesMap(Map simpleValues, BudgetAdjustmentAccountingLine accountingLine) {
@@ -76,7 +76,7 @@ public class BudgetAdjustmentAccountingLineUtil {
     }
 
     /**
-     * copies {@link BudgetAdjustmentAccountingLine} values
+     * Copies {@link BudgetAdjustmentAccountingLine} values
      * 
      * @param toLine the line to copy values to
      * @param fromLine the line to take the values to use in writing to the toLine
@@ -105,9 +105,9 @@ public class BudgetAdjustmentAccountingLineUtil {
     }
 
     /**
-     * calculates monthlyLines total amount@param accountingLine
+     * Calculates monthlyLines total amount@param accountingLine
      * 
-     * @return
+     * @return KualiDecimal sum of all monthly line amounts
      */
     public static KualiDecimal getMonthlyLinesTotal(BudgetAdjustmentAccountingLine accountingLine) {
         KualiDecimal total = KualiDecimal.ZERO;

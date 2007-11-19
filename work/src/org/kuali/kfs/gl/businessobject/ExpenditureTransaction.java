@@ -23,8 +23,9 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 
 /**
- * 
- * 
+ * Represents a expenditure transaction for a specific fiscal year, COA code, account number,
+ * sub account number, object code, sub-object code, balance type code, object type code,
+ * fiscal accounting period, project code, organization reference ID
  */
 public class ExpenditureTransaction extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 5296540728313789670L;

@@ -24,7 +24,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * 
+ * This class represents a cash drawer used in cash management document. It contains amounts for 
+ * different types of denominations for currency and coin. 
  */
 public class CashDrawer extends PersistableBusinessObjectBase {
     private String workgroupName;

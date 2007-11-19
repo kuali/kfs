@@ -19,10 +19,18 @@ import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 import org.kuali.module.gl.service.ExpenditureTransactionService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The basic implementation of ExpenditureTransactionService
+ */
 @Transactional
 public class ExpenditureTransactionServiceImpl implements ExpenditureTransactionService {
     private ExpenditureTransactionDao expenditureTransactionDao;
 
+    /**
+     * Removes all of the expenditure transactions, which are temporary records for ICR generation
+     *
+     * @see org.kuali.module.gl.service.ExpenditureTransactionService#deleteAllExpenditureTransactions()
+     */
     public void deleteAllExpenditureTransactions() {
         expenditureTransactionDao.deleteAllExpenditureTransactions();
     }

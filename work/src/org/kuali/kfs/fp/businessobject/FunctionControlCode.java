@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class is used to represent a function control code business object.
  */
 public class FunctionControlCode extends PersistableBusinessObjectBase {
 

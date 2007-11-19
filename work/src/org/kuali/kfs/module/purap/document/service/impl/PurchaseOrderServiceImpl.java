@@ -413,9 +413,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             SpringContext.getBean(PurApWorkflowIntegrationService.class).takeAllActionsForGivenCriteria(po, "Action taken automatically as part of document initial print transmission by user " + GlobalVariables.getUserSession().getUniversalUser().getPersonName(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), null, KFSConstants.SYSTEM_USER);
         }
         po.setOverrideWorkflowButtons(Boolean.TRUE);
+        if (po.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN)) {
+            saveDocumentNoValidation(po);    
+        }
+        else {
         attemptSetupOfInitialOpenOfDocument(po);
     }
-
+    }
     /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#performPrintPurchaseOrderPDFOnly(java.lang.String,
      *      java.io.ByteArrayOutputStream)
@@ -593,11 +597,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      */
     public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-        if (ObjectUtils.isNotNull(currentDocument)) {
-            KualiWorkflowDocument workflowDocument = currentDocument.getDocumentHeader().getWorkflowDocument();
-            currentDocument.refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
-            currentDocument.getDocumentHeader().setWorkflowDocument(workflowDocument);
-        }
 
         purapService.updateStatus(currentDocument, currentDocumentStatusCode);
         try {
@@ -727,6 +726,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (ObjectUtils.isNotNull(documentNumber)) {
             try {
                 PurchaseOrderDocument doc = (PurchaseOrderDocument) documentService.getByDocumentHeaderId(documentNumber);
+                if (ObjectUtils.isNotNull(doc)) {
+                    KualiWorkflowDocument workflowDocument = doc.getDocumentHeader().getWorkflowDocument();
+                    doc.refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+                    doc.getDocumentHeader().setWorkflowDocument(workflowDocument);
+                }
                 return doc;
             }
             catch (WorkflowException e) {

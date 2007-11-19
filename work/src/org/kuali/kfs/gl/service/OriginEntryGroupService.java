@@ -21,13 +21,16 @@ import java.util.Map;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
+/**
+ * An interface of methods to interact with Origin Entry Groups
+ */
 public interface OriginEntryGroupService {
-    public Collection getGroupsFromSource(String sourceCode);
+    public OriginEntryGroup getGroupWithMaxIdFromSource(String sourceCode);
 
     /**
      * Mark a group as don't process
      * 
-     * @param groupId
+     * @param groupId the id of the group to mark
      */
     public void dontProcessGroup(Integer groupId);
 
@@ -51,7 +54,7 @@ public interface OriginEntryGroupService {
     /**
      * Get the newest scrubber error group
      * 
-     * @return
+     * @return the origin entry group that was most recently created, or null if there are no origin entry groups in the database
      */
     public OriginEntryGroup getNewestScrubberErrorGroup();
 
@@ -69,22 +72,37 @@ public interface OriginEntryGroupService {
     /**
      * Delete all the groups (and entries) where the group is this many days old or older
      * 
-     * @param days
+     * @param days groups older than the given days will be deleted by this method
      */
     public void deleteOlderGroups(int days);
 
+    /**
+     * Deletes several origin entry groups
+     * 
+     * @param groupsToDelete a Collection of origin entry groups to delete
+     */
     public void deleteGroups(Collection<OriginEntryGroup> groupsToDelete);
 
     /**
      * Get groups that match
      * 
-     * @param criteria
-     * @return
+     * @param criteria a map of criteria to build a query from
+     * @return a Collection of qualifying origin entry groups
      */
     public Collection getMatchingGroups(Map criteria);
 
+    /**
+     * Retrieves all groups which are not marked to be processed
+     * 
+     * @return a Collection of qualifying origin entry groups
+     */
     public Collection getOriginEntryGroupsPendingProcessing();
 
+    /**
+     * Returns all groups of entries that should be processed by the poster
+     * 
+     * @return a Collection of qualifying origin entry groups
+     */
     public Collection getGroupsToPost();
 
     /**
@@ -95,20 +113,25 @@ public interface OriginEntryGroupService {
      */
     public Collection getGroupsToPost(String entryGroupSourceCode);
 
+    /**
+     * Returns all groups with indirect cost recovery entries ready for positing
+     * 
+     * @return a Collection of origin entry groups of indirect cost recovery entries to post
+     */
     public Collection getIcrGroupsToPost();
 
     /**
      * Gets a collection of all scrubbable backup groups (i.e. scrub, valid, process indicators all true)
      * 
-     * @return
+     * @return a Collection of origin entry backup groups that should be scrubbed
      */
     public Collection<OriginEntryGroup> getAllScrubbableBackupGroups();
 
     /**
      * Get all the unscrubbed backup groups for Labor
      * 
-     * @param backupDate
-     * @return
+     * @param backupDate the date all groups created on or before should be return to be backed up
+     * @return a Collection of labor origin entry groups to backup
      */
     public Collection getLaborBackupGroups(Date backupDate);
 
@@ -116,41 +139,58 @@ public interface OriginEntryGroupService {
     /**
      * Get all the groups that need to be put into the backup group
      * 
-     * @param backupDate
-     * @return
+     * @param backupDate the date all groups created on or before should be return to be backed up
+     * @return a Collection of origin entry groups to backup
      */
     public Collection getGroupsToBackup(Date backupDate);
 
     /**
-     * Create a new group
+     * Creates a brand new group
      * 
-     * @param date
-     * @param sourceCode
-     * @param valid
-     * @param process
-     * @param scrub
-     * @return
+     * @param date the date this group should list as its creation date
+     * @param sourceCode the source of this origin entry group
+     * @param valid whether this group is valid - ie, all entries within it are valid
+     * @param process whether this group should be processed by the next step
+     * @param scrub whether this group should be input to the scrubber
+     * @return a new origin entry group to put origin entries into
      */
     public OriginEntryGroup createGroup(Date date, String sourceCode, boolean valid, boolean process, boolean scrub);
 
     /**
      * save a group
      * 
-     * @param group
+     * @param group the group to save
      */
     public void save(OriginEntryGroup group);
 
+    /**
+     * Returns the origin entry group by the given id
+     * 
+     * @param id the id of the group to retrieve
+     * @return an origin entry group with the given id, or null if nothing could be found
+     */
     public OriginEntryGroup getExactMatchingEntryGroup(Integer id);
 
+    /**
+     * Retrieves all origin entry groups currently in the persistence store
+     * 
+     * @return a Collection of all the origin entry groups in the persistence store
+     */
     public Collection getAllOriginEntryGroup();
 
+    /**
+     * Retrieves origin entry groups created within the past number of given days
+     * 
+     * @param days groups created within the past number of days will be retrieved
+     * @return a Collection of retrieved origin entry groups
+     */
     public Collection getRecentGroupsByDays(int days);
 
     /**
      * Returns whether the group indicated with the group ID still exists within the system
      * 
-     * @param groupId
-     * @return
+     * @param groupId the id of the group to check for existence
+     * @return true if it still exists in the persistence mechanism, false otherwise
      */
     public boolean getGroupExists(Integer groupId);
 }

@@ -95,7 +95,6 @@ public class PurchaseOrderCloseDocumentRule extends PurchasingDocumentRuleBase {
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
 
-            // TODO: Get this from Business Rules.
             // The PO must be in OPEN status.
             if (!StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.PENDING_CLOSE) && !StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.OPEN)) {
                 valid = false;

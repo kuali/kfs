@@ -45,12 +45,12 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Indirect Cost Recovery Exclusion Account"
+				title="Indirect Cost Recovery Exclusion By Account"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionAccount&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Indirect Cost Recovery Exclusion Type"
+				title="Indirect Cost Recovery Exclusion By Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.IndirectCostRecoveryExclusionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>

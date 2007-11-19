@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.Guid;
 import org.kuali.core.util.UnitTestSqlDao;
@@ -28,13 +29,21 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests the PurgeStep
+ */
 @ConfigureContext
+@RawSQL
 public class PurgeTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurgeTest.class);
 
     private UnitTestSqlDao unitTestSqlDao;
     private DateTimeService dateTimeService;
 
+    /**
+     * Sets up this method by getting the needed services from the SpringContext
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -43,7 +52,11 @@ public class PurgeTest extends KualiTestBase {
         dateTimeService = SpringContext.getBean(DateTimeService.class);
     }
 
-    // This will purge entries before 2002
+    /**
+     * Tests that entries created before 2002 are purged
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeEntry() throws Exception {
         LOG.debug("testPurgeEntry() started");
 
@@ -70,7 +83,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
     }
 
-    // This will purge entries before 1999
+    /**
+     * Tests that balances are purged before 1999
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeBalance() throws Exception {
         LOG.debug("testPurgeBalance() started");
 
@@ -97,7 +114,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
     }
 
-    // This will purge entries before 1999
+    /**
+     * Tests that account balances are purged before 1999
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeAccountBalances() throws Exception {
         LOG.debug("testPurgeAccountBalances() started");
 
@@ -124,7 +145,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
     }
 
-    // This will purge entries before 2002
+    /**
+     * Tests that encumbrances are purged before 2002
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeEncumbrance() throws Exception {
         LOG.debug("testPurgeEncumbrance() started");
 
@@ -151,7 +176,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
     }
 
-    // This will purge entries before 2002
+    /**
+     * Tests that collector details are purged before 2002
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeCollectorDetail() throws Exception {
         LOG.debug("testPurgeCollectorDetail() started");
 
@@ -178,7 +207,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count2002, "COUNT(*)"));
     }
 
-    // This will purge entries before 1999
+    /**
+     * Tests that sufficient funds balances are purged before 1999
+     * 
+     * @throws Exception thrown if something (likely a SQL issue) goes wrong
+     */
     public void testPurgeSufficientFundsBalances() throws Exception {
         LOG.debug("testPurgeSufficientFundsBalances() started");
 
@@ -205,6 +238,11 @@ public class PurgeTest extends KualiTestBase {
         assertEquals("Wrong count for year found", 1, getInt(count1999, "COUNT(*)"));
     }
 
+    /**
+     * Prints the contents of a List of Maps to System.err
+     * 
+     * @param maps a List of Maps
+     */
     private void printList(List maps) {
         for (Iterator iter = maps.iterator(); iter.hasNext();) {
             Map element = (Map) iter.next();
@@ -220,6 +258,13 @@ public class PurgeTest extends KualiTestBase {
         }
     }
 
+    /**
+     * Attempts to convert the value of a MapEntry with the given key into an int
+     * 
+     * @param values a Map of values
+     * @param field the key of the value to convert
+     * @return the converted value or -1 if conversion was unsuccessful
+     */
     private int getInt(Map values, String field) {
         Object o = values.get(field);
         if (o == null) {

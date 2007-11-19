@@ -125,11 +125,11 @@
                 <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
             </attributeReference>		
         
-	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
-	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
-	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
-	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
-	        <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity"/>
+	        <attributeReference name="csfAmount" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfAmount"/>	
+	        <attributeReference name="csfDeleteCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfDeleteCode"/>	
+	        <attributeReference name="csfTimePercent" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfTimePercent"/>
+	        <attributeReference name="csfFundingStatusCode" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFundingStatusCode"/>
+	        <attributeReference name="csfFullTimeEmploymentQuantity" sourceClassName="org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker" sourceAttributeName="csfFullTimeEmploymentQuantity"/>
 	        	        
             <attributeReference name="dummyBusinessObject.pendingEntryOption" sourceClassName="org.kuali.module.gl.bo.TransientBalanceInquiryAttributes" sourceAttributeName="pendingEntryOption" />
 		</attributes>

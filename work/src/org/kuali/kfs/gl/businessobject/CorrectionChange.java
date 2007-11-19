@@ -23,7 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * A class that represents a change to any origin entry that was altered within a GLCP Document
  */
 public class CorrectionChange extends PersistableBusinessObjectBase implements Comparable {
 

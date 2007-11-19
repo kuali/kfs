@@ -32,20 +32,16 @@ public class ProjectCodeServiceImpl implements ProjectCodeService {
     private ProjectCodeDao projectCodeDao;
 
     /**
-     * Retrieves an ProjectCode object based on primary key.
      * 
-     * @param projectCode - Project Code
-     * @return ProjectCode
+     * @see org.kuali.module.chart.service.ProjectCodeService#getByPrimaryId(java.lang.String)
      */
     public ProjectCode getByPrimaryId(String projectCode) {
         return projectCodeDao.getByPrimaryId(projectCode);
     }
 
     /**
-     * Retrieves an ProjectCode object based on primary key
      * 
-     * @param projectCode - Project Code
-     * @return ProjectCode
+     * @see org.kuali.module.chart.service.ProjectCodeService#getByName(java.lang.String)
      */
     public ProjectCode getByName(String name) {
         return projectCodeDao.getByName(name);

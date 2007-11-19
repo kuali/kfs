@@ -35,8 +35,9 @@ import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
  */
 public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBase {
     /**
-     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase,
-     *      org.kuali.module.labor.bo.LedgerBalance)
+     * Resets lookup fields for salary expense transfer action
+     * 
+     * @see org.kuali.module.labor.web.struts.action.ExpenseTransferDocumentActionBase#resetLookupFields(org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase, org.kuali.module.labor.bo.LedgerBalance)
      */
     @Override
     protected void resetLookupFields(ExpenseTransferDocumentFormBase expenseTransferDocumentForm, LedgerBalance balance) {
@@ -45,6 +46,8 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     }
 
     /**
+     * If user is approving document, capture the object code balances for comparison in business rules on route
+     * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#docHandler(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -52,7 +55,6 @@ public class SalaryExpenseTransferAction extends ExpenseTransferDocumentActionBa
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
 
-        // if user is approving the document, capture the object code balances for comparision in business rules on route
         SalaryExpenseTransferDocument salaryExpenseDocument = (SalaryExpenseTransferDocument) ((KualiDocumentFormBase) form).getDocument();
         if (salaryExpenseDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
             salaryExpenseDocument.setApprovalObjectCodeBalances(salaryExpenseDocument.getUnbalancedObjectCodes());

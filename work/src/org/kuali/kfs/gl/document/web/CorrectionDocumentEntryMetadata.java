@@ -20,6 +20,9 @@ import java.util.List;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 
+/**
+ * This class represents origin entry meta-data for the correction document.
+ */
 public interface CorrectionDocumentEntryMetadata {
 
     public List<OriginEntryFull> getAllEntries();

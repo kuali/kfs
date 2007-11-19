@@ -20,18 +20,34 @@ import org.kuali.module.gl.dao.CollectorDetailDao;
 import org.kuali.module.gl.service.CollectorDetailService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of CollectorDetailService
+ */
 @Transactional
 public class CollectorDetailServiceImpl implements CollectorDetailService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CollectorDetailServiceImpl.class);
 
     private CollectorDetailDao collectorDetailDao;
 
+    /**
+     * Purge the sufficient funds balance table by year/chart
+     * 
+     * @param chart chart of CollectorDetails to purge
+     * @param year year of CollectorDetails to purage
+     * @see org.kuali.module.gl.service.CollectorDetailService#purgeYearByChart(java.lang.String, int)
+     */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear) {
         LOG.debug("purgeYearByChart() started");
 
         collectorDetailDao.purgeYearByChart(chartOfAccountsCode, universityFiscalYear);
     }
 
+    /**
+     * Saves a CollectorDetail
+     * 
+     * @param detail the detail to save
+     * @see org.kuali.module.gl.service.CollectorDetailService#save(org.kuali.module.gl.bo.CollectorDetail)
+     */
     public void save(CollectorDetail detail) {
         LOG.debug("save() started");
 

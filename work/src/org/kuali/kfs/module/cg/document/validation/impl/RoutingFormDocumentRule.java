@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
@@ -42,6 +43,7 @@ import org.kuali.module.kra.budget.document.BudgetDocument;
 import org.kuali.module.kra.budget.document.BudgetDocumentAuthorizer;
 import org.kuali.module.kra.budget.rules.ResearchDocumentRuleBase;
 import org.kuali.module.kra.document.ResearchDocument;
+import org.kuali.module.kra.routingform.bo.RoutingFormAgency;
 import org.kuali.module.kra.routingform.bo.RoutingFormInstitutionCostShare;
 import org.kuali.module.kra.routingform.bo.RoutingFormOrganization;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
@@ -56,6 +58,16 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class...
  */
 public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
+    
+    private DataDictionaryService dataDictionaryService;
+
+    
+    public RoutingFormDocumentRule() {
+        super();
+        dataDictionaryService = SpringContext.getBean(DataDictionaryService.class);
+    }
+
+    
     /**
      * Checks business rules related to saving a ResearchDocument.
      * 
@@ -75,6 +87,8 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         // changing this to '0' so it doesn't validate reference objects within a list (Subcontractors was causing a problem).
         SpringContext.getBean(DictionaryValidationService.class).validateDocumentRecursively(routingFormDocument, 0);
 
+        valid &= processRoutingFormAgency(routingFormDocument);
+        
         valid &= processInstitutionCostShare(routingFormDocument);
 
         valid &= processRoutingFormOrganizations(routingFormDocument);
@@ -100,6 +114,31 @@ public class RoutingFormDocumentRule extends ResearchDocumentRuleBase {
         return RoutingFormAuditRule.processRunAuditBusinessRules(document);
     }
 
+    
+    /**
+     * This method validates that the Agency and Federal Pass Through Agency are, if entered, valid.  No Agency will be handled via Audit Error.
+     * @param routingFormDocument
+     * @return 
+     */
+    private boolean processRoutingFormAgency(RoutingFormDocument routingFormDocument) {
+        boolean valid = true;
+        
+        routingFormDocument.getRoutingFormAgency().refreshReferenceObject("agency");
+        if (!StringUtils.isBlank(routingFormDocument.getRoutingFormAgency().getAgencyNumber()) && routingFormDocument.getRoutingFormAgency().getAgency() ==  null) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("routingFormAgency.agencyNumber", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormAgency.class, "agencyNumber") });
+        }
+
+        routingFormDocument.refreshReferenceObject("federalPassThroughAgency");
+        if (!StringUtils.isBlank(routingFormDocument.getAgencyFederalPassThroughNumber()) && routingFormDocument.getFederalPassThroughAgency() ==  null) {
+            valid = false;
+            GlobalVariables.getErrorMap().putError("agencyFederalPassThroughNumber", KraKeyConstants.ERROR_INVALID_VALUE, new String[] { dataDictionaryService.getAttributeLabel(RoutingFormDocument.class, "agencyFederalPassThroughNumber") });
+        }
+
+        
+        return valid;
+    }
+    
     /**
      * This method validates Institution Cost Share Orgs. It checks the following:
      * <ul>

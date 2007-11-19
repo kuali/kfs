@@ -35,9 +35,9 @@
 
         <documentTypeName>IndirectCostRecoveryExclusionAccountMaintenanceDocument</documentTypeName>
         <documentTypeCode>ICRA</documentTypeCode>
-        <label>Indirect Cost Recovery Exclusion Account</label>
-        <summary>Indirect Cost Recovery Exclusion Account Maintenance Document</summary>
-        <description>Maintenance document which allows you to create new Indirect Cost Recovery Exclusion Accounts, or modify existing Indirect Cost Recovery Exclusion Accounts.</description>
+        <label>Indirect Cost Recovery Exclusion By Account</label>
+        <summary>Indirect Cost Recovery Exclusion By Account Maintenance Document</summary>
+        <description>Maintenance document which allows you to create new Indirect Cost Recovery Exclusions By Account, or modify existing Indirect Cost Recovery Exclusions By Account.</description>
         <help parameterNamespace="KFS-CA" parameterDetailType="IndirectCostRecoveryExclusionAccount" parameterName="INDIRECT_COST_RECOVERY_EXCLUSION_BY_ACCOUNT" />
 
         <lockingKeys>

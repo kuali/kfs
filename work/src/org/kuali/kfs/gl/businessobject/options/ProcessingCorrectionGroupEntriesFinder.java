@@ -35,7 +35,7 @@ public class ProcessingCorrectionGroupEntriesFinder extends KeyValuesBase {
      * Returns a list of key-value pairs of origin entry groups with a process flag set to yes. The key is the correction id, and
      * the value is the name of the origin entry group
      * 
-     * @return
+     * @return a List of key value pair options
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {

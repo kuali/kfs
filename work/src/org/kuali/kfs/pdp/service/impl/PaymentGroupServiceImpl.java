@@ -37,12 +37,12 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
     }
 
     /**
-     * @see org.kuali.module.pdp.service.PaymentGroupService#getByProcessIdDisbursementType(java.lang.Integer, java.lang.String)
+     * @see org.kuali.module.pdp.service.PaymentGroupService#getDisbursementNumbersByDisbursementType(java.lang.Integer, java.lang.String)
      */
-    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType) {
-        LOG.debug("getByProcessIdDisbursementType() started");
+    public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType) {
+        LOG.debug("getDisbursementNumbersByDisbursementType() started");
 
-        return paymentGroupDao.getByProcessIdDisbursementType(pid, disbursementType);
+        return paymentGroupDao.getDisbursementNumbersByDisbursementType(pid, disbursementType);
     }
 
     /**

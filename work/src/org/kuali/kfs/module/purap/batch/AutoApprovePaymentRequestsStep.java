@@ -18,6 +18,9 @@ package org.kuali.module.purap.batch;
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.purap.service.PaymentRequestService;
 
+/**
+ * Step used to auto approve payment requests that meet a certain criteria
+ */
 public class AutoApprovePaymentRequestsStep extends AbstractStep {
 
     private PaymentRequestService paymentRequestService;
@@ -26,10 +29,21 @@ public class AutoApprovePaymentRequestsStep extends AbstractStep {
         super();
     }
 
+    /**
+     * Calls service method to approve payment requests
+     * 
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
     public boolean execute(String jobName) throws InterruptedException {
         return paymentRequestService.autoApprovePaymentRequests();
     }
 
+    /**
+     * Invoke execute method
+     * 
+     * @return
+     * @throws InterruptedException
+     */
     public boolean execute() throws InterruptedException {
         return execute(null);
     }

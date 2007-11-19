@@ -34,6 +34,14 @@ public interface PaymentDetailDao {
     public void saveDisbursementNumberRange(DisbursementNumberRange range);
 
     /**
+     * This gets all the payment details by disbursement number
+     * 
+     * @param disbursementNumber
+     * @return
+     */
+    public Iterator getByDisbursementNumber(Integer disbursementNumber);
+
+    /**
      * This returns the data required for the daily report
      * 
      * @return
@@ -48,6 +56,13 @@ public interface PaymentDetailDao {
      * @return
      */
     public Iterator getUnprocessedCancelledDetails(String organization, String subUnit);
+
+    /**
+     * This will return all the ACH payments that need an email sent
+     * 
+     * @return
+     */
+    public Iterator getAchPaymentsWithUnsentEmail();
 
     /**
      * This will return an iterator of all the paid payment details that haven't already been processed

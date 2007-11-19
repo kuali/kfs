@@ -39,14 +39,21 @@ public class PostGlAccountBalance implements PostTransaction, AccountBalanceCalc
         accountBalanceDao = abd;
     }
 
+    /**
+     * Constructs a PostGlAccountBalance instance
+     */
     public PostGlAccountBalance() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Posts the transaction to the appropriate account balance record.
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");

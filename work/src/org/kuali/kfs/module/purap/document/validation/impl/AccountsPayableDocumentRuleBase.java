@@ -32,8 +32,16 @@ import org.kuali.module.purap.rule.CancelAccountsPayableRule;
 import org.kuali.module.purap.rule.ContinueAccountsPayableRule;
 import org.kuali.module.purap.rule.PreCalculateAccountsPayableRule;
 
+/**
+ * Business Rule(s) applicable to Accounts Payable documents.
+ */
 public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccountsPayableDocumentRuleBase implements ContinueAccountsPayableRule, CalculateAccountsPayableRule, PreCalculateAccountsPayableRule, CancelAccountsPayableRule {
 
+    /**
+     * Determines if approval at accounts payable review is allowed.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
     @Override
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
@@ -43,6 +51,13 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         return valid;
     }
 
+    /**
+     * If at the node accounts payable review, checks if approval at accounts payable review is allowed.
+     * Returns true if it is, false otherwise.
+     * 
+     * @param apDocument - accounts payable document
+     * @return
+     */
     private boolean processApprovalAtAccountsPayableReviewAllowed(AccountsPayableDocument apDocument) {
         boolean valid = true;
         GlobalVariables.getErrorMap().clearErrorPath();
@@ -58,6 +73,12 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         return valid;
     }
 
+    /**
+     * Performs additional validation on above the line indicator items.
+     * 
+     * @see org.kuali.module.purap.rules.PurchasingAccountsPayableDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
+     */
+    @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
 
@@ -71,6 +92,13 @@ public abstract class AccountsPayableDocumentRuleBase extends PurchasingAccounts
         return valid;
     }
 
+    /**
+     * Performs validation for above the line item types.
+     * 
+     * @param item - a payment request item to be validated
+     * @param identifierString - identifier used to add to error map
+     * @return
+     */
     private boolean validateAboveTheLineItems(PaymentRequestItem item, String identifierString) {
         boolean valid = true;
 

@@ -30,18 +30,27 @@ import org.kuali.module.gl.util.OriginEntryStatistics;
 import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 
 /**
- * 
- * 
+ * An interface of methods to interact with Origin Entries
  */
 public interface OriginEntryService {
 
     /**
      * Get statistics from a group
+     * @param groupId the id of a group of origin entries
+     * @return a collection of OriginEntryStatistics
      */
     public OriginEntryStatistics getStatistics(Integer groupId);
 
     /**
      * Copy a set of entries into a new group
+     * 
+     * @param date the date that the copied entries should list as their post date
+     * @param sourceCode the source code of the origin entry group to create
+     * @param valid whether the new group should be considered valid
+     * @param process whether the new group should be ready to be processed
+     * @param scrub whether the new group should be processed by the scrubber
+     * @param entries a Collection of entries to copy
+     * @return a new origin entry full of copied entries
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Collection<OriginEntryFull> entries);
 
@@ -49,13 +58,13 @@ public interface OriginEntryService {
      * Copy a set of entries into a new group. This method can use less space than the method that takes in a collection, because
      * iterators can be implemented to load data one chunk at a time, similar to how java ResultSets work.
      * 
-     * @param date
-     * @param sourceCode
-     * @param valid
-     * @param process
-     * @param scrub
-     * @param entries
-     * @return
+     * @param date the date that the copied entries should list as their post date
+     * @param sourceCode the source code of the origin entry group to create
+     * @param valid whether the new group should be considered valid
+     * @param process whether the new group should be ready to be processed
+     * @param scrub whether the new group should be processed by the scrubber
+     * @param entries a Iterator of entries to copy
+     * @return a new origin entry full of copied entries
      */
     public OriginEntryGroup copyEntries(Date date, String sourceCode, boolean valid, boolean process, boolean scrub, Iterator<OriginEntryFull> entries);
 
@@ -67,42 +76,45 @@ public interface OriginEntryService {
     public void delete(OriginEntryFull oe);
 
     /**
-     * Return all documents in a group
+     * This returns all of distinct primary key sets of documents that created origin entries that exist
+     * in the given origin entry group.  It returns this information in OriginEntryFull objects
+     * that just don't have any other information besides the document keys (doc number, doc type code,
+     * and origination code) filled in.
      * 
-     * @param oeg Group used to select documents
-     * @return Collection to all documents
+     * @param oeg the group with the origin entries to get the documents of
+     * @return Collection to qualifying documents
      */
     public Collection<OriginEntryFull> getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted by account number for the error
      * 
-     * @param oeg
-     * @return
+     * @param oeg an origin entry group to get entries from
+     * @return an Iterator of origin entries sorted by account number
      */
     public Iterator<OriginEntryFull> getEntriesByGroupAccountOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted for display on the pending entry report.
      * 
-     * @param oeg
-     * @return
+     * @param oeg a origin entry group to get entries from
+     * @return an Iterator of origin entries sorted in the order needed for an origin entry report (fiscal year, chart, account, sub account, object, sub object)
      */
     public Iterator<OriginEntryFull> getEntriesByGroupReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for a group sorted across the columns in report from left to right.
      * 
-     * @param oeg
-     * @return
+     * @param oeg an origin entry group to get entries from
+     * @return an Iterator of origin entries sorted in the proper order
      */
     public Iterator<OriginEntryFull> getEntriesByGroupListingReportOrder(OriginEntryGroup oeg);
 
     /**
      * Return all entries for the groups where the balance type is empty
      * 
-     * @param groups
-     * @return
+     * @param groups a Collection of groups to look through all the entries of
+     * @return an Iterator of entries without balance types
      */
     public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups);
 
@@ -117,11 +129,11 @@ public interface OriginEntryService {
     /**
      * Return all the entries for a specific document in a specific group
      * 
-     * @param oeg Group selection
-     * @param documentNumber Document number selection
-     * @param documentTypeCode Document type selection
-     * @param originCode Origin Code selection
-     * @return iterator to all the entries
+     * @param oeg an origin entry group to find entries in
+     * @param documentNumber the document number of entries to select
+     * @param documentTypeCode the document type of entries to select
+     * @param originCode the origination code of entries to select
+     * @return iterator to all the qualifying entries
      */
     public Iterator<OriginEntryFull> getEntriesByDocument(OriginEntryGroup oeg, String documentNumber, String documentTypeCode, String originCode);
 
@@ -136,7 +148,7 @@ public interface OriginEntryService {
     /**
      * Save an origin entry
      * 
-     * @param entry
+     * @param entry the entry to save
      */
     public void save(OriginEntryFull entry);
 
@@ -149,7 +161,7 @@ public interface OriginEntryService {
     public void exportFlatFile(String filename, Integer groupId);
 
     /**
-     * Load a flat file of transations into the origin entry table
+     * Load a flat file of transations into the origin entry table (creating a new origin entry group in the process)
      * 
      * @param filename Filename with the text
      * @param groupSourceCode Source of the new group
@@ -160,18 +172,18 @@ public interface OriginEntryService {
     public void loadFlatFile(String filename, String groupSourceCode, boolean valid, boolean processed, boolean scrub);
 
     /**
-     * Send data to an output stream
+     * Write all of the origin entries in a group to an output stream
      * 
-     * @param groupId
-     * @param bw
+     * @param groupId the id of the origin entry group to get entries from
+     * @param bw the output stream to dump the entries as text to
      */
     public void flatFile(Integer groupId, BufferedOutputStream bw);
 
     /**
      * writes out a list of origin entries to an output stream.
      * 
-     * @param entries
-     * @param bw
+     * @param entries an Iterator of entries to save as text
+     * @param bw the output stream to write origin entries to
      */
     public void flatFile(Iterator<OriginEntryFull> entries, BufferedOutputStream bw);
 
@@ -183,16 +195,28 @@ public interface OriginEntryService {
      */
     public LedgerEntryHolder getSummaryByGroupId(Collection groupIdList);
 
+    /**
+     * Finds all origin entries matching certain criteria; basically a catch-all origin entry search
+     * 
+     * @param searchCriteria the criteria to be used in forming a query
+     * @return a Collection of qualifying origin entries
+     */
     public Collection<OriginEntryFull> getMatchingEntriesByCollection(Map searchCriteria);
 
     /**
-     * Retrieves a list of origin entries that match the search criteria.
+     * Retrieves a list of origin entries that are in a given group
      * 
-     * @param groupId
-     * @return
+     * @param groupId the id of the group to get all entries from
+     * @return a List of Origin Entries
      */
     public List<OriginEntryFull> getEntriesByGroupId(Integer groupId);
 
+    /**
+     * Returns the entry with the given id
+     * 
+     * @param entryId the id of the entry to retrieve
+     * @return the origin entry if found, or null otherwise
+     */
     public OriginEntryFull getExactMatchingEntry(Integer entryId);
 
     /**
@@ -205,6 +229,8 @@ public interface OriginEntryService {
 
     /**
      * Get count of transactions in a group
+     * @param groupId the group to get the count of entries from
+     * @return a count of entries
      */
     public Integer getGroupCount(Integer groupId);
 }

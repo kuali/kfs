@@ -474,18 +474,16 @@ public class DataLoadHandler implements PdpFileHandler {
                 }
             }
 
-            if (!replacement) {
-                // Check project code
-                if (pad.getProjectCode() != null) {
-                    ProjectCode pc = projectCodeService.getByName(pad.getProjectCode());
-                    if (pc == null) {
-                        // Get rid of project
-                        errors.add("Project code " + pad.getProjectCode() + " is invalid.  Removed");
+            // Check project code
+            if (pad.getProjectCode() != null) {
+                ProjectCode pc = projectCodeService.getByName(pad.getProjectCode());
+                if (pc == null) {
+                    // Get rid of project
+                    errors.add("Project code " + pad.getProjectCode() + " is invalid.  Removed");
 
-                        changeRecords.add(newAccountHistory("project_cd", "----------", pad.getProjectCode(), (Code) acctgChngCds.get("PROJ")));
+                    changeRecords.add(newAccountHistory("project_cd", "----------", pad.getProjectCode(), (Code) acctgChngCds.get("PROJ")));
 
-                        pad.setProjectCode("----------");
-                    }
+                    pad.setProjectCode("----------");
                 }
             }
         }

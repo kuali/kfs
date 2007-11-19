@@ -19,26 +19,39 @@ import java.util.List;
 
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.AccountsPayableItem;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PurApAccountingLine;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 
 public enum PaymentRequestItemFixture {
 
-    ITEM_TYPE_WITH_GOOD_ACCOUNTS(ItemTypeCodes.ITEM_TYPE_ITEM_CODE, true, true), ;
+    PREQ_QTY_UNRESTRICTED_ITEM_1(
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PaymentRequestAccountingLineFixture[] { PaymentRequestAccountingLineFixture.BASIC_PREQ_ACCOUNT_1 } // paymentRequestAccountMultiFixtures
+    );
+    
+    private PurApItemFixture purApItemFixture;
+    private PaymentRequestAccountingLineFixture[] paymentRequestAccountingLineFixtures;
+    
+    private PaymentRequestItemFixture(PurApItemFixture purApItemFixture, PaymentRequestAccountingLineFixture[] paymentRequestAccountingLineFixtures) {        
+        this.purApItemFixture = purApItemFixture;
+        this.paymentRequestAccountingLineFixtures = paymentRequestAccountingLineFixtures;
+    }
 
-    String itemType;
-    List<PurApAccountingLine> accountingLines;
-    SourceAccountingLine sal = new SourceAccountingLine();
+    public void addTo(PaymentRequestDocument paymentRequestDocument) {
+        PaymentRequestItem item = null;
+        item = (PaymentRequestItem) this.createPaymentRequestItem();
+        paymentRequestDocument.addItem(item);
+        // iterate over the accounts
+        for (PaymentRequestAccountingLineFixture paymentRequestAccountingLineFixture : paymentRequestAccountingLineFixtures) {
+            paymentRequestAccountingLineFixture.addTo(item);
+        }
+    }
 
-    private PaymentRequestItemFixture(String itemType, boolean acct1, boolean acct2) {
-        this.itemType = itemType;
-        if (acct1) {
-            PurApAccountingLine paal = (PurApAccountingLine) sal;
-            accountingLines.add(paal);
-        }
-        if (acct2) {
-            PurApAccountingLine paal = (PurApAccountingLine) sal;
-            accountingLines.add(paal);
-        }
+    public AccountsPayableItem createPaymentRequestItem() {
+        PaymentRequestItem item = (PaymentRequestItem) purApItemFixture.createPurApItem(PaymentRequestItem.class);        
+        return item;
     }
 
 }

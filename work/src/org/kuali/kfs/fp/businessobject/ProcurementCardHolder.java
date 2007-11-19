@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * 
+ * This class is used to represent a procurement card holder, or the individual whose name is on the card.
  */
 public class ProcurementCardHolder extends PersistableBusinessObjectBase {
 

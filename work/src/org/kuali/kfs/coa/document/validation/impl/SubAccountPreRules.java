@@ -28,7 +28,8 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubAccount;
 
 /**
- * This class...
+ * PreRules checks for the {@link SubAccount} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
  */
 public class SubAccountPreRules extends MaintenancePreRulesBase {
 
@@ -40,6 +41,11 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
 
     }
 
+    /**
+     * This checks to see if a continuation account is necessary and then copies the ICR data from the Account 
+     * associated with this SubAccount (if necessary)
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
         setupConvenienceObjects(document);
         checkForContinuationAccounts(document.getNewMaintainableObject().getMaintenanceAction()); // run this first to avoid side
@@ -52,6 +58,11 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * 
+     * This looks for the SubAccount's account number and then sets the values to the continuation account value if it exists
+     * @param maintenanceAction
+     */
     private void checkForContinuationAccounts(String maintenanceAction) {
         LOG.debug("entering checkForContinuationAccounts()");
 
@@ -71,6 +82,12 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         }
     }
 
+    /**
+     * This method sets the convenience objects like newSubAccount, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     * @param document
+     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
@@ -79,6 +96,14 @@ public class SubAccountPreRules extends MaintenancePreRulesBase {
         // copyAccount.refresh();
     }
 
+    /**
+     * 
+     * This copies the Indirect Cost Rate (ICR) from the account if the SubAccount is a specific type - determined 
+     * as "EX" from {@link SubAccountRule#CG_A21_TYPE_ICR}
+     * <p>
+     * If it is "EX" it will then copy over the ICR information from the Account specified for this SubAccount
+     * @param document
+     */
     private void copyICRFromAccount(MaintenanceDocument document) {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
 

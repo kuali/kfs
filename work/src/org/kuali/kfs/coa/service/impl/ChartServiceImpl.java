@@ -45,6 +45,10 @@ public class ChartServiceImpl implements ChartService {
         return chartDao.getByPrimaryId(chartOfAccountsCode);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ChartService#getUniversityChart()
+     */
     public Chart getUniversityChart() {
         return chartDao.getUniversityChart();
     }

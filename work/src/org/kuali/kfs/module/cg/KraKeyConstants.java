@@ -54,6 +54,7 @@ public class KraKeyConstants {
     public static final String ERROR_INDIRECT_COST_MANUAL_RATE_TOO_BIG = "error.indirectCost.manualRate.tooBig";
     public static final String ERROR_INDIRECT_COST_RATE_MALFORMED = "error.indirectCost.costRate.invalidFormat";
     public static final String ERROR_APPOINTMENT_TYPE_RELATED_TYPE_CODE = "error.appointmentType.relatedTypeCode.invalid";
+    public static final String ERROR_PARAMETERS_DATES_MISSING = "error.parameters.dates.missing";
 
     // KRA Audit Errors
     public static final String AUDIT_COST_SHARE_INSTITUTION_DISTRIBUTED = "audit.costShare.institution.distributed";

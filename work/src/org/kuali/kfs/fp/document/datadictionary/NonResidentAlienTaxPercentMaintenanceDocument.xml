@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>NonResidentAlienTaxPercentMaintenanceDocument</documentTypeName>
-        <documentTypeCode>DVOT</documentTypeCode>
+        <documentTypeCode>DVTX</documentTypeCode>
 
         <label>Non-Resident Alien Tax Percent</label>
 

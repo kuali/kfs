@@ -37,12 +37,21 @@ import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 /**
- * These service performs methods related to the generation of labor benefit accounting lines for the budget adjustment document.
+ * 
+ * This is the default implementation of the methods defined by the BudgetAdjustmentLaborBenefitsService.
+ * 
+ * These service performs methods related to the generation of labor benefit accounting lines for the budget 
+ * adjustment document.
+ * 
  */
 public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmentLaborBenefitsService {
     private BusinessObjectService businessObjectService;
 
     /**
+     * This method generated labor benefit accounting lines to be added to the BudgetDocument provided.
+     * 
+     * @param budgetDocument The BudgetDocument to have the new labor benefit accounting lines added to.
+     * 
      * @see org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService#generateLaborBenefitsAccountingLines(org.kuali.module.financial.document.BudgetAdjustmentDocument)
      */
     public void generateLaborBenefitsAccountingLines(BudgetAdjustmentDocument budgetDocument) {
@@ -54,7 +63,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
         /*
          * find lines that have labor object codes, then retrieve the benefit calculation records for the object code. Finally, for
-         * each benefit record, create an accounting line with properties set from the orginal line, but substituted with the
+         * each benefit record, create an accounting line with properties set from the original line, but substituted with the
          * benefit object code and calculated current and base amount.
          */
         for (Iterator iter = accountingLines.iterator(); iter.hasNext();) {
@@ -90,7 +99,7 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
                     // clear monthly lines per KULEDOCS-1606
                     benefitLine.clearFinancialDocumentMonthLineAmounts();
-
+                    
                     // set flag on line so we know it was a generated benefit line and can clear it out later if needed
                     benefitLine.setFringeBenefitIndicator(true);
 
@@ -107,6 +116,9 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
 
 
     /**
+     * @param budgetDocument
+     * @return 
+     * 
      * @see org.kuali.module.financial.service.BudgetAdjustmentLaborBenefitsService#hasLaborObjectCodes(org.kuali.module.financial.document.BudgetAdjustmentDocument)
      */
     public boolean hasLaborObjectCodes(BudgetAdjustmentDocument budgetDocument) {
@@ -130,11 +142,11 @@ public class BudgetAdjustmentLaborBenefitsServiceImpl implements BudgetAdjustmen
     }
 
     /**
-     * Calls business object service to retrieve LaborObjectBenefit objects for the given fiscal year, and chart, object code from
-     * accounting line.
+     * Calls business object service to retrieve LaborObjectBenefit objects for the given fiscal year, and chart, 
+     * object code from accounting line.
      * 
-     * @param fiscalYear
-     * @param line
+     * @param fiscalYear The fiscal year to be used as search criteria for looking up the labor object benefits.
+     * @param line The account line the benefits are being retrieved for.
      * @return List of LaborObjectBenefit objects or null if one does not exist for parameters
      */
     private Collection retrieveLaborObjectBenefits(Integer fiscalYear, BudgetAdjustmentAccountingLine line) {

@@ -56,7 +56,13 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
 
     /**
-     * Inserts proper errorPath, otherwise functions just like super.
+     * This method inserts modifies the errorPath due to architecture variations necessary in the procurement card document
+     * design.  Finally, this method calls the super method to complete the validation and business rule checks..
+     * 
+     * @param transactionalDocument The document the accounting line being updated resides within.
+     * @param accountingLine The original accounting line.
+     * @param updatedAccoutingLine The updated version of the accounting line.
+     * @return True if the business rules all pass for the update, false otherwise.
      * 
      * @see org.kuali.core.rule.UpdateAccountingLineRule#processUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
@@ -69,7 +75,13 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Only target lines can be changed, so we need to only validate them
+     * This method performs business rule checks on the accounting line being added to the document to ensure the accounting line
+     * is valid and appropriate for the document.  Currently, this method validates the account number and object code
+     * associated with the new accounting line.  Only target lines can be changed, so we only need to validate them.
+     * 
+     * @param transactionalDocument The document the new line is being added to.
+     * @param accountingLine The new accounting line being added.
+     * @return True if the business rules all pass, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -101,7 +113,13 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Only target lines can be changed, so we need to only validate them
+     * This method performs business rule checks on the accounting line being updated to the document to ensure the accounting line
+     * is valid and appropriate for the document.  Only target lines can be changed, so we only need to validate them.
+     * 
+     * @param transactionalDocument The document the accounting line being updated resides within.
+     * @param accountingLine The original accounting line.
+     * @param updatedAccoutingLine The updated version of the accounting line.
+     * @return True if the business rules all pass for the update, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
@@ -112,7 +130,12 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Only target lines can be changed, so we need to only validate them
+     * This method performs business rule checks on the accounting line being provided to ensure the accounting line
+     * is valid and appropriate for the document.  Only target lines can be changed, so we only need to validate them.
+     * 
+     * @param transactionalDocument The document associated with the accounting line being validated.
+     * @param accountingLine The accounting line being validated.
+     * @return True if the business rules all pass, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -123,11 +146,18 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Checks object codes restrictions, including restrictions in parameters table.
+     * This method validates the object code for a given accounting line by checking the  object codes restrictions, 
+     * including any restrictions in parameters table.  Additional validation checks include:
+     * <ul>
+     * <li>Confirm object code is not null.</li>
+     * <li>Confirm object code is active.</li>
+     * <li>Confirm object code is permitted for the list of merchant category codes.</li>
+     * <li>Confirm object code sub type is permitted for the list of merchant category codes.</li>
+     * </ul>
      * 
-     * @param transactionalDocument
-     * @param accountingLine
-     * @return boolean
+     * @param transactionalDocument The transaction document to retrieve transactions from for validation.
+     * @param accountingLine The accounting line containing the object code to be validated.
+     * @return True if the object code is valid and permitted for this type of transaction, false otherwise.
      */
     public boolean validateObjectCode(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
@@ -147,7 +177,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             objectCodeAllowed = false;
         }
 
-        /* get mcc restriction from transaction */
+        /* get merchant category code (mcc) restriction from transaction */
         String mccRestriction = "";
         ProcurementCardTargetAccountingLine line = (ProcurementCardTargetAccountingLine) accountingLine;
         List pcTransactions = pcDocument.getTransactionEntries();
@@ -162,13 +192,13 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
             return objectCodeAllowed;
         }
 
-        /* check object code is in permitted list for mcc */
+        /* check object code is in permitted list for merchant category code (mcc) */
         if (objectCodeAllowed) {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJECTS_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJECTS_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getFinancialObjectCode());
             objectCodeAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
         }
 
-        /* check object sub type is in permitted list for mcc */
+        /* check object sub type is in permitted list for merchant category code (mcc) */
         if (objectCodeAllowed) {
             ParameterEvaluator evaluator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(ProcurementCardDocument.class, ProcurementCardDocumentRuleConstants.VALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, ProcurementCardDocumentRuleConstants.INVALID_OBJ_SUB_TYPE_BY_MCC_CODE_PARM_NM, mccRestriction, accountingLine.getObjectCode().getFinancialObjectSubTypeCode());
             objectCodeAllowed = evaluator.evaluateAndAddError(SourceAccountingLine.class, "objectCode.financialObjectSubTypeCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
@@ -177,11 +207,12 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Checks account number restrictions, including restrictions in parameters table.
+     * This method validates the account number for a given accounting line by checking the  object codes restrictions, 
+     * including any restrictions in parameters table.  
      * 
-     * @param transactionalDocument
-     * @param accountingLine
-     * @return boolean
+     * @param transactionalDocument The transaction document to retrieve transactions from for validation.
+     * @param accountingLine The accounting line containing the account number to be validated.
+     * @return True if the account number is valid and permitted for this type of transaction, false otherwise.
      */
     public boolean validateAccountNumber(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
         ProcurementCardDocument pcDocument = (ProcurementCardDocument) transactionalDocument;
@@ -199,12 +230,12 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Overrides FinancialDocumentRuleBase.isDocumentBalanceValid and changes the default debit/credit comparision to checking the
-     * target total against the total balance. If they don't balance, and error message is produced that is more appropriate for
-     * PCDO.
+     * Overrides FinancialDocumentRuleBase.isDocumentBalanceValid() and changes the default debit/credit comparison 
+     * to checking the target total against the total balance. If they don't balance, and error message is produced 
+     * that is more appropriate for procurement card documents.
      * 
-     * @param transactionalDocument
-     * @return boolean True if the document is balanced, false otherwise.
+     * @param transactionalDocument The document balance will be retrieved from.
+     * @return True if the document is balanced, false otherwise.
      */
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument transactionalDocument) {
@@ -229,15 +260,17 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method...
+     * This method validates the balance of the transaction given.  A procurement card transaction is in balance if 
+     * the total amount of the transaction equals the total of the target accounting lines corresponding to the transaction.
      * 
-     * @param pcTransaction
-     * @return
+     * @param pcTransaction The transaction detail used to retrieve the procurement card transaction and target accounting 
+     *                      lines used to check for in balance.
+     * @return True if the amounts are equal and the transaction is in balance, false otherwise.
      */
-    protected boolean isTransactionBalanceValid(ProcurementCardTransactionDetail pcTransaction) {
+    protected boolean isTransactionBalanceValid(ProcurementCardTransactionDetail pcTransactionDetail) {
         boolean inBalance = true;
-        KualiDecimal transAmount = pcTransaction.getTransactionTotalAmount();
-        List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransaction.getTargetAccountingLines();
+        KualiDecimal transAmount = pcTransactionDetail.getTransactionTotalAmount();
+        List<ProcurementCardTargetAccountingLine> targetAcctingLines = pcTransactionDetail.getTargetAccountingLines();
 
         KualiDecimal targetLineTotal = new KualiDecimal(0.00);
 
@@ -257,9 +290,16 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * On procurement card, positive source amounts are credits, negative source amounts are debits
+     * On procurement card documents, positive source amounts are credits, negative source amounts are debits.
+     * 
+     * @param transactionalDocument The document the accounting line being checked is located in.
+     * @param accountingLine The accounting line being analyzed.
+     * @return True if the accounting line given is a debit accounting line, false otherwise.
+     * @throws Throws an IllegalStateException if one of the following rules are violated: the accounting line amount
+     *         is zero or the accounting line is not an expense or income accounting line.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
      */
     public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
         // disallow error correction
@@ -268,7 +308,17 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Override for fiscal officer full approve, in which case any account can be used.
+     * This method determines if an account associated with the given accounting line is accessible (ie. editable).  
+     * 
+     * This method performs an additional check by looking at the status of the document passed in if the 
+     * document is 'enroute' and there is an active route node equal to RouteLevelNames.ACCOUNT_REVIEW_FULL_EDIT, 
+     * then the account is declared accessible.  If the prior criteria are not met, then the method simply calls the super 
+     * method and returns the results.  
+     * 
+     * @param transactionalDocument The document the accounting line is located in.
+     * @param accountingLine The accounting line which contains the account to be analyzed.
+     * @return True if the document is 'enroute' and will pass through the account review full edit node or if the super 
+     *         method returns true, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#accountIsAccessible(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -293,8 +343,15 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * For transactions that are credits back from the bank, accounting lines can be negative. It still checks that an amount is not
-     * zero.
+     * This method validates an amount for an accounting line given.  The following checks are performed to ensure 
+     * validity:
+     * <ul>
+     * <li>Checks that an amount is not zero.</li>
+     * </ul>
+     * 
+     * @param document The document that the accounting line being validated is contained within.
+     * @param accountingLine The accountingline the amount will be retrieved from.
+     * @return True if the amount is not zero, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isAmountValid(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -303,8 +360,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     public boolean isAmountValid(AccountingDocument document, AccountingLine accountingLine) {
         KualiDecimal amount = accountingLine.getAmount();
 
-        // Check for zero, negative amounts (non-correction), positive amounts (correction)
-        String correctsDocumentId = document.getDocumentHeader().getFinancialDocumentInErrorNumber();
+        // Check for zero
         if (ZERO.compareTo(amount) == 0) { // amount == 0
             GlobalVariables.getErrorMap().putError(AMOUNT_PROPERTY_NAME, ERROR_ZERO_AMOUNT, "an accounting line");
             LOG.info("failing isAmountValid - zero check");
@@ -315,11 +371,12 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Override to avoid seeing ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED error message on PCDO.
+     * This method is being overridden to avoid seeing ERROR_DOCUMENT_SINGLE_ACCOUNTING_LINE_SECTION_TOTAL_CHANGED 
+     * error message on procurement card documents.  
      * 
-     * @param propertyName
-     * @param persistedSourceLineTotal
-     * @param currentSourceLineTotal
+     * @param propertyName The property name the error will be linked to.
+     * @param persistedSourceLineTotal The total amount that has already been persisted to the database.
+     * @param currentSourceLineTotal The new total amount being set.
      */
     @Override
     protected void buildTotalChangeErrorMessage(String propertyName, KualiDecimal persistedSourceLineTotal, KualiDecimal currentSourceLineTotal) {
@@ -327,12 +384,13 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Fix the GlobalVariables.getErrorMap errorPath for how PCDO needs them in order to properly display errors on the interface.
-     * This is different from kuali accounting lines because instead PCDO has accounting lines insides of transactions. Hence the
-     * error path is slighly different.
+     * Fix the GlobalVariables.getErrorMap errorPath for how procurement card documents needs them in order 
+     * to properly display errors on the interface.  This is different from other financial document accounting 
+     * lines because instead procurement card documents have accounting lines insides of transactions. 
+     * Hence the error path is slightly different.
      * 
-     * @param transactionalDocument
-     * @param accountingLine
+     * @param financialDocument The financial document the errors will be posted to.
+     * @param accountingLine The accounting line the error will be posted on.
      */
     private void fixErrorPath(AccountingDocument financialDocument, AccountingLine accountingLine) {
         List transactionEntries = ((ProcurementCardDocument) financialDocument).getTransactionEntries();
@@ -340,7 +398,7 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
 
         String errorPath = KFSPropertyConstants.DOCUMENT;
 
-        // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunatly
+        // originally I used getFinancialDocumentTransactionLineNumber to determine the appropriate transaction, unfortunately
         // this makes it dependent on the order of transactionEntries in FP_PRCRMNT_DOC_T. Hence we have two loops below.
         boolean done = false;
         int transactionLineIndex = 0;

@@ -37,6 +37,7 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
     private EntryDao entryDao;
 
     /**
+     * Initializes the services that this test needs to run
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -49,6 +50,7 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
     }
 
     /**
+     * Tests the search results returned by the EntryLookupableHelperService
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableTestBase#testGetSearchResults()
      */
     public void testGetSearchResults() throws Exception {
@@ -78,6 +80,9 @@ public class EntryLookupableHelperServiceTest extends AbstractGLLookupableHelper
     }
 
     /**
+     * Returns a List of lookup fields to include in the test
+     * @param isExtended true if extended fields should also be included, false otherwise
+     * @return a List of lookup fields
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableTestBase#getLookupFields(boolean)
      */
     public List getLookupFields(boolean isExtended) {

@@ -49,7 +49,8 @@ import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 
 /**
- * Handles queries and validation on tax id numbers.
+ * This is the default implementation of the DisbursementVoucherExtractService interface.
+ * This class handles queries and validation on tax id numbers.
  */
 public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTaxService, DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherTaxServiceImpl.class);
@@ -60,10 +61,18 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     private UniversalUserService universalUserService;
 
     /**
+     * This method retrieves the universal id of the individual or business entity who matches the tax id number and type
+     * code given.
+     * 
+     * @param taxIDNumber The tax identification number of the user being retrieved.
+     * @param taxPayerTypeCode The tax payer type code of the user being retrieved.  See the TAX_TYPE_* constants defined in 
+     *                         DisbursementVoucherRuleConstants for examples of valid tax type codes.
+     * @return The universal id of the individual who matches the tax id and type code given.  Null if no matching user is found.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getEmployeeNumber(java.lang.String, java.lang.String)
      */
-    public String getUniversalId(String taxIDNumber, String taxpayerTypeCode) {
-        if (TAX_TYPE_FEIN.equals(taxpayerTypeCode)) {
+    public String getUniversalId(String taxIDNumber, String taxPayerTypeCode) {
+        if (TAX_TYPE_FEIN.equals(taxPayerTypeCode)) {
             return null;
         }
 
@@ -84,15 +93,23 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method retrieves the payee identification code for the payee found who has a matching tax id and tax payer type 
+     * code.
+     * 
+     * @param taxIDNumber The tax id number used to retrieve the associated payee.
+     * @param taxPayerTypeCode The tax payer type code used to retrieve the associated payee.  See the TAX_TYPE_* constants defined in 
+     *                         DisbursementVoucherRuleConstants for examples of valid tax type codes.
+     * @return The id of the payee found matching the tax id and type code provided.  Null if no matching payee is found.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPayeeNumber(java.lang.String, java.lang.String)
      */
-    public String getPayeeId(String taxIDNumber, String taxpayerTypeCode) {
+    public String getPayeeId(String taxIDNumber, String taxPayerTypeCode) {
         String payeeId = null;
 
         Map taxIDCrit = new HashMap();
         taxIDCrit.put("taxIdNumber", taxIDNumber);
-        taxIDCrit.put("taxpayerTypeCode", taxpayerTypeCode);
-        Collection foundPayees = businessObjectService.findMatching(Payee.class, taxIDCrit);
+        taxIDCrit.put("taxpayerTypeCode", taxPayerTypeCode);
+        Collection<Payee> foundPayees = businessObjectService.findMatching(Payee.class, taxIDCrit);
 
         if (!foundPayees.isEmpty()) {
             Payee payee = (Payee) foundPayees.iterator().next();
@@ -103,26 +120,39 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method is not currently implemented.  This method will be implemented once the EPIC vendor system in integrated 
+     * into Kuali.  Until then, this method will always return null and should not be used.
+     * 
+     * @param taxIDNumber The tax id number used to retrieve the associated vendor.
+     * @param taxPayerTypeCode The tax payer type code used to retrieve the associated vendor.
+     * @return Always returns null.  
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getVendorNumber(java.lang.String, java.lang.String)
+     * @deprecated This method is not currently implemented and should not be called until it is fully implemented.
      */
-    public String getVendorId(String taxIDNumber, String taxpayerTypeCode) {
+    public String getVendorId(String taxIDNumber, String taxPayerTypeCode) {
         String vendorId = null;
         // TODO: implement once EPIC is integrated
         return vendorId;
     }
 
     /**
-     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPendingPayeeNumber(java.lang.String,
-     *      java.lang.String)
+     * This method retrieves the pending payee id based on the tax id and payer type code provided.  
+     * 
+     * @param taxIDNumber The tax id number used to retrieve the matching pending payee.
+     * @param taxPayerTypeCode The tax payer type code used to retrieve the matching pending payee.
+     * @return The id of the pending payee matching the values given or null if no matching payee is found.
+     * 
+     * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getPendingPayeeNumber(java.lang.String, java.lang.String)
+     * @see org.kuali.core.service.MaintenanceDocumentService#getPendingObjects(Class)
      */
-    public String getPendingPayeeId(String taxIDNumber, String taxpayerTypeCode) {
+    public String getPendingPayeeId(String taxIDNumber, String taxPayerTypeCode) {
         String pendingPayeeId = null;
 
-        List pendingPayees = maintenanceDocumentService.getPendingObjects(Payee.class);
+        List<Payee> pendingPayees = maintenanceDocumentService.getPendingObjects(Payee.class);
 
-        for (Iterator iter = pendingPayees.iterator(); iter.hasNext();) {
-            Payee pendingPayee = (Payee) iter.next();
-            if (taxIDNumber.equals(pendingPayee.getTaxIdNumber()) && taxpayerTypeCode.equals(pendingPayee.getTaxpayerTypeCode())) {
+        for (Payee pendingPayee : pendingPayees) {
+            if (taxIDNumber.equals(pendingPayee.getTaxIdNumber()) && taxPayerTypeCode.equals(pendingPayee.getTaxpayerTypeCode())) {
                 pendingPayeeId = pendingPayee.getPayeeIdNumber();
             }
         }
@@ -131,6 +161,24 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method generates non-resident alien (NRA) tax lines for the given disbursement voucher.  
+     * 
+     * The NRA tax lines consist of three possible sets of tax lines: 
+     * - Gross up tax lines
+     * - Federal tax lines
+     * - State tax lines
+     * 
+     * Gross up tax lines are generated if the income tax gross up code is set on the DisbursementVoucherNonResidentAlienTax 
+     * attribute of the disbursement voucher.
+     * 
+     * Federal tax lines are generated if the federal tax rate in the DisbursementVoucherNonResidentAlienTax attribute is
+     * other than zero.
+     * 
+     * State tax lines are generated if the state tax rate in the DisbursementVoucherNonResidentAlienTax attribute is
+     * other than zero.
+     * 
+     * @param document The disbursement voucher the NRA tax lines will be added to.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#generateNRATaxLines(org.kuali.module.financial.document.DisbursementVoucherDocument)
      */
     private void generateNRATaxLines(DisbursementVoucherDocument document) {
@@ -175,14 +223,14 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             grossLine.refresh();
             document.getSourceAccountingLines().add(grossLine);
 
-            // udpate check total, is added because line amount is negative, so this will take check amount down
+            // update check total, is added because line amount is negative, so this will take check amount down
             document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(grossLine.getAmount()));
         }
 
         KualiDecimal taxableAmount = document.getDisbVchrCheckTotalAmount();
 
         // generate federal tax line
-        if (!(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()))) {
+        if (!(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()))) {
             String federalTaxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_CHART_SUFFIX);
             String federalTaxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_ACCOUNT_SUFFIX);
             String federalTaxObjectCode = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.FEDERAL_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode());
@@ -201,12 +249,12 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             federalTaxLine.refresh();
             document.getSourceAccountingLines().add(federalTaxLine);
 
-            // udpate check total, is added because line amount is negative, so this will take check amount down
+            // update check total, is added because line amount is negative, so this will take check amount down
             document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(federalTaxLine.getAmount()));
         }
 
         // generate state tax line
-        if (!(new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent()))) {
+        if (!(KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent()))) {
             String stateTaxChart = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_CHART_SUFFIX);
             String stateTaxAccount = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_ACCOUNT_SUFFIX);
             String stateTaxObjectCode = parameterService.getParameterValues(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.STATE_TAX_PARM_PREFIX + DisbursementVoucherRuleConstants.TAX_PARM_OBJECT_BY_INCOME_CLASS_SUFFIX, document.getDvNonResidentAlienTax().getIncomeClassCode()).get(0);
@@ -226,7 +274,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             stateTaxLine.refresh();
             document.getSourceAccountingLines().add(stateTaxLine);
 
-            // udpate check total, is added because line amount is negative, so this will take check amount down
+            // update check total, is added because line amount is negative, so this will take check amount down
             document.setDisbVchrCheckTotalAmount(document.getDisbVchrCheckTotalAmount().add(stateTaxLine.getAmount()));
         }
 
@@ -235,9 +283,17 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
-     * Generates an accounting line for the chart, account, object code, & tax percentage.
+     * Generates an accounting line for the chart, account, object code & tax percentage values given.
      * 
-     * @param document
+     * @param document The disbursement voucher the tax will be applied to.
+     * @param chart The chart code to be assigned to the accounting line generated.
+     * @param account The account code to be assigned to the accounting line generated.
+     * @param objectCode The object code used on the accounting line generated.
+     * @param taxPercent The tax rate to be used to calculate the tax amount.
+     * @param taxableAmount The total amount that is taxable.  This amount is used in conjunction with the tax percent
+     *                      to calculate the amount for the accounting lined being generated.
+     * @return A fully populated AccountingLine instance representing the amount of tax that will be applied to the 
+     *         disbursement voucher provided.
      */
     private AccountingLine generateTaxAccountingLine(DisbursementVoucherDocument document, String chart, String account, String objectCode, KualiDecimal taxPercent, KualiDecimal taxableAmount) {
         AccountingLine taxLine = null;
@@ -269,21 +325,25 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
 
 
     /**
+     * This method validates the non-resident alien (NRA) tax information for the document and if the information validates, 
+     * the NRA tax lines are generated. 
+     * 
+     * @param document The disbursement voucher document the NRA tax information will be validated and the subsequent 
+     *                 tax lines generated for.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#processNonResidentAlienTax(org.kuali.module.financial.document.DisbursementVoucherDocument,
      *      java.util.List)
      */
     public void processNonResidentAlienTax(DisbursementVoucherDocument document) {
-        /* validate nra information */
         if (validateNRATaxInformation(document)) {
             generateNRATaxLines(document);
         }
     }
 
     /**
-     * Removes tax lines from the document's accounting lines and updates the check total.
+     * Removes non-resident alien (NRA) tax lines from the document's accounting lines and updates the check total.
      * 
-     * @param document
-     * @param previousTaxLineNumbers
+     * @param document The disbursement voucher the NRA tax lines will be removed from.
      */
     public void clearNRATaxLines(DisbursementVoucherDocument document) {
         List taxLines = new ArrayList();
@@ -324,6 +384,16 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method retrieves the non-resident alien (NRA) tax amount using the disbursement voucher given to calculate the 
+     * amount.  If the payee is not a non-resident alien or they are and there is no gross up code set, the amount returned 
+     * will be zero.  If the payee is a non-resident alien and gross up has been set, the amount is calculated by 
+     * retrieving all the source accounting lines for the disbursement voucher provided and summing the amounts of all the 
+     * lines that are NRA tax lines.  
+     * 
+     * @param document The disbursement voucher the NRA tax line amount will be calculated for.
+     * @return The NRA tax amount applicable to the given disbursement voucher or zero if the voucher does not have any 
+     *         NRA tax lines.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#getNonResidentAlienTaxAmount(org.kuali.module.financial.document.DisbursementVoucherDocument)
      */
     public KualiDecimal getNonResidentAlienTaxAmount(DisbursementVoucherDocument document) {
@@ -350,7 +420,26 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method performs a series of validation checks to ensure that the disbursement voucher given contains non-resident
+     * alien specific information and non-resident alien tax lines are necessary.  
+     * 
+     * The following steps are taken to validate the disbursement voucher given:
+     * - Set all percentages (ie. federal, state) to zero if their current value is null.
+     * - Call DisbursementVoucherDocumentRule.validateNonResidentAlienInformation to perform more in-depth validation.
+     * - The payee for the disbursement voucher given is a non-resident alien.
+     * - No reference document exists for the assigned DisbursementVoucherNonResidentAlienTax attribute of the voucher given.
+     * - There is at least one source accounting line to generate the tax line from.
+     * - Both the state and federal tax percentages are greater than zero.
+     * - The total check amount is not negative.
+     * - The total of the accounting lines is not negative.
+     * - The total check amount is equal to the total of the accounting lines.
+     * 
+     * 
+     * @param document The disbursement voucher document to validate the tax lines for.
+     * @return True if the information associated with non-resident alien tax is correct and valid, false otherwise.
+     * 
      * @see org.kuali.module.financial.service.DisbursementVoucherTaxService#validateNRATaxInformation(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     * @see org.kuali.module.financial.rules.DisbursementVoucherDocumentRule#validateNonResidentAlienInformation(DisbursementVoucherDocument)
      */
     private boolean validateNRATaxInformation(DisbursementVoucherDocument document) {
         ErrorMap errors = GlobalVariables.getErrorMap();
@@ -384,7 +473,6 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             return false;
         }
 
-
         // check attributes needed to generate lines
         /* need at least 1 line */
         if (!(document.getSourceAccountingLines().size() >= 1)) {
@@ -393,7 +481,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         }
 
         /* make sure both fed and state tax percents are not 0, in which case there is no need to generate lines */
-        if (new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()) && new KualiDecimal(0).equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())) {
+        if (KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getFederalIncomeTaxPercent()) && KualiDecimal.ZERO.equals(document.getDvNonResidentAlienTax().getStateIncomeTaxPercent())) {
             errors.putErrorWithoutFullErrorPath("DVNRATaxErrors", KFSKeyConstants.ERROR_DV_GENERATE_TAX_BOTH_0);
             return false;
         }
@@ -420,17 +508,16 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
-     * Parses the tax line string and returns a list of line numbers as Integers.
+     * Parses the tax line string given and returns a list of line numbers as Integers.
      * 
-     * @param taxLineString
-     * @return
+     * @param taxLineString The string to be parsed.
+     * @return A collection of line numbers represented as Integers.
      */
-    public List getNRATaxLineNumbers(String taxLineString) {
-        List taxLineNumbers = new ArrayList();
+    public List<Integer> getNRATaxLineNumbers(String taxLineString) {
+        List<Integer> taxLineNumbers = new ArrayList();
         if (StringUtils.isNotBlank(taxLineString)) {
-            List taxLineNumberStrings = Arrays.asList(StringUtils.split(taxLineString, ","));
-            for (Iterator iter = taxLineNumberStrings.iterator(); iter.hasNext();) {
-                String lineNumber = (String) iter.next();
+            List<String> taxLineNumberStrings = Arrays.asList(StringUtils.split(taxLineString, ","));
+            for (String lineNumber : taxLineNumberStrings) {
                 taxLineNumbers.add(Integer.valueOf(lineNumber));
             }
         }
@@ -438,12 +525,16 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
         return taxLineNumbers;
     }
 
-
+    /**
+     * This method sets the parameterService attribute to the value given.
+     * @param parameterService The ParameterService to be set.
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }
 
     /**
+     * Gets the value of the businessObjectService instance.
      * @return Returns the businessObjectService.
      */
     public BusinessObjectService getBusinessObjectService() {
@@ -451,6 +542,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method sets the businessObjectService attribute to the value given.
      * @param businessObjectService The businessObjectService to set.
      */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
@@ -458,6 +550,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * Gets the value of the maintenanceDocumentService instance.
      * @return Returns the maintenanceDocumentService.
      */
     public MaintenanceDocumentService getMaintenanceDocumentService() {
@@ -465,6 +558,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method sets the maintenanceDocumentService attribute to the value given.
      * @param maintenanceDocumentService The maintenanceDocumentService to set.
      */
     public void setMaintenanceDocumentService(MaintenanceDocumentService maintenanceDocumentService) {
@@ -472,6 +566,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * Gets the value of the universalUserService instance.
      * @return Returns the universalUserService.
      */
     public UniversalUserService getUniversalUserService() {
@@ -479,6 +574,7 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
     }
 
     /**
+     * This method sets the universalUserService attribute to the value given.
      * @param universalUserService The universalUserService to set.
      */
     public void setUniversalUserService(UniversalUserService universalUserService) {

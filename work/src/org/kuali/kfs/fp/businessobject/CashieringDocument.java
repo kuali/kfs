@@ -23,7 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * Represents a cashiering document
  */
 public class CashieringDocument extends PersistableBusinessObjectBase {
 

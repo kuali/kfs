@@ -31,7 +31,7 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
 
 
 /**
- * <code>NonCheckDisbursementDocument</code> accounting line parser
+ * This class represents a <code>NonCheckDisbursementDocument</code> accounting line parser.
  * 
  * @see org.kuali.module.financial.document.NonCheckDisbursementDocument
  */

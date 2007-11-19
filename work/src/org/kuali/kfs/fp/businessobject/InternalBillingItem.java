@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * Internal Billing Item Business Object
+ * This class represents an Internal Billing Item business object.
  */
 public class InternalBillingItem extends PersistableBusinessObjectBase {
 

@@ -18,7 +18,8 @@ package org.kuali.module.chart.service;
 import org.kuali.module.chart.bo.ObjLevel;
 
 /**
- * This interface defines methods that an ObjLevel Service must provide.
+ * This service interface defines methods necessary for retrieving fully populated ObjLevel business objects from the database
+ * that are necessary for transaction processing in the application. 
  */
 public interface ObjectLevelService {
     /**

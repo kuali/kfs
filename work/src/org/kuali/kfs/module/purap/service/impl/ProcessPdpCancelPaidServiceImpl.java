@@ -34,6 +34,9 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.ProcessPdpCancelPaidService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Implementation of ProcessPdpCancelPaidService
+ */
 @Transactional
 public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProcessPdpCancelPaidServiceImpl.class);

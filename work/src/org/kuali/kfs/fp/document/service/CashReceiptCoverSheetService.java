@@ -23,12 +23,15 @@ import org.kuali.module.financial.document.CashReceiptDocument;
 
 /**
  * Service for handling creation of the cover sheet of the <code>{@link CashReceiptDocument}</code>
+ * 
  */
 public interface CashReceiptCoverSheetService {
 
     /**
-     * @param crDoc
-     * @return true if coverSheet printing is allowed for the given CashReceiptDocument
+     * This method determines whether or not cover sheet printing is allowed for the provided cash receipt document.
+     * 
+     * @param crDoc The document that the cover sheet will be printed for.
+     * @return True if coverSheet printing is allowed for the given CashReceiptDocument, false otherwise.
      */
     public boolean isCoverSheetPrintingAllowed(CashReceiptDocument crDoc);
 
@@ -37,11 +40,10 @@ public interface CashReceiptCoverSheetService {
      * Generate a cover sheet for the <code>{@link CashReceiptDocument}</code>. An <code>{@link OutputStream}</code> is written
      * to for the coversheet.
      * 
-     * @param document
-     * @param searchPath
-     * @param OutputStream
-     * @exception DocumentException
-     * @exception IOException
+     * @param document The <code>{@link CashReceiptDocument}</code> the cover sheet is being generated for.
+     * @param searchPath A directory path used to identify the path to the template that will be used for creating this cover sheet.
+     * @param OutputStream The output stream that the printable cover sheet will be piped to.
+     * @exception Exception Thrown if there are any problems generating the cover sheet.
      */
     public void generateCoverSheet(CashReceiptDocument document, String searchPath, OutputStream outputStream) throws Exception;
 }

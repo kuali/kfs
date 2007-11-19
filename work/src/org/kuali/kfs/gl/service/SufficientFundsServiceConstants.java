@@ -20,10 +20,19 @@ package org.kuali.module.gl.service;
  * Holds constants for transfer of funds document.
  */
 public interface SufficientFundsServiceConstants {
-    // Security grouping constants used to do application parameter lookups
+    /**
+     * Security grouping constants used to do application parameter lookups
+     */
     public static final String KUALI_TRANSACTION_PROCESSING_SUFFICIENT_FUNDS_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.SufficientFundsService";
 
-    // Application parameter lookup constants to be used in conjunction with the grouping constants above
+    
+    /**
+     * Application parameter lookup constants to be used in conjunction with the grouping constants above
+     */
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE_CASH_IN_BANK = "SufficientFundsServiceFinancialObjectCodeForCashInBank";
+    
+    /**
+     * Application parameter lookup constants to be used in conjunction with the grouping constants above
+     */
     public static final String SUFFICIENT_FUNDS_OBJECT_CODE_SPECIALS = "SUFFICIENT_FUNDS_CURRENT_LIABILITIES_OBJECT_CODES";
 }

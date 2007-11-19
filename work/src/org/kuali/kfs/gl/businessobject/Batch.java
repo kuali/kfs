@@ -22,8 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * 
- * 
+ * Represents a batch
  */
 public class Batch extends PersistableBusinessObjectBase {
     static final long serialVersionUID = -4573386698844451328L;

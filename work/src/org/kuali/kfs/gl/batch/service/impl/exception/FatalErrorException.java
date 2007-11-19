@@ -16,6 +16,8 @@
 package org.kuali.module.gl.util;
 
 /**
+ * Fatal error exception that is thrown in GL processing
+ * 
  */
 
 public class FatalErrorException extends Exception {

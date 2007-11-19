@@ -74,7 +74,7 @@ public interface AccountService {
     public List getAccountsThatUserIsResponsibleFor(UniversalUser kualiUser);
 
     /**
-     * Does the given user have responsibilites on the given account?
+     * Does the given user have responsibilities on the given account?
      * 
      * @param kualiUser the universal user to check responsibilities for
      * @param account the account to check responsibilities on

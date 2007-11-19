@@ -15,7 +15,6 @@
  */
 package org.kuali.module.purap;
 
-
 /**
  * Property name constants.
  */
@@ -42,7 +41,7 @@ public class PurapPropertyConstants {
 
     public static final String DATA_OBJ_MAINT_CD_ACTIVE_IND = "dataObjectMaintenanceCodeActiveIndicator";
 
-    // document fileds
+    // document fields
     public static final String GENERAL_LEDGER_PENDING_ENTRIES = "generalLedgerPendingEntries";
 
     // PURCHASING AND ACCOUNTS PAYABLE DOCUMENT BASE
@@ -52,31 +51,23 @@ public class PurapPropertyConstants {
     public static final String STATUS_CODE = "statusCode";
     public static final String STATUS = "status";
     public static final String VENDOR_NUMBER = "vendorNumber";
-    // public static final String VENDOR_POSTAL_CODE = "document.vendorPostalCode";
     public static final String VENDOR_POSTAL_CODE = "vendorPostalCode";
-    // public static final String VENDOR_COUNTRY_CODE = "document.vendorCountryCode";
     public static final String VENDOR_COUNTRY_CODE = "vendorCountryCode";
-    // public static final String VENDOR_STATE_CODE = "document.vendorStateCode";
     public static final String VENDOR_STATE_CODE = "vendorStateCode";
-    // public static final String VENDOR_ADDRESS_ID = "document.vendorAddressGeneratedIdentifier";
     public static final String VENDOR_ADDRESS_ID = "vendorAddressGeneratedIdentifier";
 
     // PURCHASING DOCUMENT BASE
     public static final String RECURRING_PAYMENT_TYPE_CODE = "recurringPaymentTypeCode";
     public static final String PURCHASE_ORDER_BEGIN_DATE = "purchaseOrderBeginDate";
     public static final String PURCHASE_ORDER_END_DATE = "purchaseOrderEndDate";
-    // public static final String PURCHASE_ORDER_TOTAL_LIMIT = "document.purchaseOrderTotalLimit";
     public static final String PURCHASE_ORDER_TOTAL_LIMIT = "purchaseOrderTotalLimit";
-    // public static final String REQUISITION_VENDOR_FAX_NUMBER = "document.vendorFaxNumber";
     public static final String VENDOR_FAX_NUMBER = "vendorFaxNumber";
     public static final String CONTRACT_MANAGER_CODE = "contractManagerCode";
-    // public static final String VENDOR_CONTRACT_ID = "document.vendorContractGeneratedIdentifier";
     public static final String VENDOR_CONTRACT_ID = "vendorContractGeneratedIdentifier";
     public static final String PURCHASE_ORDER = "purchaseOrder";
     public static final String PURCHASE_ORDER_COST_SOURCE = "purchaseOrderCostSource";
 
     // AP DOCUMENT BASE
-    // public static final String PURCHASE_ORDER_IDENTIFIER = "document.purchaseOrderIdentifier";
     public static final String PURCHASE_ORDER_IDENTIFIER = "purchaseOrderIdentifier";
 
     // REQUISITION DOCUMENT
@@ -94,13 +85,9 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STIPULATION_DESCRIPTION = "vendorStipulationDescription";
 
     // PAYMENT REQUEST DOCUMENT
-    // public static final String INVOICE_DATE = "document.invoiceDate";
     public static final String INVOICE_DATE = "invoiceDate";
-    // public static final String INVOICE_NUMBER = "document.invoiceNumber";
     public static final String INVOICE_NUMBER = "invoiceNumber";
-    // public static final String VENDOR_INVOICE_AMOUNT = "document.vendorInvoiceAmount";
     public static final String VENDOR_INVOICE_AMOUNT = "vendorInvoiceAmount";
-    // public static final String PAYMENT_REQUEST_PAY_DATE = "document.paymentRequestPayDate";
     public static final String PAYMENT_REQUEST_PAY_DATE = "paymentRequestPayDate";
     public static final String GRAND_TOTAL = "grandTotal";
     public static final String PAYMENT_REQUEST = "paymentRequest";

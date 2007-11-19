@@ -17,6 +17,18 @@ package org.kuali.module.financial.service;
 
 import org.kuali.module.financial.bo.BankAccount;
 
+/**
+ * 
+ * This service interface defines methods that a BankAccountServiceImplementation must provide.
+ */
 public interface BankAccountService {
-    BankAccount getByPrimaryId(String financialDocumentBankCode, String finDocumentBankAccountNumber);
+    
+    /**
+     * This method retrieves a bank account who's primary id matches the values passed in.
+     * 
+     * @param financialDocumentBankCode The bank code
+     * @param finDocumentBankAccountNumber The bank account number
+     * @return A BankAccount object who's primary id matches the values provided.
+     */
+    BankAccount getByPrimaryId( String financialDocumentBankCode, String finDocumentBankAccountNumber );
 }

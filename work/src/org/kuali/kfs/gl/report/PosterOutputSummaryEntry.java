@@ -24,6 +24,9 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.ObjectTypeService;
 
+/**
+ * This class represents a poster output summary entry
+ */
 public class PosterOutputSummaryEntry implements Comparable {
     private Integer universityFiscalYear;
     private String fiscalPeriodCode;
@@ -52,12 +55,19 @@ public class PosterOutputSummaryEntry implements Comparable {
         assetExpenseObjectTypeCodes = objectTypes.toArray(new String[0]);
     }
 
+    /**
+     * This method returns the key for the poster output summary entry
+     * 
+     * @return String returns a string with format "universityFiscalYear-balanceTypeCode-fiscalPeriodCode-fundGroup"
+     */
     public String getKey() {
         return universityFiscalYear + "-" + balanceTypeCode + "-" + fiscalPeriodCode + "-" + fundGroup;
     }
 
     /**
-     * add the amounts of two summary entries
+     * Add the amounts of two summary entries
+     * 
+     * @param posterInputSummaryEntry a poster input summary entry which contains the amounts to add to this poster output summary entry 
      */
     public void add(PosterOutputSummaryEntry posterInputSummaryEntry) {
         // calculate the credit amount
@@ -73,8 +83,13 @@ public class PosterOutputSummaryEntry implements Comparable {
         setNetAmount(netAmount.add(posterInputSummaryEntry.getNetAmount()));
     }
 
+
     /**
-     * add the amounts of two summary entries
+     * This method sets the amounts for this poster output summary entry.
+     * 
+     * @param debitCreditCode credit code used to determine whether amounts is debit or credit
+     * @param objectTypeCode object type code associated with amount
+     * @param amount amount to add
      */
     public void setAmount(String debitCreditCode, String objectTypeCode, KualiDecimal amount) {
 
@@ -118,12 +133,23 @@ public class PosterOutputSummaryEntry implements Comparable {
         return posterOutputSummaryEntry;
     }
 
+    /**
+     * Compares this poster output summary entry with another poster output summary entry based on key value
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(Object anotherPosterOutputSummaryEntry) {
         PosterOutputSummaryEntry tempPosterOutputSummaryEntry = (PosterOutputSummaryEntry) anotherPosterOutputSummaryEntry;
 
         return getKey().compareTo(tempPosterOutputSummaryEntry.getKey());
     }
 
+    /**
+     * This method returns an empty PosterOutputSummaryEntry 
+     * 
+     * @param entrySummary
+     * @return
+     */
     public static PosterOutputSummaryEntry buildPosterOutputSummaryEntry(Object[] entrySummary) {
         PosterOutputSummaryEntry posterOutputSummaryEntry = new PosterOutputSummaryEntry();
         int indexOfField = 0;

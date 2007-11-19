@@ -25,7 +25,7 @@ import org.kuali.module.financial.service.ServiceBillingControlService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class implements ServiceBillingControlService.
+ * This is the default implementation of the ServiceBillingControlService interface.
  */
 @Transactional
 public class ServiceBillingControlServiceImpl implements ServiceBillingControlService {
@@ -33,6 +33,12 @@ public class ServiceBillingControlServiceImpl implements ServiceBillingControlSe
     private BusinessObjectService businessObjectService;
 
     /**
+     * This method retrieves a ServiceBillingControl object using the values provided.
+     * 
+     * @param chartOfAccountsCode The chart code used to retrieve the service billing control.
+     * @param accountNumber The account number used to retrieve the service billing control.
+     * @return An instance of a ServiceBillingControl which matches the parameters provided.
+     * 
      * @see ServiceBillingControlService#getByPrimaryId(String, String)
      */
     public ServiceBillingControl getByPrimaryId(String chartOfAccountsCode, String accountNumber) {
@@ -43,17 +49,29 @@ public class ServiceBillingControlServiceImpl implements ServiceBillingControlSe
     }
 
     /**
+     * This method retrieves all ServiceBillingControl objects in the database.
+     * 
+     * @return A collection of all ServiceBillingControls defined in the database.
+     * 
      * @see ServiceBillingControlService#getAll()
      */
     public ServiceBillingControl[] getAll() {
-        Collection controls = businessObjectService.findAll(ServiceBillingControl.class);
+        Collection<ServiceBillingControl> controls = businessObjectService.findAll(ServiceBillingControl.class);
         return (ServiceBillingControl[]) controls.toArray(new ServiceBillingControl[0]);
     }
 
+    /**
+     * Gets the businessObjectService attribute.
+     * @return The value of the businessObjectService attribute.
+     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    /**
+     * Sets the businessObjectService attribute value.
+     * @param businessObjectService The businessObjectService to set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

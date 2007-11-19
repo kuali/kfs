@@ -18,8 +18,8 @@ package org.kuali.module.gl.util;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
+ * This class represents a pair of origin entries to carry forward encumbrance.
  */
-
 public class OriginEntryOffsetPair {
     private OriginEntryFull entry;
     private OriginEntryFull offset;

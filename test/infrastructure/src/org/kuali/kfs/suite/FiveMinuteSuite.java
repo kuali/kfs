@@ -26,7 +26,7 @@ public class FiveMinuteSuite {
     public static Test suite() throws Exception {
         TestSuite suite = new TestSuite(FiveMinuteSuite.class.getName());
         suite.addTest(CrossSectionSuite.suite());
-        suite.addTest(OftenUsefulSuite.suite());
+        suite.addTest(PreCommitSuite.suite());
         suite.addTest(ContextConfiguredSuite.Not.suite());
         return suite;
     }

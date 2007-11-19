@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class is used to represent automated clearing house for disbursement voucher.
  */
 public class DisbursementVoucherAutomatedClearingHouse extends PersistableBusinessObjectBase {
 

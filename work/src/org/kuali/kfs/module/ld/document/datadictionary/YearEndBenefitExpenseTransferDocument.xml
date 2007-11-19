@@ -41,7 +41,6 @@
         <description>
         	Year End Benefit Expense Transfer Document
         </description>
-        <help parameterNamespace="KFS-FP" parameterDetailType="YearEndBenefitExpenseTransferDocument" parameterName="YEAR_END_BENEFIT_EXPENSE_TRANSFER" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

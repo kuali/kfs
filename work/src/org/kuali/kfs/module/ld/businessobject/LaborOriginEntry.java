@@ -31,6 +31,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.labor.LaborConstants;
 
@@ -124,7 +125,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setLaborLedgerOriginalSubAccountNumber(t.getLaborLedgerOriginalSubAccountNumber());
         setLaborLedgerOriginalFinancialObjectCode(t.getLaborLedgerOriginalFinancialObjectCode());
         setLaborLedgerOriginalFinancialSubObjectCode(t.getLaborLedgerOriginalFinancialSubObjectCode());
-        setHrmsCompany(getHrmsCompany());
+        setHrmsCompany(t.getHrmsCompany());
         setSetid(t.getSetid());
         setReferenceFinancialDocumentType(t.getReferenceFinancialDocumentType());
         setReferenceFinancialSystemOrigination(t.getReferenceFinancialSystemOrigination());
@@ -815,6 +816,14 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
         setReferenceFinancialDocumentTypeCode(getValue(line, 162, 166));
         setReferenceFinancialSystemOriginationCode(getValue(line, 166, 168));
         setReferenceFinancialDocumentNumber(getValue(line, 168, 182));
+        try {
+            setFinancialDocumentReversalDate(parseDate(getValue(line, 182, 192), false));
+        }
+        catch (ParseException e) {
+            GlobalVariables.getErrorMap().putError("fileUpload", KFSKeyConstants.ERROR_NUMBER_FORMAT_ORIGIN_ENTRY_FROM_TEXT_FILE, new String[] { new Integer(lineNumber).toString(), "Transaction Date" });
+            throw new LoadException("Invalid Reversal Date");
+        }
+        
         setTransactionEncumbranceUpdateCode(getValue(line, 192, 193));
         try {
             setTransactionPostingDate(parseDate(getValue(line, 193, 203), false));
@@ -1019,7 +1028,7 @@ public class LaborOriginEntry extends OriginEntryFull implements LaborTransactio
             return getLaborLedgerOriginalFinancialObjectCode();
         }
         else if ("laborLedgerOriginalFinancialSubObjectCode".equals(fieldName)) {
-            return getLaborLedgerOriginalFinancialObjectCode();
+            return getLaborLedgerOriginalFinancialSubObjectCode();
         }
         else if ("hrmsCompany".equals(fieldName)) {
             return getHrmsCompany();

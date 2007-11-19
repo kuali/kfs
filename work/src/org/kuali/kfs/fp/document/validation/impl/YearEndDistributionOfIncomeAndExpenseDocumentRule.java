@@ -28,14 +28,17 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
 
     /**
-     * year end document set:
-     * <ol>
-     * <li> the fiscal period code = 13
-     * <li> fiscal year = previous fiscal year
-     * </ol>
+     * This method calls the super class's overridden method to perform the general customization actions, then calls the 
+     * YearEndDocumentUtil matching method to perform year end specific customization activities.
      * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
+     * 
+     * @see org.kuali.module.financial.rules.DistributeOfIncomeAndExpenseDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
+     *      GeneralLedgerPendingEntry)
      */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
@@ -44,7 +47,10 @@ public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends Distribut
     }
 
     /**
-     * Overriding to return parent class DistributionOfIncomeAndExpenseDocument instead
+     * Overriding to return the corresponding parent class DistributionOfIncomeAndExpenseDocument.
+     * 
+     * @param financialDocument The financial document the class will be determined for.
+     * @return The class type of the document passed in.
      * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getAccountingLineDocumentClass(org.kuali.kfs.document.AccountingDocument)
      */

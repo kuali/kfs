@@ -19,35 +19,41 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.financial.bo.CashDrawer;
 
 /**
- * This interface defines methods that a CashDrawer service implementation must provide.
+ * This service interface defines methods that a CashDrawerService implementation must provide.
+ * 
  */
 public interface CashDrawerService {
     /**
      * Closes the CashDrawer instance associated with the given workgroupName, creating one if necessary.
+     * 
+     * @param workgroupName The workgroup name used to retrieve the cash drawer to be closed.
      */
     public void closeCashDrawer(String workgroupName);
 
     /**
      * Closes the cash drawer associated with the given document
      * 
-     * @param cmDoc the cash drawer to close
+     * @param cd The cash drawer to closed.
      */
     public void closeCashDrawer(CashDrawer cd);
 
     /**
+     * 
      * Opens the CashDrawer instance associated with the given workgroupName, creating one if necessary. Records the given
      * documentId as the document which opened the cashdrawer.
      * 
-     * @return the opened version of the cash drawer
+     * @param workgroupName The workgroup name to be used to retrieve the cash drawer to be closed.
+     * @param documentId The id of the document used to open the cash drawer.
+     * @return The opened version of the cash drawer.
      */
     public CashDrawer openCashDrawer(String workgroupName, String documentId);
-
+    
     /**
      * Opens the given cash drawer
      * 
-     * @param cd the cash drawer to open
+     * @param cd The cash drawer to open
      * @param documentId the document number which is opening the cash drawer
-     * @return the opened version of the cash drawer
+     * @return The opened version of the cash drawer
      */
     public CashDrawer openCashDrawer(CashDrawer cd, String documentId);
 
@@ -55,56 +61,63 @@ public interface CashDrawerService {
      * Locks the currently-open CashDrawer instance associated with the given workgroupName, throwing an IllegalStateException if
      * that cashDrawer is not open (i.e. is closed or locked). Records the given documentId as the document which locked the
      * cashDrawer.
+     * 
+     * @param workgroupName The workgroup name used to retrieve the cash drawer to be locked.
+     * @param documentId The id of the document used to lock the cash drawer.
      */
     public void lockCashDrawer(String workgroupName, String documentId);
-
+    
     /**
      * Locks the given cash drawer, if it is open
      * 
-     * @param cd the cash drawer to open
-     * @param documentId the document id which is locking the cash drawer
+     * @param cd The cash drawer to open
+     * @param documentId The document id which is locking the cash drawer
      */
     public void lockCashDrawer(CashDrawer cd, String documentId);
 
     /**
-     * Unlocks the currently-locked CashDrawer instance associated with the given workgroupName, throwing an IllegalStateException
-     * if that cashDrawer is not locked (i.e. is closed or open). Records the given documentId as the document which unlocked the
-     * cashDrawer.
+     * Unlocks the currently-locked CashDrawer instance associated with the given workgroupName, 
+     * throwing an IllegalStateException if that cashDrawer is not locked (i.e. is closed or open). 
+     * Records the given documentId as the document which unlocked the cashDrawer.
+     * 
+     * @param workgroupName The workgroup name used to retrieve the cash drawer to be unlocked.
+     * @param documentId The id of the document used to unlock the cash drawer.
      */
     public void unlockCashDrawer(String workgroupName, String documentId);
-
+    
     /**
      * Unlocks the given cash drawer, if it is open and locked
      * 
-     * @param cd the cash drawer to unlock
-     * @param documentId the document which is unlocking the cash drawer
+     * @param cd The cash drawer to unlock
+     * @param documentId The document which is unlocking the cash drawer
      */
     public void unlockCashDrawer(CashDrawer cd, String documentId);
 
-
     /**
-     * Retrieves the CashDrawer instance associated with the given workgroupName, if any. If autocreate is true, and no CashDrawer
-     * for the given workgroupName exists, getByWorkgroupName will return a newly-created (non-persisted) CashDrawer instance.
+     * Retrieves the CashDrawer instance associated with the given workgroupName, if any. If autocreate is true, 
+     * and no CashDrawer for the given workgroupName exists, getByWorkgroupName will return a newly-created 
+     * (non-persisted) CashDrawer instance.
      * 
-     * @param workgroupName
-     * @param autocreate
+     * @param workgroupName The workgroup name used to retrieve the cash drawer.
+     * @param autocreate Identifies whether or not a new cash drawer will be created if one does not already exist for the workgroup name provided.
      * @return CashDrawer instance or null
      */
     public CashDrawer getByWorkgroupName(String workgroupName, boolean autocreate);
-
+    
     /**
-     * Calculates the total amount of all the currency in the drawer.
+     * Calculates the total amount of all the currency in the drawer.  
+     * NOTE: The value returned only refers to paper currency in the drawer and does not include coin amounts.
      * 
-     * @param drawer the drawer to calculate on
-     * @return the summed amount of currency in the drawer
+     * @param drawer The cash drawer to calculate the currency total from.
+     * @return The summed amount of currency in the cash drawer.
      */
     public KualiDecimal getCurrencyTotal(CashDrawer drawer);
-
+    
     /**
-     * Calcuates the total amount of all the coins in the drawer.
+     * Calculates the total amount of all the coins in the drawer. 
      * 
-     * @param drawer the drawer to calculate on
-     * @return the summed value of coins in the drawer
+     * @param drawer The drawer to calculate the coin total from.
+     * @return The summed value of coins in the drawer.
      */
     public KualiDecimal getCoinTotal(CashDrawer drawer);
 }

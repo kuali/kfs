@@ -27,12 +27,18 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.SufficientFundBalancesDao;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An implementation of PostTransaction which posts a transaction to the appropriate sufficient funds record
+ */
 @Transactional
 public class PostSufficientFundBalances implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostSufficientFundBalances.class);
 
     private SufficientFundBalancesDao sufficientFundBalancesDao;
 
+    /**
+     * Constructs a PostSufficientFundBalances instance
+     */
     public PostSufficientFundBalances() {
         super();
     }
@@ -41,10 +47,14 @@ public class PostSufficientFundBalances implements PostTransaction {
         sufficientFundBalancesDao = sfbd;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Posts the transaction to the appropriate sufficient funds records
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -148,7 +158,13 @@ public class PostSufficientFundBalances implements PostTransaction {
         return returnCode;
     }
 
-    // 2631-PROCESS-OBJTACCT-ACTUAL
+    /**
+     * Updates the expenditure amount of a given sufficient funds balance record
+     * 
+     * @param debitCreditCode whether the the amount should be debited or credited to the SF balance
+     * @param bal a sufficient funds balance to update
+     * @param amount the amount to debit or credit
+     */
     private void updateExpendedAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountActualExpenditureAmt(bal.getAccountActualExpenditureAmt().subtract(amount));
@@ -158,8 +174,13 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
     }
 
-    // 2642-PROCESS-CASH-ENCUMBRANCE
-    // 2632-PROCESS-OBJTACCT-ENCMBRNC
+    /**
+     * Updates the encumbrance amount of a given sufficient funds balance record
+     * 
+     * @param debitCreditCode whether the the amount should be debited or credited to the SF balance
+     * @param bal a sufficient funds balance to update
+     * @param amount the amount to debit or credit
+     */
     private void updateEncumbranceAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setAccountEncumbranceAmount(bal.getAccountEncumbranceAmount().subtract(amount));
@@ -169,7 +190,13 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
     }
 
-    // 2641-PROCESS-CASH-ACTUAL
+    /**
+     * Updates the budget amount of a given sufficient funds balance record
+     * 
+     * @param debitCreditCode whether the the amount should be debited or credited to the SF balance
+     * @param bal a sufficient funds balance to update
+     * @param amount the amount to debit or credit
+     */
     private void updateBudgetAmount(String debitCreditCode, SufficientFundBalances bal, KualiDecimal amount) {
         if (KFSConstants.GL_CREDIT_CODE.equals(debitCreditCode)) {
             bal.setCurrentBudgetBalanceAmount(bal.getCurrentBudgetBalanceAmount().subtract(amount));
@@ -179,6 +206,9 @@ public class PostSufficientFundBalances implements PostTransaction {
         }
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(SufficientFundBalances.class).getFullTableName();
     }

@@ -24,8 +24,7 @@ import java.util.Date;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * An interface that delcares the methods that the Poster needs to post a transaction.
  */
 public interface PostTransaction {
     /**
@@ -39,7 +38,7 @@ public interface PostTransaction {
     public String post(Transaction t, int mode, Date postDate);
 
     /**
-     * The name of the destination for the post
+     * The name of the destination for the post (ie, the database table name where resultant records will be posted)
      * 
      * @return name
      */

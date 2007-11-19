@@ -24,11 +24,13 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * An implmentation of ValueFinder that allows the balance inquiries to choose whether to include or exclude cost share entries
  */
 public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns the default value for this ValueFinder, in this case, exclude cost share entries
+     * @return a String with the default key
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
@@ -36,6 +38,8 @@ public class GLCostShareOptionFinder extends KeyValuesBase implements ValueFinde
     }
 
     /**
+     * Returns a list of possible values for this ValueFinder, in this case include cost share entries or exclude cost share entries
+     * @return a List of key/value pairs to populate radio buttons
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

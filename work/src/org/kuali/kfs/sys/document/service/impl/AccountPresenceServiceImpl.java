@@ -22,13 +22,23 @@ import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.dao.BalanceDao;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This is the default implementation of the AccountPresenceService interface.
+ * 
+ */
 @Transactional
 public class AccountPresenceServiceImpl implements AccountPresenceService {
     private BalanceDao balanceDao;
 
     /**
-     * @see org.kuali.module.financial.service.AccountPresenceService#isObjectCodeBudgetedForAccountPresence(org.kuali.module.chart.bo.Account,
-     *      org.kuali.module.chart.bo.ObjectCode)
+     * This method determines if an object code has been budgeted for account presence.  
+     * 
+     * @param account The account to be checked for the presence control flag.
+     * @param objectCode The object code being reviewed.
+     * @return True if the object code has been budgeted for an account presence, false otherwise.
+     * 
+     * @see org.kuali.module.financial.service.AccountPresenceService#isObjectCodeBudgetedForAccountPresence(org.kuali.module.chart.bo.Account, org.kuali.module.chart.bo.ObjectCode)
      */
     public boolean isObjectCodeBudgetedForAccountPresence(Account account, ObjectCode objectCode) {
         boolean objectCodeValid = true;
@@ -64,6 +74,8 @@ public class AccountPresenceServiceImpl implements AccountPresenceService {
     }
 
     /**
+     * Simple getter used to retrieve an instance of the BalanceDao.
+     * 
      * @return Returns the balanceDao.
      */
     public BalanceDao getBalanceDao() {
@@ -71,6 +83,8 @@ public class AccountPresenceServiceImpl implements AccountPresenceService {
     }
 
     /**
+     * Simple setter used to set the local BalanceDao attribute.
+     * 
      * @param balanceDao The balanceDao to set.
      */
     public void setBalanceDao(BalanceDao balanceDao) {

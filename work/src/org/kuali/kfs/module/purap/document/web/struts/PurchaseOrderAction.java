@@ -82,7 +82,6 @@ import edu.iu.uis.eden.exception.WorkflowException;
 public class PurchaseOrderAction extends PurchasingActionBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderAction.class);
 
-    // TODO f2f: need a jira for removing the refresh for quotes (3 calls to that method in this class)
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#refresh(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -379,7 +378,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Close Order button on a Purchase Order page to Close the PO. It will
+     * Invoked when the user pressed on the Close Order button on a Purchase Order page to Close the PO. It will
      * display the question page to the user to ask whether the user really wants to close the PO and ask the user to enter a reason
      * in the text area. If the user has entered the reason, it will invoke a service method to do the processing for closing a PO,
      * then display a Single Confirmation page to inform the user that the PO Close Document has been routed.
@@ -399,7 +398,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Payment Hold button on a Purchase Order page to put the PO on hold. It
+     * Is invoked when the user pressed on the Payment Hold button on a Purchase Order page to put the PO on hold. It
      * will display the question page to the user to ask whether the user really wants to put the PO on hold and ask the user to
      * enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the processing for
      * putting a PO on hold, then display a Single Confirmation page to inform the user that the PO Payment Hold Document has been
@@ -420,7 +419,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Remove Hold button on a Payment Hold PO page to remove the PO from hold.
+     * Is invoked when the user pressed on the Remove Hold button on a Payment Hold PO page to remove the PO from hold.
      * It will display the question page to the user to ask whether the user really wants to remove the PO from hold and ask the
      * user to enter a reason in the text area. If the user has entered the reason, it will invoke a service method to do the
      * processing for removing a PO from hold, then display a Single Confirmation page to inform the user that the PO Remove Hold
@@ -450,7 +449,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Open Order button on a Purchase Order page that has status "Close" to
+     * Is invoked when the user pressed on the Open Order button on a Purchase Order page that has status "Close" to
      * reopen the PO. It will display the question page to the user to ask whether the user really wants to reopen the PO and ask
      * the user to enter a reason in the text area. If the user has entered the reason, it will invoke the a service method to do
      * the processing for reopening a PO, then display a Single Confirmation page to inform the user that the
@@ -472,7 +471,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Amend button on a Purchase Order page to amend the PO. It will display
+     * Is invoked when the user pressed on the Amend button on a Purchase Order page to amend the PO. It will display
      * the question page to the user to ask whether the user really wants to amend the PO and ask the user to enter a reason in the
      * text area. If the user has entered the reason, it will invoke a service method to do the processing for amending the PO, then
      * display a Single Confirmation page to inform the user that the <code>PurchaseOrderAmendmentDocument</code> has been routed.
@@ -493,7 +492,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user pressed on the Void button on a Purchase Order page to void the PO. It will display the
+     * Is invoked when the user pressed on the Void button on a Purchase Order page to void the PO. It will display the
      * question page to the user to ask whether the user really wants to void the PO and ask the user to enter a reason in the text
      * area. If the user has entered the reason, it will invoke a service method to do the processing for voiding the PO, then
      * display a Single Confirmation page to inform the user that the <code>PurchaseOrderVoidDocument</code> has been routed.
@@ -549,7 +548,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is executed when the user clicks on the "print" button on a Purchase Order Print Document page. On a non
+     * Is executed when the user clicks on the "print" button on a Purchase Order Print Document page. On a non
      * javascript enabled browser, it will display a page with 2 buttons. One is to display the PDF, the other is to view the PO
      * tabbed page where the PO document statuses, buttons, etc have already been updated (the updates of those occurred while the
      * <code>performPurchaseOrderFirstTransmitViaPrinting</code> method is invoked. On a javascript enabled browser, it will
@@ -693,9 +692,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
-            // FIXME RELEASE 3 (hjs) this is very bad; should not be setting the APO indicator to true!!
-            // for testing Generate PO PDF, set the APO to true
-            // po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuotePDF(po, poVendorQuote, baosPDF);
 
             if (!success) {
@@ -757,9 +753,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             sbFilename.append(System.currentTimeMillis());
             sbFilename.append(".pdf");
 
-            // FIXME RELEASE 3 (hjs) this is very bad; should not be setting the APO indicator to true!!
-            // for testing Generate PO PDF, set the APO to true
-            // po.setPurchaseOrderAutomaticIndicator(true);
             boolean success = SpringContext.getBean(PurchaseOrderService.class).printPurchaseOrderQuoteRequestsListPDF(po, baosPDF);
 
             if (!success) {
@@ -798,10 +791,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return null;
     }
 
-    /*
-     * TODO PURAP - should this method be transmitting the PO or just setting up the dates? - should this method be saving the
-     * entire PO or just the vendorQuote object (if in fact nothing on the PO is edited)
-     */
     /**
      * Initiates transmission of a PO Quote request.
      * 
@@ -829,7 +818,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user clicks on the Select All button on a Purchase Order Retransmit document. It will select
+     * Is invoked when the user clicks on the Select All button on a Purchase Order Retransmit document. It will select
      * the checkboxes of all the items to be included in the retransmission of the PO.
      * 
      * @param mapping An ActionMapping
@@ -851,7 +840,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit document. It will
+     * Is invoked when the user clicks on the Deselect All button on a Purchase Order Retransmit document. It will
      * uncheck the checkboxes of all the items to be excluded from the retransmission of the PO.
      * 
      * @param mapping An ActionMapping
@@ -873,7 +862,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * This method is invoked when the user clicks on the Retransmit button on both the PO tabbed page and on the Purchase Order
+     * Is invoked when the user clicks on the Retransmit button on both the PO tabbed page and on the Purchase Order
      * Retransmit Document page, which is essentially a PO tabbed page with the other irrelevant tabs being hidden. If it was
      * invoked from the PO tabbed page, if the PO's pending indicator is false, this method will invoke a method in the
      * PurchaseOrderService to update the flags, create the PurchaseOrderRetransmitDocument and route it. If the routing was
@@ -897,7 +886,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         boolean success;
         if (po.isPendingActionIndicator()) {
             success = false;
-            // TODO PURAP - below should be using a propertyName value to show error at a document level.... not field specific
             GlobalVariables.getErrorMap().putError(PurapPropertyConstants.PURCHASE_ORDER_IDENTIFIER, PurapKeyConstants.ERROR_PURCHASE_ORDER_IS_PENDING);
         }
         else {
@@ -1088,9 +1076,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return forward;
     }
 
-    /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
-     */
     /**
      * Sets up the PO document for Quote processing.
      * 
@@ -1112,8 +1097,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
         document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
         Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days - TODO: need to move this
-                                                                                        // into a DB setting
+        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days 
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
         SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
@@ -1161,9 +1145,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
-     */
     /**
      * Once an awarded Vendor number is present on the PO, verifies the fact, asks the user for confirmation to complete the quoting
      * process with the awarded Vendor, and sets the Vendor information on the purchase order, if confirmation is obtained.
@@ -1264,9 +1245,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
-    /*
-     * TODO RELEASE 3 (KULPURAP-2052, delyea) - QUOTE
-     */
     /**
      * Cancels the process of obtaining quotes. Checks whether any of the quote requests have been transmitted. If none have, tries
      * to obtain confirmation from the user for the cancellation. If confirmation is obtained, clears out the list of Vendors from
@@ -1415,10 +1393,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             // Build out full message.
             if (StringUtils.equals(questionType, PODocumentsStrings.MANUAL_STATUS_CHANGE_QUESTION)) {
-                /*
-                 * THIS MAP MOVED BY DELYEA FROM PurapConstants TO HERE TODO PURAP - The map below is hard coding values that need
-                 * to be coming from the database instead
-                 */
                 Map<String, String> manuallyChangeableStatuses = new HashMap<String, String>();
                 manuallyChangeableStatuses.put(PurchaseOrderStatuses.IN_PROCESS, "In Process");
                 manuallyChangeableStatuses.put(PurchaseOrderStatuses.WAITING_FOR_VENDOR, "Waiting for Vendor");

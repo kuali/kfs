@@ -97,7 +97,7 @@
             <![CDATA[&nbsp;]]>
         </summary>
         <description>The Journal Voucher (JV) document is used to perform accounting tasks that cannot be done by any of the specialized financial documents. The JV document is a very open ended financial transactions document, with few checks of business rules. The main purpose of the Journal Voucher is to record accruals and allocations, and to adjust entries. The JV document can also be used to fix errors that may occur in the system which inadvertently put the General Ledger out of balance.</description>
-        <help parameterNamespace="KFS-FP" parameterName="FINANCIAL_HELP_JOURNAL_VOUCHER_DOCUMENT" />
+        <help parameterNamespace="KFS-FP" parameterDetailType="JournalVoucher" parameterName="JOURNAL_VOUCHER" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>true</allowsErrorCorrection>
     </transactionalDocument>

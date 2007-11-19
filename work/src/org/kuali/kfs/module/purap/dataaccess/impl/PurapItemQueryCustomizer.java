@@ -41,6 +41,7 @@ public class PurapItemQueryCustomizer extends KualiQueryCustomizerDefaultImpl {
     public final static String DESCENDING = "DESC";
 
     /**
+     * In addition to what the referenced method does, this also fixes a mysql order by issue (see class comments)
      * @see org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl#customizeQuery(java.lang.Object,
      *      org.apache.ojb.broker.PersistenceBroker, org.apache.ojb.broker.metadata.CollectionDescriptor,
      *      org.apache.ojb.broker.query.QueryByCriteria)

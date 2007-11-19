@@ -40,7 +40,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.service.BalanceTypService;
 
 /**
- * <code>JournalVoucherDocument</code> accounting line parser
+ * This class represents a <code>JournalVoucherDocument</code> accounting line parser.
  */
 public class JournalVoucherAccountingLineParser extends AuxiliaryVoucherAccountingLineParser {
     private String balanceTypeCode;

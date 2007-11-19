@@ -53,6 +53,11 @@ public class TransactionListingReport {
         public Font headerFont;
         public String title;
 
+        /**
+         * Generates end page for the transaction listing report
+         * 
+         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+         */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
                 Rectangle page = document.getPageSize();
@@ -89,10 +94,10 @@ public class TransactionListingReport {
      * This will generate a report on the transactions passed to it
      * 
      * @param transactions Transactions sorted properly
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * @param runDate date report is run
+     * @param title title of report
+     * @param fileprefix file prefix of file
+     * @param destinationDirectory directory where file resides
      */
     public void generateReport(Iterator<Transaction> transactions, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");

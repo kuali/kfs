@@ -29,9 +29,15 @@ import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 
+/**
+ * A value finder that returns all balance type, but selects the actual balance type
+ */
 public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns the value to select: here the value of the actual balance type
+     * 
+     * @return the balance type code for actual balances
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {
@@ -42,6 +48,9 @@ public class GLActualBalanceTypeOptionFinder extends KeyValuesBase implements Va
     }
 
     /**
+     * Returns a list of the key value pairs of all balance type codes and their names
+     * 
+     * @return a List of all balance types to populate a dropdown control
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {

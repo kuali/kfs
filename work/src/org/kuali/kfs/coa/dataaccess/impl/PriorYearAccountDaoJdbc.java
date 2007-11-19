@@ -17,12 +17,14 @@ package org.kuali.module.chart.dao.jdbc;
 
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.PriorYearAccount;
 
 /**
  * This class performs actions against the database through direct SQL command calls.
  */
+@RawSQL
 public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
 
     /** Constant used to retrieve row counts for tables. Obj_Id value exists in all tables in DB. */
@@ -33,6 +35,7 @@ public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
      * 
      * @return Number of records that were purged.
      */
+    @RawSQL
     public int purgePriorYearAccounts() {
         String priorYrAcctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearAccount.class).getFullTableName();
 
@@ -50,6 +53,7 @@ public class PriorYearAccountDaoJdbc extends PlatformAwareDaoBaseJdbc {
      * 
      * @return Number of records that were copied.
      */
+    @RawSQL
     public int copyCurrentAccountsToPriorYearTable() {
         String priorYrAcctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(PriorYearAccount.class).getFullTableName();
         String acctTableName = MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Account.class).getFullTableName();

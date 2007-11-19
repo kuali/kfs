@@ -16,7 +16,7 @@
 package org.kuali.module.financial.rules;
 
 /**
- * This class...
+ * Holds constants for <code>{@link org.kuali.module.financial.document.InternalBillingDocument}</code> business rules.
  */
 public class InternalBillingDocumentRuleConstants {
     public static final String INTERNAL_BILLING_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.InternalBillingDocument";

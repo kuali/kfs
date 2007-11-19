@@ -44,6 +44,12 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
     private BusinessObjectService businessObjectService;
 
     /**
+     * Persists the origin entries under a given sequence number. If entries are persisted again under the same sequence number,
+     * then they will be overridden.
+     * 
+     * @param glcpSearchResuiltsSequenceNumber a sequence number
+     * @param allEntries a list of origin entries
+     * @throws Exception thrown if anything goes wrong
      * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#persistAllEntries(java.lang.String, java.util.List)
      */
     public void persistAllEntries(String glcpSearchResuiltsSequenceNumber, List<OriginEntryFull> allEntries) throws Exception {
@@ -61,6 +67,11 @@ public class GlCorrectionProcessOriginEntryServiceImpl implements GlCorrectionPr
     }
 
     /**
+     * Retrieves the origin entries stored under the given sequence number
+     * 
+     * @param glcpSearchResuiltsSequenceNumber a sequence number
+     * @return a list of origin entries, or null if no results are currently not in the system.
+     * @throws Exception thrown if something goes wrong - vague documentation for a vague exception
      * @see org.kuali.module.gl.service.GlCorrectionProcessOriginEntryService#retrieveAllEntries(java.lang.String)
      */
     public List<OriginEntryFull> retrieveAllEntries(String glcpSearchResuiltsSequenceNumber) throws Exception {

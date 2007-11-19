@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class represents the different types of credit card types
  */
 public class CreditCardType extends PersistableBusinessObjectBase {
 

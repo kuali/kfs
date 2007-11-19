@@ -18,17 +18,33 @@ package org.kuali.module.purap.util;
 import java.beans.Beans;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
+/**
+ * 
+ * This class is setup to allow an argument to a created ArrayList (it could be a 
+ * possible extension to the other TypedArrayList
+ */
 public class PurApTypedArrayList extends ArrayList {
     // private static final long serialVersionUID = 6238521951259126730L;
     private final Class listObjectType;
     private final Class[] argumentClasses;
     private final Object[] arguments;
 
+    /**
+     * 
+     * Default Constructor
+     * @param listObjectType the class
+     */
     public PurApTypedArrayList(Class listObjectType) {
         this(listObjectType, null, null);
     }
 
+    /**
+     * 
+     * Constructor
+     * @param listObjectType the object type
+     * @param methodClasses classes
+     * @param methodArguments arguments
+     */
     public PurApTypedArrayList(Class listObjectType, Class[] methodClasses, Object[] methodArguments) {
         super();
 
@@ -118,6 +134,7 @@ public class PurApTypedArrayList extends ArrayList {
 
     /**
      * Adds new instances of type listObjectType to the arraylist until the size of the list is greater than the index required.
+     * @param index the index to grow to
      */
     private void growArray(int index) {
         if (index < 0) {
@@ -167,9 +184,6 @@ public class PurApTypedArrayList extends ArrayList {
         }
     }
 
-    /**
-     * @return Returns the listObjectType.
-     */
     public Class getListObjectType() {
         return listObjectType;
     }

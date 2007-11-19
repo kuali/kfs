@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
 /**
- * 
+ * This class is used to represent a Travel Per Diem business object.
  */
 public class TravelPerDiem extends PersistableBusinessObjectBase {
     private Integer fiscalYear;

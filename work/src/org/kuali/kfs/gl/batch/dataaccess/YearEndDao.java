@@ -18,7 +18,11 @@ package org.kuali.module.gl.dao;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * An interface that declares methods needed for error reporting by the year end jobs
+ */
 public interface YearEndDao {
+    
     /**
      * Returns the keys (Chart Code and Account Number) of PriorYearAccounts that are missing for the balances associated with the
      * given fiscal year

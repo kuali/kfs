@@ -23,11 +23,16 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.rule.CancelAccountsPayableRule;
 
 /**
- * This class represents the cancel event for AccountsPayableDocument (right now it's either PaymentRequestDocument or
- * CreditMemoDocument. This could be triggered when a user presses the cancel button.
+ * Cancel event for Accounts Payable Document
+ * This could be triggered when a user presses the cancel button.
  */
 public final class CancelAccountsPayableEvent extends KualiDocumentEventBase {
 
+    /**
+     * Overridden constructor.
+     * 
+     * @param document the document for this event
+     */
     public CancelAccountsPayableEvent(Document document) {
         this(KFSConstants.EMPTY_STRING, document);
     }
@@ -35,8 +40,8 @@ public final class CancelAccountsPayableEvent extends KualiDocumentEventBase {
     /**
      * Constructs a CancelAccountsPayableEvent with the given errorPathPrefix and document.
      * 
-     * @param errorPathPrefix
-     * @param document
+     * @param errorPathPrefix the error path
+     * @param document document the event was invoked upon
      */
     public CancelAccountsPayableEvent(String errorPathPrefix, Document document) {
         super("calculating on document " + getDocumentId(document), errorPathPrefix, document);

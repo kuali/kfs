@@ -16,7 +16,7 @@
 package org.kuali.module.purap.service;
 
 /**
- * This class is used for containing logic that must be run... usually when faking a user session
+ * Used for containing logic that must be run... usually when faking a user session
  */
 public abstract interface LogicContainer {
 

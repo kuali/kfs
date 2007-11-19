@@ -21,17 +21,40 @@ import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * An DAO interface to deal help expenditure transactions to deal with the database 
  */
 public interface ExpenditureTransactionDao {
+    /**
+     * Returns the expenditure transaction in the database that would be affected if the given transaction is posted
+     * 
+     * @param t a transaction to find a related expenditure transaction for
+     * @return the expenditure transaction if found, null otherwise
+     */
     public ExpenditureTransaction getByTransaction(Transaction t);
 
+    /**
+     * Returns all expenditure transactions currently in the database
+     * 
+     * @return an Iterator with all expenditure transactions from the database
+     */
     public Iterator getAllExpenditureTransactions();
 
+    /**
+     * Deletes the given expenditure transaction
+     * 
+     * @param et the expenditure transaction that will be removed, as such, from the database
+     */
     public void delete(ExpenditureTransaction et);
 
+    /**
+     * Saves an expenditure transaction
+     * @param et the expenditure transaction to save
+     */
     public void save(ExpenditureTransaction et);
 
+    /**
+     * Since expenditure transactions are temporary, this method removes all of the currently existing
+     * expenditure transactions from the database
+     */
     public void deleteAllExpenditureTransactions();
 }

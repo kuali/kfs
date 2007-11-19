@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.kuali.core.bo.BusinessObject;
+import org.kuali.module.labor.bo.July1PositionFunding;
 
 /**
  * This class is an interface to data access objects for general labor related inquiries. It will be deprecated after the data
@@ -78,7 +79,7 @@ public interface LaborDao {
      * @param fieldValues
      * @return Collection
      */
-    Collection getJuly1PositionFunding(Map fieldValues);
+    Collection<July1PositionFunding> getJuly1PositionFunding(Map<String, String> fieldValues);
 
     Collection getJuly1(Map fieldValues);
 

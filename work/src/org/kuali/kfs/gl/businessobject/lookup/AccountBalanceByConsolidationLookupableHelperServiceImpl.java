@@ -32,6 +32,9 @@ import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.AccountBalanceByConsolidationInquirableImpl;
 
+/**
+ * An extension of KualiLookupableImpl to support the account balance by consolidation inquiry screen
+ */
 public class AccountBalanceByConsolidationLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceByConsolidationLookupableHelperServiceImpl.class);

@@ -23,6 +23,10 @@ import org.kuali.module.financial.dao.CheckDao;
 import org.kuali.module.financial.service.CheckService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This is the default implementation of the CheckService interface.
+ */
 @Transactional
 public class CheckServiceImpl implements CheckService {
     // set up logging
@@ -30,12 +34,11 @@ public class CheckServiceImpl implements CheckService {
 
     private CheckDao checkDao;
 
-
     /**
-     * Saves a check to the DB.
+     * Saves a check to the database.
      * 
-     * @param check
-     * @return the check which was just saved
+     * @param check The check to be saved.
+     * @return An instance of the check which was just saved.
      */
     public Check save(Check check) {
         checkDao.save(check);
@@ -44,30 +47,39 @@ public class CheckServiceImpl implements CheckService {
     }
 
     /**
-     * Deletes a check from the DB.
+     * Deletes a check from the database.
      * 
-     * @param check
+     * @param check The check to be deleted.
      */
     public void deleteCheck(Check check) {
         checkDao.deleteCheck(check);
     }
 
     /**
-     * Retrieves a List of Checks by their document header id
+     * Retrieves a List of Checks by using the document header id given to retrieve a document and then 
+     * retrieving all checks associated with that document.
      * 
-     * @param documentHeaderId
+     * @param documentHeaderId The document header id to use to find the associated collection of checks.
+     * @return A collection of checks associated with a document with the provided document header id.
      */
     public List getByDocumentHeaderId(String documentHeaderId) {
         // retrieve the check
         return checkDao.findByDocumentHeaderId(documentHeaderId);
     }
 
-
     // Spring injection
+    /**
+     * Sets the checkDao attribute.
+     * @param The CheckDao to be set.
+     */
     public void setCheckDao(CheckDao d) {
         this.checkDao = d;
     }
 
+    /**
+     * Gets the checkDao attribute.
+     * @return An instance of the checkDao attribute.
+     */
     public CheckDao getCheckDao() {
         return checkDao;
     }

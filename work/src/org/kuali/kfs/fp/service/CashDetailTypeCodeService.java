@@ -18,21 +18,21 @@ package org.kuali.module.financial.service;
 import org.kuali.module.financial.bo.CashDetailTypeCode;
 
 /**
- * This service interface defines methods necessary for retreiving fully populated CashDetailTypeCode business objects from the
- * database.
+ * This service interface defines methods that a CashDetailTypeCodeService implementation must provide.
+ * 
  */
 public interface CashDetailTypeCodeService {
     /**
      * This method retrieves a full instance of the appropriate CashReceiptCheckTypeCode instance.
      * 
-     * @return
+     * @return A CashDetailTypeCode object of type CashReceiptCheckTypeCode.
      */
     public CashDetailTypeCode getCashReceiptCheckTypeCode();
 
     /**
      * This method retrieves a full instance of the appropriate CashReceiptCoinTypeCode instance.
      * 
-     * @return
+     * @return A CashDetailTypeCode object of type CashReceiptCoinTypeCode.
      */
     public CashDetailTypeCode getCashReceiptCoinTypeCode();
 }

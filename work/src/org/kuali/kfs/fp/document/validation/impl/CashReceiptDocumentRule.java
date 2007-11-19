@@ -49,6 +49,9 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * Implements Cash Receipt specific rule checks for the cash reconciliation section, to make sure that the cash, check, and coin
      * totals are not negative.
      * 
+     * @param document submitted cash receipt document
+     * @return true if cash, check, and coin totals are not negative
+     * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
@@ -65,6 +68,12 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     }
 
     /**
+     * Returns true if account and object code are valid in an accounting line.
+     * 
+     * @param financialDocument submitted accounting document 
+     * @param accountingLine
+     * @return true if account and object code are valid in an accounting line.
+     * 
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine)
      */
@@ -79,10 +88,14 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     /**
      * Checks to make sure that the check passed in passes all data dictionary validation and that the amount is positive.
      * 
+     * @param financialDocument submitted financial document
+     * @param check check added to cash receipt document
+     * @return true if check is valid (i.e. non-zero and not negative)
+     * 
      * @see org.kuali.core.rule.AddCheckRule#processAddCheckBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.module.financial.bo.Check)
      */
-    public boolean processAddCheckBusinessRules(AccountingDocument FinancialDocument, Check check) {
+    public boolean processAddCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         boolean isValid = validateCheck(check);
 
         return isValid;
@@ -91,10 +104,14 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     /**
      * Default implementation does nothing now.
      * 
+     * @param financialDocument submitted financial document
+     * @param check check deleted from cash receipt document
+     * @return true 
+     * 
      * @see org.kuali.core.rule.DeleteCheckRule#processDeleteCheckBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.module.financial.bo.Check)
      */
-    public boolean processDeleteCheckBusinessRules(AccountingDocument FinancialDocument, Check check) {
+    public boolean processDeleteCheckBusinessRules(AccountingDocument financialDocument, Check check) {
         boolean processed = true;
 
         return processed;
@@ -103,10 +120,14 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     /**
      * Checks to make sure that the check passed in passes all data dictionary validation and that the amount is positive.
      * 
+     * @param financialDocument submitted financial document
+     * @param check check updated from cash receipt document
+     * @return true if updated check is valid (i.e. non-zero and not negative)
+     * 
      * @see org.kuali.core.rule.UpdateCheckRule#processUpdateCheckRule(org.kuali.core.document.FinancialDocument,
      *      org.kuali.module.financial.bo.Check)
      */
-    public boolean processUpdateCheckRule(AccountingDocument FinancialDocument, Check check) {
+    public boolean processUpdateCheckRule(AccountingDocument financialDocument, Check check) {
         boolean isValid = validateCheck(check);
 
         return isValid;
@@ -115,8 +136,8 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     /**
      * This method validates checks for a CR document.
      * 
-     * @param check
-     * @return boolean
+     * @param check validated check
+     * @return true if check is non-zero and not negative
      */
     private boolean validateCheck(Check check) {
         // validate the specific check coming in
@@ -142,8 +163,8 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * <code>{@link CashReceiptDocument}</code> validates business rules for generating a cover page. <br/> <br/> Rule is the
      * <code>{@link Document}</code> must be ENROUTE.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted cash receipt document
+     * @return true if state is not cancelled, initiated, disapproved, saved, or exception
      */
     public boolean isCoverSheetPrintable(CashReceiptFamilyBase document) {
         KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
@@ -154,8 +175,8 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
      * This method validates all the accounting lines for the right account/object code pairings, if the account is a sales tax
      * account
      * 
-     * @param document
-     * @return
+     * @param document submitted cash receipt document
+     * @return true if all accounting lines have valid account and object codes
      */
     private boolean validateAccountAndObjectCodeAllLines(AccountingDocument document) {
         boolean isValid = true;
@@ -175,8 +196,11 @@ public class CashReceiptDocumentRule extends CashReceiptFamilyRule implements Ad
     /**
      * This method processes the accounting line to make sure if a sales tax account is used the right object code is used with it
      * 
-     * @param accountingLine
-     * @return
+     * @param accountingLine accounting line from accounting document
+     * @param source true if accounting line is a source line
+     * @param newLine true if new line
+     * @param index index of accounting line
+     * @return true if accounting line has a non-empty sales tax account account and a corresponding non-empty object code 
      */
     private boolean validateAccountAndObjectCode(AccountingLine accountingLine, boolean source, boolean newLine, int index) {
         boolean isValid = true;

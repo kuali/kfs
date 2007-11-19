@@ -19,12 +19,38 @@ import java.util.Collection;
 
 import org.kuali.module.gl.bo.CorrectionChangeGroup;
 
+/**
+ * a DAO interface that declares methods needed for CorrectionChangeGroups to deal with the database 
+ */
 public interface CorrectionChangeGroupDao {
+    /**
+     * Saves a Correction Group to the database
+     * 
+     * @param group the group to save
+     */
     void save(CorrectionChangeGroup group);
 
+    /**
+     * Deletes a CorrectionChangeGroup from the database
+     * 
+     * @param group the group to delete
+     */
     void delete(CorrectionChangeGroup group);
 
+    /**
+     * Finds all CorrectionChange groups associated with a document
+     * 
+     * @param documentNumber the document number of a GLCP document
+     * @return a Collection of CorrectionChangeGroup records
+     */
     Collection findByDocumentNumber(String documentNumber);
 
+    /**
+     * Finds a correction change group, based on GLCP document number and the group number
+     * 
+     * @param documentNumber the document number of the correction change group to retrieve
+     * @param CorrectionChangeGroupNumber the number of the group to retrieve
+     * @return the found CorrectionChangeGroup, or null if not found
+     */
     CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String documentNumber, Integer CorrectionChangeGroupNumber);
 }

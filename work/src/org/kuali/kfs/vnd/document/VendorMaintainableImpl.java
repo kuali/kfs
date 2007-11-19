@@ -216,7 +216,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * Concatenates the vendorLastName and a delimiter and the vendorFirstName fields into vendorName field of the vendorDetail
      * object.
      * 
-     * @param vendorDetail VendorDetail The vendor whose vebdir name field we are trying to assing
+     * @param vendorDetail VendorDetail The vendor whose name field we are trying to assign
      */
     private void setVendorName(VendorDetail vendorDetail) {
         if (vendorDetail.isVendorFirstLastNameIndicator()) {
@@ -257,8 +257,8 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
      * header id is also null, this method will assign 0 as the detail assigned id. If this is a new division vendor, it will look
      * for the count of vendor details in the database whose vendor header id match with the vendor header id of this new division,
      * then look for the count of vendor details in the database, in a while loop, to find if a vendor detail with the same header
-     * id and detail id as the count has existed. If a vemdpr with such criterias has existed, this method will increment the count
-     * by 1 and look up in the database again. If it has not existed, assign the count as the vendor detail id and change the
+     * id and detail id as the count has existed. If a vendor with such criteria exists, this method will increment the count
+     * by 1 and look up in the database again. If it does not exist, assign the count as the vendor detail id and change the
      * boolean flag to stop the loop, because we have already found the valid detail assigned id that we were looking for
      * 
      * @param vendorDetail VendorDetail The vendor whose detail assigned id we're trying to assign.
@@ -292,7 +292,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * This method returns the locking representation of the vendor. If the vendor detail id is not null, call the super class
+     * Returns the locking representation of the vendor. If the vendor detail id is not null, call the super class
      * implementation of generateMaintenanceLocks which will set the locking key to be the header and detail ids. However, if the
      * detail id is null, that means this is a new vendor (parent or division) and we should ignore locking.
      * 

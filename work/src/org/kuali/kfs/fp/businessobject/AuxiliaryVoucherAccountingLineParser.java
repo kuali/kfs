@@ -37,7 +37,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.exceptions.AccountingLineParserException;
 
 /**
- * <code>AuxiliaryVocherDocument</code> accounting line parser
+ * This class is used to parse an <code>AuxiliaryVocherDocument</code> accounting line.
  */
 public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBase {
     private static final String[] AV_FORMAT = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, DEBIT, CREDIT };
@@ -50,8 +50,9 @@ public class AuxiliaryVoucherAccountingLineParser extends AccountingLineParserBa
     }
 
     /**
-     * @see org.kuali.core.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map,
-     *      org.kuali.core.bo.SourceAccountingLine, java.lang.String)
+     * Populates source accounting lines and sets debit and credit amounts and codes if they exist
+     * 
+     * @see org.kuali.kfs.bo.AccountingLineParserBase#performCustomSourceAccountingLinePopulation(java.util.Map, org.kuali.kfs.bo.SourceAccountingLine, java.lang.String)
      */
     @Override
     protected void performCustomSourceAccountingLinePopulation(Map<String, String> attributeValueMap, SourceAccountingLine sourceAccountingLine, String accountingLineAsString) {

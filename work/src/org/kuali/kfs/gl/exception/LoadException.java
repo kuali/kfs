@@ -15,11 +15,21 @@
  */
 package org.kuali.module.gl.exception;
 
+/**
+ * An exception that is thrown if a data file cannot be loaded by a batch process.
+ */
 public class LoadException extends RuntimeException {
+    /**
+     * Constructs a LoadException instance
+     */
     public LoadException() {
         super();
     }
 
+    /**
+     * Constructs a LoadException instance, encapsulating a messaging
+     * @param msg a helpful message
+     */
     public LoadException(String msg) {
         super(msg);
     }

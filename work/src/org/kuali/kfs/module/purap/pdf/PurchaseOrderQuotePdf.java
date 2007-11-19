@@ -60,6 +60,12 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ * 
+ */
 public class PurchaseOrderQuotePdf extends PurapPdf {
     private static Log LOG = LogFactory.getLog(PurchaseOrderQuotePdf.class);
 
@@ -67,6 +73,14 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         super();
     }
 
+    /**
+     * Overrides the method in PdfPageEventHelper from itext to create and set the headerTable with relevant contents 
+     * and set its logo image if there is a logoImage to be used.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onOpenDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */
     public void onOpenDocument(PdfWriter writer, Document document) {
         LOG.debug("onOpenDocument() started.");
         try {
@@ -121,6 +135,18 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         return new PurchaseOrderQuotePdf();
     }
 
+    /**
+     * Generates the purchase order quote pdf document based on the data in the given input parameters,
+     * creates a pdf writer using the given byteArrayOutputStream then write the pdf document into the writer.
+     * 
+     * @param po                         The PurchaseOrderDocument to be used to generate the pdf.
+     * @param poqv                       The PurchaseOrderVendorQuote to be used to generate the pdf.
+     * @param campusName                 The campus name to be used to generate the pdf.
+     * @param contractManagerCampusCode  The contract manager campus code to be used to generate the pdf.
+     * @param logoImage                  The logo image file name to be used to generate the pdf.
+     * @param byteArrayOutputStream      The ByteArrayOutputStream to print the pdf to.
+     * @param environment                The current environment used (e.g. DEV if it is a development environment).
+     */
     public void generatePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String campusName, String contractManagerCampusCode, String logoImage, ByteArrayOutputStream byteArrayOutputStream, String environment) {
         LOG.debug("generatePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
 
@@ -137,6 +163,19 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         }
     }
 
+    /**
+     * Invokes the createPOQuotePDF method to create a purchase order quote pdf document and saves it into a file 
+     * which name and location are specified in the pdfParameters.
+     * 
+     * @param po                         The PurchaseOrderDocument to be used to generate the pdf.
+     * @param poqv                       The PurchaseOrderVendorQuote to be used to generate the pdf.
+     * @param pdfFileLocation            The location to save the pdf file.
+     * @param pdfFilename                The name for the pdf file.
+     * @param campusName                 The campus name to be used to generate the pdf.
+     * @param contractManagerCampusCode  The contract manager campus code to be used to generate the pdf.
+     * @param logoImage                  The logo image file name to be used to generate the pdf.
+     * @param environment                The current environment used (e.g. DEV if it is a development environment).
+     */
     public void savePOQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String pdfFileLocation, String pdfFilename, String campusName, String contractManagerCampusCode, String logoImage, String environment) {
         LOG.debug("savePOQuotePDF() started for po number " + po.getPurapDocumentIdentifier());
 
@@ -156,9 +195,17 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     }
 
     /**
-     * Create a PDF.
+     * Create a PDF using the given input parameters.
      * 
-     * @return
+     * @param po                         The PurchaseOrderDocument to be used to create the pdf.
+     * @param poqv                       The PurchaseOrderVendorQuote to be used to generate the pdf.
+     * @param campusName                 The campus name to be used to generate the pdf.
+     * @param contractManagerCampusCode  The contract manager campus code to be used to generate the pdf.
+     * @param logoImage                  The logo image file name to be used to generate the pdf.
+     * @param document                   The pdf document whose margins have already been set.
+     * @param writer                     The PdfWriter to write the pdf document into.
+     * @param environment                The current environment used (e.g. DEV if it is a development environment).
+     * @throws DocumentException
      */
     private void createPOQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote poqv, String campusName, String contractManagerCampusCode, String logoImage, Document document, PdfWriter writer, String environment) throws DocumentException {
         LOG.debug("createQuotePdf() started for po number " + po.getPurapDocumentIdentifier());
@@ -268,7 +315,7 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         document.add(infoTable);
 
         // ***** Notes and Stipulations table *****
-        // ripierce: the notes and stipulations table is type Table instead of PdfPTable
+        // The notes and stipulations table is type Table instead of PdfPTable
         // because Table has the method setCellsFitPage and I can't find an equivalent
         // in PdfPTable. Long notes or stipulations would break to the next page, leaving
         // a large white space on the previous page.
@@ -289,11 +336,6 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
             }
             p.add(new Chunk("     " + vendorStipulations.toString(), cour_10_normal));
         }
-        // For testing large stipulations.
-        // String longText =
-        // "long\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\nlong\n
-        // text";
-        // p.add(new Chunk(" "+longText, cour_10_normal));
 
         PdfPCell tableCell = new PdfPCell(p);
         tableCell.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -339,8 +381,6 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         for (PurchaseOrderItem poi : (List<PurchaseOrderItem>) po.getItems()) {
             if ((poi.getItemType() != null) && (StringUtils.isNotBlank(poi.getItemDescription())) && (poi.getItemType().isItemTypeAboveTheLineIndicator() || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE) || poi.getItemTypeCode().equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE))) {
                 // "ITEM"s display the line number; other types don't.
-
-
                 String description = "";
                 description = (StringUtils.isNotBlank(poi.getItemCatalogNumber())) ? poi.getItemCatalogNumber().trim() + " - " : "";
                 description = description + ((StringUtils.isNotBlank(poi.getItemDescription())) ? poi.getItemDescription().trim() : "");
@@ -483,10 +523,10 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
 
     /**
-     * This method returns a string buffer of the quote language descriptions from the database, ordered by the quote language
+     * Creates and returns a string buffer of the quote language descriptions from the database, ordered by the quote language
      * identifier and appended with carriage returns after each line.
      * 
-     * @return
+     * @return  The StringBuffer of the purchase order quote language.
      */
     private StringBuffer getPoQuoteLanguage() {
 
@@ -506,6 +546,11 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
 
     }
 
+    /**
+     * A helper method to create a blank row of 6 cells in the items table.
+     * 
+     * @param itemsTable
+     */
     private void createBlankRowInItemsTable(PdfPTable itemsTable) {
         // We're adding 6 cells because each row in the items table
         // contains 6 columns.
@@ -515,17 +560,17 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
     }
 
     /**
-     * This is a helper method to create a PdfPCell. We can specify the content, font, horizontal alignment, border (borderless, no
+     * A helper method to create a PdfPCell. We can specify the content, font, horizontal alignment, border (borderless, no
      * bottom border, no right border, no top border, etc.
      * 
-     * @param content
-     * @param borderless
-     * @param noBottom
-     * @param noRight
-     * @param noTop
-     * @param horizontalAlignment
-     * @param font
-     * @return an instance of PdfPCell which content and attributes were set by the input params.
+     * @param content              The text content to be displayed in the cell.
+     * @param borderless           boolean true if the cell should be borderless.
+     * @param noBottom             boolean true if the cell should have borderWidthBottom = 0.
+     * @param noRight              boolean true if the cell should have borderWidthRight = 0.
+     * @param noTop                boolean true if the cell should have borderWidthTop = 0.
+     * @param horizontalAlignment  The desired horizontal alignment for the cell.
+     * @param font                 The font type to be used in the cell.
+     * @return                     An instance of PdfPCell which content and attributes were set by the input parameters.
      */
     private PdfPCell createCell(String content, boolean borderless, boolean noBottom, boolean noRight, boolean noTop, int horizontalAlignment, Font font) {
         PdfPCell tableCell = new PdfPCell(new Paragraph(content, font));
@@ -545,6 +590,13 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         return tableCell;
     }
 
+    /**
+     * Obtains the CampusParameter based on the delivery campus code of the purchase order.
+     * 
+     * @param contractManagerCampusCode  This is not used anymore. 
+     * @return                           The CampusParameter whose delivery campus code matches with the 
+     *                                   purchase order's delivery campus code.
+     */
     private CampusParameter getCampusParameter(String contractManagerCampusCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put(KFSPropertyConstants.CAMPUS_CODE, po.getDeliveryCampusCode());
@@ -553,6 +605,12 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         return campusParameter;
     }
 
+    /**
+     * Creates and returns the full purchasing address given the campus parameter.
+     * 
+     * @param campusParameter  The CampusParameter object to be used to create the full purchasing address.
+     * @return                 The String containing the full purchasing address.
+     */
     private String getPurchasingAddressFull(CampusParameter campusParameter) {
         String indent = "     ";
         StringBuffer addressBuffer = new StringBuffer();
@@ -568,6 +626,12 @@ public class PurchaseOrderQuotePdf extends PurapPdf {
         return addressBuffer.toString();
     }
 
+    /**
+     * Creates and returns the partial purchasing address given the campus parameter.
+     * 
+     * @param campusParameter  The CampusParameter object to be used to create the partial purchasing address.
+     * @return                 The String containing the partial purchasing address.
+     */
     private String getPurchasingAddressPartial(CampusParameter campusParameter) {
         StringBuffer purchasingAddressPartial = new StringBuffer();
 

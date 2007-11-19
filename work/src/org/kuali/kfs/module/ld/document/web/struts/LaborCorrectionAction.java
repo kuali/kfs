@@ -81,7 +81,7 @@ public class LaborCorrectionAction extends CorrectionAction {
     LaborOriginEntryService laborOriginEntryService = SpringContext.getBean(LaborOriginEntryService.class);
 
     /**
-     * This needs to be done just in case they decide to excute.
+     * This needs to be done just in case they decide to execute.
      * 
      * @see org.kuali.core.web.struts.action.KualiDocumentActionBase#excute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -204,6 +204,8 @@ public class LaborCorrectionAction extends CorrectionAction {
 
 
     /**
+     * This handles the action for uploading a file
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#uploadFile(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -305,8 +307,8 @@ public class LaborCorrectionAction extends CorrectionAction {
      * Show all entries for Manual edit with groupId and persist these entries to the DB The restricted functionality mode flag MUST
      * BE SET PRIOR TO CALLING this method.
      * 
-     * @param groupId
-     * @param correctionForm
+     * @param groupId group ID
+     * @param correctionForm correction form
      * @throws Exception
      */
     protected void loadAllEntries(Integer groupId, CorrectionForm correctionForm) throws Exception {
@@ -340,8 +342,9 @@ public class LaborCorrectionAction extends CorrectionAction {
 
     /**
      * Save a changed row in the group
+     *
+     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#saveManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
-
     public ActionForward saveManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("saveManualEdit() started");
 
@@ -387,6 +390,8 @@ public class LaborCorrectionAction extends CorrectionAction {
 
     /**
      * Add a new row to the group
+     *
+     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#addManualEntry(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward addManualEntry(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("addManualEdit() started");
@@ -427,6 +432,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Handles manual edit of labor correction form
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#manualEdit(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -440,6 +447,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Handles edit of manual entry
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#editManualEntry(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -638,6 +647,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Loads persisted output group 
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#loadPersistedOutputGroup(org.kuali.module.gl.web.struts.form.CorrectionForm,
      *      boolean)
      */
@@ -709,6 +720,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Prepare labor correction document for routing
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#prepareForRoute(org.kuali.module.gl.web.struts.form.CorrectionForm)
      */
     protected boolean prepareForRoute(CorrectionForm correctionForm) throws Exception {
@@ -800,6 +813,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Save labor correction form as a text document (.txt)
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#saveToDesktop(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -862,6 +877,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Sort labor correction document by selected column
+     * 
      * @see org.kuali.core.web.struts.action.KualiTableRenderAction#sort(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
@@ -894,6 +911,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Apply paging and sorting from previous page view
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#applyPagingAndSortingFromPreviousPageView(org.kuali.module.gl.web.struts.form.CorrectionForm)
      */
     protected void applyPagingAndSortingFromPreviousPageView(CorrectionForm correctionForm) {
@@ -913,6 +932,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     }
 
     /**
+     * Returns true if input group exists from labor correction document  
+     * 
      * @see org.kuali.module.gl.web.struts.action.CorrectionAction#checkInputGroupPersistedForDocumentSave(org.kuali.module.gl.web.struts.form.CorrectionForm)
      */
     protected boolean checkInputGroupPersistedForDocumentSave(CorrectionForm correctionForm) {
@@ -934,6 +955,8 @@ public class LaborCorrectionAction extends CorrectionAction {
     /**
      * Called when selecting the system and method. If this button is pressed, the document should be reset as if it is the first
      * time it was pressed.
+     *
+     * @see org.kuali.module.gl.web.struts.action.CorrectionAction#selectSystemEditMethod(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     public ActionForward selectSystemEditMethod(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         LOG.debug("selectSystemEditMethod() started");

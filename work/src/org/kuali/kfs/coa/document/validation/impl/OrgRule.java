@@ -36,6 +36,10 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.service.OrganizationService;
 
+/**
+ * 
+ * This class implements the business rules specific to the {@link Org} Maintenance Document.
+ */
 public class OrgRule extends MaintenanceDocumentRuleBase {
 
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgRule.class);
@@ -47,6 +51,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     private Org newOrg;
     private boolean isHrmsOrgActivated;
 
+    /**
+     * 
+     * Constructs a OrgRule and pseudo-injects services
+     */
     public OrgRule() {
         super();
 
@@ -62,6 +70,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs the following checks on document approve:
+     * <ul>
+     * <li>{@link OrgRule#checkExistenceAndActive()}</li>
+     * <li>{@link OrgRule#checkOrgClosureRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkSimpleRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule fails on rule failure
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
@@ -88,6 +104,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs the following checks on document route:
+     * <ul>
+     * <li>{@link OrgRule#checkExistenceAndActive()}</li>
+     * <li>{@link OrgRule#checkOrgClosureRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkSimpleRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule fails on rule failure
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -115,6 +139,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs the following checks on document save:
+     * <ul>
+     * <li>{@link OrgRule#checkExistenceAndActive()}</li>
+     * <li>{@link OrgRule#checkOrgClosureRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkSimpleRules(MaintenanceDocument)}</li>
+     * <li>{@link OrgRule#checkDefaultAccountNumber(MaintenanceDocument)}</li>
+     * </ul>
+     * This rule does not fail on rule failure
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
@@ -139,6 +171,11 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This checks to see if the org is active
+     * @return true if the org is inactive or false otherwise
+     */
     protected boolean checkExistenceAndActive() {
 
         LOG.info("Entering checkExistenceAndActive()");
@@ -154,6 +191,13 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to see if a user is authorized for plant fields modification. If not then it returns true (without activating
+     * fields). If the org does not have to report to itself then it checks to see if the
+     * plant fields have been filled out correctly and fails if they haven't
+     * @return false if user can edit plant fields but they have not been filled out correctly
+     */
     protected boolean checkPlantAttributes() {
 
         boolean success = true;
@@ -196,9 +240,12 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
 
     /**
      * This method enforces the business rules surrounding when an Org becomes closed/inactive.
+     * If we are editing and switching the org to inactive or if it is a new doc and it is marked as inactive
+     * then we assume we are closing the org. If we are not then we return true. If we are then we
+     * return false if there are still active accounts tied to the org
      * 
      * @param document
-     * @return
+     * @return false if trying to close org but it still has accounts that are active linked to it
      */
     protected boolean checkOrgClosureRules(MaintenanceDocument document) {
 
@@ -293,10 +340,10 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method implements the HRMS Org rules.
+     * This checks to see if the org is active and if it the HRMS org is active
      * 
      * @param document
-     * @return
+     * @return true if either the org is inactive or isHrmsOrgActivated is false
      */
     protected boolean checkHrmsOrgRules(MaintenanceDocument document) {
 
@@ -323,10 +370,27 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks our {@link Parameter} rules to see if this org needs to report to itself
+     * @param organization
+     * @return true if it does
+     */
     private boolean getOrgMustReportToSelf(Org organization) {
         return SpringContext.getBean(ParameterService.class).getParameterEvaluator(Org.class, KFSConstants.ChartApcParms.ORG_MUST_REPORT_TO_SELF_ORG_TYPES, organization.getOrganizationTypeCode()).evaluationSucceeds();
     }
 
+    /**
+     * 
+     * This checks the following conditions:
+     * <ul>
+     * <li>begin date must be greater than or equal to end date</li>
+     * <li>start date must be greater than or equal to today if new Document</li>
+     * <li>Reports To Chart/Org should not be same as this Chart/Org</li>
+     * </ul>
+     * @param document
+     * @return true if it passes all the rules, false otherwise
+     */
     protected boolean checkSimpleRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -442,9 +506,14 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-    // check that defaultAccount is present unless
-    // ( (orgType = U or C) and ( document is a "create new" or "edit" ))
-
+    
+    /**
+     * 
+     * This checks that defaultAccount is present unless
+     * ( (orgType = U or C) and ( document is a "create new" or "edit" ))
+     * @param document
+     * @return false if missing default account number and it is not an exempt type code
+     */
     protected boolean checkDefaultAccountNumber(MaintenanceDocument document) {
 
         boolean success = true;
@@ -502,7 +571,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method looks up in the APC system whether ther HRMS Org system is turned on.
+     * This method looks up in the ParameterService whether ther HRMS Org system is turned on.
      * 
      * @return true or false depending on the app configuration
      */
@@ -511,7 +580,7 @@ public class OrgRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * This method sets the convenience objects like newOrg and oldOrg, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      * 

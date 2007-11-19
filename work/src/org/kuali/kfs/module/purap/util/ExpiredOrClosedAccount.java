@@ -15,7 +15,10 @@
  */
 package org.kuali.module.purap.util;
 
-
+/**
+ * 
+ * Expired or Closed Account
+ */
 public class ExpiredOrClosedAccount {
 
     private String chartOfAccountsCode;
@@ -24,10 +27,21 @@ public class ExpiredOrClosedAccount {
     private boolean closedIndicator;
     private boolean expiredIndicator;
     private boolean continuationAccountMissing;
-
+    
+    /**
+     * 
+     * Default constructor
+     */
     public ExpiredOrClosedAccount() {
     }
-
+    
+    /**
+     * 
+     * Constructs an Expired Or Closed Account consisting of the following attributes.
+     * @param chartOfAccountsCode chart
+     * @param accountNumber account
+     * @param subAccountNumber subAccount
+     */
     public ExpiredOrClosedAccount(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         setChartOfAccountsCode(chartOfAccountsCode);
         setAccountNumber(accountNumber);
@@ -85,7 +99,7 @@ public class ExpiredOrClosedAccount {
     /**
      * This is a helper method to return the account as a string in the format chart-account-subaccount.
      * 
-     * @return
+     * @return account string representation
      */
     public String getAccountString() {
         StringBuffer accountStr = new StringBuffer("");

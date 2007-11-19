@@ -27,7 +27,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * 
+ * This class is used to represent a procurement card transaction business object.
  */
 public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
 
@@ -144,6 +144,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.financialDocumentTotalAmount = financialDocumentTotalAmount;
     }
 
+    /**
+     * Sets the financialDocumentTotalAmount attribute.
+     * 
+     * @param financialDocumentTotalAmount The financialDocumentTotalAmount to set.
+     */
     public void setFinancialDocumentTotalAmount(String financialDocumentTotalAmount) {
         if (StringUtils.isNotBlank(financialDocumentTotalAmount)) {
             this.financialDocumentTotalAmount = new KualiDecimal(financialDocumentTotalAmount);
@@ -305,6 +310,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionCycleStartDate = transactionCycleStartDate;
     }
 
+    /**
+     * Sets the transactionCycleStartDate attribute.
+     * 
+     * @param transactionCycleStartDate The transactionCycleStartDate to set.
+     */
     public void setTransactionCycleStartDate(String transactionCycleStartDate) {
         if (StringUtils.isNotBlank(transactionCycleStartDate)) {
             this.transactionCycleStartDate = (Date) (new SqlDateConverter()).convert(Date.class, transactionCycleStartDate);
@@ -330,6 +340,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionCycleEndDate = transactionCycleEndDate;
     }
 
+    /**
+     * Sets the transactionCycleEndDate attribute.
+     * 
+     * @param transactionCycleEndDate The transactionCycleEndDate to set.
+     */
     public void setTransactionCycleEndDate(String transactionCycleEndDate) {
         if (StringUtils.isNotBlank(transactionCycleEndDate)) {
             this.transactionCycleEndDate = (Date) (new SqlDateConverter()).convert(Date.class, transactionCycleEndDate);
@@ -487,6 +502,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionOriginalCurrencyAmount = transactionOriginalCurrencyAmount;
     }
 
+    /**
+     * Sets the transactionOriginalCurrencyAmount attribute.
+     * 
+     * @param transactionOriginalCurrencyAmount The transactionOriginalCurrencyAmount to set.
+     */
     public void setTransactionOriginalCurrencyAmount(String transactionOriginalCurrencyAmount) {
         if (StringUtils.isNotBlank(transactionOriginalCurrencyAmount)) {
             this.transactionOriginalCurrencyAmount = new KualiDecimal(transactionOriginalCurrencyAmount);
@@ -515,6 +535,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionCurrencyExchangeRate = transactionCurrencyExchangeRate;
     }
 
+    /**
+     * Sets the transactionCurrencyExchangeRate attribute.
+     * 
+     * @param transactionCurrencyExchangeRate The transactionCurrencyExchangeRate to set.
+     */
     public void setTransactionCurrencyExchangeRate(String transactionCurrencyExchangeRate) {
         if (StringUtils.isNotBlank(transactionCurrencyExchangeRate)) {
             this.transactionCurrencyExchangeRate = new BigDecimal(transactionCurrencyExchangeRate);
@@ -543,6 +568,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionSettlementAmount = transactionSettlementAmount;
     }
 
+    /**
+     * Sets the transactionSettlementAmount attribute.
+     * 
+     * @param transactionSettlementAmount The transactionSettlementAmount to set.
+     */
     public void setTransactionSettlementAmount(String transactionSettlementAmount) {
         if (StringUtils.isNotBlank(transactionSettlementAmount)) {
             this.transactionSettlementAmount = new KualiDecimal(transactionSettlementAmount);
@@ -571,6 +601,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionSalesTaxAmount = transactionSalesTaxAmount;
     }
 
+    /**
+     * Sets the transactionSalesTaxAmount attribute.
+     * 
+     * @param transactionSalesTaxAmount The transactionSalesTaxAmount to set.
+     */
     public void setTransactionSalesTaxAmount(String transactionSalesTaxAmount) {
         if (StringUtils.isNotBlank(transactionSalesTaxAmount)) {
             this.transactionSalesTaxAmount = new KualiDecimal(transactionSalesTaxAmount);
@@ -599,6 +634,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionTaxExemptIndicator = transactionTaxExemptIndicator;
     }
 
+    /**
+     * Sets the transactionTaxExemptIndicator attribute.
+     * 
+     * @param transactionTaxExemptIndicator The transactionTaxExemptIndicator to set.
+     */
     public void setTransactionTaxExemptIndicator(String transactionTaxExemptIndicator) {
         if (KFSConstants.ACTIVE_INDICATOR.equals(transactionTaxExemptIndicator)) {
             this.transactionTaxExemptIndicator = true;
@@ -627,6 +667,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.transactionPurchaseIdentifierIndicator = transactionPurchaseIdentifierIndicator;
     }
 
+    /**
+     * Sets the transactionPurchaseIdentifierIndicator attribute.
+     * 
+     * @param transactionPurchaseIdentifierIndicator The transactionPurchaseIdentifierIndicator to set.
+     */
     public void setTransactionPurchaseIdentifierIndicator(String transactionPurchaseIdentifierIndicator) {
         if (KFSConstants.ACTIVE_INDICATOR.equals(transactionPurchaseIdentifierIndicator)) {
             this.transactionPurchaseIdentifierIndicator = true;
@@ -1016,6 +1061,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.cardLimit = cardLimit;
     }
 
+    /**
+     * Sets the cardLimit attribute.
+     * 
+     * @param cardLimit The cardLimit to set.
+     */
     public void setCardLimit(String cardLimit) {
         if (StringUtils.isNotBlank(cardLimit)) {
             this.cardLimit = new KualiDecimal(cardLimit);
@@ -1044,6 +1094,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.cardCycleAmountLimit = cardCycleAmountLimit;
     }
 
+    /**
+     * Sets the cardCycleAmountLimit attribute.
+     * 
+     * @param cardCycleAmountLimit The cardCycleAmountLimit to set.
+     */
     public void setCardCycleAmountLimit(String cardCycleAmountLimit) {
         if (StringUtils.isNotBlank(cardCycleAmountLimit)) {
             this.cardCycleAmountLimit = new KualiDecimal(cardCycleAmountLimit);
@@ -1072,6 +1127,11 @@ public class ProcurementCardTransaction extends PersistableBusinessObjectBase {
         this.cardCycleVolumeLimit = cardCycleVolumeLimit;
     }
 
+    /**
+     * Sets the cardCycleVolumeLimit attribute.
+     * 
+     * @param cardCycleVolumeLimit The cardCycleVolumeLimit to set.
+     */
     public void setCardCycleVolumeLimit(String cardCycleVolumeLimit) {
         if (StringUtils.isNotBlank(cardCycleVolumeLimit)) {
             this.cardCycleVolumeLimit = new KualiDecimal(cardCycleVolumeLimit);

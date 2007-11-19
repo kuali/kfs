@@ -102,7 +102,29 @@
 
 	<target name="clean-project" depends="init-property-files">
 		<delete failonerror="false">
-			<fileset dir="${basedir}" includes="${source.directory}/${configuration.file},${source.directory}/${p6spy.file},${webinf.directory}/${web.file},${lib.directory}/${log4j.library.file},${war.directory}/**/**,${test.directory}/**/**,*.war,*.zip,${help.directory}/**/**,${webroot.directory}/${rice.application}/**/**,${webroot.directory}/${tags.directory}/${rice.application}/**/**,${webroot.directory}/${workflow.application}/**/**,${licenses.directory}/${rice.name}/**/**" />
+			<fileset dir="${basedir}">
+				<include name="${source.directory}/${configuration.file}" />
+				<include name="${source.directory}/${p6spy.file}" />
+				<include name="${webinf.directory}/${web.file}" />
+				<include name="${lib.directory}/${log4j.library.file}" />
+				<include name="${war.directory}/**/**" />
+				<include name="${test.directory}/**/**" />
+				<include name="*.war" />
+				<include name="*.zip" />
+			</fileset>
+		</delete>
+		<delete failonerror="false">
+			<fileset dir="${basedir}">
+				<include name="${help.directory}/**" />
+			</fileset>
+		</delete>
+		<delete failonerror="false">
+			<fileset dir="${basedir}">
+				<include name="${licenses.directory}/${rice.name}/**" />
+				<include name="${webroot.directory}/${rice.application}/**" />
+				<include name="${webroot.directory}/${tags.directory}/${rice.application}/**" />
+				<include name="${webroot.directory}/${workflow.application}/**" />
+			</fileset>
 		</delete>
 	</target>
 
@@ -145,16 +167,16 @@
 	</target>
 
 	<target name="filter-project" depends="filter-project-p6spy">
-		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
-		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
-		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
+		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
+		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
-
+	
 	<target name="filter-local" if="is.local.build" depends="init-properties">
 		<copy file="${build.appserver.directory}/${carol.file}" todir="${appserver.classes.dir}" overwrite="true" />
 		<copy todir="${appserver.lib.dir}" overwrite="true">
@@ -205,12 +227,6 @@
 			</fileset>
 		</copy>
 	</target>
-
-	<target name="init-batch-properties">
-		<property file="${user.home}/build.properties" />
-	</target>
-
-	<target name="make-batch" depends="init-batch-properties,clean,dist-local,make-source" />
 
 	<!-- please be careful if you muck with these settings - you can seriously hose the continuous integration process -->
 	<target name="test">

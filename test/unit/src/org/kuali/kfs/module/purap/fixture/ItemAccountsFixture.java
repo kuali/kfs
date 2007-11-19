@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.bo.PurApAccountingLine;
@@ -28,26 +29,38 @@ import org.kuali.module.purap.fixtures.PurapTestConstants.ItemsAccounts;
 
 public enum ItemAccountsFixture {
 
-    WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, ItemsAccounts.ITEM_UOM, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_NULL_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, null, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_EMPTY_UOM_WITH_PRICE_WITH_ACCOUNT(ItemsAccounts.ITEM_DESC, "", ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT), WITH_DESC_WITH_UOM_WITH_PRICE_NULL_ACCOUNT(ItemsAccounts.ITEM_DESC, ItemsAccounts.ITEM_UOM, ItemsAccounts.UNIT_PRICE, null), NULL_DESC_NULL_UOM_NULL_PRICE_WTIH_ACCOUNT(null, null, null, ItemsAccounts.PO_ACCOUNT), EMPTY_DESC_EMPTY_UOM_NULL_PRICE_WITH_ACCOUNT("", "", null, ItemsAccounts.PO_ACCOUNT), ;
+    WITH_QUANTITY_WITH_PRICE_WITH_ACCOUNT( ItemsAccounts.QUANTITY, ItemsAccounts.ITEM_UOM, ItemsAccounts.ITEM_CATALOG_NUMBER, ItemsAccounts.ITEM_DESC, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT),
+    NULL_QUANTITY_WITH_PRICE_WITH_ACCOUNT( null, ItemsAccounts.ITEM_DESC, ItemsAccounts.ITEM_UOM, ItemsAccounts.ITEM_CATALOG_NUMBER, ItemsAccounts.UNIT_PRICE, ItemsAccounts.PO_ACCOUNT),
+    WITH_QUANTITY_NULL_PRICE_WITH_ACCOUNT( ItemsAccounts.QUANTITY, ItemsAccounts.ITEM_UOM, ItemsAccounts.ITEM_CATALOG_NUMBER, ItemsAccounts.ITEM_DESC, null, ItemsAccounts.PO_ACCOUNT),
+    WITH_QUANTITY_WITH_PRICE_NULL_ACCOUNT( ItemsAccounts.QUANTITY, ItemsAccounts.ITEM_UOM, ItemsAccounts.ITEM_CATALOG_NUMBER, ItemsAccounts.ITEM_DESC, ItemsAccounts.UNIT_PRICE, null), 
+    NULL_ITEM_WITH_ACCOUNT( null, null, null, null, null, ItemsAccounts.PO_ACCOUNT),;
 
     private PurchaseOrderItem poItem;
     private String itemDescription;
-    private String itemUnitOfMeasure;
+    private KualiDecimal quantity;
+    private String unitOfMeasure;
+    private String catNbr;
+    private String itemDesc;
     private BigDecimal unitPrice;
     private PurchaseOrderAccount poAccount;
     private String acctNumber;
 
-    private ItemAccountsFixture(String itemDesc, String itemUOM, BigDecimal unitPrice, PurchaseOrderAccount acct) {
-        this.poItem = ItemsAccounts.PO_ITEM;
+    private ItemAccountsFixture(KualiDecimal quantity, String unitOfMeasure, String catNbr, String itemDesc, BigDecimal unitPrice, PurchaseOrderAccount acct) {
+        this.poItem = (PurchaseOrderItem)PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_1.createPurchaseOrderItem(
+                PurApItemFixture.BASIC_QTY_ITEM_1);        
+        this.quantity = quantity;
+        this.unitOfMeasure = unitOfMeasure;
+        this.catNbr = catNbr;
         this.itemDescription = itemDesc;
-        this.itemUnitOfMeasure = itemUOM;
         this.unitPrice = unitPrice;
         this.poAccount = acct;
     }
 
-    public PurchaseOrderItem populateItem() {
+    public PurchaseOrderItem populateItem() {      
+        this.poItem.setItemQuantity(this.quantity);
+        this.poItem.setItemUnitOfMeasureCode(this.unitOfMeasure);
+        this.poItem.setItemCatalogNumber(this.catNbr);
         this.poItem.setItemDescription(this.itemDescription);
-        this.poItem.setItemUnitOfMeasureCode(this.itemUnitOfMeasure);
         this.poItem.setItemUnitPrice(this.unitPrice);
         if (ObjectUtils.isNotNull(this.poAccount)) {
             this.poAccount.setAccountNumber(ItemsAccounts.ACCOUNT_NUMBER);

@@ -40,6 +40,9 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * This class represents the functionality needed to generate a Poster Output Summary Report
+ */
 public class PosterOutputSummaryReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterOutputSummaryReport.class);
     public static final String PDF_FILE_EXTENSION = ".pdf";
@@ -100,6 +103,11 @@ public class PosterOutputSummaryReport {
         }
     }
 
+    /**
+     * This method returns a new PDF Table for this report
+     * 
+     * @return PdfPTable a new table for this report
+     */
     private PdfPTable newTable() {
         PdfPTable entryTable = new PdfPTable(new float[] { 5, 5, 5, 7, 7, 7, 7 });
         entryTable.setHeaderRows(1);
@@ -109,6 +117,13 @@ public class PosterOutputSummaryReport {
         return entryTable;
     }
 
+    /**
+     * This method populates the information for the poster output summary report
+     * 
+     * @param data map containing poster output summary entries
+     * @param document document object representing actually PDF
+     * @throws DocumentException if there are any problems creating actual PDF document
+     */
     private void printReport(Map<String, PosterOutputSummaryEntry> data, Document document) throws DocumentException {
 
         PdfPTable entryTable = newTable();
@@ -197,7 +212,11 @@ public class PosterOutputSummaryReport {
         document.add(entryTable);
     }
 
-    // draw a table with an informative messge, instead of data
+    /**
+     * Returns an empty table
+     * 
+     * @return PdfPTable an empty table
+     */
     private PdfPTable buildEmptyTable() {
         float[] tableWidths = { 100 };
 
@@ -209,7 +228,12 @@ public class PosterOutputSummaryReport {
         return ledgerEntryTable;
     }
 
-    // add a table header
+    /**
+     * Adds a table header
+     * 
+     * @param entryTable PdfPTable
+     * @param headerFont
+     */
     private void addHeader(PdfPTable entryTable, Font headerFont) {
 
         PdfPCell cell = new PdfPCell(new Phrase("Fiscal Year", headerFont));
@@ -234,7 +258,14 @@ public class PosterOutputSummaryReport {
         entryTable.addCell(cell);
     }
 
-    // add a row with the given ledger entry into PDF table
+    /**
+     * Add a row with the given ledger entry into PDF table
+     * 
+     * @param entryTable PdfPTable where row is being added too
+     * @param entry poster output summary entry
+     * @param textFont font for text
+     * @param type total type (i.e. year period balance subtotal, year balance subtotal, balance subtotal, total, or detail)
+     */
     private void addRow(PdfPTable entryTable, PosterOutputSummaryEntry entry, Font textFont, int type) {
         PdfPCell cell = null;
 
@@ -288,7 +319,11 @@ public class PosterOutputSummaryReport {
         entryTable.addCell(cell);
     }
 
-    // format the given number based on its type: Integer or BigDecimal
+    /**
+     * Format the given number based on its type: Integer or BigDecimal
+     * @param number
+     * @return String formatted BigDecimal or Integer as a String
+     */
     private String formatNumber(Number number) {
         DecimalFormat decimalFormat = new DecimalFormat();
 
@@ -301,7 +336,11 @@ public class PosterOutputSummaryReport {
         return decimalFormat.format(number);
     }
 
-    // close the document and release the resource
+    /**
+     * Close the document and release the resource
+     * 
+     * @param document document to be closed
+     */
     private void closeDocument(Document document) {
         try {
             if ((document != null) && document.isOpen()) {

@@ -19,7 +19,7 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * 
+ * This class is used to represent an ownership type code.  
  */
 public class OwnershipTypeCode extends KualiCodeBase {
 

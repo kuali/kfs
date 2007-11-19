@@ -208,15 +208,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * Adds buttons to appear on the Purchase Order Form according to certain conditions.
      */
     public void addButtons() {
-        // TODO: Find out and add logic about which buttons to appear in
-        // which condition e.g. we might not want to display the close button
-        // on a PO with status CLOSE or the open button on a PO with status OPEN, etc.
-
-        // TODO: Think about using a MAP with key of 'methodToCall' string and value of ExtraButton object
-        // so that button duplication never occurs.
-        // Only problem would be if same 'methodToCall' string was used on two different button images...
-        // in which case an if-else could be fix
-
         Map buttonsMap = createButtonsMap();
 
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
@@ -243,7 +234,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         // This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as
         // the button for creating a retransmit document but this may change someday. It should only appear on Retransmit
         // Document.
-        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (purchaseOrder instanceof PurchaseOrderRetransmitDocument)) {
+        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS)) {
             ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }
@@ -256,6 +247,13 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             this.getExtraButtons().add(printButton);
         }
 
+        //This is so that the user can still do the print po if the transmission method is changed to PRINT during amendment, so that
+        //we can fill in the last transmit date to some dates.
+        if (purchaseOrder.getPurchaseOrderTransmissionMethodCode() != null && purchaseOrder.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) && purchaseOrder.getPurchaseOrderLastTransmitDate() == null && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
+            this.getExtraButtons().add(printButton);
+        }
+        
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
             this.getExtraButtons().add(reopenButton);
@@ -403,7 +401,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             po.refreshDocumentBusinessObject();
         }
 
-        // TODO: RELEASE 3 (KULPURAP-1397 ctk) temporary workaround remove once linked RNE issue is resolved
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }

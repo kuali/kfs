@@ -24,6 +24,9 @@ import org.kuali.module.gl.dao.SufficientFundRebuildDao;
 import org.kuali.module.gl.service.SufficientFundsSyncService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of SufficientFundsSyncService
+ */
 @Transactional
 public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SufficientFundsSyncServiceImpl.class);
@@ -31,6 +34,10 @@ public class SufficientFundsSyncServiceImpl implements SufficientFundsSyncServic
     private AccountService accountService;
     private SufficientFundRebuildDao sufficientFundRebuildDao;
 
+    /**
+     * Goes through all accounts in the database, and generates a sufficient fund rebuild record for each one!
+     * @see org.kuali.module.gl.service.SufficientFundsSyncService#syncSufficientFunds()
+     */
     public void syncSufficientFunds() {
         LOG.debug("syncSufficientFunds() started");
 

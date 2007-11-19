@@ -28,13 +28,18 @@ import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.SubObjCdGlobal;
 import org.kuali.module.chart.bo.SubObjCdGlobalDetail;
 
+/**
+ * 
+ * This class implements the business rules specific to the {@link SubObjCdGlobal} Maintenance Document.
+ */
 public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     private SubObjCdGlobal subObjCdGlobal;
 
     /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * This method sets the convenience objects like subObjCdGlobal and all the detail objects, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
-     * all sub-objects from the DB by their primary keys, if available.
+     * all sub-objects from the DB by their primary keys, if available. This also loops through each detail item (SubObjCdGlobalDetail and AccountGlobalDetail)
+     * are refreshed
      * 
      * @param document - the maintenanceDocument being evaluated
      */
@@ -55,6 +60,11 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -70,6 +80,11 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -85,6 +100,11 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link SubObjCdGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -96,6 +116,13 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
+    /**
+     * Before adding either a {@link AccountGlobalDetail} or {@link SubObjCdGlobalDetail} this checks to make sure
+     * that the account and chart are filled in, in the case of SubObjCdGlobalDetail it also checks
+     * that the object code and fiscal year are filled in
+     * If any of these fail, it fails to add the new line to the collection
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     */
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
         if (bo instanceof AccountGlobalDetail) {
@@ -135,6 +162,13 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This calls the {@link SubObjCdGlobalRule#checkAccountDetails(AccountGlobalDetail)} on each AccountGlobalDetail as well as calling
+     * {@link SubObjCdGlobalRule#checkOnlyOneChartErrorWrapper(List)} to ensure there is just one chart
+     * @param details
+     * @return false if any of the detail objects fail they're sub-rule
+     */
     public boolean checkAccountDetails(List<AccountGlobalDetail> details) {
         boolean success = true;
 
@@ -159,6 +193,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that if the account and chart are entered that the  account associated with the AccountGlobalDetail is valid
+     * @param dtl - the AccountGlobalDetail we are dealing with
+     * @return false if any of the fields are found to be invalid
+     */
     public boolean checkAccountDetails(AccountGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -174,6 +214,13 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that if the object code, chart code, and fiscal year are entered it is a valid Object Code, chart, and Fiscal Year
+     * associated with this SubObjectCode
+     * @param dtl - the SubObjCdGlobalDetail we are checking
+     * @return false if any of the fields are found to be invalid
+     */
     public boolean checkSubObjectCodeDetails(SubObjCdGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -193,7 +240,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
 
     /**
      * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add
-     * 
+     * <ul>
+     * <li>{@link SubObjCdGlobalRule#checkForSubObjCdGlobalDetails(List)}</li>
+     * <li>{@link SubObjCdGlobalRule#checkForAccountGlobalDetails(List)}</li>
+     * <li>{@link SubObjCdGlobalRule#checkFiscalYearAllLines(SubObjCdGlobal)}</li>
+     * <li>{@link SubObjCdGlobalRule#checkChartAllLines(SubObjCdGlobal)}</li>
+     * </ul>
      * @return
      */
     protected boolean checkSimpleRulesAllLines() {
@@ -213,6 +265,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that the SubObjCdGlobalDetail list isn't empty or null
+     * @param subObjCdGlobalDetails
+     * @return false if the list is null or empty
+     */
     protected boolean checkForSubObjCdGlobalDetails(List<SubObjCdGlobalDetail> subObjCdGlobalDetails) {
         if (subObjCdGlobalDetails == null || subObjCdGlobalDetails.size() == 0) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.SUB_OBJ_CODE_CHANGE_DETAILS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_NO_OBJECT_CODE);
@@ -221,6 +279,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This checks that the AccountGlobalDetail list isn't empty or null
+     * @param acctChangeDetails
+     * @return false if the list is null or empty
+     */
     protected boolean checkForAccountGlobalDetails(List<AccountGlobalDetail> acctChangeDetails) {
         if (acctChangeDetails == null || acctChangeDetails.size() == 0) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.ACCOUNT_CHANGE_DETAILS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_SUBOBJECTMAINT_NO_ACCOUNT);
@@ -229,6 +293,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This checks that the fiscal year is the same on the doc and all SubObjCdGlobalDetails
+     * @param socChangeDocument
+     * @return false if the fiscal year is not the same on the doc and any of the SubObjCdGlobalDetails
+     */
     protected boolean checkFiscalYearAllLines(SubObjCdGlobal socChangeDocument) {
         boolean success = true;
         int i = 0;
@@ -244,6 +314,12 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that the chart is the same on the document, SubObjCdGlobalDetails and AccountGlobalDetails
+     * @param socChangeDocument
+     * @return false if the chart is missing or not the same on the doc, or the detail lists
+     */
     protected boolean checkChartAllLines(SubObjCdGlobal socChangeDocument) {
         boolean success = true;
         int i = 0;
@@ -269,10 +345,11 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
     }
 
     /**
-     * This method checks to make sure that a given
+     * This checks to make sure that the fiscal year on the {@link SubObjCdGlobalDetail} is not empty and
+     * the document's fiscal year matches the detail's fiscal year
      * 
      * @param socChangeDocument
-     * @return
+     * @return false if the fiscal year is missing or is not the same between the doc and the detail
      */
     protected boolean checkFiscalYear(SubObjCdGlobal socChangeDocument, SubObjCdGlobalDetail socChangeDetail, int lineNum, boolean add) {
         boolean success = true;
@@ -308,6 +385,16 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to make sure that the chart of accounts on the {@link SubObjCdGlobalDetail} is not empty and 
+     * the document's chart matches the detail's chart
+     * @param socChangeDocument
+     * @param socChangeDetail
+     * @param lineNum
+     * @param add
+     * @return false if the chart is missing or is not the same between the doc and the detail
+     */
     protected boolean checkChartOnSubObjCodeDetails(SubObjCdGlobal socChangeDocument, SubObjCdGlobalDetail socChangeDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;
@@ -342,6 +429,16 @@ public class SubObjCdGlobalRule extends GlobalDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks that the chart of accounts on the {@link AccountGlobalDetail} is not empty and matches
+     * the document's chart matches the detail's chart
+     * @param socChangeDocument
+     * @param acctDetail
+     * @param lineNum
+     * @param add
+     * @return false if the chart is missing or is not the same between the doc and the detail
+     */
     protected boolean checkChartOnAccountDetails(SubObjCdGlobal socChangeDocument, AccountGlobalDetail acctDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;

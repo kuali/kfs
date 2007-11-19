@@ -136,9 +136,6 @@ public class PurApOjbCollectionHelper {
      */
     private void cleanse(OjbCollectionAware template, Collection origSource, List unwantedItems) {
         if (unwantedItems.size() > 0) {
-            // removing the following line because it seems to screw up when overriding equals (and it seems purposeless) see
-            // discussion on KULPURAP-1370
-            // origSource.removeAll(unwantedItems);
             Iterator iter = unwantedItems.iterator();
             while (iter.hasNext()) {
                 template.getPersistenceBrokerTemplate().delete(iter.next());
@@ -161,7 +158,7 @@ public class PurApOjbCollectionHelper {
         Iterator iter = fromList.iterator();
         while (iter.hasNext()) {
             PersistableBusinessObject copyLine = (PersistableBusinessObject) iter.next();
-            // FIXME ckirschenman see notes in PurApObjectUtils and KULPURAP-1370 about why it's necessary to call that
+            
             PersistableBusinessObject line = (PersistableBusinessObject) PurApObjectUtils.retrieveObjectWithIdentitcalKey(controlList, copyLine);
             if (ObjectUtils.isNull(line)) {
                 toRemove.add(copyLine);

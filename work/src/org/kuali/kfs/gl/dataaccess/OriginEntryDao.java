@@ -28,23 +28,40 @@ import org.kuali.module.gl.bo.OriginEntryGroup;
  * 
  */
 public interface OriginEntryDao {
+    /**
+     * Sort origin entries by document id
+     */
     public static final int SORT_DOCUMENT = 1;
+    /**
+     * Sort origin entries by account number
+     */
     public static final int SORT_ACCOUNT = 2;
+    /**
+     * Sort origin entries by standard report order (by document type code and system origination code)
+     */
     public static final int SORT_REPORT = 3;
+    /**
+     * Sort origin entries by listing report order (by fiscal year, chart code, account number, etc.: the order you see them in in generated text files)
+     */
     public static final int SORT_LISTING_REPORT = 4;
 
     /**
      * Get the total amount of transactions in a group
+     * @param the id of the origin entry group to total
+     * @param isCredit whether the total should be of credits or not
+     * @return the sum of all queried origin entries
      */
     public KualiDecimal getGroupTotal(Integer groupId, boolean isCredit);
 
     /**
-     * Get count of transactions in a group
+     * Counts the number of entries in a group
+     * @param the id of an origin entry group
+     * @return the count of the entries in that group
      */
     public Integer getGroupCount(Integer groupId);
 
     /**
-     * Get the counts of rows of all the origin entry groups
+     * Counts of rows of all the origin entry groups
      * 
      * @return iterator of Object[] {[BigDecimal id,BigDecimal count]}
      */
@@ -58,26 +75,27 @@ public interface OriginEntryDao {
     public void deleteEntry(OriginEntry oe);
 
     /**
-     * Return an iterator to all documents in a group
+     * Return an iterator to all document keys reference by origin entries in a given group
      * 
-     * @param oeg Group
-     * @return Iterator of Object[] documents in the specified group
+     * @param oeg Group the origin entry group to find entries in, by origin entry
+     * @return Iterator of java.lang.Object[] with report data about all of the distinct document numbers/type code/origination code combinations of origin entries in the group
      */
     public Iterator getDocumentsByGroup(OriginEntryGroup oeg);
 
     /**
      * Return an iterator to all the entries in a group
      * 
-     * @param oeg Group
+     * @param oeg the origin entry group to get entries in
+     * @param sort the Sort Order (one of the Sort Orders defined by the SORT_ constants defined in this class)
      * @return Iterator of entries in the specified group
      */
     public <T> Iterator<T> getEntriesByGroup(OriginEntryGroup oeg, int sort);
 
     /**
-     * Get bad balance entries
+     * Get bad balance entries; bad because a) they have invalid balance types, and b) because they revert the balances back to their stone age selves
      * 
-     * @param groups
-     * @return
+     * @param groups a Collection of groups to remove bad entries in
+     * @return an Iterator of no good, won't use, bad balance entries
      */
     public Iterator<OriginEntryFull> getBadBalanceEntries(Collection groups);
 
@@ -107,7 +125,7 @@ public interface OriginEntryDao {
     /**
      * Delete all the groups in the list. This will delete the entries. The OriginEntryGroupDao has a method to delete the groups
      * 
-     * @param groups Groups to be deleted
+     * @param groups a Collection of Origin Entry Groups to delete entries in
      */
     public void deleteGroups(Collection<OriginEntryGroup> groups);
 
@@ -119,6 +137,12 @@ public interface OriginEntryDao {
     public void saveOriginEntry(OriginEntry entry);
 
 
+    /**
+     * Finds an entry for the given entryId, or returns a newly created on
+     * 
+     * @param entryId an entry id to find an entry for
+     * @return the entry for the given entry id, or a newly created entry
+     */
     public OriginEntryFull getExactMatchingEntry(Integer entryId);
 
     /**
@@ -133,7 +157,7 @@ public interface OriginEntryDao {
      * This method should only be used in unit tests. It loads all the gl_origin_entry_t rows in memory into a collection. This
      * won't scale for production.
      * 
-     * @return
+     * @return a Collection with every single origin entry in the database
      */
     public Collection testingGetAllEntries();
 

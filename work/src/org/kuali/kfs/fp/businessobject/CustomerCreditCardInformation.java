@@ -22,7 +22,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ *  This class represents customer credit card information
  */
 public class CustomerCreditCardInformation extends PersistableBusinessObjectBase {
 

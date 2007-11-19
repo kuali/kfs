@@ -185,6 +185,8 @@ public class SalaryExpenseTransferForm extends ExpenseTransferDocumentFormBase {
     }
 
     /**
+     * Populate serach fields (i.e. universal fiscal year and employee ID)
+     * 
      * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
      */
     @Override

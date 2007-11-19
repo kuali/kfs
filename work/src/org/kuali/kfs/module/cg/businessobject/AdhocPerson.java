@@ -22,6 +22,8 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.service.ChartUserService;
 
 /**
  * This class represents an ad-hoc person.
@@ -81,6 +83,29 @@ public class AdhocPerson extends AbstractAdhoc {
      */
     public void setUser(UniversalUser user) {
         this.user = user;
+    }
+    
+    public String getPrimaryDepartmentCode() {
+        String org = "";
+        if (user == null || user.getPersonUserIdentifier() == null) {
+            user = null;
+            try {
+                user = SpringContext.getBean(UniversalUserService.class).getUniversalUser(getPersonUniversalIdentifier());
+            }
+            catch (UserNotFoundException ex) {
+                // do nothing, leave user as null
+            }
+        }
+        if (user == null) {
+            return "";
+        }
+        if (this.user.getModuleUser(ChartUser.MODULE_ID) != null) {
+            org = ((ChartUser) this.user.getModuleUser(ChartUser.MODULE_ID)).getOrganizationCode();
+        }
+        else {
+            org = SpringContext.getBean(ChartUserService.class).getDefaultOrganizationCode(this.user);
+        }
+        return org;
     }
 
     /**

@@ -145,12 +145,12 @@ public class EncumbranceClosingRuleHelper {
     /**
      * Do some validation and make sure that the encumbrance A21SubAccount is a cost share sub-account.
      * 
-     * @param entry
-     * @param offset
-     * @param encumbrance
-     * @param objectTypeCode
+     * @param entry not used in this implementation
+     * @param offset not used in this implementation
+     * @param encumbrance the encumbrance whose A21SubAccount must be qualified
+     * @param objectTypeCode the object type code of the generated entries
      * @return true if the encumbrance is eligible for cost share.
-     * @throws FatalErrorException
+     * @throws FatalErrorException thrown if a given A21SubAccount, SubFundGroup, or PriorYearAccount record is not found in the database
      */
     public boolean isEncumbranceEligibleForCostShare(OriginEntryFull entry, OriginEntryFull offset, Encumbrance encumbrance, String objectTypeCode) throws FatalErrorException {
         PriorYearAccount priorYearAccount = priorYearAccountService.getByPrimaryKey(encumbrance.getChartOfAccountsCode(), encumbrance.getAccountNumber());

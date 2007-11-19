@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a revolving fund detail business object.
  */
 public class RevolvingFundDetail extends PersistableBusinessObjectBase {
 

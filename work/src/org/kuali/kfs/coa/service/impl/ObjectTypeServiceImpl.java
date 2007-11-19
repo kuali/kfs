@@ -26,6 +26,9 @@ import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This service implementation is the default implementation of the ObjectType service that is delivered with Kuali.
+ */
 @Transactional
 public class ObjectTypeServiceImpl implements ObjectTypeService {
 
@@ -33,8 +36,7 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     private ObjectTypeDao objectTypeDao;
     private OptionsDao optionsDao;
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
      * @see org.kuali.module.chart.service.ObjectTypeService#getByPrimaryKey(java.lang.String)
      */
@@ -43,32 +45,17 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
     }
 
     /**
-     * @param objectTypeDao The objectTypeDao to set.
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getAssetObjectType(java.lang.Integer)
      */
-    public void setObjectTypeDao(ObjectTypeDao objectTypeDao) {
-        this.objectTypeDao = objectTypeDao;
-    }
-
-    public OptionsDao getOptionsDao() {
-        return optionsDao;
-    }
-
-    public void setOptionsDao(OptionsDao optionsDao) {
-        this.optionsDao = optionsDao;
-    }
-
     public String getAssetObjectType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeAssetsCd();
     }
 
-    public UniversityDateService getUniversityDateService() {
-        return universityDateService;
-    }
-
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
-    }
-
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getBasicExpenseObjectTypes(java.lang.Integer)
+     */
     public List<String> getBasicExpenseObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicExpenseObjectTypes = new ArrayList<String>();
@@ -80,6 +67,10 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return basicExpenseObjectTypes;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getExpenseObjectTypes(java.lang.Integer)
+     */
     public List<String> getExpenseObjectTypes(Integer universityFiscalYear) {
         List<String> expenseObjectTypes = new ArrayList<String>();
         Options option = optionsDao.getByPrimaryId(universityFiscalYear);
@@ -91,6 +82,10 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return expenseObjectTypes;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getBasicIncomeObjectTypes(java.lang.Integer)
+     */
     public List<String> getBasicIncomeObjectTypes(Integer universityFiscalYear) {
 
         List<String> basicIncomeObjectTypes = new ArrayList<String>();
@@ -102,43 +97,73 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         return basicIncomeObjectTypes;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getExpenseTransferObjectType(java.lang.Integer)
+     */
     public String getExpenseTransferObjectType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeTransferExpenseCd();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getIncomeTransferObjectType(java.lang.Integer)
+     */
     public String getIncomeTransferObjectType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getFinancialObjectTypeTransferIncomeCd();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearAssetObjectType()
+     */
     public String getCurrentYearAssetObjectType() {
         return getAssetObjectType(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearBasicExpenseObjectTypes()
+     */
     public List<String> getCurrentYearBasicExpenseObjectTypes() {
         return getBasicExpenseObjectTypes(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearExpenseObjectTypes()
+     */
     public List<String> getCurrentYearExpenseObjectTypes() {
         return getExpenseObjectTypes(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearBasicIncomeObjectTypes()
+     */
     public List<String> getCurrentYearBasicIncomeObjectTypes() {
         return getBasicIncomeObjectTypes(universityDateService.getCurrentFiscalYear());
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearExpenseTransferObjectType()
+     */
     public String getCurrentYearExpenseTransferObjectType() {
         return getExpenseTransferObjectType(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.ObjectTypeService#getCurrentYearIncomeTransferObjectType()
+     */
     public String getCurrentYearIncomeTransferObjectType() {
         return getIncomeTransferObjectType(universityDateService.getCurrentFiscalYear());
     }
 
     /**
-     * Returns a list of the object types that the nominal balance selector uses to determine if it should process a balance or not
      * 
-     * @param fiscalYear
-     * @return
+     * @see org.kuali.module.chart.service.ObjectTypeService#getNominalActivityClosingAllowedObjectTypes(java.lang.Integer)
      */
     public List<String> getNominalActivityClosingAllowedObjectTypes(Integer fiscalYear) {
         List<String> nominalClosingObjectTypes = new ArrayList<String>();
@@ -182,5 +207,27 @@ public class ObjectTypeServiceImpl implements ObjectTypeService {
         cumulativeBalanceForwardsObjectTypes.add(option.getFinObjTypeCshNotIncomeCd());
         return cumulativeBalanceForwardsObjectTypes;
     }
+    
+    /**
+     * @param objectTypeDao The objectTypeDao to set.
+     */
+    public void setObjectTypeDao(ObjectTypeDao objectTypeDao) {
+        this.objectTypeDao = objectTypeDao;
+    }
 
+    public OptionsDao getOptionsDao() {
+        return optionsDao;
+    }
+
+    public void setOptionsDao(OptionsDao optionsDao) {
+        this.optionsDao = optionsDao;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
 }

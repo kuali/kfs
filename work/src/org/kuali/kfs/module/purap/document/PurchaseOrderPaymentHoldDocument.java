@@ -23,7 +23,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * Purchase Order Document
+ * Purchase Order Payment Hold Document
  */
 public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderPaymentHoldDocument.class);
@@ -35,11 +35,21 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
         super();
     }
 
+    /**
+     * General Ledger pending entries are not created for this document. Overriding this method so that entries are not created.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#customPrepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
+    @Override
     public void customPrepareForSave(KualiDocumentEvent event) {
         // do not set the accounts in sourceAccountingLines; this document should not create GL entries
     }
 
-
+    /**
+     * When Purchase Order Payment Hold document has been Processed through Workflow, the PO status changes to "Payment Hold".
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -47,8 +57,8 @@ public class PurchaseOrderPaymentHoldDocument extends PurchaseOrderDocument {
         // DOCUMENT PROCESSED
         if (getDocumentHeader().getWorkflowDocument().stateIsProcessed()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
-            // set purap status and status history and status history note
-            // TODO: Once we have a note available here, add the note to the next line.
+
+            // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }

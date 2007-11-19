@@ -22,7 +22,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class is used to represent a disbursement voucher wire transfer.
  */
 public class DisbursementVoucherWireTransfer extends PersistableBusinessObjectBase {
 

@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This service implementation is the default implementation of the BalanceTyp service that is delivered with Kuali. It uses the
- * balance typs that are defined in the Kuali database.
+ * balance types that are defined in the Kuali database.
  */
 @Transactional
 public class BalanceTypServiceImpl implements BalanceTypService {
@@ -81,26 +81,53 @@ public class BalanceTypServiceImpl implements BalanceTypService {
         return kualiCodeService.getAll(BalanceTyp.class);
     }
 
+    /**
+     * 
+     * This method injects the KualiCodeService
+     * @param kualiCodeService
+     */
     public void setKualiCodeService(KualiCodeService kualiCodeService) {
         this.kualiCodeService = kualiCodeService;
     }
 
+    /**
+     * 
+     * This method injects the BalanceTypeDao
+     * @param balanceTypeDao
+     */
     public void setBalanceTypeDao(BalanceTypeDao balanceTypeDao) {
         this.balanceTypeDao = balanceTypeDao;
     }
 
+    /**
+     * 
+     * This method injects the UniversityDateService
+     * @param universityDateService
+     */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }
 
+    /**
+     * 
+     * This method injects the OptionsDao
+     * @param optionsDao
+     */
     public void setOptionsDao(OptionsDao optionsDao) {
         this.optionsDao = optionsDao;
     }
 
+    /**
+     * @see org.kuali.module.chart.service.BalanceTypService#getCostShareEncumbranceBalanceType(java.lang.Integer)
+     */
     public String getCostShareEncumbranceBalanceType(Integer universityFiscalYear) {
         return optionsDao.getByPrimaryId(universityFiscalYear).getCostShareEncumbranceBalanceTypeCd();
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.BalanceTypService#getEncumbranceBalanceTypes(java.lang.Integer)
+     */
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear) {
         Options option = optionsDao.getByPrimaryId(universityFiscalYear);
         List<String> encumberanceBalanceTypes = new ArrayList<String>();
@@ -111,14 +138,26 @@ public class BalanceTypServiceImpl implements BalanceTypService {
         return encumberanceBalanceTypes;
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.BalanceTypService#getCurrentYearCostShareEncumbranceBalanceType()
+     */
     public String getCurrentYearCostShareEncumbranceBalanceType() {
         return getCostShareEncumbranceBalanceType(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.BalanceTypService#getCurrentYearEncumbranceBalanceTypes()
+     */
     public List<String> getCurrentYearEncumbranceBalanceTypes() {
         return getEncumbranceBalanceTypes(universityDateService.getCurrentFiscalYear());
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.BalanceTypService#getContinuationAccountBypassBalanceTypeCodes(java.lang.Integer)
+     */
     public List<String> getContinuationAccountBypassBalanceTypeCodes(Integer universityFiscalYear) {
         Options option = optionsDao.getByPrimaryId(universityFiscalYear);
         List<String> continuationAccountBypassBalanceTypes = new ArrayList<String>();

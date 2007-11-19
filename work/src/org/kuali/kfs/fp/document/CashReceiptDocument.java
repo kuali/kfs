@@ -133,7 +133,7 @@ public class CashReceiptDocument extends CashReceiptFamilyBase implements Copyab
      * 
      * @return Returns the checks.
      */
-    public List getChecks() {
+    public List<Check> getChecks() {
         return checks;
     }
 

@@ -22,6 +22,10 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.gl.service.OrganizationReversionCategoryLogic;
 
+/**
+ * A generic implementation of OrganizationReversionCategoryLogic; it is completely based off of parameters
+ * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic
+ */
 public class GenericOrganizationReversionCategory implements OrganizationReversionCategoryLogic {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(GenericOrganizationReversionCategory.class);
 
@@ -35,18 +39,39 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
     private ParameterEvaluator objectTypeRules;
     private ParameterEvaluator objectSubTypeRules;
 
+    /**
+     * Constructs a GenericOrganizationReversionCategory
+     */
     public GenericOrganizationReversionCategory() {
     }
 
+    /**
+     * Sets the category code for this logic, so that the parameters for this category can be looked
+     * up in the database 
+     *
+     * @param code the code for this logic
+     */
     public void setCategoryCode(String code) {
         categoryCode = code;
         isExpense = parameterService.getParameterEvaluator(OrganizationReversionCategory.class, KFSConstants.OrgReversion.IS_EXPENSE_PARAM, categoryCode).evaluationSucceeds();
     }
 
+    /**
+     * Sets the name of this category
+     * 
+     * @param name the name to set
+     */
     public void setCategoryName(String name) {
         categoryName = name;
     }
 
+    /**
+     * Determines if balances with a given object code should be processed by this logic or not
+     * 
+     * @param oc the object code to qualify
+     * @return true if balances with the given object code should be processed by this logic, false if otherwise
+     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#containsObjectCode(org.kuali.module.chart.bo.ObjectCode)
+     */
     public boolean containsObjectCode(ObjectCode oc) {
         if (LOG.isDebugEnabled()) {
             LOG.debug("containsObjectCode() started");
@@ -93,14 +118,32 @@ public class GenericOrganizationReversionCategory implements OrganizationReversi
         return consolidationRulesPassed && levelRulesPassed && objectTypeRulesPassed && objectSubTypeRulesPassed;
     }
 
+    /**
+     * Returns the name of the category
+     * 
+     * @return the name of the category
+     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getName()
+     */
     public String getName() {
         return categoryName;
     }
 
+    /**
+     * Returns the code of this category
+     * 
+     * @return the code of this category
+     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#getCode()
+     */
     public String getCode() {
         return categoryCode;
     }
 
+    /**
+     * Returns whether this category represents an expense or not
+     * 
+     * @return true if this category represents expenses, false if otherwise
+     * @see org.kuali.module.gl.service.OrganizationReversionCategoryLogic#isExpense()
+     */
     public boolean isExpense() {
         return isExpense;
     }

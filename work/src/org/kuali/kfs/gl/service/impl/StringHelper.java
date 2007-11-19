@@ -15,17 +15,26 @@
  */
 package org.kuali.module.gl.util;
 
-
 /**
- * 
- * 
+ * Provides helper methods related to evaluating Strings 
  */
 public class StringHelper extends ObjectHelper {
 
+    /**
+     * This method returns true if String object is empty and NOT null 
+     * 
+     * @param s evaluated String
+     * @return true if String object is empty and NOT null
+     */
     static public boolean isEmpty(String s) {
         return (s != null) && "".equals(s);
     }
 
+    /**
+     * This method returns true if String object is null or empty
+     * @param s evaluated String
+     * @return true if String object is null or empty
+     */
     static public boolean isNullOrEmpty(String s) {
         return (s == null) || isEmpty(s);
     }

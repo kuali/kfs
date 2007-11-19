@@ -28,6 +28,9 @@ import org.kuali.module.gl.dao.OrgReversionUnitOfWorkDao;
 import org.kuali.module.gl.service.OrgReversionUnitOfWorkService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of OrgReversionUnitOfWorkService
+ */
 @Transactional
 public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWorkService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrgReversionUnitOfWorkServiceImpl.class);
@@ -35,6 +38,10 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
     private OrgReversionUnitOfWorkDao orgReversionUnitOfWorkDao;
 
     /**
+     * This method takes a unit of work retrieved from the persistence store and loads its categories
+     * 
+     * @param orgRevUnitOfWork org reversion unit of work to load categories for
+     * @return the org reversion unit of work with loaded categories
      * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#loadCategories(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
      */
     public OrgReversionUnitOfWork loadCategories(OrgReversionUnitOfWork orgRevUnitOfWork) {
@@ -49,6 +56,9 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
     }
 
     /**
+     * Immediate deletion awaits all entries of the unit of work summary tables in the persistence store once
+     * you call this method, for this method is both powerful and deadly and also gets called to clear out
+     * those tables before every single org reversion run.
      * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#removeAll()
      */
     public void destroyAllUnitOfWorkSummaries() {
@@ -56,6 +66,9 @@ public class OrgReversionUnitOfWorkServiceImpl implements OrgReversionUnitOfWork
     }
 
     /**
+     * This save method is guaranteed to save the category data as well.
+     * 
+     * @param orgRevUnitOfWork organizationReversionUnitOfWork to save
      * @see org.kuali.module.gl.service.OrgReversionUnitOfWorkService#save(org.kuali.module.gl.bo.OrgReversionUnitOfWork)
      */
     public void save(OrgReversionUnitOfWork orgRevUnitOfWork) {

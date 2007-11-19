@@ -47,6 +47,7 @@
     <html:hidden property="document.pendingActionIndicator" />
     <html:hidden property="document.purchaseOrderLastTransmitDate" />
     <html:hidden property="document.contractManagerCode" />
+    <html:hidden property="document.purchaseOrderAutomaticIndicator" />
     
     <c:if test="${empty KualiForm.editingMode['amendmentEntry']}">
         <kul:documentOverview editingMode="${KualiForm.editingMode}"
@@ -111,6 +112,9 @@
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 	
 	<%--
+THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+
 	<c:if test="${KualiForm.document.statusCode eq 'INPR' || KualiForm.document.statusCode eq 'QUOT'}">
 	    <purap:quotes
 	        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"

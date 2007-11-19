@@ -24,7 +24,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 /**
- * 
+ * This class contains the coin breakdown for coin inserted into a cash drawer
  */
 public class CoinDetail extends PersistableBusinessObjectBase {
 

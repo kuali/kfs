@@ -124,6 +124,12 @@ public class AccountingPeriodServiceImpl implements AccountingPeriodService {
         return null;
     }
 
+    /**
+     * 
+     * This checks to see if the period code is empty or invalid ("13", "AB", "BB", "CB")
+     * @param period
+     * @return
+     */
     private boolean isInvalidPeriodCode(AccountingPeriod period) {
         String periodCode = period.getUniversityFiscalPeriodCode();
         if (periodCode == null) {

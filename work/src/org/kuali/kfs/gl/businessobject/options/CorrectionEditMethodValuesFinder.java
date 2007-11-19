@@ -23,12 +23,15 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.service.CorrectionDocumentService;
 
 /**
- * This class returns list of payment method key value pairs.
+ * This class returns list of GLCP editing methods key value pairs, to populate a dropdown select control
  */
 public class CorrectionEditMethodValuesFinder extends KeyValuesBase {
 
-    /*
-     * @see org.kuali.keyvalues.KeyValuesFinder#getKeyValues()
+    /**
+     * Returns a list of origin entry editing methods that the GLCP provides.
+     * 
+     * @return a List of editing method key/value pairs
+     * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List<KeyLabelPair> getKeyValues() {
         List<KeyLabelPair> activeLabels = new ArrayList<KeyLabelPair>();

@@ -35,7 +35,7 @@ import org.kuali.module.vendor.bo.VendorTaxChange;
 import org.kuali.module.vendor.bo.VendorType;
 
 /**
- * Business Prerules applicable to VendorDetail documents. Theses PreRules checks for the VendorDetail that needs to occur while
+ * Business Prerules applicable to VendorDetail documents. These PreRules checks for the VendorDetail that needs to occur while
  * still in the Struts processing. This includes setting the vendorName field using the values from vendorLastName and
  * vendorFirstName, and could be used for many other purposes.
  */
@@ -51,7 +51,7 @@ public class VendorPreRules extends MaintenancePreRulesBase {
     }
 
     /**
-     * Returns the Universal User Id of the curretn logged-in user
+     * Returns the Universal User Id of the current logged-in user
      * 
      * @return String the UniversalUserId
      */

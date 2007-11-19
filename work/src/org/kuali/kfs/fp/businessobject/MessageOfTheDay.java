@@ -22,7 +22,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.OriginationCode;
 
 /**
- * 
+ * This class is used to represent a "message of the day" object.  These messages are displayed on the associated 
+ * portal page and may contain phrases, informational messages or any other message deemed worthy.
  */
 public class MessageOfTheDay extends PersistableBusinessObjectBase {
 

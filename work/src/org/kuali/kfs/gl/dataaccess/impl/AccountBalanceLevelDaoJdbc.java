@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
@@ -35,9 +36,24 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  * Calculate Balance By Level Balance Inquiry Screen
  */
+@RawSQL
 public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implements AccountBalanceLevelDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceLevelDaoJdbc.class);
 
+    /**
+     * Summarizes all of the qualifying account balance information for the balance by level inquiry
+     * 
+     * @param universityFiscalYear the university fiscal year of reported on account balances
+     * @param chartOfAccountsCode the chart of accounts code of reported on account balances
+     * @param accountNumber the account number of reported on account balances
+     * @param financialConsolidationObjectCode the consolidation code of reported on account balances
+     * @param isCostShareExcluded whether cost share account balances should be excluded from the query or not
+     * @param isConsolidated whether the results of the query should be consolidated
+     * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending entries
+     * @return a List of Maps with appropriate report data
+     * @see org.kuali.module.gl.dao.AccountBalanceLevelDao#findAccountBalanceByLevel(java.lang.Integer, java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
+     */
+    @RawSQL
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
 
         // Set the default sort so that income entries are first, then expense below.
@@ -88,6 +104,12 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         return data;
     }
 
+    /**
+     * Summarizes all pending entries by level, so they can be added to the general query if necessary
+     * @param options a given set of system options
+     * @param sessionId the unique web id of the currently inquiring user, which acts as a key for the temporary table
+     */
+    @RawSQL
     private void summarizePendingEntriesByLevel(Options options, String sessionId) {
         LOG.debug("summarizePendingEntriesByLevel() started");
 
@@ -197,6 +219,20 @@ public class AccountBalanceLevelDaoJdbc extends AccountBalanceDaoJdbcBase implem
         }
     }
 
+    /**
+     * Fetches pending entries summarized by level matching the keys passed in as parameter, and then saves
+     * those summaries in a temporary table
+     * @param options a given set of system options
+     * @param universityFiscalYear the university fiscal year of pending entries to find
+     * @param chartOfAccountsCode the chart of accounts code of pending entries to find
+     * @param accountNumber the account number of pending entries to find
+     * @param financialConsolidationObjectCode the consolidation code of pending entries to find
+     * @param isCostShareExcluded whether to exclude cost share entries or not
+     * @param pendingEntriesCode whether to include all, approved, or no pending entries in this inquiry
+     * @param sessionId the unique web id of the currently inquiring user, used as a key for the temporary tables
+     * @return true if summarization process found pending entries to process, false otherwise
+     */
+    @RawSQL
     private boolean getMatchingPendingEntriesByLevel(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByLevel() started");
 

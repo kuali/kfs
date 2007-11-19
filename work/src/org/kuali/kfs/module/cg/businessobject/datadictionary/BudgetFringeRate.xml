@@ -188,8 +188,6 @@
 
         <objectLabel>Budget Fringe Rates</objectLabel>
         <objectDescription>Fringe rates for the Budget.</objectDescription>
-        
-        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="RATES" />
 
     </businessObject>
 </dictionaryEntry>

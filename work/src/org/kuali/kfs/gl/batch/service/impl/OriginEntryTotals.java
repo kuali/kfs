@@ -21,10 +21,13 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
+/**
+ * This class holds information about the sums of a list of origin entries. This information includes
+ * total credit amount, debit amount, other amount, number of credit entries, number of debit entries,
+ * and number of "other" entries
+ */
 public class OriginEntryTotals {
-    /**
-     * This class holds information about the sums of a list of origin entries
-     */
+
     protected KualiDecimal creditAmount;
     protected KualiDecimal debitAmount;
     protected KualiDecimal otherAmount;
@@ -149,6 +152,12 @@ public class OriginEntryTotals {
         this.otherAmount = otherAmount;
     }
 
+    /**
+     * This method adds amount from origin entries and increments number totals for the appropriate type
+     * (i.e. credit, debit, or other).
+     * 
+     * @param entries
+     */
     public void addToTotals(Iterator<OriginEntryFull> entries) {
         while (entries.hasNext()) {
             OriginEntryFull originEntry = entries.next();
@@ -171,7 +180,7 @@ public class OriginEntryTotals {
     /**
      * Adds up the values in the parameter totals object to the corresponding fields in this object
      * 
-     * @param anotherTotals
+     * @param anotherTotals another OriginEntryTotals to add to this OriginEntryTotals totals
      */
     public void incorporateTotals(OriginEntryTotals anotherTotals) {
         creditAmount = creditAmount.add(anotherTotals.creditAmount);

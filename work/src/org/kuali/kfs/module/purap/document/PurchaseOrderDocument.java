@@ -257,8 +257,6 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      * @param requisitionDocument the Requisition Document from which field values are copied.
      */
     public void populatePurchaseOrderFromRequisition(RequisitionDocument requisitionDocument) {
-        // TODO fix this (is this data correct? is there a better way of doing this?
-        // this.setPurchaseOrderCreateDate(requisitionDocument.getDocumentHeader().getWorkflowDocument().getCreateDate());
         this.setPurchaseOrderCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
         this.getDocumentHeader().setOrganizationDocumentNumber(requisitionDocument.getDocumentHeader().getOrganizationDocumentNumber());
         this.getDocumentHeader().setFinancialDocumentDescription(requisitionDocument.getDocumentHeader().getFinancialDocumentDescription());
@@ -328,6 +326,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         this.setAccountsPayablePurchasingDocumentLinkIdentifier(requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier());
 
         this.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+
         // copy items from req to pending (which will copy the item's accounts and assets)
         List<PurchaseOrderItem> items = new ArrayList();
         for (PurApItem reqItem : ((PurchasingAccountsPayableDocument) requisitionDocument).getItems()) {

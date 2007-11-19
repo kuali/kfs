@@ -15,12 +15,17 @@
  */
 package org.kuali.module.financial.service;
 
-
+/**
+ * 
+ * This service interface defines the methods that a DisbursementVoucherExtractService implementation must provide.
+ * 
+ */
 public interface DisbursementVoucherExtractService {
+    
     /**
-     * Extract all DVs that need to be paid
+     * Extract all disbursement vouchers that need to be paid from the database and prepares them for payment.
      * 
-     * @return true if successful, false if not
+     * @return True if the extraction of payments is successful, false if not.
      */
     public boolean extractPayments();
 }

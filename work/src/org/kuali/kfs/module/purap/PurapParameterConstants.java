@@ -17,7 +17,6 @@ package org.kuali.module.purap;
 
 import org.kuali.kfs.ParameterKeyConstants;
 
-
 /**
  * Holds constants for PURAP business parameters.
  */

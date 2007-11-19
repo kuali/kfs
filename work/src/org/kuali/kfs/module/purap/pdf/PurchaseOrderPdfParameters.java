@@ -17,6 +17,9 @@ package org.kuali.module.purap.pdf;
 
 import org.kuali.module.purap.bo.CampusParameter;
 
+/**
+ * Contains the parameters needed for creating a purchase order pdf document.
+ */
 public class PurchaseOrderPdfParameters {
     private String imageTempLocation;
     private String key;

@@ -766,7 +766,7 @@ public class AuxiliaryVoucherDocumentRule extends AccountingDocumentRuleBase {
     private boolean isValidDocWithSubAndLevel(AccountingDocument document, AccountingLine accountingLine) {
         boolean retval = true;
 
-        StringBuffer combinedCodes = new StringBuffer(accountingLine.getObjectType().getCode()).append(';').append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(';').append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
+        StringBuffer combinedCodes = new StringBuffer(accountingLine.getObjectType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectSubType().getCode()).append(',').append(accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
         ParameterEvaluator evalutator = SpringContext.getBean(ParameterService.class).getParameterEvaluator(AuxiliaryVoucherDocument.class, RESTRICTED_COMBINED_CODES);
 
         retval = !evalutator.equals(combinedCodes.toString());

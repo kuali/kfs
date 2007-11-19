@@ -18,9 +18,19 @@ package org.kuali.module.chart.service;
 import org.kuali.module.chart.bo.A21SubAccount;
 
 /**
- *  
+ * 
+ * This interface defines the methods for retrieving fully populated A21SubAccount objects
  */
-
 public interface A21SubAccountService {
+    
+    /**
+     * 
+     * This retrieves an A21SubAccount by its primary keys of chart of accounts code, account number and 
+     * sub account number
+     * @param chartOfAccountsCode
+     * @param accountNumber
+     * @param subAccountNumber
+     * @return the A21SubAccount that matches this primary key
+     */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber);
 }

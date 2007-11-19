@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.Options;
@@ -35,13 +36,26 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 /**
  * Calculate Balance By Object Balance Inquiry Screen
  */
+@RawSQL
 public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase implements AccountBalanceObjectDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountBalanceObjectDaoJdbc.class);
 
     /**
+     * Returns a collection of report data for the account balance by object inquiry
+     * 
+     * @param universityFiscalYear the university fiscal year of reported on account balances
+     * @param chartOfAccountsCode the chart of accounts code of reported on account balances
+     * @param accountNumber the account number of reported on account balances
+     * @param financialObjectLevelCode the object level code of reported on account balances
+     * @param financialReportingSortCode the sort code for reported results
+     * @param isCostShareExcluded whether cost share account balances should be excluded from the query or not
+     * @param isConsolidated whether the results of the query should be consolidated
+     * @param pendingEntriesCode whether this query should account for no pending entries, approved pending entries, or all pending entries
+     * @return a List of Maps with the results of the query
      * @see org.kuali.module.gl.dao.AccountBalanceDao#findAccountBalanceByObject(java.lang.Integer, java.lang.String,
      *      java.lang.String, java.lang.String, java.lang.String, boolean, boolean, int)
      */
+    @RawSQL
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntriesCode) {
         LOG.debug("findAccountBalanceByObject() started");
 
@@ -88,6 +102,14 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
         return data;
     }
 
+    /**
+     * Summarizes all the pending ledger entries that would need to be reported on by this inquiry, 
+     * and saves all of that data to a temporary table
+     * 
+     * @param options a set of system options
+     * @param sessionId the unique web id of the currently inquiring user, used as a key for the temp table
+     */
+    @RawSQL
     private void summarizePendingEntriesByObject(Options options, String sessionId) {
         LOG.debug("summarizePendingEntriesByObject() started");
 
@@ -196,13 +218,14 @@ public class AccountBalanceObjectDaoJdbc extends AccountBalanceDaoJdbcBase imple
     /**
      * Get any matching pending entries. Return true if there were some, false if not.
      * 
-     * @param universityFiscalYear
-     * @param chartOfAccountsCode
-     * @param accountNumber
-     * @param financialObjectLevelCode
-     * @param pendingEntriesCode
-     * @return
+     * @param universityFiscalYear the university fiscal year of pending entries to summarize
+     * @param chartOfAccountsCode the chart of accounts code of pending entries to summarize
+     * @param accountNumber the account number of pending entries to summarize
+     * @param financialObjectLevelCode the object level code of pending entries to summarize
+     * @param pendingEntriesCode whether to summarize all, approved, or no pending entries
+     * @return true if any matching pending entries were found, false otherwise
      */
+    @RawSQL
     private boolean getMatchingPendingEntriesByObject(Options options, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String financialObjectLevelCode, boolean isCostShareExcluded, int pendingEntriesCode, String sessionId) {
         LOG.debug("getMatchingPendingEntriesByObject() started");
 

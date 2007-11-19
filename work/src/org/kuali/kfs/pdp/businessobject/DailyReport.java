@@ -18,7 +18,9 @@ package org.kuali.module.pdp.bo;
 import java.math.BigDecimal;
 
 public class DailyReport implements Comparable {
-    private String sortOrder;
+    private boolean pymtAttachment;
+    private boolean pymtSpecialHandling;
+    private boolean processImmediate;
     private String customer;
     private BigDecimal amount;
     private Integer payments;
@@ -30,13 +32,56 @@ public class DailyReport implements Comparable {
         amount = new BigDecimal("0");
     }
 
-    public DailyReport(String s, String c, BigDecimal a, Integer pm, Integer py) {
+    public DailyReport(DailyReport dr) {
         this();
-        sortOrder = s;
+        pymtAttachment = dr.pymtAttachment;
+        pymtSpecialHandling = dr.pymtSpecialHandling;
+        processImmediate = dr.processImmediate;
+        customer = dr.customer;
+    }
+
+    public DailyReport(boolean att,boolean spec,boolean immed, String c, BigDecimal a, Integer pm, Integer py) {
+        this();
+        pymtAttachment = att;
+        pymtSpecialHandling = spec;
+        processImmediate = immed;
         customer = c;
         amount = a;
         payments = pm;
         payees = py;
+    }
+
+    public String getSortGroupId() {
+        if (isProcessImmediate()) {
+            return "B";
+        } else if (isPymtSpecialHandling()) {
+            return "C";
+        } else if (isPymtAttachment()) {
+            return "D";
+        } else {
+            return "E";
+        }
+    }
+
+    public String getSortGroupName() {
+        String sortGroup = getSortGroupId();
+        if ("B".equals(sortGroup)) {
+            return "Immediate       ";
+        }
+        else if ("C".equals(sortGroup)) {
+            return "Special Handling";
+        }
+        else if ("D".equals(sortGroup)) {
+            return "Attachment      ";
+        }
+        else {
+            return "Other           ";
+        }
+    }
+
+    @Override
+    public String toString() {
+        return pymtAttachment + " " + pymtSpecialHandling + " " + processImmediate + " " + customer + " " + amount + " " + payments + " " + payees;
     }
 
     public int compareTo(Object o) {
@@ -45,7 +90,7 @@ public class DailyReport implements Comparable {
     }
 
     public String getKey() {
-        return sortOrder + customer;
+        return getSortGroupId() + customer;
     }
 
     public void addRow(DailyReport r) {
@@ -86,11 +131,29 @@ public class DailyReport implements Comparable {
         this.payments = payments;
     }
 
-    public String getSortOrder() {
-        return sortOrder;
+    public boolean isProcessImmediate() {
+        return processImmediate;
     }
 
-    public void setSortOrder(String sortOrder) {
-        this.sortOrder = sortOrder;
+    public void setProcessImmediate(boolean processImmediate) {
+        this.processImmediate = processImmediate;
     }
+
+    public boolean isPymtAttachment() {
+        return pymtAttachment;
+    }
+
+    public void setPymtAttachment(boolean pymtAttachment) {
+        this.pymtAttachment = pymtAttachment;
+    }
+
+    public boolean isPymtSpecialHandling() {
+        return pymtSpecialHandling;
+    }
+
+    public void setPymtSpecialHandling(boolean pymtSpecialHandling) {
+        this.pymtSpecialHandling = pymtSpecialHandling;
+    }
+
+    
 }

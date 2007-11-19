@@ -18,13 +18,25 @@ package org.kuali.module.gl.bo;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * A basic test of origin entry, making sure that line parsing works as expected
+ */
 @ConfigureContext
 public class OriginEntryTest extends KualiTestBase {
 
+    /**
+     * Constructs a OriginEntryTest instance
+     */
     public OriginEntryTest() {
         super();
     }
 
+    /**
+     * Tests that converting String-formatted origin entries to origin entries to String-formatted entries again
+     * has the expected format 
+     *
+     * @throws Exception thrown if the parsing of the entry went really really bad?  It's doubtful this exception will ever be thrown for this test
+     */
     public void testGetLine() throws Exception {
 
         String line = null;

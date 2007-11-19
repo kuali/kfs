@@ -45,6 +45,9 @@ import edu.iu.uis.eden.lookupable.Row;
 import edu.iu.uis.eden.validation.ValidationContext;
 import edu.iu.uis.eden.validation.ValidationResults;
 
+/**
+ * A workgroup type extension attribute that supports the extension information associated with System workgroups
+ */
 public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(SystemWorkgroupExtensionAttribute.class);
 
@@ -63,6 +66,9 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
 
     private List<Row> rows;
 
+    /**
+     * Constructs a SystemWorkgroupExtensionAttribute instance
+     */
     public SystemWorkgroupExtensionAttribute() {
         rows = new ArrayList<Row>();
         rows.add(buildModuleDropdownRow());
@@ -72,6 +78,10 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
         rows.add(buildYesNoRow(ROUTING_EXTENSION_ATTRIBUTE_NAME, ROUTING_EXTENSION_ATTRIBUTE_LABEL));
     }
 
+    /**
+     * Builds the row for campus code
+     * @return a Row for campus code
+     */
     private Row buildCampusDropdownRow() {
         org.kuali.core.web.ui.Field kualiCampusField = FieldUtils.getPropertyField(Campus.class, KFSPropertyConstants.CAMPUS_CODE, false);
         KeyValuesFinder campusFinder = new CampusValuesFinder();
@@ -80,6 +90,11 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
         return new Row(campusFields);
     }
 
+    /**
+     * Builds a row for the module drop down
+     * 
+     * @return a Row for the module code
+     */
     private Row buildModuleDropdownRow() {
         org.kuali.core.web.ui.Field kualiModuleField = FieldUtils.getPropertyField(KualiModuleBO.class, MODULE_CODE, false);
         KeyValuesFinder modulesFinder = new ModuleValuesFinder();
@@ -88,6 +103,11 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
         return new Row(moduleFields);
     }
 
+    /**
+     * Builds a row for the area drop down
+     * 
+     * @return a row for the area drop down
+     */
     private Row buildAreaDropdownRow() {
         KeyValuesFinder areasFinder = new ParameterValuesFinder(ParameterConstants.FINANCIAL_SYSTEM_ALL.class, "SYSTEM_WORKGROUP_TYPE_AREAS");
         List areaFields = new ArrayList();
@@ -95,6 +115,12 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
         return new Row(areaFields);
     }
 
+    /**
+     * Builds a row with yes/no radio buttons
+     * @param attributeName the attribute name of this row
+     * @param attributeLabel the label to show in the HTML for this row
+     * @return a Yes/No radio button Row
+     */
     private Row buildYesNoRow(String attributeName, String attributeLabel) {
         List yesNoField = new ArrayList();
         List radioValues = new ArrayList();
@@ -104,10 +130,22 @@ public class SystemWorkgroupExtensionAttribute implements ExtensionAttribute {
         return new Row(yesNoField);
     }
 
+    /**
+     * Returns the prebuilt List of rows to accept the editing of System workgroup type extension data for the given workgroup
+     * @see org.kuali.workflow.attribute.ExtensionAttribute#getRows()
+     */
     public List<Row> getRows() {
         return rows;
     }
 
+    /**
+     * Validates the extension data given - basically, makes sure that if a module, campus code, or area
+     * have been selected, that they exist (ie, a module exists, a campus code exists in SH_CAMPUS_T or the area
+     * given is one of the ones within the area parameter)
+     * @param validationContext the workgroup validation context to validate
+     * @return the ValidationResults returned by the check
+     * @see org.kuali.workflow.attribute.ExtensionAttribute#validate(edu.iu.uis.eden.validation.ValidationContext)
+     */
     public ValidationResults validate(ValidationContext validationContext) {
         Map<String, String> extensions = (Map<String, String>) validationContext.getParameters().get(EXTENSIONS_PARAM);
         String operation = (String) validationContext.getParameters().get(OPERATION_PARAM);

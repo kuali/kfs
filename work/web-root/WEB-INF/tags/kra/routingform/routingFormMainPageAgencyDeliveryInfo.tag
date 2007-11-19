@@ -21,7 +21,7 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}" />
 
-<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
+<kul:tab tabTitle="Agency/Delivery Info" defaultOpen="true" tabErrorKey="document.routingFormAgency*,document.federalPassThroughAgency*,document.agencyFederalPassThrough*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormAgency*">
 	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormAgency*" isLink="false" includesTitle="true"/></div></div>
 
 		<div class="tab-container" align="center">

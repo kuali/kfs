@@ -15,19 +15,39 @@
  */
 package org.kuali.module.gl.util;
 
+/**
+ * Represents an exception, often occurring in batch jobs, that should be reported
+ * but which shouldn't end the process
+ */
 public class NonFatalErrorException extends Exception {
+    /**
+     * Constructs a NonFatalErrorException instance
+     */
     public NonFatalErrorException() {
         super();
     }
 
+    /**
+     * Constructs a NonFatalErrorException instance
+     * @param message the message this exception should use to report itself in the logs
+     * @param cause the original problem
+     */
     public NonFatalErrorException(String message, Throwable cause) {
         super(message, cause);
     }
 
+    /**
+     * Constructs a NonFatalErrorException instance
+     * @param message the message this exception should use to report itself in the logs
+     */
     public NonFatalErrorException(String message) {
         super(message);
     }
 
+    /**
+     * Constructs a NonFatalErrorException instance
+     * @param cause the original problem
+     */
     public NonFatalErrorException(Throwable cause) {
         super(cause);
     }

@@ -23,7 +23,7 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
- * 
+ * Represents a specific university date
  * 
  */
 public class UniversityDate extends PersistableBusinessObjectBase {

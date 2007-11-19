@@ -68,9 +68,9 @@ public class YearEndDocumentUtil {
     }
 
     /**
-     * Gets the fINAL_ACCOUNTING_PERIOD attribute.
+     * Gets the FINAL_ACCOUNTING_PERIOD attribute.
      * 
-     * @return Returns the fINAL_ACCOUNTING_PERIOD.
+     * @return Returns the FINAL_ACCOUNTING_PERIOD.
      */
     public static String getFINAL_ACCOUNTING_PERIOD() {
         return FINAL_ACCOUNTING_PERIOD;

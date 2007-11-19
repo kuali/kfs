@@ -237,6 +237,9 @@ public class GeneralUtilities {
 
     /**
      * Method to check if a String field is all numbers. Return true if String is numeric, otherwise return false.
+     * 
+     * NOTE: This returns true if the string is all spaces which is probably bad but since it is used
+     * so many places, I'm not changing it now.
      */
     public static boolean isStringAllNumbers(String field) {
         LOG.debug("Entered isStringAllNumbers().");

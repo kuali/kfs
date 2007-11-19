@@ -20,6 +20,9 @@ import java.util.List;
 
 import org.kuali.kfs.KFSConstants;
 
+/**
+ * This class represents a summary amount used in reporst
+ */
 public class Summary implements Comparable {
     /**
      * This number is used by TransactionReport when sorting the list of Summary objects passed to
@@ -47,7 +50,9 @@ public class Summary implements Comparable {
         super();
     }
 
+    
     /**
+     * Constructs a Summary.java.
      * @param sortOrder
      * @param description
      * @param count
@@ -58,6 +63,12 @@ public class Summary implements Comparable {
         this.count = count;
     }
 
+    /**
+     * Constructs a Summary.java.
+     * @param sortOrder
+     * @param description
+     * @param count
+     */
     public Summary(int sortOrder, String description, Integer count) {
         this.sortOrder = sortOrder;
         this.description = description;
@@ -70,6 +81,8 @@ public class Summary implements Comparable {
     }
 
     /**
+     * Compare this Summary object with another summary object
+     * 
      * (non-Javadoc)
      * 
      * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -87,6 +100,8 @@ public class Summary implements Comparable {
     }
 
     /**
+     * Returns true if the description of this summary object and the passed in summary object are the same
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -100,7 +115,13 @@ public class Summary implements Comparable {
         return this.description.equals(that.getDescription());
     }
 
-    // build a report summary list for labor general ledger posting
+    /**
+     * Build a report summary list for labor general ledger posting
+     * 
+     * @param destination description of summary displayed
+     * @param startingOrder order how information is displayed
+     * @return a list of summary objects
+     */
     public static List<Summary> buildDefualtReportSummary(String destination, int startingOrder) {
         List<Summary> reportSummary = new ArrayList<Summary>();
         updateReportSummary(reportSummary, destination, KFSConstants.OperationType.INSERT, 0, startingOrder++);
@@ -109,13 +130,28 @@ public class Summary implements Comparable {
         return reportSummary;
     }
 
-    // update the report summary with the given information
+    /**
+     * Update the report summary with the given information
+     * 
+     * @param reportSummary list of summaries
+     * @param destinationName description of summary displayed
+     * @param operationType description of what action is related to the summary (i.e. insert, updated, deleted)
+     * @param count count of how many "objects" are affected
+     * @param order order how information is displayed
+     */
     public static void updateReportSummary(List<Summary> reportSummary, String destinationName, String operationType, int count, int order) {
         StringBuilder summaryDescription = buildSummaryDescription(destinationName, operationType);
         updateReportSummary(reportSummary, summaryDescription.toString(), count, order);
     }
 
-    // update the report summary with the given information
+    /**
+     * Update the report summary with the given information
+     * 
+     * @param reportSummary list of summaries
+     * @param summaryDescription description of summary displayed
+     * @param count count of how many "objects" are affected
+     * @param order order how information is displayed
+     */
     public static void updateReportSummary(List<Summary> reportSummary, String summaryDescription, int count, int order) {
         Summary inputSummary = new Summary(order, summaryDescription, count);
 
@@ -129,7 +165,13 @@ public class Summary implements Comparable {
         }
     }
 
-    // build the description of summary with the given information
+    /**
+     * Build the description of summary with the given information
+     * 
+     * @param destinationName description of summary displayed
+     * @param operationType description of what action is related to the summary (i.e. insert, updated, deleted)
+     * @return
+     */
     public static StringBuilder buildSummaryDescription(String destinationName, String operationType) {
         StringBuilder summaryDescription = new StringBuilder();
         summaryDescription.append("Number of ").append(destinationName).append(" records ").append(operationType).append(":");

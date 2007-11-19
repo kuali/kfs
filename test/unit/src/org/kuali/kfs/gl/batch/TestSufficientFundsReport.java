@@ -21,12 +21,20 @@ import java.util.Map;
 
 import org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport;
 
+/**
+ * A mock implementation of SufficientFundsReport that doesn't generate a report
+ */
 public class TestSufficientFundsReport implements SufficientFundsReport {
     public Map reportErrors;
     public List reportSummary;
     public Date runDate;
     public int mode;
 
+    /**
+     * This is a mock...so it doesn't generate a report at all, but sets the parameter values to 
+     * be checked later.
+     * @see org.kuali.module.gl.batch.sufficientFunds.SufficientFundsReport#generateReport(java.util.Map, java.util.List, java.util.Date, int)
+     */
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode) {
         this.reportErrors = reportErrors;
         this.reportSummary = reportSummary;

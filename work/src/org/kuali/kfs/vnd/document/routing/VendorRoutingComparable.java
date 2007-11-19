@@ -15,10 +15,13 @@
  */
 package org.kuali.module.vendor.util;
 
+/**
+ * Defines methods that must be implemented by classes providing a VendorRoutingComparable.
+ */
 public interface VendorRoutingComparable {
 
     /**
-     * This method is a predicate to test equality of all the persisted attributes of an instance of this class, not including
+     * A predicate to test equality of all the persisted attributes of an instance of this class, not including
      * member collections. This is used to help determine whether to route.
      * 
      * @param toCompare An Object, which should be of this class if the comparison is to be meaningful.

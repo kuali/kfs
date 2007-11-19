@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.math.BigDecimal;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
@@ -37,6 +39,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.bo.BillingAddress;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -144,16 +147,14 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             document.templateVendorDetail(document.getVendorDetail());
         }
 
-        // TODO RELEASE 2 (KULPURAP-2054 hjs) - change is pending approval but didn't want to lose the work after branching
-        // //Refreshing the fields after returning from a building lookup on the delivery tab (billing address needs to be updated)
-        // if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
-        // BillingAddress billingAddress = new BillingAddress();
-        // billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
-        // Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
-        // billingAddress = (BillingAddress)
-        // SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
-        // document.templateBillingAddress(billingAddress);
-        // }
+         // Refreshing the fields after returning from a building lookup on the delivery tab (update billing address)
+        if (StringUtils.equals(refreshCaller, KFSConstants.KUALI_LOOKUPABLE_IMPL)) {
+            BillingAddress billingAddress = new BillingAddress();
+            billingAddress.setBillingCampusCode(document.getDeliveryCampusCode());
+            Map keys = SpringContext.getBean(PersistenceService.class).getPrimaryKeyFieldValues(billingAddress);
+            billingAddress = (BillingAddress) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BillingAddress.class, keys);
+            document.templateBillingAddress(billingAddress);
+        }
 
         return super.refresh(mapping, form, request, response);
     }
@@ -214,12 +215,10 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward addItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        // TODO: should call add line event/rules here
         PurApItem item = purchasingForm.getNewPurchasingItemLine();
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item));
-        // AddAccountingLineEvent(KFSConstants.NEW_TARGET_ACCT_LINES_PROPERTY_NAME + "[" + Integer.toString(itemIndex) + "]",
-        // purchasingForm.getDocument(), (AccountingLine) line)
+
         if (rulePassed) {
             item = purchasingForm.getAndResetNewPurchasingItemLine();
             purDocument.addItem(item);
@@ -240,7 +239,6 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
      */
     public ActionForward deleteItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchasingFormBase purchasingForm = (PurchasingFormBase) form;
-        // TODO: should call delete line event/rules here
 
         PurchasingDocument purDocument = (PurchasingDocument) purchasingForm.getDocument();
         purDocument.deleteItem(getSelectedLine(request));

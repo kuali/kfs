@@ -29,6 +29,9 @@ import org.kuali.module.gl.document.CorrectionDocument;
 import org.kuali.module.gl.util.CorrectionDocumentEntryMetadata;
 import org.kuali.module.gl.util.CorrectionDocumentUtils;
 
+/**
+ * An interface declaring methods needed by the GLCP to function
+ */
 public interface CorrectionDocumentService {
     public final static String CORRECTION_TYPE_MANUAL = "M";
     public final static String CORRECTION_TYPE_CRITERIA = "C";
@@ -44,19 +47,46 @@ public interface CorrectionDocumentService {
      */
     public final static int UNLIMITED_ABORT_THRESHOLD = CorrectionDocumentUtils.RECORD_COUNT_FUNCTIONALITY_LIMIT_IS_UNLIMITED;
 
+    /**
+     * Returns a specific correction change group for a GLCP document
+     * 
+     * @param docId the document id of a GLCP document
+     * @param i the number of the correction group within the document
+     * @return a CorrectionChangeGroup
+     */
     public CorrectionChangeGroup findByDocumentNumberAndCorrectionChangeGroupNumber(String docId, int i);
 
+    /**
+     * Finds CollectionChange records associated with a given document id and correction change group
+     * 
+     * @param docId the document id of a GLCP document
+     * @param i the number of the correction group within the document
+     * @return a List of qualifying CorrectionChange records
+     */
     public List findByDocumentHeaderIdAndCorrectionGroupNumber(String docId, int i);
 
+    /**
+     * Finds Collection Criteria associated with the given GLCP document and group
+     * 
+     * @param docId the document id of a GLCP document
+     * @param i the number of the correction group within the document
+     * @return a List of qualifying CorrectionCriteria
+     */
     public List findByDocumentNumberAndCorrectionGroupNumber(String docId, int i);
 
+    /**
+     * Retrieves a correction document by the document id
+     * 
+     * @param docId the document id of the GLCP to find
+     * @return a CorrectionDocument if found
+     */
     public CorrectionDocument findByCorrectionDocumentHeaderId(String docId);
 
     /**
      * Returns metadata to help render columns in the GLCP. Do not modify this list or the contents in this list.
      * 
-     * @param docId
-     * @return
+     * @param docId the document id of a GLCP document
+     * @return a List of Columns to render
      */
     public List<Column> getTableRenderColumnMetadata(String docId);
 
@@ -64,12 +94,22 @@ public interface CorrectionDocumentService {
      * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
      * 
      * @param document an initiated or saved document
-     * @param entries
+     * @param entries an Iterator of origin entries
      */
     public void persistInputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
 
+    /**
+     * Removes input origin entries that were saved to the database associated with the given document
+     * 
+     * @param document a GLCP document
+     */
     public void removePersistedInputOriginEntries(CorrectionDocument document);
 
+    /**
+     * Removes input origin entries that were saved to the database associated with the given document
+     * 
+     * @param docId the document id of a GLCP document
+     */
     public void removePersistedInputOriginEntries(String docId);
 
     /**
@@ -89,17 +129,17 @@ public interface CorrectionDocumentService {
      * mechanism has a record of this document's origin entries. See the docs for the implementations of this method for more
      * implementation specific details.
      * 
-     * @param document
-     * @return
+     * @param document a GLCP document
+     * @return Returns true if system should store origin entries, false otherwise
      */
     public boolean areInputOriginEntriesPersisted(CorrectionDocument document);
 
     /**
      * Writes out the persisted input origin entries in an {@link OutputStream} in a flat file format
      * 
-     * @param document
+     * @param document a GLCP document
      * @param out an open and ready output stream
-     * @throws IOException
+     * @throws IOException thrown if errors were encountered writing to the Stream
      * @throws RuntimeException several reasons, including if the entries are not persisted
      */
     public void writePersistedInputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
@@ -108,12 +148,22 @@ public interface CorrectionDocumentService {
      * This method persists an Iterator of input origin entries for a document that is in the initiated or saved state
      * 
      * @param document an initiated or saved document
-     * @param entries
+     * @param entries an Iterator of OriginEntries to persist
      */
     public void persistOutputOriginEntriesForInitiatedOrSavedDocument(CorrectionDocument document, Iterator<OriginEntryFull> entries);
 
+    /**
+     * Removes all output origin entries persisted in the database created by the given document 
+     * 
+     * @param document a GLCP document
+     */
     public void removePersistedOutputOriginEntries(CorrectionDocument document);
 
+    /**
+     * Removes all output origin entries persisted in the database created by the given document 
+     *
+     * @param docId the document id of a GLCP document
+     */
     public void removePersistedOutputOriginEntries(String docId);
 
     /**
@@ -153,17 +203,17 @@ public interface CorrectionDocumentService {
      * persistence mechanism has a record of this document's origin entries. See the docs for the implementations of this method for
      * more implementation specific details.
      * 
-     * @param document
-     * @return
+     * @param document a GLCP document to query
+     * @return true if origin entries are stored to the system, false otherwise
      */
     public boolean areOutputOriginEntriesPersisted(CorrectionDocument document);
 
     /**
      * Writes out the persisted output origin entries in an {@link OutputStream} in a flat file format\
      * 
-     * @param document
+     * @param document a GLCP document
      * @param out axn open and ready output stream
-     * @throws IOException
+     * @throws IOException thrown if IOExceptions occurred in writing the persisted origin entries
      * @throws RuntimeException several reasons, including if the entries are not persisted
      */
     public void writePersistedOutputOriginEntriesToStream(CorrectionDocument document, OutputStream out) throws IOException;
@@ -171,15 +221,15 @@ public interface CorrectionDocumentService {
     /**
      * Saves the input and output origin entry groups for a document prior to saving the document
      * 
-     * @param document
-     * @param correctionDocumentEntryMetadata
+     * @param document a GLCP document
+     * @param correctionDocumentEntryMetadata metadata about this GLCP document
      */
     public void persistOriginEntryGroupsForDocumentSave(CorrectionDocument document, CorrectionDocumentEntryMetadata correctionDocumentEntryMetadata);
 
     /**
      * Retrieves all of the documents that were finalized on a certain date
      * 
-     * @param date
+     * @param date the date to find GLCP documents finalized on
      * @return a collection of documents
      */
     public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date);

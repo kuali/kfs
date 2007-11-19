@@ -36,7 +36,6 @@ import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.AccountingLineFixture;
 import org.kuali.test.suite.AnnotationTestSuite;
-import org.kuali.test.suite.OftenUsefulSuite;
 
 /**
  * This class is used to test DistributionOfIncomeAndExpenseDocument.
@@ -67,7 +66,6 @@ public class DistributionOfIncomeAndExpenseDocumentTest extends KualiTestBase {
      * This test fails related to KULEDOCS-1662
      */
     // @RelatesTo(KULRNE1612)
-    @AnnotationTestSuite(OftenUsefulSuite.class)
     @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions = true)
     public final void testKULEDOCS_1401() throws Exception {
         String testDocId = null;

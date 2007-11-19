@@ -299,6 +299,7 @@
     <field-descriptor name="campusAddress" column="CMP_ADDR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="customerInstitutionNumber" column="CUST_INST_NBR" jdbc-type="VARCHAR"/>
     <field-descriptor name="disbursementDate" column="DISB_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="adviceEmailSentDate" column="ADV_EMAIL_SNT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="disbursementNbr" column="DISB_NBR" jdbc-type="INTEGER"/>
     <field-descriptor name="employeeIndicator" column="EMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="line1Address" column="PMT_LN1_ADDR" jdbc-type="VARCHAR"/>

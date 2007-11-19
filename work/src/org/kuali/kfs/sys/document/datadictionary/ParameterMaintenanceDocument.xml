@@ -44,9 +44,6 @@
         <description>
             This document can be used to create or update system parameters.
         </description>
-        <help parameterNamespace="KR-NS" parameterDetailType="N/A"
-            parameterName="NERVOUS_SYSTEM_HELP_PARAMETER"
-        />
 
         <lockingKeys>
             <field attributeName="parameterNamespaceCode" />

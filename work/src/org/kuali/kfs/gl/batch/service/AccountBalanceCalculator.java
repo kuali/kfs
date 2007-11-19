@@ -20,9 +20,26 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.AccountBalance;
 import org.kuali.module.gl.bo.Transaction;
 
+/**
+ * This interface declares the methods needed to update an account balance, based on a transaction.
+ */
 public interface AccountBalanceCalculator {
+    /**
+     * Given a collection of account balance records, returns either the account balance the given
+     * transaction should post against or a new account balance record
+     * 
+     * @param balanceList a Collection of AccountBalance records
+     * @param t the transaction to post
+     * @return
+     */
     public AccountBalance findAccountBalance(Collection balanceList, Transaction t);
 
+    /**
+     * Updates the given account balance record, based on the given transaction
+     * 
+     * @param t the transaction to post
+     * @param ab the account balance being posted against
+     */
     public void updateAccountBalance(Transaction t, AccountBalance ab);
 
 }

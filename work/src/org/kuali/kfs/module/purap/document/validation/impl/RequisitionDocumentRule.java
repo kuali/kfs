@@ -81,7 +81,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * This method performs any validation for the Additional tab.
+     * Performs any validation for the Additional tab.
      * 
      * @param purDocument the requisition document to be validated
      * @return boolean false when the validateTotalDollarAmountIsLessThanPurchaseOrderTotalLimit returns false.
@@ -94,7 +94,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * This method performs validations for the fields in vendor tab. The business rules to be validated is: If this is a standard
+     * Performs validations for the fields in vendor tab. The business rules to be validated is: If this is a standard
      * order requisition (not B2B), then if Country is United States and the postal code is required and if zip code is entered, it
      * should be a valid US Zip code. (format)
      * 

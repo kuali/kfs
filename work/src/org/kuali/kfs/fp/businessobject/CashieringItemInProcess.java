@@ -21,6 +21,10 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * This class represents in a cashiering item in process. This cashiering item in process
+ *  has an item amount, reduced amount, and remaining amount.  It also has a closed and open date.  
+ */
 public class CashieringItemInProcess extends PersistableBusinessObjectBase {
 
     private String workgroupName;

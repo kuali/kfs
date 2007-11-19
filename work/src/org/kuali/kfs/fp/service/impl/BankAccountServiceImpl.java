@@ -22,10 +22,24 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.financial.service.BankAccountService;
 
+/**
+ * 
+ * This is the default implementation of the BankAccountService interface.
+ * 
+ */
 public class BankAccountServiceImpl implements BankAccountService {
 
     BusinessObjectService businessObjectService;
 
+    /**
+     * Retrieves the BankAccount instance from the database using the provided values as the primary keys to perform the lookup.
+     * 
+     * @param financialDocumentBankCode Bank code to use for retrieving the associated bank acocunt object.
+     * @param finDocumentBankAccountNumber Bank account number to use for retrieving the associated bank account object.
+     * @return A BankAccount object which matches the criteria provided.  
+     * 
+     * @see org.kuali.module.financial.service.BankAccountService#getByPrimaryId(java.lang.String, java.lang.String)
+     */
     public BankAccount getByPrimaryId(String financialDocumentBankCode, String finDocumentBankAccountNumber) {
         Map primaryKeys = new HashMap();
         primaryKeys.put("financialDocumentBankCode", financialDocumentBankCode);
@@ -33,10 +47,20 @@ public class BankAccountServiceImpl implements BankAccountService {
         return (BankAccount) businessObjectService.findByPrimaryKey(BankAccount.class, primaryKeys);
     }
 
+    /**
+     * 
+     * This method is a simple getter for retrieving an instance of a BusinessObjectService.
+     * @return An instance of a BusinessObjectService.
+     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    /**
+     * 
+     * This method is a simple setter for setting the local BusinessObjectService attribute.
+     * @param businessObjectService The BusinessObjectService to be set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

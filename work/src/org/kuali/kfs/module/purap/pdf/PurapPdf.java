@@ -37,6 +37,9 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * Base class to be extended for implementing PDF documents in Purchasing/Accounts Payable module.
+ */
 public class PurapPdf extends PdfPageEventHelper {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurapPdf.class);
 
@@ -87,6 +90,14 @@ public class PurapPdf extends PdfPageEventHelper {
         return this.dateTimeService;
     }
 
+    /**
+     * Overrides the method in PdfPageEventHelper from itext to include our watermark text to indicate that
+     * this is a Test document and include the environment, if the environment is not a production environment.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onStartPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */
     public void onStartPage(PdfWriter writer, Document document) {
         if (!SpringContext.getBean(KualiConfigurationService.class).isProductionEnvironment()) {
             PdfContentByte cb = writer.getDirectContentUnder();
@@ -100,6 +111,14 @@ public class PurapPdf extends PdfPageEventHelper {
         }
     }
 
+    /**
+     * Overrides the method in PdfPageEventHelper from itext to write the headerTable, compose the footer and show the
+     * footer.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */
     public void onEndPage(PdfWriter writer, Document document) {
         LOG.debug("onEndPage() started.");
         PdfContentByte cb = writer.getDirectContent();
@@ -122,8 +141,13 @@ public class PurapPdf extends PdfPageEventHelper {
         cb.saveState();
     }
 
+
     /**
-     * Puts the total number of pages into the template.
+     * Overrides the method in the PdfPageEventHelper from itext to put the total number of pages into the template.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onCloseDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onCloseDocument(PdfWriter writer, Document document) {
         LOG.debug("onCloseDocument() started.");
@@ -144,6 +168,16 @@ public class PurapPdf extends PdfPageEventHelper {
         return new PurapPdf();
     }
 
+    /**
+     * Creates an instance of a new Document and set its margins according to
+     * the given input parameters.
+     * 
+     * @param f1  Left margin.
+     * @param f2  Right margin.
+     * @param f3  Top margin.
+     * @param f4  Bottom margin.
+     * @return    The created Document object.
+     */
     public Document getDocument(float f1, float f2, float f3, float f4) {
         LOG.debug("getDocument() started");
         Document document = new Document(PageSize.A4);
@@ -155,7 +189,8 @@ public class PurapPdf extends PdfPageEventHelper {
     /**
      * Deletes an already created PDF.
      * 
-     * @return
+     * @param pdfFileLocation  The location of the pdf file.
+     * @param pdfFilename      The name of the pdf file.
      */
     public void deletePdf(String pdfFileLocation, String pdfFilename) {
         LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);

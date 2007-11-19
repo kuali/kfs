@@ -27,7 +27,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * 
+ * Represents an entry move
  */
 public class EntryMove extends PersistableBusinessObjectBase {
 

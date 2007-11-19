@@ -20,6 +20,9 @@ import java.io.Serializable;
 import org.kuali.module.gl.bo.CorrectionChange;
 import org.kuali.module.gl.bo.CorrectionCriteria;
 
+/**
+ * This represents a Group Holder which contains correction change and criteria objects
+ */
 public class GroupHolder implements Serializable {
     private CorrectionChange correctionChange = new CorrectionChange();
     private CorrectionCriteria correctionCriteria = new CorrectionCriteria();

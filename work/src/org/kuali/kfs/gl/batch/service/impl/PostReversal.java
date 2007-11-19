@@ -29,6 +29,9 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ReversalDao;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An implementation of PostTransaction which posts any reversals that need to be created for the transaction
+ */
 @Transactional
 public class PostReversal implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostReversal.class);
@@ -39,14 +42,21 @@ public class PostReversal implements PostTransaction {
         reversalDao = red;
     }
 
+    /**
+     * Constructs a PostReversal instance
+     */
     public PostReversal() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * If the transaction has a reversal date, saves a new reversal based on the transaction
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -68,6 +78,9 @@ public class PostReversal implements PostTransaction {
         return GLConstants.INSERT_CODE;
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Reversal.class).getFullTableName();
     }

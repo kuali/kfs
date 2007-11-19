@@ -61,24 +61,6 @@ are intended for use only by Kuali Foundation developers.
         <!-- workflow -->
     	<mkdir dir="temp/${release.workflow.cvs.module}" />
         <cvs command="export" dest="temp" cvsroot="${release.cvs.root}" package="${release.workflow.cvs.module}" failonerror="true" tag="${release.workflow.cvs.tag}" compressionlevel="6" />
-
-    	<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
-        <property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
-        <property name="${workflow.application}.plugin.dir" value="${basedir}" />
-        <property name="${workflow.application}.institution" value="${ant.project.name}" />
-        <property name="${workflow.application}.src.dist.loc" value="${basedir}/temp/${release.workflow.cvs.module}/dist" />
-        <propertyset id="en-properties">
-            <propertyref prefix="${workflow.application}."/>
-            <mapper type="glob" from="${workflow.application}.*" to="*"/>
-        </propertyset>
-        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="bundle-workflow" inheritall="false">
-            <propertyset refid="${workflow.application}-properties" />
-        </ant>
-        <copy file="${basedir}/temp/${release.workflow.cvs.module}/dist/workflow_${workflow.version}.zip" todir="temp" overwrite="true"/>
-        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="clean" inheritall="false"/>
-        <ant dir="${basedir}/temp/${release.workflow.cvs.module}" target="javadoc" inheritall="false">
-            <propertyset refid="${workflow.application}-properties" />
-        </ant>
     	
     	<mkdir dir="${release.patches.dir}" />
 
@@ -113,7 +95,7 @@ Workflow Tag: ${release.workflow.cvs.tag}
     	
     	<!-- zip it up -->
     	<zip destfile="${release.zip.name}">
-    		<zipfileset dir="temp/${release.kfs.cvs.module}" prefix="kuali-financial-system">
+    		<zipfileset dir="temp/${release.kfs.cvs.module}" prefix="financial-system">
     			<exclude name="build-foundation.xml" />
     			<exclude name=".apt_generated" />
     		</zipfileset>
@@ -124,10 +106,10 @@ Workflow Tag: ${release.workflow.cvs.tag}
                 <exclude name=".project" />
             </zipfileset>
             <zipfileset dir="temp/impex" prefix="database-import-export" />
-            <zipfileset dir="temp/${release.rice.cvs.module}" prefix="kuali-rice" />
+            <zipfileset dir="temp/${release.rice.cvs.module}" prefix="rice" />
+            <zipfileset dir="temp/${release.workflow.cvs.module}" prefix="enterprise-workflow" />
             <zipfileset dir="${release.patches.dir}" prefix="patches" />
     		<zipfileset dir="temp" prefix="">
-    			<include name="workflow_${workflow.version}.zip" />
     			<include name="README.txt" />
     			<include name="release-details.txt" />
     		</zipfileset>

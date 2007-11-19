@@ -17,21 +17,29 @@ package org.kuali.module.gl.dao;
 
 import org.kuali.module.gl.bo.CollectorDetail;
 
+/**
+ * 
+ */
 public interface CollectorDetailDao {
     /**
      * Purge the table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chartOfAccountsCode chart of accounts code criteria to purge
+     * @param universityFiscalYear university fiscal year criteria to purge
      */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
 
+    /**
+     * Saves a specific collector detail
+     * 
+     * @param detail
+     */
     public void save(CollectorDetail detail);
 
     /**
      * Retrieves the DB table name that's mapped to instances of CollectorDetail
      * 
-     * @return
+     * @return String representing DB table name for CollectorDetails
      */
     public String retrieveCollectorDetailTableName();
 }

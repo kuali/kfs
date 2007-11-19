@@ -24,6 +24,9 @@ import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.Transaction;
 
+/**
+ * This class represents document group-related data
+ */
 public class DocumentGroupData {
     protected String documentNumber;
     protected String financialDocumentTypeCode;
@@ -42,6 +45,8 @@ public class DocumentGroupData {
     }
 
     /**
+     * Returns true if DocumentGroupData objects have the same document number, document type code, and financial system origination code
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -53,6 +58,12 @@ public class DocumentGroupData {
         return StringUtils.equals(documentNumber, o2.documentNumber) && StringUtils.equals(financialDocumentTypeCode, o2.financialDocumentTypeCode) && StringUtils.equals(financialSystemOriginationCode, o2.financialSystemOriginationCode);
     }
 
+    /**
+     * Returns true if this document group data object's and the transaction have the same document number, document type code, and origination code match the passed 
+     * 
+     * @param transaction transaction to compare
+     * @return true if this document group data object's and the transaction have the same document number, document type code, and origination code match the passed
+     */
     public boolean matchesTransaction(Transaction transaction) {
         return StringUtils.equals(documentNumber, transaction.getDocumentNumber()) && StringUtils.equals(financialDocumentTypeCode, transaction.getFinancialDocumentTypeCode()) && StringUtils.equals(financialSystemOriginationCode, transaction.getFinancialSystemOriginationCode());
     }
@@ -62,6 +73,7 @@ public class DocumentGroupData {
     }
 
     /**
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -73,6 +85,11 @@ public class DocumentGroupData {
         return documentNumber.hashCode();
     }
 
+    /**
+     * This returns an origin entry with document number, document type code, origination code set from this DocumentGroupData's document number, document type code, and origination code
+     * 
+     * @return populated origin entry  
+     */
     public OriginEntryFull populateDocumentGroupDataFieldsInOriginEntry() {
         OriginEntryFull entry = new OriginEntryFull();
         entry.setDocumentNumber(documentNumber);
@@ -139,8 +156,8 @@ public class DocumentGroupData {
      * Given an iterator of {@link Transaction} objects, return a set of all the document groups (doc #, doc type, origination code)
      * for these transactions
      * 
-     * @param transactions
-     * @return
+     * @param transactions iterator of transactions
+     * @return Set of all of the document groups for this these trasnactions
      */
     public static <E extends Transaction> Set<DocumentGroupData> getDocumentGroupDatasForTransactions(Iterator<E> transactions) {
         Set<DocumentGroupData> documentGroupDatas = new HashSet<DocumentGroupData>();

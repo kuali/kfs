@@ -30,6 +30,7 @@
     <html:hidden property="document.processingCampusCode" />
     <html:hidden property="calculated" />
 	<html:hidden property="document.unmatchedOverride" />
+	<html:hidden property="document.continuationAccountIndicator" />
 	    
     <c:if test="${displayInitTab}" > 
     	<purap:creditMemoInit documentAttributes="${DataDictionary.CreditMemoDocument.attributes}" /> 

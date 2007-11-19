@@ -20,6 +20,10 @@ import org.kuali.module.chart.dao.A21SubAccountDao;
 import org.kuali.module.chart.service.A21SubAccountService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * This class is the default implementation of the A21SubAccountService
+ */
 @Transactional
 public class A21SubAccountServiceImpl implements A21SubAccountService {
 
@@ -29,11 +33,9 @@ public class A21SubAccountServiceImpl implements A21SubAccountService {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
      * 
-     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String,
-     *      java.lang.String)
+     * @see org.kuali.module.chart.service.A21SubAccountService#getByPrimaryKey(java.lang.String, java.lang.String, java.lang.String)
      */
     public A21SubAccount getByPrimaryKey(String chartOfAccountsCode, String accountNumber, String subAccountNumber) {
         return a21SubAccountDao.getByPrimaryKey(chartOfAccountsCode, accountNumber, subAccountNumber);

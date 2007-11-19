@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>TravelCompanyCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>DVIC</documentTypeCode>
+        <documentTypeCode>DVTC</documentTypeCode>
 
         <label>Disbursement Voucher Travel Company</label>
 

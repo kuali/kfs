@@ -26,6 +26,9 @@ import org.kuali.module.gl.bo.ExpenditureTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.ExpenditureTransactionDao;
 
+/**
+ * The OJB implmentation of ExpenditureTransactionDao
+ */
 public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implements ExpenditureTransactionDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ExpenditureTransactionDaoOjb.class);
 
@@ -41,13 +44,18 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     private final static String PROJECT_CODE = "projectCode";
     private final static String ORGANIZATION_REFERENCE_ID = "organizationReferenceId";
 
+    /**
+     * Constructs a ExpenditureTransactionDaoOjb instance
+     */
     public ExpenditureTransactionDaoOjb() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Queries the database to find the expenditure transaction in the database that would be affected if the given transaction is posted
      * 
+     * @param t a transaction to find a related expenditure transaction for
+     * @return the expenditure transaction if found, null otherwise
      * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getByTransaction(org.kuali.module.gl.bo.Transaction)
      */
     public ExpenditureTransaction getByTransaction(Transaction t) {
@@ -76,6 +84,12 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
         return (ExpenditureTransaction) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
+    /**
+     * Fetches all expenditure transactions currently in the database
+     * 
+     * @return an Iterator with all expenditure transactions from the database
+     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#getAllExpenditureTransactions()
+     */
     public Iterator getAllExpenditureTransactions() {
         LOG.debug("getAllExpenditureTransactions() started");
 
@@ -86,15 +100,21 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
         return getPersistenceBrokerTemplate().getIteratorByQuery(qbc);
     }
 
+    /**
+     * Deletes the given expenditure transaction
+     * 
+     * @param et the expenditure transaction that will be removed, as such, from the database
+     * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#delete(org.kuali.module.gl.bo.ExpenditureTransaction)
+     */
     public void delete(ExpenditureTransaction et) {
         LOG.debug("delete() started");
 
         getPersistenceBrokerTemplate().delete(et);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
+     * Saves an expenditure transaction
+     * @param et the expenditure transaction to save
      * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#save(org.kuali.module.gl.bo.ExpenditureTransaction)
      */
     public void save(ExpenditureTransaction et) {
@@ -104,6 +124,8 @@ public class ExpenditureTransactionDaoOjb extends PlatformAwareDaoBaseOjb implem
     }
 
     /**
+     * Since expenditure transactions are temporary, just like flies that live for a mere day, this method removes all of the currently existing
+     * expenditure transactions from the database, all expenditure transactions having run through the poster and fulfilled their lifecycle
      * @see org.kuali.module.gl.dao.ExpenditureTransactionDao#deleteAllExpenditureTransactions()
      */
     public void deleteAllExpenditureTransactions() {

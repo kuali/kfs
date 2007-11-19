@@ -24,6 +24,9 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.OrganizationReversionCategory;
 import org.kuali.module.chart.bo.SubAccount;
 
+/**
+ * This class represents a organization reversion unit of work category amount
+ */
 public class OrgReversionUnitOfWorkCategoryAmount extends PersistableBusinessObjectBase {
     private String chartOfAccountsCode;
     private String accountNumber;

@@ -26,6 +26,9 @@ import org.kuali.module.chart.dao.SubFundGroupDao;
 import org.kuali.module.chart.service.SubFundGroupService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This service implementation is the default implementation of the SubFundGroup service that is delivered with Kuali.
+ */
 @Transactional
 public class SubFundGroupServiceImpl implements SubFundGroupService {
     private ParameterService parameterService;
@@ -59,6 +62,10 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
         }
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.SubFundGroupService#getContractsAndGrantsDenotingValue(org.kuali.module.chart.bo.SubFundGroup)
+     */
     public String getContractsAndGrantsDenotingValue(SubFundGroup subFundGroup) {
         if (fundGroupDenotesContractsAndGrants()) {
             return subFundGroup.getFundGroupCode();
@@ -76,6 +83,11 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
         return parameterService.getParameterValue(Account.class, KFSConstants.ChartApcParms.ACCOUNT_CG_DENOTING_VALUE);
     }
 
+    /**
+     * 
+     * This checks to see if there is a value for checking if a Fund Group denotes Contracts and Grants
+     * @return false if there is no value
+     */
     private boolean fundGroupDenotesContractsAndGrants() {
         return parameterService.getIndicatorParameter(Account.class, KFSConstants.ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG);
     }
@@ -94,6 +106,11 @@ public class SubFundGroupServiceImpl implements SubFundGroupService {
         return subFundGroupDao.getByChartAndAccount(chartCode, accountNumber);
     }
 
+    /**
+     * 
+     * This method injects the ParameterService
+     * @param parameterService
+     */
     public void setParameterService(ParameterService parameterService) {
         this.parameterService = parameterService;
     }

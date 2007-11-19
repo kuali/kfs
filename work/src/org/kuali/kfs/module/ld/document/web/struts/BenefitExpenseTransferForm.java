@@ -103,6 +103,9 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     }
 
     /**
+     * Returns forced read only target fields (i.e only source target fields without chart of accounts code, 
+     * account number, sub-account number, financial sub object code, project code, organization reference id, and amount)
+     * 
      * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#getForcedReadOnlyTargetFields()
      */
     @Override
@@ -120,6 +123,8 @@ public class BenefitExpenseTransferForm extends ExpenseTransferDocumentFormBase 
     }
 
     /**
+     * Sets university fiscal year, chart of accounts code, account number, sub-account number from first source accounting line
+     * 
      * @see org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase#populateSearchFields()
      */
     @Override

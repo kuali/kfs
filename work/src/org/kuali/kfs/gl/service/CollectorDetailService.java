@@ -17,15 +17,23 @@ package org.kuali.module.gl.service;
 
 import org.kuali.module.gl.bo.CollectorDetail;
 
+/**
+ * Services that deal with Collector Details
+ */
 public interface CollectorDetailService {
     /**
      * Purge the sufficient funds balance table by year/chart
      * 
-     * @param chart
-     * @param year
+     * @param chart chart of CollectorDetails to purge
+     * @param year year of CollectorDetails to purage
      */
     public void purgeYearByChart(String chartOfAccountsCode, int universityFiscalYear);
 
+    /**
+     * Saves a CollectorDetail
+     * 
+     * @param detail the detail to save
+     */
     public void save(CollectorDetail detail);
 
 }

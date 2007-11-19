@@ -36,6 +36,9 @@ import com.lowagie.text.pdf.PdfPCell;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * This class generates the actual transaction report
+ */
 public class TransactionReportGenerator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReportGenerator.class);
     public static final String PDF_FILE_EXTENSION = ".pdf";
@@ -78,7 +81,15 @@ public class TransactionReportGenerator {
         }
     }
 
-    // generate the PDF report with the given information
+    /**
+     * Generate the PDF report with the given information
+     * 
+     * @param pdfContents contents of PDF
+     * @param reportingDate date being reported on
+     * @param title title of report
+     * @param reportNamePrefix name of report prefix
+     * @param destinationDirectory directory report file will reside
+     */
     private void generatePDFReport(PdfPTable pdfContents, Date reportingDate, String title, String reportNamePrefix, String destinationDirectory) {
         Document document = new Document(PageSize.A4.rotate());
 
@@ -108,7 +119,12 @@ public class TransactionReportGenerator {
         }
     }
 
-    // construct the summary table
+    /**
+     * Construct the summary table
+     * 
+     * @param reportSummary list of report summaries
+     * @return PdfPTable summary table
+     */
     private PdfPTable buildSummaryTable(List reportSummary) {
 
         float[] cellWidths = { 80, 20 };
@@ -129,7 +145,14 @@ public class TransactionReportGenerator {
         return summaryTable;
     }
 
-    // add a row with the given ledger entry into PDF table
+
+    /**
+     * Add a row with the given ledger entry into PDF table
+     * 
+     * @param summaryTable table to add row to
+     * @param summary summary object
+     * @param textFont font for text
+     */
     private void addRow(PdfPTable summaryTable, Summary summary, Font textFont) {
 
         PdfPCell cell = new PdfPCell(new Phrase(summary.getDescription(), textFont));
@@ -150,7 +173,12 @@ public class TransactionReportGenerator {
         }
     }
 
-    // construct the error table
+    /**
+     * Construct the error table
+     * @param reportErrors map containing error'd transactions
+     * 
+     * @return PdfPTable error containing errors
+     */
     private PdfPTable buildErrorTable(Map reportErrors) {
 
         float[] cellWidths = { 4, 3, 6, 5, 5, 4, 5, 5, 4, 5, 5, 9, 4, 36 };
@@ -178,7 +206,12 @@ public class TransactionReportGenerator {
         return errorTable;
     }
 
-    // add a table header
+    /**
+     * Add a table header
+     * 
+     * @param errorTable table containing errors
+     * @param headerFont font for header
+     */
     private void addHeader(PdfPTable errorTable, Font headerFont) {
 
         PdfPCell cell = new PdfPCell(new Phrase("Year", headerFont));
@@ -211,7 +244,14 @@ public class TransactionReportGenerator {
         errorTable.addCell(cell);
     }
 
-    // add a row with the given ledger entry into PDF table
+    /**
+     * Add a row with the given ledger entry into PDF table
+     * 
+     * @param errorTable PdfPTable for report errors
+     * @param reportErrors map containing actual errors
+     * @param transaction transaction containing information for given row
+     * @param textFont font for text
+     */
     private void addRow(PdfPTable errorTable, Map reportErrors, Transaction transaction, Font textFont) {
         PdfPCell cell = null;
         boolean first = true;
@@ -265,7 +305,11 @@ public class TransactionReportGenerator {
         }
     }
 
-    // close the document and release the resource
+    /**
+     * Close the document and release the resource
+     * 
+     * @param document document to be closed
+     */
     private void closeDocument(Document document) {
         try {
             if ((document != null) && document.isOpen()) {

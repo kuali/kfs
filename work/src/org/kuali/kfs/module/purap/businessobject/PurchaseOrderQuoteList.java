@@ -25,6 +25,10 @@ import org.kuali.module.vendor.bo.ContractManager;
 
 /**
  * Purchase Order Quote List Business Object.
+ * 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ * 
  */
 public class PurchaseOrderQuoteList extends PersistableBusinessObjectBase {
 

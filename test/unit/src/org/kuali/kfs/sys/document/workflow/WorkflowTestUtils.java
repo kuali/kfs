@@ -61,6 +61,12 @@ public class WorkflowTestUtils {
         Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatus + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
     }
 
+    public static void waitForStatusChange(int numSeconds, KualiWorkflowDocument document, String[] desiredStatuses) throws Exception {
+        LOG.info("Entering: waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatuses + ")");
+        DocumentWorkflowStatusMonitor monitor = new DocumentWorkflowStatusMonitor(SpringContext.getBean(DocumentService.class), "" + document.getRouteHeaderId(), desiredStatuses);
+        Assert.assertTrue("waitForStatusChange(" + numSeconds + "," + document.getRouteHeaderId() + "," + desiredStatuses + ") timed out", ChangeMonitor.waitUntilChange(monitor, numSeconds, 5));
+    }
+
     public static void waitForApproveRequest(Long docHeaderId, UniversalUser user) throws Exception {
         LOG.info("Entering: waitForApproveRequest(" + docHeaderId + "," + user.getPersonUserIdentifier() + ")");
         DocumentWorkflowRequestMonitor monitor = new DocumentWorkflowRequestMonitor(docHeaderId, user, EdenConstants.ACTION_REQUEST_APPROVE_REQ);

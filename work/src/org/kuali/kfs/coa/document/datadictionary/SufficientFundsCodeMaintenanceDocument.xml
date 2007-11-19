@@ -39,6 +39,7 @@
 
         <summary>Sufficient Funds Code Maintenance Document</summary>
         <description>Document used to update Sufficient Fund Code objects</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="SufficientFundsCode" parameterName="SUFFICIENT_FUNDS_CODE" />
 
         <lockingKeys>
             <field attributeName="code" />

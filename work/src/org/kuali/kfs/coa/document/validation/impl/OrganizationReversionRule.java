@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.OrganizationReversion;
 import org.kuali.module.chart.bo.OrganizationReversionDetail;
 
 /**
- * This class implements the business rules specific to the Organization Reversion Maintenance Document.
+ * This class implements the business rules specific to the {@link OrganizationReversion} Maintenance Document.
  */
 public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
 
@@ -43,8 +43,14 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link OrganizationReversionRule#validateDetailBusinessObjects(OrganizationReversion)}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
@@ -67,7 +73,7 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
      * Tests each option attached to the main business object and validates its properties.
      * 
      * @param orgReversion
-     * @return
+     * @return false if any of the detail objects fail with their validation
      */
     private boolean validateDetailBusinessObjects(OrganizationReversion orgReversion) {
         GlobalVariables.getErrorMap().addToErrorPath("document.newMaintainableObject");
@@ -85,6 +91,12 @@ public class OrganizationReversionRule extends MaintenanceDocumentRuleBase {
         return GlobalVariables.getErrorMap().getErrorCount() == originalErrorCount;
     }
 
+    /**
+     * 
+     * This checks to make sure that the organization reversion object on the detail object actually exists
+     * @param detail
+     * @return false if the organization reversion object doesn't exist
+     */
     protected boolean validateOrganizationReversionDetail(OrganizationReversionDetail detail) {
         boolean result = true; // let's assume this detail will pass the rule
         // 1. makes sure the financial object code exists

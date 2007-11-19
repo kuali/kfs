@@ -34,12 +34,18 @@ import org.kuali.module.financial.document.CashManagementDocument;
 import org.kuali.module.financial.service.CashDrawerService;
 
 /**
- * This class represents ru
+ * This class represents the rule used during cash management
  */
 public class CashieringTransactionRule {
     private static final Logger LOG = Logger.getLogger(CashieringTransactionRule.class);
     private CashDrawerService cashDrawerService;
 
+    /**
+     * Returns true if all application rules called by this method return true
+     * 
+     * @param cmDoc represents cash management document
+     * @return true if all cashiering transaction application rules do not fail
+     */
     public boolean processCashieringTransactionApplicationRules(CashManagementDocument cmDoc) {
         boolean success = true;
         success &= checkMoneyInNoNegatives(cmDoc.getCurrentTransaction());
@@ -58,6 +64,12 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * Returns true if none of the entered money-in amounts (cash and coin) are not negative in a cashiering transaction
+     * 
+     * @param trans represents cashiering transaction from document
+     * @return true if none of the amounts are negative
+     */
     public boolean checkMoneyInNoNegatives(CashieringTransaction trans) {
         boolean success = true;
 
@@ -144,6 +156,12 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * Returns true if none of the entered money-out amounts (cash and coin) are not negative in a cashiering transaction
+     * 
+     * @param trans represents cashiering transaction from document
+     * @return true if none of the amounts are negative
+     */
     public boolean checkMoneyOutNoNegatives(CashieringTransaction trans) {
         boolean success = true;
 
@@ -226,6 +244,12 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * Returns true if money-in and money-out are in balance with each other
+     * 
+     * @param trans represents cashiering transaction from cash management document
+     * @return true if money-in and money-out are balanced
+     */
     public boolean checkMoneyInMoneyOutBalance(CashieringTransaction trans) {
         boolean success = true;
         if (!trans.getMoneyInTotal().equals(trans.getMoneyOutTotal())) {
@@ -235,6 +259,14 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if none of the coin (1 cent, 5 cents, etc) and cash increments (1 dollar, 2 dollars, 5 dollars etc. )
+     * from ( money-in + cash drawer ) exceed the amount for that increment from the money-out.
+     * 
+     * @param cmDoc represents cash management document
+     * @param trans represents cash transaction from cash management document
+     * @return true if none of the coin and cash increments from money-in + cash drawer excreed amount for increments in money-out 
+     */
     public boolean checkEnoughCashForMoneyOut(CashManagementDocument cmDoc, CashieringTransaction trans) {
         boolean success = true;
 
@@ -430,6 +462,13 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if the new item in process does not exceed the current amount in the cash drawer reserves
+     * 
+     * @param cmDoc submitted cash management document
+     * @param trans transaction from cash management document
+     * @return true if the new item in process does not exceed the current amount in the cash drawer reserves
+     */
     public boolean checkNewItemInProcessDoesNotExceedCashDrawer(CashManagementDocument cmDoc, CashieringTransaction trans) {
         boolean success = true;
 
@@ -441,6 +480,13 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if check total from transaction does not exceed the current amount in the cash drawer reserves 
+     * 
+     * @param cmDoc submitted cash management document
+     * @param trans transaction from cash management document
+     * @return true if check total from transaction does not exceed the current amount in the cash drawer reserves
+     */
     public boolean checkTransactionCheckTotalDoesNotExceedCashDrawer(CashManagementDocument cmDoc, CashieringTransaction trans) {
         boolean success = true;
 
@@ -451,7 +497,16 @@ public class CashieringTransactionRule {
 
         return success;
     }
-
+ 
+    /**
+     * This method returns true if the current payment amount for the cashiering item in process does not exceed
+     * the actual item amount for the item in process
+     * 
+     * @param itemInProc cashiering item in process
+     * @param cashieringItemNumber cashiering item number
+     * @return true if the current payment amount for the cashiering item in process does not exceed
+     *          the actual item amount for the item in process
+     */
     public boolean checkPaidBackItemInProcessDoesNotExceedTotal(CashieringItemInProcess itemInProc, int cashieringItemNumber) {
         boolean success = true;
         if (itemInProc.getCurrentPayment() != null && itemInProc.getCurrentPayment().isGreaterThan(itemInProc.getItemAmount())) {
@@ -461,6 +516,13 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if a new item in process is populated and none of the open item in process' amounts are greater than zero.
+     * 
+     * @param cmDoc submitted cash management document
+     * @param trans transaction from cash management document
+     * @return true if a new item in process is populated and none of the open item in process' amounts are greater than zero.
+     */
     public boolean checkItemInProcessIsNotPayingOffItemInProcess(CashManagementDocument cmDoc, CashieringTransaction trans) {
         boolean success = true;
         if (trans.getNewItemInProcess().isPopulated()) {
@@ -476,6 +538,12 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if all open items in process amounts do not exceed the total for each specific item's amount total
+     * 
+     * @param trans transaction from cash management document
+     * @return true if all open items in process amounts do not exceed the total for each specific item's amount total
+     */
     public boolean checkAllPaidBackItemsInProcess(CashieringTransaction trans) {
         boolean success = true;
         int count = 0;
@@ -488,6 +556,12 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method returns true if the current date is after all new items in process' open dates
+     * 
+     * @param trans transaction from cash management document
+     * @return true if the current date is after all new items in process' open dates
+     */
     public boolean checkNewItemInProcessInPast(CashieringTransaction trans) {
         boolean success = true;
         if (trans.getNewItemInProcess().isPopulated()) {
@@ -499,6 +573,13 @@ public class CashieringTransactionRule {
         return success;
     }
 
+    /**
+     * This method calculates the total cash drawer reserves amount
+     * 
+     * @param cmDoc
+     * @param trans
+     * @return KualiDecimal as total from cash drawer reserves
+     */
     private KualiDecimal calculateTotalCashDrawerReserves(CashManagementDocument cmDoc, CashieringTransaction trans) {
         KualiDecimal reserves = new KualiDecimal(cmDoc.getCashDrawer().getTotalAmount().bigDecimalValue());
         reserves = reserves.add(trans.getMoneyInCurrency().getTotalAmount());
@@ -506,6 +587,12 @@ public class CashieringTransactionRule {
         return reserves;
     }
 
+    /**
+     * This method returns the current day of year as an int for a specific date.
+     * 
+     * @param d date
+     * @return int as day of year
+     */
     private int convertDateToDayYear(Date d) {
         Calendar cal = new GregorianCalendar();
         cal.setTime(d);

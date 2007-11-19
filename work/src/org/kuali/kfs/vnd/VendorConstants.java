@@ -57,7 +57,7 @@ public class VendorConstants {
         public static final String REMIT = "RM";
     }
 
-    // Vendor Owner Types
+    // Vendor Ownership Types
     public static class OwnerTypes {
         public static final String NR = "NR";
     }

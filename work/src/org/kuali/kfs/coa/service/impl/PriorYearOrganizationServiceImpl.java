@@ -21,7 +21,7 @@ import org.kuali.module.chart.service.PriorYearOrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class...
+ * This is the default implementation of the PriorYearOrganizationService
  */
 @Transactional
 public class PriorYearOrganizationServiceImpl implements PriorYearOrganizationService {
@@ -34,15 +34,6 @@ public class PriorYearOrganizationServiceImpl implements PriorYearOrganizationSe
      */
     public PriorYearOrganizationServiceImpl() {
         super();
-    }
-
-    /**
-     * This method sets the local dao variable to the value provided.
-     * 
-     * @param priorYearOrganizationDao The PriorYearOrganizationDao to set.
-     */
-    public void setPriorYearOrganizationDao(PriorYearOrganizationDao priorYearOrganizationDao) {
-        this.priorYearOrganizationDao = priorYearOrganizationDao;
     }
 
     /**
@@ -59,6 +50,15 @@ public class PriorYearOrganizationServiceImpl implements PriorYearOrganizationSe
         if (LOG.isInfoEnabled()) {
             LOG.info("number of current year organizations copied to prior year : " + copiedCount);
         }
+    }
+
+    /**
+     * This method sets the local dao variable to the value provided.
+     * 
+     * @param priorYearOrganizationDao The PriorYearOrganizationDao to set.
+     */
+    public void setPriorYearOrganizationDao(PriorYearOrganizationDao priorYearOrganizationDao) {
+        this.priorYearOrganizationDao = priorYearOrganizationDao;
     }
 
 }

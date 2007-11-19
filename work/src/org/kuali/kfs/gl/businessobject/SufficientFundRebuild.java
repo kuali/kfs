@@ -21,8 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.module.chart.bo.Chart;
 
+
 /**
- * 
+ * This class represents a sufficient fund rebuild
  */
 public class SufficientFundRebuild extends PersistableBusinessObjectBase {
 
@@ -45,6 +46,11 @@ public class SufficientFundRebuild extends PersistableBusinessObjectBase {
         setFromTextFile(line);
     }
 
+    /**
+     * This method sets this object's attributes from a line
+     * 
+     * @param line with object's attributes
+     */
     public void setFromTextFile(String line) {
 
         // Just in case
@@ -55,6 +61,10 @@ public class SufficientFundRebuild extends PersistableBusinessObjectBase {
         setAccountNumberFinancialObjectCode(line.substring(3, 10).trim());
     }
 
+    /**
+     * This method returns a String representation of this object
+     * @return String representation of this object
+     */
     public String getLine() {
         StringBuffer sb = new StringBuffer();
         sb.append(getField(2, chartOfAccountsCode));
@@ -65,6 +75,13 @@ public class SufficientFundRebuild extends PersistableBusinessObjectBase {
 
     private static String SPACES = "          ";
 
+    /**
+     * This method returns the value passed in with additional spaces if need be.
+     * 
+     * @param size
+     * @param value
+     * @return
+     */
     private String getField(int size, String value) {
         if (value == null) {
             return SPACES.substring(0, size);

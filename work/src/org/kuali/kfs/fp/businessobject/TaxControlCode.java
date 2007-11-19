@@ -19,7 +19,7 @@ package org.kuali.module.financial.bo;
 import org.kuali.core.bo.KualiCodeBase;
 
 /**
- * 
+ * This class is used to represent a tax control code business object.
  */
 public class TaxControlCode extends KualiCodeBase {
 

@@ -17,13 +17,25 @@ package org.kuali.module.gl.service;
 
 import java.util.List;
 
+/**
+ * An exception that occurs during the loading and parsing of a Collector file
+ */
 public class CollectorLoadException extends RuntimeException {
     private List errors;
 
+    /**
+     * Constructs a CollectorLoadException instance
+     * @param errors a List of errors encountered while loading and parsing the file
+     */
     public CollectorLoadException(List errors) {
         this.errors = errors;
     }
 
+    /**
+     * Returns the specific load/parse errors encountered that caused this exception 
+     * 
+     * @return a List of errors
+     */
     public List getErrors() {
         return errors;
     }

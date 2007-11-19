@@ -30,7 +30,7 @@ public interface ReconciliationParserService {
      * @param reader a source of data from which to build a reconciliation
      * @param tableId defined within the reconciliation file; defines which block to parse
      * @return parsed reconciliation data
-     * @throws IOException
+     * @throws IOException thrown if the file cannot be written for any reason
      */
     public ReconciliationBlock parseReconciliationBlock(Reader reader, String tableId) throws IOException;
 }

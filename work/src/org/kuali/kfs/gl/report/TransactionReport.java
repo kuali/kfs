@@ -42,6 +42,9 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
+ * This class represents the functionality related to the generating the Transaction Report. The transaction report
+ * shows the primary key from transactions and a list of messages for each one.
+ * 
  */
 public class TransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TransactionReport.class);
@@ -51,6 +54,11 @@ public class TransactionReport {
         public Font headerFont;
         public String title;
 
+        /**
+         * Generates the end page for this transaction report
+         * 
+         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+         */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
                 Rectangle page = document.getPageSize();
@@ -83,15 +91,16 @@ public class TransactionReport {
         super();
     }
 
+
     /**
-     * Generate transaction report
+     * Generates transaction report
      * 
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * @param reportErrors map containing transactions and the errors associated with each transaction
+     * @param reportSummary list of summary objects
+     * @param runDate date report is run
+     * @param title title of report
+     * @param fileprefix file prefix of report file
+     * @param destinationDirectory destination of where report file will reside
      */
     public void generateReport(Map<Transaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
@@ -104,12 +113,15 @@ public class TransactionReport {
     }
 
     /**
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * Generates transaction report
+     * 
+     * @param errorSortedList list of error'd transactions
+     * @param reportErrors map containing transactions and the errors associated with each transaction
+     * @param reportSummary list of summary objects
+     * @param runDate date report is run
+     * @param title title of report
+     * @param fileprefix file prefix of report file
+     * @param destinationDirectory destination of where report file will reside
      */
     public void generateReport(List<Transaction> errorSortedList, Map<Transaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory) {
         LOG.debug("generateReport() started");
@@ -153,13 +165,13 @@ public class TransactionReport {
     /**
      * Appends the scrubber totals/statistics and error report to the given (iText) document object.
      * 
-     * @param document
-     * @param headerFont
-     * @param textFont
-     * @param errorSortedList
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
+     * @param document the PDF document
+     * @param headerFont font for header
+     * @param textFont font for report text
+     * @param errorSortedList list of error'd transactions
+     * @param reportErrors map containing transactions and the errors associated with each transaction
+     * @param reportSummary list of summary objects
+     * @param runDate date report was run
      * @throws DocumentException
      */
     public void appendReport(Document document, Font headerFont, Font textFont, List<Transaction> errorSortedList, Map<Transaction, List<Message>> reportErrors, List<Summary> reportSummary, Date runDate) throws DocumentException {

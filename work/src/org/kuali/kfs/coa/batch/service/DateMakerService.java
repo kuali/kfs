@@ -15,20 +15,32 @@
  */
 package org.kuali.module.chart.service;
 
+/**
+ * 
+ * This service interface defines methods necessary for copying fiscal year information
+ */
 public interface DateMakerService {
 
-    // use this when you want to copy the current fiscal year (as of today's date)
-    // into the coming fiscal year
-    // replaceMode = true overrides what's there in the target year
-    // = false only adds what isn't there, leaving anything existing for
-    // the target year undisturbed
+    /**
+     * 
+     * use this when you want to copy the current fiscal year (as of today's date)
+     * into the coming fiscal year
+     * replaceMode = true overrides what's there in the target year
+     * = false only adds what isn't there, leaving anything existing for
+     * the target year undisturbed
+     * @param replaceMode
+     */
     public void fiscalYearMakers(boolean replaceMode);
 
-    // use this when you want to copy a specific fiscal year
-    // into the next sequential fiscal year
-    // = false only adds what isn't there, leaving anything existing for
-    // the target year undisturbed
-    public void fiscalYearMakers(Integer Baseyear, boolean replaceMode);
+    /**
+     * 
+     * use this when you want to start with a specified base year (which does not necessarily correspond to the current fiscal
+     * year). this could be used to implement a "budget year", for example = false only adds what isn't there, leaving anything
+     * existing for the target year undisturbed
+     * @param baseYear
+     * @param replaceMode
+     */
+    public void fiscalYearMakers(Integer baseYear, boolean replaceMode);
 
     // TODO: remove these
     public void testRoutine();

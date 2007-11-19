@@ -102,9 +102,8 @@ public class PurchaseOrderAmendmentDocumentRule extends PurchaseOrderDocumentRul
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
-        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT); // don't think i should have to
-        // override this, but default isn't
-        // getting the right PO doc
+        // don't think i should have to override this, but default isn't getting the right PO doc
+        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_AMENDMENT_DOCUMENT);
     }
 
 }

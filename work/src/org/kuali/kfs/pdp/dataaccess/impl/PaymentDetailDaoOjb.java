@@ -18,6 +18,7 @@ package org.kuali.module.pdp.dao.ojb;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -35,18 +36,19 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.Batch;
-import org.kuali.module.pdp.bo.CustomerProfile;
 import org.kuali.module.pdp.bo.DailyReport;
 import org.kuali.module.pdp.bo.DisbursementNumberRange;
 import org.kuali.module.pdp.bo.PaymentDetail;
-import org.kuali.module.pdp.bo.PaymentGroup;
 import org.kuali.module.pdp.bo.PaymentGroupHistory;
 import org.kuali.module.pdp.bo.PaymentProcess;
 import org.kuali.module.pdp.bo.UserRequired;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
 import org.kuali.module.pdp.service.ReferenceService;
+import org.kuali.module.purap.PurapParameterConstants;
 
 public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements PaymentDetailDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentDetailDaoOjb.class);
@@ -54,9 +56,42 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     private UniversalUserService userService;
     private ReferenceService referenceService;
     private DateTimeService dateTimeService;
+    private ParameterService parameterService;
 
     public PaymentDetailDaoOjb() {
         super();
+    }
+
+
+    /**
+     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getAchPaymentsWithUnsentEmail()
+     */
+    public Iterator getAchPaymentsWithUnsentEmail() {
+        LOG.debug("getAchPaymentsWithUnsentEmail() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.EXTRACTED);
+        crit.addEqualTo("paymentGroup.disbursementTypeCode", PdpConstants.DisbursementTypeCodes.ACH);
+        crit.addIsNull("paymentGroup.adviceEmailSentDate");
+   
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentDetail.class,crit));
+    }
+
+    /**
+     * @see org.kuali.module.pdp.dao.PaymentDetailDao#getByDisbursementNumber(java.lang.Integer)
+     */
+    public Iterator getByDisbursementNumber(Integer disbursementNumber) {
+        LOG.debug("getByDisbursementNumber() started");
+
+        Criteria crit = new Criteria();
+        crit.addEqualTo("paymentGroup.disbursementNbr", disbursementNumber);
+
+        QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, crit);
+
+        q.addOrderByAscending("financialDocumentTypeCode");
+        q.addOrderByAscending("custPaymentDocNbr");
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(q);
     }
 
     /**
@@ -66,12 +101,31 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         LOG.debug("getDailyReportData() started");
 
         Timestamp now = dateTimeService.getCurrentTimestamp();
+        java.sql.Date sqlDate = new java.sql.Date(now.getTime());
+        Calendar c = Calendar.getInstance();
+        c.setTime(sqlDate);
+        c.set(Calendar.HOUR, 11);
+        c.set(Calendar.MINUTE, 59);
+        c.set(Calendar.SECOND, 59);
+        c.set(Calendar.MILLISECOND, 59);
+        c.set(Calendar.AM_PM, Calendar.PM);
+        Timestamp paydateTs = new Timestamp(c.getTime().getTime());
+        LOG.debug("getDailyReportData() " + paydateTs);
 
-        Criteria crit = new Criteria();
-        crit.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
-        crit.addLessOrEqualThan("paymentGroup.paymentDate", now);
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.OPEN);
 
-        QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, crit);
+        // (Payment date <= usePaydate OR immediate = TRUE)
+        Criteria criteria1 = new Criteria();
+        criteria1.addEqualTo("paymentGroup.processImmediate", Boolean.TRUE);
+
+        Criteria criteria2 = new Criteria();
+        criteria2.addLessOrEqualThan("paymentGroup.paymentDate", paydateTs);
+        criteria1.addOrCriteria(criteria2);
+
+        criteria.addAndCriteria(criteria1);
+
+        QueryByCriteria q = QueryFactory.newQuery(PaymentDetail.class, criteria);
 
         q.addOrderByDescending("paymentGroup.processImmediate");
         q.addOrderByDescending("paymentGroup.pymtSpecialHandling");
@@ -86,7 +140,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Iterator i = getPersistenceBrokerTemplate().getIteratorByQuery(q);
         while (i.hasNext()) {
             PaymentDetail d = (PaymentDetail) i.next();
-            Key rsk = reportSortKey(d);
+            Key rsk = new Key(d);
             Numbers n = summary.get(rsk);
             if (n == null) {
                 n = new Numbers();
@@ -108,40 +162,62 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         // Now take the data and put it in our result list
         List<DailyReport> data = new ArrayList<DailyReport>();
         for (Iterator iter = summary.keySet().iterator(); iter.hasNext();) {
-            Key e = (Key) iter.next();
+            Key e = (Key)iter.next();
             Numbers n = summary.get(e);
-            DailyReport r = new DailyReport(e.sortOrder, e.customerShortName, n.amount, n.payments, n.payees);
+            DailyReport r = new DailyReport(e.pymtAttachment,e.pymtSpecialHandling,e.processImmediate, e.customerShortName, n.amount, n.payments, n.payees);
             data.add(r);
         }
         Collections.sort(data);
         return data;
     }
 
-    private Key reportSortKey(PaymentDetail d) {
-        PaymentGroup pg = d.getPaymentGroup();
-        CustomerProfile cp = pg.getBatch().getCustomerProfile();
-        return new Key(pg.getDailyReportSortOrder(), cp.getCustomerShortName());
-    }
-
     class Key {
-        public String sortOrder;
+        public boolean pymtAttachment;
+        public boolean pymtSpecialHandling;
+        public boolean processImmediate;
         public String customerShortName;
 
-        public Key(String s, String c) {
-            sortOrder = s;
+        public Key(PaymentDetail d) {
+            this(d.getPaymentGroup().getPymtAttachment().booleanValue(),d.getPaymentGroup().getPymtSpecialHandling().booleanValue(),
+                    d.getPaymentGroup().getProcessImmediate().booleanValue(), d.getPaymentGroup().getBatch().getCustomerProfile().getCustomerShortName());
+        }
+
+        public Key(boolean att,boolean spec,boolean immed, String c) {
+            pymtAttachment = att;
+            pymtSpecialHandling = spec;
+            processImmediate = immed;
             customerShortName = c;
         }
 
-        public int hashCode() {
-            return new HashCodeBuilder(3, 5).append(sortOrder).append(customerShortName).toHashCode();
+        private String getGroupOrder() {
+            if (processImmediate) {
+                return "B";
+            } else if (pymtSpecialHandling) {
+                return "C";
+            } else if (pymtAttachment) {
+                return "D";
+            } else {
+                return "E";
+            }
         }
 
+        @Override
+        public int hashCode() {
+            return new HashCodeBuilder(3, 5).append(getGroupOrder()).append(customerShortName).toHashCode();
+        }
+        
+        @Override
         public boolean equals(Object obj) {
             if (!(obj instanceof Key)) {
                 return false;
             }
             Key thisobj = (Key) obj;
-            return new EqualsBuilder().append(sortOrder, thisobj.sortOrder).append(customerShortName, thisobj.customerShortName).isEquals();
+            return new EqualsBuilder().append(getGroupOrder(), thisobj.getGroupOrder()).append(customerShortName, thisobj.customerShortName).isEquals();
+        }
+
+        @Override
+        public String toString() {
+            return pymtAttachment + " " + pymtSpecialHandling + " " + processImmediate + " " + customerShortName;
         }
     }
 
@@ -194,8 +270,12 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         Criteria criteria = new Criteria();
         criteria.addEqualTo("custPaymentDocNbr", custPaymentDocNbr);
         criteria.addEqualTo("financialDocumentTypeCode", fdocTypeCode);
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", CustomerProfile.EPIC_ORG_CODE);
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", CustomerProfile.EPIC_SUB_UNIT_CODE);
+
+        String orgCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
+        String subUnitCode = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", orgCode);
+        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", subUnitCode);
 
         List paymentDetails = (List) getPersistenceBrokerTemplate().getCollectionByQuery(new QueryByCriteria(PaymentDetail.class, criteria));
         PaymentDetail cp = null;
@@ -352,5 +432,9 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
 
     public void setDateTimeService(DateTimeService dts) {
         dateTimeService = dts;
+    }
+
+    public void setParameterService(ParameterService ps) {
+        parameterService = ps;
     }
 }

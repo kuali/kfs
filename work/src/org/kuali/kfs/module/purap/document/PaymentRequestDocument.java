@@ -339,7 +339,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     public String getVendorShippingTitleCode() {
-        // TODO (KULPURAP-1575) f2f: this should be printing the decription instead of the code; do we need the reference object?
         if (ObjectUtils.isNotNull(this.getPurchaseOrderDocument())) {
             return this.getPurchaseOrderDocument().getVendorShippingTitleCode();
         }
@@ -736,10 +735,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
         KualiDecimal total = KualiDecimal.ZERO;
 
-        for (PaymentRequestItem item : (List<PaymentRequestItem>) getItems()) {
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getPurchaseOrderDocument().getItems()) {
             ItemType it = item.getItemType();
             if (includeBelowTheLine || it.isItemTypeAboveTheLineIndicator()) {
-                total = total.add(item.getPurchaseOrderItemEncumbranceRelievedAmount());
+                total = total.add(item.getItemEncumbranceRelievedAmount());
             }
         }
         return total;
@@ -769,10 +768,10 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
      */
     public KualiDecimal getItemTotalPoPaidAmount() {
         KualiDecimal total = KualiDecimal.ZERO;
-        for (PaymentRequestItem item : (List<PaymentRequestItem>) getItems()) {
+        for (PurchaseOrderItem item : (List<PurchaseOrderItem>) getPurchaseOrderDocument().getItems()) {
             ItemType iT = item.getItemType();
             if (iT.isItemTypeAboveTheLineIndicator()) {
-                KualiDecimal itemPaid = item.getPurchaseOrderItemPaidAmount();
+                KualiDecimal itemPaid = item.getItemPaidAmount();
                 total = total.add(itemPaid);
             }
         }

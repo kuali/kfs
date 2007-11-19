@@ -51,11 +51,9 @@ public interface NegativePaymentRequestApprovalLimitDao {
      */
     public Collection<NegativePaymentRequestApprovalLimit> findByChartAndOrganization(String chartCode, String organizationCode);
 
-    // These two methods are in here for testing.
-
     /**
      * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is greater
-     * than the limit passed in.
+     * than the limit passed in.  (Used for Testing.)
      * 
      * @param limit - lower limit
      * @return - collection of negative payment request approval limits
@@ -64,7 +62,7 @@ public interface NegativePaymentRequestApprovalLimitDao {
 
     /**
      * Retrieve a collection of NegativePaymentRequestApprovalLimit where the NegativePaymentRequestApprovalLimitAmount is less than
-     * the limit passed in.
+     * the limit passed in.  (Used for Testing.)
      * 
      * @param limit - upper limit
      * @return - collection of negative payment request approval limits

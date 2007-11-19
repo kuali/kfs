@@ -37,6 +37,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
     private static final String VALID_DOC_ID = "1234";
     private static final String OTHER_DOC_ID = "4321";
 
+    /**
+     * 
+     * This method tests that calling the openCashDrawer method on a CashDrawerService with a blank workgroup name 
+     * generates an error.
+     */
     public final void testOpenCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;
 
@@ -50,6 +55,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the openCashDrawer method on a CashDrawerService with a blank document id generates
+     * an error.
+     */
     public final void testOpenCashDrawer_blankDocId() {
         boolean failedAsExpected = false;
 
@@ -63,7 +73,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-
+    /**
+     * 
+     * This method tests that calling the openCashDrawer method on a CashDrawerService, when the cash drawer doesn't exist,
+     * will create a new cash drawer and open it.
+     */
     public final void testOpenCashDrawer_nonexistent() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -79,6 +93,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
+    /**
+     * 
+     * This method tests the openCashDrawer method under valid conditions.
+     */
     public final void testOpenCashDrawer() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -94,7 +112,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
-
+    /**
+     * 
+     * This method tests that calling the closeCashDrawer method on a CashDrawerService with a blank workgroup name 
+     * generates an error.
+     */
     public final void testCloseCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;
 
@@ -108,6 +130,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the closeCashDrawer method on a CashDrawerService, when the cash drawer doesn't exist,
+     * will create a new cash drawer and closes it.
+     */
     public final void testCloseCashDrawer_nonexistent() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -123,6 +150,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
 
+    /**
+     * 
+     * This method tests the closeCashDrawer method under valid conditions.
+     */
     public final void testCloseCashDrawer_existent() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -138,7 +169,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertNull(drawer.getReferenceFinancialDocumentNumber());
     }
 
-
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService with a blank workgroup name 
+     * generates an error.
+     */
     public final void testLockCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;
 
@@ -152,6 +187,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService, when the cash drawer doesn't exist,
+     * an error is generated.
+     */
     public final void testLockCashDrawer_nonexistent() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -170,6 +210,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService, when the cash drawer 
+     * is closed, an error is generated.
+     */
     public final void testLockCashDrawer_closed() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -188,6 +233,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService, when the cash drawer 
+     * is already locked, an error is generated.
+     */
     public final void testLockCashDrawer_alreadyLocked() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -208,6 +258,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService, when the cash drawer 
+     * is already opened by another document, an error is generated.
+     */
     public final void testLockCashDrawer_openedByDifferentDocument() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -226,7 +281,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-
+    /**
+     * 
+     * This method tests the lockCashDrawer method under valid conditions.
+     */
     public final void testLockCashDrawer_open() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -242,7 +300,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
-
+    /**
+     * 
+     * This method tests that calling the unlockCashDrawer method on a CashDrawerService with a blank workgroup name 
+     * generates an error.
+     */
     public final void testUnlockCashDrawer_blankWorkgroup() {
         boolean failedAsExpected = false;
 
@@ -256,6 +318,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the unlockCashDrawer method on a CashDrawerService, when the cash drawer doesn't exist,
+     * an error is generated.
+     */
     public final void testUnlockCashDrawer_nonexistent() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -274,6 +341,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that calling the lockCashDrawer method on a CashDrawerService, when the cash drawer is already open,
+     * an error is generated.
+     */
     public final void testUnlockCashDrawer_open() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -292,6 +364,10 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests the unlockCashDrawer method under valid conditions.
+     */
     public final void testUnlockCashDrawer_locked() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -308,7 +384,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertEquals(VALID_DOC_ID, drawer.getReferenceFinancialDocumentNumber());
     }
 
-
+    /**
+     * 
+     * This method tests that calling the unlockCashDrawer method on a CashDrawerService, when the cash drawer 
+     * is already locked by another document, an error is generated.
+     */
     public final void testUnlockCashDrawer_lockedByDifferentDocumentId() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -328,7 +408,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
-
+    /**
+     * 
+     * This method tests that trying to retrieve a cash drawer by a workgroup name, when the workgroup name provided is 
+     * blank, will generate an error.
+     */
     public final void testGetByWorkgroupName_blankWorkgroup() {
         boolean failedAsExpected = false;
 
@@ -342,12 +426,21 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertTrue(failedAsExpected);
     }
 
+    /**
+     * 
+     * This method tests that trying to retrieve a cash drawer by a workgroup name, when the workgroup does not exist, 
+     * will generate an error.
+     */
     public final void testGetByWorkgroupName_nonexistentWorkgroup() {
         CashDrawer d = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName("foo", false);
 
         assertNull(d);
     }
 
+    /**
+     * 
+     * This method tests the getByWorkgroupName method under valid conditions.
+     */
     public final void testGetByWorkgroupName_existingWorkgroup() {
         final String workgroup = VALID_WORKGROUP_NAME;
 
@@ -360,7 +453,11 @@ public class CashDrawerServiceTest extends KualiTestBase {
         assertEquals(KFSConstants.CashDrawerConstants.STATUS_CLOSED, d.getStatusCode());
     }
 
-
+    /**
+     * 
+     * This method tests that all the possible steps during the lifecycle of a cash drawer function properly and are 
+     * achievable with the expected results.
+     */
     public final void testLifeCycle() {
         final String RANDOM_WORKGROUP_NAME = "testWorkgroup-" + SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime();
 
@@ -399,12 +496,22 @@ public class CashDrawerServiceTest extends KualiTestBase {
 
 
     // utility methods
+
+    /**
+     * This method performs the necessary steps to delete a cash drawer from the database for the given workgroup name.
+     * @param workgroupName The name of the workgroup of the cash drawer to be deleted.
+     */
     private void deleteCashDrawer(String workgroupName) {
         Map deleteCriteria = new HashMap();
         deleteCriteria.put("workgroupName", workgroupName);
         SpringContext.getBean(BusinessObjectService.class).deleteMatching(CashDrawer.class, deleteCriteria);
     }
 
+    /**
+     * 
+     * This method performs the necessary steps to create a new cash drawer in the database for the given workgroup name.
+     * @param workgroupName The name of the workgroup of the cash drawer being created.
+     */
     private void createCashDrawer(String workgroupName) {
         deleteCashDrawer(workgroupName);
 

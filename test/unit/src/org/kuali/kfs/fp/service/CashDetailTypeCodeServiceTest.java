@@ -30,20 +30,36 @@ import org.kuali.test.ConfigureContext;
 public class CashDetailTypeCodeServiceTest extends KualiTestBase {
     private ArrayList validCashDetailTypeCodes;
 
+    /**
+     * This method performs all the setup steps necessary to run the tests within this test case.
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         // this.validCashDetailTypeCodes = (ArrayList)
-        // SpringContext.getBean(BusinessObjectService.class).findAll(CashDetailTypeCodeService.class);
+        // SpringContext.getBean(BusinessObjectService.class).findAll(CashDetailTypeCode.class);
         // TODO - uncomment the above line of code when the database table for cash detail type codes is put in place and populated;
         // remove the line below
         populateValidCashDetailTypeCodes();
     }
 
+    /**
+     * 
+     * This method tests that the getter for a CashDetailTypeCode works properly and is capable of retrieving a 
+     * valid CashDetailTypeCode object.
+     */
     public void testGetCashReceiptTypeCode() {
         assertEquals(true, validCashDetailTypeCodes.contains(SpringContext.getBean(CashDetailTypeCodeService.class).getCashReceiptCheckTypeCode()));
     }
 
+    /**
+     * 
+     * This method creates a dummy CashDetailTypeCode object instance using the value given as the code to assign to the dummy.
+     * @param cashDetailTypeCodeCode The code to be assigned to the dummy instance.
+     * @return A dummy instance of a CashDetailTypeCode object with the code set to the value provided.
+     */
     private CashDetailTypeCode getDummyInstance(String cashDetailTypeCodeCode) {
         CashDetailTypeCode cashDetailTypeCode = new CashDetailTypeCode();
         cashDetailTypeCode.setCode(cashDetailTypeCodeCode);

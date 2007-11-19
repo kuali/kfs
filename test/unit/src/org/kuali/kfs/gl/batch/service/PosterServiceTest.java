@@ -23,18 +23,27 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.core.util.Guid;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.gl.OriginEntryTestBase;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * Tests the PosterService
+ */
 @ConfigureContext
+@RawSQL
 public class PosterServiceTest extends OriginEntryTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PosterServiceTest.class);
 
     private PosterService posterService;
 
+    /**
+     * 
+     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -58,12 +67,12 @@ public class PosterServiceTest extends OriginEntryTestBase {
         posterService.setDateTimeService(dateTimeService);
     }
 
-    /**
-     * Check invalid entries
-     * 
-     * @throws Exception
-     */
-
+    ///**
+    // * Check invalid entries
+    // * 
+    // * @throws Exception
+    // */
+    //
     // This test succeeds in Eclipse, but fails in Anthill
     // public void testInvalidEntries() throws Exception {
     // LOG.debug("testInvalidEntries() started");
@@ -211,10 +220,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
     //
     // assertOriginEntries(3, outputTransactions);
     // }
+    
     /**
-     * Check GL Entry inserts
+     * Covers the posting of GL entries
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPostGlEntry() throws Exception {
         LOG.debug("testPostGlEntry() started");
@@ -273,7 +283,7 @@ public class PosterServiceTest extends OriginEntryTestBase {
     /**
      * Check valid and invalid reversal posting
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPostReversal() throws Exception {
         LOG.debug("testPostReversal() started");
@@ -300,6 +310,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("FDOC_REVERSAL_DT wrong", "2006-03-01", sdf.format((Date) reversalEntry.get("FDOC_REVERSAL_DT")));
     }
 
+    /**
+     * Covers entry posting's effects on balances
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testPostBalance() throws Exception {
         LOG.debug("testPostBalance() started");
 
@@ -400,6 +415,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("2 MO13_ACCT_LN_AMT is wrong", 130.00, getAmount(balance, "MO13_ACCT_LN_AMT"), 0.01);
     }
 
+    /**
+     * Covers entry posting's effects on encumbrances
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testPostEncumbrance() throws Exception {
         LOG.debug("testPostEncumbrance() started");
 
@@ -455,6 +475,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("ACLN_ENCUM_CLS_AMT is wrong", 60, getAmount(enc5215, "ACLN_ENCUM_CLS_AMT"), 0.01);
     }
 
+    /**
+     * Covers posting entry's effects on account balances
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testPostGlAccountBalance() throws Exception {
         LOG.debug("testPostGlAccountBalance() started");
 
@@ -492,6 +517,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("ACLN_ENCUM_BAL_AMT is wrong", 340.00, getAmount(bal, "ACLN_ENCUM_BAL_AMT"), 0.01);
     }
 
+    /**
+     * Covers posting entry's effects on expenditure transactions
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     // @RelatesTo(RelatesTo.JiraIssue.KULRNE4797)
     public void testPostExpenditureTransaction() throws Exception {
         LOG.debug("testPostExpenditureTransaction() started");
@@ -572,6 +602,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("Amount wrong", 23.00, getAmount(acct4631464, "ACCT_OBJ_DCST_AMT"), 0.01);
     }
 
+    /**
+     * Covers the reversal poster
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testReversalPoster() throws Exception {
         LOG.debug("testPostReversalPosting() started");
 
@@ -600,6 +635,11 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("Wrong doc nbr", "REVTEST03", row3.get("FDOC_NBR"));
     }
 
+    /**
+     * Covers poster ICR generation
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason
+     */
     public void testIcrGeneration() throws Exception {
         LOG.debug("testIcrGeneration() started");
         // Load the expenditure table
@@ -676,6 +716,13 @@ public class PosterServiceTest extends OriginEntryTestBase {
         assertEquals("9 amount wrong", 180.0, getAmount(row, "TRN_LDGR_ENTR_AMT"), 0.01);
     }
 
+    /**
+     * Converts an amount in a Map to a double (to make it easier to compare)
+     * 
+     * @param map the Map with values in it
+     * @param field the key of the Map with a double in it
+     * @return a double from that map
+     */
     private double getAmount(Map map, String field) {
         BigDecimal amt = (BigDecimal) map.get(field);
         if (amt == null) {

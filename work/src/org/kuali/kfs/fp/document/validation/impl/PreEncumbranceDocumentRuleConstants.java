@@ -16,7 +16,7 @@
 package org.kuali.module.financial.rules;
 
 /**
- * This class...
+ * Holds constants for <code>{@link org.kuali.module.financial.document.PreEncumbranceDocument}</code> business rules.
  */
 public class PreEncumbranceDocumentRuleConstants {
     public static final String PRE_ENCUMBRANCE_DOCUMENT_SECURITY_GROUPING = "Kuali.FinancialTransactionProcessing.PreEncumbranceDocument";

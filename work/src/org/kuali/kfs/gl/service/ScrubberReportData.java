@@ -15,7 +15,13 @@
  */
 package org.kuali.module.gl.service.impl.scrubber;
 
+/**
+ * A class which encapsulates statistics about a scrubber run
+ */
 public class ScrubberReportData {
+    /**
+     * Constructs a ScrubberReportData instance
+     */
     public ScrubberReportData() {
     }
 
@@ -33,7 +39,7 @@ public class ScrubberReportData {
     /**
      * Adds the values from the parameter report data into this object.
      * 
-     * @param anotherReport
+     * @param anotherReport another set of scrubber report data to add to this scrubber report data
      */
     public void incorporateReportData(ScrubberReportData anotherReport) {
         numberOfUnscrubbedRecordsRead += anotherReport.numberOfUnscrubbedRecordsRead;
@@ -48,42 +54,72 @@ public class ScrubberReportData {
         numberOfExpiredAccountsFound += numberOfExpiredAccountsFound;
     }
 
+    /**
+     * Increments the error records written count by 1
+     */
     public void incrementErrorRecordWritten() {
         numberOfErrorRecordsWritten++;
     }
 
+    /**
+     * Increments the expired account found count by 1
+     */
     public void incrementExpiredAccountFound() {
         numberOfExpiredAccountsFound++;
     }
 
+    /**
+     * Increments the scrubbed records written count by 1
+     */
     public void incrementScrubbedRecordWritten() {
         numberOfScrubbedRecordsWritten++;
     }
 
+    /**
+     * Increments the offset entry generated count by 1
+     */
     public void incrementOffsetEntryGenerated() {
         numberOfOffsetEntriesGenerated++;
     }
 
+    /**
+     * Increments the capitalization entry generated count by 1
+     */
     public void incrementCapitalizationEntryGenerated() {
         numberOfCapitalizationEntriesGenerated++;
     }
 
+    /**
+     * Increments the liability entry generated count by 1
+     */
     public void incrementLiabilityEntryGenerated() {
         numberOfLiabilityEntriesGenerated++;
     }
 
+    /**
+     * Increments the plant indebtedness entry count by 1
+     */
     public void incrementPlantIndebtednessEntryGenerated() {
         numberOfPlantIndebtednessEntriesGenerated++;
     }
 
+    /**
+     * Increments the cost share entry generated count by 1
+     */
     public void incrementCostShareEntryGenerated() {
         numberOfCostShareEntriesGenerated++;
     }
 
+    /**
+     * Increments the cost share encumbranace generated count by 1
+     */
     public void incrementCostShareEncumbranceGenerated() {
         numberOfCostShareEncumbrancesGenerated++;
     }
 
+    /**
+     * Increments the unscrubbed records read count by 1
+     */
     public void incrementUnscrubbedRecordsRead() {
         numberOfUnscrubbedRecordsRead++;
     }

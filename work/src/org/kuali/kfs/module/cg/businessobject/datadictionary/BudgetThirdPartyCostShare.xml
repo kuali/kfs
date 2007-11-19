@@ -120,8 +120,6 @@
 
         <objectLabel>Budget Third Party Cost Share</objectLabel>
         <objectDescription>Budget Third Party Cost Share is the third party cost share for your Budget.</objectDescription>
-        
-        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="THIRD_PARTY_COST_SHARE" />
 
     </businessObject>
 </dictionaryEntry>

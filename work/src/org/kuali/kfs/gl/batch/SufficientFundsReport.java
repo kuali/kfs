@@ -20,9 +20,16 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 
- * 
+ * An interface to generate a sufficient funds report.
  */
 public interface SufficientFundsReport {
+    /**
+     * Generates the sufficient funds report
+     * 
+     * @param reportErrors a Map of errors encountered during the sufficient funds rebuild process
+     * @param reportSummary a List of Strings that summarize the sufficient funds rebuild process 
+     * @param runDate the date the sufficient funds rebuild process was run
+     * @param mode the mode the sufficient funds rebuild process was run in
+     */
     public void generateReport(Map reportErrors, List reportSummary, Date runDate, int mode);
 }

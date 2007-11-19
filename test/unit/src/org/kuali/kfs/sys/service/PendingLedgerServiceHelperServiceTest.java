@@ -21,24 +21,17 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.test.ConfigureContext;
 
 /**
- * This class...
+ * A test that covers PendingLedgerService
  */
 @ConfigureContext
 public class PendingLedgerServiceHelperServiceTest extends AbstractGLLookupableHelperServiceTestBase {
 
+    /**
+     * Tests that PendingLedgerService is successfully saving and retrieving entries
+     * @throws Exception thrown if any exception is encountered for any reason 
+     */
     public void testSave() throws Exception {
         testDataGenerator.generateTransactionData(pendingEntry);
-        // System.out.println(pendingEntry.getAccountNumber());
-        // System.out.println(pendingEntry.getSubAccountNumber());
-        // System.out.println(pendingEntry.getFinancialSubObjectCode());
-        // System.out.println(pendingEntry.getFinancialObjectCode());
-        // System.out.println(pendingEntry.getFinancialObjectTypeCode());
-        // System.out.println(pendingEntry.getFinancialBalanceTypeCode());
-        // System.out.println(pendingEntry.getUniversityFiscalPeriodCode());
-        // System.out.println(pendingEntry.getUniversityFiscalYear());
-        // System.out.println(pendingEntry.getChartOfAccountsCode());
-        // System.out.println(pendingEntry.getTransactionLedgerEntrySequenceNumber());
-        // System.out.println(pendingEntry.getDocumentNumber());
 
         getPendingEntryService().delete("TEST69999");
         getPendingEntryService().save(pendingEntry);
@@ -63,6 +56,7 @@ public class PendingLedgerServiceHelperServiceTest extends AbstractGLLookupableH
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableTestBase#testGetSearchResults()
      */
     public void testGetSearchResults() throws Exception {
+        assertTrue("I'm successfully implementing an abstract method", true);
     }
 
     /**

@@ -21,8 +21,7 @@ import org.kuali.module.chart.service.ObjectLevelService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * This class is the service implementation for the ObjLevel structure. This is the default implementation, that is delivered with
- * Kuali.
+ * This service implementation is the default implementation of the ObjLevel service that is delivered with Kuali.
  */
 @Transactional
 public class ObjectLevelServiceImpl implements ObjectLevelService {

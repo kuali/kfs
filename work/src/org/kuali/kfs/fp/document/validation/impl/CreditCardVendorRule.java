@@ -29,19 +29,30 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.financial.bo.CreditCardVendor;
 
 /**
- * This class...
+ * This class represents business rules for the credit card vendor maintenance document
  */
 public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
     private CreditCardVendor newCreditCardVendor;
 
-
+    /**
+     *  Sets up a CreditCardVendor convenience objects to make sure all possible sub-objects are populated
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
+     */
     public void setupConvenienceObjects() {
 
-        // setup newCreditCardVendor convenience objects, make sure all possible sub-objects are populated
         newCreditCardVendor = (CreditCardVendor) super.getNewBo();
     }
 
+    /**
+     * Return true if rules for processing a save for the credit card maintenance document are are valid.
+     * 
+     * @param document maintenance document
+     * @return true credit card vendor number is valid
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         // default to success
         boolean success = true;
@@ -51,18 +62,27 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         success &= checkCreditCardVendorNumber();
 
         return success;
-
-
     }
 
+    /**
+     * Returns value from processCustomRouteDocumentBusinessRules(document)
+     * 
+     * @param document maintenance document
+     * @return value from processCustomRouteDocumentBusinessRules(document)
+     * 
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean processCustomApproveDocumentBusinessRules(MaintenanceDocument document) {
-        // default to success
-
 
         return processCustomRouteDocumentBusinessRules(document);
     }
 
     /**
+     * Returns true credit card vendor maintenance document is routed successfully
+     * 
+     * @param document submitted credit card maintenance document
+     * @return true if credit card vendor number, income/expense account numbers, income/expense sub-account numbers, and income/expense sub-object codes are valid
+     * 
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
@@ -163,6 +183,11 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * Returns true if credit card vendor number is valid (i.e. numeric and at least 5 digits)
+     * 
+     * @return true if credit card vendor number is valid (i.e. numeric and at least 5 digits)
+     */
     private boolean checkCreditCardVendorNumber() {
         String ccvNumber = newCreditCardVendor.getFinancialDocumentCreditCardVendorNumber();
 
@@ -185,7 +210,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * This method...is for checking whether or not account is active. check the existence and expired
+     * Returns true if account is active (i.e. exists and is not expired or closed)
+     * 
+     * @param accountNumber account number
+     * @param fieldName field name to place error for
+     * @param errorMessage error message to display
+     * @return true if account is active (i.e. exists and is not expired or closed)
      */
     private boolean checkExistingActiveAccount(String accountNumber, String fieldName, String errorMessage) {
         boolean result = false;
@@ -216,6 +246,13 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * Returns true if income/expense financial chart of accounts code and account number exist. Income or expense is determined by
+     * the "Income" value or the "Expense" value passed in to the method as a string
+     * 
+     * @param string determines whether or not to check income or expense sub account information (valid values include "Income" or "Expense")
+     * @return true if corresponding sub account values exist
+     */
     private boolean checkRequiredSubAccount(String string) {
         boolean returnVal = true;
         if (string.equals("Income")) {
@@ -248,6 +285,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * Returns a SubAccount object if SubAccount object exists for "Income" or "Expense"
+     * 
+     * @param string determines whether or not to retrieve a income or expense sub account (valid values include "Income" or "Expense")
+     * @return SubAccount Income/Expense SubAccount object
+     */
     private SubAccount checkExistenceSubAccount(String string) {
 
         SubAccount subAccount = null;
@@ -272,6 +315,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * Returns a true sub-object code exists for "Income" or "Expense"
+     * 
+     * @param string determines whether or not to check for an income or expense sub-object code (valid values include "Income" or "Expense")
+     * @return true if income/expense chart of account code, account number, and financial object code exist
+     */
     private boolean checkRequiredSubObjectCode(String string) {
 
         boolean returnVal = true;
@@ -317,6 +366,12 @@ public class CreditCardVendorRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * Returns a SubObjCd object if SubObjCd object exists for "Income" or "Expense"
+     * 
+     * @param string determines whether or not to retrieve a income or expense sub object (valid values include "Income" or "Expense")
+     * @return SubAccount Income/Expense SubObjCd object
+     */
     private SubObjCd checkExistenceSubObj(String string) {
 
         SubObjCd subObjCd = null;

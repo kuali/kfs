@@ -39,6 +39,9 @@ import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * The base implementation of the Collector service
+ */
 @Transactional
 public class CollectorServiceImpl implements CollectorService {
     private static Logger LOG = Logger.getLogger(CollectorServiceImpl.class);
@@ -52,7 +55,9 @@ public class CollectorServiceImpl implements CollectorService {
     private RunDateService runDateService;
 
     /**
-     * @see org.kuali.module.gl.service.CollectorService#performCollection()
+     * performs collection
+     * 
+     * @return status information related to the collection execution
      */
     public CollectorReportData performCollection() {
         List<String> fileNamesToLoad = batchInputFileService.listInputFileNamesWithDoneFile(collectorInputFileType);
@@ -90,6 +95,7 @@ public class CollectorServiceImpl implements CollectorService {
 
     /**
      * Clears out associated .done files for the processed data files.
+     * @param dataFileNames the name of files with done files to remove
      */
     private void removeDoneFiles(List<String> dataFileNames) {
         for (String dataFileName : dataFileNames) {
@@ -166,6 +172,12 @@ public class CollectorServiceImpl implements CollectorService {
         this.collectorScrubberService = collectorScrubberService;
     }
 
+    /**
+     * Adds execution statistics to the Collector run
+     * 
+     * @param collectorReportData data gathered from the run of the Collector
+     * @param collectorScrubberStatuses a List of CollectorScrubberStatus records
+     */
     protected void updateCollectorReportDataWithExecutionStatistics(CollectorReportData collectorReportData, List<CollectorScrubberStatus> collectorScrubberStatuses) {
         Collection<OriginEntryGroup> inputGroups = new ArrayList<OriginEntryGroup>();
 

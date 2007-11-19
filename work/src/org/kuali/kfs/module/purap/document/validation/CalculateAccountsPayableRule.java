@@ -18,11 +18,15 @@ package org.kuali.module.purap.rule;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 
 /**
- * Defines a rule which gets invoked on calculation of an AccountsPayable document.
+ * Calculate Accounts Payable Rule Interface.
+ * Defines a rule which gets invoked on the calculation of an Accounts Payable document.
  */
 public interface CalculateAccountsPayableRule {
+
     /**
-     * @param document
+     * Checks the rules that are applicable to the Calculate Event on an Accounts Payable Document
+
+     * @param document the document being checked
      * @return true if the business rules pass
      */
     public boolean processCalculateAccountsPayableBusinessRules(AccountsPayableDocument document);

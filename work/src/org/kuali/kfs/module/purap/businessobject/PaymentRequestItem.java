@@ -120,7 +120,6 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
      * @return - purchase order item
      */
     public PurchaseOrderItem getPurchaseOrderItem() {
-        // TODO (KULPURAP-1393) look into, this is total hackery but works for now, revisit during QA
         if (ObjectUtils.isNotNull(this.getPurapDocumentIdentifier())) {
             if (ObjectUtils.isNull(this.getPaymentRequest())) {
                 this.refreshReferenceObject(PurapPropertyConstants.PAYMENT_REQUEST);
@@ -179,7 +178,7 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
 
     /**
      * Exists due to a setter requirement by the htmlControlAttribute
-     * 
+     * @deprecated
      * @param amount - po outstanding amount
      */
     public void setPoOutstandingAmount(KualiDecimal amount) {
@@ -193,64 +192,17 @@ public class PaymentRequestItem extends AccountsPayableItemBase {
             return null;
         }
         else {
-            return getPoOutstandingQuantity(poi);
+            return poi.getOutstandingQuantity();
         }
     }
 
     /**
      * Exists due to a setter requirement by the htmlControlAttribute
-     * 
+     * @deprecated
      * @param amount - po outstanding quantity
      */
     public void setPoOutstandingQuantity(KualiDecimal qty) {
         // do nothing
-    }
-
-    public KualiDecimal getPoOutstandingQuantity(PurchaseOrderItem poi) {
-        if (poi == null) {
-            return KualiDecimal.ZERO;
-        }
-        else {
-            KualiDecimal outstandingQuantity = (poi.getItemQuantity() != null) ? poi.getItemQuantity() : KualiDecimal.ZERO;
-            KualiDecimal invoicedQuantity = (poi.getItemInvoicedTotalQuantity() != null) ? poi.getItemInvoicedTotalQuantity() : KualiDecimal.ZERO;
-            return outstandingQuantity.subtract(invoicedQuantity);
-        }
-    }
-
-    public KualiDecimal getPurchaseOrderItemPaidAmount() {
-        PurchaseOrderItem poi = this.getPurchaseOrderItem();
-        if ((poi == null) || !(poi.isItemActiveIndicator())) {
-            return KualiDecimal.ZERO;
-        }
-        return poi.getItemInvoicedTotalAmount();
-    }
-
-
-    public KualiDecimal getPurchaseOrderItemEncumbranceRelievedAmount() {
-        // get po item
-        PurchaseOrderItem poi = getPurchaseOrderItem();
-        // check that it is active else return zero
-        if (poi == null || !poi.isItemActiveIndicator()) {
-            return KualiDecimal.ZERO;
-        }
-        // setup outstanding amount and get totalEncumberance from poi.getExtendedCost()
-        KualiDecimal outstandingAmount = KualiDecimal.ZERO;
-        KualiDecimal totalEncumberance = poi.getExtendedPrice();
-
-        ItemType iT = poi.getItemType();
-        // if service add the po outstanding amount to outstandingamount
-        if (!iT.isQuantityBasedGeneralLedgerIndicator()) {
-            outstandingAmount = outstandingAmount.add(poi.getItemOutstandingEncumberedAmount());
-        }
-        else {
-            // else add outstanding quantity * unitprice
-            BigDecimal qty = new BigDecimal(this.getPoOutstandingQuantity(poi).toString());
-            outstandingAmount = outstandingAmount.add(new KualiDecimal(poi.getItemUnitPrice().multiply(qty)));
-        }
-
-
-        // return the total encumberance subtracted by the outstandingamount from above
-        return totalEncumberance.subtract(outstandingAmount);
     }
 
     public BigDecimal getPurchaseOrderItemUnitPrice() {

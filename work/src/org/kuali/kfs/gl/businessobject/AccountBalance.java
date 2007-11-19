@@ -34,8 +34,8 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * 
- * 
+ * Just as Balance is a summarization of Entry, so AccountBalance is a summarization of Balance.
+ * Specifically, it stores the current budget, actual, and encumbrance totals in one record.
  */
 public class AccountBalance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = 6873573726961704771L;

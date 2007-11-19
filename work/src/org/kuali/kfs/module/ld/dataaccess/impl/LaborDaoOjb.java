@@ -33,12 +33,13 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.LaborPropertyConstants.AccountingPeriodProperties;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
+import org.kuali.module.labor.bo.CalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.bo.LaborObject;
@@ -230,23 +231,13 @@ public class LaborDaoOjb extends PlatformAwareDaoBaseOjb implements LaborDao {
     /**
      * @see org.kuali.module.labor.dao.LaborDao#getJuly1PositionFunding(java.util.Map)
      */
-    public Collection getJuly1PositionFunding(Map fieldValues) {
-        Criteria criteria = new Criteria();
-        criteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding()));
+    public Collection<July1PositionFunding> getJuly1PositionFunding(Map<String, String> fieldValues) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new July1PositionFunding());
 
-        Map laborObjectFieldValues = new HashMap();
-        if (fieldValues.containsKey(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR)) {
-            laborObjectFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR));
-        }
-
-        if (fieldValues.containsKey(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE)) {
-            laborObjectFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
-        }
-
-        Criteria laborObjectCriteria = new Criteria();
-        laborObjectCriteria.addAndCriteria(OJBUtility.buildCriteriaFromMap(laborObjectFieldValues, new LaborObject()));
-
-        criteria.addEqualTo(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, laborObjectCriteria);
+        criteria.addEqualToField(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        criteria.addEqualToField(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        criteria.addEqualToField(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_CODE, KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        criteria.addNotNull(LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE);
 
         QueryByCriteria query = QueryFactory.newQuery(July1PositionFunding.class, criteria);
         OJBUtility.limitResultSize(query);

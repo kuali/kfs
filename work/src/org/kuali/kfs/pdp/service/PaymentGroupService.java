@@ -24,15 +24,6 @@ import org.kuali.module.pdp.bo.PaymentProcess;
 
 public interface PaymentGroupService {
     /**
-     * Get all payment groups by Payment Process Id/Disbursement Type
-     * 
-     * @param pid
-     * @param disbursementType
-     * @return
-     */
-    public Iterator getByProcessIdDisbursementType(Integer pid, String disbursementType);
-
-    /**
      * Get all payment groups by a disbursement type code and status code
      * 
      * @param disbursementType
@@ -56,6 +47,15 @@ public interface PaymentGroupService {
      * @return
      */
     public Iterator getByProcess(PaymentProcess p);
+
+    /**
+     * Get all payment groups by Payment Process Id/Disbursement Type
+     * 
+     * @param pid
+     * @param disbursementType
+     * @return
+     */
+    public List<Integer> getDisbursementNumbersByDisbursementType(Integer pid,String disbursementType);
 
     public void save(PaymentGroup pg);
 

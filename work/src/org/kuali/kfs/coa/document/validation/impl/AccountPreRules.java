@@ -69,7 +69,7 @@ public class AccountPreRules extends MaintenancePreRulesBase {
      * <li>{@link AccountPreRules#newAccountDefaults(MaintenanceDocument)}</li>
      * <li>{@link AccountPreRules#setStateFromZip}</li>
      * </ul>
-     * 
+     * This does not fail on rule failures
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
     protected boolean doCustomPreRules(MaintenanceDocument document) {

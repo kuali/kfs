@@ -33,6 +33,9 @@ import org.kuali.module.chart.bo.ObjectCodeGlobalDetail;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
 
+/**
+ * This class represents the business rules for the maintenance of {@link ObjectCodeGlobal} business objects
+ */
 public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     private ObjectCodeGlobal objectCodeGlobal;
     private ObjectCodeService objectCodeService;
@@ -46,7 +49,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
 
 
     /**
-     * This method sets the convenience objects like newAccount and oldAccount, so you have short and easy handles to the new and
+     * This method sets the convenience objects like objectCodeGlobal, so you have short and easy handles to the new and
      * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
      * all sub-objects from the DB by their primary keys, if available.
      * 
@@ -66,6 +69,11 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -78,6 +86,11 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -90,6 +103,11 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link ObjectCodeGlobalRule#checkSimpleRulesAllLines()}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -101,6 +119,16 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * This method checks to make sure that each new {@link ObjectCodeGlobalDetail} has: 
+     * <ul>
+     * <li>valid chart of accounts code</li>
+     * <li>valid fiscal year</li>
+     * <li>unique identifiers (not currently implemented)</li>
+     * </ul>
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument, java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
+     */
+    @Override
     public boolean processCustomAddCollectionLineBusinessRules(MaintenanceDocument document, String collectionName, PersistableBusinessObject bo) {
         boolean success = true;
         if (bo instanceof ObjectCodeGlobalDetail) {
@@ -128,12 +156,29 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method (will)put an error about unique identifier fields must not exist more than once.
+     * @param dtl
+     * @return true (not currently implemented fully)
+     */
     private boolean checkUniqueIdentifiers(ObjectCodeGlobalDetail dtl) {
         boolean success = true;
         return success;
 
     }
 
+    /**
+     * 
+     * This checks the following conditions:
+     * <ul>
+     * <li>{@link ObjectCodeGlobalRule#checkObjectLevelCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkNextYearObjectCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkReportsToObjectCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)}</li>
+     * </ul>
+     * @param dtl
+     * @return true if sub-rules succeed
+     */
     public boolean checkObjectCodeDetails(ObjectCodeGlobalDetail dtl) {
         boolean success = true;
         int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
@@ -153,7 +198,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * reportToChart in the detail section
      * 
      * @param dtl
-     * @return
+     * @return true if the reports to object is valid for the given reports to chart
      */
     private boolean checkReportsToObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
@@ -195,7 +240,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * and year
      * 
      * @param dtl
-     * @return
+     * @return false if this object code doesn't exist in the next fiscal year
      */
     private boolean checkNextYearObjectCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
@@ -227,7 +272,7 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
      * specified in the detail
      * 
      * @param dtl
-     * @return
+     * @return false if object level doesn't exist for the chart, and level code filled in
      */
     private boolean checkObjectLevelCode(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail dtl, int lineNum, boolean add) {
         boolean success = true;
@@ -260,6 +305,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     /**
      * This method checks the simple rules for all lines at once and gets called on save, submit, etc. but not on add
      * 
+     * <ul>
+     * <li>{@link ObjectCodeGlobalRule#checkFiscalYearAllLines(ObjectCodeGlobal)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkChartAllLines(ObjectCodeGlobal)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkObjectLevelCodeAllLines(ObjectCodeGlobal)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkNextYearObjectCodeAllLines(ObjectCodeGlobal)} </li>
+     * <li>{@link ObjectCodeGlobalRule#checkReportsToObjectCodeAllLines(ObjectCodeGlobal)} </li>
+     * </ul>
      * @return
      */
     protected boolean checkSimpleRulesAllLines() {
@@ -288,7 +340,12 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-
+    /**
+     * 
+     * This checks to make sure that there is at least one {@link ObjectCodeGlobalDetail} in the collection
+     * @param objectCodeGlobalDetails
+     * @return false if the collection is empty or null
+     */
     protected boolean checkForObjectCodeGlobalDetails(List<ObjectCodeGlobalDetail> objectCodeGlobalDetails) {
         if (objectCodeGlobalDetails == null || objectCodeGlobalDetails.size() == 0) {
             putFieldError(KFSConstants.MAINTENANCE_ADD_PREFIX + KFSPropertyConstants.OBJECT_CODE_GLOBAL_DETAILS + "." + KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_OBJECTMAINT_NO_CHART_FISCAL_YEAR);
@@ -297,6 +354,12 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
+    /**
+     * 
+     * This method calls {@link ObjectCodeGlobalRule#checkFiscalYear(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} on each detail object
+     * @param objectCodeGlobal
+     * @return true if all lines pass
+     */
     protected boolean checkFiscalYearAllLines(ObjectCodeGlobal objectCodeGlobal) {
         boolean success = true;
         int i = 0;
@@ -312,6 +375,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This method calls {@link ObjectCodeGlobalRule#checkChartOnObjCodeDetails(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} on each detail object
+     * 
+     * @param ocChangeDocument
+     * @return true if all lines pass
+     */
     protected boolean checkChartAllLines(ObjectCodeGlobal ocChangeDocument) {
         boolean success = true;
         int i = 0;
@@ -327,6 +397,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
 
+    /**
+     * 
+     * This method calls {@link ObjectCodeGlobalRule#checkReportsToObjectCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} on each detail object
+     * 
+     * @param objectCodeGlobalDocument2
+     * @return true if all lines pass
+     */
     private boolean checkReportsToObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
@@ -342,7 +419,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-
+    /**
+     * 
+     * This method calls {@link ObjectCodeGlobalRule#checkNextYearObjectCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} on each detail object
+     * 
+     * @param objectCodeGlobalDocument2
+     * @return true if all lines pass
+     */
     private boolean checkNextYearObjectCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
@@ -358,7 +441,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
-
+    /**
+     * 
+     * This method calls {@link ObjectCodeGlobalRule#checkObjectLevelCode(ObjectCodeGlobal, ObjectCodeGlobalDetail, int, boolean)} on each detail object
+     * 
+     * @param objectCodeGlobalDocument2
+     * @return true if all lines pass
+     */
     private boolean checkObjectLevelCodeAllLines(ObjectCodeGlobal objectCodeGlobalDocument2) {
         boolean success = true;
         int i = 0;
@@ -375,10 +464,13 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method checks to make sure that a given
      * 
-     * @param socChangeDocument
-     * @return
+     * This checks to make sure that the fiscal year has been entered
+     * @param objectCodeGlobal
+     * @param objectCodeGlobalDetail
+     * @param lineNum
+     * @param add
+     * @return false if no fiscal year value
      */
     protected boolean checkFiscalYear(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail objectCodeGlobalDetail, int lineNum, boolean add) {
         boolean success = true;
@@ -400,6 +492,15 @@ public class ObjectCodeGlobalRule extends MaintenanceDocumentRuleBase {
         return success;
     }
 
+    /**
+     * 
+     * This checks to make sure that the chart of accounts for the detail object has been filled in
+     * @param objectCodeGlobal
+     * @param objectCodeGlobalDetail
+     * @param lineNum
+     * @param add
+     * @return false if chart of accounts code null
+     */
     protected boolean checkChartOnObjCodeDetails(ObjectCodeGlobal objectCodeGlobal, ObjectCodeGlobalDetail objectCodeGlobalDetail, int lineNum, boolean add) {
         boolean success = true;
         String errorPath = KFSConstants.EMPTY_STRING;

@@ -191,8 +191,6 @@
         <objectLabel>Graduate Assistant Rate</objectLabel>
 
         <objectDescription>words</objectDescription>
-        
-        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="RATES" />
 
     </businessObject>
 </dictionaryEntry>

@@ -51,7 +51,7 @@
 					    <table width="50%" border=0 cellpadding=0 cellspacing=0 class="bord-r-t" align="center">
 					      <tr>
 					        <th align=left valign=top class="datacell">
-					          <center><font color="#800000" size="2"><br><b>An unexpected error has been encountered, please contact <a href="mailto:test@email.com">test@email.com</a> for assistance.</b></font><br><br></center>
+					          <center><font color="#800000" size="2"><br><b>An unexpected error has been encountered.</b></font><br><br></center>
 					        </th>
 					      </tr>
 					    </table>

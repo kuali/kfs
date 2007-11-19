@@ -29,7 +29,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLineBase;
 
 /**
- * 
+ * This class is used to represent a procurement card transaction detail business object.
  */
 public class ProcurementCardTransactionDetail extends PersistableBusinessObjectBase {
 

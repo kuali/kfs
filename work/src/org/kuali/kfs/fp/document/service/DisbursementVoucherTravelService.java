@@ -19,25 +19,33 @@ import java.sql.Timestamp;
 
 import org.kuali.core.util.KualiDecimal;
 
-
 /**
+ * 
+ * This service interface defines the methods that a DisbursementVoucherTravelService implementation must provide.
+ * 
  * Performs calculations of travel per diem and mileage amounts.
+ * 
  */
 public interface DisbursementVoucherTravelService {
 
     /**
-     * Calculates the per diem travel amount.
      * 
-     * @param travel
-     * @return
+     * Calculates the per diem travel amount.  
+     * 
+     * @param startDateTime The start date and time of the period of time we will calculate the per diem amount for.
+     * @param endDateTime The end date and time of the period of time we will calculate the per diem amount for.
+     * @param perDiemRate The per diem rate used to calculate the total amount.
+     * @return The per diem amount for the time period passed in and based on the rate given.
      */
     public KualiDecimal calculatePerDiemAmount(Timestamp startDateTime, Timestamp endDateTime, KualiDecimal perDiemRate);
 
     /**
+     * 
      * Calculates the mileage travel amount.
      * 
-     * @param travel
-     * @return
+     * @param totalMileage The total distance traveled.
+     * @param travelStartDate The start date of the travel.
+     * @return The mileage amount for the mileage given.
      */
     public KualiDecimal calculateMileageAmount(Integer totalMileage, Timestamp travelStartDate);
 

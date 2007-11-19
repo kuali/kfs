@@ -26,17 +26,17 @@ import edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue;
 public interface PurApWorkflowIntegrationService {
 
     /**
-     * TODO delyea - documentation
+     * Determine if action is requested of user at given node name
      * 
      * @param documentNumber
      * @param nodeName
      * @param user
-     * @return
+     * @return boolean indicating if action is requested of user at given node name
      */
     public boolean isActionRequestedOfUserAtNodeName(String documentNumber, String nodeName, UniversalUser user);
 
     /**
-     * TODO delyea - documentation
+     * Take all actions on the given document based on the given criteria
      * 
      * @param document
      * @param potentialAnnotation
@@ -48,11 +48,11 @@ public interface PurApWorkflowIntegrationService {
     public boolean takeAllActionsForGivenCriteria(Document document, String potentialAnnotation, String nodeName, UniversalUser user, String superUserNetworkId);
 
     /**
-     * TODO delyea - documentation
+     * Determine if the document will stop at the given node in the future routing process
      * 
      * @param document
      * @param givenNodeDetail
-     * @return
+     * @return boolean indicating if document is going to stop at the given node
      */
     public boolean willDocumentStopAtGivenFutureRouteNode(PurchasingAccountsPayableDocument document, NodeDetails givenNodeDetail);
 

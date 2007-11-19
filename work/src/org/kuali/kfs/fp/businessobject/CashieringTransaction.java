@@ -28,6 +28,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 
+/**
+ * This class represents a cashiering-related transaction used in the cash management document
+ */
 public class CashieringTransaction extends TransientBusinessObjectBase {
     public static final String DETAIL_DOCUMENT_TYPE = "CM";
 

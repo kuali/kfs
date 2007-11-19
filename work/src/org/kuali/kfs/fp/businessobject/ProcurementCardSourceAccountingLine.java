@@ -19,7 +19,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
 
 
 /**
- * 
+ * This class is used to represent a procurement card source accounting line.
  */
 public class ProcurementCardSourceAccountingLine extends SourceAccountingLine {
     private Integer financialDocumentTransactionLineNumber;

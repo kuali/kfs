@@ -41,6 +41,10 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
     protected LookupableHelperService lookupableHelperServiceImpl;
     protected GeneralLedgerPendingEntryService pendingEntryService;
 
+    /**
+     * Sets up the test by initializing several properties
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -124,7 +128,7 @@ public abstract class AbstractGLLookupableHelperServiceTestBase extends KualiTes
      * @param businessObject the given business object
      * @param isExtended determine if the extended lookup fields are used
      * @return a lookup form fields
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public Map getLookupFieldValues(PersistableBusinessObjectBase businessObject, boolean isExtended) throws Exception {
         List lookupFields = this.getLookupFields(isExtended);

@@ -230,7 +230,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             errorMap.putError(VendorPropertyConstants.VENDOR_NAME, PurapKeyConstants.ERROR_NONEXIST_VENDOR);
         }
         if (StringUtils.isBlank(poDocument.getVendorCountryCode())) {
-            // TODO can't this be done by the data dictionary?
             valid = false;
             errorMap.putError(PurapPropertyConstants.VENDOR_COUNTRY_CODE, KFSKeyConstants.ERROR_REQUIRED);
         }
@@ -325,12 +324,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Overrides the method in PurapAccountingDocumentRuleBase to call the customizeGeneralLedgerPendingEntry of the
-     * PurapGeneralLedgerService and set the financialDocumentTypeCode of the explicitEntry to "PO".
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
      * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
      */
@@ -341,8 +334,8 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
 
         SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(po, accountingLine, explicitEntry, po.getPurapDocumentIdentifier(), GL_DEBIT_CODE, PurapDocTypeCodes.PO_DOCUMENT, true);
 
-        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT); // don't think i should have to override this,
-                                                                                    // but default isn't getting the right PO doc
+        // don't think i should have to override this, but default isn't getting the right PO doc
+        explicitEntry.setFinancialDocumentTypeCode(PurapDocTypeCodes.PO_DOCUMENT);
     }
 
 

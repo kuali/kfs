@@ -24,11 +24,14 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * An implementation of ValueFinder that allows balance inquiries to choose between consolidated results or detailed results
  */
 public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns a list of key value pairs to allow inquirers to choose between consolidated results or detailed results
+     * 
+     * @return a List of key value pairs to poplulate radio buttons
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -40,6 +43,8 @@ public class GLConsolidationOptionFinder extends KeyValuesBase implements ValueF
     }
 
     /**
+     * Gets the default value for this ValueFinder, in this case CONSOLIDATED
+     * @return a String with the default value for this ValueFinder
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {

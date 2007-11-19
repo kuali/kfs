@@ -26,7 +26,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 
 /**
- * 
+ * This class is used to represent a sales tax business object.
  */
 public class SalesTax extends PersistableBusinessObjectBase {
 

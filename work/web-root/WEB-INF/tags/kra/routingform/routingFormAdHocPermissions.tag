@@ -105,7 +105,7 @@
                     	<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.personUserIdentifier" />
                     </td>
                     <td>${person.user.campusCode}<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.campusCode" /></td>
-                    <td>${person.orgCode}<html:hidden property="document.routingFormAdHocPerson[${status.index}].user.deptid" /></td>
+                    <td>${person.primaryDepartmentCode}</td>
                     <td>
                     	<c:if test="${displayReadOnly}"><html:hidden property="document.routingFormAdHocPerson[${status.index}].permissionCode" /></c:if>
                     	<kul:htmlControlAttribute property="document.routingFormAdHocPerson[${status.index}].permissionCode" attributeEntry="${routingFormAdHocPersonAttributes.permissionCode}" readOnly="${displayReadOnly}"/>

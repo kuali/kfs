@@ -28,11 +28,19 @@ import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
+/**
+ * This class is used to help generate PDF output
+ */
 public class PDFPageHelper extends PdfPageEventHelper {
     private Date runDate;
     private Font headerFont;
     private String title;
 
+    /**
+     * Generates output for end page
+     * 
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */
     public void onEndPage(PdfWriter writer, Document document) {
         try {
             Rectangle page = document.getPageSize();

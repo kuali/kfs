@@ -31,6 +31,7 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
+import org.kuali.module.labor.util.DebitCreditUtil;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,12 +51,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         LaborGeneralLedgerEntry laborGeneralLedgerEntry = new LaborGeneralLedgerEntry();
         ObjectUtil.buildObject(laborGeneralLedgerEntry, transaction);
 
-        laborGeneralLedgerEntry.setReferenceFinancialSystemOriginationCode(null);
-        laborGeneralLedgerEntry.setReferenceFinancialDocumentNumber(null);
-        laborGeneralLedgerEntry.setReferenceFinancialDocumentTypeCode(null);
-        laborGeneralLedgerEntry.setFinancialDocumentReversalDate(null);
-
-        laborGeneralLedgerEntry.setTransactionPostingDate(new Date(postDate.getTime()));
         laborGeneralLedgerEntry.setTransactionDate(new Date(postDate.getTime()));
 
         laborGeneralLedgerEntry.setTransactionDebitCreditCode(this.getDebitCreditCode(transaction));
@@ -77,7 +72,7 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      */
     private String getDebitCreditCode(Transaction transaction) {
         KualiDecimal transactionAmount = transaction.getTransactionLedgerEntryAmount();
-        return transactionAmount.isNegative() ? KFSConstants.GL_CREDIT_CODE : KFSConstants.GL_DEBIT_CODE;
+        return DebitCreditUtil.getDebitCreditCode(transactionAmount, false);
     }
 
     /**
@@ -92,14 +87,9 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
      * @return the encumbrance update code
      */
     private String getEncumbranceUpdateCode(Transaction transaction) {
-        String documentTypeCode = transaction.getFinancialDocumentTypeCode();
-        boolean isEncumbrance = LaborConstants.PayrollDocumentTypeCode.ENCUMBRANCE.equals(documentTypeCode);
-
-        if (isEncumbrance) {
-            String encumbranceUpdateCode = transaction.getTransactionEncumbranceUpdateCode();
-            if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
-                return encumbranceUpdateCode;
-            }
+        String encumbranceUpdateCode = transaction.getTransactionEncumbranceUpdateCode();
+        if (KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(encumbranceUpdateCode) || KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(encumbranceUpdateCode)) {
+            return encumbranceUpdateCode;
         }
         return null;
     }
@@ -137,11 +127,6 @@ public class LaborGLLedgerEntryPoster implements PostTransaction {
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.HAND_DRAWN_CHECK, "PAYROLL HAND DRAWN CHECK PAYMENTS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.OVERPAYMENT, "PAYROLL OVERPAYMENT COLLECTIONS");
         descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.RETROACTIVE_ADJUSTMENT, "PAYROLL RETROACTIVE ADJUSTMENTS");
-
-        // descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_ST, "PAYROLL EXPENSE TRANSFERS");
-        // descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_BT, "PAYROLL EXPENSE TRANSFERS");
-        // descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEBT, "PAYROLL EXPENSE TRANSFERS");
-        // descriptionMap.put(LaborConstants.PayrollDocumentTypeCode.EXPENSE_TRANSFER_YEST, "PAYROLL EXPENSE TRANSFERS");
 
         return descriptionMap;
     }

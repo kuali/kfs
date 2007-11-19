@@ -26,7 +26,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 
 /**
- * Purchase Order Document
+ * Purchase Order Close Document
  */
 public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderCloseDocument.class);
@@ -38,6 +38,12 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         super();
     }
 
+    /**
+     * General Ledger pending entries are not created on save for this document. They are created when the document has been finally
+     * processed. Overriding this method so that entries are not created yet.
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#prepareForSave(org.kuali.core.rule.event.KualiDocumentEvent)
+     */
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
         LOG.info("prepareForSave(KualiDocumentEvent) do not create gl entries");
@@ -45,6 +51,12 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         setGeneralLedgerPendingEntries(new ArrayList());
     }
 
+    /**
+     * When Purchase Order Close document has been Processed through Workflow, the general ledger entries are created and the PO
+     * status changes to "CLOSED".
+     * 
+     * @see org.kuali.module.purap.document.PurchaseOrderDocument#handleRouteStatusChange()
+     */
     @Override
     public void handleRouteStatusChange() {
         super.handleRouteStatusChange();
@@ -57,7 +69,7 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
             // update indicators
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForApprovedPODocuments(this);
 
-            // set purap status, status history and note
+            // set purap status
             SpringContext.getBean(PurapService.class).updateStatus(this, PurchaseOrderStatuses.CLOSED);
             SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(this);
         }
@@ -68,7 +80,6 @@ public class PurchaseOrderCloseDocument extends PurchaseOrderDocument {
         // DOCUMENT CANCELLED
         else if (getDocumentHeader().getWorkflowDocument().stateIsCanceled()) {
             SpringContext.getBean(PurchaseOrderService.class).setCurrentAndPendingIndicatorsForCancelledChangePODocuments(this);
-
         }
 
     }

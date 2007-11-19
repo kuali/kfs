@@ -22,17 +22,26 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubObjCd;
 
 /**
- * This class...
+ * PreRules checks for the {@link SubObjCd} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
  */
 public class SubObjectPreRules extends MaintenancePreRulesBase {
-    private SubObjCd newAccount;
-    private SubObjCd copyAccount;
+    private SubObjCd newSubObjectCode;
+    private SubObjCd copySubObjectCode;
 
 
     public SubObjectPreRules() {
 
     }
-
+    
+    /**
+     * Executes the following pre rules
+     * <ul>
+     * <li>{@link SubObjectPreRules#checkForContinuationAccounts()}</li>
+     * </ul>
+     * This does not fail on rule failures
+     * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
+     */
     protected boolean doCustomPreRules(MaintenanceDocument document) {
 
         setupConvenienceObjects(document);
@@ -44,23 +53,33 @@ public class SubObjectPreRules extends MaintenancePreRulesBase {
         return true;
     }
 
+    /**
+     * This method checks for continuation accounts and presents the user with a question regarding their use on this account.
+     * 
+     */
     private void checkForContinuationAccounts() {
         LOG.debug("entering checkForContinuationAccounts()");
 
-        if (StringUtils.isNotBlank(newAccount.getAccountNumber())) {
-            Account account = checkForContinuationAccount("Account Number", newAccount.getChartOfAccountsCode(), newAccount.getAccountNumber(), "");
+        if (StringUtils.isNotBlank(newSubObjectCode.getAccountNumber())) {
+            Account account = checkForContinuationAccount("Account Number", newSubObjectCode.getChartOfAccountsCode(), newSubObjectCode.getAccountNumber(), "");
             if (ObjectUtils.isNotNull(account)) { // override old user inputs
-                newAccount.setAccountNumber(account.getAccountNumber());
-                newAccount.setChartOfAccountsCode(account.getChartOfAccountsCode());
+                newSubObjectCode.setAccountNumber(account.getAccountNumber());
+                newSubObjectCode.setChartOfAccountsCode(account.getChartOfAccountsCode());
             }
         }
     }
 
+    /**
+     * This method sets the convenience objects like newSubObjectCode and copySubObjectCode, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
+     * @param document
+     */
     private void setupConvenienceObjects(MaintenanceDocument document) {
 
         // setup newAccount convenience objects, make sure all possible sub-objects are populated
-        newAccount = (SubObjCd) document.getNewMaintainableObject().getBusinessObject();
-        copyAccount = (SubObjCd) ObjectUtils.deepCopy(newAccount);
-        copyAccount.refresh();
+        newSubObjectCode = (SubObjCd) document.getNewMaintainableObject().getBusinessObject();
+        copySubObjectCode = (SubObjCd) ObjectUtils.deepCopy(newSubObjectCode);
+        copySubObjectCode.refresh();
     }
 }

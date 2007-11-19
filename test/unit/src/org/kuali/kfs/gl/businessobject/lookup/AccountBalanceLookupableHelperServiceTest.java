@@ -36,6 +36,10 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
 
     private AccountBalanceService accountBalanceService;
 
+    /**
+     * Initializes the services needed for this test
+     * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableHelperServiceTestBase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -46,6 +50,8 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     }
 
     /**
+     * Covers the search results returned by AccountBalanceLookupableService
+     * @throws Exception thrown if any exception is encountered for any reason
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableTestBase#testGetSearchResults()
      */
     public void testGetSearchResults() throws Exception {
@@ -91,7 +97,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     /**
      * This method includes the test cases applied to the consolidation option: Consolidate and Detail
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testConsolidationOption() throws Exception {
         // ensure the transaction data does not exist in enty table. Otherwise, execption may be raised
@@ -133,7 +139,7 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     /**
      * This method includes the test cases applied to the consolidation option: Consolidate and Detail
      * 
-     * @throws Exception
+     * @throws Exception thrown if any exception is encountered for any reason
      */
     public void testPerformance() throws Exception {
         long threshlod = 60000;
@@ -169,6 +175,9 @@ public class AccountBalanceLookupableHelperServiceTest extends AbstractGLLookupa
     }
 
     /**
+     * Returns a List of field names to check in the search results
+     * @param isExtended true if extended attributes should be included for checking, false otherwise
+     * @return a List of field names to check
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableTestBase#getLookupFields(boolean)
      */
     public List getLookupFields(boolean isExtended) {

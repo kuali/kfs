@@ -18,11 +18,14 @@ package org.kuali.module.purap.rule;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 
 /**
- * Defines a rule which gets invoked on cancel of an AccountsPayable document.
+ * Cancel Accounts Payable Rule Interface
+ * Defines a rule which gets invoked on the cancel action of an AccountsPayable document.
  */
 public interface CancelAccountsPayableRule {
+
     /**
-     * @param document
+     * Checks the rules that are applicable to the Cancel Event on an Accounts Payable Document
+     * @param document the document to check
      * @return true if the business rules pass
      */
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document);

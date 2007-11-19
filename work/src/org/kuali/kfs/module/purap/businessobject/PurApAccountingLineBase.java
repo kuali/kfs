@@ -80,14 +80,10 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      * @see org.kuali.module.purap.bo.PurApAccountingLine#accountStringsAreEqual(org.kuali.kfs.bo.SourceAccountingLine)
      */
     public boolean accountStringsAreEqual(SourceAccountingLine accountingLine) {
-        // TODO PURAP - need more fields for comparison or not? - look at org.kuali.kfs.bo.AccountingLineBase#getValuesMap()
         if (accountingLine == null) {
             return false;
         }
         return new EqualsBuilder().append(getChartOfAccountsCode(), accountingLine.getChartOfAccountsCode()).append(getAccountNumber(), accountingLine.getAccountNumber()).append(getSubAccountNumber(), accountingLine.getSubAccountNumber()).append(getFinancialObjectCode(), accountingLine.getFinancialObjectCode()).append(getFinancialSubObjectCode(), accountingLine.getFinancialSubObjectCode()).append(getProjectCode(), accountingLine.getProjectCode()).append(getOrganizationReferenceId(), accountingLine.getOrganizationReferenceId())
-        // .append(getReferenceOriginCode(),accountingLine.getReferenceOriginCode())
-                // .append(getReferenceNumber(),accountingLine.getReferenceNumber())
-                // .append(getReferenceTypeCode(),accountingLine.getReferenceTypeCode())
                 .isEquals();
     }
 
@@ -100,8 +96,7 @@ public abstract class PurApAccountingLineBase extends SourceAccountingLine imple
      * @see org.kuali.module.purap.bo.PurApAccountingLine#generateSourceAccountingLine()
      */
     public SourceAccountingLine generateSourceAccountingLine() {
-        // TODO PURAP - this method needs to copy any account field we need to display
-        // and its fields should probably match method 'accountStringsAreEqual' above
+        // the fields here should probably match method 'accountStringsAreEqual' above
         SourceAccountingLine sourceLine = new SourceAccountingLine();
         sourceLine.setChartOfAccountsCode(getChartOfAccountsCode());
         sourceLine.setAccountNumber(getAccountNumber());

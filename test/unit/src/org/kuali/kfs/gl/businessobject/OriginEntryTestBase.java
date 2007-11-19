@@ -35,6 +35,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.context.TestUtils;
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.chart.bo.OffsetDefinition;
 import org.kuali.module.financial.bo.Bank;
 import org.kuali.module.gl.bo.OriginEntryFull;
@@ -43,6 +44,11 @@ import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.service.OriginEntryService;
 
+/**
+ * OriginEntryTestBase...the uberpowerful base of a lot of GL tests.  Basically, this class provides
+ * many convenience methods for writing tests that test against large batches of origin entries.
+ */
+@RawSQL
 public class OriginEntryTestBase extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryTestBase.class);
 
@@ -55,10 +61,18 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected KualiConfigurationService kualiConfigurationService = null;
     protected Date date;
 
+    /**
+     * Constructs a OriginEntryTestBase instance
+     */
     public OriginEntryTestBase() {
         super();
     }
 
+    /**
+     * Sets up this test base; that means getting some services from Spring and reseting the
+     * enhancement flags.
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -81,26 +95,55 @@ public class OriginEntryTestBase extends KualiTestBase {
     }
 
 
+    /**
+     * An inner class to point to a specific entry in a group
+     */
     protected class EntryHolder {
         public String groupCode;
         public String transactionLine;
 
+        /**
+         * Constructs a OriginEntryTestBase.EntryHolder
+         * @param groupCode the group that the entry to point to is in
+         * @param transactionLine the line number of the entry
+         */
         public EntryHolder(String groupCode, String transactionLine) {
             this.groupCode = groupCode;
             this.transactionLine = transactionLine;
         }
     }
 
+    /**
+     * Given a group source code and a bunch of transactions, creates a new group and adds all
+     * the transactions to that group
+     * 
+     * @param groupCode the source code of the new group
+     * @param transactions an array of String-formatted entries to save into the group
+     * @param date the creation date of the new group
+     */
     protected void loadInputTransactions(String groupCode, String[] transactions, Date date) {
         OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(date.getTime()), groupCode, true, true, true);
         loadTransactions(transactions, group);
     }
 
+    /**
+     * Given a group source code and a bunch of transactions, creates a new group and adds all
+     * the transactions to that group; sets the group creation date to today
+     * 
+     * @param groupCode the source code of the new group
+     * @param transactions an array of String-formatted entries to save into the group
+     */
     protected void loadInputTransactions(String groupCode, String[] transactions) {
         OriginEntryGroup group = originEntryGroupService.createGroup(new java.sql.Date(dateTimeService.getCurrentDate().getTime()), groupCode, true, true, true);
         loadTransactions(transactions, group);
     }
 
+    /**
+     * Loads an array of String formatted entries into the given origin entry group 
+     * 
+     * @param transactions an array of String formatted entries
+     * @param group the group to save those entries into
+     */
     protected void loadTransactions(String[] transactions, OriginEntryGroup group) {
         for (int i = 0; i < transactions.length; i++) {
             OriginEntryFull e = new OriginEntryFull(transactions[i]);
@@ -110,34 +153,61 @@ public class OriginEntryTestBase extends KualiTestBase {
         persistenceService.clearCache();
     }
 
+    /**
+     * Deletes everything in the expenditure transaction table
+     */
     protected void clearExpenditureTable() {
         unitTestSqlDao.sqlCommand("delete from gl_expend_trn_t");
     }
-
+    
+    /**
+     * Deletes everything in the sufficient fund balance table
+     */
     protected void clearSufficientFundBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_sf_balances_t");
     }
 
+    /**
+     * Deletes all entries in the entry table with the given chart code and account number
+     * 
+     * @param fin_coa_cd the chart code of entries to delete
+     * @param account_nbr the account number of entries to delete
+     */
     protected void clearGlEntryTable(String fin_coa_cd, String account_nbr) {
         unitTestSqlDao.sqlCommand("delete from gl_entry_t where fin_coa_cd = '" + fin_coa_cd + "' and account_nbr = '" + account_nbr + "'");
     }
 
+    /**
+     * Deletes everything in the gl reversal table
+     */
     protected void clearReversalTable() {
         unitTestSqlDao.sqlCommand("delete from gl_reversal_t");
     }
 
+    /**
+     * Deletes everything in the gl balance table
+     */
     protected void clearGlBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_balance_t");
     }
 
+    /**
+     * Deletes everything in the gl encumbrance table.
+     */
     protected void clearEncumbranceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_encumbrance_t");
     }
 
+    /**
+     * Deletes everything in the gl account balance table
+     */
     protected void clearGlAccountBalanceTable() {
         unitTestSqlDao.sqlCommand("delete from gl_acct_balances_t");
     }
 
+    /**
+     * Deletes everything in the gl origin entry table and the gl origin entry group table 
+     */
     protected void clearOriginEntryTables() {
         unitTestSqlDao.sqlCommand("delete from gl_origin_entry_t");
         unitTestSqlDao.sqlCommand("delete from gl_origin_entry_grp_t");
@@ -147,7 +217,8 @@ public class OriginEntryTestBase extends KualiTestBase {
      * Check all the entries in gl_origin_entry_t against the data passed in EntryHolder[]. If any of them are different, assert an
      * error.
      * 
-     * @param requiredEntries
+     * @param groupCount the expected size of the group
+     * @param requiredEntries an array of expected String-formatted entries to check against
      */
     protected void assertOriginEntries(int groupCount, EntryHolder[] requiredEntries) {
         persistenceService.clearCache();
@@ -230,6 +301,13 @@ public class OriginEntryTestBase extends KualiTestBase {
         }
     }
 
+    /**
+     * Given a list of origin entry groups and a group source code, returns the id of the group with that source code
+     * 
+     * @param groups a List of groups to selectg a group from
+     * @param groupCode the source code of the group to select
+     * @return the id of the first group in the list with that source code, or -1 if no groups with that source code were found
+     */
     protected int getGroup(List groups, String groupCode) {
         for (Iterator iter = groups.iterator(); iter.hasNext();) {
             Map element = (Map) iter.next();
@@ -246,16 +324,34 @@ public class OriginEntryTestBase extends KualiTestBase {
     protected static Object[] FLEXIBLE_OFFSET_ENABLED_FLAG = { OffsetDefinition.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_OFFSET_ENABLED_FLAG };
     protected static Object[] FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG = { Bank.class, KFSConstants.SystemGroupParameterNames.FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG };
 
+    /**
+     * Resets the flexible offset and flexible claim on cash parameters, so that processes running as unit tests have consistent behaviors
+     * @throws Exception if the parameters could not be reset for some reason
+     */
     protected void resetAllEnhancementFlags() throws Exception {
         setApplicationConfigurationFlag((Class) FLEXIBLE_OFFSET_ENABLED_FLAG[0], (String) FLEXIBLE_OFFSET_ENABLED_FLAG[1], false);
         setApplicationConfigurationFlag((Class) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[0], (String) FLEXIBLE_CLAIM_ON_CASH_BANK_ENABLED_FLAG[1], false);
     }
 
+    /**
+     * Resets a parameter for the sake of the unit test
+     * 
+     * @param componentClass the module class of the parameter
+     * @param name the name of the parameter to reset
+     * @param value the new value for the parameter
+     * @throws Exception thrown if some vague thing goes wrong
+     */
     protected void setApplicationConfigurationFlag(Class componentClass, String name, boolean value) throws Exception {
         TestUtils.setSystemParameter(componentClass, name, value ? "Y" : "N");
     }
 
 
+    /**
+     * Outputs the entire contents of a List to System.out
+     * 
+     * @param list a List, presumably of Origin entries, but really, it could be anything
+     * @param name the name of the list to display in the output
+     */
     protected void traceList(List list, String name) {
         trace("StartList " + name + "( " + list.size() + " elements): ", 0);
 
@@ -267,6 +363,12 @@ public class OriginEntryTestBase extends KualiTestBase {
         trace("", 0);
     }
 
+    /**
+     * Writes an object to standard out
+     * 
+     * @param o the object to output, after..
+     * @param tabIndentCount the number of tabs to push the object output
+     */
     protected void trace(Object o, int tabIndentCount) {
         PrintStream out = System.out;
 

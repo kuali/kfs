@@ -23,12 +23,12 @@ import org.kuali.module.purap.document.CreditMemoDocument;
 
 public enum CreditMemoItemFixture {
 
-    CM_QTY_UNRESTRICTED_ITEM_1(false, // itemRestrictedIndicator
+    CM_QTY_UNRESTRICTED_ITEM_1(
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
             new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
     ),
 
-    CM_ITEM_NO_APO(false, // itemRestrictedIndicator
+    CM_ITEM_NO_APO(
             PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
             new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
     ),
@@ -46,13 +46,12 @@ public enum CreditMemoItemFixture {
     ;
 
 
-    private boolean itemRestrictedIndicator;
+    //private boolean itemRestrictedIndicator;
     private PurApItemFixture purApItemFixture;
     private CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures;
 
 
-    private CreditMemoItemFixture(boolean itemRestrictedIndicator, PurApItemFixture purApItemFixture, CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures) {
-        this.itemRestrictedIndicator = itemRestrictedIndicator;
+    private CreditMemoItemFixture(PurApItemFixture purApItemFixture, CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures) {
         this.purApItemFixture = purApItemFixture;
         this.creditMemoAccountingLineFixtures = creditMemoAccountingLineFixtures;
     }
@@ -67,15 +66,8 @@ public enum CreditMemoItemFixture {
         }
     }
 
-    public PurchasingItem createRequisitionItem() {
-        RequisitionItem item = (RequisitionItem) purApItemFixture.createPurApItem(RequisitionItem.class);
-        item.setItemRestrictedIndicator(itemRestrictedIndicator);
-        return item;
-    }
-
-    public AccountsPayableItem createCreditMemoItem() {
+   public AccountsPayableItem createCreditMemoItem() {
         CreditMemoItem item = (CreditMemoItem) purApItemFixture.createPurApItem(CreditMemoItem.class);
-        // item.setItemRestrictedIndicator(itemRestrictedIndicator);
         return item;
     }
 }

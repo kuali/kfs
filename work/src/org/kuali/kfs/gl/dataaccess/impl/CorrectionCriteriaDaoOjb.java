@@ -25,10 +25,16 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.bo.CorrectionCriteria;
 import org.kuali.module.gl.dao.CorrectionCriteriaDao;
 
+/**
+ * An OJB implementation of CorrectionCriteriaDao
+ */
 public class CorrectionCriteriaDaoOjb extends PlatformAwareDaoBaseOjb implements CorrectionCriteriaDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CorrectionCriteriaDaoOjb.class);
 
     /**
+     * Deletes a correction criterion
+     * 
+     * @param criterion the criterion to delete
      * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#delete(org.kuali.module.gl.bo.CorrectionCriteria)
      */
     public void delete(CorrectionCriteria criterion) {
@@ -38,6 +44,11 @@ public class CorrectionCriteriaDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
+     * Queries the database for a list of all the correction criteria associated with the given GLCP document and correction group
+     * 
+     * @param documentNumber the GLCP document number of correction criteria to find
+     * @param correctionGroupLineNumber the correction group of correction criteria to find
+     * @return a List of collection criteria
      * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#findByDocumentNumberAndCorrectionGroupNumber(java.lang.String,
      *      java.lang.Integer)
      */
@@ -55,10 +66,10 @@ public class CorrectionCriteriaDaoOjb extends PlatformAwareDaoBaseOjb implements
         return returnList;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Saves a GLCP criterion
      * 
-     * @see org.kuali.module.gl.dao.CorrectionCriteriaDao#save(org.kuali.module.gl.bo.CorrectionCriteria)
+     * @param criterion the criterion to save
      */
     public void save(CorrectionCriteria criterion) {
         LOG.debug("save() started");

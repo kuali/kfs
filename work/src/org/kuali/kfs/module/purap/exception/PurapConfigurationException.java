@@ -15,6 +15,10 @@
  */
 package org.kuali.module.purap.exceptions;
 
+/**
+ * Represents an exception that is thrown when there is a configuration problem specific
+ * to Purchasing Accounts Payable module.
+ */
 public class PurapConfigurationException extends RuntimeException {
     public PurapConfigurationException() {
         super();

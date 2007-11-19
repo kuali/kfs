@@ -28,9 +28,8 @@ import static org.kuali.kfs.KFSPropertyConstants.SUB_ACCOUNT_NUMBER;
 
 import org.kuali.kfs.bo.AccountingLineParserBase;
 
-
 /**
- * 
+ * This class represents a line parser used for basic format with line descriptions
  */
 public class BasicFormatWithLineDescriptionAccountingLineParser extends AccountingLineParserBase {
     private static final String[] BASIC_WITH_LINE_DESCRIPTION = { CHART_OF_ACCOUNTS_CODE, ACCOUNT_NUMBER, SUB_ACCOUNT_NUMBER, FINANCIAL_OBJECT_CODE, FINANCIAL_SUB_OBJECT_CODE, PROJECT_CODE, ORGANIZATION_REFERENCE_ID, FINANCIAL_DOCUMENT_LINE_DESCRIPTION, AMOUNT };

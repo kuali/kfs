@@ -36,7 +36,12 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
         super();
     }
 
-    @Override
+    /**
+     * Asks for an override if the document hasn't reached full entry and the entered amount does not
+     * match the total amount of all items.
+     * 
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     public boolean doRules(Document document) {
 
         boolean preRulesOK = true;
@@ -56,10 +61,10 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
     }
 
     /**
-     * This method checks whether the invoice from the initial screen and the document invoice are mismatched. If so, it prompts the
+     * Checks whether the invoice from the initial screen and the document invoice are mismatched. If so, it prompts the
      * user for confirmation to proceed.
      * 
-     * @param accountsPayableDocument
+     * @param accountsPayableDocument - document to have its invoice/totals checked
      * @return
      */
     private boolean confirmInvoiceNoMatchOverride(AccountsPayableDocument accountsPayableDocument) {
@@ -87,7 +92,7 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
     }
 
     /**
-     * This method determines if the amount entered on the init tab is mismatched with the grand total of the document.
+     * Determines if the amount entered on the init tab is mismatched with the grand total of the document.
      * 
      * @param accountsPayableDocument
      * @return
@@ -102,6 +107,11 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
         return mismatched;
     }
 
+    /**
+     * Exists to be overriden by the child class and return the name of the document.
+     * 
+     * @return
+     */
     public String getDocumentName() {
         return "";
     }

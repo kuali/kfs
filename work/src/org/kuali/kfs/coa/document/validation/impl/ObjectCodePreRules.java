@@ -30,7 +30,10 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectLevelService;
 
-
+/**
+ * PreRules checks for the {@link ObjectCode} that needs to occur while still in the Struts processing. This includes defaults, confirmations,
+ * etc.
+ */
 public class ObjectCodePreRules extends PreRulesContinuationBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectCodePreRules.class);
 
@@ -38,6 +41,11 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
     private static ObjectLevelService objectLevelService;
     private Map reportsTo;
 
+    /**
+     * 
+     * Constructs a ObjectCodePreRules
+     * Pseudo-injects services and populates the reportsTo hierarchy
+     */
     public ObjectCodePreRules() {
         if (objectLevelService == null) {
             objectLevelService = SpringContext.getBean(ObjectLevelService.class);
@@ -47,7 +55,14 @@ public class ObjectCodePreRules extends PreRulesContinuationBase {
         reportsTo = chartService.getReportsToHierarchy();
     }
 
-
+    /**
+     * This method forces the reports to chart on the object code to be the correct one based on the 
+     * reports to hierarchy
+     * <p>
+     * Additionally if the object level is null or inactive it confirms with the user that this
+     * is actually the object level code they wish to use
+     * @see org.kuali.core.rules.PreRulesContinuationBase#doRules(org.kuali.core.document.Document)
+     */
     public boolean doRules(Document document) {
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
 

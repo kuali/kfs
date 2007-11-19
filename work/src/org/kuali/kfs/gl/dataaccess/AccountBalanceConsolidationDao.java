@@ -18,7 +18,22 @@ package org.kuali.module.gl.dao;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * An interface to methods needed to calculate Balance By Consolidation Balance inquiries to query the database
+ */
 public interface AccountBalanceConsolidationDao {
 
+    /**
+     * Returns account balance information that qualifies, based on the inquiry formed out of the parameters
+     * 
+     * @param objectTypes the object types of account balances to include in the inquiry
+     * @param universityFiscalYear the fiscal year of account balances to include in the inquiry
+     * @param chartOfAccountsCode the chart of accounts of account balances to include in the inquiry
+     * @param accountNumber the account number of account balances to include in the inquiry
+     * @param isExcludeCostShare whether to exclude cost share entries from this inquiry or not
+     * @param isConsolidated whether the results of the inquiry should be consolidated
+     * @param pendingEntriesCode whether the inquiry should also report results based on no pending entries, approved pending entries, or all pending entries
+     * @return a List of Maps with the report information from this inquiry
+     */
     public List<Map<String, Object>> findAccountBalanceByConsolidationObjectTypes(String[] objectTypes, Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, boolean isExcludeCostShare, boolean isConsolidated, int pendingEntriesCode);
 }

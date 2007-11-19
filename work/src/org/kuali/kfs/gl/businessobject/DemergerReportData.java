@@ -15,7 +15,13 @@
  */
 package org.kuali.module.gl.service.impl.scrubber;
 
+/**
+ * A class to encapsulate statistics generated during a demerger
+ */
 public class DemergerReportData {
+    /**
+     * Constructs a DemergerReportData instance
+     */
     public DemergerReportData() {
     }
 
@@ -32,7 +38,7 @@ public class DemergerReportData {
     /**
      * Adds the values from the parameter report data into this object.
      * 
-     * @param anotherReport
+     * @param anotherReport more demerger report data to add to the current demerger report data
      */
     public void incorporateReportData(DemergerReportData anotherReport) {
         errorTransactionsRead += anotherReport.errorTransactionsRead;
@@ -46,82 +52,164 @@ public class DemergerReportData {
         costShareEncumbranceTransactionsBypassed += anotherReport.costShareEncumbranceTransactionsBypassed;
     }
 
+    /**
+     * Increments the count of cost share encumbrance transactions read by 1
+     */
     public void incrementErrorTransactionsRead() {
         errorTransactionsRead++;
     }
 
+    /**
+     * Increments the count of error transactions written by 1
+     */
     public void incrementErrorTransactionsSaved() {
         errorTransactionsSaved++;
     }
 
+    /**
+     * Increments the count of valid transactions saved by 1
+     */
     public void incrementValidTransactionsSaved() {
         validTransactionsSaved++;
     }
 
+    /**
+     * Increments the count of offset transactions bypassed by 1
+     */
     public void incrementOffsetTransactionsBypassed() {
         offsetTransactionsBypassed++;
     }
 
+    /**
+     * Increments the count of capitalization transactions bypassed by 1
+     */
     public void incrementCapitalizationTransactionsBypassed() {
         capitalizationTransactionsBypassed++;
     }
 
+    /**
+     * Increments the count of liability transactions bypassed by 1
+     */
     public void incrementLiabilityTransactionsBypassed() {
         liabilityTransactionsBypassed++;
     }
 
+    /**
+     * Increments the count of transfer transactions bypassed by 1
+     */
     public void incrementTransferTransactionsBypassed() {
         transferTransactionsBypassed++;
     }
 
+    /**
+     * Increments the count of cost share transactions bypassed by 1
+     */
     public void incrementCostShareTransactionsBypassed() {
         costShareTransactionsBypassed++;
     }
 
+    /**
+     * Increments the count of cost share encumbrance transactions bypassed by 1
+     */
     public void incrementCostShareEncumbranceTransactionsBypassed() {
         costShareEncumbranceTransactionsBypassed++;
     }
 
+    /**
+     * Returns the count of capitalization transactions bypassed
+     * 
+     * @return the count of capitalization transactions bypassed
+     */
     public int getCapitalizationTransactionsBypassed() {
         return capitalizationTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of cost share encumbranace transactions bypassed
+     * 
+     * @return the count of cost share encumbranace transactions bypassed
+     */
     public int getCostShareEncumbranceTransactionsBypassed() {
         return costShareEncumbranceTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of cost share transactions bypassed
+     * 
+     * @return the count of cost share transactions bypassed
+     */
     public int getCostShareTransactionsBypassed() {
         return costShareTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of error transactions read
+     * 
+     * @return the count of error transactions read
+     */
     public int getErrorTransactionsRead() {
         return errorTransactionsRead;
     }
 
+    /**
+     * Returns the count of error transactions saved
+     * 
+     * @return the count of error transactions saved
+     */
     public int getErrorTransactionsSaved() {
         return errorTransactionsSaved;
     }
 
+    /**
+     * Returns the count of liability transactions bypassed
+     * 
+     * @return the count of liability transactions bypassed
+     */
     public int getLiabilityTransactionsBypassed() {
         return liabilityTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of offset transactions bypassed
+     * 
+     * @return the count of offset transactions bypassed
+     */
     public int getOffsetTransactionsBypassed() {
         return offsetTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of transfer transactions bypassed
+     * 
+     * @return the count of transfer transactions bypassed
+     */
     public int getTransferTransactionsBypassed() {
         return transferTransactionsBypassed;
     }
 
+    /**
+     * Returns the count of valid transactions saved
+     * 
+     * @return the count of valid transactions saved
+     */
     public int getValidTransactionsSaved() {
         return validTransactionsSaved;
     }
 
+    /**
+     * Resets the number of error transactions read to the given amount
+     * 
+     * @param x the count of error transactions read to reset to
+     */
     public void setErrorTransactionsRead(int x) {
         this.errorTransactionsRead = x;
     }
 
+    /**
+     * Resets the number of error transactions written to the given amount
+     * 
+     * @param x the count of error transactions written to reset to
+     */
     public void setErrorTransactionWritten(int x) {
         this.errorTransactionsSaved = x;
     }

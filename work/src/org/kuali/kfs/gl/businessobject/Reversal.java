@@ -35,7 +35,7 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * 
+ * This class represents a reversal of a transaction
  */
 public class Reversal extends PersistableBusinessObjectBase implements Transaction {
 

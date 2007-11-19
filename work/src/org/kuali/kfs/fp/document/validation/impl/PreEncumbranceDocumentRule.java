@@ -38,13 +38,20 @@ import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
-
 /**
  * Business rule(s) applicable to PreEncumbrance documents.
  */
 public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
 
     /**
+     * This method performs business rule checks on the accounting line being added to the document to ensure the accounting line
+     * is valid and appropriate for the document.  Currently, this method calls isRequiredReferenceFieldsValid() 
+     * associated with the new accounting line.  
+     * 
+     * @param financialDocument The document the new line is being added to.
+     * @param accountingLine The new accounting line being added.
+     * @return True if the business rules all pass, false otherwise.
+     * 
      * @see FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -54,6 +61,15 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
+     * This method performs business rule checks on the accounting line being updated to the document to ensure the accounting line
+     * is valid and appropriate for the document.  Currently, this method calls isRequiredReferenceFieldsValid() 
+     * associated with the updated accounting line.  
+     * 
+     * @param transactionalDocument The document the accounting line being updated resides within.
+     * @param accountingLine The original accounting line.
+     * @param updatedAccoutingLine The updated version of the accounting line.
+     * @return True if the business rules all pass for the update, false otherwise.
+     * 
      * @see FinancialDocumentRuleBase#processCustomUpdateAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.core.bo.AccountingLine)
      */
@@ -63,6 +79,13 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
+     * This method performs business rule checks on the accounting line being provided to ensure the accounting line
+     * is valid and appropriate for the document.  
+     * 
+     * @param transactionalDocument The document associated with the accounting line being validated.
+     * @param accountingLine The accounting line being validated.
+     * @return True if the business rules all pass, false otherwise.
+     * 
      * @see FinancialDocumentRuleBase#processCustomReviewAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
@@ -72,11 +95,11 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method checks that there is a value in a disencumbrance line's reference number field. This cannot be done by the
-     * DataDictionary validation because not all documents require it. It does not validate the existence of the referenced
-     * document.
+     * This method checks that there is a value in a disencumbrance line's reference number field. This cannot be 
+     * done by the DataDictionary validation because not all documents require it. It does not validate the 
+     * existence of the referenced document.
      * 
-     * @param accountingLine
+     * @param accountingLine The accounting line the reference field is being retrieved from.
      * @return True if the required external encumbrance reference field is valid, false otherwise.
      */
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {
@@ -93,10 +116,13 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * Pre Encumbrance document specific business rule checks for the "route document" event.
+     * This method performs custom route business rule checks on the document being routed.  The rules include 
+     * confirming that the reversal date is valid for routing.
      * 
-     * @param document
-     * @return boolean True if the rules checks passed, false otherwise.
+     * @param document The document being routed.
+     * @return True if all the business rules pass, false otherwise.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
@@ -112,8 +138,8 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     /**
      * If a PreEncumbrance document has a reversal date, it must not be earlier than the current date to route.
      * 
-     * @param preEncumbranceDocument
-     * @return boolean True if this document does not have a reversal date earlier than the current date, false otherwise.
+     * @param preEncumbranceDocument The document the reversal date is retrieved from.
+     * @return True if this document does not have a reversal date earlier than the current date, false otherwise.
      */
     private boolean isReversalDateValidForRouting(PreEncumbranceDocument preEncumbranceDocument) {
         java.sql.Date reversalDate = preEncumbranceDocument.getReversalDate();
@@ -121,10 +147,12 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * PreEncumbrance documents require at least one accounting line in either section for routing.
+     * PreEncumbrance documents require at least one source and one target accounting line for routing.
      * 
-     * @param financialDocument
-     * @return boolean True if the number of accounting lines are valid for routing, false otherwise.
+     * @param financialDocument The document being routed.
+     * @return True if the number of source and target accounting lines are both greater than zero, false otherwise.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#isAccountingLinesRequiredNumberForRoutingMet(org.kuali.kfs.document.AccountingDocument)
      */
     @Override
     protected boolean isAccountingLinesRequiredNumberForRoutingMet(AccountingDocument financialDocument) {
@@ -140,6 +168,9 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     /**
      * PreEncumbrance documents don't need to balance in any way.
      * 
+     * @param financialDocument The document whose bablance is being validated.
+     * @return Always returns true.
+     * 
      * @see FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
@@ -148,7 +179,13 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * This method contains Pre Encumbrance document specific GLPE explicit entry attribute assignments.
+     * This method contains PreEncumbrance document specific general ledger pending entry explicit entry 
+     * attribute assignments.  These attributes include financial balance type code, reversal date and 
+     * transaction encumbrance update code.
+     * 
+     * @param financialDocument The document which contains the explicit entry.
+     * @param accountingLine The accounting line the explicit entry is generated from.
+     * @param explicitEntry The explicit entry being updated.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
@@ -175,7 +212,14 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * limits only to expense object type codes
+     * This method limits valid debits to only expense object type codes.  Additionally, an 
+     * IllegalStateException will be thrown if the accounting line passed in is not an expense, 
+     * is an error correction with a positive dollar amount or is not an error correction and 
+     * has a negative amount. 
+     * 
+     * @param transactionalDocument The document the accounting line being checked is located in.
+     * @param accountingLine The accounting line being analyzed.
+     * @return True if the accounting line given is a debit accounting line, false otherwise.
      * 
      * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,

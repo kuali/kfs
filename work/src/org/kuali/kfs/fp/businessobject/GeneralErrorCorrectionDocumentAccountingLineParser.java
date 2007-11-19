@@ -32,7 +32,7 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
 
 
 /**
- * <code>GeneralErrorCorrectionDocument</code> accounting line parser
+ * This class represents a <code>GeneralErrorCorrectionDocument</code> accounting line parser.
  * 
  * @see org.kuali.module.financial.document.GeneralErrorCorrectionDocument
  */

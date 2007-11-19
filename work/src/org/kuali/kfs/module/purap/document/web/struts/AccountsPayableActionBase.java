@@ -407,7 +407,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
         AccountsPayableFormBase apForm = (AccountsPayableFormBase) form;
         String operation = "Cancel ";
         PurQuestionCallback callback = cancelCallbackMethod();
-        // TODO: ckirschenman - use a different data structure, Ideally a map that keeps the order things are put into it
         TreeMap<String, PurQuestionCallback> questionsAndCallbacks = new TreeMap<String, PurQuestionCallback>();
         questionsAndCallbacks.put("cancelAP", callback);
         AccountsPayableDocument apDoc = (AccountsPayableDocument) apForm.getDocument();
@@ -448,17 +447,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 // one way or another we will have to fake the user session so get the current one
                 UserSession originalUserSession = GlobalVariables.getUserSession();
 
-                // try to get the user, if null assume we should cancel as super user
-                /*
-                 * FIXME: FOLOWING IS NOT BEING SUPPORTED UNTIL RELEASE 3 - see KULPURAP-1712 UniversalUser user =
-                 * apDocumentSpecificService.getUniversalUserForCancel(document); if (ObjectUtils.isNotNull(user)) { // need to run
-                 * the disapprove as the user who requested the document be canceled LogicContainer logicToRun = new
-                 * LogicContainer() { public Object runLogic(Object[] objects) throws Exception { RequisitionDocument doc =
-                 * (RequisitionDocument)objects[0]; String noteText = (String)objects[1];
-                 * SpringContext.getBean(DocumentService.class).disapproveDocument(doc, noteText); return null; } };
-                 * SpringContext.getBean(PurapService.class).performLogicWithFakedUserSession(user.getPersonUserIdentifier(),
-                 * logicToRun, new Object[]{document, noteText}); } else
-                 */
                 if (SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(document)) {
                     // for now this works but if place of full entry changes it may need to be based on something else since may
                     // need disapprove
@@ -481,7 +469,6 @@ public class AccountsPayableActionBase extends PurchasingAccountsPayableActionBa
                 }
                 else {
                     try {
-                        // TODO RELEASE 3 (KULPURAP-2051, delyea) - Super User Cancel Needed?,
                         // need to run a super user cancel since person canceling may not have an action requested on the document
                         GlobalVariables.setUserSession(new UserSession(PurapConstants.SYSTEM_AP_USER));
                         documentService.superUserCancelDocument(documentService.getByDocumentHeaderId(document.getDocumentNumber()), "Document Cancelled by user " + originalUserSession.getUniversalUser().getPersonName() + " (" + originalUserSession.getUniversalUser().getPersonUserIdentifier() + ")");

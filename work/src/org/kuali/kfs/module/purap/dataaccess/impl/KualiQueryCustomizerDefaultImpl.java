@@ -19,11 +19,17 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.ojb.broker.accesslayer.QueryCustomizerDefaultImpl;
-
+/**
+ * 
+ * Contains methods of use to other QueryCustomizers
+ */
 public abstract class KualiQueryCustomizerDefaultImpl extends QueryCustomizerDefaultImpl {
+    /**
+     * exposes the list of attributes specified in the ojb file.  This is necessary since
+     * the super class does not expose this.
+     * @return a list of attributes
+     */
     public Map<String, String> getAttributes() {
-        // TODO: ctk ask about changing the other OjbQueryCustomizer to use this since
-        // it's the same logic
         // this is necessary since the attributes are not exposed as a list by default
         Field field = null;
         try {

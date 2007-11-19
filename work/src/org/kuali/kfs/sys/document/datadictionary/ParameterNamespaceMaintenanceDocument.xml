@@ -38,14 +38,11 @@
         </authorizations>
         <documentTypeName>ParameterNamespaceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PNMS</documentTypeCode>
-        <label>Parameter Namespace</label>
+        <label>Parameter Module</label>
         <summary>Module Maintenance Document</summary>
         <description>
             This document can be used to create or update modules.
         </description>
-        <help parameterNamespace="KR-NS" parameterDetailType="N/A"
-            parameterName="NERVOUS_SYSTEM_HELP_PARAMETER_NAMESPACE"
-        />
 
         <lockingKeys>
             <field attributeName="code" />

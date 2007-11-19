@@ -32,6 +32,9 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
+/**
+ * This interface represents a financial transaction
+ */
 public interface Transaction {
     public String getAccountNumber();
 

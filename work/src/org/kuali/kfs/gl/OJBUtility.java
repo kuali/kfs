@@ -97,7 +97,7 @@ public class OJBUtility {
     }
 
     /**
-     * limit the size of the result set from the given query operation
+     * Limit the size of the result set from the given query operation
      * 
      * @param query the given query operation
      */

@@ -45,11 +45,15 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     private ReportService reportService;
 
     /**
-     * Constructs a NightlyOutServiceImpl.java.
+     * Constructs a NightlyOutServiceImpl instance
      */
     public NightlyOutServiceImpl() {
     }
 
+    /**
+     * Deletes all the pending general ledger entries that have now been copied to origin entries
+     * @see org.kuali.module.gl.service.NightlyOutService#deleteCopiedPendingLedgerEntries()
+     */
     public void deleteCopiedPendingLedgerEntries() {
         LOG.debug("deleteCopiedPendingLedgerEntries() started");
 
@@ -57,6 +61,7 @@ public class NightlyOutServiceImpl implements NightlyOutService {
     }
 
     /**
+     * Copies the approved pending ledger entries to orign entry table and generates a report
      * @see org.kuali.module.gl.service.NightlyOutService#copyApprovedPendingLedgerEntries()
      */
     public void copyApprovedPendingLedgerEntries() {
@@ -86,8 +91,11 @@ public class NightlyOutServiceImpl implements NightlyOutService {
         reportService.generatePendingEntryLedgerSummaryReport(today, group);
     }
 
-    /*
-     * save pending ledger entry as origin entry
+    /**
+     * Saves pending ledger entry as origin entry
+     * 
+     * @param pendingEntry the pending entry to save as an origin entry
+     * @param group the group to save the new origin entry into
      */
     private void saveAsOriginEntry(GeneralLedgerPendingEntry pendingEntry, OriginEntryGroup group) {
         OriginEntryFull originEntry = new OriginEntryFull(pendingEntry);

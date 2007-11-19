@@ -26,7 +26,9 @@ import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
 /**
- * This class implements FiscalYearFunctionControlService.
+ * 
+ * This is the default implementation of the FiscalyearFunctionControlService interface.
+ * 
  */
 public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionControlService {
 
@@ -39,12 +41,12 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
      * Retrieves the FiscalYearFunctionControl by its composite primary key (all passed in as parameters) and returns the active
      * indicator.
      * 
-     * @param postingYear
-     * @param financialSystemFunctionControlCode
-     * @return boolean. Returns the value of the active indicator; returns null if PK is not found
+     * @param postingYear The posting year associated with the fiscal year function control being retrieved.
+     * @param financialSystemFunctionControlCode The function control code associated with the fiscal year function control being retrieved.
+     * @return Returns the value of the active indicator; returns null if PK is not found
      */
     private boolean getActiveIndByPrimaryId(Integer postingYear, String financialSystemFunctionControlCode) {
-        HashMap keys = new HashMap();
+        HashMap<String, Object> keys = new HashMap();
         keys.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, postingYear);
         keys.put(KFSPropertyConstants.FINANCIAL_SYSTEM_FUNCTION_CONTROL_CODE, financialSystemFunctionControlCode);
         FiscalYearFunctionControl control = (FiscalYearFunctionControl) businessObjectService.findByPrimaryKey(FiscalYearFunctionControl.class, keys);
@@ -54,8 +56,9 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     /**
      * Retrieves list of FiscalYearFunctionControls by its function control code.
      * 
-     * @param financialSystemFunctionControlCode
-     * @return List. Returns the list of FiscalYearFunctionControls
+     * @param financialSystemFunctionControlCode The function control code to search by.
+     * @param financialSystemFunctionActiveIndicator An active indicator used as a search parameter.
+     * @return The list of FiscalYearFunctionControls matching the search criteria provided.
      */
     private List getByFunctionControlCodeAndActiveInd(String financialSystemFunctionControlCode, String financialSystemFunctionActiveIndicator) {
         HashMap values = new HashMap();
@@ -66,6 +69,10 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     }
 
     /**
+     * Retrieves a collection of FiscalYearFunctionControls allowed for use in a budget adjustment.
+     * 
+     * @return A collection of FiscalYearFunctionControls representing the years allowed in a budget adjustment.
+     * 
      * @see FiscalYearFunctionControlService#getBudgetAdjustmentAllowedYears(String)
      */
     public List getBudgetAdjustmentAllowedYears() {
@@ -73,16 +80,32 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     }
 
     /**
+     * This method retrieves the value of the active indicator for a FiscalYearFunctionControl instance for the 
+     * given posting year.
+     * 
+     * @param postingYear The posting year used as a search parameter.
+     * @return True if the active indicator for the retrieved FiscalYearFunctionControl value retrieved is true, false otherwise.
+     * 
      * @see FiscalYearFunctionControlService#isBaseAmountChangeAllowed(Integer, String)
      */
     public boolean isBaseAmountChangeAllowed(Integer postingYear) {
         return getActiveIndByPrimaryId(postingYear, FY_FUNCTION_CONTROL_BASE_AMT_ALLOWED);
     }
 
+    /**
+     * 
+     * Gets the value of the businessObjectService attribute.
+     * @return An instance of the businessObjectService attribute.
+     */
     public BusinessObjectService getBusinessObjectService() {
         return businessObjectService;
     }
 
+    /**
+     * 
+     * Sets the businessObjectService attribute.
+     * @param businessObjectService The businessObjectService instance to set.
+     */
     public void setBusinessObjectService(BusinessObjectService businessObjectService) {
         this.businessObjectService = businessObjectService;
     }

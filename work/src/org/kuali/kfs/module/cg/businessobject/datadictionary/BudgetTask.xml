@@ -170,8 +170,6 @@
 
         <objectLabel>Budget Tasks</objectLabel>
         <objectDescription>Budget Tasks are the tasks for your Budget.</objectDescription>
-        
-        <objectHelp parameterNamespace="KFS-RA" parameterDetailType="Budget" parameterName="TASK" />
 
     </businessObject>
 </dictionaryEntry>

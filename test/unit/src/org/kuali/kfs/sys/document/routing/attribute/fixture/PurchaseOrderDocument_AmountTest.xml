@@ -76,14 +76,6 @@
         </employeeType>
         <moduleUsers>
           <entry>
-            <string>cams</string>
-            <org.kuali.module.cams.bo.CamsUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
-              <moduleId>cams</moduleId>
-            </org.kuali.module.cams.bo.CamsUser>
-          </entry>
-          <entry>
             <string>vendor</string>
             <org.kuali.module.vendor.bo.VendorUser>
               <personUniversalIdentifier>6162502038</personUniversalIdentifier>
@@ -116,14 +108,6 @@
             </org.kuali.module.kra.budget.bo.KraUser>
           </entry>
           <entry>
-            <string>budget</string>
-            <org.kuali.module.budget.bo.BudgetUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
-              <moduleId>budget</moduleId>
-            </org.kuali.module.budget.bo.BudgetUser>
-          </entry>
-          <entry>
             <string>purap</string>
             <org.kuali.module.purap.bo.PurapUser>
               <personUniversalIdentifier>6162502038</personUniversalIdentifier>
@@ -146,14 +130,6 @@
               <universalUser reference="../../../.."/>
               <moduleId>labor</moduleId>
             </org.kuali.module.labor.bo.LaborUser>
-          </entry>
-          <entry>
-            <string>ar</string>
-            <org.kuali.module.ar.bo.ArUser>
-              <personUniversalIdentifier>6162502038</personUniversalIdentifier>
-              <universalUser reference="../../../.."/>
-              <moduleId>ar</moduleId>
-            </org.kuali.module.ar.bo.ArUser>
           </entry>
           <entry>
             <string>cg</string>
@@ -243,7 +219,7 @@
     <deliveryCampusCode>BL</deliveryCampusCode>
     <vendorRestrictedIndicator>false</vendorRestrictedIndicator>
     <requestorPersonName>HUNTLEY,KEISHA Y</requestorPersonName>
-    <requestorPersonEmailAddress>test@email.com</requestorPersonEmailAddress>
+    <requestorPersonEmailAddress>knoreceipt-l@indiana.edu</requestorPersonEmailAddress>
     <requestorPersonPhoneNumber>111-111-1111</requestorPersonPhoneNumber>
     <deliveryBuildingName>Poplars</deliveryBuildingName>
     <deliveryBuildingRoomNumber>2</deliveryBuildingRoomNumber>
@@ -1789,7 +1765,7 @@
           <vendorAddressTypeRequiredCode>PO</vendorAddressTypeRequiredCode>
           <vendorContractAllowedIndicator>true</vendorContractAllowedIndicator>
           <vendorShowReviewIndicator>true</vendorShowReviewIndicator>
-          <vendorReviewText>The new vendor, {0}, is about to be routed.&lt;br /&gt; The vendor's document ID is {1}.&lt;br /&gt; Please fax your W-9/W-8BEN documentation to 111-111-1111 and reference the Vendor document number on the form. &lt;br /&gt; &lt;br /&gt; For inquiries regarding vendor additions, changes or other vendor-related requests, please contact the workgroup at 222-222-2222 or email &lt;a href="mailto:test@email.com"&gt;test@email.com&lt;/a&gt;. &lt;br /&gt; &lt;br /&gt; For general questions, please contact your local purchasing office. &lt;br /&gt; &lt;br /&gt; &lt;table class="datatable" border="2"&gt;&lt;tr&gt;&lt;th&gt;Campus&lt;/th&gt;&lt;th&gt;Hotline&lt;/th&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;Main&lt;/td&gt;&lt;td&gt;333-333-3333&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;East&lt;/td&gt;&lt;td&gt;444-444-4444&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;555-555-5555&lt;/td&gt;&lt;/tr&gt; &lt;/table&gt; &lt;br /&gt; &lt;br /&gt; Press "yes" below if you understand these instructions. Press "no" if you wish to return to the document before routing.</vendorReviewText>
+          <vendorReviewText>The new vendor, {0}, is about to be routed.&lt;br /&gt; The vendor's document ID is {1}.&lt;br /&gt; Please fax your W-9/W-8BEN documentation to 111-111-1111 and reference the Vendor document number on the form. &lt;br /&gt; &lt;br /&gt; For inquiries regarding vendor additions, changes or other vendor-related requests, please contact the workgroup at 222-222-2222 or email &lt;a href="mailto:knoreceipt-l@indiana.edu"&gt;knoreceipt-l@indiana.edu&lt;/a&gt;. &lt;br /&gt; &lt;br /&gt; For general questions, please contact your local purchasing office. &lt;br /&gt; &lt;br /&gt; &lt;table class="datatable" border="2"&gt;&lt;tr&gt;&lt;th&gt;Campus&lt;/th&gt;&lt;th&gt;Hotline&lt;/th&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;Main&lt;/td&gt;&lt;td&gt;333-333-3333&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;East&lt;/td&gt;&lt;td&gt;444-444-4444&lt;/td&gt;&lt;/tr&gt; &lt;tr&gt;&lt;td&gt;West&lt;/td&gt;&lt;td&gt;555-555-5555&lt;/td&gt;&lt;/tr&gt; &lt;/table&gt; &lt;br /&gt; &lt;br /&gt; Press "yes" below if you understand these instructions. Press "no" if you wish to return to the document before routing.</vendorReviewText>
           <addressType reference="../../../vendorAddresses/list/org.kuali.module.vendor.bo.VendorAddress/vendorAddressType"/>
           <versionNumber>4</versionNumber>
           <objectId>F5AD7DBC-0AA1-54D2-B949-1C7BAF74959F</objectId>

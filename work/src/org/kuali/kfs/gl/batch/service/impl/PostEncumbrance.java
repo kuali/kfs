@@ -35,6 +35,9 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.dao.EncumbranceDao;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * This implementation of PostTransaction posts a transaction that could be an encumbrance
+ */
 @Transactional
 public class PostEncumbrance implements PostTransaction, VerifyTransaction, EncumbranceCalculator {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostEncumbrance.class);
@@ -46,6 +49,9 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         encumbranceDao = ed;
     }
 
+    /**
+     * Constructs a PostEncumbrance instance
+     */
     public PostEncumbrance() {
         super();
     }
@@ -53,6 +59,9 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
     /**
      * Make sure the transaction is correct for posting. If there is an error, this will stop the transaction from posting in all
      * files.
+     * 
+     * @param t the transaction to verify
+     * @return a List of error messages, as Strings
      */
     public List verifyTransaction(Transaction t) {
         LOG.debug("verifyTransaction() started");
@@ -69,6 +78,11 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
     /**
      * Called by the poster to post a transaction. The transaction might or might not be an encumbrance transaction.
+     * 
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -115,6 +129,14 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         return returnCode;
     }
 
+    /**
+     * Given a Collection of encumbrances, returns the encumbrance that would affected by the given transaction
+     * 
+     * @param encumbranceList a Collection of encumbrances
+     * @param t the transaction to find the appropriate encumbrance for
+     * @return the encumbrance found from the list, or, if not found, a newly created encumbrance
+     * @see org.kuali.module.gl.batch.poster.EncumbranceCalculator#findEncumbrance(java.util.Collection, org.kuali.module.gl.bo.Transaction)
+     */
     public Encumbrance findEncumbrance(Collection encumbranceList, Transaction t) {
 
         // If it isn't an encumbrance transaction, skip it
@@ -178,6 +200,9 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         }
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Encumbrance.class).getFullTableName();
     }

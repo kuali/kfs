@@ -40,19 +40,25 @@ import org.kuali.module.gl.util.GeneralLedgerTestHelper;
 import org.kuali.test.ConfigureContext;
 
 /**
- * IF THIS TEST FAILS, READ KULRNE-34 regarding reference numbers
+ * A test to see if the balance forward year end process produces the expected origin entries
  */
 @ConfigureContext
 // @RelatesTo(RelatesTo.JiraIssue.KULRNE5916)
 public class BalanceForwardStepTest extends OriginEntryTestBase {
-
+    // IF THIS TEST FAILS, READ KULRNE-34 regarding reference numbers
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(BalanceForwardStepTest.class);
 
+    /**
+     * Constructs a BalanceForwardStepTest instance
+     */
     public BalanceForwardStepTest() {
         super();
     }
 
-
+    /**
+     * Sets up the test by getting the date parameter
+     * @see org.kuali.module.gl.OriginEntryTestBase#setUp()
+     */
     @Override
     protected void setUp() throws Exception {
 
@@ -169,6 +175,12 @@ public class BalanceForwardStepTest extends OriginEntryTestBase {
         TestUtils.setSystemParameter(ParameterConstants.GENERAL_LEDGER_BATCH.class, GLConstants.ANNUAL_CLOSING_FISCAL_YEAR_PARM, "2004");
     }
 
+    /**
+     * Removes the sequence number from the origin entry line
+     * 
+     * @param line the original origin entry line
+     * @return the filtered origin entry line
+     */
     private String filterOriginEntryLine(String line) {
         // right now, remove the sequence number from this test
         return line.substring(0, 51) + line.substring(57);

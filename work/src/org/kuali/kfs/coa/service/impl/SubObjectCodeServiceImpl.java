@@ -46,10 +46,20 @@ public class SubObjectCodeServiceImpl implements SubObjectCodeService {
         return this.getByPrimaryId(universityDateService.getCurrentFiscalYear(), chartOfAccountsCode, accountNumber, financialObjectCode, financialSubObjectCode);
     }
 
+    /**
+     * 
+     * This method injects SubObjectCodeDao
+     * @param subObjectCodeDao
+     */
     public void setSubObjectCodeDao(SubObjectCodeDao subObjectCodeDao) {
         this.subObjectCodeDao = subObjectCodeDao;
     }
 
+    /**
+     * 
+     * This method injects UniversityDateService
+     * @param universityDateService
+     */
     public void setUniversityDateService(UniversityDateService universityDateService) {
         this.universityDateService = universityDateService;
     }

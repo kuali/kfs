@@ -30,7 +30,7 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
 
 
 /**
- * <code>PreEncumbranceDocument</code> accounting line parser
+ * This class represents a <code>PreEncumbranceDocument</code> accounting line parser.
  * 
  * @see org.kuali.module.financial.document.PreEncumbranceDocument
  */

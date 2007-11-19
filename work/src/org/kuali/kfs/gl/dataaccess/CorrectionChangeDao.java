@@ -19,10 +19,30 @@ import java.util.List;
 
 import org.kuali.module.gl.bo.CorrectionChange;
 
+/**
+ * A DAO interface for CorrectionChange business objects to interact with the databse
+ */
 public interface CorrectionChangeDao {
+    /**
+     * This method saves a GLCP correction
+     * 
+     * @param spec the GLCP correction to save in the database
+     */
     void save(CorrectionChange spec);
 
+    /**
+     * Surprisingly, this method deletes a GLCP correction
+     * 
+     * @param spec the GLCP correction to delete
+     */
     void delete(CorrectionChange spec);
 
+    /**
+     * Finds CorrectionChanges associated with the given document and group
+     * 
+     * @param documentHeaderId the document number of a GLCP document
+     * @param correctionGroupLineNumber the line number of the group within the GLCP document to find correction chagnes for
+     * @return a List of correction changes
+     */
     List findByDocumentHeaderIdAndCorrectionGroupNumber(String documentHeaderId, Integer correctionGroupLineNumber);
 }

@@ -20,6 +20,16 @@ import java.util.Collection;
 
 import org.kuali.module.gl.document.CorrectionDocument;
 
+/**
+ * A DAO interface that declares methods...or, in this case, a method...for CorrectionDocuments to interact 
+ * with the database.
+ */
 public interface CorrectionDocumentDao {
+    /**
+     * Returns a Collection of GLCP documents finalized on the given date
+     * 
+     * @param date the finalization date of GLCP documents to find
+     * @return a Collection of GLCP documents
+     */
     public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date date);
 }

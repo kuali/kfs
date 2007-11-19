@@ -47,7 +47,8 @@ import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
- * @author local-ripierce Base class to handle pdf purchase order docs.
+ * Base class to handle pdf for purchase order quote request documents.
+ * 
  */
 public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PurchaseOrderQuoteRequestsPdf.class);
@@ -66,6 +67,14 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         super();
     }
 
+    /**
+     * Overrides the method in PdfPageEventHelper from itext to initialize the template and font for purchase
+     * order quote request pdf documents.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onOpenDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */    
     public void onOpenDocument(PdfWriter writer, Document document) {
         LOG.debug("onOpenDocument() started.");
         try {
@@ -79,6 +88,14 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         }
     }
 
+    /**
+     * Overrides the method in PdfPageEventHelper from itext to compose the footer and show the
+     * footer.
+     *
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+     */
     public void onEndPage(PdfWriter writer, Document document) {
         LOG.debug("onEndPage() started.");
         PdfContentByte cb = writer.getDirectContent();
@@ -98,8 +115,13 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         cb.saveState();
     }
 
+
     /**
-     * Puts the total number of pages into the template.
+     * Overrides the method in the PdfPageEventHelper from itext to put the total number of pages into the template.
+     * 
+     * @param writer    The PdfWriter for this document.
+     * @param document  The document.
+     * @see com.lowagie.text.pdf.PdfPageEventHelper#onCloseDocument(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
      */
     public void onCloseDocument(PdfWriter writer, Document document) {
         LOG.debug("onCloseDocument() started.");
@@ -120,6 +142,11 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         return new PurchaseOrderPdf();
     }
 
+    /**
+     * Creates an instance of a new Document and set its margins.
+     * 
+     * @return    The created Document object.
+     */
     private Document getDocument() throws DocumentException {
         LOG.debug("getDocument() started");
         Document document = new Document(PageSize.A4);
@@ -128,6 +155,15 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         return document;
     }
 
+    /**
+     * Generates the purchase order quote request list pdf document based on the data in the given input parameters
+     * by creating a pdf writer using the given byteArrayOutputStream then calls the createPOQuoteRequestsListPdf to 
+     * write the pdf document into the writer.
+     * 
+     * @param po                     The PurchaseOrderDocument to be used to generate the pdf.
+     * @param byteArrayOutputStream  The ByteArrayOutputStream to print the pdf to.
+     * @return                       Collection of errors which are made of the messages from DocumentException.
+     */
     public Collection generatePOQuoteRequestsListPdf(PurchaseOrderDocument po, ByteArrayOutputStream byteArrayOutputStream) {
         LOG.debug("generatePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
 
@@ -145,6 +181,15 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         return errors;
     }
 
+    /**
+     * Invokes the createPOQuoteRequestsListPdf method to create a purchase order quote list request pdf document 
+     * and saves it into a file which name and location are specified in the input parameters.
+     * 
+     * @param po               The PurchaseOrderDocument to be used to generate the pdf.
+     * @param pdfFileLocation  The location to save the pdf file.
+     * @param pdfFilename      The name for the pdf file.
+     * @return                 Collection of errors which are made of the messages from DocumentException.    
+     */
     public Collection savePOQuoteRequestsListPdf(PurchaseOrderDocument po, String pdfFileLocation, String pdfFilename) {
         LOG.debug("savePOQuoteRequestsListPDF() started for po number " + po.getPurapDocumentIdentifier());
 
@@ -169,7 +214,8 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
     /**
      * Deletes an already created PDF.
      * 
-     * @return
+     * @param pdfFileLocation  The location to save the pdf file.
+     * @param pdfFilename      The name for the pdf file.
      */
     public void deletePdf(String pdfFileLocation, String pdfFilename) {
         LOG.debug("deletePdf() started for po pdf file: " + pdfFilename);
@@ -179,11 +225,13 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
     }
 
     /**
-     * Create a PDF.
+     * Creates the pdf using given input parameters.
      * 
-     * @return
+     * @param po        The PurchaseOrderDocument to be used to create the pdf.
+     * @param document  The pdf document whose margins have already been set.
+     * @param writer    The PdfWriter to write the pdf document into.
+     * @throws DocumentException
      */
-
     private void createPOQuoteRequestsListPdf(PurchaseOrderDocument po, Document document, PdfWriter writer) throws DocumentException {
         LOG.debug("createPOQuoteRequestsListPdf() started for po number " + po.getPurapDocumentIdentifier());
 
@@ -317,15 +365,3 @@ public class PurchaseOrderQuoteRequestsPdf extends PdfPageEventHelper {
         LOG.debug("createPOQuoteRequestsListPdf()pdf document closed.");
     } // End of createQuotePdf()
 }
-/*
- * Copyright (c) 2004, 2005 The National Association of College and University Business Officers, Cornell University, Trustees of
- * Indiana University, Michigan State University Board of Trustees, Trustees of San Joaquin Delta College, University of Hawai'i,
- * The Arizona Board of Regents on behalf of the University of Arizona, and the r*smart group. Licensed under the Educational
- * Community License Version 1.0 (the "License"); By obtaining, using and/or copying this Original Work, you agree that you have
- * read, understand, and will comply with the terms and conditions of the Educational Community License. You may obtain a copy of
- * the License at: http://kualiproject.org/license.html THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
- * NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
- * CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */

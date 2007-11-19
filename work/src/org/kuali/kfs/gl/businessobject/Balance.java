@@ -33,7 +33,8 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * 
+ * This class contains the monthly balance amounts for a specific fiscal year, chart of accounts code, account number, 
+ * sub account number, object code, sub object code, balance type code, object type code
  * 
  */
 public class Balance extends PersistableBusinessObjectBase {
@@ -136,6 +137,12 @@ public class Balance extends PersistableBusinessObjectBase {
         return map;
     }
 
+    /**
+     * Returns an amount for a specific period
+     * 
+     * @param period period to grab amount for
+     * @return KualiDecimal amount for that specific period
+     */
     public KualiDecimal getAmount(String period) {
         if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(period)) {
             return getAccountLineAnnualBalanceAmount();
@@ -190,6 +197,12 @@ public class Balance extends PersistableBusinessObjectBase {
         }
     }
 
+    /**
+     * Add an amount to a specific period
+     * 
+     * @param period period to add amount to
+     * @param amount amount to add to period
+     */
     public void addAmount(String period, KualiDecimal amount) {
 
         if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(period)) {

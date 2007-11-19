@@ -110,6 +110,7 @@
 		<property name="universalUserService" ref="universalUserService" />
 		<property name="referenceService" ref="pdpReferenceService" />
 		<property name="dateTimeService" ref="dateTimeService" />
+		<property name="parameterService" ref="parameterService" />
 	</bean>
 
 	<bean id="pdpPaymentDetailSearchDao" parent="platformAwareDao" class="org.kuali.module.pdp.dao.ojb.PaymentDetailSearchDaoOjb">
@@ -152,7 +153,7 @@
 		</property>
 	</bean>
 
-	<bean id="pdpLoadFederalReserveBankDataJob" parent="scheduledJobDescriptor">
+	<bean id="pdpLoadFederalReserveBankDataJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpLoadFederalReserveBankDataStep" />
@@ -184,7 +185,7 @@
 		</property>
 	</bean>
 
-	<bean id="pdpExtractChecksJob" parent="scheduledJobDescriptor">
+	<bean id="pdpExtractChecksJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="pdpExtractChecksStep" />
@@ -231,6 +232,7 @@
 		<property name="parameterService" ref="parameterService"/>
 		<property name="directoryName" value="${staging.directory}/PDP/"/>
 		<property name="paymentGroupService" ref="pdpPaymentGroupService"/>
+		<property name="paymentDetailService" ref="pdpPaymentDetailService"/>
 		<property name="processDao" ref="pdpProcessDao"/>
 		<property name="dateTimeService" ref="dateTimeService"/>
 		<property name="referenceService" ref="pdpReferenceService"/>

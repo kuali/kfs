@@ -25,6 +25,9 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
+/**
+ * This class represents a unique header for use with a CollectorBatch class
+ */
 public class CollectorHeader extends PersistableBusinessObjectBase {
 
     private String chartOfAccountsCode;

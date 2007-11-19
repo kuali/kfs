@@ -21,7 +21,8 @@
   String path = request.getContextPath();
   int index = path.indexOf("-");
   String env = path.substring(++index).toUpperCase();
-  if (!"PRD".equals(env)) {
+  // This code is taken out of this release.
+  if ( 1 == 0 ) {
 %>
   <hr color="#800000" size="5">
     <font color="#800000"><b>**THIS IS NOT PRODUCTION!! - THIS IS A TEST ENVIRONMENT (<%=env%>)**</b></font>

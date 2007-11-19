@@ -214,6 +214,7 @@
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
                 <label>Default Sub-Account</label>
                 <shortLabel>Dflt Sub-Acct</shortLabel>
+                <required>false</required>
             </attributeReference>
 
             <attribute name="transactionCreditCardNumber" forceUppercase="true">

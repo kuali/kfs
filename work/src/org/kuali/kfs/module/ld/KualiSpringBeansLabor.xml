@@ -56,7 +56,7 @@
 		<property name="jobNames">
 			<list>
 				<value>laborBatchJob</value>
-				<value>yearEndBalanceForwardJob</value>
+				<value>laborBalanceForwardJob</value>
 			</list>
 		</property>
 	</bean>
@@ -440,7 +440,7 @@
 		</property>
 	</bean>
 	
-	<bean id="yearEndBalanceForwardJob" parent="scheduledJobDescriptor">
+	<bean id="laborBalanceForwardJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="laborYearEndBalanceForwardStep"/>
@@ -842,9 +842,6 @@
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>
-		<property name="laborInquiryOptionsService">
-			<ref bean="laborInquiryOptionsService" />
 		</property>
 		<property name="laborDao">
 			<ref bean="laborDao" />

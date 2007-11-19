@@ -37,6 +37,7 @@
 	<html:hidden property="document.accountsPayablePurchasingDocumentLinkIdentifier" />
 	<html:hidden property="document.paymentRequestedCancelIndicator" />
 	<html:hidden property="document.holdIndicator" />
+	<html:hidden property="document.continuationAccountIndicator" />
 	<html:hidden property="document.lastActionPerformedByUniversalUserId" />
    
     <!-- html:hidden property="document.purchaseOrderEncumbranceFiscalYear" / --> 

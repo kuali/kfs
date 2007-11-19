@@ -24,11 +24,14 @@ import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.module.gl.web.Constant;
 
 /**
- * This class...
+ * An implementation of ValueFinder that allows inquirers to include no pending entries, approved pending entries,
+ * or all pending entries in the results of their lookup
  */
 public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFinder {
 
     /**
+     * Returns a list of key/value pairs for this ValueFinder, in this case no pending entries, approved pending entries, and all pending entries
+     * @return a List of key/value pairs to populate a control
      * @see org.kuali.core.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
     public List getKeyValues() {
@@ -42,6 +45,8 @@ public class GLPendingEntryOptionFinder extends KeyValuesBase implements ValueFi
     }
 
     /**
+     * Returns the default value for this ValueFinder, in this case no pending entries
+     * @return the key of the default value
      * @see org.kuali.core.lookup.valueFinder.ValueFinder#getValue()
      */
     public String getValue() {

@@ -18,6 +18,7 @@ package org.kuali.module.purap.fixtures;
 import org.kuali.core.service.DocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
 import org.kuali.module.purap.PurapConstants.RequisitionStatuses;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -214,6 +215,21 @@ public enum PurchasingAccountsPayableDocumentFixture {
     PO_WITH_MANUALLY_ENTERED_VENDOR(null, PurchaseOrderStatuses.IN_PROCESS, 1000, 0, "ABC Cleaning Services", "123456 BROAD ST", null, "TRUMANSBURG", "NY", "14886", "US", null, null),
 
     // PAYMENT REQUEST FIXTURES
+    PREQ_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier 
+            PaymentRequestStatuses.IN_PROCESS,  // statusCode
+            1010,   // vendorHeaderGeneratedIdentifier
+            2,   // vendorDetailAssignedIdentifier
+            "DIVISION 2 OF PO BASIC",   // vendorName
+            "9988 8TH STREET",   // vendorLine1Address
+            null,   // vendorLine2Address
+            "A PLACE IN THE SUN",   // vendorCityName
+            "CA",   // vendorStateCode
+            "99888",   // vendorPostalCode
+            "US",   // vendorCountryCode
+            null,   // vendorCustomerNumber
+            null    // accountsPayablePurchasingDocumentLinkIdentifier
+    ),
+    
     // CREDIT MEMO FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier
             CreditMemoStatuses.IN_PROCESS, // statusCode
@@ -225,6 +241,32 @@ public enum PurchasingAccountsPayableDocumentFixture {
             "TRUMANSBURG", // vendorCityName
             "NY", // vendorStateCode
             "14886", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+    REQ_MULTI_QUANTITY(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1002, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "MK CORPORATION ACTIVE", // vendorName
+            "3894 SOUTH ST", // vendorLine1Address
+            "P.O. BOX 3455", // vendorLine2Address
+            "SPRINGFIELD", // vendorCityName
+            "IL", // vendorStateCode
+            "33555", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null), // accountsPayablePurchasingDocumentLinkIdentifier
+    REQ_MULTI_NON_QUANTITY(null, // purapDocumentIdentifier
+            RequisitionStatuses.IN_PROCESS, // statusCode
+            1016, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "PHYSIK INSTRUMENT L.P.", // vendorName
+            "16 AUBURN ST", // vendorLine1Address
+            null, // vendorLine2Address
+            "AUBURN", // vendorCityName
+            "MA", // vendorStateCode
+            "01501", // vendorPostalCode
             "US", // vendorCountryCode
             null, // vendorCustomerNumber
             null), // accountsPayablePurchasingDocumentLinkIdentifier

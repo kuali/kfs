@@ -25,7 +25,7 @@ import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 
 /**
- * 
+ * This class represents a bank account
  */
 public class BankAccount extends PersistableBusinessObjectBase {
     private String finDocumentBankAccountDesc;

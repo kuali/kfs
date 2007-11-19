@@ -18,6 +18,7 @@ package org.kuali.module.purap.util;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 
 /**
+ * Purchasing Accounts Payable Question Callback
  * Defines a callback method for post processing handling in the question interface.
  */
 public interface PurQuestionCallback {

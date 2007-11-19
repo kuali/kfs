@@ -24,12 +24,15 @@ import org.kuali.core.service.KualiModuleService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.AnnotationTestSuite;
+import org.kuali.test.suite.PreCommitSuite;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
  * Tests the spring configuration for batch jobs.
  */
 @ConfigureContext
+@AnnotationTestSuite(PreCommitSuite.class)
 public class BatchConfigurationTest extends KualiTestBase {
     private List<KualiModule> modules;
     private List<String> kfsJobNames;

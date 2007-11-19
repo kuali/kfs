@@ -19,11 +19,26 @@ import java.util.Comparator;
 
 import org.kuali.module.gl.bo.OriginEntryGroup;
 
+/**
+ * A comparator for two origin entry groups, based on the dates of their creations
+ */
 public class OEGDateComparator implements Comparator {
 
+    /**
+     * Constructs a OEGDateComparator
+     */
     public OEGDateComparator() {
     }
 
+    /**
+     * Compares two origin entry groups, based on the dates of their creation
+     * 
+     * @param c1 the first origin entry group to compare
+     * @param c2 you can't really compare without two origin groups
+     * @return 0 if the creation dates are equal, a negative number if c1's creation date is less
+     * than c2's; a positive number otherwise
+     * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+     */
     public int compare(Object c1, Object c2) {
 
         OriginEntryGroup oeg1 = (OriginEntryGroup) c1;

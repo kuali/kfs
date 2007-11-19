@@ -19,17 +19,18 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 
 /**
- * Provides methods for checking the budgeting of attributes associated with an account that has presence control turned on.
+ * This service interface defines methods that an AccountPresenceService implementation must provide.
+ * 
  */
 public interface AccountPresenceService {
 
     /**
      * Checks the given account for presence control turned on. If turned on, the object code must have a budget record in the gl
-     * balance table, otherwise this method returns false. If presence control is turned of, method returns true.
+     * balance table, otherwise this method returns false. If presence control is turned off, method returns true.
      * 
-     * @param account
-     * @param objectCode
-     * @return
+     * @param account The account to be checked for presense control.
+     * @param objectCode The object code to be looked up in the gl balance table.
+     * @return True if presence control is turned on and obj code is in gl balance table, false otherwise.
      */
     public boolean isObjectCodeBudgetedForAccountPresence(Account account, ObjectCode objectCode);
 }

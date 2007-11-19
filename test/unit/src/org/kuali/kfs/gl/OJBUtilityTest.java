@@ -27,12 +27,16 @@ import org.kuali.module.gl.web.Constant;
 import org.kuali.test.ConfigureContext;
 
 /**
- * This class is the JUnit test case applied on the BusinessObjectHandler class
+ * Test coverage of OJBUtility
+ * @see org.kuali.module.gl.util.OJBUtility
  */
 @ConfigureContext
 public class OJBUtilityTest extends KualiTestBase {
 
-    // test cases for buildPropertyMap method
+    /**
+     * test cases for OJBUtility.buildPropertyMap method
+     * @throws Exception thrown if any exception is encountered for any reason 
+     */
     public void testBuildPropertyMap() throws Exception {
         TransientBalanceInquiryAttributes dummyBusinessObject = new TransientBalanceInquiryAttributes();
 
@@ -43,7 +47,10 @@ public class OJBUtilityTest extends KualiTestBase {
         assertEquals(amountViewOption, Constant.ACCUMULATE);
     }
 
-    // test cases for buildCriteriaFromMap method
+    /**
+     * test cases for OJBUtility.buildCriteriaFromMap method
+     * @throws Exception thrown if any exception is encountered for any reason 
+     */
     public void testBuildCriteriaFromMap() throws Exception {
         AccountBalance accountBalance = new AccountBalance();
 
@@ -71,6 +78,11 @@ public class OJBUtilityTest extends KualiTestBase {
         assertTrue(criteria2Value.indexOf("subObjectCode") < 0);
     }
 
+    /**
+     * Tests the OJBUtility.getResultSizeFromMap method
+     * 
+     * @throws Exception thrown if any exception is encountered for any reason 
+     */
     public void testGetResultSizeFromMap() throws Exception {
         Map propertyMap = new HashMap();
         propertyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
@@ -79,6 +91,9 @@ public class OJBUtilityTest extends KualiTestBase {
         assertTrue("Should be greater than 0 if there are account balance records", resultSize.intValue() > 0);
     }
 
+    /**
+     * Tests the OJBUtility.getResultLimit method
+     */
     public void testGetResultLimit() {
         Integer limit = OJBUtility.getResultLimit();
         assertTrue("Should be greater than 0", limit.intValue() == 200);

@@ -52,37 +52,37 @@
       </strong>
     </th>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Name:</th>
+    <th align="right" valign="top" nowrap="true">* Name:</th>
     <td align="left" class="datacell">
       <html:text property="name" tabindex="1" maxlength="25"/>&nbsp;
     </td>
   </tr>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Description:</th>
+    <th align="right" valign="top" nowrap="true">* Description:</th>
     <td align="left" class="datacell">
       <html:text property="description" tabindex="2" size="25" maxlength="25" />&nbsp;
     </td>
   </tr>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Routing Number:</th>
+    <th align="right" valign="top" nowrap="true">* Routing Number:</th>
     <td align="left" class="datacell">
       <html:text property="routingNumber" tabindex="3" maxlength="9"/>&nbsp;
     </td>
   </tr>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Account Number:</th>
+    <th align="right" valign="top" nowrap="true">* Account Number:</th>
     <td align="left" class="datacell">
       <html:text property="accountNumber" tabindex="4" maxlength="17"/>&nbsp;
     </td>
   </tr>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Active?:</th>
+    <th align="right" valign="top" nowrap="true">* Active?:</th>
     <td align="left" class="datacell">
       <html:checkbox property="active" value="y" tabindex="5"/>&nbsp;
     </td>
   </tr>
   <tr>
-    <th align="right" valign="top" nowrap="true"><font color="red">*</font>Disbursement Type:</th>
+    <th align="right" valign="top" nowrap="true">* Disbursement Type:</th>
     <td align="left" class="datacell">
       <html:select size="1" property="disbursementTypeCode" tabindex="6">
         <html:optionsCollection name="DisbursementTypeList" value="code" label="description"/>
@@ -100,7 +100,7 @@
       </td>
     </tr>
     <tr valign="middle" align="left">
-       <td align="right" nowrap="nowrap"><font color="red">*</font> Required Field</td>
+       <td align="right" nowrap="nowrap">* Required Field</td>
        <td>&nbsp;</td>
     </tr>
   </tbody>

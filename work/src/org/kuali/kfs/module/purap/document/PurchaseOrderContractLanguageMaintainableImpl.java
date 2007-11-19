@@ -20,8 +20,19 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderContractLanguage;
 
+/**
+ * A special implementation of Maintainable specifically for PurchaseOrderContractLanguage
+ * maintenance page to override the behavior when the PurchaseOrderContractLanguage 
+ * maintenance document is copied.
+ */
 public class PurchaseOrderContractLanguageMaintainableImpl extends KualiMaintainableImpl {
 
+    /**
+     * Overrides the method in KualiMaintainableImpl to set the contract language create date
+     * to current date.
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
+     */
     @Override
     public void processAfterCopy() {
         PurchaseOrderContractLanguage pocl = (PurchaseOrderContractLanguage) super.getBusinessObject();

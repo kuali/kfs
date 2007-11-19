@@ -73,6 +73,7 @@ public class ReversalServiceImpl implements ReversalService {
     }
 
     /**
+     * Summarizes all of the reversal records set to reverse before or on the given date
      * @param before the date reversals summarized should be on or before
      * @return a LedgerEntryHolder with a summary of
      * @see org.kuali.module.gl.service.ReversalService#getSummaryByDate(java.util.Date)

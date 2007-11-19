@@ -18,8 +18,14 @@ package org.kuali.module.gl;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.test.ConfigureContext;
 
+/**
+ * A test to cover GLConstants
+ */
 @ConfigureContext
 public class GLConstantsTest extends KualiTestBase {
+    /**
+     * Tests that none of the space constants in GLConstants return null.
+     */
     public void testDDSpaceConstants() {
         assertNotNull(GLConstants.getSpaceDebitCreditCode());
         assertNotNull(GLConstants.getSpaceUniversityFiscalPeriodCode());

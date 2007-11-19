@@ -25,6 +25,21 @@ import org.kuali.module.purap.document.PaymentRequestDocument;
 public enum AccountsPayableDocumentFixture {
 
     // PAYMENT REQUEST FIXTURES
+    PREQ_ONLY_REQUIRED_FIELDS(null,  // accountsPayableApprovalDate
+            null,  // lastActionPerformedByUniversalUserId
+            null,  // accountsPayableProcessorIdentifier
+            false, // holdIndicator
+            null,  // extractedDate
+            1000,  // purchaseOrderIdentifier
+            null,  // processingCampusCode
+            null,  // noteLine1Text
+            null,  // noteLine2Text
+            null,  // noteLine3Text
+            false, // continuationAccountIndicator
+            false, // closePurchaseOrderIndicator
+            false  // reopenPurchaseOrderIndicator
+            ),
+
     // Credit Memo FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // accountsPayableApprovalDate
             null, // lastActionPerformedByUniversalUserId
@@ -39,9 +54,7 @@ public enum AccountsPayableDocumentFixture {
             false, // continuationAccountIndicator
             false, // closePurchaseOrderIndicator
             false // reopenPurchaseOrderIndicator
-    )
-
-    ;
+	);
 
     // SHARED FIELDS BETWEEN PAYMENT REQUEST AND CREDIT MEMO
     public final Date accountsPayableApprovalDate;

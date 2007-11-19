@@ -20,8 +20,25 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Transaction;
 
+/**
+ * This interface declares methods needed for posting transactions to the appropriate balance records.
+ */
 public interface BalanceCalculator {
+    /**
+     * Given a collection of balance records, returns the balance that the given transaction would post to
+     * or creates a new balance record
+     * 
+     * @param balanceList a Collection of balance records
+     * @param t the transaction to post
+     * @return the balance to post against
+     */
     public Balance findBalance(Collection balanceList, Transaction t);
 
+    /**
+     * Updates the balance based on the given transaction
+     * 
+     * @param t the transaction to post
+     * @param b the balance being posted against
+     */
     public void updateBalance(Transaction t, Balance b);
 }

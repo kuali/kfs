@@ -27,6 +27,7 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.gl.service.BalanceService;
+import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.web.inquirable.July1PositionFundingInquirableImpl;
@@ -37,22 +38,27 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
-    private BalanceService balanceService;
-    private LaborDao laborDao;
-    private KualiConfigurationService kualiConfigurationService;
-    private LaborInquiryOptionsService laborInquiryOptionsService;
-
     private static org.apache.commons.logging.Log LOG = org.apache.commons.logging.LogFactory.getLog(July1PositionFundingLookupableHelperServiceImpl.class);
+    
+    private LaborDao laborDao;
 
+    /**
+     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public String getInquiryUrl(BusinessObject bo, String propertyName) {
+        return (new July1PositionFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
+    }
+    
     /**
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
-    public List getSearchResults(Map fieldValues) {
+    public List getSearchResults(Map<String, String> fieldValues) {
         setBackLocation((String) fieldValues.get(KFSConstants.BACK_LOCATION));
         setDocFormKey((String) fieldValues.get(KFSConstants.DOC_FORM_KEY));
 
-        Collection searchResultsCollection = getLaborDao().getJuly1PositionFunding(fieldValues);
+        Collection<July1PositionFunding> searchResultsCollection = getLaborDao().getJuly1PositionFunding(fieldValues);
 
         // sort list if default sort column given
         List searchResults = (List) searchResultsCollection;
@@ -65,42 +71,18 @@ public class July1PositionFundingLookupableHelperServiceImpl extends AbstractLoo
     }
 
     /**
-     * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     * Gets the laborDao attribute. 
+     * @return Returns the laborDao.
      */
-    @Override
-    public String getInquiryUrl(BusinessObject bo, String propertyName) {
-        return (new July1PositionFundingInquirableImpl()).getInquiryUrl(bo, propertyName);
-    }
-
-    public BalanceService getBalanceService() {
-        return balanceService;
-    }
-
-    public void setBalanceService(BalanceService balanceService) {
-        this.balanceService = balanceService;
-    }
-
-    public KualiConfigurationService getKualiConfigurationService() {
-        return kualiConfigurationService;
-    }
-
-    public void setKualiConfigurationService(KualiConfigurationService kualiConfigurationService) {
-        this.kualiConfigurationService = kualiConfigurationService;
-    }
-
     public LaborDao getLaborDao() {
         return laborDao;
     }
 
+    /**
+     * Sets the laborDao attribute value.
+     * @param laborDao The laborDao to set.
+     */
     public void setLaborDao(LaborDao laborDao) {
         this.laborDao = laborDao;
-    }
-
-    public LaborInquiryOptionsService getLaborInquiryOptionsService() {
-        return laborInquiryOptionsService;
-    }
-
-    public void setLaborInquiryOptionsService(LaborInquiryOptionsService laborInquiryOptionsService) {
-        this.laborInquiryOptionsService = laborInquiryOptionsService;
     }
 }

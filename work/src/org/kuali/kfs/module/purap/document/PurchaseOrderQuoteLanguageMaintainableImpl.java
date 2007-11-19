@@ -20,13 +20,31 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 
+/* 
+ * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
+ * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
+ * 
+ * A special implementation of Maintainable specifically for PurchaseOrderQuoteLanguage
+ * maintenance page to override the behavior when the PurchaseOrderQuoteLanguage 
+ * maintenance document is copied.
+*/
 public class PurchaseOrderQuoteLanguageMaintainableImpl extends KualiMaintainableImpl {
 
+    /**
+     * Overrides the method in KualiMaintainableImpl to invoke the
+     * initializePoQuoteLanguage to set the create date to the current date.
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
+     */
     @Override
     public void processAfterCopy() {
         intializePoQuoteLangauge();
     }
 
+    /**
+     * Sets the create date of the PurchaseOrderQuoteLanguage document to the 
+     * current date.
+     */
     private void intializePoQuoteLangauge() {
         // set create date
         PurchaseOrderQuoteLanguage poql = (PurchaseOrderQuoteLanguage) super.getBusinessObject();

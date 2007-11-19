@@ -38,11 +38,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private ChartService chartService;
 
     /**
-     * Implements the getByPrimaryId method defined by OrganizationService.
      * 
-     * @param chartOfAccountsCode The FIN_COA_CD that is being searched for
-     * @param organizationCode the ORG_CD that is being searched for
-     * @return Org Business Object
      * @see org.kuali.module.chart.service.OrganizationService#getByPrimaryId(java.lang.String, java.lang.String)
      */
     public Org getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
@@ -62,25 +58,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     /**
      * Implements the save() method defined by OrganizationService, including validation of the Org BO
-     * 
-     * @param organization The Org Business Object to save
+     * @see org.kuali.module.chart.service.OrganizationService#save(org.kuali.module.chart.bo.Org)
      */
     public void save(Org organization) {
         organizationDao.save(organization);
-    }
-
-    /**
-     * @return Returns the organizationDao.
-     */
-    public OrganizationDao getOrganizationDao() {
-        return organizationDao;
-    }
-
-    /**
-     * @param organizationDao The organizationDao to set.
-     */
-    public void setOrganizationDao(OrganizationDao organizationDao) {
-        this.organizationDao = organizationDao;
     }
 
     /**
@@ -113,6 +94,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationDao.getActiveChildOrgs(chartOfAccountsCode, organizationCode);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationService#getActiveOrgsByType(java.lang.String)
+     */
     public List<Org> getActiveOrgsByType(String organizationTypeCode) {
         if (StringUtils.isBlank(organizationTypeCode)) {
             throw new IllegalArgumentException("String parameter organizationTypeCode was null or blank.");
@@ -121,8 +106,9 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationDao.getActiveOrgsByType(organizationTypeCode);
     }
 
-    /*
-     * returns the chart of accounts code and the orgnization code of the root organization
+    /**
+     * 
+     * @see org.kuali.module.chart.service.OrganizationService#getRootOrganizationCode()
      */
     public String[] getRootOrganizationCode() {
         String rootChart = getChartService().getUniversityChart().getChartOfAccountsCode();
@@ -140,6 +126,20 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public void setChartService(ChartService chartService) {
         this.chartService = chartService;
+    }
+
+    /**
+     * @return Returns the organizationDao.
+     */
+    public OrganizationDao getOrganizationDao() {
+        return organizationDao;
+    }
+
+    /**
+     * @param organizationDao The organizationDao to set.
+     */
+    public void setOrganizationDao(OrganizationDao organizationDao) {
+        this.organizationDao = organizationDao;
     }
 
 }

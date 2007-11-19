@@ -30,6 +30,9 @@ import org.kuali.module.gl.dao.EntryDao;
 import org.kuali.module.gl.service.PosterService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An implementation of PostTransaction that posts the actual entry
+ */
 @Transactional
 public class PostGlEntry implements PostTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PostGlEntry.class);
@@ -37,16 +40,20 @@ public class PostGlEntry implements PostTransaction {
     private EntryDao entryDao;
 
     /**
-     * 
+     * Constructs an instance of PostGlEntry
      */
     public PostGlEntry() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Saves the transaction as a new GL Entry
      * 
-     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction)
+     * @param t the transaction which is being posted
+     * @param mode the mode the poster is currently running in
+     * @param postDate the date this transaction should post to
+     * @return the accomplished post type
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#post(org.kuali.module.gl.bo.Transaction, int, java.util.Date)
      */
     public String post(Transaction t, int mode, Date postDate) {
         LOG.debug("post() started");
@@ -67,6 +74,9 @@ public class PostGlEntry implements PostTransaction {
         return GLConstants.INSERT_CODE;
     }
 
+    /**
+     * @see org.kuali.module.gl.batch.poster.PostTransaction#getDestinationName()
+     */
     public String getDestinationName() {
         return MetadataManager.getInstance().getGlobalRepository().getDescriptorFor(Entry.class).getFullTableName();
     }

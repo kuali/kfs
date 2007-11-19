@@ -35,12 +35,11 @@
 		<documentTypeName>KualiLaborObjectCodeBenefitMaintenanceDocument</documentTypeName>
 		<documentTypeCode>LOBN</documentTypeCode>
 
-		<label>Object Code Benefits Maintenance Document</label>
+		<label>Labor Object Code Benefits Maintenance Document</label>
 		<shortLabel>Object Code Benefit Maint Doc</shortLabel>
 		
 		<summary>Labor Object Code Benefits Maintenance Document</summary>
-		<description>Document used to create or update Position Object Benefit objects</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="LaborObjectBenefit" parameterName="LABOR_OBJECT_BENEFIT" />
+		<description>Document used to create or update Labor Object Code Benefit objects</description>
 
         <lockingKeys>
 			<field attributeName="universityFiscalYear" />

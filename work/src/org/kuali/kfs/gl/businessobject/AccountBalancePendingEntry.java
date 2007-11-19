@@ -18,7 +18,7 @@ package org.kuali.module.gl.bo;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 
 /**
- * This class...
+ * Represents an account balance pending entry that extends GeneralLedgerPendingEntry
  */
 public class AccountBalancePendingEntry extends GeneralLedgerPendingEntry {
 

@@ -69,6 +69,7 @@ public class PaymentGroup implements Serializable, PersistenceBrokerAware {
     private String achAccountType; // CUST_ACCT_TYP_CD
     private Timestamp epicPaymentCancelledExtractedDate; // PDP_EPIC_PMT_CNCL_EXTRT_TS
     private Timestamp epicPaymentPaidExtractedDate; // PDP_EPIC_PMT_PD_EXTRT_TS
+    private Timestamp adviceEmailSentDate; // ADV_EMAIL_SNT_TS
     private Timestamp lastUpdate; // LST_UPDT_TS
     private Integer version; // VER_NBR
 

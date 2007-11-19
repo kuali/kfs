@@ -44,10 +44,6 @@ import org.kuali.core.service.UniversalUserService;
 public class CustomerProfile implements UserRequired, Serializable, PersistenceBrokerAware {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerProfile.class);
 
-    // TODO Fix hard code
-    public static String EPIC_ORG_CODE = "FMOP";
-    public static String EPIC_SUB_UNIT_CODE = "EPIC";
-
     private String achPaymentDescription; // ACH_PMT_DESC
     private String additionalCheckNoteTextLine1;
     private String additionalCheckNoteTextLine2;

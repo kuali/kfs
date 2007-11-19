@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * 
+ * This class is used to represent a travel mileage rate business object.
  */
 public class TravelMileageRate extends PersistableBusinessObjectBase {
     private Date disbursementVoucherMileageEffectiveDate;

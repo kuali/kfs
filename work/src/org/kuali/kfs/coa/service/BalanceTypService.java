@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
- * This service interface defines methods necessary for retreiving fully populated BalanceType business objects from the database
+ * This service interface defines methods necessary for retrieving fully populated BalanceType business objects from the database
  * that are necessary for transaction processing in the application. This interface defines methods for each balance type that is
  * needed by the application. TODO - Continue to update this with new balance type as they are needed.
  */
@@ -65,7 +65,7 @@ public interface BalanceTypService {
     public List<String> getEncumbranceBalanceTypes(Integer universityFiscalYear);
 
     /**
-     * Returns the cost share encumberance balance type from options table for a given university fiscal year
+     * Returns the cost share encumbrance balance type from options table for a given university fiscal year
      * 
      * @param universityFiscalYear
      * @return
@@ -82,7 +82,7 @@ public interface BalanceTypService {
     public List<String> getCurrentYearEncumbranceBalanceTypes();
 
     /**
-     * Returns the cost share encumberance balance type from options table for the current university fiscal year
+     * Returns the cost share encumbrance balance type from options table for the current university fiscal year
      * 
      * @param universityFiscalYear
      * @return

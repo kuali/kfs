@@ -21,6 +21,6 @@
 
 <h1><strong>Unauthorized</strong></h1>
 <jsp:include page="TestEnvironmentWarning.jsp" flush="true"/>
-<p>You are not authorized for this action. If this is an error, please contact <a href="mailto:test@email.com">test@email.com</a> for assistance. </p>
+<p>You are not authorized for this action.</p>
 </body>
 </html>

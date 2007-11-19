@@ -24,24 +24,34 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjectCons;
 
+/**
+ * 
+ * This class implements the business rules for {@link ObjLevel}
+ */
 public class ObjectLevelRule extends MaintenanceDocumentRuleBase {
     /**
-     * This method should be overridden to provide custom rules for processing document saving
-     * 
-     * @param document
-     * @return boolean
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link ObjectLevelRule#checkObjConsCode()}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         checkObjConsCode();
         return true;
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document routing
-     * 
-     * @param document
-     * @return boolean
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link ObjectLevelRule#checkObjConsCode()}</li>
+     * </ul>
+     * This rule fails on business rule failures
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
         success &= checkObjConsCode();

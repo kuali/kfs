@@ -25,7 +25,7 @@ import org.kuali.test.fixtures.AccountingLineFixture;
  */
 public enum PurchaseOrderAccountingLineFixture {
     BASIC_PO_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
-            AccountingLineFixture.LINE2 // AccountingLineFixture
+            AccountingLineFixture.LINE1 // AccountingLineFixture
     );
 
     private PurApAccountingLineFixture purApAccountingLineFixture;

@@ -21,8 +21,7 @@ import org.kuali.module.gl.bo.Encumbrance;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * An interface which declares the methods needed to post a transaction against an encumbrance
  */
 public interface EncumbranceCalculator {
     /**

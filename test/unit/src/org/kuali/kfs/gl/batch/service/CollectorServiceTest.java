@@ -39,6 +39,7 @@ public class CollectorServiceTest extends KualiTestBase {
     private CollectorHelperService collectorHelperService;
 
     /**
+     * Initializes services needed by this test
      * @see junit.framework.TestCase#setUp()
      */
     @Override

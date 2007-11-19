@@ -349,8 +349,6 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         PurchasingDocument purDocument = (PurchasingDocument) purapDocument;
         ErrorMap errorMap = GlobalVariables.getErrorMap();
         if (!purDocument.getRequisitionSourceCode().equals(PurapConstants.RequisitionSources.B2B)) {
-            // TODO check this; I think we're only supposed to be validation the fax number format if the transmission type is FAX
-            // and the vendor ids are null (hjs)
             if (StringUtils.isNotBlank(purDocument.getVendorFaxNumber())) {
                 PhoneNumberValidationPattern phonePattern = new PhoneNumberValidationPattern();
                 if (!phonePattern.matches(purDocument.getVendorFaxNumber())) {

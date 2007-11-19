@@ -58,7 +58,7 @@ public class PurchaseOrderDocumentPreRules extends PreRulesContinuationBase {
     }
 
     /**
-     * This method checks whether the 'Not-to-exceed' amount has been exceeded by the purchase order total dollar limit. If so, it
+     * Checks whether the 'Not-to-exceed' amount has been exceeded by the purchase order total dollar limit. If so, it
      * prompts the user for confirmation.
      * 
      * @param purchaseOrderDocument The current PurchaseOrderDocument

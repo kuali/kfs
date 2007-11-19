@@ -17,7 +17,6 @@
 package org.kuali.module.labor.bo;
 
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.module.budget.bo.CalculatedSalaryFoundationTracker;
 
 /**
  * Labor business object for PositionFunding

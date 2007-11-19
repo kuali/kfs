@@ -25,11 +25,18 @@ import org.kuali.module.gl.GLConstants;
 import org.kuali.module.gl.batch.ScrubberStep;
 import org.kuali.module.gl.service.RunDateService;
 
+/**
+ * The default implementation of RunDateService
+ */
 public class RunDateServiceImpl implements RunDateService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(RunDateServiceImpl.class);
 
     private ParameterService parameterService;
 
+    /**
+     * 
+     * @see org.kuali.module.gl.service.RunDateService#calculateRunDate(java.util.Date)
+     */
     public Date calculateRunDate(Date executionDate) {
         Calendar currentCal = Calendar.getInstance();
         currentCal.setTime(executionDate);
@@ -50,6 +57,13 @@ public class RunDateServiceImpl implements RunDateService {
         return new Date(executionDate.getTime());
     }
 
+    /**
+     * Determines if the given calendar time is before the given cutoff time
+     * 
+     * @param currentCal the current time
+     * @param cutoffTime the "start of the day" cut off time
+     * @return true if the current time is before the cutoff, false otherwise
+     */
     protected boolean isCurrentDateBeforeCutoff(Calendar currentCal, CutoffTime cutoffTime) {
         if (cutoffTime != null) {
             // if cutoff date is not properly defined
@@ -71,6 +85,9 @@ public class RunDateServiceImpl implements RunDateService {
         return false;
     }
 
+    /**
+     * Holds the hour, minute, and second of a given cut off time
+     */
     protected class CutoffTime {
         /**
          * 24 hour time, from 0-23, inclusive
@@ -87,6 +104,12 @@ public class RunDateServiceImpl implements RunDateService {
          */
         protected int second;
 
+        /**
+         * Constructs a RunDateServiceImpl instance
+         * @param hour the cutoff hour
+         * @param minute the cutoff minute
+         * @param second the cutoff second
+         */
         protected CutoffTime(int hour, int minute, int second) {
             this.hour = hour;
             this.minute = minute;
@@ -94,6 +117,12 @@ public class RunDateServiceImpl implements RunDateService {
         }
     }
 
+    /**
+     * Parses a String representation of the cutoff time
+     * 
+     * @param cutoffTime the cutoff time String to parse
+     * @return a record holding the cutoff time
+     */
     protected CutoffTime parseCutoffTime(String cutoffTime) {
         if (StringUtils.isBlank(cutoffTime)) {
             return new CutoffTime(0, 0, 0);

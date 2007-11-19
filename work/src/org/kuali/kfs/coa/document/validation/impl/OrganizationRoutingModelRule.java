@@ -33,6 +33,9 @@ import org.kuali.module.chart.bo.Delegate;
 import org.kuali.module.chart.bo.OrganizationRoutingModel;
 import org.kuali.module.chart.bo.OrganizationRoutingModelName;
 
+/**
+ * This class implements the business rules specific to the {@link OrganizationRoutingModelName} Maintenance Document.
+ */
 public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
 
     private OrganizationRoutingModelName model;
@@ -47,6 +50,9 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method sets the convenience objects like model, so you have short and easy handles to the new and
+     * old objects contained in the maintenance document. It also calls the BusinessObjectBase.refresh(), which will attempt to load
+     * all sub-objects from the DB by their primary keys, if available.
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#setupConvenienceObjects()
      */
     @Override
@@ -58,6 +64,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document approve
+     * <ul>
+     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -67,6 +78,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * </ul>
+     * This rule fails on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -76,6 +92,11 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link OrganizationRoutingModelRule#checkSimpleRules(OrganizationRoutingModelName)}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
     @Override
@@ -86,6 +107,10 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
+     * This method calls 
+     * <ul>
+     * <li>{@link OrganizationRoutingModelRule#checkSimpleRulesForOrganizationRoutingModel(OrganizationRoutingModelName, OrganizationRoutingModel)}</li>
+     * </ul>
      * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomAddCollectionLineBusinessRules(org.kuali.core.document.MaintenanceDocument,
      *      java.lang.String, org.kuali.core.bo.PersistableBusinessObject)
      */
@@ -288,8 +313,8 @@ public class OrganizationRoutingModelRule extends MaintenanceDocumentRuleBase {
      * 
      * @param delegateGlobalToTest A delegateGlobal line that you want to test against the list.
      * @param delegateGlobals A List of delegateGlobal items that is being tested against.
-     * @return Null if the business rule passes, or an Integer value greater than zero, representing the line that the new line is
-     *         conflicting with
+     * @return true if model, delegate template or org routing model is null, or if the primary routing indicator is set to false or the doc type code is empty
+     * otherwise it checks to make sure that there is indeed one model marked as the primary route
      */
     protected boolean checkPrimaryRoutePerDocType(OrganizationRoutingModelName globalDelegateTemplate, OrganizationRoutingModel delegateModel) {
         boolean success = true;

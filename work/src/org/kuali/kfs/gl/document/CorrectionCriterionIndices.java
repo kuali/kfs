@@ -15,8 +15,21 @@
  */
 package org.kuali.module.gl.document;
 
+/**
+ * A set of constants that show where in an array of a parsed collection criterion certain
+ * portions of the criterion reside.
+ */
 public interface CorrectionCriterionIndices {
+    /**
+     * The index of the field name.
+     */
     static final public int CRITERION_INDEX_FIELD_NAME = 0;
+    /**
+     * The index of the match operator.
+     */
     static final public int CRITERION_INDEX_MATCH_OPERATOR = 1;
+    /**
+     * The index of the field value.
+     */
     static final public int CRITERION_INDEX_FIELD_VALUE = 2;
 }

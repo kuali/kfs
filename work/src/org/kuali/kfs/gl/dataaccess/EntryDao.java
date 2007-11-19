@@ -20,31 +20,30 @@ import java.util.Date;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * A surprisingly small DAO interface that declares methods to help Entries interact with the database
  */
 public interface EntryDao {
     /**
-     * Add a new transaction
+     * Add a new transaction to the database
      * 
-     * @param t
-     * @param postDate
+     * @param t the transaction to save
+     * @param postDate the officially reported posting date
      */
     public void addEntry(Transaction t, Date postDate);
 
     /**
      * Get the max sequence number currently used for a transaction
      * 
-     * @param t
-     * @return
+     * @param t the transaction to check
+     * @return the max sequence number
      */
     public int getMaxSequenceNumber(Transaction t);
 
     /**
      * Purge the entry table by chart/year
      * 
-     * @param chart
-     * @param year
+     * @param chart the chart of accounts code of entries to purge
+     * @param year the university fiscal year of entries to purge
      */
     public void purgeYearByChart(String chart, int year);
 }

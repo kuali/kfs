@@ -35,7 +35,7 @@ import org.kuali.module.financial.document.IndirectCostAdjustmentDocument;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
 
 /**
- * <code>IndirectCostAdjustmentDocument</code> accounting line parser
+ * This class represents an <code>IndirectCostAdjustmentDocument</code> accounting line parser.
  * 
  * @see org.kuali.module.financial.document.IndirectCostAdjustmentDocument
  */

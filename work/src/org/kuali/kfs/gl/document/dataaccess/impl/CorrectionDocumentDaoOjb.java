@@ -26,8 +26,17 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.dao.CorrectionDocumentDao;
 import org.kuali.module.gl.document.CorrectionDocument;
 
+/**
+ * The OJB implementation of CorrectionDocumentDao
+ */
 public class CorrectionDocumentDaoOjb extends PlatformAwareDaoBaseOjb implements CorrectionDocumentDao {
 
+    /**
+     * Queries the database to get a Collection of GLCP documents finalized on the given date
+     * 
+     * @param date the finalization date of GLCP documents to find
+     * @return a Collection of GLCP documents
+     */
     public Collection<CorrectionDocument> getCorrectionDocumentsFinalizedOn(Date documentFinalDate) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(KFSConstants.DOCUMENT_HEADER_PROPERTY_NAME + "." + KFSPropertyConstants.DOCUMENT_FINAL_DATE, documentFinalDate);

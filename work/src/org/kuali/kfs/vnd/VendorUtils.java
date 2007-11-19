@@ -17,6 +17,9 @@ package org.kuali.module.vendor.util;
 
 import org.apache.commons.lang.StringUtils;
 
+/**
+ * Utility class with helper methods for Vendor processing 
+ */
 public class VendorUtils {
 
     public static final char LEFT_COLLECTION_SEPERATOR = '[';
@@ -24,13 +27,13 @@ public class VendorUtils {
     public static final char FIELD_SEPERATOR = '.';
 
     /**
-     * This method builds up a string and a position like so abc, 1 becomes abc[1] it is used for fields that require operations on
+     * Builds up a string and a position like so abc, 1 becomes abc[1] it is used for fields that require operations on
      * collections.
      * 
      * @param full
      * @param collections
      * @param pos
-     * @return
+     * @return Newly formatted string
      */
     public static String assembleWithPosition(String full, String[] collections, int[] positions) {
 
@@ -54,13 +57,13 @@ public class VendorUtils {
     }
 
     /**
-     * This method is a helper to call assembleWithPosition(String full, String[] collections, int[] positions) when only one
+     * A helper to call assembleWithPosition(String full, String[] collections, int[] positions) when only one
      * collection
      * 
      * @param full
      * @param collection
      * @param position
-     * @return
+     * @return Newly formatted string
      */
     public static String assembleWithPosition(String full, String collection, int position) {
         String[] collections = { collection };
@@ -69,7 +72,7 @@ public class VendorUtils {
     }
 
     /**
-     * This method returns the headerId portion from a composite vendor number.
+     * Returns the headerId portion from a composite vendor number.
      * 
      * @param vendorNumber - composite vendor number (detail and header)
      * @return returns the headerId number
@@ -87,7 +90,7 @@ public class VendorUtils {
     }
 
     /**
-     * This method returns the detailId portion from a composite vendor number.
+     * Returns the detailId portion from a composite vendor number.
      * 
      * @param vendorNumber - composite vendor number (detail and header)
      * @return returns the detailId number
@@ -104,7 +107,7 @@ public class VendorUtils {
     }
 
     /**
-     * This method accepts a vendorNumber string, and evaluates it to make sure it is of the correct format. This method does not
+     * Accepts a vendorNumber string, and evaluates it to make sure it is of the correct format. This method does not
      * test whether the given vendor number exists in the database, rather it just tests that the format is correct.
      * 
      * @param vendorNumber - String representing the vendor number

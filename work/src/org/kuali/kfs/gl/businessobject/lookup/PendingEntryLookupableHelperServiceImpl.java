@@ -42,6 +42,9 @@ import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 
+/**
+ * An extension of KualiLookupableImpl to support balance lookups
+ */
 public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableHelperServiceImpl {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PendingEntryLookupableHelperServiceImpl.class);
 
@@ -52,6 +55,11 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
     private final static String UNIVERSITY_FISCAL_PERIOD_CODE = "universityFiscalPeriodCode";
 
     /**
+     * Returns the url for any drill down links within the lookup (defers to its superclass unless it needs
+     * to get the url of the document that created this result pending entry)
+     * @param bo the business object with a property being drilled down on
+     * @param propertyName the name of the property being drilled down on
+     * @return a String with the URL of the property
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -64,6 +72,11 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
     }
 
 
+    /**
+     * Validates the fiscal year searched for in the inquiry
+     * @param fieldValues the values of the query
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
@@ -82,6 +95,9 @@ public class PendingEntryLookupableHelperServiceImpl extends AbstractLookupableH
 
 
     /**
+     * Generates the list of search results for this inquiry
+     * @param fieldValues the field values of the query to carry out
+     * @return List the search results returned by the lookup
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     public List getSearchResults(Map fieldValues) {

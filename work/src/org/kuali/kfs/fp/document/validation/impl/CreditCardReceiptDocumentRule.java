@@ -47,11 +47,14 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
      * For Credit Card Receipt documents, the document is balanced if the sum total of credit card receipts equals the sum total of
      * the accounting lines.
      * 
+     * @param financialDocument submitted accoutting document
+     * @return true if cash credit receipt document equals the cash credit document total dollar amount
+     * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDocumentBalanceValid(org.kuali.core.document.FinancialDocument)
      */
     @Override
-    protected boolean isDocumentBalanceValid(AccountingDocument FinancialDocument) {
-        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) FinancialDocument;
+    protected boolean isDocumentBalanceValid(AccountingDocument finanacialDocument) {
+        CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) finanacialDocument;
 
         // make sure the document is in balance
         boolean isValid = ccr.getSourceTotal().equals(ccr.getTotalDollarAmount());
@@ -65,6 +68,9 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
 
     /**
      * Overrides to call super and then make sure the minimum number of credit card receipt lines exist on this document.
+     * 
+     * @param document submitted document
+     * @return true if super method returns true and there is at least one credit card receipt
      * 
      * @see org.kuali.core.rule.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -89,8 +95,8 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     /**
      * This method is a helper that checks to make sure that at least one credit card receipt line exists for the document.
      * 
-     * @param document
-     * @return boolean
+     * @param document submitted document
+     * @return boolean return true if there is at least one credit card receipt
      */
     private boolean isMinimumNumberOfCreditCardReceiptsMet(Document document) {
         CreditCardReceiptDocument ccr = (CreditCardReceiptDocument) document;
@@ -105,8 +111,9 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     /**
      * Validates all the CreditCardReceipts in the given Document.
      * 
-     * @param creditCardReceiptDocument
-     * @return boolean
+     * @param creditCardReceiptDocument submitted credit card receipt document
+     * @return true if all credit cards are valid (i.e. each credit card receipt has a non-zero amount and has valid 
+     *         credit card vendor and type references) 
      */
     private boolean validateCreditCardReceipts(CreditCardReceiptDocument creditCardReceiptDocument) {
         GlobalVariables.getErrorMap().addToErrorPath(DOCUMENT_PROPERTY_NAME);
@@ -123,6 +130,10 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
 
     /**
      * Generates bank offset GLPEs for deposits, if enabled.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class for keep track of sequence for GLPEs
+     * @return true if generation of GLPE's is successful for credit card receipt document
      * 
      * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
      */
@@ -162,6 +173,8 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
     }
 
     /**
+     * Returns a credit cards flexible offset bank account
+     * 
      * @return the Credit Card Receipt's flexible offset bank account, as configured in the APC.
      * @throws ApplicationParameterException if the CCR offset BankAccount is not defined in the APC.
      */

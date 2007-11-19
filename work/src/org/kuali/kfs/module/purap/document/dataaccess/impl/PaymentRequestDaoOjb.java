@@ -103,7 +103,14 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
             criteria.addAndCriteria(a);
         }
         else {
-            criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+            Criteria c1 = new Criteria();
+            c1.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+
+            Criteria c2 = new Criteria();
+            c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+
+            c1.addOrCriteria(c2);
+            criteria.addAndCriteria(c1);
         }
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
@@ -144,7 +151,14 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         criteria.addIsNull("extractedDate");
         criteria.addEqualTo("holdIndicator", Boolean.FALSE);
 
-        criteria.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+        Criteria c1 = new Criteria();
+        c1.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+
+        Criteria c2 = new Criteria();
+        c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+
+        c1.addOrCriteria(c2);
+        criteria.addAndCriteria(c1);
 
         if (paymentRequestIdentifier != null) {
             criteria.addEqualTo("purapDocumentIdentifier", paymentRequestIdentifier);

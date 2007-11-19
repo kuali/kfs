@@ -32,9 +32,13 @@ import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 
 /**
+ * Represents the encumbrance amount for a specific university fiscal year, 
+ * chart of accounts code, account number, sub account number, object code,
+ * sub object code, balance type code, document type code, origin code, and document number.
+ * This encumbrance object contains amounts for actual enumbrance amount, closed amount,
+ * outstanding amount 
  * 
- * 
- */
+*/
 public class Encumbrance extends PersistableBusinessObjectBase {
     static final long serialVersionUID = -7494473472438516396L;
 

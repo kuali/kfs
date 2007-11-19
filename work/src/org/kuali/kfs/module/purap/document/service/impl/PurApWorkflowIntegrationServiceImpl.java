@@ -87,6 +87,16 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
     }
 
+    /**
+     * Performs a super user approval of all action requests.
+     * 
+     * @param superUser
+     * @param documentNumber
+     * @param nodeName
+     * @param user
+     * @param annotation
+     * @throws WorkflowException
+     */
     private void superUserApproveAllActionRequests(UniversalUser superUser, Long documentNumber, String nodeName, UniversalUser user, String annotation) throws WorkflowException {
         KualiWorkflowDocument workflowDoc = workflowDocumentService.createWorkflowDocument(documentNumber, superUser);
         List<ActionRequestVO> actionRequests = getActiveActionRequestsForCriteria(documentNumber, nodeName, user);
@@ -166,51 +176,6 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
                     throw new RuntimeException(errorMessage);
                 }
             }
-
-            // if ( (ObjectUtils.isNull(userToCheck)) && (StringUtils.isBlank(nodeName)) ) {
-            // // if the user to check is null and node name is blank... we want to take all actions
-            // // super user approve document as personUserIdToImpersonate
-            // }
-            // else if ( (ObjectUtils.isNull(userToCheck)) && (StringUtils.isNotBlank(nodeName)) ) {
-            // // if user to check is null and node name is not blank... take all actions at given node
-            // // super user approve individual action requests as personUserIdToImpersonate
-            // }
-            // else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isNotBlank(nodeName)) ) {
-            // // get the actions requests and check for any that match the user and node name and take the actions that will
-            // satisfy those requests
-            // /* if user to check is not null and node name is not blank... take all actions as given user at given node
-            // * NOTE: This could potentially satisfy actions at other nodes
-            // */
-            // DocumentService docService = SpringContext.getBean(DocumentService.class);
-            // if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-            // docService.approveDocument(document, potentialAnnotation, new ArrayList());
-            // return true;
-            // }
-            // else if (document.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
-            // docService.acknowledgeDocument(document, potentialAnnotation, new ArrayList());
-            // return true;
-            // }
-            // else if (document.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
-            // docService.clearDocumentFyi(document, new ArrayList());
-            // return true;
-            // }
-            // }
-            // else if ( (ObjectUtils.isNotNull(userToCheck)) && (StringUtils.isBlank(nodeName)) ) {
-            // // if user to check is not null and node name is blank... take all actions as given user
-            // DocumentService docService = SpringContext.getBean(DocumentService.class);
-            // if (document.getDocumentHeader().getWorkflowDocument().isApprovalRequested()) {
-            // docService.approveDocument(document, potentialAnnotation, new ArrayList());
-            // return true;
-            // }
-            // else if (document.getDocumentHeader().getWorkflowDocument().isAcknowledgeRequested()) {
-            // docService.acknowledgeDocument(document, potentialAnnotation, new ArrayList());
-            // return true;
-            // }
-            // else if (document.getDocumentHeader().getWorkflowDocument().isFYIRequested()) {
-            // docService.clearDocumentFyi(document, new ArrayList());
-            // return true;
-            // }
-            // }
             return false;
         }
         catch (WorkflowException e) {
@@ -225,6 +190,15 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
     }
 
+    /**
+     * Retrieves the active action requests for the given criteria
+     * 
+     * @param documentNumber
+     * @param nodeName
+     * @param user
+     * @return List of action requests
+     * @throws WorkflowException
+     */
     private List<ActionRequestVO> getActiveActionRequestsForCriteria(Long documentNumber, String nodeName, UniversalUser user) throws WorkflowException {
         if (ObjectUtils.isNull(documentNumber)) {
             // throw exception
@@ -287,6 +261,13 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         }
     }
 
+    /**
+     * Evaluates if given node is after the current node
+     * 
+     * @param currentNodeDetail
+     * @param givenNodeDetail
+     * @return boolean to indicate if given node is after the current node
+     */
     private boolean isGivenNodeAfterCurrentNode(NodeDetails currentNodeDetail, NodeDetails givenNodeDetail) {
         if (ObjectUtils.isNull(givenNodeDetail)) {
             // given node does not exist
@@ -299,6 +280,9 @@ public class PurApWorkflowIntegrationServiceImpl implements PurApWorkflowIntegra
         return givenNodeDetail.getOrdinal() > currentNodeDetail.getOrdinal();
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurApWorkflowIntegrationService#getLastUserId(edu.iu.uis.eden.routeheader.DocumentRouteHeaderValue)
+     */
     public String getLastUserId(DocumentRouteHeaderValue routeHeader) throws EdenUserNotFoundException {
         WorkflowUser user = null;
         Timestamp previousDate = null;

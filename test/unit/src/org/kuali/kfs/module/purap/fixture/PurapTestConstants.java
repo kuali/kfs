@@ -57,18 +57,18 @@ public class PurapTestConstants {
         static PurchaseOrderItem PO_ITEM = new PurchaseOrderItem();
         static final String ITEM_DESC = "Test item description";
         static final String ITEM_UOM = "EACH";
+        static final String ITEM_CATALOG_NUMBER = "1F742";
         static PurchaseOrderAccount PO_ACCOUNT = new PurchaseOrderAccount();
         static RequisitionAccount REQ_ACCOUNT = new RequisitionAccount();
         static final String CHART_CODE = "BL";
         static final String OBJECT_CODE = "5000";
         static final String ACCOUNT_NUMBER = "1031400";
+        static final KualiDecimal QUANTITY = new KualiDecimal(1);
         static final BigDecimal UNIT_PRICE = new KualiDecimal(32).bigDecimalValue();
         static final BigDecimal PERCENTAGE = new KualiDecimal(100).bigDecimalValue();
 
         static final BigDecimal UNIT_PRICE_APO_1 = new KualiDecimal(1.99).bigDecimalValue();
         static final BigDecimal UNIT_PRICE_APO_2 = new KualiDecimal(239.99).bigDecimalValue();
-        static final BigDecimal QUANTITY_APO_1 = new KualiDecimal(500).bigDecimalValue();
-        static final BigDecimal QUANTITY_APO_2 = new KualiDecimal(1).bigDecimalValue();
     }
 
     @SuppressWarnings("deprecation")

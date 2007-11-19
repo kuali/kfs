@@ -49,6 +49,7 @@ import com.lowagie.text.pdf.PdfPageEventHelper;
 import com.lowagie.text.pdf.PdfWriter;
 
 /**
+ * This class represents the functionality need to generate the year end transaction report
  */
 public class YearEndTransactionReport {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(YearEndTransactionReport.class);
@@ -69,6 +70,11 @@ public class YearEndTransactionReport {
         public Font headerFont;
         public String title;
 
+        /**
+         * Generates end page information for year end transaction report
+         * 
+         * @see com.lowagie.text.pdf.PdfPageEventHelper#onEndPage(com.lowagie.text.pdf.PdfWriter, com.lowagie.text.Document)
+         */
         public void onEndPage(PdfWriter writer, Document document) {
             try {
                 Rectangle page = document.getPageSize();
@@ -106,13 +112,15 @@ public class YearEndTransactionReport {
     }
 
     /**
-     * @param jobParameters
-     * @param reportErrors
-     * @param reportSummary
-     * @param runDate
-     * @param title
-     * @param fileprefix
-     * @param destinationDirectory
+     * Generates year end transaction report
+     * 
+     * @param jobParameters map containing all related job parameters
+     * @param reportErrors map containing all report errors
+     * @param reportSummary list of summary objects for report
+     * @param runDate date report is run
+     * @param title title of the report
+     * @param fileprefix file prefix for report
+     * @param destinationDirectory directory where report file will reside
      */
     public void generateReport(Map jobParameters, Map reportErrors, List reportSummary, Date runDate, String title, String fileprefix, String destinationDirectory, Object[] originEntryGroupsAndNames) {
         LOG.debug("generateReport() started");
@@ -189,6 +197,12 @@ public class YearEndTransactionReport {
 
     }
 
+    /**
+     * Returns PdfPTable representing parameters section of report
+     * 
+     * @param jobParameters map of job related parameters
+     * @return PdfPTable representing parameters section of report
+     */
     private PdfPTable generateParametersSection(Map jobParameters) {
         // Job Parameter Summary
         float[] summaryWidths = { 70, 30 };
@@ -228,6 +242,12 @@ public class YearEndTransactionReport {
         return summary;
     }
 
+    /**
+     * Returns PdfPTable representing statistics section of report
+     * 
+     * @param reportSummary list of summary objects related to the report
+     * @return PdfPTable representing statistics section of report
+     */
     private PdfPTable generateStatisticsSection(List reportSummary) {
         // Statistics report
         float[] summaryWidths = { 70, 30 };
@@ -267,6 +287,12 @@ public class YearEndTransactionReport {
         return summary;
     }
 
+    /**
+     * Returns PdfPTable representing warnings section of report
+     * 
+     * @param reportErrors map containing all report related errors
+     * @return PdfPTable representing warnings section of report
+     */
     private PdfPTable generateWarningsSection(Map reportErrors) {
         float[] warningWidths = { 4, 3, 6, 5, 5, 4, 5, 5, 4, 5, 5, 9, 4, 36 };
         PdfPTable warnings = new PdfPTable(warningWidths);
@@ -368,7 +394,13 @@ public class YearEndTransactionReport {
         return warnings;
     }
 
-    // draw a PDF table from ledger entry holder
+    /**
+     * Draw a PDF table from ledger entry holder
+     * 
+     * @param ledgerEntryHolder ledger entry holder
+     * @param reportName name of report
+     * @return
+     */
     private PdfPTable generateLedgerSection(LedgerEntryHolder ledgerEntryHolder, String reportName) {
         SortedMap ledgerEntries = new TreeMap(ledgerEntryHolder.getLedgerEntries());
         Collection entryCollection = ledgerEntries.values();
@@ -415,7 +447,12 @@ public class YearEndTransactionReport {
         return ledgerEntryTable;
     }
 
-    // draw a table with an informative messge, instead of data
+    // 
+    /**
+     * Draw a table an empty ledger section table
+     * 
+     * @return PdfPTable represents a empty ledger section table
+     */
     private PdfPTable buildEmptyLedgerSectionTable() {
         float[] tableWidths = { 100 };
 
@@ -427,7 +464,12 @@ public class YearEndTransactionReport {
         return ledgerEntryTable;
     }
 
-    // add a table header
+    /**
+     * Add a table header
+     * 
+     * @param ledgerEntryTable ledger entry table
+     * @param headerFont font for header
+     */
     private void addLedgerSectionHeader(PdfPTable ledgerEntryTable, Font headerFont) {
 
         PdfPCell cell = new PdfPCell(new Phrase("BAL TYP", headerFont));
@@ -464,7 +506,14 @@ public class YearEndTransactionReport {
         ledgerEntryTable.addCell(cell);
     }
 
-    // add a row with the given ledger entry into PDF table
+    /**
+     * Add a row with the given ledger entry into PDF table
+     * 
+     * @param ledgerEntryTable ledger entry table
+     * @param ledgerEntry ledger entry
+     * @param textFont font for text
+     * @param isTotal used to determine if total row is added
+     */
     private void addLedgerSectionRow(PdfPTable ledgerEntryTable, LedgerEntry ledgerEntry, Font textFont, boolean isTotal) {
         PdfPCell cell = null;
         if (isTotal) {
@@ -519,7 +568,12 @@ public class YearEndTransactionReport {
         ledgerEntryTable.addCell(cell);
     }
 
-    // format the given number based on its type: Integer or BigDecimal
+    /**
+     * Format the given number based on its type: Integer or BigDecimal
+     * 
+     * @param number Integer or BigDecimal to convert to STring
+     * @return Integer or BigDecimal in number form
+     */
     private String formatNumber(Number number) {
         DecimalFormat decimalFormat = new DecimalFormat();
 
@@ -532,6 +586,12 @@ public class YearEndTransactionReport {
         return decimalFormat.format(number);
     }
 
+    /**
+     * This method capitalizes words and replaces whitespaces with ' '
+     * 
+     * @param word to be modified
+     * @return capitalize and "spacerized" string
+     */
     private String capAndSpacerize(String word) {
         StringBuilder spacedWord = new StringBuilder();
         String updatedWord = word.trim().toUpperCase();

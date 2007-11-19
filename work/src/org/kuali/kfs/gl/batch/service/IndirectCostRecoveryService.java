@@ -19,6 +19,19 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.ObjectType;
 
+/**
+ * An interface with a predicate that tells if a transaction with the given fields would be an ICR transaction or not
+ */
 public interface IcrTransaction {
+    /**
+     * Determines if a transaction with the given parameters would be subject to indirect cost recovery
+     * 
+     * @param objectType the object type of the transaction
+     * @param account the account of the transaction
+     * @param subAccountNumber the sub account number of the transaction
+     * @param objectCode the financial object code of the transaction
+     * @param universityFiscalPeriodCode the period code of the transactions
+     * @return true if these all mean the transaction is an indirect cost recovery transaction, false otherwise
+     */
     public boolean isIcrTransaction(ObjectType objectType, Account account, String subAccountNumber, ObjectCode objectCode, String universityFiscalPeriodCode);
 }

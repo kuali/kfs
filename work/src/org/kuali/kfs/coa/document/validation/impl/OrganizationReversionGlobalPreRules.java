@@ -23,12 +23,22 @@ import org.kuali.module.chart.bo.OrganizationReversionGlobal;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalDetail;
 import org.kuali.module.chart.bo.OrganizationReversionGlobalOrganization;
 
+/**
+ * 
+ * PreRules checks for the {@link OrganizationReversionGlobal} that needs to occur while still in the Struts processing. This includes defaults
+ */
 public class OrganizationReversionGlobalPreRules extends MaintenancePreRulesBase {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationReversionGlobalPreRules.class);
 
     /**
+     * This is the hook method for the {@link MaintenancePreRulesBase} to call. It calls
+     * <ul>
+     * <li>{@link OrganizationReversionGlobalPreRules#checkForContinuationAccounts(OrganizationReversionGlobal)}</li>
+     * <li>{@link OrganizationReversionGlobalPreRules#copyKeyAttributesToCollections(OrganizationReversionGlobal)}</li>
+     * </ul>
      * @see org.kuali.module.chart.rules.MaintenancePreRulesBase#doCustomPreRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     public boolean doCustomPreRules(MaintenanceDocument maintenanceDocument) {
         OrganizationReversionGlobal globalOrgReversion = (OrganizationReversionGlobal) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
         checkForContinuationAccounts(globalOrgReversion);

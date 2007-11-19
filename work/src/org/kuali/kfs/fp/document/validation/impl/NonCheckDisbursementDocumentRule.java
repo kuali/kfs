@@ -40,8 +40,10 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     /**
      * Overrides to consider the object types.<br/>
      * <p>
-     * Note: This <code>{@link org.kuali.core.document.Document} is always balanced because it only
-     * has From: lines.
+     * Note: This <code>{@link org.kuali.core.document.Document}</code> is always balanced because it only has From: lines.
+     *
+     * @param financialDocument The document whose balance is being validated.
+     * @return Always returns true, because this type of document is always balanced.
      *
      * @see FinancialDocumentRuleBase#isDocumentBalanceValid(FinancialDocument)
      */
@@ -51,7 +53,13 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     }
 
     /**
-     * Overrides to call super and then NCD specific accounting line rules.
+     * This method performs business rule checks on the accounting line being added to the document to ensure the accounting line
+     * is valid and appropriate for the document.  Currently, this method calls isRequiredReferenceFieldsValid() 
+     * associated with the new accounting line.  
+     * 
+     * @param financialDocument The document the new line is being added to.
+     * @param accountingLine The new accounting line being added.
+     * @return True if the business rules all pass, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processCustomAddAccountingLineBusinessRules(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -67,6 +75,18 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     }
 
     /**
+     * This method determines if a given accounting line is a debit accounting line.  This is done by calling
+     * IsDebitUtiles.isDebitConsideringNothingPositiveOnly().
+     * 
+     * An IllegalStateException will be thrown if the accounting line passed in is not an expense, 
+     * is an error correction with a positive dollar amount or is not an error correction and 
+     * has a negative amount. 
+     * 
+     * @param transactionalDocument The document the accounting line being checked is located in.
+     * @param accountingLine The accounting line being analyzed.
+     * @return True if the accounting line given is a debit accounting line, false otherwise.
+     * @throws IllegalStateException Thrown if accounting line attributes are invalid.
+     * 
      * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
      * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
@@ -76,7 +96,10 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     }
 
     /**
-     * overrides the parent to display correct error message for a single sided document
+     * Overrides the parent to display correct error message for a single sided document.
+     * 
+     * @param financialDocument The document to be routed.
+     * @return True if the document contains source accounting lines, false otherwise.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isSourceAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
@@ -93,8 +116,11 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
 
     /**
      * Overrides the parent to return true, because NonCheckDisbursement documents only use the SourceAccountingLines data
-     * structures. The list that holds TargetAccountingLines should be empty. This will be checked when the document is "routed" or
-     * submitted to post - it's called automatically by the parent's processRouteDocument method.
+     * structures. The list that holds TargetAccountingLines should be empty. This will be checked when the document is 
+     * "routed" or submitted to post - it's called automatically by the parent's processRouteDocument method.
+     * 
+     * @param financialDocument The document to be routed.
+     * @return This method always returns true.
      * 
      * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isTargetAccountingLinesRequiredNumberForRoutingMet(org.kuali.core.document.FinancialDocument)
      */
@@ -104,6 +130,16 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     }
 
     /**
+     * This method sets attributes on the explicitly general ledger pending entry specific to NonCheckDisbursement documents.
+     * This includes setting the transaction ledger entry description and blanking out the reference financial document number,
+     * the reference financial system origin code and the reference financial document type code.  These values must be 
+     * nullified because they don't belong in general ledger pending entries and if they aren't null, the general error 
+     * corrections won't post properly.
+     * 
+     * @param financialDocument The document which contains the general ledger pending entry being modified.
+     * @param accountingLine The accounting line the explicit entry was generated from.
+     * @param explicitEntry The explicit entry being updated.
+     * 
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
      */
@@ -111,8 +147,8 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
         explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(financialDocument, accountingLine));
 
         // Clearing fields that are already handled by the parent algorithm - we don't actually want
-        // these to copy over from the accounting lines b/c they don't belond in the GLPEs
-        // if the aren't nulled, then GECs fail to post
+        // these to copy over from the accounting lines b/c they don't belong in the GLPEs
+        // if they aren't nulled, then GECs fail to post
         explicitEntry.setReferenceFinancialDocumentNumber(null);
         explicitEntry.setReferenceFinancialSystemOriginationCode(null);
         explicitEntry.setReferenceFinancialDocumentTypeCode(null);
@@ -122,9 +158,9 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
      * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
      * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
      * 
-     * @param line
-     * @param financialDocument
-     * @return String
+     * @param financialDocument The document the description will be pulled from, if the accounting line description is blank.
+     * @param line The accounting line that will be used for populating the transaction ledger entry description.
+     * @return The description to be applied to the transaction ledger entry.
      */
     private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(AccountingDocument financialDocument, AccountingLine line) {
         String description = "";
@@ -149,9 +185,10 @@ public class NonCheckDisbursementDocumentRule extends AccountingDocumentRuleBase
     }
 
     /**
-     * This method checks that values exist in the three reference fields that are required
+     * This method checks that values exist in the reference fields that are required.  The reference field that 
+     * is required is the 'reference number' field.
      * 
-     * @param accountingLine
+     * @param accountingLine The accounting line being validated.
      * @return True if all of the required reference fields are valid, false otherwise.
      */
     private boolean isRequiredReferenceFieldsValid(AccountingLine accountingLine) {

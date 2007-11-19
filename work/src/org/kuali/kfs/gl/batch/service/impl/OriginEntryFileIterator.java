@@ -139,6 +139,9 @@ public class OriginEntryFileIterator implements Iterator<OriginEntryFull> {
         throw new UnsupportedOperationException("Cannot remove entry from collection");
     }
 
+    /**
+     * This method returns the next line in origin entry file
+     */
     protected void fetchNextEntry() {
         try {
             lineNumber++;

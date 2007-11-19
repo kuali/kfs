@@ -22,7 +22,7 @@ import java.util.Map;
 import org.kuali.module.gl.bo.AccountBalance;
 
 /**
- * This class...
+ * This interface delcares methods useful for dealing with AccountBalance objects.
  */
 public interface AccountBalanceService {
     public final int PENDING_NONE = 1;
@@ -57,31 +57,61 @@ public interface AccountBalanceService {
 
     /**
      * This method finds the available account balances according to input fields and values
+     * 
+     * @param universityFiscalYear the fiscal year account to find account balances for
+     * @param chartOfAccountsCode the chart of accounts code to find account balances for
+     * @param accountNumber the account number to find account balances for
+     * @param subAccountNumber the sub account number to find account balances for
+     * @param isCostShareExcluded should account balances found have cost share information excluded?
+     * @param isConsolidated should account balances found be consolidated?
+     * @param pendingEntryCode should pending entries be included in the query?
+     * @return a List of qualifying account balance records
      */
     public List findAccountBalanceByConsolidation(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode);
 
     /**
      * This method finds the available account balances according to input fields and values
+     * 
+     * @param universityFiscalYear the fiscal year account to find account balances for
+     * @param chartOfAccountsCode the chart of accounts code to find account balances for
+     * @param accountNumber the account number to find account balances for
+     * @param subAccountNumber the sub account number to find account balances for
+     * @param financialConsolidationCode the consolidation code to find account balances for
+     * @param isCostShareExcluded should account balances found have cost share information excluded?
+     * @param isConsolidated should account balances found be consolidated?
+     * @param pendingEntryCode should pending entries be included in the query?
+     * @return a List of qualifying account balance records
      */
     public List findAccountBalanceByLevel(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialConsolidationObjectCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode);
 
     /**
      * This method finds the available account balances according to input fields and values
+     * 
+     * @param universityFiscalYear the fiscal year account to find account balances for
+     * @param chartOfAccountsCode the chart of accounts code to find account balances for
+     * @param accountNumber the account number to find account balances for
+     * @param subAccountNumber the sub account number to find account balances for
+     * @param financialObjectLevelCode the financial object level code to find account balances for
+     * @param financialReportingSortCode the reporting sort code to sort account balances by
+     * @param isCostShareExcluded should account balances found have cost share information excluded?
+     * @param isConsolidated should account balances found be consolidated?
+     * @param pendingEntryCode should pending entries be included in the query?
+     * @return a List of qualifying account balance records
      */
     public List findAccountBalanceByObject(Integer universityFiscalYear, String chartOfAccountsCode, String accountNumber, String subAccountNumber, String financialObjectLevelCode, String financialReportingSortCode, boolean isCostShareExcluded, boolean isConsolidated, int pendingEntryCode);
 
     /**
      * Save an account balance
      * 
-     * @param ab
+     * @param ab account balance record to save
      */
     public void save(AccountBalance ab);
 
     /**
      * Purge an entire fiscal year for a single chart.
      * 
-     * @param chartOfAccountscode
-     * @param year
+     * @param chartOfAccountsCode the chart of accounts to purge account balance records from
+     * @param year the fiscal year to purge account balance records of
      */
     public void purgeYearByChart(String chartOfAccountsCode, int year);
 }

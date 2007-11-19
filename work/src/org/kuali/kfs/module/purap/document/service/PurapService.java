@@ -26,18 +26,46 @@ import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
+/**
+ * Defines methods that must be implemented by classes providing a PurapService. 
+ */
 public interface PurapService {
 
+    /**
+     * Update the status for the given Purchasing/Accounts Payable document
+     * 
+     * @param document
+     * @param statusToSet
+     * @return
+     */
     public boolean updateStatus(PurchasingAccountsPayableDocument document, String statusToSet);
 
+    /**
+     * Retrieve list of views for given identifier
+     * 
+     * @param clazz
+     * @param accountsPayablePurchasingDocumentLinkIdentifier
+     * @return List of views for given identifier
+     */
     public List getRelatedViews(Class clazz, Integer accountsPayablePurchasingDocumentLinkIdentifier);
 
+    /**
+     * Add the allowed below the line items to the given document
+     * 
+     * @param document   PurchasingAccountsPayableDocument
+     */
     public void addBelowLineItems(PurchasingAccountsPayableDocument document);
 
+    /**
+     * Retrieves the below the line items allowed from the parameter table for the given document
+     * 
+     * @param document  PurchasingAccountsPayableDocument
+     * @return Array list of below the line items 
+     */
     public String[] getBelowTheLineForDocument(PurchasingAccountsPayableDocument document);
 
     /**
-     * This method gets the below the line item for a doc by item type (unknown result if multilple of same below the line item
+     * Retrieve the below the line item for a doc by item type (unknown result if multiple of same below the line item
      * type)
      * 
      * @param document the document
@@ -47,7 +75,7 @@ public interface PurapService {
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
 
     /**
-     * A method to determine whether a given date is in the past.
+     * Determine whether a given date is in the past.
      * 
      * @param compareDate An SQL date (not a DateFormatter date, or a util Date)
      * @return True if the given date is before today.
@@ -55,7 +83,7 @@ public interface PurapService {
     public boolean isDateInPast(Date compareDate);
 
     /**
-     * A method to determine whether a given date is more than a given number of days away from the current date.
+     * Determine whether a given date is more than a given number of days away from the current date.
      * 
      * @param compareDate An SQL date (not a DateFormatter date, or a util Date)
      * @param daysAway An int, positive for future days, negative for past days
@@ -71,12 +99,8 @@ public interface PurapService {
      */
     public boolean isDateAYearBeforeToday(Date compareDate);
 
-    /*
-     * PURCHASING DOCUMENT METHODS
-     */
-
     /**
-     * This method gets the Automatic Purchase Order Limit amount based first on the derived contract limit (see
+     * Retrieve the Automatic Purchase Order Limit amount based first on the derived contract limit (see
      * {@link org.kuali.module.vendor.service.VendorService#getApoLimitFromContract(Integer, String, String)}) and if that is null
      * then based on the {@link org.kuali.module.purap.bo.OrganizationParameter} associated with the given 'chart' and 'org' values.
      * 
@@ -90,33 +114,44 @@ public interface PurapService {
     public KualiDecimal getApoLimit(Integer vendorContractGeneratedIdentifier, String chart, String org);
 
     /**
-     * This method returns true if full entry mode has ended for this Payment Request
+     * Determines if full entry mode has ended for this Purchasing/Accounts Payable document.
      * 
-     * @param preqDocument
-     * @return a boolean
+     * @param purapDocument PurchasingAccountsPayableDocument
+     * @return a boolean to indicate if document has completed full entry mode
      */
     public boolean isFullDocumentEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
-     * This method performs all the actions on an update document
+     * Performs all the actions on an update document.
      * 
-     * @param purapDocument
+     * @param purapDocument PurchasingAccountsPayableDocument
      */
     public void performLogicForFullEntryCompleted(PurchasingAccountsPayableDocument purapDocument);
 
     /**
-     * This method will create a close or reopen purchase order document.
+     * Create a close or reopen purchase order document.
      * 
-     * @param purapDocument
+     * @param purapDocument PurchasingAccountsPayableDocument
      */
     public void performLogicForCloseReopenPO(PurchasingAccountsPayableDocument purapDocument);
 
+    /**
+     * Performs the given logic with the given fake user id.  Need this to control the user.
+     * 
+     * @param requiredUniversalUserPersonUserId
+     * @param logicToRun
+     * @param objects
+     * @return
+     * @throws UserNotFoundException
+     * @throws WorkflowException
+     * @throws Exception
+     */
     public Object performLogicWithFakedUserSession(String requiredUniversalUserPersonUserId, LogicContainer logicToRun, Object... objects) throws UserNotFoundException, WorkflowException, Exception;
 
     /**
-     * This method sorts the below the line elements
+     * Sort the below the line elements of the given document
      * 
-     * @param document
+     * @param document  PurchasingAccountsPayableDocument to be sorted
      */
     public void sortBelowTheLine(PurchasingAccountsPayableDocument document);
 }

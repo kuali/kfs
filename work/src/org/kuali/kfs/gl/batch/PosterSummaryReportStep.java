@@ -104,7 +104,7 @@ public class PosterSummaryReportStep extends AbstractStep {
         Collection originEntryGroups = new ArrayList();
         for (Iterator groupIterator = originEntrySourceCodeList.iterator(); groupIterator.hasNext();) {
             String originEntrySourceCode = (String) groupIterator.next();
-            originEntryGroups.addAll(originEntryGroupService.getGroupsFromSource(originEntrySourceCode));
+            originEntryGroups.add(originEntryGroupService.getGroupWithMaxIdFromSource(originEntrySourceCode));
         }
         reportService.generatePosterOutputTransactionSummaryReport(runDate, originEntryGroups);
     }

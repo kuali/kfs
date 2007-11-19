@@ -42,6 +42,9 @@ import org.kuali.module.gl.web.inquirable.EntryInquirableImpl;
 import org.kuali.module.gl.web.inquirable.InquirableFinancialDocument;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * An extension of KualiLookupableImpl to support entry lookups
+ */
 @Transactional
 public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelperServiceImpl {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EntryLookupableHelperServiceImpl.class);
@@ -49,6 +52,12 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
     private ScrubberValidator scrubberValidator;
     private EntryService entryService;
 
+    /**
+     * Validate the university fiscal year that has been queried on
+     * 
+     * @param fieldValues the queried fields
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#validateSearchParameters(java.util.Map)
+     */
     @Override
     public void validateSearchParameters(Map fieldValues) {
         super.validateSearchParameters(fieldValues);
@@ -66,6 +75,10 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
     }
 
     /**
+     * Returns the url for any drill down links within the lookup
+     * @param bo the business object with a property being drilled down on
+     * @param propertyName the name of the property being drilled down on
+     * @return a String with the URL of the property
      * @see org.kuali.core.lookup.Lookupable#getInquiryUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
      */
     @Override
@@ -80,6 +93,9 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
     }
 
     /**
+     * Generates the list of search results for this inquiry
+     * @param fieldValues the field values of the query to carry out
+     * @return List the search results returned by the lookup
      * @see org.kuali.core.lookup.Lookupable#getSearchResults(java.util.Map)
      */
     @Override
@@ -103,6 +119,13 @@ public class EntryLookupableHelperServiceImpl extends AbstractGLLookupableHelper
     }
 
     /**
+     * Updates pending entries before their results are included in the lookup results
+     * 
+     * @param entryCollection a collection of balance entries
+     * @param fieldValues the map containing the search fields and values
+     * @param isApproved flag whether the approved entries or all entries will be processed
+     * @param isConsolidated flag whether the results are consolidated or not
+     * @param isCostShareExcluded flag whether the user selects to see the results with cost share subaccount
      * @see org.kuali.module.gl.web.lookupable.AbstractGLLookupableImpl#updateEntryCollection(java.util.Collection, java.util.Map,
      *      boolean, boolean, boolean)
      */

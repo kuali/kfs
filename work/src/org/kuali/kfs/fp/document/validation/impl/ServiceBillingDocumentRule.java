@@ -32,7 +32,20 @@ import org.kuali.kfs.document.AccountingDocument;
 public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
 
     /**
-     * @see FinancialDocumentRuleBase#accountIsAccessible(FinancialDocument, AccountingLine)
+     * This method determines if an account is still accessible.  This is performed by one of two methods:
+     * <ul>
+     * <li> If the document is in 'initiated' or 'saved' status, then if the accounting line is a target line and the
+     * account associated with that line is accessible based on ServiceBillingDocumentRuleUtils.serviceBillingIncomeAccountIsAccessible()</li>
+     * <li> If the document is not in 'initiated' or 'saved' status, then call the super method to determine accessibility.</li>
+     * </ul>
+     * 
+     * @param financialDocument The document used to retrieve the route status from.  The route status will impact how
+     *                          accessibility of the account is determined.
+     * @param accountingLine The accounting line the account is retrieved from.
+     * @return True if the account is accessible, false otherwise.
+     * 
+     * @see AccountingDocumentRuleBase#accountIsAccessible(FinancialDocument, AccountingLine)
+     * @see ServiceBillingDocumentRuleUtil#serviceBillingIncomeAccountIsAccessible(AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
      */
     @Override
     protected boolean accountIsAccessible(AccountingDocument financialDocument, AccountingLine accountingLine) {
@@ -46,8 +59,22 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     }
 
     /**
+     * This method determines if an account is still accessible.  This is performed by one of two methods:
+     * <ul>
+     * <li> If the document is in 'initiated' or 'saved' status, then if the accounting line is a target line and the
+     * account associated with that line is accessible based on ServiceBillingDocumentRuleUtils.serviceBillingIncomeAccountIsAccessible()</li>
+     * <li> If the document is not in 'initiated' or 'saved' status, then call the super method to determine accessibility.</li>
+     * </ul>
+     * 
+     * @param financialDocument The document used to retrieve the route status from.  The route status will impact how
+     *                          accessibility of the account is determined.
+     * @param accountingLine The accounting line the account is retrieved from.
+     * @param action The constant used to identify which error key to use when reporting errors.
+     * @return True if the account is accessible, false otherwise.
+     * 
      * @see FinancialDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine, org.kuali.module.financial.rules.FinancialDocumentRuleBase.AccountingLineAction)
+     * @see AccountingDocumentRuleBase.AccountingLineAction
      */
     @Override
     protected boolean checkAccountingLineAccountAccessibility(AccountingDocument financialDocument, AccountingLine accountingLine, AccountingLineAction action) {
@@ -65,7 +92,12 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     }
 
     /**
-     * Sets extra accounting line field in explicit GLPE. IB doesn't have this field.
+     * This method sets extra accounting line fields in explicit general ledger pending entries. Internal billing transactions 
+     * don't have this field.
+     * 
+     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
      * 
      * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
      *      GeneralLedgerPendingEntry)
@@ -78,9 +110,15 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
     }
 
     /**
-     * further restricts to income/expense object type codes
+     * This method further restricts the valid accounting line types exclusively to those with income or expense 
+     * object type codes only.  This is done by calling isIncome() and isExpense() passing the accounting line.  
      * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     * @param financialDocument The document used to determine if the accounting line is a debit line.
+     * @param accountingLine The accounting line to be analyzed.
+     * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined
+     * by super.isDebit() method.
+     * 
+     * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#isDebit(org.kuali.core.document.FinancialDocument,
      *      org.kuali.core.bo.AccountingLine)
      */
     @Override

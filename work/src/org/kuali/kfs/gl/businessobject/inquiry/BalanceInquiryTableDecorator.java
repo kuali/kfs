@@ -26,6 +26,7 @@ import org.kuali.core.web.ui.Column;
 import org.kuali.core.web.ui.ResultRow;
 
 /**
+ * A decorator meant to help display balance inquiry information for the displaytag tag library.
  */
 public class BalanceInquiryTableDecorator extends TableDecorator {
 
@@ -33,6 +34,12 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
     private int numOfMonthField = 13;
     private int rowCounter = 0;
 
+    /**
+     * Generates the first row of the table, which acts as the headers for the data.
+     * 
+     * @return the String to display as the first row in the table
+     * @see org.displaytag.decorator.TableDecorator#startRow()
+     */
     @Override
     public String startRow() {
         // TableTagParameters.
@@ -63,6 +70,11 @@ public class BalanceInquiryTableDecorator extends TableDecorator {
         return super.startRow();
     }
 
+    /**
+     * Generates the last row of the displayed table...which displays some kind of footer...
+     * @return a String representing the last row of the table
+     * @see org.displaytag.decorator.TableDecorator#finishRow()
+     */
     @Override
     public String finishRow() {
         rowCounter++;

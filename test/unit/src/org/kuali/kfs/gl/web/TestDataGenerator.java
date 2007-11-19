@@ -31,7 +31,8 @@ import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.BusinessObjectFieldConverter;
 
 /**
- * This class...
+ * A class that reads fixtures as property files and then sets the fields of
+ * a business object with those properties
  */
 public class TestDataGenerator {
 
@@ -42,7 +43,7 @@ public class TestDataGenerator {
     private Properties message;
 
     /**
-     * Constructs a TestDataGenerator.java.
+     * Constructs a TestDataGenerator instance, with default file names
      */
     public TestDataGenerator() {
         this.messageFileName = "test/src/org/kuali/module/gl/web/message.properties";
@@ -53,10 +54,10 @@ public class TestDataGenerator {
     }
 
     /**
-     * Constructs a TestDataGenerator.java.
+     * Constructs a TestDataGenerator instance
      * 
-     * @param propertiesFileName
-     * @param messageFileName
+     * @param propertiesFileName the name of the properties file to load
+     * @param messageFileName the name of the message file to load
      */
     public TestDataGenerator(String propertiesFileName, String messageFileName) {
         this.propertiesFileName = propertiesFileName;
@@ -68,11 +69,11 @@ public class TestDataGenerator {
 
 
     /**
-     * This method generates transaction data for a business object from properties
+     * Generates transaction data for a business object from properties
      * 
      * @param businessObject the transction business object
      * @return the transction business object with data
-     * @throws Exception
+     * @throws Exception thrown if an exception is encountered for any reason
      */
     public Transaction generateTransactionData(Transaction businessObject) throws Exception {
         Iterator propsIter = properties.keySet().iterator();
@@ -94,11 +95,10 @@ public class TestDataGenerator {
     }
 
     /**
-     * This method generates lookup fields and values through reading properties
+     * Generates lookup fields and values through reading properties
      * 
-     * @param businessObject
-     * @return the map of lookup fields and values
-     * @throws Exception
+     * @param businessObject the business object ot populate
+     * @throws Exception thrown if an exception is encountered for any reason
      */
     public Map generateLookupFieldValues(PersistableBusinessObject businessObject) throws Exception {
         return generateLookupFieldValues(businessObject, null);
@@ -107,9 +107,9 @@ public class TestDataGenerator {
     /**
      * This method generates lookup fields and values through reading properties
      * 
-     * @param businessObject
+     * @param businessObject the business object to populate
      * @return the map of lookup fields and values
-     * @throws Exception
+     * @throws Exception thrown if an exception is encountered for any reason
      */
     public Map generateLookupFieldValues(PersistableBusinessObject businessObject, List lookupFields) throws Exception {
         Map fieldValues = new HashMap();

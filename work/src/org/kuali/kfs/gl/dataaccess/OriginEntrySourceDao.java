@@ -20,11 +20,23 @@ import java.util.Collection;
 import org.kuali.module.gl.bo.OriginEntrySource;
 
 /**
- * 
+ * An interface for helping OriginEntrySource objects interact with the database
  */
 
 public interface OriginEntrySourceDao {
+    /**
+     * Fetches all origin entry full records in the database
+     * 
+     * @return a Collection of all origin entry source records
+     */
     public Collection findAll();
 
+    /**
+     * Finds an origin entry source record based on its source code
+     * 
+     * @param code the code of the origin entry source record to find
+     * @return an Origin Entry Source record if found, or null if not found
+     * @return
+     */
     public OriginEntrySource findBySourceCode(String code);
 }

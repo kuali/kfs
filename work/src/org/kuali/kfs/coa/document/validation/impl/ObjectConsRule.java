@@ -25,13 +25,21 @@ import org.kuali.module.chart.bo.ObjectCons;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.chart.service.ObjectLevelService;
-
+/**
+ * 
+ * This class implements the business rules for {@link ObjectCons}
+ */
 public class ObjectConsRule extends MaintenanceDocumentRuleBase {
 
     private static ChartService chartService;
     private static ObjectLevelService objectLevelService;
     private static ObjectCodeService objectCodeService;
-
+    
+    /**
+     * 
+     * Constructs a {@link ObjectConsRule}
+     * Pseudo-injects some services
+     */
     public ObjectConsRule() {
         if (chartService == null) {
             objectLevelService = SpringContext.getBean(ObjectLevelService.class);
@@ -41,11 +49,15 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document saving
-     * 
-     * @param document
-     * @return boolean
+     * This performs rules checks on document save
+     * <ul>
+     * <li>{@link ObjectConsRule#checkObjLevelCode(ObjectCons)}</li>
+     * <li>{@link ObjectConsRule#checkEliminationCode(ObjectCons)}</li>
+     * </ul>
+     * This rule does not fail on business rule failures
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
         ObjectCons objConsolidation = (ObjectCons) getNewBo();
 
@@ -55,11 +67,15 @@ public class ObjectConsRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * This method should be overridden to provide custom rules for processing document routing
-     * 
-     * @param document
-     * @return boolean
+     * This performs rules checks on document route
+     * <ul>
+     * <li>{@link ObjectConsRule#checkObjLevelCode(ObjectCons)}</li>
+     * <li>{@link ObjectConsRule#checkEliminationCode(ObjectCons)}</li>
+     * </ul>
+     * This rule fails on business rule failures
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
+    @Override
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
         boolean success = true;
         ObjectCons objConsolidation = (ObjectCons) getNewBo();

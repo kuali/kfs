@@ -385,7 +385,7 @@
             <forward name="edit" path="/pdp/bank/edit.jsp" />
         </action>
 
-        <action path="/pdp/banksave" name="PdpBankForm" validate="true" input="/pdp/bank/edit.jsp" scope="request" type="org.kuali.module.pdp.action.bank.BankSaveAction">
+        <action path="/pdp/banksave" name="PdpBankForm" validate="false" input="/pdp/bank/edit.jsp" scope="request" type="org.kuali.module.pdp.action.bank.BankSaveAction">
             <forward name="list" path="/pdp/bank.do" />
             <forward name="edit" path="/pdp/bank/edit.jsp" />
         </action>
@@ -420,8 +420,8 @@
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="5M" />
 
-    <message-resources factory="org.kuali.kfs.web.struts.KFSMessageResourcesFactory" parameter="ApplicationResources" />
-    <message-resources key="kraResources" parameter="org.kuali.module.kra.KraResources" />
+    <message-resources factory="org.kuali.kfs.web.struts.KFSMessageResourcesFactory" parameter="" />
+    <message-resources factory="org.kuali.kfs.web.struts.KFSMessageResourcesFactory" key="kraResources" parameter="org.kuali.module.kra.KraResources" />
 
     <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
 </struts-config>

@@ -39,6 +39,7 @@
 
         <summary>Budget Recording Level Maintenance Document</summary>
         <description>Document used to create or update Budget Recording Level objects</description>
+        <help parameterNamespace="KFS-CA" parameterDetailType="BudgetRecordingLevel" parameterName="BUDGET_RECORDING_LEVEL" />
 
         <lockingKeys>
             <field attributeName="code" />

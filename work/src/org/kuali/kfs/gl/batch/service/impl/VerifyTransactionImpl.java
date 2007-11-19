@@ -25,20 +25,24 @@ import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 
 /**
- * 
- * 
+ * A general use implementation of VerifyTransaction
  */
 public class VerifyTransactionImpl implements VerifyTransaction {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(VerifyTransactionImpl.class);
     private KualiConfigurationService kualiConfigurationService;
 
+    /**
+     * Constructs a VerifyTransactionImpl instance
+     */
     public VerifyTransactionImpl() {
         super();
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Determines if the given transaction qualifies for posting
      * 
+     * @param t the transaction to verify
+     * @return a List of String error messages
      * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
      */
     public List verifyTransaction(Transaction t) {

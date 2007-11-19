@@ -18,7 +18,7 @@ package org.kuali.module.gl.service;
 import org.kuali.module.gl.util.CollectorReportData;
 
 /**
- * This class
+ * An interface that declares the service needed to run the Collector
  */
 public interface CollectorService {
     /**

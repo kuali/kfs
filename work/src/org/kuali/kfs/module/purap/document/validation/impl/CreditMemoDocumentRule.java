@@ -58,7 +58,6 @@ import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.module.vendor.util.VendorUtils;
 
-
 /**
  * Business rules for the Credit Memo Document.
  */
@@ -141,7 +140,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
         return valid;
     }
-
 
     /**
      * Validates item fields are valid for the calculation process.
@@ -243,7 +241,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         return valid;
     }
 
-
     /**
      * Validates item lines for the document. Checks numeric fields to verify they are positive and compares with source quantity
      * and price.
@@ -287,7 +284,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         return valid;
     }
 
-
     /**
      * Validates the credit memo quantity for an item line.
      * 
@@ -325,7 +321,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
         return valid;
     }
-
 
     /**
      * Validates the credit memo unit price for an item line.
@@ -391,7 +386,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
 
         return valid;
     }
-
 
     /**
      * Returns the total invoiced quantity for the item line based on the type of credit memo.
@@ -546,6 +540,11 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         return isValid;
     }
 
+    /**
+     * Forces GL entries to be approved before document final approval.
+     * 
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
     @Override
     protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
         super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
@@ -568,11 +567,11 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
         return true;
     }
 
+    /**
+     * @see org.kuali.module.purap.rule.CancelAccountsPayableRule#processCancelAccountsPayableBusinessRules(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
     public boolean processCancelAccountsPayableBusinessRules(AccountsPayableDocument document) {
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
-        // TODO: ckirschenman - we are doing this differently than PREQ but it does basically the same thing - merge
         return SpringContext.getBean(CreditMemoService.class).canCancelCreditMemo(creditMemoDocument, GlobalVariables.getUserSession().getUniversalUser());
     }
-
-
 }

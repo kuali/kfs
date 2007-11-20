@@ -14,7 +14,7 @@
  limitations under the License.
 -->
 <descriptor-repository version="1.0">
-<class-descriptor class="org.kuali.module.cams.bo.RetirementReason" table="CM_RETIRE_REAS_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetRetirementReason" table="CM_RETIRE_REAS_T">
 	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -34,7 +34,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.SecurityDetailDocument" table="CM_SEC_DETL_DOC_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetSecurityDetail" table="CM_SEC_DETL_DOC_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="securityTypeCode" column="CPTLAST_SEC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -68,7 +68,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AquisitionType" table="CM_ACQ_TYPE_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetAquisitionType" table="CM_ACQ_TYPE_T">
 	<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -101,7 +101,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetObject" table="CM_CPTLAST_OBJ_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetObjectCode" table="CM_CPTLAST_OBJ_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -135,7 +135,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.TableMaintenanceSecurity" table="CM_TBL_MAINT_SEC_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetCampusSecurity" table="CM_TBL_MAINT_SEC_T">
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -155,7 +155,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.PendingAction" table="CB_PND_ACTION_T">
+<class-descriptor class="org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction" table="CB_PND_ACTION_T">
 	<field-descriptor name="actionCode" column="ACTION_CODE" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

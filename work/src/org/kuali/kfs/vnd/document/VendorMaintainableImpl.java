@@ -92,6 +92,21 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
 
             if (StringUtils.isNotBlank(newBo.getVendorName())) {
                 documentTitle += " '" + newBo.getVendorName() + "'";
+            } 
+            else {            
+                if (StringUtils.isNotBlank(newBo.getVendorFirstName())) {
+                    documentTitle += " '" + newBo.getVendorFirstName() + " ";
+                    if (StringUtils.isBlank(newBo.getVendorLastName())) {
+                        documentTitle += "'";
+                    }
+                }
+                
+                if (StringUtils.isNotBlank(newBo.getVendorLastName())) {
+                    if (StringUtils.isBlank(newBo.getVendorFirstName())) {
+                        documentTitle += " '";
+                    }
+                    documentTitle += newBo.getVendorLastName() + "'";
+                }
             }
 
             if (newBo.getVendorHeader().getVendorForeignIndicator()) {

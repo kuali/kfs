@@ -34,6 +34,34 @@ public enum RequisitionDocumentFixture {
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
     ),
 
+    REQ_VALID_NO_APO_OVER_LIMIT(null,  // requisitionOrganizationReference1Text
+            null,                   // requisitionOrganizationReference2Text
+            null,                   // requisitionOrganizationReference3Text
+            null,                   // alternate1VendorName
+            null,                   // alternate2VendorName
+            null,                   // alternate3VendorName
+            null,                   // alternate4VendorName
+            null,                   // alternate5VendorName
+            null,                   // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO,  // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS,                 // purchasingDocumentFixture
+            new RequisitionItemFixture[] {RequisitionItemFixture.REQ_ITEM_NO_APO}  // requisitionItemMultiFixtures
+            ),
+                                    
+      REQ_VALID_NO_APO_RESTRICTED_ITEM(null,  // requisitionOrganizationReference1Text
+            null,                   // requisitionOrganizationReference2Text
+            null,                   // requisitionOrganizationReference3Text
+            null,                   // alternate1VendorName
+            null,                   // alternate2VendorName
+            null,                   // alternate3VendorName
+            null,                   // alternate4VendorName
+            null,                   // alternate5VendorName
+            null,                   // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO,  // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS,                 // purchasingDocumentFixture
+            new RequisitionItemFixture[] {RequisitionItemFixture.REQ_ITEM_NO_APO_RESTRICTED_ITEM}  // requisitionItemMultiFixtures
+            ),
+                
     REQ_NO_APO_VALID(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -62,6 +90,33 @@ public enum RequisitionDocumentFixture {
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
     ),
 
+    REQ_MULTI_QUANTITY(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_MULTI_QUANTITY, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_MULTI, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_MULTI_ITEM_QUANTITY } // requisitionItemMultiFixtures
+    ),
+    REQ_MULTI_NON_QUANTITY(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_MULTI_NON_QUANTITY, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_MULTI, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_MULTI_ITEM_NON_QUANTITY } // requisitionItemMultiFixtures
+    ),
+
     REQ_ALTERNATE_APO(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -85,11 +140,11 @@ public enum RequisitionDocumentFixture {
             null, // alternate4VendorName
             null, // alternate5VendorName
             null, // organizationAutomaticPurchaseOrderLimit
-            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
+            PurchasingAccountsPayableDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_ONLY_REQUIRED_FIELDS, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_UNRESTRICTED_ITEM_1 } // requisitionItemMultiFixtures
     ),
-
+    
     REQ_APO_INVALID_TOTAL_NOT_GREATER_THAN_ZERO(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -132,7 +187,6 @@ public enum RequisitionDocumentFixture {
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
     ),
     
-    
     REQ_APO_INVALID_WITH_RESTRICTED_VENDOR (null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -172,6 +226,20 @@ public enum RequisitionDocumentFixture {
             null, // organizationAutomaticPurchaseOrderLimit
             PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_WITH_PO_TOTAL_LIMIT_NON_ZERO, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
+    ),
+    
+    REQ_VALID_VENDOR_FAX_NUMBER(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_VALID_VENDOR_FAX_NUMBER, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
     ), 
     
@@ -216,7 +284,21 @@ public enum RequisitionDocumentFixture {
             PurchasingDocumentFixture.REQ_B2B_VENDOR, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
     ),
-   
+    
+    REQ_B2B_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTER(null, // requisitionOrganizationReference1Text
+            null, // requisitionOrganizationReference2Text
+            null, // requisitionOrganizationReference3Text
+            null, // alternate1VendorName
+            null, // alternate2VendorName
+            null, // alternate3VendorName
+            null, // alternate4VendorName
+            null, // alternate5VendorName
+            null, // organizationAutomaticPurchaseOrderLimit
+            PurchasingAccountsPayableDocumentFixture.REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS, // purapDocumentFixture
+            PurchasingDocumentFixture.REQ_B2B_VENDOR, // purchasingDocumentFixture
+            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
+    ),
+       
     REQ_INVALID_VENDOR_FAX_NUMBER_CONTAINS_LETTER(null, // requisitionOrganizationReference1Text
             null, // requisitionOrganizationReference2Text
             null, // requisitionOrganizationReference3Text
@@ -242,34 +324,6 @@ public enum RequisitionDocumentFixture {
             null, // organizationAutomaticPurchaseOrderLimit
             PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
             PurchasingDocumentFixture.REQ_INVALID_VENDOR_FAX_NUMBER_BAD_FORMAT, // purchasingDocumentFixture
-            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
-    ), 
-
-    REQ_VALID_VENDOR_FAX_NUMBER(null, // requisitionOrganizationReference1Text
-            null, // requisitionOrganizationReference2Text
-            null, // requisitionOrganizationReference3Text
-            null, // alternate1VendorName
-            null, // alternate2VendorName
-            null, // alternate3VendorName
-            null, // alternate4VendorName
-            null, // alternate5VendorName
-            null, // organizationAutomaticPurchaseOrderLimit
-            PurchasingAccountsPayableDocumentFixture.REQ_VALID_APO, // purapDocumentFixture
-            PurchasingDocumentFixture.REQ_VALID_VENDOR_FAX_NUMBER, // purchasingDocumentFixture
-            new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
-    ), 
-    
-    REQ_B2B_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTER(null, // requisitionOrganizationReference1Text
-            null, // requisitionOrganizationReference2Text
-            null, // requisitionOrganizationReference3Text
-            null, // alternate1VendorName
-            null, // alternate2VendorName
-            null, // alternate3VendorName
-            null, // alternate4VendorName
-            null, // alternate5VendorName
-            null, // organizationAutomaticPurchaseOrderLimit
-            PurchasingAccountsPayableDocumentFixture.REQ_WITH_INVALID_US_VENDOR_ZIP_CODE_CONTAINS_LETTERS, // purapDocumentFixture
-            PurchasingDocumentFixture.REQ_B2B_VENDOR, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
     ),
 
@@ -412,7 +466,7 @@ public enum RequisitionDocumentFixture {
             PurchasingDocumentFixture.REQ_WITH_RECURRING_PAYMENT_TYPE_BEGIN_AND_END_DATE, // purchasingDocumentFixture
             new RequisitionItemFixture[] { RequisitionItemFixture.REQ_QTY_APO_ITEM_1 } // requisitionItemMultiFixtures
     ), ;
-
+    
     public final String requisitionOrganizationReference1Text;
     public final String requisitionOrganizationReference2Text;
     public final String requisitionOrganizationReference3Text;

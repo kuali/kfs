@@ -23,7 +23,7 @@ import org.kuali.module.purap.bo.PurApItem;
 public enum PurApItemFixture {
     BASIC_QTY_ITEM_1(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
@@ -38,7 +38,7 @@ public enum PurApItemFixture {
             new KualiDecimal(1) // itemQuantity
     ), BASIC_QTY_ITEM_2(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
@@ -53,7 +53,7 @@ public enum PurApItemFixture {
             new KualiDecimal(1) // itemQuantity
     ), APO_QTY_ITEM_1(null, // itemIdentifier
             new Integer(1), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
@@ -68,7 +68,7 @@ public enum PurApItemFixture {
             new KualiDecimal(500) // itemQuantity
     ), APO_SERVICE_ITEM_1(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
@@ -83,7 +83,7 @@ public enum PurApItemFixture {
             null // itemQuantity
     ), APO_FREIGHT_ITEM_1(null, // itemIdentifier
             new Integer(3), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "freight", // itemDescription
@@ -98,7 +98,7 @@ public enum PurApItemFixture {
             null // itemQuantity
     ), BASIC_QTY_ITEM_NO_APO(null, // itemIdentifier
             new Integer(2), // itemLineNumber
-            "", // capitalAssetTransactionTypeCode
+            null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
             "description", // itemDescription
@@ -111,7 +111,38 @@ public enum PurApItemFixture {
             false, // itemAssignedToTradeInIndicator
             new KualiDecimal(10000), // extendedPrice
             new KualiDecimal(100) // itemQuantity
-    ), BASIC_QTY_ITEM_NO_APO_TOTAL_NOT_GREATER_THAN_ZERO(null, // itemIdentifier
+    ), REQ_MULTI_ITEM_QUANTITY(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "P10M980", // itemCatalogNumber
+            "Copy Paper - 8 1/2 x 11, White, 92, 20lb", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(30.20), // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(604), // extendedPrice
+            new KualiDecimal(20) // itemQuantity
+    ), REQ_MULTI_ITEM_NON_QUANTITY(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            "", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "consulting", // itemDescription
+            "", // itemCapitalAssetNoteText
+            new BigDecimal(5000), // itemUnitPrice
+            "SRVC", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(5000), // extendedPrice
+            null // itemQuantity
+    ),
+    BASIC_QTY_ITEM_NO_APO_TOTAL_NOT_GREATER_THAN_ZERO(null, // itemIdentifier
             new Integer(2), // itemLineNumber
             "", // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
@@ -127,7 +158,6 @@ public enum PurApItemFixture {
             new KualiDecimal(-100), // extendedPrice
             new KualiDecimal(10) // itemQuantity
     );
-
 
     private Integer itemIdentifier;
     private Integer itemLineNumber;

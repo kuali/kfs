@@ -714,6 +714,11 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     }
 
     public ShippingTitle getVendorShippingTitle() {
+        //KULPURAP-1957: this field is not being refreshed correctly in certain circumstances
+        if( ObjectUtils.isNull(vendorShippingTitle) ){
+            this.refreshReferenceObject("vendorShippingTitle");
+        }
+
         return vendorShippingTitle;
     }
 

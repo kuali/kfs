@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetRetirementReason">
+ 
+        <inquiry>
+            <title>Retirement Reason Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="active" />
+                        <field attributeName="retirementReasonCode" />
+                        <field attributeName="retirementReasonName" />
+                        <field attributeName="retirementReasonRestrictionIndicator" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Retirement Reason Lookup</title>
+
+            <instructions>Look up a Retirement Reason</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="retirementReasonCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="retirementReasonCode" required="false" />
+                <lookupField attributeName="retirementReasonName" required="false" />
+                <lookupField attributeName="retirementReasonRestrictionIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="active" />
+                <field attributeName="retirementReasonCode" />
+                <field attributeName="retirementReasonName" />
+                <field attributeName="retirementReasonRestrictionIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attribute name="retirementReasonCode" forceUppercase="true">
+                <label>Retirement Reason Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>retirementReasonCode</summary>
+                <description>retirementReasonCode description...</description>
+			</attribute>
+
+            <attribute name="retirementReasonName" forceUppercase="true">
+                <label>Retirement Reason Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>retirementReasonName</summary>
+                <description>retirementReasonName description...</description>
+			</attribute>
+
+            <attribute name="retirementReasonRestrictionIndicator" forceUppercase="true">
+                <label>Retirement Reason Restriction Indicator</label>
+                <shortLabel>Retirement Reason Restriction Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>retirementReasonRestrictionIndicator</summary>
+                <description>retirementReasonRestrictionIndicator description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

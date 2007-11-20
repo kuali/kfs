@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetObjectCode">
+ 
+        <inquiry>
+            <title>Asset Object Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="accumulatedDepreciationFinancialObjectCode" />
+                        <field attributeName="capitalizationFinancialObjectCode" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="depreciationExpenseFinancialObjectCode" />
+                        <field attributeName="financialObjectSubTypeCode" />
+                        <field attributeName="universityFiscalYear" />
+                        <field attributeName="active" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Object Lookup</title>
+
+            <instructions>Look up an Asset Object</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="financialObjectSubTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accumulatedDepreciationFinancialObjectCode" required="false" />
+                <lookupField attributeName="capitalizationFinancialObjectCode" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="depreciationExpenseFinancialObjectCode" required="false" />
+                <lookupField attributeName="financialObjectSubTypeCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accumulatedDepreciationFinancialObjectCode" />
+                <field attributeName="capitalizationFinancialObjectCode" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="depreciationExpenseFinancialObjectCode" />
+                <field attributeName="financialObjectSubTypeCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accumulatedDepreciationFinancialObjectCode" forceUppercase="true">
+                <label>Accumulated Depreciation Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>accumulatedDepreciationFinancialObjectCode</summary>
+                <description>accumulatedDepreciationFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="capitalizationFinancialObjectCode" forceUppercase="true">
+                <label>Capitalization Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>capitalizationFinancialObjectCode</summary>
+                <description>capitalizationFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="depreciationExpenseFinancialObjectCode" forceUppercase="true">
+                <label>Depreciation Expense Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>depreciationExpenseFinancialObjectCode</summary>
+                <description>depreciationExpenseFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="financialObjectSubTypeCode" forceUppercase="true">
+                <label>Financial Object Sub Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialObjectSubTypeCode</summary>
+                <description>financialObjectSubTypeCode description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -18,6 +18,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
 	private String capitalizationFinancialObjectCode;
 	private String accumulatedDepreciationFinancialObjectCode;
 	private String depreciationExpenseFinancialObjectCode;
+    private boolean active;
 
     private ObjectCode accumulatedDepreciationFinancialObject;
 	private ObjectCode capitalizationFinancialObject;
@@ -254,7 +255,27 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
     public void setFinancialObjectSubType(ObjSubTyp financialObjectSubType) {
         this.financialObjectSubType = financialObjectSubType;
     }
+    
+    /**
+     * Gets the active attribute.
+     * 
+     * @return Returns the active
+     * 
+     */
+    public boolean isActive() { 
+        return active;
+    }
 
+    /**
+     * Sets the active attribute.
+     * 
+     * @param active The active to set.
+     * 
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

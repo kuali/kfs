@@ -15,6 +15,7 @@
  */
 package org.kuali.module.purap.fixtures;
 
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurchasingItem;
@@ -25,13 +26,15 @@ public enum CreditMemoItemFixture {
 
     CM_QTY_UNRESTRICTED_ITEM_1(
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
-            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1)  // poInvoicedTotalQuantity
     ),
 
     CM_ITEM_NO_APO(
             PurApItemFixture.BASIC_QTY_ITEM_NO_APO, // purApItemFixture
-            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 } // creditMemoAccountMultiFixtures
-    ),
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),      
 
     /*
      * CM_QTY_APO_ITEM_1 ( false, // itemRestrictedIndicator PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture new
@@ -49,11 +52,13 @@ public enum CreditMemoItemFixture {
     //private boolean itemRestrictedIndicator;
     private PurApItemFixture purApItemFixture;
     private CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures;
+    private KualiDecimal poInvoicedTotalQuantity;
 
-
-    private CreditMemoItemFixture(PurApItemFixture purApItemFixture, CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures) {
+    private CreditMemoItemFixture(PurApItemFixture purApItemFixture, CreditMemoAccountingLineFixture[] creditMemoAccountingLineFixtures,
+            KualiDecimal poInvoicedTotalQuantity) {
         this.purApItemFixture = purApItemFixture;
         this.creditMemoAccountingLineFixtures = creditMemoAccountingLineFixtures;
+        this.poInvoicedTotalQuantity = poInvoicedTotalQuantity;
     }
 
     public void addTo(CreditMemoDocument creditMemoDocument) {

@@ -59,6 +59,7 @@ import org.kuali.module.chart.dao.FiscalYearMakersCopyAction;
 import org.kuali.module.chart.dao.FiscalYearMakersDao;
 import org.kuali.module.chart.dao.FiscalYearMakersFieldChangeAction;
 import org.kuali.module.chart.dao.FiscalYearMakersFilterAction;
+import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.LaborObject;
@@ -391,6 +392,18 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
         };
         addCopyAction(UniversityDate.class, copyActionUniversityDate);
+
+        /***************************************************************************************************************************
+         * WireCharge *
+         **************************************************************************************************************************/
+        FiscalYearMakersCopyAction copyActionWireCharge = new FiscalYearMakersCopyAction() {
+            public void copyMethod(Integer baseYear, boolean replaceMode) {
+                MakersMethods<WireCharge> makersMethod = new MakersMethods<WireCharge>();
+                makersMethod.makeMethod(WireCharge.class, baseYear, replaceMode);
+            }
+        };
+        addCopyAction(WireCharge.class, copyActionWireCharge);
+
         /** ***************************************************************** */
         //
         // this is the routine that sets up and and returns the runtime call order
@@ -1276,9 +1289,8 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * on its foreign key fields with the parent
      */
     public class ParentClass<C> {
-        private String[] childKeyFields;
-        private String[] parentKeyFields;
-        private HashSet<String> parentKeys = new HashSet<String>(1);
+        // this holds all the data needed to check RI for each relationship between a given parent and its child <C>
+        private ArrayList<RelationshipContainer> keyChain = new ArrayList<RelationshipContainer>(1);
 
         /**
          * Constructs a FiscalYearMakersDaoOjb.java. the constructor will initialize the key hashmap for this parent object it will
@@ -1291,23 +1303,33 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * @param requestYear
          */
         public ParentClass(Class parentClass, Class childClass, Integer requestYear) {
-            // fill in the key field names
-            // TODO: fix this--we need the child class as well as the parentClass
-            ReturnedPair<String[], String[]> keyArrays = fetchForeignKeysToParent(childClass, parentClass);
-            childKeyFields = keyArrays.getFirst();
-            parentKeyFields = keyArrays.getSecond();
-            if (childKeyFields != null) {
-                // build a query to get the keys already added to the parent
-                Criteria criteriaID = new Criteria();
-                criteriaID.addEqualTo(KFSConstants.UNIV_FISCAL_YR, requestYear);
-                ReportQueryByCriteria queryID = new ReportQueryByCriteria(parentClass, parentKeyFields, criteriaID, true);
-                // build a hash set of the keys in the parent
-                parentKeys = new HashSet<String>(hashCapacity(queryID));
-                Iterator parentRows = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-                while (parentRows.hasNext()) {
-                    parentKeys.add(buildKeyString((Object[]) parentRows.next()));
+            // fill in the key field names for the child keys and the corresponding parent keys
+            keyChain = fetchForeignKeysToParent(childClass, parentClass);
+            // get all the rows from the parent for each foreign key relationship
+            // to be general, we will get parent rows for each relationship, even though it appears that 
+            // OJB insists that each parent's primary keys and only its primary keys are involved in a
+            // relationship.  Oracle does allow constraints to be created for any index, not just for the
+            // primary key index
+            if (!(keyChain.isEmpty()))
+            {
+                Iterator<RelationshipContainer> contentsRI = keyChain.iterator();
+                while (contentsRI.hasNext())
+                {
+                    RelationshipContainer relationshipRI = contentsRI.next();
+                    // build a query to get the keys of the rows we have already copied to the parent
+                    Criteria criteriaID = new Criteria();
+                    criteriaID.addEqualTo(KFSConstants.UNIV_FISCAL_YR, requestYear);
+                    ReportQueryByCriteria queryID = 
+                        new ReportQueryByCriteria(parentClass, relationshipRI.parentKeyFields, criteriaID, true);
+                    // build a hash set of the keys in the parent rows
+                    relationshipRI.parentKeys = new HashSet<String>(hashCapacity(queryID));
+                    Iterator parentRows = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+                    while (parentRows.hasNext()) {
+                        relationshipRI.parentKeys.add(buildKeyString((Object[]) parentRows.next()));
+                    }
                 }
-            }
+             }
+                
         }
 
         /**
@@ -1319,7 +1341,8 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * @throws InvocationTargetException
          * @throws NoSuchMethodException
          */
-        private String buildChildTestKey(C ourBO) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        private String buildChildTestKey(C ourBO, String[] childKeyFields) 
+        throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
             StringBuffer returnKey = new StringBuffer("");
             // we will convert all the keys to strings
             for (int i = 0; i < childKeyFields.length; i++) {
@@ -1338,10 +1361,20 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * @throws NoSuchMethodException
          */
         public boolean isInParent(C ourBO) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-            if (childKeyFields == null) {
+            boolean result = true;
+            if (keyChain.isEmpty()) {
                 return false;
             }
-            return (parentKeys.contains(buildChildTestKey(ourBO)));
+            Iterator<RelationshipContainer> contentsRI = keyChain.iterator();
+            while (contentsRI.hasNext())
+            {
+                RelationshipContainer relationshipRI = contentsRI.next();
+                //@@TODO:  if we are going to add a mesage indicating which child keys failed,
+                //         it would go here
+                result = result && 
+                         relationshipRI.parentKeys.contains(buildChildTestKey(ourBO, relationshipRI.childKeyFields));
+            }
+            return (result);
         }
 
     }
@@ -1361,9 +1394,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * This method... we always assume the first key is the fiscal year OJB returns a BigDecimal for this (it's a numeric field, and
-     * in some databases--notably Oracle--every numeric field is stored as a number)
-     * 
+     * This method... 
      * @param inKeys
      * @return a string of keys from the array
      */
@@ -1472,21 +1503,26 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * @param parentClass
      * @return foreign keys for parent class
      */
-    private ReturnedPair<String[], String[]> fetchForeignKeysToParent(Class childClass, Class parentClass) {
-        ReturnedPair<String[], String[]> returnObject = new ReturnedPair<String[], String[]>();
+    private ArrayList<RelationshipContainer> fetchForeignKeysToParent(Class childClass, Class parentClass) {
+        ArrayList<RelationshipContainer> returnObject = new ArrayList<RelationshipContainer>(1);
 
         /*
          * first look for the 1:1 relationship
-         */
+        */
         returnObject = fetchFKToParent(childClass, parentClass);
-        if (!(returnObject.getFirst() == null)) {
-            return returnObject;
-        }
         /*
-         * assume it's a 1:m relationship, and look for a collection-descriptor if we can't find one, we'll issue a warning and
-         * return an empty pair of arrays
+         *  now look for 1:m relations between parent and child
          */
-        return (fetchFKToChild(parentClass, childClass));
+        ArrayList<RelationshipContainer> oneToManyKeys = fetchFKToChild(parentClass, childClass);
+        if (!(oneToManyKeys.isEmpty()))
+        {
+            returnObject.addAll(oneToManyKeys);
+        }
+        if ((returnObject.isEmpty())) {
+            LOG.warn(String.format("\n!!! NO relationships between child %s and parent %s !!!\n",
+                                   childClass.getName(),parentClass.getName()));
+        }
+        return returnObject;
     }
 
     /**
@@ -1494,12 +1530,10 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * 
      * @param parentClass
      * @param childClass
-     * @return foreign keys for child class
+     * @return a "relationship data" container for each foreign key relationship from parent to child (usually 1:many)
      */
-    private ReturnedPair<String[], String[]> fetchFKToChild(Class parentClass, Class childClass) {
-        String[] childKeyFields;
-        String[] parentKeyFields;
-        ReturnedPair<String[], String[]> returnObject = new ReturnedPair<String[], String[]>();
+    private ArrayList<RelationshipContainer> fetchFKToChild(Class parentClass, Class childClass) {
+        ArrayList<RelationshipContainer> returnObject = new ArrayList<RelationshipContainer>(1);
         // first we have to find the attribute name of the parent reference to the child
         // class
         HashMap<String, Class> collectionObjects = (HashMap<String, Class>) persistenceStructureService.listCollectionObjectTypes(parentClass);
@@ -1510,35 +1544,38 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 // the name of the child class matches a collection class
                 // this is the attribute we want
                 attributeName = attributeMap.getKey();
-                break;
+                // now we have to use the attribute to look up the inverse foreign keys
+                if (attributeName == null) {
+                    // write a warning and return an empty key set
+                    LOG.warn(String.format("\n%s does not have a collection reference to %s\n", parentClass.getName(), childClassID));
+                    continue;
+                }
+                //@@TODO:  temporary print for debugging
+                LOG.warn(String.format("\n%s reference found from parent %s to child %s",
+                         attributeName,parentClass.getName(),childClass.getName()));
+                RelationshipContainer relationshipContainer = new RelationshipContainer();
+                HashMap<String, String> keyMap = 
+                    (HashMap<String, String>) persistenceStructureService.getInverseForeignKeysForCollection(parentClass, attributeName);
+                relationshipContainer.childKeyFields = new String[keyMap.size()];
+                relationshipContainer.parentKeyFields = new String[keyMap.size()];
+                // the primary key names refer to child fields
+                // the foreign key names refer to parent fields
+                // (persistenceStructureService assumes that the child fields match the
+                // parent primary key fields in order, AND that the first child field
+                // corresponds to the first parent primary key field, the second to the
+                // second, etc. this is apparently OJB's assumption as well. in a 1:many
+                // relationship, all the parent primary key fields must be used (and
+                // possibly some other fields)--since the parent row must be unique, but only
+                // some of the child's primary keys will be used)
+                int i = 0;
+                for (Map.Entry<String, String> fkPkPair : keyMap.entrySet()) {
+                    relationshipContainer.parentKeyFields[i] = fkPkPair.getKey();
+                    relationshipContainer.childKeyFields[i] = fkPkPair.getValue();
+                    i = i + 1;
+                }
+                returnObject.add(relationshipContainer);
             }
         }
-        // now we have to use the attribute to look up the inverse foreign keys
-        if (attributeName == null) {
-            // write a warning and return an empty key set
-            LOG.warn(String.format("\n%s does not have a collection reference to %s\n", parentClass.getName(), childClassID));
-            return returnObject;
-        }
-        HashMap<String, String> keyMap = (HashMap<String, String>) persistenceStructureService.getInverseForeignKeysForCollection(parentClass, attributeName);
-        childKeyFields = new String[keyMap.size()];
-        parentKeyFields = new String[keyMap.size()];
-        // the primary key names refer to child fields
-        // the foreign key names refer to parent fields
-        // (persistenceStructureService assumes that the child fields match the
-        // parent primary key fields in order, AND that the first child field
-        // corresponds to the first parent primary key field, the second to the
-        // second, etc. this is apparently OJB's assumption as well. in a 1:many
-        // relationship, all the parent primary key fields must be used (and
-        // possibly some other fields)--since the parent row must be unique, but only
-        // some of the child's primary keys will be used)
-        int i = 0;
-        for (Map.Entry<String, String> fkPkPair : keyMap.entrySet()) {
-            parentKeyFields[i] = fkPkPair.getKey();
-            childKeyFields[i] = fkPkPair.getValue();
-            i = i + 1;
-        }
-        returnObject.setFirst(childKeyFields);
-        returnObject.setSecond(parentKeyFields);
         return returnObject;
     }
 
@@ -1547,48 +1584,51 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * 
      * @param childClass
      * @param parentClass
-     * @return foreign keys for a given parent class
+     * @return a "relationship data" container for each foreign key relationship from child to parent
      */
-    private ReturnedPair<String[], String[]> fetchFKToParent(Class childClass, Class parentClass) {
-        String[] childKeyFields;
-        String[] parentKeyFields;
-        ReturnedPair<String[], String[]> returnObject = new ReturnedPair<String[], String[]>();
+    private ArrayList<RelationshipContainer> fetchFKToParent(Class childClass, Class parentClass) {
+        ArrayList<RelationshipContainer> returnObject = new ArrayList<RelationshipContainer>(1);
         // first we have to find the attribute name of the reference to the parent
         // class
         HashMap<String, Class> referenceObjects = (HashMap<String, Class>) persistenceStructureService.listReferenceObjectFields(childClass);
         String attributeName = null;
         String parentClassID = parentClass.getName();
         for (Map.Entry<String, Class> attributeMap : referenceObjects.entrySet()) {
+            // we loop until we find ALL the RI relationships between this child and this parent
+            // in most cases, there will only be one
             if (parentClassID.compareTo(attributeMap.getValue().getName()) == 0) {
                 // the name of the parent class matches a reference class
                 // this is the attribute we want
                 attributeName = attributeMap.getKey();
-                break;
+                // now we have to use the attribute to look up the foreign keys
+                if (attributeName == null) {
+                    // write a warning and return an empty key set
+                    LOG.warn(String.format("\n%s does not have a child reference to %s\n", childClass.getName(), parentClassID));
+                    continue;
+                }
+                //@@TODO:  temporary print for debugging
+                LOG.warn(String.format("\n%s reference found from child %s to parent %s",
+                         attributeName,childClass.getName(),parentClass.getName()));
+                RelationshipContainer relationshipContainer = new RelationshipContainer();
+                HashMap<String, String> keyMap = 
+                    (HashMap<String, String>) persistenceStructureService.getForeignKeysForReference(childClass, attributeName);
+                relationshipContainer.childKeyFields = new String[keyMap.size()];
+                relationshipContainer.parentKeyFields = new String[keyMap.size()];
+                // the primary key names refer to parent fields
+                // the foreign key names refer to child fields
+                // (persistenceStructureService assumes that the child fields match the
+                // parent primary key fields in order, AND that the first child field
+                // corresponds to the first parent primary key field, the second to the
+                // second, etc. this is apparently OJB's assumption as well.)
+                int i = 0;
+                for (Map.Entry<String, String> fkPkPair : keyMap.entrySet()) {
+                    relationshipContainer.childKeyFields[i] = fkPkPair.getKey();
+                    relationshipContainer.parentKeyFields[i] = fkPkPair.getValue();
+                    i = i + 1;
+                }
+                returnObject.add(relationshipContainer);
             }
         }
-        // now we have to use the attribute to look up the foreign keys
-        if (attributeName == null) {
-            // write a warning and return an empty key set
-            LOG.warn(String.format("\n%s does not have a child reference to %s\n", childClass.getName(), parentClassID));
-            return returnObject;
-        }
-        HashMap<String, String> keyMap = (HashMap<String, String>) persistenceStructureService.getForeignKeysForReference(childClass, attributeName);
-        childKeyFields = new String[keyMap.size()];
-        parentKeyFields = new String[keyMap.size()];
-        // the primary key names refer to parent fields
-        // the foreign key names refer to child fields
-        // (persistenceStructureService assumes that the child fields match the
-        // parent primary key fields in order, AND that the first child field
-        // corresponds to the first parent primary key field, the second to the
-        // second, etc. this is apparently OJB's assumption as well.)
-        int i = 0;
-        for (Map.Entry<String, String> fkPkPair : keyMap.entrySet()) {
-            childKeyFields[i] = fkPkPair.getKey();
-            parentKeyFields[i] = fkPkPair.getValue();
-            i = i + 1;
-        }
-        returnObject.setFirst(childKeyFields);
-        returnObject.setSecond(parentKeyFields);
         return returnObject;
     }
 
@@ -1624,17 +1664,19 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * this routine is designed to solve a problem caused by auto-xxx settings in the OJB-repostiory auto-update or auto-delete
+     * this routine is designed to solve a problem caused by auto-xxx settings in the OJB-repostiory. auto-update or auto-delete
      * settings other than "none" will cause row(s) for a linked object to be written or deleted as soon as the row for the linking
      * object is. this circumvents our parent-child paradigm by which we ensure deletes and copies are done in an order that will
      * not violate referential integrity constraints. for example, suppose a parent A is linked to a child B, which has
      * auto-update="object". B may have an RI constraint on C, while A has nothing to do with C. our copy order will allow A to be
      * copied before C. auto-update="object" copies row(s) from B at the same time a row from A is copied. since no rows from C have
-     * been copied yet (C follows A in the copy order, the attempt to store the rows of B will violate RI--the required rows from C
+     * been copied yet (C follows A in the copy order), the attempt to store the rows of B will violate RI--the required rows from C
      * are not in the DB yet. (an example as of October, 2007 is A = OrganizationReversion, B = OrganizationReversionDetail, and C =
-     * ObjectCode) this routine dynamically switches off the auto-update and auto-delete in the OJB repository loaded in memory.
+     * ObjectCode). this routine dynamically switches off the auto-update and auto-delete in the OJB repository loaded in memory.
      * this should affect only the current run, makes no permanent changes, and will not affect the performance of any documents.
      * the assumption is that this code is running in its own Java container, which will go away when the run is complete.
+     * in case the java container does stick around, we have a mechanism which restores the status quo ante once fiscal year makers
+     * completes.  the net effect is that the switches are only off during fiscal year makers.
      */
     private void turnOffCascades() {
 
@@ -1828,34 +1870,23 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
         }
     }
-
+    
     /**
-     * this is a handy junk inner class that allows us to return two things from a method
+     *   this is an inner class to hold the data structures needed to verify that a row with the correct parent key values exists
+     *   for a child in an OJB reference-descriptor or collection-descriptor relationship
      */
-    private class ReturnedPair<S, T> {
-        S firstObject;
-        T secondObject;
 
-        public ReturnedPair() {
-            this.firstObject = null;
-            this.secondObject = null;
-        }
-
-        public S getFirst() {
-            return this.firstObject;
-        }
-
-        public T getSecond() {
-            return this.secondObject;
-        }
-
-        public void setFirst(S firstObject) {
-            this.firstObject = firstObject;
-        }
-
-        public void setSecond(T secondObject) {
-            this.secondObject = secondObject;
-        }
+    
+    private class RelationshipContainer
+    {
+        // the child field names involved in the relationship
+        public String[] childKeyFields = null;
+        // the matching parent field names involved in the relationship
+        public String[] parentKeyFields = null;
+        // a hash set of all the parent keys
+        // the value of each key is converted to a string and concatenated with the other keys, in
+        // order of occurrence
+        public HashSet<String> parentKeys = new HashSet<String> (1);
     }
 
 
@@ -1886,23 +1917,32 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         LOG.warn(String.format("\n\nchild key, parent classes:\n\n"));
         for (Map.Entry<String, ArrayList<Class>> childParents : childParentMap.entrySet()) {
             Iterator<Class> parents = childParents.getValue().iterator();
-            LOG.warn(String.format("\nchild: %s has %d parents", childParents.getKey(), childParents.getValue().size()));
+            LOG.warn(String.format("\n*****************************************************************\nchild: %s has %d parents",
+                     childParents.getKey(), childParents.getValue().size()));
             Class childClass = makerObjectsList.get(childParents.getKey());
             while (parents.hasNext()) {
                 Class parentClass = parents.next();
                 LOG.warn(String.format("\n       parent class name: %s", parentClass.getName()));
-                ReturnedPair<String[], String[]> keySets = fetchForeignKeysToParent(childClass, parentClass);
-                String[] childKeys = keySets.getFirst();
-                String[] parentKeys = keySets.getSecond();
-                LOG.warn(String.format("\n       ------child keys-----"));
-                for (int i = 0; i < childKeys.length; i++) {
-                    LOG.warn(String.format("\n       %s", childKeys[i]));
-                }
-                LOG.warn(String.format("\n       ------parent keys-----"));
-                for (int i = 0; i < parentKeys.length; i++) {
-                    LOG.warn(String.format("\n       %s", parentKeys[i]));
+                ArrayList<RelationshipContainer> keySets = fetchForeignKeysToParent(childClass, parentClass);
+                Iterator<RelationshipContainer>  iteratorRI = keySets.iterator();
+                int parentcounter = 1;
+                while (iteratorRI.hasNext())
+                {
+                  RelationshipContainer relationRI = iteratorRI.next();  
+                  String[] childKeys = relationRI.childKeyFields;
+                  String[] parentKeys = relationRI.parentKeyFields;
+                  LOG.warn(String.format("\n       ------child keys[%d]-----",parentcounter));
+                  for (int i = 0; i < childKeys.length; i++) {
+                      LOG.warn(String.format("\n       %s", childKeys[i]));
+                  }
+                  LOG.warn(String.format("\n       ------parent keys[%d]-----",parentcounter));
+                  for (int i = 0; i < parentKeys.length; i++) {
+                      LOG.warn(String.format("\n       %s", parentKeys[i]));
+                 }
+                 parentcounter++;
                 }
             }
+            LOG.warn(String.format("\n*****************************************************************\n"));
         }
         // print the delete order
         LOG.warn(String.format("\n\nDelete Order:\n\n"));

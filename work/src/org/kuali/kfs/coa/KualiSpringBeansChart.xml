@@ -475,6 +475,9 @@
             <entry key="org.kuali.module.chart.bo.IcrAutomatedEntry">
               <value>org.kuali.module.chart.bo.IcrAutomatedEntry</value>
             </entry>    
+            <entry key="org.kuali.module.financial.bo.WireCharge">
+              <value>org.kuali.module.financial.bo.WireCharge</value>
+            </entry>    
             <entry key="org.kuali.module.gl.bo.UniversityDate">
               <value>org.kuali.module.gl.bo.UniversityDate</value>
             </entry>    
@@ -536,6 +539,12 @@
             <entry key="org.kuali.module.chart.bo.IcrAutomatedEntry">
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.financial.bo.WireCharge">
+              <list>
+                <value>org.kuali.kfs.bo.Options</value>
+                <value>org.kuali.module.chart.bo.ObjectCode</value>
               </list>
             </entry>
             <entry key="org.kuali.module.gl.bo.UniversityDate">

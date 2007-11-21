@@ -15,20 +15,15 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
-<td class="content" valign="top">
-      <maintenanceChannel:workflow />
-      <maintenanceChannel:chartOfAccounts />
-      <maintenanceChannel:laborDistribution /> 
-      <maintenanceChannel:capitalAsset /> 
-</td>
-<td class="content" valign="top">
-      <maintenanceChannel:financialProcessing />
-      <maintenanceChannel:preAward />
-      <maintenanceChannel:postAward />
-</td>
-<td class="content" valign="top">
-      <maintenanceChannel:vendor />
-      <maintenanceChannel:purchasingAccountsPayable />
-      <maintenanceChannel:preDisbursementProcessor />
-</td>
+<channel:portalChannelTop
+	channelTitle="Capital Asset" />
+<div class="body">
+	<ul class="chan">
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="Asset Object Code"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetObjectCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+	</ul>
+</div>
+<channel:portalChannelBottom />

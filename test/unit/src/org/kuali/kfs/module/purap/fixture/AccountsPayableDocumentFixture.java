@@ -39,6 +39,20 @@ public enum AccountsPayableDocumentFixture {
             false, // closePurchaseOrderIndicator
             false  // reopenPurchaseOrderIndicator
             ),
+     PREQ_FOR_PO_CLOSE_DOC(null,  // accountsPayableApprovalDate
+            null,  // lastActionPerformedByUniversalUserId
+            "KULUSER",    // accountsPayableProcessorIdentifier
+            false, // holdIndicator
+            null,  // extractedDate
+            1000,  // purchaseOrderIdentifier
+            null,  // processingCampusCode
+            null,  // noteLine1Text
+            null,  // noteLine2Text
+            null,  // noteLine3Text
+            false, // continuationAccountIndicator
+            false, // closePurchaseOrderIndicator
+            false  // reopenPurchaseOrderIndicator
+            ),
 
     // Credit Memo FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // accountsPayableApprovalDate

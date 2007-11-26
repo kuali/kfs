@@ -50,6 +50,33 @@ public enum PaymentRequestDocumentFixture {
             PurchasingAccountsPayableDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS,  // purapDocumentFixture
             AccountsPayableDocumentFixture.PREQ_ONLY_REQUIRED_FIELDS,             // apDocumentFixture
             new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_QTY_UNRESTRICTED_ITEM_1} // requisitionItemMultiFixtures
+    ),
+    PREQ_FOR_PO_CLOSE_DOC(
+            SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),   //invoiceDate
+            "123457",   //invoiceNumber,
+            new KualiDecimal(100),  //vendorInvoiceAmount,
+            "00N10",    //vendorPaymentTermsCode,
+            "CL",   //vendorShippingPaymentTermsCode,
+            SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),   //paymentRequestPayDate,
+            "EST",  //paymentRequestCostSourceCode,
+            false,  //paymentRequestedCancelIndicator,
+            false,  //paymentAttachmentIndicator,
+            false,  //immediatePaymentIndicator,
+            null,   //specialHandlingInstructionLine1Text,
+            null,   //specialHandlingInstructionLine2Text,
+            null,   //specialHandlingInstructionLine3Text,
+            null,   //paymentPaidDate,
+            false,  //paymentRequestElectronicInvoiceIndicator,
+            null,   //accountsPayableRequestCancelIdentifier,
+            1000,   //originalVendorHeaderGeneratedIdentifier,
+            0,      //originalVendorDetailAssignedIdentifier,
+            null,           //alternateVendorHeaderGeneratedIdentifier,
+            null,           //alternateVendorDetailAssignedIdentifier,
+            null,           //purchaseOrderNotes,
+            null,           //recurringPaymentTypeCode,            
+            PurchasingAccountsPayableDocumentFixture.PREQ_VENDOR_FOR_PO_CLOSE_DOC,  // purapDocumentFixture
+            AccountsPayableDocumentFixture.PREQ_FOR_PO_CLOSE_DOC,                   // apDocumentFixture
+            new PaymentRequestItemFixture[] {PaymentRequestItemFixture.PREQ_ITEM_FOR_PO_CLOSE_DOC} // requisitionItemMultiFixtures
     );
             
     public final Date invoiceDate;

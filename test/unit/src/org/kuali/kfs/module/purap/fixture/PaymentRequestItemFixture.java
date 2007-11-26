@@ -29,6 +29,10 @@ public enum PaymentRequestItemFixture {
     PREQ_QTY_UNRESTRICTED_ITEM_1(
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
             new PaymentRequestAccountingLineFixture[] { PaymentRequestAccountingLineFixture.BASIC_PREQ_ACCOUNT_1 } // paymentRequestAccountMultiFixtures
+    ),
+    PREQ_ITEM_FOR_PO_CLOSE_DOC(
+            PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
+            new PaymentRequestAccountingLineFixture[] { PaymentRequestAccountingLineFixture.PREQ_ACCOUNT_FOR_PO_CLOSE_DOC } // paymentRequestAccountMultiFixtures
     );
     
     private PurApItemFixture purApItemFixture;

@@ -229,7 +229,21 @@ public enum PurchasingAccountsPayableDocumentFixture {
             null,   // vendorCustomerNumber
             null    // accountsPayablePurchasingDocumentLinkIdentifier
     ),
-    
+    PREQ_VENDOR_FOR_PO_CLOSE_DOC(null, // purapDocumentIdentifier
+            PaymentRequestStatuses.DEPARTMENT_APPROVED, // statusCode
+            1000, // vendorHeaderGeneratedIdentifier
+            0, // vendorDetailAssignedIdentifier
+            "ABC Cleaning Services", // vendorName
+            "123456 BROAD ST", // vendorLine1Address
+            null, // vendorLine2Address
+            "TRUMANSBURG", // vendorCityName
+            "NY", // vendorStateCode
+            "14886", // vendorPostalCode
+            "US", // vendorCountryCode
+            null, // vendorCustomerNumber
+            null // accountsPayablePurchasingDocumentLinkIdentifier
+    ),
+            
     // CREDIT MEMO FIXTURES
     CM_ONLY_REQUIRED_FIELDS(null, // purapDocumentIdentifier
             CreditMemoStatuses.IN_PROCESS, // statusCode

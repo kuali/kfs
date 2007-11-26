@@ -31,6 +31,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
@@ -58,7 +59,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
 
     protected void tearDown() throws Exception {
         documentService = null;
-        purchaseOrderDocument = null;
         testPO = null;
         super.tearDown();
     }
@@ -119,11 +119,13 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         assertMatch(testPO, retrievedPO);
     }
     
-    /*
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
-        // TODO: Add a PREQ, once there is a PaymentRequestDocumentFixture.
+        PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
+        preq.setPurchaseOrderIdentifier(testPO.getPurapDocumentIdentifier());
+        AccountingDocumentTestUtils.saveDocument(preq, documentService);
+        
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_CLOSE);
         PurchaseOrderCloseDocument retrievedPO = (PurchaseOrderCloseDocument)documentService.getByDocumentHeaderId(
@@ -134,6 +136,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderReopen() throws Exception {
         testPO.setStatusCode(PurchaseOrderStatuses.CLOSED);
+        testPO.refreshNonUpdateableReferences();
         createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_REOPEN);       
         PurchaseOrderReopenDocument retrievedPO = (PurchaseOrderReopenDocument)documentService.getByDocumentHeaderId(
@@ -149,7 +152,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
                 testPO.getDocumentNumber()); 
         assertMatch(testPO, retrievedPO);
     }
-    */
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testCreatePurchaseOrderRetransmit() throws Exception {

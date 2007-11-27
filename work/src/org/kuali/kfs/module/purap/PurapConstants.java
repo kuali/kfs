@@ -346,6 +346,9 @@ public class PurapConstants extends JstlConstants {
     public static final int PREQ_PAY_DATE_EMPTY_TERMS_DEFAULT_DAYS = 28;
     public static final int PREQ_PAY_DATE_DAYS_BEFORE_WARNING = 60;
 
+    //TAB ERROR KEYS
+    public static final String PAYMENT_REQUEST_INIT_TAB_ERRORS = "document.purchaseOrderIdentifier,document.invoiceNumber,document.invoiceDate,document.vendorInvoiceAmount,document.specialHandlingInstructionLine1Text,document.specialHandlingInstructionLine2Text,document.specialHandlingInstructionLine3Text";
+    
     // Weird PaymentTermsType is due on either the 10th or 25th with no discount
     public static final String PMT_TERMS_TYP_NO_DISCOUNT_CD = "00N2T";
 

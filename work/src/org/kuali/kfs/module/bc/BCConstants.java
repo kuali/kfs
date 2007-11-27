@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.kuali.core.JstlConstants;
 
 public class BCConstants extends JstlConstants {
@@ -86,5 +89,13 @@ public class BCConstants extends JstlConstants {
     public static final String FINANCIAL_OBJECT_TYPE_CODE_REV = "IN";
     public static final String FINANCIAL_OBJECT_TYPE_CODE_EXP = "EX";
     public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
+    
+    /*
+     * fund groups and subfund groups that are NOT loaded to the GL from budget construction  
+     * (these are the constants used, not the ones in KFSConstants/BudgetConstructionConstants
+     */
+    public final static List<String> NO_BC_GL_LOAD_SUBFUND_GROUPS = Arrays.asList("SIDC");
+    public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
+
 
 }

@@ -11,9 +11,9 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="active" />
                         <field attributeName="inventoryStatusCode" />
                         <field attributeName="inventoryStatusName" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -31,15 +31,15 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="active" required="false" />
                 <lookupField attributeName="inventoryStatusCode" required="false" />
                 <lookupField attributeName="inventoryStatusName" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="inventoryStatusCode" />
                 <field attributeName="inventoryStatusName" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 

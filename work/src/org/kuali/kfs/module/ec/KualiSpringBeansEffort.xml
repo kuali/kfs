@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2005-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<bean id="effortModule" class="org.kuali.core.KualiModule">
+		<property name="moduleId" value="effort" />
+		<property name="moduleName" value="Effort Reporting" />
+		<property name="moduleCode" value="ER" />
+		<property name="moduleUserService" ref="effortUserService" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="moduleAuthorizer">
+			<bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
+				<property name="packagePrefixes">
+					<list>
+						<value>org.kuali.module.effort.</value>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="moduleUserRule">
+			<null />
+		</property>
+		<property name="moduleUserPreRules">
+			<null />
+		</property>
+		<property name="dataDictionaryPackages">
+			<list>
+				<value>org/kuali/module/effort/datadictionary</value>
+			</list>
+		</property>
+		<property name="databaseRepositoryFilePaths">
+			<list>
+				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="effortUserService" class="org.kuali.module.effort.service.impl.EffortUserServiceImpl"  parent="kualiModuleUserServiceBase" />
+</beans>

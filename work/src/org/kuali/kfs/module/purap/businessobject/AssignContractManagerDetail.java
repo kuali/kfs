@@ -118,17 +118,16 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.assignContractManagerDocument = assignContractManagerDocument;
     }
     
+    /**
+     * Returns the formatted string of the create date. If the createDate is currently null, we'll
+     * get the createDate from the workflowDocument.
+     * 
+     * @return
+     * @throws WorkflowException
+     */
     public String getCreateDate() throws WorkflowException{
         if (createDate == null) {
             Formatter formatter = new DateViewTimestampObjectFormatter();
-            try {
-                getRequisition().getDocumentHeader().getWorkflowDocument();
-            }
-            catch (RuntimeException re) {
-                //If we caught RuntimeException while trying to get the workflowDocument, then the workflowDocument is likely to be null,
-                //so we have to fetch the document from documentService again to repopulate the workflowDocument.
-                this.getRequisition().setDocumentHeader(((RequisitionDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getRequisition().getDocumentNumber())).getDocumentHeader());
-            }
             createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getCreateDate());
         }
         return createDate;

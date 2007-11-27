@@ -18,12 +18,16 @@ package org.kuali.module.purap.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.web.format.DateViewTimestampObjectFormatter;
 import org.kuali.core.web.format.Formatter;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.vendor.bo.ContractManager;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Assign Contract Manager Detail Business Object. Defines attributes in Assign Contract Manager tab.
@@ -114,9 +118,17 @@ public class AssignContractManagerDetail extends PersistableBusinessObjectBase {
         this.assignContractManagerDocument = assignContractManagerDocument;
     }
     
-    public String getCreateDate() {
+    public String getCreateDate() throws WorkflowException{
         if (createDate == null) {
             Formatter formatter = new DateViewTimestampObjectFormatter();
+            try {
+                getRequisition().getDocumentHeader().getWorkflowDocument();
+            }
+            catch (RuntimeException re) {
+                //If we caught RuntimeException while trying to get the workflowDocument, then the workflowDocument is likely to be null,
+                //so we have to fetch the document from documentService again to repopulate the workflowDocument.
+                this.getRequisition().setDocumentHeader(((RequisitionDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(getRequisition().getDocumentNumber())).getDocumentHeader());
+            }
             createDate = (String)formatter.format(getRequisition().getDocumentHeader().getWorkflowDocument().getCreateDate());
         }
         return createDate;

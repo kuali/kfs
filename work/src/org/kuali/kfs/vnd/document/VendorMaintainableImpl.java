@@ -69,9 +69,7 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     public String getDocumentTitle(MaintenanceDocument document) {
         String documentTitle = "";
         // Check if we are choosing to override the Kuali default document title.
-        String specificTitle = SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE);
-
-        if (StringUtils.equals(specificTitle, Boolean.TRUE.toString())) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(VendorDetail.class, PurapParameterConstants.PURAP_OVERRIDE_VENDOR_DOC_TITLE)) {
             // We are overriding the standard with a Vendor-specific document title style.
             if (document.isOldBusinessObjectInDocument()) {
                 documentTitle = "Edit Vendor - ";

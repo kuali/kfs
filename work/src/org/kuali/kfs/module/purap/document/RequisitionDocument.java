@@ -475,8 +475,7 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     @Override
     public String getDocumentTitle() {
         String title = "";
-        String specificTitle = SpringContext.getBean(ParameterService.class).getParameterValue(getClass(), PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE);
-        if (StringUtils.equalsIgnoreCase(specificTitle, Boolean.TRUE.toString())) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(getClass(), PurapParameterConstants.PURAP_OVERRIDE_REQ_DOC_TITLE)) {
             String docIdStr = "";
             if ((this.getPurapDocumentIdentifier() != null) && (StringUtils.isNotBlank(this.getPurapDocumentIdentifier().toString()))) {
                 docIdStr = "Requisition: " + this.getPurapDocumentIdentifier().toString();

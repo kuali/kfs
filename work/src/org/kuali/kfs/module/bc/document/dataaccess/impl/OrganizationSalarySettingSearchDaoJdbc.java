@@ -36,7 +36,24 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
         // This uses the GROUP BY clause to force a distinct set so as to not trip over the unique constraint on the target table.
         // For some reason the constraint is violated without the use of GROUP BY in Oracle
-        getSimpleJdbcTemplate().update("INSERT INTO ld_bcn_incumbent_sel_t " + " (PERSON_UNVL_ID, EMPLID, FIN_OBJECT_CD, PERSON_NM) " + "SELECT DISTINCT pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm " + "FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier, ld_pndbc_apptfnd_t bcaf, ld_bcn_intincbnt_t iinc " + "WHERE pull.pull_flag > 0 " + "  AND pull.person_unvl_id = ? " + "  AND hier.univ_fiscal_yr = ? " + "  AND hier.org_fin_coa_cd = pull.fin_coa_cd " + "  AND hier.org_cd = pull.org_cd " + "  AND bcaf.univ_fiscal_yr = hier.univ_fiscal_yr " + "  AND bcaf.fin_coa_cd = hier.fin_coa_cd " + "  AND bcaf.account_nbr = hier.account_nbr " + "  AND bcaf.emplid NOT IN ('VACANT') " + "  AND iinc.emplid = bcaf.emplid " + "GROUP BY pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm", personUserIdentifier, universityFiscalYear);
+        StringBuffer sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_incumbent_sel_t \n");
+        sqlText.append(" (PERSON_UNVL_ID, EMPLID, FIN_OBJECT_CD, PERSON_NM) \n");
+        sqlText.append("SELECT DISTINCT pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm \n");
+        sqlText.append("FROM ld_bcn_pullup_t pull, ld_bcn_acct_org_hier_t hier, ld_pndbc_apptfnd_t bcaf, ld_bcn_intincbnt_t iinc \n");
+        sqlText.append("WHERE pull.pull_flag > 0 \n");
+        sqlText.append("  AND pull.person_unvl_id = ? \n");
+        sqlText.append("  AND hier.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND hier.org_fin_coa_cd = pull.fin_coa_cd \n");
+        sqlText.append("  AND hier.org_cd = pull.org_cd \n");
+        sqlText.append("  AND bcaf.univ_fiscal_yr = hier.univ_fiscal_yr \n");
+        sqlText.append("  AND bcaf.fin_coa_cd = hier.fin_coa_cd \n");
+        sqlText.append("  AND bcaf.account_nbr = hier.account_nbr \n");
+        sqlText.append("  AND bcaf.emplid NOT IN ('VACANT') \n");
+        sqlText.append("  AND iinc.emplid = bcaf.emplid \n");
+        sqlText.append("GROUP BY pull.person_unvl_id, bcaf.emplid, bcaf.fin_object_cd, iinc.person_nm");
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, universityFiscalYear);
     }
 
     /**
@@ -66,7 +83,15 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
 
         int currentLevel = 0;
 
-        int rowsAffected = getSimpleJdbcTemplate().update("INSERT INTO ld_bcn_build_pos_sel01_mt " + " (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) " + "SELECT ?, p.fin_coa_cd, p.org_cd,  ? " + "FROM ld_bcn_pullup_t p " + "WHERE p.pull_flag > 0 " + "  AND p.person_unvl_id = ? ", sessionId, currentLevel, personUserIdentifier);
+        StringBuffer sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
+        sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
+        sqlText.append("SELECT ?, p.fin_coa_cd, p.org_cd,  ? \n");
+        sqlText.append("FROM ld_bcn_pullup_t p \n");
+        sqlText.append("WHERE p.pull_flag > 0 \n");
+        sqlText.append("  AND p.person_unvl_id = ?");
+
+        int rowsAffected = getSimpleJdbcTemplate().update(sqlText.toString(), sessionId, currentLevel, personUserIdentifier);
 
         if (rowsAffected > 0) {
             populateSelectedPositionOrgsSubTree(currentLevel, sessionId);
@@ -78,7 +103,18 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
         if (previousLevel <= MAXLEVEL) {
             int currentLevel = previousLevel + 1;
 
-            int rowsAffected = getSimpleJdbcTemplate().update("INSERT INTO ld_bcn_build_pos_sel01_mt " + " (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) " + "SELECT ?, r.fin_coa_cd, r.org_cd, ? " + "FROM ld_bcn_org_rpts_t r, ld_bcn_build_pos_sel01_mt a " + "WHERE a.sesid = ? " + "  AND a.org_level_cd = ? " + "  AND a.fin_coa_cd = r.rpts_to_fin_coa_cd " + "  AND a.org_cd = r.rpts_to_org_cd " + "  AND not (r.fin_coa_cd = r.rpts_to_fin_coa_cd and r.org_cd = r.rpts_to_org_cd) ", sessionId, currentLevel, sessionId, previousLevel);
+            StringBuffer sqlText = new StringBuffer(50);
+            sqlText.append("INSERT INTO ld_bcn_build_pos_sel01_mt \n");
+            sqlText.append(" (SESID, FIN_COA_CD, ORG_CD, ORG_LEVEL_CD) \n");
+            sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, ? \n");
+            sqlText.append("FROM ld_bcn_org_rpts_t r, ld_bcn_build_pos_sel01_mt a \n");
+            sqlText.append("WHERE a.sesid = ? \n");
+            sqlText.append("  AND a.org_level_cd = ? \n");
+            sqlText.append("  AND a.fin_coa_cd = r.rpts_to_fin_coa_cd \n");
+            sqlText.append("  AND a.org_cd = r.rpts_to_org_cd \n");
+            sqlText.append("  AND not (r.fin_coa_cd = r.rpts_to_fin_coa_cd and r.org_cd = r.rpts_to_org_cd)");
+
+            int rowsAffected = getSimpleJdbcTemplate().update(sqlText.toString(), sessionId, currentLevel, sessionId, previousLevel);
 
             if (rowsAffected > 0) {
                 populateSelectedPositionOrgsSubTree(currentLevel, sessionId);
@@ -93,33 +129,125 @@ public class OrganizationSalarySettingSearchDaoJdbc extends BudgetConstructionDa
     private void populatePositionSelectForSubTree(String sessionId, String personUserIdentifier, Integer universityFiscalYear) {
 
         // insert actives that are funded with person or vacant
-        getSimpleJdbcTemplate().update(
-                "INSERT INTO ld_bcn_pos_sel_t " + " (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  " + "  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) " + "SELECT DISTINCT ?, p.position_nbr,p.univ_fiscal_yr, af.emplid, p.iu_position_type, " + "    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm " + "FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, " + "     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) " + "WHERE o.sesid = ? " + "  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) " + "  AND p.univ_fiscal_yr = ? " + "  AND p.pos_eff_status != 'I' " + "  AND p.univ_fiscal_yr = af.univ_fiscal_yr " + "  AND p.position_nbr = af.position_nbr " + "GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, " + "         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm ",
-                personUserIdentifier, sessionId, universityFiscalYear);
+        StringBuffer sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
+        sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
+        sqlText.append("SELECT DISTINCT ?, p.position_nbr,p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
+        sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, \n");
+        sqlText.append("     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) \n");
+        sqlText.append("WHERE o.sesid = ? \n");
+        sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
+        sqlText.append("  AND p.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND p.pos_eff_status != 'I' \n");
+        sqlText.append("  AND p.univ_fiscal_yr = af.univ_fiscal_yr \n");
+        sqlText.append("  AND p.position_nbr = af.position_nbr \n");
+        sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, \n");
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, i.person_nm");  
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, sessionId, universityFiscalYear);
 
         // add actives that are unfunded
-        getSimpleJdbcTemplate().update(
-                "INSERT INTO ld_bcn_pos_sel_t " + " (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  " + "  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR) " + "SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, " + "    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr " + "FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p " + "WHERE o.sesid = ? " + "  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) " + "  AND p.univ_fiscal_yr = ? " + "  AND p.pos_eff_status != 'I' " + "  AND NOT EXISTS " + "      (SELECT * " + "       FROM ld_bcn_pos_sel_t ps " + "       WHERE ps.person_unvl_id = ? " + "         AND ps.position_nbr = p.position_nbr " + "         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) " + "GROUP BY p.position_nbr, p.univ_fiscal_yr, p.iu_position_type, p.pos_deptid, " + "         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr ",
-                personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
+        sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
+        sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR) \n");
+        sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
+        sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p \n");
+        sqlText.append("WHERE o.sesid = ? \n");
+        sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
+        sqlText.append("  AND p.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND p.pos_eff_status != 'I' \n");
+        sqlText.append("  AND NOT EXISTS \n");
+        sqlText.append("      (SELECT * \n");
+        sqlText.append("       FROM ld_bcn_pos_sel_t ps \n");
+        sqlText.append("       WHERE ps.person_unvl_id = ? \n");
+        sqlText.append("         AND ps.position_nbr = p.position_nbr \n");
+        sqlText.append("         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) \n");
+        sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, p.iu_position_type, p.pos_deptid, \n");
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr");
+        
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
 
         // insert inactives that are funded due to timing problem
-        getSimpleJdbcTemplate().update("INSERT INTO ld_bcn_pos_sel_t " + " (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  " + "  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) " + "SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, af.emplid, p.iu_position_type, " + "    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' " + "FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, " + "     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) " + "WHERE o.sesid = ? " + "  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) " + "  AND p.univ_fiscal_yr = ? " + "  AND p.pos_eff_status = 'I' " + "  AND p.univ_fiscal_yr = af.univ_fiscal_yr " + "  AND p.position_nbr = af.position_nbr " + "GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, " + "         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr ",
-                personUserIdentifier, sessionId, universityFiscalYear);
+        sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
+        sqlText.append("  IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
+        sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, af.emplid, p.iu_position_type, \n");
+        sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p, \n");
+        sqlText.append("     ld_pndbc_apptfnd_t af LEFT OUTER JOIN ld_bcn_intincbnt_t i ON (af.emplid=i.emplid) \n");
+        sqlText.append("WHERE o.sesid = ? \n");
+        sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
+        sqlText.append("  AND p.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND p.pos_eff_status = 'I' \n");
+        sqlText.append("  AND p.univ_fiscal_yr = af.univ_fiscal_yr \n");
+        sqlText.append("  AND p.position_nbr = af.position_nbr \n");
+        sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, af.emplid,p.iu_position_type, p.pos_deptid, \n");
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr");  
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, sessionId, universityFiscalYear);
 
         // insert inactives that are unfunded
-        getSimpleJdbcTemplate().update(
-                "INSERT INTO ld_bcn_pos_sel_t " + " (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  " + " IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) " + "SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, " + "    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' " + "FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p " + "WHERE o.sesid = ? " + "  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) " + "  AND p.univ_fiscal_yr = ? " + "  AND p.pos_eff_status = 'I' " + "  AND NOT EXISTS " + "      (SELECT * " + "       FROM ld_bcn_pos_sel_t ps " + "       WHERE ps.person_unvl_id = ? " + "         AND ps.position_nbr = p.position_nbr " + "         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) " + "GROUP BY p.position_nbr, p.univ_fiscal_yr, p.iu_position_type, p.pos_deptid, "
-                        + "         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr ", personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
+        sqlText = new StringBuffer(50);
+        sqlText.append("INSERT INTO ld_bcn_pos_sel_t \n");
+        sqlText.append(" (PERSON_UNVL_ID, POSITION_NBR, UNIV_FISCAL_YR, EMPLID,  \n");
+        sqlText.append(" IU_POSITION_TYPE, POS_DEPTID, SETID_SALARY , SAL_ADMIN_PLAN, GRADE, POS_DESCR, PERSON_NM) \n");
+        sqlText.append("SELECT DISTINCT ?, p.position_nbr, p.univ_fiscal_yr, 'NOTFUNDED', p.iu_position_type, \n");
+        sqlText.append("    p.pos_deptid, p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr, 'INACTIVE POS.' \n");
+        sqlText.append("FROM ld_bcn_build_pos_sel01_mt o, ld_bcn_pos_t p \n");
+        sqlText.append("WHERE o.sesid = ? \n");
+        sqlText.append("  AND p.pos_deptid = CONCAT(o.fin_coa_cd, CONCAT('-', o.org_cd)) \n");
+        sqlText.append("  AND p.univ_fiscal_yr = ? \n");
+        sqlText.append("  AND p.pos_eff_status = 'I' \n");
+        sqlText.append("  AND NOT EXISTS \n");
+        sqlText.append("      (SELECT * \n");
+        sqlText.append("       FROM ld_bcn_pos_sel_t ps \n");
+        sqlText.append("       WHERE ps.person_unvl_id = ? \n");
+        sqlText.append("         AND ps.position_nbr = p.position_nbr \n");
+        sqlText.append("         AND ps.univ_fiscal_yr = p.univ_fiscal_yr) \n");
+        sqlText.append("GROUP BY p.position_nbr, p.univ_fiscal_yr, p.iu_position_type, p.pos_deptid, \n");
+        sqlText.append("         p.setid_salary, p.pos_sal_plan_dflt, p.pos_grade_dflt, p.pos_descr");
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, sessionId, universityFiscalYear, personUserIdentifier);
 
         // set name field for vacants
-        getSimpleJdbcTemplate().update("UPDATE ld_bcn_pos_sel_t p " + "SET person_nm = 'VACANT' " + "WHERE p.person_unvl_id = ? " + "  AND p.emplid = 'VACANT' " + "  AND p.person_nm IS NULL ", personUserIdentifier);
+        sqlText = new StringBuffer(50);
+        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("SET person_nm = 'VACANT' \n");
+        sqlText.append("WHERE p.person_unvl_id = ? \n");
+        sqlText.append("  AND p.emplid = 'VACANT' \n");
+        sqlText.append("  AND p.person_nm IS NULL");
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier);
 
         // reset name field for positions that only have deleted funding associated
         // note that this overwrites any actual names except for Inactives
-        getSimpleJdbcTemplate().update("UPDATE ld_bcn_pos_sel_t p " + "SET p.person_nm = 'NOT FUNDED' " + "WHERE p.person_unvl_id = ? " + "  AND p.person_nm != 'INACTIVE POS.' " + "  AND NOT EXISTS " + "    (SELECT * " + "    FROM ld_pndbc_apptfnd_t af " + "    WHERE af.univ_fiscal_yr = p.univ_fiscal_yr " + "      AND af.position_nbr = p.position_nbr " + "      AND af.appt_fnd_dlt_cd = 'N') ", personUserIdentifier);
+        sqlText = new StringBuffer(50);
+        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("SET p.person_nm = 'NOT FUNDED' \n");
+        sqlText.append("WHERE p.person_unvl_id = ? \n");
+        sqlText.append("  AND p.person_nm != 'INACTIVE POS.' \n");
+        sqlText.append("  AND NOT EXISTS \n");
+        sqlText.append("    (SELECT * \n");
+        sqlText.append("    FROM ld_pndbc_apptfnd_t af \n");
+        sqlText.append("    WHERE af.univ_fiscal_yr = p.univ_fiscal_yr \n");
+        sqlText.append("      AND af.position_nbr = p.position_nbr \n");
+        sqlText.append("      AND af.appt_fnd_dlt_cd = 'N')");
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier);
 
         // anything leftover is not funded
-        getSimpleJdbcTemplate().update("UPDATE ld_bcn_pos_sel_t p " + "SET person_nm = 'NOT FUNDED' " + "WHERE p.person_unvl_id = ? " + "    AND p.person_nm IS NULL ", personUserIdentifier);
+        sqlText = new StringBuffer(50);
+        sqlText.append("UPDATE ld_bcn_pos_sel_t p \n");
+        sqlText.append("SET person_nm = 'NOT FUNDED' \n");
+        sqlText.append("WHERE p.person_unvl_id = ? \n");
+        sqlText.append("    AND p.person_nm IS NULL \n");
+
+        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier);
 
     }
 

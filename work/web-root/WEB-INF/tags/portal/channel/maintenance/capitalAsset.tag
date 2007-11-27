@@ -21,6 +21,11 @@
 	<ul class="chan">
 		<li>
 			<portal:portalLink displayTitle="true"
+				title="Asset Condition"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetCondition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />				
+		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
 				title="Asset Object Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetObjectCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

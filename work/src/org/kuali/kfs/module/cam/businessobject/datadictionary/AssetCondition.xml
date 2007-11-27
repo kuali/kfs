@@ -31,15 +31,15 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="active" required="false" />
                 <lookupField attributeName="assetConditionCode" required="false" />
                 <lookupField attributeName="assetConditionName" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="assetConditionCode" />
                 <field attributeName="assetConditionName" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 

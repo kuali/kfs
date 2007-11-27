@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.SystemInformation">
+ 
+        <inquiry>
+            <title>System Information Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="active" />
+                        <field attributeName="badDebtExpenseFinancialObjectCode" />
+                        <field attributeName="lockboxNumber" />
+                        <field attributeName="paymentClearingFinancialObjectCode" />
+                        <field attributeName="processingChartOfAccountCode" />
+                        <field attributeName="processingOrganizationCode" />
+                        <field attributeName="refundFinancialObjectCode" />
+                        <field attributeName="salesTaxAccountNumber" />
+                        <field attributeName="salesTaxFinancialObjectCode" />
+                        <field attributeName="universityClearingAccountNumber" />
+                        <field attributeName="universityClearingChartOfAccountsCode" />
+                        <field attributeName="universityClearingObjectCode" />
+                        <field attributeName="universityClearingSubAccountNumber" />
+                        <field attributeName="universityClearingSubObjectCode" />
+                        <field attributeName="universityFederalEmployerIdentificationNumber" />
+                        <field attributeName="universityFiscalYear" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>System Information Lookup</title>
+
+            <instructions>Look up System Information</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="processingChartOfAccountCode" />
+                    <sortAttribute attributeName="processingOrganizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="badDebtExpenseFinancialObjectCode" required="false" />
+                <lookupField attributeName="lockboxNumber" required="false" />
+                <lookupField attributeName="paymentClearingFinancialObjectCode" required="false" />
+                <lookupField attributeName="processingChartOfAccountCode" required="false" />
+                <lookupField attributeName="processingOrganizationCode" required="false" />
+                <lookupField attributeName="refundFinancialObjectCode" required="false" />
+                <lookupField attributeName="salesTaxAccountNumber" required="false" />
+                <lookupField attributeName="salesTaxFinancialObjectCode" required="false" />
+                <lookupField attributeName="universityClearingAccountNumber" required="false" />
+                <lookupField attributeName="universityClearingChartOfAccountsCode" required="false" />
+                <lookupField attributeName="universityClearingObjectCode" required="false" />
+                <lookupField attributeName="universityClearingSubAccountNumber" required="false" />
+                <lookupField attributeName="universityClearingSubObjectCode" required="false" />
+                <lookupField attributeName="universityFederalEmployerIdentificationNumber" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="active" />
+                <field attributeName="badDebtExpenseFinancialObjectCode" />
+                <field attributeName="lockboxNumber" />
+                <field attributeName="paymentClearingFinancialObjectCode" />
+                <field attributeName="processingChartOfAccountCode" />
+                <field attributeName="processingOrganizationCode" />
+                <field attributeName="refundFinancialObjectCode" />
+                <field attributeName="salesTaxAccountNumber" />
+                <field attributeName="salesTaxFinancialObjectCode" />
+                <field attributeName="universityClearingAccountNumber" />
+                <field attributeName="universityClearingChartOfAccountsCode" />
+                <field attributeName="universityClearingObjectCode" />
+                <field attributeName="universityClearingSubAccountNumber" />
+                <field attributeName="universityClearingSubObjectCode" />
+                <field attributeName="universityFederalEmployerIdentificationNumber" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="active" forceUppercase="true">
+                <label>Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>active</summary>
+                <description>active description...</description>
+			</attribute>
+
+            <attribute name="badDebtExpenseFinancialObjectCode" forceUppercase="true">
+                <label>Bad Debt Expense Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>badDebtExpenseFinancialObjectCode</summary>
+                <description>badDebtExpenseFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="lockboxNumber" forceUppercase="true">
+                <label>Lockbox Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>lockboxNumber</summary>
+                <description>lockboxNumber description...</description>
+			</attribute>
+
+            <attribute name="paymentClearingFinancialObjectCode" forceUppercase="true">
+                <label>Payment Clearing Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>paymentClearingFinancialObjectCode</summary>
+                <description>paymentClearingFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="processingChartOfAccountCode" forceUppercase="true">
+                <label>Processing Chart Of Account Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>processingChartOfAccountCode</summary>
+                <description>processingChartOfAccountCode description...</description>
+			</attribute>
+
+            <attribute name="processingOrganizationCode" forceUppercase="true">
+                <label>Processing Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>processingOrganizationCode</summary>
+                <description>processingOrganizationCode description...</description>
+			</attribute>
+
+            <attribute name="refundFinancialObjectCode" forceUppercase="true">
+                <label>Refund Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>refundFinancialObjectCode</summary>
+                <description>refundFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="salesTaxAccountNumber" forceUppercase="true">
+                <label>Sales Tax Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>salesTaxAccountNumber</summary>
+                <description>salesTaxAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="salesTaxFinancialObjectCode" forceUppercase="true">
+                <label>Sales Tax Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>salesTaxFinancialObjectCode</summary>
+                <description>salesTaxFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="universityClearingAccountNumber" forceUppercase="true">
+                <label>University Clearing Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>universityClearingAccountNumber</summary>
+                <description>universityClearingAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="universityClearingChartOfAccountsCode" forceUppercase="true">
+                <label>University Clearing Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>universityClearingChartOfAccountsCode</summary>
+                <description>universityClearingChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="universityClearingObjectCode" forceUppercase="true">
+                <label>University Clearing Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityClearingObjectCode</summary>
+                <description>universityClearingObjectCode description...</description>
+			</attribute>
+
+            <attribute name="universityClearingSubAccountNumber" forceUppercase="true">
+                <label>University Clearing Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>universityClearingSubAccountNumber</summary>
+                <description>universityClearingSubAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="universityClearingSubObjectCode" forceUppercase="true">
+                <label>University Clearing Sub Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>universityClearingSubObjectCode</summary>
+                <description>universityClearingSubObjectCode description...</description>
+			</attribute>
+
+            <attribute name="universityFederalEmployerIdentificationNumber" forceUppercase="true">
+                <label>University Federal Employer Identification Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>universityFederalEmployerIdentificationNumber</summary>
+                <description>universityFederalEmployerIdentificationNumber description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

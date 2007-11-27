@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerAddress">
+ 
+        <inquiry>
+            <title>Customer Address Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="customerAddressEndDate" />
+                        <field attributeName="customerAddressIdentifier" />
+                        <field attributeName="customerAddressName" />
+                        <field attributeName="customerAddressTypeCode" />
+                        <field attributeName="customerCityName" />
+                        <field attributeName="customerEmailAddress" />
+                        <field attributeName="customerInternationalMailCode" />
+                        <field attributeName="customerLine1StreetAddress" />
+                        <field attributeName="customerLine2StreetAddress" />
+                        <field attributeName="customerNumber" />
+                        <field attributeName="customerStateCode" />
+                        <field attributeName="customerZipCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Customer Address Lookup</title>
+
+            <instructions>Look up a Customer Address</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="customerNumber" />
+                    <sortAttribute attributeName="customerAddressIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="customerAddressEndDate" required="false" />
+                <lookupField attributeName="customerAddressIdentifier" required="false" />
+                <lookupField attributeName="customerAddressName" required="false" />
+                <lookupField attributeName="customerAddressTypeCode" required="false" />
+                <lookupField attributeName="customerCityName" required="false" />
+                <lookupField attributeName="customerEmailAddress" required="false" />
+                <lookupField attributeName="customerInternationalMailCode" required="false" />
+                <lookupField attributeName="customerLine1StreetAddress" required="false" />
+                <lookupField attributeName="customerLine2StreetAddress" required="false" />
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="customerStateCode" required="false" />
+                <lookupField attributeName="customerZipCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="customerAddressEndDate" />
+                <field attributeName="customerAddressIdentifier" />
+                <field attributeName="customerAddressName" />
+                <field attributeName="customerAddressTypeCode" />
+                <field attributeName="customerCityName" />
+                <field attributeName="customerEmailAddress" />
+                <field attributeName="customerInternationalMailCode" />
+                <field attributeName="customerLine1StreetAddress" />
+                <field attributeName="customerLine2StreetAddress" />
+                <field attributeName="customerNumber" />
+                <field attributeName="customerStateCode" />
+                <field attributeName="customerZipCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="customerAddressEndDate" forceUppercase="true">
+                <label>Customer Address End Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerAddressEndDate</summary>
+                <description>customerAddressEndDate description...</description>
+			</attribute>
+
+            <attribute name="customerAddressIdentifier" forceUppercase="true">
+                <label>Customer Address Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerAddressIdentifier</summary>
+                <description>customerAddressIdentifier description...</description>
+			</attribute>
+
+            <attribute name="customerAddressName" forceUppercase="true">
+                <label>Customer Address Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>customerAddressName</summary>
+                <description>customerAddressName description...</description>
+			</attribute>
+
+            <attribute name="customerAddressTypeCode" forceUppercase="true">
+                <label>Customer Address Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>customerAddressTypeCode</summary>
+                <description>customerAddressTypeCode description...</description>
+			</attribute>
+
+            <attribute name="customerCityName" forceUppercase="true">
+                <label>Customer City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>customerCityName</summary>
+                <description>customerCityName description...</description>
+			</attribute>
+
+            <attribute name="customerEmailAddress" forceUppercase="true">
+                <label>Customer Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>customerEmailAddress</summary>
+                <description>customerEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="customerInternationalMailCode" forceUppercase="true">
+                <label>Customer International Mail Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>customerInternationalMailCode</summary>
+                <description>customerInternationalMailCode description...</description>
+			</attribute>
+
+            <attribute name="customerLine1StreetAddress" forceUppercase="true">
+                <label>Customer Line1 Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>customerLine1StreetAddress</summary>
+                <description>customerLine1StreetAddress description...</description>
+			</attribute>
+
+            <attribute name="customerLine2StreetAddress" forceUppercase="true">
+                <label>Customer Line2 Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>customerLine2StreetAddress</summary>
+                <description>customerLine2StreetAddress description...</description>
+			</attribute>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="customerStateCode" forceUppercase="true">
+                <label>Customer State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>customerStateCode</summary>
+                <description>customerStateCode description...</description>
+			</attribute>
+
+            <attribute name="customerZipCode" forceUppercase="true">
+                <label>Customer Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>customerZipCode</summary>
+                <description>customerZipCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

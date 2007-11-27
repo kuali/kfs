@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.OrganizationAccountingDefault">
+ 
+        <inquiry>
+            <title>Organization Accounting Default Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="defaultInvoiceAccountNumber" />
+                        <field attributeName="defaultInvoiceChartOfAccountsCode" />
+                        <field attributeName="defaultInvoiceFinancialObjectCode" />
+                        <field attributeName="defaultInvoiceFinancialSubObjectCode" />
+                        <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
+                        <field attributeName="defaultInvoiceProjectCode" />
+                        <field attributeName="defaultInvoiceSubAccountNumber" />
+                        <field attributeName="defaultPaymentAccountNumber" />
+                        <field attributeName="defaultPaymentChartOfAccountsCode" />
+                        <field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
+                        <field attributeName="defaultPaymentProjectCode" />
+                        <field attributeName="defaultPaymentSubAccountNumber" />
+                        <field attributeName="organizationCode" />
+                        <field attributeName="organizationLateChargeObjectCode" />
+                        <field attributeName="universityFiscalYear" />
+                        <field attributeName="writeoffObjectCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Organization Accounting Default Lookup</title>
+
+            <instructions>Look up an Organization Accounting Default</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="defaultInvoiceAccountNumber" required="false" />
+                <lookupField attributeName="defaultInvoiceChartOfAccountsCode" required="false" />
+                <lookupField attributeName="defaultInvoiceFinancialObjectCode" required="false" />
+                <lookupField attributeName="defaultInvoiceFinancialSubObjectCode" required="false" />
+                <lookupField attributeName="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
+                <lookupField attributeName="defaultInvoiceProjectCode" required="false" />
+                <lookupField attributeName="defaultInvoiceSubAccountNumber" required="false" />
+                <lookupField attributeName="defaultPaymentAccountNumber" required="false" />
+                <lookupField attributeName="defaultPaymentChartOfAccountsCode" required="false" />
+                <lookupField attributeName="defaultPaymentOrganizationReferenceIdentifier" required="false" />
+                <lookupField attributeName="defaultPaymentProjectCode" required="false" />
+                <lookupField attributeName="defaultPaymentSubAccountNumber" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="organizationLateChargeObjectCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="writeoffObjectCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="defaultInvoiceAccountNumber" />
+                <field attributeName="defaultInvoiceChartOfAccountsCode" />
+                <field attributeName="defaultInvoiceFinancialObjectCode" />
+                <field attributeName="defaultInvoiceFinancialSubObjectCode" />
+                <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
+                <field attributeName="defaultInvoiceProjectCode" />
+                <field attributeName="defaultInvoiceSubAccountNumber" />
+                <field attributeName="defaultPaymentAccountNumber" />
+                <field attributeName="defaultPaymentChartOfAccountsCode" />
+                <field attributeName="defaultPaymentOrganizationReferenceIdentifier" />
+                <field attributeName="defaultPaymentProjectCode" />
+                <field attributeName="defaultPaymentSubAccountNumber" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationLateChargeObjectCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="writeoffObjectCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceAccountNumber" forceUppercase="true">
+                <label>Default Invoice Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>defaultInvoiceAccountNumber</summary>
+                <description>defaultInvoiceAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceChartOfAccountsCode" forceUppercase="true">
+                <label>Default Invoice Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>defaultInvoiceChartOfAccountsCode</summary>
+                <description>defaultInvoiceChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceFinancialObjectCode" forceUppercase="true">
+                <label>Default Invoice Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>defaultInvoiceFinancialObjectCode</summary>
+                <description>defaultInvoiceFinancialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceFinancialSubObjectCode" forceUppercase="true">
+                <label>Default Invoice Financial Sub Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>defaultInvoiceFinancialSubObjectCode</summary>
+                <description>defaultInvoiceFinancialSubObjectCode description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceOrganizationReferenceIdentifier" forceUppercase="true">
+                <label>Default Invoice Organization Reference Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>defaultInvoiceOrganizationReferenceIdentifier</summary>
+                <description>defaultInvoiceOrganizationReferenceIdentifier description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceProjectCode" forceUppercase="true">
+                <label>Default Invoice Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>defaultInvoiceProjectCode</summary>
+                <description>defaultInvoiceProjectCode description...</description>
+			</attribute>
+
+            <attribute name="defaultInvoiceSubAccountNumber" forceUppercase="true">
+                <label>Default Invoice Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>defaultInvoiceSubAccountNumber</summary>
+                <description>defaultInvoiceSubAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="defaultPaymentAccountNumber" forceUppercase="true">
+                <label>Default Payment Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>defaultPaymentAccountNumber</summary>
+                <description>defaultPaymentAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="defaultPaymentChartOfAccountsCode" forceUppercase="true">
+                <label>Default Payment Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>defaultPaymentChartOfAccountsCode</summary>
+                <description>defaultPaymentChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="defaultPaymentOrganizationReferenceIdentifier" forceUppercase="true">
+                <label>Default Payment Organization Reference Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>defaultPaymentOrganizationReferenceIdentifier</summary>
+                <description>defaultPaymentOrganizationReferenceIdentifier description...</description>
+			</attribute>
+
+            <attribute name="defaultPaymentProjectCode" forceUppercase="true">
+                <label>Default Payment Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>defaultPaymentProjectCode</summary>
+                <description>defaultPaymentProjectCode description...</description>
+			</attribute>
+
+            <attribute name="defaultPaymentSubAccountNumber" forceUppercase="true">
+                <label>Default Payment Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>defaultPaymentSubAccountNumber</summary>
+                <description>defaultPaymentSubAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationLateChargeObjectCode" forceUppercase="true">
+                <label>Organization Late Charge Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationLateChargeObjectCode</summary>
+                <description>organizationLateChargeObjectCode description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attribute name="writeoffObjectCode" forceUppercase="true">
+                <label>Writeoff Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>writeoffObjectCode</summary>
+                <description>writeoffObjectCode description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

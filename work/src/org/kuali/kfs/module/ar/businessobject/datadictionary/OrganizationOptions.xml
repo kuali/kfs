@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.OrganizationOptions">
+ 
+        <inquiry>
+            <title>Organization Options Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="autoPayIndicator" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="organization800PhoneNumber" />
+                        <field attributeName="organizationCheckPayableToName" />
+                        <field attributeName="organizationCode" />
+                        <field attributeName="organizationCreditCardOptionIndicator" />
+                        <field attributeName="organizationFaxNumber" />
+                        <field attributeName="organizationLateFeeIndicator" />
+                        <field attributeName="organizationLatePaymentChargeAmount" />
+                        <field attributeName="organizationMessageText" />
+                        <field attributeName="organizationPaymentTermsText" />
+                        <field attributeName="organizationPhoneNumber" />
+                        <field attributeName="organizationRemitToAddressName" />
+                        <field attributeName="organizationRemitToCityName" />
+                        <field attributeName="organizationRemitToLine1StreetAddress" />
+                        <field attributeName="organizationRemitToLine2StreetAddress" />
+                        <field attributeName="organizationRemitToStateCode" />
+                        <field attributeName="organizationRemitToZipCode" />
+                        <field attributeName="printInvoiceIndicator" />
+                        <field attributeName="processingChartOfAccountCode" />
+                        <field attributeName="processingOrganizationCode" />
+                        <field attributeName="universityName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Organization Options Lookup</title>
+
+            <instructions>Look up Organization Options</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="autoPayIndicator" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="organization800PhoneNumber" required="false" />
+                <lookupField attributeName="organizationCheckPayableToName" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="organizationCreditCardOptionIndicator" required="false" />
+                <lookupField attributeName="organizationFaxNumber" required="false" />
+                <lookupField attributeName="organizationLateFeeIndicator" required="false" />
+                <lookupField attributeName="organizationLatePaymentChargeAmount" required="false" />
+                <lookupField attributeName="organizationMessageText" required="false" />
+                <lookupField attributeName="organizationPaymentTermsText" required="false" />
+                <lookupField attributeName="organizationPhoneNumber" required="false" />
+                <lookupField attributeName="organizationRemitToAddressName" required="false" />
+                <lookupField attributeName="organizationRemitToCityName" required="false" />
+                <lookupField attributeName="organizationRemitToLine1StreetAddress" required="false" />
+                <lookupField attributeName="organizationRemitToLine2StreetAddress" required="false" />
+                <lookupField attributeName="organizationRemitToStateCode" required="false" />
+                <lookupField attributeName="organizationRemitToZipCode" required="false" />
+                <lookupField attributeName="printInvoiceIndicator" required="false" />
+                <lookupField attributeName="processingChartOfAccountCode" required="false" />
+                <lookupField attributeName="processingOrganizationCode" required="false" />
+                <lookupField attributeName="universityName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="autoPayIndicator" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="organization800PhoneNumber" />
+                <field attributeName="organizationCheckPayableToName" />
+                <field attributeName="organizationCode" />
+                <field attributeName="organizationCreditCardOptionIndicator" />
+                <field attributeName="organizationFaxNumber" />
+                <field attributeName="organizationLateFeeIndicator" />
+                <field attributeName="organizationLatePaymentChargeAmount" />
+                <field attributeName="organizationMessageText" />
+                <field attributeName="organizationPaymentTermsText" />
+                <field attributeName="organizationPhoneNumber" />
+                <field attributeName="organizationRemitToAddressName" />
+                <field attributeName="organizationRemitToCityName" />
+                <field attributeName="organizationRemitToLine1StreetAddress" />
+                <field attributeName="organizationRemitToLine2StreetAddress" />
+                <field attributeName="organizationRemitToStateCode" />
+                <field attributeName="organizationRemitToZipCode" />
+                <field attributeName="printInvoiceIndicator" />
+                <field attributeName="processingChartOfAccountCode" />
+                <field attributeName="processingOrganizationCode" />
+                <field attributeName="universityName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="autoPayIndicator" forceUppercase="true">
+                <label>Auto Pay Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>autoPayIndicator</summary>
+                <description>autoPayIndicator description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="organization800PhoneNumber" forceUppercase="true">
+                <label>Organization800 Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>organization800PhoneNumber</summary>
+                <description>organization800PhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationCheckPayableToName" forceUppercase="true">
+                <label>Organization Check Payable To Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationCheckPayableToName</summary>
+                <description>organizationCheckPayableToName description...</description>
+			</attribute>
+
+            <attribute name="organizationCode" forceUppercase="true">
+                <label>Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>organizationCode</summary>
+                <description>organizationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCreditCardOptionIndicator" forceUppercase="true">
+                <label>Organization Credit Card Option Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>organizationCreditCardOptionIndicator</summary>
+                <description>organizationCreditCardOptionIndicator description...</description>
+			</attribute>
+
+            <attribute name="organizationFaxNumber" forceUppercase="true">
+                <label>Organization Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>organizationFaxNumber</summary>
+                <description>organizationFaxNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationLateFeeIndicator" forceUppercase="true">
+                <label>Organization Late Fee Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>organizationLateFeeIndicator</summary>
+                <description>organizationLateFeeIndicator description...</description>
+			</attribute>
+
+            <attribute name="organizationLatePaymentChargeAmount" forceUppercase="true">
+                <label>Organization Late Payment Charge Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>organizationLatePaymentChargeAmount</summary>
+                <description>organizationLatePaymentChargeAmount description...</description>
+			</attribute>
+
+            <attribute name="organizationMessageText" forceUppercase="true">
+                <label>Organization Message Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>80</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="82" />
+                </control>
+
+                <summary>organizationMessageText</summary>
+                <description>organizationMessageText description...</description>
+			</attribute>
+
+            <attribute name="organizationPaymentTermsText" forceUppercase="true">
+                <label>Organization Payment Terms Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationPaymentTermsText</summary>
+                <description>organizationPaymentTermsText description...</description>
+			</attribute>
+
+            <attribute name="organizationPhoneNumber" forceUppercase="true">
+                <label>Organization Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>organizationPhoneNumber</summary>
+                <description>organizationPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToAddressName" forceUppercase="true">
+                <label>Organization Remit To Address Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationRemitToAddressName</summary>
+                <description>organizationRemitToAddressName description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToCityName" forceUppercase="true">
+                <label>Organization Remit To City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>organizationRemitToCityName</summary>
+                <description>organizationRemitToCityName description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToLine1StreetAddress" forceUppercase="true">
+                <label>Organization Remit To Line1 Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>organizationRemitToLine1StreetAddress</summary>
+                <description>organizationRemitToLine1StreetAddress description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToLine2StreetAddress" forceUppercase="true">
+                <label>Organization Remit To Line2 Street Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>organizationRemitToLine2StreetAddress</summary>
+                <description>organizationRemitToLine2StreetAddress description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToStateCode" forceUppercase="true">
+                <label>Organization Remit To State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>organizationRemitToStateCode</summary>
+                <description>organizationRemitToStateCode description...</description>
+			</attribute>
+
+            <attribute name="organizationRemitToZipCode" forceUppercase="true">
+                <label>Organization Remit To Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>organizationRemitToZipCode</summary>
+                <description>organizationRemitToZipCode description...</description>
+			</attribute>
+
+            <attribute name="printInvoiceIndicator" forceUppercase="true">
+                <label>Print Invoice Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>printInvoiceIndicator</summary>
+                <description>printInvoiceIndicator description...</description>
+			</attribute>
+
+            <attribute name="processingChartOfAccountCode" forceUppercase="true">
+                <label>Processing Chart Of Account Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>processingChartOfAccountCode</summary>
+                <description>processingChartOfAccountCode description...</description>
+			</attribute>
+
+            <attribute name="processingOrganizationCode" forceUppercase="true">
+                <label>Processing Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>processingOrganizationCode</summary>
+                <description>processingOrganizationCode description...</description>
+			</attribute>
+
+            <attribute name="universityName" forceUppercase="true">
+                <label>University Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>universityName</summary>
+                <description>universityName description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

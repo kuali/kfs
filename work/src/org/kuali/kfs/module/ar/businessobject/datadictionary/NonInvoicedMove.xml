@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.NonInvoicedMove">
+ 
+        <inquiry>
+            <title>Non-Invoiced Move Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="accountNumber" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="financialDocumentLineAmount" />
+                        <field attributeName="financialDocumentLineNumber" />
+                        <field attributeName="financialDocumentOverrideCode" />
+                        <field attributeName="financialDocumentPostingYear" />
+                        <field attributeName="financialObjectCode" />
+                        <field attributeName="financialSubObjectCode" />
+                        <field attributeName="projectCode" />
+                        <field attributeName="subAccountNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Non-Invoiced Move Lookup</title>
+
+            <instructions>Look up a Non-Invoiced Move</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="financialDocumentLineNumber" />
+                 </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentLineAmount" required="false" />
+                <lookupField attributeName="financialDocumentLineNumber" required="false" />
+                <lookupField attributeName="financialDocumentOverrideCode" required="false" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+                <lookupField attributeName="projectCode" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentLineAmount" />
+                <field attributeName="financialDocumentLineNumber" />
+                <field attributeName="financialDocumentOverrideCode" />
+                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="projectCode" />
+                <field attributeName="subAccountNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineAmount" forceUppercase="true">
+                <label>Financial Document Line Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentLineAmount</summary>
+                <description>financialDocumentLineAmount description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineNumber" forceUppercase="true">
+                <label>Financial Document Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>financialDocumentLineNumber</summary>
+                <description>financialDocumentLineNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
+                <label>Financial Document Override Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>financialDocumentOverrideCode</summary>
+                <description>financialDocumentOverrideCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+                <label>Financial Document Posting Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentPostingYear</summary>
+                <description>financialDocumentPostingYear description...</description>
+			</attribute>
+
+            <attribute name="financialObjectCode" forceUppercase="true">
+                <label>Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialObjectCode</summary>
+                <description>financialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="financialSubObjectCode" forceUppercase="true">
+                <label>Financial Sub Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>financialSubObjectCode</summary>
+                <description>financialSubObjectCode description...</description>
+			</attribute>
+
+            <attribute name="projectCode" forceUppercase="true">
+                <label>Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>projectCode</summary>
+                <description>projectCode description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

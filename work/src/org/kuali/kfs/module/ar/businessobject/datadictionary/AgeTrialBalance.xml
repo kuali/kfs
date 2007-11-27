@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.AgeTrialBalance">
+ 
+        <inquiry>
+            <title>Age Trial Balance Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="currentInvoiceAmount" />
+                        <field attributeName="customerName" />
+                        <field attributeName="customerNumber" />
+                        <field attributeName="over30InvoiceAmount" />
+                        <field attributeName="over60InvoiceAmount" />
+                        <field attributeName="over90InvoiceAmount" />
+                        <field attributeName="personUniversalIdentifier" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Age Trial Balance Lookup</title>
+
+            <instructions>Look up an Age Trial Balance</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="personUniversalIdentifier" />
+                    <sortAttribute attributeName="customerNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="currentInvoiceAmount" required="false" />
+                <lookupField attributeName="customerName" required="false" />
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="over30InvoiceAmount" required="false" />
+                <lookupField attributeName="over60InvoiceAmount" required="false" />
+                <lookupField attributeName="over90InvoiceAmount" required="false" />
+                <lookupField attributeName="personUniversalIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="currentInvoiceAmount" />
+                <field attributeName="customerName" />
+                <field attributeName="customerNumber" />
+                <field attributeName="over30InvoiceAmount" />
+                <field attributeName="over60InvoiceAmount" />
+                <field attributeName="over90InvoiceAmount" />
+                <field attributeName="personUniversalIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="currentInvoiceAmount" forceUppercase="true">
+                <label>Current Invoice Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>currentInvoiceAmount</summary>
+                <description>currentInvoiceAmount description...</description>
+			</attribute>
+
+            <attribute name="customerName" forceUppercase="true">
+                <label>Customer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>customerName</summary>
+                <description>customerName description...</description>
+			</attribute>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="over30InvoiceAmount" forceUppercase="true">
+                <label>Over30 Invoice Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>over30InvoiceAmount</summary>
+                <description>over30InvoiceAmount description...</description>
+			</attribute>
+
+            <attribute name="over60InvoiceAmount" forceUppercase="true">
+                <label>Over60 Invoice Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>over60InvoiceAmount</summary>
+                <description>over60InvoiceAmount description...</description>
+			</attribute>
+
+            <attribute name="over90InvoiceAmount" forceUppercase="true">
+                <label>Over90 Invoice Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>over90InvoiceAmount</summary>
+                <description>over90InvoiceAmount description...</description>
+			</attribute>
+
+            <attribute name="personUniversalIdentifier" forceUppercase="true">
+                <label>Person Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>personUniversalIdentifier</summary>
+                <description>personUniversalIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

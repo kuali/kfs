@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.Customer">
+ 
+        <inquiry>
+            <title>Customer Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="customer800PhoneNumber" />
+                        <field attributeName="customerActiveIndicator" />
+                        <field attributeName="customerAddressChangeDate" />
+                        <field attributeName="customerBirthDate" />
+                        <field attributeName="customerContactName" />
+                        <field attributeName="customerContactPhoneNumber" />
+                        <field attributeName="customerCreditApprovedByName" />
+                        <field attributeName="customerCreditLimitAmount" />
+                        <field attributeName="customerEmailAddress" />
+                        <field attributeName="customerFaxNumber" />
+                        <field attributeName="customerFederalIdentifierNumber" />
+                        <field attributeName="customerLastActivityDate" />
+                        <field attributeName="customerName" />
+                        <field attributeName="customerNumber" />
+                        <field attributeName="customerParentCompanyNumber" />
+                        <field attributeName="customerPhoneNumber" />
+                        <field attributeName="customerRecordAddDate" />
+                        <field attributeName="customerSocialSecurityNumberIdentifier" />
+                        <field attributeName="customerTaxExemptIndicator" />
+                        <field attributeName="customerTypeCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Customer Lookup</title>
+
+            <instructions>Look up a Customer</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="customerNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="customer800PhoneNumber" required="false" />
+                <lookupField attributeName="customerActiveIndicator" required="false" />
+                <lookupField attributeName="customerAddressChangeDate" required="false" />
+                <lookupField attributeName="customerBirthDate" required="false" />
+                <lookupField attributeName="customerContactName" required="false" />
+                <lookupField attributeName="customerContactPhoneNumber" required="false" />
+                <lookupField attributeName="customerCreditApprovedByName" required="false" />
+                <lookupField attributeName="customerCreditLimitAmount" required="false" />
+                <lookupField attributeName="customerEmailAddress" required="false" />
+                <lookupField attributeName="customerFaxNumber" required="false" />
+                <lookupField attributeName="customerFederalIdentifierNumber" required="false" />
+                <lookupField attributeName="customerLastActivityDate" required="false" />
+                <lookupField attributeName="customerName" required="false" />
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="customerParentCompanyNumber" required="false" />
+                <lookupField attributeName="customerPhoneNumber" required="false" />
+                <lookupField attributeName="customerRecordAddDate" required="false" />
+                <lookupField attributeName="customerSocialSecurityNumberIdentifier" required="false" />
+                <lookupField attributeName="customerTaxExemptIndicator" required="false" />
+                <lookupField attributeName="customerTypeCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="customer800PhoneNumber" />
+                <field attributeName="customerActiveIndicator" />
+                <field attributeName="customerAddressChangeDate" />
+                <field attributeName="customerBirthDate" />
+                <field attributeName="customerContactName" />
+                <field attributeName="customerContactPhoneNumber" />
+                <field attributeName="customerCreditApprovedByName" />
+                <field attributeName="customerCreditLimitAmount" />
+                <field attributeName="customerEmailAddress" />
+                <field attributeName="customerFaxNumber" />
+                <field attributeName="customerFederalIdentifierNumber" />
+                <field attributeName="customerLastActivityDate" />
+                <field attributeName="customerName" />
+                <field attributeName="customerNumber" />
+                <field attributeName="customerParentCompanyNumber" />
+                <field attributeName="customerPhoneNumber" />
+                <field attributeName="customerRecordAddDate" />
+                <field attributeName="customerSocialSecurityNumberIdentifier" />
+                <field attributeName="customerTaxExemptIndicator" />
+                <field attributeName="customerTypeCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="customer800PhoneNumber" forceUppercase="true">
+                <label>Customer800 Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>customer800PhoneNumber</summary>
+                <description>customer800PhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="customerActiveIndicator" forceUppercase="true">
+                <label>Customer Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>customerActiveIndicator</summary>
+                <description>customerActiveIndicator description...</description>
+			</attribute>
+
+            <attribute name="customerAddressChangeDate" forceUppercase="true">
+                <label>Customer Address Change Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerAddressChangeDate</summary>
+                <description>customerAddressChangeDate description...</description>
+			</attribute>
+
+            <attribute name="customerBirthDate" forceUppercase="true">
+                <label>Customer Birth Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerBirthDate</summary>
+                <description>customerBirthDate description...</description>
+			</attribute>
+
+            <attribute name="customerContactName" forceUppercase="true">
+                <label>Customer Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>customerContactName</summary>
+                <description>customerContactName description...</description>
+			</attribute>
+
+            <attribute name="customerContactPhoneNumber" forceUppercase="true">
+                <label>Customer Contact Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>customerContactPhoneNumber</summary>
+                <description>customerContactPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="customerCreditApprovedByName" forceUppercase="true">
+                <label>Customer Credit Approved By Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>customerCreditApprovedByName</summary>
+                <description>customerCreditApprovedByName description...</description>
+			</attribute>
+
+            <attribute name="customerCreditLimitAmount" forceUppercase="true">
+                <label>Customer Credit Limit Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>customerCreditLimitAmount</summary>
+                <description>customerCreditLimitAmount description...</description>
+			</attribute>
+
+            <attribute name="customerEmailAddress" forceUppercase="true">
+                <label>Customer Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>customerEmailAddress</summary>
+                <description>customerEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="customerFaxNumber" forceUppercase="true">
+                <label>Customer Fax Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>customerFaxNumber</summary>
+                <description>customerFaxNumber description...</description>
+			</attribute>
+
+            <attribute name="customerFederalIdentifierNumber" forceUppercase="true">
+                <label>Customer Federal Identifier Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerFederalIdentifierNumber</summary>
+                <description>customerFederalIdentifierNumber description...</description>
+			</attribute>
+
+            <attribute name="customerLastActivityDate" forceUppercase="true">
+                <label>Customer Last Activity Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerLastActivityDate</summary>
+                <description>customerLastActivityDate description...</description>
+			</attribute>
+
+            <attribute name="customerName" forceUppercase="true">
+                <label>Customer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>customerName</summary>
+                <description>customerName description...</description>
+			</attribute>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="customerParentCompanyNumber" forceUppercase="true">
+                <label>Customer Parent Company Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerParentCompanyNumber</summary>
+                <description>customerParentCompanyNumber description...</description>
+			</attribute>
+
+            <attribute name="customerPhoneNumber" forceUppercase="true">
+                <label>Customer Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>customerPhoneNumber</summary>
+                <description>customerPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="customerRecordAddDate" forceUppercase="true">
+                <label>Customer Record Add Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerRecordAddDate</summary>
+                <description>customerRecordAddDate description...</description>
+			</attribute>
+
+            <attribute name="customerSocialSecurityNumberIdentifier" forceUppercase="true">
+                <label>Customer Social Security Number Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerSocialSecurityNumberIdentifier</summary>
+                <description>customerSocialSecurityNumberIdentifier description...</description>
+			</attribute>
+
+            <attribute name="customerTaxExemptIndicator" forceUppercase="true">
+                <label>Customer Tax Exempt Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>customerTaxExemptIndicator</summary>
+                <description>customerTaxExemptIndicator description...</description>
+			</attribute>
+
+            <attribute name="customerTypeCode" forceUppercase="true">
+                <label>Customer Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>customerTypeCode</summary>
+                <description>customerTypeCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

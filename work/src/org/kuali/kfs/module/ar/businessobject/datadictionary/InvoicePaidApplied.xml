@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.InvoicePaidApplied">
+ 
+        <inquiry>
+            <title>Invoice Paid Applied Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="documentNumber" />
+                        <field attributeName="financialDocumentReferenceInvoiceNumber" />
+                        <field attributeName="invoiceItemAppliedAmount" />
+                        <field attributeName="invoiceItemNumber" />
+                        <field attributeName="paidAppliedItemNumber" />
+                        <field attributeName="universityFiscalPeriodCode" />
+                        <field attributeName="universityFiscalYear" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Invoice Paid Applied Lookup</title>
+
+            <instructions>Look up an Invoice Paid Applied</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="paidAppliedItemNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentReferenceInvoiceNumber" required="false" />
+                <lookupField attributeName="invoiceItemAppliedAmount" required="false" />
+                <lookupField attributeName="invoiceItemNumber" required="false" />
+                <lookupField attributeName="paidAppliedItemNumber" required="false" />
+                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentReferenceInvoiceNumber" />
+                <field attributeName="invoiceItemAppliedAmount" />
+                <field attributeName="invoiceItemNumber" />
+                <field attributeName="paidAppliedItemNumber" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentReferenceInvoiceNumber" forceUppercase="true">
+                <label>Financial Document Reference Invoice Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>financialDocumentReferenceInvoiceNumber</summary>
+                <description>financialDocumentReferenceInvoiceNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemAppliedAmount" forceUppercase="true">
+                <label>Invoice Item Applied Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceItemAppliedAmount</summary>
+                <description>invoiceItemAppliedAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceItemNumber" forceUppercase="true">
+                <label>Invoice Item Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>invoiceItemNumber</summary>
+                <description>invoiceItemNumber description...</description>
+			</attribute>
+
+            <attribute name="paidAppliedItemNumber" forceUppercase="true">
+                <label>Paid Applied Item Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>paidAppliedItemNumber</summary>
+                <description>paidAppliedItemNumber description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
+                <label>University Fiscal Period Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>universityFiscalPeriodCode</summary>
+                <description>universityFiscalPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

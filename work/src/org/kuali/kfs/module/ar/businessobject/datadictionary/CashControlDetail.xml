@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.CashControlDetail">
+ 
+        <inquiry>
+            <title>Cash Control Detail Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="customerNumber" />
+                        <field attributeName="customerPaymentDate" />
+                        <field attributeName="customerPaymentDescription" />
+                        <field attributeName="customerPaymentMediumIdentifier" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="financialDocumentLineAmount" />
+                        <field attributeName="referenceFinancialDocumentNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Cash Control Detail Lookup</title>
+
+            <instructions>Look up a Cash Control Detail</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="referenceFinancialDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="customerPaymentDate" required="false" />
+                <lookupField attributeName="customerPaymentDescription" required="false" />
+                <lookupField attributeName="customerPaymentMediumIdentifier" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentLineAmount" required="false" />
+                <lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="customerNumber" />
+                <field attributeName="customerPaymentDate" />
+                <field attributeName="customerPaymentDescription" />
+                <field attributeName="customerPaymentMediumIdentifier" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentLineAmount" />
+                <field attributeName="referenceFinancialDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="customerPaymentDate" forceUppercase="true">
+                <label>Customer Payment Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>customerPaymentDate</summary>
+                <description>customerPaymentDate description...</description>
+			</attribute>
+
+            <attribute name="customerPaymentDescription" forceUppercase="true">
+                <label>Customer Payment Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>60</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="62" />
+                </control>
+
+                <summary>customerPaymentDescription</summary>
+                <description>customerPaymentDescription description...</description>
+			</attribute>
+
+            <attribute name="customerPaymentMediumIdentifier" forceUppercase="true">
+                <label>Customer Payment Medium Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>customerPaymentMediumIdentifier</summary>
+                <description>customerPaymentMediumIdentifier description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineAmount" forceUppercase="true">
+                <label>Financial Document Line Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentLineAmount</summary>
+                <description>financialDocumentLineAmount description...</description>
+			</attribute>
+
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
+                <label>Reference Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>referenceFinancialDocumentNumber</summary>
+                <description>referenceFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.NonAppliedHolding">
+ 
+        <inquiry>
+            <title>Non-Applied Holding Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="customerNumber" />
+                        <field attributeName="financialDocumentLineAmount" />
+                        <field attributeName="referenceFinancialDocumentNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Non-Applied Holding Lookup</title>
+
+            <instructions>Look up a Non-Applied Holding</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="referenceFinancialDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="financialDocumentLineAmount" required="false" />
+                <lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="customerNumber" />
+                <field attributeName="financialDocumentLineAmount" />
+                <field attributeName="referenceFinancialDocumentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineAmount" forceUppercase="true">
+                <label>Financial Document Line Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentLineAmount</summary>
+                <description>financialDocumentLineAmount description...</description>
+			</attribute>
+
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
+                <label>Reference Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>referenceFinancialDocumentNumber</summary>
+                <description>referenceFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

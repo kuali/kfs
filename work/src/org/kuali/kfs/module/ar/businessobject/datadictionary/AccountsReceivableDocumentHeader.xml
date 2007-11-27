@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader">
+ 
+        <inquiry>
+            <title>Accounts Receivable Document Header Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="customerNumber" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="entryDate" />
+                        <field attributeName="financialDocumentExplanationText" />
+                        <field attributeName="processingChartOfAccountCode" />
+                        <field attributeName="processingOrganizationCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Accounts Receivable Document Header Lookup</title>
+
+            <instructions>Look up an Accounts Receivable Document Header</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="entryDate" required="false" />
+                <lookupField attributeName="financialDocumentExplanationText" required="false" />
+                <lookupField attributeName="processingChartOfAccountCode" required="false" />
+                <lookupField attributeName="processingOrganizationCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="customerNumber" />
+                <field attributeName="documentNumber" />
+                <field attributeName="entryDate" />
+                <field attributeName="financialDocumentExplanationText" />
+                <field attributeName="processingChartOfAccountCode" />
+                <field attributeName="processingOrganizationCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="entryDate" forceUppercase="true">
+                <label>Entry Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>entryDate</summary>
+                <description>entryDate description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentExplanationText" forceUppercase="true">
+                <label>Financial Document Explanation Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>400</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>financialDocumentExplanationText</summary>
+                <description>financialDocumentExplanationText description...</description>
+			</attribute>
+
+            <attribute name="processingChartOfAccountCode" forceUppercase="true">
+                <label>Processing Chart Of Account Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>processingChartOfAccountCode</summary>
+                <description>processingChartOfAccountCode description...</description>
+			</attribute>
+
+            <attribute name="processingOrganizationCode" forceUppercase="true">
+                <label>Processing Organization Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>processingOrganizationCode</summary>
+                <description>processingOrganizationCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

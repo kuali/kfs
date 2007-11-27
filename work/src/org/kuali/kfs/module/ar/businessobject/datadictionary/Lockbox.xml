@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.Lockbox">
+ 
+        <inquiry>
+            <title>Lockbox Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="batchSequenceNumber" />
+                        <field attributeName="billingDate" />
+                        <field attributeName="customerNumber" />
+                        <field attributeName="customerPaymentMediumCode" />
+                        <field attributeName="financialDocumentReferenceInvoiceNumber" />
+                        <field attributeName="invoicePaidOrAppliedAmount" />
+                        <field attributeName="invoiceSequenceNumber" />
+                        <field attributeName="invoiceTotalAmount" />
+                        <field attributeName="lockboxNumber" />
+                        <field attributeName="processedInvoiceDate" />
+                        <field attributeName="scannedInvoiceDate" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Lockbox Lookup</title>
+
+            <instructions>Look up a Lockbox</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="invoiceSequenceNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="batchSequenceNumber" required="false" />
+                <lookupField attributeName="billingDate" required="false" />
+                <lookupField attributeName="customerNumber" required="false" />
+                <lookupField attributeName="customerPaymentMediumCode" required="false" />
+                <lookupField attributeName="financialDocumentReferenceInvoiceNumber" required="false" />
+                <lookupField attributeName="invoicePaidOrAppliedAmount" required="false" />
+                <lookupField attributeName="invoiceSequenceNumber" required="false" />
+                <lookupField attributeName="invoiceTotalAmount" required="false" />
+                <lookupField attributeName="lockboxNumber" required="false" />
+                <lookupField attributeName="processedInvoiceDate" required="false" />
+                <lookupField attributeName="scannedInvoiceDate" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="batchSequenceNumber" />
+                <field attributeName="billingDate" />
+                <field attributeName="customerNumber" />
+                <field attributeName="customerPaymentMediumCode" />
+                <field attributeName="financialDocumentReferenceInvoiceNumber" />
+                <field attributeName="invoicePaidOrAppliedAmount" />
+                <field attributeName="invoiceSequenceNumber" />
+                <field attributeName="invoiceTotalAmount" />
+                <field attributeName="lockboxNumber" />
+                <field attributeName="processedInvoiceDate" />
+                <field attributeName="scannedInvoiceDate" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="batchSequenceNumber" forceUppercase="true">
+                <label>Batch Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>batchSequenceNumber</summary>
+                <description>batchSequenceNumber description...</description>
+			</attribute>
+
+            <attribute name="billingDate" forceUppercase="true">
+                <label>Billing Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>billingDate</summary>
+                <description>billingDate description...</description>
+			</attribute>
+
+            <attribute name="customerNumber" forceUppercase="true">
+                <label>Customer Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>customerNumber</summary>
+                <description>customerNumber description...</description>
+			</attribute>
+
+            <attribute name="customerPaymentMediumCode" forceUppercase="true">
+                <label>Customer Payment Medium Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>customerPaymentMediumCode</summary>
+                <description>customerPaymentMediumCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentReferenceInvoiceNumber" forceUppercase="true">
+                <label>Financial Document Reference Invoice Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>financialDocumentReferenceInvoiceNumber</summary>
+                <description>financialDocumentReferenceInvoiceNumber description...</description>
+			</attribute>
+
+            <attribute name="invoicePaidOrAppliedAmount" forceUppercase="true">
+                <label>Invoice Paid Or Applied Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoicePaidOrAppliedAmount</summary>
+                <description>invoicePaidOrAppliedAmount description...</description>
+			</attribute>
+
+            <attribute name="invoiceSequenceNumber" forceUppercase="true">
+                <label>Invoice Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>invoiceSequenceNumber</summary>
+                <description>invoiceSequenceNumber description...</description>
+			</attribute>
+
+            <attribute name="invoiceTotalAmount" forceUppercase="true">
+                <label>Invoice Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>invoiceTotalAmount</summary>
+                <description>invoiceTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="lockboxNumber" forceUppercase="true">
+                <label>Lockbox Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>lockboxNumber</summary>
+                <description>lockboxNumber description...</description>
+			</attribute>
+
+            <attribute name="processedInvoiceDate" forceUppercase="true">
+                <label>Processed Invoice Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>processedInvoiceDate</summary>
+                <description>processedInvoiceDate description...</description>
+			</attribute>
+
+            <attribute name="scannedInvoiceDate" forceUppercase="true">
+                <label>Scanned Invoice Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>scannedInvoiceDate</summary>
+                <description>scannedInvoiceDate description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

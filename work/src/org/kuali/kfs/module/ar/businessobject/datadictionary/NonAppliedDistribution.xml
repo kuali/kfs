@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.ar.bo.NonAppliedDistribution">
+ 
+        <inquiry>
+            <title>Non-Applied Distribution Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="documentNumber" />
+                        <field attributeName="financialDocumentLineAmount" />
+                        <field attributeName="paidAppliedItemNumber" />
+                        <field attributeName="referenceFinancialDocumentNumber" />
+                        <field attributeName="universityFiscalPeriodCode" />
+                        <field attributeName="universityFiscalYear" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Non-Applied Distribution Lookup</title>
+
+            <instructions>Look up a Non-Applied Distribution</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                    <sortAttribute attributeName="paidAppliedItemNumber" />
+                    <sortAttribute attributeName="referenceFinancialDocumentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentLineAmount" required="false" />
+                <lookupField attributeName="paidAppliedItemNumber" required="false" />
+                <lookupField attributeName="referenceFinancialDocumentNumber" required="false" />
+                <lookupField attributeName="universityFiscalPeriodCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentLineAmount" />
+                <field attributeName="paidAppliedItemNumber" />
+                <field attributeName="referenceFinancialDocumentNumber" />
+                <field attributeName="universityFiscalPeriodCode" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineAmount" forceUppercase="true">
+                <label>Financial Document Line Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>financialDocumentLineAmount</summary>
+                <description>financialDocumentLineAmount description...</description>
+			</attribute>
+
+            <attribute name="paidAppliedItemNumber" forceUppercase="true">
+                <label>Paid Applied Item Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>paidAppliedItemNumber</summary>
+                <description>paidAppliedItemNumber description...</description>
+			</attribute>
+
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
+                <label>Reference Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>referenceFinancialDocumentNumber</summary>
+                <description>referenceFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
+                <label>University Fiscal Period Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>universityFiscalPeriodCode</summary>
+                <description>universityFiscalPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

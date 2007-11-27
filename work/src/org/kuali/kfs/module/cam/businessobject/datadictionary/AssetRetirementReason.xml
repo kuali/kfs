@@ -6,24 +6,24 @@
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetRetirementReason">
  
         <inquiry>
-            <title>Retirement Reason Inquiry</title>
+            <title>Asset Retirement Reason Inquiry</title>
              
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="active" />
-                        <field attributeName="retirementReasonCode" />
+                         <field attributeName="retirementReasonCode" />
                         <field attributeName="retirementReasonName" />
                         <field attributeName="retirementReasonRestrictionIndicator" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
         </inquiry>
 
         <lookup>
-            <title>Retirement Reason Lookup</title>
+            <title>Asset Retirement Reason Lookup</title>
 
-            <instructions>Look up a Retirement Reason</instructions>
+            <instructions>Look up an Asset Retirement Reason</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -32,17 +32,17 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="active" required="false" />
                 <lookupField attributeName="retirementReasonCode" required="false" />
                 <lookupField attributeName="retirementReasonName" required="false" />
                 <lookupField attributeName="retirementReasonRestrictionIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="retirementReasonCode" />
                 <field attributeName="retirementReasonName" />
                 <field attributeName="retirementReasonRestrictionIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -65,12 +65,12 @@
                 <description>retirementReasonCode description...</description>
 			</attribute>
 
-            <attribute name="retirementReasonName" forceUppercase="true">
+            <attribute name="retirementReasonName" forceUppercase="false">
                 <label>Retirement Reason Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="42" />
@@ -80,7 +80,7 @@
                 <description>retirementReasonName description...</description>
 			</attribute>
 
-            <attribute name="retirementReasonRestrictionIndicator" forceUppercase="true">
+            <attribute name="retirementReasonRestrictionIndicator" forceUppercase="false">
                 <label>Retirement Reason Restriction Indicator</label>
                 <shortLabel>Retirement Reason Restriction Indicator</shortLabel>
 

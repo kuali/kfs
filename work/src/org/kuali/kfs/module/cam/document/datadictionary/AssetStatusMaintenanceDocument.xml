@@ -47,9 +47,10 @@
         <maintainableSections>
             <maintainableSection title="Edit Asset Status">
                 <maintainableItems>
-	                <maintainableField name="inventoryStatusCode" required="false" />
-	                <maintainableField name="inventoryStatusName" required="false" />
+	                <maintainableField name="inventoryStatusCode" required="true" />
+	                <maintainableField name="inventoryStatusName" required="true" />
 	                <maintainableField name="active"		      required="false" />
+					<maintainableField name="versionNumber" />	                
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

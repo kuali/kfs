@@ -43,19 +43,14 @@
         <lockingKeys>
             <field attributeName="assetConditionCode" />
         </lockingKeys>
-        
-        <!-- defaultExistenceChecks>
-            <reference attributeName="capitalizationFinancialObject" attributeToHighlightOnFail="capitalizationFinancialObjectCode" />
-            <reference attributeName="accumulatedDepreciationFinancialObject" attributeToHighlightOnFail="accumulatedDepreciationFinancialObjectCode" />
-            <reference attributeName="depreciationExpenseFinancialObject" attributeToHighlightOnFail="depreciationExpenseFinancialObjectCode" />
-        </defaultExistenceChecks-->
-        
+                
         <maintainableSections>
             <maintainableSection title="Edit Asset Condition Code">
                 <maintainableItems>
                     <maintainableField name="assetConditionCode" required="true" />
                     <maintainableField name="assetConditionName" required="true" />
-                    <maintainableField name="active" required="true" />
+                    <maintainableField name="active" 			 required="false" />
+					<maintainableField name="versionNumber" />                    
                 </maintainableItems>
             </maintainableSection>
         </maintainableSections>

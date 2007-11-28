@@ -15,21 +15,10 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
-<td class="content" valign="top">
-      <maintenanceChannel:workflow />
-      <maintenanceChannel:chartOfAccounts />
-      <maintenanceChannel:laborDistribution /> 
-      <maintenanceChannel:capitalAsset /> 
-</td>
-<td class="content" valign="top">
-      <maintenanceChannel:financialProcessing />
-      <maintenanceChannel:preAward />
-      <maintenanceChannel:postAward />
-</td>
-<td class="content" valign="top">
-      <maintenanceChannel:vendor />
-      <maintenanceChannel:purchasingAccountsReceivable />
-      <maintenanceChannel:purchasingAccountsPayable />
-      <maintenanceChannel:preDisbursementProcessor />
-</td>
+<channel:portalChannelTop channelTitle="Accounts Receivable" />
+<div class="body">
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Customer" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+    </ul>
+</div>
+<channel:portalChannelBottom />

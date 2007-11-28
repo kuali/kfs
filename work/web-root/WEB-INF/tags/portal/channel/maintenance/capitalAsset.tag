@@ -48,7 +48,12 @@
 			<portal:portalLink displayTitle="true"
 				title="Asset Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
+		</li>		
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="CAB Action Code"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>				
 	</ul>
 </div>
 <channel:portalChannelBottom />

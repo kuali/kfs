@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.math.BigInteger;
+
+import org.apache.log4j.Logger;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -36,6 +39,9 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 
 public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerBudgetLoadDao {
+
+    /*  turn on the logger for the persistence broker */
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
 
     /*
      *   see GeneralLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget
@@ -58,8 +64,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      *    fiscal year basis, and was not part of the university's operating budget, so there was no "base budget"   *
      *    for a grant account in the general ledger.)                                                               *
      *   (1)  We will inhibit the load to the general ledger of all accounts in given sub fund groups               *
-     *   (2)  We will also not load closed accounts (there shouldn't be any in the process, but this will act as    *
-     *        one more hurdle for erroneous data entry).                                                            *
+     *   (2)  (We WILL allow closed accounts to load.  There should not be any--they should have been filtered      * 
+     *         out in the budget application, but if there are, they will be caught by the GL scrubber.  We want    * 
+     *         people to have a record of this kind of load failure, so it can be corrected.                        *                                                          *
      *                                                                                                              *
      ****************************************************************************************************************/
 
@@ -77,7 +84,6 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
       ReportQueryByCriteria queryID = 
           new ReportQueryByCriteria(Account.class,org.apache.ojb.broker.query.ReportQueryByCriteria.CRITERIA_SELECT_ALL);
       queryID.setAttributes(new String[] {KFSPropertyConstants.ACCOUNT,
-                                          KFSPropertyConstants.ACCOUNT_CLOSED_INDICATOR,
                                           KFSPropertyConstants.SUB_FUND_GROUP_CODE});
       bannedAccounts = new HashSet<String>(hashCapacity(queryID));
       // create a list of the accounts which should not be loaded
@@ -86,7 +92,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
       {
           Object[] selectListValues = (Object[]) accountProperties.next();
           //we will add an account to the list if it is closed or if it is in a no-load subfundgroup
-          if (((Boolean) selectListValues[1]) || (bannedSubFunds.contains((String) selectListValues[2])))
+          if (bannedSubFunds.contains((String) selectListValues[2]))
           {
              bannedAccounts.add((String) selectListValues[0]);   
           }
@@ -150,5 +156,29 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         return ((Integer) ((Double) (actualCount.floatValue() * (1.45))).intValue());
     }
   
+    /*****************************************************************************************************************
+     *   @@TODO:  these are test methods--remove them                                                                *
+     *****************************************************************************************************************/
+    
+    public void unitTestRoutine(Integer LoadFiscalYear)
+    {
+        testAccountElimination();
+    }
+    
+    private void testAccountElimination()
+    {
+        HashSet<String>  verbotenAccts = getAccountsNotToBeLoaded();
+        LOG.warn(String.format("\n\nnumber of accounts to skip: %d",verbotenAccts.size()));
+        Iterator<String> noLoadList = verbotenAccts.iterator();
+        int rowCount = 0;
+        int maskCount = 127;
+        while (noLoadList.hasNext())
+        {
+           String skippy = noLoadList.next();
+           rowCount = rowCount+1;
+           if ((rowCount & maskCount)  == 1)
+                   LOG.warn(String.format("\n   sample account to skip: %s",skippy));
+        }
+    }
 
 }

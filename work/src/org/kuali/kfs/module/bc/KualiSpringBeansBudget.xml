@@ -220,6 +220,15 @@
         </property>
     </bean>
     
+    <bean id="glBudgetLoadService" class="org.kuali.module.budget.service.impl.GLBudgetLoadServiceImpl">
+        <property name="generalLedgerBudgetLoadDao">
+            <ref bean="generalLedgerBudgetLoadDao" />
+        </property>
+    </bean>
+
+    <bean id="generalLedgerBudgetLoadDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">
+    </bean>
+    
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
     

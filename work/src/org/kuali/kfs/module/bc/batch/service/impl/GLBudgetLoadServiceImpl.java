@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
 import org.kuali.module.budget.service.GLBudgetLoadService;
 import org.kuali.module.budget.service.GenesisService;
 import org.kuali.rice.KNSServiceLocator;
@@ -30,6 +31,11 @@ public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
 //
 //
 //  load pending budget construction GL for a specific fiscal year
+    
+    
+    private GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao;
+
+    
     public void loadPendingBCGL(Integer FiscalYear)
     {
         
@@ -42,5 +48,8 @@ public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
        loadPendingBCGL(nextFiscalYear);
     }
 
-
+    public void setGeneralLedgerBudgetLoadDao(GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao)
+    {
+        this.generalLedgerBudgetLoadDao = generalLedgerBudgetLoadDao;
+    }
 }

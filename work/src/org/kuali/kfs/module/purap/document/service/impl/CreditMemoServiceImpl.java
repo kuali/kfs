@@ -163,12 +163,14 @@ public class CreditMemoServiceImpl implements CreditMemoService {
         for (CreditMemoItem item : (List<CreditMemoItem>) cmDocument.getItems()) {
             // update unit price for service items
             if (item.getItemType().isItemTypeAboveTheLineIndicator() && !item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-                item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
+                if(item.getExtendedPrice()!=null) {
+                    item.setItemUnitPrice(new BigDecimal(item.getExtendedPrice().toString()));
+                }
             }
             // make sure restocking fee is negative
             else if (StringUtils.equals(PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, item.getItemTypeCode())) {
-                item.setExtendedPrice(item.getExtendedPrice().abs().negated());
                 if (item.getItemUnitPrice() != null) {
+                    item.setExtendedPrice(item.getExtendedPrice().abs().negated());
                     item.setItemUnitPrice(item.getItemUnitPrice().abs().negate());
                 }
             }

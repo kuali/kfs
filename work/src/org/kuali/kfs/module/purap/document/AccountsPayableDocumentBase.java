@@ -32,8 +32,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.AccountsPayableItem;
+import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.service.AccountsPayableDocumentSpecificService;
 import org.kuali.module.purap.service.PurapService;
@@ -523,6 +525,18 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
             this.setPurchaseOrderDocument(SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurchaseOrderIdentifier()));
             if (ObjectUtils.isNull(this.getPurchaseOrderDocument().getDocumentHeader().getDocumentNumber())) {
                 this.getPurchaseOrderDocument().refreshReferenceObject(RicePropertyConstants.DOCUMENT_HEADER);
+            }
+        }
+    }
+
+    public void updateExtendedPriceOnItems() {
+        for (AccountsPayableItem item : (List<AccountsPayableItem>) getItems()) {
+            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
+    
+            final KualiDecimal itemExtendedPrice = (item.getExtendedPrice()==null)?KualiDecimal.ZERO:item.getExtendedPrice();;
+            if ( (KualiDecimal.ZERO.compareTo(itemExtendedPrice)==0) && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
+                item.setExtendedPrice(newExtendedPrice);
             }
         }
     }

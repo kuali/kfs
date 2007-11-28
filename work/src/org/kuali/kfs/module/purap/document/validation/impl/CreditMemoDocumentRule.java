@@ -495,7 +495,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     private void flagLineItemTotals(List<PurApItem> itemList) {
         for (int i = 0; i < itemList.size(); i++) {
             CreditMemoItem item = (CreditMemoItem) itemList.get(i);
-            if (item.getItemQuantity() != null && item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
+            if (item.getItemQuantity() != null && item.getExtendedPrice()!=null && item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
                 String errorKey = KFSPropertyConstants.DOCUMENT + "." + PurapPropertyConstants.ITEM + "[" + Integer.toString(i) + "]." + PurapPropertyConstants.EXTENDED_PRICE;
                 GlobalVariables.getErrorMap().putError(errorKey, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL);
             }

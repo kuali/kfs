@@ -458,7 +458,7 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
     private void flagLineItemTotals(List<PurApItem> itemList) {
         for (PurApItem purApItem : itemList) {
             PaymentRequestItem item = (PaymentRequestItem) purApItem;
-            if (item.getItemQuantity() != null) {
+            if (item.getItemQuantity() != null && item.getExtendedPrice() !=null) {
                 if (item.calculateExtendedPrice().compareTo(item.getExtendedPrice()) != 0) {
                     GlobalVariables.getErrorMap().putError(PurapConstants.ITEM_TAB_ERROR_PROPERTY, PurapKeyConstants.ERROR_PAYMENT_REQUEST_ITEM_TOTAL_NOT_EQUAL, item.getItemIdentifierString());
                 }

@@ -765,21 +765,58 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             if (poItem == null) {
                 LOG.debug("relieveEncumbrance() " + logItmNbr + " No encumbrances required because po item is null");
             }
-            else if (ZERO.compareTo(preqItem.getExtendedPrice()) == 0) {
-                /*
-                 * This is a specialized case where PREQ item being processed must adjust the PO item's outstanding encumbered
-                 * quantity. This kind of scenario is mostly seen on warranty type items. The following must be true to do this:
-                 * PREQ item Extended Price must be ZERO, PREQ item invoice quantity must be not empty and not ZERO, and PO item is
-                 * quantity based PO item unit cost is ZERO
-                 */
-                LOG.debug("relieveEncumbrance() " + logItmNbr + " No GL encumbrances required because extended price is ZERO");
-                if ((poItem.getItemQuantity() != null) && ((BigDecimal.ZERO.compareTo(poItem.getItemUnitPrice())) == 0)) {
-                    // po has order quantity and unit price is ZERO... reduce outstanding encumbered quantity
-                    LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate po oustanding encumbrance");
+            else {
+                final KualiDecimal preqItemExtendedPrice = (preqItem.getExtendedPrice()==null)?KualiDecimal.ZERO:preqItem.getExtendedPrice();
+                if (ZERO.compareTo(preqItemExtendedPrice) == 0) {
+                    /*
+                     * This is a specialized case where PREQ item being processed must adjust the PO item's outstanding encumbered
+                     * quantity. This kind of scenario is mostly seen on warranty type items. The following must be true to do this:
+                     * PREQ item Extended Price must be ZERO, PREQ item invoice quantity must be not empty and not ZERO, and PO item is
+                     * quantity based PO item unit cost is ZERO
+                     */
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " No GL encumbrances required because extended price is ZERO");
+                    if ((poItem.getItemQuantity() != null) && ((BigDecimal.ZERO.compareTo(poItem.getItemUnitPrice())) == 0)) {
+                        // po has order quantity and unit price is ZERO... reduce outstanding encumbered quantity
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate po oustanding encumbrance");
 
-                    // Do encumbrance calculations based on quantity
-                    if ((preqItem.getItemQuantity() != null) && ((ZERO.compareTo(preqItem.getItemQuantity())) != 0)) {
-                        KualiDecimal invoiceQuantity = preqItem.getItemQuantity();
+                        // Do encumbrance calculations based on quantity
+                        if ((preqItem.getItemQuantity() != null) && ((ZERO.compareTo(preqItem.getItemQuantity())) != 0)) {
+                            KualiDecimal invoiceQuantity = preqItem.getItemQuantity();
+                            KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
+
+                            KualiDecimal encumbranceQuantity;
+                            if (invoiceQuantity.compareTo(outstandingEncumberedQuantity) > 0) {
+                                // We bought more than the quantity on the PO
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
+                                encumbranceQuantity = outstandingEncumberedQuantity;
+                                poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            }
+                            else {
+                                encumbranceQuantity = invoiceQuantity;
+                                poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " adjusting oustanding encunbrance qty - encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
+                            }
+
+                            if (poItem.getItemInvoicedTotalQuantity() == null) {
+                                poItem.setItemInvoicedTotalQuantity(invoiceQuantity);
+                            }
+                            else {
+                                poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
+                            }
+                        }
+                    }
+
+
+                }
+                else {
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance GL entries");
+
+                    // Do we calculate the encumbrance amount based on quantity or amount?
+                    if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on quantity");
+
+                        // Do encumbrance calculations based on quantity
+                        KualiDecimal invoiceQuantity = preqItem.getItemQuantity() == null ? ZERO : preqItem.getItemQuantity();
                         KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
 
                         KualiDecimal encumbranceQuantity;
@@ -788,11 +825,15 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                             LOG.debug("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
                             encumbranceQuantity = outstandingEncumberedQuantity;
                             poItem.setItemOutstandingEncumberedQuantity(ZERO);
+                            takeAll = true;
                         }
                         else {
                             encumbranceQuantity = invoiceQuantity;
                             poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
-                            LOG.debug("relieveEncumbrance() " + logItmNbr + " adjusting oustanding encunbrance qty - encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
+                            if (ZERO.compareTo(poItem.getItemOutstandingEncumberedQuantity()) == 0) {
+                                takeAll = true;
+                            }
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
                         }
 
                         if (poItem.getItemInvoicedTotalQuantity() == null) {
@@ -801,147 +842,109 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                         else {
                             poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
                         }
-                    }
-                }
 
-
-            }
-            else {
-                LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance GL entries");
-
-                // Do we calculate the encumbrance amount based on quantity or amount?
-                if (poItem.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-                    LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on quantity");
-
-                    // Do encumbrance calculations based on quantity
-                    KualiDecimal invoiceQuantity = preqItem.getItemQuantity() == null ? ZERO : preqItem.getItemQuantity();
-                    KualiDecimal outstandingEncumberedQuantity = poItem.getItemOutstandingEncumberedQuantity() == null ? ZERO : poItem.getItemOutstandingEncumberedQuantity();
-
-                    KualiDecimal encumbranceQuantity;
-                    if (invoiceQuantity.compareTo(outstandingEncumberedQuantity) > 0) {
-                        // We bought more than the quantity on the PO
-                        LOG.debug("relieveEncumbrance() " + logItmNbr + " we bought more than the qty on the PO");
-                        encumbranceQuantity = outstandingEncumberedQuantity;
-                        poItem.setItemOutstandingEncumberedQuantity(ZERO);
-                        takeAll = true;
+                        itemDisEncumber = encumbranceQuantity.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
                     }
                     else {
-                        encumbranceQuantity = invoiceQuantity;
-                        poItem.setItemOutstandingEncumberedQuantity(outstandingEncumberedQuantity.subtract(encumbranceQuantity));
-                        if (ZERO.compareTo(poItem.getItemOutstandingEncumberedQuantity()) == 0) {
-                            takeAll = true;
-                        }
-                        LOG.debug("relieveEncumbrance() " + logItmNbr + " encumbranceQty " + encumbranceQuantity + " outstandingEncumberedQty " + poItem.getItemOutstandingEncumberedQuantity());
-                    }
+                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
 
-                    if (poItem.getItemInvoicedTotalQuantity() == null) {
-                        poItem.setItemInvoicedTotalQuantity(invoiceQuantity);
-                    }
-                    else {
-                        poItem.setItemInvoicedTotalQuantity(poItem.getItemInvoicedTotalQuantity().add(invoiceQuantity));
-                    }
-
-                    itemDisEncumber = encumbranceQuantity.multiply(new KualiDecimal(poItem.getItemUnitPrice()));
-                }
-                else {
-                    LOG.debug("relieveEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
-
-                    // Do encumbrance calculations based on amount only
-                    if ((poItem.getItemOutstandingEncumberedAmount().bigDecimalValue().signum() == -1) && (preqItem.getExtendedPrice().bigDecimalValue().signum() == -1)) {
-                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is negative: " + poItem.getItemOutstandingEncumberedAmount());
-                        if (preqItem.getExtendedPrice().compareTo(poItem.getItemOutstandingEncumberedAmount()) >= 0) {
-                            // extended price is equal to or greater than outstanding encumbered
-                            itemDisEncumber = preqItem.getExtendedPrice();
-                        }
-                        else {
-                            // extended price is less than outstanding encumbered
-                            takeAll = true;
-                            itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
-                        }
-                    }
-                    else {
-                        LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is positive or ZERO: " + poItem.getItemOutstandingEncumberedAmount());
-                        if (poItem.getItemOutstandingEncumberedAmount().compareTo(preqItem.getExtendedPrice()) >= 0) {
-                            // outstanding amount is equal to or greater than extended price
-                            itemDisEncumber = preqItem.getExtendedPrice();
-                        }
-                        else {
-                            // outstanding amount is less than extended price
-                            takeAll = true;
-                            itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
-                        }
-                    }
-                }
-
-                LOG.debug("relieveEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
-
-                KualiDecimal newOutstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount().subtract(itemDisEncumber);
-                LOG.debug("relieveEncumbrance() " + logItmNbr + " New Outstanding Encumbered amount is : " + newOutstandingEncumberedAmount);
-                poItem.setItemOutstandingEncumberedAmount(newOutstandingEncumberedAmount);
-
-                KualiDecimal newInvoicedTotalAmount = poItem.getItemInvoicedTotalAmount().add(preqItem.getExtendedPrice());
-                LOG.debug("relieveEncumbrance() " + logItmNbr + " New Invoiced Total Amount is: " + newInvoicedTotalAmount);
-                poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
-
-                // Sort accounts
-                Collections.sort((List) poItem.getSourceAccountingLines());
-
-                // make the list of accounts for the disencumbrance entry
-                PurchaseOrderAccount lastAccount = null;
-                KualiDecimal accountTotal = ZERO;
-                for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext();) {
-                    PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
-                    if (!account.isEmpty()) {
-                        KualiDecimal encumbranceAmount = null;
-                        SourceAccountingLine acctString = account.generateSourceAccountingLine();
-                        if (takeAll) {
-                            // fully paid; remove remaining encumbrance
-                            encumbranceAmount = account.getItemAccountOutstandingEncumbranceAmount();
-                            account.setItemAccountOutstandingEncumbranceAmount(ZERO);
-                            LOG.debug("relieveEncumbrance() " + logItmNbr + " take all");
-                        }
-                        else {
-                            // amount = item disencumber * account percent / 100
-                            encumbranceAmount = itemDisEncumber.multiply(new KualiDecimal(account.getAccountLinePercent().toString())).divide(HUNDRED);
-
-                            account.setItemAccountOutstandingEncumbranceAmount(account.getItemAccountOutstandingEncumbranceAmount().subtract(encumbranceAmount));
-
-                            // For rounding check at the end
-                            accountTotal = accountTotal.add(encumbranceAmount);
-
-                            // If we are zeroing out the encumbrance, we don't need to adjust for rounding
-                            if (!takeAll) {
-                                lastAccount = account;
+                        // Do encumbrance calculations based on amount only
+                        if ((poItem.getItemOutstandingEncumberedAmount().bigDecimalValue().signum() == -1) && (preqItemExtendedPrice.bigDecimalValue().signum() == -1)) {
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is negative: " + poItem.getItemOutstandingEncumberedAmount());
+                            if (preqItemExtendedPrice.compareTo(poItem.getItemOutstandingEncumberedAmount()) >= 0) {
+                                // extended price is equal to or greater than outstanding encumbered
+                                itemDisEncumber = preqItemExtendedPrice;
+                            }
+                            else {
+                                // extended price is less than outstanding encumbered
+                                takeAll = true;
+                                itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
                             }
                         }
+                        else {
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " Outstanding Encumbered amount is positive or ZERO: " + poItem.getItemOutstandingEncumberedAmount());
+                            if (poItem.getItemOutstandingEncumberedAmount().compareTo(preqItemExtendedPrice) >= 0) {
+                                // outstanding amount is equal to or greater than extended price
+                                itemDisEncumber = preqItemExtendedPrice;
+                            }
+                            else {
+                                // outstanding amount is less than extended price
+                                takeAll = true;
+                                itemDisEncumber = poItem.getItemOutstandingEncumberedAmount();
+                            }
+                        }
+                    }
 
-                        LOG.debug("relieveEncumbrance() " + logItmNbr + " " + acctString + " = " + encumbranceAmount);
-                        if (ObjectUtils.isNull(encumbranceAccountMap.get(acctString))) {
-                            encumbranceAccountMap.put(acctString, encumbranceAmount);
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " Amount to disencumber: " + itemDisEncumber);
+
+                    KualiDecimal newOutstandingEncumberedAmount = poItem.getItemOutstandingEncumberedAmount().subtract(itemDisEncumber);
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " New Outstanding Encumbered amount is : " + newOutstandingEncumberedAmount);
+                    poItem.setItemOutstandingEncumberedAmount(newOutstandingEncumberedAmount);
+
+                    KualiDecimal newInvoicedTotalAmount = poItem.getItemInvoicedTotalAmount().add(preqItemExtendedPrice);
+                    LOG.debug("relieveEncumbrance() " + logItmNbr + " New Invoiced Total Amount is: " + newInvoicedTotalAmount);
+                    poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
+
+                    // Sort accounts
+                    Collections.sort((List) poItem.getSourceAccountingLines());
+
+                    // make the list of accounts for the disencumbrance entry
+                    PurchaseOrderAccount lastAccount = null;
+                    KualiDecimal accountTotal = ZERO;
+                    for (Iterator accountIter = poItem.getSourceAccountingLines().iterator(); accountIter.hasNext();) {
+                        PurchaseOrderAccount account = (PurchaseOrderAccount) accountIter.next();
+                        if (!account.isEmpty()) {
+                            KualiDecimal encumbranceAmount = null;
+                            SourceAccountingLine acctString = account.generateSourceAccountingLine();
+                            if (takeAll) {
+                                // fully paid; remove remaining encumbrance
+                                encumbranceAmount = account.getItemAccountOutstandingEncumbranceAmount();
+                                account.setItemAccountOutstandingEncumbranceAmount(ZERO);
+                                LOG.debug("relieveEncumbrance() " + logItmNbr + " take all");
+                            }
+                            else {
+                                // amount = item disencumber * account percent / 100
+                                encumbranceAmount = itemDisEncumber.multiply(new KualiDecimal(account.getAccountLinePercent().toString())).divide(HUNDRED);
+
+                                account.setItemAccountOutstandingEncumbranceAmount(account.getItemAccountOutstandingEncumbranceAmount().subtract(encumbranceAmount));
+
+                                // For rounding check at the end
+                                accountTotal = accountTotal.add(encumbranceAmount);
+
+                                // If we are zeroing out the encumbrance, we don't need to adjust for rounding
+                                if (!takeAll) {
+                                    lastAccount = account;
+                                }
+                            }
+
+                            LOG.debug("relieveEncumbrance() " + logItmNbr + " " + acctString + " = " + encumbranceAmount);
+                            if (ObjectUtils.isNull(encumbranceAccountMap.get(acctString))) {
+                                encumbranceAccountMap.put(acctString, encumbranceAmount);
+                            }
+                            else {
+                                KualiDecimal amt = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                                encumbranceAccountMap.put(acctString, amt.add(encumbranceAmount));
+                            }
+
+                        }
+                    }
+
+                    // account for rounding by adjusting last account as needed
+                    if (lastAccount != null) {
+                        KualiDecimal difference = itemDisEncumber.subtract(accountTotal);
+                        LOG.debug("relieveEncumbrance() difference: " + logItmNbr + " " + difference);
+
+                        SourceAccountingLine acctString = lastAccount.generateSourceAccountingLine();
+                        KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
+                        if (ObjectUtils.isNull(amount)) {
+                            encumbranceAccountMap.put(acctString, difference);
                         }
                         else {
-                            KualiDecimal amt = (KualiDecimal) encumbranceAccountMap.get(acctString);
-                            encumbranceAccountMap.put(acctString, amt.add(encumbranceAmount));
+                            encumbranceAccountMap.put(acctString, amount.add(difference));
                         }
 
+                        lastAccount.setItemAccountOutstandingEncumbranceAmount(lastAccount.getItemAccountOutstandingEncumbranceAmount().subtract(difference));
                     }
-                }
-
-                // account for rounding by adjusting last account as needed
-                if (lastAccount != null) {
-                    KualiDecimal difference = itemDisEncumber.subtract(accountTotal);
-                    LOG.debug("relieveEncumbrance() difference: " + logItmNbr + " " + difference);
-
-                    SourceAccountingLine acctString = lastAccount.generateSourceAccountingLine();
-                    KualiDecimal amount = (KualiDecimal) encumbranceAccountMap.get(acctString);
-                    if (ObjectUtils.isNull(amount)) {
-                        encumbranceAccountMap.put(acctString, difference);
-                    }
-                    else {
-                        encumbranceAccountMap.put(acctString, amount.add(difference));
-                    }
-
-                    lastAccount.setItemAccountOutstandingEncumbranceAmount(lastAccount.getItemAccountOutstandingEncumbranceAmount().subtract(difference));
                 }
             }
         }// endfor
@@ -985,7 +988,8 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             LOG.debug("reencumberEncumbrance() " + logItmNbr);
 
             // If there isn't a PO item or the extended price is 0, we don't need encumbrances
-            if ((poItem == null) || (payRequestItem.getExtendedPrice().doubleValue() == 0)) {
+            final KualiDecimal preqItemExtendedPrice = (payRequestItem.getExtendedPrice()==null)?KualiDecimal.ZERO:payRequestItem.getExtendedPrice();
+            if ((poItem == null) || (preqItemExtendedPrice.doubleValue() == 0)) {
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " No encumbrances required");
             }
             else {
@@ -1008,7 +1012,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                 else {
                     LOG.debug("reencumberEncumbrance() " + logItmNbr + " Calculate encumbrance based on amount");
 
-                    itemReEncumber = payRequestItem.getExtendedPrice();
+                    itemReEncumber = preqItemExtendedPrice;
                     // if re-encumber amount is more than original PO ordered amount... do not exceed ordered amount
                     // this prevents negative encumbrance
                     if ((poItem.getExtendedPrice() != null) && (poItem.getExtendedPrice().bigDecimalValue().signum() < 0)) {
@@ -1035,7 +1039,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
 
                 KualiDecimal invoicedTotalAmount = poItem.getItemInvoicedTotalAmount() == null ? ZERO : poItem.getItemInvoicedTotalAmount();
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " PO Item Invoiced Total Amount set to: " + invoicedTotalAmount);
-                KualiDecimal newInvoicedTotalAmount = invoicedTotalAmount.subtract(payRequestItem.getExtendedPrice());
+                KualiDecimal newInvoicedTotalAmount = invoicedTotalAmount.subtract(preqItemExtendedPrice);
                 LOG.debug("reencumberEncumbrance() " + logItmNbr + " New PO Item Invoiced Total Amount to set: " + newInvoicedTotalAmount);
                 poItem.setItemInvoicedTotalAmount(newInvoicedTotalAmount);
 
@@ -1140,8 +1144,9 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
             String logItmNbr = "Item # " + cmItem.getItemLineNumber();
             LOG.debug("getCreditMemoEncumbrance() " + logItmNbr);
 
+            final KualiDecimal cmItemExtendedPrice = (cmItem.getExtendedPrice()==null)?KualiDecimal.ZERO:cmItem.getExtendedPrice();;
             // If there isn't a PO item or the extended price is 0, we don't need encumbrances
-            if ((poItem == null) || (cmItem.getExtendedPrice() == null) || (cmItem.getExtendedPrice().doubleValue() == 0)) {
+            if ((poItem == null) || (cmItemExtendedPrice == null) || (cmItemExtendedPrice.doubleValue() == 0)) {
                 LOG.debug("getCreditMemoEncumbrance() " + logItmNbr + " No encumbrances required");
             }
             else {
@@ -1166,7 +1171,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     // Do encumbrance calculations based on amount only
                     if (cancel) {
                         // Decrease encumbrance
-                        itemDisEncumber = cmItem.getExtendedPrice().multiply(new KualiDecimal("-1"));
+                        itemDisEncumber = cmItemExtendedPrice.multiply(new KualiDecimal("-1"));
 
                         if (poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber).doubleValue() < 0) {
                             LOG.debug("getCreditMemoEncumbrance() Cancel overflow");
@@ -1176,7 +1181,7 @@ public class PurapGeneralLedgerServiceImpl implements PurapGeneralLedgerService 
                     }
                     else {
                         // Increase encumbrance
-                        itemDisEncumber = cmItem.getExtendedPrice();
+                        itemDisEncumber = cmItemExtendedPrice;
 
                         if (poItem.getItemOutstandingEncumberedAmount().add(itemDisEncumber).doubleValue() > poItem.getExtendedPrice().doubleValue()) {
                             LOG.debug("getCreditMemoEncumbrance() Create overflow");

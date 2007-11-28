@@ -838,18 +838,6 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     }
 
     /**
-     * Updates the extended price for each payment request item.
-     */
-    public void updateExtendedPriceOnItems() {
-        for (PaymentRequestItem item : (List<PaymentRequestItem>) this.getItems()) {
-            if ((ObjectUtils.isNull(item.getExtendedPrice()) || (KualiDecimal.ZERO.compareTo(item.getExtendedPrice()) == 0)) && item.getItemType().isQuantityBasedGeneralLedgerIndicator()) {
-                KualiDecimal newExtendedPrice = item.calculateExtendedPrice();
-                item.setExtendedPrice(newExtendedPrice);
-            }
-        }
-    }
-
-    /**
      * USED FOR ROUTING ONLY
      * 
      * @deprecated

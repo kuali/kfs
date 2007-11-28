@@ -283,6 +283,11 @@
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/cg/{1}.jsp" />
         </action>
+        
+        <action path="/effort*" name="{1}Form" input="/jsp/modules/effort/{1}.jsp" type="org.kuali.module.effort.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/effort/{1}.jsp" />
+        </action>
 
         <action path="/batchUpload" name="KualiBatchInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileAction">
             <set-property property="cancellable" value="true" />

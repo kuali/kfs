@@ -1561,7 +1561,7 @@
     <reference-descriptor name="a21LaborReportPeriodStatus" class-ref="org.kuali.module.labor.bo.A21ReportPeriodStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="a21LaborReportPeriodStatusCode" />
     </reference-descriptor>
-    <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.labor.bo.A21ReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="a21LaborReportTypeCode" />
     </reference-descriptor>
 </class-descriptor>
@@ -1593,13 +1593,7 @@
 	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.A21ReportType" table="LD_A21_RPT_TYP_T">
-	<field-descriptor name="a21LaborReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="a21LaborReportDescription" column="A21_LBR_RPT_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-</class-descriptor>
+
 
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailBuild" table="LD_A21_DTL_BLD_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

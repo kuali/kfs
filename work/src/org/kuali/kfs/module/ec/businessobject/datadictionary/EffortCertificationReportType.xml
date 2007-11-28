@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportType">
+
+
+        <inquiry>
+            <title>Effort Certification Report Type Code Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="effortCertificationReportTypeCode" />
+                <field attributeName="effortCertificationReportDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Effort Certification Report Type Code Lookup</title>
+
+            <instructions>Look up an Effort Certification Report Type Code</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="effortCertificationReportTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
+                <lookupField attributeName="rowActiveIndicator" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="effortCertificationReportTypeCode" />
+                <field attributeName="effortCertificationReportDescription" />
+                <field attributeName="rowActiveIndicator" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="effortCertificationReportDescription" forceUppercase="true">
+                <label>Effort Certification Report Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter allowWhitspaces="true"/></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>Effort Certification Report Description</summary>
+                <description>Effort Certification Report Description</description>
+			</attribute>
+
+            <attribute name="effortCertificationReportTypeCode" forceUppercase="true">
+                <label>Effort Certification Report Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                     <text size="4" />
+                </control>
+
+                <summary>Effort Certification Report Type Code</summary>
+                <description>Effort Certification Report Type Code</description>
+			</attribute>
+
+            <attribute name="rowActiveIndicator" forceUppercase="true">
+                <label>Row Active Indicator</label>
+                <shortLabel>Indicator</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>row Active Indicator</summary>
+                <description>row Active Indicator</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

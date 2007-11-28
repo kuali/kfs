@@ -42,6 +42,11 @@
 				title="Labor Position Object Code Group"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.labor.bo.PositionObjectGroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+	    <li>
+			<portal:portalLink displayTitle="true"
+				title="Report Type"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 	</ul>
 </div>
 <channel:portalChannelBottom />

@@ -25,8 +25,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class EffortCertificationReportType extends PersistableBusinessObjectBase {
 
-    private String effortCertificationLaborReportTypeCode;
-    private String effortCertificationLaborReportDescription;
+    private String effortCertificationReportTypeCode;
+    private String effortCertificationReportDescription;
     private boolean rowActiveIndicator;
 
     /**
@@ -37,40 +37,40 @@ public class EffortCertificationReportType extends PersistableBusinessObjectBase
     }
 
     /**
-     * Gets the a21LaborReportTypeCode attribute.
+     * Gets the effortCertificationReportTypeCode attribute.
      * 
-     * @return Returns the a21LaborReportTypeCode
+     * @return Returns the effortCertificationReportTypeCode
      */
-    public String getEffortCertificationLaborReportTypeCode() {
-        return effortCertificationLaborReportTypeCode;
+    public String getEffortCertificationReportTypeCode() {
+        return effortCertificationReportTypeCode;
     }
 
     /**
-     * Sets the a21LaborReportTypeCode attribute.
+     * Sets the effortCertificationReportTypeCode attribute.
      * 
-     * @param a21LaborReportTypeCode The a21LaborReportTypeCode to set.
+     * @param effortCertificationReportTypeCode The effortCertificationReportTypeCode to set.
      */
-    public void setEffortCertificationLaborReportTypeCode(String a21LaborReportTypeCode) {
-        this.effortCertificationLaborReportTypeCode = a21LaborReportTypeCode;
+    public void setEffortCertificationReportTypeCode(String effortCertificationReportTypeCode) {
+        this.effortCertificationReportTypeCode = effortCertificationReportTypeCode;
     }
 
 
     /**
-     * Gets the a21LaborReportDescription attribute.
+     * Gets the effortCertificationReportDescription attribute.
      * 
-     * @return Returns the a21LaborReportDescription
+     * @return Returns the effortCertificationReportDescription
      */
-    public String getEffortCertificationLaborReportDescription() {
-        return effortCertificationLaborReportDescription;
+    public String getEffortCertificationReportDescription() {
+        return effortCertificationReportDescription;
     }
 
     /**
-     * Sets the a21LaborReportDescription attribute.
+     * Sets the effortCertificationReportDescription attribute.
      * 
-     * @param a21LaborReportDescription The a21LaborReportDescription to set.
+     * @param effortCertificationReportDescription The effortCertificationReportDescription to set.
      */
-    public void setEffortCertificationLaborReportDescription(String a21LaborReportDescription) {
-        this.effortCertificationLaborReportDescription = a21LaborReportDescription;
+    public void setEffortCertificationReportDescription(String effortCertificationReportDescription) {
+        this.effortCertificationReportDescription = effortCertificationReportDescription;
     }
 
 
@@ -99,7 +99,7 @@ public class EffortCertificationReportType extends PersistableBusinessObjectBase
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("effortCertificationLaborReportTypeCode", this.effortCertificationLaborReportTypeCode);
+        m.put("effortCertificationLaborReportTypeCode", this.effortCertificationReportTypeCode);
         return m;
     }
 }

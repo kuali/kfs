@@ -18,7 +18,7 @@
 <beans>
 	<bean id="effortModule" class="org.kuali.core.KualiModule">
 		<property name="moduleId" value="effort" />
-		<property name="moduleName" value="Effort Reporting" />
+		<property name="moduleName" value="Effort Certification" />
 		<property name="moduleCode" value="ER" />
 		<property name="moduleUserService" ref="effortUserService" />
 		<property name="initializeDataDictionary" value="true" />

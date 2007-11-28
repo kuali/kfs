@@ -133,7 +133,7 @@
 			</attribute>
 
             <attribute name="organization800PhoneNumber" forceUppercase="true">
-                <label>Organization800 Phone Number</label>
+                <label>Organization 800 Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>13</maxLength>

@@ -22,6 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.ar.bo.OrganizationOptions</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.ar.rules.OrganizationOptionsRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -31,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiOrganizationOptionsMaintenanceDocument</documentTypeName>
+        <documentTypeName>OrganizationOptionsMaintenanceDocument</documentTypeName>
         <documentTypeCode>OOPT</documentTypeCode>
 
         <label>Organization Options Maintenance Document</label>
@@ -46,37 +47,37 @@
         </lockingKeys>
 
         <defaultExistenceChecks>
-            <reference attributeName="chart" attributeToHighlightOnFail="chartOfAccountsCode" />
-            <reference attributeName="org" attributeToHighlightOnFail="organizationCode" />
-            <reference attributeName="processingChart" attributeToHighlightOnFail="processingChartOfAccountCode" />
-            <reference attributeName="processingOrg" attributeToHighlightOnFail="processingOrganizationCode" />
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="processingChartOfAccount" attributeToHighlightOnFail="processingChartOfAccountCode" />
+            <reference attributeName="processingOrganization" attributeToHighlightOnFail="processingOrganizationCode" />
         </defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit Organization Options">
                 <maintainableItems>
-                    <maintainableField attributeName="autoPayIndicator" />
-                    <maintainableField attributeName="chartOfAccountsCode" required="true" />
-                    <maintainableField attributeName="organization800PhoneNumber" required="false" />
-                    <maintainableField attributeName="organizationCheckPayableToName" required="true" />
-                    <maintainableField attributeName="organizationCode" required="true" />
-                    <maintainableField attributeName="organizationCreditCardOptionIndicator" />
-                    <maintainableField attributeName="organizationFaxNumber" required="false" />
-                    <maintainableField attributeName="organizationLateFeeIndicator" />
-                    <maintainableField attributeName="organizationLatePaymentChargeAmount" required="true" />
-                    <maintainableField attributeName="organizationMessageText" required="true" />
-                    <maintainableField attributeName="organizationPaymentTermsText" required="false" />
-                    <maintainableField attributeName="organizationPhoneNumber" required="true" />
-                    <maintainableField attributeName="organizationRemitToAddressName" required="true" />
-                    <maintainableField attributeName="organizationRemitToCityName" required="true" />
-                    <maintainableField attributeName="organizationRemitToLine1StreetAddress" required="true" />
-                    <maintainableField attributeName="organizationRemitToLine2StreetAddress" required="false" />
-                    <maintainableField attributeName="organizationRemitToStateCode" required="true" />
-                    <maintainableField attributeName="organizationRemitToZipCode" required="true" />
-                    <maintainableField attributeName="printInvoiceIndicator" />
-                    <maintainableField attributeName="processingChartOfAccountCode" required="true" />
-                    <maintainableField attributeName="processingOrganizationCode" required="true" />
-                    <maintainableField attributeName="universityName" required="true" />
+                    <maintainableField name="autoPayIndicator" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="organization800PhoneNumber" required="false" />
+                    <maintainableField name="organizationCheckPayableToName" required="true" />
+                    <maintainableField name="organizationCode" required="true" />
+                    <maintainableField name="organizationCreditCardOptionIndicator" />
+                    <maintainableField name="organizationFaxNumber" required="false" />
+                    <maintainableField name="organizationLateFeeIndicator" />
+                    <maintainableField name="organizationLatePaymentChargeAmount" required="true" />
+                    <maintainableField name="organizationMessageText" required="true" />
+                    <maintainableField name="organizationPaymentTermsText" required="false" />
+                    <maintainableField name="organizationPhoneNumber" required="true" />
+                    <maintainableField name="organizationRemitToAddressName" required="true" />
+                    <maintainableField name="organizationRemitToCityName" required="true" />
+                    <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />
+                    <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />
+                    <maintainableField name="organizationRemitToStateCode" required="true" />
+                    <maintainableField name="organizationRemitToZipCode" required="true" />
+                    <maintainableField name="printInvoiceIndicator" />
+                    <maintainableField name="processingChartOfAccountCode" required="true" />
+                    <maintainableField name="processingOrganizationCode" required="true" />
+                    <maintainableField name="universityName" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

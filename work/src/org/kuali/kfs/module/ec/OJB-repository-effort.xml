@@ -25,7 +25,7 @@
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" table="LD_A21_PRD_STAT_T">
 	<field-descriptor name="reportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="reportPeriodStatusDescription" column="LBR_RPT_STAT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="reportPeriodStatusDescription" column="LBR_PRD_STAT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>

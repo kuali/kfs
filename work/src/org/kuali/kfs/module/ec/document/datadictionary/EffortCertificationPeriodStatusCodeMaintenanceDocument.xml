@@ -50,7 +50,7 @@
 	        <maintainableSection title="Edit Effort Certification Period Status Code">
 	        	<maintainableItems>
 	            	<maintainableField name="reportPeriodStatusCode" required="true" />
-	            	<maintainableField name="reriodStatusDescription" required="true" />
+	            	<maintainableField name="reportPeriodStatusDescription" required="true" />
 	            	<maintainableField name="rowActiveIndicator" required="true" />
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>

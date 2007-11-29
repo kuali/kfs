@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>AssetObjectCodeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASOB</documentTypeCode>
+        <documentTypeCode>COBJ</documentTypeCode>
 
         <label>Asset Object Code</label>
 

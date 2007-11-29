@@ -33,8 +33,7 @@
         </authorizations>
 
 		<documentTypeName>EffortCertificationPeriodStatusCodeMaintenanceDocument</documentTypeName>
-		<!-- TODO what value should be used for documentType? -->
-		<documentTypeCode>ARPE</documentTypeCode>
+		<documentTypeCode>ARPS</documentTypeCode>
 
 		<label>Effort Certification Period Status Code  Maintenance Document</label>
 		<shortLabel>Effort Cert Prd Status Code Maint Doc</shortLabel>
@@ -44,23 +43,15 @@
         <help parameterNamespace="KFS-LD" parameterDetailType="LaborObjectBenefit" parameterName="LABOR_OBJECT_BENEFIT" />
 
         <lockingKeys>
-			<field attributeName="laborReportPeriodStatusCode" />
-			<!-- TODO: do i need to lock on this field as well? !-->
-			<field attributeName="laborPeriodStatusDescription" />
+			<field attributeName="reportPeriodStatusCode" />
 		</lockingKeys>         
-
-		<!-- TODO: is this section needed? -->
-        <!-- defaultExistenceChecks-->
-            <!-- reference attributeName="a21LaborReportFiscalPeriod" attributeToHighlightOnFail="a21LaborReportFiscalYear" /-->
-       <!-- <reference attributeName="a21LaborReportFiscalPeriod" attributeToHighlightOnFail="a21LaborReportFiscalPeriodCode" />       -->   
-        <!-- /defaultExistenceChecks-->
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Effort Certification Period Status Code">
 	        	<maintainableItems>
-	            	<maintainableField name="laborReportPeriodStatusCode" required="true" />
-	            	<maintainableField name="laborPeriodStatusDescription" required="true" />
-	            	<!-- TODO: should if have a reference to the row active indicator here, or anywhere in this file? -->
+	            	<maintainableField name="reportPeriodStatusCode" required="true" />
+	            	<maintainableField name="reriodStatusDescription" required="true" />
+	            	<maintainableField name="rowActiveIndicator" required="true" />
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

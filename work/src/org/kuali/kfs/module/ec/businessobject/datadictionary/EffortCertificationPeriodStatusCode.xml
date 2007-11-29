@@ -25,8 +25,8 @@
             <title>Effort Certification Period Status Code Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="laborReportPeriodStatusCode" />
-                <field attributeName="laborPeriodStatusDescription" />
+                <field attributeName="reportPeriodStatusCode" />
+                <field attributeName="reportPeriodStatusDescription" />
                 <field attributeName="rowActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -38,27 +38,26 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="laborReportPeriodStatusCode" />
+                    <sortAttribute attributeName="reportPeriodStatusCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="laborReportPeriodStatusCode" required="false" />
-                <lookupField attributeName="laborPeriodStatusDescription" required="false" />
+                <lookupField attributeName="reportPeriodStatusCode" required="false" />
                 <lookupField attributeName="rowActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="laborReportPeriodStatusCode" />
-                <field attributeName="laborPeriodStatusDescription" />
+                <field attributeName="reportPeriodStatusCode" />
+                <field attributeName="reportPeriodStatusDescription" />
                 <field attributeName="rowActiveIndicator" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="laborReportPeriodStatusCode" forceUppercase="true">
-                <label>Effort Certification Labor Period Status Code</label>
+            <attribute name="reportPeriodStatusCode" forceUppercase="true">
+                <label>Effort Certification Report Period Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -68,12 +67,12 @@
                     <text size="3" />
                 </control>
 
-                <summary>Effort Certification Labor Period Status Code</summary>
-                <description>Effort Certification Labor Period Status Code</description>
+                <summary>Effort Certification Report Period Status Code</summary>
+                <description>Effort Certification Report Period Status Code</description>
 			</attribute>
 
-            <attribute name="laborPeriodStatusDescription" forceUppercase="true">
-                <label>Effort Certification Labor Period Status Description</label>
+            <attribute name="reportPeriodStatusDescription" forceUppercase="true">
+                <label>Effort Certification Report Period Status Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
@@ -83,8 +82,8 @@
                     <text size="42" />
                 </control>
 
-                <summary>EffortCertificationLaborPeriodStatusDescription</summary>
-                <description>EffortCertificationLaborPeriodStatusDescription description...</description>
+                <summary>EffortCertificationReportPeriodStatusDescription</summary>
+                <description>EffortCertificationReportPeriodStatusDescription description...</description>
 			</attribute>
 
             <attribute name="rowActiveIndicator" forceUppercase="true">

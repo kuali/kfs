@@ -22,12 +22,49 @@
 	<field-descriptor name="effortCertificationReportDescription" column="A21_LBR_RPT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
+
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" table="LD_A21_PRD_STAT_T">
 	<field-descriptor name="reportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="reportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="reportPeriodStatusDescription" column="LBR_RPT_STAT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="positionBenefitTypeDescription" column="POS_BENE_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="positionBenefitRetirementIndicator" column="POS_BENE_RETIRE_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.effort.bo.A21Report" table="LD_A21_REPORT_T">
+    <field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="a21LaborCostSharingFiscalYear" column="LBR_CSTSHR_FSCL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="a21LaborReportPeriodTitle" column="A21LBR_RPT_PRD_TTL" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborReportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborPeriodBeginDate" column="A21_LBR_PRD_BEG_DT" jdbc-type="DATE" />
+    <field-descriptor name="a21LaborPeriodEndDate" column="A21_LBR_PRD_END_DT" jdbc-type="DATE" />
+    <field-descriptor name="a21LaborCostSharingPeriodCode" column="LBR_CST_SHR_PRD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborRelatedReportNumber" column="LBR_RELATEDRPT_NBR" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborReportPeriodPositionObjectGroup1Code" column="LBR_RPT_POSOBJ1_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborReportPeriodPositionObjectGroup2Code" column="LBR_RPT_POSOBJ2_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborExpenseTransferFiscalYear" column="LBR_ET_FSCL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="a21LaborExpenseTransferFiscalPeriodCode" column="LBR_ET_FSCL_PRD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="a21LaborReportFiscalYear" column="A21LBR_RPT_FSCL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="a21LaborReportReturnDate" column="A21LBR_RPT_RTRN_DT" jdbc-type="DATE" />
+    <field-descriptor name="a21LaborAppointmentPeriodBeginDate" column="LBR_APPT_PRDBEG_DT" jdbc-type="DATE" />
+    <field-descriptor name="a21LaborAppointmentPeriodEndDate" column="LBR_APPT_PRDEND_DT" jdbc-type="DATE" />
+    <reference-descriptor name="a21LaborCostSharingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="a21LaborCostSharingFiscalYear" />
+        <foreignkey field-ref="a21LaborCostSharingPeriodCode" />
+    </reference-descriptor>
+    <reference-descriptor name="a21LaborExpenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="a21LaborExpenseTransferFiscalYear" />
+        <foreignkey field-ref="a21LaborExpenseTransferFiscalPeriodCode" />
+    </reference-descriptor>
+    <reference-descriptor name="a21LaborReportPeriodStatus" class-ref="org.kuali.module.labor.bo.A21ReportPeriodStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="a21LaborReportPeriodStatusCode" />
+    </reference-descriptor>
+    <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="a21LaborReportTypeCode" />
+    </reference-descriptor>
+</class-descriptor>
+
 </descriptor-repository>

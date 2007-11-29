@@ -17,4 +17,5 @@ package org.kuali.module.effort;
 
 public class EffortPropertyConstants {
 
+    public static String A21_LABOR_EXPENSE_TRANSFER_YEAR = "a21LaborExpenseTransferFiscalYear";
 }

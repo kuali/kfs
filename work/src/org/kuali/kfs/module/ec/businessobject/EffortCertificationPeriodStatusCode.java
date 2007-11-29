@@ -19,53 +19,58 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
+/**
+ * Business Object for the Effort Certification Report Status Code
+ */
 public class EffortCertificationPeriodStatusCode extends PersistableBusinessObjectBase {
-    
-    private String laborReportPeriodStatusCode;
-    private String laborPeriodStatusDescription;    
+
+    private String reportPeriodStatusCode;
+    private String reportPeriodStatusDescription;
     private boolean rowActiveIndicator;
-    
+
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.
      */
-    EffortCertificationPeriodStatusCode() {
-        
+    public EffortCertificationPeriodStatusCode() {
+
     }
+
     /**
-     * Gets Labor period status description
+     * Gets report period status description
+     * 
      * @return laborPeriodStausDescription
      */
-    public String getLaborPeriodStatusDescription() {
-        return laborPeriodStatusDescription;
+    public String getReportPeriodStatusDescription() {
+        return reportPeriodStatusDescription;
     }
-    
+
     /**
+     * Sets report period status description
      * 
-     * Sets labor period status description
-     * @param laborPeriodStatusDescription
+     * @param reportPeriodStatusDescription
      */
-    public void setLaborPeriodStatusDescription(String laborPeriodStatusDescription) {
-        this.laborPeriodStatusDescription = laborPeriodStatusDescription;
+    public void setReportPeriodStatusDescription(String reportPeriodStatusDescription) {
+        this.reportPeriodStatusDescription = reportPeriodStatusDescription;
     }
-    
+
     /**
-     * 
      * Gets the report period status code
+     * 
      * @return reportPeriodStatusCode
      */
     public String getReportPeriodStatusCode() {
-        return laborReportPeriodStatusCode;
+        return reportPeriodStatusCode;
     }
-    
+
     /**
-     * 
      * Sets the report period status code
+     * 
      * @param reportPeriodStatusCode
      */
     public void setReportPeriodStatusCode(String reportPeriodStatusCode) {
-        this.laborReportPeriodStatusCode = reportPeriodStatusCode;
+        this.reportPeriodStatusCode = reportPeriodStatusCode;
     }
-    
+
     /**
      * Gets the rowActiveIndicator attribute.
      * 
@@ -74,7 +79,7 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     public boolean isRowActiveIndicator() {
         return rowActiveIndicator;
     }
-    
+
     /**
      * Sets the rowActiveIndicator attribute.
      * 
@@ -83,17 +88,16 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     public void setRowActiveIndicator(boolean rowActiveIndicator) {
         this.rowActiveIndicator = rowActiveIndicator;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("reportPeriodStatusCode", this.laborReportPeriodStatusCode);
+        m.put("reportPeriodStatusCode", this.reportPeriodStatusCode);
         return m;
     }
-    
-    
+
 
 }

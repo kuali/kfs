@@ -16,5 +16,5 @@
 package org.kuali.module.effort;
 
 public class EffortKeyConstants {
-
+public static String ERROR_FISCAL_YR = "error.requiredForUs";
 }

@@ -129,7 +129,7 @@ public interface KualiTestConstants {
 
 
         public static class BenefitsCalculationServiceImplTest {
-            public static final String FISCAL_YEAR = "2009";
+            public static final String FISCAL_YEAR = "2008";
             public static final String CHART = "BA";
             public static final String POSITION_TYPE_CODE = "B";
         }

@@ -83,7 +83,8 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
       // query for load properties of accounts in the system
       ReportQueryByCriteria queryID = 
           new ReportQueryByCriteria(Account.class,org.apache.ojb.broker.query.ReportQueryByCriteria.CRITERIA_SELECT_ALL);
-      queryID.setAttributes(new String[] {KFSPropertyConstants.ACCOUNT,
+      queryID.setAttributes(new String[] {KFSPropertyConstants.ACCOUNT_NUMBER,
+                                          KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                           KFSPropertyConstants.SUB_FUND_GROUP_CODE});
       bannedAccounts = new HashSet<String>(hashCapacity(queryID));
       // create a list of the accounts which should not be loaded
@@ -91,10 +92,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
       while (accountProperties.hasNext())
       {
           Object[] selectListValues = (Object[]) accountProperties.next();
-          //we will add an account to the list if it is closed or if it is in a no-load subfundgroup
+          //we will add an account/chart to the list if it has a no-load subfundgroup
           if (bannedSubFunds.contains((String) selectListValues[2]))
           {
-             bannedAccounts.add((String) selectListValues[0]);   
+            // hash content is account number concatenated with chart (the key of the chart of accounts table)  
+             bannedAccounts.add(((String) selectListValues[0])+((String) selectListValues[1]));   
           }
       }
       return bannedAccounts;
@@ -110,7 +112,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
        {
            // look for subfunds in the banned fund groups
            Criteria criteriaID = new Criteria();
-           criteriaID.addColumnIn(KFSPropertyConstants.FUND_GROUP_CODE,BCConstants.NO_BC_GL_LOAD_FUND_GROUPS);
+           criteriaID.addIn(KFSPropertyConstants.FUND_GROUP_CODE,BCConstants.NO_BC_GL_LOAD_FUND_GROUPS);
            ReportQueryByCriteria queryID = new ReportQueryByCriteria(SubFundGroup.class,criteriaID);
            queryID.setAttributes(new String[]{KFSPropertyConstants.SUB_FUND_GROUP_CODE});
            // set the size of the hashset

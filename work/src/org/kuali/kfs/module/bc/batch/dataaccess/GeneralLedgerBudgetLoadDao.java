@@ -21,4 +21,7 @@ public interface GeneralLedgerBudgetLoadDao {
  *   this method loads the general ledger from the budget to the accounting general ledger
  */
     public void LoadGeneralLedgerFromBudget(Integer FiscalYear);
+    
+    //@@TODO: remove this test method
+    public void unitTestRoutine(Integer FiscalYear);
 }

@@ -38,7 +38,7 @@ public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
     
     public void loadPendingBCGL(Integer FiscalYear)
     {
-        
+       generalLedgerBudgetLoadDao.unitTestRoutine(FiscalYear);
     }
 //
 //  load for the fiscal year following the fiscal year of the current date

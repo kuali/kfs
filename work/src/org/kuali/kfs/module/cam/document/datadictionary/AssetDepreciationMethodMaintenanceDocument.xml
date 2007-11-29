@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>AssetDepreciationMethodMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASDM</documentTypeCode>
+        <documentTypeCode>DPRM</documentTypeCode>
 
         <label>Asset Depreciation Method</label>
 

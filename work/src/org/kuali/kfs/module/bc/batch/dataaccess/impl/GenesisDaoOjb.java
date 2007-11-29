@@ -51,6 +51,7 @@ import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.KFSConstants.ParameterValues;
 import org.kuali.kfs.context.SpringContext;
 import org.springframework.dao.DataAccessException;
+import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionAccountOrganizationHierarchy;
 import org.kuali.module.budget.bo.BudgetConstructionAccountReports;
 import org.kuali.module.budget.bo.BudgetConstructionCalculatedSalaryFoundationTracker;
@@ -1136,7 +1137,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,BaseYear);
         criteriaID.addEqualTo(KFSPropertyConstants.BALANCE_TYPE_CODE,
-                              BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
+                              KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         String[] propertyString = {KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                    KFSPropertyConstants.ACCOUNT_NUMBER,
                                    KFSPropertyConstants.SUB_ACCOUNT_NUMBER};

@@ -17,6 +17,8 @@ package org.kuali.module.budget.dao.ojb;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.math.BigInteger;
@@ -29,10 +31,14 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 
+import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.BudgetConstructionMonthly;
 import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 
 import org.kuali.module.chart.bo.Account;
@@ -54,15 +60,51 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         //  a key labeling the bduget construction general ledger rows for the budget period to be loaded.  
         //  it need not be an actual fiscal year.
     }
+    
+    /****************************************************************************************************************
+     *                                  methods to do the actual load                                               *
+     ****************************************************************************************************************/
+    
+    /*
+     *   this method builds a hashmap containing the next entry sequence number to use for each document (document number)
+     *     to be loaded from budget construction to the general ledger
+     *   @param  target fiscal year for the budget load
+     *   @return HashMapap keyed on document number containing the next entry sequence number to use for 
+     *           the key
+     */
+    
+    private HashMap<String,Integer> entrySequenceNumber (Integer requestYear)
+    {
+        HashMap<String,Integer> nextEntrySequenceNumber;
+        // set up the query: each distinct document number in the source load table
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear);
+        ReportQueryByCriteria queryID = new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class,criteriaID,true);
+        queryID.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
+        
+        nextEntrySequenceNumber = new HashMap<String,Integer>(hashCapacity(queryID));
+        
+        // OK. build the hash map
+        // there are NO entries for these documents yet, so we initialize the entry sequence number to 0
+        Iterator documentNumbersToLoad = 
+            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+        while (documentNumbersToLoad.hasNext())
+        {
+            Object[] resultRow = (Object[]) documentNumbersToLoad.next();
+            nextEntrySequenceNumber.put((String) resultRow[0],new Integer(0));
+        }
+
+        return nextEntrySequenceNumber;
+    }
 
     /****************************************************************************************************************
      *                                                                                                              *
      *   This section build the list of accounts that SHOULD NOT be loaded to the general ledger                    *
      *   (This may seem strange--why build a budget if you aren't going to load it--but in the FIS the budget       *
      *    loaded to payroll as well.  For grant accounts, the FIS allowed people to set salaries for the new year   * 
-     *    so those would load payroll.  But, the actual budget for a grant account was not necessarily done for on a* 
+     *    so those would load to payroll.  But, the actual budget for a grant account was not necessarily done on a * 
      *    fiscal year basis, and was not part of the university's operating budget, so there was no "base budget"   *
-     *    for a grant account in the general ledger.)                                                               *
+     *    for a grant account to load to the general ledger.)                                                       *
      *   (1)  We will inhibit the load to the general ledger of all accounts in given sub fund groups               *
      *   (2)  (We WILL allow closed accounts to load.  There should not be any--they should have been filtered      * 
      *         out in the budget application, but if there are, they will be caught by the GL scrubber.  We want    * 
@@ -137,6 +179,40 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
        }
        return bannedSubFunds;
      }
+     
+    /****************************************************************************************************************
+     *    This section sets all the accounting periods for the coming year to open.                                 *
+     *    The monthly budget will load by accounting period.  If some are not open, some monthly rows will error    *
+     *    out in the scrubber.  Current FIS procedure is to prevent this from happening, by opening all the         *
+     *    accounting periods and letting the university chart manager close them after the budget is loaded if that *
+     *    is desirable for some reason.  If an institution prefers another policy, just don't call these methods.   *
+     *    But, even if we let the scrubber fail, there will be no way to load the monthly rows from the error tables*
+     *    unless the corresponding accounting periods are open.                                                     *   
+     ****************************************************************************************************************/
+     
+     /**
+      *  this method makes sure all accounting periods inn the target fiscal year are open 
+      *  @param request fiscal year (or other fiscal period) which is the TARGET of the load
+      */
+     private void openAllAccountingPeriods (Integer requestYear)
+     {
+         Criteria criteriaID = new Criteria();
+         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear);
+         criteriaID.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_STATUS_CODE,
+                 KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+         QueryByCriteria queryID = new QueryByCriteria(AccountingPeriod.class,criteriaID);
+         Iterator<AccountingPeriod> unopenPeriods = 
+             getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+         int periodsOpened = 0;
+         while (unopenPeriods.hasNext())
+         {
+             AccountingPeriod periodToOpen = unopenPeriods.next();
+             periodToOpen.setUniversityFiscalPeriodStatusCode(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+             getPersistenceBrokerTemplate().store(periodToOpen);
+             periodsOpened = periodsOpened+1;
+         }
+         LOG.warn(String.format("\n\naccounting periods for %d changed to open status: %d",requestYear,new Integer(periodsOpened)));
+     }
     
     /****************************************************************************************************************
      *                                                 Utility methods                                              *                         
@@ -164,7 +240,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     
     public void unitTestRoutine(Integer LoadFiscalYear)
     {
-        testAccountElimination();
+        // 11/29/07testAccountElimination();
+        // 11/29/07openAllAccountingPeriods(2010);
+        testSequenceNumbers(2008);
     }
     
     private void testAccountElimination()
@@ -180,6 +258,20 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
            rowCount = rowCount+1;
            if ((rowCount & maskCount)  == 1)
                    LOG.warn(String.format("\n   sample account to skip: %s",skippy));
+        }
+    }
+    
+    private void testSequenceNumbers(Integer requestYear)
+    {
+        HashMap<String,Integer>  seqNos = entrySequenceNumber(requestYear);
+        LOG.warn(String.format("\n\nnumber of document number sequence number entries: %d",seqNos.size()));
+        int rowCount = 0;
+        int maskCount = 15;
+        for (Map.Entry<String,Integer> seqNoInstance : seqNos.entrySet() )
+        {
+           rowCount = rowCount+1;
+           if ((rowCount & maskCount)  == 1)
+                   LOG.warn(String.format("\n   sample sequence number entry: <%s, %d>",seqNoInstance.getKey(),seqNoInstance.getValue()));
         }
     }
 

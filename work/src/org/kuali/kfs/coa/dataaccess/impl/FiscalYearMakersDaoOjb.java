@@ -208,7 +208,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                     candidateRow.setUniversityFiscalPeriodName(updateTwoDigitYear(currentFiscalYearString.substring(2, 4), startThisYearString.substring(2, 4), candidateRow.getUniversityFiscalPeriodName()));
                     // we have to update the ending date, increasing it by one year
                     candidateRow.setUniversityFiscalPeriodEndDate(addYearToDate(candidateRow.getUniversityFiscalPeriodEndDate()));
-                    // we set all of the fiscal period status codes to "closed" before the
+                    // we set all of the fiscal period status codes to "open" before the
                     // start of the coming year
                     candidateRow.setUniversityFiscalPeriodStatusCode(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
                 }

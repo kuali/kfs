@@ -96,6 +96,9 @@ public class BCConstants extends JstlConstants {
      */
     public final static List<String> NO_BC_GL_LOAD_SUBFUND_GROUPS = Arrays.asList("SIDC");
     public final static List<String> NO_BC_GL_LOAD_FUND_GROUPS = Arrays.asList("CG");
+    
+    // the transaction ledger description for the general ledger budget load
+    public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
 
 
 }

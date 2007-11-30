@@ -15,13 +15,14 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.math.BigInteger;
+import java.sql.Date;
 
 import org.apache.log4j.Logger;
 
@@ -30,16 +31,19 @@ import org.apache.ojb.broker.query.QueryByCriteria;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.core.service.DateTimeService;
 
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
+import org.kuali.module.budget.bo.BudgetConstructionHeader;
 import org.kuali.module.budget.bo.BudgetConstructionMonthly;
+import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
@@ -48,24 +52,30 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
 
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
+    private Date BC_GL_LOAD_TRANSACTION_DATE;
 
     /*
      *   see GeneralLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget
      */
-    public void LoadGeneralLedgerFromBudget (Integer FiscalYear)
+    public void LoadGeneralLedgerFromBudget (Integer fiscalYear)
     {
         //  this method calls a series of steps that load the general ledger from the budget into
         //  the general ledger pending entry table.
         //  this method takes a fiscal year as input, but all that is required is that this object be
         //  a key labeling the bduget construction general ledger rows for the budget period to be loaded.  
         //  it need not be an actual fiscal year.
+        //
+        //  set the transaction date
+        BC_GL_LOAD_TRANSACTION_DATE = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        //  initialize the sequence numbers
+        HashMap<String,Integer> entrySequenceMap = entrySequenceNumber(fiscalYear);
     }
     
     /****************************************************************************************************************
      *                                  methods to do the actual load                                               *
      ****************************************************************************************************************/
     
-    /*
+    /**
      *   this method builds a hashmap containing the next entry sequence number to use for each document (document number)
      *     to be loaded from budget construction to the general ledger
      *   @param  target fiscal year for the budget load
@@ -79,7 +89,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         // set up the query: each distinct document number in the source load table
         Criteria criteriaID = new Criteria();
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear);
-        ReportQueryByCriteria queryID = new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class,criteriaID,true);
+        ReportQueryByCriteria queryID = new ReportQueryByCriteria(BudgetConstructionHeader.class,criteriaID);
         queryID.setAttributes(new String[] {KFSPropertyConstants.DOCUMENT_NUMBER});
         
         nextEntrySequenceNumber = new HashMap<String,Integer>(hashCapacity(queryID));
@@ -96,6 +106,47 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
 
         return nextEntrySequenceNumber;
     }
+    
+    /**
+     * 
+     * This method creates a new generalLedgerPendingEntry object and initializes it with the default settings
+     * for the budget construction general ledger load.
+     * @param requestYear
+     * @return intiliazed GeneralLedgerPendingEntry business object
+     */
+    
+    private GeneralLedgerPendingEntry getNewPendingEntryWithDefaults(Integer requestYear)
+    {
+        GeneralLedgerPendingEntry newRow = new GeneralLedgerPendingEntry();
+        newRow.setUniversityFiscalYear(requestYear);
+        newRow.setTransactionLedgerEntryDescription(BCConstants.BC_TRN_LDGR_ENTR_DESC);
+        newRow.setFinancialDocumentTypeCode(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
+        newRow.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+        newRow.setTransactionDate(BC_GL_LOAD_TRANSACTION_DATE);
+        newRow.setTransactionEntryOffsetIndicator(false);
+        // the fields below are set to null
+        newRow.setOrganizationDocumentNumber(null);
+        newRow.setProjectCode(null);
+        newRow.setOrganizationReferenceId(null);
+        newRow.setReferenceFinancialDocumentTypeCode(null);
+        newRow.setReferenceOriginationCode(null);
+        newRow.setReferenceFinancialDocumentNumber(null);
+        newRow.setFinancialDocumentReversalDate(null);
+        newRow.setTransactionEncumbranceUpdateCode(null);
+        newRow.setAcctSufficientFundsFinObjCd(null);
+        newRow.setTransactionDebitCreditCode(null);
+        newRow.setTransactionEntryProcessedTs(null);
+        return newRow;
+    }
+    
+    private void setUpGeneralLedgerPendingEntry (GeneralLedgerPendingEntry newRow,
+                                                 String BalanceType,
+                                                 String FiscalPeriod)
+    {
+        
+    }
+    
+    
 
     /****************************************************************************************************************
      *                                                                                                              *
@@ -242,7 +293,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     {
         // 11/29/07testAccountElimination();
         // 11/29/07openAllAccountingPeriods(2010);
-        testSequenceNumbers(2008);
+        // 11/30/08testSequenceNumbers(2008);
+        //  we got a load exception--we have to initialize the date here
+        BC_GL_LOAD_TRANSACTION_DATE = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(2008);
+        LOG.warn(String.format("\nGeneralLedgerPendingEntry initialized without incident"));
     }
     
     private void testAccountElimination()

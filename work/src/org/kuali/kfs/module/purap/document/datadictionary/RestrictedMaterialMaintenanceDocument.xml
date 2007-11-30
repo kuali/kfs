@@ -22,7 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.purap.bo.RestrictedMaterial</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-
+        <businessRulesClass>org.kuali.module.purap.rules.RestrictedMaterialRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">

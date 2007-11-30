@@ -105,13 +105,13 @@
 
             <attribute name="restrictedMaterialWorkgroupName" forceUppercase="true">
                 <label>Restricted Material Workgroup Name</label>
-                <shortLabel>Name</shortLabel>
+                <shortLabel>Workgroup Name</shortLabel>
 
                 <maxLength>45</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="47" />
+                    <workflowWorkgroup size="20"/>                    
                 </control>
 
 			</attribute>

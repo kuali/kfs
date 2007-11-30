@@ -77,6 +77,7 @@ public class PurapPropertyConstants {
     public static final String VENDOR_STIPULATION = "purchaseOrderVendorStipulations";
     public static final String QUOTE_TRANSMITTED = "purchaseOrderQuoteTransmitted";
     public static final String VENDOR_QUOTES = "purchaseOrderVendorQuotes";
+    
     // Quote Language
     public static final String PURCHASE_ORDER_QUOTE_LANGUAGE_ID = "purchaseOrderQuoteLanguageIdentifier";
     // vendor quote
@@ -99,4 +100,6 @@ public class PurapPropertyConstants {
     public static final String CREDIT_MEMO_NUMBER = "creditMemoNumber";
     public static final String CREDIT_MEMO_AMOUNT = "creditMemoAmount";
 
+    // Restricted Material
+    public static final String WORKGROUP_NAME = "restrictedMaterialWorkgroupName";
 }

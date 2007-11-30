@@ -97,6 +97,10 @@
 			<portal:portalLink displayTitle="true" title="Requisition Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RequisitionStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+        <li>
+            <portal:portalLink displayTitle="true" title="Restricted Material"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RestrictedMaterial&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+        </li>		
 		<li>
 			<portal:portalLink displayTitle="true" title="Unit Of Measure"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.UnitOfMeasure&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

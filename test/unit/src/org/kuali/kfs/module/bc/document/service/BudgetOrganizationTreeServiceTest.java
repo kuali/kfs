@@ -62,6 +62,7 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         map.put("chartOfAccountsCode", chartOfAccountsCode);
         map.put("organizationCode", organizationCode);
 
+        // verify that the root is in the tree at the least
         BudgetConstructionPullup bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
         assertTrue(bcPullup.getChartOfAccountsCode().equalsIgnoreCase(chartOfAccountsCode));
         assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
@@ -72,4 +73,26 @@ public class BudgetOrganizationTreeServiceTest extends KualiTestBase {
         assertTrue(bcPullup == null);
     }
 
+// used to compare OJB version with JDBC version - leave out for now
+//    @ConfigureContext(shouldCommitTransactions = true)
+//    public void testBuildPullupSql() throws Exception {
+//
+//        if (!runTests())
+//            return;
+//
+//        budgetOrganizationTreeService.buildPullupSql(personUniversalIdentifier, chartOfAccountsCode, organizationCode);
+//        HashMap map = new HashMap();
+//        map.put("personUniversalIdentifier", personUniversalIdentifier);
+//        map.put("chartOfAccountsCode", chartOfAccountsCode);
+//        map.put("organizationCode", organizationCode);
+//
+//        BudgetConstructionPullup bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
+//        assertTrue(bcPullup.getChartOfAccountsCode().equalsIgnoreCase(chartOfAccountsCode));
+//        assertTrue(bcPullup.getOrganizationCode().equalsIgnoreCase(organizationCode));
+//        assertTrue(bcPullup.getPersonUniversalIdentifier().equalsIgnoreCase(personUniversalIdentifier));
+//
+//        budgetOrganizationTreeService.cleanPullup(personUniversalIdentifier);
+//        bcPullup = (BudgetConstructionPullup) businessObjectService.findByPrimaryKey(BudgetConstructionPullup.class, map);
+//        assertTrue(bcPullup == null);
+//    }
 }

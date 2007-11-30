@@ -2912,6 +2912,9 @@
     <field-descriptor name="paymentExtractedDate" column="PMT_EXTRT_DT" jdbc-type="DATE"/>      
     <field-descriptor name="paymentPaidDate" column="PMT_PD_DT" jdbc-type="DATE"/>
     <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.PaymentRequestStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="statusCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.UnitOfMeasure" table="PUR_AP_UOM_T">
@@ -3145,6 +3148,9 @@
     <field-descriptor name="creditMemoPaidTimestamp" column="CRDT_MEMO_PD_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="vendorName" column="VNDR_NM" jdbc-type="VARCHAR"/>
     <field-descriptor name="totalAmount" column="TOTAL_AMOUNT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+    <reference-descriptor name="status" class-ref="org.kuali.module.purap.bo.CreditMemoStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="creditMemoStatusCode" />
+    </reference-descriptor>   
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurapGeneralLedgerPendingEntry" table="PUR_GL_PENDING_ENTRY_T" proxy="dynamic">

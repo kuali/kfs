@@ -123,7 +123,9 @@
                 </th>
                 <td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.deliveryRequiredDateReasonCode}" 
-                    	property="document.deliveryRequiredDateReasonCode" readOnly="${not (fullEntryMode or amendmentEntry)}"/>
+                    	property="document.deliveryRequiredDateReasonCode"
+                    	extraReadOnlyProperty="document.deliveryRequiredDateReason.deliveryRequiredDateReasonDescription" 
+                    	readOnly="${not (fullEntryMode or amendmentEntry)}"/>
                 </td>
 			</tr>
 			<tr>

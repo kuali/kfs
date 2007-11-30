@@ -18,8 +18,11 @@ package org.kuali.module.purap.bo;
 import java.sql.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapPropertyConstants;
 
 /**
  * Payment Request View Business Object.
@@ -37,6 +40,9 @@ public class PaymentRequestView extends AbstractRelatedView {
     private Date paymentExtractedDate;
     private Date paymentPaidDate;
     private KualiDecimal totalAmount;
+    
+    // REFERENCE OBJECTS
+    private Status status;
 
     public String getInvoiceNumber() {
         return invoiceNumber;
@@ -100,6 +106,17 @@ public class PaymentRequestView extends AbstractRelatedView {
 
     public void setStatusCode(String statusCode) {
         this.statusCode = statusCode;
+    }
+    
+    public Status getStatus() {
+        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getStatusCode())) {
+            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        }
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public KualiDecimal getTotalAmount() {

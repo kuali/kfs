@@ -130,7 +130,9 @@
                     <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
+                    extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
+                    readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
                 </td>
             </tr>
 

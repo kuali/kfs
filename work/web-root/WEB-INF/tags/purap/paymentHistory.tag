@@ -53,7 +53,7 @@
 	        				<c:out value="${preqHistory.purchaseOrderIdentifier}" />
 		        		</td>
 	        			<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${preqHistory.statusCode}" />
+	        				<c:out value="${preqHistory.status.statusDescription}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 		        			<c:choose>
@@ -139,7 +139,7 @@
 	        				<c:out value="${cmHistory.purchaseOrderIdentifier}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
-	        				<c:out value="${cmHistory.creditMemoStatusCode}" />
+	        				<c:out value="${cmHistory.status.statusDescription}" />
 		        		</td>
 		        		<td align="left" valign="middle" class="datacell">
 		        			<c:choose>

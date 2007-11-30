@@ -19,8 +19,11 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.PurapPropertyConstants;
 
 
 /**
@@ -38,6 +41,9 @@ public class CreditMemoView extends AbstractRelatedView {
     private Timestamp creditMemoPaidTimestamp;
     private String vendorName;
     private KualiDecimal totalAmount;
+    
+    // REFERENCE OBJECTS
+    private Status status;
 
     public Date getAccountsPayableApprovalDate() {
         return accountsPayableApprovalDate;
@@ -86,6 +92,17 @@ public class CreditMemoView extends AbstractRelatedView {
     public void setCreditMemoStatusCode(String creditMemoStatusCode) {
         this.creditMemoStatusCode = creditMemoStatusCode;
     }
+    
+    public Status getStatus() {
+        if (ObjectUtils.isNull(this.status) && StringUtils.isNotEmpty(this.getCreditMemoStatusCode())) {
+            this.refreshReferenceObject(PurapPropertyConstants.STATUS);
+        }
+        return status;
+    }
+    
+    public void setStatus(Status status) {
+        this.status = status;
+    }    
 
     public Integer getPaymentRequestIdentifier() {
         return paymentRequestIdentifier;

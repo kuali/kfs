@@ -35,7 +35,10 @@
                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.recurringPaymentTypeCode}" /></div>
                 </th>
                 <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" property="document.recurringPaymentTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.recurringPaymentTypeCode}" 
+                   property="document.recurringPaymentTypeCode"
+                   extraReadOnlyProperty="document.recurringPaymentType.recurringPaymentTypeDescription" 
+                   readOnly="${not (fullEntryMode or amendmentEntry)}" />
                 </td>
             </tr>
             <tr>

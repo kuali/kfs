@@ -1256,7 +1256,6 @@
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionObjectPick" table="LD_BCN_OBJ_PICK_T">
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="selectFlag" column="SELECT_FLAG" jdbc-type="INTEGER"/>
 </class-descriptor>
@@ -1302,7 +1301,6 @@
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionReasonCodePick" table="LD_BCN_RSN_CD_PK_T">
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="appointmentFundingReasonCode" column="APPT_FND_REASON_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="selectFlag" column="SELECT_FLAG" jdbc-type="INTEGER"/>
 	<reference-descriptor name="appointmentFundingReason" class-ref="org.kuali.module.budget.bo.BudgetConstructionAppointmentFundingReasonCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -1359,7 +1357,6 @@
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="hierarchyOrganizationLevelCode" column="HIER_ORG_LVL_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="selectedOrganizationLevelCode" column="SEL_ORG_LVL_CD" jdbc-type="INTEGER"/>
@@ -1746,7 +1743,6 @@
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionSubFundPick" table="LD_BCN_SUBFUND_PICK_T">
 	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="reportFlag" column="REPORT_FLAG" jdbc-type="INTEGER"/>
     <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">

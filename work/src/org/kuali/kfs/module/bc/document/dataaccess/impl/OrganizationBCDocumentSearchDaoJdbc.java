@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.dao.jdbc;
 
+import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
 
 /**
@@ -28,6 +29,7 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
+    @RawSQL
     public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
 
         LOG.debug("buildAccountSelectPullList() started");

@@ -16,16 +16,19 @@
 package org.kuali.module.budget.dao.jdbc;
 
 import org.kuali.core.dao.jdbc.PlatformAwareDaoBaseJdbc;
+import org.kuali.core.dbplatform.RawSQL;
 
 /**
  * This class...
  */
 public class BudgetConstructionDaoJdbcBase extends PlatformAwareDaoBaseJdbc {
 
+    @RawSQL
     protected void clearTempTableByUnvlId(String tableName, String personUnvlIdColumn, String personUserIdentifier) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + personUnvlIdColumn + " = ?", personUserIdentifier);
     }
 
+    @RawSQL
     protected void clearTempTableBySesId(String tableName, String SesIdColumn, String sessionId) {
         getSimpleJdbcTemplate().update("DELETE from " + tableName + " WHERE " + SesIdColumn + " = ?", sessionId);
     }

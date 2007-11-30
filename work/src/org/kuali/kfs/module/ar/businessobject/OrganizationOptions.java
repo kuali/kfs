@@ -17,7 +17,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationCode;
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
-	private boolean organizationCreditCardOptionIndicator;
 	private boolean printInvoiceIndicator;
 	private String organizationPaymentTermsText;
 	private String organizationMessageText;
@@ -27,9 +26,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	private String organizationRemitToCityName;
 	private String organizationRemitToStateCode;
 	private String organizationRemitToZipCode;
-	private boolean organizationLateFeeIndicator;
-	private KualiDecimal organizationLatePaymentChargeAmount;
-	private boolean autoPayIndicator;
 	private String organizationPhoneNumber;
 	private String organization800PhoneNumber;
 	private String organizationFaxNumber;
@@ -131,28 +127,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	public void setProcessingOrganizationCode(String processingOrganizationCode) {
 		this.processingOrganizationCode = processingOrganizationCode;
 	}
-
-
-	/**
-	 * Gets the organizationCreditCardOptionIndicator attribute.
-	 * 
-	 * @return Returns the organizationCreditCardOptionIndicator
-	 * 
-	 */
-	public boolean isOrganizationCreditCardOptionIndicator() { 
-		return organizationCreditCardOptionIndicator;
-	}
-
-	/**
-	 * Sets the organizationCreditCardOptionIndicator attribute.
-	 * 
-	 * @param organizationCreditCardOptionIndicator The organizationCreditCardOptionIndicator to set.
-	 * 
-	 */
-	public void setOrganizationCreditCardOptionIndicator(boolean organizationCreditCardOptionIndicator) {
-		this.organizationCreditCardOptionIndicator = organizationCreditCardOptionIndicator;
-	}
-
 
 	/**
 	 * Gets the printInvoiceIndicator attribute.
@@ -341,70 +315,6 @@ public class OrganizationOptions extends PersistableBusinessObjectBase {
 	public void setOrganizationRemitToZipCode(String organizationRemitToZipCode) {
 		this.organizationRemitToZipCode = organizationRemitToZipCode;
 	}
-
-
-	/**
-	 * Gets the organizationLateFeeIndicator attribute.
-	 * 
-	 * @return Returns the organizationLateFeeIndicator
-	 * 
-	 */
-	public boolean isOrganizationLateFeeIndicator() { 
-		return organizationLateFeeIndicator;
-	}
-
-	/**
-	 * Sets the organizationLateFeeIndicator attribute.
-	 * 
-	 * @param organizationLateFeeIndicator The organizationLateFeeIndicator to set.
-	 * 
-	 */
-	public void setOrganizationLateFeeIndicator(boolean organizationLateFeeIndicator) {
-		this.organizationLateFeeIndicator = organizationLateFeeIndicator;
-	}
-
-
-	/**
-	 * Gets the organizationLatePaymentChargeAmount attribute.
-	 * 
-	 * @return Returns the organizationLatePaymentChargeAmount
-	 * 
-	 */
-	public KualiDecimal getOrganizationLatePaymentChargeAmount() { 
-		return organizationLatePaymentChargeAmount;
-	}
-
-	/**
-	 * Sets the organizationLatePaymentChargeAmount attribute.
-	 * 
-	 * @param organizationLatePaymentChargeAmount The organizationLatePaymentChargeAmount to set.
-	 * 
-	 */
-	public void setOrganizationLatePaymentChargeAmount(KualiDecimal organizationLatePaymentChargeAmount) {
-		this.organizationLatePaymentChargeAmount = organizationLatePaymentChargeAmount;
-	}
-
-
-	/**
-	 * Gets the autoPayIndicator attribute.
-	 * 
-	 * @return Returns the autoPayIndicator
-	 * 
-	 */
-	public boolean isAutoPayIndicator() { 
-		return autoPayIndicator;
-	}
-
-	/**
-	 * Sets the autoPayIndicator attribute.
-	 * 
-	 * @param autoPayIndicator The autoPayIndicator to set.
-	 * 
-	 */
-	public void setAutoPayIndicator(boolean autoPayIndicator) {
-		this.autoPayIndicator = autoPayIndicator;
-	}
-
 
 	/**
 	 * Gets the organizationPhoneNumber attribute.

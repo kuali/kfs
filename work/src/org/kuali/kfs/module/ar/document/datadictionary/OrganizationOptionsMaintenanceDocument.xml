@@ -56,28 +56,30 @@
         <maintainableSections>
             <maintainableSection title="Edit Organization Options">
                 <maintainableItems>
-                    <maintainableField name="autoPayIndicator" />
                     <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organization800PhoneNumber" required="false" />
-                    <maintainableField name="organizationCheckPayableToName" required="true" />
                     <maintainableField name="organizationCode" required="true" />
-                    <maintainableField name="organizationCreditCardOptionIndicator" />
+					<maintainableField name="processingChartOfAccountCode" required="true" />
+                    <maintainableField name="processingOrganizationCode" required="true" />
+                    <maintainableField name="organization800PhoneNumber" required="false" />
                     <maintainableField name="organizationFaxNumber" required="false" />
-                    <maintainableField name="organizationLateFeeIndicator" />
-                    <maintainableField name="organizationLatePaymentChargeAmount" required="true" />
                     <maintainableField name="organizationMessageText" required="true" />
                     <maintainableField name="organizationPaymentTermsText" required="false" />
                     <maintainableField name="organizationPhoneNumber" required="true" />
                     <maintainableField name="organizationRemitToAddressName" required="true" />
-                    <maintainableField name="organizationRemitToCityName" required="true" />
                     <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />
                     <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />
+                    <maintainableField name="organizationRemitToCityName" required="true" />
                     <maintainableField name="organizationRemitToStateCode" required="true" />
                     <maintainableField name="organizationRemitToZipCode" required="true" />
-                    <maintainableField name="printInvoiceIndicator" />
-                    <maintainableField name="processingChartOfAccountCode" required="true" />
-                    <maintainableField name="processingOrganizationCode" required="true" />
-                    <maintainableField name="universityName" required="true" />
+                    <maintainableField name="printInvoiceIndicator">
+                   		<defaultValue>Y</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="organizationCheckPayableToName" required="true" >
+                    	<defaultValue>Institution Name</defaultValue>
+                    </maintainableField>                    
+                    <maintainableField name="universityName" required="true" >
+                    	<defaultValue>Institution Name</defaultValue>
+                    </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

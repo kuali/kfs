@@ -25,6 +25,7 @@ import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.dao.BudgetConstructionDao;
+import org.kuali.module.budget.dao.BudgetPullupDao;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +40,7 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
     private BudgetConstructionOrganizationReportsService budgetConstructionOrganizationReportsService;
     private BusinessObjectService businessObjectService;
     private BudgetConstructionDao budgetConstructionDao;
+    private BudgetPullupDao budgetPullupDao;
 
     // controls used to trap any runaways due to cycles in the reporting tree
     private static final int MAXLEVEL = 50;
@@ -84,6 +86,29 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
         else {
             LOG.warn(String.format("\n%s/%s reports to organization more than maxlevel of %d", bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), MAXLEVEL));
         }
+    }
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetOrganizationTreeService#buildPullupSql(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void buildPullupSql(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
+        cleanPullup(personUserIdentifier);
+        BudgetConstructionOrganizationReports bcOrgRpts = budgetConstructionOrganizationReportsService.getByPrimaryId(chartOfAccountsCode, organizationCode);
+        if (bcOrgRpts != null) {
+            if (bcOrgRpts.getOrganization().isOrganizationActiveIndicator()) {
+                curLevel = 0;
+                buildSubTreeSql(personUserIdentifier, bcOrgRpts, curLevel);
+            }
+        }
+    }
+
+    private void buildSubTreeSql(String personUserIdentifier, BudgetConstructionOrganizationReports bcOrgRpts, int curLevel) {
+
+        curLevel++;
+        //TODO remove refs to OBJ_ID in these called methods before implementing any calls using this method
+        budgetPullupDao.initPointOfView(personUserIdentifier, bcOrgRpts.getChartOfAccountsCode(), bcOrgRpts.getOrganizationCode(), curLevel);
+        budgetPullupDao.insertChildOrgs(personUserIdentifier, curLevel);
+        
     }
 
     /**
@@ -195,6 +220,22 @@ public class BudgetOrganizationTreeServiceImpl implements BudgetOrganizationTree
      */
     public void setBudgetConstructionDao(BudgetConstructionDao budgetConstructionDao) {
         this.budgetConstructionDao = budgetConstructionDao;
+    }
+
+    /**
+     * Gets the budgetPullupDao attribute. 
+     * @return Returns the budgetPullupDao.
+     */
+    public BudgetPullupDao getBudgetPullupDao() {
+        return budgetPullupDao;
+    }
+
+    /**
+     * Sets the budgetPullupDao attribute value.
+     * @param budgetPullupDao The budgetPullupDao to set.
+     */
+    public void setBudgetPullupDao(BudgetPullupDao budgetPullupDao) {
+        this.budgetPullupDao = budgetPullupDao;
     }
 
 }

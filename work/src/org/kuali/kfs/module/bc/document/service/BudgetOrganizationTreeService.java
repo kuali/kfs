@@ -34,6 +34,17 @@ public interface BudgetOrganizationTreeService {
     public void buildPullup(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
 
     /**
+     * This method populates BudgetConstructionPullup with rows that represent the subtree of the passed in point of view
+     * organization for a user. All organizations reporting to the point of view are inserted.
+     * This uses raw SQL
+     * 
+     * @param personUserIdentifier
+     * @param chartOfAccountsCode
+     * @param organizationCode
+     */
+    public void buildPullupSql(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
+
+    /**
      * This method depopulates BudgetConstructionPullup of any rows associated with the user
      * 
      * @param personUserIdentifier

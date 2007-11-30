@@ -73,6 +73,9 @@
 		<property name="budgetConstructionDao">
 			<ref bean="budgetConstructionDao" />
 		</property>
+		<property name="budgetPullupDao">
+			<ref bean="bcBudgetPullupDao" />
+		</property>
 	</bean>
 
 	<bean id="budgetOrganizationSalarySettingSearchService" class="org.kuali.module.budget.service.impl.OrganizationSalarySettingSearchServiceImpl">
@@ -192,6 +195,9 @@
 	</bean>
 
 	<bean id="bcOrganizationBCDocumentSearchDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.OrganizationBCDocumentSearchDaoJdbc">
+	</bean>
+
+	<bean id="bcBudgetPullupDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetPullupDaoJdbc">
 	</bean>
 
 	<bean id="budgetConstructionOrganizationReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationReportsServiceImpl">

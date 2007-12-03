@@ -26,7 +26,6 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
 
     private String reportPeriodStatusCode;
     private String reportPeriodStatusDescription;
-    private boolean rowActiveIndicator;
 
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.
@@ -69,24 +68,6 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
      */
     public void setReportPeriodStatusCode(String reportPeriodStatusCode) {
         this.reportPeriodStatusCode = reportPeriodStatusCode;
-    }
-
-    /**
-     * Gets the rowActiveIndicator attribute.
-     * 
-     * @return Returns the rowActiveIndicator
-     */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
-    }
-
-    /**
-     * Sets the rowActiveIndicator attribute.
-     * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
-     */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
     }
 
     /**

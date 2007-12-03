@@ -27,7 +27,6 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="reportPeriodStatusCode" />
                 <field attributeName="reportPeriodStatusDescription" />
-                <field attributeName="rowActiveIndicator" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -44,13 +43,11 @@
 
             <lookupFields>
                 <lookupField attributeName="reportPeriodStatusCode" required="false" />
-                <lookupField attributeName="rowActiveIndicator" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="reportPeriodStatusCode" />
                 <field attributeName="reportPeriodStatusDescription" />
-                <field attributeName="rowActiveIndicator" />
             </resultFields>
         </lookup>
 
@@ -84,20 +81,6 @@
 
                 <summary>EffortCertificationReportPeriodStatusDescription</summary>
                 <description>EffortCertificationReportPeriodStatusDescription description...</description>
-			</attribute>
-
-            <attribute name="rowActiveIndicator" forceUppercase="true">
-                <label>Row Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>rowActiveIndicator</summary>
-                <description>rowActiveIndicator description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

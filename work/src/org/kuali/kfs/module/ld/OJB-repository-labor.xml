@@ -1530,18 +1530,6 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.A21ReportPeriod" table="LD_A21_RPT_PRD_T">
-	<field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborReportFiscalYear" column="A21LBR_RPT_FSCL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborReportFiscalPeriodCode" column="LBR_RPT_FSCLPRD_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <reference-descriptor name="a21LaborReportFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportFiscalYear" />
-        <foreignkey field-ref="a21LaborReportFiscalPeriodCode" />
-    </reference-descriptor>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.labor.bo.A21HelpText" table="LD_A21_HLP_TXT_T">
 	<field-descriptor name="a21LaborCategoryNumber" column="A21_LBR_CAT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -1557,10 +1545,8 @@
 	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-
-
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailBuild" table="LD_A21_DTL_BLD_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
@@ -1578,9 +1564,6 @@
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
     <reference-descriptor name="a21LaborReport" class-ref="org.kuali.module.effort.bo.A21Report" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="a21LaborReportNumber" />
         <foreignkey field-ref="a21LaborFiscalYear" />
@@ -1593,12 +1576,12 @@
         <orderby name="financialObjectCode" sort="ASC" />
         <orderby name="sourceFinancialChartOfAccountsCode" sort="ASC" />
         <orderby name="sourceAccountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="a21LaborBuildNumber" />
     </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.labor.bo.A21DetailLineBuild" table="LD_A21_DTL_LN_BLD_T">
-	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -1690,9 +1673,6 @@
         <foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
         <foreignkey field-ref="sourceAccountNumber" />
         <foreignkey field-ref="costShareSourceSubAccountNumber" />
-    </reference-descriptor>
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 </class-descriptor>
 

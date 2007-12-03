@@ -45,6 +45,8 @@
         <lockingKeys>
 			<field attributeName="reportPeriodStatusCode" />
 		</lockingKeys>         
+		
+		<allowsNewOrCopy>false</allowsNewOrCopy>
 
 	    <maintainableSections>
 	        <maintainableSection title="Edit Effort Certification Period Status Code">

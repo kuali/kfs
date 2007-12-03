@@ -50,7 +50,7 @@
         <foreignkey field-ref="a21LaborExpenseTransferFiscalYear" />
         <foreignkey field-ref="a21LaborExpenseTransferFiscalPeriodCode" />
     </reference-descriptor>
-    <reference-descriptor name="a21LaborReportPeriodStatus" class-ref="org.kuali.module.labor.bo.A21ReportPeriodStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="reportPeriodStatus" class-ref="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="a21LaborReportPeriodStatusCode" />
     </reference-descriptor>
     <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -81,7 +81,7 @@
     </reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.A21DetailBuild" table="LD_A21_DTL_BLD_T">
+<class-descriptor class="org.kuali.module.effort.bo.A21DetailBuild" table="LD_A21_DTL_BLD_T">
 	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -116,7 +116,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.labor.bo.A21DetailLineBuild" table="LD_A21_DTL_LN_BLD_T">
+<class-descriptor class="org.kuali.module.effort.bo.A21DetailLineBuild" table="LD_A21_DTL_LN_BLD_T">
 	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>

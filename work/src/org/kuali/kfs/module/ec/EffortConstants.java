@@ -17,6 +17,9 @@ package org.kuali.module.effort;
 
 import org.kuali.core.JstlConstants;
 
+/**
+ * General constants for the effort reporting module.
+ */
 public class EffortConstants extends JstlConstants {
 
 }

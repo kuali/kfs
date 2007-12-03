@@ -21,10 +21,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Business Object for the Effort Certification Report Type
+ * Business Object for the Effort Certification Report Type Table.
  */
 public class EffortCertificationReportType extends PersistableBusinessObjectBase {
-
     private String effortCertificationReportTypeCode;
     private String effortCertificationReportDescription;
     private boolean rowActiveIndicator;

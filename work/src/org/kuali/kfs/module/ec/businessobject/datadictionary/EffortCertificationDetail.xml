@@ -1,0 +1,1172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetail">
+
+
+        <inquiry>
+            <title>Effort Certification Detail Line Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="a21LaborCalculatedOverallCode" />
+                <field attributeName="a21LaborCalculatedOverallPercent" />
+                <field attributeName="a21LaborCostSharingCode" />
+                <field attributeName="a21LaborCostSharingPercent" />
+                <field attributeName="a21LaborDerivedCategory10Code" />
+                <field attributeName="a21LaborDerivedCategory10Percent" />
+                <field attributeName="a21LaborDerivedCategory1Code" />
+                <field attributeName="a21LaborDerivedCategory1Percent" />
+                <field attributeName="a21LaborDerivedCategory2Code" />
+                <field attributeName="a21LaborDerivedCategory2Percent" />
+                <field attributeName="a21LaborDerivedCategory3Code" />
+                <field attributeName="a21LaborDerivedCategory3Percent" />
+                <field attributeName="a21LaborDerivedCategory4Code" />
+                <field attributeName="a21LaborDerivedCategory4Percent" />
+                <field attributeName="a21LaborDerivedCategory5Code" />
+                <field attributeName="a21LaborDerivedCategory5Percent" />
+                <field attributeName="a21LaborDerivedCategory6Code" />
+                <field attributeName="a21LaborDerivedCategory6Percent" />
+                <field attributeName="a21LaborDerivedCategory7Code" />
+                <field attributeName="a21LaborDerivedCategory7Percent" />
+                <field attributeName="a21LaborDerivedCategory8Code" />
+                <field attributeName="a21LaborDerivedCategory8Percent" />
+                <field attributeName="a21LaborDerivedCategory9Code" />
+                <field attributeName="a21LaborDerivedCategory9Percent" />
+                <field attributeName="a21LaborDerivedPayrollCode" />
+                <field attributeName="a21LaborDerivedPayrollPercent" />
+                <field attributeName="a21LaborOriginalPayrollAmount" />
+                <field attributeName="a21LaborPayrollAmount" />
+                <field attributeName="a21LaborProratedCode" />
+                <field attributeName="a21LaborProratedPercent" />
+                <field attributeName="a21LaborUpdatedCategory10Code" />
+                <field attributeName="a21LaborUpdatedCategory10Percent" />
+                <field attributeName="a21LaborUpdatedCategory1Code" />
+                <field attributeName="a21LaborUpdatedCategory1Percent" />
+                <field attributeName="a21LaborUpdatedCategory2Code" />
+                <field attributeName="a21LaborUpdatedCategory2Percent" />
+                <field attributeName="a21LaborUpdatedCategory3Code" />
+                <field attributeName="a21LaborUpdatedCategory3Percent" />
+                <field attributeName="a21LaborUpdatedCategory4Code" />
+                <field attributeName="a21LaborUpdatedCategory4Percent" />
+                <field attributeName="a21LaborUpdatedCategory5Code" />
+                <field attributeName="a21LaborUpdatedCategory5Percent" />
+                <field attributeName="a21LaborUpdatedCategory6Code" />
+                <field attributeName="a21LaborUpdatedCategory6Percent" />
+                <field attributeName="a21LaborUpdatedCategory7Code" />
+                <field attributeName="a21LaborUpdatedCategory7Percent" />
+                <field attributeName="a21LaborUpdatedCategory8Code" />
+                <field attributeName="a21LaborUpdatedCategory8Percent" />
+                <field attributeName="a21LaborUpdatedCategory9Code" />
+                <field attributeName="a21LaborUpdatedCategory9Percent" />
+                <field attributeName="a21LaborUpdatedOverallCode" />
+                <field attributeName="a21LaborUpdatedOverallPercent" />
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="costShareSourceSubAccountNumber" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="positionNumber" />
+                <field attributeName="sourceAccountNumber" />
+                <field attributeName="sourceFinancialChartOfAccountsCode" />
+                <field attributeName="subAccountNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Effort Certification Detail Line Lookup</title>
+
+            <instructions>Look up an Effort Certification Detail Line</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="accountNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="a21LaborCalculatedOverallCode" required="false" />
+                <lookupField attributeName="a21LaborCalculatedOverallPercent" required="false" />
+                <lookupField attributeName="a21LaborCostSharingCode" required="false" />
+                <lookupField attributeName="a21LaborCostSharingPercent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory10Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory10Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory1Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory1Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory2Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory2Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory3Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory3Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory4Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory4Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory5Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory5Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory6Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory6Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory7Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory7Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory8Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory8Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory9Code" required="false" />
+                <lookupField attributeName="a21LaborDerivedCategory9Percent" required="false" />
+                <lookupField attributeName="a21LaborDerivedPayrollCode" required="false" />
+                <lookupField attributeName="a21LaborDerivedPayrollPercent" required="false" />
+                <lookupField attributeName="a21LaborOriginalPayrollAmount" required="false" />
+                <lookupField attributeName="a21LaborPayrollAmount" required="false" />
+                <lookupField attributeName="a21LaborProratedCode" required="false" />
+                <lookupField attributeName="a21LaborProratedPercent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory10Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory10Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory1Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory1Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory2Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory2Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory3Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory3Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory4Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory4Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory5Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory5Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory6Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory6Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory7Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory7Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory8Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory8Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory9Code" required="false" />
+                <lookupField attributeName="a21LaborUpdatedCategory9Percent" required="false" />
+                <lookupField attributeName="a21LaborUpdatedOverallCode" required="false" />
+                <lookupField attributeName="a21LaborUpdatedOverallPercent" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="costShareSourceSubAccountNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="positionNumber" required="false" />
+                <lookupField attributeName="sourceAccountNumber" required="false" />
+                <lookupField attributeName="sourceFinancialChartOfAccountsCode" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="a21LaborCalculatedOverallCode" />
+                <field attributeName="a21LaborCalculatedOverallPercent" />
+                <field attributeName="a21LaborCostSharingCode" />
+                <field attributeName="a21LaborCostSharingPercent" />
+                <field attributeName="a21LaborDerivedCategory10Code" />
+                <field attributeName="a21LaborDerivedCategory10Percent" />
+                <field attributeName="a21LaborDerivedCategory1Code" />
+                <field attributeName="a21LaborDerivedCategory1Percent" />
+                <field attributeName="a21LaborDerivedCategory2Code" />
+                <field attributeName="a21LaborDerivedCategory2Percent" />
+                <field attributeName="a21LaborDerivedCategory3Code" />
+                <field attributeName="a21LaborDerivedCategory3Percent" />
+                <field attributeName="a21LaborDerivedCategory4Code" />
+                <field attributeName="a21LaborDerivedCategory4Percent" />
+                <field attributeName="a21LaborDerivedCategory5Code" />
+                <field attributeName="a21LaborDerivedCategory5Percent" />
+                <field attributeName="a21LaborDerivedCategory6Code" />
+                <field attributeName="a21LaborDerivedCategory6Percent" />
+                <field attributeName="a21LaborDerivedCategory7Code" />
+                <field attributeName="a21LaborDerivedCategory7Percent" />
+                <field attributeName="a21LaborDerivedCategory8Code" />
+                <field attributeName="a21LaborDerivedCategory8Percent" />
+                <field attributeName="a21LaborDerivedCategory9Code" />
+                <field attributeName="a21LaborDerivedCategory9Percent" />
+                <field attributeName="a21LaborDerivedPayrollCode" />
+                <field attributeName="a21LaborDerivedPayrollPercent" />
+                <field attributeName="a21LaborOriginalPayrollAmount" />
+                <field attributeName="a21LaborPayrollAmount" />
+                <field attributeName="a21LaborProratedCode" />
+                <field attributeName="a21LaborProratedPercent" />
+                <field attributeName="a21LaborUpdatedCategory10Code" />
+                <field attributeName="a21LaborUpdatedCategory10Percent" />
+                <field attributeName="a21LaborUpdatedCategory1Code" />
+                <field attributeName="a21LaborUpdatedCategory1Percent" />
+                <field attributeName="a21LaborUpdatedCategory2Code" />
+                <field attributeName="a21LaborUpdatedCategory2Percent" />
+                <field attributeName="a21LaborUpdatedCategory3Code" />
+                <field attributeName="a21LaborUpdatedCategory3Percent" />
+                <field attributeName="a21LaborUpdatedCategory4Code" />
+                <field attributeName="a21LaborUpdatedCategory4Percent" />
+                <field attributeName="a21LaborUpdatedCategory5Code" />
+                <field attributeName="a21LaborUpdatedCategory5Percent" />
+                <field attributeName="a21LaborUpdatedCategory6Code" />
+                <field attributeName="a21LaborUpdatedCategory6Percent" />
+                <field attributeName="a21LaborUpdatedCategory7Code" />
+                <field attributeName="a21LaborUpdatedCategory7Percent" />
+                <field attributeName="a21LaborUpdatedCategory8Code" />
+                <field attributeName="a21LaborUpdatedCategory8Percent" />
+                <field attributeName="a21LaborUpdatedCategory9Code" />
+                <field attributeName="a21LaborUpdatedCategory9Percent" />
+                <field attributeName="a21LaborUpdatedOverallCode" />
+                <field attributeName="a21LaborUpdatedOverallPercent" />
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="costShareSourceSubAccountNumber" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="positionNumber" />
+                <field attributeName="sourceAccountNumber" />
+                <field attributeName="sourceFinancialChartOfAccountsCode" />
+                <field attributeName="subAccountNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="a21LaborCalculatedOverallCode" forceUppercase="true">
+                <label>Effort Certification Labor Calculated Overall Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborCalculatedOverallCode</summary>
+                <description>Effort Certification LaborCalculatedOverallCode description...</description>
+			</attribute>
+
+            <attribute name="a21LaborCalculatedOverallPercent" forceUppercase="true">
+                <label>Effort Certification Labor Calculated Overall Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborCalculatedOverallPercent</summary>
+                <description>Effort Certification LaborCalculatedOverallPercent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborCostSharingCode" forceUppercase="true">
+                <label>Effort Certification Labor Cost Sharing Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborCostSharingCode</summary>
+                <description>Effort Certification LaborCostSharingCode description...</description>
+			</attribute>
+
+            <attribute name="a21LaborCostSharingPercent" forceUppercase="true">
+                <label>Effort Certification Labor Cost Sharing Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborCostSharingPercent</summary>
+                <description>Effort Certification LaborCostSharingPercent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory10Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category10 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory10Code</summary>
+                <description>Effort Certification LaborDerivedCategory10Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory10Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category10 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory10Percent</summary>
+                <description>Effort Certification LaborDerivedCategory10Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory1Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category1 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory1Code</summary>
+                <description>Effort Certification LaborDerivedCategory1Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory1Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category1 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory1Percent</summary>
+                <description>Effort Certification LaborDerivedCategory1Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory2Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category2 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory2Code</summary>
+                <description>Effort Certification LaborDerivedCategory2Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory2Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category2 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory2Percent</summary>
+                <description>Effort Certification LaborDerivedCategory2Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory3Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category3 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory3Code</summary>
+                <description>Effort Certification LaborDerivedCategory3Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory3Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category3 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory3Percent</summary>
+                <description>Effort Certification LaborDerivedCategory3Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory4Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category4 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory4Code</summary>
+                <description>Effort Certification LaborDerivedCategory4Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory4Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category4 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory4Percent</summary>
+                <description>Effort Certification LaborDerivedCategory4Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory5Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category5 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory5Code</summary>
+                <description>Effort Certification LaborDerivedCategory5Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory5Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category5 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory5Percent</summary>
+                <description>Effort Certification LaborDerivedCategory5Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory6Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category6 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory6Code</summary>
+                <description>Effort Certification LaborDerivedCategory6Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory6Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category6 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory6Percent</summary>
+                <description>Effort Certification LaborDerivedCategory6Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory7Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category7 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory7Code</summary>
+                <description>Effort Certification LaborDerivedCategory7Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory7Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category7 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory7Percent</summary>
+                <description>Effort Certification LaborDerivedCategory7Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory8Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category8 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory8Code</summary>
+                <description>Effort Certification LaborDerivedCategory8Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory8Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category8 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory8Percent</summary>
+                <description>Effort Certification LaborDerivedCategory8Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory9Code" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category9 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory9Code</summary>
+                <description>Effort Certification LaborDerivedCategory9Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedCategory9Percent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Category9 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedCategory9Percent</summary>
+                <description>Effort Certification LaborDerivedCategory9Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedPayrollCode" forceUppercase="true">
+                <label>Effort Certification Labor Derived Payroll Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedPayrollCode</summary>
+                <description>Effort Certification LaborDerivedPayrollCode description...</description>
+			</attribute>
+
+            <attribute name="a21LaborDerivedPayrollPercent" forceUppercase="true">
+                <label>Effort Certification Labor Derived Payroll Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborDerivedPayrollPercent</summary>
+                <description>Effort Certification LaborDerivedPayrollPercent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborOriginalPayrollAmount" forceUppercase="true">
+                <label>Effort Certification Labor Original Payroll Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>Effort Certification LaborOriginalPayrollAmount</summary>
+                <description>Effort Certification LaborOriginalPayrollAmount description...</description>
+			</attribute>
+
+            <attribute name="a21LaborPayrollAmount" forceUppercase="true">
+                <label>Effort Certification Labor Payroll Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>Effort Certification LaborPayrollAmount</summary>
+                <description>Effort Certification LaborPayrollAmount description...</description>
+			</attribute>
+
+            <attribute name="a21LaborProratedCode" forceUppercase="true">
+                <label>Effort Certification Labor Prorated Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborProratedCode</summary>
+                <description>Effort Certification LaborProratedCode description...</description>
+			</attribute>
+
+            <attribute name="a21LaborProratedPercent" forceUppercase="true">
+                <label>Effort Certification Labor Prorated Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborProratedPercent</summary>
+                <description>Effort Certification LaborProratedPercent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory10Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category10 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory10Code</summary>
+                <description>Effort Certification LaborUpdatedCategory10Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory10Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category10 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory10Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory10Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory1Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category1 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory1Code</summary>
+                <description>Effort Certification LaborUpdatedCategory1Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory1Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category1 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory1Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory1Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory2Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category2 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory2Code</summary>
+                <description>Effort Certification LaborUpdatedCategory2Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory2Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category2 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory2Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory2Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory3Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category3 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory3Code</summary>
+                <description>Effort Certification LaborUpdatedCategory3Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory3Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category3 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory3Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory3Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory4Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category4 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory4Code</summary>
+                <description>Effort Certification LaborUpdatedCategory4Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory4Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category4 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory4Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory4Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory5Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category5 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory5Code</summary>
+                <description>Effort Certification LaborUpdatedCategory5Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory5Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category5 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory5Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory5Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory6Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category6 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory6Code</summary>
+                <description>Effort Certification LaborUpdatedCategory6Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory6Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category6 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory6Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory6Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory7Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category7 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory7Code</summary>
+                <description>Effort Certification LaborUpdatedCategory7Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory7Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category7 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory7Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory7Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory8Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category8 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory8Code</summary>
+                <description>Effort Certification LaborUpdatedCategory8Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory8Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category8 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory8Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory8Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory9Code" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category9 Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory9Code</summary>
+                <description>Effort Certification LaborUpdatedCategory9Code description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedCategory9Percent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Category9 Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedCategory9Percent</summary>
+                <description>Effort Certification LaborUpdatedCategory9Percent description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedOverallCode" forceUppercase="true">
+                <label>Effort Certification Labor Updated Overall Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedOverallCode</summary>
+                <description>Effort Certification LaborUpdatedOverallCode description...</description>
+			</attribute>
+
+            <attribute name="a21LaborUpdatedOverallPercent" forceUppercase="true">
+                <label>Effort Certification Labor Updated Overall Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>Effort Certification LaborUpdatedOverallPercent</summary>
+                <description>Effort Certification LaborUpdatedOverallPercent description...</description>
+			</attribute>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="costShareSourceSubAccountNumber" forceUppercase="true">
+                <label>Cost Share Source Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>costShareSourceSubAccountNumber</summary>
+                <description>costShareSourceSubAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+                <label>Financial Document Posting Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentPostingYear</summary>
+                <description>financialDocumentPostingYear description...</description>
+			</attribute>
+
+            <attribute name="financialObjectCode" forceUppercase="true">
+                <label>Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialObjectCode</summary>
+                <description>financialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="positionNumber" forceUppercase="true">
+                <label>Position Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>positionNumber</summary>
+                <description>positionNumber description...</description>
+			</attribute>
+
+            <attribute name="sourceAccountNumber" forceUppercase="true">
+                <label>Source Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>sourceAccountNumber</summary>
+                <description>sourceAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="sourceFinancialChartOfAccountsCode" forceUppercase="true">
+                <label>Source Financial Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>sourceFinancialChartOfAccountsCode</summary>
+                <description>sourceFinancialChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

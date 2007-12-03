@@ -13,12 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.effort;
+package org.kuali.module.effort.batch;
+
+import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.labor.service.LaborScrubberService;
 
 /**
- * Constants that represent keys to messages or errors given in the effort reporting module.
+ * Batch Step that executes the Effort Certification Extract Process.
  */
-public class EffortKeyConstants {
-    public static String ERROR_FISCAL_YR = "error.requiredForUs";
-    public static final String ERROR_END_FISCAL_YEAR = "error.efffort.effortCertificationReport.endFiscalYear";
+public class EffortCertificationExtractStep extends AbstractStep {
+
+    /**
+     * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
+     */
+    public boolean execute(String jobName) {
+        return true;
+    }
+
 }

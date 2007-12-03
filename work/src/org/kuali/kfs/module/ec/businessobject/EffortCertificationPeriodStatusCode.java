@@ -20,10 +20,9 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
- * Business Object for the Effort Certification Report Status Code
+ * Business Object for the Effort Certification Report Status Code Table.
  */
 public class EffortCertificationPeriodStatusCode extends PersistableBusinessObjectBase {
-
     private String reportPeriodStatusCode;
     private String reportPeriodStatusDescription;
 

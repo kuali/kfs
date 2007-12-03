@@ -3,6 +3,7 @@ package org.kuali.module.cams.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -20,6 +21,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
 	private String depreciationExpenseFinancialObjectCode;
     private boolean active;
 
+    private transient Options universityFiscal;
     private ObjectCode accumulatedDepreciationFinancialObject;
 	private ObjectCode capitalizationFinancialObject;
 	private ObjectCode depreciationExpenseFinancialObject;
@@ -274,6 +276,24 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+    
+    /**
+     * Gets the universityFiscal attribute.
+     * 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * 
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
     }
     
     /**

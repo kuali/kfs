@@ -112,6 +112,9 @@
 	<field-descriptor name="depreciationExpenseFinancialObjectCode" column="DEPR_EXP_FOBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
+    <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="universityFiscalYear" />
+    </reference-descriptor>
 	<reference-descriptor name="accumulatedDepreciationFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="chartOfAccountsCode" />

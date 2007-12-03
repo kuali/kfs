@@ -104,7 +104,7 @@
         <foreignkey field-ref="a21LaborReportNumber" />
         <foreignkey field-ref="a21LaborFiscalYear" />
     </reference-descriptor>
-    <collection-descriptor name="a21DetailLineBuild" element-class-ref="org.kuali.module.labor.bo.A21DetailLineBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="a21DetailLineBuild" element-class-ref="org.kuali.module.effort.bo.A21DetailLineBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <orderby name="subAccountNumber" sort="ASC" />

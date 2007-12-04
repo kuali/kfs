@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.dao.ojb;
 
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,6 +25,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.sql.Date;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 
 import org.apache.ojb.broker.query.Criteria;
@@ -32,6 +34,8 @@ import org.apache.ojb.broker.query.ReportQueryByCriteria;
 
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.KualiInteger;
 
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.budget.BCConstants;
@@ -41,6 +45,7 @@ import org.kuali.module.budget.bo.PendingBudgetConstructionGeneralLedger;
 import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -65,8 +70,17 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         //  a key labeling the bduget construction general ledger rows for the budget period to be loaded.  
         //  it need not be an actual fiscal year.
         //
+        // set up the global variables
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear,
+                                                                        entrySequenceNumber(fiscalYear),
+                                                                        SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),
+                                                                        SpringContext.getBean(HomeOriginationService.class).
+                                                                        getHomeOrigination().getFinSystemHomeOriginationCode());
         //  set the transaction date
         BC_GL_LOAD_TRANSACTION_DATE = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+        //  get the origin code
+        String financialSystemOriginationCode = 
+            SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
         //  initialize the sequence numbers
         HashMap<String,Integer> entrySequenceMap = entrySequenceNumber(fiscalYear);
     }
@@ -112,18 +126,20 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      * This method creates a new generalLedgerPendingEntry object and initializes it with the default settings
      * for the budget construction general ledger load.
      * @param requestYear
+     * @param financialSystemOriginationCode
      * @return intiliazed GeneralLedgerPendingEntry business object
      */
     
-    private GeneralLedgerPendingEntry getNewPendingEntryWithDefaults(Integer requestYear)
+    private GeneralLedgerPendingEntry getNewPendingEntryWithDefaults(DaoGlobalVariables daoGlobalVariables)
     {
         GeneralLedgerPendingEntry newRow = new GeneralLedgerPendingEntry();
-        newRow.setUniversityFiscalYear(requestYear);
+        newRow.setUniversityFiscalYear(daoGlobalVariables.getRequestYear());
         newRow.setTransactionLedgerEntryDescription(BCConstants.BC_TRN_LDGR_ENTR_DESC);
         newRow.setFinancialDocumentTypeCode(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_DOCUMENT_TYPE);
         newRow.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-        newRow.setTransactionDate(BC_GL_LOAD_TRANSACTION_DATE);
+        newRow.setTransactionDate(daoGlobalVariables.getTransactionDate());
         newRow.setTransactionEntryOffsetIndicator(false);
+        newRow.setFinancialSystemOriginationCode(daoGlobalVariables.getFinancialSystemOriginationcode());
         // the fields below are set to null
         newRow.setOrganizationDocumentNumber(null);
         newRow.setProjectCode(null);
@@ -139,11 +155,80 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         return newRow;
     }
     
-    private void setUpGeneralLedgerPendingEntry (GeneralLedgerPendingEntry newRow,
-                                                 String BalanceType,
-                                                 String FiscalPeriod)
+    /**
+     * 
+     * This method completes the pending entry row based on the data returned from the DB
+     * @param newRow
+     * @param source annual budget construction GL row
+     * @param object containing global constants
+     */
+    private void writeGeneralLedgerPendingEntryFromAnnual (GeneralLedgerPendingEntry newRow,
+                                                           PendingBudgetConstructionGeneralLedger pbgl,
+                                                           DaoGlobalVariables daoGlobalVariables,
+                                                           DiagnosticCounters diagnosticCounters)
+    {   
+        // first get the document number
+        String incomingDocumentNumber = pbgl.getDocumentNumber();
+        // write a base budget row
+        newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+        newRow.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
+        // set the variable fields
+        newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
+        newRow.setDocumentNumber(incomingDocumentNumber);                                       // document number
+        newRow.setChartOfAccountsCode(pbgl.getChartOfAccountsCode());                           // chart of accounts
+        newRow.setAccountNumber(pbgl.getAccountNumber());                                       // account number
+        newRow.setSubAccountNumber(pbgl.getSubAccountNumber());                                 // sub account number
+        newRow.setFinancialObjectCode(pbgl.getFinancialObjectCode());                           // object code
+        newRow.setFinancialSubObjectCode(pbgl.getFinancialSubObjectCode());                     // sub object code
+        newRow.setFinancialObjectTypeCode(pbgl.getFinancialObjectTypeCode());                   // object type code
+        //  the budget works with whole numbers--we must convert to decimal for the general ledger
+        newRow.setTransactionLedgerEntryAmount(pbgl.getAccountLineAnnualBalanceAmount().kualiDecimalValue());
+        // now we store the base budget value
+        getPersistenceBrokerTemplate().store(newRow);
+        //
+        // the same row needs to be written as a current budget item
+        // we change only the balance type and the sequence number
+        newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
+        newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
+        // store the current budget value
+        getPersistenceBrokerTemplate().store(newRow);
+    }
+    
+    private void writeGeneralLedgerPendingEntryFromMonthly (GeneralLedgerPendingEntry newRow,
+                                                            BudgetConstructionMonthly pbglMonthly,
+                                                            DaoGlobalVariables daoGlobalVariables,
+                                                            DiagnosticCounters diagnosticCounters)  
+    throws IllegalAccessException, NoSuchMethodException, InvocationTargetException                                                        
     {
-        
+    // first get the document number
+    String incomingDocumentNumber = pbglMonthly.getDocumentNumber();
+    // write a base budget row
+    newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+    // set the variable fields
+    newRow.setDocumentNumber(incomingDocumentNumber);                                       // document number
+    newRow.setChartOfAccountsCode(pbglMonthly.getChartOfAccountsCode());                           // chart of accounts
+    newRow.setAccountNumber(pbglMonthly.getAccountNumber());                                       // account number
+    newRow.setSubAccountNumber(pbglMonthly.getSubAccountNumber());                                 // sub account number
+    newRow.setFinancialObjectCode(pbglMonthly.getFinancialObjectCode());                           // object code
+    newRow.setFinancialSubObjectCode(pbglMonthly.getFinancialSubObjectCode());                     // sub object code
+    newRow.setFinancialObjectTypeCode(pbglMonthly.getFinancialObjectTypeCode());                   // object type code
+    //
+    // we have to loop through the monthly array, and write an MB row for each monthly row with a non-zero amount
+    // we do this to write less code.  we hope that the extra hit from reflection won't be too bad
+    Iterator<String[]> monthlyPeriodAmounts = BCConstants.BC_MONTHLY_AMOUNTS.iterator();
+    while (monthlyPeriodAmounts.hasNext())
+    {
+        String[] monthlyPeriodProperties = monthlyPeriodAmounts.next();
+        KualiInteger monthlyAmount = (KualiInteger) PropertyUtils.getSimpleProperty(pbglMonthly,monthlyPeriodProperties[0]);
+            
+        if (!(monthlyAmount.isZero()))
+        {    
+           newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
+           newRow.setUniversityFiscalPeriodCode(monthlyPeriodProperties[1]);                        // accounting period
+           newRow.setTransactionLedgerEntryAmount(monthlyAmount.kualiDecimalValue());               // amount
+           getPersistenceBrokerTemplate().store(newRow);
+        }   
+    }    
     }
     
     
@@ -264,6 +349,83 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          }
          LOG.warn(String.format("\n\naccounting periods for %d changed to open status: %d",requestYear,new Integer(periodsOpened)));
      }
+     
+     /**
+      * 
+      * This class keeps a set of counters and provides a method to print them out
+      * This allows us to set up thread-local counters in the unlikely event this code is run by more than one thread
+      */
+     private class DiagnosticCounters
+     {
+         int budgetConstructionPendingGeneralLedgerRead    = 0;
+         int budgetConstructionPendingGeneralLedgerSkipped = 0;
+         int generalLedgerBaseBudgetWritten                = 0;
+         int generalLedgerCurrentBudgetWritten             = 0;
+         
+         int budgetConstructionMonthlyBudgetRead           = 0;
+         int budgetConstructionMonthlyBudgetSkipped        = 0;
+         int budgetConstructionMonthlyBudgetWritten        = 0;
+         
+         public void increaseBudgetConstructionPendingGeneralLedgerRead()
+         {
+             budgetConstructionPendingGeneralLedgerRead++;
+         }
+         
+         public void increaseBudgetConstructionPendingGeneralLedgerSkipped()
+         {
+             budgetConstructionPendingGeneralLedgerSkipped++;
+         }
+         
+         public void increaseGeneralLedgerBaseBudgetWritten()
+         {
+             generalLedgerBaseBudgetWritten++;
+         }
+         
+         public void increasGenneralLedgerCurrentBudgetWritten()
+         {
+             generalLedgerCurrentBudgetWritten++;
+         }
+         
+         public void writeDiagnosticCounters()
+         {
+             
+         }
+     }
+     
+     /**
+      * 
+      * This class allows us to create global variables and pass them around.  This should make the code thread safe, in the
+      * unlikely event it is called by more than one thread.
+      * @param requestYear
+      * @param <documentNumber, ledger sequence number> HashMap
+      * @param current SQL Date (which will be the transaction date)
+      * @param the "financial system Origination Code" for this database
+      */
+     private class DaoGlobalVariables 
+     {
+         private Integer requestYear;
+         private HashMap<String,Integer> entrySequenceNumber;
+         private Date transactionDate;
+         private String financialSystemOriginationCode;
+         public DaoGlobalVariables(Integer requestYear, HashMap<String,Integer> entrySequenceNumber, 
+                                        Date transactionDate, String financialSystemOriginationCode)
+         {
+             this.requestYear = requestYear;
+             this.entrySequenceNumber = entrySequenceNumber;
+             this.transactionDate = transactionDate;
+             this.financialSystemOriginationCode = financialSystemOriginationCode;
+         }
+         public Integer getRequestYear() { return this.requestYear;}
+         // this will return a copy of a pointer, which will point to the same hashMap and allow us to modify its contents
+         public Integer getNextSequenceNumber(String seqKey) {
+             Integer newSeqNumber = entrySequenceNumber.get(seqKey);
+             entrySequenceNumber.put(seqKey,new Integer(newSeqNumber.intValue()+1));
+             return newSeqNumber;
+             }
+         public Date getTransactionDate() { return this.transactionDate;}
+         public String getFinancialSystemOriginationcode() { return this.financialSystemOriginationCode;}
+     }
+     
     
     /****************************************************************************************************************
      *                                                 Utility methods                                              *                         
@@ -289,14 +451,19 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      *   @@TODO:  these are test methods--remove them                                                                *
      *****************************************************************************************************************/
     
-    public void unitTestRoutine(Integer LoadFiscalYear)
+    public void unitTestRoutine(Integer fiscalYear)
     {
         // 11/29/07testAccountElimination();
         // 11/29/07openAllAccountingPeriods(2010);
         // 11/30/08testSequenceNumbers(2008);
         //  we got a load exception--we have to initialize the date here
-        BC_GL_LOAD_TRANSACTION_DATE = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(2008);
+        //  we cannot do it in the variable declaration because the entire context may not be there yet
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear,
+                                                                        entrySequenceNumber(fiscalYear),
+                                                                        SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),
+                                                                        SpringContext.getBean(HomeOriginationService.class).
+                                                                        getHomeOrigination().getFinSystemHomeOriginationCode());
+        GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
         LOG.warn(String.format("\nGeneralLedgerPendingEntry initialized without incident"));
     }
     

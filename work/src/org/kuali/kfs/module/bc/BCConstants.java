@@ -15,10 +15,14 @@
  */
 package org.kuali.module.budget;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.kuali.core.JstlConstants;
+
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 
 public class BCConstants extends JstlConstants {
 
@@ -99,6 +103,25 @@ public class BCConstants extends JstlConstants {
     
     // the transaction ledger description for the general ledger budget load
     public final static String BC_TRN_LDGR_ENTR_DESC = "Beginning Budget Load";
-
-
+    
+    // this is a pairing of the OJB "property" for the monthly amount and its corresponding accounting period
+    public final static ArrayList<String[]> BC_MONTHLY_AMOUNTS = buildMonthlyProperties();
+    private static ArrayList<String[]>  buildMonthlyProperties ()
+    {
+        ArrayList<String[]> monthlyProperties = new ArrayList<String[]>(12);
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_1_LINE_AMOUNT,KFSConstants.MONTH1}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_2_LINE_AMOUNT,KFSConstants.MONTH2}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_3_LINE_AMOUNT,KFSConstants.MONTH3}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_4_LINE_AMOUNT,KFSConstants.MONTH4}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_5_LINE_AMOUNT,KFSConstants.MONTH5}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_6_LINE_AMOUNT,KFSConstants.MONTH6}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_7_LINE_AMOUNT,KFSConstants.MONTH7}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_8_LINE_AMOUNT,KFSConstants.MONTH8}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_9_LINE_AMOUNT,KFSConstants.MONTH9}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_10_LINE_AMOUNT,KFSConstants.MONTH10}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_11_LINE_AMOUNT,KFSConstants.MONTH11}));
+        monthlyProperties.add((new String[] {KFSPropertyConstants.FINANCIAL_DOCUMENT_MONTH_12_LINE_AMOUNT,KFSConstants.MONTH12}));
+        return monthlyProperties;
+    }
+   
 }

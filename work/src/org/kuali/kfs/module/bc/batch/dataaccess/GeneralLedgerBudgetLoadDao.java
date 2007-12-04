@@ -20,8 +20,8 @@ public interface GeneralLedgerBudgetLoadDao {
  *   param: fiscal year (or budget period key)
  *   this method loads the general ledger from the budget to the accounting general ledger
  */
-    public void LoadGeneralLedgerFromBudget(Integer FiscalYear);
+    public void LoadGeneralLedgerFromBudget(Integer fiscalYear);
     
     //@@TODO: remove this test method
-    public void unitTestRoutine(Integer FiscalYear);
+    public void unitTestRoutine(Integer fiscalYear);
 }

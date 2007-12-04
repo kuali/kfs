@@ -44,6 +44,7 @@ public class ParameterConstants {
     private static final String CAPITAL_ASSETS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CG";
     private static final String CONTRACTS_AND_GRANTS_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CG";
     private static final String CHART_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "CA";
+    private static final String EFFORT_REPORTING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "ER";
     private static final String FINANCIAL_PROCESSING_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "FP";
     private static final String GENERAL_LEDGER_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "GL";
     private static final String LABOR_NAMESPACE = FINANCIAL_NAMESPACE_PREFIX + "LD";
@@ -194,6 +195,26 @@ public class ParameterConstants {
     @NAMESPACE(namespace = CHART_NAMESPACE)
     @COMPONENT(component = BATCH_COMPONENT)
     public final class CHART_BATCH {
+    }
+    
+    @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
+    @COMPONENT(component = ALL_COMPONENT)
+    public final class EFFORT_REPORTING_ALL {
+    }
+
+    @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
+    @COMPONENT(component = DOCUMENT_COMPONENT)
+    public final class EFFORT_REPORTING_DOCUMENT {
+    }
+
+    @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
+    @COMPONENT(component = LOOKUP_COMPONENT)
+    public final class EFFORT_REPORTING_LOOKUP {
+    }
+
+    @NAMESPACE(namespace = EFFORT_REPORTING_NAMESPACE)
+    @COMPONENT(component = BATCH_COMPONENT)
+    public final class EFFORT_REPORTING_BATCH {
     }
 
     @NAMESPACE(namespace = FINANCIAL_PROCESSING_NAMESPACE)

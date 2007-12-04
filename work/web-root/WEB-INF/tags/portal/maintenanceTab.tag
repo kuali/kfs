@@ -26,6 +26,7 @@
       <maintenanceChannel:financialProcessing />
       <maintenanceChannel:preAward />
       <maintenanceChannel:postAward />
+      <maintenanceChannel:effortCertification /> 
 </td>
 <td class="content" valign="top">
       <maintenanceChannel:vendor />

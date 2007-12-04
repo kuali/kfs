@@ -122,7 +122,7 @@
                                             <td class="datacell center">
                                                 <kul:htmlControlAttribute attributeEntry="${itemAttributes.itemTypeCode}" 
                                                 	property="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeCode"
-                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemType.itemTypeDescription" 
+                                                	extraReadOnlyProperty="summaryAccounts[${ctr}].items[${ctrItem}].itemTypeDescription" 
                                                 	readOnly="true" />&nbsp;
                                             </td>
                                             <td class="datacell center">

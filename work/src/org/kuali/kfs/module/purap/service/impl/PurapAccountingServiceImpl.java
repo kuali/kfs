@@ -289,6 +289,7 @@ public class PurapAccountingServiceImpl implements PurapAccountingService {
                     if (purApAccountingLine.accountStringsAreEqual(summaryAccount.getAccount())) {
                         PurApSummaryItem summaryItem = item.getSummaryItem();
                         summaryItem.setEstimatedEncumberanceAmount(purApAccountingLine.getAmount());
+                        summaryItem.setItemTypeDescription(item.getItemType().getItemTypeDescription());
                         summaryAccount.getItems().add(summaryItem);
                         break;
                     }

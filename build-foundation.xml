@@ -75,7 +75,7 @@ are intended for use only by Kuali Foundation developers.
 
     	<!-- replace foundation database URLs -->
     	<replace file="temp/kuali_project/build/external/user/kuali-build.properties">
-    		<replacefilter token="mysql.datasource.url=jdbc:mysql://wsa127.uits.indiana.edu:3306/$${datasource.username}" 
+    		<replacefilter token="mysql.datasource.url=jdbc:mysql://esdbk01.uits.indiana.edu:3306/$${datasource.username}" 
     					   value="mysql.datasource.url=jdbc:mysql://localhost:3306/$${datasource.username}" />
     		<replacefilter token="oracle.datasource.url=jdbc:oracle:thin:@esdb12-k.uits.indiana.edu:1521:KUALI" 
     					   value="oracle.datasource.url=jdbc:oracle:thin:@localhost:1521:KUALI" />

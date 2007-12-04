@@ -71,19 +71,43 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         //  it need not be an actual fiscal year.
         //
         // set up the global variables
-        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear,
-                                                                        entrySequenceNumber(fiscalYear),
-                                                                        SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),
-                                                                        SpringContext.getBean(HomeOriginationService.class).
-                                                                        getHomeOrigination().getFinSystemHomeOriginationCode());
-        //  set the transaction date
-        BC_GL_LOAD_TRANSACTION_DATE = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        //  get the origin code
-        String financialSystemOriginationCode = 
-            SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
-        //  initialize the sequence numbers
-        HashMap<String,Integer> entrySequenceMap = entrySequenceNumber(fiscalYear);
-    }
+        // this is a single object that can be passed to all methods that need it, to make the code "thread safe"
+        // (1)  the fiscal year to load
+        // (2)  the initial sequence numbers for each document to be loaded
+        // (3)  the run date (which will be the transaction date)
+        // (4)  the "origination code", which comes from the database
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear);
+        // initiliaze the counter variables
+        DiagnosticCounters diagnosticCounters = new DiagnosticCounters();
+        // make sure all the accounting periods for the load year are open, so the entry lines we create can be posted
+        openAllAccountingPeriods(fiscalYear);
+        // process pending budget construction general ledger rows
+        loadPendingBudgetConstructionGeneralLedger(daoGlobalVariables,diagnosticCounters);
+        // process budget construction monthly budget rows
+        // (we have to catch exceptions which might be thrown by the reflection in the apache PropertyUtils)
+        try
+        {
+           loadBudgetConstructionMonthlyBudget (daoGlobalVariables, diagnosticCounters);
+        }
+        catch (IllegalAccessException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (InvocationTargetException ex)
+        {
+            ex.printStackTrace();
+        }
+        catch (NoSuchMethodException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            diagnosticCounters.writeDiagnosticCounters();
+        }
+        //write out the counts for verification
+        diagnosticCounters.writeDiagnosticCounters();
+     }
     
     /****************************************************************************************************************
      *                                  methods to do the actual load                                               *
@@ -155,6 +179,101 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         return newRow;
     }
     
+    private void loadBudgetConstructionMonthlyBudget (DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters)
+    throws IllegalAccessException, NoSuchMethodException, InvocationTargetException                                                        
+    {
+        QueryByCriteria queryID = queryForBudgetConstructionMonthly (daoGlobalVariables.getRequestYear());
+        Iterator<BudgetConstructionMonthly> monthlyBudgetRows = 
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (monthlyBudgetRows.hasNext())
+        {
+            BudgetConstructionMonthly monthlyBudgetIn = monthlyBudgetRows.next();
+            if (daoGlobalVariables.shouldThisAccountLoad(monthlyBudgetIn.getAccountNumber()+monthlyBudgetIn.getChartOfAccountsCode()))
+            {
+                diagnosticCounters.increaseBudgetConstructionMonthlyBudgetRead();
+                GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
+                writeGeneralLedgerPendingEntryFromMonthly(newRow, monthlyBudgetIn, daoGlobalVariables, diagnosticCounters);
+            }
+            else
+            {
+                diagnosticCounters.increaseBudgetConstructionMonthlyBudgetSkipped();
+            }
+        }
+    }
+    
+    /**
+     * 
+     * This method loads all the eligible pending budget construction general ledger rows
+     * @param daoGlobalVariables
+     * @param diagnosticCounters
+     */
+    private void loadPendingBudgetConstructionGeneralLedger(DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters)
+    {
+        QueryByCriteria queryID = queryForPendingBudgetConstructionGeneralLedger(daoGlobalVariables.getRequestYear());
+        Iterator<PendingBudgetConstructionGeneralLedger> pbglRows =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (pbglRows.hasNext())
+        {
+            PendingBudgetConstructionGeneralLedger pbglIn = pbglRows.next();
+            if (daoGlobalVariables.shouldThisAccountLoad(pbglIn.getAccountNumber()+pbglIn.getChartOfAccountsCode()))
+            {
+                diagnosticCounters.increaseBudgetConstructionPendingGeneralLedgerRead();
+                GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
+                writeGeneralLedgerPendingEntryFromAnnual(newRow,pbglIn,daoGlobalVariables,diagnosticCounters);
+            }
+            else
+            {
+                diagnosticCounters.increaseBudgetConstructionPendingGeneralLedgerSkipped();
+            }
+        }
+    }
+
+    /**
+     * 
+     * This method builds the query to fetch the monthly budget general ledger lines to be loaded
+     * @param fiscalYear : the year to be loaded
+     * @return query for fetching monthly budget rows
+     */
+    private QueryByCriteria queryForBudgetConstructionMonthly (Integer fiscalYear)
+    {
+        // we only select rows which have non-zero budget amounts
+        // on this object, proxy=true, so we can do a regular query for a business object instead of a report query
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,fiscalYear);
+        // we want to test for at least one non-zero monthly amount
+        Criteria orCriteriaID = new Criteria();
+        Iterator<String[]> monthlyPeriods = BCConstants.BC_MONTHLY_AMOUNTS.iterator();
+        while (monthlyPeriods.hasNext())
+        {
+            // the first array element is the amount field name (the second is the corresponding accounting period)
+            String monthlyAmountName = monthlyPeriods.next()[0];
+            Criteria amountCriteria = new Criteria();
+            amountCriteria.addNotEqualTo(monthlyAmountName,new KualiInteger(0));
+            orCriteriaID.addOrCriteria(amountCriteria);
+        }
+        criteriaID.addAndCriteria(orCriteriaID);
+        QueryByCriteria queryID = new QueryByCriteria(BudgetConstructionMonthly.class,criteriaID);
+        return queryID; 
+    }
+    
+    /**
+     * 
+     * This method builds the query to fetch the pending budget construction general ledger rows to be loaded
+     * @param fiscalYear: the year to be loaded 
+     * @return query for fetching pending budget construction GL rows
+     */
+    
+    private QueryByCriteria queryForPendingBudgetConstructionGeneralLedger(Integer fiscalYear)
+    {
+        // we only select rows which have non-zero budget amounts
+        // on this object, proxy=true, so we can do a regular query for a business object instead of a report query
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,fiscalYear);
+        criteriaID.addNotEqualTo(KFSPropertyConstants.ACCOUNT_LINE_ANNUAL_BALANCE_AMOUNT,new KualiInteger(0));
+        QueryByCriteria queryID = new QueryByCriteria(PendingBudgetConstructionGeneralLedger.class,criteriaID);
+        return queryID;
+    }
+    
     /**
      * 
      * This method completes the pending entry row based on the data returned from the DB
@@ -185,6 +304,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         newRow.setTransactionLedgerEntryAmount(pbgl.getAccountLineAnnualBalanceAmount().kualiDecimalValue());
         // now we store the base budget value
         getPersistenceBrokerTemplate().store(newRow);
+        diagnosticCounters.increaseGeneralLedgerBaseBudgetWritten();
         //
         // the same row needs to be written as a current budget item
         // we change only the balance type and the sequence number
@@ -192,6 +312,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
         // store the current budget value
         getPersistenceBrokerTemplate().store(newRow);
+        diagnosticCounters.increasGenneralLedgerCurrentBudgetWritten();
     }
     
     private void writeGeneralLedgerPendingEntryFromMonthly (GeneralLedgerPendingEntry newRow,
@@ -203,9 +324,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     // first get the document number
     String incomingDocumentNumber = pbglMonthly.getDocumentNumber();
     // write a base budget row
-    newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
+    newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET);
     // set the variable fields
-    newRow.setDocumentNumber(incomingDocumentNumber);                                       // document number
+    newRow.setDocumentNumber(incomingDocumentNumber);                                              // document number
     newRow.setChartOfAccountsCode(pbglMonthly.getChartOfAccountsCode());                           // chart of accounts
     newRow.setAccountNumber(pbglMonthly.getAccountNumber());                                       // account number
     newRow.setSubAccountNumber(pbglMonthly.getSubAccountNumber());                                 // sub account number
@@ -227,6 +348,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
            newRow.setUniversityFiscalPeriodCode(monthlyPeriodProperties[1]);                        // accounting period
            newRow.setTransactionLedgerEntryAmount(monthlyAmount.kualiDecimalValue());               // amount
            getPersistenceBrokerTemplate().store(newRow);
+           diagnosticCounters.increaseBudgetConstructionMonthlyBudgetWritten();
         }   
     }    
     }
@@ -350,6 +472,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          LOG.warn(String.format("\n\naccounting periods for %d changed to open status: %d",requestYear,new Integer(periodsOpened)));
      }
      
+     /**********************************************************************************************************************************
+      * These two classes are containers so we can make certain variables accessible to all methods without making them global to the  *
+      * outer class and without cluttering up the method signatures.                                                                   *
+      **********************************************************************************************************************************/
+     
      /**
       * 
       * This class keeps a set of counters and provides a method to print them out
@@ -357,14 +484,14 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
       */
      private class DiagnosticCounters
      {
-         int budgetConstructionPendingGeneralLedgerRead    = 0;
-         int budgetConstructionPendingGeneralLedgerSkipped = 0;
-         int generalLedgerBaseBudgetWritten                = 0;
-         int generalLedgerCurrentBudgetWritten             = 0;
+         long budgetConstructionPendingGeneralLedgerRead    = 0;
+         long budgetConstructionPendingGeneralLedgerSkipped = 0;
+         long generalLedgerBaseBudgetWritten                = 0;
+         long generalLedgerCurrentBudgetWritten             = 0;
          
-         int budgetConstructionMonthlyBudgetRead           = 0;
-         int budgetConstructionMonthlyBudgetSkipped        = 0;
-         int budgetConstructionMonthlyBudgetWritten        = 0;
+         long budgetConstructionMonthlyBudgetRead           = 0;
+         long budgetConstructionMonthlyBudgetSkipped        = 0;
+         long budgetConstructionMonthlyBudgetWritten        = 0;
          
          public void increaseBudgetConstructionPendingGeneralLedgerRead()
          {
@@ -386,9 +513,31 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
              generalLedgerCurrentBudgetWritten++;
          }
          
+         public void increaseBudgetConstructionMonthlyBudgetRead ()
+         {
+             budgetConstructionMonthlyBudgetRead++;
+         }
+         
+         public void increaseBudgetConstructionMonthlyBudgetSkipped ()
+         {
+             budgetConstructionMonthlyBudgetSkipped++;
+         }
+         
+         public void increaseBudgetConstructionMonthlyBudgetWritten ()
+         {
+             budgetConstructionMonthlyBudgetWritten++;
+         }
+         
          public void writeDiagnosticCounters()
          {
-             
+             LOG.warn(String.format("\n\nPending Budget Construction General Ledger Load\n"));
+             LOG.warn(String.format("\n  pending budget construction GL rows read:        %,d",budgetConstructionPendingGeneralLedgerRead));
+             LOG.warn(String.format("\n  pending budget construction GL rows skipped:     %,d",budgetConstructionPendingGeneralLedgerSkipped));
+             LOG.warn(String.format("\n\n  base budget rows written:                        %,d",generalLedgerBaseBudgetWritten));
+             LOG.warn(String.format("\n  current budget rows written:                     %,d",generalLedgerCurrentBudgetWritten));
+             LOG.warn(String.format("\n\n  pending budget construction monthly rows read:   %,d",budgetConstructionMonthlyBudgetRead));
+             LOG.warn(String.format("\n  pending budget construction monthly rows skipped: %,d",budgetConstructionMonthlyBudgetSkipped));
+             LOG.warn(String.format("\n  pending budget construction monthly rows written: %,d",budgetConstructionMonthlyBudgetWritten));
          }
      }
      
@@ -407,13 +556,15 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          private HashMap<String,Integer> entrySequenceNumber;
          private Date transactionDate;
          private String financialSystemOriginationCode;
-         public DaoGlobalVariables(Integer requestYear, HashMap<String,Integer> entrySequenceNumber, 
-                                        Date transactionDate, String financialSystemOriginationCode)
+         private HashSet<String> accountsNotToBeLoaded;
+         public DaoGlobalVariables(Integer requestYear)
          {
              this.requestYear = requestYear;
-             this.entrySequenceNumber = entrySequenceNumber;
-             this.transactionDate = transactionDate;
-             this.financialSystemOriginationCode = financialSystemOriginationCode;
+             this.entrySequenceNumber = entrySequenceNumber(requestYear);
+             this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+             this.financialSystemOriginationCode = 
+                 SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
+             this.accountsNotToBeLoaded = getAccountsNotToBeLoaded();
          }
          public Integer getRequestYear() { return this.requestYear;}
          // this will return a copy of a pointer, which will point to the same hashMap and allow us to modify its contents
@@ -424,6 +575,10 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
              }
          public Date getTransactionDate() { return this.transactionDate;}
          public String getFinancialSystemOriginationcode() { return this.financialSystemOriginationCode;}
+         public boolean shouldThisAccountLoad(String accountAndChart)
+         {
+             return (!accountsNotToBeLoaded.contains(accountAndChart));
+         }
      }
      
     
@@ -455,16 +610,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     {
         // 11/29/07testAccountElimination();
         // 11/29/07openAllAccountingPeriods(2010);
-        // 11/30/08testSequenceNumbers(2008);
-        //  we got a load exception--we have to initialize the date here
+        // 11/30/07testSequenceNumbers(2008);
+        //  we got a load exception--we have to initialize the date in the creating the global variables object
         //  we cannot do it in the variable declaration because the entire context may not be there yet
-        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear,
-                                                                        entrySequenceNumber(fiscalYear),
-                                                                        SpringContext.getBean(DateTimeService.class).getCurrentSqlDate(),
-                                                                        SpringContext.getBean(HomeOriginationService.class).
-                                                                        getHomeOrigination().getFinSystemHomeOriginationCode());
-        GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
-        LOG.warn(String.format("\nGeneralLedgerPendingEntry initialized without incident"));
+        // 12/04/07testDefaults(fiscalYear);
+        testSQL(fiscalYear);
     }
     
     private void testAccountElimination()
@@ -483,6 +633,35 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         }
     }
     
+    private void testDefaults(Integer fiscalYear)
+    {
+        String maxDoc = new String("");
+        String minDoc = new String("");
+        // this part tests the routine that initializes a new entry row with the common values
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear);
+        GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
+        LOG.warn(String.format("\nGeneralLedgerPendingEntry initialized without incident"));
+        //  we also want to test whether the entry sequence numbers are updated properly
+        //  this part does that
+       ReportQueryByCriteria queryID = new ReportQueryByCriteria(BudgetConstructionHeader.class,ReportQueryByCriteria.CRITERIA_SELECT_ALL);
+       String[] selectList = new String[] {"MAX("+KFSPropertyConstants.DOCUMENT_NUMBER+")",
+                                           "MIN("+KFSPropertyConstants.DOCUMENT_NUMBER+")"};
+       queryID.setAttributes(selectList);
+       Iterator<Object[]> returnedRows = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
+       while (returnedRows.hasNext())
+       {
+           Object[] returnedValues = returnedRows.next();
+           maxDoc = (String) returnedValues[0];
+           minDoc = (String) returnedValues[1];
+       }
+       LOG.warn(String.format("\n\nentry sequence iterations for (%s,%s): the returned number should autoincrement",maxDoc,minDoc));
+       for (int i = 1; i<=3; i++)
+       {
+           LOG.warn(String.format("\n  %s: entry sequence %d",maxDoc,daoGlobalVariables.getNextSequenceNumber(maxDoc)));
+           LOG.warn(String.format("\n  %s: entry sequence %d",minDoc,daoGlobalVariables.getNextSequenceNumber(minDoc)));
+       }
+    }
+    
     private void testSequenceNumbers(Integer requestYear)
     {
         HashMap<String,Integer>  seqNos = entrySequenceNumber(requestYear);
@@ -497,4 +676,24 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         }
     }
 
+    private void testSQL(Integer requestYear)
+    {
+        DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (requestYear);
+        DiagnosticCounters diagnosticCounters = new DiagnosticCounters();
+        QueryByCriteria queryID = queryForPendingBudgetConstructionGeneralLedger(daoGlobalVariables.getRequestYear());
+        Iterator<PendingBudgetConstructionGeneralLedger> pbglRows =
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (pbglRows.hasNext())
+        {
+            diagnosticCounters.increaseBudgetConstructionPendingGeneralLedgerRead();
+        }
+        queryID = queryForBudgetConstructionMonthly (daoGlobalVariables.getRequestYear());
+        Iterator<BudgetConstructionMonthly> monthlyBudgetRows = 
+            getPersistenceBrokerTemplate().getIteratorByQuery(queryID);
+        while (monthlyBudgetRows.hasNext())
+        {
+            diagnosticCounters.increaseBudgetConstructionMonthlyBudgetRead();
+        }
+        diagnosticCounters.writeDiagnosticCounters();
+    }
 }

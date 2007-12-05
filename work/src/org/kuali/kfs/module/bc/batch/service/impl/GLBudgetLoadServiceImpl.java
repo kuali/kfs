@@ -15,6 +15,8 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import org.apache.log4j.Logger;
+
 import org.kuali.module.budget.dao.GeneralLedgerBudgetLoadDao;
 import org.kuali.module.budget.service.GLBudgetLoadService;
 import org.kuali.module.budget.service.GenesisService;
@@ -35,17 +37,24 @@ public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
     
     private GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao;
 
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(GLBudgetLoadServiceImpl.class);
+
     
     public void loadPendingBCGL(Integer FiscalYear)
     {
-       generalLedgerBudgetLoadDao.unitTestRoutine(FiscalYear);
+//       generalLedgerBudgetLoadDao.unitTestRoutine(FiscalYear);
+       LOG.warn(String.format("\n\n********Budget construction general ledger load started for %d********",FiscalYear)); 
+       generalLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget(FiscalYear); 
+       LOG.warn(String.format("\n\n********Budget construction general ledger load ended********")); 
     }
 //
 //  load for the fiscal year following the fiscal year of the current date
     public void loadPendingBCGL()
     {
        Integer nextFiscalYear = KNSServiceLocator.getBean(GenesisService.class).genesisFiscalYearFromToday()+1;
+       LOG.warn(String.format("\n\n********Budget construction general ledger load started for %d********",nextFiscalYear)); 
        loadPendingBCGL(nextFiscalYear);
+       LOG.warn(String.format("\n\n********Budget construction general ledger load ended********")); 
     }
 
     public void setGeneralLedgerBudgetLoadDao(GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao)

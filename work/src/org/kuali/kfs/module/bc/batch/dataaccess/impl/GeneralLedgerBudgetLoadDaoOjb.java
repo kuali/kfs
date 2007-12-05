@@ -188,9 +188,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         while (monthlyBudgetRows.hasNext())
         {
             BudgetConstructionMonthly monthlyBudgetIn = monthlyBudgetRows.next();
+            diagnosticCounters.increaseBudgetConstructionMonthlyBudgetRead();
             if (daoGlobalVariables.shouldThisAccountLoad(monthlyBudgetIn.getAccountNumber()+monthlyBudgetIn.getChartOfAccountsCode()))
             {
-                diagnosticCounters.increaseBudgetConstructionMonthlyBudgetRead();
                 GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
                 writeGeneralLedgerPendingEntryFromMonthly(newRow, monthlyBudgetIn, daoGlobalVariables, diagnosticCounters);
             }
@@ -215,9 +215,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         while (pbglRows.hasNext())
         {
             PendingBudgetConstructionGeneralLedger pbglIn = pbglRows.next();
+            diagnosticCounters.increaseBudgetConstructionPendingGeneralLedgerRead();
             if (daoGlobalVariables.shouldThisAccountLoad(pbglIn.getAccountNumber()+pbglIn.getChartOfAccountsCode()))
             {
-                diagnosticCounters.increaseBudgetConstructionPendingGeneralLedgerRead();
                 GeneralLedgerPendingEntry newRow = getNewPendingEntryWithDefaults(daoGlobalVariables);
                 writeGeneralLedgerPendingEntryFromAnnual(newRow,pbglIn,daoGlobalVariables,diagnosticCounters);
             }

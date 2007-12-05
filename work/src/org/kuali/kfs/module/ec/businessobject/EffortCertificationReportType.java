@@ -26,7 +26,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class EffortCertificationReportType extends PersistableBusinessObjectBase {
     private String effortCertificationReportTypeCode;
     private String effortCertificationReportDescription;
-    private boolean rowActiveIndicator;
+    private boolean active;
 
     /**
      * Default constructor.
@@ -72,26 +72,21 @@ public class EffortCertificationReportType extends PersistableBusinessObjectBase
         this.effortCertificationReportDescription = effortCertificationReportDescription;
     }
 
-
     /**
-     * Gets the rowActiveIndicator attribute.
-     * 
-     * @return Returns the rowActiveIndicator
+     * Gets the active attribute. 
+     * @return Returns the active.
      */
-    public boolean isRowActiveIndicator() {
-        return rowActiveIndicator;
+    public boolean isActive() {
+        return active;
     }
 
-
     /**
-     * Sets the rowActiveIndicator attribute.
-     * 
-     * @param rowActiveIndicator The rowActiveIndicator to set.
+     * Sets the active attribute value.
+     * @param active The active to set.
      */
-    public void setRowActiveIndicator(boolean rowActiveIndicator) {
-        this.rowActiveIndicator = rowActiveIndicator;
+    public void setActive(boolean active) {
+        this.active = active;
     }
-
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

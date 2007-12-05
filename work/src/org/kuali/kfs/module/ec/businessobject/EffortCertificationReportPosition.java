@@ -9,8 +9,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class EffortCertificationReportPosition extends PersistableBusinessObjectBase {
     private Integer universityFiscalYear;
-    private String a21LaborReportNumber;
-    private String a21LaborReportPositionObjectGroupCode;
+    private String effortCertificationReportNumber;
+    private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
 
     /**
@@ -21,91 +21,80 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
         return universityFiscalYear;
     }
 
     /**
-     * Sets the universityFiscalYear attribute.
-     * 
+     * Sets the universityFiscalYear attribute value.
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
-
     /**
-     * Gets the a21LaborReportNumber attribute.
-     * 
-     * @return Returns the a21LaborReportNumber
+     * Gets the effortCertificationReportNumber attribute. 
+     * @return Returns the effortCertificationReportNumber.
      */
-    public String getA21LaborReportNumber() {
-        return a21LaborReportNumber;
+    public String getEffortCertificationReportNumber() {
+        return effortCertificationReportNumber;
     }
 
     /**
-     * Sets the a21LaborReportNumber attribute.
-     * 
-     * @param a21LaborReportNumber The a21LaborReportNumber to set.
+     * Sets the effortCertificationReportNumber attribute value.
+     * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
-    public void setA21LaborReportNumber(String a21LaborReportNumber) {
-        this.a21LaborReportNumber = a21LaborReportNumber;
-    }
-
-
-    /**
-     * Gets the a21LaborReportPositionObjectGroupCode attribute.
-     * 
-     * @return Returns the a21LaborReportPositionObjectGroupCode
-     */
-    public String getA21LaborReportPositionObjectGroupCode() {
-        return a21LaborReportPositionObjectGroupCode;
+    public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
+        this.effortCertificationReportNumber = effortCertificationReportNumber;
     }
 
     /**
-     * Sets the a21LaborReportPositionObjectGroupCode attribute.
-     * 
-     * @param a21LaborReportPositionObjectGroupCode The a21LaborReportPositionObjectGroupCode to set.
+     * Gets the effortCertificationReportPositionObjectGroupCode attribute. 
+     * @return Returns the effortCertificationReportPositionObjectGroupCode.
      */
-    public void setA21LaborReportPositionObjectGroupCode(String a21LaborReportPositionObjectGroupCode) {
-        this.a21LaborReportPositionObjectGroupCode = a21LaborReportPositionObjectGroupCode;
+    public String getEffortCertificationReportPositionObjectGroupCode() {
+        return effortCertificationReportPositionObjectGroupCode;
     }
 
+    /**
+     * Sets the effortCertificationReportPositionObjectGroupCode attribute value.
+     * @param effortCertificationReportPositionObjectGroupCode The effortCertificationReportPositionObjectGroupCode to set.
+     */
+    public void setEffortCertificationReportPositionObjectGroupCode(String effortCertificationReportPositionObjectGroupCode) {
+        this.effortCertificationReportPositionObjectGroupCode = effortCertificationReportPositionObjectGroupCode;
+    }
 
     /**
-     * Gets the active attribute.
-     * 
-     * @return Returns the active
+     * Gets the active attribute. 
+     * @return Returns the active.
      */
     public boolean isActive() {
         return active;
     }
 
     /**
-     * Sets the active attribute.
-     * 
+     * Sets the active attribute value.
      * @param active The active to set.
      */
     public void setActive(boolean active) {
         this.active = active;
     }
-
-
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {
             m.put("universityFiscalYear", this.universityFiscalYear.toString());
         }
-        m.put("a21LaborReportNumber", this.a21LaborReportNumber);
-        m.put("a21LaborReportPositionObjectGroupCode", this.a21LaborReportPositionObjectGroupCode);
+        m.put("effortCertificationReportNumber", this.effortCertificationReportNumber);
+        m.put("effortCertificationReportPositionObjectGroupCode", this.effortCertificationReportPositionObjectGroupCode);
         return m;
     }
 }

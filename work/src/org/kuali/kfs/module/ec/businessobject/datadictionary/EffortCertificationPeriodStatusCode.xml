@@ -25,8 +25,8 @@
             <title>Effort Certification Period Status Code Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="reportPeriodStatusCode" />
-                <field attributeName="reportPeriodStatusDescription" />
+                <field attributeName="effortCertificationReportPeriodStatusCode" />
+                <field attributeName="effortCertificationReportPeriodStatusDescription" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -37,23 +37,23 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="reportPeriodStatusCode" />
+                    <sortAttribute attributeName="effortCertificationReportPeriodStatusCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="reportPeriodStatusCode" required="false" />
+                <lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="reportPeriodStatusCode" />
-                <field attributeName="reportPeriodStatusDescription" />
+                <field attributeName="effortCertificationReportPeriodStatusCode" />
+                <field attributeName="effortCertificationReportPeriodStatusDescription" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="reportPeriodStatusCode" forceUppercase="true">
+            <attribute name="effortCertificationReportPeriodStatusCode" forceUppercase="true">
                 <label>Effort Certification Report Period Status Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -68,7 +68,7 @@
                 <description>Effort Certification Report Period Status Code</description>
 			</attribute>
 
-            <attribute name="reportPeriodStatusDescription" forceUppercase="true">
+            <attribute name="effortCertificationReportPeriodStatusDescription" forceUppercase="true">
                 <label>Effort Certification Report Period Status Description</label>
                 <shortLabel>Description</shortLabel>
 

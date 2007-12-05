@@ -35,10 +35,10 @@
 		<documentTypeName>EffortCertificationReportTypeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARTY</documentTypeCode>
 
-		<label>Effort Certification Report Type Code Maintenance Document</label>
+		<label>Effort Certification Report Type Maintenance Document</label>
 		<shortLabel>Effort Cert Report Type Maintenance Document</shortLabel>
 		
-		<summary>Effort Certification Report Type Code Maintenance Document</summary>
+		<summary>Effort Certification Report Type Maintenance Document</summary>
 		<description>Document used to create or update Effort Certification Report Type</description>
         <help parameterNamespace="KFS-LD" parameterDetailType="LaborBenefitCalculation" parameterName="LABOR_BENEFIT_CALCULATION" />
 
@@ -51,7 +51,7 @@
 	        	<maintainableItems>
 	            	<maintainableField name="effortCertificationReportTypeCode" required="true" />
 	            	<maintainableField name="effortCertificationReportDescription" required="true" />
-	            	<maintainableField name="rowActiveIndicator" required="true"/>
+	            	<maintainableField name="active" required="true"/>
 	            	<maintainableField name="versionNumber" />	            	
 	         	</maintainableItems>
 	        </maintainableSection>

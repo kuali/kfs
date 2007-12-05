@@ -20,56 +20,59 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="effortCertificationReportDescription" column="A21_LBR_RPT_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="rowActiveIndicator" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" table="LD_A21_PRD_STAT_T">
-	<field-descriptor name="reportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="reportPeriodStatusDescription" column="LBR_PRD_STAT_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationReportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationReportPeriodStatusDescription" column="LBR_PRD_STAT_DESC" jdbc-type="VARCHAR"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationReportDefinition" table="LD_A21_REPORT_T">
-    <field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="a21LaborReportFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true" />
+    <field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+
+    <field-descriptor name="effortCertificationReportPeriodTitle" column="A21LBR_RPT_PRD_TTL" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationReportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="expenseTransferFiscalYear" column="LBR_ET_FSCL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="expenseTransferFiscalPeriodCode" column="LBR_ET_FSCL_PRD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationReportReturnDate" column="A21LBR_RPT_RTRN_DT" jdbc-type="DATE" />
+    <field-descriptor name="effortCertificationReportBeginFiscalYear" column="LBR_RPT_BEG_FSCL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationReportBeginPeriodCode" column="LBR_RPT_BEG_FSCL_PRD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationReportEndFiscalYear" column="LBR_RPT_END_FSCL_YR" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationReportEndPeriodCode" column="LBR_RPT_END_FSCL_PRD_CD" jdbc-type="VARCHAR" />
+    
+    <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="a21LaborReportPeriodTitle" column="A21LBR_RPT_PRD_TTL" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborReportPeriodStatusCode" column="LBR_RPT_PRDSTAT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborExpenseTransferFiscalYear" column="LBR_ET_FSCL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborExpenseTransferFiscalPeriodCode" column="LBR_ET_FSCL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborReportReturnDate" column="A21LBR_RPT_RTRN_DT" jdbc-type="DATE" />
-    <field-descriptor name="a21LaborReportBeginFiscalYear" column="LBR_RPT_BEG_FSCL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborReportBeginPeriodCode" column="LBR_RPT_BEG_FSCL_PRD_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborReportEndFiscalYear" column="LBR_RPT_END_FSCL_YR" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborReportEndPeriodCode" column="LBR_RPT_END_FSCL_PRD_CD" jdbc-type="VARCHAR" />
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-    <reference-descriptor name="a21LaborExpenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborExpenseTransferFiscalYear" />
-        <foreignkey field-ref="a21LaborExpenseTransferFiscalPeriodCode" />
+
+    <reference-descriptor name="expenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="expenseTransferFiscalYear" />
+        <foreignkey field-ref="expenseTransferFiscalPeriodCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="reportPeriodStatus" class-ref="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportPeriodStatusCode" />
+    <reference-descriptor name="effortCertificationPeriodStatusCode" class-ref="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportPeriodStatusCode" />
     </reference-descriptor>
     
-    <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportTypeCode" />
+    <reference-descriptor name="effortCertificationReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportTypeCode" />
     </reference-descriptor>
     
     <collection-descriptor name="effortCertificationReportPositions" element-class-ref="org.kuali.module.effort.bo.EffortCertificationReportPosition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
-        <orderby name="a21LaborReportPositionObjectGroupCode" sort="ASC" />
+        <orderby name="effortCertificationReportPositionObjectGroupCode" sort="ASC" />
         <inverse-foreignkey field-ref="universityFiscalYear" />
-        <inverse-foreignkey field-ref="a21LaborReportNumber" />
+        <inverse-foreignkey field-ref="effortCertificationReportNumber" />
     </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationReportPosition" table="LD_A21_RPT_POS_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborReportPositionObjectGroupCode" column="LBR_RPT_POSOBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationReportPositionObjectGroupCode" column="LBR_RPT_POSOBJ_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
@@ -77,15 +80,15 @@
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup" table="LD_A21_RPT_EARN_PAY_T">
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationReportTypeCode" column="A21_LBR_RPT_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="earnCode" column="ERNCD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="payGroup" column="PAYGROUP" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
-    <reference-descriptor name="a21LaborReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportTypeCode" />
+    <reference-descriptor name="effortCertificationReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportTypeCode" />
     </reference-descriptor>
 </class-descriptor>
 

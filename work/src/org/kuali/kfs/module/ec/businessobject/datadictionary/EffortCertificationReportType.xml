@@ -22,19 +22,19 @@
 
 
         <inquiry>
-            <title>Effort Certification Report Type Code Inquiry</title>
+            <title>Effort Certification Report Type Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="effortCertificationReportDescription" />
-                <field attributeName="rowActiveIndicator" />
+                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Report Type Code Lookup</title>
+            <title>Effort Certification Report Type Lookup</title>
 
-            <instructions>Look up an Effort Certification Report Type Code</instructions>
+            <instructions>Look Up Effort Certification Report Type</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -44,13 +44,13 @@
 
             <lookupFields>
                 <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
-                <lookupField attributeName="rowActiveIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="effortCertificationReportDescription" />
-                <field attributeName="rowActiveIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -86,20 +86,7 @@
                 <description>Effort Certification Report Type Code</description>
 			</attribute>
 
-            <attribute name="rowActiveIndicator" forceUppercase="true">
-                <label>Row Active Indicator</label>
-                <shortLabel>Indicator</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>row Active Indicator</summary>
-                <description>row Active Indicator</description>
-			</attribute>
-
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

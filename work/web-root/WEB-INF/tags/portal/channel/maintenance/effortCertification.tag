@@ -28,6 +28,11 @@
 			<portal:portalLink displayTitle="true"
 				title="Report Status Code"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>		
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="Report Definition"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 	</ul>
 </div>

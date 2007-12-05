@@ -23,8 +23,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  * Business Object for the Effort Certification Report Status Code Table.
  */
 public class EffortCertificationPeriodStatusCode extends PersistableBusinessObjectBase {
-    private String reportPeriodStatusCode;
-    private String reportPeriodStatusDescription;
+    private String effortCertificationReportPeriodStatusCode;
+    private String effortCertificationReportPeriodStatusDescription;
 
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.
@@ -34,39 +34,35 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     }
 
     /**
-     * Gets report period status description
-     * 
-     * @return laborPeriodStausDescription
+     * Gets the effortCertificationReportPeriodStatusCode attribute. 
+     * @return Returns the effortCertificationReportPeriodStatusCode.
      */
-    public String getReportPeriodStatusDescription() {
-        return reportPeriodStatusDescription;
+    public String getEffortCertificationReportPeriodStatusCode() {
+        return effortCertificationReportPeriodStatusCode;
     }
 
     /**
-     * Sets report period status description
-     * 
-     * @param reportPeriodStatusDescription
+     * Sets the effortCertificationReportPeriodStatusCode attribute value.
+     * @param effortCertificationReportPeriodStatusCode The effortCertificationReportPeriodStatusCode to set.
      */
-    public void setReportPeriodStatusDescription(String reportPeriodStatusDescription) {
-        this.reportPeriodStatusDescription = reportPeriodStatusDescription;
+    public void setEffortCertificationReportPeriodStatusCode(String effortCertificationReportPeriodStatusCode) {
+        this.effortCertificationReportPeriodStatusCode = effortCertificationReportPeriodStatusCode;
     }
 
     /**
-     * Gets the report period status code
-     * 
-     * @return reportPeriodStatusCode
+     * Gets the effortCertificationReportPeriodStatusDescription attribute. 
+     * @return Returns the effortCertificationReportPeriodStatusDescription.
      */
-    public String getReportPeriodStatusCode() {
-        return reportPeriodStatusCode;
+    public String getEffortCertificationReportPeriodStatusDescription() {
+        return effortCertificationReportPeriodStatusDescription;
     }
 
     /**
-     * Sets the report period status code
-     * 
-     * @param reportPeriodStatusCode
+     * Sets the effortCertificationReportPeriodStatusDescription attribute value.
+     * @param effortCertificationReportPeriodStatusDescription The effortCertificationReportPeriodStatusDescription to set.
      */
-    public void setReportPeriodStatusCode(String reportPeriodStatusCode) {
-        this.reportPeriodStatusCode = reportPeriodStatusCode;
+    public void setEffortCertificationReportPeriodStatusDescription(String effortCertificationReportPeriodStatusDescription) {
+        this.effortCertificationReportPeriodStatusDescription = effortCertificationReportPeriodStatusDescription;
     }
 
     /**
@@ -75,7 +71,7 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     @Override
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        m.put("reportPeriodStatusCode", this.reportPeriodStatusCode);
+        m.put("effortCertificationReportPeriodStatusCode", this.effortCertificationReportPeriodStatusCode);
         return m;
     }
 

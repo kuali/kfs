@@ -43,7 +43,7 @@
         <help parameterNamespace="KFS-LD" parameterDetailType="LaborObjectBenefit" parameterName="LABOR_OBJECT_BENEFIT" />
 
         <lockingKeys>
-			<field attributeName="reportPeriodStatusCode" />
+			<field attributeName="effortCertificationReportPeriodStatusCode" />
 		</lockingKeys>         
 
         <allowsNewOrCopy>false</allowsNewOrCopy>
@@ -51,8 +51,8 @@
 	    <maintainableSections>
 	        <maintainableSection title="Edit Effort Certification Period Status Code">
 	        	<maintainableItems>
-	            	<maintainableField name="reportPeriodStatusCode" required="true" />
-	            	<maintainableField name="reportPeriodStatusDescription" required="true" />
+	            	<maintainableField name="effortCertificationReportPeriodStatusCode" required="true" />
+	            	<maintainableField name="effortCertificationReportPeriodStatusDescription" required="true" />
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

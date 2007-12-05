@@ -27,181 +27,292 @@ import org.kuali.module.chart.bo.AccountingPeriod;
  * Business Object for the Effort Certification Report Definition Table.
  */
 public class EffortCertificationReportDefinition extends PersistableBusinessObjectBase {
-    private String a21LaborReportNumber;
-    private String a21LaborReportPeriodTitle;
-    private String a21LaborReportPeriodStatusCode;
-    private Integer a21LaborExpenseTransferFiscalYear;
-    private String a21LaborExpenseTransferFiscalPeriodCode;
-    private String a21LaborReportTypeCode;
-    private Integer a21LaborReportFiscalYear;
-    private Date a21LaborReportReturnDate;
-    private Integer a21LaborReportBeginFiscalYear;
-    private String a21LaborReportBeginPeriodCode;
-    private Integer a21LaborReportEndFiscalYear;
-    private String a21LaborReportEndPeriodCode;
-    private boolean active;
     
-    private AccountingPeriod a21LaborExpenseTransferFiscalPeriod;
-    private EffortCertificationPeriodStatusCode reportPeriodStatus;
-    private EffortCertificationReportType a21LaborReportType;
+    private Integer universityFiscalYear;
+    private String effortCertificationReportNumber;
+    private String effortCertificationReportPeriodTitle;
+    private String effortCertificationReportPeriodStatusCode;
+    private Integer expenseTransferFiscalYear;
+    private String expenseTransferFiscalPeriodCode;
+    private String effortCertificationReportTypeCode;
+    private Date effortCertificationReportReturnDate;
+    private Integer effortCertificationReportBeginFiscalYear;
+    private String effortCertificationReportBeginPeriodCode;
+    private Integer effortCertificationReportEndFiscalYear;
+    private String effortCertificationReportEndPeriodCode;
+    private boolean active;
+
+    private AccountingPeriod expenseTransferFiscalPeriod;
+    private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
+    private EffortCertificationReportType effortCertificationReportType;
     private Collection<EffortCertificationReportPosition> effortCertificationReportPositions;
 
     /**
-     * Default constructor.
+     * Constructs a EffortCertificationReportDefinition.java.
      */
     public EffortCertificationReportDefinition() {
-
+        super();
+    }
+    
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
     }
 
     /**
-     * Gets the a21LaborReportNumber attribute.
-     * 
-     * @return Returns the a21LaborReportNumber
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
      */
-    public String getA21LaborReportNumber() {
-        return a21LaborReportNumber;
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
     }
 
     /**
-     * Sets the a21LaborReportNumber attribute.
-     * 
-     * @param a21LaborReportNumber The a21LaborReportNumber to set.
+     * Gets the effortCertificationReportNumber attribute. 
+     * @return Returns the effortCertificationReportNumber.
      */
-    public void setA21LaborReportNumber(String a21LaborReportNumber) {
-        this.a21LaborReportNumber = a21LaborReportNumber;
+    public String getEffortCertificationReportNumber() {
+        return effortCertificationReportNumber;
     }
 
     /**
-     * Gets the a21LaborReportPeriodTitle attribute.
-     * 
-     * @return Returns the a21LaborReportPeriodTitle
+     * Sets the effortCertificationReportNumber attribute value.
+     * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
-    public String getA21LaborReportPeriodTitle() {
-        return a21LaborReportPeriodTitle;
+    public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
+        this.effortCertificationReportNumber = effortCertificationReportNumber;
     }
 
     /**
-     * Sets the a21LaborReportPeriodTitle attribute.
-     * 
-     * @param a21LaborReportPeriodTitle The a21LaborReportPeriodTitle to set.
+     * Gets the effortCertificationReportPeriodTitle attribute. 
+     * @return Returns the effortCertificationReportPeriodTitle.
      */
-    public void setA21LaborReportPeriodTitle(String a21LaborReportPeriodTitle) {
-        this.a21LaborReportPeriodTitle = a21LaborReportPeriodTitle;
-    }
-
-
-    /**
-     * Gets the a21LaborReportPeriodStatusCode attribute.
-     * 
-     * @return Returns the a21LaborReportPeriodStatusCode
-     */
-    public String getA21LaborReportPeriodStatusCode() {
-        return a21LaborReportPeriodStatusCode;
+    public String getEffortCertificationReportPeriodTitle() {
+        return effortCertificationReportPeriodTitle;
     }
 
     /**
-     * Sets the a21LaborReportPeriodStatusCode attribute.
-     * 
-     * @param a21LaborReportPeriodStatusCode The a21LaborReportPeriodStatusCode to set.
+     * Sets the effortCertificationReportPeriodTitle attribute value.
+     * @param effortCertificationReportPeriodTitle The effortCertificationReportPeriodTitle to set.
      */
-    public void setA21LaborReportPeriodStatusCode(String a21LaborReportPeriodStatusCode) {
-        this.a21LaborReportPeriodStatusCode = a21LaborReportPeriodStatusCode;
+    public void setEffortCertificationReportPeriodTitle(String effortCertificationReportPeriodTitle) {
+        this.effortCertificationReportPeriodTitle = effortCertificationReportPeriodTitle;
     }
 
     /**
-     * Gets the a21LaborExpenseTransferFiscalYear attribute.
-     * 
-     * @return Returns the a21LaborExpenseTransferFiscalYear
+     * Gets the effortCertificationReportPeriodStatusCode attribute. 
+     * @return Returns the effortCertificationReportPeriodStatusCode.
      */
-    public Integer getA21LaborExpenseTransferFiscalYear() {
-        return a21LaborExpenseTransferFiscalYear;
+    public String getEffortCertificationReportPeriodStatusCode() {
+        return effortCertificationReportPeriodStatusCode;
     }
 
     /**
-     * Sets the a21LaborExpenseTransferFiscalYear attribute.
-     * 
-     * @param a21LaborExpenseTransferFiscalYear The a21LaborExpenseTransferFiscalYear to set.
+     * Sets the effortCertificationReportPeriodStatusCode attribute value.
+     * @param effortCertificationReportPeriodStatusCode The effortCertificationReportPeriodStatusCode to set.
      */
-    public void setA21LaborExpenseTransferFiscalYear(Integer a21LaborExpenseTransferFiscalYear) {
-        this.a21LaborExpenseTransferFiscalYear = a21LaborExpenseTransferFiscalYear;
-    }
-
-
-    /**
-     * Gets the a21LaborExpenseTransferFiscalPeriodCode attribute.
-     * 
-     * @return Returns the a21LaborExpenseTransferFiscalPeriodCode
-     */
-    public String getA21LaborExpenseTransferFiscalPeriodCode() {
-        return a21LaborExpenseTransferFiscalPeriodCode;
+    public void setEffortCertificationReportPeriodStatusCode(String effortCertificationReportPeriodStatusCode) {
+        this.effortCertificationReportPeriodStatusCode = effortCertificationReportPeriodStatusCode;
     }
 
     /**
-     * Sets the a21LaborExpenseTransferFiscalPeriodCode attribute.
-     * 
-     * @param a21LaborExpenseTransferFiscalPeriodCode The a21LaborExpenseTransferFiscalPeriodCode to set.
+     * Gets the expenseTransferFiscalYear attribute. 
+     * @return Returns the expenseTransferFiscalYear.
      */
-    public void setA21LaborExpenseTransferFiscalPeriodCode(String a21LaborExpenseTransferFiscalPeriodCode) {
-        this.a21LaborExpenseTransferFiscalPeriodCode = a21LaborExpenseTransferFiscalPeriodCode;
-    }
-
-
-    /**
-     * Gets the a21LaborReportTypeCode attribute.
-     * 
-     * @return Returns the a21LaborReportTypeCode
-     */
-    public String getA21LaborReportTypeCode() {
-        return a21LaborReportTypeCode;
+    public Integer getExpenseTransferFiscalYear() {
+        return expenseTransferFiscalYear;
     }
 
     /**
-     * Sets the a21LaborReportTypeCode attribute.
-     * 
-     * @param a21LaborReportTypeCode The a21LaborReportTypeCode to set.
+     * Sets the expenseTransferFiscalYear attribute value.
+     * @param expenseTransferFiscalYear The expenseTransferFiscalYear to set.
      */
-    public void setA21LaborReportTypeCode(String a21LaborReportTypeCode) {
-        this.a21LaborReportTypeCode = a21LaborReportTypeCode;
-    }
-
-
-    /**
-     * Gets the a21LaborReportFiscalYear attribute.
-     * 
-     * @return Returns the a21LaborReportFiscalYear
-     */
-    public Integer getA21LaborReportFiscalYear() {
-        return a21LaborReportFiscalYear;
+    public void setExpenseTransferFiscalYear(Integer expenseTransferFiscalYear) {
+        this.expenseTransferFiscalYear = expenseTransferFiscalYear;
     }
 
     /**
-     * Sets the a21LaborReportFiscalYear attribute.
-     * 
-     * @param a21LaborReportFiscalYear The a21LaborReportFiscalYear to set.
+     * Gets the expenseTransferFiscalPeriodCode attribute. 
+     * @return Returns the expenseTransferFiscalPeriodCode.
      */
-    public void setA21LaborReportFiscalYear(Integer a21LaborReportFiscalYear) {
-        this.a21LaborReportFiscalYear = a21LaborReportFiscalYear;
-    }
-
-
-    /**
-     * Gets the a21LaborReportReturnDate attribute.
-     * 
-     * @return Returns the a21LaborReportReturnDate
-     */
-    public Date getA21LaborReportReturnDate() {
-        return a21LaborReportReturnDate;
+    public String getExpenseTransferFiscalPeriodCode() {
+        return expenseTransferFiscalPeriodCode;
     }
 
     /**
-     * Sets the a21LaborReportReturnDate attribute.
-     * 
-     * @param a21LaborReportReturnDate The a21LaborReportReturnDate to set.
+     * Sets the expenseTransferFiscalPeriodCode attribute value.
+     * @param expenseTransferFiscalPeriodCode The expenseTransferFiscalPeriodCode to set.
      */
-    public void setA21LaborReportReturnDate(Date a21LaborReportReturnDate) {
-        this.a21LaborReportReturnDate = a21LaborReportReturnDate;
+    public void setExpenseTransferFiscalPeriodCode(String expenseTransferFiscalPeriodCode) {
+        this.expenseTransferFiscalPeriodCode = expenseTransferFiscalPeriodCode;
     }
-   
+
+    /**
+     * Gets the effortCertificationReportTypeCode attribute. 
+     * @return Returns the effortCertificationReportTypeCode.
+     */
+    public String getEffortCertificationReportTypeCode() {
+        return effortCertificationReportTypeCode;
+    }
+
+    /**
+     * Sets the effortCertificationReportTypeCode attribute value.
+     * @param effortCertificationReportTypeCode The effortCertificationReportTypeCode to set.
+     */
+    public void setEffortCertificationReportTypeCode(String effortCertificationReportTypeCode) {
+        this.effortCertificationReportTypeCode = effortCertificationReportTypeCode;
+    }
+
+    /**
+     * Gets the effortCertificationReportReturnDate attribute. 
+     * @return Returns the effortCertificationReportReturnDate.
+     */
+    public Date getEffortCertificationReportReturnDate() {
+        return effortCertificationReportReturnDate;
+    }
+
+    /**
+     * Sets the effortCertificationReportReturnDate attribute value.
+     * @param effortCertificationReportReturnDate The effortCertificationReportReturnDate to set.
+     */
+    public void setEffortCertificationReportReturnDate(Date effortCertificationReportReturnDate) {
+        this.effortCertificationReportReturnDate = effortCertificationReportReturnDate;
+    }
+
+    /**
+     * Gets the effortCertificationReportBeginFiscalYear attribute. 
+     * @return Returns the effortCertificationReportBeginFiscalYear.
+     */
+    public Integer getEffortCertificationReportBeginFiscalYear() {
+        return effortCertificationReportBeginFiscalYear;
+    }
+
+    /**
+     * Sets the effortCertificationReportBeginFiscalYear attribute value.
+     * @param effortCertificationReportBeginFiscalYear The effortCertificationReportBeginFiscalYear to set.
+     */
+    public void setEffortCertificationReportBeginFiscalYear(Integer effortCertificationReportBeginFiscalYear) {
+        this.effortCertificationReportBeginFiscalYear = effortCertificationReportBeginFiscalYear;
+    }
+
+    /**
+     * Gets the effortCertificationReportBeginPeriodCode attribute. 
+     * @return Returns the effortCertificationReportBeginPeriodCode.
+     */
+    public String getEffortCertificationReportBeginPeriodCode() {
+        return effortCertificationReportBeginPeriodCode;
+    }
+
+    /**
+     * Sets the effortCertificationReportBeginPeriodCode attribute value.
+     * @param effortCertificationReportBeginPeriodCode The effortCertificationReportBeginPeriodCode to set.
+     */
+    public void setEffortCertificationReportBeginPeriodCode(String effortCertificationReportBeginPeriodCode) {
+        this.effortCertificationReportBeginPeriodCode = effortCertificationReportBeginPeriodCode;
+    }
+
+    /**
+     * Gets the effortCertificationReportEndFiscalYear attribute. 
+     * @return Returns the effortCertificationReportEndFiscalYear.
+     */
+    public Integer getEffortCertificationReportEndFiscalYear() {
+        return effortCertificationReportEndFiscalYear;
+    }
+
+    /**
+     * Sets the effortCertificationReportEndFiscalYear attribute value.
+     * @param effortCertificationReportEndFiscalYear The effortCertificationReportEndFiscalYear to set.
+     */
+    public void setEffortCertificationReportEndFiscalYear(Integer effortCertificationReportEndFiscalYear) {
+        this.effortCertificationReportEndFiscalYear = effortCertificationReportEndFiscalYear;
+    }
+
+    /**
+     * Gets the effortCertificationReportEndPeriodCode attribute. 
+     * @return Returns the effortCertificationReportEndPeriodCode.
+     */
+    public String getEffortCertificationReportEndPeriodCode() {
+        return effortCertificationReportEndPeriodCode;
+    }
+
+    /**
+     * Sets the effortCertificationReportEndPeriodCode attribute value.
+     * @param effortCertificationReportEndPeriodCode The effortCertificationReportEndPeriodCode to set.
+     */
+    public void setEffortCertificationReportEndPeriodCode(String effortCertificationReportEndPeriodCode) {
+        this.effortCertificationReportEndPeriodCode = effortCertificationReportEndPeriodCode;
+    }
+
+    /**
+     * Gets the expenseTransferFiscalPeriod attribute. 
+     * @return Returns the expenseTransferFiscalPeriod.
+     */
+    public AccountingPeriod getExpenseTransferFiscalPeriod() {
+        return expenseTransferFiscalPeriod;
+    }
+
+    /**
+     * Sets the expenseTransferFiscalPeriod attribute value.
+     * @param expenseTransferFiscalPeriod The expenseTransferFiscalPeriod to set.
+     */
+    @Deprecated
+    public void setExpenseTransferFiscalPeriod(AccountingPeriod expenseTransferFiscalPeriod) {
+        this.expenseTransferFiscalPeriod = expenseTransferFiscalPeriod;
+    }
+
+    /**
+     * Gets the effortCertificationPeriodStatusCode attribute. 
+     * @return Returns the effortCertificationPeriodStatusCode.
+     */
+    public EffortCertificationPeriodStatusCode getEffortCertificationPeriodStatusCode() {
+        return effortCertificationPeriodStatusCode;
+    }
+
+    /**
+     * Sets the effortCertificationPeriodStatusCode attribute value.
+     * @param effortCertificationPeriodStatusCode The effortCertificationPeriodStatusCode to set.
+     */
+    @Deprecated
+    public void setEffortCertificationPeriodStatusCode(EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode) {
+        this.effortCertificationPeriodStatusCode = effortCertificationPeriodStatusCode;
+    }
+
+    /**
+     * Gets the effortCertificationReportType attribute. 
+     * @return Returns the effortCertificationReportType.
+     */
+    public EffortCertificationReportType getEffortCertificationReportType() {
+        return effortCertificationReportType;
+    }
+
+    /**
+     * Sets the effortCertificationReportType attribute value.
+     * @param effortCertificationReportType The effortCertificationReportType to set.
+     */
+    @Deprecated
+    public void setEffortCertificationReportType(EffortCertificationReportType effortCertificationReportType) {
+        this.effortCertificationReportType = effortCertificationReportType;
+    }
+
+    /**
+     * Gets the effortCertificationReportPositions attribute. 
+     * @return Returns the effortCertificationReportPositions.
+     */
+    public Collection<EffortCertificationReportPosition> getEffortCertificationReportPositions() {
+        return effortCertificationReportPositions;
+    }
+
+    /**
+     * Sets the effortCertificationReportPositions attribute value.
+     * @param effortCertificationReportPositions The effortCertificationReportPositions to set.
+     */
+    public void setEffortCertificationReportPositions(Collection<EffortCertificationReportPosition> effortCertificationReportPositions) {
+        this.effortCertificationReportPositions = effortCertificationReportPositions;
+    }
+
     /**
      * Gets the active attribute. 
      * @return Returns the active.
@@ -217,162 +328,13 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    /**
-     * Gets the a21LaborExpenseTransferFiscalPeriod attribute.
-     * 
-     * @return Returns the a21LaborExpenseTransferFiscalPeriod.
-     */
-    public AccountingPeriod getA21LaborExpenseTransferFiscalPeriod() {
-        return a21LaborExpenseTransferFiscalPeriod;
-    }
-
-    /**
-     * Sets the a21LaborExpenseTransferFiscalPeriod attribute value.
-     * 
-     * @param laborExpenseTransferFiscalPeriod The a21LaborExpenseTransferFiscalPeriod to set.
-     */
-    @Deprecated
-    public void setA21LaborExpenseTransferFiscalPeriod(AccountingPeriod laborExpenseTransferFiscalPeriod) {
-        a21LaborExpenseTransferFiscalPeriod = laborExpenseTransferFiscalPeriod;
-    }
-
-    /**
-     * Gets the reportPeriodStatus attribute.
-     * 
-     * @return Returns the reportPeriodStatus.
-     */
-    public EffortCertificationPeriodStatusCode getReportPeriodStatus() {
-        return reportPeriodStatus;
-    }
-
-    /**
-     * Sets the reportPeriodStatus attribute value.
-     * 
-     * @param reportPeriodStatus The reportPeriodStatus to set.
-     */
-    @Deprecated
-    public void setReportPeriodStatus(EffortCertificationPeriodStatusCode reportPeriodStatus) {
-        this.reportPeriodStatus = reportPeriodStatus;
-    }
-
-    /**
-     * Gets the a21LaborReportType attribute.
-     * 
-     * @return Returns the a21LaborReportType.
-     */
-    public EffortCertificationReportType getA21LaborReportType() {
-        return a21LaborReportType;
-    }
-
-    /**
-     * Sets the a21LaborReportType attribute value.
-     * 
-     * @param laborReportType The a21LaborReportType to set.
-     */
-    @Deprecated
-    public void setA21LaborReportType(EffortCertificationReportType laborReportType) {
-        a21LaborReportType = laborReportType;
-    }
-
-
-    /**
-     * Gets the a21LaborReportBeginFiscalYear attribute.
-     * 
-     * @return Returns the a21LaborReportBeginFiscalYear.
-     */
-    public Integer getA21LaborReportBeginFiscalYear() {
-        return a21LaborReportBeginFiscalYear;
-    }
-
-    /**
-     * Sets the a21LaborReportBeginFiscalYear attribute value.
-     * 
-     * @param laborReportBeginFiscalYear The a21LaborReportBeginFiscalYear to set.
-     */
-    public void setA21LaborReportBeginFiscalYear(Integer laborReportBeginFiscalYear) {
-        a21LaborReportBeginFiscalYear = laborReportBeginFiscalYear;
-    }
-
-    /**
-     * Gets the a21LaborReportBeginPeriodCode attribute.
-     * 
-     * @return Returns the a21LaborReportBeginPeriodCode.
-     */
-    public String getA21LaborReportBeginPeriodCode() {
-        return a21LaborReportBeginPeriodCode;
-    }
-
-    /**
-     * Sets the a21LaborReportBeginPeriodCode attribute value.
-     * 
-     * @param laborReportBeginPeriodCode The a21LaborReportBeginPeriodCode to set.
-     */
-    public void setA21LaborReportBeginPeriodCode(String laborReportBeginPeriodCode) {
-        a21LaborReportBeginPeriodCode = laborReportBeginPeriodCode;
-    }
-
-    /**
-     * Gets the a21LaborReportEndFiscalYear attribute.
-     * 
-     * @return Returns the a21LaborReportEndFiscalYear.
-     */
-    public Integer getA21LaborReportEndFiscalYear() {
-        return a21LaborReportEndFiscalYear;
-    }
-
-    /**
-     * Sets the a21LaborReportEndFiscalYear attribute value.
-     * 
-     * @param laborReportEndFiscalYear The a21LaborReportEndFiscalYear to set.
-     */
-    public void setA21LaborReportEndFiscalYear(Integer laborReportEndFiscalYear) {
-        a21LaborReportEndFiscalYear = laborReportEndFiscalYear;
-    }
-
-    /**
-     * Gets the a21LaborReportEndPeriodCode attribute.
-     * 
-     * @return Returns the a21LaborReportEndPeriodCode.
-     */
-    public String getA21LaborReportEndPeriodCode() {
-        return a21LaborReportEndPeriodCode;
-    }
-
-    /**
-     * Sets the a21LaborReportEndPeriodCode attribute value.
-     * 
-     * @param laborReportEndPeriodCode The a21LaborReportEndPeriodCode to set.
-     */
-    public void setA21LaborReportEndPeriodCode(String laborReportEndPeriodCode) {
-        a21LaborReportEndPeriodCode = laborReportEndPeriodCode;
-    }
-
-    /**
-     * Gets the effortCertificationReportPositions attribute.
-     * 
-     * @return Returns the effortCertificationReportPositions.
-     */
-    public Collection<EffortCertificationReportPosition> getEffortCertificationReportPositions() {
-        return effortCertificationReportPositions;
-    }
-
-    /**
-     * Sets the effortCertificationReportPositions attribute value.
-     * 
-     * @param effortCertificationReportPositions The effortCertificationReportPositions to set.
-     */
-    public void setEffortCertificationReportPositions(Collection<EffortCertificationReportPosition> effortCertificationReportPostions) {
-        this.effortCertificationReportPositions = effortCertificationReportPostions;
-    }
-
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put("a21LaborReportNumber", this.a21LaborReportNumber);
-        return m;
+        LinkedHashMap map = new LinkedHashMap();
+        map.put("effortCertificationReportNumber", this.effortCertificationReportNumber);
+        return map;
     }
-
 }

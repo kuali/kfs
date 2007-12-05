@@ -25,18 +25,20 @@
             <title>Effort Certification Report Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="a21LaborExpenseTransferFiscalPeriodCode" />
-                <field attributeName="a21LaborExpenseTransferFiscalYear" />
-                <field attributeName="a21LaborReportFiscalYear" />
-                <field attributeName="a21LaborReportNumber" />
-                <field attributeName="a21LaborReportPeriodTitle" />
-                <field attributeName="a21LaborReportReturnDate" />
-                <field attributeName="a21LaborReportTypeCode" />
-                <field attributeName="a21LaborReportPeriodStatusCode" />
-                <field attributeName="a21LaborReportBeginFiscalYear" />
-                <field attributeName="a21LaborReportBeginPeriodCode" />
-                <field attributeName="a21LaborReportEndFiscalYear" />
-                <field attributeName="a21LaborReportEndPeriodCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="effortCertificationReportNumber" />
+                <field attributeName="effortCertificationReportPeriodTitle" />
+                <field attributeName="effortCertificationReportReturnDate" />
+                <field attributeName="effortCertificationReportTypeCode" />
+                
+                <field attributeName="effortCertificationReportPeriodStatusCode" />
+                <field attributeName="effortCertificationReportBeginFiscalYear" />
+                <field attributeName="effortCertificationReportBeginPeriodCode" />
+                <field attributeName="effortCertificationReportEndFiscalYear" />
+                <field attributeName="effortCertificationReportEndPeriodCode" />
+                
+                <field attributeName="expenseTransferFiscalYear" />
+                <field attributeName="expenseTransferFiscalPeriodCode" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -47,91 +49,70 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="a21LaborReportNumber" />
+                    <sortAttribute attributeName="effortCertificationReportNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="a21LaborExpenseTransferFiscalPeriodCode" required="false" />
-                <lookupField attributeName="a21LaborExpenseTransferFiscalYear" required="false" />
-                <lookupField attributeName="a21LaborReportFiscalYear" required="false" />
-                <lookupField attributeName="a21LaborReportNumber" required="false" />
-                <lookupField attributeName="a21LaborReportPeriodTitle" required="false" />
-                <lookupField attributeName="a21LaborReportReturnDate" required="false" />
-                <lookupField attributeName="a21LaborReportTypeCode" required="false" />
-                <lookupField attributeName="a21LaborReportPeriodStatusCode" required="false" />
-                <lookupField attributeName="a21LaborReportBeginFiscalYear" required="false" />
-                <lookupField attributeName="a21LaborReportBeginPeriodCode" required="false" />
-                <lookupField attributeName="a21LaborReportEndFiscalYear" required="false" />
-                <lookupField attributeName="a21LaborReportEndPeriodCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="effortCertificationReportNumber" required="false" />
+                <lookupField attributeName="effortCertificationReportPeriodTitle" required="false" />
+                <lookupField attributeName="effortCertificationReportReturnDate" required="false" />
+                <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
+                <lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
+                <lookupField attributeName="effortCertificationReportBeginFiscalYear" required="false" />
+                <lookupField attributeName="effortCertificationReportBeginPeriodCode" required="false" />
+                <lookupField attributeName="effortCertificationReportEndFiscalYear" required="false" />
+                <lookupField attributeName="effortCertificationReportEndPeriodCode" required="false" />
+                <lookupField attributeName="expenseTransferFiscalPeriodCode" required="false" />
+                <lookupField attributeName="expenseTransferFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="a21LaborExpenseTransferFiscalPeriodCode" />
-                <field attributeName="a21LaborExpenseTransferFiscalYear" />
-                <field attributeName="a21LaborReportFiscalYear" />
-                <field attributeName="a21LaborReportNumber" />
-                <field attributeName="a21LaborReportPeriodTitle" />
-                <field attributeName="a21LaborReportReturnDate" />
-                <field attributeName="a21LaborReportTypeCode" />
-                <field attributeName="a21LaborReportPeriodStatusCode" />
-                <field attributeName="a21LaborReportBeginFiscalYear" />
-                <field attributeName="a21LaborReportBeginPeriodCode" />
-                <field attributeName="a21LaborReportEndFiscalYear" />
-                <field attributeName="a21LaborReportEndPeriodCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="effortCertificationReportNumber" />
+                <field attributeName="effortCertificationReportPeriodTitle" />
+                <field attributeName="effortCertificationReportReturnDate" />
+                <field attributeName="effortCertificationReportTypeCode" />
+                <field attributeName="effortCertificationReportPeriodStatusCode" />
+                <field attributeName="effortCertificationReportBeginFiscalYear" />
+                <field attributeName="effortCertificationReportBeginPeriodCode" />
+                <field attributeName="effortCertificationReportEndFiscalYear" />
+                <field attributeName="effortCertificationReportEndPeriodCode" />
+                <field attributeName="expenseTransferFiscalPeriodCode" />
+                <field attributeName="expenseTransferFiscalYear" />                
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="a21LaborExpenseTransferFiscalPeriodCode" forceUppercase="true">
-                <label>Effort Certification Labor Expense Transfer Fiscal Period Code</label>
-                <shortLabel>Code</shortLabel>
+            <attributeReference name="expenseTransferFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
+                <label>Expense Transfer Fiscal Period Code</label>
+                <shortLabel>Expense Transfer Period Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <summary>ExpenseTransferFiscalPeriodCode</summary>
+                <description>ExpenseTransferFiscalPeriodCode description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="4" />
-                </control>
+            <attributeReference name="expenseTransferFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Expense Transfer Fiscal Year</label>
+                <shortLabel>Expense Transfer Year</shortLabel>
 
-                <summary>Effort Certification LaborExpenseTransferFiscalPeriodCode</summary>
-                <description>Effort Certification LaborExpenseTransferFiscalPeriodCode description...</description>
-			</attribute>
+                <summary>ExpenseTransferFiscalYear</summary>
+                <description>ExpenseTransferFiscalYear description...</description>
+			</attributeReference>
 
-            <attribute name="a21LaborExpenseTransferFiscalYear" forceUppercase="true">
-                <label>Effort Certification Labor Expense Transfer Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Effort Certification Report Fiscal Year</label>
+                <shortLabel>Report Year</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <summary>Effort Certificaton ReportFiscalYear</summary>
+                <description>Effort Certification ReportFiscalYear description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Effort Certification LaborExpenseTransferFiscalYear</summary>
-                <description>Effort Certification LaborExpenseTransferFiscalYear description...</description>
-			</attribute>
-
-            <attribute name="a21LaborReportFiscalYear" forceUppercase="true">
-                <label>Effort Certification Labor Report Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Effort Certificaton LaborReportFiscalYear</summary>
-                <description>Effort Certification LaborReportFiscalYear description...</description>
-			</attribute>
-
-            <attribute name="a21LaborReportNumber" forceUppercase="true">
-                <label>Effort Certification Labor Report Number</label>
-                <shortLabel>Number</shortLabel>
+            <attribute name="effortCertificationReportNumber" forceUppercase="true">
+                <label>Effort Certification Report Number</label>
+                <shortLabel>Report Number</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -140,13 +121,13 @@
                     <text size="5" />
                 </control>
 
-                <summary>Effort Certification LaborReportNumber</summary>
-                <description>Effort Certification LaborReportNumber description...</description>
+                <summary>Effort Certification ReportNumber</summary>
+                <description>Effort Certification ReportNumber description...</description>
 			</attribute>
 
-            <attribute name="a21LaborReportPeriodTitle" forceUppercase="true">
-                <label>Effort Certification Labor Report Period Title</label>
-                <shortLabel>Title</shortLabel>
+            <attribute name="effortCertificationReportPeriodTitle" forceUppercase="true">
+                <label>Effort Certification Report Period Title</label>
+                <shortLabel>Report Title</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -155,27 +136,20 @@
                     <text size="32" />
                 </control>
 
-                <summary>Effort Certification LaborReportPeriodTitle</summary>
-                <description>Effort Certification LaborReportPeriodTitle description...</description>
+                <summary>Effort Certification ReportPeriodTitle</summary>
+                <description>Effort Certification ReportPeriodTitle description...</description>
 			</attribute>
 
-            <attribute name="a21LaborReportReturnDate" forceUppercase="true">
-                <label>Effort Certification Labor Report Return Date</label>
-                <shortLabel>Date</shortLabel>
+            <attributeReference name="effortCertificationReportReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Effort Certification Report Return Date</label>
+                <shortLabel>Report Return Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+                <summary>Effort Certification ReportReturnDate</summary>
+                <description>Effort Certification ReportReturnDate description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>Effort Certification LaborReportReturnDate</summary>
-                <description>Effort Certification LaborReportReturnDate description...</description>
-			</attribute>
-
-            <attribute name="a21LaborReportTypeCode" forceUppercase="true">
-                <label>Effort Certification Labor Report Type Code</label>
+            <attribute name="effortCertificationReportTypeCode" forceUppercase="true">
+                <label>Effort Certification Report Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -185,12 +159,12 @@
                     <text size="4" />
                 </control>
 
-                <summary>Effort Certification LaborReportTypeCode</summary>
-                <description>Effort Certification LaborReportTypeCode description...</description>
+                <summary>Effort Certification ReportTypeCode</summary>
+                <description>Effort Certification ReportTypeCode description...</description>
 			</attribute>
 
-            <attribute name="a21LaborReportPeriodStatusCode" forceUppercase="true">
-                <label>Effort Certification Labor Report Period Status Code</label>
+            <attribute name="effortCertificationReportPeriodStatusCode" forceUppercase="true">
+                <label>Effort Certification Report Period Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -200,70 +174,43 @@
                     <text size="3" />
                 </control>
 
-                <summary>Effort Certification LaborReportPeriodStatusCode</summary>
-                <description>Effort Certification LaborReportPeriodStatusCode description...</description>
+                <summary>Effort Certification ReportPeriodStatusCode</summary>
+                <description>Effort Certification ReportPeriodStatusCode description...</description>
 			</attribute>
 
-            <attribute name="a21LaborReportBeginFiscalYear" forceUppercase="true">
-                <label>Effort Certification Labor Report Begin Fiscal Year</label>
+            <attributeReference name="effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Effort Certification Report Begin Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <summary>Effort Certification ReportBeginFiscalYear</summary>
+                <description>Effort Certification ReportBeginFiscalYear description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="6" />
-                </control>
+            <attributeReference name="effortCertificationReportBeginPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
+                <label>Effort Certification Report Begin Period Code</label>
+                <shortLabel>Begin Period Code</shortLabel>
 
-                <summary>Effort Certification LaborReportBeginFiscalYear</summary>
-                <description>Effort Certification LaborReportBeginFiscalYear description...</description>
-			</attribute>
+                <summary>Effort Certification ReportBeginPeriodCode</summary>
+                <description>Effort Certification ReportBeginPeriodCode description...</description>
+			</attributeReference>
 
-            <attribute name="a21LaborReportBeginPeriodCode" forceUppercase="true">
-                <label>Effort Certification Labor Report Begin Period Code</label>
-                <shortLabel>Code</shortLabel>
+            <attributeReference name="effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Effort Certification Report End Fiscal Year</label>
+                <shortLabel>End Fiscal Year</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <summary>Effort Certification ReportEndFiscalYear</summary>
+                <description>Effort Certification ReportEndFiscalYear description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="4" />
-                </control>
+            <attributeReference name="effortCertificationReportEndPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
+                <label>Effort Certification Report End Period Code</label>
+                <shortLabel>End Period Code</shortLabel>
 
-                <summary>Effort Certification LaborReportBeginPeriodCode</summary>
-                <description>Effort Certification LaborReportBeginPeriodCode description...</description>
-			</attribute>
-
-            <attribute name="a21LaborReportEndFiscalYear" forceUppercase="true">
-                <label>Effort Certification Labor Report End Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>Effort Certification LaborReportEndFiscalYear</summary>
-                <description>Effort Certification LaborReportEndFiscalYear description...</description>
-			</attribute>
-
-            <attribute name="a21LaborReportEndPeriodCode" forceUppercase="true">
-                <label>Effort Certification Labor Report End Period Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Effort Certification LaborReportEndPeriodCode</summary>
-                <description>Effort Certification LaborReportEndPeriodCode description...</description>
-			</attribute>
-
+                <summary>Effort Certification ReportEndPeriodCode</summary>
+                <description>Effort Certification ReportEndPeriodCode description...</description>
+			</attributeReference>
+			
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>			
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

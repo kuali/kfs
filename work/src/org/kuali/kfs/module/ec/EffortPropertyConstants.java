@@ -19,24 +19,19 @@ package org.kuali.module.effort;
  * Constants that represent a property name in an effort reporting business object.
  */
 public class EffortPropertyConstants {
-    public static String A21_LABOR_EXPENSE_TRANSFER_YEAR = "a21LaborExpenseTransferFiscalYear";
-    public static final String EFFORT_REPORT_END_FISCAL_YEAR = "a21LaborPeriodEndDate";
-
-    public final String EFFORT_CERTIFICATION_EXPENSE_TRANSFER_FISCAL_PERIOD = "effortCertificationExpenseTransferFiscalPeriod";
-    public final String EFFORT_CERTIFICATION_EXPENSE_TRANSFER_FISCAL_PERIOD_CODE = "effortCertificationExpenseTransferFiscalPeriodCode";
-    public final String EFFORT_CERTIFICATION_EXPENSE_TRANSFER_FISCAL_YEAR = "effortCertificationExpenseTransferFiscalYear";
-    public final String EFFORT_CERTIFICATION_PERIOD_STATUS_CODE = "effortCertificationPeriodStatusCode";
-    public final String EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR = "effortCertificationReportBeginFiscalYear";
-    public final String EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE = "effortCertificationReportBeginPeriodCode";
-    public final String EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR = "effortCertificationReportEndFiscalYear";
-    public final String EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE = "effortCertificationReportEndPeriodCode";
-    public final String EFFORT_CERTIFICATION_REPORT_FISCAL_YEAR = "effortCertificationReportFiscalYear";
-    public final String EFFORT_CERTIFICATION_REPORT_NUMBER = "effortCertificationReportNumber";
-    public final String EFFORT_CERTIFICATION_REPORT_PERIOD_STATUS_CODE = "effortCertificationReportPeriodStatusCode";
-    public final String EFFORT_CERTIFICATION_REPORT_PERIOD_TITLE = "effortCertificationReportPeriodTitle";
-    public final String EFFORT_CERTIFICATION_REPORT_POSITIONS = "effortCertificationReportPositions";
-    public final String EFFORT_CERTIFICATION_REPORT_RETURN_DATE = "effortCertificationReportReturnDate";
-    public final String EFFORT_CERTIFICATION_REPORT_TYPE = "effortCertificationReportType";
-    public final String EFFORT_CERTIFICATION_REPORT_TYPE_CODE = "effortCertificationReportTypeCode";
-
+    public final static String EXPENSE_TRANSFER_FISCAL_PERIOD = "expenseTransferFiscalPeriod";
+    public final static String EXPENSE_TRANSFER_FISCAL_PERIOD_CODE = "expenseTransferFiscalPeriodCode";
+    public final static String EXPENSE_TRANSFER_FISCAL_YEAR = "expenseTransferFiscalYear";
+    public final static String EFFORT_CERTIFICATION_PERIOD_STATUS_CODE = "effortCertificationPeriodStatusCode";
+    public final static String EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR = "effortCertificationReportBeginFiscalYear";
+    public final static String EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE = "effortCertificationReportBeginPeriodCode";
+    public final static String EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR = "effortCertificationReportEndFiscalYear";
+    public final static String EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE = "effortCertificationReportEndPeriodCode";
+    public final static String EFFORT_CERTIFICATION_REPORT_NUMBER = "effortCertificationReportNumber";
+    public final static String EFFORT_CERTIFICATION_REPORT_PERIOD_STATUS_CODE = "effortCertificationReportPeriodStatusCode";
+    public final static String EFFORT_CERTIFICATION_REPORT_PERIOD_TITLE = "effortCertificationReportPeriodTitle";
+    public final static String EFFORT_CERTIFICATION_REPORT_POSITIONS = "effortCertificationReportPositions";
+    public final static String EFFORT_CERTIFICATION_REPORT_RETURN_DATE = "effortCertificationReportReturnDate";
+    public final static String EFFORT_CERTIFICATION_REPORT_TYPE = "effortCertificationReportType";
+    public final static String EFFORT_CERTIFICATION_REPORT_TYPE_CODE = "effortCertificationReportTypeCode";
 }

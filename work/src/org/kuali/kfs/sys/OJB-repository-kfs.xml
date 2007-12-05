@@ -228,10 +228,16 @@
     <field-descriptor name="buildingRoomDepartment" column="BLDG_ROOM_DEPT" jdbc-type="VARCHAR" />
     <field-descriptor name="buildingRoomDescription" column="BLDG_ROOM_DESC" jdbc-type="VARCHAR" />
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-
+    
     <reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="campusCode" />
     </reference-descriptor>
+ 
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.kfs.bo.AccountingLineBase">

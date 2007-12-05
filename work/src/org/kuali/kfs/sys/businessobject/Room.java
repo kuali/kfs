@@ -32,7 +32,8 @@ public class Room extends PersistableBusinessObjectBase {
     private String buildingRoomType;
     private String buildingRoomDepartment;
     private String buildingRoomDescription;
-
+    private boolean active;
+    
     private Campus campus;
 
     /**
@@ -155,7 +156,22 @@ public class Room extends PersistableBusinessObjectBase {
         this.buildingRoomDescription = buildingRoomDescription;
     }
 
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
 
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+    
     /**
      * Gets the campus attribute.
      * 

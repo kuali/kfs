@@ -34,7 +34,8 @@ public class Building extends PersistableBusinessObjectBase {
     private String buildingAddressStateCode;
     private String buildingAddressZipCode;
     private String alternateBuildingCode;
-
+    private boolean active;
+    
     private Campus campus;
     private State buildingAddressState;
     private PostalZipCode buildingAddressZip;
@@ -208,6 +209,22 @@ public class Building extends PersistableBusinessObjectBase {
      */
     public void setBuildingStreetAddress(String buildingStreetAddress) {
         this.buildingStreetAddress = buildingStreetAddress;
+    }
+
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

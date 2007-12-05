@@ -39,7 +39,8 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private String a21LaborReportBeginPeriodCode;
     private Integer a21LaborReportEndFiscalYear;
     private String a21LaborReportEndPeriodCode;
-
+    private boolean active;
+    
     private AccountingPeriod a21LaborExpenseTransferFiscalPeriod;
     private EffortCertificationPeriodStatusCode reportPeriodStatus;
     private EffortCertificationReportType a21LaborReportType;
@@ -199,6 +200,22 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      */
     public void setA21LaborReportReturnDate(Date a21LaborReportReturnDate) {
         this.a21LaborReportReturnDate = a21LaborReportReturnDate;
+    }
+   
+    /**
+     * Gets the active attribute. 
+     * @return Returns the active.
+     */
+    public boolean isActive() {
+        return active;
+    }
+
+    /**
+     * Sets the active attribute value.
+     * @param active The active to set.
+     */
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     /**

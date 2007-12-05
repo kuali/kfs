@@ -45,7 +45,7 @@
     <field-descriptor name="a21LaborReportBeginPeriodCode" column="LBR_RPT_BEG_FSCL_PRD_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="a21LaborReportEndFiscalYear" column="LBR_RPT_END_FSCL_YR" jdbc-type="INTEGER" />
     <field-descriptor name="a21LaborReportEndPeriodCode" column="LBR_RPT_END_FSCL_PRD_CD" jdbc-type="VARCHAR" />
-
+	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <reference-descriptor name="a21LaborExpenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="a21LaborExpenseTransferFiscalYear" />
         <foreignkey field-ref="a21LaborExpenseTransferFiscalPeriodCode" />

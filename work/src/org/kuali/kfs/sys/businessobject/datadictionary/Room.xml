@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.Room">
+
+        <inquiry>
+            <title>Room  Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="campusCode" />
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+                <field attributeName="buildingRoomDepartment" />
+                <field attributeName="buildingRoomType" />
+                <field attributeName="buildingRoomDescription" />
+                <field attributeName="active" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Room Lookup</title>
+
+            <instructions>Lookup a Room</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="campusCode" />
+                    <sortAttribute attributeName="buildingCode" />
+                    <sortAttribute attributeName="buildingRoomNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+
+            <lookupFields>
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="buildingCode" required="false" />
+                <lookupField attributeName="buildingRoomNumber" required="false" />
+                <lookupField attributeName="buildingRoomDepartment" required="false" />
+                <lookupField attributeName="buildingRoomType" required="false" />
+                <lookupField attributeName="buildingRoomDescription" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="campusCode" />
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+                <field attributeName="buildingRoomDepartment" />
+                <field attributeName="buildingRoomType" />
+                <field attributeName="buildingRoomDescription" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
+                <control>
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
+                </control>
+            </attributeReference>
+
+            <attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Building" sourceAttributeName="buildingCode" />
+
+            <attribute name="buildingRoomNumber" forceUppercase="true">
+                <label>Building Room Number</label>
+                <shortLabel>Bldg. Room Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>Building Room Number</summary>
+                <description>The number uniquely identifying a particular room.</description>
+            </attribute>
+            
+            <attribute name="buildingRoomDepartment">
+            	<label>Building Room Department</label>
+            	<shortLabel>Bldg. Room Department</shortLabel>
+            	
+            	<maxLength>40</maxLength>
+            	<validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+            	
+            	<control>
+            		<text size="40"/>
+            	</control>
+            	
+            	<summary>buildingRoomDepartment</summary>
+            	<description>buildingRoomDepartment description...</description>
+            </attribute>
+            
+            <attribute name="buildingRoomType" forceUppercase="true">
+            	<label>Building Room Type</label>
+            	<shortLabel>Bldg. Room Type</shortLabel>
+            	
+            	<maxLength>50</maxLength>
+            	<validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            	
+            	<control>
+            		<text size="50"/>
+              	</control>
+            	
+            	<summary>buildingRoomType</summary>
+                <description>buildingRoomType description...</description>
+            </attribute>
+            
+            <attribute name="buildingRoomDescription">
+            	<label>Building Address Description</label>
+            	<shortLabel>Bldg. Address Description</shortLabel>
+            	
+            	<maxLength>25</maxLength>
+ 	            <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            	
+            	<control>
+            		<text size="25"/>
+            	</control>
+            	
+            	<summary>buildingRoomDescription</summary>
+                <description>buildingRoomDescription description...</description>
+            </attribute>
+ 
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>
+

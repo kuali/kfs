@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>AssetRetirementReasonMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASRE</documentTypeCode>
+        <documentTypeCode>RRSN</documentTypeCode>
 
         <label>Asset Retirement Reason</label>
 

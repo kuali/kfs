@@ -56,7 +56,6 @@ public class Asset extends PersistableBusinessObjectBase {
 	private String transferOfFundsFinancialDocumentNumber;
 	private String insuranceChargeAccountNumber;
 	private String insuranceChartOfAccountsCode;
-	private Integer insuranceCode;
 	private String inventoryStatusCode;
 	private String campusTagNumber;
 	private Timestamp lastInventoryDate;
@@ -867,28 +866,6 @@ public class Asset extends PersistableBusinessObjectBase {
 	public void setInsuranceChartOfAccountsCode(String insuranceChartOfAccountsCode) {
 		this.insuranceChartOfAccountsCode = insuranceChartOfAccountsCode;
 	}
-
-
-	/**
-	 * Gets the insuranceCode attribute.
-	 * 
-	 * @return Returns the insuranceCode
-	 * 
-	 */
-	public Integer getInsuranceCode() { 
-		return insuranceCode;
-	}
-
-	/**
-	 * Sets the insuranceCode attribute.
-	 * 
-	 * @param insuranceCode The insuranceCode to set.
-	 * 
-	 */
-	public void setInsuranceCode(Integer insuranceCode) {
-		this.insuranceCode = insuranceCode;
-	}
-
 
 	/**
 	 * Gets the inventoryStatusCode attribute.

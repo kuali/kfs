@@ -34,8 +34,7 @@
                         <field attributeName="financialDocumentPostingYear" />
                         <field attributeName="insuranceChargeAccountNumber" />
                         <field attributeName="insuranceChartOfAccountsCode" />
-                        <field attributeName="insuranceCode" />
-                        <field attributeName="inventoryScannedCode" />
+                         <field attributeName="inventoryScannedCode" />
                         <field attributeName="inventoryStatusCode" />
                         <field attributeName="lastInventoryDate" />
                         <field attributeName="loanDate" />
@@ -104,7 +103,6 @@
                 <lookupField attributeName="financialDocumentPostingYear" required="false" />
                 <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
                 <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
-                <lookupField attributeName="insuranceCode" required="false" />
                 <lookupField attributeName="inventoryScannedCode" required="false" />
                 <lookupField attributeName="inventoryStatusCode" required="false" />
                 <lookupField attributeName="lastInventoryDate" required="false" />
@@ -160,7 +158,6 @@
                 <field attributeName="financialDocumentPostingYear" />
                 <field attributeName="insuranceChargeAccountNumber" />
                 <field attributeName="insuranceChartOfAccountsCode" />
-                <field attributeName="insuranceCode" />
                 <field attributeName="inventoryScannedCode" />
                 <field attributeName="inventoryStatusCode" />
                 <field attributeName="lastInventoryDate" />
@@ -538,21 +535,6 @@
 
                 <summary>insuranceChartOfAccountsCode</summary>
                 <description>insuranceChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="insuranceCode" forceUppercase="true">
-                <label>Insurance Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>insuranceCode</summary>
-                <description>insuranceCode description...</description>
 			</attribute>
 
             <attribute name="inventoryScannedCode" forceUppercase="true">

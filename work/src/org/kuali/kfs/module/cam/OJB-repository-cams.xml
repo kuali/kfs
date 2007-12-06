@@ -173,7 +173,6 @@
 	<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
 	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lastInventoryDate" column="CPTLAST_LSTINVN_DT" jdbc-type="TIMESTAMP"/>

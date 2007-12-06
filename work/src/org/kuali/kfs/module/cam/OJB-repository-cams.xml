@@ -308,17 +308,6 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.Insurance" table="CM_INS_T">
-	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="insuranceFiscalYear" column="CPTLAST_INSFSCL_YR" jdbc-type="INTEGER"/>
-	<field-descriptor name="insuranceItemDescription" column="AST_INS_ITM_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="insurancePremiumAmount" column="AST_INS_PREM_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="insuranceDeductibleAmount" column="AST_INS_DED_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.cams.bo.AssetPayment" table="CM_AST_PAYMENT_T">
 	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="paymentSequenceNumber" column="AST_PMT_SEQ_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>

@@ -48,20 +48,20 @@
     <field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-
-    <reference-descriptor name="expenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+	
+	<reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	<reference-descriptor name="expenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="expenseTransferFiscalYear" />
         <foreignkey field-ref="expenseTransferFiscalPeriodCode" />
     </reference-descriptor>
-    
     <reference-descriptor name="effortCertificationPeriodStatusCode" class-ref="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="effortCertificationReportPeriodStatusCode" />
     </reference-descriptor>
-    
     <reference-descriptor name="effortCertificationReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="effortCertificationReportTypeCode" />
     </reference-descriptor>
-    
     <collection-descriptor name="effortCertificationReportPositions" element-class-ref="org.kuali.module.effort.bo.EffortCertificationReportPosition" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
         <orderby name="effortCertificationReportPositionObjectGroupCode" sort="ASC" />
         <inverse-foreignkey field-ref="universityFiscalYear" />

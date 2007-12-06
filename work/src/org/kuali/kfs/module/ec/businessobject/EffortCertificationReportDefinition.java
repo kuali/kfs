@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
@@ -41,7 +42,8 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private Integer effortCertificationReportEndFiscalYear;
     private String effortCertificationReportEndPeriodCode;
     private boolean active;
-
+    
+    private Options universityFiscal;
     private AccountingPeriod expenseTransferFiscalPeriod;
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
@@ -330,6 +332,22 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     }
     
     /**
+     * Gets the universityFiscalYear object
+     * @return universityFiscal
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscalYear object
+     * @param universityFiscal
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
+    
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -337,4 +355,6 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
         map.put("effortCertificationReportNumber", this.effortCertificationReportNumber);
         return map;
     }
+
+    
 }

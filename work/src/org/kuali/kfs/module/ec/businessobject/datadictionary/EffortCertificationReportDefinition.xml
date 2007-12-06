@@ -28,17 +28,17 @@
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="effortCertificationReportNumber" />
                 <field attributeName="effortCertificationReportPeriodTitle" />
-                <field attributeName="effortCertificationReportReturnDate" />
-                <field attributeName="effortCertificationReportTypeCode" />
-                
                 <field attributeName="effortCertificationReportPeriodStatusCode" />
                 <field attributeName="effortCertificationReportBeginFiscalYear" />
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
-                
+                <field attributeName="effortCertificationReportTypeCode" />
+                <!-- TODO: need LBR_RPT_POSOBJ_CD !-->
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
+                <field attributeName="effortCertificationReportReturnDate" />
+                <!-- TODO: need ROW_ACTV_IND -->
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -55,35 +55,32 @@
 
             <lookupFields>
                 <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="effortCertificationReportNumber" required="false" />
-                <lookupField attributeName="effortCertificationReportPeriodTitle" required="false" />
-                <lookupField attributeName="effortCertificationReportReturnDate" required="false" />
-                <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
-                <lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
-                <lookupField attributeName="effortCertificationReportBeginFiscalYear" required="false" />
-                <lookupField attributeName="effortCertificationReportBeginPeriodCode" required="false" />
-                <lookupField attributeName="effortCertificationReportEndFiscalYear" required="false" />
-                <lookupField attributeName="effortCertificationReportEndPeriodCode" required="false" />
-                <lookupField attributeName="expenseTransferFiscalPeriodCode" required="false" />
-                <lookupField attributeName="expenseTransferFiscalYear" required="false" />
-            </lookupFields>
+				<lookupField attributeName="effortCertificationReportNumber" required="false" />
+				<lookupField attributeName="effortCertificationReportTypeCode" required="false" />
+				<lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
+				<lookupField attributeName="active" required="false" />
+			</lookupFields>
 
             <resultFields>
                 <field attributeName="universityFiscalYear" />
                 <field attributeName="effortCertificationReportNumber" />
                 <field attributeName="effortCertificationReportPeriodTitle" />
-                <field attributeName="effortCertificationReportReturnDate" />
-                <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="effortCertificationReportPeriodStatusCode" />
                 <field attributeName="effortCertificationReportBeginFiscalYear" />
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
+                <field attributeName="effortCertificationReportTypeCode" />
+                <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
-                <field attributeName="expenseTransferFiscalYear" />                
+                <field attributeName="effortCertificationReportReturnDate" />
+                <field attributeName="active" />
             </resultFields>
+            
         </lookup>
-
+        
+		<titleAttribute>effortCertificationReportNumber</titleAttribute>
+		
         <attributes>
 
             <attributeReference name="expenseTransferFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
@@ -130,7 +127,7 @@
                 <shortLabel>Report Title</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="32" />

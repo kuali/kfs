@@ -938,6 +938,7 @@ public class KFSPropertyConstants {
     public static final String PERSON_ROLE_SORT_NUMBER = "personRoleSortNumber";
     public static final String USER_SORT_NUMBER = "userSortNumber";
     public static final String POSITION_NUMBER = "positionNumber";
+    public static final String POSITION_OBJECT_GROUP_CODE = "positionObjectGroupCode";
     public static final String POSTAL_CITY_NAME = "postalCityName";
     public static final String POSTAL_COUNTRY_CODE = "postalCountryCode";
     public static final String POSTAL_COUNTRY_NAME = "postalCountryName";

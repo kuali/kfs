@@ -84,7 +84,7 @@ public class PurchaseOrderReopenDocumentRule extends PurchasingDocumentRuleBase 
      * @param document A PurchaseOrderDocument. (A PurchasePaymentCloseDocument at this point.)
      * @return True if the document passes all the validations.
      */
-    private boolean processValidation(PurchaseOrderDocument document) {
+    public boolean processValidation(PurchaseOrderDocument document) {
         boolean valid = true;
 
         // Check that the PO is not null

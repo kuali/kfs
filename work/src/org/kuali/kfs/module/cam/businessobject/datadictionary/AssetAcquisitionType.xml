@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetAcquisitionType">
+ 
+        <inquiry>
+            <title>Acquisition Type Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="acquisitionTypeCode" />
+                        <field attributeName="acquisitionTypeName" />
+                        <field attributeName="incomeAssetObjectCode" />
+                        <field attributeName="active" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Acquisition Type Lookup</title>
+
+            <instructions>Look up an Acquisition Type</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="acquisitionTypeCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="acquisitionTypeCode" required="false" />
+                <lookupField attributeName="acquisitionTypeName" required="false" />
+                <lookupField attributeName="incomeAssetObjectCode" required="false" />
+                <lookupField attributeName="active" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="acquisitionTypeCode" />
+                <field attributeName="acquisitionTypeName" />
+                <field attributeName="incomeAssetObjectCode" />
+                <field attributeName="active" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+            <attribute name="acquisitionTypeCode" forceUppercase="true">
+                <label>Acquisition Type Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>acquisitionTypeCode</summary>
+                <description>Acquisition type code.</description>
+			</attribute>
+
+            <attribute name="acquisitionTypeName" forceUppercase="true">
+                <label>Acquisition Type Name</label>
+                <shortLabel>Name</shortLabel>
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>
+                    <text size="42" />
+                </control>
+                <summary>acquisitionTypeName</summary>
+                <description>Acquisition type name.</description>
+			</attribute>
+
+            <attribute name="incomeAssetObjectCode" forceUppercase="true">
+                <label>Income Asset Object Code</label>
+                <shortLabel>Code</shortLabel>
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+                <control>
+                    <text size="6" />
+                </control>
+                <summary>incomeAssetObjectCode</summary>
+                <description>Income asset object code.</description>
+			</attribute>
+			
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
+            
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

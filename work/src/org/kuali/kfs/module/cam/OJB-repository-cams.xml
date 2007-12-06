@@ -68,7 +68,7 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetAquisitionType" table="CM_ACQ_TYPE_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetAcquisitionType" table="CM_ACQ_TYPE_T">
 	<field-descriptor name="acquisitionTypeCode" column="CPTLAST_ACQ_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

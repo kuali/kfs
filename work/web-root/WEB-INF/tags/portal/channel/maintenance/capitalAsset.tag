@@ -21,6 +21,11 @@
 	<ul class="chan">
 		<li>
 			<portal:portalLink displayTitle="true"
+				title="Asset Acquisition"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetAcquisitionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />				
+		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
 				title="Asset Condition"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetCondition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />				
 		</li>
@@ -49,6 +54,11 @@
 				title="Asset Inventory Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
+				title="Asset Type"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>	
 		<li>
 			<portal:portalLink displayTitle="true"
 				title="CAB Action Code"

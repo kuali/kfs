@@ -6,26 +6,26 @@
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetType">
  
         <inquiry>
-            <title>Asset Type Inquiry</title>
+            <title>Asset Type Code Inquiry</title>
              
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="active" />
                         <field attributeName="capitalAssetTypeCode" />
                         <field attributeName="capitalAssetTypeDescription" />
                         <field attributeName="depreciableLifeLimit" />
                         <field attributeName="movingIndicator" />
                         <field attributeName="requiredBuildingIndicator" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
         </inquiry>
 
         <lookup>
-            <title>Asset Type Lookup</title>
+            <title>Asset Type Code Lookup</title>
 
-            <instructions>Look up an Asset Type</instructions>
+            <instructions>Look up an Asset Type Code</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -34,41 +34,39 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="active" required="false" />
                 <lookupField attributeName="capitalAssetTypeCode" required="false" />
                 <lookupField attributeName="capitalAssetTypeDescription" required="false" />
                 <lookupField attributeName="depreciableLifeLimit" required="false" />
                 <lookupField attributeName="movingIndicator" required="false" />
                 <lookupField attributeName="requiredBuildingIndicator" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="capitalAssetTypeCode" />
                 <field attributeName="capitalAssetTypeDescription" />
                 <field attributeName="depreciableLifeLimit" />
                 <field attributeName="movingIndicator" />
                 <field attributeName="requiredBuildingIndicator" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
         <attributes>
-
-            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="capitalAssetTypeCode" forceUppercase="true">
                 <label>Capital Asset Type Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><numeric /></validationPattern>
 
                 <control>
                     <text size="9" />
                 </control>
 
                 <summary>capitalAssetTypeCode</summary>
-                <description>capitalAssetTypeCode description...</description>
+                <description>Capital asset type code</description>
 			</attribute>
 
             <attribute name="capitalAssetTypeDescription" forceUppercase="true">
@@ -76,14 +74,14 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>70</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="72" />
                 </control>
 
                 <summary>capitalAssetTypeDescription</summary>
-                <description>capitalAssetTypeDescription description...</description>
+                <description>Capital asset type description.</description>
 			</attribute>
 
             <attribute name="depreciableLifeLimit" forceUppercase="true">
@@ -98,7 +96,7 @@
                 </control>
 
                 <summary>depreciableLifeLimit</summary>
-                <description>depreciableLifeLimit description...</description>
+                <description>Depreciable life limit description.</description>
 			</attribute>
 
             <attribute name="movingIndicator" forceUppercase="true">
@@ -112,7 +110,7 @@
                 </control>
 
                 <summary>movingIndicator</summary>
-                <description>movingIndicator description...</description>
+                <description>Moving indicator description.</description>
 			</attribute>
 
             <attribute name="requiredBuildingIndicator" forceUppercase="true">
@@ -126,8 +124,10 @@
                 </control>
 
                 <summary>requiredBuildingIndicator</summary>
-                <description>requiredBuildingIndicator description...</description>
+                <description>Required building indicator description.</description>
 			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

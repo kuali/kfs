@@ -220,9 +220,6 @@
 	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="insuranceChartOfAccountsCode" />
 	</reference-descriptor>
-	<reference-descriptor name="insurance" class-ref="org.kuali.module.cams.bo.Insurance" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="insuranceCode" />
-	</reference-descriptor>
 	<reference-descriptor name="financialDocumentPostingPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentPostingYear" />
 		<foreignkey field-ref="financialDocumentPostingPeriodCode" />

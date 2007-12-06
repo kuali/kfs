@@ -80,7 +80,6 @@ public class Asset extends PersistableBusinessObjectBase {
 	private Chart retirementChartOfAccounts;
 	private Account insuranceChargeAccount;
 	private Chart insuranceChartOfAccounts;
-	private Insurance insurance;
     private AccountingPeriod financialDocumentPostingPeriod;
     private Building building;
     private AccountingPeriod retirementPeriod;
@@ -1342,26 +1341,6 @@ public class Asset extends PersistableBusinessObjectBase {
 	 */
 	public void setInsuranceChartOfAccounts(Chart insuranceChartOfAccounts) {
 		this.insuranceChartOfAccounts = insuranceChartOfAccounts;
-	}
-
-	/**
-	 * Gets the insurance attribute.
-	 * 
-	 * @return Returns the insurance
-	 * 
-	 */
-	public Insurance getInsurance() { 
-		return insurance;
-	}
-
-	/**
-	 * Sets the insurance attribute.
-	 * 
-	 * @param insurance The insurance to set.
-	 * @deprecated
-	 */
-	public void setInsurance(Insurance insurance) {
-		this.insurance = insurance;
 	}
 
     /**

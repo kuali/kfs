@@ -127,7 +127,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>true</required>
                 
                 <control>
@@ -205,7 +205,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>true</required>
 
                 <control>
@@ -221,7 +221,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>true</required>
 
                 <control>
@@ -233,11 +233,11 @@
 			</attribute>
 
             <attribute name="organizationRemitToLine1StreetAddress" forceUppercase="true">
-                <label>Organization Remit To Line1 Street Address</label>
+                <label>Organization Remit To Line 1 Street Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>true</required>
 
                 <control>
@@ -249,11 +249,11 @@
 			</attribute>
 
             <attribute name="organizationRemitToLine2StreetAddress" forceUppercase="true">
-                <label>Organization Remit To Line2 Street Address</label>
+                <label>Organization Remit To Line 2 Street Address</label>
                 <shortLabel>Address</shortLabel>
 
                 <maxLength>30</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="32" />
@@ -303,7 +303,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
                 <required>true</required>
 
                 <control>

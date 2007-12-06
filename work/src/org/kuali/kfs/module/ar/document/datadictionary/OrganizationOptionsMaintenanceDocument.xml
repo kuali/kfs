@@ -56,30 +56,38 @@
         <maintainableSections>
             <maintainableSection title="Edit Organization Options">
                 <maintainableItems>
-                    <maintainableField name="chartOfAccountsCode" required="true" />
-                    <maintainableField name="organizationCode" required="true" />
-					<maintainableField name="processingChartOfAccountCode" required="true" />
-                    <maintainableField name="processingOrganizationCode" required="true" />
-                    <maintainableField name="organization800PhoneNumber" required="false" />
-                    <maintainableField name="organizationFaxNumber" required="false" />
+                    <maintainableField name="chartOfAccountsCode" required="true">
+                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder</defaultValueFinderClass>
+                    </maintainableField>
+                    <maintainableField name="organizationCode" required="true">
+                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>
+                    </maintainableField>
+					<maintainableField name="processingChartOfAccountCode" required="true">
+						<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserChartValueFinder</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="processingOrganizationCode" required="true">
+                    	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>                    
+                    </maintainableField>
+                    <maintainableField name="universityName" required="true" >
+                    	<defaultValue>Institution Name</defaultValue>
+                    </maintainableField>      
+					<maintainableField name="printInvoiceIndicator">
+                   		<defaultValue>Y</defaultValue>
+                    </maintainableField>
+                    <maintainableField name="organizationCheckPayableToName" required="true" >
+                    	<defaultValue>Institution Name</defaultValue>
+                    </maintainableField>
                     <maintainableField name="organizationMessageText" required="true" />
                     <maintainableField name="organizationPaymentTermsText" required="false" />
-                    <maintainableField name="organizationPhoneNumber" required="true" />
                     <maintainableField name="organizationRemitToAddressName" required="true" />
                     <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />
                     <maintainableField name="organizationRemitToLine2StreetAddress" required="false" />
                     <maintainableField name="organizationRemitToCityName" required="true" />
                     <maintainableField name="organizationRemitToStateCode" required="true" />
                     <maintainableField name="organizationRemitToZipCode" required="true" />
-                    <maintainableField name="printInvoiceIndicator">
-                   		<defaultValue>Y</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="organizationCheckPayableToName" required="true" >
-                    	<defaultValue>Institution Name</defaultValue>
-                    </maintainableField>                    
-                    <maintainableField name="universityName" required="true" >
-                    	<defaultValue>Institution Name</defaultValue>
-                    </maintainableField>
+                    <maintainableField name="organization800PhoneNumber" required="false" />
+                    <maintainableField name="organizationFaxNumber" required="false" />
+                    <maintainableField name="organizationPhoneNumber" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

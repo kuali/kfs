@@ -31,5 +31,49 @@ public interface BenefitsCalculationService {
      * @return
      */
     public boolean getBenefitsCalculationDisabled();
+    
+    /**
+     * 
+     * This method calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
+     * @param documentNumber
+     * @param fiscalYear
+     * @param chartOfAccounts
+     * @param accountNumber
+     * @param subAccountNumber
+     */
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                       Integer fiscalYear,
+                                                                       String chartOfAccounts,
+                                                                       String accountNumber,
+                                                                       String subAccountNumber);
+    /**
+     * 
+     * This method calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
+     * @param documentNumber
+     * @param fiscalYear
+     * @param chartOfAccounts
+     * @param accountNumber
+     * @param subAccountNumber
+     */
+    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                        Integer fiscalYear,
+                                                                        String chartOfAccounts,
+                                                                        String accountNumber,
+                                                                        String subAccountNumber);
 
+    /**
+     * 
+     * This method calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
+     * stores them in the database.
+     * @param documentNumber
+     * @param fiscalYear
+     * @param chartOfAccounts
+     * @param accountNumber
+     * @param subAccountNumber
+     */
+    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                    Integer fiscalYear,
+                                                                    String chartOfAccounts,
+                                                                    String accountNumber,
+                                                                    String subAccountNumber);
 }

@@ -37,6 +37,51 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
         // BCConstants.DISABLE_BENEFITS_CALCULATION_FLAG);
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     */
+    
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                       Integer fiscalYear,
+                                                                       String chartOfAccounts,
+                                                                       String accountNumber,
+                                                                       String subAccountNumber)
+    {
+        // do nothing if benefits calculation is disabled
+        if (getBenefitsCalculationDisabled()) return;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                        Integer fiscalYear,
+                                                                        String chartOfAccounts,
+                                                                        String accountNumber,
+                                                                        String subAccountNumber)
+    {
+        //do nothing if benefits calculation is disabled
+        if (getBenefitsCalculationDisabled()) return;
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     */
+    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
+                                                                    Integer fiscalYear,
+                                                                    String chartOfAccounts,
+                                                                    String accountNumber,
+                                                                    String subAccountNumber)
+    {
+        //do nothing if benefits calculation is disabled
+        if (getBenefitsCalculationDisabled()) return;
+    }
+
+
 
     /**
      * Gets the kualiConfigurationService attribute.

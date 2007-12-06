@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetOrganization">
+ 
+        <inquiry>
+            <title>Asset Organization Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="organizationAssetTypeIdentifier" />
+                        <field attributeName="organizationDescription" />
+                        <field attributeName="organizationTagNumber" />
+                        <field attributeName="organizationText" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Organization Lookup</title>
+
+            <instructions>Look up an Asset Organization</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="organizationAssetTypeIdentifier" required="false" />
+                <lookupField attributeName="organizationDescription" required="false" />
+                <lookupField attributeName="organizationTagNumber" required="false" />
+                <lookupField attributeName="organizationText" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="organizationAssetTypeIdentifier" />
+                <field attributeName="organizationDescription" />
+                <field attributeName="organizationTagNumber" />
+                <field attributeName="organizationText" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationAssetTypeIdentifier" forceUppercase="true">
+                <label>Organization Asset Type Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>organizationAssetTypeIdentifier</summary>
+                <description>organizationAssetTypeIdentifier description...</description>
+			</attribute>
+
+            <attribute name="organizationDescription" forceUppercase="true">
+                <label>Organization Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationDescription</summary>
+                <description>organizationDescription description...</description>
+			</attribute>
+
+            <attribute name="organizationTagNumber" forceUppercase="true">
+                <label>Organization Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationTagNumber</summary>
+                <description>organizationTagNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationText" forceUppercase="true">
+                <label>Organization Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>organizationText</summary>
+                <description>organizationText description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

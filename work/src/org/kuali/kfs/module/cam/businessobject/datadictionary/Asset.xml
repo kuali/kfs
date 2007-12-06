@@ -1,0 +1,997 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.Asset">
+ 
+        <inquiry>
+            <title>Asset Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="acquisitionTypeCode" />
+                        <field attributeName="agencyNumber" />
+                        <field attributeName="buildingCode" />
+                        <field attributeName="buildingRoomNumber" />
+                        <field attributeName="buildingSubRoomNumber" />
+                        <field attributeName="campusCode" />
+                        <field attributeName="campusPoliceDepartmentCaseNumber" />
+                        <field attributeName="campusTagNumber" />
+                        <field attributeName="capitalAssetDescription" />
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="capitalAssetTypeCode" />
+                        <field attributeName="cashReceiptFinancialDocumentNumber" />
+                        <field attributeName="cashReceiptFinancialSystemOriginationCode" />
+                        <field attributeName="conditionCode" />
+                        <field attributeName="createDate" />
+                        <field attributeName="estimatedFabricationCompletionDate" />
+                        <field attributeName="estimatedSellingPrice" />
+                        <field attributeName="expectedReturnDate" />
+                        <field attributeName="fabricationEstimatedTotalAmount" />
+                        <field attributeName="financialDocumentPostingPeriodCode" />
+                        <field attributeName="financialDocumentPostingYear" />
+                        <field attributeName="insuranceChargeAccountNumber" />
+                        <field attributeName="insuranceChartOfAccountsCode" />
+                        <field attributeName="insuranceCode" />
+                        <field attributeName="inventoryScannedCode" />
+                        <field attributeName="inventoryStatusCode" />
+                        <field attributeName="lastInventoryDate" />
+                        <field attributeName="loanDate" />
+                        <field attributeName="loanReturnDate" />
+                        <field attributeName="manufacturerModelNumber" />
+                        <field attributeName="manufacturerName" />
+                        <field attributeName="oldTagNumber" />
+                        <field attributeName="organizationInventoryName" />
+                        <field attributeName="organizationOwnerAccountNumber" />
+                        <field attributeName="organizationOwnerChartOfAccountsCode" />
+                        <field attributeName="primaryDepreciationMethodCode" />
+                        <field attributeName="receiveDate" />
+                        <field attributeName="replacementAmount" />
+                        <field attributeName="representativeUniversalIdentifier" />
+                        <field attributeName="retirementAccountNumber" />
+                        <field attributeName="retirementChartOfAccountsCode" />
+                        <field attributeName="retirementFiscalYear" />
+                        <field attributeName="retirementPeriodCode" />
+                        <field attributeName="retirementReasonCode" />
+                        <field attributeName="salePrice" />
+                        <field attributeName="salvageAmount" />
+                        <field attributeName="secondaryDepreciationMethodCode" />
+                        <field attributeName="serialNumber" />
+                        <field attributeName="signatureCode" />
+                        <field attributeName="totalCostAmount" />
+                        <field attributeName="transferOfFundsFinancialDocumentNumber" />
+                        <field attributeName="transferOfFundsOriginationCode" />
+                        <field attributeName="vendorName" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Lookup</title>
+
+            <instructions>Look up an Asset</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="acquisitionTypeCode" required="false" />
+                <lookupField attributeName="agencyNumber" required="false" />
+                <lookupField attributeName="buildingCode" required="false" />
+                <lookupField attributeName="buildingRoomNumber" required="false" />
+                <lookupField attributeName="buildingSubRoomNumber" required="false" />
+                <lookupField attributeName="campusCode" required="false" />
+                <lookupField attributeName="campusPoliceDepartmentCaseNumber" required="false" />
+                <lookupField attributeName="campusTagNumber" required="false" />
+                <lookupField attributeName="capitalAssetDescription" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="capitalAssetTypeCode" required="false" />
+                <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
+                <lookupField attributeName="cashReceiptFinancialSystemOriginationCode" required="false" />
+                <lookupField attributeName="conditionCode" required="false" />
+                <lookupField attributeName="createDate" required="false" />
+                <lookupField attributeName="estimatedFabricationCompletionDate" required="false" />
+                <lookupField attributeName="estimatedSellingPrice" required="false" />
+                <lookupField attributeName="expectedReturnDate" required="false" />
+                <lookupField attributeName="fabricationEstimatedTotalAmount" required="false" />
+                <lookupField attributeName="financialDocumentPostingPeriodCode" required="false" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
+                <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
+                <lookupField attributeName="insuranceCode" required="false" />
+                <lookupField attributeName="inventoryScannedCode" required="false" />
+                <lookupField attributeName="inventoryStatusCode" required="false" />
+                <lookupField attributeName="lastInventoryDate" required="false" />
+                <lookupField attributeName="loanDate" required="false" />
+                <lookupField attributeName="loanReturnDate" required="false" />
+                <lookupField attributeName="manufacturerModelNumber" required="false" />
+                <lookupField attributeName="manufacturerName" required="false" />
+                <lookupField attributeName="oldTagNumber" required="false" />
+                <lookupField attributeName="organizationInventoryName" required="false" />
+                <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
+                <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
+                <lookupField attributeName="primaryDepreciationMethodCode" required="false" />
+                <lookupField attributeName="receiveDate" required="false" />
+                <lookupField attributeName="replacementAmount" required="false" />
+                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
+                <lookupField attributeName="retirementAccountNumber" required="false" />
+                <lookupField attributeName="retirementChartOfAccountsCode" required="false" />
+                <lookupField attributeName="retirementFiscalYear" required="false" />
+                <lookupField attributeName="retirementPeriodCode" required="false" />
+                <lookupField attributeName="retirementReasonCode" required="false" />
+                <lookupField attributeName="salePrice" required="false" />
+                <lookupField attributeName="salvageAmount" required="false" />
+                <lookupField attributeName="secondaryDepreciationMethodCode" required="false" />
+                <lookupField attributeName="serialNumber" required="false" />
+                <lookupField attributeName="signatureCode" required="false" />
+                <lookupField attributeName="totalCostAmount" required="false" />
+                <lookupField attributeName="transferOfFundsFinancialDocumentNumber" required="false" />
+                <lookupField attributeName="transferOfFundsOriginationCode" required="false" />
+                <lookupField attributeName="vendorName" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="acquisitionTypeCode" />
+                <field attributeName="agencyNumber" />
+                <field attributeName="buildingCode" />
+                <field attributeName="buildingRoomNumber" />
+                <field attributeName="buildingSubRoomNumber" />
+                <field attributeName="campusCode" />
+                <field attributeName="campusPoliceDepartmentCaseNumber" />
+                <field attributeName="campusTagNumber" />
+                <field attributeName="capitalAssetDescription" />
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="capitalAssetTypeCode" />
+                <field attributeName="cashReceiptFinancialDocumentNumber" />
+                <field attributeName="cashReceiptFinancialSystemOriginationCode" />
+                <field attributeName="conditionCode" />
+                <field attributeName="createDate" />
+                <field attributeName="estimatedFabricationCompletionDate" />
+                <field attributeName="estimatedSellingPrice" />
+                <field attributeName="expectedReturnDate" />
+                <field attributeName="fabricationEstimatedTotalAmount" />
+                <field attributeName="financialDocumentPostingPeriodCode" />
+                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="insuranceChargeAccountNumber" />
+                <field attributeName="insuranceChartOfAccountsCode" />
+                <field attributeName="insuranceCode" />
+                <field attributeName="inventoryScannedCode" />
+                <field attributeName="inventoryStatusCode" />
+                <field attributeName="lastInventoryDate" />
+                <field attributeName="loanDate" />
+                <field attributeName="loanReturnDate" />
+                <field attributeName="manufacturerModelNumber" />
+                <field attributeName="manufacturerName" />
+                <field attributeName="oldTagNumber" />
+                <field attributeName="organizationInventoryName" />
+                <field attributeName="organizationOwnerAccountNumber" />
+                <field attributeName="organizationOwnerChartOfAccountsCode" />
+                <field attributeName="primaryDepreciationMethodCode" />
+                <field attributeName="receiveDate" />
+                <field attributeName="replacementAmount" />
+                <field attributeName="representativeUniversalIdentifier" />
+                <field attributeName="retirementAccountNumber" />
+                <field attributeName="retirementChartOfAccountsCode" />
+                <field attributeName="retirementFiscalYear" />
+                <field attributeName="retirementPeriodCode" />
+                <field attributeName="retirementReasonCode" />
+                <field attributeName="salePrice" />
+                <field attributeName="salvageAmount" />
+                <field attributeName="secondaryDepreciationMethodCode" />
+                <field attributeName="serialNumber" />
+                <field attributeName="signatureCode" />
+                <field attributeName="totalCostAmount" />
+                <field attributeName="transferOfFundsFinancialDocumentNumber" />
+                <field attributeName="transferOfFundsOriginationCode" />
+                <field attributeName="vendorName" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="acquisitionTypeCode" forceUppercase="true">
+                <label>Acquisition Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>acquisitionTypeCode</summary>
+                <description>acquisitionTypeCode description...</description>
+			</attribute>
+
+            <attribute name="agencyNumber" forceUppercase="true">
+                <label>Agency Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>agencyNumber</summary>
+                <description>agencyNumber description...</description>
+			</attribute>
+
+            <attribute name="buildingCode" forceUppercase="true">
+                <label>Building Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>buildingCode</summary>
+                <description>buildingCode description...</description>
+			</attribute>
+
+            <attribute name="buildingRoomNumber" forceUppercase="true">
+                <label>Building Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>buildingRoomNumber</summary>
+                <description>buildingRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="buildingSubRoomNumber" forceUppercase="true">
+                <label>Building Sub Room Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>buildingSubRoomNumber</summary>
+                <description>buildingSubRoomNumber description...</description>
+			</attribute>
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="campusPoliceDepartmentCaseNumber" forceUppercase="true">
+                <label>Campus Police Department Case Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>campusPoliceDepartmentCaseNumber</summary>
+                <description>campusPoliceDepartmentCaseNumber description...</description>
+			</attribute>
+
+            <attribute name="campusTagNumber" forceUppercase="true">
+                <label>Campus Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>campusTagNumber</summary>
+                <description>campusTagNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetDescription" forceUppercase="true">
+                <label>Capital Asset Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>capitalAssetDescription</summary>
+                <description>capitalAssetDescription description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetTypeCode" forceUppercase="true">
+                <label>Capital Asset Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>capitalAssetTypeCode</summary>
+                <description>capitalAssetTypeCode description...</description>
+			</attribute>
+
+            <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
+                <label>Cash Receipt Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>cashReceiptFinancialDocumentNumber</summary>
+                <description>cashReceiptFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="cashReceiptFinancialSystemOriginationCode" forceUppercase="true">
+                <label>Cash Receipt Financial System Origination Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>cashReceiptFinancialSystemOriginationCode</summary>
+                <description>cashReceiptFinancialSystemOriginationCode description...</description>
+			</attribute>
+
+            <attribute name="conditionCode" forceUppercase="true">
+                <label>Condition Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>conditionCode</summary>
+                <description>conditionCode description...</description>
+			</attribute>
+
+            <attribute name="createDate" forceUppercase="true">
+                <label>Create Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>createDate</summary>
+                <description>createDate description...</description>
+			</attribute>
+
+            <attribute name="estimatedFabricationCompletionDate" forceUppercase="true">
+                <label>Estimated Fabrication Completion Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>estimatedFabricationCompletionDate</summary>
+                <description>estimatedFabricationCompletionDate description...</description>
+			</attribute>
+
+            <attribute name="estimatedSellingPrice" forceUppercase="true">
+                <label>Estimated Selling Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>estimatedSellingPrice</summary>
+                <description>estimatedSellingPrice description...</description>
+			</attribute>
+
+            <attribute name="expectedReturnDate" forceUppercase="true">
+                <label>Expected Return Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>expectedReturnDate</summary>
+                <description>expectedReturnDate description...</description>
+			</attribute>
+
+            <attribute name="fabricationEstimatedTotalAmount" forceUppercase="true">
+                <label>Fabrication Estimated Total Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>fabricationEstimatedTotalAmount</summary>
+                <description>fabricationEstimatedTotalAmount description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
+                <label>Financial Document Posting Period Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentPostingPeriodCode</summary>
+                <description>financialDocumentPostingPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+                <label>Financial Document Posting Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentPostingYear</summary>
+                <description>financialDocumentPostingYear description...</description>
+			</attribute>
+
+            <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
+                <label>Insurance Charge Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>insuranceChargeAccountNumber</summary>
+                <description>insuranceChargeAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">
+                <label>Insurance Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>insuranceChartOfAccountsCode</summary>
+                <description>insuranceChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="insuranceCode" forceUppercase="true">
+                <label>Insurance Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>insuranceCode</summary>
+                <description>insuranceCode description...</description>
+			</attribute>
+
+            <attribute name="inventoryScannedCode" forceUppercase="true">
+                <label>Inventory Scanned Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>inventoryScannedCode</summary>
+                <description>inventoryScannedCode description...</description>
+			</attribute>
+
+            <attribute name="inventoryStatusCode" forceUppercase="true">
+                <label>Inventory Status Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>inventoryStatusCode</summary>
+                <description>inventoryStatusCode description...</description>
+			</attribute>
+
+            <attribute name="lastInventoryDate" forceUppercase="true">
+                <label>Last Inventory Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>lastInventoryDate</summary>
+                <description>lastInventoryDate description...</description>
+			</attribute>
+
+            <attribute name="loanDate" forceUppercase="true">
+                <label>Loan Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>loanDate</summary>
+                <description>loanDate description...</description>
+			</attribute>
+
+            <attribute name="loanReturnDate" forceUppercase="true">
+                <label>Loan Return Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>loanReturnDate</summary>
+                <description>loanReturnDate description...</description>
+			</attribute>
+
+            <attribute name="manufacturerModelNumber" forceUppercase="true">
+                <label>Manufacturer Model Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>manufacturerModelNumber</summary>
+                <description>manufacturerModelNumber description...</description>
+			</attribute>
+
+            <attribute name="manufacturerName" forceUppercase="true">
+                <label>Manufacturer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>manufacturerName</summary>
+                <description>manufacturerName description...</description>
+			</attribute>
+
+            <attribute name="oldTagNumber" forceUppercase="true">
+                <label>Old Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>oldTagNumber</summary>
+                <description>oldTagNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationInventoryName" forceUppercase="true">
+                <label>Organization Inventory Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationInventoryName</summary>
+                <description>organizationInventoryName description...</description>
+			</attribute>
+
+            <attribute name="organizationOwnerAccountNumber" forceUppercase="true">
+                <label>Organization Owner Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>organizationOwnerAccountNumber</summary>
+                <description>organizationOwnerAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="organizationOwnerChartOfAccountsCode" forceUppercase="true">
+                <label>Organization Owner Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>organizationOwnerChartOfAccountsCode</summary>
+                <description>organizationOwnerChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="primaryDepreciationMethodCode" forceUppercase="true">
+                <label>Primary Depreciation Method Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>primaryDepreciationMethodCode</summary>
+                <description>primaryDepreciationMethodCode description...</description>
+			</attribute>
+
+            <attribute name="receiveDate" forceUppercase="true">
+                <label>Receive Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>receiveDate</summary>
+                <description>receiveDate description...</description>
+			</attribute>
+
+            <attribute name="replacementAmount" forceUppercase="true">
+                <label>Replacement Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>replacementAmount</summary>
+                <description>replacementAmount description...</description>
+			</attribute>
+
+            <attribute name="representativeUniversalIdentifier" forceUppercase="true">
+                <label>Representative Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>representativeUniversalIdentifier</summary>
+                <description>representativeUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="retirementAccountNumber" forceUppercase="true">
+                <label>Retirement Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>retirementAccountNumber</summary>
+                <description>retirementAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="retirementChartOfAccountsCode" forceUppercase="true">
+                <label>Retirement Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>retirementChartOfAccountsCode</summary>
+                <description>retirementChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="retirementFiscalYear" forceUppercase="true">
+                <label>Retirement Fiscal Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>retirementFiscalYear</summary>
+                <description>retirementFiscalYear description...</description>
+			</attribute>
+
+            <attribute name="retirementPeriodCode" forceUppercase="true">
+                <label>Retirement Period Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>retirementPeriodCode</summary>
+                <description>retirementPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="retirementReasonCode" forceUppercase="true">
+                <label>Retirement Reason Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>retirementReasonCode</summary>
+                <description>retirementReasonCode description...</description>
+			</attribute>
+
+            <attribute name="salePrice" forceUppercase="true">
+                <label>Sale Price</label>
+                <shortLabel>Price</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>salePrice</summary>
+                <description>salePrice description...</description>
+			</attribute>
+
+            <attribute name="salvageAmount" forceUppercase="true">
+                <label>Salvage Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>salvageAmount</summary>
+                <description>salvageAmount description...</description>
+			</attribute>
+
+            <attribute name="secondaryDepreciationMethodCode" forceUppercase="true">
+                <label>Secondary Depreciation Method Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>secondaryDepreciationMethodCode</summary>
+                <description>secondaryDepreciationMethodCode description...</description>
+			</attribute>
+
+            <attribute name="serialNumber" forceUppercase="true">
+                <label>Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>serialNumber</summary>
+                <description>serialNumber description...</description>
+			</attribute>
+
+            <attribute name="signatureCode" forceUppercase="true">
+                <label>Signature Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>signatureCode</summary>
+                <description>signatureCode description...</description>
+			</attribute>
+
+            <attribute name="totalCostAmount" forceUppercase="true">
+                <label>Total Cost Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>totalCostAmount</summary>
+                <description>totalCostAmount description...</description>
+			</attribute>
+
+            <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
+                <label>Transfer Of Funds Financial Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>transferOfFundsFinancialDocumentNumber</summary>
+                <description>transferOfFundsFinancialDocumentNumber description...</description>
+			</attribute>
+
+            <attribute name="transferOfFundsOriginationCode" forceUppercase="true">
+                <label>Transfer Of Funds Origination Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>transferOfFundsOriginationCode</summary>
+                <description>transferOfFundsOriginationCode description...</description>
+			</attribute>
+
+            <attribute name="vendorName" forceUppercase="true">
+                <label>Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>vendorName</summary>
+                <description>vendorName description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

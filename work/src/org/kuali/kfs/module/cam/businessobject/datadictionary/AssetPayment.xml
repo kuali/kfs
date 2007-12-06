@@ -1,0 +1,926 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetPayment">
+ 
+        <inquiry>
+            <title>Asset Payment Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="accountChargeAmount" />
+                        <field attributeName="accountNumber" />
+                        <field attributeName="accumulatedPrimaryDepreciationAmount" />
+                        <field attributeName="accumulatedSecondaryDepreciationAmount" />
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="financialDocumentPostingDate" />
+                        <field attributeName="financialDocumentPostingPeriodCode" />
+                        <field attributeName="financialDocumentPostingYear" />
+                        <field attributeName="financialDocumentTypeCode" />
+                        <field attributeName="financialObjectCode" />
+                        <field attributeName="financialSubObjectCode" />
+                        <field attributeName="financialSystemOriginationCode" />
+                        <field attributeName="organizationReferenceId" />
+                        <field attributeName="paymentSequenceNumber" />
+                        <field attributeName="period10Depreciation1Amount" />
+                        <field attributeName="period10Depreciation2Amount" />
+                        <field attributeName="period11Depreciation1Amount" />
+                        <field attributeName="period11Depreciation2Amount" />
+                        <field attributeName="period12Depreciation1Amount" />
+                        <field attributeName="period12Depreciation2Amount" />
+                        <field attributeName="period1Depreciation1Amount" />
+                        <field attributeName="period1Depreciation2Amount" />
+                        <field attributeName="period2Depreciation1Amount" />
+                        <field attributeName="period2Depreciation2Amount" />
+                        <field attributeName="period3Depreciation1Amount" />
+                        <field attributeName="period3Depreciation2Amount" />
+                        <field attributeName="period4Depreciation1Amount" />
+                        <field attributeName="period4Depreciation2Amount" />
+                        <field attributeName="period5Depreciation1Amount" />
+                        <field attributeName="period5Depreciation2Amount" />
+                        <field attributeName="period6Depreciation1Amount" />
+                        <field attributeName="period6Depreciation2Amount" />
+                        <field attributeName="period7Depreciation1Amount" />
+                        <field attributeName="period7Depreciation2Amount" />
+                        <field attributeName="period8Depreciation1Amount" />
+                        <field attributeName="period8Depreciation2Amount" />
+                        <field attributeName="period9Depreciation1Amount" />
+                        <field attributeName="period9Depreciation2Amount" />
+                        <field attributeName="previousYearPrimaryDepreciationAmount" />
+                        <field attributeName="previousYearSecondaryDepreciationAmount" />
+                        <field attributeName="primaryDepreciationBaseAmount" />
+                        <field attributeName="projectCode" />
+                        <field attributeName="purchaseOrderNumber" />
+                        <field attributeName="requisitionNumber" />
+                        <field attributeName="secondaryDepreciationBaseAmount" />
+                        <field attributeName="subAccountNumber" />
+                        <field attributeName="transferPaymentCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Payment Lookup</title>
+
+            <instructions>Look up an Asset Payment</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                    <sortAttribute attributeName="paymentSequenceNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="accountChargeAmount" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="accumulatedPrimaryDepreciationAmount" required="false" />
+                <lookupField attributeName="accumulatedSecondaryDepreciationAmount" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="financialDocumentPostingDate" required="false" />
+                <lookupField attributeName="financialDocumentPostingPeriodCode" required="false" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="financialDocumentTypeCode" required="false" />
+                <lookupField attributeName="financialObjectCode" required="false" />
+                <lookupField attributeName="financialSubObjectCode" required="false" />
+                <lookupField attributeName="financialSystemOriginationCode" required="false" />
+                <lookupField attributeName="organizationReferenceId" required="false" />
+                <lookupField attributeName="paymentSequenceNumber" required="false" />
+                <lookupField attributeName="period10Depreciation1Amount" required="false" />
+                <lookupField attributeName="period10Depreciation2Amount" required="false" />
+                <lookupField attributeName="period11Depreciation1Amount" required="false" />
+                <lookupField attributeName="period11Depreciation2Amount" required="false" />
+                <lookupField attributeName="period12Depreciation1Amount" required="false" />
+                <lookupField attributeName="period12Depreciation2Amount" required="false" />
+                <lookupField attributeName="period1Depreciation1Amount" required="false" />
+                <lookupField attributeName="period1Depreciation2Amount" required="false" />
+                <lookupField attributeName="period2Depreciation1Amount" required="false" />
+                <lookupField attributeName="period2Depreciation2Amount" required="false" />
+                <lookupField attributeName="period3Depreciation1Amount" required="false" />
+                <lookupField attributeName="period3Depreciation2Amount" required="false" />
+                <lookupField attributeName="period4Depreciation1Amount" required="false" />
+                <lookupField attributeName="period4Depreciation2Amount" required="false" />
+                <lookupField attributeName="period5Depreciation1Amount" required="false" />
+                <lookupField attributeName="period5Depreciation2Amount" required="false" />
+                <lookupField attributeName="period6Depreciation1Amount" required="false" />
+                <lookupField attributeName="period6Depreciation2Amount" required="false" />
+                <lookupField attributeName="period7Depreciation1Amount" required="false" />
+                <lookupField attributeName="period7Depreciation2Amount" required="false" />
+                <lookupField attributeName="period8Depreciation1Amount" required="false" />
+                <lookupField attributeName="period8Depreciation2Amount" required="false" />
+                <lookupField attributeName="period9Depreciation1Amount" required="false" />
+                <lookupField attributeName="period9Depreciation2Amount" required="false" />
+                <lookupField attributeName="previousYearPrimaryDepreciationAmount" required="false" />
+                <lookupField attributeName="previousYearSecondaryDepreciationAmount" required="false" />
+                <lookupField attributeName="primaryDepreciationBaseAmount" required="false" />
+                <lookupField attributeName="projectCode" required="false" />
+                <lookupField attributeName="purchaseOrderNumber" required="false" />
+                <lookupField attributeName="requisitionNumber" required="false" />
+                <lookupField attributeName="secondaryDepreciationBaseAmount" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
+                <lookupField attributeName="transferPaymentCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="accountChargeAmount" />
+                <field attributeName="accountNumber" />
+                <field attributeName="accumulatedPrimaryDepreciationAmount" />
+                <field attributeName="accumulatedSecondaryDepreciationAmount" />
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+                <field attributeName="financialDocumentPostingDate" />
+                <field attributeName="financialDocumentPostingPeriodCode" />
+                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="financialDocumentTypeCode" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="financialSubObjectCode" />
+                <field attributeName="financialSystemOriginationCode" />
+                <field attributeName="organizationReferenceId" />
+                <field attributeName="paymentSequenceNumber" />
+                <field attributeName="period10Depreciation1Amount" />
+                <field attributeName="period10Depreciation2Amount" />
+                <field attributeName="period11Depreciation1Amount" />
+                <field attributeName="period11Depreciation2Amount" />
+                <field attributeName="period12Depreciation1Amount" />
+                <field attributeName="period12Depreciation2Amount" />
+                <field attributeName="period1Depreciation1Amount" />
+                <field attributeName="period1Depreciation2Amount" />
+                <field attributeName="period2Depreciation1Amount" />
+                <field attributeName="period2Depreciation2Amount" />
+                <field attributeName="period3Depreciation1Amount" />
+                <field attributeName="period3Depreciation2Amount" />
+                <field attributeName="period4Depreciation1Amount" />
+                <field attributeName="period4Depreciation2Amount" />
+                <field attributeName="period5Depreciation1Amount" />
+                <field attributeName="period5Depreciation2Amount" />
+                <field attributeName="period6Depreciation1Amount" />
+                <field attributeName="period6Depreciation2Amount" />
+                <field attributeName="period7Depreciation1Amount" />
+                <field attributeName="period7Depreciation2Amount" />
+                <field attributeName="period8Depreciation1Amount" />
+                <field attributeName="period8Depreciation2Amount" />
+                <field attributeName="period9Depreciation1Amount" />
+                <field attributeName="period9Depreciation2Amount" />
+                <field attributeName="previousYearPrimaryDepreciationAmount" />
+                <field attributeName="previousYearSecondaryDepreciationAmount" />
+                <field attributeName="primaryDepreciationBaseAmount" />
+                <field attributeName="projectCode" />
+                <field attributeName="purchaseOrderNumber" />
+                <field attributeName="requisitionNumber" />
+                <field attributeName="secondaryDepreciationBaseAmount" />
+                <field attributeName="subAccountNumber" />
+                <field attributeName="transferPaymentCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="accountChargeAmount" forceUppercase="true">
+                <label>Account Charge Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>accountChargeAmount</summary>
+                <description>accountChargeAmount description...</description>
+			</attribute>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="accumulatedPrimaryDepreciationAmount" forceUppercase="true">
+                <label>Accumulated Primary Depreciation Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>accumulatedPrimaryDepreciationAmount</summary>
+                <description>accumulatedPrimaryDepreciationAmount description...</description>
+			</attribute>
+
+            <attribute name="accumulatedSecondaryDepreciationAmount" forceUppercase="true">
+                <label>Accumulated Secondary Depreciation Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>accumulatedSecondaryDepreciationAmount</summary>
+                <description>accumulatedSecondaryDepreciationAmount description...</description>
+			</attribute>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingDate" forceUppercase="true">
+                <label>Financial Document Posting Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>financialDocumentPostingDate</summary>
+                <description>financialDocumentPostingDate description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
+                <label>Financial Document Posting Period Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialDocumentPostingPeriodCode</summary>
+                <description>financialDocumentPostingPeriodCode description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+                <label>Financial Document Posting Year</label>
+                <shortLabel>Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentPostingYear</summary>
+                <description>financialDocumentPostingYear description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentTypeCode" forceUppercase="true">
+                <label>Financial Document Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialDocumentTypeCode</summary>
+                <description>financialDocumentTypeCode description...</description>
+			</attribute>
+
+            <attribute name="financialObjectCode" forceUppercase="true">
+                <label>Financial Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>financialObjectCode</summary>
+                <description>financialObjectCode description...</description>
+			</attribute>
+
+            <attribute name="financialSubObjectCode" forceUppercase="true">
+                <label>Financial Sub Object Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>financialSubObjectCode</summary>
+                <description>financialSubObjectCode description...</description>
+			</attribute>
+
+            <attribute name="financialSystemOriginationCode" forceUppercase="true">
+                <label>Financial System Origination Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>financialSystemOriginationCode</summary>
+                <description>financialSystemOriginationCode description...</description>
+			</attribute>
+
+            <attribute name="organizationReferenceId" forceUppercase="true">
+                <label>Organization Reference Id</label>
+                <shortLabel>Id</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationReferenceId</summary>
+                <description>organizationReferenceId description...</description>
+			</attribute>
+
+            <attribute name="paymentSequenceNumber" forceUppercase="true">
+                <label>Payment Sequence Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>paymentSequenceNumber</summary>
+                <description>paymentSequenceNumber description...</description>
+			</attribute>
+
+            <attribute name="period10Depreciation1Amount" forceUppercase="true">
+                <label>Period10 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period10Depreciation1Amount</summary>
+                <description>period10Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period10Depreciation2Amount" forceUppercase="true">
+                <label>Period10 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period10Depreciation2Amount</summary>
+                <description>period10Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period11Depreciation1Amount" forceUppercase="true">
+                <label>Period11 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period11Depreciation1Amount</summary>
+                <description>period11Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period11Depreciation2Amount" forceUppercase="true">
+                <label>Period11 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period11Depreciation2Amount</summary>
+                <description>period11Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period12Depreciation1Amount" forceUppercase="true">
+                <label>Period12 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period12Depreciation1Amount</summary>
+                <description>period12Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period12Depreciation2Amount" forceUppercase="true">
+                <label>Period12 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period12Depreciation2Amount</summary>
+                <description>period12Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period1Depreciation1Amount" forceUppercase="true">
+                <label>Period1 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period1Depreciation1Amount</summary>
+                <description>period1Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period1Depreciation2Amount" forceUppercase="true">
+                <label>Period1 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period1Depreciation2Amount</summary>
+                <description>period1Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period2Depreciation1Amount" forceUppercase="true">
+                <label>Period2 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period2Depreciation1Amount</summary>
+                <description>period2Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period2Depreciation2Amount" forceUppercase="true">
+                <label>Period2 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period2Depreciation2Amount</summary>
+                <description>period2Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period3Depreciation1Amount" forceUppercase="true">
+                <label>Period3 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period3Depreciation1Amount</summary>
+                <description>period3Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period3Depreciation2Amount" forceUppercase="true">
+                <label>Period3 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period3Depreciation2Amount</summary>
+                <description>period3Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period4Depreciation1Amount" forceUppercase="true">
+                <label>Period4 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period4Depreciation1Amount</summary>
+                <description>period4Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period4Depreciation2Amount" forceUppercase="true">
+                <label>Period4 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period4Depreciation2Amount</summary>
+                <description>period4Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period5Depreciation1Amount" forceUppercase="true">
+                <label>Period5 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period5Depreciation1Amount</summary>
+                <description>period5Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period5Depreciation2Amount" forceUppercase="true">
+                <label>Period5 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period5Depreciation2Amount</summary>
+                <description>period5Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period6Depreciation1Amount" forceUppercase="true">
+                <label>Period6 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period6Depreciation1Amount</summary>
+                <description>period6Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period6Depreciation2Amount" forceUppercase="true">
+                <label>Period6 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period6Depreciation2Amount</summary>
+                <description>period6Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period7Depreciation1Amount" forceUppercase="true">
+                <label>Period7 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period7Depreciation1Amount</summary>
+                <description>period7Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period7Depreciation2Amount" forceUppercase="true">
+                <label>Period7 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period7Depreciation2Amount</summary>
+                <description>period7Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period8Depreciation1Amount" forceUppercase="true">
+                <label>Period8 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period8Depreciation1Amount</summary>
+                <description>period8Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period8Depreciation2Amount" forceUppercase="true">
+                <label>Period8 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period8Depreciation2Amount</summary>
+                <description>period8Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="period9Depreciation1Amount" forceUppercase="true">
+                <label>Period9 Depreciation1 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period9Depreciation1Amount</summary>
+                <description>period9Depreciation1Amount description...</description>
+			</attribute>
+
+            <attribute name="period9Depreciation2Amount" forceUppercase="true">
+                <label>Period9 Depreciation2 Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>period9Depreciation2Amount</summary>
+                <description>period9Depreciation2Amount description...</description>
+			</attribute>
+
+            <attribute name="previousYearPrimaryDepreciationAmount" forceUppercase="true">
+                <label>Previous Year Primary Depreciation Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>previousYearPrimaryDepreciationAmount</summary>
+                <description>previousYearPrimaryDepreciationAmount description...</description>
+			</attribute>
+
+            <attribute name="previousYearSecondaryDepreciationAmount" forceUppercase="true">
+                <label>Previous Year Secondary Depreciation Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>previousYearSecondaryDepreciationAmount</summary>
+                <description>previousYearSecondaryDepreciationAmount description...</description>
+			</attribute>
+
+            <attribute name="primaryDepreciationBaseAmount" forceUppercase="true">
+                <label>Primary Depreciation Base Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>primaryDepreciationBaseAmount</summary>
+                <description>primaryDepreciationBaseAmount description...</description>
+			</attribute>
+
+            <attribute name="projectCode" forceUppercase="true">
+                <label>Project Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>projectCode</summary>
+                <description>projectCode description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderNumber" forceUppercase="true">
+                <label>Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderNumber</summary>
+                <description>purchaseOrderNumber description...</description>
+			</attribute>
+
+            <attribute name="requisitionNumber" forceUppercase="true">
+                <label>Requisition Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>requisitionNumber</summary>
+                <description>requisitionNumber description...</description>
+			</attribute>
+
+            <attribute name="secondaryDepreciationBaseAmount" forceUppercase="true">
+                <label>Secondary Depreciation Base Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>secondaryDepreciationBaseAmount</summary>
+                <description>secondaryDepreciationBaseAmount description...</description>
+			</attribute>
+
+            <attribute name="subAccountNumber" forceUppercase="true">
+                <label>Sub Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>subAccountNumber</summary>
+                <description>subAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="transferPaymentCode" forceUppercase="true">
+                <label>Transfer Payment Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>transferPaymentCode</summary>
+                <description>transferPaymentCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

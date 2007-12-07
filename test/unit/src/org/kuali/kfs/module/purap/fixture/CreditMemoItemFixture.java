@@ -18,8 +18,6 @@ package org.kuali.module.purap.fixtures;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.AccountsPayableItem;
 import org.kuali.module.purap.bo.CreditMemoItem;
-import org.kuali.module.purap.bo.PurchasingItem;
-import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 
 public enum CreditMemoItemFixture {
@@ -46,6 +44,216 @@ public enum CreditMemoItemFixture {
      * {RequisitionAccountingLineFixture.APO_REQ_ACCOUNT_4} // creditMemoAccountMultiFixtures ),
      */
 
+    CM_VALID_RSTO_ITEM(
+            PurApItemFixture.NEGATIVE_RSTO_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),    
+    CM_VALID_MSCR_ITEM(
+            PurApItemFixture.NEGATIVE_MSCR_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),  
+    CM_VALID_MISC_ITEM(
+            PurApItemFixture.VALID_MISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),  
+    CM_NEGATIVE_DISC_ITEM(
+            PurApItemFixture.NEGATIVE_DISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_ORDS_ITEM(
+            PurApItemFixture.NEGATIVE_ORDS_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_TRDI_ITEM(
+            PurApItemFixture.NEGATIVE_TRDI_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_FDTX_ITEM(
+            PurApItemFixture.NEGATIVE_FDTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_STTX_ITEM(
+            PurApItemFixture.NEGATIVE_STTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_MISC_ITEM(
+            PurApItemFixture.NEGATIVE_MISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_FREIGHT_ITEM(
+            PurApItemFixture.NEGATIVE_FREIGHT_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_SHIPPING_AND_HANDLING_ITEM(
+            PurApItemFixture.NEGATIVE_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_FED_GROSS_CODE_ITEM(
+            PurApItemFixture.NEGATIVE_FED_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_STATE_GROSS_CODE_ITEM(
+            PurApItemFixture.NEGATIVE_STATE_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_NEGATIVE_MIN_ORDER_ITEM(
+            PurApItemFixture.NEGATIVE_MIN_ORDER_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_DISC_ITEM(
+            PurApItemFixture.POSITIVE_DISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_ORDS_ITEM(
+            PurApItemFixture.POSITIVE_ORDS_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_TRDI_ITEM(
+            PurApItemFixture.POSITIVE_TRDI_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_FDTX_ITEM(
+            PurApItemFixture.POSITIVE_FDTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_STTX_ITEM(
+            PurApItemFixture.POSITIVE_STTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_FREIGHT_ITEM(
+            PurApItemFixture.VALID_FREIGHT_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_SHIPPING_AND_HANDLING_ITEM(
+            PurApItemFixture.VALID_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_FED_GROSS_CODE_ITEM(
+            PurApItemFixture.VALID_FED_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_STATE_GROSS_CODE_ITEM(
+            PurApItemFixture.VALID_STATE_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_MIN_ORDER_ITEM(
+            PurApItemFixture.NEGATIVE_MIN_ORDER_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_MSCR_ITEM(
+            PurApItemFixture.POSITIVE_MSCR_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_POSITIVE_RSTO_ITEM(
+            PurApItemFixture.POSITIVE_RSTO_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),    
+    CM_ZERO_FREIGHT_ITEM(
+            PurApItemFixture.ZERO_FREIGHT_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_SHIPPING_AND_HANDLING_ITEM(
+            PurApItemFixture.ZERO_SHIPPING_AND_HANDLING_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_FED_GROSS_CODE_ITEM(
+            PurApItemFixture.ZERO_FED_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_STATE_GROSS_CODE_ITEM(
+            PurApItemFixture.ZERO_STATE_GROSS_CODE_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_MIN_ORDER_ITEM(
+            PurApItemFixture.ZERO_MIN_ORDER_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),     
+    CM_ZERO_MSCR_ITEM(
+            PurApItemFixture.ZERO_MSCR_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_RSTO_ITEM(
+            PurApItemFixture.ZERO_RSTO_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),   
+    CM_ZERO_DISC_ITEM(
+            PurApItemFixture.ZERO_DISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_ORDS_ITEM(
+            PurApItemFixture.ZERO_ORDS_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_TRDI_ITEM(
+            PurApItemFixture.ZERO_TRDI_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_FDTX_ITEM(
+            PurApItemFixture.ZERO_FDTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_STTX_ITEM(
+            PurApItemFixture.ZERO_STTX_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_ZERO_MISC_ITEM(
+            PurApItemFixture.ZERO_MISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ), 
+    CM_WITH_FREIGHT_ITEM_NO_DESC(
+            PurApItemFixture.FREIGHT_ITEM_NO_DESC, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),
+    CM_WITH_MISC_CREDIT_ITEM_WITH_DESC(
+            PurApItemFixture.VALID_MISC_CREDIT_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),
+    CM_WITH_MISC_ITEM_WITH_DESC(
+            PurApItemFixture.VALID_MISC_ITEM, // purApItemFixture
+            new CreditMemoAccountingLineFixture[] { CreditMemoAccountingLineFixture.BASIC_CM_ACCOUNT_1 }, // creditMemoAccountMultiFixtures
+            new KualiDecimal(1) // poInvoicedTotalQuantity
+    ),
     ;
 
 

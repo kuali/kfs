@@ -18,6 +18,7 @@ package org.kuali.module.purap.fixtures;
 import java.math.BigDecimal;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurApItem;
 
 public enum PurApItemFixture {
@@ -157,7 +158,712 @@ public enum PurApItemFixture {
             false, // itemAssignedToTradeInIndicator
             new KualiDecimal(-100), // extendedPrice
             new KualiDecimal(10) // itemQuantity
-    );
+    ),
+    BASIC_QTY_ITEM_NULL_UNIT_PRICE(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            "PCS", // itemUnitOfMeasureCode
+            "", // itemCatalogNumber
+            "description", // itemDescription
+            "", // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            "ITEM", // itemTypeCode
+            "", // itemAuxiliaryPartIdentifier
+            "", // externalOrganizationB2bProductReferenceNumber
+            "", // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            new KualiDecimal(1) // itemQuantity
+    ),
+    VALID_FREIGHT_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Freight description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),   
+    VALID_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Shipping and Handling description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),    
+    POSITIVE_DISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "DISC description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_RSTO_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "RSTO description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_MSCR_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "MSCR description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_ORDS_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "ORDS description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_TRDI_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "TRDI description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_FDTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "FDTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    POSITIVE_STTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "STTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),
+    VALID_MISC_CREDIT_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Miscellaneous Credit description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_FREIGHT_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Freight description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Shipping and Handling description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_MIN_ORDER_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Min Order description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_FED_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Fed Gross Code description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "State Gross Code description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_MISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Misc description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_DISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "DISC description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_RSTO_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "RSTO description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_MSCR_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "MSCR description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_ORDS_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "ORDS description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_TRDI_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "TRDI description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_FDTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "FDTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    NEGATIVE_STTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "STTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(-1), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_FREIGHT_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Freight description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),  
+    ZERO_SHIPPING_AND_HANDLING_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Shipping and Handling description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_MIN_ORDER_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Min Order description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_MISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Misc description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_DISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Payment Term Disc description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_PMT_TERMS_DISCOUNT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_RSTO_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Restock Fee description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_FED_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Fed Gross Code description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "State Gross Code description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_MSCR_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "MSCR description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CRDT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_ORDS_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "ORDS description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_ORDER_DISCOUNT_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_TRDI_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "TRDI description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_TRADE_IN_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_FDTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "FDTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    ZERO_STTX_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "STTX description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_TAX_CODE,  // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    FREIGHT_ITEM_NO_DESC(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FREIGHT_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),  
+    SHIPPING_AND_HANDLING_ITEM_NO_DESC(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_SHIP_AND_HAND_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),
+    MISC_ITEM_NO_DESC(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(0), // extendedPrice
+            null // itemQuantity
+    ),  
+    VALID_MIN_ORDER_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Minimum Order description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MIN_ORDER_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),  
+    VALID_MISC_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Miscellaneous description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_MISC_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),  
+    VALID_FED_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "Fed Gross description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_FEDERAL_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),  
+    VALID_STATE_GROSS_CODE_ITEM(null, // itemIdentifier
+            new Integer(1), // itemLineNumber
+            null, // capitalAssetTransactionTypeCode
+            null, // itemUnitOfMeasureCode
+            null, // itemCatalogNumber
+            "State Gross description", // itemDescription
+            null, // itemCapitalAssetNoteText
+            null, // itemUnitPrice
+            PurapConstants.ItemTypeCodes.ITEM_TYPE_STATE_GROSS_CODE, // itemTypeCode
+            null, // itemAuxiliaryPartIdentifier
+            null, // externalOrganizationB2bProductReferenceNumber
+            null, // externalOrganizationB2bProductTypeName
+            false, // itemAssignedToTradeInIndicator
+            new KualiDecimal(1), // extendedPrice
+            null // itemQuantity
+    ),  
+    ;
 
     private Integer itemIdentifier;
     private Integer itemLineNumber;

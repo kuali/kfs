@@ -43,7 +43,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private String effortCertificationReportEndPeriodCode;
     private boolean active;
     
-    private Options universityFiscal;
+    private Options options;
     private AccountingPeriod expenseTransferFiscalPeriod;
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
@@ -330,23 +330,24 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setActive(boolean active) {
         this.active = active;
     }
-    
+       
     /**
-     * Gets the universityFiscalYear object
-     * @return universityFiscal
+     * Gets the options attribute. 
+     * @return Returns the options.
      */
-    public Options getUniversityFiscal() {
-        return universityFiscal;
+    public Options getOptions() {
+        return options;
     }
 
     /**
-     * Sets the universityFiscalYear object
-     * @param universityFiscal
+     * Sets the options attribute value.
+     * @param options The options to set.
      */
-    public void setUniversityFiscal(Options universityFiscal) {
-        this.universityFiscal = universityFiscal;
+    @Deprecated
+    public void setOptions(Options options) {
+        this.options = options;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

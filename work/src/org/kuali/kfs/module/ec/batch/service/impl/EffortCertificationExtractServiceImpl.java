@@ -39,7 +39,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.effort.util.AccountingPeriod;
+import org.kuali.module.effort.util.AccountingPeriodMonth;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
@@ -87,7 +87,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     @Logged
     public void extract(Integer fiscalYear, String reportNumber) {
-        Map<String, String> fieldValues = this.buildPrimaryKeyMapOfReportDefinition(fiscalYear, reportNumber);
+        Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
         Message errorMessage = this.validateReportNumber(fieldValues);
         if (errorMessage != null) {
@@ -96,7 +96,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         }
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
-        Map<Integer, Set<String>> reportPeriods = this.findReportPeriods(reportDefinition);
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.findReportPeriods();
         Collection<LaborObject> laborObjects = this.findValidLaborObjectCodes(reportDefinition);
 
         List<String> employeesWith12MonthPay = this.findEmployeesWith12MonthPay(reportDefinition, reportPeriods);
@@ -150,28 +150,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * find all report periods covered by the specified report definition
-     * 
-     * @param reportDefinition the specified report definition
-     * @return all report periods for the specified report definition
-     */
-    private Map<Integer, Set<String>> findReportPeriods(EffortCertificationReportDefinition reportDefinition) {
-        Integer beginYear = reportDefinition.getEffortCertificationReportBeginFiscalYear();
-        String beginPeriodCode = reportDefinition.getEffortCertificationReportBeginPeriodCode();
-        Integer endYear = reportDefinition.getEffortCertificationReportEndFiscalYear();
-        String endPeriodCode = reportDefinition.getEffortCertificationReportEndPeriodCode();
-
-        return AccountingPeriod.findAccountingPeriodsBetween(beginYear, beginPeriodCode, endYear, endPeriodCode);
-    }
-
-    /**
      * find all valid labor objects for the given report definition
      * 
      * @param reportDefinition the specified report definition
      * @return all valid labor objects for the given report definition
      */
     private Collection<LaborObject> findValidLaborObjectCodes(EffortCertificationReportDefinition reportDefinition) {
-        Map<String, String> fieldValues = null; // this.buildPrimaryKeyMapOfReportDefinition(fiscalYear, reportNumber); TODO
+        Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
         Collection<EffortCertificationReportPosition> reportPosition = businessObjectService.findMatching(EffortCertificationReportPosition.class, fieldValues);
 
         List<String> positionGroupCodes = new ArrayList<String>();
@@ -270,23 +255,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
         
         return balanceTypeList;
-    }
-
-    /**
-     * build a primary key map for a report definition from the given values
-     * 
-     * @param fiscalYear the given fiscal year
-     * @param reportNumber the given report number
-     * @return a primary key map for a report definition
-     */
-    private Map<String, String> buildPrimaryKeyMapOfReportDefinition(Integer fiscalYear, String reportNumber) {
-        Map<String, String> primaryKeyMap = new HashMap<String, String>();
-
-        String stringFiscalYear = (fiscalYear == null) ? "" : fiscalYear.toString();
-        primaryKeyMap.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, stringFiscalYear);
-        primaryKeyMap.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportNumber);
-
-        return primaryKeyMap;
     }
 
     /**

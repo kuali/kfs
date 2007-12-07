@@ -422,7 +422,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.PaymentDocument" table="CM_AST_PMT_DOC_T">
+<class-descriptor class="org.kuali.module.cams.document.PaymentDocument" table="CM_AST_PMT_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -480,9 +480,9 @@
 		<foreignkey field-ref="financialDocumentPostingYear" />
 		<foreignkey field-ref="financialDocumentPostingPeriodCode" />
 	</reference-descriptor>
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
-    </reference-descriptor>
+    </reference-descriptor>	
     <reference-descriptor name="expenditureFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="expenditureFinancialDocumentNumber" />
     </reference-descriptor>
@@ -491,7 +491,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetDocument" table="CM_CPTLAST_DOC_T">
+<class-descriptor class="org.kuali.module.cams.document.AssetDocument" table="CM_CPTLAST_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
@@ -519,9 +519,9 @@
 	<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="documentNumber" />
-	</reference-descriptor>
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>	
     <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="offCampusStateCode" />
     </reference-descriptor>

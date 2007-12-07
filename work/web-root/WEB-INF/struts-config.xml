@@ -101,6 +101,10 @@
         <form-bean name="PdpFormatSelectionForm" type="org.kuali.module.pdp.form.format.FormatSelectionForm" />
         <form-bean name="PdpFormatProcessForm" type="org.kuali.module.pdp.form.format.FormatProcessForm" />
         <form-bean name="PdpFormatSummaryForm" type="org.kuali.module.pdp.form.format.FormatSummaryForm" />
+
+        <!-- CAMs Module Bean Definitions -->
+        <form-bean name="AssetForm" type="org.kuali.module.cams.web.struts.form.AssetForm" />  
+        <form-bean name="PaymentForm" type="org.kuali.module.cams.web.struts.form.PaymentForm" />  
     </form-beans>
 
     <global-exceptions>
@@ -287,6 +291,11 @@
         <action path="/effort*" name="{1}Form" input="/jsp/modules/effort/{1}.jsp" type="org.kuali.module.effort.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/effort/{1}.jsp" />
+        </action>
+
+        <action path="/cams*" name="{1}Form" input="/jsp/modules/cams/{1}.jsp" type="org.kuali.module.cams.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+            <set-property property="cancellable" value="true" />
+            <forward name="basic" path="/jsp/modules/cams/{1}.jsp" />
         </action>
 
         <action path="/batchUpload" name="KualiBatchInputFileForm" scope="request" attribute="KualiForm" parameter="methodToCall" type="org.kuali.kfs.web.struts.action.KualiBatchInputFileAction">

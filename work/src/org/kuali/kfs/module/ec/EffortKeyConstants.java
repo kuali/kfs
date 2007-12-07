@@ -19,6 +19,19 @@ package org.kuali.module.effort;
  * Constants that represent keys to messages or errors given in the effort reporting module.
  */
 public class EffortKeyConstants {
-    public static String ERROR_FISCAL_YR = "error.requiredForUs";
+    public static final String ERROR_FISCAL_YR = "error.requiredForUs";
     public static final String ERROR_END_FISCAL_YEAR = "error.efffort.effortCertificationReport.endFiscalYear";
+    
+    public static final String ERROR_FISCAL_YEAR_MISSING = "error.effort.extract.fiscalYearMissing";
+    public static final String ERROR_REPORT_NUMBER_MISSING = "error.effort.extract.reportNumberMissing";
+    public static final String ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID = "error.effort.extract.fiscalYearOrReportNumberInvalid";
+    public static final String ERROR_REPORT_DEFINITION_INACTIVE = "error.effort.extract.reportDefinitionInactive";
+    public static final String ERROR_NOT_LABOR_OBJECT_CODE = "error.effort.extract.notLaborObjectCode";
+    public static final String ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND = "error.effort.extract.higherEducationCodeNotFound";
+    public static final String ERROR_ACCOUNT_NUMBER_NOT_FOUND = "error.effort.extract.accountNumberNotFound";
+    public static final String ERROR_FUND_GROUP_NOT_FOUND = "error.effort.extract.fundGroupNotFound";
+    public static final String ERROR_NONPOSITIVE_PAYROLL_AMOUNT = "error.effort.extract.nonpositivePayrollAmount";
+    public static final String ERROR_REPORT_DOCUMENT_EXIST = "error.effort.extract.reportDocumentExist";
+    public static final String ERROR_REPORT_LINES_EXIST = "error.effort.extract.reportLinesExist";
+    public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.extract.undefinedUnversityDate";
 }

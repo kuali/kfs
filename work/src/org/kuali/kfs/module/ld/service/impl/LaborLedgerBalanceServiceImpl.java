@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
@@ -221,6 +222,14 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
      */
     public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes) {
         return laborLedgerBalanceDao.findAccountsInFundGroups(fiscalYear, fieldValues, subFundGroupCodes, fundGroupCodes);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
+     *      java.util.List)
+     */
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList) {
+        return laborLedgerBalanceDao.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList);
     }
 
     /**

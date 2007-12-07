@@ -16,8 +16,12 @@
 package org.kuali.module.labor.dao.ojb;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -27,6 +31,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.util.TransactionalServiceUtils;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
+import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
 
@@ -88,6 +93,54 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         getPersistenceBrokerTemplate().store(ledgerEntry);
     }
 
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#findEmployeesWith12MonthPay(java.util.Map, java.util.List, java.util.List)
+     */
+    public List<String> findEmployeesWith12MonthPay(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        Criteria criteria = new Criteria();
+        
+        Criteria criteriaForPayPeriods = new Criteria();
+        for(Integer fiscalYear : payPeriods.keySet()) {
+            Criteria criteriaForFiscalYear = new Criteria();
+            
+            criteriaForFiscalYear.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+            criteriaForFiscalYear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, payPeriods.get(fiscalYear));
+            
+            criteriaForPayPeriods.addOrCriteria(criteriaForFiscalYear);
+        }
+        
+        Criteria criteriaForBalanceTypes = new Criteria();
+        criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypes);
+        
+        Criteria criteriaForEarnCodePayGroup = new Criteria();
+        for(String payGroup : earnCodePayGroupMap.keySet()) {
+            Criteria criteriaForEarnPay = new Criteria();
+            
+            criteriaForEarnPay.addEqualTo(KFSPropertyConstants.EARN_CODE, payGroup); 
+            criteriaForEarnPay.addIn(KFSPropertyConstants.PAY_GROUP, earnCodePayGroupMap.get(payGroup)); 
+            
+            criteriaForEarnCodePayGroup.addOrCriteria(criteriaForEarnPay);
+        }
+        
+        criteria.addAndCriteria(criteriaForPayPeriods);
+        criteria.addAndCriteria(criteriaForBalanceTypes);
+        criteria.addAndCriteria(criteriaForEarnCodePayGroup);
+        
+        ReportQueryByCriteria query = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
+        query.setAttributes(new String[] {KFSPropertyConstants.EMPLID});
+        query.setDistinct(true);
+        
+        Iterator<Object[]> employees = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
+        List<String> employeeList = new ArrayList<String>();
+        
+        while(employees != null && employees.hasNext()) {
+            Object[] emplid = employees.next();
+            employeeList.add(emplid == null ? "" : emplid[0].toString());
+        }
+        
+        return employeeList;
+    }
+    
     /**
      * @return the Class type of the business object accessed and managed
      */

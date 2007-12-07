@@ -16,7 +16,9 @@
 package org.kuali.module.labor.service.impl;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.dao.LaborLedgerEntryDao;
@@ -55,6 +57,13 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     }
 
     /**
+     * @see org.kuali.module.labor.service.LaborLedgerEntryService#findEmployeesWith12MonthPay(java.util.Map, java.util.List, java.util.Map)
+     */
+    public List<String> findEmployeesWith12MonthPay(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        return laborLedgerEntryDao.findEmployeesWith12MonthPay(payPeriods, balanceTypes, earnCodePayGroupMap);
+    }
+    
+    /**
      * Sets the laborLedgerEntryDao attribute value.
      * 
      * @param laborLedgerEntryDao The laborLedgerEntryDao to set.
@@ -62,4 +71,5 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     public void setLaborLedgerEntryDao(LaborLedgerEntryDao laborLedgerEntryDao) {
         this.laborLedgerEntryDao = laborLedgerEntryDao;
     }
+
 }

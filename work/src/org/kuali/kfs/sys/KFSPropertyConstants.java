@@ -1136,4 +1136,6 @@ public class KFSPropertyConstants {
     public static final String PROCESS = "process";
     public static final String VALID = "valid";
     public static final String SCRUB = "scrub";
+    public static final String EARN_CODE = "earnCode";
+    public static final String PAY_GROUP = "payGroup";
 }

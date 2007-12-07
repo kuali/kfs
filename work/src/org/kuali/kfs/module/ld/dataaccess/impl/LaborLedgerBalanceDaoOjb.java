@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.Query;
@@ -497,5 +498,27 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
             accounts.add(account);
         }
         return accounts;
+    }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set, java.util.List)
+     */
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());       
+        for(String fieldName : exclusiveFieldValues.keySet()) {
+            criteria.addNotEqualTo(fieldName, exclusiveFieldValues.get(fieldName));
+        }
+        
+        Criteria criteriaForFiscalyear = new Criteria();
+        criteriaForFiscalyear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
+        
+        Criteria criteriaForBalanceTypes = new Criteria();
+        criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeList);
+        
+        criteria.addAndCriteria(criteriaForFiscalyear);
+        criteria.addAndCriteria(criteriaForBalanceTypes);
+        
+        QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }
 }

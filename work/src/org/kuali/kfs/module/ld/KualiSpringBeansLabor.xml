@@ -147,6 +147,12 @@
 		</property>
 	</bean>
 	
+	<bean id="laborObjectService" class="org.kuali.module.labor.service.impl.LaborObjectServiceImpl">
+		<property name="laborObjectDao">
+			<ref bean="laborObjectDao" />
+		</property>
+	</bean>
+	
     <!-- Section 2: Spring Beans for DAO -->
 
 	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
@@ -170,6 +176,8 @@
 	<bean id="laborBaseFundsDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborBaseFundsDaoOjb" />
 	<bean id="laborCalculatedSalaryFoundationTrackerDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborCalculatedSalaryFoundationTrackerDaoOjb" />
 	<bean id="laborLedgerPendingEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborLedgerPendingEntryDaoOjb" />
+	
+	<bean id="laborObjectDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborObjectDaoOjb" />
 	
     <!-- Section 3: Spring Bean for Batch processes -->
     

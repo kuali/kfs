@@ -19,6 +19,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
@@ -147,4 +148,15 @@ public interface LaborLedgerBalanceService {
      * @return the accounts (chart of accounts code + account number) in the given fund groups
      */
     public List<List<String>> findAccountsInFundGroups(Integer fiscalYear, Map<String, String> fieldValues, List<String> subFundGroupCodes, List<String> fundGroupCodes);
+
+    /**
+     * find all ledger balances matching the given criteria within the given fiscal years
+     * 
+     * @param fieldValues the given field values
+     * @param exclusiveFieldValues the given field values that must not be matched
+     * @param fiscalYears the given fiscal years
+     * @param balanceTypeList the given balance type code list
+     * @return all ledger balances matching the given criteria within the given fiscal years
+     */
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList);
 }

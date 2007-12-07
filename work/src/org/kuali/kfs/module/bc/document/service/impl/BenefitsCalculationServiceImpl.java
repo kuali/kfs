@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.module.budget.dao.BenefitsCalculationDao;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class BenefitsCalculationServiceImpl implements BenefitsCalculationService {
 
     private KualiConfigurationService kualiConfigurationService;
+    private BenefitsCalculationDao benefitsCalculationDao;
 
     /**
      * @see org.kuali.module.budget.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
@@ -101,4 +103,16 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         this.kualiConfigurationService = kualiConfigurationService;
     }
 
+    /**
+     * 
+     * This method allows spring to initialize the Dao, so we don't have to look up the bean on each call from the application
+     * @param benefitsCalculationDao  the Dao for benefits calculation
+     */
+    public void setBenefitsCalculationDao(BenefitsCalculationDao benefitsCalculationDao)
+    {
+        this.benefitsCalculationDao = benefitsCalculationDao;
+    }
+    
+
+    
 }

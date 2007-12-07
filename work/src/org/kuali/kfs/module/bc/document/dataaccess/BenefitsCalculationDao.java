@@ -13,25 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.module.budget.service;
+package org.kuali.module.budget.dao;
 
-/**
- * This class defines methods that a Benefits Calculation Service must provide The Benefits Calculation Service supports
- * functionality related to calculating benefits request amounts for a Budget Construction Document (account/sub-account). This
- * includes calculations for annual and monthly amounts. Monthly amounts are only calculated when associated monthly request amounts
- * exist.
- */
-public interface BenefitsCalculationService {
+public interface BenefitsCalculationDao {
 
-    /**
-     * This method returns the disabled setting of the System Parameter controlling Budget module Benefits Calculation. Disabling
-     * Benefits Calculation will cause any UI controls related to the Benefits Calculation functionality to not be displayed.
-     * Disabling will also cause associated business rules checks to behave differently or not be run.
-     * 
-     * @return
-     */
-    public boolean getBenefitsCalculationDisabled();
-    
+
     /**
      * 
      * This method calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
@@ -61,20 +47,5 @@ public interface BenefitsCalculationService {
                                                                         String accountNumber,
                                                                         String subAccountNumber);
 
-    /**
-     * 
-     * This method calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
-     * stores them in the database.
-     * @param documentNumber
-     * @param fiscalYear
-     * @param chartOfAccounts
-     * @param accountNumber
-     * @param subAccountNumber
-     */
-    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
-                                                                    Integer fiscalYear,
-                                                                    String chartOfAccounts,
-                                                                    String accountNumber,
-                                                                    String subAccountNumber);
-    
+
 }

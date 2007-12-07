@@ -25,12 +25,12 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
@@ -39,7 +39,8 @@ import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.effort.util.AccountingPeriodMonth;
+import org.kuali.module.effort.util.LaborObjectKeyFieldMap;
+import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
@@ -57,7 +58,7 @@ import org.springframework.transaction.annotation.Transactional;
  * include:
  * 
  * <li>Identify employees who were paid on a grant or cost shared;</li>
- * <li>Select Labor Ledger records for each idetified employee;</li>
+ * <li>Select qualified Labor Ledger records for each identified employee;</li>
  * <li>Generate effor certification build document from the selected Labor Ledger records for each employee.</li>
  */
 @Transactional
@@ -97,13 +98,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         Map<Integer, Set<String>> reportPeriods = reportDefinition.findReportPeriods();
-        Collection<LaborObject> laborObjects = this.findValidLaborObjectCodes(reportDefinition);
+        LaborObjectKeyFieldMap laborObjectKeyFieldMap = this.buildLaborObjectMap(reportDefinition);
 
         List<String> employeesWith12MonthPay = this.findEmployeesWith12MonthPay(reportDefinition, reportPeriods);
         for (String emplid : employeesWith12MonthPay) {
-            Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalancesForEmployee(emplid, reportPeriods, laborObjects);
+            Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, laborObjectKeyFieldMap, reportPeriods);
 
-            this.generateBuildDocumentForEmployee(reportDefinition, emplid, ledgerBalances);
+            if (qualifiedLedgerBalance != null) {
+                this.generateBuildDocumentForEmployee(reportDefinition, qualifiedLedgerBalance);
+            }
         }
     }
 
@@ -150,12 +153,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * find all valid labor objects for the given report definition
+     * find all valid labor objects for the given report definition and store them as an object of LaborObjectKeyFieldMap
      * 
      * @param reportDefinition the specified report definition
-     * @return all valid labor objects for the given report definition
+     * @return an object of LaborObjectKeyFieldMap containing all valid labor objects for the given report definition
      */
-    private Collection<LaborObject> findValidLaborObjectCodes(EffortCertificationReportDefinition reportDefinition) {
+    private LaborObjectKeyFieldMap buildLaborObjectMap(EffortCertificationReportDefinition reportDefinition) {
         Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
         Collection<EffortCertificationReportPosition> reportPosition = businessObjectService.findMatching(EffortCertificationReportPosition.class, fieldValues);
 
@@ -164,11 +167,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             positionGroupCodes.add(position.getEffortCertificationReportPositionObjectGroupCode());
         }
 
-        Map<String, Object> searchCriteria = new HashMap<String, Object>();
-        searchCriteria.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
-        searchCriteria.put(LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
+        Map<String, Object> laborObjectFieldValues = new HashMap<String, Object>();
+        laborObjectFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
+        laborObjectFieldValues.put(LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
 
-        return laborObjectService.findAllLaborObjectInPositionGroups(searchCriteria, positionGroupCodes);
+        Collection<LaborObject> laborObjects = laborObjectService.findAllLaborObjectInPositionGroups(laborObjectFieldValues, positionGroupCodes);
+
+        return new LaborObjectKeyFieldMap(laborObjects);
     }
 
     /**
@@ -179,9 +184,68 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return the 12 Month employees who were paid within the given report periods
      */
     private List<String> findEmployeesWith12MonthPay(EffortCertificationReportDefinition reportDefinition, Map<Integer, Set<String>> reportPeriods) {
-        Collection<EffortCertificationReportEarnPaygroup> reportEarnPay = this.findReportEarnPay(reportDefinition);
+        Map<String, Set<String>> earnCodePayGroupMap = this.findReportEarnPayMap(reportDefinition);
+        List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
+        return laborLedgerEntryService.findEmployeesWith12MonthPay(reportPeriods, balanceTypeList, earnCodePayGroupMap);
+    }
+
+    private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, LaborObjectKeyFieldMap laborObjectKeyFieldMap, Map<Integer, Set<String>> reportPeriods) {
+        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalancesForEmployee(emplid, reportPeriods);
+
+        for (LedgerBalance balance : ledgerBalances) {
+            KualiDecimal totalAmount = this.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
+            if (totalAmount.isZero() || !hasValidObjectCode(balance, laborObjectKeyFieldMap) || !hasValidAccount(balance)) {
+                ledgerBalances.remove(balance);
+            }
+        }
+
+        if (!hasPaidByGrantAccount(ledgerBalances)) {
+            return null;
+        }
+
+        return this.getQualifiedCosolidatedLedgerBalances(ledgerBalances, reportPeriods);
+    }
+
+    private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances) {
+
+    }
+    
+
+    private Collection<LedgerBalance> selectLedgerBalancesForEmployee(String emplid, Map<Integer, Set<String>> reportPeriods) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "EX"); // TODO: remove the hardcoded constants
+
+        Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
+        exclusiveFieldValues.put(KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE, "WS"); // TODO
+
+        Set<Integer> fiscalYears = reportPeriods.keySet();
+        List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
+
+        return laborLedgerBalanceService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList);
+    }
+
+    /**
+     * find a report definition by the primary key. The primary key is provided by the given field values.
+     * 
+     * @param fieldValues the given field values containing the primary key of a report definition
+     * @return a report definition with the given primary key
+     */
+    private EffortCertificationReportDefinition findReportDefinitionByPrimaryKey(Map<String, String> fieldValues) {
+        return (EffortCertificationReportDefinition) businessObjectService.findByPrimaryKey(EffortCertificationReportDefinition.class, fieldValues);
+    }
+
+    /**
+     * store the earn code and pay group combination in a Map for the specified report definition
+     * 
+     * @param reportDefinition the specified report definition
+     * @return the earn code and pay group combination for the specified report definition as a Map
+     */
+    private Map<String, Set<String>> findReportEarnPayMap(EffortCertificationReportDefinition reportDefinition) {
+        Collection<EffortCertificationReportEarnPaygroup> reportEarnPay = this.findReportEarnPay(reportDefinition);
         Map<String, Set<String>> earnCodePayGroupMap = new HashMap<String, Set<String>>();
+
         for (EffortCertificationReportEarnPaygroup earnPay : reportEarnPay) {
             String payGroup = earnPay.getPayGroup();
             String earnCode = earnPay.getEarnCode();
@@ -196,79 +260,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
                 earnCodePayGroupMap.put(payGroup, earnCodeSet);
             }
         }
-
-        List<String> balanceTypeList = this.getEligibleBalanceTypes();
-
-        List<String> employeesWith12MonthPay = laborLedgerEntryService.findEmployeesWith12MonthPay(reportPeriods, balanceTypeList, earnCodePayGroupMap);
-        return employeesWith12MonthPay;
+        return earnCodePayGroupMap;
     }
 
-    private Collection<LedgerBalance> selectLedgerBalancesForEmployee(String emplid, Map<Integer, Set<String>> reportPeriods, Collection<LaborObject> laborObjectCodes) {   
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "EX");
-        
-        Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
-        exclusiveFieldValues.put(KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE, "WS");
-        
-        Set<Integer> fiscalYears = reportPeriods.keySet();
-        List<String> balanceTypeList = this.getEligibleBalanceTypes();
-        
-        Collection<LedgerBalance> ledgerBalances = laborLedgerBalanceService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList);
-        return null;
-    }
-    
-    private boolean verifyLedgerBalance(LedgerBalance ledgerBalance) {
-            Account account = ledgerBalance.getAccount();
-            
-            if(account == null) {
-                LOG.error("");
-            }
-            
-            if(account.getFinancialHigherEdFunction() == null) {
-                LOG.error("");
-            }
-            
-            if(account.getSubFundGroup().getFundGroupCode() == null) {
-                
-            }
-            
-            if(account.getSubFundGroup().getSubFundGroupCode() == null) {
-                
-            }
-            
-            LaborObject laborObject = ledgerBalance.getLaborObject();
-        return true;
-    }
-
-    private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, String emplid, Collection<LedgerBalance> ledgerBalances) {
-
-    }
-    
-    /**
-     * get the balance types that are eligible for effort reporting
-     * @return the balance types that are eligible for effort reporting
-     */
-    private List<String> getEligibleBalanceTypes(){
-        List<String> balanceTypeList = new ArrayList<String>();
-        balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
-        balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
-        
-        return balanceTypeList;
-    }
-
-    /**
-     * find a report definition by the primary key. The primary key is provided by the given field values.
-     * 
-     * @param fieldValues the given field values containing the primary key of a report definition
-     * @return a report definition with the given primary key
-     */
-    private EffortCertificationReportDefinition findReportDefinitionByPrimaryKey(Map<String, String> fieldValues) {
-        return (EffortCertificationReportDefinition) businessObjectService.findByPrimaryKey(EffortCertificationReportDefinition.class, fieldValues);
-    }
-   
     /**
      * find the earn code and pay group combination for the specified report definition
+     * 
      * @param reportDefinition the specified report definition
      * @return the earn code and pay group combination for the specified report definition
      */
@@ -278,5 +275,95 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, reportDefinition.getEffortCertificationReportTypeCode());
 
         return businessObjectService.findMatching(EffortCertificationReportEarnPaygroup.class, fieldValues);
+    }
+
+    /**
+     * check if the given ledger balance has an account qualified for effort reporting
+     * 
+     * @param ledgerBalance the given ledger balance
+     * @return true if the given ledger balance has an account qualified for effort reporting; otherwise, false
+     */
+    private boolean hasValidAccount(LedgerBalance ledgerBalance) {
+        Account account = ledgerBalance.getAccount();
+
+        if (account == null) {
+            LOG.error("");
+            return false;
+        }
+
+        if (account.getFinancialHigherEdFunction() == null) {
+            LOG.error("");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasValidObjectCode(LedgerBalance ledgerBalance, LaborObjectKeyFieldMap laborObjectKeyFieldMap) {
+        Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
+        String chartOfAccountsCode = ledgerBalance.getChartOfAccountsCode();
+        String objectCode = ledgerBalance.getFinancialObjectCode();
+
+        if (laborObjectKeyFieldMap.contains(objectCode, chartOfAccountsCode, fiscalYear)) {
+            return true;
+        }
+        return false;
+    }
+
+    private Collection<LedgerBalance> getQualifiedCosolidatedLedgerBalances(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+        Collection<LedgerBalance> cosolidatedLedgerBalances = new ArrayList<LedgerBalance>();
+
+        LedgerBalanceConsolidationHelper ledgerBalanceConsolidationHelper = new LedgerBalanceConsolidationHelper();
+        ledgerBalanceConsolidationHelper.consolidateLedgerBalances(ledgerBalances);
+        Map<String, LedgerBalance> ledgerBalanceMap = ledgerBalanceConsolidationHelper.getLedgerBalanceConsolidationMap();
+
+        for (String key : ledgerBalanceMap.keySet()) {
+            LedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
+
+            KualiDecimal totalAmount = this.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            if (totalAmount.isNonZero()) {
+                cosolidatedLedgerBalances.add(ledgerBalance);
+            }
+        }
+
+        KualiDecimal totalAmountForEmployee = this.calculateTotalAmountWithinReportPeriod(cosolidatedLedgerBalances, reportPeriods);
+        return !totalAmountForEmployee.isPositive() ? null : cosolidatedLedgerBalances;
+    }
+
+    // TODO: incomplete
+    private boolean hasPaidByGrantAccount(Collection<LedgerBalance> ledgerBalances) {
+
+        for (LedgerBalance balance : ledgerBalances) {
+            Account account = balance.getAccount();
+
+            if (account.getSubFundGroup().getFundGroupCode() != null) {
+                return true;
+            }
+
+            if (account.getSubFundGroup().getSubFundGroupCode() != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private KualiDecimal calculateTotalAmountWithinReportPeriod(LedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
+        Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        Set<String> periodCodes = reportPeriods.get(fiscalYear);
+        for (String period : periodCodes) {
+            totalAmount.add(ledgerBalance.getAmountByPeriod(period));
+        }
+        return totalAmount;
+    }
+
+    private KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        for (LedgerBalance ledgerBalance : ledgerBalances) {
+            KualiDecimal totalAmountForOneBalance = this.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            totalAmount = totalAmount.add(totalAmountForOneBalance);
+        }
+        return totalAmount;
     }
 }

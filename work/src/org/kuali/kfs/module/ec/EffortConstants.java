@@ -15,6 +15,9 @@
  */
 package org.kuali.module.effort;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.kuali.core.JstlConstants;
 import org.kuali.kfs.KFSConstants;
 
@@ -23,5 +26,12 @@ import org.kuali.kfs.KFSConstants;
  */
 public class EffortConstants extends JstlConstants {
 
+    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();
+    private static final List<String> getEeligibleBalanceTypesForEffortReport() {
+        List<String> balanceTypeList = new ArrayList<String>();
+        balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
+        balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
+        return balanceTypeList;
+    }
 
 }

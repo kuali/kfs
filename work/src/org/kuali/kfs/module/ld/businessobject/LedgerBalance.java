@@ -396,6 +396,65 @@ public class LedgerBalance extends Balance {
             this.setAccountLineAnnualBalanceAmount(this.getAccountLineAnnualBalanceAmount().add(amount));
         }
     }
+    
+    /**
+     * get the amount in the given period.
+     * 
+     * @param periodCode the given period code
+     */
+    public KualiDecimal getAmountByPeriod(String periodCode) {
+        if (KFSConstants.PERIOD_CODE_ANNUAL_BALANCE.equals(periodCode)) {
+            return this.getAccountLineAnnualBalanceAmount();
+        }
+        else if (KFSConstants.PERIOD_CODE_BEGINNING_BALANCE.equals(periodCode)) {
+            return this.getFinancialBeginningBalanceLineAmount();
+        }
+        else if (KFSConstants.PERIOD_CODE_CG_BEGINNING_BALANCE.equals(periodCode)) {
+            return this.getContractsGrantsBeginningBalanceAmount();
+        }
+        else if (KFSConstants.MONTH1.equals(periodCode)) {
+            return this.getMonth1Amount();
+        }
+        else if (KFSConstants.MONTH2.equals(periodCode)) {
+            return this.getMonth2Amount();
+        }
+        else if (KFSConstants.MONTH3.equals(periodCode)) {
+            return this.getMonth3Amount();
+        }
+        else if (KFSConstants.MONTH4.equals(periodCode)) {
+            return this.getMonth4Amount();
+        }
+        else if (KFSConstants.MONTH5.equals(periodCode)) {
+            return this.getMonth5Amount();
+        }
+        else if (KFSConstants.MONTH6.equals(periodCode)) {
+            return this.getMonth6Amount();
+        }
+        else if (KFSConstants.MONTH7.equals(periodCode)) {
+            return this.getMonth7Amount();
+        }
+        else if (KFSConstants.MONTH8.equals(periodCode)) {
+            return this.getMonth8Amount();
+        }
+        else if (KFSConstants.MONTH9.equals(periodCode)) {
+            return this.getMonth9Amount();
+        }
+        else if (KFSConstants.MONTH10.equals(periodCode)) {
+            return this.getMonth10Amount();
+        }
+        else if (KFSConstants.MONTH11.equals(periodCode)) {
+            return this.getMonth11Amount();
+        }
+        else if (KFSConstants.MONTH12.equals(periodCode)) {
+            return this.getMonth12Amount();
+        }
+        else if (KFSConstants.MONTH13.equals(periodCode)) {
+            return this.getMonth13Amount();
+        }
+        else {
+            throw new IllegalArgumentException("Unsupport Period Code: " + periodCode);
+        }
+    }
 
     /**
      * Retrieve the associated <code>{@link LaborObject}</code> linked by chart of accounts code, financial object code, and

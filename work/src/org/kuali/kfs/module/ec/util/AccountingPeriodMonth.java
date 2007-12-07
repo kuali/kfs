@@ -24,7 +24,7 @@ import java.util.Set;
 import org.kuali.kfs.KFSConstants;
 
 /**
- * This class...
+ * This enumerates the accounting periods as months and provides a set of utilities to manage the period code.
  */
 public enum AccountingPeriodMonth {
     MONTH1(KFSConstants.MONTH1), MONTH2(KFSConstants.MONTH2), MONTH3(KFSConstants.MONTH3), MONTH4(KFSConstants.MONTH4), MONTH5(KFSConstants.MONTH5), MONTH6(KFSConstants.MONTH6), MONTH7(KFSConstants.MONTH7), MONTH8(KFSConstants.MONTH8), MONTH9(KFSConstants.MONTH9), MONTH10(KFSConstants.MONTH10), MONTH11(KFSConstants.MONTH11), MONTH12(KFSConstants.MONTH12);

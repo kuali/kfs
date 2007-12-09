@@ -163,7 +163,7 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
         return items;
     }
 
-    protected PurchaseOrderDocument buildSimpleDocument() throws Exception {
+    public PurchaseOrderDocument buildSimpleDocument() throws Exception {
         return PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
     }
 

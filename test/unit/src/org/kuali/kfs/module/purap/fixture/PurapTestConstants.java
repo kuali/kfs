@@ -74,7 +74,7 @@ public class PurapTestConstants {
     @SuppressWarnings("deprecation")
     static class PO {
         static final Integer REQ_ID = new Integer("8888");
-        static final Date CREATE_DATE = new Date(107, 10, 10); // 2008-01-01
+        static final Date CREATE_DATE = new Date(107, 10, 10); // 2007-10-10
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
 
@@ -85,5 +85,8 @@ public class PurapTestConstants {
         static final String INVOICE_NUMBER = "123456789";
         static final KualiDecimal AMOUNT = new KualiDecimal(32);
     }
-
+    
+    static class CMInit {
+        static final String INITIAL_VENDOR_NUMBER = "1000-0";
+    }
 }

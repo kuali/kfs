@@ -255,6 +255,15 @@ public class PurapServiceImpl implements PurapService {
         }
         return belowTheLineItem;
     }
+    
+    /**
+     * @see org.kuali.module.purap.service.PurapService#getDateFromOffsetFromToday(int)
+     */
+    public Date getDateFromOffsetFromToday(int offsetDays) {
+        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
+        calendar.add(Calendar.DATE, offsetDays);
+        return new Date(calendar.getTimeInMillis());
+    }
 
     /**
      * @see org.kuali.module.purap.service.PurapService#isDateInPast(java.sql.Date)

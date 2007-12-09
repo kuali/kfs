@@ -73,6 +73,14 @@ public interface PurapService {
      * @return below the line item by item type
      */
     public PurApItem getBelowTheLineByType(PurchasingAccountsPayableDocument document, ItemType iT);
+    
+    /**
+     * Return a Date object which is which is a given number of days away from today, in either direction. 
+     * 
+     * @param offsetDays
+     * @return  A java.sql.Date
+     */
+    public Date getDateFromOffsetFromToday(int offsetDays);
 
     /**
      * Determine whether a given date is in the past.

@@ -125,7 +125,7 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
     }
     
     // test util methods
-    private PaymentRequestDocument buildSimpleDocument() throws Exception {
+    public PaymentRequestDocument buildSimpleDocument() throws Exception {
         
         PaymentRequestDocument preq = createBasicDocument1();
                                 

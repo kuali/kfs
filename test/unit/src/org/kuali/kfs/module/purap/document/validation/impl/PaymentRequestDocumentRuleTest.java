@@ -18,12 +18,12 @@ package org.kuali.module.purap.rules;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.sql.Date;
-import java.util.Calendar;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.fixtures.PaymentRequestInvoiceTabFixture;
+import org.kuali.module.purap.service.PurapService;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext(session = KHUNTLEY)
@@ -85,22 +85,16 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     /*
      * Tests of processPaymentRequestDateValidationForContinue
      */
-    private Date getDateFromOffsetFromToday(int offsetDays) {
-        Calendar calendar = SpringContext.getBean(DateTimeService.class).getCurrentCalendar();
-        calendar.add(Calendar.DATE, offsetDays);
-        return new Date(calendar.getTimeInMillis());
-    }
-
     public void testProcessPaymentRequestDateValidationForContinue_BeforeToday() {
         preq = PaymentRequestInvoiceTabFixture.WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT.populate(preq);
-        Date yesterday = getDateFromOffsetFromToday(-1);
+        Date yesterday = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(-1);
         preq.setInvoiceDate(yesterday);
         assertTrue(rule.processPaymentRequestDateValidationForContinue(preq));
     }
 
     public void testProcessPaymentRequestDateValidationForContinue_AfterToday() {
         preq = PaymentRequestInvoiceTabFixture.WITH_POID_WITH_DATE_WITH_NUMBER_WITH_AMOUNT.populate(preq);
-        Date tomorrow = getDateFromOffsetFromToday(1);
+        Date tomorrow = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(1);
         preq.setInvoiceDate(tomorrow);
         assertFalse(rule.processPaymentRequestDateValidationForContinue(preq));
     }
@@ -116,7 +110,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
      * Tests of validatePaymentRequestDates
      */
     public void testValidatePaymentRequestDates_Yesterday() {
-        Date yesterday = getDateFromOffsetFromToday(-1);
+        Date yesterday = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(-1);
         preq.setPaymentRequestPayDate(yesterday);
         assertFalse(rule.validatePaymentRequestDates(preq));
     }
@@ -128,7 +122,7 @@ public class PaymentRequestDocumentRuleTest extends PurapRuleTestBase {
     }
 
     public void testValidatePaymentRequestDates_Tomorrow() {
-        Date tomorrow = getDateFromOffsetFromToday(1);
+        Date tomorrow = SpringContext.getBean(PurapService.class).getDateFromOffsetFromToday(1);
         preq.setPaymentRequestPayDate(tomorrow);
         assertTrue(rule.validatePaymentRequestDates(preq));
     }

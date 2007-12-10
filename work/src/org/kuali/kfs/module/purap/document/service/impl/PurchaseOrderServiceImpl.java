@@ -604,14 +604,22 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
             if (ObjectUtils.isNotNull(newDocument)) {
                 try {
+                    /* Modified by yingfeng, 12/07/07:
+                     * set the pending indictor before routing, so that when routing is done in synch mode, 
+                     * the pending indcator won't be set again after route finishes and cause inconsistency 
+                     */
+                    currentDocument.setPendingActionIndicator(true);
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
                 catch (ValidationException ve) {
+                    /* Modified by yingfeng, 12/07/07:
+                     * clear the pending indictor if an exception occurs, to leave the existing PO intact
+                     */ 
+                    currentDocument.setPendingActionIndicator(false);
                     throw ve;
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
-                currentDocument.setPendingActionIndicator(true);
                 saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                 return newDocument;
             }

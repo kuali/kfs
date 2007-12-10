@@ -15,16 +15,21 @@
  */
 package org.kuali.module.effort.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.util.ObjectUtil;
 
 public class LedgerBalanceConsolidationHelper {
     private Map<String, LedgerBalance> ledgerBalanceConsolidationMap;
+    private List<String> consolidationKeys;
 
     /**
      * Constructs a LedgerBalanceConsolidationHelper.java.
@@ -35,7 +40,7 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     public void consolidateLedgerBalances(LedgerBalance ledgerBalance) {
-        String consolidationKeyFieldsAsString = getConsolidationKeyFieldsAsString(ledgerBalance);
+        String consolidationKeyFieldsAsString = ObjectUtil.concatPropertyAsString(ledgerBalance, consolidationKeys);
 
         if (ledgerBalanceConsolidationMap.containsKey(consolidationKeyFieldsAsString)) {
             LedgerBalance existingBalance = ledgerBalanceConsolidationMap.get(consolidationKeyFieldsAsString);
@@ -45,24 +50,11 @@ public class LedgerBalanceConsolidationHelper {
             ledgerBalanceConsolidationMap.put(consolidationKeyFieldsAsString, ledgerBalance);
         }
     }
-    
+
     public void consolidateLedgerBalances(Collection<LedgerBalance> ledgerBalances) {
-        for(LedgerBalance balance : ledgerBalances) {
+        for (LedgerBalance balance : ledgerBalances) {
             consolidateLedgerBalances(balance);
         }
-    }
-
-    public static String getConsolidationKeyFieldsAsString(LedgerBalance ledgerBalance) {
-        StringBuilder consolidationFields = new StringBuilder();
-
-        consolidationFields.append(ledgerBalance.getEmplid());
-        consolidationFields.append(ledgerBalance.getChartOfAccountsCode());
-        consolidationFields.append(ledgerBalance.getAccountNumber());
-        consolidationFields.append(ledgerBalance.getSubAccountNumber());
-        consolidationFields.append(ledgerBalance.getFinancialObjectCode());
-        consolidationFields.append(ledgerBalance.getPositionNumber());
-
-        return consolidationFields.toString();
     }
 
     public static void addLedgerBalanceAmounts(LedgerBalance ledgerBalance, LedgerBalance anotherLedgerBalance) {
@@ -80,7 +72,7 @@ public class LedgerBalanceConsolidationHelper {
             ledgerBalance.addAmount(period.periodCode, amount);
         }
     }
-    
+
     /**
      * summurize the balance amounts of a given ledger balance within the specified report periods
      * 
@@ -117,18 +109,48 @@ public class LedgerBalanceConsolidationHelper {
     }
 
     /**
-     * Gets the ledgerBalanceConsolidationMap attribute. 
+     * Gets the ledgerBalanceConsolidationMap attribute.
+     * 
      * @return Returns the ledgerBalanceConsolidationMap.
      */
     public Map<String, LedgerBalance> getLedgerBalanceConsolidationMap() {
         return ledgerBalanceConsolidationMap;
     }
+    
+    private  List<String> getDefualtConsolidationKeys() {
+        List<String> consolidationKeys = new ArrayList<String>();
+        consolidationKeys.add(KFSPropertyConstants.EMPLID);
+        consolidationKeys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        consolidationKeys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        consolidationKeys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        consolidationKeys.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        consolidationKeys.add(KFSPropertyConstants.POSITION_NUMBER);
+
+        return consolidationKeys;
+    }
 
     /**
      * Sets the ledgerBalanceConsolidationMap attribute value.
+     * 
      * @param ledgerBalanceConsolidationMap The ledgerBalanceConsolidationMap to set.
      */
     public void setLedgerBalanceConsolidationMap(Map<String, LedgerBalance> ledgerBalanceConsolidationMap) {
         this.ledgerBalanceConsolidationMap = ledgerBalanceConsolidationMap;
+    }
+
+    /**
+     * Gets the consolidationKeys attribute. 
+     * @return Returns the consolidationKeys.
+     */
+    public List<String> getConsolidationKeys() {
+        return consolidationKeys == null ? getDefualtConsolidationKeys() : consolidationKeys;
+    }
+
+    /**
+     * Sets the consolidationKeys attribute value.
+     * @param consolidationKeys The consolidationKeys to set.
+     */
+    public void setConsolidationKeys(List<String> consolidationKeys) {
+        this.consolidationKeys = consolidationKeys;
     }
 }

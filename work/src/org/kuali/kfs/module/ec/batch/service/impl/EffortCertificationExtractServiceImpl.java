@@ -29,18 +29,18 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
+import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -64,12 +64,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationExtractServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private ParameterService parameterService;
 
     private LaborObjectService laborObjectService;
     private LaborLedgerEntryService laborLedgerEntryService;
     private LaborLedgerBalanceService laborLedgerBalanceService;
-    
+
     private OptionsService optionsService;
 
     /**
@@ -77,7 +76,10 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     @Logged
     public void extract() {
-        this.extract(this.getReportFiscalYear(), this.getReportNumber());
+        Integer fiscalYear = EffortCertificationParameterFinder.getReportFiscalYear();
+        String reportNumber = EffortCertificationParameterFinder.getReportNumber();
+        
+        this.extract(fiscalYear, reportNumber);
     }
 
     /**
@@ -194,8 +196,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return the qualified labor ledger balance records of the given employee
      */
     private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, Map<Integer, Set<String>> reportPeriods, Map<String, List<String>> parameters) {
+        
+        // clear up the ledger balance collection
         Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportPeriods, parameters);
-
         for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
@@ -211,19 +214,26 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             }
         }
 
+        // the total amount of all balances must be positive within the given periods,
+        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportPeriods);
+
         // the specified employee must have at least one grant account
-        if (!hasGrantAccount(ledgerBalances, parameters)) {
+        if (!hasGrantAccount(qualifiedLedgerBalances, parameters)) {
             return null;
         }
 
-        // the total amount of all balances must be positive within the given periods,
-        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportPeriods);
+        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(EffortConstants.extractProcess.FEDERAL_ONLY_BALANCE_IND).get(0));
+        if (isFederalFundsOnly) {
+            if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
+                return null;
+            }
+        }
 
         return qualifiedLedgerBalances;
     }
 
     private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances) {
-
+        
     }
 
     /**
@@ -237,7 +247,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, Map<Integer, Set<String>> reportPeriods, Map<String, List<String>> parameters) {
         String expenseObjectTypeCode = parameters.get(EffortConstants.extractProcess.EXPENSE_OBJECT_TYPE).get(0);
         String accountTypeCode = parameters.get(EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT).get(0);
-        
+
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCode);
@@ -355,12 +365,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * detemine whether there is at least one grant account in the given labor ledger balances
      * 
      * @param ledgerBalances the given labor ledger balances
+     * @param parameters the system paramters setup in front
      * @return true if there is at least one grant account; otherwise, return false
      */
-    private boolean hasGrantAccount(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> fundGroupParameters) {
-        List<String> fundGroupDenotesCGIndictor = fundGroupParameters.get(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
-        List<String> fundGroupCodes = fundGroupParameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
-        List<String> subFundGroupCodes = fundGroupParameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
+    private boolean hasGrantAccount(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+        List<String> fundGroupDenotesCGIndictor = parameters.get(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
+        List<String> fundGroupCodes = parameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
+        List<String> subFundGroupCodes = parameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
 
         for (LedgerBalance balance : ledgerBalances) {
             SubFundGroup subFundGroup = balance.getAccount().getSubFundGroup();
@@ -379,55 +390,56 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
                 }
             }
         }
-        
+
+        return false;
+    }
+
+    /**
+     * determine whether there is at least one account with federal funding
+     * 
+     * @param the given labor ledger balances
+     * @param parameters the system paramters setup in front
+     * @return true if there is at least one account with federal funding; otherwise, false
+     */
+    private boolean hasFederalFunds(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+        List<String> federalAgencyTypeCodes = parameters.get(EffortConstants.extractProcess.FEDERAL_AGENCY_TYPE_CD);
+
+        for (LedgerBalance balance : ledgerBalances) {
+            List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
+
+            for (AwardAccount awardAccount : awardAccountList) {
+                String agencyTypeCode = awardAccount.getAward().getAgency().getAgencyTypeCode();
+                if (federalAgencyTypeCodes.contains(agencyTypeCode)) {
+                    return true;
+                }
+
+                if (awardAccount.getAward().getFederalPassThroughIndicator()) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     // store relating system parameters in a Map for later
     private Map<String, List<String>> getSystemParameters() {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
-        parameters.put(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND, getFundGroupDenotesCGIndicator());
-        parameters.put(EffortConstants.extractProcess.CG_DENOTING_VALUE, getCGDenotingValues());
+        
+        parameters.put(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND, EffortCertificationParameterFinder.getFundGroupDenotesCGIndicatorAsString());
+        parameters.put(EffortConstants.extractProcess.CG_DENOTING_VALUE, EffortCertificationParameterFinder.getCGDenotingValues());
+        parameters.put(EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
+        parameters.put(EffortConstants.extractProcess.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
+        parameters.put(EffortConstants.extractProcess.FEDERAL_AGENCY_TYPE_CD, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
+        
         parameters.put(EffortConstants.extractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes());
-        parameters.put(EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT, getAccountTypeCodes());
 
         return parameters;
     }
 
-    // get the fund group denotes C&G indicator setup in system paremters
-    private List<String> getFundGroupDenotesCGIndicator() {
-        boolean indictor = parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
-        
-        List<String> indicatorList = new ArrayList<String>();
-        indicatorList.add(Boolean.toString(indictor));
-        
-        return indicatorList;
-    }
-
-    // get the C&G denoting values setup in system paremters
-    private List<String> getCGDenotingValues() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.CG_DENOTING_VALUE);
-    }
-    
     // get the expense object code setup in System Options
     private List<String> getExpenseObjectTypeCodes() {
         List<String> expenseObjectTypeCodes = new ArrayList<String>();
         expenseObjectTypeCodes.add(optionsService.getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
         return expenseObjectTypeCodes;
-    }
-    
-    // get the account type codes setup in system parameters
-    private List<String> getAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT);
-    }
-
-    // get the report fiscal year setup in system paremters
-    private Integer getReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FISCAL_YEAR));
-    }
-
-    // get the report number setup in system paremters
-    private String getReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.REPORT_NUMBER);
     }
 }

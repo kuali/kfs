@@ -52,6 +52,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -501,23 +502,34 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set, java.util.List)
+     * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
+     *      java.util.List, java.util.List)
      */
-    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());       
-        for(String fieldName : exclusiveFieldValues.keySet()) {
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
+        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
+
+        for (String fieldName : exclusiveFieldValues.keySet()) {
             criteria.addNotEqualTo(fieldName, exclusiveFieldValues.get(fieldName));
         }
-        
-        Criteria criteriaForFiscalyear = new Criteria();
-        criteriaForFiscalyear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
-        
-        Criteria criteriaForBalanceTypes = new Criteria();
-        criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeList);
-        
-        criteria.addAndCriteria(criteriaForFiscalyear);
-        criteria.addAndCriteria(criteriaForBalanceTypes);
-        
+
+        if (fiscalYears != null && !fiscalYears.isEmpty()) {
+            Criteria criteriaForFiscalyear = new Criteria();
+            criteriaForFiscalyear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYears);
+            criteria.addAndCriteria(criteriaForFiscalyear);
+        }
+
+        if (balanceTypeList != null && !balanceTypeList.isEmpty()) {
+            Criteria criteriaForBalanceTypes = new Criteria();
+            criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypeList);
+            criteria.addAndCriteria(criteriaForBalanceTypes);
+        }
+
+        if (positionObjectGroupCodes != null && !positionObjectGroupCodes.isEmpty()) {
+            Criteria criteriaForLaborObjects = new Criteria();
+            criteriaForLaborObjects.addIn(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.POSITION_OBJECT_GROUP_CODE, positionObjectGroupCodes);
+            criteria.addAndCriteria(criteriaForLaborObjects);
+        }
+
         QueryByCriteria query = QueryFactory.newQuery(LedgerBalance.class, criteria);
         return getPersistenceBrokerTemplate().getCollectionByQuery(query);
     }

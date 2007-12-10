@@ -28,8 +28,10 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -39,12 +41,8 @@ import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.effort.util.LaborObjectKeyFieldMap;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.gl.util.Message;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
-import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
@@ -54,8 +52,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * This is an implemeation of Effort Certification Extract process, which extracts Labor Ledger records of the employees who were
- * paid on a grant or cost shared during the selected reporting period, and generates effort certification document. Its major tasks
- * include:
+ * paid on a grant or cost shared during the selected reporting period, and generates effort certification build/temporary document.
+ * Its major tasks include:
  * 
  * <li>Identify employees who were paid on a grant or cost shared;</li>
  * <li>Select qualified Labor Ledger records for each identified employee;</li>
@@ -71,16 +69,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private LaborObjectService laborObjectService;
     private LaborLedgerEntryService laborLedgerEntryService;
     private LaborLedgerBalanceService laborLedgerBalanceService;
+    
+    private OptionsService optionsService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
      */
     @Logged
     public void extract() {
-        Integer fiscalYear = Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, null)); // TODO:
-        String reportNumber = parameterService.getParameterValue(EffortCertificationExtractStep.class, null); // TODO:
-
-        this.extract(fiscalYear, reportNumber);
+        this.extract(this.getReportFiscalYear(), this.getReportNumber());
     }
 
     /**
@@ -90,7 +87,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     public void extract(Integer fiscalYear, String reportNumber) {
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
-        Message errorMessage = this.validateReportNumber(fieldValues);
+        Message errorMessage = this.validateReportDefintion(fieldValues);
         if (errorMessage != null) {
             LOG.error(errorMessage);
             throw new IllegalArgumentException(errorMessage.getMessage());
@@ -98,11 +95,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         Map<Integer, Set<String>> reportPeriods = reportDefinition.findReportPeriods();
-        LaborObjectKeyFieldMap laborObjectKeyFieldMap = this.buildLaborObjectMap(reportDefinition);
+        List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
+        Map<String, List<String>> fundGroupParameters = this.getSystemParameters();
 
         List<String> employeesWithValidPayType = this.findEmployeesWithValidPayType(reportDefinition, reportPeriods);
         for (String emplid : employeesWithValidPayType) {
-            Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, laborObjectKeyFieldMap, reportPeriods);
+            Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, positionGroupCodes, reportPeriods, fundGroupParameters);
 
             if (qualifiedLedgerBalance != null) {
                 this.generateBuildDocumentForEmployee(reportDefinition, qualifiedLedgerBalance);
@@ -118,7 +116,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportNumber the given report number
      * @return a message if a report has been defined and its document has not been gerenated; otherwise, return null
      */
-    private Message validateReportNumber(Map<String, String> fieldValues) {
+    private Message validateReportDefintion(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
         String inputValues = fiscalYear + " ," + reportNumber;
@@ -149,16 +147,17 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (countOfDocuments > 0) {
             return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, Message.TYPE_FATAL, fiscalYear, reportNumber);
         }
+
         return null;
     }
 
     /**
-     * find all valid labor objects for the given report definition and store them as an object of LaborObjectKeyFieldMap
+     * find all position object group codes for the given report definition
      * 
      * @param reportDefinition the specified report definition
-     * @return an object of LaborObjectKeyFieldMap containing all valid labor objects for the given report definition
+     * @return all position object group codes for the given report definition
      */
-    private LaborObjectKeyFieldMap buildLaborObjectMap(EffortCertificationReportDefinition reportDefinition) {
+    private List<String> findPositionObjectGroupCodes(EffortCertificationReportDefinition reportDefinition) {
         Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
         Collection<EffortCertificationReportPosition> reportPosition = businessObjectService.findMatching(EffortCertificationReportPosition.class, fieldValues);
 
@@ -167,13 +166,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             positionGroupCodes.add(position.getEffortCertificationReportPositionObjectGroupCode());
         }
 
-        Map<String, Object> laborObjectFieldValues = new HashMap<String, Object>();
-        laborObjectFieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
-        laborObjectFieldValues.put(LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
-
-        Collection<LaborObject> laborObjects = laborObjectService.findAllLaborObjectInPositionGroups(laborObjectFieldValues, positionGroupCodes);
-
-        return new LaborObjectKeyFieldMap(laborObjects);
+        return positionGroupCodes;
     }
 
     /**
@@ -191,41 +184,72 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         return laborLedgerEntryService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroupMap);
     }
 
-    private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, LaborObjectKeyFieldMap laborObjectKeyFieldMap, Map<Integer, Set<String>> reportPeriods) {
-        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalancesForEmployee(emplid, reportPeriods);
+    /**
+     * extract the qualified labor ledger balance records of the given employee with the given report periods.
+     * 
+     * @param emplid the given employee id
+     * @param positionGroupCodes the specified position group codes
+     * @param reportPeriods the given report periods
+     * @param parameters the system paramters setup in front
+     * @return the qualified labor ledger balance records of the given employee
+     */
+    private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, Map<Integer, Set<String>> reportPeriods, Map<String, List<String>> parameters) {
+        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportPeriods, parameters);
 
         for (LedgerBalance balance : ledgerBalances) {
-            KualiDecimal totalAmount = this.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
-            if (totalAmount.isZero() || !hasValidObjectCode(balance, laborObjectKeyFieldMap) || !hasValidAccount(balance)) {
+            // within the given periods, the total amount of a single balance cannot be ZERO
+            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
+            if (totalAmount.isZero()) {
                 ledgerBalances.remove(balance);
+                continue;
+            }
+
+            // every balance record must have valid account number and high education function code
+            if (!hasValidAccount(balance)) {
+                ledgerBalances.remove(balance);
+                continue;
             }
         }
 
-        if (!hasPaidByGrantAccount(ledgerBalances)) {
+        // the specified employee must have at least one grant account
+        if (!hasGrantAccount(ledgerBalances, parameters)) {
             return null;
         }
 
-        return this.getQualifiedCosolidatedLedgerBalances(ledgerBalances, reportPeriods);
+        // the total amount of all balances must be positive within the given periods,
+        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportPeriods);
+
+        return qualifiedLedgerBalances;
     }
 
     private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances) {
 
     }
 
-
-    private Collection<LedgerBalance> selectLedgerBalancesForEmployee(String emplid, Map<Integer, Set<String>> reportPeriods) {
+    /**
+     * select the labor ledger balances for the specifed employee
+     * 
+     * @param emplid the given empolyee id
+     * @param positionObjectGroupCodes the specified position object group codes
+     * @param reportPeriods the given report periods
+     * @return the labor ledger balances for the specifed employee
+     */
+    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, Map<Integer, Set<String>> reportPeriods, Map<String, List<String>> parameters) {
+        String expenseObjectTypeCode = parameters.get(EffortConstants.extractProcess.EXPENSE_OBJECT_TYPE).get(0);
+        String accountTypeCode = parameters.get(EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT).get(0);
+        
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "EX"); // TODO: remove the hardcoded constants
-        fieldValues.put(LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCode);
+        fieldValues.put(EffortPropertyConstants.LABOR_OBJECT_FRINGE_OR_SALARY_CODE, EffortConstants.LABOR_OBJECT_SALARY_CODE);
 
         Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
-        exclusiveFieldValues.put(KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE, "WS"); // TODO
+        exclusiveFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, accountTypeCode);
 
         Set<Integer> fiscalYears = reportPeriods.keySet();
-        List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
+        List<String> balanceTypes = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborLedgerBalanceService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList);
+        return laborLedgerBalanceService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
     }
 
     /**
@@ -300,18 +324,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         return true;
     }
 
-    private boolean hasValidObjectCode(LedgerBalance ledgerBalance, LaborObjectKeyFieldMap laborObjectKeyFieldMap) {
-        Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
-        String chartOfAccountsCode = ledgerBalance.getChartOfAccountsCode();
-        String objectCode = ledgerBalance.getFinancialObjectCode();
-
-        if (laborObjectKeyFieldMap.contains(objectCode, chartOfAccountsCode, fiscalYear)) {
-            return true;
-        }
-        return false;
-    }
-
-    private Collection<LedgerBalance> getQualifiedCosolidatedLedgerBalances(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+    /**
+     * consolidate the given labor ledger balances and determine whether they are qualified for effort reporting
+     * 
+     * @param ledgerBalances the given labor ledger balances
+     * @param reportPeriods the given report periods
+     * @return a collection of ledger balances if they are qualified; otherwise, return null
+     */
+    private Collection<LedgerBalance> getCosolidatedLedgerBalances(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
         Collection<LedgerBalance> cosolidatedLedgerBalances = new ArrayList<LedgerBalance>();
 
         LedgerBalanceConsolidationHelper ledgerBalanceConsolidationHelper = new LedgerBalanceConsolidationHelper();
@@ -321,51 +341,93 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         for (String key : ledgerBalanceMap.keySet()) {
             LedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
 
-            KualiDecimal totalAmount = this.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
             if (totalAmount.isNonZero()) {
                 cosolidatedLedgerBalances.add(ledgerBalance);
             }
         }
 
-        KualiDecimal totalAmountForEmployee = this.calculateTotalAmountWithinReportPeriod(cosolidatedLedgerBalances, reportPeriods);
+        KualiDecimal totalAmountForEmployee = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(cosolidatedLedgerBalances, reportPeriods);
         return !totalAmountForEmployee.isPositive() ? null : cosolidatedLedgerBalances;
     }
 
-    // TODO: incomplete
-    private boolean hasPaidByGrantAccount(Collection<LedgerBalance> ledgerBalances) {
+    /**
+     * detemine whether there is at least one grant account in the given labor ledger balances
+     * 
+     * @param ledgerBalances the given labor ledger balances
+     * @return true if there is at least one grant account; otherwise, return false
+     */
+    private boolean hasGrantAccount(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> fundGroupParameters) {
+        List<String> fundGroupDenotesCGIndictor = fundGroupParameters.get(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
+        List<String> fundGroupCodes = fundGroupParameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
+        List<String> subFundGroupCodes = fundGroupParameters.get(EffortConstants.extractProcess.CG_DENOTING_VALUE);
 
         for (LedgerBalance balance : ledgerBalances) {
-            Account account = balance.getAccount();
-
-            if (account.getSubFundGroup().getFundGroupCode() != null) {
-                return true;
+            SubFundGroup subFundGroup = balance.getAccount().getSubFundGroup();
+            if (subFundGroup == null) {
+                continue;
             }
 
-            if (account.getSubFundGroup().getSubFundGroupCode() != null) {
-                return true;
+            if ((Boolean.parseBoolean(fundGroupDenotesCGIndictor.get(0)))) {
+                if (fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
+                    return true;
+                }
+            }
+            else {
+                if (subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
+                    return true;
+                }
             }
         }
+        
         return false;
     }
 
-    private KualiDecimal calculateTotalAmountWithinReportPeriod(LedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
-        Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
+    // store relating system parameters in a Map for later
+    private Map<String, List<String>> getSystemParameters() {
+        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+        parameters.put(EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND, getFundGroupDenotesCGIndicator());
+        parameters.put(EffortConstants.extractProcess.CG_DENOTING_VALUE, getCGDenotingValues());
+        parameters.put(EffortConstants.extractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes());
+        parameters.put(EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT, getAccountTypeCodes());
 
-        Set<String> periodCodes = reportPeriods.get(fiscalYear);
-        for (String period : periodCodes) {
-            totalAmount.add(ledgerBalance.getAmountByPeriod(period));
-        }
-        return totalAmount;
+        return parameters;
     }
 
-    private KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
-        KualiDecimal totalAmount = KualiDecimal.ZERO;
+    // get the fund group denotes C&G indicator setup in system paremters
+    private List<String> getFundGroupDenotesCGIndicator() {
+        boolean indictor = parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
+        
+        List<String> indicatorList = new ArrayList<String>();
+        indicatorList.add(Boolean.toString(indictor));
+        
+        return indicatorList;
+    }
 
-        for (LedgerBalance ledgerBalance : ledgerBalances) {
-            KualiDecimal totalAmountForOneBalance = this.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
-            totalAmount = totalAmount.add(totalAmountForOneBalance);
-        }
-        return totalAmount;
+    // get the C&G denoting values setup in system paremters
+    private List<String> getCGDenotingValues() {
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.CG_DENOTING_VALUE);
+    }
+    
+    // get the expense object code setup in System Options
+    private List<String> getExpenseObjectTypeCodes() {
+        List<String> expenseObjectTypeCodes = new ArrayList<String>();
+        expenseObjectTypeCodes.add(optionsService.getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
+        return expenseObjectTypeCodes;
+    }
+    
+    // get the account type codes setup in system parameters
+    private List<String> getAccountTypeCodes() {
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT);
+    }
+
+    // get the report fiscal year setup in system paremters
+    private Integer getReportFiscalYear() {
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FISCAL_YEAR));
+    }
+
+    // get the report number setup in system paremters
+    private String getReportNumber() {
+        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.REPORT_NUMBER);
     }
 }

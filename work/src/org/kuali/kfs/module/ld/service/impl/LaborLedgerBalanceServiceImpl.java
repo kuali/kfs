@@ -226,10 +226,10 @@ public class LaborLedgerBalanceServiceImpl implements LaborLedgerBalanceService 
 
     /**
      * @see org.kuali.module.labor.service.LaborLedgerBalanceService#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
-     *      java.util.List)
+     *      java.util.List, java.util.List)
      */
-    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList) {
-        return laborLedgerBalanceDao.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList);
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
+        return laborLedgerBalanceDao.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypeList, positionObjectGroupCodes);
     }
 
     /**

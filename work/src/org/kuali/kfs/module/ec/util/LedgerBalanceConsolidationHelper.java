@@ -18,6 +18,7 @@ package org.kuali.module.effort.util;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -78,6 +79,41 @@ public class LedgerBalanceConsolidationHelper {
             KualiDecimal amount = anotherLedgerBalance.getAmountByPeriod(period.periodCode);
             ledgerBalance.addAmount(period.periodCode, amount);
         }
+    }
+    
+    /**
+     * summurize the balance amounts of a given ledger balance within the specified report periods
+     * 
+     * @param ledgerBalance the given labor ledger balance
+     * @param reportPeriods the given report periods
+     * @return the total amounts of the given balance within the specified report periods
+     */
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(LedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
+        Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        Set<String> periodCodes = reportPeriods.get(fiscalYear);
+        for (String period : periodCodes) {
+            totalAmount.add(ledgerBalance.getAmountByPeriod(period));
+        }
+        return totalAmount;
+    }
+
+    /**
+     * summurize the balance amounts of the given ledger balances within the specified report periods
+     * 
+     * @param ledgerBalance the given labor ledger balances
+     * @param reportPeriods the given report periods
+     * @return the total amounts of the given balances within the specified report periods
+     */
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+
+        for (LedgerBalance ledgerBalance : ledgerBalances) {
+            KualiDecimal totalAmountForOneBalance = calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
+            totalAmount = totalAmount.add(totalAmountForOneBalance);
+        }
+        return totalAmount;
     }
 
     /**

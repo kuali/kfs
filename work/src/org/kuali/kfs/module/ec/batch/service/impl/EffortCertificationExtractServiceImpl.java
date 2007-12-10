@@ -100,8 +100,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<Integer, Set<String>> reportPeriods = reportDefinition.findReportPeriods();
         LaborObjectKeyFieldMap laborObjectKeyFieldMap = this.buildLaborObjectMap(reportDefinition);
 
-        List<String> employeesWith12MonthPay = this.findEmployeesWith12MonthPay(reportDefinition, reportPeriods);
-        for (String emplid : employeesWith12MonthPay) {
+        List<String> employeesWithValidPayType = this.findEmployeesWithValidPayType(reportDefinition, reportPeriods);
+        for (String emplid : employeesWithValidPayType) {
             Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, laborObjectKeyFieldMap, reportPeriods);
 
             if (qualifiedLedgerBalance != null) {
@@ -177,17 +177,18 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * find the 12 Month employees who were paid within the given report periods.
+     * find the employees who were paid based on a set of specified pay type within the given report periods. Here, a pay type can
+     * be determined by earn code and pay group.
      * 
      * @param reportDefinition the specified report definition
      * @param reportPeriods the given report periods
-     * @return the 12 Month employees who were paid within the given report periods
+     * @return the employees who were paid based on a set of specified pay type within the given report periods
      */
-    private List<String> findEmployeesWith12MonthPay(EffortCertificationReportDefinition reportDefinition, Map<Integer, Set<String>> reportPeriods) {
+    private List<String> findEmployeesWithValidPayType(EffortCertificationReportDefinition reportDefinition, Map<Integer, Set<String>> reportPeriods) {
         Map<String, Set<String>> earnCodePayGroupMap = this.findReportEarnPayMap(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborLedgerEntryService.findEmployeesWith12MonthPay(reportPeriods, balanceTypeList, earnCodePayGroupMap);
+        return laborLedgerEntryService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroupMap);
     }
 
     private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, LaborObjectKeyFieldMap laborObjectKeyFieldMap, Map<Integer, Set<String>> reportPeriods) {
@@ -210,12 +211,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances) {
 
     }
-    
+
 
     private Collection<LedgerBalance> selectLedgerBalancesForEmployee(String emplid, Map<Integer, Set<String>> reportPeriods) {
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, "EX"); // TODO: remove the hardcoded constants
+        fieldValues.put(LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE);
 
         Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
         exclusiveFieldValues.put(KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE, "WS"); // TODO

@@ -94,9 +94,9 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
     }
 
     /**
-     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#findEmployeesWith12MonthPay(java.util.Map, java.util.List, java.util.List)
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.List)
      */
-    public List<String> findEmployeesWith12MonthPay(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+    public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         Criteria criteria = new Criteria();
         
         Criteria criteriaForPayPeriods = new Criteria();

@@ -56,11 +56,14 @@ public interface LaborLedgerEntryDao {
     void save(LedgerEntry ledgerEntry);
 
     /**
-     * find the 12 Month employees who were paid within the given pay periods. 
+     * find the employees who were paid based on a set of specified pay type within the given report periods. Here, a pay type can
+     * be determined by earn code and pay group.
+     * 
      * @param payPeriods the given pay periods
      * @param balanceTypes the specified balance type codes
-     * @param earnCodePayGroupMap the combination of earn codes and pay groups, where pay group is the key and earn code set is the value
-     * @return the 12 Month employees who were paid within the given pay periods
+     * @param earnCodePayGroupMap the combination of earn codes and pay groups, where pay group is the key and earn code set is the
+     *        value
+     * @return the employees who were paid based on a set of specified pay type within the given report periods
      */
-    List<String> findEmployeesWith12MonthPay(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
+    List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
 }

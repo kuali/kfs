@@ -57,10 +57,10 @@ public class LaborLedgerEntryServiceImpl implements LaborLedgerEntryService {
     }
 
     /**
-     * @see org.kuali.module.labor.service.LaborLedgerEntryService#findEmployeesWith12MonthPay(java.util.Map, java.util.List, java.util.Map)
+     * @see org.kuali.module.labor.service.LaborLedgerEntryService#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.Map)
      */
-    public List<String> findEmployeesWith12MonthPay(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
-        return laborLedgerEntryDao.findEmployeesWith12MonthPay(payPeriods, balanceTypes, earnCodePayGroupMap);
+    public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        return laborLedgerEntryDao.findEmployeesWithPayType(payPeriods, balanceTypes, earnCodePayGroupMap);
     }
     
     /**

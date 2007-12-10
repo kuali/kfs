@@ -23,7 +23,6 @@
                         <field attributeName="capitalAssetNumber" />
                         <field attributeName="capitalAssetTypeCode" />
                         <field attributeName="cashReceiptFinancialDocumentNumber" />
-                        <field attributeName="cashReceiptFinancialSystemOriginationCode" />
                         <field attributeName="conditionCode" />
                         <field attributeName="createDate" />
                         <field attributeName="estimatedFabricationCompletionDate" />
@@ -61,7 +60,6 @@
                         <field attributeName="signatureCode" />
                         <field attributeName="totalCostAmount" />
                         <field attributeName="transferOfFundsFinancialDocumentNumber" />
-                        <field attributeName="transferOfFundsOriginationCode" />
                         <field attributeName="vendorName" />
                     </inquiryFields>
                 </inquirySection>
@@ -92,7 +90,6 @@
                 <lookupField attributeName="capitalAssetNumber" required="false" />
                 <lookupField attributeName="capitalAssetTypeCode" required="false" />
                 <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
-                <lookupField attributeName="cashReceiptFinancialSystemOriginationCode" required="false" />
                 <lookupField attributeName="conditionCode" required="false" />
                 <lookupField attributeName="createDate" required="false" />
                 <lookupField attributeName="estimatedFabricationCompletionDate" required="false" />
@@ -130,7 +127,6 @@
                 <lookupField attributeName="signatureCode" required="false" />
                 <lookupField attributeName="totalCostAmount" required="false" />
                 <lookupField attributeName="transferOfFundsFinancialDocumentNumber" required="false" />
-                <lookupField attributeName="transferOfFundsOriginationCode" required="false" />
                 <lookupField attributeName="vendorName" required="false" />
             </lookupFields>
 
@@ -147,7 +143,6 @@
                 <field attributeName="capitalAssetNumber" />
                 <field attributeName="capitalAssetTypeCode" />
                 <field attributeName="cashReceiptFinancialDocumentNumber" />
-                <field attributeName="cashReceiptFinancialSystemOriginationCode" />
                 <field attributeName="conditionCode" />
                 <field attributeName="createDate" />
                 <field attributeName="estimatedFabricationCompletionDate" />
@@ -185,7 +180,6 @@
                 <field attributeName="signatureCode" />
                 <field attributeName="totalCostAmount" />
                 <field attributeName="transferOfFundsFinancialDocumentNumber" />
-                <field attributeName="transferOfFundsOriginationCode" />
                 <field attributeName="vendorName" />
             </resultFields>
         </lookup>
@@ -370,21 +364,6 @@
 
                 <summary>cashReceiptFinancialDocumentNumber</summary>
                 <description>cashReceiptFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attribute name="cashReceiptFinancialSystemOriginationCode" forceUppercase="true">
-                <label>Cash Receipt Financial System Origination Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>cashReceiptFinancialSystemOriginationCode</summary>
-                <description>cashReceiptFinancialSystemOriginationCode description...</description>
 			</attribute>
 
             <attribute name="conditionCode" forceUppercase="true">
@@ -940,21 +919,6 @@
 
                 <summary>transferOfFundsFinancialDocumentNumber</summary>
                 <description>transferOfFundsFinancialDocumentNumber description...</description>
-			</attribute>
-
-            <attribute name="transferOfFundsOriginationCode" forceUppercase="true">
-                <label>Transfer Of Funds Origination Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>transferOfFundsOriginationCode</summary>
-                <description>transferOfFundsOriginationCode description...</description>
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">

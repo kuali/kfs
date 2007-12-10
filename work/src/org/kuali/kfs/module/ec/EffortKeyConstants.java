@@ -34,4 +34,5 @@ public class EffortKeyConstants {
     public static final String ERROR_REPORT_DOCUMENT_EXIST = "error.effort.extract.reportDocumentExist";
     public static final String ERROR_REPORT_LINES_EXIST = "error.effort.extract.reportLinesExist";
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.extract.undefinedUnversityDate";
+    public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
 }

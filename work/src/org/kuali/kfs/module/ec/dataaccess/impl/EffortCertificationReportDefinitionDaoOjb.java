@@ -32,17 +32,23 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo("effortCertificationReportTypeCode", effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
         Collection col = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
-        //Iterator i = col.iterator();
+        Iterator i = col.iterator();
         List<EffortCertificationReportDefinition> overlappingReportDefinitions = new ArrayList();
-       /* //TODO: can i do this with the ojb criteria?
+        //TODO: can i do this with the ojb criteria?
         while (i.hasNext()) {
             EffortCertificationReportDefinition temp = (EffortCertificationReportDefinition) i.next();
             if (isOverlapping(temp, effortCertificationReportDefinition)) overlappingReportDefinitions.add(temp);
-        }*/
+        }
         return overlappingReportDefinitions;
     }
 
     private boolean isOverlapping(EffortCertificationReportDefinition oldRecord, EffortCertificationReportDefinition newRecord) {
+        //check if old record has null values (and therefore is not overlapping)
+        if (oldRecord.getEffortCertificationReportBeginFiscalYear() ==  null || 
+            oldRecord.getEffortCertificationReportBeginPeriodCode() ==  null ||
+            oldRecord.getEffortCertificationReportEndFiscalYear() ==    null ||
+            oldRecord.getEffortCertificationReportEndPeriodCode() ==    null) return false;
+        
         //is old's start date before (inclusive) new start && old end after (inclusive) new's start
         if ( Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode()) <= Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode()) &&
              Integer.parseInt(oldRecord.getEffortCertificationReportEndPeriodCode())  >=  Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode())) return true;

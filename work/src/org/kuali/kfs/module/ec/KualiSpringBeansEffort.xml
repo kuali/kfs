@@ -54,5 +54,5 @@
 			<ref bean="effortCertificationReportDefinitionDao" />
 		</property>
 	</bean>
-	<bean id="effortCertificationReportDefinitionDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
+	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
 </beans>

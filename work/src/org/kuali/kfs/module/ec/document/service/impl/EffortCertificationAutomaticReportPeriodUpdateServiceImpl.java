@@ -29,10 +29,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
      * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        /*List<EffortCertificationReportDefinition> overlappingRecords = effortCertificationReportDefinitionDao.getOverlappingReportDefinitions(reportDefinition);
+        List<EffortCertificationReportDefinition> overlappingRecords = effortCertificationReportDefinitionDao.getOverlappingReportDefinitions(reportDefinition);
         if (overlappingRecords != null && !overlappingRecords.isEmpty()) return true;
-        return false;*/
-        return true;
+        return false;
+        //return true;
     }
     
     /**

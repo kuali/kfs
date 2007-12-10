@@ -20,7 +20,7 @@
 	<maintenanceDocument>
         <businessObjectClass>org.kuali.module.effort.bo.EffortCertificationReportDefinition</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationReportRule</businessRulesClass>
+        <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationReportDefinitionRule</businessRulesClass>
 		<preRulesCheckClass>org.kuali.module.effort.rules.EffortCertificationReportDefinitionMaintenanceDocumentPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -45,6 +45,18 @@
             <field attributeName="universityFiscalYear" />
 			<field attributeName="effortCertificationReportNumber" />
 		</lockingKeys>  
+		<defaultExistenceChecks>
+			<reference attributeName="options" attributeToHighlightOnFail="universityFiscalYear" />
+			<reference attributeName="effortCertificationPeriodStatusCode" attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode" />
+			<!-- reference attributeName="effortCertificationReportBeginFiscalYear" attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" /-->
+			<!--reference attributeName="effortCertificationReportBeginPeriodCode" attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" /-->
+			<!--reference attributeName="effortCertificationReportEndFiscalYear" attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" /-->
+			<!--reference attributeName="effortCertificationReportEndPeriodCode" attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" /-->
+			<!--reference attributeName="expenseTransferFiscalYear" attributeToHighlightOnFail="expenseTransferFiscalYear" /-->
+			<reference attributeName="expenseTransferFiscalPeriod" attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
+			<reference attributeName="effortCertificationReportType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportTypeCode" />
+			<!-- reference collection="effortCertificationReportPositions" attributeName="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" activeIndicatorAttributeName="effortCertificationReportPositions.active" attributeToHighlightOnFail="effortCertificationReportPositions" /-->
+		</defaultExistenceChecks>
 		
 	    <maintainableSections>
 	        <maintainableSection title="Edit Effort Certification Report">

@@ -34,11 +34,9 @@
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
                 <field attributeName="effortCertificationReportTypeCode" />
-                <!-- TODO: need LBR_RPT_POSOBJ_CD !-->
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
                 <field attributeName="effortCertificationReportReturnDate" />
-                <!-- TODO: need ROW_ACTV_IND -->
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 

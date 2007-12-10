@@ -21,7 +21,7 @@
         <businessObjectClass>org.kuali.module.effort.bo.EffortCertificationReportDefinition</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationReportRule</businessRulesClass>
-
+		<preRulesCheckClass>org.kuali.module.effort.rules.EffortCertificationReportDefinitionMaintenanceDocumentPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -51,17 +51,18 @@
 	        	<maintainableItems>
 	        		<maintainableField name="universityFiscalYear" required="true" />
 	                <maintainableField name="effortCertificationReportNumber" required="true" />
-	                <maintainableField name="effortCertificationReportPeriodTitle" />
-	                <maintainableField name="effortCertificationReportReturnDate" />
-	                <maintainableField name="effortCertificationReportTypeCode" />
-	                <maintainableField name="effortCertificationReportPeriodStatusCode" />
-	                <maintainableField name="effortCertificationReportBeginFiscalYear" />
-	                <maintainableField name="effortCertificationReportBeginPeriodCode" />
-	                <maintainableField name="effortCertificationReportEndFiscalYear" />
-	                <maintainableField name="effortCertificationReportEndPeriodCode" />
-	        	    <maintainableField name="expenseTransferFiscalPeriodCode" />
-	                <maintainableField name="expenseTransferFiscalYear" />	                
-	            	<maintainableField name="versionNumber" />
+	                <maintainableField name="effortCertificationReportPeriodTitle" required="true" />
+	                <maintainableField name="effortCertificationReportPeriodStatusCode" required="true" />
+	                <maintainableField name="effortCertificationReportBeginFiscalYear" required="true" />
+	                <maintainableField name="effortCertificationReportBeginPeriodCode" required="true" />
+	                <maintainableField name="effortCertificationReportEndFiscalYear" required="true" />
+	                <maintainableField name="effortCertificationReportEndPeriodCode" required="true" />
+	        	    <maintainableField name="effortCertificationReportTypeCode" required="true" />
+	        	    <maintainableField name="expenseTransferFiscalYear" required="true" />
+	                <maintainableField name="expenseTransferFiscalPeriodCode" required="true" />
+	                <maintainableField name="effortCertificationReportReturnDate" required="true" />
+	                <maintainableField name="active" />
+	                <maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>
 	    </maintainableSections>

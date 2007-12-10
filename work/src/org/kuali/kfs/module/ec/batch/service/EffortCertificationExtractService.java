@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.service;
 
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+
 /**
  * The interface defines the methods that extract Labor Ledger records of the employees who were paid on a grant or cost shared
  * during the selected reporting period.
@@ -35,4 +37,6 @@ public interface EffortCertificationExtractService {
      * @param reportNumber the given report number to run.
      */
     public void extract(Integer fiscalYear, String reportNumber);
+    
+    
 }

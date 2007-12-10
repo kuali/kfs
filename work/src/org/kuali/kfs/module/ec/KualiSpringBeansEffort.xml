@@ -49,4 +49,10 @@
 		</property>
 	</bean>
 	<bean id="effortUserService" class="org.kuali.module.effort.service.impl.EffortUserServiceImpl"  parent="kualiModuleUserServiceBase" />
+	<bean id="effortCertifcationReportPeriodUpdateService" class="org.kuali.module.effort.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl" >
+		<property name="effortCertificationReportDefinitionDao">
+			<ref bean="effortCertificationReportDefinitionDao" />
+		</property>
+	</bean>
+	<bean id="effortCertificationReportDefinitionDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
 </beans>

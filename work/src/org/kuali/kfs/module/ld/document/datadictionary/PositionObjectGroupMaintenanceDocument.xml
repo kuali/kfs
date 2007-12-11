@@ -35,9 +35,9 @@
 		<documentTypeName>KualiPositionObjectGroupMaintenanceDocument</documentTypeName>
 		<documentTypeCode>POGR</documentTypeCode>
 
-		<label>Labor Position Object Code Group</label>
+		<label>Position Object Group Code Document</label>
 		
-		<summary>Position Object Group Maintenance Document</summary>
+		<summary>Position Object Group Code Document</summary>
 		<description>Document used to create or update Position Object Group Objects</description>
 
         <lockingKeys>
@@ -49,7 +49,7 @@
 	        	<maintainableItems>
 	            	<maintainableField name="positionObjectGroupCode" required="true" />
 	            	<maintainableField name="positionObjectGroupName" required="true" />
-	            	<maintainableField name="rowActiveIndicator" required="false"/>
+	            	<maintainableField name="rowActiveIndicator" required="true"/>
 	            	<maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

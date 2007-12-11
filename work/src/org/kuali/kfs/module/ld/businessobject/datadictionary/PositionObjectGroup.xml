@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Labor Position Object Code Group Inquiry</title>
+            <title>Position Object Group Code</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="positionObjectGroupCode" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Labor Position Object Code Group Lookup</title>
+            <title>Position Object Group Code</title>
 
             <instructions>Look up a Labor Object Group</instructions>
 
@@ -43,9 +43,8 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="positionObjectGroupCode" required="false" />
-                <lookupField attributeName="positionObjectGroupName" required="false" />
-                <lookupField attributeName="rowActiveIndicator" required="false" />
+                <lookupField attributeName="positionObjectGroupCode" />
+                <lookupField attributeName="rowActiveIndicator" />
             </lookupFields>
 
             <resultFields>

@@ -21,10 +21,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -48,6 +48,7 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Org organization;
     private UniversalUser employee;
+    private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     
@@ -268,6 +269,22 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
      */
     public void setEmployee(UniversalUser employee) {
         this.employee = employee;
+    }
+
+    /**
+     * Gets the options attribute. 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * @param options The options to set.
+     */
+    public void setOptions(Options options) {
+        this.options = options;
     }
 
     /**

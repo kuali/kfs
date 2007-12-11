@@ -18,10 +18,10 @@ package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -62,6 +62,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Chart sourceChartOfAccounts;
     private Account sourceAccount;
     private SubAccount subAccount;
+    private Options options;
 
     /**
      * Default constructor.
@@ -596,6 +597,25 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     @Deprecated
     public void setSubAccount(SubAccount subAccount) {
         this.subAccount = subAccount;
+    }
+
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    @Deprecated
+    public void setOptions(Options options) {
+        this.options = options;
     }
 
     /**

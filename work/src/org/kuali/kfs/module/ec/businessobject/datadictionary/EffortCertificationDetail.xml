@@ -20,23 +20,22 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetail">
 
-
         <inquiry>
             <title>Effort Certification Detail Line Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="a21LaborCalculatedOverallCode" />
-                <field attributeName="a21LaborCalculatedOverallPercent" />
-                <field attributeName="a21LaborCostSharingCode" />
-                <field attributeName="a21LaborCostSharingPercent" />
-                <field attributeName="a21LaborDerivedPayrollCode" />
-                <field attributeName="a21LaborDerivedPayrollPercent" />
-                <field attributeName="a21LaborOriginalPayrollAmount" />
-                <field attributeName="a21LaborPayrollAmount" />
-                <field attributeName="a21LaborProratedCode" />
-                <field attributeName="a21LaborProratedPercent" />
-                <field attributeName="a21LaborUpdatedOverallCode" />
-                <field attributeName="a21LaborUpdatedOverallPercent" />
+                <field attributeName="effortCertificationCalculatedOverallCode" />
+                <field attributeName="effortCertificationCalculatedOverallPercent" />
+                <field attributeName="effortCertificationCostSharingCode" />
+                <field attributeName="effortCertificationCostSharingPercent" />
+                <field attributeName="effortCertificationDerivedPayrollCode" />
+                <field attributeName="effortCertificationDerivedPayrollPercent" />
+                <field attributeName="effortCertificationOriginalPayrollAmount" />
+                <field attributeName="effortCertificationPayrollAmount" />
+                <field attributeName="effortCertificationProratedCode" />
+                <field attributeName="effortCertificationProratedPercent" />
+                <field attributeName="effortCertificationUpdatedOverallCode" />
+                <field attributeName="effortCertificationUpdatedOverallPercent" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="costShareSourceSubAccountNumber" />
@@ -45,7 +44,7 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="sourceAccountNumber" />
-                <field attributeName="sourceFinancialChartOfAccountsCode" />
+                <field attributeName="sourceChartOfAccountsCode" />
                 <field attributeName="subAccountNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -53,28 +52,29 @@
         <lookup>
             <title>Effort Certification Detail Line Lookup</title>
 
-            <instructions>Look up an Effort Certification Detail Line</instructions>
+            <instructions>Look up an Effort Certification Detail Line Build</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
                     <sortAttribute attributeName="chartOfAccountsCode" />
                     <sortAttribute attributeName="accountNumber" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="a21LaborCalculatedOverallCode" required="false" />
-                <lookupField attributeName="a21LaborCalculatedOverallPercent" required="false" />
-                <lookupField attributeName="a21LaborCostSharingCode" required="false" />
-                <lookupField attributeName="a21LaborCostSharingPercent" required="false" />
-                <lookupField attributeName="a21LaborDerivedPayrollCode" required="false" />
-                <lookupField attributeName="a21LaborDerivedPayrollPercent" required="false" />
-                <lookupField attributeName="a21LaborOriginalPayrollAmount" required="false" />
-                <lookupField attributeName="a21LaborPayrollAmount" required="false" />
-                <lookupField attributeName="a21LaborProratedCode" required="false" />
-                <lookupField attributeName="a21LaborProratedPercent" required="false" />
-                <lookupField attributeName="a21LaborUpdatedOverallCode" required="false" />
-                <lookupField attributeName="a21LaborUpdatedOverallPercent" required="false" />
+                <lookupField attributeName="effortCertificationCalculatedOverallCode" required="false" />
+                <lookupField attributeName="effortCertificationCalculatedOverallPercent" required="false" />
+                <lookupField attributeName="effortCertificationCostSharingCode" required="false" />
+                <lookupField attributeName="effortCertificationCostSharingPercent" required="false" />
+                <lookupField attributeName="effortCertificationDerivedPayrollCode" required="false" />
+                <lookupField attributeName="effortCertificationDerivedPayrollPercent" required="false" />
+                <lookupField attributeName="effortCertificationOriginalPayrollAmount" required="false" />
+                <lookupField attributeName="effortCertificationPayrollAmount" required="false" />
+                <lookupField attributeName="effortCertificationProratedCode" required="false" />
+                <lookupField attributeName="effortCertificationProratedPercent" required="false" />
+                <lookupField attributeName="effortCertificationUpdatedOverallCode" required="false" />
+                <lookupField attributeName="effortCertificationUpdatedOverallPercent" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="costShareSourceSubAccountNumber" required="false" />
@@ -83,23 +83,23 @@
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="positionNumber" required="false" />
                 <lookupField attributeName="sourceAccountNumber" required="false" />
-                <lookupField attributeName="sourceFinancialChartOfAccountsCode" required="false" />
+                <lookupField attributeName="sourceChartOfAccountsCode" required="false" />
                 <lookupField attributeName="subAccountNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="a21LaborCalculatedOverallCode" />
-                <field attributeName="a21LaborCalculatedOverallPercent" />
-                <field attributeName="a21LaborCostSharingCode" />
-                <field attributeName="a21LaborCostSharingPercent" />
-                <field attributeName="a21LaborDerivedPayrollCode" />
-                <field attributeName="a21LaborDerivedPayrollPercent" />
-                <field attributeName="a21LaborOriginalPayrollAmount" />
-                <field attributeName="a21LaborPayrollAmount" />
-                <field attributeName="a21LaborProratedCode" />
-                <field attributeName="a21LaborProratedPercent" />
-                <field attributeName="a21LaborUpdatedOverallCode" />
-                <field attributeName="a21LaborUpdatedOverallPercent" />
+                <field attributeName="effortCertificationCalculatedOverallCode" />
+                <field attributeName="effortCertificationCalculatedOverallPercent" />
+                <field attributeName="effortCertificationCostSharingCode" />
+                <field attributeName="effortCertificationCostSharingPercent" />
+                <field attributeName="effortCertificationDerivedPayrollCode" />
+                <field attributeName="effortCertificationDerivedPayrollPercent" />
+                <field attributeName="effortCertificationOriginalPayrollAmount" />
+                <field attributeName="effortCertificationPayrollAmount" />
+                <field attributeName="effortCertificationProratedCode" />
+                <field attributeName="effortCertificationProratedPercent" />
+                <field attributeName="effortCertificationUpdatedOverallCode" />
+                <field attributeName="effortCertificationUpdatedOverallPercent" />
                 <field attributeName="accountNumber" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="costShareSourceSubAccountNumber" />
@@ -108,15 +108,15 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="positionNumber" />
                 <field attributeName="sourceAccountNumber" />
-                <field attributeName="sourceFinancialChartOfAccountsCode" />
+                <field attributeName="sourceChartOfAccountsCode" />
                 <field attributeName="subAccountNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="a21LaborCalculatedOverallCode" forceUppercase="true">
-                <label>Effort Certification Labor Calculated Overall Code</label>
+            <attribute name="effortCertificationCalculatedOverallCode" forceUppercase="true">
+                <label>Effort Certification Calculated Overall Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -126,26 +126,11 @@
                     <text size="3" />
                 </control>
 
-                <summary>Effort Certification LaborCalculatedOverallCode</summary>
-                <description>Effort Certification LaborCalculatedOverallCode description...</description>
+                <summary>Effort Certification CalculatedOverallCode</summary>
+                <description>Effort Certification CalculatedOverallCode description...</description>
 			</attribute>
 
-            <attribute name="a21LaborCalculatedOverallPercent" forceUppercase="true">
-                <label>Effort Certification Labor Calculated Overall Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Effort Certification LaborCalculatedOverallPercent</summary>
-                <description>Effort Certification LaborCalculatedOverallPercent description...</description>
-			</attribute>
-
-            <attribute name="a21LaborCostSharingCode" forceUppercase="true">
+            <attribute name="effortCertificationCostSharingCode" forceUppercase="true">
                 <label>Effort Certification Labor Cost Sharing Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -159,23 +144,8 @@
                 <summary>Effort Certification LaborCostSharingCode</summary>
                 <description>Effort Certification LaborCostSharingCode description...</description>
 			</attribute>
-
-            <attribute name="a21LaborCostSharingPercent" forceUppercase="true">
-                <label>Effort Certification Labor Cost Sharing Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Effort Certification LaborCostSharingPercent</summary>
-                <description>Effort Certification LaborCostSharingPercent description...</description>
-			</attribute>
-
-            <attribute name="a21LaborDerivedPayrollCode" forceUppercase="true">
+			
+            <attribute name="effortCertificationDerivedPayrollCode" forceUppercase="true">
                 <label>Effort Certification Labor Derived Payroll Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -186,56 +156,11 @@
                     <text size="3" />
                 </control>
 
-                <summary>Effort Certification LaborDerivedPayrollCode</summary>
+                <summary>Effort Certification DerivedPayrollCode</summary>
                 <description>Effort Certification LaborDerivedPayrollCode description...</description>
 			</attribute>
-
-            <attribute name="a21LaborDerivedPayrollPercent" forceUppercase="true">
-                <label>Effort Certification Labor Derived Payroll Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Effort Certification LaborDerivedPayrollPercent</summary>
-                <description>Effort Certification LaborDerivedPayrollPercent description...</description>
-			</attribute>
-
-            <attribute name="a21LaborOriginalPayrollAmount" forceUppercase="true">
-                <label>Effort Certification Labor Original Payroll Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>Effort Certification LaborOriginalPayrollAmount</summary>
-                <description>Effort Certification LaborOriginalPayrollAmount description...</description>
-			</attribute>
-
-            <attribute name="a21LaborPayrollAmount" forceUppercase="true">
-                <label>Effort Certification Labor Payroll Amount</label>
-                <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>Effort Certification LaborPayrollAmount</summary>
-                <description>Effort Certification LaborPayrollAmount description...</description>
-			</attribute>
-
-            <attribute name="a21LaborProratedCode" forceUppercase="true">
+					
+            <attribute name="effortCertificationProratedCode" forceUppercase="true">
                 <label>Effort Certification Labor Prorated Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -249,23 +174,8 @@
                 <summary>Effort Certification LaborProratedCode</summary>
                 <description>Effort Certification LaborProratedCode description...</description>
 			</attribute>
-
-            <attribute name="a21LaborProratedPercent" forceUppercase="true">
-                <label>Effort Certification Labor Prorated Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>Effort Certification LaborProratedPercent</summary>
-                <description>Effort Certification LaborProratedPercent description...</description>
-			</attribute>
-
-            <attribute name="a21LaborUpdatedOverallCode" forceUppercase="true">
+			
+ 			<attribute name="effortCertificationUpdatedOverallCode" forceUppercase="true">
                 <label>Effort Certification Labor Updated Overall Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -279,174 +189,106 @@
                 <summary>Effort Certification LaborUpdatedOverallCode</summary>
                 <description>Effort Certification LaborUpdatedOverallCode description...</description>
 			</attribute>
+			
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
 
-            <attribute name="a21LaborUpdatedOverallPercent" forceUppercase="true">
-                <label>Effort Certification Labor Updated Overall Percent</label>
+            <attributeReference name="effortCertificationDerivedPayrollPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>Effort Certification Labor Derived Payroll Percent</label>
                 <shortLabel>Percent</shortLabel>
 
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
+                <summary>Effort Certification LaborDerivedPayrollPercent</summary>
+                <description>Effort Certification LaborDerivedPayrollPercent description...</description>
+			</attributeReference>
 
-                <control>
-                    <text size="5" />
-                </control>
+            <attributeReference name="effortCertificationOriginalPayrollAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Effort Certification Labor Original Payroll Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <summary>Effort Certification LaborOriginalPayrollAmount</summary>
+                <description>Effort Certification LaborOriginalPayrollAmount description...</description>
+			</attributeReference>
+
+            <attributeReference name="effortCertificationPayrollAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Effort Certification Labor Payroll Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <summary>Effort Certification LaborPayrollAmount</summary>
+                <description>Effort Certification LaborPayrollAmount description...</description>
+			</attributeReference>
+			
+			<attributeReference name="effortCertificationCalculatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>Effort Certification Labor Calculated Overall Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <summary>Effort Certification LaborCalculatedOverallPercent</summary>
+                <description>Effort Certification LaborCalculatedOverallPercent description...</description>
+			</attributeReference>			
+
+            <attributeReference name="effortCertificationCostSharingPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>Effort Certification Labor Cost Sharing Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <summary>Effort Certification LaborCostSharingPercent</summary>
+                <description>Effort Certification LaborCostSharingPercent description...</description>
+			</attributeReference>
+			
+            <attributeReference name="effortCertificationProratedPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>Effort Certification Labor Prorated Percent</label>
+                <shortLabel>Percent</shortLabel>
+
+                <summary>Effort Certification LaborProratedPercent</summary>
+                <description>Effort Certification LaborProratedPercent description...</description>
+			</attributeReference>
+
+            <attributeReference name="effortCertificationUpdatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
+                <label>Effort Certification Updated Overall Percent</label>
+                <shortLabel>Percent</shortLabel>
 
                 <summary>Effort Certification LaborUpdatedOverallPercent</summary>
                 <description>Effort Certification LaborUpdatedOverallPercent description...</description>
-			</attribute>
+			</attributeReference>		
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="costShareSourceSubAccountNumber" forceUppercase="true">
+			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />
+            
+            <attributeReference name="costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" >
                 <label>Cost Share Source Sub Account Number</label>
                 <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
+                
                 <summary>costShareSourceSubAccountNumber</summary>
                 <description>costShareSourceSubAccountNumber description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="documentNumber" forceUppercase="true">
-                <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Financial Document Posting Year</label>
                 <shortLabel>Year</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
                 <summary>financialDocumentPostingYear</summary>
                 <description>financialDocumentPostingYear description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
+			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
 
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+            <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
 
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="positionNumber" forceUppercase="true">
-                <label>Position Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>positionNumber</summary>
-                <description>positionNumber description...</description>
-			</attribute>
-
-            <attribute name="sourceAccountNumber" forceUppercase="true">
+			<attributeReference name="sourceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
                 <label>Source Account Number</label>
                 <shortLabel>Number</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
                 <summary>sourceAccountNumber</summary>
                 <description>sourceAccountNumber description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="sourceFinancialChartOfAccountsCode" forceUppercase="true">
-                <label>Source Financial Chart Of Accounts Code</label>
+            <attributeReference name="sourceChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" >
+                <label>Source Chart Of Accounts Code</label>
                 <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
 
                 <summary>sourceFinancialChartOfAccountsCode</summary>
                 <description>sourceFinancialChartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
-			</attribute>
+			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
         </attributes>
     </businessObject>
 </dictionaryEntry>

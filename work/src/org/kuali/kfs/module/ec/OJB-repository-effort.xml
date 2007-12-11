@@ -110,16 +110,16 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" table="LD_A21_DTL_BLD_T">
-	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="A21_BLD_NBR_SEQ"/>
+	<field-descriptor name="effortCertificationBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="A21_BLD_NBR_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="a21LaborReportPrintedDate" column="A21LBR_RPT_PRNT_DT" jdbc-type="DATE"/>
-	<field-descriptor name="a21LaborReportApprovedDate" column="A21LBR_RPT_APRV_DT" jdbc-type="DATE"/>
-	<field-descriptor name="a21LaborDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true"/>
+	<field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="effortCertificationReportPrintedDate" column="A21LBR_RPT_PRNT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="effortCertificationReportApprovedDate" column="A21LBR_RPT_APRV_DT" jdbc-type="DATE"/>
+	<field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true"/>
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true"/>
 	
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -131,49 +131,49 @@
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	
-    <reference-descriptor name="a21LaborReport" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportNumber" />
-        <foreignkey field-ref="a21LaborFiscalYear" />
+    <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportNumber" />
+        <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
     
-    <collection-descriptor name="a21DetailLineBuild" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetailBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="effortCertificationDetailLinesBuild" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetailBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <orderby name="subAccountNumber" sort="ASC" />
         <orderby name="positionNumber" sort="ASC" />
         <orderby name="financialObjectCode" sort="ASC" />
-        <orderby name="sourceFinancialChartOfAccountsCode" sort="ASC" />
+        <orderby name="sourceChartOfAccountsCode" sort="ASC" />
         <orderby name="sourceAccountNumber" sort="ASC" />
-        <inverse-foreignkey field-ref="a21LaborBuildNumber" />
+        <inverse-foreignkey field-ref="effortCertificationBuildNumber" />
     </collection-descriptor>
     
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationDetailBuild" table="LD_A21_DTL_LN_BLD_T">
-	<field-descriptor name="a21LaborBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="sourceFinancialChartOfAccountsCode" column="SOURCE_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="sourceChartOfAccountsCode" column="SOURCE_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="sourceAccountNumber" column="SOURCE_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="a21LaborPayrollAmount" column="A21_LBR_PYRL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
-	<field-descriptor name="a21LaborDerivedPayrollCode" column="LBR_DRVD_PYRL_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborDerivedPayrollPercent" column="LBR_DRVD_PYRL_PCT" jdbc-type="INTEGER"/>
-	<field-descriptor name="a21LaborCostSharingCode" column="A21LBR_CST_SHR_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborCostSharingPercent" column="A21LBR_CST_SHR_PCT" jdbc-type="INTEGER"/>
-	<field-descriptor name="a21LaborCalculatedOverallCode" column="LBR_CALC_OVRLL_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborCalculatedOverallPercent" column="LBR_CALC_OVRLL_PCT" jdbc-type="INTEGER"/>
-	<field-descriptor name="a21LaborUpdatedOverallCode" column="LBR_UPDT_OVRLL_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborUpdatedOverallPercent" column="LBR_UPDT_OVRLL_PCT" jdbc-type="INTEGER"/>
-	<field-descriptor name="a21LaborProratedCode" column="A21_LBR_PRORT_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborProratedPercent" column="A21_LBR_PRORT_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="effortCertificationPayrollAmount" column="A21_LBR_PYRL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="effortCertificationDerivedPayrollCode" column="LBR_DRVD_PYRL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationDerivedPayrollPercent" column="LBR_DRVD_PYRL_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="effortCertificationCostSharingCode" column="A21LBR_CST_SHR_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationCostSharingPercent" column="A21LBR_CST_SHR_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="effortCertificationCalculatedOverallCode" column="LBR_CALC_OVRLL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationCalculatedOverallPercent" column="LBR_CALC_OVRLL_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="effortCertificationUpdatedOverallCode" column="LBR_UPDT_OVRLL_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationUpdatedOverallPercent" column="LBR_UPDT_OVRLL_PCT" jdbc-type="INTEGER"/>
+	<field-descriptor name="effortCertificationProratedCode" column="A21_LBR_PRORT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationProratedPercent" column="A21_LBR_PRORT_PCT" jdbc-type="INTEGER"/>
 	<field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER"/>
 	<field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="a21LaborOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="effortCertificationOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 	
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
@@ -190,12 +190,12 @@
 		<foreignkey field-ref="accountNumber" />
 	</reference-descriptor>
 	
-	<reference-descriptor name="sourceFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
+	<reference-descriptor name="sourceChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="sourceChartOfAccountsCode" />
 	</reference-descriptor>
 	
 	<reference-descriptor name="sourceAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
+		<foreignkey field-ref="sourceChartOfAccountsCode" />
 		<foreignkey field-ref="sourceAccountNumber" />
 	</reference-descriptor>
 	
@@ -206,7 +206,7 @@
     </reference-descriptor>
     
     <reference-descriptor name="costShareSourceSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
+        <foreignkey field-ref="sourceChartOfAccountsCode" />
         <foreignkey field-ref="sourceAccountNumber" />
         <foreignkey field-ref="costShareSourceSubAccountNumber" />
     </reference-descriptor>
@@ -220,11 +220,11 @@
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="a21LaborReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="a21LaborReportPrintedDate" column="A21LBR_RPT_PRNT_DT" jdbc-type="DATE" />
-    <field-descriptor name="a21LaborReportApprovedDate" column="A21LBR_RPT_APRV_DT" jdbc-type="DATE" />
-    <field-descriptor name="a21LaborDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
+    <field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="effortCertificationReportPrintedDate" column="A21LBR_RPT_PRNT_DT" jdbc-type="DATE" />
+    <field-descriptor name="effortCertificationReportApprovedDate" column="A21LBR_RPT_APRV_DT" jdbc-type="DATE" />
+    <field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" />
    
     <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -235,23 +235,23 @@
         <foreignkey field-ref="chartOfAccountsCode" />
     </reference-descriptor>
   
-    <reference-descriptor name="a21LaborReport" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="a21LaborReportNumber" />
-        <foreignkey field-ref="a21LaborFiscalYear" />
+    <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportNumber" />
+        <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
   
-    <reference-descriptor name="org" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="chartOfAccountsCode" />
         <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
   
-    <collection-descriptor name="a21DetailLines" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="effortCertificationDetailLines" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
         <orderby name="subAccountNumber" sort="ASC" />
         <orderby name="positionNumber" sort="ASC" />
         <orderby name="financialObjectCode" sort="ASC" />
-        <orderby name="sourceFinancialChartOfAccountsCode" sort="ASC" />
+        <orderby name="sourceChartOfAccountsCode" sort="ASC" />
         <orderby name="sourceAccountNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
@@ -264,26 +264,26 @@
     <field-descriptor name="subAccountNumber" column="SUB_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
-    <field-descriptor name="sourceFinancialChartOfAccountsCode" column="SOURCE_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="sourceChartOfAccountsCode" column="SOURCE_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="sourceAccountNumber" column="SOURCE_ACCT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="a21LaborPayrollAmount" column="A21_LBR_PYRL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
-    <field-descriptor name="a21LaborDerivedPayrollCode" column="LBR_DRVD_PYRL_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborDerivedPayrollPercent" column="LBR_DRVD_PYRL_PCT" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborCostSharingCode" column="A21LBR_CST_SHR_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborCostSharingPercent" column="A21LBR_CST_SHR_PCT" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborCalculatedOverallCode" column="LBR_CALC_OVRLL_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborCalculatedOverallPercent" column="LBR_CALC_OVRLL_PCT" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborUpdatedOverallCode" column="LBR_UPDT_OVRLL_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborUpdatedOverallPercent" column="LBR_UPDT_OVRLL_PCT" jdbc-type="INTEGER" />
-    <field-descriptor name="a21LaborProratedCode" column="A21_LBR_PRORT_CD" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborProratedPercent" column="A21_LBR_PRORT_PCT" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationPayrollAmount" column="A21_LBR_PYRL_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="effortCertificationDerivedPayrollCode" column="LBR_DRVD_PYRL_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationDerivedPayrollPercent" column="LBR_DRVD_PYRL_PCT" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationCostSharingCode" column="A21LBR_CST_SHR_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationCostSharingPercent" column="A21LBR_CST_SHR_PCT" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationCalculatedOverallCode" column="LBR_CALC_OVRLL_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationCalculatedOverallPercent" column="LBR_CALC_OVRLL_PCT" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationUpdatedOverallCode" column="LBR_UPDT_OVRLL_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationUpdatedOverallPercent" column="LBR_UPDT_OVRLL_PCT" jdbc-type="INTEGER" />
+    <field-descriptor name="effortCertificationProratedCode" column="A21_LBR_PRORT_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="effortCertificationProratedPercent" column="A21_LBR_PRORT_PCT" jdbc-type="INTEGER" />
     <field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" />
     <field-descriptor name="costShareSourceSubAccountNumber" column="CST_SRCSUBACCT_NBR" jdbc-type="VARCHAR" />
-    <field-descriptor name="a21LaborOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
+    <field-descriptor name="effortCertificationOriginalPayrollAmount" column="A21_LBRORIG_PY_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion" />
    
-    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="financialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
    
@@ -302,12 +302,12 @@
         <foreignkey field-ref="accountNumber" />
     </reference-descriptor>
     
-    <reference-descriptor name="sourceFinancialChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
+    <reference-descriptor name="sourceChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="sourceChartOfAccountsCode" />
     </reference-descriptor>
    
     <reference-descriptor name="sourceAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="sourceFinancialChartOfAccountsCode" />
+        <foreignkey field-ref="sourceChartOfAccountsCode" />
         <foreignkey field-ref="sourceAccountNumber" />
     </reference-descriptor>
   
@@ -322,10 +322,10 @@
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="a21LaborEffortCategoryCode" column="LBR_EFFRT_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="effortCertificationEffortCategoryCode" column="LBR_EFFRT_CTGRY_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="a21LaborDetailLineReasonDescription" column="LBR_DTL_REAS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="effortCertificationDetailLineReasonDescription" column="LBR_DTL_REAS_DESC" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="account" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />

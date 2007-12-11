@@ -26,52 +26,51 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
  * Business Object for the Effort Certification Document Build Table.
  */
 public class EffortCertificationDocumentBuild extends EffortCertificationDocument {
-    private Long a21LaborBuildNumber;
+    private Long effortCertificationBuildNumber;
 
-    private List a21DetailLineBuild;
+    private List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild;
 
     /**
      * Default constructor.
      */
     public EffortCertificationDocumentBuild() {
-        a21DetailLineBuild = new ArrayList();
+        effortCertificationDetailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
     }
 
     /**
-     * Gets the a21LaborBuildNumber attribute.
+     * Gets the effortCertificationBuildNumber attribute.
      * 
-     * @return Returns the a21LaborBuildNumber.
+     * @return Returns the effortCertificationBuildNumber.
      */
-    public Long getA21LaborBuildNumber() {
-        return a21LaborBuildNumber;
+    public Long getEffortCertificationBuildNumber() {
+        return effortCertificationBuildNumber;
     }
 
     /**
-     * Sets the a21LaborBuildNumber attribute value.
+     * Sets the effortCertificationBuildNumber attribute value.
      * 
-     * @param a21LaborBuildNumber The a21LaborBuildNumber to set.
+     * @param effortCertificationBuildNumber The effortCertificationBuildNumber to set.
      */
-    public void setA21LaborBuildNumber(Long a21LaborBuildNumber) {
-        this.a21LaborBuildNumber = a21LaborBuildNumber;
-    }
-
-
-    /**
-     * Gets the a21DetailLineBuild attribute.
-     * 
-     * @return Returns the a21DetailLineBuild.
-     */
-    public List getA21DetailLineBuild() {
-        return a21DetailLineBuild;
+    public void setEffortCertificationBuildNumber(Long effortCertificationBuildNumber) {
+        this.effortCertificationBuildNumber = effortCertificationBuildNumber;
     }
 
     /**
-     * Sets the a21DetailLineBuild attribute value.
+     * Gets the effortCertificationDetailLinesBuild attribute.
      * 
-     * @param detailLineBuild The a21DetailLineBuild to set.
+     * @return Returns the effortCertificationDetailLinesBuild.
      */
-    public void setA21DetailLineBuild(List detailLineBuild) {
-        a21DetailLineBuild = detailLineBuild;
+    public List<EffortCertificationDetailBuild> getEffortCertificationDetailLinesBuild() {
+        return effortCertificationDetailLinesBuild;
+    }
+
+    /**
+     * Sets the effortCertificationDetailLinesBuild attribute value.
+     * 
+     * @param effortCertificationDetailLinesBuild The effortCertificationDetailLinesBuild to set.
+     */
+    public void setEffortCertificationDetailLinesBuild(List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild) {
+        this.effortCertificationDetailLinesBuild = effortCertificationDetailLinesBuild;
     }
 
     /**
@@ -79,10 +78,9 @@ public class EffortCertificationDocumentBuild extends EffortCertificationDocumen
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        if (this.a21LaborBuildNumber != null) {
-            m.put("a21LaborBuildNumber", this.a21LaborBuildNumber.toString());
+        if (this.effortCertificationBuildNumber != null) {
+            m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
         }
         return m;
     }
-
 }

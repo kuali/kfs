@@ -229,7 +229,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             }
         }
 
-        return qualifiedLedgerBalances;
+        return ledgerBalances;
     }
 
     private void generateBuildDocumentForEmployee(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances) {

@@ -18,20 +18,11 @@ package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
 
-import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.module.chart.bo.Account;
-import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.chart.bo.SubAccount;
-
 /**
  * Business Object for the Effort Certification Detail Build Table.
  */
 public class EffortCertificationDetailBuild extends EffortCertificationDetail {
-    private Long a21LaborBuildNumber;
+    private Long effortCertificationBuildNumber;
 
     /**
      * Default constructor.
@@ -41,21 +32,21 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
-     * Gets the a21LaborBuildNumber attribute.
+     * Gets the effortCertificationBuildNumber attribute.
      * 
-     * @return Returns the a21LaborBuildNumber.
+     * @return Returns the effortCertificationBuildNumber.
      */
-    public Long getA21LaborBuildNumber() {
-        return a21LaborBuildNumber;
+    public Long getEffortCertificationBuildNumber() {
+        return effortCertificationBuildNumber;
     }
 
     /**
-     * Sets the a21LaborBuildNumber attribute value.
+     * Sets the effortCertificationBuildNumber attribute value.
      * 
-     * @param a21LaborBuildNumber The a21LaborBuildNumber to set.
+     * @param effortCertificationBuildNumber The effortCertificationBuildNumber to set.
      */
-    public void setA21LaborBuildNumber(Long a21LaborBuildNumber) {
-        this.a21LaborBuildNumber = a21LaborBuildNumber;
+    public void setEffortCertificationBuildNumber(Long effortCertificationBuildNumber) {
+        this.effortCertificationBuildNumber = effortCertificationBuildNumber;
     }
 
     /**
@@ -63,8 +54,8 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
      */
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
-        if (this.a21LaborBuildNumber != null) {
-            m.put("a21LaborBuildNumber", this.a21LaborBuildNumber.toString());
+        if (this.effortCertificationBuildNumber != null) {
+            m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
         }
         return m;
     }

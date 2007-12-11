@@ -37,28 +37,28 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String subAccountNumber;
     private String positionNumber;
     private String financialObjectCode;
-    private String sourceFinancialChartOfAccountsCode;
+    private String sourceChartOfAccountsCode;
     private String sourceAccountNumber;
-    private KualiDecimal a21LaborPayrollAmount;
-    private String a21LaborDerivedPayrollCode;
-    private Integer a21LaborDerivedPayrollPercent;
-    private String a21LaborCostSharingCode;
-    private Integer a21LaborCostSharingPercent;
-    private String a21LaborCalculatedOverallCode;
-    private Integer a21LaborCalculatedOverallPercent;
-    private String a21LaborUpdatedOverallCode;
-    private Integer a21LaborUpdatedOverallPercent;
-    private String a21LaborProratedCode;
-    private Integer a21LaborProratedPercent;
+    private KualiDecimal effortCertificationPayrollAmount;
+    private String effortCertificationDerivedPayrollCode;
+    private Integer effortCertificationDerivedPayrollPercent;
+    private String effortCertificationCostSharingCode;
+    private Integer effortCertificationCostSharingPercent;
+    private String effortCertificationCalculatedOverallCode;
+    private Integer effortCertificationCalculatedOverallPercent;
+    private String effortCertificationUpdatedOverallCode;
+    private Integer effortCertificationUpdatedOverallPercent;
+    private String effortCertificationProratedCode;
+    private Integer effortCertificationProratedPercent;
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
-    private KualiDecimal a21LaborOriginalPayrollAmount;
+    private KualiDecimal effortCertificationOriginalPayrollAmount;
 
     private DocumentHeader financialDocument;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
-    private Chart sourceFinancialChartOfAccounts;
+    private Chart sourceChartOfAccounts;
     private Account sourceAccount;
     private SubAccount subAccount;
 
@@ -72,14 +72,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     /**
      * Gets the documentNumber attribute.
      * 
-     * @return Returns the documentNumber
+     * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * Sets the documentNumber attribute.
+     * Sets the documentNumber attribute value.
      * 
      * @param documentNumber The documentNumber to set.
      */
@@ -87,18 +87,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.documentNumber = documentNumber;
     }
 
-
     /**
      * Gets the chartOfAccountsCode attribute.
      * 
-     * @return Returns the chartOfAccountsCode
+     * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
-     * Sets the chartOfAccountsCode attribute.
+     * Sets the chartOfAccountsCode attribute value.
      * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
@@ -106,18 +105,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-
     /**
      * Gets the accountNumber attribute.
      * 
-     * @return Returns the accountNumber
+     * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
         return accountNumber;
     }
 
     /**
-     * Sets the accountNumber attribute.
+     * Sets the accountNumber attribute value.
      * 
      * @param accountNumber The accountNumber to set.
      */
@@ -125,18 +123,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.accountNumber = accountNumber;
     }
 
-
     /**
      * Gets the subAccountNumber attribute.
      * 
-     * @return Returns the subAccountNumber
+     * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
     /**
-     * Sets the subAccountNumber attribute.
+     * Sets the subAccountNumber attribute value.
      * 
      * @param subAccountNumber The subAccountNumber to set.
      */
@@ -144,18 +141,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.subAccountNumber = subAccountNumber;
     }
 
-
     /**
      * Gets the positionNumber attribute.
      * 
-     * @return Returns the positionNumber
+     * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
         return positionNumber;
     }
 
     /**
-     * Sets the positionNumber attribute.
+     * Sets the positionNumber attribute value.
      * 
      * @param positionNumber The positionNumber to set.
      */
@@ -163,18 +159,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.positionNumber = positionNumber;
     }
 
-
     /**
      * Gets the financialObjectCode attribute.
      * 
-     * @return Returns the financialObjectCode
+     * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
         return financialObjectCode;
     }
 
     /**
-     * Sets the financialObjectCode attribute.
+     * Sets the financialObjectCode attribute value.
      * 
      * @param financialObjectCode The financialObjectCode to set.
      */
@@ -182,37 +177,35 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.financialObjectCode = financialObjectCode;
     }
 
-
     /**
-     * Gets the sourceFinancialChartOfAccountsCode attribute.
+     * Gets the sourceChartOfAccountsCode attribute.
      * 
-     * @return Returns the sourceFinancialChartOfAccountsCode
+     * @return Returns the sourceChartOfAccountsCode.
      */
-    public String getSourceFinancialChartOfAccountsCode() {
-        return sourceFinancialChartOfAccountsCode;
+    public String getSourceChartOfAccountsCode() {
+        return sourceChartOfAccountsCode;
     }
 
     /**
-     * Sets the sourceFinancialChartOfAccountsCode attribute.
+     * Sets the sourceChartOfAccountsCode attribute value.
      * 
-     * @param sourceFinancialChartOfAccountsCode The sourceFinancialChartOfAccountsCode to set.
+     * @param sourceChartOfAccountsCode The sourceChartOfAccountsCode to set.
      */
-    public void setSourceFinancialChartOfAccountsCode(String sourceFinancialChartOfAccountsCode) {
-        this.sourceFinancialChartOfAccountsCode = sourceFinancialChartOfAccountsCode;
+    public void setSourceChartOfAccountsCode(String sourceChartOfAccountsCode) {
+        this.sourceChartOfAccountsCode = sourceChartOfAccountsCode;
     }
-
 
     /**
      * Gets the sourceAccountNumber attribute.
      * 
-     * @return Returns the sourceAccountNumber
+     * @return Returns the sourceAccountNumber.
      */
     public String getSourceAccountNumber() {
         return sourceAccountNumber;
     }
 
     /**
-     * Sets the sourceAccountNumber attribute.
+     * Sets the sourceAccountNumber attribute value.
      * 
      * @param sourceAccountNumber The sourceAccountNumber to set.
      */
@@ -220,227 +213,215 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.sourceAccountNumber = sourceAccountNumber;
     }
 
-
     /**
-     * Gets the a21LaborPayrollAmount attribute.
+     * Gets the effortCertificationPayrollAmount attribute.
      * 
-     * @return Returns the a21LaborPayrollAmount
+     * @return Returns the effortCertificationPayrollAmount.
      */
-    public KualiDecimal getA21LaborPayrollAmount() {
-        return a21LaborPayrollAmount;
+    public KualiDecimal getEffortCertificationPayrollAmount() {
+        return effortCertificationPayrollAmount;
     }
 
     /**
-     * Sets the a21LaborPayrollAmount attribute.
+     * Sets the effortCertificationPayrollAmount attribute value.
      * 
-     * @param a21LaborPayrollAmount The a21LaborPayrollAmount to set.
+     * @param effortCertificationPayrollAmount The effortCertificationPayrollAmount to set.
      */
-    public void setA21LaborPayrollAmount(KualiDecimal a21LaborPayrollAmount) {
-        this.a21LaborPayrollAmount = a21LaborPayrollAmount;
-    }
-
-
-    /**
-     * Gets the a21LaborDerivedPayrollCode attribute.
-     * 
-     * @return Returns the a21LaborDerivedPayrollCode
-     */
-    public String getA21LaborDerivedPayrollCode() {
-        return a21LaborDerivedPayrollCode;
+    public void setEffortCertificationPayrollAmount(KualiDecimal effortCertificationPayrollAmount) {
+        this.effortCertificationPayrollAmount = effortCertificationPayrollAmount;
     }
 
     /**
-     * Sets the a21LaborDerivedPayrollCode attribute.
+     * Gets the effortCertificationDerivedPayrollCode attribute.
      * 
-     * @param a21LaborDerivedPayrollCode The a21LaborDerivedPayrollCode to set.
+     * @return Returns the effortCertificationDerivedPayrollCode.
      */
-    public void setA21LaborDerivedPayrollCode(String a21LaborDerivedPayrollCode) {
-        this.a21LaborDerivedPayrollCode = a21LaborDerivedPayrollCode;
-    }
-
-
-    /**
-     * Gets the a21LaborDerivedPayrollPercent attribute.
-     * 
-     * @return Returns the a21LaborDerivedPayrollPercent
-     */
-    public Integer getA21LaborDerivedPayrollPercent() {
-        return a21LaborDerivedPayrollPercent;
+    public String getEffortCertificationDerivedPayrollCode() {
+        return effortCertificationDerivedPayrollCode;
     }
 
     /**
-     * Sets the a21LaborDerivedPayrollPercent attribute.
+     * Sets the effortCertificationDerivedPayrollCode attribute value.
      * 
-     * @param a21LaborDerivedPayrollPercent The a21LaborDerivedPayrollPercent to set.
+     * @param effortCertificationDerivedPayrollCode The effortCertificationDerivedPayrollCode to set.
      */
-    public void setA21LaborDerivedPayrollPercent(Integer a21LaborDerivedPayrollPercent) {
-        this.a21LaborDerivedPayrollPercent = a21LaborDerivedPayrollPercent;
-    }
-
-
-    /**
-     * Gets the a21LaborCostSharingCode attribute.
-     * 
-     * @return Returns the a21LaborCostSharingCode
-     */
-    public String getA21LaborCostSharingCode() {
-        return a21LaborCostSharingCode;
+    public void setEffortCertificationDerivedPayrollCode(String effortCertificationDerivedPayrollCode) {
+        this.effortCertificationDerivedPayrollCode = effortCertificationDerivedPayrollCode;
     }
 
     /**
-     * Sets the a21LaborCostSharingCode attribute.
+     * Gets the effortCertificationDerivedPayrollPercent attribute.
      * 
-     * @param a21LaborCostSharingCode The a21LaborCostSharingCode to set.
+     * @return Returns the effortCertificationDerivedPayrollPercent.
      */
-    public void setA21LaborCostSharingCode(String a21LaborCostSharingCode) {
-        this.a21LaborCostSharingCode = a21LaborCostSharingCode;
-    }
-
-
-    /**
-     * Gets the a21LaborCostSharingPercent attribute.
-     * 
-     * @return Returns the a21LaborCostSharingPercent
-     */
-    public Integer getA21LaborCostSharingPercent() {
-        return a21LaborCostSharingPercent;
+    public Integer getEffortCertificationDerivedPayrollPercent() {
+        return effortCertificationDerivedPayrollPercent;
     }
 
     /**
-     * Sets the a21LaborCostSharingPercent attribute.
+     * Sets the effortCertificationDerivedPayrollPercent attribute value.
      * 
-     * @param a21LaborCostSharingPercent The a21LaborCostSharingPercent to set.
+     * @param effortCertificationDerivedPayrollPercent The effortCertificationDerivedPayrollPercent to set.
      */
-    public void setA21LaborCostSharingPercent(Integer a21LaborCostSharingPercent) {
-        this.a21LaborCostSharingPercent = a21LaborCostSharingPercent;
-    }
-
-
-    /**
-     * Gets the a21LaborCalculatedOverallCode attribute.
-     * 
-     * @return Returns the a21LaborCalculatedOverallCode
-     */
-    public String getA21LaborCalculatedOverallCode() {
-        return a21LaborCalculatedOverallCode;
+    public void setEffortCertificationDerivedPayrollPercent(Integer effortCertificationDerivedPayrollPercent) {
+        this.effortCertificationDerivedPayrollPercent = effortCertificationDerivedPayrollPercent;
     }
 
     /**
-     * Sets the a21LaborCalculatedOverallCode attribute.
+     * Gets the effortCertificationCostSharingCode attribute.
      * 
-     * @param a21LaborCalculatedOverallCode The a21LaborCalculatedOverallCode to set.
+     * @return Returns the effortCertificationCostSharingCode.
      */
-    public void setA21LaborCalculatedOverallCode(String a21LaborCalculatedOverallCode) {
-        this.a21LaborCalculatedOverallCode = a21LaborCalculatedOverallCode;
-    }
-
-
-    /**
-     * Gets the a21LaborCalculatedOverallPercent attribute.
-     * 
-     * @return Returns the a21LaborCalculatedOverallPercent
-     */
-    public Integer getA21LaborCalculatedOverallPercent() {
-        return a21LaborCalculatedOverallPercent;
+    public String getEffortCertificationCostSharingCode() {
+        return effortCertificationCostSharingCode;
     }
 
     /**
-     * Sets the a21LaborCalculatedOverallPercent attribute.
+     * Sets the effortCertificationCostSharingCode attribute value.
      * 
-     * @param a21LaborCalculatedOverallPercent The a21LaborCalculatedOverallPercent to set.
+     * @param effortCertificationCostSharingCode The effortCertificationCostSharingCode to set.
      */
-    public void setA21LaborCalculatedOverallPercent(Integer a21LaborCalculatedOverallPercent) {
-        this.a21LaborCalculatedOverallPercent = a21LaborCalculatedOverallPercent;
-    }
-
-
-    /**
-     * Gets the a21LaborUpdatedOverallCode attribute.
-     * 
-     * @return Returns the a21LaborUpdatedOverallCode
-     */
-    public String getA21LaborUpdatedOverallCode() {
-        return a21LaborUpdatedOverallCode;
+    public void setEffortCertificationCostSharingCode(String effortCertificationCostSharingCode) {
+        this.effortCertificationCostSharingCode = effortCertificationCostSharingCode;
     }
 
     /**
-     * Sets the a21LaborUpdatedOverallCode attribute.
+     * Gets the effortCertificationCostSharingPercent attribute.
      * 
-     * @param a21LaborUpdatedOverallCode The a21LaborUpdatedOverallCode to set.
+     * @return Returns the effortCertificationCostSharingPercent.
      */
-    public void setA21LaborUpdatedOverallCode(String a21LaborUpdatedOverallCode) {
-        this.a21LaborUpdatedOverallCode = a21LaborUpdatedOverallCode;
-    }
-
-
-    /**
-     * Gets the a21LaborUpdatedOverallPercent attribute.
-     * 
-     * @return Returns the a21LaborUpdatedOverallPercent
-     */
-    public Integer getA21LaborUpdatedOverallPercent() {
-        return a21LaborUpdatedOverallPercent;
+    public Integer getEffortCertificationCostSharingPercent() {
+        return effortCertificationCostSharingPercent;
     }
 
     /**
-     * Sets the a21LaborUpdatedOverallPercent attribute.
+     * Sets the effortCertificationCostSharingPercent attribute value.
      * 
-     * @param a21LaborUpdatedOverallPercent The a21LaborUpdatedOverallPercent to set.
+     * @param effortCertificationCostSharingPercent The effortCertificationCostSharingPercent to set.
      */
-    public void setA21LaborUpdatedOverallPercent(Integer a21LaborUpdatedOverallPercent) {
-        this.a21LaborUpdatedOverallPercent = a21LaborUpdatedOverallPercent;
-    }
-
-
-    /**
-     * Gets the a21LaborProratedCode attribute.
-     * 
-     * @return Returns the a21LaborProratedCode
-     */
-    public String getA21LaborProratedCode() {
-        return a21LaborProratedCode;
+    public void setEffortCertificationCostSharingPercent(Integer effortCertificationCostSharingPercent) {
+        this.effortCertificationCostSharingPercent = effortCertificationCostSharingPercent;
     }
 
     /**
-     * Sets the a21LaborProratedCode attribute.
+     * Gets the effortCertificationCalculatedOverallCode attribute.
      * 
-     * @param a21LaborProratedCode The a21LaborProratedCode to set.
+     * @return Returns the effortCertificationCalculatedOverallCode.
      */
-    public void setA21LaborProratedCode(String a21LaborProratedCode) {
-        this.a21LaborProratedCode = a21LaborProratedCode;
-    }
-
-
-    /**
-     * Gets the a21LaborProratedPercent attribute.
-     * 
-     * @return Returns the a21LaborProratedPercent
-     */
-    public Integer getA21LaborProratedPercent() {
-        return a21LaborProratedPercent;
+    public String getEffortCertificationCalculatedOverallCode() {
+        return effortCertificationCalculatedOverallCode;
     }
 
     /**
-     * Sets the a21LaborProratedPercent attribute.
+     * Sets the effortCertificationCalculatedOverallCode attribute value.
      * 
-     * @param a21LaborProratedPercent The a21LaborProratedPercent to set.
+     * @param effortCertificationCalculatedOverallCode The effortCertificationCalculatedOverallCode to set.
      */
-    public void setA21LaborProratedPercent(Integer a21LaborProratedPercent) {
-        this.a21LaborProratedPercent = a21LaborProratedPercent;
+    public void setEffortCertificationCalculatedOverallCode(String effortCertificationCalculatedOverallCode) {
+        this.effortCertificationCalculatedOverallCode = effortCertificationCalculatedOverallCode;
     }
 
+    /**
+     * Gets the effortCertificationCalculatedOverallPercent attribute.
+     * 
+     * @return Returns the effortCertificationCalculatedOverallPercent.
+     */
+    public Integer getEffortCertificationCalculatedOverallPercent() {
+        return effortCertificationCalculatedOverallPercent;
+    }
+
+    /**
+     * Sets the effortCertificationCalculatedOverallPercent attribute value.
+     * 
+     * @param effortCertificationCalculatedOverallPercent The effortCertificationCalculatedOverallPercent to set.
+     */
+    public void setEffortCertificationCalculatedOverallPercent(Integer effortCertificationCalculatedOverallPercent) {
+        this.effortCertificationCalculatedOverallPercent = effortCertificationCalculatedOverallPercent;
+    }
+
+    /**
+     * Gets the effortCertificationUpdatedOverallCode attribute.
+     * 
+     * @return Returns the effortCertificationUpdatedOverallCode.
+     */
+    public String getEffortCertificationUpdatedOverallCode() {
+        return effortCertificationUpdatedOverallCode;
+    }
+
+    /**
+     * Sets the effortCertificationUpdatedOverallCode attribute value.
+     * 
+     * @param effortCertificationUpdatedOverallCode The effortCertificationUpdatedOverallCode to set.
+     */
+    public void setEffortCertificationUpdatedOverallCode(String effortCertificationUpdatedOverallCode) {
+        this.effortCertificationUpdatedOverallCode = effortCertificationUpdatedOverallCode;
+    }
+
+    /**
+     * Gets the effortCertificationUpdatedOverallPercent attribute.
+     * 
+     * @return Returns the effortCertificationUpdatedOverallPercent.
+     */
+    public Integer getEffortCertificationUpdatedOverallPercent() {
+        return effortCertificationUpdatedOverallPercent;
+    }
+
+    /**
+     * Sets the effortCertificationUpdatedOverallPercent attribute value.
+     * 
+     * @param effortCertificationUpdatedOverallPercent The effortCertificationUpdatedOverallPercent to set.
+     */
+    public void setEffortCertificationUpdatedOverallPercent(Integer effortCertificationUpdatedOverallPercent) {
+        this.effortCertificationUpdatedOverallPercent = effortCertificationUpdatedOverallPercent;
+    }
+
+    /**
+     * Gets the effortCertificationProratedCode attribute.
+     * 
+     * @return Returns the effortCertificationProratedCode.
+     */
+    public String getEffortCertificationProratedCode() {
+        return effortCertificationProratedCode;
+    }
+
+    /**
+     * Sets the effortCertificationProratedCode attribute value.
+     * 
+     * @param effortCertificationProratedCode The effortCertificationProratedCode to set.
+     */
+    public void setEffortCertificationProratedCode(String effortCertificationProratedCode) {
+        this.effortCertificationProratedCode = effortCertificationProratedCode;
+    }
+
+    /**
+     * Gets the effortCertificationProratedPercent attribute.
+     * 
+     * @return Returns the effortCertificationProratedPercent.
+     */
+    public Integer getEffortCertificationProratedPercent() {
+        return effortCertificationProratedPercent;
+    }
+
+    /**
+     * Sets the effortCertificationProratedPercent attribute value.
+     * 
+     * @param effortCertificationProratedPercent The effortCertificationProratedPercent to set.
+     */
+    public void setEffortCertificationProratedPercent(Integer effortCertificationProratedPercent) {
+        this.effortCertificationProratedPercent = effortCertificationProratedPercent;
+    }
 
     /**
      * Gets the financialDocumentPostingYear attribute.
      * 
-     * @return Returns the financialDocumentPostingYear
+     * @return Returns the financialDocumentPostingYear.
      */
     public Integer getFinancialDocumentPostingYear() {
         return financialDocumentPostingYear;
     }
 
     /**
-     * Sets the financialDocumentPostingYear attribute.
+     * Sets the financialDocumentPostingYear attribute value.
      * 
      * @param financialDocumentPostingYear The financialDocumentPostingYear to set.
      */
@@ -448,18 +429,17 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.financialDocumentPostingYear = financialDocumentPostingYear;
     }
 
-
     /**
      * Gets the costShareSourceSubAccountNumber attribute.
      * 
-     * @return Returns the costShareSourceSubAccountNumber
+     * @return Returns the costShareSourceSubAccountNumber.
      */
     public String getCostShareSourceSubAccountNumber() {
         return costShareSourceSubAccountNumber;
     }
 
     /**
-     * Sets the costShareSourceSubAccountNumber attribute.
+     * Sets the costShareSourceSubAccountNumber attribute value.
      * 
      * @param costShareSourceSubAccountNumber The costShareSourceSubAccountNumber to set.
      */
@@ -467,55 +447,53 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.costShareSourceSubAccountNumber = costShareSourceSubAccountNumber;
     }
 
-
     /**
-     * Gets the a21LaborOriginalPayrollAmount attribute.
+     * Gets the effortCertificationOriginalPayrollAmount attribute.
      * 
-     * @return Returns the a21LaborOriginalPayrollAmount
+     * @return Returns the effortCertificationOriginalPayrollAmount.
      */
-    public KualiDecimal getA21LaborOriginalPayrollAmount() {
-        return a21LaborOriginalPayrollAmount;
+    public KualiDecimal getEffortCertificationOriginalPayrollAmount() {
+        return effortCertificationOriginalPayrollAmount;
     }
 
     /**
-     * Sets the a21LaborOriginalPayrollAmount attribute.
+     * Sets the effortCertificationOriginalPayrollAmount attribute value.
      * 
-     * @param a21LaborOriginalPayrollAmount The a21LaborOriginalPayrollAmount to set.
+     * @param effortCertificationOriginalPayrollAmount The effortCertificationOriginalPayrollAmount to set.
      */
-    public void setA21LaborOriginalPayrollAmount(KualiDecimal a21LaborOriginalPayrollAmount) {
-        this.a21LaborOriginalPayrollAmount = a21LaborOriginalPayrollAmount;
+    public void setEffortCertificationOriginalPayrollAmount(KualiDecimal effortCertificationOriginalPayrollAmount) {
+        this.effortCertificationOriginalPayrollAmount = effortCertificationOriginalPayrollAmount;
     }
 
     /**
-     * Gets the chartOfAccounts attribute.
+     * Gets the financialDocument attribute.
      * 
-     * @return Returns the chartOfAccounts
+     * @return Returns the financialDocument.
      */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
+    public DocumentHeader getFinancialDocument() {
+        return financialDocument;
     }
 
     /**
-     * Sets the chartOfAccounts attribute.
+     * Sets the financialDocument attribute value.
      * 
-     * @param chartOfAccounts The chartOfAccounts to set.
+     * @param financialDocument The financialDocument to set.
      */
-    @Deprecated
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
+    public void setFinancialDocument(DocumentHeader financialDocument) {
+        this.financialDocument = financialDocument;
     }
 
     /**
      * Gets the financialObject attribute.
      * 
-     * @return Returns the financialObject
+     * @return Returns the financialObject.
      */
     public ObjectCode getFinancialObject() {
         return financialObject;
     }
 
     /**
-     * Sets the financialObject attribute.
+     * Sets the financialObject attribute value.
      * 
      * @param financialObject The financialObject to set.
      */
@@ -525,16 +503,35 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the chartOfAccounts attribute.
+     * 
+     * @return Returns the chartOfAccounts.
+     */
+    public Chart getChartOfAccounts() {
+        return chartOfAccounts;
+    }
+
+    /**
+     * Sets the chartOfAccounts attribute value.
+     * 
+     * @param chartOfAccounts The chartOfAccounts to set.
+     */
+    @Deprecated
+    public void setChartOfAccounts(Chart chartOfAccounts) {
+        this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
      * Gets the account attribute.
      * 
-     * @return Returns the account
+     * @return Returns the account.
      */
     public Account getAccount() {
         return account;
     }
 
     /**
-     * Sets the account attribute.
+     * Sets the account attribute value.
      * 
      * @param account The account to set.
      */
@@ -544,35 +541,35 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the sourceFinancialChartOfAccounts attribute.
+     * Gets the sourceChartOfAccounts attribute.
      * 
-     * @return Returns the sourceFinancialChartOfAccounts
+     * @return Returns the sourceChartOfAccounts.
      */
-    public Chart getSourceFinancialChartOfAccounts() {
-        return sourceFinancialChartOfAccounts;
+    public Chart getSourceChartOfAccounts() {
+        return sourceChartOfAccounts;
     }
 
     /**
-     * Sets the sourceFinancialChartOfAccounts attribute.
+     * Sets the sourceChartOfAccounts attribute value.
      * 
-     * @param sourceFinancialChartOfAccounts The sourceFinancialChartOfAccounts to set.
+     * @param sourceChartOfAccounts The sourceChartOfAccounts to set.
      */
     @Deprecated
-    public void setSourceFinancialChartOfAccounts(Chart sourceFinancialChartOfAccounts) {
-        this.sourceFinancialChartOfAccounts = sourceFinancialChartOfAccounts;
+    public void setSourceChartOfAccounts(Chart sourceChartOfAccounts) {
+        this.sourceChartOfAccounts = sourceChartOfAccounts;
     }
 
     /**
      * Gets the sourceAccount attribute.
      * 
-     * @return Returns the sourceAccount
+     * @return Returns the sourceAccount.
      */
     public Account getSourceAccount() {
         return sourceAccount;
     }
 
     /**
-     * Sets the sourceAccount attribute.
+     * Sets the sourceAccount attribute value.
      * 
      * @param sourceAccount The sourceAccount to set.
      */
@@ -601,26 +598,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the financialDocument attribute.
-     * 
-     * @return Returns the financialDocument
-     */
-    public DocumentHeader getFinancialDocument() {
-        return financialDocument;
-    }
-
-    /**
-     * Sets the financialDocument attribute.
-     * 
-     * @param financialDocument The financialDocument to set.
-     */
-    @Deprecated
-    public void setFinancialDocument(DocumentHeader financialDocument) {
-        this.financialDocument = financialDocument;
-    }
-
-
-    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -631,9 +608,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         m.put("subAccountNumber", this.subAccountNumber);
         m.put("positionNumber", this.positionNumber);
         m.put("financialObjectCode", this.financialObjectCode);
-        m.put("sourceFinancialChartOfAccountsCode", this.sourceFinancialChartOfAccountsCode);
+        m.put("sourceChartOfAccountsCode", this.sourceChartOfAccountsCode);
         m.put("sourceAccountNumber", this.sourceAccountNumber);
         return m;
     }
-
 }

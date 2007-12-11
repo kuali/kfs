@@ -26,6 +26,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
 /**
@@ -35,310 +36,255 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private String documentNumber;
     private String chartOfAccountsCode;
     private String organizationCode;
-    private String a21LaborReportNumber;
-    private Date a21LaborReportPrintedDate;
-    private Date a21LaborReportApprovedDate;
-    private String a21LaborDocumentCode;
-    private Integer a21LaborFiscalYear;
+    private String effortCertificationReportNumber;
+    private Date effortCertificationReportPrintedDate;
+    private Date effortCertificationReportApprovedDate;
+    private String effortCertificationDocumentCode;
+    private Integer universityFiscalYear;
     private String emplid;
 
     private DocumentHeader financialDocument;
     private Chart chartOfAccounts;
-    private EffortCertificationReportDefinition a21LaborReport;
-    private Org org;
+    private EffortCertificationReportDefinition effortCertificationReportDefinition;
+    private Org organization;
 
-    private List a21DetailLines;
+    private List<EffortCertificationDetail> effortCertificationDetailLines;
     
     /**
      * Default constructor.
      */
     public EffortCertificationDocument() {
-        a21DetailLines = new ArrayList(); 
+        effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>(); 
         
     }
-
+    
     /**
-     * Gets the documentNumber attribute.
-     * 
-     * @return Returns the documentNumber
-     * 
+     * Gets the documentNumber attribute. 
+     * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
         return documentNumber;
     }
 
     /**
-     * Sets the documentNumber attribute.
-     * 
+     * Sets the documentNumber attribute value.
      * @param documentNumber The documentNumber to set.
-     * 
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
     }
 
-
     /**
-     * Gets the chartOfAccountsCode attribute.
-     * 
-     * @return Returns the chartOfAccountsCode
-     * 
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
         return chartOfAccountsCode;
     }
 
     /**
-     * Sets the chartOfAccountsCode attribute.
-     * 
+     * Sets the chartOfAccountsCode attribute value.
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     * 
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
         this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
-
     /**
-     * Gets the organizationCode attribute.
-     * 
-     * @return Returns the organizationCode
-     * 
+     * Gets the organizationCode attribute. 
+     * @return Returns the organizationCode.
      */
     public String getOrganizationCode() {
         return organizationCode;
     }
 
     /**
-     * Sets the organizationCode attribute.
-     * 
+     * Sets the organizationCode attribute value.
      * @param organizationCode The organizationCode to set.
-     * 
      */
     public void setOrganizationCode(String organizationCode) {
         this.organizationCode = organizationCode;
     }
 
-
     /**
-     * Gets the a21LaborReportNumber attribute.
-     * 
-     * @return Returns the a21LaborReportNumber
-     * 
+     * Gets the effortCertificationReportNumber attribute. 
+     * @return Returns the effortCertificationReportNumber.
      */
-    public String getA21LaborReportNumber() {
-        return a21LaborReportNumber;
+    public String getEffortCertificationReportNumber() {
+        return effortCertificationReportNumber;
     }
 
     /**
-     * Sets the a21LaborReportNumber attribute.
-     * 
-     * @param a21LaborReportNumber The a21LaborReportNumber to set.
-     * 
+     * Sets the effortCertificationReportNumber attribute value.
+     * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
-    public void setA21LaborReportNumber(String a21LaborReportNumber) {
-        this.a21LaborReportNumber = a21LaborReportNumber;
-    }
-
-
-    /**
-     * Gets the a21LaborReportPrintedDate attribute.
-     * 
-     * @return Returns the a21LaborReportPrintedDate
-     * 
-     */
-    public Date getA21LaborReportPrintedDate() {
-        return a21LaborReportPrintedDate;
+    public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
+        this.effortCertificationReportNumber = effortCertificationReportNumber;
     }
 
     /**
-     * Sets the a21LaborReportPrintedDate attribute.
-     * 
-     * @param a21LaborReportPrintedDate The a21LaborReportPrintedDate to set.
-     * 
+     * Gets the effortCertificationReportPrintedDate attribute. 
+     * @return Returns the effortCertificationReportPrintedDate.
      */
-    public void setA21LaborReportPrintedDate(Date a21LaborReportPrintedDate) {
-        this.a21LaborReportPrintedDate = a21LaborReportPrintedDate;
-    }
-
-
-    /**
-     * Gets the a21LaborReportApprovedDate attribute.
-     * 
-     * @return Returns the a21LaborReportApprovedDate
-     * 
-     */
-    public Date getA21LaborReportApprovedDate() {
-        return a21LaborReportApprovedDate;
+    public Date getEffortCertificationReportPrintedDate() {
+        return effortCertificationReportPrintedDate;
     }
 
     /**
-     * Sets the a21LaborReportApprovedDate attribute.
-     * 
-     * @param a21LaborReportApprovedDate The a21LaborReportApprovedDate to set.
-     * 
+     * Sets the effortCertificationReportPrintedDate attribute value.
+     * @param effortCertificationReportPrintedDate The effortCertificationReportPrintedDate to set.
      */
-    public void setA21LaborReportApprovedDate(Date a21LaborReportApprovedDate) {
-        this.a21LaborReportApprovedDate = a21LaborReportApprovedDate;
-    }
-
-
-    /**
-     * Gets the a21LaborDocumentCode attribute.
-     * 
-     * @return Returns the a21LaborDocumentCode
-     * 
-     */
-    public String getA21LaborDocumentCode() {
-        return a21LaborDocumentCode;
+    public void setEffortCertificationReportPrintedDate(Date effortCertificationReportPrintedDate) {
+        this.effortCertificationReportPrintedDate = effortCertificationReportPrintedDate;
     }
 
     /**
-     * Sets the a21LaborDocumentCode attribute.
-     * 
-     * @param a21LaborDocumentCode The a21LaborDocumentCode to set.
-     * 
+     * Gets the effortCertificationReportApprovedDate attribute. 
+     * @return Returns the effortCertificationReportApprovedDate.
      */
-    public void setA21LaborDocumentCode(String a21LaborDocumentCode) {
-        this.a21LaborDocumentCode = a21LaborDocumentCode;
-    }
-
-
-    /**
-     * Gets the a21LaborFiscalYear attribute.
-     * 
-     * @return Returns the a21LaborFiscalYear
-     * 
-     */
-    public Integer getA21LaborFiscalYear() {
-        return a21LaborFiscalYear;
+    public Date getEffortCertificationReportApprovedDate() {
+        return effortCertificationReportApprovedDate;
     }
 
     /**
-     * Sets the a21LaborFiscalYear attribute.
-     * 
-     * @param a21LaborFiscalYear The a21LaborFiscalYear to set.
-     * 
+     * Sets the effortCertificationReportApprovedDate attribute value.
+     * @param effortCertificationReportApprovedDate The effortCertificationReportApprovedDate to set.
      */
-    public void setA21LaborFiscalYear(Integer a21LaborFiscalYear) {
-        this.a21LaborFiscalYear = a21LaborFiscalYear;
+    public void setEffortCertificationReportApprovedDate(Date effortCertificationReportApprovedDate) {
+        this.effortCertificationReportApprovedDate = effortCertificationReportApprovedDate;
     }
 
+    /**
+     * Gets the effortCertificationDocumentCode attribute. 
+     * @return Returns the effortCertificationDocumentCode.
+     */
+    public String getEffortCertificationDocumentCode() {
+        return effortCertificationDocumentCode;
+    }
 
     /**
-     * Gets the emplid attribute.
-     * 
-     * @return Returns the emplid
-     * 
+     * Sets the effortCertificationDocumentCode attribute value.
+     * @param effortCertificationDocumentCode The effortCertificationDocumentCode to set.
+     */
+    public void setEffortCertificationDocumentCode(String effortCertificationDocumentCode) {
+        this.effortCertificationDocumentCode = effortCertificationDocumentCode;
+    }
+
+    /**
+     * Gets the universityFiscalYear attribute. 
+     * @return Returns the universityFiscalYear.
+     */
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
+    }
+
+    /**
+     * Sets the universityFiscalYear attribute value.
+     * @param universityFiscalYear The universityFiscalYear to set.
+     */
+    public void getUniversityFiscalYear(Integer universityFiscalYear) {
+        this.universityFiscalYear = universityFiscalYear;
+    }
+
+    /**
+     * Gets the emplid attribute. 
+     * @return Returns the emplid.
      */
     public String getEmplid() {
         return emplid;
     }
 
     /**
-     * Sets the emplid attribute.
-     * 
+     * Sets the emplid attribute value.
      * @param emplid The emplid to set.
-     * 
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }
 
-
     /**
-     * Gets the financialDocument attribute.
-     * 
-     * @return Returns the financialDocument
-     * 
+     * Gets the financialDocument attribute. 
+     * @return Returns the financialDocument.
      */
     public DocumentHeader getFinancialDocument() {
         return financialDocument;
     }
 
     /**
-     * Sets the financialDocument attribute.
-     * 
+     * Sets the financialDocument attribute value.
      * @param financialDocument The financialDocument to set.
-     * @deprecated
      */
+    @Deprecated
     public void setFinancialDocument(DocumentHeader financialDocument) {
         this.financialDocument = financialDocument;
     }
 
     /**
-     * Gets the chartOfAccounts attribute.
-     * 
-     * @return Returns the chartOfAccounts
-     * 
+     * Gets the chartOfAccounts attribute. 
+     * @return Returns the chartOfAccounts.
      */
     public Chart getChartOfAccounts() {
         return chartOfAccounts;
     }
 
     /**
-     * Sets the chartOfAccounts attribute.
-     * 
+     * Sets the chartOfAccounts attribute value.
      * @param chartOfAccounts The chartOfAccounts to set.
-     * @deprecated
      */
+    @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
     }
 
     /**
-     * Gets the a21LaborReport attribute.
-     * 
-     * @return Returns the a21LaborReport
-     * 
+     * Gets the effortCertificationReportDefinition attribute. 
+     * @return Returns the effortCertificationReportDefinition.
      */
-    public EffortCertificationReportDefinition getA21LaborReport() {
-        return a21LaborReport;
+    public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
+        return effortCertificationReportDefinition;
     }
 
     /**
-     * Sets the a21LaborReport attribute.
-     * 
-     * @param a21LaborReport The a21LaborReport to set.
-     * @deprecated
+     * Sets the effortCertificationReportDefinition attribute value.
+     * @param effortCertificationReportDefinition The effortCertificationReportDefinition to set.
      */
-    public void setA21LaborReport(EffortCertificationReportDefinition a21LaborReport) {
-        this.a21LaborReport = a21LaborReport;
+    @Deprecated
+    public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
+        this.effortCertificationReportDefinition = effortCertificationReportDefinition;
     }
 
     /**
-     * Gets the org attribute.
-     * 
-     * @return Returns the org.
+     * Gets the organization attribute. 
+     * @return Returns the organization.
      */
-    public Org getOrg() {
-        return org;
+    public Org getOrganization() {
+        return organization;
     }
 
     /**
-     * Sets the org attribute value.
-     * 
-     * @param org The org to set.
-     * @deprecated
+     * Sets the organization attribute value.
+     * @param organization The organization to set.
      */
-    public void setOrg(Org org) {
-        this.org = org;
+    @Deprecated
+    public void setOrganization(Org organization) {
+        this.organization = organization;
     }
 
     /**
-     * Gets the a21DetailLines attribute. 
-     * @return Returns the a21DetailLines.
+     * Gets the effortCertificationDetailLines attribute. 
+     * @return Returns the effortCertificationDetailLines.
      */
-    public List getA21DetailLines() {
-        return a21DetailLines;
+    public List<EffortCertificationDetail> getEffortCertificationDetailLines() {
+        return effortCertificationDetailLines;
     }
 
     /**
-     * Sets the a21DetailLines attribute value.
-     * @param detailLines The a21DetailLines to set.
+     * Sets the effortCertificationDetailLines attribute value.
+     * @param effortCertificationDetailLines The effortCertificationDetailLines to set.
      */
-    public void setA21DetailLines(List detailLines) {
-        a21DetailLines = detailLines;
+    @Deprecated
+    public void setEffortCertificationDetailLines(List<EffortCertificationDetail> effortCertificationDetailLines) {
+        this.effortCertificationDetailLines = effortCertificationDetailLines;
     }
 
     /**

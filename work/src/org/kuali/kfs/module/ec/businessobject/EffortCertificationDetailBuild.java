@@ -23,12 +23,14 @@ import java.util.LinkedHashMap;
  */
 public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     private Long effortCertificationBuildNumber;
+    
+    private EffortCertificationDocumentBuild effortCertificationDocumentBuild;
 
     /**
      * Default constructor.
      */
     public EffortCertificationDetailBuild() {
-
+        super();
     }
 
     /**
@@ -50,6 +52,23 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
+     * Gets the effortCertificationDocumentBuild attribute. 
+     * @return Returns the effortCertificationDocumentBuild.
+     */
+    public EffortCertificationDocumentBuild getEffortCertificationDocumentBuild() {
+        return effortCertificationDocumentBuild;
+    }
+
+    /**
+     * Sets the effortCertificationDocumentBuild attribute value.
+     * @param effortCertificationDocumentBuild The effortCertificationDocumentBuild to set.
+     */
+    @Deprecated
+    public void setEffortCertificationDocumentBuild(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
+        this.effortCertificationDocumentBuild = effortCertificationDocumentBuild;
+    }
+
+    /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
@@ -59,5 +78,4 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
         }
         return m;
     }
-
 }

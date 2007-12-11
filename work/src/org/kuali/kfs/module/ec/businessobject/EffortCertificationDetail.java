@@ -26,6 +26,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.effort.document.EffortCertificationDocument;
 
 /**
  * Business Object for the Effort Certification Detail Table.
@@ -54,7 +55,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String costShareSourceSubAccountNumber;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
 
-    private DocumentHeader financialDocument;
+    private EffortCertificationDocument financialDocument;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
@@ -470,7 +471,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * 
      * @return Returns the financialDocument.
      */
-    public DocumentHeader getFinancialDocument() {
+    public EffortCertificationDocument getFinancialDocument() {
         return financialDocument;
     }
 
@@ -479,7 +480,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * 
      * @param financialDocument The financialDocument to set.
      */
-    public void setFinancialDocument(DocumentHeader financialDocument) {
+    public void setFinancialDocument(EffortCertificationDocument financialDocument) {
         this.financialDocument = financialDocument;
     }
 

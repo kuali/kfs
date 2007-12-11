@@ -27,13 +27,14 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
  */
 public class EffortCertificationDocumentBuild extends EffortCertificationDocument {
     private Long effortCertificationBuildNumber;
-
+ 
     private List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild;
 
     /**
      * Default constructor.
      */
     public EffortCertificationDocumentBuild() {
+        super();
         effortCertificationDetailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
     }
 

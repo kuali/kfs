@@ -24,28 +24,35 @@
             <title>Effort Certification Detail Line Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="effortCertificationCalculatedOverallCode" />
-                <field attributeName="effortCertificationCalculatedOverallPercent" />
-                <field attributeName="effortCertificationCostSharingCode" />
-                <field attributeName="effortCertificationCostSharingPercent" />
-                <field attributeName="effortCertificationDerivedPayrollCode" />
-                <field attributeName="effortCertificationDerivedPayrollPercent" />
-                <field attributeName="effortCertificationOriginalPayrollAmount" />
-                <field attributeName="effortCertificationPayrollAmount" />
-                <field attributeName="effortCertificationProratedCode" />
-                <field attributeName="effortCertificationProratedPercent" />
-                <field attributeName="effortCertificationUpdatedOverallCode" />
-                <field attributeName="effortCertificationUpdatedOverallPercent" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="costShareSourceSubAccountNumber" />
                 <field attributeName="effortCertificationBuildNumber" />
                 <field attributeName="financialDocumentPostingYear" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="sourceAccountNumber" />
-                <field attributeName="sourceChartOfAccountsCode" />
+                
+                <field attributeName="chartOfAccountsCode" />                                
+                <field attributeName="accountNumber" />   
                 <field attributeName="subAccountNumber" />
+                <field attributeName="positionNumber" />
+                <field attributeName="financialObjectCode" />
+                <field attributeName="sourceChartOfAccountsCode" />
+                <field attributeName="sourceAccountNumber" />
+                
+                <field attributeName="effortCertificationPayrollAmount" />
+                <field attributeName="effortCertificationDerivedPayrollCode" />
+                <field attributeName="effortCertificationDerivedPayrollPercent" />  
+				
+				<field attributeName="effortCertificationCostSharingCode" />
+                <field attributeName="effortCertificationCostSharingPercent" />
+                
+                <field attributeName="effortCertificationCalculatedOverallCode" />
+                <field attributeName="effortCertificationCalculatedOverallPercent" />
+
+                <field attributeName="effortCertificationUpdatedOverallCode" />
+                <field attributeName="effortCertificationUpdatedOverallPercent" />
+
+                <field attributeName="effortCertificationProratedCode" />
+                <field attributeName="effortCertificationProratedPercent" />
+                
+                <field attributeName="costShareSourceSubAccountNumber" /> 
+                <field attributeName="effortCertificationOriginalPayrollAmount" />               
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -63,53 +70,30 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="effortCertificationCalculatedOverallCode" required="false" />
-                <lookupField attributeName="effortCertificationCalculatedOverallPercent" required="false" />
-                <lookupField attributeName="effortCertificationCostSharingCode" required="false" />
-                <lookupField attributeName="effortCertificationCostSharingPercent" required="false" />
-                <lookupField attributeName="effortCertificationDerivedPayrollCode" required="false" />
-                <lookupField attributeName="effortCertificationDerivedPayrollPercent" required="false" />
-                <lookupField attributeName="effortCertificationOriginalPayrollAmount" required="false" />
-                <lookupField attributeName="effortCertificationPayrollAmount" required="false" />
-                <lookupField attributeName="effortCertificationProratedCode" required="false" />
-                <lookupField attributeName="effortCertificationProratedPercent" required="false" />
-                <lookupField attributeName="effortCertificationUpdatedOverallCode" required="false" />
-                <lookupField attributeName="effortCertificationUpdatedOverallPercent" required="false" />
-                <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="costShareSourceSubAccountNumber" required="false" />
                 <lookupField attributeName="effortCertificationBuildNumber" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="financialDocumentPostingYear" required="true" />
+                
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="positionNumber" required="false" />
-                <lookupField attributeName="sourceAccountNumber" required="false" />
-                <lookupField attributeName="sourceChartOfAccountsCode" required="false" />
-                <lookupField attributeName="subAccountNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="effortCertificationCalculatedOverallCode" />
-                <field attributeName="effortCertificationCalculatedOverallPercent" />
-                <field attributeName="effortCertificationCostSharingCode" />
-                <field attributeName="effortCertificationCostSharingPercent" />
-                <field attributeName="effortCertificationDerivedPayrollCode" />
-                <field attributeName="effortCertificationDerivedPayrollPercent" />
-                <field attributeName="effortCertificationOriginalPayrollAmount" />
-                <field attributeName="effortCertificationPayrollAmount" />
-                <field attributeName="effortCertificationProratedCode" />
-                <field attributeName="effortCertificationProratedPercent" />
-                <field attributeName="effortCertificationUpdatedOverallCode" />
-                <field attributeName="effortCertificationUpdatedOverallPercent" />
-                <field attributeName="accountNumber" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="costShareSourceSubAccountNumber" />
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="financialDocumentPostingYear" />
-                <field attributeName="financialObjectCode" />
-                <field attributeName="positionNumber" />
-                <field attributeName="sourceAccountNumber" />
                 <field attributeName="sourceChartOfAccountsCode" />
+                <field attributeName="sourceAccountNumber" />
+                
+                <field attributeName="financialDocumentPostingYear" />               
+                <field attributeName="chartOfAccountsCode" />                                
+                <field attributeName="accountNumber" />   
                 <field attributeName="subAccountNumber" />
+                <field attributeName="positionNumber" />
+                <field attributeName="financialObjectCode" />
+                
+                <field attributeName="effortCertificationPayrollAmount" />
+                <field attributeName="effortCertificationDerivedPayrollPercent" />  
             </resultFields>
         </lookup>
 

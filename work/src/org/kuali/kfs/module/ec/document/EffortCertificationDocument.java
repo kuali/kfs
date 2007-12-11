@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -43,10 +44,10 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private Integer universityFiscalYear;
     private String emplid;
 
-    private DocumentHeader financialDocument;
     private Chart chartOfAccounts;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private Org organization;
+    private UniversalUser employee;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     
@@ -182,7 +183,7 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
      * Sets the universityFiscalYear attribute value.
      * @param universityFiscalYear The universityFiscalYear to set.
      */
-    public void getUniversityFiscalYear(Integer universityFiscalYear) {
+    public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
     }
 
@@ -200,23 +201,6 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
-    }
-
-    /**
-     * Gets the financialDocument attribute. 
-     * @return Returns the financialDocument.
-     */
-    public DocumentHeader getFinancialDocument() {
-        return financialDocument;
-    }
-
-    /**
-     * Sets the financialDocument attribute value.
-     * @param financialDocument The financialDocument to set.
-     */
-    @Deprecated
-    public void setFinancialDocument(DocumentHeader financialDocument) {
-        this.financialDocument = financialDocument;
     }
 
     /**
@@ -271,6 +255,22 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     }
 
     /**
+     * Gets the employee attribute. 
+     * @return Returns the employee.
+     */
+    public UniversalUser getEmployee() {
+        return employee;
+    }
+
+    /**
+     * Sets the employee attribute value.
+     * @param employee The employee to set.
+     */
+    public void setEmployee(UniversalUser employee) {
+        this.employee = employee;
+    }
+
+    /**
      * Gets the effortCertificationDetailLines attribute. 
      * @return Returns the effortCertificationDetailLines.
      */
@@ -295,6 +295,4 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
-
-
 }

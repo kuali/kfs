@@ -21,18 +21,20 @@
     <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDocumentBuild">
 
         <inquiry>
-            <title>Effort Certification Detail Inquiry</title>
+            <title>Effort Certification Detail Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="effortCertificationDocumentCode" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportApprovedDate" />
-                <field attributeName="effortCertificationReportNumber" />
-                <field attributeName="effortCertificationReportPrintedDate" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="emplid" />
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="organizationCode" />
+                <field attributeName="chartOfAccountsCode" />                
+                <field attributeName="organizationCode" /> 
+                
+                <field attributeName="effortCertificationReportNumber" />           
+                <field attributeName="effortCertificationReportPrintedDate" />
+                <field attributeName="effortCertificationReportApprovedDate" />
+                <field attributeName="effortCertificationDocumentCode" />                
+                
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="emplid" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -49,27 +51,27 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="effortCertificationDocumentCode" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
-                <lookupField attributeName="effortCertificationReportApprovedDate" required="false" />
-                <lookupField attributeName="effortCertificationReportNumber" required="false" />
-                <lookupField attributeName="effortCertificationReportPrintedDate" required="false" />
+            	<lookupField attributeName="effortCertificationReportNumber" required="true" />
+                <lookupField attributeName="universityFiscalYear" required="true" />
+                <lookupField attributeName="emplid" required="true" />
+                
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="emplid" required="false" />
-                <lookupField attributeName="effortCertificationBuildNumber" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
+                <lookupField attributeName="effortCertificationBuildNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="effortCertificationDocumentCode" />
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="effortCertificationReportApprovedDate" />
-                <field attributeName="effortCertificationReportNumber" />
-                <field attributeName="effortCertificationReportPrintedDate" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="emplid" />
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="organizationCode" />
+                <field attributeName="emplid" />
+                                                
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="chartOfAccountsCode" />                
+                <field attributeName="organizationCode" /> 
+                
+                <field attributeName="effortCertificationReportNumber" />           
+                <field attributeName="effortCertificationReportPrintedDate" />
+                <field attributeName="effortCertificationReportApprovedDate" />
+                <field attributeName="effortCertificationDocumentCode" />                
             </resultFields>
         </lookup>
 
@@ -131,5 +133,12 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
+        
+        <relationships>
+            <relationship objectAttributeName="employee" >
+                <primitiveAttribute sourceName="employee.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="emplid" targetName="personPayrollIdentifier" identifier="true" />
+	        </relationship>
+        </relationships>
     </businessObject>
 </dictionaryEntry>

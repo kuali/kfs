@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetailReason">
+
+
+        <inquiry>
+            <title>Effort Certification Detail Line Reason Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="a21LaborDetailLineReasonDescription" />
+                <field attributeName="a21LaborEffortCategoryCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Effort Certification Detail Line Reason Lookup</title>
+
+            <instructions>Look up an Effort Certification Detail Line Reason</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="a21LaborEffortCategoryCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="a21LaborDetailLineReasonDescription" required="false" />
+                <lookupField attributeName="a21LaborEffortCategoryCode" required="false" />
+                <lookupField attributeName="accountNumber" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="a21LaborDetailLineReasonDescription" />
+                <field attributeName="a21LaborEffortCategoryCode" />
+                <field attributeName="accountNumber" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="documentNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="a21LaborDetailLineReasonDescription" forceUppercase="true">
+                <label>Effort Certification Labor Detail Line Reason Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>200</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="202" />
+                </control>
+
+                <summary>a21LaborDetailLineReasonDescription</summary>
+                <description>a21LaborDetailLineReasonDescription description...</description>
+			</attribute>
+
+            <attribute name="a21LaborEffortCategoryCode" forceUppercase="true">
+                <label>Effort Certification Labor Effort Category Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>a21LaborEffortCategoryCode</summary>
+                <description>a21LaborEffortCategoryCode description...</description>
+			</attribute>
+
+            <attribute name="accountNumber" forceUppercase="true">
+                <label>Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>accountNumber</summary>
+                <description>accountNumber description...</description>
+			</attribute>
+
+            <attribute name="chartOfAccountsCode" forceUppercase="true">
+                <label>Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>chartOfAccountsCode</summary>
+                <description>chartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

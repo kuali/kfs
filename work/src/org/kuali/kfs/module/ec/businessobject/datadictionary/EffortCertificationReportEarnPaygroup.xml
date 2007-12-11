@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup">
+ 
+        <inquiry>
+            <title>Effort Certification Report Earn Pay Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="effortCertificationReportTypeCode" />
+                        <field attributeName="active" />
+                        <field attributeName="earnCode" />
+                        <field attributeName="payGroup" />
+                        <field attributeName="universityFiscalYear" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Effort Certification Report Earn Pay Lookup</title>
+
+            <instructions>Look Up Effort Certification Report Earn Pay</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="effortCertificationReportTypeCode" />
+                    <sortAttribute attributeName="earnCode" />
+                    <sortAttribute attributeName="payGroup" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="earnCode" required="false" />
+                <lookupField attributeName="payGroup" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="effortCertificationReportTypeCode" />
+                <field attributeName="active" />
+                <field attributeName="earnCode" />
+                <field attributeName="payGroup" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode"/>
+
+            <attribute name="earnCode" forceUppercase="true">
+                <label>Earn Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>earnCode</summary>
+                <description>earnCode description...</description>
+			</attribute>
+
+            <attribute name="payGroup" forceUppercase="true">
+                <label>Pay Group</label>
+                <shortLabel>Group</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>payGroup</summary>
+                <description>payGroup description...</description>
+			</attribute>
+
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+			
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

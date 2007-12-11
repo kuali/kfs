@@ -132,8 +132,8 @@
 	</reference-descriptor>
 	
     <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="effortCertificationReportNumber" />
         <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="effortCertificationReportNumber" />
     </reference-descriptor>
     
     <collection-descriptor name="effortCertificationDetailLinesBuild" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetailBuild" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
@@ -236,8 +236,8 @@
     </reference-descriptor>
   
     <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="effortCertificationReportNumber" />
         <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="effortCertificationReportNumber" />
     </reference-descriptor>
   
     <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">

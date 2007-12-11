@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition">
+ 
+        <inquiry>
+            <title>Effort Certification Report Position Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="effortCertificationReportNumber" />
+                        <field attributeName="effortCertificationReportPositionObjectGroupCode" />
+                        <field attributeName="active" />
+                        <field attributeName="universityFiscalYear" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Effort Certification Report Position Lookup</title>
+
+            <instructions>Look up Effort Certification Report Position</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="universityFiscalYear" />
+                    <sortAttribute attributeName="effortCertificationReportNumber" />
+                    <sortAttribute attributeName="effortCertificationReportPositionObjectGroupCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="effortCertificationReportNumber" required="false" />
+                <lookupField attributeName="effortCertificationReportPositionObjectGroupCode" required="false" />
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="effortCertificationReportNumber" />
+                <field attributeName="effortCertificationReportPositionObjectGroupCode" />
+                <field attributeName="active" />
+                <field attributeName="universityFiscalYear" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber"/>
+
+            <attribute name="effortCertificationReportPositionObjectGroupCode" forceUppercase="true">
+                <label>A21 Labor Report Position Object Group Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>effortCertificationReportPositionObjectGroupCode</summary>
+                <description>effortCertificationReportPositionObjectGroupCode description...</description>
+			</attribute>
+
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>University Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attributeReference>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

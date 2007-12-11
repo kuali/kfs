@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDocumentBuild">
+
+        <inquiry>
+            <title>Effort Certification Detail Inquiry</title>
+
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>
+                <field attributeName="effortCertificationDocumentCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="effortCertificationReportApprovedDate" />
+                <field attributeName="effortCertificationReportNumber" />
+                <field attributeName="effortCertificationReportPrintedDate" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="emplid" />
+                <field attributeName="effortCertificationBuildNumber" />
+                <field attributeName="organizationCode" />
+            </inquiryFields></inquirySection></inquirySections>
+        </inquiry>
+
+        <lookup>
+            <title>Effoft Certification Detail Build Lookup</title>
+
+            <instructions>Look up Effort Certification Detail Build</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="chartOfAccountsCode" />
+                    <sortAttribute attributeName="organizationCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="effortCertificationDocumentCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
+                <lookupField attributeName="effortCertificationReportApprovedDate" required="false" />
+                <lookupField attributeName="effortCertificationReportNumber" required="false" />
+                <lookupField attributeName="effortCertificationReportPrintedDate" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="emplid" required="false" />
+                <lookupField attributeName="effortCertificationBuildNumber" required="false" />
+                <lookupField attributeName="organizationCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="effortCertificationDocumentCode" />
+                <field attributeName="universityFiscalYear" />
+                <field attributeName="effortCertificationReportApprovedDate" />
+                <field attributeName="effortCertificationReportNumber" />
+                <field attributeName="effortCertificationReportPrintedDate" />
+                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="emplid" />
+                <field attributeName="effortCertificationBuildNumber" />
+                <field attributeName="organizationCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="effortCertificationDocumentCode" forceUppercase="true">
+                <label>Effort Certification Document Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>Effort Certification DocumentCode</summary>
+                <description>Effort Certification LaborDocumentCode description...</description>
+			</attribute>
+			
+			<attribute name="effortCertificationBuildNumber" forceUppercase="true">
+                <label>Effort Certification Build Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>effortCertificationBuildNumber</summary>
+                <description>effortCertificationBuildNumber description...</description>
+			</attribute>	
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
+            <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
+
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear" />
+			
+			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
+
+            <attributeReference name="effortCertificationReportApprovedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Effort Certification Report Approved Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <summary>Effort Certification ReportApprovedDate</summary>
+                <description>Effort Certification Report Approved Date description...</description>
+			</attributeReference>
+
+            <attributeReference name="effortCertificationReportPrintedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>Effort Certification Report Printed Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <summary>Effort Certification ReportPrintedDate</summary>
+                <description>Effort Certification ReportPrintedDate description...</description>
+			</attributeReference>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -117,6 +117,10 @@ public class PurchaseOrderDocumentTest extends KualiTestBase {
 
     // test util methods
 
+    /**
+     * Matches two Purchase Order Documents by comparing their most important persistant fields;
+     * Fails the assertion if any of these fields don't match.
+     */
     public static void assertMatch(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
         // match header
         Assert.assertEquals(doc1.getDocumentNumber(), doc2.getDocumentNumber());

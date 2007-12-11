@@ -37,6 +37,18 @@ public enum PurchaseOrderItemFixture {
             PurApItemFixture.BASIC_QTY_ITEM_1, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
     ),
+    PO_QTY_UNRESTRICTED_ITEM_2(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            null, // purchaseOrderCommodityCd,
+            PurApItemFixture.BASIC_QTY_ITEM_2, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
+    ),
     PO_VALID_FREIGHT_ITEM(null, // documentNumber,
             null, // itemInvoicedTotalQuantity,
             null, // itemInvoicedTotalAmount,

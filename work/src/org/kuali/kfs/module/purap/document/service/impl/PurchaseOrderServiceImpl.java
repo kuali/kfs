@@ -609,6 +609,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                      * the pending indcator won't be set again after route finishes and cause inconsistency 
                      */
                     currentDocument.setPendingActionIndicator(true);
+                    saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
@@ -617,10 +618,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                      * clear the pending indictor if an exception occurs, to leave the existing PO intact
                      */ 
                     currentDocument.setPendingActionIndicator(false);
+                    saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                     throw ve;
                 }
-                // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
-                saveDocumentNoValidationUsingClearErrorMap(currentDocument);
                 return newDocument;
             }
             else {

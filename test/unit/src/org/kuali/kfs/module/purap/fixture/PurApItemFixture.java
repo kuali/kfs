@@ -27,7 +27,7 @@ public enum PurApItemFixture {
             null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
-            "description", // itemDescription
+            "description1", // itemDescription
             "", // itemCapitalAssetNoteText
             new BigDecimal(1), // itemUnitPrice
             "ITEM", // itemTypeCode
@@ -42,7 +42,7 @@ public enum PurApItemFixture {
             null, // capitalAssetTransactionTypeCode
             "PCS", // itemUnitOfMeasureCode
             "", // itemCatalogNumber
-            "description", // itemDescription
+            "description2", // itemDescription
             "", // itemCapitalAssetNoteText
             new BigDecimal(1), // itemUnitPrice
             "ITEM", // itemTypeCode

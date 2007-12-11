@@ -17,20 +17,22 @@ package org.kuali.module.purap.document;
 
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
+import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
@@ -38,46 +40,78 @@ import org.kuali.test.ConfigureContext;
 
 public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     
-    protected static DocumentService documentService = null;
-    protected static PurchaseOrderDocument purchaseOrderDocument = null;
-    protected static PurchaseOrderDocument testPO = null;
+    protected static DocumentService docService = null;
+    protected static PurchaseOrderService poService = null;
+    protected static PurchaseOrderDocument poTest = null;
+    protected static PurchaseOrderDocument poChange = null;
     
     protected void setUp() throws Exception {
-        documentService = SpringContext.getBean(DocumentService.class);
-        // Save a minimally-populated basic PO document, once.
-        if(ObjectUtils.isNull(purchaseOrderDocument)){
-            purchaseOrderDocument = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
-            purchaseOrderDocument.setStatusCode(PurchaseOrderStatuses.OPEN);
-            purchaseOrderDocument.refreshNonUpdateableReferences();
-            purchaseOrderDocument.prepareForSave();       
-            AccountingDocumentTestUtils.saveDocument(purchaseOrderDocument, documentService);
-        }
-        // Make a copy of the basic PO for the use of the current test.
-        testPO = purchaseOrderDocument;
         super.setUp();
+        docService = SpringContext.getBean(DocumentService.class);
+        poService = SpringContext.getBean(PurchaseOrderService.class);
+        // Create and save a minimally-populated basic PO document for each test.
+        poTest = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS_MULTI_ITEMS.createPurchaseOrderDocument();
+        poTest.setStatusCode(PurchaseOrderStatuses.OPEN);
+        poTest.refreshNonUpdateableReferences();
+        poTest.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(poTest, docService);
     }
 
     protected void tearDown() throws Exception {
-        documentService = null;
-        testPO = null;
+        docService = null;
+        poService = null;
+        poTest = null;
+        poChange = null;
         super.tearDown();
     }
     
     /**
-     * Used to make the reasons for test exceptions more obvious by inserting into the exception's 
+     * Refreshes poTest and poChange by fetching them from DB, 
+     * so that changes made to them during routing will be reflected.
+     */
+    private void refreshPO() {
+        poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
+        //poChange = poService.getPurchaseOrderByDocumentNumber(poChange.getDocumentNumber());        
+    }
+    
+    /**
+     * Calls PO service to create and save a PO change document and assigns the new document to poChange;
+     * refreshes poTest by fetching it from DB so that changes made to the existing PO will be reflected;
+     * also, makes reasons for test exceptions more obvious by inserting into the exception's 
      * message the error maps which contain the keys to human-readable reasons for rule failure.
      * 
      * @param documentType      A String, one of the PurchaseOrderDocumentTypes.
      * @param documentStatus    A String, one of the PurchaseOrderDocumentStatuses.
+     * 
+     * @throws Exception
+     */
+    private void createAndSavePOChangeDocument(String documentType, String documentStatus) throws Exception {
+        try {
+            poChange = poService.createAndSavePotentialChangeDocument(
+                    poTest.getDocumentNumber(), documentType, documentStatus);
+            poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
+        }
+        catch (ValidationException ve) {
+            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
+        }
+    }
+    
+    /**
+     * Calls PO service to create and route a PO change document and assigns the new document to poChange;
+     * refreshes poTest by fetching it from DB so that changes made to the existing PO will be reflected;
+     * also, makes reasons for test exceptions more obvious by inserting into the exception's 
+     * message the error maps which contain the keys to human-readable reasons for rule failure.
+     * 
+     * @param documentType      A String, one of the PurchaseOrderDocumentTypes.
+     * @param documentStatus    A String, one of the PurchaseOrderDocumentStatuses.
+     * 
      * @throws Exception
      */
     private void createAndRoutePOChangeDocument(String documentType, String documentStatus) throws Exception {
         try {
-            testPO = SpringContext.getBean(PurchaseOrderService.class).createAndRoutePotentialChangeDocument(
-                    testPO.getDocumentNumber(), 
-                    documentType,
-                    "unit test", new ArrayList(),
-                    documentStatus);
+            poChange = poService.createAndRoutePotentialChangeDocument(
+                    poTest.getDocumentNumber(), documentType, "unit test", new ArrayList(), documentStatus);
+            poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {
             throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
@@ -85,93 +119,260 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreateAmendPurchaseOrder() throws Exception {
-        try {
-            testPO = SpringContext.getBean(PurchaseOrderService.class).createAndSavePotentialChangeDocument(
-                    testPO.getDocumentNumber(), 
+    public final void testAmendPurchaseOrder() throws Exception {        
+        createAndSavePOChangeDocument(
                     PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
                     PurchaseOrderStatuses.AMENDMENT);
-        }
-        catch (ValidationException ve) {
-            throw new ValidationException(GlobalVariables.getErrorMap().toString() + ve);
-        }
-        PurchaseOrderAmendmentDocument retrievedPO = (PurchaseOrderAmendmentDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange);
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.AMENDMENT));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        } /*
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");     
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.OPEN));
+        } */
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderPaymentHold() throws Exception {
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT,
+    public final void testPurchaseOrderPaymentHold() throws Exception {
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_PAYMENT_HOLD_DOCUMENT, 
                 PurchaseOrderStatuses.PENDING_PAYMENT_HOLD);       
-        PurchaseOrderPaymentHoldDocument retrievedPO = (PurchaseOrderPaymentHoldDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_PAYMENT_HOLD));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.PAYMENT_HOLD));   
+        //}
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderRemoveHold() throws Exception {
-        testPO.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT,
+    public final void testPurchaseOrderRemoveHold() throws Exception {
+        poTest.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
+        poTest.refreshNonUpdateableReferences();
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_REMOVE_HOLD_DOCUMENT, 
                 PurchaseOrderStatuses.PENDING_REMOVE_HOLD);       
-        PurchaseOrderRemoveHoldDocument retrievedPO = (PurchaseOrderRemoveHoldDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_REMOVE_HOLD));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.OPEN));   
+        //}
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderClose() throws Exception {
+    public final void testPurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
         PaymentRequestDocument preq = PaymentRequestDocumentFixture.PREQ_FOR_PO_CLOSE_DOC.createPaymentRequestDocument();
-        preq.setPurchaseOrderIdentifier(testPO.getPurapDocumentIdentifier());
-        AccountingDocumentTestUtils.saveDocument(preq, documentService);
-        
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
+        preq.setPurchaseOrderIdentifier(poTest.getPurapDocumentIdentifier());
+        AccountingDocumentTestUtils.saveDocument(preq, docService);
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_CLOSE);
-        PurchaseOrderCloseDocument retrievedPO = (PurchaseOrderCloseDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_CLOSE));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CLOSED));   
+        //}
     }   
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderReopen() throws Exception {
-        testPO.setStatusCode(PurchaseOrderStatuses.CLOSED);
-        testPO.refreshNonUpdateableReferences();
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT,
+    public final void testPurchaseOrderReopen() throws Exception {     
+        poTest.setStatusCode(PurchaseOrderStatuses.CLOSED);
+        poTest.refreshNonUpdateableReferences();
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT, 
                 PurchaseOrderStatuses.PENDING_REOPEN);       
-        PurchaseOrderReopenDocument retrievedPO = (PurchaseOrderReopenDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_REOPEN));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.OPEN));   
+        //}
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderVoid() throws Exception {
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT,
+    public final void testPurchaseOrderVoid() throws Exception {
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_VOID_DOCUMENT,
                 PurchaseOrderStatuses.PENDING_VOID);      
-        PurchaseOrderVoidDocument retrievedPO = (PurchaseOrderVoidDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatch(testPO, retrievedPO);
+        assertMatchChangePO(poTest, poChange); /*
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.PENDING_VOID));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        }
+        WorkflowTestUtils.waitForStatusChange(poChange.getDocumentHeader().getWorkflowDocument(), "F");           
+        refreshPO();
+        if (poChange.getDocumentHeader().getWorkflowDocument().stateIsFinal()) { */
+            assertFalse(poTest.isPurchaseOrderCurrentIndicator());
+            assertFalse(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.RETIRED_VERSION));
+            assertTrue(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.VOID));   
+        //}
+    }
+    
+    /*
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    public final void testPurchaseOrderRetransmit() throws Exception {        
+        createAndRoutePOChangeDocument(
+                PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT,
+                PurchaseOrderStatuses.PENDING_RETRANSMIT);       
+        assertMatchRetransmit(poTest, poChange); 
+        ((PurchaseOrderItem)poChange.getItem(0)).setItemSelectedForRetransmitIndicator(true);
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(poChange.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            poService.retransmitPurchaseOrderPDF(poChange, baosPDF);
+            assertTrue(baosPDF.size()>0);
+            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
+            assertEquals(poChange.getPurchaseOrderLastTransmitDate(), dtService.getCurrentSqlDate());
+        }
+        catch (ValidationException e) {
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
     }
     
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testCreatePurchaseOrderRetransmit() throws Exception {
-        testPO.setStatusCode(PurchaseOrderStatuses.CLOSED);
-        createAndRoutePOChangeDocument(PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT,
-                PurchaseOrderStatuses.PENDING_RETRANSMIT);       
-        PurchaseOrderRetransmitDocument retrievedPO = (PurchaseOrderRetransmitDocument)documentService.getByDocumentHeaderId(
-                testPO.getDocumentNumber()); 
-        assertMatchExceptTransmitDate(testPO, retrievedPO);        
+    public final void testPurchaseOrderPrint() throws Exception {        
+        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
+        try {
+            StringBuffer sbFilename = new StringBuffer();
+            sbFilename.append("PURAP_PO_");
+            sbFilename.append(poTest.getPurapDocumentIdentifier());
+            sbFilename.append("_");
+            sbFilename.append(System.currentTimeMillis());
+            sbFilename.append(".pdf");
+            poService.performPrintPurchaseOrderPDFOnly(poTest.getDocumentNumber(), baosPDF);
+            assertTrue(baosPDF.size()>0);
+        }
+        catch (ValidationException e) {
+        }
+        finally {
+            if (baosPDF != null) {
+                baosPDF.reset();
+            }
+        }
+    }
+    */
+    
+    /**
+     * Matches an existing Purchase Order Document with a change PO Document newly generated from it;
+     * Fails the assertion if any of the copied persistent fields don't match.
+     */
+    public static void assertMatchChangePO(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
+        // match posting year
+        if (StringUtils.isNotBlank(doc1.getPostingPeriodCode()) && StringUtils.isNotBlank(doc2.getPostingPeriodCode())) {
+            Assert.assertEquals(doc1.getPostingPeriodCode(), doc2.getPostingPeriodCode());
+        }
+        Assert.assertEquals(doc1.getPostingYear(), doc2.getPostingYear());
+
+        // match important fields in PO        
+        Assert.assertEquals(doc1.getVendorHeaderGeneratedIdentifier(), doc2.getVendorHeaderGeneratedIdentifier());
+        Assert.assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
+        Assert.assertEquals(doc1.getVendorName(), doc2.getVendorName());
+        Assert.assertEquals(doc1.getVendorNumber(), doc2.getVendorNumber());
+
+        Assert.assertEquals(doc1.getChartOfAccountsCode(), doc2.getChartOfAccountsCode());
+        Assert.assertEquals(doc1.getOrganizationCode(), doc2.getOrganizationCode());
+        Assert.assertEquals(doc1.getDeliveryCampusCode(), doc2.getDeliveryCampusCode());
+        Assert.assertEquals(doc1.getDeliveryRequiredDate(), doc2.getDeliveryRequiredDate());
+        Assert.assertEquals(doc1.getRequestorPersonName(), doc2.getRequestorPersonName());
+        Assert.assertEquals(doc1.getContractManagerCode(), doc2.getContractManagerCode());
+        Assert.assertEquals(doc1.getVendorContractName(), doc2.getVendorContractName());
+        Assert.assertEquals(doc1.getPurchaseOrderAutomaticIndicator(), doc2.getPurchaseOrderAutomaticIndicator());
+        Assert.assertEquals(doc1.getPurchaseOrderTransmissionMethodCode(), doc2.getPurchaseOrderTransmissionMethodCode());
+
+        Assert.assertEquals(doc1.getRequisitionIdentifier(), doc2.getRequisitionIdentifier());
+        Assert.assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
+        Assert.assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
+        Assert.assertEquals(doc1.getPurchaseOrderLastTransmitDate(), doc2.getPurchaseOrderLastTransmitDate());        
     }
     
-    private static void assertMatch(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
-        PurchaseOrderDocumentTest.assertMatch(doc1, doc2);
-    }
-    
-    public static void assertMatchExceptTransmitDate(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
-        // match header
-        assertEquals(doc1.getDocumentNumber(), doc2.getDocumentNumber());
-        assertEquals(doc1.getDocumentHeader().getWorkflowDocument().getDocumentType(), doc2.getDocumentHeader().getWorkflowDocument().getDocumentType());
-    
+    /**
+     * Matches an existing Purchase Order Document with a retransmited PO Document newly generated from it;
+     * Fails the assertion if any of the copied persistent fields don't match.
+     */
+    public static void assertMatchRetransmit(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
         // match posting year
         if (StringUtils.isNotBlank(doc1.getPostingPeriodCode()) && StringUtils.isNotBlank(doc2.getPostingPeriodCode())) {
             assertEquals(doc1.getPostingPeriodCode(), doc2.getPostingPeriodCode());
@@ -183,7 +384,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
         assertEquals(doc1.getVendorName(), doc2.getVendorName());
         assertEquals(doc1.getVendorNumber(), doc2.getVendorNumber());
-        assertEquals(doc1.getStatusCode(), doc2.getStatusCode());
     
         assertEquals(doc1.getChartOfAccountsCode(), doc2.getChartOfAccountsCode());
         assertEquals(doc1.getOrganizationCode(), doc2.getOrganizationCode());
@@ -197,7 +397,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     
         assertEquals(doc1.getRequisitionIdentifier(), doc2.getRequisitionIdentifier());
         assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
-        assertEquals(doc1.isPurchaseOrderCurrentIndicator(), doc2.isPurchaseOrderCurrentIndicator());
         assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
     }
 }

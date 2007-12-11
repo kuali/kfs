@@ -3,6 +3,7 @@ package org.kuali.module.effort.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 
 /**
  * Business Object for the Effort Certification Report Earn Paygroup Table.
@@ -15,6 +16,7 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
     private boolean active;
 
     private EffortCertificationReportType effortCertificationReportType;
+    private Options options;
     
     /**
      * Constructs a EffortCertificationReportEarnPaygroup.java.
@@ -132,6 +134,25 @@ public class EffortCertificationReportEarnPaygroup extends PersistableBusinessOb
         this.effortCertificationReportType = effortCertificationReportType;
     }
 
+    /**
+     * Gets the options attribute.
+     * 
+     * @return Returns the options.
+     */
+    public Options getOptions() {
+        return options;
+    }
+
+    /**
+     * Sets the options attribute value.
+     * 
+     * @param options The options to set.
+     */
+    @Deprecated
+    public void setOptions(Options options) {
+        this.options = options;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

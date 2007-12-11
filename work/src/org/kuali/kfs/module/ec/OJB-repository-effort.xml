@@ -112,6 +112,9 @@
     <reference-descriptor name="effortCertificationReportType" class-ref="org.kuali.module.effort.bo.EffortCertificationReportType" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="effortCertificationReportTypeCode" />
     </reference-descriptor>
+    <reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" table="LD_A21_DTL_BLD_T">

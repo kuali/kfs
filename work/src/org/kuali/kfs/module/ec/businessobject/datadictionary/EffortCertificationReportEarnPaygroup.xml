@@ -11,18 +11,18 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="effortCertificationReportTypeCode" />
-                        <field attributeName="active" />
+                    	<field attributeName="universityFiscalYear" />
+                    	<field attributeName="effortCertificationReportTypeCode" />
                         <field attributeName="earnCode" />
                         <field attributeName="payGroup" />
-                        <field attributeName="universityFiscalYear" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Report Earn Pay Lookup</title>
+            <title>Effort Certification Report Earn Pay</title>
 
             <instructions>Look Up Effort Certification Report Earn Pay</instructions>
 
@@ -36,19 +36,17 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="effortCertificationReportTypeCode" required="false" />
+            	<lookupField attributeName="universityFiscalYear" required="false" />
+            	<lookupField attributeName="effortCertificationReportTypeCode" required="false" />
                 <lookupField attributeName="active" required="false" />
-                <lookupField attributeName="earnCode" required="false" />
-                <lookupField attributeName="payGroup" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
             </lookupFields>
 
             <resultFields>
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="effortCertificationReportTypeCode" />
-                <field attributeName="active" />
                 <field attributeName="earnCode" />
                 <field attributeName="payGroup" />
-                <field attributeName="universityFiscalYear" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 

@@ -52,6 +52,23 @@
 	<reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
+	<reference-descriptor name="reportBeginFiscalYear" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="effortCertificationReportBeginFiscalYear" />
+	</reference-descriptor>
+	<reference-descriptor name="reportEndFiscalYear" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="effortCertificationReportEndFiscalYear" />
+	</reference-descriptor>
+	<reference-descriptor name="reportBeginPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportBeginPeriodCode" />
+        <foreignkey field-ref="effortCertificationReportBeginFiscalYear" />
+    </reference-descriptor>
+    <reference-descriptor name="reportEndPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="effortCertificationReportEndPeriodCode" />
+        <foreignkey field-ref="effortCertificationReportEndFiscalYear" />
+    </reference-descriptor>
+    <reference-descriptor name="expenseTransferYear" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="expenseTransferFiscalYear" />
+	</reference-descriptor>
 	<reference-descriptor name="expenseTransferFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="expenseTransferFiscalYear" />
         <foreignkey field-ref="expenseTransferFiscalPeriodCode" />

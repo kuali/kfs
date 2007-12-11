@@ -50,6 +50,11 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private boolean active;
 
     private Options options;
+    private Options reportBeginFiscalYear;
+    private Options reportEndFiscalYear;
+    private AccountingPeriod reportBeginPeriod;
+    private AccountingPeriod reportEndPeriod;
+    private Options expenseTransferYear;
     private AccountingPeriod expenseTransferFiscalPeriod;
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
@@ -296,7 +301,98 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setExpenseTransferFiscalPeriod(AccountingPeriod expenseTransferFiscalPeriod) {
         this.expenseTransferFiscalPeriod = expenseTransferFiscalPeriod;
     }
+    
+    /**
+     * gets expenseTrasferYear
+     * @return
+     */
+    public Options getExpenseTransferYear() {
+        return expenseTransferYear;
+    }
 
+    /**
+     * sets expenseTrasferYear attribute
+     * @param expenseTransferYear
+     */
+    @Deprecated
+    public void setExpenseTransferYear(Options expenseTransferYear) {
+        this.expenseTransferYear = expenseTransferYear;
+    } 
+    
+    /**
+     * 
+     * gets reportBeginFiscalYear attribute value
+     * @return
+     */
+    public Options getReportBeginFiscalYear() {
+        return reportBeginFiscalYear;
+    }
+    
+    /**
+     * 
+     * sets the reportBeginFiscalYear attribute
+     * @param reportBeginFiscalYear
+     */
+    @Deprecated
+    public void setReportBeginFiscalYear(Options reportBeginFiscalYear) {
+        this.reportBeginFiscalYear = reportBeginFiscalYear;
+    }
+    
+    /**
+     * 
+     * gets reportEndFiscalYear attribute
+     * @return
+     */
+    public Options getReportEndFiscalYear() {
+        return reportEndFiscalYear;
+    }
+    
+    /**
+     * 
+     * sets reportEndFiscalYear attribute
+     * @param reportEndFiscalYear
+     */
+    @Deprecated
+    public void setReportEndFiscalYear(Options reportEndFiscalYear) {
+        this.reportEndFiscalYear = reportEndFiscalYear;
+    }
+    
+    /**
+     * 
+     * gets reportBeginPeriod
+     * @return
+     */
+    public AccountingPeriod getReportBeginPeriod() {
+        return reportBeginPeriod;
+    }
+
+    /**
+     * sets reportBeginFiscalPeriod
+     * This method...
+     * @param reportBeginPeriod
+     */
+    @Deprecated
+    public void setReportBeginPeriod(AccountingPeriod reportBeginPeriod) {
+        this.reportBeginPeriod = reportBeginPeriod;
+    }
+
+    /**
+     * gets reporEndPeriod
+     * @return
+     */
+    public AccountingPeriod getReportEndPeriod() {
+        return reportEndPeriod;
+    }
+
+    /**
+     * sets reportEndPeriod
+     * @param reportEndPeriod
+     */
+    @Deprecated
+    public void setReportEndPeriod(AccountingPeriod reportEndPeriod) {
+        this.reportEndPeriod = reportEndPeriod;
+    }
+    
     /**
      * Gets the effortCertificationPeriodStatusCode attribute.
      * 
@@ -437,4 +533,6 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
 
         return AccountingPeriodMonth.findAccountingPeriodsBetween(beginYear, beginPeriodCode, endYear, endPeriodCode);
     }
+
+    
 }

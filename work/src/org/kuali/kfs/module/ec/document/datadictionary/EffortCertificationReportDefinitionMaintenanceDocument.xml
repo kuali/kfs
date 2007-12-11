@@ -48,11 +48,11 @@
 		<defaultExistenceChecks>
 			<reference attributeName="options" attributeToHighlightOnFail="universityFiscalYear" />
 			<reference attributeName="effortCertificationPeriodStatusCode" attributeToHighlightOnFail="effortCertificationReportPeriodStatusCode" />
-			<!-- reference attributeName="effortCertificationReportBeginFiscalYear" attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" /-->
-			<!--reference attributeName="effortCertificationReportBeginPeriodCode" attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" /-->
-			<!--reference attributeName="effortCertificationReportEndFiscalYear" attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" /-->
-			<!--reference attributeName="effortCertificationReportEndPeriodCode" attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" /-->
-			<!--reference attributeName="expenseTransferFiscalYear" attributeToHighlightOnFail="expenseTransferFiscalYear" /-->
+			<reference attributeName="reportBeginFiscalYear" attributeToHighlightOnFail="effortCertificationReportBeginFiscalYear" />
+			<reference attributeName="reportBeginPeriod" attributeToHighlightOnFail="effortCertificationReportBeginPeriodCode" />
+			<reference attributeName="reportEndFiscalYear" attributeToHighlightOnFail="effortCertificationReportEndFiscalYear" />
+			<reference attributeName="reportEndPeriod" attributeToHighlightOnFail="effortCertificationReportEndPeriodCode" />
+			<reference attributeName="expenseTransferYear" attributeToHighlightOnFail="expenseTransferFiscalYear" />
 			<reference attributeName="expenseTransferFiscalPeriod" attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
 			<reference attributeName="effortCertificationReportType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportTypeCode" />
 			<!-- reference collection="effortCertificationReportPositions" attributeName="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" activeIndicatorAttributeName="effortCertificationReportPositions.active" attributeToHighlightOnFail="effortCertificationReportPositions" /-->

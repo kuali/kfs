@@ -45,7 +45,7 @@ import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
-import org.kuali.module.purap.document.PurchaseOrderRetransmitDocument;
+import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
@@ -226,86 +226,45 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
         }
 
-        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator())) {
-            ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");
+        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        if (auth.canRetransmit()) {
+            ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
             this.getExtraButtons().add(retransmitButton);
         }
-
-        // This is the button to print the pdf on a retransmit document. We're currently sharing the same button image as
-        // the button for creating a retransmit document but this may change someday. It should only appear on Retransmit
-        // Document.
-        if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && this.getEditingMode().containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS)) {
+        
+        if (auth.canPrintRetransmit()) {
             ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
             this.getExtraButtons().add(printingRetransmitButton);
         }
 
-        // show the PO Print button if the status is Pending Print and the user is either authorized
-        // or an action is requested of them for the document transmission route node
-        boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
-        if (PurapConstants.PurchaseOrderStatuses.PENDING_PRINT.equals(purchaseOrder.getStatusCode()) && (isUserAuthorized || isDocumentTransmissionActionRequested)) {
+        if (auth.canFirstTransmitPrintPo()) {
             ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
             this.getExtraButtons().add(printButton);
         }
 
-        //This is so that the user can still do the print po if the transmission method is changed to PRINT during amendment, so that
-        //we can fill in the last transmit date to some dates.
-        if (purchaseOrder.getPurchaseOrderTransmissionMethodCode() != null && purchaseOrder.getPurchaseOrderTransmissionMethodCode().equals(PurapConstants.POTransmissionMethods.PRINT) && purchaseOrder.getPurchaseOrderLastTransmitDate() == null && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.getDocumentHeader().getWorkflowDocument().stateIsFinal()) {
-            ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
-            this.getExtraButtons().add(printButton);
-        }
-        
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+        if (auth.canReopen()) {
             ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
             this.getExtraButtons().add(reopenButton);
         }
 
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
-            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any
-            // other
-            // statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This button
-            // is available to all faculty/staff (everyone ?)
-            boolean validForDisplayingCloseButton = true;
-
-            if (ObjectUtils.isNotNull(pReqs)) {
-                if (pReqs.size() == 0) {
-                    validForDisplayingCloseButton = false;
-                }
-                else {
-                    // None of the PREQs against this PO may be in 'In Process' status.
-                    for (PaymentRequestDocument pReq : pReqs) {
-                        if (StringUtils.equalsIgnoreCase(pReq.getStatusCode(), PaymentRequestStatuses.IN_PROCESS)) {
-                            validForDisplayingCloseButton = false;
-                        }
-                    }
-                }
-            }
-
-            if (validForDisplayingCloseButton) {
-                ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
-                this.getExtraButtons().add(closeButton);
-            }
-
-            // These buttons are only available to members of kuali purap purchasing.
-            if (isUserAuthorized) {
-                ExtraButton paymentHoldButton = (ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo");
-                this.getExtraButtons().add(paymentHoldButton);
-                ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
-                this.getExtraButtons().add(amendButton);
-            }
+        if (auth.canClose()) {
+            ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
+            this.getExtraButtons().add(closeButton);
+        }
+        
+        if (auth.canAmendAndHoldPayment()) {
+            ExtraButton paymentHoldButton = (ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo");
+            this.getExtraButtons().add(paymentHoldButton);
+            ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
+            this.getExtraButtons().add(amendButton);            
         }
 
-        // Conditions for displaying Void button (in addition to the purchaseOrder current indicator is true and
-        // pending indicator is false and the user is member of kuali purap purchasing):
-        // 1. If the PO is in Pending Print status, or
-        // 2. If the PO is in Open status and has no PREQs against it.
-        if (purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
-            if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT) || (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && !hasPaymentRequest)) {
-                ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
-                this.getExtraButtons().add(voidButton);
-            }
+        if (auth.canVoid()) {
+            ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
+            this.getExtraButtons().add(voidButton);
         }
-
-        if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
+        
+        if (auth.canRemoveHold()) {
             ExtraButton removeHoldButton = (ExtraButton) buttonsMap.get("methodToCall.removeHoldPo");
             this.getExtraButtons().add(removeHoldButton);
         }
@@ -317,7 +276,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
      * @return the button map created.
      */
     private Map<String, ExtraButton> createButtonsMap() {
-        HashMap<String, ExtraButton> result = new HashMap();
+        HashMap<String, ExtraButton> result = new HashMap<String, ExtraButton>();
         // Retransmit button
         ExtraButton retransmitButton = new ExtraButton();
         retransmitButton.setExtraButtonProperty("methodToCall.retransmitPo");

@@ -55,7 +55,7 @@
 			<reference attributeName="expenseTransferYear" attributeToHighlightOnFail="expenseTransferFiscalYear" />
 			<reference attributeName="expenseTransferFiscalPeriod" attributeToHighlightOnFail="expenseTransferFiscalPeriodCode" />
 			<reference attributeName="effortCertificationReportType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportTypeCode" />
-			<!-- reference collection="effortCertificationReportPositions" attributeName="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" activeIndicatorAttributeName="effortCertificationReportPositions.active" attributeToHighlightOnFail="effortCertificationReportPositions" /-->
+			<reference collection="effortCertificationReportPositions" attributeName="positionObjectGroup" activeIndicatorAttributeName="active" attributeToHighlightOnFail="effortCertificationReportPositionObjectGroupCode" />
 		</defaultExistenceChecks>
 		
 	    <maintainableSections>
@@ -70,7 +70,11 @@
 	                <maintainableField name="effortCertificationReportEndFiscalYear" required="true" />
 	                <maintainableField name="effortCertificationReportEndPeriodCode" required="true" />
 	        	    <maintainableField name="effortCertificationReportTypeCode" required="true" />
-	        	    <maintainableField name="expenseTransferFiscalYear" required="true" />
+	        	    <maintainableCollection name="effortCertificationReportPositions" businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition">
+						<maintainableField name="effortCertificationReportPositionObjectGroupCode" required="true" />
+			            <maintainableField name="active" required="true" />
+					</maintainableCollection>
+					<maintainableField name="expenseTransferFiscalYear" required="true" />
 	                <maintainableField name="expenseTransferFiscalPeriodCode" required="true" />
 	                <maintainableField name="effortCertificationReportReturnDate" required="true" />
 	                <maintainableField name="active" />

@@ -33,6 +33,7 @@
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
+                <field attributeName="effortCertificationReportPositions" />
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
@@ -68,6 +69,7 @@
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
+                <field attributeName="effortCertificationReportPositions" />
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
@@ -80,7 +82,7 @@
 		<titleAttribute>effortCertificationReportNumber</titleAttribute>
 		
         <attributes>
-
+			
             <attributeReference name="expenseTransferFiscalPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
                 <label>Expense Transfer Fiscal Period Code</label>
                 <shortLabel>Expense Transfer Period Code</shortLabel>
@@ -209,5 +211,14 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        <collections>
+        	<collection name="effortCertificationReportPositions" >
+                <label>effortCertificationReportPositions</label>
+                <shortLabel>effortCertificationReportPositions</shortLabel>
+                <summary>effortCertificationReportPositions</summary>
+                <description>effortCertificationReportPositions</description>
+			</collection>
+        </collections>
+        
     </businessObject>
 </dictionaryEntry>

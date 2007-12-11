@@ -12,6 +12,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private String effortCertificationReportNumber;
     private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
+    
+    private EffortCertificationReportDefinition positionObjectGroup;
 
     /**
      * Default constructor.
@@ -19,7 +21,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     public EffortCertificationReportPosition() {
 
     }
-
+    
     /**
      * Gets the universityFiscalYear attribute. 
      * @return Returns the universityFiscalYear.
@@ -82,6 +84,25 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      */
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    /**
+     * 
+     * gets the positionObjetGroup
+     * @return
+     */
+    public EffortCertificationReportDefinition getPositionObjectGroup() {
+        return positionObjectGroup;
+    }
+
+    /**
+     * sets the positionObjectGroup
+     * This method...
+     * @param positionObjectGroup
+     */
+    @Deprecated
+    public void setPositionObjectGroup(EffortCertificationReportDefinition positionObjectGroup) {
+        this.positionObjectGroup = positionObjectGroup;
     }
     
     /**

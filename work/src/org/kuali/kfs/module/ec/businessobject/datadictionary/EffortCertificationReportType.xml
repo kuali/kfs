@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Effort Certification Report Type Inquiry</title>
+            <title>Report Type Code</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="effortCertificationReportTypeCode" />
@@ -32,7 +32,7 @@
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Report Type Lookup</title>
+            <title>Report Type Code</title>
 
             <instructions>Look Up Effort Certification Report Type</instructions>
 
@@ -53,7 +53,7 @@
                 <field attributeName="active" />
             </resultFields>
         </lookup>
-
+		
         <attributes>
 
             <attribute name="effortCertificationReportDescription" forceUppercase="true">

@@ -40,7 +40,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         sqlText.append("WHERE fin_coa_cd = ? \n");
         sqlText.append("  AND org_cd = ? \n");
         initPointOfViewTemplates[0] = sqlText.toString();
-        sqlText.delete(0, sqlText.length()-1);
+        sqlText.delete(0, sqlText.length());
         
         sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
         sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, OBJ_ID, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
@@ -55,7 +55,7 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         sqlText.append("  AND o.org_cd = r.org_cd \n");
         sqlText.append("  AND o.org_active_cd = 'Y' \n");
         insertChildOrgTemplates[0] = sqlText.toString();
-        sqlText.delete(0, sqlText.length()-1);
+        sqlText.delete(0, sqlText.length());
         
         sqlText.append("UPDATE ld_bcn_pullup_t \n");
         sqlText.append("SET pull_flag = 0 \n");

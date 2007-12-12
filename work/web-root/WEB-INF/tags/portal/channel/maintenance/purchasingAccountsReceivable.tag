@@ -19,10 +19,11 @@
 <div class="body">
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Customer" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.Customer&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Customer Address Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.CustomerAddressType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Organization Options" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.OrganizationOptions&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Organization Accounting Defaults" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.OrganizationAccountingDefault&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Invoice Item Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.InvoiceItemCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-        <li><portal:portalLink displayTitle="true" title="Customer Address Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.CustomerAddressType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+        <li><portal:portalLink displayTitle="true" title="Payment Medium" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.PaymentMedium&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

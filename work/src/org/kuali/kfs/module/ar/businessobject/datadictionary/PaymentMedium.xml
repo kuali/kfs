@@ -11,9 +11,9 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="active" />
                         <field attributeName="customerPaymentMediumCode" />
                         <field attributeName="customerPaymentMediumDescription" />
+                        <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -31,33 +31,19 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="active" required="false" />
                 <lookupField attributeName="customerPaymentMediumCode" required="false" />
                 <lookupField attributeName="customerPaymentMediumDescription" required="false" />
+                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="customerPaymentMediumCode" />
                 <field attributeName="customerPaymentMediumDescription" />
+                <field attributeName="active" />
             </resultFields>
         </lookup>
 
         <attributes>
-
-            <attribute name="active" forceUppercase="true">
-                <label>Active</label>
-                <shortLabel>Active</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>active</summary>
-                <description>active description...</description>
-			</attribute>
 
             <attribute name="customerPaymentMediumCode" forceUppercase="true">
                 <label>Customer Payment Medium Code</label>
@@ -88,6 +74,8 @@
                 <summary>customerPaymentMediumDescription</summary>
                 <description>customerPaymentMediumDescription description...</description>
 			</attribute>
+
+            <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

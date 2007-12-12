@@ -17,46 +17,118 @@ package org.kuali.module.effort.util;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.ObjectUtil;
 
+/**
+ * To provide a set of utilities to consolidate/group the specified ledger balances and build a returning ledger balance Map.
+ */
 public class LedgerBalanceConsolidationHelper {
-    private Map<String, LedgerBalance> ledgerBalanceConsolidationMap;
-    private List<String> consolidationKeys;
 
     /**
-     * Constructs a LedgerBalanceConsolidationHelper.java.
+     * consolidate the amount of the given ledger balance into the balance with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains the consolidated balance records. Its key can be the combined string value
+     *        of the given consolidation keys.
+     * @param ledgerBalance the given ledger balance to be consolidated
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public LedgerBalanceConsolidationHelper() {
-        super();
-        ledgerBalanceConsolidationMap = new HashMap<String, LedgerBalance>();
-    }
-
-    public void consolidateLedgerBalances(LedgerBalance ledgerBalance) {
+    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, LedgerBalance ledgerBalance, List<String> consolidationKeys) {
         String consolidationKeyFieldsAsString = ObjectUtil.concatPropertyAsString(ledgerBalance, consolidationKeys);
-
-        if (ledgerBalanceConsolidationMap.containsKey(consolidationKeyFieldsAsString)) {
-            LedgerBalance existingBalance = ledgerBalanceConsolidationMap.get(consolidationKeyFieldsAsString);
+        
+        consolidateLedgerBalances(ledgerBalanceMap, ledgerBalance, consolidationKeyFieldsAsString);
+    }
+    
+    /**
+     * consolidate the amount of the given ledger balance into the balance with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains the consolidated balance records. Its key can be the combined string value
+     *        of the given consolidation keys.
+     * @param ledgerBalance the given ledger balance to be consolidated
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
+     */
+    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, LedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
+        if (ledgerBalanceMap.containsKey(consolidationKeyFieldsAsString)) {
+            LedgerBalance existingBalance = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
             addLedgerBalanceAmounts(existingBalance, ledgerBalance);
         }
         else {
-            ledgerBalanceConsolidationMap.put(consolidationKeyFieldsAsString, ledgerBalance);
+            ledgerBalanceMap.put(consolidationKeyFieldsAsString, ledgerBalance);
         }
     }
 
-    public void consolidateLedgerBalances(Collection<LedgerBalance> ledgerBalances) {
+    /**
+     * consolidate the amounts of the given ledger balances into the balances with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains the consolidated balance records. Its key can be the combined string value
+     *        of the given consolidation keys.
+     * @param ledgerBalances the given ledger balances to be consolidated
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
+     */
+    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, Collection<LedgerBalance> ledgerBalances, List<String> consolidationKeys) {
         for (LedgerBalance balance : ledgerBalances) {
-            consolidateLedgerBalances(balance);
+            consolidateLedgerBalances(ledgerBalanceMap, balance, consolidationKeys);
         }
     }
 
+    /**
+     * group the given ledger balance into the list of balances with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains a set of ledger balance lists. Its key can be the combined string value of
+     *        the given consolidation keys.
+     * @param ledgerBalance the given ledger balance to be grouped
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
+     */
+    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, LedgerBalance ledgerBalance, List<String> consolidationKeys) {
+        String consolidationKeyFieldsAsString = ObjectUtil.concatPropertyAsString(ledgerBalance, consolidationKeys);
+        groupLedgerBalancesByKeys(ledgerBalanceMap, ledgerBalance, consolidationKeyFieldsAsString);
+    }
+    
+    /**
+     * group the given ledger balance into the list of balances with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains a set of ledger balance lists. Its key can be the combined string value of
+     *        the given consolidation keys.
+     * @param ledgerBalance the given ledger balance to be grouped
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
+     */
+    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, LedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
+        if (ledgerBalanceMap.containsKey(consolidationKeyFieldsAsString)) {
+            List<LedgerBalance> balanceList = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
+            balanceList.add(ledgerBalance);
+        }
+        else {
+            List<LedgerBalance> balanceList = new ArrayList<LedgerBalance>();
+            balanceList.add(ledgerBalance);
+            ledgerBalanceMap.put(consolidationKeyFieldsAsString, balanceList);
+        }
+    }
+
+    /**
+     * group the given ledger balances into the lists of balances with the same values of specified key fields
+     * 
+     * @param ledgerBalanceMap the hash map that contains a set of ledger balance lists. Its key can be the combined string value of
+     *        the given consolidation keys.
+     * @param ledgerBalance the given ledger balances to be grouped
+     * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
+     */
+    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, Collection<LedgerBalance> ledgerBalances, List<String> consolidationKeys) {
+        for (LedgerBalance balance : ledgerBalances) {
+            groupLedgerBalancesByKeys(ledgerBalanceMap, balance, consolidationKeys);
+        }
+    }
+
+    /**
+     * add the monthly amounts of the second ledger balance with those of the first one
+     * 
+     * @param ledgerBalance the given ledger balance, which holds the summerized monthly amounts
+     * @param anotherLedgerBalance the given ledger balance, which contributes monthly amounts
+     */
     public static void addLedgerBalanceAmounts(LedgerBalance ledgerBalance, LedgerBalance anotherLedgerBalance) {
         if (anotherLedgerBalance == null) {
             return;
@@ -86,7 +158,7 @@ public class LedgerBalanceConsolidationHelper {
 
         Set<String> periodCodes = reportPeriods.get(fiscalYear);
         for (String period : periodCodes) {
-            totalAmount.add(ledgerBalance.getAmountByPeriod(period));
+            totalAmount = totalAmount.add(ledgerBalance.getAmountByPeriod(period));
         }
         return totalAmount;
     }
@@ -106,51 +178,5 @@ public class LedgerBalanceConsolidationHelper {
             totalAmount = totalAmount.add(totalAmountForOneBalance);
         }
         return totalAmount;
-    }
-
-    /**
-     * Gets the ledgerBalanceConsolidationMap attribute.
-     * 
-     * @return Returns the ledgerBalanceConsolidationMap.
-     */
-    public Map<String, LedgerBalance> getLedgerBalanceConsolidationMap() {
-        return ledgerBalanceConsolidationMap;
-    }
-    
-    private  List<String> getDefualtConsolidationKeys() {
-        List<String> consolidationKeys = new ArrayList<String>();
-        consolidationKeys.add(KFSPropertyConstants.EMPLID);
-        consolidationKeys.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
-        consolidationKeys.add(KFSPropertyConstants.ACCOUNT_NUMBER);
-        consolidationKeys.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
-        consolidationKeys.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-        consolidationKeys.add(KFSPropertyConstants.POSITION_NUMBER);
-
-        return consolidationKeys;
-    }
-
-    /**
-     * Sets the ledgerBalanceConsolidationMap attribute value.
-     * 
-     * @param ledgerBalanceConsolidationMap The ledgerBalanceConsolidationMap to set.
-     */
-    public void setLedgerBalanceConsolidationMap(Map<String, LedgerBalance> ledgerBalanceConsolidationMap) {
-        this.ledgerBalanceConsolidationMap = ledgerBalanceConsolidationMap;
-    }
-
-    /**
-     * Gets the consolidationKeys attribute. 
-     * @return Returns the consolidationKeys.
-     */
-    public List<String> getConsolidationKeys() {
-        return consolidationKeys == null ? getDefualtConsolidationKeys() : consolidationKeys;
-    }
-
-    /**
-     * Sets the consolidationKeys attribute value.
-     * @param consolidationKeys The consolidationKeys to set.
-     */
-    public void setConsolidationKeys(List<String> consolidationKeys) {
-        this.consolidationKeys = consolidationKeys;
     }
 }

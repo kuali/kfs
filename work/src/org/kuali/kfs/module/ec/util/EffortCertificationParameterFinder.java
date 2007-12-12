@@ -19,9 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortSystemParameters;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
 /**
@@ -37,7 +36,7 @@ public class EffortCertificationParameterFinder {
      * @return the federal agency type codes setup in system parameters
      */
     public static List<String> getFederalAgencyTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FEDERAL_AGENCY_TYPE_CD);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_AGENCY_TYPE_CD);
     }
 
     /**
@@ -46,7 +45,7 @@ public class EffortCertificationParameterFinder {
      * @return the fedeal only balance indicatior
      */
     public static boolean getFederalOnlyBalanceIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FEDERAL_ONLY_BALANCE_IND);
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND);
     }
 
     /**
@@ -66,7 +65,7 @@ public class EffortCertificationParameterFinder {
      * @return the fund group denotes C&G indicator setup in system paremters
      */
     public static boolean getFundGroupDenotesCGIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FUND_GROUP_DENOTES_CG_IND);
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.FUND_GROUP_DENOTES_CG_IND);
     }
 
     /**
@@ -86,7 +85,7 @@ public class EffortCertificationParameterFinder {
      * @return the C&G denoting values setup in system paremters
      */
     public static List<String> getCGDenotingValues() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.CG_DENOTING_VALUE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.CG_DENOTING_VALUE);
     }
 
     /**
@@ -95,7 +94,7 @@ public class EffortCertificationParameterFinder {
      * @return the account type codes setup in system parameters
      */
     public static List<String> getAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortConstants.extractProcess.ACCOUNT_TYPE_CD_BALANCE_SELECT);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.ACCOUNT_TYPE_CD_BALANCE_SELECT);
     }
 
     /**
@@ -104,7 +103,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.FISCAL_YEAR));
     }
 
     /**
@@ -113,6 +112,24 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortConstants.extractProcess.REPORT_NUMBER);
+        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.REPORT_NUMBER);
+    }
+
+    /**
+     * get the cost share sub account type code setup in system paremters
+     * 
+     * @return the cost share sub account type code setup in system paremters
+     */
+    public static List<String> getCostShareSubAccountTypeCode() {
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.COST_SHARE_SUB_ACCT_TYPE_CODE);
+    }
+
+    /**
+     * get the expense sub account type code setup in system paremters
+     * 
+     * @return the expense sub account type code setup in system paremters
+     */
+    public static List<String> getExpenseSubAccountTypeCode() {
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.EXPENSE_SUB_ACCT_TYPE_CODE);
     }
 }

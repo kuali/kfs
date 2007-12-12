@@ -25,9 +25,9 @@ public interface GLBudgetLoadService {
 //
 //
 //  load pending budget construction GL for a specific fiscal year
-    public void loadPendingBCGL(Integer FiscalYear);
+    public void loadPendingBudgetConstructionGeneralLedger(Integer FiscalYear);
 //
 //  load for the fiscal year following the fiscal year of the current date
-    public void loadPendingBCGL();
+    public void loadPendingBudgetConstructionGeneralLedger();
 
 }

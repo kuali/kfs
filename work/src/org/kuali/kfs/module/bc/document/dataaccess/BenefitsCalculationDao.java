@@ -31,7 +31,8 @@ public interface BenefitsCalculationDao {
                                                                        Integer fiscalYear,
                                                                        String chartOfAccounts,
                                                                        String accountNumber,
-                                                                       String subAccountNumber);
+                                                                       String subAccountNumber,
+                                                                       String finObjTypeExpenditureexpCd);
     /**
      * 
      * This method calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
@@ -45,7 +46,8 @@ public interface BenefitsCalculationDao {
                                                                         Integer fiscalYear,
                                                                         String chartOfAccounts,
                                                                         String accountNumber,
-                                                                        String subAccountNumber);
+                                                                        String subAccountNumber,
+                                                                        String finObjTypeExpenditureexpCd);
 
 
 }

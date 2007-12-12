@@ -16,6 +16,7 @@
 package org.kuali.module.budget.service.impl;
 
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.budget.dao.BenefitsCalculationDao;
 import org.kuali.module.budget.service.BenefitsCalculationService;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
 
     private KualiConfigurationService kualiConfigurationService;
     private BenefitsCalculationDao benefitsCalculationDao;
+    private OptionsService optionsService;
 
     /**
      * @see org.kuali.module.budget.service.BenefitsCalculationService#getBenefitsCalculationDisabled()
@@ -51,8 +53,18 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
                                                                        String accountNumber,
                                                                        String subAccountNumber)
     {
-        // do nothing if benefits calculation is disabled
+        /*
+         *  do nothing if benefits calculation is disabled
+         */
         if (getBenefitsCalculationDisabled()) return;
+        /*
+         *  get the financial object type expenditure/expense
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        /*
+         *  calculate annual benefits
+         */
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
 
     /**
@@ -65,8 +77,18 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
                                                                         String accountNumber,
                                                                         String subAccountNumber)
     {
-        //do nothing if benefits calculation is disabled
+        /*
+         * do nothing if benefits calculation is disabled
+         */
         if (getBenefitsCalculationDisabled()) return;
+        /*
+         *  get the financial object type expenditure/expense
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+       /*
+        *  calculate monthly benefits (assumes annual benefits have already been calculated
+        */
+        benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
 
     /**
@@ -81,6 +103,15 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     {
         //do nothing if benefits calculation is disabled
         if (getBenefitsCalculationDisabled()) return;
+        /*
+         *  get the financial object type expenditure/expense
+         */
+        String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
+        /*
+         * call both annual and monthly calculations (order is important)
+         */
+        benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
+        benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
 
 
@@ -106,13 +137,24 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     /**
      * 
      * This method allows spring to initialize the Dao, so we don't have to look up the bean on each call from the application
-     * @param benefitsCalculationDao  the Dao for benefits calculation
+     * @param benefitsCalculationDao - the Dao for benefits calculation
      */
     public void setBenefitsCalculationDao(BenefitsCalculationDao benefitsCalculationDao)
     {
         this.benefitsCalculationDao = benefitsCalculationDao;
     }
     
+    /**
+     * 
+     * use this to return the "Expenditures/Expense" financial object type code from the options table
+     * this must be done by fiscal year, so unfortunately we have to make one call to OJB whenever one of the
+     * methods that needs this constant is called.
+     * @param optionsService
+     */
+
+    public void setOptionsService(OptionsService optionsService) {
+        optionsService = this.optionsService;
+    }
 
     
 }

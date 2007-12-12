@@ -112,6 +112,12 @@
 		<property name="kualiConfigurationService">
 			<ref bean="kualiConfigurationService" />
 		</property>
+		<property name="optionsService">
+			<ref bean="optionsService" />
+		</property>
+		<property name="benefitsCalculationDao">
+			<ref bean="benefitsCalculationDao" />
+		</property>
 	</bean>
 	
 	<bean id="intendedIncumbentSelectLookupableHelperService" class="org.kuali.module.budget.web.lookupable.IntendedIncumbentSelectLookupableHelperServiceImpl" singleton="false">
@@ -230,6 +236,12 @@
         <property name="generalLedgerBudgetLoadDao">
             <ref bean="generalLedgerBudgetLoadDao" />
         </property>
+        <property name="genesisService">
+            <ref bean="genesisService"/>
+        </property>
+    </bean>
+    
+    <bean id="benefitsCalculationDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BenefitsCalculationDaoJdbc">
     </bean>
 
     <bean id="generalLedgerBudgetLoadDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">

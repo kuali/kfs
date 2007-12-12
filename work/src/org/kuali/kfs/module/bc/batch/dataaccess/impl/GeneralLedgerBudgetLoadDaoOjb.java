@@ -62,7 +62,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     /*
      *   see GeneralLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget
      */
-    public void LoadGeneralLedgerFromBudget (Integer fiscalYear)
+    public void loadGeneralLedgerFromBudget (Integer fiscalYear)
     {
         //  this method calls a series of steps that load the general ledger from the budget into
         //  the general ledger pending entry table.

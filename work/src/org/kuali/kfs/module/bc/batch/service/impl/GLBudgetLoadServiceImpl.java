@@ -25,6 +25,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
+
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(GLBudgetLoadServiceImpl.class);
+
 //
 //  loads pending budget construction GL (replacing any corresponding GL rows which already exist)
 //  overloaded methods are provided so that one can load only pending GL rows for a specific fiscal year key
@@ -35,30 +38,33 @@ public class GLBudgetLoadServiceImpl implements GLBudgetLoadService {
 //  load pending budget construction GL for a specific fiscal year
     
     
+    private GenesisService genesisService;
     private GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao;
-
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(GLBudgetLoadServiceImpl.class);
-
     
-    public void loadPendingBCGL(Integer FiscalYear)
+    public void loadPendingBudgetConstructionGeneralLedger(Integer FiscalYear)
     {
 //       generalLedgerBudgetLoadDao.unitTestRoutine(FiscalYear);
        LOG.warn(String.format("\n\n********Budget construction general ledger load started for %d********",FiscalYear)); 
-       generalLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget(FiscalYear); 
+       generalLedgerBudgetLoadDao.loadGeneralLedgerFromBudget(FiscalYear); 
        LOG.warn(String.format("\n\n********Budget construction general ledger load ended********")); 
     }
 //
 //  load for the fiscal year following the fiscal year of the current date
-    public void loadPendingBCGL()
+    public void loadPendingBudgetConstructionGeneralLedger()
     {
-       Integer nextFiscalYear = KNSServiceLocator.getBean(GenesisService.class).genesisFiscalYearFromToday()+1;
+       Integer nextFiscalYear = genesisService.genesisFiscalYearFromToday()+1;
        LOG.warn(String.format("\n\n********Budget construction general ledger load started for %d********",nextFiscalYear)); 
-       loadPendingBCGL(nextFiscalYear);
+       loadPendingBudgetConstructionGeneralLedger(nextFiscalYear);
        LOG.warn(String.format("\n\n********Budget construction general ledger load ended********")); 
     }
 
     public void setGeneralLedgerBudgetLoadDao(GeneralLedgerBudgetLoadDao generalLedgerBudgetLoadDao)
     {
         this.generalLedgerBudgetLoadDao = generalLedgerBudgetLoadDao;
+    }
+    
+    public void setGenesisService(GenesisService genesisService)
+    {
+        this.genesisService = genesisService;
     }
 }

@@ -3,6 +3,7 @@ package org.kuali.module.effort.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.labor.bo.PositionObjectGroup;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
@@ -13,7 +14,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
     
-    private EffortCertificationReportDefinition positionObjectGroup;
+    private PositionObjectGroup positionObjectGroup;
 
     /**
      * Default constructor.
@@ -91,7 +92,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      * gets the positionObjetGroup
      * @return
      */
-    public EffortCertificationReportDefinition getPositionObjectGroup() {
+    public PositionObjectGroup getPositionObjectGroup() {
         return positionObjectGroup;
     }
 
@@ -101,7 +102,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      * @param positionObjectGroup
      */
     @Deprecated
-    public void setPositionObjectGroup(EffortCertificationReportDefinition positionObjectGroup) {
+    public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;
     }
     

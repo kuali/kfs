@@ -16,18 +16,28 @@
 package org.kuali.module.effort.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.labor.service.LaborScrubberService;
 
 /**
  * Batch Step that executes the Effort Certification Extract Process.
  */
 public class EffortCertificationExtractStep extends AbstractStep {
+    private EffortCertificationExtractService effortCertificationExtractService;
 
     /**
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) {
+        effortCertificationExtractService.extract();
         return true;
     }
 
+    /**
+     * Sets the effortCertificationExtractService attribute value.
+     * @param effortCertificationExtractService The effortCertificationExtractService to set.
+     */
+    public void setEffortCertificationExtractService(EffortCertificationExtractService effortCertificationExtractService) {
+        this.effortCertificationExtractService = effortCertificationExtractService;
+    }
 }

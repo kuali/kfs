@@ -59,6 +59,8 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
     private Collection<EffortCertificationReportPosition> effortCertificationReportPositions;
+    
+    private Map<Integer, Set<String>> reportPeriods;
 
     /**
      * Constructs a EffortCertificationReportDefinition.java.
@@ -520,19 +522,33 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     }
 
     /**
-     * find all report periods covered by the specified report definition
-     * 
-     * @param reportDefinition the specified report definition
-     * @return all report periods for the specified report definition
+     * build all report periods map covered by the specified report definition
      */
-    public Map<Integer, Set<String>> findReportPeriods() {
+    public void buildReportPeriods() {
         Integer beginYear = this.getEffortCertificationReportBeginFiscalYear();
         String beginPeriodCode = this.getEffortCertificationReportBeginPeriodCode();
         Integer endYear = this.getEffortCertificationReportEndFiscalYear();
         String endPeriodCode = this.getEffortCertificationReportEndPeriodCode();
-
-        return AccountingPeriodMonth.findAccountingPeriodsBetween(beginYear, beginPeriodCode, endYear, endPeriodCode);
+        
+        this.setReportPeriods(AccountingPeriodMonth.findAccountingPeriodsBetween(beginYear, beginPeriodCode, endYear, endPeriodCode));
     }
 
-    
+    /**
+     * Gets the reportPeriods attribute. 
+     * @return Returns the reportPeriods.
+     */
+    public Map<Integer, Set<String>> getReportPeriods() {
+        if(reportPeriods == null) {
+            this.buildReportPeriods();
+        }
+        return reportPeriods;
+    }
+
+    /**
+     * Sets the reportPeriods attribute value.
+     * @param reportPeriods The reportPeriods to set.
+     */
+    public void setReportPeriods(Map<Integer, Set<String>> reportPeriods) {
+        this.reportPeriods = reportPeriods;
+    } 
 }

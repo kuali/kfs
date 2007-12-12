@@ -24,17 +24,14 @@ import org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao;
 public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJdbcBase implements OrganizationBCDocumentSearchDao {
 
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
-
-    /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
-     *      java.lang.Integer)
-     */
+    
+    private static String[] buildAccountSelectPullListTemplates = new String[1];
+    
     @RawSQL
-    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
+    public OrganizationBCDocumentSearchDaoJdbc() {
+        
+        StringBuilder sqlText = new StringBuilder(500);
 
-        LOG.debug("buildAccountSelectPullList() started");
-
-        StringBuffer sqlText = new StringBuffer(50);
         sqlText.append("INSERT INTO ld_bcn_acctsel_t \n");
         sqlText.append(" (PERSON_UNVL_ID,UNIV_FISCAL_YR,FIN_COA_CD,ACCOUNT_NBR,SUB_ACCT_NBR,FDOC_NBR, \n");
         sqlText.append("  ORG_LEVEL_CD,ORG_FIN_COA_CD,ORG_CD,FDOC_STATUS_CD,FDOC_CREATE_DT) \n");
@@ -74,8 +71,20 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.account_nbr = hier2.account_nbr \n");
         sqlText.append("  AND head.org_level_cd = 0 \n");
         sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr\n");
+        buildAccountSelectPullListTemplates[0] = sqlText.toString();
 
-        getSimpleJdbcTemplate().update(sqlText.toString(), personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
+    }
+
+    /**
+     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
+     *      java.lang.Integer)
+     */
+    @RawSQL
+    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
+
+        LOG.debug("buildAccountSelectPullList() started");
+
+        getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
     }
 
     /**

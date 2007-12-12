@@ -32,8 +32,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
     @RawSQL
     public BudgetPullupDaoJdbc() {
         
-        super();
-        
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
         sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, OBJ_ID, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");

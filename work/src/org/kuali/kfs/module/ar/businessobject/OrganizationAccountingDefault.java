@@ -3,6 +3,7 @@ package org.kuali.module.ar.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -48,6 +49,7 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	private Chart defaultPaymentChartOfAccounts;
 	private SubAccount defaultPaymentSubAccount;
 	private ProjectCode defaultPaymentProject;
+	private Options universityFiscal;
 
 	/**
 	 * Default constructor.
@@ -692,6 +694,24 @@ public class OrganizationAccountingDefault extends PersistableBusinessObjectBase
 	public void setDefaultPaymentProject(ProjectCode defaultPaymentProject) {
 		this.defaultPaymentProject = defaultPaymentProject;
 	}
+	
+	/**
+     * Gets the universityFiscal attribute.
+     * 
+     * @return Returns the universityFiscal.
+     */
+    public Options getUniversityFiscal() {
+        return universityFiscal;
+    }
+
+    /**
+     * Sets the universityFiscal attribute value.
+     * 
+     * @param universityFiscal The universityFiscal to set.
+     */
+    public void setUniversityFiscal(Options universityFiscal) {
+        this.universityFiscal = universityFiscal;
+    }
 
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

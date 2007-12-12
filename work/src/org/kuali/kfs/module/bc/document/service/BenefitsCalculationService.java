@@ -34,12 +34,12 @@ public interface BenefitsCalculationService {
     
     /**
      * 
-     * This method calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
-     * @param documentNumber
-     * @param fiscalYear
-     * @param chartOfAccounts
-     * @param accountNumber
-     * @param subAccountNumber
+     * calculates the annual benefits for the budget construction general ledger key passed in, and stores them in the database
+     * @param documentNumber  the string containing the document number
+     * @param fiscalYear      the integer value of the fiscal year
+     * @param chartOfAccounts the string containing the chart of accounts
+     * @param accountNumber   the string containing the account number
+     * @param subAccountNumber the string containing the sub account number
      */
     public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber,
                                                                        Integer fiscalYear,
@@ -48,12 +48,13 @@ public interface BenefitsCalculationService {
                                                                        String subAccountNumber);
     /**
      * 
-     * This method calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
-     * @param documentNumber
-     * @param fiscalYear
-     * @param chartOfAccounts
-     * @param accountNumber
-     * @param subAccountNumber
+     * calculates the monthly budget benefits for the budget construction general ledger key passed in, and stores them in the database
+     * @param documentNumber  the string containing the document number
+     * @param fiscalYear      the integer value of the fiscal year
+     * @param chartOfAccounts the string containing the chart of accounts
+     * @param accountNumber   the string containing the account number
+     * @param subAccountNumber the string containing the sub account number 
+     * 
      */
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber,
                                                                         Integer fiscalYear,
@@ -61,14 +62,15 @@ public interface BenefitsCalculationService {
                                                                         String accountNumber,
                                                                         String subAccountNumber);
 
+
     /**
      * 
-     * This method calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
+     * calculates both the monthly budget and the annual budget budget construction general ledger benefits for the key passed in, and 
      * stores them in the database.
-     * @param documentNumber
-     * @param fiscalYear
-     * @param chartOfAccounts
-     * @param accountNumber
+     * @param documentNumber  the string containing the document number
+     * @param fiscalYear      the integer value of the fiscal year
+     * @param chartOfAccounts the string containing the chart of accounts
+     * @param accountNumber   the string containing the account number
      * @param subAccountNumber
      */
     public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
@@ -76,5 +78,5 @@ public interface BenefitsCalculationService {
                                                                     String chartOfAccounts,
                                                                     String accountNumber,
                                                                     String subAccountNumber);
-    
+
 }

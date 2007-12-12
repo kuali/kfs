@@ -43,7 +43,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         /*
          *   get rid of fringe benefits objects with no base
          */
-        sqlBuilder.append("DELETE FROM LD_PND_BCSNTR_GL_T\nWHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n  AND (LD_PND_BL_BCSNTR_GL_T.UNIV_FISCAL_YR =?)\n ");
+        sqlBuilder.append("DELETE FROM LD_PND_BCNSTR_GL_T\nWHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n  AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR =?)\n ");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n  AND (LD_PND_BCNSTR_GL_T.ACCOUNT_NBR = ?)\n");
         sqlBuilder.append("  AND (LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR = ?)\n   AND (LD_PND_BCNSTR_GL_T.FIN_BEG_BAL_LN_AMT = 0)\n");
         sqlBuilder.append("  AND (EXISTS (SELECT 1 FROM LD_BENEFITS_CALC_T\n");
@@ -51,7 +51,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND (LD_BENEFITS_CALC_T.FIN_COA_CD = LD_PND_BCNSTR_GL_T.FIN_COA_CD)\n");
         sqlBuilder.append("  AND (LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)))");
         String  sqlFirst = sqlBuilder.toString();
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         /*
          *   set the request to 0 for fringe benefits objects with base
          */
@@ -66,11 +66,11 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         /*
          *   sum the amounts in benefits-eligible objects and attach the appropriate benefits object code
          */
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         sqlBuilder.append("INSERT INTO LD_BCN_BENEFITS_RECALC01_MT\n(SELECT ?,LD_BENEFTIS_CALC_T.POS_FRNGBEN_OBJ_CD,\n");
         sqlBuilder.append(" ROUND(SUM(LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT),0)\n FROM LD_PND_BCNSTR_GL_T,\n");
         sqlBuilder.append("      LD_LBR_OBJ_BENE_T,\n      LD_BENEFITS_CALC_T\n WHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n");
-        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n   AND (LD_PND_BCNSTR_BL_T.FIN_COA_CD = ?)\n");
+        sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n   AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.ACCOUNT_NBR = ?)\n   AND (LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT != 0)\n   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = LD_LBR_OBJ_BENE_T.UNIV_FISCAL_YR)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.fin_coa_cd = LD_LBR_OBJ_BENE_T.fin_coa_cd)\n");
@@ -83,7 +83,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         /*
          *    re-set the request amount for the appropriate benefits code
          */
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         sqlBuilder.append("UPDATE ld_pnd_bcnstr_gl_t\n");
         sqlBuilder.append("SET ld_pnd_bcnstr_gl_t.acln_annl_bal_amt =\n");
         sqlBuilder.append("        (SELECT ld_bcn_benefits_recalc01_mt.fb_sum\n");
@@ -110,7 +110,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         /*
          *   now re-insert rows with zero base which still have benefits-eligible object codes in pending BC GL
          */
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         sqlBuilder.append("INSERT INTO ld_pnd_bcnstr_gl_t\n");
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCOUNT_NBR, FIN_OBJECT_CD,\n");
         sqlBuilder.append(" FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT)");
@@ -138,7 +138,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("\n  AND ld_pnd_bcsntr_gl_t.fin_obj_typ_cd = ?");
         sqlBuilder.append("  AND ld_benefits_recalc01_mt.sesid = ?)");
         String sqlFifth = sqlBuilder.toString();
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         sqlAnnualTemplates = new String[] {sqlFirst, sqlSecond, sqlThird, sqlFourth, sqlFifth};
         /*
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
@@ -159,7 +159,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("          AND ld_benefits_calc_t.fin_coa_cd = p_fin_coa_cd\n");
         sqlBuilder.append("          AND ld_bcnstr_month_t.fin_object_cd = ld_benefits_calc_t.pos_frngben_obj_cd)");
         String mnthly1 = sqlBuilder.toString();
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
         /* 
          * calc benefits for source objects and sum to target objects 
          */
@@ -206,7 +206,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("  AND ld_benefits_calc_t.pos_benefit_typ_cd = ld_lbr_obj_bene_t.finobj_bene_typ_cd\n");
         sqlBuilder.append("GROUP BY ld_benefits_calc_t.pos_frngben_obj_cd\n");
         String mnthly2 = sqlBuilder.toString();
-        sqlBuilder.delete(0, sqlBuilder.length() - 1);
+        sqlBuilder.delete(0, sqlBuilder.length());
 
 
         /* 
@@ -259,7 +259,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         getSimpleJdbcTemplate().update(sqlAnnualTemplates[4], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd, idForSession);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
     }
-
+    @RawSQL
     public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber, String finObjTypeExpenditureexpCd) {
         String idForSession = (new Guid()).toString();
         

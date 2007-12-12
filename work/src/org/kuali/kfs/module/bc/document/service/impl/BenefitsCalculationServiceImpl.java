@@ -41,7 +41,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         // return kualiConfigurationService.getApplicationParameterIndicator(KFSConstants.ParameterGroups.SYSTEM,
         // BCConstants.DISABLE_BENEFITS_CALCULATION_FLAG);
     }
-    
+
     /**
      * 
      * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
@@ -66,7 +66,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
          */
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
-
+    
     /**
      * 
      * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
@@ -153,7 +153,7 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
      */
 
     public void setOptionsService(OptionsService optionsService) {
-        optionsService = this.optionsService;
+        this.optionsService = optionsService;
     }
 
     

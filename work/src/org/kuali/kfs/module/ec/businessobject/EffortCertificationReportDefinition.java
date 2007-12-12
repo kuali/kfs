@@ -17,6 +17,7 @@
 package org.kuali.module.effort.bo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -67,6 +68,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      */
     public EffortCertificationReportDefinition() {
         super();
+        effortCertificationReportPositions = new ArrayList<EffortCertificationReportPosition>();
     }
 
     /**

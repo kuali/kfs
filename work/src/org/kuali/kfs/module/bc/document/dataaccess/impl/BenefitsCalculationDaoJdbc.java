@@ -118,7 +118,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
          */
         sqlBuilder.delete(0, sqlBuilder.length());
         sqlBuilder.append("INSERT INTO ld_pnd_bcnstr_gl_t\n");
-        sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCOUNT_NBR, FIN_OBJECT_CD,\n");
+        sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
         sqlBuilder.append(" FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT)");
         sqlBuilder.append("SELECT ?, ?, ?, ?, ?,\n");
         sqlBuilder.append("ld_bcn_benefits_recalc01_mt.pos_frngben_obj_cd, ?, ?, ?,\n");

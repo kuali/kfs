@@ -39,6 +39,7 @@ import org.kuali.module.vendor.service.VendorService;
 import org.kuali.test.ConfigureContext;
 
 
+@ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
 public class PurchaseOrderServiceTest extends KualiTestBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(PaymentRequestServiceTest.class);
 
@@ -128,7 +129,8 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         }
     }
     */
-    /*
+    
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testGetInternalPurchasingDollarLimit() {
         PurchaseOrderDocument po = PurchaseOrderDocumentFixture.PO_WITH_VENDOR_CONTRACT.createPurchaseOrderDocument();
 
@@ -145,13 +147,12 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         manager.setContractManagerDelegationDollarLimit(mngrDDLimit);
 
         VendorService vdService = SpringContext.getBean(VendorService.class);
-        KualiDecimal contrDLimit = vdService.getApoLimitFromContract(
-                po.getVendorContract().getVendorContractGeneratedIdentifier(), 
-                po.getChartOfAccountsCode(), po.getOrganizationCode());
+        String chartCode = po.getChartOfAccountsCode();
+        String orgCode = po.getOrganizationCode();
+        KualiDecimal contrDLimit = vdService.getApoLimitFromContract(contrID, chartCode, orgCode);
         KualiDecimal result;
 
         // contract == null & manager != null
-        po.setVendorContract(null);
         po.setContractManager(manager);
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, mngrDDLimit);
@@ -176,7 +177,7 @@ public class PurchaseOrderServiceTest extends KualiTestBase {
         result = poService.getInternalPurchasingDollarLimit(po);
         assertEquals(result, mngrDDLimit1);
     }
-    */    
+        
     /**
      * Matches an existing Purchase Order Document with a retransmited PO Document newly generated from it;
      * Fails the assertion if any of the copied persistent fields don't match.

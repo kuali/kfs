@@ -775,7 +775,7 @@ public enum PurchasingDocumentFixture {
             null, // vendorRestrictedIndicator
             null, // vendorPhoneNumber
             null, // vendorFaxNumber
-            new Integer(10218), // vendorContractGeneratedIdentifier
+            new Integer(1021), // vendorContractGeneratedIdentifier
             null, // vendorNoteText
             "RENFROW,ROBERTA G", // requestorPersonName
             "test@email.com", // requestorPersonEmailAddress

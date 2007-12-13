@@ -36,7 +36,6 @@ import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortSystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
@@ -98,15 +97,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             LOG.error(errorMessage);
             throw new IllegalArgumentException(errorMessage.getMessage());
         }
-              
+
         this.removeExistingDocumentBuild(fieldValues);
 
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(EffortConstants.ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
-        
-        EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);        
+
+        EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
-        
+
         List<String> employeesWithValidPayType = this.findEmployeesWithValidPayType(reportDefinition);
         for (String emplid : employeesWithValidPayType) {
             Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters);
@@ -114,7 +113,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             if (qualifiedLedgerBalance != null) {
                 List<EffortCertificationDocumentBuild> documents;
                 documents = effortCertificationDocumentBuildGenerator.generate(reportDefinition, qualifiedLedgerBalance, parameters);
-                
+
                 businessObjectService.save(documents);
             }
         }
@@ -152,12 +151,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (!reportDefinition.isActive()) {
             return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, inputValues, Message.TYPE_FATAL);
         }
-        
-        // check if the period of the selected report definition is opened 
-        String periodStatusCode = reportDefinition.getEffortCertificationReportPeriodStatusCode();
-        if (EffortCertificationPeriodStatusCode.OPEN.equals(periodStatusCode)) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED, inputValues, Message.TYPE_FATAL);
-        }
 
         // check if any document has been generated for the selected report definition
         int countOfDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
@@ -167,14 +160,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         return null;
     }
-    
+
     /**
      * clear up documents and detail lines (build) with the fiscal year and report number of the given field values
      * 
      * @param fieldValues the map containing fiscalYear and report number
      */
     private void removeExistingDocumentBuild(Map<String, String> fieldValues) {
-        businessObjectService.deleteMatching(EffortCertificationDocumentBuild.class, fieldValues);        
+        businessObjectService.deleteMatching(EffortCertificationDocumentBuild.class, fieldValues);
     }
 
     /**
@@ -237,7 +230,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
                 ledgerBalances.remove(balance);
                 continue;
             }
-            
+
             // every balance record must have valid high education function code
             if (!this.hasValidHigherEdFunction(balance)) {
                 ledgerBalances.remove(balance);
@@ -253,7 +246,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             return null;
         }
 
-        // check if there is at least one account funded by federal grants when effort reporting can only be generated for an employee paid by federal grant
+        // check if there is at least one account funded by federal grants when effort reporting can only be generated for an
+        // employee paid by federal grant
         boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
         if (isFederalFundsOnly) {
             if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
@@ -340,7 +334,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private boolean hasValidAccount(LedgerBalance ledgerBalance) {
         return ledgerBalance.getAccount() == null;
     }
-    
+
     /**
      * check if the given ledger balance has a valid higher education function
      * 
@@ -469,7 +463,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         return expenseObjectTypeCodes;
     }
 
-    // get the field names used to build consolidation keys
+    // get the field names used to build the keys for record consolidation
     private List<String> getConsolidationKeys() {
         List<String> consolidationKeys = new ArrayList<String>();
 

@@ -110,6 +110,7 @@
             <attribute name="organization800PhoneNumber" forceUppercase="true">
                 <label>Organization 800 Phone Number</label>
                 <shortLabel>Number</shortLabel>
+                <required>false</required>
 
                 <maxLength>13</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -125,10 +126,10 @@
             <attribute name="organizationCheckPayableToName" forceUppercase="true">
                 <label>Organization Check Payable To Name</label>
                 <shortLabel>Name</shortLabel>
+                <required>false</required>
 
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <required>true</required>
                 
                 <control>
                     <text size="42" />
@@ -141,9 +142,11 @@
             <attribute name="organizationFaxNumber" forceUppercase="true">
                 <label>Organization Fax Number</label>
                 <shortLabel>Number</shortLabel>
+                
 
                 <maxLength>13</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>false</required>
 
                 <control>
                     <text size="15" />
@@ -156,10 +159,10 @@
             <attribute name="organizationMessageText" forceUppercase="true">
                 <label>Organization Message Text</label>
                 <shortLabel>Text</shortLabel>
-
+               
                 <maxLength>80</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <text size="82" />
@@ -172,9 +175,11 @@
             <attribute name="organizationPaymentTermsText" forceUppercase="true">
                 <label>Organization Payment Terms Text</label>
                 <shortLabel>Text</shortLabel>
+                
 
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>false</required>
 
                 <control>
                     <text size="42" />
@@ -254,6 +259,7 @@
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>false</required>
 
                 <control>
                     <text size="32" />
@@ -304,7 +310,7 @@
 
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <text size="42" />

@@ -68,16 +68,16 @@
                     <maintainableField name="processingOrganizationCode" required="true">
                     	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>                    
                     </maintainableField>
-                    <maintainableField name="universityName" required="true" >
+                    <maintainableField name="universityName" required="false" >
                     	<defaultValue>Institution Name</defaultValue>
                     </maintainableField>      
-					<maintainableField name="printInvoiceIndicator">
+					<maintainableField name="printInvoiceIndicator" >
                    		<defaultValue>Y</defaultValue>
                     </maintainableField>
-                    <maintainableField name="organizationCheckPayableToName" required="true" >
+                    <maintainableField name="organizationCheckPayableToName" required="false" >
                     	<defaultValue>Institution Name</defaultValue>
                     </maintainableField>
-                    <maintainableField name="organizationMessageText" required="true" />
+                    <maintainableField name="organizationMessageText" required="false" />
                     <maintainableField name="organizationPaymentTermsText" required="false" />
                     <maintainableField name="organizationRemitToAddressName" required="true" />
                     <maintainableField name="organizationRemitToLine1StreetAddress" required="true" />

@@ -112,7 +112,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_FISCAL_YEAR));
     }
 
     /**
@@ -121,7 +121,7 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.REPORT_NUMBER);
+        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_REPORT_NUMBER);
     }
 
     /**
@@ -130,7 +130,7 @@ public class EffortCertificationParameterFinder {
      * @return the cost share sub account type code setup in system paremters
      */
     public static List<String> getCostShareSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.COST_SHARE_SUB_ACCT_TYPE_CODE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
     }
 
     /**
@@ -139,6 +139,6 @@ public class EffortCertificationParameterFinder {
      * @return the expense sub account type code setup in system paremters
      */
     public static List<String> getExpenseSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.EXPENSE_SUB_ACCT_TYPE_CODE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
     }
 }

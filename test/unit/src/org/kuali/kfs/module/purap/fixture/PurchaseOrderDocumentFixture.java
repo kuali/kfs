@@ -92,8 +92,40 @@ public enum PurchaseOrderDocumentFixture {
             new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
                     PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_1, 
                     PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_2 }
+    ),        
+    PO_WITH_VENDOR_CONTRACT(
+            PO.CREATE_DATE, // purchaseOrderCreateDate
+            PO.REQ_ID, // requisitionIdentifier
+            "LPRC", // purchaseOrderVendorChoiceCode
+            null, // recurringPaymentFrequencyCode
+            null, // recurringPaymentAmount
+            null, // recurringPaymentDate
+            null, // initialPaymentAmount
+            null, // initialPaymentDate
+            null, // finalPaymentAmount
+            null, // finalPaymentDate
+            null, // purchaseOrderInitialOpenDate
+            null, // purchaseOrderLastTransmitDate
+            null, // purchaseOrderQuoteDueDate
+            null, // purchaseOrderQuoteTypeCode
+            null, // purchaseOrderQuoteVendorNoteText
+            false, // purchaseOrderConfirmedIndicator
+            null, // purchaseOrderCommodityDescription
+            null, // purchaseOrderPreviousIdentifier
+            null, // alternateVendorHeaderGeneratedIdentifier
+            null, // alternateVendorDetailAssignedIdentifier
+            null, // newQuoteVendorHeaderGeneratedIdentifier
+            null, // newQuoteVendorDetailAssignedIdentifier
+            null, // alternateVendorName
+            true, // purchaseOrderCurrentIndicator
+            false, // pendingActionIndicator
+            null, // purchaseOrderFirstTransmissionDate
+            PurchasingAccountsPayableDocumentFixture.PO_ONLY_REQUIRED_FIELDS, // purapDocumentFixture
+            PurchasingDocumentFixture.PO_WITH_VENDOR_CONTRACT, // purchasingDocumentFixture
+            new PurchaseOrderItemFixture[] { // purchaseOrderItemMultiFixtures
+                    PurchaseOrderItemFixture.PO_QTY_UNRESTRICTED_ITEM_1}
     );    
-    
+
     public final Date purchaseOrderCreateDate;
     public final Integer requisitionIdentifier;
     public final String purchaseOrderVendorChoiceCode;

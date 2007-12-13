@@ -15,16 +15,13 @@
  */
 package org.kuali.module.purap.document;
 
-import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
-
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-
 import junit.framework.Assert;
 
+import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.kfs.context.KualiTestBase;
@@ -282,59 +279,6 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
-    /*
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testPurchaseOrderRetransmit() throws Exception {        
-        createAndRoutePOChangeDocument(
-                PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT,
-                PurchaseOrderStatuses.PENDING_RETRANSMIT);       
-        assertMatchRetransmit(poTest, poChange); 
-        ((PurchaseOrderItem)poChange.getItem(0)).setItemSelectedForRetransmitIndicator(true);
-        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        try {
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(poChange.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(System.currentTimeMillis());
-            sbFilename.append(".pdf");
-            poService.retransmitPurchaseOrderPDF(poChange, baosPDF);
-            assertTrue(baosPDF.size()>0);
-            DateTimeService dtService = SpringContext.getBean(DateTimeService.class);
-            assertEquals(poChange.getPurchaseOrderLastTransmitDate(), dtService.getCurrentSqlDate());
-        }
-        catch (ValidationException e) {
-        }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
-        }
-    }
-    
-    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
-    public final void testPurchaseOrderPrint() throws Exception {        
-        ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
-        try {
-            StringBuffer sbFilename = new StringBuffer();
-            sbFilename.append("PURAP_PO_");
-            sbFilename.append(poTest.getPurapDocumentIdentifier());
-            sbFilename.append("_");
-            sbFilename.append(System.currentTimeMillis());
-            sbFilename.append(".pdf");
-            poService.performPrintPurchaseOrderPDFOnly(poTest.getDocumentNumber(), baosPDF);
-            assertTrue(baosPDF.size()>0);
-        }
-        catch (ValidationException e) {
-        }
-        finally {
-            if (baosPDF != null) {
-                baosPDF.reset();
-            }
-        }
-    }
-    */
-    
     /**
      * Matches an existing Purchase Order Document with a change PO Document newly generated from it;
      * Fails the assertion if any of the copied persistent fields don't match.
@@ -367,36 +311,5 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         Assert.assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
         Assert.assertEquals(doc1.getPurchaseOrderLastTransmitDate(), doc2.getPurchaseOrderLastTransmitDate());        
     }
-    
-    /**
-     * Matches an existing Purchase Order Document with a retransmited PO Document newly generated from it;
-     * Fails the assertion if any of the copied persistent fields don't match.
-     */
-    public static void assertMatchRetransmit(PurchaseOrderDocument doc1, PurchaseOrderDocument doc2) {
-        // match posting year
-        if (StringUtils.isNotBlank(doc1.getPostingPeriodCode()) && StringUtils.isNotBlank(doc2.getPostingPeriodCode())) {
-            assertEquals(doc1.getPostingPeriodCode(), doc2.getPostingPeriodCode());
-        }
-        assertEquals(doc1.getPostingYear(), doc2.getPostingYear());
-    
-        // match important fields in PO       
-        assertEquals(doc1.getVendorHeaderGeneratedIdentifier(), doc2.getVendorHeaderGeneratedIdentifier());
-        assertEquals(doc1.getVendorDetailAssignedIdentifier(), doc2.getVendorDetailAssignedIdentifier());
-        assertEquals(doc1.getVendorName(), doc2.getVendorName());
-        assertEquals(doc1.getVendorNumber(), doc2.getVendorNumber());
-    
-        assertEquals(doc1.getChartOfAccountsCode(), doc2.getChartOfAccountsCode());
-        assertEquals(doc1.getOrganizationCode(), doc2.getOrganizationCode());
-        assertEquals(doc1.getDeliveryCampusCode(), doc2.getDeliveryCampusCode());
-        assertEquals(doc1.getDeliveryRequiredDate(), doc2.getDeliveryRequiredDate());
-        assertEquals(doc1.getRequestorPersonName(), doc2.getRequestorPersonName());
-        assertEquals(doc1.getContractManagerCode(), doc2.getContractManagerCode());
-        assertEquals(doc1.getVendorContractName(), doc2.getVendorContractName());
-        assertEquals(doc1.getPurchaseOrderAutomaticIndicator(), doc2.getPurchaseOrderAutomaticIndicator());
-        assertEquals(doc1.getPurchaseOrderTransmissionMethodCode(), doc2.getPurchaseOrderTransmissionMethodCode());
-    
-        assertEquals(doc1.getRequisitionIdentifier(), doc2.getRequisitionIdentifier());
-        assertEquals(doc1.getPurchaseOrderPreviousIdentifier(), doc2.getPurchaseOrderPreviousIdentifier());
-        assertEquals(doc1.getPurchaseOrderCreateDate(), doc2.getPurchaseOrderCreateDate());
-    }
+
 }

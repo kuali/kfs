@@ -26,7 +26,10 @@ import org.kuali.module.vendor.fixtures.VendorTestConstants.ContractPOLimitAmts;
 
 public enum VendorContractPurchaseOrderLimitAmountPresenceFixture {
 
-    NO_EXCLUDES(ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, null, null, null, null), TWO_N_EXCLUDES_ON_FIRST_TWO_LIMITS(ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, false, false, false, false), TWO_N_EXCLUDES_ON_FIRST_LIMIT_ON_FIRST(ContractPOLimitAmts.highLimit, null, false, false, null, null), ONE_Y_EXCLUDE_ON_FIRST_NO_LIMIT_ON_FIRST(null, null, true, false, null, null), ;
+    NO_EXCLUDES(ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, null, null, null, null), 
+    TWO_N_EXCLUDES_ON_FIRST_TWO_LIMITS(ContractPOLimitAmts.highLimit, ContractPOLimitAmts.lowLimit, false, false, false, false), 
+    TWO_N_EXCLUDES_ON_FIRST_LIMIT_ON_FIRST(ContractPOLimitAmts.highLimit, null, false, false, null, null), 
+    ONE_Y_EXCLUDE_ON_FIRST_NO_LIMIT_ON_FIRST(null, null, true, false, null, null), ;
 
     private KualiDecimal limit1;
     private KualiDecimal limit2;

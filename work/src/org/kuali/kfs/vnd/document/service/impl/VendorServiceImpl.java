@@ -88,7 +88,7 @@ public class VendorServiceImpl implements VendorService {
             }
         }
 
-        // didn't search the table or not found in the table and contract exists, return the default APO limit in contract
+        // didn't search the table or not found in the table or  exclude indicator not set and contract exists, return the default APO limit in contract
         if (ObjectUtils.isNotNull(contractId)) {
             VendorContract exampleContract = new VendorContract();
             exampleContract.setVendorContractGeneratedIdentifier(contractId);

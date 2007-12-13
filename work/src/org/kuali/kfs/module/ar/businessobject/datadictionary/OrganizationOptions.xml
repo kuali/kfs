@@ -110,11 +110,11 @@
             <attribute name="organization800PhoneNumber" forceUppercase="true">
                 <label>Organization 800 Phone Number</label>
                 <shortLabel>Number</shortLabel>
-                <required>false</required>
 
                 <maxLength>13</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
-
+				<required>false</required>
+				
                 <control>
                     <text size="15" />
                 </control>
@@ -126,10 +126,10 @@
             <attribute name="organizationCheckPayableToName" forceUppercase="true">
                 <label>Organization Check Payable To Name</label>
                 <shortLabel>Name</shortLabel>
-                <required>false</required>
-
+                
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>false</required>
                 
                 <control>
                     <text size="42" />

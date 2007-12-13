@@ -25,6 +25,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class EffortCertificationPeriodStatusCode extends PersistableBusinessObjectBase {
     private String effortCertificationReportPeriodStatusCode;
     private String effortCertificationReportPeriodStatusDescription;
+    
+    public static final String CLOSED = "C";
+    public static final String NOT_OPENED = "N";
+    public static final String OPEN = "O";
 
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.

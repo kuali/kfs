@@ -112,8 +112,10 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters);
 
             if (qualifiedLedgerBalance != null) {
-                List<EffortCertificationDocumentBuild> documentList = effortCertificationDocumentBuildGenerator.generate(reportDefinition, qualifiedLedgerBalance, parameters);
-                businessObjectService.save(documentList);
+                List<EffortCertificationDocumentBuild> documents;
+                documents = effortCertificationDocumentBuildGenerator.generate(reportDefinition, qualifiedLedgerBalance, parameters);
+                
+                businessObjectService.save(documents);
             }
         }
     }
@@ -130,12 +132,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
         String inputValues = fiscalYear + " ," + reportNumber;
 
-        // Fiscal Year is Required
+        // Fiscal Year is required
         if (StringUtils.isEmpty(fiscalYear)) {
             return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_MISSING, null, Message.TYPE_FATAL);
         }
 
-        // Report Number is Required
+        // Report Number is required
         if (StringUtils.isEmpty(reportNumber)) {
             return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_NUMBER_MISSING, null, Message.TYPE_FATAL);
         }
@@ -272,7 +274,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         String expenseObjectTypeCode = parameters.get(EffortConstants.ExtractProcess.EXPENSE_OBJECT_TYPE).get(0);
-        String accountTypeCode = parameters.get(EffortSystemParameters.ACCOUNT_TYPE_CD_BALANCE_SELECT).get(0);
+        String accountTypeCode = parameters.get(EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT).get(0);
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -414,7 +416,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return true if there is at least one account with federal funding; otherwise, false
      */
     private boolean hasFederalFunds(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
-        List<String> federalAgencyTypeCodes = parameters.get(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CD);
+        List<String> federalAgencyTypeCodes = parameters.get(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE);
 
         for (LedgerBalance balance : ledgerBalances) {
             List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
@@ -449,9 +451,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         parameters.put(EffortSystemParameters.FUND_GROUP_DENOTES_CG_IND, EffortCertificationParameterFinder.getFundGroupDenotesCGIndicatorAsString());
         parameters.put(EffortSystemParameters.CG_DENOTING_VALUE, EffortCertificationParameterFinder.getCGDenotingValues());
-        parameters.put(EffortSystemParameters.ACCOUNT_TYPE_CD_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
+        parameters.put(EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
         parameters.put(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
-        parameters.put(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CD, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
+        parameters.put(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
 
         parameters.put(EffortSystemParameters.COST_SHARE_SUB_ACCT_TYPE_CODE, EffortCertificationParameterFinder.getCostShareSubAccountTypeCode());
         parameters.put(EffortSystemParameters.EXPENSE_SUB_ACCT_TYPE_CODE, EffortCertificationParameterFinder.getExpenseSubAccountTypeCode());

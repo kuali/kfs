@@ -45,7 +45,7 @@ public class EffortCertificationParameterFinder {
      * @return the federal agency type codes setup in system parameters
      */
     public static List<String> getFederalAgencyTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_AGENCY_TYPE_CD);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE);
     }
 
     /**
@@ -103,7 +103,7 @@ public class EffortCertificationParameterFinder {
      * @return the account type codes setup in system parameters
      */
     public static List<String> getAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.ACCOUNT_TYPE_CD_BALANCE_SELECT);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
     }
 
     /**

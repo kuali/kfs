@@ -31,6 +31,15 @@ public class EffortCertificationParameterFinder {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
 
     /**
+     * get the run indicator setup in system paremters
+     * 
+     * @return the run indicator setup in system paremters
+     */
+    public static boolean getRunIndicator() {
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_IND);
+    }
+    
+    /**
      * get the federal agency type codes setup in system parameters
      * 
      * @return the federal agency type codes setup in system parameters

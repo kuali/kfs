@@ -21,7 +21,8 @@ package org.kuali.module.effort;
 public class EffortKeyConstants {
     public static final String ERROR_FISCAL_YR = "error.requiredForUs";
     public static final String ERROR_END_FISCAL_YEAR = "error.efffort.effortCertificationReport.endFiscalYear";
-    
+     
+    public static final String ERROR_BATCH_JOB_NOT_SCHEDULED = "error.effort.batchJobNotScheduled";
     public static final String ERROR_FISCAL_YEAR_MISSING = "error.effort.extract.fiscalYearMissing";
     public static final String ERROR_REPORT_NUMBER_MISSING = "error.effort.extract.reportNumberMissing";
     public static final String ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID = "error.effort.extract.fiscalYearOrReportNumberInvalid";
@@ -34,5 +35,6 @@ public class EffortKeyConstants {
     public static final String ERROR_REPORT_DOCUMENT_EXIST = "error.effort.extract.reportDocumentExist";
     public static final String ERROR_REPORT_LINES_EXIST = "error.effort.extract.reportLinesExist";
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.extract.undefinedUnversityDate";
+    
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
 }

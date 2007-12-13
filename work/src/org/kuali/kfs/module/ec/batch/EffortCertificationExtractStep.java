@@ -16,20 +16,32 @@
 package org.kuali.module.effort.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
+import org.kuali.module.effort.EffortKeyConstants;
+import org.kuali.module.effort.EffortSystemParameters;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
-import org.kuali.module.labor.service.LaborScrubberService;
+import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.labor.util.MessageBuilder;
 
 /**
  * Batch Step that executes the Effort Certification Extract Process.
  */
 public class EffortCertificationExtractStep extends AbstractStep {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationExtractStep.class);
+    
     private EffortCertificationExtractService effortCertificationExtractService;
 
     /**
      * @see org.kuali.kfs.batch.Step#execute(java.lang.String)
      */
     public boolean execute(String jobName) {
-        effortCertificationExtractService.extract();
+        if(EffortCertificationParameterFinder.getRunIndicator()) {
+            effortCertificationExtractService.extract();
+        }
+        else {
+            String key = EffortKeyConstants.ERROR_BATCH_JOB_NOT_SCHEDULED;
+            String message = MessageBuilder.buildErrorMessageWithPlaceHolder(key, 0, jobName, EffortSystemParameters.RUN_IND).toString();            
+            LOG.warn(message);
+        }
         return true;
     }
 

@@ -73,7 +73,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private LaborLedgerEntryService laborLedgerEntryService;
     private LaborLedgerBalanceService laborLedgerBalanceService;
 
-    private EffortCertificationDocumentBuildGenerator documentBuildGenerator;
+    private EffortCertificationDocumentBuildGenerator effortCertificationDocumentBuildGenerator;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
@@ -109,7 +109,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters);
 
             if (qualifiedLedgerBalance != null) {
-                List<EffortCertificationDocumentBuild> documentList = documentBuildGenerator.generate(reportDefinition, qualifiedLedgerBalance, parameters);
+                List<EffortCertificationDocumentBuild> documentList = effortCertificationDocumentBuildGenerator.generate(reportDefinition, qualifiedLedgerBalance, parameters);
                 businessObjectService.save(documentList);
             }
         }

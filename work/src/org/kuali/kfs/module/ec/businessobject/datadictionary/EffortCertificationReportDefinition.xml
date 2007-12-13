@@ -57,7 +57,6 @@
 				<lookupField attributeName="effortCertificationReportNumber" required="false" />
 				<lookupField attributeName="effortCertificationReportTypeCode" required="false" />
 				<lookupField attributeName="effortCertificationReportPeriodStatusCode" required="false" />
-				<lookupField attributeName="effortCertificationReportBeginPeriodCode" required="false" />
 				<lookupField attributeName="active" required="false" />
 			</lookupFields>
 

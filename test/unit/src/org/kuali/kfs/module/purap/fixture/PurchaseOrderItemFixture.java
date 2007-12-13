@@ -144,8 +144,21 @@ public enum PurchaseOrderItemFixture {
             null, // purchaseOrderCommodityCd,
             PurApItemFixture.MISC_ITEM_NO_DESC, // purApItemFixture
             new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.BASIC_PO_ACCOUNT_1 } // purchaseOrderAccountMultiFixtures
-    ),;
+    ),
+    PO_QTY_APO_ITEM_1(null, // documentNumber,
+            null, // itemInvoicedTotalQuantity,
+            null, // itemInvoicedTotalAmount,
+            null, // itemReceivedTotalQuantity,
+            null, // itemReturnedTotalQuantity,
+            null, // itemOutstandingEncumberedQuantity,
+            null, // itemOutstandingEncumberedAmount,
+            true, // itemActiveIndicator,
+            null, // purchaseOrderCommodityCd,
+            PurApItemFixture.APO_QTY_ITEM_1, // purApItemFixture
+            new PurchaseOrderAccountingLineFixture[] { PurchaseOrderAccountingLineFixture.PO_APO_ACCOUNT_1 } // requisitionAccountMultiFixtures
+    );
 
+    
     private String documentNumber;
     private KualiDecimal itemInvoicedTotalQuantity;
     private KualiDecimal itemInvoicedTotalAmount;

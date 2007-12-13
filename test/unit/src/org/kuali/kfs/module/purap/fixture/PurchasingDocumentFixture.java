@@ -759,7 +759,8 @@ public enum PurchasingDocumentFixture {
             null), // vendorShippingPaymentTermsCode
                     
     // PURCHASE ORDER FIXTURES
-    PO_ONLY_REQUIRED_FIELDS("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null, "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", "US", "me", null, null, null, null, null, null, null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, 10, false, null, null, null), 
+    PO_ONLY_REQUIRED_FIELDS("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null, "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", "US", "me", null, null, null, null, null, null, null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, 10, false, null, null, null),
+    PO_ONLY_REQUIRED_FIELDS_2("INST", RequisitionSources.STANDARD_ORDER, POTransmissionMethods.NOPRINT, POCostSources.ESTIMATE, null, null, "UA", "PUR", "BL", null, null, null, null, null, null, "RENFROW,ROBERTA G", "test@email.com", "555-555-5555", null, null, null, null, "ADMN", "Administration", "123", "1 big dog", null, "campus", "AK", "46202-5260", "US", "me", null, null, null, null, null, null, null, null, null, "THE UNIVERSITY", "ACCOUNTS PAYABLE", null, "BUTTER NUT", "SC", "47402", "US", "111-111-1111", null, 10, false, "00N10", null, "CL"),
 
     PO_WITH_VENDOR_CONTRACT(
             "INST", // fundingSourceCode

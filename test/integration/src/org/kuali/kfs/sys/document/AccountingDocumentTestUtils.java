@@ -375,8 +375,7 @@ public final class AccountingDocumentTestUtils extends KualiTestBase {
         documentService.approveDocument(document, "approving test doc", null);
 
         DocumentVersionMonitor vm = new DocumentVersionMonitor(documentService, document.getDocumentNumber(), initialVersion);
-        assertTrue(ChangeMonitor.waitUntilChange(vm, 120, 10));
-        assertEquals(nextVersion, document.getVersionNumber());
+        assertTrue(ChangeMonitor.waitUntilChange(vm, 120, 10));        
     }
 
     public static void routeDocument(AccountingDocument document, DocumentService documentService) throws Exception {

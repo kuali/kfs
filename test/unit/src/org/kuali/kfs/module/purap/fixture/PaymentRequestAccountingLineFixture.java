@@ -27,6 +27,9 @@ public enum PaymentRequestAccountingLineFixture {
     BASIC_PREQ_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
             AccountingLineFixture.LINE2 // AccountingLineFixture
     ),
+    PREQ_APO_ACCOUNT_1(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
+            AccountingLineFixture.APO_LINE1 // AccountingLineFixture
+    ),
     PREQ_ACCOUNT_FOR_PO_CLOSE_DOC(PurApAccountingLineFixture.BASIC_ACCOUNT_1, // PurApAccountingLineFixture
             AccountingLineFixture.LINE1 // AccountingLineFixture
     ),;

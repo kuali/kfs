@@ -20,6 +20,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import java.sql.Date;
 
 import org.kuali.core.service.DocumentService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.document.CreditMemoDocument;
@@ -28,6 +29,8 @@ import org.kuali.module.purap.document.PaymentRequestDocumentTest;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocumentTest;
 import org.kuali.module.purap.fixtures.CreditMemoInitTabFixture;
+import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.module.purap.fixtures.PurapTestConstants;
@@ -129,13 +132,12 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
      * @throws Exception
      */
     private Integer prepareAndSavePREQ() throws Exception {
-        PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();
-        PaymentRequestDocument preq = preqDocTest.buildSimpleDocument();
-        preq.prepareForSave();
-        DocumentService documentService = SpringContext.getBean(DocumentService.class);
-        AccountingDocumentTestUtils.saveDocument(preq, documentService);
-        PaymentRequestDocument preqWithID = (PaymentRequestDocument)documentService.getByDocumentHeaderId(preq.getDocumentNumber());
-        return preqWithID.getPurapDocumentIdentifier();
+        PaymentRequestDocumentTest preqDocTest = new PaymentRequestDocumentTest();        
+        PaymentRequestDocument preq = preqDocTest.createPaymentRequestDocument(
+                PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 
+                preqDocTest.createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED,false), 
+                true, new KualiDecimal[] {new KualiDecimal(100)});        
+        return preq.getPurapDocumentIdentifier();
     }
    
     /*

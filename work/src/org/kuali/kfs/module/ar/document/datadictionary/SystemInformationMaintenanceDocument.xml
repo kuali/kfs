@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.ar.bo.SystemInformation</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>SystemInformationMaintenanceDocument</documentTypeName>
+        <documentTypeCode>?</documentTypeCode>
+
+        <label>Invoice Item Code Maintenance Document</label>
+        <shortLabel>InvoiceItemCodeMaintDoc</shortLabel>
+
+        <summary>System Information maintenance document</summary>
+        <description>Document used to create or update System Information</description>
+
+        <lockingKeys>
+            <field attributeName="universityFiscalYear" />
+            <field attributeName="processingChartOfAccountCode" />
+            <field attributeName="processingOrganizationCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="badDebtExpenseFinancialObject" attributeToHighlightOnFail="badDebtExpenseFinancialObjectCode" />
+            <reference attributeName="salesTaxFinancialObject" attributeToHighlightOnFail="salesTaxFinancialObjectCode" />
+            <reference attributeName="paymentClearingFinancialObject" attributeToHighlightOnFail="paymentClearingFinancialObjectCode" />
+            <reference attributeName="universityClearingSubObject" attributeToHighlightOnFail="universityClearingSubObjectCode" />
+            <reference attributeName="universityClearingObject" attributeToHighlightOnFail="universityClearingObjectCode" />
+            <reference attributeName="refundFinancialObject" attributeToHighlightOnFail="refundFinancialObjectCode" />
+            <reference attributeName="processingOrganization" attributeToHighlightOnFail="processingOrganizationCode" />
+            <reference attributeName="processingChartOfAccount" attributeToHighlightOnFail="processingChartOfAccountCode" />
+            <reference attributeName="salesTaxAccount" attributeToHighlightOnFail="salesTaxAccountCode" />
+            <reference attributeName="universityClearingAccount" attributeToHighlightOnFail="universityClearingAccountNumber" />
+            <reference attributeName="universityClearingChartOfAccounts" attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
+            <reference attributeName="universityClearingSubAccount" attributeToHighlightOnFail="universityClearingSubAccountNumber" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit System Information">
+                <maintainableItems>
+                    <maintainableField name="universityFiscalYear" required="true" />
+                    <maintainableField name="processingChartOfAccountCode" required="true" />
+                    <maintainableField name="processingOrganizationCode" required="true" />
+                    <maintainableField name="universityFederalEmployerIdentificationNumber" required="false" />
+                    <maintainableField name="salesTaxAccountNumber" required="false" />
+                    <maintainableField name="salesTaxFinancialObjectCode" required="false" />
+                    <maintainableField name="refundFinancialObjectCode" required="false" />
+                    <maintainableField name="badDebtExpenseFinancialObjectCode" required="false" />
+                    <maintainableField name="universityClearingChartOfAccountsCode" required="false" />
+                    <maintainableField name="universityClearingAccountNumber" required="false" />
+                    <maintainableField name="universityClearingSubAccountNumber" required="false" />
+                    <maintainableField name="universityClearingObjectCode" required="false" />
+                    <maintainableField name="universityClearingSubObjectCode" required="false" />
+                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
+                    <maintainableField name="paymentClearingFinancialObjectCode" required="false" />
+                    <maintainableField name="lockboxNumber" required="false" />
+                    <maintainableField name="active" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

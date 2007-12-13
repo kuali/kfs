@@ -36,6 +36,8 @@ public class EffortKeyConstants {
     public static final String ERROR_REPORT_DOCUMENT_EXIST = "error.effort.extract.reportDocumentExist";
     public static final String ERROR_REPORT_LINES_EXIST = "error.effort.extract.reportLinesExist";
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.extract.undefinedUnversityDate";
+    public static final String ERROR_ZERO_PAYROLL_AMOUNT = "error.effort.extract.zeroPayrollAmount";
     
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
+    public static final String ERROR_NOT_PAID_BY_FEDERAL_FUNDS = "error.effort.extract.notPaidByFederalFunds";
 }

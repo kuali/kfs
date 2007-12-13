@@ -43,8 +43,11 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationDocumentBuildGenerator;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
+import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.gl.util.Summary;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerEntryService;
@@ -105,10 +108,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
+        
+        ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder();
+        reportDataHolder.setReportDefinition(reportDefinition);
 
         List<String> employeesWithValidPayType = this.findEmployeesWithValidPayType(reportDefinition);
         for (String emplid : employeesWithValidPayType) {
-            Collection<LedgerBalance> qualifiedLedgerBalance = this.extractQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters);
+            Collection<LedgerBalance> qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters, reportDataHolder);
 
             if (qualifiedLedgerBalance != null) {
                 List<EffortCertificationDocumentBuild> documents;
@@ -212,50 +218,90 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param parameters the system paramters setup in front
      * @return the qualified labor ledger balance records of the given employee
      */
-    private Collection<LedgerBalance> extractQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
-        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
+    private Collection<LedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters, ExtractProcessReportDataHolder reportDataHolder) {
+        Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
+        Map<String, Integer> statistics = reportDataHolder.getBasicStatistics();
 
-        // clear up the ledger balance collection
         Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
+        reportDataHolder.updateBasicStatistics("TODO", ledgerBalances.size()); // TODO
+        
+        // clear up the ledger balance collection
+        this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
+        
+        // prepare an empty ledger balance for error report
+        LedgerBalance emptyLedgerBalance = new LedgerBalance();
+        emptyLedgerBalance.setEmplid(emplid);
+        
+        // the total amount of all balances must be positive; otherwise, not generate effort report for the employee
+        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportDefinition);        
+        if(qualifiedLedgerBalances == null) {
+            String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, emplid, Message.TYPE_FATAL).toString();
+            errorMap.put(emptyLedgerBalance, error);                
+            return null;
+        }
+
+        // the specified employee must have at least one grant account
+        if (!hasGrantAccount(qualifiedLedgerBalances, parameters)) {
+            String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, emplid, Message.TYPE_FATAL).toString();
+            errorMap.put(emptyLedgerBalance, error);                
+            return null;
+        }
+
+        // check if there is at least one account funded by federal grants when an effort report can only be generated for an
+        // employee with pay by federal grant
+        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
+        if (isFederalFundsOnly) {
+            if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
+                String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid, Message.TYPE_FATAL).toString();
+                errorMap.put(emptyLedgerBalance, error);                
+                return null;
+            }
+        }
+
+        return ledgerBalances;
+    }
+
+    /**
+     * remove the ledger balances without valid account, higher education function code, and total amount
+     * 
+     * @param ledgerBalances the given ledger balances
+     * @param reportDefinition the given report definition
+     */    
+    private void removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
+        Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
+        
         for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
             if (totalAmount.isZero()) {
+                String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, null, Message.TYPE_FATAL).toString();
+                errorMap.put(balance, error);
+                
                 ledgerBalances.remove(balance);
                 continue;
             }
 
             // every balance record must have valid high education function code
             if (!this.hasValidAccount(balance)) {
+                String account = balance.getChartOfAccountsCode() + ", " + balance.getAccountNumber(); 
+                String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account, Message.TYPE_FATAL).toString();
+                errorMap.put(balance, error);                
+                
                 ledgerBalances.remove(balance);
                 continue;
             }
 
             // every balance record must have valid high education function code
             if (!this.hasValidHigherEdFunction(balance)) {
+                String account = balance.getAccountNumber(); 
+                String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND, account, Message.TYPE_FATAL).toString();
+                errorMap.put(balance, error);                
+                
                 ledgerBalances.remove(balance);
                 continue;
             }
-        }
-
-        // the total amount of all balances must be positive within the given periods,
-        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportDefinition);
-
-        // the specified employee must have at least one grant account
-        if (!hasGrantAccount(qualifiedLedgerBalances, parameters)) {
-            return null;
-        }
-
-        // check if there is at least one account funded by federal grants when effort reporting can only be generated for an
-        // employee paid by federal grant
-        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
-        if (isFederalFundsOnly) {
-            if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
-                return null;
-            }
-        }
-
-        return ledgerBalances;
+        }        
     }
 
     /**

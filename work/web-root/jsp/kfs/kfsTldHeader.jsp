@@ -37,6 +37,8 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/purap" prefix="purap"%>
 
+<%@ taglib tagdir="/WEB-INF/tags/cams" prefix="cams"%>
+
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/administration" prefix="admininstrationChannel"%>

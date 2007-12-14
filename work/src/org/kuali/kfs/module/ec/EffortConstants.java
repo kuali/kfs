@@ -44,6 +44,12 @@ public class EffortConstants extends JstlConstants {
         public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
         public static final String DASH_ACCOUNT_NUMBER = "-------";       
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+              
+        public static final String DERIVED_PAYROLL_CODE = "N";
+        public static final String COST_SHARING_CODE = "S";
+        public static final String CALCULATED_OVERALL_CODE = "N";
+        public static final String UPDATED_OVERALL_CODE = "S";
+        public static final String PRORATED_CODE = "S";
     }
     
     /**

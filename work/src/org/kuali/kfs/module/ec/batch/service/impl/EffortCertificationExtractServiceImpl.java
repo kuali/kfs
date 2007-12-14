@@ -34,7 +34,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.effort.EffortSystemParameters;
+import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
@@ -249,7 +249,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         // check if there is at least one account funded by federal grants when an effort report can only be generated for an
         // employee with pay by federal grant
-        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
+        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
         if (isFederalFundsOnly) {
             if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
                 String error = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid, Message.TYPE_FATAL).toString();
@@ -314,7 +314,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         String expenseObjectTypeCode = parameters.get(EffortConstants.ExtractProcess.EXPENSE_OBJECT_TYPE).get(0);
-        String accountTypeCode = parameters.get(EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT).get(0);
+        String accountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT).get(0);
 
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
@@ -426,9 +426,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return true if there is at least one grant account; otherwise, return false
      */
     private boolean hasGrantAccount(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
-        List<String> fundGroupDenotesCGIndictor = parameters.get(EffortSystemParameters.FUND_GROUP_DENOTES_CG_IND);
-        List<String> fundGroupCodes = parameters.get(EffortSystemParameters.CG_DENOTING_VALUE);
-        List<String> subFundGroupCodes = parameters.get(EffortSystemParameters.CG_DENOTING_VALUE);
+        List<String> fundGroupDenotesCGIndictor = parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND);
+        List<String> fundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
+        List<String> subFundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
 
         for (LedgerBalance balance : ledgerBalances) {
             SubFundGroup subFundGroup = balance.getAccount().getSubFundGroup();
@@ -456,7 +456,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return true if there is at least one account with federal funding; otherwise, false
      */
     private boolean hasFederalFunds(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
-        List<String> federalAgencyTypeCodes = parameters.get(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE);
+        List<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
 
         for (LedgerBalance balance : ledgerBalances) {
             List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
@@ -489,14 +489,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private Map<String, List<String>> getSystemParameters() {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 
-        parameters.put(EffortSystemParameters.FUND_GROUP_DENOTES_CG_IND, EffortCertificationParameterFinder.getFundGroupDenotesCGIndicatorAsString());
-        parameters.put(EffortSystemParameters.CG_DENOTING_VALUE, EffortCertificationParameterFinder.getCGDenotingValues());
-        parameters.put(EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
-        parameters.put(EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
-        parameters.put(EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
+        parameters.put(SystemParameters.FUND_GROUP_DENOTES_CG_IND, EffortCertificationParameterFinder.getFundGroupDenotesCGIndicatorAsString());
+        parameters.put(SystemParameters.CG_DENOTING_VALUE, EffortCertificationParameterFinder.getCGDenotingValues());
+        parameters.put(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
+        parameters.put(SystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
+        parameters.put(SystemParameters.FEDERAL_AGENCY_TYPE_CODE, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());
 
-        parameters.put(EffortSystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getCostShareSubAccountTypeCode());
-        parameters.put(EffortSystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getExpenseSubAccountTypeCode());
+        parameters.put(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getCostShareSubAccountTypeCode());
+        parameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, EffortCertificationParameterFinder.getExpenseSubAccountTypeCode());
 
         return parameters;
     }

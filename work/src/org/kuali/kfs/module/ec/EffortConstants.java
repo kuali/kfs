@@ -37,9 +37,30 @@ public class EffortConstants extends JstlConstants {
         return balanceTypeList;
     }
 
+    /**
+     * hold contants used by extract process
+     */
     public class ExtractProcess{       
         public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
         public static final String DASH_ACCOUNT_NUMBER = "-------";       
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+    }
+    
+    /**
+     * hold all system parameter names of effort reporting module
+     */
+    public class SystemParameters {
+        public static final String ACCOUNT_TYPE_CODE_BALANCE_SELECT = "ACCOUNT_TYPE_CODE_BALANCE_SELECT";
+        public static final String CG_DENOTING_VALUE = "CG_DENOTING_VALUE";
+        public static final String COST_SHARE_SUB_ACCOUNT_TYPE_CODE = "COST_SHARE_SUB_ACCOUNT_TYPE_CODE"; 
+        
+        public static final String EXPENSE_SUB_ACCOUNT_TYPE_CODE = "EXPENSE_SUB_ACCOUNT_TYPE_CODE";
+        public static final String FEDERAL_AGENCY_TYPE_CODE = "FEDERAL_AGENCY_TYPE_CODE";
+        public static final String FEDERAL_ONLY_BALANCE_IND = "FEDERAL_ONLY_BALANCE_IND";     
+        public static final String FUND_GROUP_DENOTES_CG_IND = "FUND_GROUP_DENOTES_CG_IND";
+        
+        public static final String RUN_FISCAL_YEAR  = "RUN_FISCAL_YEAR";
+        public static final String RUN_IND = "RUN_IND";
+        public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
     }
 }

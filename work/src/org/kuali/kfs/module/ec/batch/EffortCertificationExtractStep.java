@@ -17,7 +17,7 @@ package org.kuali.module.effort.batch;
 
 import org.kuali.kfs.batch.AbstractStep;
 import org.kuali.module.effort.EffortKeyConstants;
-import org.kuali.module.effort.EffortSystemParameters;
+import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.module.labor.util.MessageBuilder;
@@ -39,7 +39,7 @@ public class EffortCertificationExtractStep extends AbstractStep {
         }
         else {
             String key = EffortKeyConstants.ERROR_BATCH_JOB_NOT_SCHEDULED;
-            String message = MessageBuilder.buildErrorMessageWithPlaceHolder(key, 0, jobName, EffortSystemParameters.RUN_IND).toString();            
+            String message = MessageBuilder.buildErrorMessageWithPlaceHolder(key, 0, jobName, SystemParameters.RUN_IND).toString();            
             LOG.warn(message);
         }
         return true;

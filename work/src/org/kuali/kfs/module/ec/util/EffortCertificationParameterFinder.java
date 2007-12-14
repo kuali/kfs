@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.effort.EffortSystemParameters;
+import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
 /**
@@ -36,7 +36,7 @@ public class EffortCertificationParameterFinder {
      * @return the run indicator setup in system paremters
      */
     public static boolean getRunIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_IND);
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.RUN_IND);
     }
     
     /**
@@ -45,7 +45,7 @@ public class EffortCertificationParameterFinder {
      * @return the federal agency type codes setup in system parameters
      */
     public static List<String> getFederalAgencyTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_AGENCY_TYPE_CODE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
     }
 
     /**
@@ -54,7 +54,7 @@ public class EffortCertificationParameterFinder {
      * @return the fedeal only balance indicatior
      */
     public static boolean getFederalOnlyBalanceIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.FEDERAL_ONLY_BALANCE_IND);
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.FEDERAL_ONLY_BALANCE_IND);
     }
 
     /**
@@ -74,7 +74,7 @@ public class EffortCertificationParameterFinder {
      * @return the fund group denotes C&G indicator setup in system paremters
      */
     public static boolean getFundGroupDenotesCGIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, EffortSystemParameters.FUND_GROUP_DENOTES_CG_IND);
+        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.FUND_GROUP_DENOTES_CG_IND);
     }
 
     /**
@@ -94,7 +94,7 @@ public class EffortCertificationParameterFinder {
      * @return the C&G denoting values setup in system paremters
      */
     public static List<String> getCGDenotingValues() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.CG_DENOTING_VALUE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.CG_DENOTING_VALUE);
     }
 
     /**
@@ -103,7 +103,7 @@ public class EffortCertificationParameterFinder {
      * @return the account type codes setup in system parameters
      */
     public static List<String> getAccountTypeCodes() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
     }
 
     /**
@@ -112,7 +112,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_FISCAL_YEAR));
     }
 
     /**
@@ -121,7 +121,7 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationExtractStep.class, EffortSystemParameters.RUN_REPORT_NUMBER);
+        return parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_REPORT_NUMBER);
     }
 
     /**
@@ -130,7 +130,7 @@ public class EffortCertificationParameterFinder {
      * @return the cost share sub account type code setup in system paremters
      */
     public static List<String> getCostShareSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
     }
 
     /**
@@ -139,6 +139,6 @@ public class EffortCertificationParameterFinder {
      * @return the expense sub account type code setup in system paremters
      */
     public static List<String> getExpenseSubAccountTypeCode() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, EffortSystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
+        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
     }
 }

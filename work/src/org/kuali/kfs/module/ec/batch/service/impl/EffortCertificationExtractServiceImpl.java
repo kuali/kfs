@@ -190,7 +190,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * generate document build as well as their detail lines build for the given employees
+     * generate a document (build) as well as their detail lines for the given employees
      * 
      * @param reportDefinition the given report definition
      * @param employees the given employees
@@ -533,6 +533,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         return consolidationKeys;
     }
     
+    // set basic statistics keys for working progress reports
     private void setBasicStatisticsKeys() {
         NUM_EMPLOYEES_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_EMPLOYEES_SELECTED);
         NUM_BALANCE_RECORDS_READ = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_READ);

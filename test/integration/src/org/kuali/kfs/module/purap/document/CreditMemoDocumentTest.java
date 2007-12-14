@@ -17,7 +17,6 @@ package org.kuali.module.purap.document;
 
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 
@@ -31,14 +30,11 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.bo.AccountsPayableItem;
-import org.kuali.module.purap.bo.PurchaseOrderView;
+import org.kuali.module.purap.bo.CreditMemoItem;
 import org.kuali.module.purap.fixtures.CreditMemoDocumentFixture;
 import org.kuali.module.purap.fixtures.CreditMemoItemFixture;
-import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
-import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
-import org.kuali.module.purap.service.PurapService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
@@ -55,18 +51,17 @@ public class CreditMemoDocumentTest extends KualiTestBase {
     private static final String ACCOUNT_REVIEW = "Account Review";
     
     private RequisitionDocument requisitionDocument = null;
-    private CreditMemoDocument CreditMemoDocument = null;
+    private CreditMemoDocument creditMemoDocument = null;
    
     protected void setUp() throws Exception {
         super.setUp();
     }
     
     protected void tearDown() throws Exception {
-        CreditMemoDocument = null;
+        creditMemoDocument = null;
         super.tearDown();      
     }
     
-    /*
     private List<CreditMemoItemFixture> getItemParametersFromFixtures() {
         List<CreditMemoItemFixture> list = new ArrayList<CreditMemoItemFixture>();
         list.add(CreditMemoItemFixture.CM_ITEM_NO_APO);
@@ -91,34 +86,51 @@ public class CreditMemoDocumentTest extends KualiTestBase {
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public final void testConvertIntoErrorCorrection() throws Exception {
-        CreditMemoDocument = buildSimpleDocument();
-        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(CreditMemoDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
+        creditMemoDocument = buildSimpleDocument();
+        AccountingDocumentTestUtils.testConvertIntoErrorCorrection(creditMemoDocument, getExpectedPrePeCount(), SpringContext.getBean(DocumentService.class), SpringContext.getBean(TransactionalDocumentDictionaryService.class));
     }
 
     @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
-    public final void testSaveDocument() throws Exception {
-        CreditMemoDocument = buildSimpleDocument();
-        CreditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");
-        //CreditMemoDocument.setPurchaseOrderIdentifier(CreateAPORequisition());
-        AccountingDocumentTestUtils.testSaveDocument(CreditMemoDocument, SpringContext.getBean(DocumentService.class));
+    public final void testSaveDocument() throws Exception {       
+        creditMemoDocument = buildSimpleDocument();       
+        creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");
+        //creditMemoDocument.setPurchaseOrderIdentifier(createAPORequisition());
+        AccountingDocumentTestUtils.testSaveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
     }
 
+    /*
     @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public final void testRouteDocumentToFinal() throws Exception {
-        CreditMemoDocument = buildSimpleDocument();
-        final String docId = CreditMemoDocument.getDocumentNumber();
-        CreditMemoDocument.prepareForSave();
-        AccountingDocumentTestUtils.saveDocument(CreditMemoDocument, SpringContext.getBean(DocumentService.class));
-        SpringContext.getBean(AccountsPayableService.class).updateItemList(CreditMemoDocument);
-        SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(CreditMemoDocument);
-        SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(CreditMemoDocument);
-        assertFalse("R".equals(CreditMemoDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
-        AccountingDocumentTestUtils.routeDocument(CreditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));
+        // To pass validation, the Credit Memo must be associated with another PO or PREQ.
+        PurchaseOrderDocumentTest poDocTest = new PurchaseOrderDocumentTest();
+        PurchaseOrderDocument po = poDocTest.buildSimpleDocument();
+        po.refreshNonUpdateableReferences();
+        AccountingDocumentTestUtils.saveDocument(po,SpringContext.getBean(DocumentService.class));
+        String poId = po.getDocumentNumber();
+        po = (PurchaseOrderDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(poId);
+        Integer purchaseOrderIdentifier = po.getPurapDocumentIdentifier();
         
-        WorkflowTestUtils.waitForStatusChange(CreditMemoDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
-
-        CreditMemoDocument = (CreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
-        assertTrue("Document should now be final.", CreditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        // Create and save the Credit Memo.
+        creditMemoDocument = buildSimpleDocument();
+        creditMemoDocument.setPurchaseOrderIdentifier(purchaseOrderIdentifier);
+        CreditMemoItem creditMemoItem = (CreditMemoItem)creditMemoDocument.getItemByLineNumber(1);
+        creditMemoItem.setPoExtendedPrice(new KualiDecimal(1.00));
+        creditMemoItem.setPoInvoicedTotalQuantity(creditMemoItem.getItemQuantity());    
+        creditMemoDocument.prepareForSave();
+        AccountingDocumentTestUtils.saveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
+        
+        // Process and Calculate.
+        //SpringContext.getBean(AccountsPayableService.class).updateItemList(creditMemoDocument);
+        SpringContext.getBean(CreditMemoCreateService.class).populateDocumentAfterInit(creditMemoDocument);
+        SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
+        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        
+        // Route and test.
+        AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "routing document", null, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        final String docId = creditMemoDocument.getDocumentNumber();
+        creditMemoDocument = (CreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("Document should now be final.", creditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
     */
 
@@ -126,7 +138,6 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         return CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
     }
     
-    /*
     private UserNameFixture getInitialUserName() {
         return RJWEISS;
     }
@@ -135,8 +146,8 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         return RORENFRO;
     }
     
-    
-    private Integer CreateAPORequisition() throws Exception {
+    /*
+    private Integer createAPORequisition() throws Exception {
         requisitionDocument = RequisitionDocumentFixture.REQ_APO_VALID.createRequisitionDocument();
         final String docId = requisitionDocument.getDocumentNumber();
         AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
@@ -155,12 +166,10 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         Integer linkIdentifier = requisitionDocument.getAccountsPayablePurchasingDocumentLinkIdentifier();
         List<PurchaseOrderView> relatedPOs = SpringContext.getBean(PurapService.class).getRelatedViews(PurchaseOrderView.class, linkIdentifier);
         Integer POId = relatedPOs.get(0).getPurapDocumentIdentifier();
+
+        assertNotNull(relatedPOs);
+        assertTrue(relatedPOs.size() > 0);
         return POId;
-        //assertNotNull(relatedPOs);
-        //assertTrue(relatedPOs.size() > 0);
-        
     }
     */
-    // create document fixture
-    
 }

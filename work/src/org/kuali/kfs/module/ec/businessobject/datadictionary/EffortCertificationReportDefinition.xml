@@ -69,7 +69,7 @@
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
-                <field attributeName="effortCertificationReportPositions" />
+                <field attributeName="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" />
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />
@@ -207,18 +207,30 @@
                 <description>Effort Certification ReportEndPeriodCode description...</description>
 			</attributeReference>
 			
+			<attributeReference name="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode">
+                <label>Position Object Group Code</label>
+                <shortLabel>Pos Obj Grp Cd</shortLabel>
+                <summary>Position Object Group Code</summary>
+                <description>Position Object Group Code</description>
+			</attributeReference>
+			
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>			
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
         <collections>
         	<collection name="effortCertificationReportPositions" >
-                <label>effortCertificationReportPositions</label>
-                <shortLabel>effortCertificationReportPositions</shortLabel>
-                <summary>effortCertificationReportPositions</summary>
-                <description>effortCertificationReportPositions</description>
+                <label>Effort Certification Report Positions</label>
+                <shortLabel>Effort Certification Report Positions</shortLabel>
+                <elementLabel>PositionObjectGroup</elementLabel>
 			</collection>
         </collections>
         
+        <relationships>
+            <relationship objectAttributeName="effortCertificationReportPositions.positionObjectGroup" >
+                <primitiveAttribute sourceName="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" targetName="positionObjectGroupCode" />
+            </relationship>
+        </relationships>
+       
     </businessObject>
 </dictionaryEntry>

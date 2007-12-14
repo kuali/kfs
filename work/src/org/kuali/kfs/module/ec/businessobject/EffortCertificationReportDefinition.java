@@ -17,7 +17,6 @@
 package org.kuali.module.effort.bo;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -25,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.AccountingPeriod;
@@ -68,7 +68,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      */
     public EffortCertificationReportDefinition() {
         super();
-        effortCertificationReportPositions = new ArrayList<EffortCertificationReportPosition>();
+        effortCertificationReportPositions = new TypedArrayList(EffortCertificationReportPosition.class);
     }
 
     /**

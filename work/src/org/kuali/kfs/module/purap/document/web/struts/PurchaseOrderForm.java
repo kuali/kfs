@@ -213,19 +213,6 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
 
-        List<PaymentRequestDocument> pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(purchaseOrder.getPurapDocumentIdentifier());
-        boolean hasPaymentRequest = ((pReqs != null && pReqs.size() > 0) ? true : false);
-
-        String authorizedWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(PurchaseOrderDocument.class, PurapParameterConstants.Workgroups.PURAP_DOCUMENT_PO_ACTIONS);
-        boolean isUserAuthorized = false;
-
-        try {
-            isUserAuthorized = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(GlobalVariables.getUserSession().getUniversalUser());
-        }
-        catch (GroupNotFoundException e) {
-            throw new RuntimeException("Workgroup " + authorizedWorkgroup + " not found", e);
-        }
-
         PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
         if (auth.canRetransmit()) {
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    

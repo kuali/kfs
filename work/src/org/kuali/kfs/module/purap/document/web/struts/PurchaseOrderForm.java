@@ -205,58 +205,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     }
 
     /**
-     * Adds buttons to appear on the Purchase Order Form according to certain conditions.
+     * Override the superclass method to add appropriate buttons for
+     * PurchaseOrderDocument.
+     * 
+     * @see org.kuali.core.web.struts.form.KualiForm#getExtraButtons()
      */
-//    public void addButtons() {
-//        Map buttonsMap = createButtonsMap();
-//
-//        String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
-//        PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-//
-//        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
-//        if (auth.canRetransmit()) {
-//            ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
-//            this.getExtraButtons().add(retransmitButton);
-//        }
-//        
-//        if (auth.canPrintRetransmit()) {
-//            ExtraButton printingRetransmitButton = (ExtraButton) buttonsMap.get("methodToCall.printingRetransmitPo");
-//            this.getExtraButtons().add(printingRetransmitButton);
-//        }
-//
-//        if (auth.canFirstTransmitPrintPo()) {
-//            ExtraButton printButton = (ExtraButton) buttonsMap.get("methodToCall.firstTransmitPrintPo");
-//            this.getExtraButtons().add(printButton);
-//        }
-//
-//        if (auth.canReopen()) {
-//            ExtraButton reopenButton = (ExtraButton) buttonsMap.get("methodToCall.reopenPo");
-//            this.getExtraButtons().add(reopenButton);
-//        }
-//
-//        if (auth.canClose()) {
-//            ExtraButton closeButton = (ExtraButton) buttonsMap.get("methodToCall.closePo");
-//            this.getExtraButtons().add(closeButton);
-//        }
-//        
-//        if (auth.canAmendAndHoldPayment()) {
-//            ExtraButton paymentHoldButton = (ExtraButton) buttonsMap.get("methodToCall.paymentHoldPo");
-//            this.getExtraButtons().add(paymentHoldButton);
-//            ExtraButton amendButton = (ExtraButton) buttonsMap.get("methodToCall.amendPo");
-//            this.getExtraButtons().add(amendButton);            
-//        }
-//
-//        if (auth.canVoid()) {
-//            ExtraButton voidButton = (ExtraButton) buttonsMap.get("methodToCall.voidPo");
-//            this.getExtraButtons().add(voidButton);
-//        }
-//        
-//        if (auth.canRemoveHold()) {
-//            ExtraButton removeHoldButton = (ExtraButton) buttonsMap.get("methodToCall.removeHoldPo");
-//            this.getExtraButtons().add(removeHoldButton);
-//        }
-//    }
-
     @Override
     public List<ExtraButton> getExtraButtons() {
         extraButtons.clear();

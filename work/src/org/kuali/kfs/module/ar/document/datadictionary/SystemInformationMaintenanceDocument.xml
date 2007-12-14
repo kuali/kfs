@@ -32,7 +32,7 @@
         </authorizations>
 
         <documentTypeName>SystemInformationMaintenanceDocument</documentTypeName>
-        <documentTypeCode>?</documentTypeCode>
+        <documentTypeCode>SIM</documentTypeCode>
 
         <label>Invoice Item Code Maintenance Document</label>
         <shortLabel>InvoiceItemCodeMaintDoc</shortLabel>
@@ -55,7 +55,7 @@
             <reference attributeName="refundFinancialObject" attributeToHighlightOnFail="refundFinancialObjectCode" />
             <reference attributeName="processingOrganization" attributeToHighlightOnFail="processingOrganizationCode" />
             <reference attributeName="processingChartOfAccount" attributeToHighlightOnFail="processingChartOfAccountCode" />
-            <reference attributeName="salesTaxAccount" attributeToHighlightOnFail="salesTaxAccountCode" />
+            <reference attributeName="salesTaxAccount" attributeToHighlightOnFail="salesTaxAccountNumber" />
             <reference attributeName="universityClearingAccount" attributeToHighlightOnFail="universityClearingAccountNumber" />
             <reference attributeName="universityClearingChartOfAccounts" attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
             <reference attributeName="universityClearingSubAccount" attributeToHighlightOnFail="universityClearingSubAccountNumber" />
@@ -77,7 +77,6 @@
                     <maintainableField name="universityClearingSubAccountNumber" required="false" />
                     <maintainableField name="universityClearingObjectCode" required="false" />
                     <maintainableField name="universityClearingSubObjectCode" required="false" />
-                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
                     <maintainableField name="paymentClearingFinancialObjectCode" required="false" />
                     <maintainableField name="lockboxNumber" required="false" />
                     <maintainableField name="active" required="true" />

@@ -57,18 +57,22 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
 
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
-    private Date BC_GL_LOAD_TRANSACTION_DATE;
 
+    private HomeOriginationService homeOriginationService;
+    
     /*
      *   see GeneralLedgerBudgetLoadDao.LoadGeneralLedgerFromBudget
      */
     public void loadGeneralLedgerFromBudget (Integer fiscalYear)
     {
-        //  this method calls a series of steps that load the general ledger from the budget into
-        //  the general ledger pending entry table.
-        //  this method takes a fiscal year as input, but all that is required is that this object be
-        //  a key labeling the bduget construction general ledger rows for the budget period to be loaded.  
-        //  it need not be an actual fiscal year.
+        /**
+         * 
+         *  this method calls a series of steps that load the general ledger from the budget into
+         *  the general ledger pending entry table.
+         *  this method takes a fiscal year as input, but all that is required is that this object be
+         *  a key labeling the bduget construction general ledger rows for the budget period to be loaded.  
+         *  it need not be an actual fiscal year.
+         */
         //
         // set up the global variables
         // this is a single object that can be passed to all methods that need it, to make the code "thread safe"
@@ -77,34 +81,22 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         // (3)  the run date (which will be the transaction date)
         // (4)  the "origination code", which comes from the database
         DaoGlobalVariables daoGlobalVariables = new DaoGlobalVariables (fiscalYear);
-        // initiliaze the counter variables
+        /**
+         * initiliaze the counter variables
+         */ 
         DiagnosticCounters diagnosticCounters = new DiagnosticCounters();
-        // make sure all the accounting periods for the load year are open, so the entry lines we create can be posted
+        /**
+         * make sure all the accounting periods for the load year are open, so the entry lines we create can be posted
+         */ 
         openAllAccountingPeriods(fiscalYear);
-        // process pending budget construction general ledger rows
+        /**
+         * process pending budget construction general ledger rows
+         */ 
         loadPendingBudgetConstructionGeneralLedger(daoGlobalVariables,diagnosticCounters);
-        // process budget construction monthly budget rows
-        // (we have to catch exceptions which might be thrown by the reflection in the apache PropertyUtils)
-        try
-        {
+        /**
+         * process budget construction monthly budget rows
+         */
            loadBudgetConstructionMonthlyBudget (daoGlobalVariables, diagnosticCounters);
-        }
-        catch (IllegalAccessException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (InvocationTargetException ex)
-        {
-            ex.printStackTrace();
-        }
-        catch (NoSuchMethodException ex)
-        {
-            ex.printStackTrace();
-        }
-        finally
-        {
-            diagnosticCounters.writeDiagnosticCounters();
-        }
         //write out the counts for verification
         diagnosticCounters.writeDiagnosticCounters();
      }
@@ -114,8 +106,8 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      ****************************************************************************************************************/
     
     /**
-     *   this method builds a hashmap containing the next entry sequence number to use for each document (document number)
-     *     to be loaded from budget construction to the general ledger
+     *   build a hashmap containing the next entry sequence number to use for each document (document number)
+     *   to be loaded from budget construction to the general ledger
      *   @param  target fiscal year for the budget load
      *   @return HashMapap keyed on document number containing the next entry sequence number to use for 
      *           the key
@@ -180,7 +172,6 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     }
     
     private void loadBudgetConstructionMonthlyBudget (DaoGlobalVariables daoGlobalVariables, DiagnosticCounters diagnosticCounters)
-    throws IllegalAccessException, NoSuchMethodException, InvocationTargetException                                                        
     {
         QueryByCriteria queryID = queryForBudgetConstructionMonthly (daoGlobalVariables.getRequestYear());
         Iterator<BudgetConstructionMonthly> monthlyBudgetRows = 
@@ -276,7 +267,8 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     
     /**
      * 
-     * This method completes the pending entry row based on the data returned from the DB
+     * complete the pending entry row based on the data returned from the DB
+     * store it to the DB
      * @param newRow
      * @param source annual budget construction GL row
      * @param object containing global constants
@@ -286,12 +278,18 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
                                                            DaoGlobalVariables daoGlobalVariables,
                                                            DiagnosticCounters diagnosticCounters)
     {   
-        // first get the document number
+        /**
+         * first get the document number
+         */
         String incomingDocumentNumber = pbgl.getDocumentNumber();
-        // write a base budget row
+        /**
+         * write a base budget row
+         */
         newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_BASE_BUDGET);
         newRow.setUniversityFiscalPeriodCode(KFSConstants.PERIOD_CODE_BEGINNING_BALANCE);
-        // set the variable fields
+        /**
+         * set the variable fields
+         */
         newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
         newRow.setDocumentNumber(incomingDocumentNumber);                                       // document number
         newRow.setChartOfAccountsCode(pbgl.getChartOfAccountsCode());                           // chart of accounts
@@ -300,17 +298,24 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
         newRow.setFinancialObjectCode(pbgl.getFinancialObjectCode());                           // object code
         newRow.setFinancialSubObjectCode(pbgl.getFinancialSubObjectCode());                     // sub object code
         newRow.setFinancialObjectTypeCode(pbgl.getFinancialObjectTypeCode());                   // object type code
-        //  the budget works with whole numbers--we must convert to decimal for the general ledger
+        /**
+         * the budget works with whole numbers--we must convert to decimal for the general ledger
+         */  
         newRow.setTransactionLedgerEntryAmount(pbgl.getAccountLineAnnualBalanceAmount().kualiDecimalValue());
-        // now we store the base budget value
+        /**
+         * now we store the base budget value
+         */
         getPersistenceBrokerTemplate().store(newRow);
         diagnosticCounters.increaseGeneralLedgerBaseBudgetWritten();
-        //
-        // the same row needs to be written as a current budget item
-        // we change only the balance type and the sequence number
+        /**
+         * the same row needs to be written as a current budget item
+         * we change only the balance type and the sequence number
+         */
         newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_CURRENT_BUDGET);
         newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
-        // store the current budget value
+        /** 
+         * store the current budget value
+         */
         getPersistenceBrokerTemplate().store(newRow);
         diagnosticCounters.increasGenneralLedgerCurrentBudgetWritten();
     }
@@ -319,13 +324,18 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
                                                             BudgetConstructionMonthly pbglMonthly,
                                                             DaoGlobalVariables daoGlobalVariables,
                                                             DiagnosticCounters diagnosticCounters)  
-    throws IllegalAccessException, NoSuchMethodException, InvocationTargetException                                                        
     {
-    // first get the document number
+    /**
+     * first get the document number
+     */ 
     String incomingDocumentNumber = pbglMonthly.getDocumentNumber();
-    // write a base budget row
+    /**
+     * write a base budget row
+     */
     newRow.setFinancialBalanceTypeCode(KFSConstants.BALANCE_TYPE_MONTHLY_BUDGET);
-    // set the variable fields
+    /**
+     * set the variable fields
+     */
     newRow.setDocumentNumber(incomingDocumentNumber);                                              // document number
     newRow.setChartOfAccountsCode(pbglMonthly.getChartOfAccountsCode());                           // chart of accounts
     newRow.setAccountNumber(pbglMonthly.getAccountNumber());                                       // account number
@@ -333,15 +343,39 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     newRow.setFinancialObjectCode(pbglMonthly.getFinancialObjectCode());                           // object code
     newRow.setFinancialSubObjectCode(pbglMonthly.getFinancialSubObjectCode());                     // sub object code
     newRow.setFinancialObjectTypeCode(pbglMonthly.getFinancialObjectTypeCode());                   // object type code
-    //
-    // we have to loop through the monthly array, and write an MB row for each monthly row with a non-zero amount
-    // we do this to write less code.  we hope that the extra hit from reflection won't be too bad
+
+    /**
+     *  we have to loop through the monthly array, and write an MB row for each monthly row with a non-zero amount
+     * (we do this to write less code.  we hope that the extra hit from reflection won't be too bad)
+     */
     Iterator<String[]> monthlyPeriodAmounts = BCConstants.BC_MONTHLY_AMOUNTS.iterator();
     while (monthlyPeriodAmounts.hasNext())
     {
         String[] monthlyPeriodProperties = monthlyPeriodAmounts.next();
-        KualiInteger monthlyAmount = (KualiInteger) PropertyUtils.getSimpleProperty(pbglMonthly,monthlyPeriodProperties[0]);
-            
+        KualiInteger monthlyAmount;
+        try
+        {
+           monthlyAmount = (KualiInteger) PropertyUtils.getSimpleProperty(pbglMonthly,monthlyPeriodProperties[0]);
+        }    
+        catch (IllegalAccessException ex)
+        {
+            LOG.error(String.format("\nunable to use get method to access value of %s in %s\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
+            throw new RuntimeException(ex);
+        }
+        catch (InvocationTargetException ex)
+        {
+            LOG.error(String.format("\nunable to invoke get method for %s in %s\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
+            throw new RuntimeException(ex);
+        }
+        catch (NoSuchMethodException ex)
+        {
+            LOG.error(String.format("\nNO get method found for %s in %s ???\n",monthlyPeriodProperties[0],BudgetConstructionMonthly.class.getName()),ex);
+            throw new RuntimeException(ex);
+        }
+        finally
+        {
+            diagnosticCounters.writeDiagnosticCounters();
+        }
         if (!(monthlyAmount.isZero()))
         {    
            newRow.setTransactionLedgerEntrySequenceNumber(daoGlobalVariables.getNextSequenceNumber(incomingDocumentNumber));
@@ -350,7 +384,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
            getPersistenceBrokerTemplate().store(newRow);
            diagnosticCounters.increaseBudgetConstructionMonthlyBudgetWritten();
         }   
-    }    
+    }
     }
     
     
@@ -371,31 +405,42 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      ****************************************************************************************************************/
 
     /**
-     *  this method gets a list of accounts that should not be loaded from the budget to the General Ledger
+     *   get a list of accounts that should not be loaded from the budget to the General Ledger
      *  @return hashset of accounts NOT to be loaded
      */
     
     private HashSet<String> getAccountsNotToBeLoaded()
     {
       HashSet<String> bannedAccounts;
-      // list of subfunds which should not be loaded
+      /**
+       * list of subfunds which should not be loaded
+       */ 
       HashSet<String> bannedSubFunds = getSubFundsNotToBeLoaded();
-      // query for load properties of accounts in the system
+      /**
+       * query for the subfund property for each account in the DB
+       */
       ReportQueryByCriteria queryID = 
           new ReportQueryByCriteria(Account.class,org.apache.ojb.broker.query.ReportQueryByCriteria.CRITERIA_SELECT_ALL);
       queryID.setAttributes(new String[] {KFSPropertyConstants.ACCOUNT_NUMBER,
                                           KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE,
                                           KFSPropertyConstants.SUB_FUND_GROUP_CODE});
       bannedAccounts = new HashSet<String>(hashCapacity(queryID));
-      // create a list of the accounts which should not be loaded
+      /** 
+       *  use the results to build a hash set of accounts which should NOT be loaded (that is, their subfunds are in
+       *  the list of subfunds we do not want
+       */
       Iterator accountProperties = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
       while (accountProperties.hasNext())
       {
           Object[] selectListValues = (Object[]) accountProperties.next();
-          //we will add an account/chart to the list if it has a no-load subfundgroup
+          /**
+           * we will add an account/chart to the list if it has a no-load subfundgroup
+           */
           if (bannedSubFunds.contains((String) selectListValues[2]))
           {
-            // hash content is account number concatenated with chart (the key of the chart of accounts table)  
+            /**
+             * hash content is account number concatenated with chart (the key of the chart of accounts table)
+             */  
              bannedAccounts.add(((String) selectListValues[0])+((String) selectListValues[1]));   
           }
       }
@@ -403,6 +448,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     }
     
     /**
+     *  build a hash set of subfunds whose accounts should NOT be loaded
+     *  this can be done by either a list of FUND groups and/or a list of subfund groups
+     *  @see org.kuali.module.budget.BCConstants to initialize the String[] array(s) as desired
      *  @return  list of subfunds whose accounts will NOT be loaded
      */
      private HashSet<String> getSubFundsNotToBeLoaded ()
@@ -410,16 +458,22 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
        HashSet<String> bannedSubFunds;
        if (BCConstants.NO_BC_GL_LOAD_FUND_GROUPS.size() != 0)
        {
-           // look for subfunds in the banned fund groups
+           /**
+            * look for subfunds in the banned fund groups
+            */
            Criteria criteriaID = new Criteria();
            criteriaID.addIn(KFSPropertyConstants.FUND_GROUP_CODE,BCConstants.NO_BC_GL_LOAD_FUND_GROUPS);
            ReportQueryByCriteria queryID = new ReportQueryByCriteria(SubFundGroup.class,criteriaID);
            queryID.setAttributes(new String[]{KFSPropertyConstants.SUB_FUND_GROUP_CODE});
-           // set the size of the hashset
+           /**
+            * set the size of the hashset based on the number of rows the query will return
+            */
            bannedSubFunds = new HashSet<String>(hashCapacity(queryID)+BCConstants.NO_BC_GL_LOAD_SUBFUND_GROUPS.size());
            Iterator subfundsForBannedFunds = 
                getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
-           // add the subfunds for the fund groups to be skipped to the hash set
+           /**
+            * add the subfunds for the fund groups to be skipped to the hash set
+            */
            while (subfundsForBannedFunds.hasNext())
            {
               bannedSubFunds.add((String)((Object[]) subfundsForBannedFunds.next())[0]); 
@@ -429,7 +483,9 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
        {
            bannedSubFunds = new HashSet<String>(BCConstants.NO_BC_GL_LOAD_SUBFUND_GROUPS.size()+1);    
        }
-       // now add the specific sub funds we don't want to the hash set
+       /**
+        * now add the specific sub funds we don't want from the hard-coded array in BCConstants to the hash set
+        */
        Iterator<String> additionalBannedSubFunds = BCConstants.NO_BC_GL_LOAD_SUBFUND_GROUPS.iterator();
        while (additionalBannedSubFunds.hasNext())
        {
@@ -544,10 +600,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
      /**
       * 
       * This class allows us to create global variables and pass them around.  This should make the code thread safe, in the
-      * unlikely event it is called by more than one thread.
+      * unlikely event it is called by more than one thread.  it also allows us to fetch constants and build datas stuctures 
+      * from the DB once upon instantiation of this class, and make them available for the duration of the run
       * @param requestYear
       * @param <documentNumber, ledger sequence number> HashMap
-      * @param current SQL Date (which will be the transaction date)
+      * @param current SQL Date (which will be the transaction date in the general ledger entry rows we create)
       * @param the "financial system Origination Code" for this database
       */
      private class DaoGlobalVariables 
@@ -557,28 +614,41 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          private Date transactionDate;
          private String financialSystemOriginationCode;
          private HashSet<String> accountsNotToBeLoaded;
+
          public DaoGlobalVariables(Integer requestYear)
          {
              this.requestYear = requestYear;
              this.entrySequenceNumber = entrySequenceNumber(requestYear);
              this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
              this.financialSystemOriginationCode = 
-                 SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode();
+                 homeOriginationService.getHomeOrigination().getFinSystemHomeOriginationCode();
              this.accountsNotToBeLoaded = getAccountsNotToBeLoaded();
          }
+
          public Integer getRequestYear() { return this.requestYear;}
-         // this will return a copy of a pointer, which will point to the same hashMap and allow us to modify its contents
+
+         /**
+          * return the next available sequence number for the input key and update "next available"
+          */ 
          public Integer getNextSequenceNumber(String seqKey) {
              Integer newSeqNumber = entrySequenceNumber.get(seqKey);
              entrySequenceNumber.put(seqKey,new Integer(newSeqNumber.intValue()+1));
              return newSeqNumber;
              }
+
          public Date getTransactionDate() { return this.transactionDate;}
+
          public String getFinancialSystemOriginationcode() { return this.financialSystemOriginationCode;}
+
          public boolean shouldThisAccountLoad(String accountAndChart)
          {
              return (!accountsNotToBeLoaded.contains(accountAndChart));
          }
+     }
+     
+     public void setHomeOriginationService (HomeOriginationService homeOriginationService)
+     {
+         this.homeOriginationService = homeOriginationService;
      }
      
     

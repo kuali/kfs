@@ -43,77 +43,66 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     }
 
     /**
-     * 
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAnnualBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    
-    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber,
-                                                                       Integer fiscalYear,
-                                                                       String chartOfAccounts,
-                                                                       String accountNumber,
-                                                                       String subAccountNumber)
-    {
-        /*
-         *  do nothing if benefits calculation is disabled
+
+    public void calculateAnnualBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
+        /**
+         * do nothing if benefits calculation is disabled
          */
-        if (getBenefitsCalculationDisabled()) return;
-        /*
-         *  get the financial object type expenditure/expense
+        if (getBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
-        /*
-         *  calculate annual benefits
+        /**
+         * calculate annual benefits
          */
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateMonthlyBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber,
-                                                                        Integer fiscalYear,
-                                                                        String chartOfAccounts,
-                                                                        String accountNumber,
-                                                                        String subAccountNumber)
-    {
-        /*
+    public void calculateMonthlyBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
+        /**
          * do nothing if benefits calculation is disabled
          */
-        if (getBenefitsCalculationDisabled()) return;
-        /*
-         *  get the financial object type expenditure/expense
+        if (getBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
-       /*
-        *  calculate monthly benefits (assumes annual benefits have already been calculated
-        */
+        /**
+         * calculate monthly benefits (assumes annual benefits have already been calculated
+         */
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
 
     /**
-     * 
-     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String, java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
+     * @see org.kuali.module.budget.service.BenefitsCalculationService#calculateAllBudgetConstructionGeneralLedgerBenefits(java.lang.String,
+     *      java.lang.Integer, java.lang.String, java.lang.String, java.lang.String)
      */
-    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber,
-                                                                    Integer fiscalYear,
-                                                                    String chartOfAccounts,
-                                                                    String accountNumber,
-                                                                    String subAccountNumber)
-    {
-        //do nothing if benefits calculation is disabled
-        if (getBenefitsCalculationDisabled()) return;
-        /*
-         *  get the financial object type expenditure/expense
+    public void calculateAllBudgetConstructionGeneralLedgerBenefits(String documentNumber, Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
+        /**
+         *  do nothing if benefits calculation is disabled
+         */
+        if (getBenefitsCalculationDisabled())
+            return;
+        /**
+         * get the financial object type expenditure/expense
          */
         String finObjTypeExpenditureexpCd = optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd();
-        /*
+        /**
          * call both annual and monthly calculations (order is important)
          */
         benefitsCalculationDao.calculateAnnualBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
         benefitsCalculationDao.calculateMonthlyBudgetConstructionGeneralLedgerBenefits(documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, finObjTypeExpenditureexpCd);
     }
-
 
 
     /**
@@ -135,20 +124,18 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
     }
 
     /**
-     * 
      * This method allows spring to initialize the Dao, so we don't have to look up the bean on each call from the application
+     * 
      * @param benefitsCalculationDao - the Dao for benefits calculation
      */
-    public void setBenefitsCalculationDao(BenefitsCalculationDao benefitsCalculationDao)
-    {
+    public void setBenefitsCalculationDao(BenefitsCalculationDao benefitsCalculationDao) {
         this.benefitsCalculationDao = benefitsCalculationDao;
     }
-    
+
     /**
+     * use this to return the "Expenditures/Expense" financial object type code from the options table this must be done by fiscal
+     * year, so unfortunately we have to make one call to OJB whenever one of the methods that needs this constant is called.
      * 
-     * use this to return the "Expenditures/Expense" financial object type code from the options table
-     * this must be done by fiscal year, so unfortunately we have to make one call to OJB whenever one of the
-     * methods that needs this constant is called.
      * @param optionsService
      */
 
@@ -156,5 +143,5 @@ public class BenefitsCalculationServiceImpl implements BenefitsCalculationServic
         this.optionsService = optionsService;
     }
 
-    
+
 }

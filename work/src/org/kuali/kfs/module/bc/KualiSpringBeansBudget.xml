@@ -245,6 +245,9 @@
     </bean>
 
     <bean id="generalLedgerBudgetLoadDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">
+        <property name="homeOriginationService">
+            <ref bean="homeOriginationService"/>
+        </property>
     </bean>
     
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">

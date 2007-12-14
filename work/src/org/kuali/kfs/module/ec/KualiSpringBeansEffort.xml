@@ -48,11 +48,23 @@
 			</list>
 		</property>
 	</bean>
+	
 	<bean id="effortUserService" class="org.kuali.module.effort.service.impl.EffortUserServiceImpl"  parent="kualiModuleUserServiceBase" />
+	
+	<bean id="laborEffortCertificationService" class="org.kuali.module.effort.service.impl.LaborEffortCertificationServiceImpl" >
+		<property name="laborLedgerEntryService">
+			<ref bean="laborLedgerEntryService" />
+		</property>
+		<property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>
+	</bean>
+	
 	<bean id="effortCertifcationReportPeriodUpdateService" class="org.kuali.module.effort.service.impl.EffortCertificationAutomaticReportPeriodUpdateServiceImpl" >
 		<property name="effortCertificationReportDefinitionDao">
 			<ref bean="effortCertificationReportDefinitionDao" />
 		</property>
 	</bean>
+	
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
 </beans>

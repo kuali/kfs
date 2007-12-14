@@ -39,7 +39,9 @@ import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
- * This class determines permissions for a user of the Purchase Order document
+ * This class determines permissions for a user to view the
+ * buttons on Purchase Order Document.
+ * 
  */
 public class PurchaseOrderDocumentActionAuthorizer {
 
@@ -70,11 +72,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
     public PurchaseOrderDocumentActionAuthorizer(PurchaseOrderDocument po, Map editingMode) {
 
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
-
-        //Temporary, just set a PurchaseOrderDocument instead of individual fields
-        //Move the fields individually if later on we need it.
         this.purchaseOrder = po;
-        
         this.editMode = editingMode;
         this.pReqs = SpringContext.getBean(PaymentRequestService.class).getPaymentRequestsByPurchaseOrderId(purchaseOrder.getPurapDocumentIdentifier());
         this.hasPaymentRequest = ((pReqs != null && pReqs.size() > 0) ? true : false);
@@ -96,40 +94,6 @@ public class PurchaseOrderDocumentActionAuthorizer {
         
         this.lastTransmitDate = po.getPurchaseOrderLastTransmitDate();
         
-        
-        // special indicators
-//        if (SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user)) {
-//            canHold = true;
-//        }
-//
-//        if (SpringContext.getBean(PaymentRequestService.class).canUserRequestCancelOnPaymentRequest(preq, user)) {
-//            canRequestCancel = true;
-//        }
-//
-//        if (SpringContext.getBean(PaymentRequestService.class).canRemoveHoldPaymentRequest(preq, user)) {
-//            canRemoveHold = true;
-//        }
-//
-//        if (SpringContext.getBean(PaymentRequestService.class).canUserRemoveRequestCancelOnPaymentRequest(preq, user)) {
-//            canRemoveRequestCancel = true;
-//        }
-//
-//        // user indicators
-//        this.approver = preq.getDocumentHeader().getWorkflowDocument().isApprovalRequested();
-//
-//        String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-//        if (user.isMember(apGroup)) {
-//            this.apUser = true;
-//        }
-//
-//        String apSupGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE_SUPERVISOR);
-//        if (user.isMember(apSupGroup)) {
-//            this.apSupervisor = true;
-//        }
-//
-//        if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) && isApprover()) {
-//            this.fiscalOfficerDelegateUser = true;
-//        }
     }
 
     private String getDocStatus() {
@@ -144,6 +108,15 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return pendingActionIndicator;
     }
 
+    /**
+     * Determines whether to display the retransmit button. 
+     * The last transmit date must not be null. The purchase order must be current,
+     * must not be pending and the purchase order status must be open. If the 
+     * purchase order is an Automated Purchase Order (APO) then any users can see
+     * the retransmit button, otherwise, only users in the purchasing group can see it.
+     * 
+     * @return boolean true if the retransmit button can be displayed.
+     */
     public boolean canRetransmit() {
         if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator())) {
             return true;
@@ -152,11 +125,12 @@ public class PurchaseOrderDocumentActionAuthorizer {
     }
 
     /**
-     * Determines whether to display of the button to print the pdf on a retransmit document. We're currently 
+     * Determines whether to display the button to print the pdf on a retransmit document. We're currently 
      * sharing the same button image as the button for creating a retransmit document but this may change someday. 
-     * It should only appear on Retransmit Document.
+     * This button should only appear on Retransmit Document. If it is an Automated Purchase Order (APO) then
+     * any users can see this button, otherwise, only users in the purchasing group can see it.
      * 
-     * @return
+     * @return boolean true if the print retransmit button can be displayed.
      */
     public boolean canPrintRetransmit() {
         if ((isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator()) && editMode.containsKey(PurapAuthorizationConstants.PurchaseOrderEditMode.DISPLAY_RETRANSMIT_TAB) && (documentType.equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_RETRANSMIT_DOCUMENT)) && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CHANGE_IN_PROCESS)) {
@@ -165,6 +139,11 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return false;
     }
     
+    /**
+     * Determines whether to display the button to print the pdf for the first time transmit.
+     * 
+     * @return boolean true if the print button can be displayed.
+     */
     public boolean canFirstTransmitPrintPo() {
         boolean isDocumentTransmissionActionRequested = SpringContext.getBean(PurApWorkflowIntegrationService.class).isActionRequestedOfUserAtNodeName(purchaseOrder.getDocumentNumber(), NodeDetailEnum.DOCUMENT_TRANSMISSION.getName(), GlobalVariables.getUserSession().getUniversalUser());
         // If the status is Pending Print and the user is either authorized
@@ -180,6 +159,13 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return false;
     }
     
+    /**
+     * Determines whether to display the open order button to reopen the purchase order document.
+     * If the document status is close, the purchase order is current and not pending and the
+     * user is in purchasing group, then we can display this button.
+     * 
+     * @return boolean true if the open order button can be displayed.
+     */
     public boolean canReopen() {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.CLOSED) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             return true;
@@ -187,14 +173,19 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return false;
     }
     
+    /**
+     * Determines whether to display the close order button to close the purchase order document.
+     * To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any 
+     * other statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This 
+     * button is available to all faculty/staff.
+     * 
+     * @return boolean true if the close order button can be displayed.
+     */
     public boolean canClose() {
         boolean validForDisplayingCloseButton = false;
         
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator()) {
-            // To display the close PO button, the PO must be in Open status, the PO must have at least 1 Payment Request in any
-            // other
-            // statuses than "In Process" status, and the PO cannot have any Payment Requests in "In Process" status. This button
-            // is available to all faculty/staff (everyone ?)
+
             validForDisplayingCloseButton = true;
 
             if (ObjectUtils.isNotNull(pReqs)) {
@@ -214,6 +205,13 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return validForDisplayingCloseButton;
     }
     
+    /**
+     * Determines whether to display the amend and payment hold buttons for the purchase order document.
+     * The document status must be open, the purchase order must be current and not pending and the
+     * user must be in purchasing group.
+     * 
+     * @return boolean true if the amend and payment hold buttons can be displayed.
+     */
     public boolean canAmendAndHoldPayment() {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             return true;
@@ -221,11 +219,16 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return false;
     }
     
+    /**
+     * Determines whether to display the void button for the purchase order document.
+     * Conditions for displaying Void button (in addition to the purchaseOrder current indicator 
+     * is true and pending indicator is false and the user is member of kuali purap purchasing):
+     * 1. If the PO is in Pending Print status, or
+     * 2. If the PO is in Open status and has no PREQs against it.
+     * 
+     * @return boolean true if the void button can be displayed.
+     */
     public boolean canVoid() {
-        // Conditions for displaying Void button (in addition to the purchaseOrder current indicator is true and
-        // pending indicator is false and the user is member of kuali purap purchasing):
-        // 1. If the PO is in Pending Print status, or
-        // 2. If the PO is in Open status and has no PREQs against it.
         if (purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PENDING_PRINT) || (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && !hasPaymentRequest)) {
                 return true;
@@ -234,6 +237,13 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return false;
     }
     
+    /**
+     * Determines whether to display the remove hold button for the purchase order document.
+     * The document status must be payment hold, the purchase order must be current and not
+     * pending and the user must be in purchasing group.
+     * 
+     * @return
+     */
     public boolean canRemoveHold() {
         if (purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.PAYMENT_HOLD) && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && isUserAuthorized) {
             return true;
@@ -260,6 +270,4 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean isApprover() {
         return approver;
     }
-
-
 }

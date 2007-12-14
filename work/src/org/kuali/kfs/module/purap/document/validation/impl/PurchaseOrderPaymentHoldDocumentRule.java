@@ -88,11 +88,6 @@ public class PurchaseOrderPaymentHoldDocumentRule extends TransactionalDocumentR
         }
         else {
             PurchaseOrderDocument currentPO = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(document.getPurapDocumentIdentifier());
-            // Check the PO status
-            if (StringUtils.equalsIgnoreCase(currentPO.getStatusCode(), PurchaseOrderStatuses.CLOSED)) {
-                valid = false;
-                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.STATUS_CODE, PurapKeyConstants.ERROR_PURCHASE_ORDER_STATUS_INCORRECT, PurchaseOrderStatuses.CLOSED);
-            }
 
             // Check that the user is in purchasing workgroup.
             String initiatorNetworkId = document.getDocumentHeader().getWorkflowDocument().getInitiatorNetworkId();

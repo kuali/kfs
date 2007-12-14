@@ -39,7 +39,19 @@ public enum PurApAccountingLineFixture {
             null, // itemIdentifier;
             new BigDecimal("100"), // accountLinePercent;
             null // alternateAmountForGLEntryCreation;
-    );
+    ), BAD_ACCOUNT_PERCENT_TOO_HIGH(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("101"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    ), BAD_ACCOUNT_PERCENT_ZERO(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("0"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    ), BAD_ACCOUNT_PERCENT_NEGATIVE(null, // accountIdentifier;
+            null, // itemIdentifier;
+            new BigDecimal("-1"), // accountLinePercent;
+            null // alternateAmountForGLEntryCreation;
+    ); 
     
     private Integer accountIdentifier;
     private Integer itemIdentifier;

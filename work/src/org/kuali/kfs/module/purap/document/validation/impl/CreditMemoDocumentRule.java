@@ -459,7 +459,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      * @param cmDocument - credit memo document
      * @return boolean - true if amounts match, false if they do not match
      */
-    private boolean validateTotalMatchesVendorAmount(CreditMemoDocument cmDocument) {
+    public boolean validateTotalMatchesVendorAmount(CreditMemoDocument cmDocument) {
         boolean valid = true;
 
         if (cmDocument.getGrandTotal().compareTo(cmDocument.getCreditMemoAmount()) != 0 && !cmDocument.isUnmatchedOverride()) {
@@ -476,7 +476,7 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
      * @param cmDocument - credit memo document
      * @return boolean - true if amount is over zero, false if not
      */
-    private boolean validateTotalOverZero(CreditMemoDocument cmDocument) {
+    public boolean validateTotalOverZero(CreditMemoDocument cmDocument) {
         boolean valid = true;
 
         if (!cmDocument.getGrandTotal().isPositive()) {

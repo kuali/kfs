@@ -29,12 +29,17 @@ public enum CreditMemoInitTabFixture {
     WITH_INVOICE_NO_DATE_WITH_AMOUNT(PREQInvoice.INVOICE_NUMBER,null,PREQInvoice.AMOUNT),
     WITH_INVOICE_WITH_DATE_NO_AMOUNT(PREQInvoice.INVOICE_NUMBER,PREQInvoice.INVOICE_DATE,null),
     WITH_VENDOR_NUMBER(CMInit.INITIAL_VENDOR_NUMBER),
+    HI_AMOUNT_LO_TOTAL(CMInit.HIGH_AMOUNT,CMInit.LOW_AMOUNT),
+    LO_AMOUNT_HI_TOTAL(CMInit.LOW_AMOUNT,CMInit.HIGH_AMOUNT),
+    HI_AMOUNT_HI_TOTAL(CMInit.HIGH_AMOUNT,CMInit.HIGH_AMOUNT),
+    HI_AMOUNT_ZERO_TOTAL(CMInit.HIGH_AMOUNT,CMInit.ZERO_AMOUNT),
     ;
     
     private String invoice_num;
     private Date invoice_date;    
     private KualiDecimal amount;
     private String vendor_num;
+    private KualiDecimal total;
     
     private CreditMemoInitTabFixture(String invoice_num, Date invoice_date, KualiDecimal amount) {
         this.invoice_num = invoice_num;
@@ -44,6 +49,11 @@ public enum CreditMemoInitTabFixture {
     
     private CreditMemoInitTabFixture(String vendor_num) {
         this.vendor_num = vendor_num;
+    }
+    
+    private CreditMemoInitTabFixture(KualiDecimal amount, KualiDecimal total) {
+        this.amount = amount;
+        this.total = total;
     }
         
     public CreditMemoDocument populateForRequiredness(CreditMemoDocument cmDocument) {
@@ -58,6 +68,10 @@ public enum CreditMemoInitTabFixture {
         return cmDocument;
     }
     
-
+    public CreditMemoDocument populateForAmounts(CreditMemoDocument cmDocument) {
+        cmDocument.setCreditMemoAmount(amount);
+        cmDocument.setGrandTotal(total);
+        return cmDocument;
+    }
 
 }

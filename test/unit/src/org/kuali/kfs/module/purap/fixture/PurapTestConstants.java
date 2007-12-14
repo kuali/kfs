@@ -88,5 +88,8 @@ public class PurapTestConstants {
     
     static class CMInit {
         static final String INITIAL_VENDOR_NUMBER = "1000-0";
+        static final KualiDecimal HIGH_AMOUNT = new KualiDecimal(32);
+        static final KualiDecimal LOW_AMOUNT = new KualiDecimal(16);
+        static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
     }
 }

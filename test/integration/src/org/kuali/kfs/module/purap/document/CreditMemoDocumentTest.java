@@ -66,7 +66,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         super.tearDown();      
     }
     
- /*   
+    /*
     private List<CreditMemoItemFixture> getItemParametersFromFixtures() {
         List<CreditMemoItemFixture> list = new ArrayList<CreditMemoItemFixture>();
         list.add(CreditMemoItemFixture.CM_ITEM_NO_APO);
@@ -120,13 +120,13 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         CreditMemoDocument = (CreditMemoDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
         assertTrue("Document should now be final.", CreditMemoDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());
     }
-    
+    */
 
-
-    private CreditMemoDocument buildSimpleDocument() throws Exception {
+    public CreditMemoDocument buildSimpleDocument() throws Exception {
         return CreditMemoDocumentFixture.CM_ONLY_REQUIRED_FIELDS.createCreditMemoDocument();
     }
-
+    
+    /*
     private UserNameFixture getInitialUserName() {
         return RJWEISS;
     }
@@ -160,6 +160,7 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         //assertTrue(relatedPOs.size() > 0);
         
     }
+    */
     // create document fixture
- */   
+    
 }

@@ -66,9 +66,7 @@
 
 			</attributeReference>
                         
-			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="paymentRequestStatus">
-                <required>true</required>
-            </attributeReference>
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="paymentRequestStatus" />
          
 			<attributeReference name="invoiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Invoice Date</label>

@@ -89,9 +89,7 @@
 
             </attributeReference>
 
-			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purchaseOrderStatus">
-			    <required>true</required>
-			</attributeReference>
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="purchaseOrderStatus" />
             
 			<!-- PURCHASING DOCUMENT ATTRIBUTES -->
             &purchasingDocumentBaseAttributes;

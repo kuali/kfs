@@ -49,9 +49,7 @@
 			
 			<attributeReference name="purapDocumentIdentifier" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionIdentifier"/>
 
-			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionStatus">
-			    <required>true</required>
-			</attributeReference>
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="requisitionStatus" />
             
 			<!-- PURCHASING DOCUMENT ATTRIBUTES -->
             &purchasingDocumentBaseAttributes;

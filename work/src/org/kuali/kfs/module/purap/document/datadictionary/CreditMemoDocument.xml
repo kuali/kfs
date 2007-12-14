@@ -56,8 +56,6 @@
 				sourceAttributeName="purapDocumentIdentifier">
                 <label>Credit Memo Nbr</label>
                 <shortLabel>CM Nbr</shortLabel>
-                <required>true</required>
-
             </attributeReference> 
             
 			<attributeReference name="vendorHeaderGeneratedIdentifier"
@@ -66,9 +64,7 @@
                 <required>true</required>
             </attributeReference>
 
-			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="creditMemoStatus">
-                <required>true</required>
-            </attributeReference>
+			<attributeReference name="statusCode" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="creditMemoStatus" />
             
 			<attributeReference name="creditMemoDate"
 				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"

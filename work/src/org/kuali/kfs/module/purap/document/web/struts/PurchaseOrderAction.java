@@ -362,8 +362,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 }
             }
             if (ObjectUtils.isNotNull(returnActionForward)) {
-                addExtraButtons(kualiDocumentFormBase);
-
                 return returnActionForward;
             }
             else {
@@ -372,7 +370,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             }
         }
         catch (ValidationException ve) {
-            addExtraButtons(kualiDocumentFormBase);
             throw ve;
         }
     }
@@ -520,31 +517,8 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @return An actionForward mapping back to the original page.
      */
     protected ActionForward returnToPreviousPage(ActionMapping mapping, KualiDocumentFormBase kualiDocumentFormBase) {
-        addExtraButtons(kualiDocumentFormBase);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-
-    /**
-     * Add the buttons to the form that need to be present besides the default buttons.
-     * 
-     * @param kualiDocumentFormBase A KualiDocumentFormBase that must be a PurchaseOrderForm
-     */
-    private void addExtraButtons(KualiDocumentFormBase kualiDocumentFormBase) {
-        ((PurchaseOrderForm) kualiDocumentFormBase).addButtons();
-    }
-
-    /**
-     * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#refreshAccountSummary(org.apache.struts.action.ActionMapping,
-     *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
-     */
-    @Override
-    public ActionForward refreshAccountSummary(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ActionForward forward = super.refreshAccountSummary(mapping, form, request, response);
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        addExtraButtons(kualiDocumentFormBase);
-
-        return forward;
     }
 
     /**
@@ -1067,7 +1041,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ActionForward forward = super.docHandler(mapping, form, request, response);
         KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        addExtraButtons(kualiDocumentFormBase);
         PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
         ActionMessages messages = new ActionMessages();
         checkForPOWarnings(po, messages);
@@ -1386,8 +1359,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             Object buttonClicked = request.getParameter(KFSConstants.QUESTION_CLICKED_BUTTON);
             if (question.equals(questionType) && buttonClicked.equals(ConfirmationQuestion.NO)) {
                 // If 'No' is the button clicked, just reload the doc
-                addExtraButtons(kualiDocumentFormBase);
-
                 return forward;
             }
 
@@ -1449,7 +1420,6 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 throw new RuntimeException(e);
             }
         }
-        addExtraButtons(kualiDocumentFormBase);
 
         return forward;
     }

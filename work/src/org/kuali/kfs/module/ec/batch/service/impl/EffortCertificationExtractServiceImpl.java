@@ -75,13 +75,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private LaborEffortCertificationService laborEffortCertificationService;
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
     private EffortCertificationReportService effortCertificationReportService;
-    
-    private final String NUM_EMPLOYEES_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_EMPLOYEES_SELECTED);        
-    private final String NUM_BALANCE_RECORDS_READ = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_READ);
-    private final String NUM_BALANCE_RECORDS_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_SELECTED);
-    private final String NUM_CERTIFICATION_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN);
-    private final String NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN);    
-    
+
+    // the following constants can only be set once in the method setBasicStatisticsKeys()
+    private String NUM_EMPLOYEES_SELECTED;
+    private String NUM_BALANCE_RECORDS_READ;
+    private String NUM_BALANCE_RECORDS_SELECTED;
+    private String NUM_CERTIFICATION_RECORDS_WRITTEN;
+    private String NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN;
+
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
      */
@@ -104,12 +105,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (errorMessage != null) {
             throw new IllegalArgumentException(errorMessage.getMessage());
         }
-
+        
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(EffortConstants.ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
+        this.setBasicStatisticsKeys();
 
         List<String> employees = this.findEmployeesWithValidPayType(reportDefinition);
 
@@ -118,7 +120,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         String reportsDirectory = ReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
-        effortCertificationReportService.generate(reportDataHolder, null, reportsDirectory, runDate);
+        effortCertificationReportService.generate(reportDataHolder, null, reportsDirectory, runDate); // TODO
     }
 
     /**
@@ -164,15 +166,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * clear up documents and detail lines (build) with the fiscal year and report number of the given field values
-     * 
-     * @param fieldValues the map containing fiscalYear and report number
-     */
-    private void removeExistingDocumentBuild(Map<String, String> fieldValues) {
-        businessObjectService.deleteMatching(EffortCertificationDocumentBuild.class, fieldValues);
-    }
-
-    /**
      * find the employees who were paid based on a set of specified pay type within the given report periods. Here, a pay type can
      * be determined by earn code and pay group.
      * 
@@ -188,6 +181,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
+     * clear up documents and detail lines (build) with the fiscal year and report number of the given field values
+     * 
+     * @param fieldValues the map containing fiscalYear and report number
+     */
+    private void removeExistingDocumentBuild(Map<String, String> fieldValues) {
+        businessObjectService.deleteMatching(EffortCertificationDocumentBuild.class, fieldValues);
+    }
+
+    /**
      * generate document build as well as their detail lines build for the given employees
      * 
      * @param reportDefinition the given report definition
@@ -196,7 +198,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param parameters the given system parameters
      */
     private void generateDucmentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
-        reportDataHolder.updateBasicStatistics(NUM_EMPLOYEES_SELECTED, employees.size()); 
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
 
         for (String emplid : employees) {
@@ -214,6 +215,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             reportDataHolder.updateBasicStatistics(NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN, qualifiedLedgerBalance.size());
             reportDataHolder.updateBasicStatistics(NUM_CERTIFICATION_RECORDS_WRITTEN, documents.size());
         }
+        reportDataHolder.updateBasicStatistics(NUM_EMPLOYEES_SELECTED, employees.size());
     }
 
     /**
@@ -529,5 +531,67 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         consolidationKeys.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return consolidationKeys;
+    }
+    
+    private void setBasicStatisticsKeys() {
+        NUM_EMPLOYEES_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_EMPLOYEES_SELECTED);
+        NUM_BALANCE_RECORDS_READ = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_READ);
+        NUM_BALANCE_RECORDS_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_SELECTED);
+        NUM_CERTIFICATION_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN);
+        NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN);
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
+    }
+
+    /**
+     * Sets the optionsService attribute value.
+     * 
+     * @param optionsService The optionsService to set.
+     */
+    public void setOptionsService(OptionsService optionsService) {
+        this.optionsService = optionsService;
+    }
+
+    /**
+     * Sets the dateTimeService attribute value.
+     * 
+     * @param dateTimeService The dateTimeService to set.
+     */
+    public void setDateTimeService(DateTimeService dateTimeService) {
+        this.dateTimeService = dateTimeService;
+    }
+
+    /**
+     * Sets the laborEffortCertificationService attribute value.
+     * 
+     * @param laborEffortCertificationService The laborEffortCertificationService to set.
+     */
+    public void setLaborEffortCertificationService(LaborEffortCertificationService laborEffortCertificationService) {
+        this.laborEffortCertificationService = laborEffortCertificationService;
+    }
+
+    /**
+     * Sets the effortCertificationDocumentBuildService attribute value.
+     * 
+     * @param effortCertificationDocumentBuildService The effortCertificationDocumentBuildService to set.
+     */
+    public void setEffortCertificationDocumentBuildService(EffortCertificationDocumentBuildService effortCertificationDocumentBuildService) {
+        this.effortCertificationDocumentBuildService = effortCertificationDocumentBuildService;
+    }
+
+    /**
+     * Sets the effortCertificationReportService attribute value.
+     * 
+     * @param effortCertificationReportService The effortCertificationReportService to set.
+     */
+    public void setEffortCertificationReportService(EffortCertificationReportService effortCertificationReportService) {
+        this.effortCertificationReportService = effortCertificationReportService;
     }
 }

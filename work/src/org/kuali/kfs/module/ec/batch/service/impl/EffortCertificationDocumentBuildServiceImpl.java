@@ -144,4 +144,22 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
     }
+
+    /**
+     * Sets the universityDateService attribute value.
+     * 
+     * @param universityDateService The universityDateService to set.
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
+    }
+
+    /**
+     * Sets the effortCertificationDetailBuildService attribute value.
+     * 
+     * @param effortCertificationDetailBuildService The effortCertificationDetailBuildService to set.
+     */
+    public void setEffortCertificationDetailBuildService(EffortCertificationDetailBuildService effortCertificationDetailBuildService) {
+        this.effortCertificationDetailBuildService = effortCertificationDetailBuildService;
+    }
 }

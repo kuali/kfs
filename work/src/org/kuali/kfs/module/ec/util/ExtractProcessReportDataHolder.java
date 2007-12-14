@@ -22,24 +22,42 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
- * This class groups and holds the data presented to working reports of extract process 
+ * This class groups and holds the data presented to working reports of extract process
  */
 public class ExtractProcessReportDataHolder {
-    private EffortCertificationReportDefinition reportDefinition;    
+    private EffortCertificationReportDefinition reportDefinition;
     private Map<String, Integer> basicStatistics;
     private Map<LedgerBalance, String> errorMap;
-    
+
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
      */
     public ExtractProcessReportDataHolder() {
-        super();
-        basicStatistics = new HashMap<String, Integer>();
-        errorMap = new HashMap<LedgerBalance, String>();
+        this(null);
     }
-    
+
+    /**
+     * Constructs a ExtractProcessReportDataHolder.java.
+     * 
+     * @param reportDefinition
+     */
+    public ExtractProcessReportDataHolder(EffortCertificationReportDefinition reportDefinition) {
+        super();
+        this.reportDefinition = reportDefinition;
+        this.basicStatistics = new HashMap<String, Integer>();
+        this.errorMap = new HashMap<LedgerBalance, String>();
+    }
+
+
+    /**
+     * update the value of the entry with the given key. If the key exists, the value will be the sum of the given and existing
+     * values; otherwise, create a new entry with the key and value.
+     * 
+     * @param key the given key
+     * @param count the given count
+     */
     public void updateBasicStatistics(String key, Integer count) {
-        if(basicStatistics.containsKey(key)) {
+        if (basicStatistics.containsKey(key)) {
             Integer currentCount = basicStatistics.get(key);
             count = currentCount + count;
         }
@@ -47,7 +65,8 @@ public class ExtractProcessReportDataHolder {
     }
 
     /**
-     * Gets the reportDefinition attribute. 
+     * Gets the reportDefinition attribute.
+     * 
      * @return Returns the reportDefinition.
      */
     public EffortCertificationReportDefinition getReportDefinition() {
@@ -56,6 +75,7 @@ public class ExtractProcessReportDataHolder {
 
     /**
      * Sets the reportDefinition attribute value.
+     * 
      * @param reportDefinition The reportDefinition to set.
      */
     public void setReportDefinition(EffortCertificationReportDefinition reportDefinition) {
@@ -63,7 +83,8 @@ public class ExtractProcessReportDataHolder {
     }
 
     /**
-     * Gets the basicStatistics attribute. 
+     * Gets the basicStatistics attribute.
+     * 
      * @return Returns the basicStatistics.
      */
     public Map<String, Integer> getBasicStatistics() {
@@ -72,6 +93,7 @@ public class ExtractProcessReportDataHolder {
 
     /**
      * Sets the basicStatistics attribute value.
+     * 
      * @param basicStatistics The basicStatistics to set.
      */
     public void setBasicStatistics(Map<String, Integer> basicStatistics) {
@@ -79,7 +101,8 @@ public class ExtractProcessReportDataHolder {
     }
 
     /**
-     * Gets the errorMap attribute. 
+     * Gets the errorMap attribute.
+     * 
      * @return Returns the errorMap.
      */
     public Map<LedgerBalance, String> getErrorMap() {
@@ -88,9 +111,10 @@ public class ExtractProcessReportDataHolder {
 
     /**
      * Sets the errorMap attribute value.
+     * 
      * @param errorMap The errorMap to set.
      */
     public void setErrorMap(Map<LedgerBalance, String> errorMap) {
         this.errorMap = errorMap;
-    }  
+    }
 }

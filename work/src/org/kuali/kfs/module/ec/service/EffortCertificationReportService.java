@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 package org.kuali.module.effort.service;
+
+import java.util.Date;
+
+import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
+
 /**
  * 
- * Contains methods to facilitate Effort Certification Report
+ * To generate the working progress reports for the effort certification  
  */
 public interface EffortCertificationReportService {
+    
+    //TODO
+    void generate(ExtractProcessReportDataHolder reportDataHolder, Object object, String reportsDirectory, Date runDate);
 
 }

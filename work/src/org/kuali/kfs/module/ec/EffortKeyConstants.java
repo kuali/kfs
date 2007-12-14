@@ -40,4 +40,10 @@ public class EffortKeyConstants {
     
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
     public static final String ERROR_NOT_PAID_BY_FEDERAL_FUNDS = "error.effort.extract.notPaidByFederalFunds";
+        
+    public static final String MESSAGE_NUM_EMPLOYEES_SELECTED = "message.effort.extract.report.numOfEmployeesSelected";
+    public static final String MESSAGE_NUM_BALANCE_RECORDS_READ = "message.effort.extract.report.numOfBalanceRecordsRead";
+    public static final String MESSAGE_NUM_BALANCE_RECORDS_SELECTED = "message.effort.extract.report.numOfBalanceRecordsSelected";
+    public static final String MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN = "message.effort.extract.report.numOfCertificationRecordsWritten";
+    public static final String MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = "message.effort.extract.report.numOfDetailLineBuildRecordsWritten";
 }

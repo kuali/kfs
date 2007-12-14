@@ -66,20 +66,26 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
                 EffortCertificationDetailBuild detailLine = effortCertificationDetailBuildService.generateDetailBuild(postingYear, balance, reportDefinition, parameters);
 
                 payrollAmountHolder.setPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
-                recalculatePayrollPercent(payrollAmountHolder);
+                calculatePayrollPercent(payrollAmountHolder);
 
                 detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
                 detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
 
                 detailLineList.add(detailLine);
             }
-
             documentList.add(document);
         }
 
         return documentList;
     }
 
+    /**
+     * populate a dument build object through the given information
+     * 
+     * @param reportDefinition the given report definition
+     * @param ledgerBalance the given ledger balance
+     * @return a dument build object populated with the given information
+     */
     private static EffortCertificationDocumentBuild populateDocument(EffortCertificationReportDefinition reportDefinition, LedgerBalance ledgerBalance) {
         EffortCertificationDocumentBuild document = new EffortCertificationDocumentBuild();
 
@@ -97,6 +103,12 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         return document;
     }
 
+    /**
+     * group the given ledger balances according to the combination of the values in the specified fields
+     * 
+     * @param ledgerBalances the given ledger balances
+     * @return the map holding ledger balance groups
+     */
     private Map<String, List<LedgerBalance>> buildLedgerBalanceGroups(Collection<LedgerBalance> ledgerBalances) {
         Map<String, List<LedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LedgerBalance>>();
 
@@ -107,8 +119,12 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         return ledgerBalanceGroups;
     }
 
-
-    private void recalculatePayrollPercent(PayrollAmountHolder payrollAmountHolder) {
+    /**
+     * calculate the payroll percentage based on the given information in payroll amount holder
+     * 
+     * @param payrollAmountHolder the given payroll amount holder containing relating information
+     */
+    private void calculatePayrollPercent(PayrollAmountHolder payrollAmountHolder) {
         KualiDecimal totalAmount = payrollAmountHolder.getTotalAmount();
         if (totalAmount.isZero()) {
             return;

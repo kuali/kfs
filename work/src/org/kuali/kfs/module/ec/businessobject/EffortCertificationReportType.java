@@ -18,12 +18,13 @@ package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Business Object for the Effort Certification Report Type Table.
  */
-public class EffortCertificationReportType extends PersistableBusinessObjectBase {
+public class EffortCertificationReportType extends PersistableBusinessObjectBase implements Inactivateable {
     private String effortCertificationReportTypeCode;
     private String effortCertificationReportDescription;
     private boolean active;

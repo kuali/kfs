@@ -2,13 +2,14 @@ package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
 
+import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Options;
 
 /**
  * Business Object for the Effort Certification Report Earn Paygroup Table.
  */
-public class EffortCertificationReportEarnPaygroup extends PersistableBusinessObjectBase {
+public class EffortCertificationReportEarnPaygroup extends PersistableBusinessObjectBase implements Inactivateable {
     private Integer universityFiscalYear;
     private String effortCertificationReportTypeCode;
     private String earnCode;

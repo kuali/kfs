@@ -83,7 +83,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private String alternate4VendorName;
     private String alternate5VendorName;
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
-    private String vendorAddressInternationalProvinceName;
     
     /**
      * Default constructor.
@@ -436,22 +435,6 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
 
     public void setOrganizationAutomaticPurchaseOrderLimit(KualiDecimal organizationAutomaticPurchaseOrderLimit) {
         this.organizationAutomaticPurchaseOrderLimit = organizationAutomaticPurchaseOrderLimit;
-    }
-
-    /**
-     * Gets the vendorAddressInternationalProvinceName attribute. 
-     * @return Returns the vendorAddressInternationalProvinceName.
-     */
-    public String getVendorAddressInternationalProvinceName() {
-        return vendorAddressInternationalProvinceName;
-    }
-
-    /**
-     * Sets the vendorAddressInternationalProvinceName attribute value.
-     * @param vendorAddressInternationalProvinceName The vendorAddressInternationalProvinceName to set.
-     */
-    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
-        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     public List<RequisitionView> getRelatedRequisitionViews() {

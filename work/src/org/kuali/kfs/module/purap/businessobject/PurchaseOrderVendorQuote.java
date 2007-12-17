@@ -54,6 +54,7 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
     private Date purchaseOrderQuoteAwardDate;
     private String purchaseOrderQuoteRankNumber;
     private String vendorCountryCode;
+    private String vendorAddressInternationalProvinceName;
     private boolean isTransmitPrintDisplayed = false;
 
     private PurchaseOrderDocument purchaseOrder;
@@ -105,6 +106,14 @@ public class PurchaseOrderVendorQuote extends PersistableBusinessObjectBase {
 
     public void setVendorDetailAssignedIdentifier(Integer vendorDetailAssignedIdentifier) {
         this.vendorDetailAssignedIdentifier = vendorDetailAssignedIdentifier;
+    }
+    
+    public String getVendorAddressInternationalProvinceName() {
+        return vendorAddressInternationalProvinceName;
+    }
+
+    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
+        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     public String getVendorNumber() {

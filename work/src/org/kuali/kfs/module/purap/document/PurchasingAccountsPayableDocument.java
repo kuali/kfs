@@ -235,6 +235,10 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public String getVendorStateCode();
 
     public void setVendorStateCode(String vendorStateCode);
+    
+    public String getVendorAddressInternationalProvinceName();
+    
+    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName);
 
     public Integer getAccountsPayablePurchasingDocumentLinkIdentifier();
 

@@ -114,12 +114,10 @@
                     </c:if>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" />
-                    	<c:if test="${displayPurchaseOrderFields}"> <br> *required for US</c:if>
-					</div>
+					<kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" />
                 </th>
                 <td align=left valign=middle class="datacell">
-                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorAddressInternationalProvinceName}" property="document.vendorAddressInternationalProvinceName" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
                 </td>
             </tr>
 
@@ -131,13 +129,28 @@
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorLine2Address}" property="document.vendorLine2Address" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
                 </td>
                 <th align=right valign=middle class="bord-l-b">
-                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
+                    <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorPostalCode}" />
+                    	<c:if test="${displayPurchaseOrderFields}"> <br> *required for US</c:if>
+					</div>
                 </th>
-                <td align=left valign=middle class="datacell">
+				<td align=left valign=middle class="datacell">
+					<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorPostalCode}" property="document.vendorPostalCode" readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
+				</td>
+            </tr>
+            
+            <tr>
+            	<th align=right valign=middle class="bord-l-b">
+            	</th>
+            	<td align=left valign=middle class="datacell">
+            	</td>
+            	<th align=right valign=middle class="bord-l-b">
+            		<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorCountryCode}" /></div>
+            	</th>
+            	<td align=left valign=middle class="datacell">
                     <kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorCountryCode}" property="document.vendorCountryCode"
                     extraReadOnlyProperty="document.vendorCountry.postalCountryName" 
                     readOnly="${not (fullEntryMode or amendmentEntry) or displayCreditMemoFields}" />
-                </td>
+            	</td>
             </tr>
 
             <tr>

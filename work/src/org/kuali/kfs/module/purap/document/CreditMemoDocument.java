@@ -66,7 +66,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     private Timestamp creditMemoPaidTimestamp;
     private String itemMiscellaneousCreditDescription;
     private Date purchaseOrderEndDate;
-    private String vendorAddressInternationalProvinceName;
     
     private PaymentRequestDocument paymentRequestDocument;
 
@@ -431,22 +430,6 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
-    }
-
-    /**
-     * Gets the vendorAddressInternationalProvinceName attribute. 
-     * @return Returns the vendorAddressInternationalProvinceName.
-     */
-    public String getVendorAddressInternationalProvinceName() {
-        return vendorAddressInternationalProvinceName;
-    }
-
-    /**
-     * Sets the vendorAddressInternationalProvinceName attribute value.
-     * @param vendorAddressInternationalProvinceName The vendorAddressInternationalProvinceName to set.
-     */
-    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
-        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     /**

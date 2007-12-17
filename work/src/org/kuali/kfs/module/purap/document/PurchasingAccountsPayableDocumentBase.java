@@ -70,6 +70,7 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     private String vendorLine2Address;
     private String vendorCityName;
     private String vendorStateCode;
+    private String vendorAddressInternationalProvinceName;
     private String vendorPostalCode;
     private String vendorCountryCode;
     private Integer accountsPayablePurchasingDocumentLinkIdentifier;
@@ -727,6 +728,14 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     public void setVendorStateCode(String vendorStateCode) {
         this.vendorStateCode = vendorStateCode;
+    }
+    
+    public String getVendorAddressInternationalProvinceName() {
+        return vendorAddressInternationalProvinceName;
+    }
+
+    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
+        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     public Integer getVendorAddressGeneratedIdentifier() {

@@ -67,6 +67,8 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
+    public final static String DISBURSEMENT_VOUCHER_DOCUMENT_TYPE = "DV";
+    
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
     private String disbVchrContactPhoneNumber;
@@ -87,6 +89,9 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private boolean disbVchrPayeeW9CompleteCode;
     private String disbVchrPaymentMethodCode;
     private boolean exceptionIndicator;
+    private Date extractDate;
+    private Date paidDate;
+    private Date cancelDate;
 
     private DocumentHeader financialDocument;
     private DisbursementVoucherDocumentationLocation disbVchrDocumentationLoc;
@@ -639,6 +644,78 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
      */
     public void setExceptionIndicator(boolean exceptionIndicator) {
         this.exceptionIndicator = exceptionIndicator;
+    }
+
+    /**
+     * Gets the cancelDate attribute. 
+     * @return Returns the cancelDate.
+     */
+    public Date getCancelDate() {
+        return cancelDate;
+    }
+
+    /**
+     * Sets the cancelDate attribute value.
+     * @param cancelDate The cancelDate to set.
+     */
+    public void setCancelDate(Date cancelDate) {
+        this.cancelDate = cancelDate;
+    }
+
+    /**
+     * Gets the extractDate attribute. 
+     * @return Returns the extractDate.
+     */
+    public Date getExtractDate() {
+        return extractDate;
+    }
+
+    /**
+     * Sets the extractDate attribute value.
+     * @param extractDate The extractDate to set.
+     */
+    public void setExtractDate(Date extractDate) {
+        this.extractDate = extractDate;
+    }
+
+    /**
+     * Gets the paidDate attribute. 
+     * @return Returns the paidDate.
+     */
+    public Date getPaidDate() {
+        return paidDate;
+    }
+
+    /**
+     * Sets the paidDate attribute value.
+     * @param paidDate The paidDate to set.
+     */
+    public void setPaidDate(Date paidDate) {
+        this.paidDate = paidDate;
+    }
+    
+    /**
+     * Based on which pdp dates are present (extract, paid, canceled), determines a String for the status
+     * @return a String representation of the status
+     */
+    public String getDisbursementVoucherPdpStatus() {
+        if (cancelDate != null) {
+            return "Canceled";
+        } else if (paidDate != null) {
+            return "Paid";
+        } else if (extractDate != null) {
+            return "Extracted";
+        } else {
+            return "Pre-Extraction";
+        }
+    }
+    
+    /**
+     * Pretends to set the PDP status for this document
+     * @param status the status to pretend to set
+     */
+    public void setDisbursementVoucherPdpStatus(String status) {
+        // don't do nothing, 'cause this ain't a real field
     }
 
     /**

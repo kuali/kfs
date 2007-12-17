@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
+		<property name="transactionManager" ref="jotm" />
+		<property name="driverClassName" value="${dataSource.driverClassName}" />
+		<property name="maxSize" value="${dataSource.maxSize}" />
+		<property name="minSize" value="${dataSource.minSize}" />
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		<property name="validationQuery" value="${dataSource.validationQuery}" />
+		<property name="url" value="${dataSource.url}" />
+		<property name="username" value="${dataSource.username}" />
+		<property name="password" value="${dataSource.password}" />
+	</bean>
+
+    <alias name="dataSource" alias="kewDataSource"/>
+    <alias name="dataSource" alias="registryDataSource"/>
+
+</beans>

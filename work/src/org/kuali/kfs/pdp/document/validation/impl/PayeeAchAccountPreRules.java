@@ -38,39 +38,41 @@ public class PayeeAchAccountPreRules extends MaintenancePreRulesBase {
     // only 1 Payee Id field should be populated, the one chosen in Payee Type Code, the rest from the list should be blank
     private void blankFields() {
         String payeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
-        if (payeeIdTypeCd.equals("E")) {
-            newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-            newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-            newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-            newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
-            newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
-        }
-        else if (payeeIdTypeCd.equals("V")) {
-            newPayeeAchAccount.setPersonUniversalIdentifier(null);
-            newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-            newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-            newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-        }
-        else if (payeeIdTypeCd.equals("F")) {
-            newPayeeAchAccount.setPersonUniversalIdentifier(null);
-            newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-            newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-            newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
-            newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
-        }
-        else if (payeeIdTypeCd.equals("S")) {
-            newPayeeAchAccount.setPersonUniversalIdentifier(null);
-            newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-            newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
-            newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
-            newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
-        }
-        else if (payeeIdTypeCd.equals("P")) {
-            newPayeeAchAccount.setPersonUniversalIdentifier(null);
-            newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
-            newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
-            newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
-            newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+        if ( payeeIdTypeCd != null ) {
+            if (payeeIdTypeCd.equals("E")) {
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
+                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
+                newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+            }
+            else if (payeeIdTypeCd.equals("V")) {
+                newPayeeAchAccount.setPersonUniversalIdentifier(null);
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
+                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
+            }
+            else if (payeeIdTypeCd.equals("F")) {
+                newPayeeAchAccount.setPersonUniversalIdentifier(null);
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
+                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
+                newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+            }
+            else if (payeeIdTypeCd.equals("S")) {
+                newPayeeAchAccount.setPersonUniversalIdentifier(null);
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
+                newPayeeAchAccount.setDisbVchrPayeeIdNumber(null);
+                newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
+                newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+            }
+            else if (payeeIdTypeCd.equals("P")) {
+                newPayeeAchAccount.setPersonUniversalIdentifier(null);
+                newPayeeAchAccount.setPayeeFederalEmployerIdentificationNumber(null);
+                newPayeeAchAccount.setPayeeSocialSecurityNumber(null);
+                newPayeeAchAccount.setVendorHeaderGeneratedIdentifier(null);
+                newPayeeAchAccount.setVendorDetailAssignedIdentifier(null);
+            }
         }
     }
 }

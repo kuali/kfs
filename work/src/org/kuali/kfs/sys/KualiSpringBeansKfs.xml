@@ -24,7 +24,7 @@
 		<property name="configFile" value="org/kuali/kfs/dwr-kfs.xml" />
 	</bean>
 	
-	<bean class="org.kuali.core.datadictionary.spring.DataDictionaryLocationConfigurer">
+	<bean class="org.kuali.core.datadictionary.spring.DataDictionaryLocationConfigurer" depends-on="rice">
 		<property name="dataDictionaryPackages" value="org/kuali/kfs/datadictionary" />
 	</bean>
 	
@@ -152,6 +152,7 @@
 				<ref bean="purgeDocumentContentsStep" />
 				<ref bean="purgePendingAttachmentsStep" />
 				<ref bean="purgeOldLookupResultsStep" />
+				<ref bean="purgeTempFilesStep" />
 			</list>
 		</property>
 	</bean>
@@ -167,6 +168,13 @@
 			<ref bean="attachmentService" />
 		</property>
 	</bean>
+
+	<bean id="purgeTempFilesStep" class="org.kuali.kfs.batch.PurgeTempFilesStep" parent="step">
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>
+	</bean>
+	
 	<!-- end core batch jobs -->
 	
 	<bean id="parameterService" class="org.kuali.kfs.service.impl.ParameterServiceImpl">

@@ -26,14 +26,14 @@
 				            	Number of Payments in this Disbursement:
 				            </th>
 				            <td width="25%" align=left class="datacell">						
-				              <a href="<%= request.getContextPath().toString() %>/epicpaymentlist.do?listType=disbursement"><c:out value="${disbNbrTotalPayments}"/></a>
+				              <a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentlist.do?listType=disbursement"><c:out value="${disbNbrTotalPayments}"/></a>
 				            	&nbsp;
 										</td>	
 				            <th width="25%" align=right nowrap>
 				            	Number of Payments in this Payment Group:
 				            </th>
 				            <td width="25%" class="datacell">
-				            	<a href="<%= request.getContextPath().toString() %>/epicpaymentlist.do?listType=group"><c:out value="${size}"/></a>
+				            	<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentlist.do?listType=group"><c:out value="${size}"/></a>
 											&nbsp;
 										</td>
 				          </tr>

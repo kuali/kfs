@@ -199,7 +199,7 @@ public class RoutingFormDocument extends ResearchDocumentBase {
             if (this.getContractGrantProposal().getProposalNumber() == null) {
                 boolean createProposal = false;
                 for (RoutingFormProjectType routingFormProjectType : this.getRoutingFormProjectTypes()) {
-                    if (SpringContext.getBean(ParameterService.class).getParameterEvaluator(getClass(), KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
+                    if (routingFormProjectType.isProjectTypeSelectedIndicator() && SpringContext.getBean(ParameterService.class).getParameterEvaluator(getClass(), KraConstants.CREATE_PROPOSAL_PROJECT_TYPES, routingFormProjectType.getProjectTypeCode()).evaluationSucceeds()) {
                         createProposal = true;
                         break;
                     }

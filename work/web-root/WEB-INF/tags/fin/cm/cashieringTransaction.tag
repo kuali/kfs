@@ -26,7 +26,7 @@
   <div class="h2-container">
     <h2>Currency/Coin</h2>
   </div>
-  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyInCurrency" coinProperty="document.currentTransaction.moneyOutCoin" editingMode="${KualiForm.editingMode}" />
+  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyInCurrency" coinProperty="document.currentTransaction.moneyInCoin" editingMode="${KualiForm.editingMode}" />
 </div>
 <div style="padding: 5px;">
   <div class="h2-container">
@@ -51,7 +51,7 @@
   <div class="h2-container">
     <h2>Currency/Coin</h2>
   </div>
-  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyOutCurrency" coinProperty="document.currentTransaction.moneyInCoin" editingMode="${KualiForm.editingMode}" />
+  <fin:currencyCoinLine currencyProperty="document.currentTransaction.moneyOutCurrency" coinProperty="document.currentTransaction.moneyOutCoin" editingMode="${KualiForm.editingMode}" />
 </div>
 <div style="padding: 5px;">
   <div class="h2-container">

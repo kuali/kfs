@@ -28,30 +28,32 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
  * @author jsissom
  */
-public class GlPendingTransaction implements Serializable {
+public class GlPendingTransaction implements Serializable, FlexibleAccountUpdateable {
     private Integer id; // GL_PENDING_ENTRY_ID NUMBER 8 0
     private String fsOriginCd; // FS_ORIGIN_CD VARCHAR2 2
     private String fdocNbr; // FDOC_NBR VARCHAR2 9
     private Integer sequenceNbr; // TRN_ENTR_SEQ_NBR NUMBER 5 0
-    private String finCoaCd; // FIN_COA_CD VARCHAR2 2
-    private String accountNbr; // ACCOUNT_NBR VARCHAR2 7
-    private String subAccountNbr; // SUB_ACCOUNT_NBR VARCHAR2 5
-    private String finObjectCd; // FIN_OBJECT_CD VARCHAR2 4
-    private String finSubObjCd; // FIN_SUB_OBJ_CD VARCHAR2 3
-    private String finBalanceTypCd; // FIN_BALANCE_TYP_CD VARCHAR2 2
+    private String chartOfAccountsCode; // FIN_COA_CD VARCHAR2 2
+    private String accountNumber; // ACCOUNT_NBR VARCHAR2 7
+    private String subAccountNumber; // SUB_ACCOUNT_NBR VARCHAR2 5
+    private String financialObjectCode; // FIN_OBJECT_CD VARCHAR2 4
+    private String financialSubObjectCode; // FIN_SUB_OBJ_CD VARCHAR2 3
+    private String financialBalanceTypeCode; // FIN_BALANCE_TYP_CD VARCHAR2 2
     private String finObjTypCd; // FIN_OBJ_TYP_CD VARCHAR2 2
-    private Integer univFiscalYr; // UNIV_FISCAL_YR NUMBER 4 0
+    private Integer universityFiscalYear; // UNIV_FISCAL_YR NUMBER 4 0
     private String univFiscalPrdCd; // UNIV_FISCAL_PRD_CD VARCHAR2 2
     private String description; // TRN_LDGR_ENTR_DESC VARCHAR2 40
     private BigDecimal amount; // TRN_LDGR_ENTR_AMT NUMBER 19 2
     private String debitCrdtCd; // TRN_DEBIT_CRDT_CD VARCHAR2 1
     private Timestamp transactionDt; // TRANSACTION_DT DATE 7
-    private String fdocTypCd; // FDOC_TYP_CD VARCHAR2 4
+    private String financialDocumentTypeCode; // FDOC_TYP_CD VARCHAR2 4
     private String orgDocNbr; // ORG_DOC_NBR VARCHAR2 10
     private String projectCd; // PROJECT_CD VARCHAR2 10
     private String orgReferenceId; // ORG_REFERENCE_ID VARCHAR2 8
@@ -75,14 +77,14 @@ public class GlPendingTransaction implements Serializable {
         oe.setFinancialSystemOriginationCode(fsOriginCd);
         oe.setDocumentNumber(fdocNbr);
         oe.setTransactionLedgerEntrySequenceNumber(sequenceNbr);
-        oe.setChartOfAccountsCode(finCoaCd);
-        oe.setAccountNumber(accountNbr);
-        oe.setSubAccountNumber(subAccountNbr);
-        oe.setFinancialObjectCode(finObjectCd);
-        oe.setFinancialSubObjectCode(finSubObjCd);
-        oe.setFinancialBalanceTypeCode(finBalanceTypCd);
+        oe.setChartOfAccountsCode(chartOfAccountsCode);
+        oe.setAccountNumber(accountNumber);
+        oe.setSubAccountNumber(subAccountNumber);
+        oe.setFinancialObjectCode(financialObjectCode);
+        oe.setFinancialSubObjectCode(financialSubObjectCode);
+        oe.setFinancialBalanceTypeCode(financialBalanceTypeCode);
         oe.setFinancialObjectTypeCode(finObjTypCd);
-        oe.setUniversityFiscalYear(univFiscalYr);
+        oe.setUniversityFiscalYear(universityFiscalYear);
         oe.setUniversityFiscalPeriodCode(univFiscalPrdCd);
         oe.setTransactionLedgerEntryDescription(description);
         if (amount != null) {
@@ -92,7 +94,7 @@ public class GlPendingTransaction implements Serializable {
         if (transactionDt != null) {
             oe.setTransactionDate(new Date(transactionDt.getTime()));
         }
-        oe.setFinancialDocumentTypeCode(fdocTypCd);
+        oe.setFinancialDocumentTypeCode(financialDocumentTypeCode);
         oe.setOrganizationDocumentNumber(orgDocNbr);
         oe.setProjectCode(projectCd);
         oe.setOrganizationReferenceId(orgReferenceId);
@@ -107,12 +109,12 @@ public class GlPendingTransaction implements Serializable {
         return oe;
     }
 
-    public String getAccountNbr() {
-        return accountNbr;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public void setAccountNbr(String accountNbr) {
-        this.accountNbr = accountNbr;
+    public void setAccountNumber(String accountNbr) {
+        this.accountNumber = accountNbr;
     }
 
     public String getAcctSfFinObjCd() {
@@ -187,36 +189,36 @@ public class GlPendingTransaction implements Serializable {
         this.fdocReversalDt = fdocReversalDt;
     }
 
-    public String getFdocTypCd() {
-        return fdocTypCd;
+    public String getFinancialDocumentTypeCode() {
+        return financialDocumentTypeCode;
     }
 
-    public void setFdocTypCd(String fdocTypCd) {
-        this.fdocTypCd = fdocTypCd;
+    public void setFinancialDocumentTypeCode(String fdocTypCd) {
+        this.financialDocumentTypeCode = fdocTypCd;
     }
 
-    public String getFinBalanceTypCd() {
-        return finBalanceTypCd;
+    public String getFinancialBalanceTypeCode() {
+        return financialBalanceTypeCode;
     }
 
-    public void setFinBalanceTypCd(String finBalanceTypCd) {
-        this.finBalanceTypCd = finBalanceTypCd;
+    public void setFinancialBalanceTypeCode(String finBalanceTypCd) {
+        this.financialBalanceTypeCode = finBalanceTypCd;
     }
 
-    public String getFinCoaCd() {
-        return finCoaCd;
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
     }
 
-    public void setFinCoaCd(String finCoaCd) {
-        this.finCoaCd = finCoaCd;
+    public void setChartOfAccountsCode(String finCoaCd) {
+        this.chartOfAccountsCode = finCoaCd;
     }
 
-    public String getFinObjectCd() {
-        return finObjectCd;
+    public String getFinancialObjectCode() {
+        return financialObjectCode;
     }
 
-    public void setFinObjectCd(String finObjectCd) {
-        this.finObjectCd = finObjectCd;
+    public void setFinancialObjectCode(String finObjectCd) {
+        this.financialObjectCode = finObjectCd;
     }
 
     public String getFinObjTypCd() {
@@ -227,12 +229,12 @@ public class GlPendingTransaction implements Serializable {
         this.finObjTypCd = finObjTypCd;
     }
 
-    public String getFinSubObjCd() {
-        return finSubObjCd;
+    public String getFinancialSubObjectCode() {
+        return financialSubObjectCode;
     }
 
-    public void setFinSubObjCd(String finSubObjCd) {
-        this.finSubObjCd = finSubObjCd;
+    public void setFinancialSubObjectCode(String finSubObjCd) {
+        this.financialSubObjectCode = finSubObjCd;
     }
 
     public String getFsOriginCd() {
@@ -299,12 +301,12 @@ public class GlPendingTransaction implements Serializable {
         this.sequenceNbr = sequenceNbr;
     }
 
-    public String getSubAccountNbr() {
-        return subAccountNbr;
+    public String getSubAccountNumber() {
+        return subAccountNumber;
     }
 
-    public void setSubAccountNbr(String subAccountNbr) {
-        this.subAccountNbr = subAccountNbr;
+    public void setSubAccountNumber(String subAccountNbr) {
+        this.subAccountNumber = subAccountNbr;
     }
 
     public Timestamp getTransactionDt() {
@@ -339,12 +341,12 @@ public class GlPendingTransaction implements Serializable {
         this.univFiscalPrdCd = univFiscalPrdCd;
     }
 
-    public Integer getUnivFiscalYr() {
-        return univFiscalYr;
+    public Integer getUniversityFiscalYear() {
+        return universityFiscalYear;
     }
 
-    public void setUnivFiscalYr(Integer univFiscalYr) {
-        this.univFiscalYr = univFiscalYr;
+    public void setUniversityFiscalYear(Integer univFiscalYr) {
+        this.universityFiscalYear = univFiscalYr;
     }
 
     public boolean equals(Object obj) {
@@ -362,4 +364,6 @@ public class GlPendingTransaction implements Serializable {
     public String toString() {
         return new ToStringBuilder(this).append("id", id).toString();
     }
+    
+    public void setAccount(Account a) { /* don't do nada; we're just fulfilling the contract of FlexibleAccountUpdateable */ }
 }

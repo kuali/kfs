@@ -783,11 +783,13 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
             }
         }
 
-        /* total on nonemployee travel must equal Check Total */
+        /* total on non-employee travel must equal Check Total */
         /* if tax has been take out, need to add back in the tax amount for the check */
         KualiDecimal paidAmount = document.getDisbVchrCheckTotalAmount();
         paidAmount = paidAmount.add(SpringContext.getBean(DisbursementVoucherTaxService.class).getNonResidentAlienTaxAmount(document));
-        if (paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
+        // Ignore this rule if the DV has been coded for NRA tax, because amounts will not balance after tax coding.
+        boolean nraTaxCoded = !"".equalsIgnoreCase(document.getDvNonResidentAlienTax().getIncomeClassCode()) && !"N".equalsIgnoreCase(document.getDvNonResidentAlienTax().getIncomeClassCode());
+        if (!nraTaxCoded && paidAmount.compareTo(document.getDvNonEmployeeTravel().getTotalTravelAmount()) != 0) {
             errors.putErrorWithoutFullErrorPath(KFSConstants.DV_CHECK_TRAVEL_TOTAL_ERROR, KFSKeyConstants.ERROR_DV_TRAVEL_CHECK_TOTAL);
         }
 
@@ -948,8 +950,10 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     private void validateDocumentationLocation(DisbursementVoucherDocument document) {
         String documentationLocationCode = document.getDisbursementVoucherDocumentationLocationCode();
 
+        if (ObjectUtils.isNotNull(document.getDvPayeeDetail().getDisbVchrPaymentReasonCode())) {
         // payment reason restrictions
         getParameterService().getParameterEvaluator(document.getClass(), DisbursementVoucherRuleConstants.VALID_DOC_LOC_BY_PAYMENT_REASON_PARM, DisbursementVoucherRuleConstants.INVALID_DOC_LOC_BY_PAYMENT_REASON_PARM, document.getDvPayeeDetail().getDisbVchrPaymentReasonCode(), documentationLocationCode).evaluateAndAddError(document.getClass(), KFSPropertyConstants.DISBURSEMENT_VOUCHER_DOCUMENTATION_LOCATION_CODE);
+        }
 
         // alien indicator restrictions
         if (document.getDvPayeeDetail().isDisbVchrAlienPaymentCode()) {

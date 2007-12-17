@@ -18,9 +18,13 @@ package org.kuali.module.labor.batch.poster.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.rules.TransactionFieldValidator;
 import org.kuali.module.labor.util.MessageBuilder;
@@ -31,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class LaborPosterTransactionValidator implements VerifyTransaction {
+    
     /**
      * @see org.kuali.module.gl.batch.poster.VerifyTransaction#verifyTransaction(org.kuali.module.gl.bo.Transaction)
      */
@@ -38,10 +43,11 @@ public class LaborPosterTransactionValidator implements VerifyTransaction {
         List<Message> messageList = new ArrayList<Message>();
 
         LaborTransaction laborTransaction = (LaborTransaction) transaction;
+
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalYear(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkChartOfAccountsCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkAccountNumber(laborTransaction));
-        MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkSubAccountNumber(laborTransaction));
+        MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkSubAccountNumber(laborTransaction, LaborConstants.ANNUAL_CLOSING_DOCUMENT_TYPE_CODE));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkUniversityFiscalPeriodCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialBalanceTypeCode(laborTransaction));
         MessageBuilder.addMessageIntoList(messageList, TransactionFieldValidator.checkFinancialObjectCode(laborTransaction));

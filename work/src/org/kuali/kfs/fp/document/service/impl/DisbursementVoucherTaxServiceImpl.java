@@ -346,17 +346,17 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
      * @param document The disbursement voucher the NRA tax lines will be removed from.
      */
     public void clearNRATaxLines(DisbursementVoucherDocument document) {
-        List taxLines = new ArrayList();
+        ArrayList<SourceAccountingLine> taxLines = new ArrayList<SourceAccountingLine>();
         KualiDecimal taxTotal = new KualiDecimal(0);
 
         DisbursementVoucherNonResidentAlienTax dvnrat = document.getDvNonResidentAlienTax();
         if (dvnrat != null) {
-            List previousTaxLineNumbers = getNRATaxLineNumbers(dvnrat.getFinancialDocumentAccountingLineText());
+            List<Integer> previousTaxLineNumbers = getNRATaxLineNumbers(dvnrat.getFinancialDocumentAccountingLineText());
 
             // get tax lines out of source lines
             boolean previousGrossUp = false;
-            for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
-                AccountingLine line = (AccountingLine) iter.next();
+            List<SourceAccountingLine> srcLines = document.getSourceAccountingLines();
+            for (SourceAccountingLine line : srcLines) {
                 if (previousTaxLineNumbers.contains(line.getSequenceNumber())) {
                     taxLines.add(line);
 
@@ -371,7 +371,22 @@ public class DisbursementVoucherTaxServiceImpl implements DisbursementVoucherTax
             }
 
             // remove tax lines
-            document.getSourceAccountingLines().removeAll(taxLines);
+            /*
+             * NOTE: a custom remove method needed to be used here because the .equals() method for 
+             * AccountingLineBase does not take amount into account when determining equality.  
+             * This lead to the issues described in KULRNE-6201.  
+             */
+            Iterator<SourceAccountingLine> saLineIter  = document.getSourceAccountingLines().iterator();
+            while(saLineIter.hasNext()) {
+                SourceAccountingLine saLine = saLineIter.next();
+                for(SourceAccountingLine taxLine : taxLines) {
+                    if(saLine.equals(taxLine)) {
+                        if(saLine.getAmount().equals(taxLine.getAmount())) {
+                            saLineIter.remove();
+                        }
+                    }
+                }
+            }
 
             // update check total if not grossed up
             if (!previousGrossUp) {

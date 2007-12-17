@@ -109,6 +109,16 @@
 		<property name="documentService">
 			<ref bean="documentService"/>
 		</property>
+	    <property name="mailService">
+	    	<ref bean="mailService"/>
+	    </property>
+    	<property name="environmentService">
+    		<ref bean="pdpEnvironmentService"/>
+    	</property>
+	</bean>
+
+	<bean id="pdpEnvironmentService" class="org.kuali.module.pdp.service.impl.EnvironmentServiceImpl">
+		<property name="kualiConfigurationService" ref="kualiConfigurationService" />
 	</bean>
 
 	<bean id="requisitionService" class="org.kuali.module.purap.service.impl.RequisitionServiceImpl">
@@ -330,6 +340,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService"/>
 		</property>
+		<property name="dvExtractService">
+			<ref bean="disbursementVoucherExtractService" />
+		</property>
 	</bean>
 
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
@@ -393,6 +406,7 @@
 	<bean id="purchasingPreDisbursementExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
+                <ref bean="purchasingPreDisbursementImmediatesExtractStep" />
 				<ref bean="purchasingPreDisbursementExtractStep" />
 			</list>
 		</property>

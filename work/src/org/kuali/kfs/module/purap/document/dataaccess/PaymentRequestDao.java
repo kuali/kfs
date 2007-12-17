@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 
 /**
  * Payment Request DAO Interface.
@@ -38,6 +39,15 @@ public interface PaymentRequestDao {
      * @return - list of payment requests that need to be extracted
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtract(String campusCode, Integer paymentRequestIdentifier, Integer purchaseOrderIdentifier, Integer vendorHeaderGeneratedIdentifier, Integer vendorDetailAssignedIdentifier);
+
+    /**
+     * Get all the payment requests that need to be extracted that match a credit memo.
+     * 
+     * @param campusCode - limit results to a single chart
+     * @param vendor - Vendor Header ID, Vendor Detail ID, Country, Zip Code
+     * @return - list of payment requests that need to be extracted
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor );
 
     /**
      * Get all the payment requests that need to be extracted to PDP.

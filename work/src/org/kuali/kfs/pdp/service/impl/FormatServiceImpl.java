@@ -156,15 +156,15 @@ public class FormatServiceImpl implements FormatService {
         int maxNoteLines = getMaxNoteLines();
 
         // Step one, get ACH or Check, Bank info, ACH info, sorting
-        Iterator i = paymentGroupDao.getByProcess(proc);
+        Iterator groups = paymentGroupDao.getByProcess(proc);
 
         PostFormatProcessSummary fps = new PostFormatProcessSummary();
         CustomerProfile customer = null;
         Bank checkBank = null;
         Bank achBank = null;
 
-        while (i.hasNext()) {
-            PaymentGroup pg = (PaymentGroup) i.next();
+        while (groups.hasNext()) {
+            PaymentGroup pg = (PaymentGroup) groups.next();
             LOG.debug("performFormat() Step 1 Payment Group ID " + pg.getId());
 
             // Set the sort field to be saved in the database
@@ -256,10 +256,10 @@ public class FormatServiceImpl implements FormatService {
         LOG.debug("performFormat() Combining");
 
         PaymentInfo lastPaymentInfo = new PaymentInfo();
-        i = paymentGroupDao.getByProcess(proc);
+        groups = paymentGroupDao.getByProcess(proc);
 
-        while (i.hasNext()) {
-            PaymentGroup pg = (PaymentGroup) i.next();
+        while (groups.hasNext()) {
+            PaymentGroup pg = (PaymentGroup) groups.next();
 
             // Only look at checks
             if (checkDisbursementType.equals(pg.getDisbursementType())) {
@@ -445,7 +445,7 @@ public class FormatServiceImpl implements FormatService {
     }
 
     // This is the second pass. It determines the
-    // disbrusement number and creates GL entries
+    // disbursement number and creates GL entries
     private void pass2(String campus, Map disbursementTypes, Map paymentStatusCodes, PaymentProcess p, PostFormatProcessSummary fps) throws DisbursementRangeExhaustedException, MissingDisbursementRangeException {
         LOG.debug("pass2() starting");
 
@@ -589,7 +589,6 @@ public class FormatServiceImpl implements FormatService {
         }
     }
 
-
     // ***************************************************
     // IoC stuff below here
     // ***************************************************
@@ -661,4 +660,5 @@ public class FormatServiceImpl implements FormatService {
     public void setBusinessObjectService(BusinessObjectService bos) {
         this.businessObjectService = bos;
     }
+    
 }

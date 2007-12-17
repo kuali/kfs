@@ -125,7 +125,7 @@ public class KualiBatchJobModifyAction extends KualiAction {
 
         int startStep = Integer.parseInt(startStepStr);
         int endStep = Integer.parseInt(endStepStr);
-        Date startTime = new Date();
+        Date startTime = SpringContext.getBean(DateTimeService.class).getCurrentDate();
         if (!StringUtils.isBlank(startTimeStr)) {
             startTime = SpringContext.getBean(DateTimeService.class).convertToDateTime(startTimeStr);
         }

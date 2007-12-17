@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.metadata.MetadataManager;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
@@ -69,7 +70,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
         List errors = new ArrayList();
 
         // The encumbrance update code can only be space, N, R or D. Nothing else
-        if ((t.getTransactionEncumbranceUpdateCode() != null) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
+        if ((StringUtils.isNotBlank(t.getTransactionEncumbranceUpdateCode())) && (!" ".equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode())) && (!KFSConstants.ENCUMB_UPDT_DOCUMENT_CD.equals(t.getTransactionEncumbranceUpdateCode()))) {
             errors.add("Invalid Encumbrance Update Code (" + t.getTransactionEncumbranceUpdateCode() + ")");
         }
 
@@ -91,7 +92,7 @@ public class PostEncumbrance implements PostTransaction, VerifyTransaction, Encu
 
         // If the encumbrance update code is space or N, or the object type code is FB
         // we don't need to post an encumbrance
-        if ((t.getTransactionEncumbranceUpdateCode() == null) || " ".equals(t.getTransactionEncumbranceUpdateCode()) || KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()) || t.getOption().getFinObjectTypeFundBalanceCd().equals(t.getFinancialObjectTypeCode())) {
+        if ((StringUtils.isBlank(t.getTransactionEncumbranceUpdateCode())) || " ".equals(t.getTransactionEncumbranceUpdateCode()) || KFSConstants.ENCUMB_UPDT_NO_ENCUMBRANCE_CD.equals(t.getTransactionEncumbranceUpdateCode()) || t.getOption().getFinObjectTypeFundBalanceCd().equals(t.getFinancialObjectTypeCode())) {
             LOG.debug("post() not posting non-encumbrance transaction");
             return "";
         }

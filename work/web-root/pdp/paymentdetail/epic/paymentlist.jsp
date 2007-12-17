@@ -42,7 +42,7 @@
       <table width="100%" height=40 border=0 cellpadding=0 cellspacing=0>
         <tr>
           <td colspan="2">
-          	Return to:&nbsp;&nbsp;<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnSummaryTab=param">Payment Detail Screen</a>
+          	Return to:&nbsp;&nbsp;<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnSummaryTab=param">Payment Detail Screen</a>
           </td>
           <td>
             <div align=right>
@@ -64,42 +64,42 @@
 			        <tr>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnSummaryTab=param" class="HdrScrLnk">Summary</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnSummaryTab=param" class="HdrScrLnk">Summary</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnBatchTab=param" class="HdrScrLnk">Batch</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnBatchTab=param" class="HdrScrLnk">Batch</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnPaymentTab=param" class="HdrScrLnk">Payment</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnPaymentTab=param" class="HdrScrLnk">Payment</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align="center">
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnPayeeTab=param" class="HdrScrLnk">Payee</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnPayeeTab=param" class="HdrScrLnk">Payee</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 									<div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnAccountingTab=param" class="HdrScrLnk">Accounting</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnAccountingTab=param" class="HdrScrLnk">Accounting</a>
 			            </div>
 			        	</td>
 								<td class="tab-notselected" >
 									<div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnAchInfoTab=param" class="HdrScrLnk">ACH Info</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnAchInfoTab=param" class="HdrScrLnk">ACH Info</a>
 			            </div>
 			        	</td>								
 								<td class="tab-notselected" >
 			            <div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnHistoryTab=param" class="HdrScrLnk">History</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnHistoryTab=param" class="HdrScrLnk">History</a>
 			            </div>
 			          </td>
 								<td class="tab-notselected" >
 			            <div align=center>
-		             		<a href="<%= request.getContextPath().toString() %>/epicpaymentdetail.do?btnNotesTab=param" class="HdrScrLnk">Notes</a>
+		             		<a href="<%= request.getContextPath().toString() %>/pdp/epicpaymentdetail.do?btnNotesTab=param" class="HdrScrLnk">Notes</a>
 			            </div>
 			          </td>
 			    		</tr>
@@ -286,7 +286,7 @@
 								<c:out value="${PaymentDetail.requisitionNbr}" />&nbsp;
 							</td>
 			        <td nowrap=nowrap class="datacell">
-			        	<c:out value="${PaymentDetail.paymentGroup.customerIuNbr}"/>
+			        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNumber}"/>
 								&nbsp;
 							</td>
 							<td nowrap=nowrap class="datacell">
@@ -385,7 +385,7 @@
 									<c:out value="${item.requisitionNbr}" />&nbsp;
 								</td>
 				        <td nowrap=nowrap class="datacell">
-				        	<c:out value="${PaymentDetail.paymentGroup.customerIuNbr}"/>&nbsp;
+				        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNumber}"/>&nbsp;
 								</td>
 								<td nowrap=nowrap class="datacell">
 									<fmt:formatDate value="${item.paymentGroup.paymentDate}" pattern="MM/dd/yyyy" />&nbsp;
@@ -454,7 +454,7 @@
 									<c:out value="${item.requisitionNbr}" />&nbsp;
 								</td>
 				        <td nowrap=nowrap class="datacell">
-				        	<c:out value="${PaymentDetail.paymentGroup.customerIuNbr}"/>&nbsp;
+				        	<c:out value="${PaymentDetail.paymentGroup.customerInstitutionNumber}"/>&nbsp;
 								</td>
 								<td nowrap=nowrap class="datacell">
 									<fmt:formatDate value="${item.paymentGroup.paymentDate}" pattern="MM/dd/yyyy" />&nbsp;

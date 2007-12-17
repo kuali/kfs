@@ -91,9 +91,21 @@ public class TransactionFieldValidator {
      * @return null if the sub account number is valid; otherwise, return error message
      */
     public static Message checkSubAccountNumber(LaborTransaction transaction) {
+        return checkSubAccountNumber(transaction, null);
+    }
+
+    /**
+     * Checks if the given transaction contains valid sub account number
+     * 
+     * @param transaction the given transaction
+     * @param exclusiveDocumentTypeCode inactive sub account can be OK if the document type of the given transaction is exclusiveDocumentTypeCode 
+     * @return null if the sub account number is valid; otherwise, return error message
+     */
+    public static Message checkSubAccountNumber(LaborTransaction transaction, String exclusiveDocumentTypeCode) {
         String subAccountNumber = transaction.getSubAccountNumber();
         String chartOfAccountsCode = transaction.getChartOfAccountsCode();
         String accountNumber = transaction.getAccountNumber();
+        String documentTypeCode = transaction.getFinancialDocumentTypeCode();
 
         String subAccountKey = chartOfAccountsCode + "-" + accountNumber + "-" + subAccountNumber;
         if (StringUtils.isBlank(subAccountNumber)) {
@@ -105,8 +117,10 @@ public class TransactionFieldValidator {
                 return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_FOUND, subAccountKey, Message.TYPE_FATAL);
             }
 
-            if (!transaction.getSubAccount().isSubAccountActiveIndicator()) {
-                return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, subAccountKey, Message.TYPE_FATAL);
+            if (!StringUtils.equals(documentTypeCode, exclusiveDocumentTypeCode)) {
+                if (!transaction.getSubAccount().isSubAccountActiveIndicator()) {
+                    return MessageBuilder.buildErrorMessage(KFSKeyConstants.ERROR_SUB_ACCOUNT_NOT_ACTIVE, subAccountKey, Message.TYPE_FATAL);
+                }
             }
         }
         return null;

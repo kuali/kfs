@@ -25,6 +25,8 @@ import org.kuali.core.service.DataDictionaryService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.gl.bo.OriginEntryFull;
 
 /**
@@ -230,6 +232,11 @@ public class LaborConstants {
             SPACE_TRANSACTION_DATE = StringUtils.rightPad("", SpringContext.getBean(DataDictionaryService.class).getAttributeSize(OriginEntryFull.class, KFSPropertyConstants.TRANSACTION_DATE), ' ');
         }
         return SPACE_TRANSACTION_DATE;
+    }
+    
+    public static final String ANNUAL_CLOSING_DOCUMENT_TYPE_CODE = getAnnualClosingDocumentType();   
+    private static String getAnnualClosingDocumentType() {
+        return SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.GENERAL_LEDGER_BATCH.class, KFSConstants.SystemGroupParameterNames.GL_ANNUAL_CLOSING_DOC_TYPE);
     }
 
     public static final String[] ACCOUNT_FIELDS = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER };

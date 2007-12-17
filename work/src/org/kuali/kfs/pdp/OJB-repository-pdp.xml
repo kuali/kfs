@@ -24,14 +24,14 @@
 
   <class-descriptor class="org.kuali.module.pdp.bo.AchAccountNumber" table="PDP_ACH_ACCT_NBR_T">
     <field-descriptor name="id" column="PMT_GRP_ID" jdbc-type="INTEGER" primarykey="true"/>
-    <field-descriptor name="achBankAccountNbr" column="ACH_BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="achBankAccountNbr" column="ACH_BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="lastUpdate" column="LST_UPDT_TS" jdbc-type="TIMESTAMP"/>
     <field-descriptor name="version" column="VER_NBR" jdbc-type="INTEGER" locking="true"/>
   </class-descriptor>
 
   <class-descriptor class="org.kuali.module.pdp.bo.Bank" table="PDP_BNK_CD_T">
     <field-descriptor name="id" column="BNK_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PDP_BNK_ID_SEQ" autoincrement="true"/>
-    <field-descriptor name="accountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
+    <field-descriptor name="accountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
     <field-descriptor name="active" column="BNK_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
     <field-descriptor name="description" column="BNK_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="name" column="BNK_NM" jdbc-type="VARCHAR"/>
@@ -204,20 +204,20 @@
      <field-descriptor name="fsOriginCd" column="FS_ORIGIN_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="fdocNbr" column="FDOC_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="sequenceNbr" column="TRN_ENTR_SEQ_NBR" jdbc-type="INTEGER"/>
-     <field-descriptor name="finCoaCd" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="accountNbr" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-     <field-descriptor name="subAccountNbr" column="SUB_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
-     <field-descriptor name="finObjectCd" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="finSubObjCd" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="finBalanceTypCd" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR"/>
+     <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+     <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+     <field-descriptor name="subAccountNumber" column="SUB_ACCOUNT_NBR" jdbc-type="VARCHAR"/>
+     <field-descriptor name="financialObjectCode" column="FIN_OBJECT_CD" jdbc-type="VARCHAR"/>
+     <field-descriptor name="financialSubObjectCode" column="FIN_SUB_OBJ_CD" jdbc-type="VARCHAR"/>
+     <field-descriptor name="financialBalanceTypeCode" column="FIN_BALANCE_TYP_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="finObjTypCd" column="FIN_OBJ_TYP_CD" jdbc-type="VARCHAR"/>
-     <field-descriptor name="univFiscalYr" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
+     <field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER"/>
      <field-descriptor name="univFiscalPrdCd" column="UNIV_FISCAL_PRD_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="description" column="TRN_LDGR_ENTR_DESC" jdbc-type="VARCHAR"/>
      <field-descriptor name="amount" column="TRN_LDGR_ENTR_AMT" jdbc-type="DECIMAL"/>
      <field-descriptor name="debitCrdtCd" column="TRN_DEBIT_CRDT_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="transactionDt" column="TRANSACTION_DT" jdbc-type="TIMESTAMP"/>
-     <field-descriptor name="fdocTypCd" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
+     <field-descriptor name="financialDocumentTypeCode" column="FDOC_TYP_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="orgDocNbr" column="ORG_DOC_NBR" jdbc-type="VARCHAR"/>
      <field-descriptor name="projectCd" column="PROJECT_CD" jdbc-type="VARCHAR"/>
      <field-descriptor name="orgReferenceId" column="ORG_REFERENCE_ID" jdbc-type="VARCHAR"/>
@@ -543,7 +543,7 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="bankRoutingNumber" column="BNK_RTNG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="bankAccountNumber" column="BNK_ACCT_NBR" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbKualiEncryptDecryptFieldConversion"/>
 	<field-descriptor name="payeeName" column="PAYEE_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="payeeEmailAddress" column="PAYEE_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="vendorHeaderGeneratedIdentifier" column="VNDR_HDR_GNRTD_ID" jdbc-type="INTEGER"/>

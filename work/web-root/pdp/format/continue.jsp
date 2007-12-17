@@ -20,15 +20,23 @@
 <head>
 <link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
 <title>Format Disbursement Summary</title>
-<script language="JavaScript">
+<script type="text/javascript">
   var formHasAlreadyBeenSubmitted = false;
+  var excludeSubmitRestriction = false;
   function hasFormAlreadyBeenSubmitted() {
-    if (formHasAlreadyBeenSubmitted) {
-      alert("Action is already in progress. Please do not double click buttons in PDP.");
+    if ( document.getElementById( "formComplete" ) ) { 
+	  if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
+        alert("Page already being processed by the server.");
+        return false;
+      } else {
+        formHasAlreadyBeenSubmitted = true;
+        return true;
+      }
+      excludeSubmitRestriction = false; 
+    } else {
+      alert("Page has not finished loading.");
       return false;
     }
-    formHasAlreadyBeenSubmitted = true;
-    return true;
   }
 </script>
 </head>
@@ -138,6 +146,7 @@
   </tr>
   </tbody>
 </table>
+<div id="formComplete"></div>
 <p>&nbsp;</p>
 <c:import url="/pdp/backdoor.jsp"/>
 </body>

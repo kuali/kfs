@@ -22,16 +22,28 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.exceptions.UserNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.financial.bo.DisbursementVoucherNonEmployeeExpense;
@@ -58,6 +70,8 @@ import org.kuali.module.pdp.service.PaymentFileService;
 import org.kuali.module.pdp.service.PaymentGroupService;
 import org.kuali.module.pdp.service.ReferenceService;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * 
@@ -173,8 +187,15 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         paymentGroupService.save(pg);
 
         if (!testMode) {
+            try {
             document.getDocumentHeader().setFinancialDocumentStatusCode(DisbursementVoucherRuleConstants.DocumentStatusCodes.EXTRACTED);
-            disbursementVoucherDao.save(document);
+                document.setExtractDate(new java.sql.Date(processRunDate.getTime()));
+                SpringContext.getBean(DocumentService.class).saveDocument(document, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+            catch (WorkflowException we) {
+                LOG.error("Could not save disbursement voucher document #"+document.getDocumentNumber()+": "+we);
+                throw new RuntimeException(we);
+    }
         }
     }
 
@@ -299,6 +320,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
         pd.setInvTotOtherDebitAmount(new BigDecimal("0"));
         pd.setInvTotShipAmount(new BigDecimal("0"));
         pd.setNetPaymentAmount(document.getDisbVchrCheckTotalAmount().bigDecimalValue());
+        pd.setPrimaryCancelledPayment(Boolean.FALSE);
+        pd.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
 
         // Handle accounts
         for (Iterator iter = document.getSourceAccountingLines().iterator(); iter.hasNext();) {
@@ -403,7 +426,7 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
             pnt.setCustomerNoteText("The total per diem amount for your daily expenses is " + dvnet.getDisbVchrPerdiemCalculatedAmt());
             pd.addNote(pnt);
 
-            if (dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0) {
+            if (dvnet.getDisbVchrPersonalCarAmount() != null && dvnet.getDisbVchrPersonalCarAmount().compareTo(KualiDecimal.ZERO) != 0) {
                 pnt = new PaymentNoteText();
                 pnt.setCustomerNoteLineNbr(line++);
                 pnt.setCustomerNoteText("The total dollar amount for your vehicle mileage is " + dvnet.getDisbVchrPersonalCarAmount());
@@ -536,7 +559,8 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
 
         Collection<DisbursementVoucherDocument> list = new ArrayList<DisbursementVoucherDocument>();
 
-        Collection docs = disbursementVoucherDao.getDocumentsByHeaderStatus(statusCode);
+        try {
+            Collection docs = SpringContext.getBean(DocumentService.class).findByDocumentHeaderStatusCode(DisbursementVoucherDocument.class, statusCode);
         for (Iterator iter = docs.iterator(); iter.hasNext();) {
             DisbursementVoucherDocument element = (DisbursementVoucherDocument) iter.next();
 
@@ -554,7 +578,135 @@ public class DisbursementVoucherExtractServiceImpl implements DisbursementVouche
                 list.add(element);
             }
         }
+        }
+        catch (WorkflowException we) {
+            LOG.error("Could not load Disbursement Voucher Documents with status code = "+statusCode+": "+we);
+            throw new RuntimeException(we);
+        }
         return list;
+    }
+
+    /**
+     * This cancels the disbursement voucher
+     * @param dv the disbursement voucher document to cancel
+     * @param processDate the date of the cancelation
+     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#cancelExtractedDisbursementVoucher(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     */
+    public void cancelExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+        if (dv.getCancelDate() == null) {
+            try {
+                BusinessObjectService boService = SpringContext.getBean(BusinessObjectService.class);
+                // set the canceled date
+                dv.setCancelDate(processDate);
+                dv.refreshReferenceObject("generalLedgerPendingEntries");
+                if (ObjectUtils.isNull(dv.getGeneralLedgerPendingEntries()) || dv.getGeneralLedgerPendingEntries().size() == 0) {
+                    // generate all the pending entries for the document
+                    SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(dv);
+                    // for each pending entry, opposite-ify it and reattach it to the document
+                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper();
+                    for (GeneralLedgerPendingEntry glpe: dv.getGeneralLedgerPendingEntries()) {
+                        oppositifyEntry(glpe, boService, glpeSeqHelper);
+                    }
+                } 
+                else {
+                    List<GeneralLedgerPendingEntry> newGLPEs = new ArrayList<GeneralLedgerPendingEntry>();
+                    GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper = new GeneralLedgerPendingEntrySequenceHelper(dv.getGeneralLedgerPendingEntries().size()+1);
+                    for (GeneralLedgerPendingEntry glpe: dv.getGeneralLedgerPendingEntries()) {
+                        glpe.refresh();
+                        if (glpe.getFinancialDocumentApprovedCode().equals(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.PROCESSED)) {
+                            // damn! it got processed! well, make a copy, oppositify, and save
+                            GeneralLedgerPendingEntry undoer = new GeneralLedgerPendingEntry(glpe);
+                            oppositifyEntry(undoer, boService, glpeSeqHelper);
+                            newGLPEs.add(undoer);
+                        } else {
+                            // just delete the GLPE before anything happens to it
+                            boService.delete(glpe);
+                        }
+                    }
+                    dv.setGeneralLedgerPendingEntries(newGLPEs);
+                }
+                // set the financial document status to canceled
+                dv.getDocumentHeader().setFinancialDocumentStatusCode(KFSConstants.DocumentStatusCodes.CANCELLED);
+                // save the document
+                SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+            }
+            catch (WorkflowException we) {
+                LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+                throw new RuntimeException(we);
+            }
+        }
+    }
+    
+    /**
+     * Updates the given general ledger pending entry so that it will have the opposite effect of what it was created to do; this, in effect,
+     * undoes the entries that were already posted for this document
+     * @param glpe the general ledger pending entry to undo
+     */
+    private void oppositifyEntry(GeneralLedgerPendingEntry glpe, BusinessObjectService boService, GeneralLedgerPendingEntrySequenceHelper glpeSeqHelper) {
+        if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_CREDIT_CODE)) {
+            glpe.setTransactionDebitCreditCode(KFSConstants.GL_DEBIT_CODE);
+        } else if (glpe.getTransactionDebitCreditCode().equals(KFSConstants.GL_DEBIT_CODE)) {
+            glpe.setTransactionDebitCreditCode(KFSConstants.GL_CREDIT_CODE);
+        }
+        glpe.setTransactionLedgerEntrySequenceNumber(glpeSeqHelper.getSequenceCounter());
+        glpeSeqHelper.increment();
+        glpe.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+        boService.save(glpe);
+    }
+
+    /**
+     * This updates the disbursement voucher so that when it is re-extracted, information about it will be accurate
+     * @param dv the disbursement voucher document to reset
+     * @param processDate the date of the reseting
+     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#resetExtractedDisbursementVoucher(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     */
+    public void resetExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+        try {
+            // 1. reset the extracted date
+            dv.setExtractDate(null);
+            dv.setPaidDate(null);
+            // 2. save the doc
+            SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            throw new RuntimeException(we);
+        }
+    }
+
+    /**
+     * Looks up the document using document service, and deals with any nasty WorkflowException or ClassCastExceptions that pop up
+     * @param documentNumber the number of the document to look up
+     * @return the dv doc if found, or null otherwise
+     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#getDocumentById(java.lang.String)
+     */
+    public DisbursementVoucherDocument getDocumentById(String documentNumber) {
+        DisbursementVoucherDocument dv = null;
+        try {
+            dv = (DisbursementVoucherDocument)SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentNumber);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to retrieve Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            throw new RuntimeException(we);
+        }
+        return dv;
+    }
+
+    /**
+     * Marks the disbursement voucher as paid by setting its paid date
+     * @param dv the dv document to mark as paid
+     * @param processDate the date when the dv was paid
+     * @see org.kuali.module.financial.service.DisbursementVoucherExtractService#markDisbursementVoucherAsPaid(org.kuali.module.financial.document.DisbursementVoucherDocument)
+     */
+    public void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate) {
+        try {
+            dv.setPaidDate(processDate);
+            SpringContext.getBean(DocumentService.class).saveDocument(dv, AccountingDocumentSaveWithNoLedgerEntryGenerationEvent.class);
+        }
+        catch (WorkflowException we) {
+            LOG.error("encountered workflow exception while attempting to save Disbursement Voucher: "+dv.getDocumentNumber()+" "+we);
+            throw new RuntimeException(we);
+        }
     }
 
     /**

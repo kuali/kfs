@@ -55,7 +55,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
         if (i.hasNext()) {
             Map m = (Map) i.next();
             assertEquals("Map should have 1 field", 1, m.size());
-            BigDecimal value = (BigDecimal) m.get("1");
+            Number value = (Number) m.get("1");
             assertEquals("Field should equal 1", 1.00, value.doubleValue(), 0.01);
         }
         TransactionalServiceUtils.exhaustIterator(i);
@@ -68,7 +68,7 @@ public class TestUnitTestSqlDao extends KualiTestBase {
         unitTestSqlDao.sqlCommand("delete from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");
 
         // Insert into the table
-        int rows = unitTestSqlDao.sqlCommand("insert into SH_STATE_T (POSTAL_STATE_CD,POSTAL_STATE_NM) values ('JJ','JJSTATE')");
+        int rows = unitTestSqlDao.sqlCommand("insert into SH_STATE_T (POSTAL_STATE_CD,POSTAL_STATE_NM, OBJ_ID) values ('JJ','JJSTATE', 'BLAH BLAH BLAH')");
         assertEquals("Should have inserted 1 row", 1, rows);
 
         List results = unitTestSqlDao.sqlSelect("select POSTAL_STATE_CD,POSTAL_STATE_NM from SH_STATE_T where POSTAL_STATE_CD = 'JJ'");

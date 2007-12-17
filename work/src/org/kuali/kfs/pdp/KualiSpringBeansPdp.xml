@@ -354,4 +354,13 @@
 	<bean id="pdpPaymentFileParser" class="org.kuali.module.pdp.xml.impl.PaymentFileParserImpl" singleton="false">
 		<property name="kualiConfigurationService" ref="kualiConfigurationService"/>
 	</bean>
+	
+	<bean id="pdpPayeeAchAccountLookupableHelperService" class="org.kuali.module.pdp.lookup.PayeeAchAccountLookupableHelperService" parent="lookupableHelperService" singleton="false">
+	</bean>
+	
+	<bean id="pdpPayeeAchAccountLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+	    <property name="lookupableHelperService">
+	        <ref bean="pdpPayeeAchAccountLookupableHelperService" />
+	    </property>
+	</bean>
 </beans>

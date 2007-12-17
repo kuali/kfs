@@ -15,6 +15,10 @@
  */
 package org.kuali.module.financial.service;
 
+import java.util.Date;
+
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
+
 /**
  * 
  * This service interface defines the methods that a DisbursementVoucherExtractService implementation must provide.
@@ -28,4 +32,30 @@ public interface DisbursementVoucherExtractService {
      * @return True if the extraction of payments is successful, false if not.
      */
     public boolean extractPayments();
+    
+    /**
+     * Cancels a disbursement voucher completely, because its payment has been canceled
+     * @param dv the disbursement voucher to cancel
+     */
+    public abstract void cancelExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate);
+    
+    /**
+     * Resets the disbursement voucher so that it can be reextracted
+     * @param dv the disbursement voucher to reset for reextraction
+     */
+    public abstract void resetExtractedDisbursementVoucher(DisbursementVoucherDocument dv, java.sql.Date processDate);
+    
+    /**
+     * Returns the disbursement voucher document associated with the given document number
+     * @param documentNumber the id of the document to retrieve
+     * @return the DV document if found, or null
+     */
+    public abstract DisbursementVoucherDocument getDocumentById(String documentNumber);
+    
+    /**
+     * Marks a disbursement voucher as paid
+     * @param dv the disbursement voucher to mark
+     * @param processDate the date when the dv was paid
+     */
+    public abstract void markDisbursementVoucherAsPaid(DisbursementVoucherDocument dv, java.sql.Date processDate);
 }

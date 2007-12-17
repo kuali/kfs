@@ -24,6 +24,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 import org.kuali.module.vendor.bo.PaymentTermType;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -225,6 +226,14 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      */
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, CreditMemoDocument cmd);
 
+    /**
+     * Get all the payment requests that match a vendor.
+     * 
+     * @param vendor
+     * @return      The iterator of the resulting payment request documents returned by the paymentRequestDao.
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor );
+    
     /**
      * Get all the payment requests that need to be extracted.
      * 

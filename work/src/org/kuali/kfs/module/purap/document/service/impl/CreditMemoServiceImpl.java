@@ -19,8 +19,10 @@ import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -63,6 +65,7 @@ import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 import org.kuali.module.vendor.util.VendorUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -94,6 +97,30 @@ public class CreditMemoServiceImpl implements CreditMemoService {
 
         return creditMemoDao.getCreditMemosToExtract(chartCode);
     }
+
+    
+    
+    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
+        LOG.debug("getCreditMemosToExtractByVendor() started");
+
+        return creditMemoDao.getCreditMemosToExtractByVendor(chartCode,vendor);
+    }
+
+
+
+    public Set<VendorGroupingHelper> getVendorsOnCreditMemosToExtract(String chartCode) {
+        LOG.debug("getVendorsOnCreditMemosToExtract() started");
+        HashSet<VendorGroupingHelper> vendors = new HashSet<VendorGroupingHelper>();
+        
+        Iterator<CreditMemoDocument> docs = getCreditMemosToExtract(chartCode);
+        while ( docs.hasNext() ) {
+            CreditMemoDocument doc = docs.next();
+            vendors.add( new VendorGroupingHelper( doc ) );
+        }
+        return vendors;
+    }
+
+
 
     /**
      * @see org.kuali.module.purap.service.CreditMemoService#creditMemoDuplicateMessages(org.kuali.module.purap.document.CreditMemoDocument)

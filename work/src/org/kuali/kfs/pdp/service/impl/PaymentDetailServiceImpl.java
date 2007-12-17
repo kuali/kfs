@@ -16,6 +16,7 @@
 package org.kuali.module.pdp.service.impl;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.dao.PaymentDetailDao;
@@ -72,18 +73,18 @@ public class PaymentDetailServiceImpl implements PaymentDetailService {
     /**
      * @see org.kuali.module.pdp.service.PaymentDetailService#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, String subUnit) {
+    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
 
-        return paymentDetailDao.getUnprocessedCancelledDetails(organization, subUnit);
+        return paymentDetailDao.getUnprocessedCancelledDetails(organization, subUnits);
     }
 
     /**
      * @see org.kuali.module.pdp.service.PaymentDetailService#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedPaidDetails(String organization, String subUnit) {
+    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
-        return paymentDetailDao.getUnprocessedPaidDetails(organization, subUnit);
+        return paymentDetailDao.getUnprocessedPaidDetails(organization, subUnits);
     }
 }

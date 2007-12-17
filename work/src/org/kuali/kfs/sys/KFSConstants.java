@@ -47,6 +47,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String HTDOCS_LOGS_URL_KEY = "htdocs.logs.url";
     public static final String HTDOCS_STAGING_URL_KEY = "htdocs.staging.url";
     public static final String STAGING_DIRECTORY_KEY = "staging.directory";
+    public static final String TEMP_DIRECTORY_KEY = "temp.directory";
     public static final String EXTERNALIZABLE_HELP_URL_KEY = "externalizable.help.url";
     public static final String EXTERNALIZABLE_IMAGES_URL_KEY = "externalizable.images.url";
     public static final String EXTERNALIZABLE_XML_URL_KEY = "externalizable.xml.url";
@@ -55,6 +56,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
     public static final String WORKFLOW_URL_KEY = "workflow.url";
     public static final String PROD_ENVIRONMENT_CODE_KEY = "production.environment.code";
     public static final String MAINTAIN_USERS_LOCALLY_KEY = "maintain.users.locally";
+    public static final String USE_STANDALONE_WORKFLOW = "rice.use.standalone.workflow";
 
     public static final String DATABASE_REPOSITORY_FILES_LIST_NAME = "databaseRepositoryFilePaths";
     public static final String SCRIPT_CONFIGURATION_FILES_LIST_NAME = "scriptConfigurationFilePaths";

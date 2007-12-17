@@ -198,7 +198,7 @@
 
 	<servlet>
 		<servlet-name>action</servlet-name>
-		<servlet-class>org.kuali.core.web.struts.action.KualiActionServlet</servlet-class>
+		<servlet-class>org.kuali.kfs.web.struts.action.KFSActionServlet</servlet-class>
 		<init-param>
 			<param-name>convertNull</param-name>
 			<param-value>true</param-value>

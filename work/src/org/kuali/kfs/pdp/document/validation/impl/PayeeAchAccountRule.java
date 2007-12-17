@@ -83,22 +83,25 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
             return validEntry;
 
         // Create a query to do a lookup on.
-        Map criteria = new HashMap();
-
+        Map<String,Object> criteria = new HashMap<String,Object>();
+        String identifierField = "";
+        
         if (payeeIdTypeCd.equals("E")) {
+            identifierField = "personUniversalIdentifier";
             payeeUserId = newPayeeAchAccount.getPersonUniversalIdentifier();
             if (payeeUserId == null) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED, "Payee User Id");
+                putFieldError("personUniversalIdentifier", KFSKeyConstants.ERROR_REQUIRED, getFieldLabel( "personUniversalIdentifier" ));
                 validEntry = false;
             }
             else
                 criteria.put("personUniversalIdentifier", payeeUserId);
         }
         else if (payeeIdTypeCd.equals("V")) {
+            identifierField = "vendorHeaderGeneratedIdentifier";
             vendorGnrtdId = newPayeeAchAccount.getVendorHeaderGeneratedIdentifier();
             vendorAsndId = newPayeeAchAccount.getVendorDetailAssignedIdentifier();
-            if ((vendorGnrtdId == null) | (vendorAsndId == null)) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED, "Vendor");
+            if ((vendorGnrtdId == null) || (vendorAsndId == null)) {
+                putFieldError("vendorHeaderGeneratedIdentifier", KFSKeyConstants.ERROR_REQUIRED, getFieldLabel( "vendorHeaderGeneratedIdentifier" ));
                 validEntry = false;
             }
             if (validEntry) {
@@ -107,41 +110,43 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
             }
         }
         else if (payeeIdTypeCd.equals("F")) {
+            identifierField = "payeeFederalEmployerIdentificationNumber";
             feinNumber = newPayeeAchAccount.getPayeeFederalEmployerIdentificationNumber();
             if (feinNumber == null) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED, "FEIN Number");
+                putFieldError("payeeFederalEmployerIdentificationNumber", KFSKeyConstants.ERROR_REQUIRED, getFieldLabel( "payeeFederalEmployerIdentificationNumber" ));
                 validEntry = false;
             }
             else
                 criteria.put("payeeFederalEmployerIdentificationNumber", feinNumber);
         }
         else if (payeeIdTypeCd.equals("S")) {
+            identifierField = "payeeSocialSecurityNumber";
             ssn = newPayeeAchAccount.getPayeeSocialSecurityNumber();
             if (ssn == null) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED, "Social Security Number");
+                putFieldError("payeeSocialSecurityNumber", KFSKeyConstants.ERROR_REQUIRED, getFieldLabel( "payeeSocialSecurityNumber" ) );
                 validEntry = false;
             }
             else
                 criteria.put("payeeSocialSecurityNumber", ssn);
         }
         else if (payeeIdTypeCd.equals("P")) {
+            identifierField = "disbVchrPayeeIdNumber";
             dvPayeeId = newPayeeAchAccount.getDisbVchrPayeeIdNumber();
             if (dvPayeeId == null) {
-                putFieldError("error.required", KFSKeyConstants.ERROR_REQUIRED, "Disbursement Voucher Payee ID");
+                putFieldError("disbVchrPayeeIdNumber", KFSKeyConstants.ERROR_REQUIRED, getFieldLabel( "disbVchrPayeeIdNumber" ));
                 validEntry = false;
             }
             else
                 criteria.put("disbVchrPayeeIdNumber", dvPayeeId);
         }
         if (validEntry)
-            validEntry &= checkForDuplicateRecord(criteria);
+            validEntry &= checkForDuplicateRecord(criteria, identifierField);
 
         return validEntry;
     }
 
-    private boolean checkForDuplicateRecord(Map criteria) {
+    private boolean checkForDuplicateRecord(Map<String,Object> criteria, String identifierField) {
 
-        Integer oldPrimaryKey = oldPayeeAchAccount.getAchAccountGeneratedIdentifier();
         String newPayeeIdTypeCd = newPayeeAchAccount.getPayeeIdentifierTypeCode();
         String newPsdTransactionCd = newPayeeAchAccount.getPsdTransactionCode();
         boolean valid = true;
@@ -152,7 +157,7 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         // 3. new payee type code = old payee type code
         // 4. depending of the value of payee type code, new correspoding PayeeId = old corresponding PayeeId
 
-        if ((oldPrimaryKey != null) && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPrimaryKey)) {
+        if (newPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && oldPayeeAchAccount.getAchAccountGeneratedIdentifier() != null && newPayeeAchAccount.getAchAccountGeneratedIdentifier().equals(oldPayeeAchAccount.getAchAccountGeneratedIdentifier())) {
             if (newPayeeIdTypeCd.equals(oldPayeeAchAccount.getPayeeIdentifierTypeCode()) && newPsdTransactionCd.equals(oldPayeeAchAccount.getPsdTransactionCode())) {
                 if (newPayeeIdTypeCd.equals("E")) {
                     if (newPayeeAchAccount.getPersonUniversalIdentifier().equals(oldPayeeAchAccount.getPersonUniversalIdentifier()))
@@ -181,9 +186,9 @@ public class PayeeAchAccountRule extends MaintenanceDocumentRuleBase {
         criteria.put("psdTransactionCode", newPsdTransactionCd);
         criteria.put("payeeIdentifierTypeCode", newPayeeIdTypeCd);
 
-        List duplRecList = (List) SpringContext.getBean(BusinessObjectService.class).findMatching(PayeeAchAccount.class, criteria);
-        if (!duplRecList.isEmpty()) {
-            putFieldError("error.document.payeeAchAccountMaintenance.duplicateAccount", KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
+        int matches = SpringContext.getBean(BusinessObjectService.class).countMatching(PayeeAchAccount.class, criteria);
+        if ( matches > 0 ) {
+            putFieldError(identifierField, KFSKeyConstants.ERROR_DOCUMENT_PAYEEACHACCOUNTMAINT_DUPLICATE_RECORD);
             valid = false;
         }
         return valid;

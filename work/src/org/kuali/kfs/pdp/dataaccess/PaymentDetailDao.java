@@ -55,7 +55,7 @@ public interface PaymentDetailDao {
      * @param subUnit
      * @return
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, String subUnit);
+    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits);
 
     /**
      * This will return all the ACH payments that need an email sent
@@ -71,5 +71,5 @@ public interface PaymentDetailDao {
      * @param subUnit
      * @return
      */
-    public Iterator getUnprocessedPaidDetails(String organization, String subUnit);
+    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits);
 }

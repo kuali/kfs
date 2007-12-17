@@ -1,8 +1,7 @@
 Kuali Financial System 
 Release 2.0
 
-User Documentation: https://test.kuali.org/confluence/display/KULDOC/User+Documentation+2.0
-Install Documentation: https://test.kuali.org/confluence/display/KULDOC/Installation,+Configuration+&+Customization
+Install Documentation: https://test.kuali.org/confluence/display/KULDOC/Setup+2.0
 
 Contents:
 

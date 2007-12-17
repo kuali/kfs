@@ -128,7 +128,7 @@ public class OriginEntryLite extends PersistableBusinessObjectBase implements Or
         setTransactionLedgerEntryDescription(KFSConstants.EMPTY_STRING);
         setTransactionDate(null);
         setTransactionDebitCreditCode(KFSConstants.EMPTY_STRING);
-        setTransactionEncumbranceUpdateCode(KFSConstants.EMPTY_STRING);
+        setTransactionEncumbranceUpdateCode(null);
 
         setOrganizationDocumentNumber(KFSConstants.EMPTY_STRING);
         setOrganizationReferenceId(KFSConstants.EMPTY_STRING);

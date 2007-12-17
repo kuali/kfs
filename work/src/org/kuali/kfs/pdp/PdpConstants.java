@@ -61,6 +61,7 @@ public class PdpConstants {
         public static String HARD_EDIT_CC = "HARD_EDIT_TO_EMAIL_ADDRESSES";
         public static String SOFT_EDIT_CC = "SOFT_EDIT_TO_EMAIL_ADDRESSES";
         public static String NO_PAYMENT_FILE_EMAIL = "NO_PAYMENT_FILE_TO_EMAIL_ADDRESSES";
+        public static String PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL = "PDP_ERROR_EXCEEDS_NOTE_LIMIT_EMAIL_ADDRESSES";
 
         public static String TAX_GROUP_EMAIL_ADDRESS = "TAX_GROUP_TO_EMAIL_ADDRESSES";
         public static String TAX_CANCEL_EMAIL_LIST = "TAX_CANCEL_TO_EMAIL_ADDRESSES";

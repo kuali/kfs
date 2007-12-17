@@ -18,6 +18,7 @@ package org.kuali.module.chart.rules;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ import org.kuali.module.chart.bo.AccountGlobal;
 import org.kuali.module.chart.bo.AccountGlobalDetail;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.SubFundGroup;
+import org.kuali.module.chart.service.OrganizationService;
 import org.kuali.module.chart.service.SubFundGroupService;
 
 /**
@@ -94,6 +96,7 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
 
         checkEmptyValues();
         checkGeneralRules(document);
+        checkOrganizationValidity(newAccountGlobal);
         checkContractsAndGrants();
         checkExpirationDate(document);
         checkOnlyOneChartErrorWrapper(newAccountGlobal.getAccountGlobalDetails());
@@ -783,6 +786,38 @@ public class AccountGlobalRule extends GlobalDocumentRuleBase {
             }
         }
 
+        return result;
+    }
+    
+    /**
+     * Validate that the object code on the form (if entered) is valid for all charts used in the detail sections.
+     * 
+     * @param acctGlobal
+     * @return
+     */
+    protected boolean checkOrganizationValidity( AccountGlobal acctGlobal ) {
+        boolean result = true;
+        
+        // check that an org has been entered
+        if ( StringUtils.isNotBlank( acctGlobal.getOrganizationCode() ) ) {           
+            // get all distinct charts
+            HashSet<String> charts = new HashSet<String>(10); 
+            for ( AccountGlobalDetail acct : acctGlobal.getAccountGlobalDetails() ) {
+                charts.add( acct.getChartOfAccountsCode() );
+            }
+            OrganizationService orgService = SpringContext.getBean(OrganizationService.class);
+            // test for an invalid organization
+            for ( String chartCode : charts ) {
+                if ( StringUtils.isNotBlank(chartCode) ) {
+                    if ( null == orgService.getByPrimaryIdWithCaching( chartCode, acctGlobal.getOrganizationCode() ) ) {
+                        result = false;
+                        putFieldError("organizationCode", KFSKeyConstants.ERROR_DOCUMENT_GLOBAL_ACCOUNT_INVALID_ORG, new String[] { chartCode, acctGlobal.getOrganizationCode() } );
+                        break;
+                    }
+                }
+            }
+        }
+                
         return result;
     }
 }

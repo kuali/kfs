@@ -1,12 +1,12 @@
 /*
  * Copyright 2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,13 +20,16 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.cache.MethodCacheInterceptor;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.SchedulerService;
 import org.kuali.kfs.util.MemoryMonitor;
 import org.kuali.rice.KNSServiceLocator;
@@ -41,8 +44,11 @@ import uk.ltd.getahead.dwr.create.SpringCreator;
 public class SpringContext {
     private static final Logger LOG = Logger.getLogger(SpringContext.class);
     private static final String APPLICATION_CONTEXT_DEFINITION = "SpringBeans.xml";
+    private static final String STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION = "SpringStandaloneRiceDataSourceBeans.xml";
+    private static final String DATASOURCE_CONTEXT_DEFINITION = "SpringDataSourceBeans.xml";
     private static final String SPRING_SOURCE_FILES_KEY = "spring.source.files";
     private static final String SPRING_TEST_FILES_KEY = "spring.test.files";
+    private static final String SPRING_PLUGIN_FILES_KEY = "spring.plugin.files";
     private static final String MEMORY_MONITOR_THRESHOLD_KEY = "memory.monitor.threshold";
     private static ConfigurableApplicationContext applicationContext;
     private static Set<Class> SINGLETON_TYPES = new HashSet<Class>();
@@ -60,7 +66,7 @@ public class SpringContext {
      * specific DateTimeService.class as the type. To retrieve the latter, you should specify ConfigurableDateService.class as the
      * type. Unless you are writing a unit test and need to down cast to an implementation, you do not need to cast the result of
      * this method.
-     * 
+     *
      * @param <T>
      * @param type
      * @return an object that has been defined as a bean in our spring context and is of the specified type
@@ -102,7 +108,7 @@ public class SpringContext {
     /**
      * Use this method to retrieve all beans of a give type in our spring context. Pass in the type of the service interface, NOT
      * the service implementation.
-     * 
+     *
      * @param <T>
      * @param type
      * @return a map of the spring bean ids / beans that are of the specified type
@@ -186,6 +192,10 @@ public class SpringContext {
         initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_TEST_FILES_KEY }), false);
     }
 
+    protected static void initializePluginApplicationContext() {
+        initializeApplicationContext(getSpringConfigurationFiles(new String[] { SPRING_SOURCE_FILES_KEY, SPRING_PLUGIN_FILES_KEY }), false);
+    }
+
     protected static void close() {
         applicationContext.close();
     }
@@ -199,8 +209,20 @@ public class SpringContext {
     private static String[] getSpringConfigurationFiles(String[] propertyNames) {
         List<String> springConfigurationFiles = new ArrayList<String>();
         springConfigurationFiles.add(APPLICATION_CONTEXT_DEFINITION);
+        if (Boolean.valueOf(PropertyLoadingFactoryBean.getBaseProperty(KFSConstants.USE_STANDALONE_WORKFLOW))) {
+            LOG.info("Initializing Spring Context to point to a Standalone Rice installation.");
+            springConfigurationFiles.add(STANDALONE_RICE_DATASOURCE_CONTEXT_DEFINITION);
+        } else {
+            springConfigurationFiles.add(DATASOURCE_CONTEXT_DEFINITION);
+        }
         for (int i = 0; i < propertyNames.length; i++) {
             springConfigurationFiles.addAll(PropertyLoadingFactoryBean.getBaseListProperty(propertyNames[i]));
+        }
+        for (Iterator iterator = springConfigurationFiles.iterator(); iterator.hasNext();) {
+            String fileName = (String) iterator.next();
+            if (StringUtils.isEmpty(fileName)) {
+                iterator.remove();
+            }
         }
         return springConfigurationFiles.toArray(new String[] {});
     }

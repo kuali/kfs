@@ -77,6 +77,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 import org.kuali.module.vendor.bo.PaymentTermType;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -157,7 +158,15 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByCM(String campusCode, CreditMemoDocument cmd) {
         LOG.debug("getPaymentRequestsByCM() started");
 
-        return paymentRequestDao.getPaymentRequestsToExtract(campusCode, cmd.getPaymentRequestIdentifier(), cmd.getPurchaseOrderIdentifier(), cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier());
+        return paymentRequestDao.getPaymentRequestsToExtract(campusCode, null, null, cmd.getVendorHeaderGeneratedIdentifier(), cmd.getVendorDetailAssignedIdentifier());
+    }
+
+    
+    
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractByVendor(String campusCode, VendorGroupingHelper vendor ) {
+        LOG.debug("getPaymentRequestsByVendor() started");
+
+        return paymentRequestDao.getPaymentRequestsToExtractForVendor(campusCode, vendor );
     }
 
     /**
@@ -885,6 +894,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             Note cancelNote = documentService.createNoteFromDocument(paymentRequest, note);
             documentService.addNoteToDocument(paymentRequest, cancelNote);
+            SpringContext.getBean(NoteService.class).save(cancelNote);
         }
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);
@@ -893,7 +903,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         //cancel extracted should not reopen PO
         paymentRequest.setReopenPurchaseOrderIndicator(false);
 
-        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(paymentRequest, "");
+        SpringContext.getBean(AccountsPayableService.class).cancelAccountsPayableDocument(paymentRequest, ""); // Performs save, so no explicit save is necessary
         LOG.debug("cancelExtractedPaymentRequest() PREQ " + paymentRequest.getPurapDocumentIdentifier() + " Cancelled Without Workflow");
         LOG.debug("cancelExtractedPaymentRequest() ended");
     }
@@ -913,6 +923,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         try {
             Note resetNote = documentService.createNoteFromDocument(paymentRequest, noteText);
             documentService.addNoteToDocument(paymentRequest, resetNote);
+            SpringContext.getBean(NoteService.class).save(resetNote);
         }
         catch (Exception e) {
             throw new RuntimeException(PurapConstants.REQ_UNABLE_TO_CREATE_NOTE + " " + e);

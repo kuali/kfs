@@ -30,7 +30,7 @@ import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.bo.OffsetAccount;
 import org.kuali.module.financial.exceptions.InvalidFlexibleOffsetException;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
-import org.kuali.module.gl.bo.OriginEntryFull;
+import org.kuali.module.gl.bo.FlexibleAccountUpdateable;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -91,7 +91,7 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
      * 
      * @see org.kuali.module.financial.service.FlexibleOffsetAccountService#updateOffset(org.kuali.module.gl.bo.OriginEntryFull)
      */
-    public boolean updateOffset(OriginEntryFull originEntry) {
+    public boolean updateOffset(FlexibleAccountUpdateable transaction) {
         LOG.debug("setBusinessObjectService() started");
 
         if (!getEnabled()) {
@@ -99,16 +99,16 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
         }
         String keyOfErrorMessage = "";
 
-        Integer fiscalYear = originEntry.getUniversityFiscalYear();
-        String chartOfAccountsCode = originEntry.getChartOfAccountsCode();
-        String accountNumber = originEntry.getAccountNumber();
+        Integer fiscalYear = transaction.getUniversityFiscalYear();
+        String chartOfAccountsCode = transaction.getChartOfAccountsCode();
+        String accountNumber = transaction.getAccountNumber();
 
-        String balanceTypeCode = originEntry.getFinancialBalanceTypeCode();
-        String documentTypeCode = originEntry.getFinancialDocumentTypeCode();
+        String balanceTypeCode = transaction.getFinancialBalanceTypeCode();
+        String documentTypeCode = transaction.getFinancialDocumentTypeCode();
 
         // do nothing if there is no the offset account with the given chart of accounts code,
         // account number and offset object code in the offset table.
-        OffsetAccount flexibleOffsetAccount = getByPrimaryIdIfEnabled(chartOfAccountsCode, accountNumber, originEntry.getFinancialObjectCode());
+        OffsetAccount flexibleOffsetAccount = getByPrimaryIdIfEnabled(chartOfAccountsCode, accountNumber, transaction.getFinancialObjectCode());
         if (flexibleOffsetAccount == null) {
             return false;
         }
@@ -131,20 +131,20 @@ public class FlexibleOffsetAccountServiceImpl implements FlexibleOffsetAccountSe
 
         // If the chart changes, make sure the object code is still valid
         if (!chartOfAccountsCode.equals(offsetChartOfAccountsCode)) {
-            ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, originEntry.getFinancialObjectCode());
+            ObjectCode objectCode = objectCodeService.getByPrimaryId(fiscalYear, offsetChartOfAccountsCode, transaction.getFinancialObjectCode());
             if (objectCode == null) {
-                throw new InvalidFlexibleOffsetException("Invalid Object Code for flexible offset " + fiscalYear + "-" + offsetChartOfAccountsCode + "-" + originEntry.getFinancialObjectCode());
+                throw new InvalidFlexibleOffsetException("Invalid Object Code for flexible offset " + fiscalYear + "-" + offsetChartOfAccountsCode + "-" + transaction.getFinancialObjectCode());
             }
         }
 
         // replace the chart and account of the given transaction with those of the offset account obtained above
-        originEntry.setAccount(offsetAccount);
-        originEntry.setAccountNumber(offsetAccountNumber);
-        originEntry.setChartOfAccountsCode(offsetChartOfAccountsCode);
+        transaction.setAccount(offsetAccount);
+        transaction.setAccountNumber(offsetAccountNumber);
+        transaction.setChartOfAccountsCode(offsetChartOfAccountsCode);
 
         // blank out the sub account and sub object since the account has been replaced
-        originEntry.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        originEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
+        transaction.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        transaction.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         return true;
     }
 

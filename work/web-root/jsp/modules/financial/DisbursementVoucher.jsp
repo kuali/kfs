@@ -84,6 +84,8 @@
 	<dv:dvNonEmployeeTravel />
 
 	<dv:dvPrePaidTravel />
+  
+  <dv:dvPDPStatus />
 
 	<gl:generalLedgerPendingEntries />
 

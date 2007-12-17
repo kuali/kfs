@@ -58,7 +58,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @param string
      * @return
      */
-    public static String extractCfdaNumberFrom(String string) {
+    public String extractCfdaNumberFrom(String string) {
         if (null == string)
             return null;
 
@@ -74,7 +74,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @param string
      * @return
      */
-    public static String extractCfdaAgencyFrom(String string) {
+    public String extractCfdaAgencyFrom(String string) {
         if (null == string)
             return null;
 
@@ -91,7 +91,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @param string
      * @return
      */
-    public static String extractCfdaTitleFrom(String string) {
+    public String extractCfdaTitleFrom(String string) {
         if (null == string)
             return null;
 
@@ -105,7 +105,7 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public static SortedMap<String, Cfda> getGovCodes() throws IOException {
+    public SortedMap<String, Cfda> getGovCodes() throws IOException {
         SortedMap<String, Cfda> govMap = new TreeMap<String, Cfda>();
 
         URL url = new URL(SOURCE_URL);
@@ -146,8 +146,8 @@ public class CfdaServiceImpl implements CfdaService {
      * @return
      * @throws IOException
      */
-    public static SortedMap<String, Cfda> getKfsCodes() throws IOException {
-        Collection allCodes = SpringContext.getBean(LookupService.class).findCollectionBySearch(Cfda.class, new HashMap());
+    public SortedMap<String, Cfda> getKfsCodes() throws IOException {
+        Collection allCodes = businessObjectService.findAll(Cfda.class);
 
         SortedMap<String, Cfda> kfsMapAll = new TreeMap<String, Cfda>(cfdaComparator);
         for (Object o : allCodes) {
@@ -221,7 +221,7 @@ public class CfdaServiceImpl implements CfdaService {
             govMap.remove(key);
         }
 
-        // What's left in govMap now is just the codes that don't exist in
+        // What's left in govMap now is just the codes that don't exist in KFS
         for (String key : govMap.keySet()) {
             Cfda cfdaGov = govMap.get(key);
             cfdaGov.setCfdaMaintenanceTypeId("Automatic");

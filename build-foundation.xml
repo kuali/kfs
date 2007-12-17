@@ -98,6 +98,7 @@ Workflow Tag: ${release.workflow.cvs.tag}
     		<zipfileset dir="temp/${release.kfs.cvs.module}" prefix="financial-system">
     			<exclude name="build-foundation.xml" />
     			<exclude name=".apt_generated" />
+    			<exclude name="patches" />
     		</zipfileset>
             <zipfileset dir="temp/demo-dataset" prefix="demo-data-set">
                 <exclude name=".project" />
@@ -148,7 +149,7 @@ Workflow Tag: ${release.workflow.cvs.tag}
         <copy todir="${lib.directory}" flatten="true">
             <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
         </copy>
-        <get src="https://onestart.iu.edu/dav/MY/maven-mirror/maven2/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
+        <get src="https://test.kuali.org/maven/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
     </target>
     
     <target name="update-rice-web" depends="init-property-files">
@@ -172,24 +173,6 @@ Workflow Tag: ${release.workflow.cvs.tag}
                 <globmapper from="*.jar" to="*.zip" />
             </chainedmapper>
         </copy>
-        <!--<property name="${workflow.application}.workflow.environment" value="${build.environment}" />
-        <property name="${workflow.application}.tomcat5.home" value="${appserver.home}" />
-        <property name="${workflow.application}.plugin.dir" value="${basedir}" />
-        <property name="${workflow.application}.institution" value="${ant.project.name}" />
-        <property name="${workflow.application}.src.dist.loc" value="${workflow.project.directory}/dist" />
-        <propertyset id="en-properties">
-            <propertyref prefix="${workflow.application}."/>
-            <mapper type="glob" from="${workflow.application}.*" to="*"/>
-        </propertyset>
-        <ant dir="${workflow.project.directory}" target="bundle-workflow" inheritall="false">
-            <propertyset refid="${workflow.application}-properties" />
-        </ant>
-        <copy file="${workflow.project.directory}/dist/workflow_${workflow.version}.zip" tofile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-src.zip" overwrite="true"/>
-        <ant dir="${workflow.project.directory}" target="clean" inheritall="false"/>
-        <ant dir="${workflow.project.directory}" target="javadoc" inheritall="false">
-            <propertyset refid="${workflow.application}-properties" />
-        </ant>
-        <zip destfile="${dependencies.project.directory}/${rice.name}-${workflow.name}-${workflow.version}-doc.zip" basedir="${workflow.project.directory}/dist/api" />-->
     </target>
     
     <target name="update-rice-licenses" depends="init-property-files">

@@ -215,7 +215,7 @@ public class PaymentGroup implements Serializable, PersistenceBrokerAware {
      * @hibernate.collection-key column="pmt_grp_id"
      * @hibernate.collection-one-to-many class="edu.iu.uis.pdp.bo.PaymentDetail"
      */
-    public List getPaymentDetails() {
+    public List<PaymentDetail> getPaymentDetails() {
         return paymentDetails;
     }
 

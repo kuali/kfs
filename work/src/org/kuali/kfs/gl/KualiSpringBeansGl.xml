@@ -842,12 +842,8 @@
 	</bean>
 	
 	<bean id="laborOriginEntryDao" parent="platformAwareDao" class="org.kuali.module.labor.dao.ojb.LaborOriginEntryDaoOjb">
-	    <property name="entryClass">
-            <bean class="java.lang.Class" factory-method="forName">
-                 <constructor-arg value="org.kuali.module.labor.bo.LaborOriginEntry"/>
+	    <property name="entryClass" value="org.kuali.module.labor.bo.LaborOriginEntry"/>
             </bean>
-        </property>
-	</bean>
 
 	<bean id="glNightlyOutService" class="org.kuali.module.gl.service.impl.NightlyOutServiceImpl">
 		<property name="generalLedgerPendingEntryService">
@@ -1014,20 +1010,12 @@
 	<bean id="glOptionsDao" parent="platformAwareDao" class="org.kuali.kfs.dao.ojb.OptionsDaoOjb" />
 
 	<bean id="originEntryDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
-		<property name="entryClass">
-			<bean class="java.lang.Class" factory-method="forName">
-  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntryFull"/>
+		<property name="entryClass" value="org.kuali.module.gl.bo.OriginEntryFull"/>
    			</bean>
-		</property>
-	</bean>
 	
 	<bean id="originEntryLiteDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryDaoOjb">
-		<property name="entryClass">
-			<bean class="java.lang.Class" factory-method="forName">
-  			<constructor-arg value="org.kuali.module.gl.bo.OriginEntryLite"/>
+		<property name="entryClass" value="org.kuali.module.gl.bo.OriginEntryLite"/>
    			</bean>
-		</property>
-	</bean>
 
 	<bean id="glOriginEntryGroupDao" parent="platformAwareDao" class="org.kuali.module.gl.dao.ojb.OriginEntryGroupDaoOjb" />
 
@@ -1150,7 +1138,7 @@
 				<entry key="enterpriseFeedJob" value="hardDependency"/>
 				<entry key="collectorJob" value="softDependency" />
 				<entry key="nightlyOutJob" value="hardDependency" />
-				<entry key="laborBatchJob" value="hardDependency" />
+				<entry key="clearLaborPendingEntriesJob" value="hardDependency" />
 			</map>
 		</property>
 	</bean>	
@@ -1586,12 +1574,8 @@
 		<property name="reconciliationDao">
 			<ref bean="glReconciliationDao"/>
 		</property>
-		<property name="originEntryClass">
-			<bean class="java.lang.Class" factory-method="forName">
-  				<constructor-arg value="org.kuali.module.gl.bo.OriginEntryFull"/>
+		<property name="originEntryClass" value="org.kuali.module.gl.bo.OriginEntryFull"/>
    			</bean>
-		</property>
-	</bean>
 	
 	<bean id="glOriginEntryEnterpriseFeederService" class="org.kuali.module.gl.service.impl.FileEnterpriseFeederServiceImpl">
 		<property name="dateTimeService">

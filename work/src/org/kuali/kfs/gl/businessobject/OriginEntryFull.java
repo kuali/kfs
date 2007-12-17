@@ -39,7 +39,7 @@ import org.kuali.module.gl.exception.LoadException;
 /**
  * This class represents a full origin entry
  */
-public class OriginEntryFull extends OriginEntryLite implements Transaction, OriginEntry {
+public class OriginEntryFull extends OriginEntryLite implements Transaction, OriginEntry, FlexibleAccountUpdateable {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OriginEntryFull.class);
 
     // bo references
@@ -118,7 +118,7 @@ public class OriginEntryFull extends OriginEntryLite implements Transaction, Ori
         setTransactionLedgerEntryDescription(KFSConstants.EMPTY_STRING);
         setTransactionDate(null);
         setTransactionDebitCreditCode(KFSConstants.EMPTY_STRING);
-        setTransactionEncumbranceUpdateCode(KFSConstants.EMPTY_STRING);
+        setTransactionEncumbranceUpdateCode(null);
 
         setOrganizationDocumentNumber(KFSConstants.EMPTY_STRING);
         setOrganizationReferenceId(KFSConstants.EMPTY_STRING);

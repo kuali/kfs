@@ -44,6 +44,7 @@ import org.kuali.module.purap.dao.NegativePaymentRequestApprovalLimitDao;
 import org.kuali.module.purap.dao.PaymentRequestDao;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapAccountingService;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -172,6 +173,40 @@ public class PaymentRequestDaoOjb extends PlatformAwareDaoBaseOjb implements Pay
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
     }
 
+    /**
+     * 
+     * @see org.kuali.module.purap.dao.PaymentRequestDao#getPaymentRequestsToExtractForVendor(java.lang.String, org.kuali.module.purap.util.VendorGroupingHelper)
+     */
+    public Iterator<PaymentRequestDocument> getPaymentRequestsToExtractForVendor(String campusCode, VendorGroupingHelper vendor ) {
+        LOG.debug("getPaymentRequestsToExtract() started");
+
+        List statuses = new ArrayList();
+        statuses.add(PurapConstants.PaymentRequestStatuses.AUTO_APPROVED);
+        statuses.add(PurapConstants.PaymentRequestStatuses.DEPARTMENT_APPROVED);
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo("processingCampusCode", campusCode);
+        criteria.addIn("statusCode", statuses);
+        criteria.addIsNull("extractedDate");
+        criteria.addEqualTo("holdIndicator", Boolean.FALSE);
+
+        Criteria c1 = new Criteria();
+        c1.addLessOrEqualThan("paymentRequestPayDate", dateTimeService.getCurrentSqlDateMidnight());
+
+        Criteria c2 = new Criteria();
+        c2.addEqualTo("immediatePaymentIndicator", Boolean.TRUE);
+
+        c1.addOrCriteria(c2);
+        criteria.addAndCriteria(c1);
+
+        criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
+        criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );
+        criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
+        criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(PaymentRequestDocument.class, criteria));
+    }
+    
     /**
      * @see org.kuali.module.purap.dao.PaymentRequestDao#getEligibleForAutoApproval()
      */

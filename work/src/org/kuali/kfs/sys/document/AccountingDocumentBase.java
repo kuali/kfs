@@ -33,6 +33,7 @@ import org.kuali.kfs.bo.AccountingLineParserBase;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.AccountingDocumentSaveWithNoLedgerEntryGenerationEvent;
 import org.kuali.kfs.rule.event.AccountingLineEvent;
 import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rule.event.DeleteAccountingLineEvent;
@@ -350,9 +351,11 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     }
 
     public void prepareForSave(KualiDocumentEvent event) {
-        if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
-            logErrors();
-            throw new ValidationException("general ledger GLPE generation failed");
+        if (!(event instanceof AccountingDocumentSaveWithNoLedgerEntryGenerationEvent)) { // only generate entries if the rule event specifically allows us to
+            if (!SpringContext.getBean(GeneralLedgerPendingEntryService.class).generateGeneralLedgerPendingEntries(this)) {
+                logErrors();
+                throw new ValidationException("general ledger GLPE generation failed");
+            }
         }
         super.prepareForSave(event);
     }

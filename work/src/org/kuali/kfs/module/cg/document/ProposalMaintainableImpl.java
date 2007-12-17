@@ -31,6 +31,7 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.util.AssertionUtils;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -199,7 +200,11 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      * @param ppd the ProposalProjectDirector to refresh
      */
     private static void refreshWithSecondaryKey(ProposalProjectDirector ppd) {
-        String secondaryKey = ppd.getProjectDirector().getPersonUserIdentifier();
+        String secondaryKey = null;
+        ppd.refreshReferenceObject("projectDirector");
+        if (ObjectUtils.isNotNull(ppd.getProjectDirector())) {
+            secondaryKey = ppd.getProjectDirector().getPersonUserIdentifier();
+        }
         if (StringUtils.isNotBlank(secondaryKey)) {
             ProjectDirector dir = SpringContext.getBean(ProjectDirectorService.class).getByPersonUserIdentifier(secondaryKey);
             ppd.setPersonUniversalIdentifier(dir == null ? null : dir.getPersonUniversalIdentifier());

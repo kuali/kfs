@@ -168,10 +168,7 @@ function checkCheckAllOrNone() {
 					<kul:htmlAttributeHeaderCell literalLabel="Description" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Create Date" scope="col" />
 					<kul:htmlAttributeHeaderCell literalLabel="Check Total" scope="col" />
-					<%-- <kul:htmlAttributeHeaderCell literalLabel="Currency Total"
-						scope="col" />
-					<kul:htmlAttributeHeaderCell literalLabel="Coin Total" scope="col" /> --%>
-					<kul:htmlAttributeHeaderCell literalLabel="Total" scope="col" />
+					
 				</tr>
 
       <c:if test="${!empty KualiForm.depositableCashReceipts}">
@@ -220,10 +217,7 @@ function checkCheckAllOrNone() {
 						$&nbsp;${cashReceipt.currencyFormattedTotalCheckAmount} <html:hidden
 							property="depositableCashReceipt[${ctr}].totalCheckAmount" /></div>
 						</td>
-						<td>
-						<div align="center">
-						$&nbsp;${cashReceipt.currencyFormattedSumTotalAmount}</div>
-						</td>
+						
 					</tr>
 
 					<c:if test="${cashReceipt.checkCount > 0}">
@@ -241,8 +235,7 @@ function checkCheckAllOrNone() {
 							</td>
 							<td class="infoline"><kul:htmlAttributeLabel
 								attributeEntry="${checkAttributes.amount}" readOnly="true" /></td>
-							<td class="infoline" rowspan="${receipt.checkCount + 1}"
-								colspan="3">&nbsp;</td>
+							
 						</tr>
 
 						<logic:iterate name="cashReceipt" property="checks" id="check"
@@ -361,7 +354,8 @@ function checkCheckAllOrNone() {
                     <html:checkbox name="KualiForm" property="depositWizardCashieringCheckHelper[${ctr}].sequenceId" value="${KualiForm.depositableCashieringChecks[ctr].sequenceId}" />
                   </div>
                 </td>
-                <td><strong>${ctr + 1}</strong></td>
+                <%-- if you change the spacing of the table cell below to put the different elements on different lines, giant monkeys will hurt you. Also, the DepositWizard form won't look quite as good --%>
+                <td><strong>${ctr + 1}</strong><html:hidden name="KualiForm" property="depositableCashieringCheck[${ctr}].sequenceId" /></td>
                 <td>
                   <kul:htmlControlAttribute property="depositableCashieringCheck[${ctr}].checkNumber" attributeEntry="${checkAttributes.checkNumber}" readOnly="true" />
                 </td>

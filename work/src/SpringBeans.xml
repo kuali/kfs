@@ -27,18 +27,6 @@
         <property name="defaultTimeout" value="${transaction.timeout}"/>
     </bean>
 
-	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
-		<property name="transactionManager" ref="jotm" />
-		<property name="driverClassName" value="${dataSource.driverClassName}" />
-		<property name="maxSize" value="${dataSource.maxSize}" />
-		<property name="minSize" value="${dataSource.minSize}" />
-		<property name="maxWait" value="${dataSource.maxWait}" />
-		<property name="validationQuery" value="${dataSource.validationQuery}" />
-		<property name="url" value="${dataSource.url}" />
-		<property name="username" value="${dataSource.username}" />
-		<property name="password" value="${dataSource.password}" />
-	</bean>
-	
 	<bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
 		<property name="ojbPlatform" value="${datasource.ojb.platform}" />
 		<property name="dataSource" ref="dataSource" />
@@ -113,35 +101,6 @@
 				<value>transactionalDocumentDictionaryService</value>
 				<value>maintenanceDocumentRuleBase</value>
 			</set>
-		</property>
-	</bean>
-
-	<bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
-		<property name="dataSource" ref="dataSource" />
-		<property name="transactionManager" ref="jotm" />
-		<property name="userTransaction" ref="jotm" />
-		<property name="messageEntity" value="KFS" />
-		<property name="environment">
-			<value>${build.environment}</value>
-		</property>
-		<property name="properties" ref="properties" />
-		<property name="rootResourceLoader" ref="kfsRootResourceLoader" />
-		<property name="modules">
-			<list>
-				<bean class="edu.iu.uis.eden.messaging.config.KSBConfigurer">
-					<property name="serviceServletUrl" value="${workflow.url}/remote" />
-                    <property name="exceptionMessagingScheduler" ref="scheduler"/>
-                    <property name="authorizationService">
-                      <bean class="org.kuali.kfs.authorization.ServiceBusAuthorizationService" />
-                    </property>
-				</bean>
-				<bean class="org.kuali.workflow.config.KEWConfigurer">
-					<property name="clientProtocol" value="local" />
-				</bean>
-				<bean class="org.kuali.rice.kns.config.KNSConfigurer">
-					<property name="suppressAutoModuleConfiguration" value="true"></property>
-				</bean>
-			</list>
 		</property>
 	</bean>
 
@@ -373,7 +332,7 @@
 		</property>
 	</bean>
 
-	<bean id="kualiConfigurationService" class="org.kuali.core.service.impl.KualiConfigurationServiceImpl" />
+	<bean id="kualiConfigurationService" class="org.kuali.core.service.impl.KualiConfigurationServiceImpl" depends-on="rice"/>
 
 	<bean id="authorizationService" class="org.kuali.core.service.impl.AuthorizationServiceImpl">
 		<property name="dataDictionaryService">

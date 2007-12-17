@@ -20,6 +20,7 @@ import java.util.Iterator;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 
 /**
  * Credit Memo DAO Interface. Defines DB access methods that a CreditMemoDaoImpl must implement.
@@ -34,6 +35,16 @@ public interface CreditMemoDao {
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
+    /**
+     * Get all the credit memos that need to be extracted for a particular vendor record.
+     * 
+     * @param chartCode - if not null, limit results to a single chart
+     * @param vendorHeaderGeneratedIdentifier
+     * @param vendorDetailAssignedIdentifier
+     * @return - Iterator of credit memos
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor );
+    
     /**
      * This method tests for a duplicate entry of a credit memo by the combination of vendorNumber HeaderId, vendorNumber and
      * creditMemoNumber. This method accepts the three values as arguments, and returns a boolean, describing whether a duplicate

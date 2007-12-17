@@ -20,6 +20,25 @@
 <head>
 <link rel="stylesheet" type="text/css"  href="<%= request.getContextPath() %>/pdp/css/pdp_styles.css">
 <title>Format Disbursements</title>
+<script type="text/javascript">
+  var formHasAlreadyBeenSubmitted = false;
+  var excludeSubmitRestriction = false;
+  function hasFormAlreadyBeenSubmitted() {
+    if ( document.getElementById( "formComplete" ) ) { 
+	  if (formHasAlreadyBeenSubmitted && !excludeSubmitRestriction) {
+        alert("Page already being processed by the server.");
+        return false;
+      } else {
+        formHasAlreadyBeenSubmitted = true;
+        return true;
+      }
+      excludeSubmitRestriction = false; 
+    } else {
+      alert("Page has not finished loading.");
+      return false;
+    }
+  }
+</script>
 </head>
 <body>
   <h1><strong>Format Disbursements</strong></h1><br>
@@ -93,7 +112,7 @@
   </tbody>
 </table>
 
-<html:form action="/pdp/formatprepare">
+<html:form action="/pdp/formatprepare" onsubmit="return hasFormAlreadyBeenSubmitted();">
 <table align="center" border="0" cellpadding="0" cellspacing="0" width="90%">
   <tbody>
   <tr>
@@ -196,6 +215,7 @@
   </tbody>
 </table>
 </html:form>
+<div id="formComplete"></div>
 <p>&nbsp;</p>
 <c:import url="/pdp/backdoor.jsp"/>
 </body>

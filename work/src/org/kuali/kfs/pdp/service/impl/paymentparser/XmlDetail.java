@@ -193,6 +193,7 @@ public class XmlDetail implements Serializable {
         d.setInvTotShipAmount(invoice_tot_ship_amt);
         d.setInvTotOtherCreditAmount(invoice_tot_other_credits);
         d.setInvTotOtherDebitAmount(invoice_tot_other_debits);
+        d.setPrimaryCancelledPayment(Boolean.FALSE);
         return d;
     }
 

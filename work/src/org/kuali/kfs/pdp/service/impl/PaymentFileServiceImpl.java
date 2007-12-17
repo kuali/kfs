@@ -391,6 +391,16 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
         }
 
+        String fromAddressList[] = {mailService.getBatchMailingList()};
+
+        if(fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+        
         if (header != null) {
             body.append("The following payment file was NOT loaded\n\n");
             body.append("Chart: " + header.getChart() + "\n");
@@ -468,6 +478,16 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
         }
 
+        String fromAddressList[] = {mailService.getBatchMailingList()};
+
+        if(fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+        
         body.append("The following payment file was loaded\n\n");
         body.append("Batch ID: " + batchId + "\n");
         body.append("Chart: " + header.getChart() + "\n");
@@ -554,6 +574,16 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
         }
 
+        String fromAddressList[] = {mailService.getBatchMailingList()};
+
+        if(fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+        
         message.setMessage(body.toString());
         try {
             mailService.sendMessage(message);
@@ -590,6 +620,16 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             message.addToAddress(taxEmail);
         }
 
+        String fromAddressList[] = {mailService.getBatchMailingList()};
+
+        if(fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+        
         body.append("The following payment file was loaded with payment(s) held for Tax\n\n");
         body.append("Batch ID: " + batchId + "\n");
         body.append("Chart: " + header.getChart() + "\n");
@@ -656,6 +696,16 @@ public class PaymentFileServiceImpl implements PaymentFileService {
             }
         }
 
+        String fromAddressList[] = {mailService.getBatchMailingList()};
+
+        if(fromAddressList.length > 0) {
+            for (int i = 0; i < fromAddressList.length; i++) {
+                if (fromAddressList[i] != null) {
+                    message.setFromAddress(fromAddressList[i].trim());
+                }
+            }
+        }
+        
         body.append("The following payment file was loaded\n\n");
         body.append("Batch ID: " + batch.getId() + "\n");
         body.append("Chart: " + customer.getChartCode() + "\n");

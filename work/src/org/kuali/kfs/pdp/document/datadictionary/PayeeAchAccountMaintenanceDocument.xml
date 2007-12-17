@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.pdp.bo.PayeeAchAccount</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.pdp.document.maintenance.PayeeAchAccountMaintainable</maintainableClass>
         <businessRulesClass>org.kuali.module.pdp.rules.PayeeAchAccountRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.pdp.rules.PayeeAchAccountPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.module.pdp.document.authorization.PayeeAchAccountDocumentAuthorizer</documentAuthorizerClass>
@@ -46,6 +46,10 @@
             <field attributeName="achAccountGeneratedIdentifier" />
         </lockingKeys>
 
+        <defaultExistenceChecks>
+            <reference attributeName="bankRouting" attributeToHighlightOnFail="bankRoutingNumber" />        
+        </defaultExistenceChecks>
+
         <maintainableSections>
             <maintainableSection title="Edit Payee ACH Account">
                 <maintainableItems>
@@ -69,6 +73,7 @@
                		<maintainableField name="payeeIdentifierTypeCode" required="true" />
                 	<maintainableField name="vendorHeaderGeneratedIdentifier" />
                 	<maintainableField name="vendorDetailAssignedIdentifier" />
+                	<maintainableField name="vendorNumber" />
                 	<maintainableField name="disbVchrPayeeIdNumber" />
                 	<maintainableField name="personUniversalIdentifier" />
  					<maintainableField name="payeeSocialSecurityNumber" >

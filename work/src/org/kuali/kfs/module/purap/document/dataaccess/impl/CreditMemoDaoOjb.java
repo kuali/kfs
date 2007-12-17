@@ -32,6 +32,7 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.dao.CreditMemoDao;
 import org.kuali.module.purap.document.CreditMemoDocument;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 
 /**
  * OJB Implementation of CreditMemoDao. Provides persistence layer methods for the credit memo document.
@@ -53,6 +54,28 @@ public class CreditMemoDaoOjb extends PlatformAwareDaoBaseOjb implements CreditM
 
         return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(CreditMemoDocument.class, criteria));
     }
+
+    
+    /**
+     * @see org.kuali.module.purap.dao.CreditMemoDao#getCreditMemosToExtractByVendor(java.lang.String, java.lang.Integer, java.lang.Integer)
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor(String chartCode, VendorGroupingHelper vendor ) {
+        LOG.debug("getCreditMemosToExtractByVendor() started");
+
+        Criteria criteria = new Criteria();
+        criteria.addEqualTo( "processingCampusCode", chartCode );
+        criteria.addIn( "statusCode", Arrays.asList(CreditMemoStatuses.STATUSES_ALLOWED_FOR_EXTRACTION) );
+        criteria.addIsNull( "extractedDate" );
+        criteria.addEqualTo( "holdIndicator", Boolean.FALSE );
+        criteria.addEqualTo( "vendorHeaderGeneratedIdentifier", vendor.getVendorHeaderGeneratedIdentifier() );
+        criteria.addEqualTo( "vendorDetailAssignedIdentifier", vendor.getVendorDetailAssignedIdentifier() );
+        criteria.addEqualTo( "vendorCountryCode", vendor.getVendorCountry() );
+        criteria.addEqualTo( "vendorPostalCode", vendor.getVendorPostalCode() );
+
+        return getPersistenceBrokerTemplate().getIteratorByQuery(new QueryByCriteria(CreditMemoDocument.class, criteria));
+    }
+
+
 
     /**
      * @see edu.iu.uis.pur.cm.dao.CreditMemoDao#duplicateExists(java.lang.String, java.lang.String)

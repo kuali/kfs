@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+  <bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
+    <property name="dataSource" ref="dataSource" />
+    <property name="transactionManager" ref="jotm" />
+    <property name="userTransaction" ref="jotm" />
+    <property name="messageEntity" value="KFS" />
+    <property name="environment">
+      <value>${build.environment}</value>
+    </property>
+    <property name="properties" ref="properties" />
+    <property name="rootResourceLoader" ref="kfsRootResourceLoader" />
+    <property name="modules">
+      <list>
+        <bean class="org.kuali.rice.kns.config.KNSConfigurer">
+          <property name="suppressAutoModuleConfiguration" value="true"></property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>

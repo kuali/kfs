@@ -9,3 +9,4 @@ batch-results
 temp
 log4j.properties
 security.properties
+workflow.xml

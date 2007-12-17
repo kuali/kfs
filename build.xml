@@ -79,6 +79,7 @@
 		<loadfile property="log4j" srcfile="${user.home}/${log4j.file}" failonerror="false"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="log4j" srcfile="${build.external.directory}/${log4j.file}"><filterchain><expandproperties/></filterchain></loadfile>
 		<loadfile property="security" srcfile="${build.external.directory}/${security.file}"><filterchain><expandproperties/></filterchain></loadfile>
+		<loadfile property="standalone-workflow" srcfile="${build.appserver.directory}/standalone-workflow.xml"><filterchain><expandproperties/></filterchain></loadfile>
 	</target>
 
 	<target name="init-make-references" depends="init-properties">
@@ -111,6 +112,8 @@
 				<include name="${test.directory}/**/**" />
 				<include name="*.war" />
 				<include name="*.zip" />
+				<include name="workflow.xml"/>
+				<include name="${build.temp.directory}"/>
 			</fileset>
 		</delete>
 		<delete failonerror="false">
@@ -290,7 +293,50 @@
 		</java>
 	</target>
 	
+	<target name="dist-plugin" depends="make-source" description="Generates a plugin for standalone KEW">
+		<copy todir="${plugin.classes.directory}">
+			<fileset dir="${make-source.target.directory}"/>
+		</copy>
+		<copy todir="${plugin.lib.directory}">
+			<fileset dir="${lib.directory}">
+				<exclude name="rice-kew-*.jar"/>
+				<exclude name="rice-ksb-*.jar"/>
+				<exclude name="rice-core-*.jar"/>
+				<exclude name="rice-shared-*.jar"/>
+				<exclude name="commons-logging*.jar"/>
+				<exclude name="spring-2*.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="${plugin.directory}">
+			<fileset dir="${build.plugin.directory}"/>
+		</copy>
+		<zip basedir="${plugin.directory}" destfile="en-plugins.zip"/>
+	</target>
 	
+	<target name="dist-standalone-kew-war" depends="make-source" description="Generates a WAR for running a standalone KEW server">
+		<copy todir="${build.standalone.directory}/WEB-INF/lib">
+			<fileset dir="${lib.directory}" includes="*.jar"/>
+			<fileset dir="${build.appserver.directory}" includes="*.jar"/>
+		</copy>
+		<copy todir="${build.standalone.directory}/WEB-INF/classes">
+			<fileset dir="${build.appserver.directory}" includes="carol.properties"/>
+		</copy>
+		<copy file="build/external/appserver/standalone-kew-web.xml" tofile="${build.standalone.directory}/WEB-INF/web.xml"/>
+		<copy todir="${build.standalone.directory}">
+			<fileset dir="${webroot.directory}/en" excludes="**/CVS/*,.cvsignore"/>
+		</copy>
+		<copy todir="${build.standalone.directory}/ksb">
+			<fileset dir="${webroot.directory}/ksb" excludes="**/CVS/*"/>
+		</copy>
+		<copy todir="${build.standalone.directory}/WEB-INF/plugins/shared/lib">
+			<fileset dir="${lib.directory}" includes="rice-shared-*.jar"/>
+		</copy>
+		<jar destfile="en-dev.war">
+			<fileset dir="${build.standalone.directory}"/>
+		</jar>
+		<echo file="workflow.xml" message="${standalone-workflow}"  />
+	</target>
+
 	<target name="help" depends="init-properties" description="Describe public targets">
 		<echo>--- OVERVIEW ---
 

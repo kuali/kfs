@@ -16,11 +16,18 @@
 package org.kuali.module.purap.service.impl;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.financial.document.DisbursementVoucherDocument;
+import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
+import org.kuali.module.financial.service.DisbursementVoucherExtractService;
 import org.kuali.module.pdp.PdpConstants;
 import org.kuali.module.pdp.bo.PaymentDetail;
 import org.kuali.module.pdp.service.PaymentDetailService;
@@ -33,6 +40,8 @@ import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.ProcessPdpCancelPaidService;
 import org.springframework.transaction.annotation.Transactional;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Implementation of ProcessPdpCancelPaidService
@@ -47,6 +56,7 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     private CreditMemoService creditMemoService;
     private ParameterService parameterService;
     private DateTimeService dateTimeService;
+    private DisbursementVoucherExtractService dvExtractService;
 
     /**
      * @see org.kuali.module.purap.service.ProcessPdpCancelPaidService#processPdpCancels()
@@ -57,14 +67,19 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
         Date processDate = dateTimeService.getCurrentSqlDate();
 
         String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String purapSubUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
+
+        List<String> subUnits = new ArrayList<String>();
+        subUnits.add(purapSubUnit);
+        subUnits.add(dvSubUnit);
 
         String preqCancelNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_CANCEL_NOTE);
         String preqResetNote = parameterService.getParameterValue(PaymentRequestDocument.class, PurapParameterConstants.PURAP_PDP_PREQ_RESET_NOTE);
         String cmCancelNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_CANCEL_NOTE);
         String cmResetNote = parameterService.getParameterValue(CreditMemoDocument.class, PurapParameterConstants.PURAP_PDP_CM_RESET_NOTE);
 
-        Iterator details = paymentDetailService.getUnprocessedCancelledDetails(organization, subUnit);
+        Iterator details = paymentDetailService.getUnprocessedCancelledDetails(organization, subUnits);
         while (details.hasNext()) {
             PaymentDetail paymentDetail = (PaymentDetail) details.next();
 
@@ -102,6 +117,16 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                     LOG.error("processPdpCancels() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
             }
+            else if (DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH.equals(documentTypeCode)) {
+                DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
+                if (dv != null) {
+                    if (disbursedPayment || primaryCancel) {
+                        dvExtractService.cancelExtractedDisbursementVoucher(dv, processDate);
+                    } else {
+                        dvExtractService.resetExtractedDisbursementVoucher(dv, processDate);
+                    }
+                }
+            }
             else {
                 LOG.error("processPdpCancels() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
                 throw new IllegalArgumentException("Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
@@ -120,9 +145,14 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
         Date processDate = dateTimeService.getCurrentSqlDate();
 
         String organization = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_ORG_CODE);
-        String subUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String purapSubUnit = parameterService.getParameterValue(ParameterConstants.PURCHASING_BATCH.class, PurapParameterConstants.PURAP_PDP_EPIC_SBUNT_CODE);
+        String dvSubUnit = parameterService.getParameterValue(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.DvPdpExtractGroup.DV_PDP_SBUNT_CODE);
 
-        Iterator details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnit);
+        List<String> subUnits = new ArrayList<String>();
+        subUnits.add(purapSubUnit);
+        subUnits.add(dvSubUnit);
+
+        Iterator details = paymentDetailService.getUnprocessedPaidDetails(organization, subUnits);
         while (details.hasNext()) {
             PaymentDetail paymentDetail = (PaymentDetail) details.next();
 
@@ -146,6 +176,10 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
                 else {
                     LOG.error("processPdpPaids() DOES NOT EXIST, CANNOT PROCESS - Credit Memo with doc type of " + documentTypeCode + " with id " + documentNumber);
                 }
+            }
+            else if (documentTypeCode.equals(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH)) {
+                DisbursementVoucherDocument dv = dvExtractService.getDocumentById(documentNumber);
+                dvExtractService.markDisbursementVoucherAsPaid(dv, processDate);
             }
             else {
                 LOG.error("processPdpPaids() Unknown document type (" + documentTypeCode + ") for document ID: " + documentNumber);
@@ -189,4 +223,13 @@ public class ProcessPdpCancelPaidServiceImpl implements ProcessPdpCancelPaidServ
     public void setDateTimeService(DateTimeService dts) {
         this.dateTimeService = dts;
     }
+
+    /**
+     * Sets the dvExtractService attribute value.
+     * @param dvExtractService The dvExtractService to set.
+     */
+    public void setDvExtractService(DisbursementVoucherExtractService dvExtractService) {
+        this.dvExtractService = dvExtractService;
+    }
+    
 }

@@ -100,10 +100,10 @@
                 <label>Chart Code</label>
                 <shortLabel>Chart Code</shortLabel>
 
-                <maxLength>43</maxLength>
+                <maxLength>45</maxLength>
 
                 <control>
-                    <text size="43" />
+                    <text size="45" />
                 </control>
             </attribute>
 

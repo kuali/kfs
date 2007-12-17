@@ -1,0 +1,1940 @@
+### Eclipse Workspace Patch 1.0
+#P kuali_project
+Index: work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag
+===================================================================
+RCS file: /opt/cvs/kuali_project/work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag,v
+retrieving revision 1.2
+diff -u -r1.2 chartOfAccounts.tag
+--- work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag	1 Nov 2007 04:02:23 -0000	1.2
++++ work/web-root/WEB-INF/tags/portal/channel/maintenance/chartOfAccounts.tag	11 Nov 2007 01:29:40 -0000
+@@ -48,6 +48,7 @@
+         <li><portal:portalLink displayTitle="true" title="Organization Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.OrgType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="Origination Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.bo.OriginationCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="Postal Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.bo.PostalZipCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
++	    <li><portal:portalLink displayTitle="true" title="Program Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=edu.sample.kuali.module.chart.bo.Program&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+ 		<li><portal:portalLink displayTitle="true" title="Responsibility Center" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.ResponsibilityCenter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="Restricted Status" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.RestrictedStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+         <li><portal:portalLink displayTitle="true" title="State" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.kfs.bo.State&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+Index: work/web-root/WEB-INF/tags/fin/accountingLineRow.tag
+===================================================================
+RCS file: /opt/cvs/kuali_project/work/web-root/WEB-INF/tags/fin/accountingLineRow.tag,v
+retrieving revision 1.63
+diff -u -r1.63 accountingLineRow.tag
+--- work/web-root/WEB-INF/tags/fin/accountingLineRow.tag	29 Oct 2007 20:43:22 -0000	1.63
++++ work/web-root/WEB-INF/tags/fin/accountingLineRow.tag	11 Nov 2007 01:29:40 -0000
+@@ -180,12 +180,12 @@
+ 		accountingLineValuesMap="${accountingLineValuesMap}"
+ 		anchor="accounting${actionInfix}${actionGroup}LineAnchor${0 + accountingLineIndex}" />
+ 	<c:set var="details" value="" />
+-	
++
+ 	<fin:accountingLineDataCell dataCellCssClass="${dataCellCssClass}"
+ 		accountingLine="${accountingLine}"
+ 		baselineAccountingLine="${baselineAccountingLine}"
+ 		field="accountNumber" detailFunction="loadAccountInfo"
+-		detailField="account.accountName"
++		detailField="account.extension.accountingLineDescription"
+ 		detailFields="${details}"
+ 		attributes="${accountingLineAttributes}" lookup="true" inquiry="true"
+ 		boClassSimpleName="Account"
+Index: work/web-root/scripts/kfs/objectInfo.js
+===================================================================
+RCS file: /opt/cvs/kuali_project/work/web-root/scripts/kfs/objectInfo.js,v
+retrieving revision 1.8
+diff -u -r1.8 objectInfo.js
+--- work/web-root/scripts/kfs/objectInfo.js	29 Oct 2007 20:43:21 -0000	1.8
++++ work/web-root/scripts/kfs/objectInfo.js	11 Nov 2007 01:29:40 -0000
+@@ -88,7 +88,12 @@
+ 		var dwrReply = {
+ 			callback:function(data) {
+ 			if ( data != null && typeof data == 'object' ) {
+-				setRecipientValue( accountNameFieldName, data.accountName );
++ 				var temp = data.accountName;
++ 				if ( data.extension != null && data.extension.program != null ) {
++ 					temp += "<br />" + data.extension.program.codeAndDescription;
++ 				}
++ 				// Note third parameter below = true to prevent escaping special html characters.				
++ 				setRecipientValue( accountNameFieldName, temp, true);
+ 			} else {
+ 				setRecipientValue( accountNameFieldName, wrapError( "account not found" ), true );			
+ 			} },
+Index: work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMaintenanceDocument.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMaintenanceDocument.xml
+diff -N work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMaintenanceDocument.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/datadictionary/docs/AccountMaintenanceDocument.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,171 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2005-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dictionaryEntry PUBLIC
++    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
++    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
++
++<dictionaryEntry>
++    <maintenanceDocument>
++        <businessObjectClass>org.kuali.module.chart.bo.Account</businessObjectClass>
++        <maintainableClass>org.kuali.module.chart.maintenance.KualiAccountMaintainableImpl</maintainableClass>
++        <businessRulesClass>org.kuali.module.chart.rules.AccountRule</businessRulesClass>
++        <preRulesCheckClass>org.kuali.module.chart.rules.AccountPreRules</preRulesCheckClass>
++        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
++        <authorizations>
++            <authorization action="initiate">
++                <workgroups>
++                    <workgroup>kualiUniversalGroup</workgroup>
++                </workgroups>
++            </authorization>
++        </authorizations>
++
++        <documentTypeName>AccountMaintenanceDocument</documentTypeName>
++        <documentTypeCode>ACCT</documentTypeCode>
++
++		<webScriptFile>../dwr/interface/SubFundGroupService.js</webScriptFile>
++		<webScriptFile>../scripts/chart/accountDocument.js</webScriptFile>
++
++        <label>Account</label>
++
++        <summary>Account maintenance document</summary>
++        <description>Document used to create or update Account objects</description>
++        <help parameterNamespace="KFS-CA" parameterDetailType="Account" parameterName="ACCOUNT" />
++        <lockingKeys>
++            <field attributeName="chartOfAccountsCode" />
++            <field attributeName="accountNumber" />
++        </lockingKeys>
++
++        <defaultExistenceChecks>
++            <reference attributeName="organization" activeIndicatorAttributeName="organizationActiveIndicator" attributeToHighlightOnFail="organizationCode" />
++            <reference attributeName="accountPhysicalCampus" attributeToHighlightOnFail="accountPhysicalCampusCode" />
++            <reference attributeName="accountState" attributeToHighlightOnFail="accountStateCode" />
++            <reference attributeName="postalZipCode" attributeToHighlightOnFail="accountZipCode" />
++            <reference attributeName="accountType" attributeToHighlightOnFail="accountTypeCode" />
++            <reference attributeName="financialHigherEdFunction" attributeToHighlightOnFail="financialHigherEdFunctionCd" />
++            <reference attributeName="reportsToAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="reportsToAccountNumber" />
++            <reference attributeName="continuationAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="continuationAccountNumber" />
++            <reference attributeName="endowmentIncomeAccount" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="endowmentIncomeAccountNumber" />
++            <reference attributeName="indirectCostRecoveryAcct" activeIndicatorAttributeName="accountClosedIndicator" activeIndicatorReversed="true" attributeToHighlightOnFail="indirectCostRecoveryAcctNbr" />
++            <reference attributeName="sufficientFundsCode" attributeToHighlightOnFail="accountSufficientFundsCode" />
++            <reference attributeName="accountFiscalOfficerUser" attributeToHighlightOnFail="accountFiscalOfficerUser.personUserIdentifier" />
++            <reference attributeName="accountSupervisoryUser" attributeToHighlightOnFail="accountSupervisoryUser.personUserIdentifier" />
++            <reference attributeName="accountManagerUser" attributeToHighlightOnFail="accountManagerUser.personUserIdentifier" />
++            <reference attributeName="accountRestrictedStatus" attributeToHighlightOnFail="accountRestrictedStatusCode" />
++            <reference attributeName="subFundGroup" attributeToHighlightOnFail="subFundGroupCode" />
++            <!--  FIXME: remove after testing -->
++            <reference attributeName="extension.program" activeIndicatorAttributeName="programActiveIndicator" attributeToHighlightOnFail="extension.programCode" />
++
++            <reference attributeName="budgetRecordingLevel" activeIndicatorAttributeName="active" attributeToHighlightOnFail="budgetRecordingLevelCode" />
++            <reference attributeName="acctIndirectCostRcvyType" activeIndicatorAttributeName="active" attributeToHighlightOnFail="acctIndirectCostRcvyTypeCd" />
++        </defaultExistenceChecks>
++
++        <maintainableSections>
++            <maintainableSection title="Account Maintenance">
++                <maintainableItems>
++                    <maintainableField name="chartOfAccountsCode" required="true" />
++                    <maintainableField name="accountNumber" required="true" />
++                    <maintainableField name="accountName" required="true" />
++                    <maintainableField name="organizationCode" required="true" />
++                    <!-- FIXME: remove after testing -->
++                    <maintainableField name="extension.programCode" required="false" />
++                    <maintainableField name="accountPhysicalCampusCode" required="true" />
++                    <maintainableField name="accountCreateDate" />
++                    <maintainableField name="accountEffectiveDate" required="true">
++                        <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
++                    </maintainableField>
++                    <maintainableField name="accountExpirationDate" required="false" />
++                    <maintainableField name="accountZipCode" required="true" />
++                    <maintainableField name="accountCityName" required="true" />
++                    <maintainableField name="accountStateCode" required="true" />
++                    <maintainableField name="accountStreetAddress" required="true" />
++                    <maintainableField name="accountOffCampusIndicator" required="false" />
++                    <maintainableField name="accountClosedIndicator" required="false" />
++                    <maintainableField name="accountTypeCode" required="true" />
++                    <maintainableField name="subFundGroupCode" required="true" webUILeaveFieldFunction="onblur_subFundGroup" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
++                    <maintainableField name="accountsFringesBnftIndicator" required="false">
++                        <defaultValue>true</defaultValue>
++                    </maintainableField>
++                    <maintainableField name="reportsToChartOfAccountsCode" required="false" />
++                    <maintainableField name="reportsToAccountNumber" required="false" />
++                    <maintainableField name="financialHigherEdFunctionCd" required="true" />
++                    <maintainableField name="accountRestrictedStatusCode" required="true"  webUILeaveFieldFunction="onblur_accountRestrictedStatusCode" webUILeaveFieldCallbackFunction="checkRestrictedStatusCode_Callback" />
++                    <maintainableField name="accountRestrictedStatusDate" required="false" />
++                    <maintainableField name="endowmentIncomeAcctFinCoaCd" required="false" />
++                    <maintainableField name="endowmentIncomeAccountNumber" required="false" />
++                    <maintainableField name="versionNumber" />
++                    <maintainableField name="accountGuideline.versionNumber" />
++                    <maintainableField name="accountDescription.versionNumber" />
++                    <maintainableField name="extension.versionNumber" />
++                </maintainableItems>
++            </maintainableSection>
++            <maintainableSection title="Account Responsibility">
++                <maintainableItems>
++                    <maintainableField name="accountFiscalOfficerSystemIdentifier" required="true" readOnly="true" />
++                    <maintainableField name="accountFiscalOfficerUser.personUserIdentifier" required="true" />
++                    <maintainableField name="accountFiscalOfficerUser.personName" required="false" readOnly="true" />
++                    <maintainableField name="accountsSupervisorySystemsIdentifier" required="true" readOnly="true" />
++                    <maintainableField name="accountSupervisoryUser.personUserIdentifier" required="true" />
++                    <maintainableField name="accountSupervisoryUser.personName" required="false" readOnly="true" />
++                    <maintainableField name="accountManagerSystemIdentifier" required="true" readOnly="true" />
++                    <maintainableField name="accountManagerUser.personUserIdentifier" required="true" />
++                    <maintainableField name="accountManagerUser.personName" required="false" readOnly="true" />
++                    <maintainableField name="continuationFinChrtOfAcctCd" required="false" />
++                    <maintainableField name="continuationAccountNumber" required="false" />
++                    <maintainableField name="incomeStreamFinancialCoaCode" required="false" />
++                    <maintainableField name="incomeStreamAccountNumber" required="false" />
++                    <maintainableField name="budgetRecordingLevelCode" required="true" />
++                    <maintainableField name="accountSufficientFundsCode" required="true" />
++                    <maintainableField name="pendingAcctSufficientFundsIndicator" required="false" />
++                    <maintainableField name="extrnlFinEncumSufficntFndIndicator" required="false" />
++                    <maintainableField name="intrnlFinEncumSufficntFndIndicator" required="false" />
++                    <maintainableField name="finPreencumSufficientFundIndicator" required="false" />
++                    <maintainableField name="financialObjectivePrsctrlIndicator" required="false" />
++                </maintainableItems>
++            </maintainableSection>
++            <maintainableSection title="Contracts And Grants">
++                <maintainableItems>
++                    <maintainableField name="contractControlFinCoaCode" required="false" />
++                    <maintainableField name="contractControlAccountNumber" required="false" />
++                    <maintainableField name="acctIndirectCostRcvyTypeCd" required="false" />
++                    <maintainableField name="financialIcrSeriesIdentifier" required="false" >
++                         <overrideLookupClass>org.kuali.module.chart.bo.IcrAutomatedEntry</overrideLookupClass>
++                         <overrideFieldConversions>financialIcrSeriesIdentifier:financialIcrSeriesIdentifier</overrideFieldConversions>
++                    </maintainableField>  
++                    <maintainableField name="indirectCostRcvyFinCoaCode" required="false" />
++                    <maintainableField name="indirectCostRecoveryAcctNbr" required="false" />
++                    <maintainableField name="accountCfdaNumber" required="false" />
++                </maintainableItems>
++            </maintainableSection>
++            <maintainableSection title="Guidelines And Purpose">
++                <maintainableItems>
++                    <maintainableField name="accountGuideline.accountExpenseGuidelineText" required="true" />
++                    <maintainableField name="accountGuideline.accountIncomeGuidelineText" required="true" />
++                    <maintainableField name="accountGuideline.accountPurposeText" required="true" />
++                </maintainableItems>
++            </maintainableSection>
++            <maintainableSection title="Account Description">
++                <maintainableItems>
++                    <maintainableField name="accountDescription.campusDescription" required="false" />
++                    <maintainableField name="accountDescription.organizationDescription" required="false" />
++                    <maintainableField name="accountDescription.responsibilityCenterDescription" required="false" />
++                    <maintainableField name="accountDescription.campusCode" required="false" />
++                    <maintainableField name="accountDescription.buildingCode" required="false" />
++                </maintainableItems>
++            </maintainableSection>
++        </maintainableSections>
++    </maintenanceDocument>
++</dictionaryEntry>
+Index: work/src/edu/sample/kuali/module/chart/datadictionary/AccountExtension.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/datadictionary/AccountExtension.xml
+diff -N work/src/edu/sample/kuali/module/chart/datadictionary/AccountExtension.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/datadictionary/AccountExtension.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,38 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dictionaryEntry PUBLIC
++    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
++    "../../../../../../org/kuali/core/datadictionary/dataDictionary-1_0.dtd">
++<dictionaryEntry>
++    <businessObject businessObjectClass="edu.sample.kuali.module.chart.bo.AccountExtension">
++
++        <attributes>
++			<attributeReference sourceAttributeName="chartOfAccountsCode" name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart">			
++			</attributeReference>
++
++			<attributeReference sourceAttributeName="accountNumber" name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account">			
++			</attributeReference>
++
++			<attributeReference sourceAttributeName="programCode" name="programCode" sourceClassName="edu.sample.kuali.module.chart.bo.Program">			
++			</attributeReference>
++
++            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++        </attributes>
++    </businessObject>
++</dictionaryEntry>
++
+Index: work/src/edu/sample/kuali/module/chart/datadictionary/docs/ProgramMaintenanceDocument.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/datadictionary/docs/ProgramMaintenanceDocument.xml
+diff -N work/src/edu/sample/kuali/module/chart/datadictionary/docs/ProgramMaintenanceDocument.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/datadictionary/docs/ProgramMaintenanceDocument.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,62 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2006-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dictionaryEntry PUBLIC
++    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
++    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
++
++<dictionaryEntry>
++    <maintenanceDocument>
++        <businessObjectClass>edu.sample.kuali.module.chart.bo.Program</businessObjectClass>
++        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
++
++        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
++        <authorizations>
++            <authorization action="initiate">
++                <workgroups>
++                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
++                </workgroups>
++            </authorization>
++        </authorizations>
++
++        <documentTypeName>ProgramMaintenanceDocument</documentTypeName>
++        <documentTypeCode>PROG</documentTypeCode>
++
++        <label>Program Code</label>
++        <shortLabel>ProgramMaintDoc</shortLabel>
++
++        <summary>Program maintenance document</summary>
++        <description>Document used to create or update Program objects</description>
++        <help parameterNamespace="KFS-CA" parameterName="CHART_HELP_PROGRAM" />
++
++        <lockingKeys>
++            <field attributeName="programCode" />
++        </lockingKeys>
++
++        <maintainableSections>
++            <maintainableSection title="Edit Program Code">
++                <maintainableItems>
++                    <maintainableField name="programCode" required="true" />
++                    <maintainableField name="programName" required="true" />
++                    <maintainableField name="programActiveIndicator"  >
++                        <defaultValue>true</defaultValue>
++                    </maintainableField>
++                    <maintainableField name="versionNumber" />
++                </maintainableItems>
++            </maintainableSection>
++        </maintainableSections>
++    </maintenanceDocument>
++</dictionaryEntry>
+Index: work/src/edu/sample/kuali/module/chart/bo/Program.java
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/bo/Program.java
+diff -N work/src/edu/sample/kuali/module/chart/bo/Program.java
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/bo/Program.java	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,119 @@
++/*
++ * Copyright 2006-2007 The Kuali Foundation.
++ * 
++ * Licensed under the Educational Community License, Version 1.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ * 
++ * http://www.opensource.org/licenses/ecl1.php
++ * 
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package edu.sample.kuali.module.chart.bo;
++
++import java.util.LinkedHashMap;
++
++import org.kuali.core.bo.PersistableBusinessObjectBase;
++
++/**
++ * 
++ */
++public class Program extends PersistableBusinessObjectBase {
++
++    private String programCode;
++    private String programName;
++    private boolean programActiveIndicator;
++
++    /**
++     * Default constructor.
++     */
++    public Program() {
++
++    }
++
++    /**
++     * Gets the programCode attribute.
++     * 
++     * @return Returns the programCode
++     * 
++     */
++    public String getProgramCode() {
++        return programCode;
++    }
++
++    /**
++     * Sets the programCode attribute.
++     * 
++     * @param programCode The programCode to set.
++     * 
++     */
++    public void setProgramCode(String programCode) {
++        this.programCode = programCode;
++    }
++
++
++    /**
++     * Gets the programName attribute.
++     * 
++     * @return Returns the programName
++     * 
++     */
++    public String getProgramName() {
++        return programName;
++    }
++
++    /**
++     * Sets the programName attribute.
++     * 
++     * @param programName The programName to set.
++     * 
++     */
++    public void setProgramName(String programName) {
++        this.programName = programName;
++    }
++
++
++    /**
++     * @return Returns the code and description in format: xx - xxxxxxxxxxxxxxxx
++     */
++    public String getCodeAndDescription() {
++        String theString = getProgramCode() + " - " + getProgramName();
++        return theString;
++    }
++
++
++    /**
++     * Gets the programActiveIndicator attribute.
++     * 
++     * @return Returns the programActiveIndicator
++     * 
++     */
++    public boolean isProgramActiveIndicator() {
++        return programActiveIndicator;
++    }
++
++    /**
++     * Sets the programActiveIndicator attribute.
++     * 
++     * @param programActiveIndicator The programActiveIndicator to set.
++     * 
++     */
++    public void setProgramActiveIndicator(boolean programActiveIndicator) {
++        this.programActiveIndicator = programActiveIndicator;
++    }
++
++
++    /**
++     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
++     */
++    protected LinkedHashMap toStringMapper() {
++        LinkedHashMap m = new LinkedHashMap();
++        m.put("programCode", this.programCode);
++        return m;
++    }
++}
+Index: work/src/edu/sample/kuali/module/chart/datadictionary/Program.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/datadictionary/Program.xml
+diff -N work/src/edu/sample/kuali/module/chart/datadictionary/Program.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/datadictionary/Program.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,110 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2006-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dictionaryEntry PUBLIC
++    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
++    "../../../core/datadictionary/dataDictionary-1_0.dtd">
++<dictionaryEntry>
++    <businessObject businessObjectClass="edu.sample.kuali.module.chart.bo.Program">
++
++
++        <inquiry>
++            <title>Program Code Inquiry</title>
++
++            <inquirySections><inquirySection title="Header Text"><inquiryFields>
++                <field attributeName="programCode" />
++                <field attributeName="programName" />
++                <field attributeName="programActiveIndicator" />
++            </inquiryFields></inquirySection></inquirySections>
++        </inquiry>
++
++        <lookup>
++            <title>Program Code Lookup</title>
++
++            <instructions>Lookup a Program Code</instructions>
++
++            <defaultSort attributeName="programCode" sortAscending="false" />
++
++            <lookupFields>
++                <lookupField attributeName="programCode" required="false" />
++                <lookupField attributeName="programName" required="false" />
++                <lookupField attributeName="programActiveIndicator" required="false" />                
++            </lookupFields>
++
++            <resultFields>
++                <field attributeName="programCode" />
++                <field attributeName="programName" />
++                <field attributeName="programActiveIndicator" />                
++            </resultFields>
++        </lookup>
++
++        <titleAttribute>programCode</titleAttribute>
++
++        <attributes>
++            <attributeReference name="programActiveIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Active Indicator</label>
++                <shortLabel>Active</shortLabel>
++            </attributeReference>
++
++            <attribute name="programCode" forceUppercase="true">
++                <label>Program Code</label>
++                <shortLabel>Code</shortLabel>
++
++                <maxLength>6</maxLength>
++                <validationPattern>
++                    <anyCharacter allowWhitespace="false" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="10" />
++                </control>
++            </attribute>
++
++            <attribute name="programName" forceUppercase="true">
++                <label>Program Name</label>
++                <shortLabel>Name</shortLabel>
++
++                <maxLength>50</maxLength>
++                <validationPattern>
++                    <anyCharacter allowWhitespace="true" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="50" />
++                </control>
++            </attribute>
++            
++            <attribute name="codeAndDescription" forceUppercase="false">
++                <label>Program Code</label>
++                <shortLabel>Program Code</shortLabel>
++
++                <maxLength>61</maxLength>
++
++                <control>
++                    <text size="61" />
++                </control>
++            </attribute>
++
++            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++        </attributes>
++        
++        <objectLabel>Program Code</objectLabel>
++    </businessObject>
++</dictionaryEntry>
++
+Index: work/src/edu/sample/kuali/module/chart/dwr-chart-sampleu.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/dwr-chart-sampleu.xml
+diff -N work/src/edu/sample/kuali/module/chart/dwr-chart-sampleu.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/dwr-chart-sampleu.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,35 @@
++<!--
++ Copyright 2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dwr PUBLIC "-//GetAhead Limited//DTD Direct Web Remoting 1.0//EN" "http://www.getahead.ltd.uk/dwr/dwr10.dtd">
++
++<dwr>
++    <init>
++        <creator id="spring" class="org.kuali.core.web.servlet.dwr.GlobalResourceDelegatingSpringCreator"/>
++    </init>
++    <allow>
++        <!--  override the account converter to add the extension attribute  -->
++        <convert converter="bean" match="org.kuali.module.chart.bo.Account">
++            <param name="include" value="chartOfAccountCode,accountNumber,accountName,accountTypeCode,subFundGroupCode,organizationCode,financialIcrSeriesIdentifier,indirectCostRcvyFinCoaCode,indirectCostRecoveryAcctNbr,accountOffCampusIndicator,acctIndirectCostRcvyTypeCd,extension" />
++        </convert>
++        <!--  add new objects to convert  -->
++        <convert converter="bean" match="edu.sample.kuali.module.chart.bo.AccountExtension">
++            <param name="include" value="programCode,program" />
++        </convert>
++        <convert converter="bean" match="edu.sample.kuali.module.chart.bo.Program">
++            <param name="include" value="programCode,programName,codeAndDescription" />
++        </convert>
++    </allow>
++</dwr>
+Index: work/src/edu/sample/kuali/module/chart/bo/AccountExtension.java
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/bo/AccountExtension.java
+diff -N work/src/edu/sample/kuali/module/chart/bo/AccountExtension.java
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/bo/AccountExtension.java	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,102 @@
++/*
++ * Copyright 2007 The Kuali Foundation.
++ * 
++ * Licensed under the Educational Community License, Version 1.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ * 
++ * http://www.opensource.org/licenses/ecl1.php
++ * 
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++package edu.sample.kuali.module.chart.bo;
++
++import java.util.LinkedHashMap;
++
++import org.kuali.core.bo.PersistableBusinessObjectExtensionBase;
++import org.kuali.kfs.context.SpringContext;
++import org.kuali.module.chart.bo.Account;
++import org.kuali.module.chart.service.AccountService;
++
++
++public class AccountExtension extends PersistableBusinessObjectExtensionBase {
++
++    private String chartOfAccountsCode;
++    private String accountNumber;
++    private String programCode;
++    
++    private Program program;
++    
++    public String getAccountNumber() {
++        return accountNumber;
++    }
++
++
++
++    public void setAccountNumber(String accountNumber) {
++        this.accountNumber = accountNumber;
++    }
++
++
++
++    public String getChartOfAccountsCode() {
++        return chartOfAccountsCode;
++    }
++
++
++
++    public void setChartOfAccountsCode(String chartOfAccountsCode) {
++        this.chartOfAccountsCode = chartOfAccountsCode;
++    }
++
++
++
++    public String getProgramCode() {
++        return programCode;
++    }
++
++
++
++    public void setProgramCode(String programCode) {
++        this.programCode = programCode;
++    }
++
++
++
++    public Program getProgram() {
++        return program;
++    }
++
++
++
++    public void setProgram(Program program) {
++        this.program = program;
++    }
++
++    @Override
++    protected LinkedHashMap toStringMapper() {
++        // TODO Auto-generated method stub
++        return null;
++    }
++
++    /**
++     * @return Returns the accountNameAndExtensionDescription.
++     */
++    public String getAccountingLineDescription() {
++        String resultString;
++        Account acct = SpringContext.getBean(AccountService.class).getByPrimaryIdWithCaching(chartOfAccountsCode, accountNumber);
++        resultString = acct.getAccountName();
++        if ( getProgram() != null ) {
++            resultString = resultString + "[br]" + programCode + " - " + program.getProgramName();
++        }         
++        return  resultString;
++    }
++    
++    public void setAccountingLineDescription( String dummy ) {
++        // do nothing, needed for bean access only
++    }
++}
+Index: work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml
+diff -N work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,211 @@
++<!--
++ Copyright 2005-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<descriptor-repository version="1.0">
++
++<class-descriptor class="org.kuali.module.chart.bo.Account" table="CA_ACCOUNT_T">
++    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
++    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
++    <field-descriptor name="accountName" column="ACCOUNT_NM" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountFiscalOfficerSystemIdentifier" column="ACCT_FSC_OFC_UID" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountsSupervisorySystemsIdentifier" column="ACCT_SPVSR_UNVL_ID" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountManagerSystemIdentifier" column="ACCT_MGR_UNVL_ID" jdbc-type="VARCHAR" />
++    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountTypeCode" column="ACCT_TYP_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountPhysicalCampusCode" column="ACCT_PHYS_CMP_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="subFundGroupCode" column="SUB_FUND_GRP_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountsFringesBnftIndicator" column="ACCT_FRNG_BNFT_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="financialHigherEdFunctionCd" column="FIN_HGH_ED_FUNC_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountRestrictedStatusCode" column="ACCT_RSTRC_STAT_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountRestrictedStatusDate" column="ACCT_RSTRC_STAT_DT" jdbc-type="TIMESTAMP" />
++    <field-descriptor name="accountCityName" column="ACCT_CITY_NM" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountStateCode" column="ACCT_STATE_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountStreetAddress" column="ACCT_STREET_ADDR" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountZipCode" column="ACCT_ZIP_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="reportsToChartOfAccountsCode" column="RPTS_TO_FIN_COA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="reportsToAccountNumber" column="RPTS_TO_ACCT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountCreateDate" column="ACCT_CREATE_DT" jdbc-type="TIMESTAMP" />
++    <field-descriptor name="accountEffectiveDate" column="ACCT_EFFECT_DT" jdbc-type="TIMESTAMP" />
++    <field-descriptor name="accountExpirationDate" column="ACCT_EXPIRATION_DT" jdbc-type="TIMESTAMP" />
++    <field-descriptor name="continuationFinChrtOfAcctCd" column="CONT_FIN_COA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="continuationAccountNumber" column="CONT_ACCOUNT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="awardPeriodEndYear" column="AWRD_PERIOD_END_YR" jdbc-type="INTEGER" />
++    <field-descriptor name="awardPeriodEndMonth" column="AWRD_PERIOD_END_MO" jdbc-type="VARCHAR" />
++    <field-descriptor name="awardPeriodBeginYear" column="AWRD_PERIOD_BEG_YR" jdbc-type="INTEGER" />
++    <field-descriptor name="awardPeriodBeginMonth" column="AWRD_PERIOD_BEG_MO" jdbc-type="VARCHAR" />
++    <field-descriptor name="endowmentIncomeAcctFinCoaCd" column="ENDOW_FIN_COA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="endowmentIncomeAccountNumber" column="ENDOW_ACCOUNT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="contractControlFinCoaCode" column="CONTR_CTRL_FCOA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="contractControlAccountNumber" column="CONTR_CTRLACCT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="incomeStreamFinancialCoaCode" column="INCOME_FIN_COA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="incomeStreamAccountNumber" column="INCOME_ACCOUNT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="acctIndirectCostRcvyTypeCd" column="ACCT_ICR_TYP_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="acctCustomIndCstRcvyExclCd" column="AC_CSTM_ICREXCL_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="financialIcrSeriesIdentifier" column="FIN_SERIES_ID" jdbc-type="VARCHAR" />
++    <field-descriptor name="indirectCostRcvyFinCoaCode" column="ICR_FIN_COA_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="indirectCostRecoveryAcctNbr" column="ICR_ACCOUNT_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountInFinancialProcessingIndicator" column="ACCT_IN_FP_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="budgetRecordingLevelCode" column="BDGT_REC_LVL_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountSufficientFundsCode" column="ACCT_SF_CD" jdbc-type="VARCHAR" />
++    <field-descriptor name="pendingAcctSufficientFundsIndicator" column="ACCT_PND_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="extrnlFinEncumSufficntFndIndicator" column="FIN_EXT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="intrnlFinEncumSufficntFndIndicator" column="FIN_INT_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="finPreencumSufficientFundIndicator" column="FIN_PRE_ENC_SF_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="financialObjectivePrsctrlIndicator" column="FIN_OBJ_PRSCTRL_CD" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="accountCfdaNumber" column="CG_CFDA_NBR" jdbc-type="VARCHAR" />
++    <field-descriptor name="accountOffCampusIndicator" column="ACCT_OFF_CMP_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="accountClosedIndicator" column="ACCT_CLOSED_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
++    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
++
++    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="chartOfAccountsCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="chartOfAccountsCode" />
++        <foreignkey field-ref="organizationCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountType" class-ref="org.kuali.module.chart.bo.AcctType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountTypeCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountPhysicalCampus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountPhysicalCampusCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountStateCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="subFundGroup" class-ref="org.kuali.module.chart.bo.SubFundGroup" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="subFundGroupCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="financialHigherEdFunction" class-ref="org.kuali.module.chart.bo.HigherEdFunction" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="financialHigherEdFunctionCd" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountRestrictedStatus" class-ref="org.kuali.module.chart.bo.RestrictedStatus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountRestrictedStatusCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="reportsToAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="reportsToChartOfAccountsCode" />
++        <foreignkey field-ref="reportsToAccountNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="continuationAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="continuationFinChrtOfAcctCd" />
++        <foreignkey field-ref="continuationAccountNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="endowmentIncomeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
++        <foreignkey field-ref="endowmentIncomeAccountNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="endowmentIncomeChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="endowmentIncomeAcctFinCoaCd" />
++    </reference-descriptor>
++
++    <reference-descriptor name="contractControlAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="contractControlFinCoaCode" />
++        <foreignkey field-ref="contractControlAccountNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="incomeStreamAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="incomeStreamFinancialCoaCode" />
++        <foreignkey field-ref="incomeStreamAccountNumber" />
++    </reference-descriptor>
++
++
++    <reference-descriptor name="acctIndirectCostRcvyType" class-ref="org.kuali.module.chart.bo.codes.ICRTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="acctIndirectCostRcvyTypeCd" />
++    </reference-descriptor>
++
++    <reference-descriptor name="indirectCostRecoveryAcct" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="indirectCostRcvyFinCoaCode" />
++        <foreignkey field-ref="indirectCostRecoveryAcctNbr" />
++    </reference-descriptor>
++
++    <reference-descriptor name="cfda" class-ref="org.kuali.module.cg.bo.Cfda" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountCfdaNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="postalZipCode" class-ref="org.kuali.kfs.bo.PostalZipCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountZipCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="budgetRecordingLevel" class-ref="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="budgetRecordingLevelCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="sufficientFundsCode" class-ref="org.kuali.module.chart.bo.codes.SufficientFundsCode" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="accountSufficientFundsCode" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountGuideline" class-ref="org.kuali.module.chart.bo.AccountGuideline" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
++        <foreignkey field-ref="chartOfAccountsCode" />
++        <foreignkey field-ref="accountNumber" />
++    </reference-descriptor>
++
++    <reference-descriptor name="accountDescription" class-ref="org.kuali.module.chart.bo.AccountDescription" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
++        <foreignkey field-ref="chartOfAccountsCode" />
++        <foreignkey field-ref="accountNumber" />
++    </reference-descriptor>
++
++    <!-- FIXME: remove after testing -->
++    <reference-descriptor name="extension" class-ref="edu.sample.kuali.module.chart.bo.AccountExtension" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="false">
++        <foreignkey field-ref="chartOfAccountsCode" />
++        <foreignkey field-ref="accountNumber" />
++    </reference-descriptor>
++
++    <collection-descriptor name="subAccounts" element-class-ref="org.kuali.module.chart.bo.SubAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
++        <orderby name="subAccountNumber" sort="ASC" />
++        <inverse-foreignkey field-ref="chartOfAccountsCode" />
++        <inverse-foreignkey field-ref="accountNumber" />
++    </collection-descriptor>
++    <collection-descriptor name="awards" element-class-ref="org.kuali.module.cg.bo.AwardAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
++        <!-- orderby name="awardNumber" sort="ASC" / -->
++        <inverse-foreignkey field-ref="chartOfAccountsCode" />
++        <inverse-foreignkey field-ref="accountNumber" />
++    </collection-descriptor>
++</class-descriptor>
++
++
++<class-descriptor class="edu.sample.kuali.module.chart.bo.AccountExtension" table="CA_ACCOUNT_EXT_T">
++    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" />
++    <field-descriptor name="accountNumber" column="ACCOUNT_NBR" jdbc-type="VARCHAR" primarykey="true" />
++    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
++    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
++    <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" />
++
++    <reference-descriptor name="program" class-ref="edu.sample.kuali.module.chart.bo.Program" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
++        <foreignkey field-ref="programCode" />
++    </reference-descriptor>
++    
++</class-descriptor>
++
++<class-descriptor class="edu.sample.kuali.module.chart.bo.Program" table="CA_PGM_T">
++    <field-descriptor name="programCode" column="PGM_CD" jdbc-type="VARCHAR" primarykey="true" index="true" />
++    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
++    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
++    <field-descriptor name="programName" column="PGM_NM" jdbc-type="VARCHAR" />
++    <field-descriptor name="programActiveIndicator" column="PGM_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
++</class-descriptor>
++
++</descriptor-repository>
+Index: work/src/edu/sample/kuali/module/chart/KualiSpringBeansChart-SampleU.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/KualiSpringBeansChart-SampleU.xml
+diff -N work/src/edu/sample/kuali/module/chart/KualiSpringBeansChart-SampleU.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/KualiSpringBeansChart-SampleU.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,75 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2005-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
++<beans>
++    <bean id="chartModule" class="org.kuali.core.KualiModule">
++        <property name="moduleId" value="chart" />
++        <property name="moduleName" value="Chart Of Accounts" />
++        <property name="moduleCode" value="CA" />
++        <property name="moduleUserService" ref="chartUserService" />
++        <property name="initializeDataDictionary" value="true" />
++        <property name="moduleUserRule">
++            <bean class="org.kuali.module.chart.rules.ChartUserRule" singleton="false" parent="maintenanceDocumentRuleBase">
++                <!--  TODO: bind in other services -->
++            </bean>
++        </property>
++        <property name="moduleAuthorizer">
++            <bean class="org.kuali.kfs.authorization.KfsModuleAuthorizerBase">
++                <property name="packagePrefixes">
++                    <list>
++                        <value>org.kuali.module.chart.</value>
++                        <value>edu.sample.kuali.module.chart.</value>
++                    </list>
++                </property>
++            </bean>
++        </property>
++        <property name="moduleUserPreRules">
++            <null />
++        </property>
++        <property name="dataDictionaryPackages">
++            <list>
++                <value>org/kuali/module/chart/datadictionary</value>
++                <value>edu/sample/kuali/module/chart/datadictionary</value>
++            </list>
++        </property>
++        <property name="databaseRepositoryFilePaths">
++            <list>
++                <value>org/kuali/module/chart/OJB-repository-chart.xml</value>
++                <value>edu/sample/kuali/module/chart/OJB-repository-chart-sampleu.xml</value>
++            </list>
++        </property>
++        <property name="scriptConfigurationFilePaths">
++            <list>
++                <value>org/kuali/module/chart/dwr-chart.xml</value>
++                <value>edu/sample/kuali/module/chart/dwr-chart-sampleu.xml</value>
++            </list>
++        </property>
++        <property name="jobNames">
++            <list>
++                <value>fiscalYearMakerJob</value>
++                <value>populatePriorYearDataJob</value>
++            </list>
++        </property>
++    </bean>
++    
++    <bean id="workflow-edu.sample.kuali.module.chart.bo.Program-Lookupable" parent="workflowLookupable" singleton="false">
++        <property name="businessObjectClassName">
++            <value>edu.sample.kuali.module.chart.bo.Program</value>
++        </property>
++    </bean>
++    
++</beans>
+Index: work/src/edu/sample/kuali/module/chart/datadictionary/Account.xml
+===================================================================
+RCS file: work/src/edu/sample/kuali/module/chart/datadictionary/Account.xml
+diff -N work/src/edu/sample/kuali/module/chart/datadictionary/Account.xml
+--- /dev/null	1 Jan 1970 00:00:00 -0000
++++ work/src/edu/sample/kuali/module/chart/datadictionary/Account.xml	1 Jan 1970 00:00:00 -0000
+@@ -0,0 +1,887 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<!--
++ Copyright 2005-2007 The Kuali Foundation.
++ 
++ Licensed under the Educational Community License, Version 1.0 (the "License");
++ you may not use this file except in compliance with the License.
++ You may obtain a copy of the License at
++ 
++ http://www.opensource.org/licenses/ecl1.php
++ 
++ Unless required by applicable law or agreed to in writing, software
++ distributed under the License is distributed on an "AS IS" BASIS,
++ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ See the License for the specific language governing permissions and
++ limitations under the License.
++-->
++<!DOCTYPE dictionaryEntry PUBLIC
++    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
++    "../../../core/datadictionary/dataDictionary-1_0.dtd">
++<dictionaryEntry>
++    <businessObject businessObjectClass="org.kuali.module.chart.bo.Account">
++
++
++        <inquiry>
++            <title>Account Inquiry</title>
++
++            <inquirySections>
++            	<inquirySection title="Account Details">
++            		<inquiryFields>
++		                <field attributeName="chartOfAccounts.codeAndDescription" />
++		                <field attributeName="accountNumber" />
++		                <field attributeName="accountName" />
++		                <field attributeName="organization.codeAndDescription" />
++		                <field attributeName="accountPhysicalCampusCode" />
++		                <field attributeName="accountEffectiveDate" />
++		                <field attributeName="accountExpirationDate" />
++		                <field attributeName="accountZipCode" />
++		                <field attributeName="accountCityName" />
++		                <field attributeName="accountState.codeAndDescription" />
++		                <field attributeName="accountStreetAddress" />
++		                <field attributeName="accountOffCampusIndicator" />
++		                <field attributeName="accountClosedIndicator" />
++		                <field attributeName="accountTypeCode" />
++		                <field attributeName="subFundGroup.codeAndDescription" />
++		                
++		                <field attributeName="extension.program.codeAndDescription" />
++		                
++		                <field attributeName="accountsFringesBnftIndicator" />
++		                <field attributeName="reportsToChartOfAccountsCode" />
++		                <field attributeName="reportsToAccountNumber" />
++		                <field attributeName="financialHigherEdFunction.codeAndDescription" />
++		                <field attributeName="accountRestrictedStatusCode" />
++		                <field attributeName="accountRestrictedStatusDate" />
++		                <field attributeName="endowmentIncomeChartOfAccounts.codeAndDescription" />
++		                <field attributeName="endowmentIncomeAccountNumber" />
++		
++		                <field attributeName="accountResponsibilitySectionBlank" />
++		                <field attributeName="accountResponsibilitySection" />
++		
++						<field attributeName="accountFiscalOfficerUserPersonUserIdentifier" />
++		                <field attributeName="accountFiscalOfficerUser.personName" />
++		                <field attributeName="accountSupervisoryUserPersonUserIdentifier" />
++		                <field attributeName="accountSupervisoryUser.personName" />
++		                <field attributeName="accountManagerUserPersonUserIdentifier" />
++		                <field attributeName="accountManagerUser.personName" />
++		                <field attributeName="continuationFinChrtOfAcctCd" />
++		                <field attributeName="continuationAccountNumber" />
++		                <field attributeName="incomeStreamFinancialCoaCode" />
++		                <field attributeName="incomeStreamAccountNumber" />
++						<field attributeName="budgetRecordingLevelCode" /> 
++		                <field attributeName="accountSufficientFundsCode" />
++		
++		                <field attributeName="pendingAcctSufficientFundsIndicator" />
++		                <field attributeName="extrnlFinEncumSufficntFndIndicator" />
++		                <field attributeName="intrnlFinEncumSufficntFndIndicator" />
++		                <field attributeName="finPreencumSufficientFundIndicator" />
++		                <field attributeName="financialObjectivePrsctrlIndicator" />
++		
++		                <field attributeName="contractsAndGrantsSectionBlank" />
++		                <field attributeName="contractsAndGrantsSection" />
++		
++		                <field attributeName="contractControlFinCoaCode" />
++		                <field attributeName="contractControlAccountNumber" />
++		                <field attributeName="acctIndirectCostRcvyType.codeAndDescription" />
++		                <field attributeName="financialIcrSeriesIdentifier" />
++		                <field attributeName="indirectCostRcvyFinCoaCode" />
++		                <field attributeName="indirectCostRecoveryAcctNbr" />
++		                <field attributeName="accountCfdaNumber" />
++		
++		                <field attributeName="guidelinesAndPurposeSectionBlank" />
++		                <field attributeName="guidelinesAndPurposeSection" />
++		
++		                <field attributeName="accountGuideline.accountExpenseGuidelineText" />
++		                <field attributeName="accountGuideline.accountIncomeGuidelineText" />
++		                <field attributeName="accountGuideline.accountPurposeText" />
++		
++		                <field attributeName="accountDescriptionSectionBlank" />
++		                <field attributeName="accountDescriptionSection" />
++		
++		                <field attributeName="accountDescription.campusDescription" />
++		                <field attributeName="accountDescription.organizationDescription" />
++		                <field attributeName="accountDescription.responsibilityCenterDescription" />
++		                <field attributeName="accountDescription.campusCode" />
++		                <field attributeName="accountDescription.buildingCode" />
++		
++	            	</inquiryFields>
++	            </inquirySection>
++
++                <inquirySection title="Awards">
++                    <inquiryFields>
++                        <inquiryCollection name="awards" businessObjectClass="org.kuali.module.cg.bo.AwardAccount" numberOfColumns="1">
++                            <field attributeName="proposalNumber" />
++                            <field attributeName="projectDirector.universalUser.personName" />
++                            <field attributeName="award.workgroupName" />
++                            <field attributeName="award.kualiGroupNames" />
++                            <field attributeName="award.proposal.proposalFederalPassThroughIndicator" />
++                            <field attributeName="award.proposal.federalPassThroughAgencyNumber" />
++                        </inquiryCollection>
++                    </inquiryFields>
++                </inquirySection>
++
++		    </inquirySections>
++        </inquiry>
++
++        <lookup>
++        	<lookupableID>accountLookupable</lookupableID>
++            <title>Account Lookup</title>
++
++            <menubar>
++                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.chart.bo.AccountGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
++            </menubar>
++
++            <instructions>Lookup an Account</instructions>
++
++            <defaultSort attributeName="accountNumber" sortAscending="true" />
++
++            <lookupFields>
++                <lookupField attributeName="chartOfAccountsCode" required="false" />
++                <lookupField attributeName="accountNumber" required="false" noLookup="true" />
++                <lookupField attributeName="accountName" required="false" />
++                <lookupField attributeName="organizationCode" required="false" />
++                <lookupField attributeName="accountTypeCode" required="false" />
++                <lookupField attributeName="subFundGroupCode" required="false" />
++                <lookupField attributeName="extension.programCode" required="false" />
++                <lookupField attributeName="accountFiscalOfficerSystemIdentifier" required="false" />
++                <lookupField attributeName="accountFiscalOfficerUser.personUserIdentifier" required="false" />
++                <lookupField attributeName="accountFiscalOfficerUser.personName" required="false" />
++                <lookupField attributeName="accountClosedIndicator">
++                    <defaultValue>N</defaultValue>
++                </lookupField>
++            </lookupFields>
++
++            <resultFields>
++                <field attributeName="chartOfAccountsCode" />
++                <field attributeName="accountNumber" />
++                <field attributeName="accountName" />
++                <field attributeName="organizationCode" />
++                <field attributeName="accountTypeCode" />
++                <field attributeName="subFundGroupCode" />
++                <field attributeName="extension.program.programCode" />
++                <field attributeName="accountFiscalOfficerUser.personUserIdentifier" />               
++                <field attributeName="accountFiscalOfficerUser.personName" forceInquiry="true" />
++                <field attributeName="accountClosedIndicator" />                
++                <field attributeName="accountManagerUser.personName" forceInquiry="true" />
++                <field attributeName="accountCreateDate" />
++                <field attributeName="accountExpirationDate" />
++
++            </resultFields>
++        </lookup>
++
++        <titleAttribute>accountNumber</titleAttribute>
++
++        <attributes>
++           <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++           </attributeReference>
++
++           <attributeReference name="chartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
++               <label>Chart Code</label>
++               <shortLabel>Chart Code</shortLabel>
++               <required>false</required>
++               <control>
++                   <hidden />
++               </control>
++           </attributeReference>
++            
++           <attributeReference name="endowmentIncomeChartOfAccounts.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="codeAndDescription">
++                <label>Endowment Chart of Accounts Code</label>
++                <shortLabel>Endowment Chart Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <!--  ROOT REFERENCE FOR ACCOUNT NUMBER -->
++            <attribute name="accountNumber" forceUppercase="true">
++                <label>Account Number</label>
++                <shortLabel>Account</shortLabel>
++
++                <maxLength>7</maxLength>
++                <validationPattern>
++                    <alphaNumeric exactLength="7" allowWhitespace="false" allowUnderscore="false" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="10" />
++                </control>
++            </attribute>
++            <attribute name="accountName" forceUppercase="true">
++                <label>Account Name</label>
++                <shortLabel>AcctName</shortLabel>
++
++                <maxLength>40</maxLength>
++                <validationPattern>
++                    <anyCharacter allowWhitespace="true" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="40" />
++                </control>
++            </attribute>
++            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
++            </attributeReference>
++
++           <attributeReference name="organization.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="codeAndDescription">
++                <label>Organization Code</label>
++                <shortLabel>Org Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountTypeCode" sourceClassName="org.kuali.module.chart.bo.AcctType" sourceAttributeName="accountTypeCode">
++
++                <label>Acct Type Code</label>
++                <shortLabel>AcctType</shortLabel>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.AcctTypeValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountPhysicalCampusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
++                <control>
++                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="subFundGroupCode" sourceClassName="org.kuali.module.chart.bo.SubFundGroup" sourceAttributeName="subFundGroupCode">
++                <label>Sub-Fund Group Code</label>
++                <shortLabel>SubFundGrpCd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++            <!--  comment programCode out if not in use at your institution -->
++ 
++           <attributeReference name="subFundGroup.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.SubFundGroup" sourceAttributeName="codeAndDescription">
++                <label>Sub-Fund Group Code</label>
++                <shortLabel>Sub-Fund Group Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++             
++            <attributeReference name="accountsFringesBnftIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Account Fringe Benefit</label>
++                <shortLabel>FringeBene</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attribute name="financialHigherEdFunctionCd" forceUppercase="true">
++                <label>Higher Education Function Code</label>
++                <shortLabel>HighEdFncCd</shortLabel>
++
++                <maxLength>4</maxLength>
++                <validationPattern>
++                    <anyCharacter />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="4" />
++                </control>
++            </attribute>
++
++           <attributeReference name="financialHigherEdFunction.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.HigherEdFunction" sourceAttributeName="codeAndDescription">
++                <label>Higher Ed Function Code</label>
++                <shortLabel>Higher Ed Function Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountRestrictedStatusCode" sourceClassName="org.kuali.module.chart.bo.RestrictedStatus" sourceAttributeName="accountRestrictedStatusCode">
++                <label>Account Restricted Status Code</label>
++                <shortLabel>RstrcStatCd</shortLabel>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.RestrictedStatusValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountRestrictedStatusDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
++                <label>Account Restricted Status Date</label>
++                <shortLabel>RstrcStatDt</shortLabel>
++            </attributeReference>
++
++            <attribute name="accountCityName" forceUppercase="false">
++                <label>Account City Name</label>
++                <shortLabel>CityName</shortLabel>
++
++                <maxLength>25</maxLength>
++                <validationPattern>
++                    <anyCharacter allowWhitespace="true" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="25" />
++                </control>
++            </attribute>
++
++            <attributeReference name="accountStateCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="twoDigitTextCode">
++                <label>Account State Code</label>
++                <shortLabel>StateCd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++           <attributeReference name="accountState.codeAndDescription" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="codeAndDescription">
++                <label>Account State Code</label>
++                <shortLabel>Account State Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attribute name="accountStreetAddress" forceUppercase="false">
++                <label>Account Street Address</label>
++                <shortLabel>StreetAddr</shortLabel>
++
++                <maxLength>30</maxLength>
++                <validationPattern>
++                    <anyCharacter allowWhitespace="true" />
++                </validationPattern>
++                <required>true</required>
++
++                <control>
++                    <text size="30" />
++                </control>
++            </attribute>
++
++            <attributeReference name="accountZipCode" sourceClassName="org.kuali.kfs.bo.PostalZipCode" sourceAttributeName="postalZipCode">
++                <label>Account Postal Code</label>
++                <shortLabel>ZipCode</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="reportsToChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Fringe Benefit Chart Of Accounts Code</label>
++                <shortLabel>FringeChart</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="reportsToAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Fringe Benefit Account Number</label>
++                <shortLabel>FringeAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
++                <label>Account Create Date</label>
++                <shortLabel>CreateDate</shortLabel>
++                <control>
++                	<hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountEffectiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
++                <label>Account Effective Date</label>
++                <shortLabel>EffDate</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="accountExpirationDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
++                <label>Account Expiration Date</label>
++                <shortLabel>ExpDate</shortLabel>
++            </attributeReference>
++
++            <attributeReference name="continuationFinChrtOfAcctCd" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Continuation Chart Of Accounts Code</label>
++                <shortLabel>ContChartCd</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="continuationAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Continuation Account Number</label>
++                <shortLabel>ContAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attribute name="awardPeriodEndYear" forceUppercase="false">
++                <label>Award Period End Year</label>
++                <shortLabel>AwrdEndYear</shortLabel>
++
++                <maxLength>4</maxLength>
++                <validationPattern>
++                    <year />
++                </validationPattern>
++
++                <control>
++                    <text size="4" />
++                </control>
++            </attribute>
++
++            <attribute name="awardPeriodEndMonth" forceUppercase="false">
++                <label>Award Period End Month</label>
++                <shortLabel>AwrdEndMnth</shortLabel>
++
++                <maxLength>2</maxLength>
++                <validationPattern>
++                    <month />
++                </validationPattern>
++
++                <control>
++                    <text size="2" />
++                </control>
++            </attribute>
++
++            <attribute name="awardPeriodBeginYear" forceUppercase="false">
++                <label>Award Period Begin Year</label>
++                <shortLabel>AwrdBegnYear</shortLabel>
++
++                <maxLength>4</maxLength>
++                <validationPattern>
++                    <year />
++                </validationPattern>
++
++                <control>
++                    <text size="4" />
++                </control>
++            </attribute>
++
++            <attribute name="awardPeriodBeginMonth" forceUppercase="false">
++                <label>Award Period Begin Month</label>
++                <shortLabel>AwrdBegnMnth</shortLabel>
++
++                <maxLength>2</maxLength>
++                <validationPattern>
++                    <month />
++                </validationPattern>
++
++                <control>
++                    <text size="2" />
++                </control>
++            </attribute>
++
++            <attributeReference name="endowmentIncomeAcctFinCoaCd" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Endowment Chart Of Accounts Code</label>
++                <shortLabel>EndowChart</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="endowmentIncomeAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Endowment Account Number</label>
++                <shortLabel>EndowAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="contractControlFinCoaCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Contract Control Chart of Accounts Code</label>
++                <shortLabel>CntrctChart</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="contractControlAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Contract Control Account Number</label>
++                <shortLabel>CntrctAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="incomeStreamFinancialCoaCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Income Stream Chart Of Accounts Code</label>
++                <shortLabel>IncStrChart</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="incomeStreamAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Income Stream Account Number</label>
++                <shortLabel>IncStrAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="acctIndirectCostRcvyTypeCd" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="twoDigitTextCode">
++                <label>Account Indirect Cost Recovery Type Code</label>
++                <shortLabel>IndCstTypCd</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++           <attributeReference name="acctIndirectCostRcvyType.codeAndDescription" sourceClassName="org.kuali.module.chart.bo.codes.ICRTypeCode" sourceAttributeName="codeAndDescription">
++                <label>Account Indirect Cost Recovery Type Code</label>
++                <shortLabel>Account Indirect Cost Recovery Type Code</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="acctCustomIndCstRcvyExclCd" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="oneDigitTextCode">
++                <label>Account Customized Indirect Cost Exclusion Code</label>
++                <shortLabel>IndCstExclCd</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attribute name="financialIcrSeriesIdentifier" forceUppercase="false">
++                <label>Indirect Cost Rate</label>
++                <shortLabel>Indr Cost Rate</shortLabel>
++
++                <maxLength>3</maxLength>
++                <validationPattern>
++                    <anyCharacter />
++                </validationPattern>
++                <required>false</required>
++
++                <control>
++                    <text size="3" />
++                </control>
++            </attribute>
++
++            <attributeReference name="indirectCostRcvyFinCoaCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
++                <label>Indirect Cost Recovery Chart Of Accounts Code</label>
++                <shortLabel>IndCstChart</shortLabel>
++                <required>false</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="indirectCostRecoveryAcctNbr" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
++                <label>Indirect Cost Recovery Account Number</label>
++                <shortLabel>IndCstAcct</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountInFinancialProcessingIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="oneDigitTextCode">
++                <label>Account In Financial Processing</label>
++                <shortLabel>AcctFinProc</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="budgetRecordingLevelCode" sourceClassName="org.kuali.module.chart.bo.codes.BudgetRecordingLevel" sourceAttributeName="code">
++                <label>Budget Record Level Code</label>
++                <shortLabel>BdgLevelCd</shortLabel>
++                <required>true</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.BudgetRecordingLevelValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountSufficientFundsCode" sourceClassName="org.kuali.module.chart.bo.codes.SufficientFundsCode" sourceAttributeName="code">
++                <label>Account Sufficient Funds Code</label>
++                <shortLabel>SuffFndsCd</shortLabel>
++                <required>true</required>
++                <control>
++                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.SufficientFundsCodeValuesFinder" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="pendingAcctSufficientFundsIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Transaction Processing Sufficient Funds Check</label>
++                <shortLabel>TPSuffChk</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="extrnlFinEncumSufficntFndIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>External Encumbrance Sufficient Funds Indicator</label>
++                <shortLabel>ExtEncSuffFndsInd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="intrnlFinEncumSufficntFndIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Internal Encumbrance Sufficient Funds Indicator</label>
++                <shortLabel>IntEncSuffFndsInd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++            <attributeReference name="finPreencumSufficientFundIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Pre-Encumbrance Sufficient Funds Indicator</label>
++                <shortLabel>PreEncSuffFndsInd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="financialObjectivePrsctrlIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Object Presence Control Indicator</label>
++                <shortLabel>ObjPrsCntrl</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attributeReference name="accountCfdaNumber" sourceClassName="org.kuali.module.cg.bo.Cfda" sourceAttributeName="cfdaNumber">
++                <label>Catalog of Federal Domestic Assistance Number</label>
++                <shortLabel>FedDomAssisNum</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountOffCampusIndicator" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator">
++                <label>Account Off Campus Indicator</label>
++                <shortLabel>OffCmpsInd</shortLabel>
++                <required>true</required>
++            </attributeReference>
++
++            <attribute name="accountClosedIndicator" forceUppercase="false">
++                <label>Closed?</label>
++                <shortLabel>AcctClosed</shortLabel>
++
++                <maxLength>1</maxLength>
++                <control>
++                    <checkbox />
++                </control>
++                <formatterClass>org.kuali.core.web.format.BooleanFormatter</formatterClass>
++            </attribute>
++
++            <attributeReference name="accountFiscalOfficerSystemIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
++                <label>Fiscal Officer Unvl ID</label>
++                <shortLabel>FiscOffId</shortLabel>
++                <displayLabelAttribute>accountFiscalOfficerUser.personUserIdentifier</displayLabelAttribute>
++                <required>true</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++            
++            <attributeReference name="accountFiscalOfficerUserPersonUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++            	<label>Account Fiscal Officer Network ID</label>
++            	<shortLabel>AcctFONetID</shortLabel>
++            	<required>false</required>
++            	<control>
++            		<hidden />
++            	</control>
++            </attributeReference>
++
++            <attributeReference name="accountFiscalOfficerUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++                <label>Fiscal Officer UserID</label>
++                <shortLabel>UserID</shortLabel>
++                <required>false</required>
++                <control>
++                    <kualiUser universalIdAttributeName="accountFiscalOfficerSystemIdentifier" userIdAttributeName="accountFiscalOfficerUser.personUserIdentifier" personNameAttributeName="accountFiscalOfficerUser.personName" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountFiscalOfficerUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
++                <label>Fiscal Officer Name</label>
++                <shortLabel>Name</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountsSupervisorySystemsIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
++                <label>Supervisor Unvl ID</label>
++                <shortLabel>SprvsrId</shortLabel>
++                <displayLabelAttribute>accountSupervisoryUser.personUserIdentifier</displayLabelAttribute>
++                <required>true</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++            
++            <attributeReference name="accountSupervisoryUserPersonUserIdentifier"  sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++            	<label>Account Supervisor Network ID</label>
++            	<shortLabel>AcctSprNetID</shortLabel>
++            	<required>false</required>
++            	<control>
++            		<hidden />
++            	</control>
++            </attributeReference>
++
++            <attributeReference name="accountSupervisoryUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++                <label>Account Supervisor UserID</label>
++                <shortLabel>UserID</shortLabel>
++                <required>false</required>
++                <control>
++                    <kualiUser universalIdAttributeName="accountsSupervisorySystemsIdentifier" userIdAttributeName="accountSupervisoryUser.personUserIdentifier" personNameAttributeName="accountSupervisoryUser.personName" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountSupervisoryUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
++                <label>Account Supervisor Name</label>
++                <shortLabel>Name</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountManagerSystemIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier">
++                <label>Manager Unvl ID</label>
++                <shortLabel>MgrId</shortLabel>
++                <displayLabelAttribute>accountManagerUser.personUserIdentifier</displayLabelAttribute>
++                <required>true</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++            
++            <attributeReference name="accountManagerUserPersonUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++            	<label>Account Manager Network ID</label>
++            	<shortLabel>AcctMgrNetID</shortLabel>
++            	<required>false</required>
++            	<control>
++            		<hidden />
++            	</control>
++            </attributeReference>
++
++            <attributeReference name="accountManagerUser.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
++                <label>Account Manager UserID</label>
++                <shortLabel>UserID</shortLabel>
++                <required>false</required>
++                <control>
++                    <kualiUser universalIdAttributeName="accountManagerSystemIdentifier" userIdAttributeName="accountManagerUser.personUserIdentifier" personNameAttributeName="accountManagerUser.personName" />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="accountManagerUser.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
++                <label>Account Manager Name</label>
++                <shortLabel>Name</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++            <attributeReference name="accountGuideline.accountExpenseGuidelineText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
++                <label>Account Expense Guideline Text</label>
++                <shortLabel>ExpGuideTxt</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountGuideline.accountIncomeGuidelineText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
++                <label>Account Income Guideline Text</label>
++                <shortLabel>IncGuideTxt</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountGuideline.accountPurposeText" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericBigText">
++                <label>Account Purpose Text</label>
++                <shortLabel>AcctPurpTxt</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="accountGuideline.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++            <attributeReference name="accountDescription.campusDescription" sourceClassName="org.kuali.module.chart.bo.AccountDescription" sourceAttributeName="campusDescription">
++            </attributeReference>
++
++            <attributeReference name="accountDescription.organizationDescription" sourceClassName="org.kuali.module.chart.bo.AccountDescription" sourceAttributeName="organizationDescription">
++            </attributeReference>
++
++            <attributeReference name="accountDescription.responsibilityCenterDescription" sourceClassName="org.kuali.module.chart.bo.AccountDescription" sourceAttributeName="responsibilityCenterDescription">
++            </attributeReference>
++
++            <attributeReference name="accountDescription.campusCode" sourceClassName="org.kuali.module.chart.bo.AccountDescription" sourceAttributeName="campusCode">
++            </attributeReference>
++
++            <attributeReference name="accountDescription.buildingCode" sourceClassName="org.kuali.module.chart.bo.AccountDescription" sourceAttributeName="buildingCode">
++            </attributeReference>
++
++            <attributeReference name="accountDescription.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++            <attribute name="accountResponsibilitySection" forceUppercase="false">
++                <label>ACCOUNT RESPONSIBILITY SECTION</label>
++                <maxLength>50</maxLength>
++                <control>
++                    <checkbox />
++                </control>
++            </attribute>
++
++            <attribute name="contractsAndGrantsSection" forceUppercase="false">
++                <label>CONTRACTS AND GRANTS SECTION</label>
++                <maxLength>50</maxLength>
++                <control>
++                    <checkbox />
++                </control>
++            </attribute>
++
++            <attribute name="guidelinesAndPurposeSection" forceUppercase="false">
++                <label>GUIDELINES AND PURPOSE SECTION</label>
++                <maxLength>50</maxLength>
++                <control>
++                    <checkbox />
++                </control>
++            </attribute>
++
++            <attribute name="accountDescriptionSection" forceUppercase="false">
++                <label>ACCOUNT DESCRIPTION SECTION</label>
++                <maxLength>50</maxLength>
++                <control>
++                    <checkbox />
++                </control>
++            </attribute>
++
++            <attributeReference name="extension.programCode" sourceClassName="edu.sample.kuali.module.chart.bo.Program" sourceAttributeName="programCode">
++                <label>Program Code</label>
++                <shortLabel>ProgramCd</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++            <attributeReference name="extension.program.programCode" sourceClassName="edu.sample.kuali.module.chart.bo.Program" sourceAttributeName="programCode">
++                <label>Program Code</label>
++                <shortLabel>ProgramCd</shortLabel>
++                <required>false</required>
++            </attributeReference>
++
++           <attributeReference name="extension.program.codeAndDescription" sourceClassName="edu.sample.kuali.module.chart.bo.Program" sourceAttributeName="codeAndDescription">
++                <label>Program</label>
++                <shortLabel>Program</shortLabel>
++                <required>false</required>
++                <control>
++                    <hidden />
++                </control>
++            </attributeReference>
++
++            <attributeReference name="extension.versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
++
++        </attributes>
++
++        <collections>
++            <collection name="subAccounts">
++                <label>Sub-Accounts</label>
++                <shortLabel>Sub-Accounts</shortLabel>
++            </collection>
++            
++            <collection name="awards">
++            	<label>Awards</label>
++            	<shortLabel>Awards</shortLabel>
++            </collection>
++		</collections>
++        
++        <relationships>
++            <relationship objectAttributeName="accountFiscalOfficerUser" >
++                <primitiveAttribute sourceName="accountFiscalOfficerSystemIdentifier" targetName="personUniversalIdentifier" />
++				<supportAttribute sourceName="accountFiscalOfficerUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
++				<supportAttribute sourceName="accountFiscalOfficerUser.personName" targetName="personName" />
++            </relationship>
++
++            <relationship objectAttributeName="accountSupervisoryUser" >
++                <primitiveAttribute sourceName="accountsSupervisorySystemsIdentifier" targetName="personUniversalIdentifier" />
++				<supportAttribute sourceName="accountSupervisoryUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
++				<supportAttribute sourceName="accountSupervisoryUser.personName" targetName="personName" />
++            </relationship>
++
++            <relationship objectAttributeName="accountManagerUser" >
++                <primitiveAttribute sourceName="accountManagerSystemIdentifier" targetName="personUniversalIdentifier" />
++				<supportAttribute sourceName="accountManagerUser.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
++				<supportAttribute sourceName="accountManagerUser.personName" targetName="personName" />
++            </relationship>
++
++            <relationship objectAttributeName="accountGuideline" >
++                <primitiveAttribute sourceName="chartOfAccountsCode" targetName="chartOfAccountsCode" />
++                <primitiveAttribute sourceName="accountNumber" targetName="accountNumber" />
++            </relationship>
++            <relationship objectAttributeName="extension.program" >
++                <primitiveAttribute sourceName="extension.programCode" targetName="programCode" />
++            </relationship>
++        </relationships>
++        
++        <objectLabel>Account</objectLabel>
++    </businessObject>
++</dictionaryEntry>

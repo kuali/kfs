@@ -1,12 +1,12 @@
 /*
  * Copyright 2006-2007 The Kuali Foundation.
- * 
+ *
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  * http://www.opensource.org/licenses/ecl1.php
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -142,7 +142,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * This method produces a chart row.
-     * 
+     *
      * @return
      * @deprecated Use getChartRowUsingKualiWorkflowUtils() instead
      */
@@ -160,7 +160,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * This method produces an org row.
-     * 
+     *
      * @return
      * @deprecated Use getOrgRowUsingKualiWorkflowUtils() instead
      */
@@ -180,7 +180,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * This method produces an overrideCode row.
-     * 
+     *
      * @return
      * @deprecated Use getOverrideCodeRowUsingKualiWorkflowUtils() instead
      */
@@ -198,7 +198,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * constructor that takes the chart, org, which calls the no arg constructor
-     * 
+     *
      * @param finCoaCd
      * @param orgCd
      */
@@ -229,12 +229,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     public List validateRuleData(Map paramMap) {
         List errors = new ArrayList();
+        this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
+        this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
+        this.fromAmount = (String) paramMap.get(FROM_AMOUNT_KEY);
+        this.toAmount = (String) paramMap.get(TO_AMOUNT_KEY);
+        this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
         if (isRequired()) {
-            this.finCoaCd = LookupUtils.forceUppercase(Org.class, "chartOfAccountsCode", (String) paramMap.get(FIN_COA_CD_KEY));
-            this.orgCd = LookupUtils.forceUppercase(Org.class, "organizationCode", (String) paramMap.get(ORG_CD_KEY));
-            this.fromAmount = (String) paramMap.get(FROM_AMOUNT_KEY);
-            this.toAmount = (String) paramMap.get(TO_AMOUNT_KEY);
-            this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", (String) paramMap.get(OVERRIDE_CD_KEY));
             validateOrg(errors);
             if (StringUtils.isNotBlank(toAmount) && !StringUtils.isNumeric(toAmount)) {
                 errors.add(new WorkflowServiceErrorImpl("To Amount is invalid.", "routetemplate.dollarrangeattribute.toamount.invalid"));
@@ -290,7 +290,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     /**
      * Actual matching logic is handled in filterNonMatchingRules where the List of rules is narrowed down to those that should
      * fire.
-     * 
+     *
      * @see #filterNonMatchingRules(RouteContext, List)
      * @see edu.iu.uis.eden.plugin.attributes.WorkflowAttribute#isMatch(java.lang.String, java.util.List)
      */
@@ -370,7 +370,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * This method is a recursive method that will retrive reports to orgs to build up the hierarchy of organizations
-     * 
+     *
      * @param chartOrgSet
      * @param chartOrg
      */
@@ -413,7 +413,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     /**
      * this method will take the document content, and populate a list of OrgReviewAttribute objects that also contain the rollup in
      * terms of organizational hierarchy as well.
-     * 
+     *
      * @param docContent
      * @return a list of OrgReviewAttribute objects that are contained in the doc, or roll up to able by one that is contained in
      *         the document
@@ -651,7 +651,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * simple getter for fincoacd
-     * 
+     *
      * @return String
      */
     public String getFinCoaCd() {
@@ -660,7 +660,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * simple setter for fincoacd
-     * 
+     *
      * @param finCoaCd
      */
     public void setFinCoaCd(String finCoaCd) {
@@ -669,7 +669,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * simple getter for org code
-     * 
+     *
      * @return String
      */
     public String getOrgCd() {
@@ -678,7 +678,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
 
     /**
      * simple setter for org code
-     * 
+     *
      * @param orgCd
      */
     public void setOrgCd(String orgCd) {

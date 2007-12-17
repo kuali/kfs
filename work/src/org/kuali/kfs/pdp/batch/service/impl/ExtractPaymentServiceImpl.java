@@ -105,7 +105,11 @@ public class ExtractPaymentServiceImpl implements ExtractPaymentService {
                 } else {
                     writeTag(os, 4, "disbursementNumber", history.getPaymentGroup().getDisbursementNbr().toString());
                 }
-                writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
+                if(history.getPaymentGroup().getDisbursementType() != null) {
+                    writeTag(os, 4, "disbursementType", history.getPaymentGroup().getDisbursementType().getCode());
+                } else {
+                    writeTag(os, 4, "disbursementType", history.getDisbursementType().getCode());
+                }
 
                 writeCloseTag(os, 2, "check");
 

@@ -254,14 +254,14 @@ public class OrganizationReversionLogicTest extends OriginEntryTestBase {
         orgRevProcess.organizationReversionProcess();
 
         // ye olde sanity check
-        assertEquals("Balances Read", new Integer(orgRevProcess.getBalancesRead()), new Integer(balancesToTestAgainst.size()));
+        assertEquals("Balances Read", new Integer(balancesToTestAgainst.size()), new Integer(orgRevProcess.getBalancesRead()));
 
         // make sure this resulted in one Org Rev origin entry group
         Collection groups = originEntryGroupService.getAllOriginEntryGroup();
-        assertEquals("Origin Entries Group Size", new Integer(groups.size()), new Integer(1));
+        assertEquals("Origin Entries Group Size", new Integer(1), new Integer(groups.size()));
 
         OriginEntryGroup group = (OriginEntryGroup) groups.iterator().next();
-        assertEquals("Origin Entry Group Source Code", group.getSourceCode(), OriginEntrySource.YEAR_END_ORG_REVERSION);
+        assertEquals("Origin Entry Group Source Code", OriginEntrySource.YEAR_END_ORG_REVERSION, group.getSourceCode());
         return group;
     }
 

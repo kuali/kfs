@@ -17,25 +17,29 @@ package org.kuali.module.vendor.maintenance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.Note;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.user.AuthenticationUserId;
 import org.kuali.core.bo.user.UniversalUser;
-import org.kuali.core.datadictionary.DataDictionaryDefinitionBase;
-import org.kuali.core.datadictionary.MaintainableCollectionDefinition;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
+import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.NoteService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.web.ui.Field;
+import org.kuali.core.web.ui.Row;
+import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapParameterConstants;
@@ -338,29 +342,68 @@ public class VendorMaintainableImpl extends KualiMaintainableImpl {
     }
 
     /**
-     * Checks if the collection is the vendor supplier diversity and the vendor is not a parent, then do not display the add line.
+     * Overrides the section implementation to turn off the include add line property unless the user
+     * is in the vendor contract workgroup.
      * 
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#overrideDataDictionary(org.kuali.core.datadictionary.DataDictionaryDefinitionBase)
+     * Also, unless this is a vendor parent, don't show the vendor diversity add line. 
+     * 
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#getSections(org.kuali.core.maintenance.Maintainable)
      */
     @Override
-    public void overrideDataDictionaryFieldConfiguration(DataDictionaryDefinitionBase definition) {
+    public List getSections(Maintainable oldMaintainable) {
+        List<Section> sections = super.getSections(oldMaintainable);
         UniversalUser currentUser = (UniversalUser) GlobalVariables.getUserSession().getUniversalUser();
-        if (!(definition instanceof MaintainableCollectionDefinition)) {
-            return;
+        String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
+        boolean isVendorParent = ((VendorDetail)getBusinessObject()).isVendorParentIndicator();
+        boolean isInVendorContractGroup = currentUser.isMember(vendorContractWorkgroup);
+        if ( !isVendorParent || !isInVendorContractGroup ) {
+            for (Section section : sections) {
+                if ( !isVendorParent ) {
+                    if ( section.getContainedCollectionNames().contains(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES) ) {
+                        Iterator<Row> rows = section.getRows().iterator();
+                        while ( rows.hasNext() ) {
+                            Row row = rows.next();
+                            if ( row.getFields().size() > 0 ) {
+                                Field field = row.getFields().get(0);                                 
+                                if ( StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES ) ) {
+                                    rows.remove();
         }
-
-        MaintainableCollectionDefinition collectionDefinition = (MaintainableCollectionDefinition) definition;
-        if (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_HEADER_PREFIX + VendorPropertyConstants.VENDOR_SUPPLIER_DIVERSITIES)) {
-            if (!((VendorDetail) super.getBusinessObject()).isVendorParentIndicator()) {
-                collectionDefinition.setIncludeAddLine(false);
             }
         }
+                    }
+                }
         // If the user is not in vendor contract workgroup, don't include add line for vendor contract and vendor contract
         // organization
-        String vendorContractWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorContract.class, VendorConstants.Workgroups.WORKGROUP_VENDOR_CONTRACT);
-        if (!currentUser.isMember(vendorContractWorkgroup) && (collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT) || collectionDefinition.getName().equals(VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION))) {
-            collectionDefinition.setIncludeAddLine(false);
+                if ( !isInVendorContractGroup ) {
+                    if ( section.getContainedCollectionNames().contains( VendorPropertyConstants.VENDOR_CONTRACT )
+                            || section.getContainedCollectionNames().contains( VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION ) ) {
+                        Iterator<Row> rows = section.getRows().iterator();
+                        while ( rows.hasNext() ) {
+                            Row row = rows.next();
+                            if ( row.getFields().size() > 0 ) {
+                                Field field = row.getFields().get(0); 
+                                if ( StringUtils.equals(field.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT ) ) {
+                                    rows.remove();
+                                    continue;
         }
+                                 if ( StringUtils.equals( field.getFieldType(), "container" ) && field.getContainerName().startsWith(VendorPropertyConstants.VENDOR_CONTRACT+"[") ) {
+                                    Iterator<Row> cRows = field.getContainerRows().iterator();
+                                    while ( cRows.hasNext() ) {
+                                        Field cField = cRows.next().getFields().get(0);
+                                        if ( StringUtils.equals(cField.getPropertyName(), VendorPropertyConstants.VENDOR_CONTRACT_ORGANIZATION ) ) {
+                                            cRows.remove();
+                                            continue;
+    }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return sections;
     }
 
     /**

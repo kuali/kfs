@@ -1111,7 +1111,7 @@
         <foreignkey field-ref="financialDocumentDepositLineNumber" />
     </reference-descriptor>
 
-    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="cashReceiptHeader" class-ref="org.kuali.module.financial.bo.CashReceiptHeader" auto-retrieve="true" auto-update="object" auto-delete="none">
         <foreignkey field-ref="financialDocumentCashReceiptNumber" />
     </reference-descriptor>
 </class-descriptor>
@@ -1260,6 +1260,9 @@
     <field-descriptor name="disbursementVoucherCheckDate" column="DV_CHK_DT" jdbc-type="TIMESTAMP" />
     <field-descriptor name="disbVchrPayeeW9CompleteCode" column="DV_W9_CMPLT_IND" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
     <field-descriptor name="disbVchrPaymentMethodCode" column="DV_PMT_MTHD_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="extractDate" column="DV_EXTRT_DT" jdbc-type="DATE" />
+    <field-descriptor name="paidDate" column="DV_PD_DT" jdbc-type="DATE" />
+    <field-descriptor name="cancelDate" column="DV_CNCL_DT" jdbc-type="DATE" />
 
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />

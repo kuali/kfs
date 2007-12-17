@@ -18,11 +18,13 @@ package org.kuali.module.purap.service;
 import java.sql.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.util.VendorGroupingHelper;
 
 /**
  * Defines methods that must be implemented by a CreditMemoService implementation.
@@ -37,6 +39,23 @@ public interface CreditMemoService extends AccountsPayableDocumentSpecificServic
      */
     public Iterator<CreditMemoDocument> getCreditMemosToExtract(String chartCode);
 
+    /**
+     * Pulls a distinct list of all vendors on CM documents which are ready for extraction.
+     * 
+     * @param chartCode
+     * @return
+     */
+    public Set<VendorGroupingHelper> getVendorsOnCreditMemosToExtract( String chartCode);
+    
+    /**
+     * Pulls all extractable credit memo documents for a given vendor.
+     * 
+     * @param chartCode
+     * @param vendor
+     * @return
+     */
+    public Iterator<CreditMemoDocument> getCreditMemosToExtractByVendor( String chartCode, VendorGroupingHelper vendor );
+    
     /**
      * Get a credit memo by document number.
      * 

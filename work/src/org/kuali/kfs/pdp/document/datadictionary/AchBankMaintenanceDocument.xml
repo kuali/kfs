@@ -46,6 +46,10 @@
         <lockingKeys>
             <field attributeName="bankRoutingNumber" />
         </lockingKeys>
+        
+        <defaultExistenceChecks>
+            <reference attributeName="bankState" attributeToHighlightOnFail="bankStateCode" />        
+        </defaultExistenceChecks>
 
         <maintainableSections>
             <maintainableSection title="Edit ACH Bank">

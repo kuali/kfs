@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
@@ -190,4 +191,12 @@ public class CreditCardReceiptDocumentRule extends CashReceiptFamilyRule impleme
         primaryKeys.put(KFSPropertyConstants.FIN_DOCUMENT_BANK_ACCOUNT_NUMBER, bankAccountNumber);
         return (BankAccount) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(BankAccount.class, primaryKeys);
     }
+    /**
+     * We are overriding here and always returning true since we don't care about 
+     * cash drawers for this doc type but want the other rules in the super class.
+     * @see org.kuali.module.financial.rules.CashReceiptFamilyRule#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
+    protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        return true;
+}
 }

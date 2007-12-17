@@ -339,7 +339,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedCancelledDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedCancelledDetails(String organization, String subUnit) {
+    public Iterator getUnprocessedCancelledDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedCancelledDetails() started");
 
         Collection codes = new ArrayList();
@@ -347,7 +347,7 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
         codes.add(PdpConstants.PaymentStatusCodes.CANCEL_PAYMENT);
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", subUnit);
+        criteria.addIn("paymentGroup.batch.customerProfile.subUnitCode", subUnits);
         criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", organization);
         criteria.addIn("paymentGroup.paymentStatusCode", codes);
         criteria.addIsNull("paymentGroup.epicPaymentCancelledExtractedDate");
@@ -358,11 +358,11 @@ public class PaymentDetailDaoOjb extends PlatformAwareDaoBaseOjb implements Paym
     /**
      * @see org.kuali.module.pdp.dao.PaymentDetailDao#getUnprocessedPaidDetails(java.lang.String, java.lang.String)
      */
-    public Iterator getUnprocessedPaidDetails(String organization, String subUnit) {
+    public Iterator getUnprocessedPaidDetails(String organization, List<String> subUnits) {
         LOG.debug("getUnprocessedPaidDetails() started");
 
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("paymentGroup.batch.customerProfile.subUnitCode", subUnit);
+        criteria.addIn("paymentGroup.batch.customerProfile.subUnitCode", subUnits);
         criteria.addEqualTo("paymentGroup.batch.customerProfile.orgCode", organization);
         criteria.addEqualTo("paymentGroup.paymentStatusCode", PdpConstants.PaymentStatusCodes.EXTRACTED);
         criteria.addIsNull("paymentGroup.epicPaymentPaidExtractedDate");

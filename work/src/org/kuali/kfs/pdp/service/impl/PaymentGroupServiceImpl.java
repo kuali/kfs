@@ -117,6 +117,7 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         Timestamp ts = new Timestamp(processDate.getTime());
         group.setEpicPaymentPaidExtractedDate(ts);
         group.setLastUpdate(ts);
+        paymentGroupDao.save(group);
     }
 
     /**
@@ -129,5 +130,6 @@ public class PaymentGroupServiceImpl implements PaymentGroupService {
         Timestamp ts = new Timestamp(processDate.getTime());
         group.setEpicPaymentCancelledExtractedDate(ts);
         group.setLastUpdate(ts);
+        paymentGroupDao.save(group);
     }
 }

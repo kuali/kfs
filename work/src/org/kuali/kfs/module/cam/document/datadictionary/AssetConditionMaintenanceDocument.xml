@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>AssetConditionMaintenanceDocument</documentTypeName>
-        <documentTypeCode>ASCD</documentTypeCode>
+        <documentTypeCode>ACON</documentTypeCode>
 
         <label>Asset Condition</label>
 

@@ -110,7 +110,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
     private Integer contractManagerCode;
-
+    private String vendorAddressInternationalProvinceName;
+    
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
     private List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
@@ -162,6 +163,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setContractManagerCode(Integer contractManagerCode) {
         this.contractManagerCode = contractManagerCode;
+    }
+
+    /**
+     * Gets the vendorAddressInternationalProvinceName attribute. 
+     * @return Returns the vendorAddressInternationalProvinceName.
+     */
+    public String getVendorAddressInternationalProvinceName() {
+        return vendorAddressInternationalProvinceName;
+    }
+
+    /**
+     * Sets the vendorAddressInternationalProvinceName attribute value.
+     * @param vendorAddressInternationalProvinceName The vendorAddressInternationalProvinceName to set.
+     */
+    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
+        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     /**

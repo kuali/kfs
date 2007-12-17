@@ -97,7 +97,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private String purchaseOrderNotes;
     private String recurringPaymentTypeCode;
-
+    private String vendorAddressInternationalProvinceName;
+    
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
     private Date purchaseOrderEndDate;
@@ -714,6 +715,22 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setRecurringPaymentTypeCode(String recurringPaymentTypeCode) {
         this.recurringPaymentTypeCode = recurringPaymentTypeCode;
+    }
+
+    /**
+     * Gets the vendorAddressInternationalProvinceName attribute. 
+     * @return Returns the vendorAddressInternationalProvinceName.
+     */
+    public String getVendorAddressInternationalProvinceName() {
+        return vendorAddressInternationalProvinceName;
+    }
+
+    /**
+     * Sets the vendorAddressInternationalProvinceName attribute value.
+     * @param vendorAddressInternationalProvinceName The vendorAddressInternationalProvinceName to set.
+     */
+    public void setVendorAddressInternationalProvinceName(String vendorAddressInternationalProvinceName) {
+        this.vendorAddressInternationalProvinceName = vendorAddressInternationalProvinceName;
     }
 
     /**

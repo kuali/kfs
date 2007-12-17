@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>AssetAcquisitionMaintenanceDocument</documentTypeName>
+        <documentTypeName>AssetAcquisitionTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ACQT</documentTypeCode>
 
         <label>Asset Acquisition</label>

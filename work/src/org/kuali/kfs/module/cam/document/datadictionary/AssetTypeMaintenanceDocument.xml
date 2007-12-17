@@ -32,7 +32,7 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>AssetTypeCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>AssetTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ASST</documentTypeCode>
 
         <label>Asset Type Code</label>

@@ -49,31 +49,10 @@
         </lookup>
 
         <attributes>
-
             <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber"/>
+            <attributeReference name="effortCertificationReportPositionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode"/>
 
-            <attribute name="effortCertificationReportPositionObjectGroupCode" forceUppercase="true">
-                <label>A21 Labor Report Position Object Group Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>effortCertificationReportPositionObjectGroupCode</summary>
-                <description>effortCertificationReportPositionObjectGroupCode description...</description>
-			</attribute>
-
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>University Fiscal Year</label>
-                <shortLabel>Fiscal Year</shortLabel>
-
-                <summary>universityFiscalYear</summary>
-                <description>universityFiscalYear description...</description>
-			</attributeReference>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
 
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

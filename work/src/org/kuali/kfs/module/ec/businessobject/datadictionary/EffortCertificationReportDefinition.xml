@@ -98,13 +98,7 @@
                 <description>ExpenseTransferFiscalYear description...</description>
 			</attributeReference>
 
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
-                <label>Effort Certification Report Fiscal Year</label>
-                <shortLabel>Report Year</shortLabel>
-
-                <summary>Effort Certificaton ReportFiscalYear</summary>
-                <description>Effort Certification ReportFiscalYear description...</description>
-			</attributeReference>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
 
             <attribute name="effortCertificationReportNumber" forceUppercase="true">
                 <label>Effort Certification Report Number</label>
@@ -144,35 +138,8 @@
                 <description>Effort Certification ReportReturnDate description...</description>
 			</attributeReference>
 
-            <attribute name="effortCertificationReportTypeCode" forceUppercase="true">
-                <label>Effort Certification Report Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>Effort Certification ReportTypeCode</summary>
-                <description>Effort Certification ReportTypeCode description...</description>
-			</attribute>
-
-            <attribute name="effortCertificationReportPeriodStatusCode" forceUppercase="true">
-                <label>Effort Certification Report Period Status Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification ReportPeriodStatusCode</summary>
-                <description>Effort Certification ReportPeriodStatusCode description...</description>
-			</attribute>
+            <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode" />
+            <attributeReference name="effortCertificationReportPeriodStatusCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" sourceAttributeName="effortCertificationReportPeriodStatusCode" />
 
             <attributeReference name="effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Effort Certification Report Begin Fiscal Year</label>

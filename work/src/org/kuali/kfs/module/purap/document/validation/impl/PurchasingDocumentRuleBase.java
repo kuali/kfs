@@ -16,6 +16,7 @@
 package org.kuali.module.purap.rules;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
@@ -324,13 +325,26 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
 
     /**
      * Performs any validation for the Delivery tab.
+     * If the delivery required date is not null, then it must be equal to
+     * or after current date.
      * 
      * @param purDocument the purchasing document to be validated
-     * @return boolean true (for now it will always return true; this might change someday in the future)
+     * @return boolean true if it passes the validation.
      */
     public boolean processDeliveryValidation(PurchasingDocument purDocument) {
         boolean valid = true;
-        // currently, there is no validation to force at the PUR level for this tab
+        GlobalVariables.getErrorMap().addToErrorPath(PurapConstants.DELIVERY_TAB_ERRORS);
+        if (ObjectUtils.isNotNull(purDocument.getDeliveryRequiredDate())) {
+            DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+            Date today = dateTimeService.getCurrentSqlDateMidnight();
+
+            Date deliveryRequiredDate = purDocument.getDeliveryRequiredDate();
+
+            if (today.after(deliveryRequiredDate)) {
+                valid = false;
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.DELIVERY_REQUIRED_DATE, PurapKeyConstants.ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST);
+            }
+        }
 
         return valid;
     }

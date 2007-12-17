@@ -18,7 +18,10 @@ package org.kuali.module.purap.rules;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
+import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.fixtures.RecurringPaymentBeginEndDatesFixture;
+import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.test.ConfigureContext;
 
 /**
@@ -83,5 +86,77 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
     public void testProcessPaymentInfoValidation_PO_Non_Sequential_Next_FY() {
         PurchasingDocument document = RecurringPaymentBeginEndDatesFixture.PO_NON_SEQUENTIAL_NEXT_FY.populateDocument();
         assertFalse(rules.processPaymentInfoValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date is not entered on a requisition,
+     * it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_Req_No_DeliveryRequiredDate() {
+        PurchasingDocument document = RequisitionDocumentFixture.REQ_ONLY_REQUIRED_FIELDS.createRequisitionDocument();
+        assertTrue(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a requisition is equal to the
+     * current date, it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_Req_DeliveryRequiredDateCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_EQUALS_CURRENT_DATE.createRequisitionDocument();
+        assertTrue(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a requisition is before the
+     * current date, it will not pass the rule.
+     */
+    public void testProcessDeliveryValidation_Req_DeliveryRequiredDateBeforeCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_BEFORE_CURRENT_DATE.createRequisitionDocument();
+        assertFalse(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a requisition is after the
+     * current date, it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_Req_DeliveryRequiredDateAfterCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_AFTER_CURRENT_DATE.createRequisitionDocument();
+        assertTrue(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date is not entered on a purchase order,
+     * it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_PO_No_DeliveryRequiredDate() {
+        PurchasingDocument document = PurchaseOrderDocumentFixture.PO_ONLY_REQUIRED_FIELDS.createPurchaseOrderDocument();
+        assertTrue(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a purchase order is equal to the
+     * current date, it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_PO_DeliveryRequiredDateCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_EQUALS_CURRENT_DATE.createPurchaseOrderDocument();
+        assertTrue(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a purchase order is before the
+     * current date, it will not pass the rule.
+     */
+    public void testProcessDeliveryValidation_PO_DeliveryRequiredDateBeforeCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_BEFORE_CURRENT_DATE.createPurchaseOrderDocument();
+        assertFalse(rules.processDeliveryValidation(document));
+    }
+    
+    /**
+     * Validates that if the delivery required date on a purchase order is after the
+     * current date, it will pass the rule.
+     */
+    public void testProcessDeliveryValidation_PO_DeliveryRequiredDateAfterCurrent() {
+        PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_AFTER_CURRENT_DATE.createPurchaseOrderDocument();
+        assertTrue(rules.processDeliveryValidation(document));
     }
 }

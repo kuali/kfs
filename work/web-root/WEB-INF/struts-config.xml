@@ -52,6 +52,9 @@
         <form-bean name="BudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.BudgetAdjustmentForm" />
         <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
         
+        <!--  Accounts Receivable Module Bean Definitions -->
+        <form-bean name="CashControlDocumentForm" type="org.kuali.module.ar.web.struts.form.CashControlDocumentForm" />
+        
 		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />
    		<form-bean name="LaborYearEndSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.YearEndSalaryExpenseTransferForm" />
@@ -174,6 +177,12 @@
         </action>
 
         <!--  Module Action Mappings -->
+        
+        <action path="/ar*" name="{1}Form" input="/jsp/modules/ar/{1}.jsp" type="org.kuali.module.ar.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
+   		   <set-property property="cancellable" value="true" />
+    	   <forward name="basic" path="/jsp/modules/ar/{1}.jsp" />
+  		</action>
+        
         <action path="/financial*" name="{1}Form" input="/jsp/modules/financial/{1}.jsp" type="org.kuali.module.financial.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">
             <set-property property="cancellable" value="true" />
             <forward name="basic" path="/jsp/modules/financial/{1}.jsp" />

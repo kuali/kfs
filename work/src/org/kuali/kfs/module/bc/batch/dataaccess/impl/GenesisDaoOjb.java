@@ -2900,6 +2900,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           newBCPosition.setPositionEffectiveDate(augustFirst);  
           newBCPosition.setIuNormalWorkMonths(new Integer(10));
           newBCPosition.setIuPayMonths(new Integer(10));
+          newBCPosition.setPositionSalaryPlanDefault("AC1");
+          newBCPosition.setPositionGradeDefault("FTX");
         }
         else
         {
@@ -2907,6 +2909,8 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           newBCPosition.setPositionEffectiveDate(julyFirst);  
           newBCPosition.setIuNormalWorkMonths(new Integer(12));
           newBCPosition.setIuPayMonths(new Integer(12));
+          newBCPosition.setPositionSalaryPlanDefault((posTypeString.equals("SM") ? "PAE" : "SS"));
+          newBCPosition.setPositionGradeDefault((posTypeString.equals("SM") ? "5AD" : "0D"));
         }
         // default object class comes from the CSF line
         // department ID and RC come from the account, chart comes from the CSF

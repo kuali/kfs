@@ -125,7 +125,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("ld_bcn_benefits_recalc01_mt.fb_sum, 0\n");
         sqlBuilder.append("FROM ld_bcn_benefits_recalc01_mt\n");
         sqlBuilder.append("WHERE NOT EXISTS\n");
-        sqlBuilder.append("(SELECT *\n");
+        sqlBuilder.append("(SELECT 1\n");
         sqlBuilder.append(" FROM ld_pnd_bcnstr_gl_t\n");
         sqlBuilder.append(" WHERE ld_pnd_bcnstr_gl_t.fdoc_nbr = ?\n");
         sqlBuilder.append("   AND ld_pnd_bcnstr_gl_t.univ_fiscal_yr = ?\n");
@@ -167,7 +167,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("(FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FIN_OBJECT_CD,\n");
         sqlBuilder.append("FIN_SUB_OBJ_CD, FIN_BALANCE_TYP_CD, FIN_OBJ_TYP_CD, FDOC_LN_MO1_AMT, FDOC_LN_MO2_AMT,\n");
         sqlBuilder.append(" FDOC_LN_MO3_AMT, FDOC_LN_MO4_AMT, FDOC_LN_MO5_AMT, FDOC_LN_MO6_AMT, FDOC_LN_MO7_AMT, FDOC_LN_MO8_AMT,\n");
-        sqlBuilder.append(" FDOC_LN_MO9_AMT, FDOC_LN_MO10_AMT, FDOC_LN_MO11_AMT, FDOC_LN_MO12_AMT, OBJ_ID)\n");
+        sqlBuilder.append(" FDOC_LN_MO9_AMT, FDOC_LN_MO10_AMT, FDOC_LN_MO11_AMT, FDOC_LN_MO12_AMT)\n");
         sqlBuilder.append("SELECT ?,\n");
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("    ?,\n");
@@ -185,7 +185,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo9_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
         sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo10_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
         sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo11_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),SYS_GUID()\n");
+        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0))\n");
         sqlBuilder.append("FROM ld_bcnstr_month_t,\n");
         sqlBuilder.append("    ld_benefits_calc_t,\n");
         sqlBuilder.append("    ld_lbr_obj_bene_t\n");

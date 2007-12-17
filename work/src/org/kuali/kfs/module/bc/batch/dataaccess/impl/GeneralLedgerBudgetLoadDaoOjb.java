@@ -58,6 +58,7 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
     /*  turn on the logger for the persistence broker */
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
 
+    private DateTimeService dateTimeService;
     private HomeOriginationService homeOriginationService;
     
     /*
@@ -619,7 +620,8 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          {
              this.requestYear = requestYear;
              this.entrySequenceNumber = entrySequenceNumber(requestYear);
-             this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+//             this.transactionDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+             this.transactionDate = dateTimeService.getCurrentSqlDate();
              this.financialSystemOriginationCode = 
                  homeOriginationService.getHomeOrigination().getFinSystemHomeOriginationCode();
              this.accountsNotToBeLoaded = getAccountsNotToBeLoaded();
@@ -644,6 +646,11 @@ public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb imple
          {
              return (!accountsNotToBeLoaded.contains(accountAndChart));
          }
+     }
+     
+     public void setDateTimeService (DateTimeService dateTimeService)
+     {
+         this.dateTimeService = dateTimeService;
      }
      
      public void setHomeOriginationService (HomeOriginationService homeOriginationService)

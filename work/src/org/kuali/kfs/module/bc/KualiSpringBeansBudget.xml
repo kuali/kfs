@@ -248,6 +248,9 @@
         <property name="homeOriginationService">
             <ref bean="homeOriginationService"/>
         </property>
+        <property name="dateTimeService">
+        	<ref bean="dateTimeService"/>
+        </property>
     </bean>
     
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">

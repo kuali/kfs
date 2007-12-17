@@ -15,7 +15,7 @@
  */
 package org.kuali.module.purap.rules;
 
-import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
 
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -48,7 +48,7 @@ import org.kuali.module.vendor.util.VendorUtils;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.AccountingLineFixture;
 
-@ConfigureContext(session = KHUNTLEY)
+@ConfigureContext(session = APPLETON)
 public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
 
     CreditMemoDocument creditMemo;
@@ -148,7 +148,7 @@ public class CreditMemoDocumentRuleTest extends PurapRuleTestBase {
         PurchaseOrderDocumentTest poDocTest = new PurchaseOrderDocumentTest();
         PurchaseOrderDocument po = poDocTest.buildSimpleDocument();
         po.setStatusCode(PurchaseOrderStatuses.OPEN);
-        po.prepareForSave();
+        //po.prepareForSave(); Duplicated by saveDocument.
         DocumentService documentService = SpringContext.getBean(DocumentService.class);
         AccountingDocumentTestUtils.saveDocument(po, documentService);
         PurchaseOrderDocument poWithID = (PurchaseOrderDocument)documentService.getByDocumentHeaderId(po.getDocumentNumber());

@@ -279,7 +279,7 @@
                 <summary>universityClearingSubAccountNumber</summary>
                 <description>universityClearingSubAccountNumber description...</description>
 			</attribute>
-
+<!-- 
             <attribute name="universityClearingSubObjectCode" forceUppercase="true">
                 <label>University Clearing Sub Object Code</label>
                 <shortLabel>Code</shortLabel>
@@ -294,7 +294,7 @@
                 <summary>universityClearingSubObjectCode</summary>
                 <description>universityClearingSubObjectCode description...</description>
 			</attribute>
-
+-->
             <attribute name="universityFederalEmployerIdentificationNumber" forceUppercase="true">
                 <label>University Federal Employer Identification Number</label>
                 <shortLabel>Number</shortLabel>
@@ -324,6 +324,11 @@
                 <summary>universityFiscalYear</summary>
                 <description>universityFiscalYear description...</description>
 			</attribute>
+			
+			<attributeReference name="universityClearingSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+                <label>University Clearing Sub Object Code</label>
+                <shortLabel>University Clearing Sub Object Code</shortLabel>
+			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

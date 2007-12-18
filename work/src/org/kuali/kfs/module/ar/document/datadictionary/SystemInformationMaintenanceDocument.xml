@@ -79,7 +79,7 @@
                     <maintainableField name="universityClearingSubObjectCode" required="false" />
                     <maintainableField name="paymentClearingFinancialObjectCode" required="false" />
                     <maintainableField name="lockboxNumber" required="false" />
-                    <maintainableField name="active" required="true" />
+                    <maintainableField name="active" required="false" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

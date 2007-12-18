@@ -220,6 +220,7 @@
                 <description>salesTaxFinancialObjectCode description...</description>
 			</attribute>
 
+<!-- 
             <attribute name="universityClearingAccountNumber" forceUppercase="true">
                 <label>University Clearing Account Number</label>
                 <shortLabel>Number</shortLabel>
@@ -234,7 +235,8 @@
                 <summary>universityClearingAccountNumber</summary>
                 <description>universityClearingAccountNumber description...</description>
 			</attribute>
-
+-->
+<!-- 
             <attribute name="universityClearingChartOfAccountsCode" forceUppercase="true">
                 <label>University Clearing Chart Of Accounts Code</label>
                 <shortLabel>Code</shortLabel>
@@ -249,7 +251,8 @@
                 <summary>universityClearingChartOfAccountsCode</summary>
                 <description>universityClearingChartOfAccountsCode description...</description>
 			</attribute>
-
+-->
+<!-- 
             <attribute name="universityClearingObjectCode" forceUppercase="true">
                 <label>University Clearing Object Code</label>
                 <shortLabel>Code</shortLabel>
@@ -264,7 +267,7 @@
                 <summary>universityClearingObjectCode</summary>
                 <description>universityClearingObjectCode description...</description>
 			</attribute>
-
+-->
             <attribute name="universityClearingSubAccountNumber" forceUppercase="true">
                 <label>University Clearing Sub Account Number</label>
                 <shortLabel>Number</shortLabel>
@@ -309,7 +312,7 @@
                 <summary>universityFederalEmployerIdentificationNumber</summary>
                 <description>universityFederalEmployerIdentificationNumber description...</description>
 			</attribute>
-
+<!-- 
             <attribute name="universityFiscalYear" forceUppercase="true">
                 <label>University Fiscal Year</label>
                 <shortLabel>Year</shortLabel>
@@ -324,6 +327,26 @@
                 <summary>universityFiscalYear</summary>
                 <description>universityFiscalYear description...</description>
 			</attribute>
+-->
+			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="universityFiscalYear">
+                <label>University Fiscal Year</label>
+                <shortLabel>University Fiscal Year</shortLabel>
+			</attributeReference>
+			
+			<attributeReference name="universityClearingChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="chartOfAccountsCode">
+                <label>University Clearing Chart Of Accounts Code</label>
+                <shortLabel>University Clearing Chart Of Accounts Code</shortLabel>
+			</attributeReference>
+			
+			<attributeReference name="universityClearingAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="accountNumber">
+                <label>University Clearing Account Number</label>
+                <shortLabel>University Clearing Account Number</shortLabel>
+			</attributeReference>
+			
+			<attributeReference name="universityClearingObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialObjectCode">
+                <label>University Clearing Object Code</label>
+                <shortLabel>University Clearing Object Code</shortLabel>
+			</attributeReference>
 			
 			<attributeReference name="universityClearingSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
                 <label>University Clearing Sub Object Code</label>

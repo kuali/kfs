@@ -100,7 +100,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="47" />
@@ -126,7 +126,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="47" />

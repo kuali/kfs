@@ -61,7 +61,7 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         }
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public void testCloseValidate_Open() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();
         savePO(po);
@@ -76,7 +76,7 @@ public class PurchaseOrderCloseReopenVoidRuleTest extends PurapRuleTestBase {
         assertTrue(closeRule.processValidation(po));
     }
 
-    @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public void testCloseValidate_Closed() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
         savePO(po);         

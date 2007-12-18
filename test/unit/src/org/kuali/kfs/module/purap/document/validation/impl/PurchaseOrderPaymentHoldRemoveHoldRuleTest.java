@@ -62,13 +62,6 @@ public class PurchaseOrderPaymentHoldRemoveHoldRuleTest extends PurapRuleTestBas
         assertTrue(holdRule.processValidation(po));
     }
 
-    @ConfigureContext(session = PARKE, shouldCommitTransactions=true)
-    public void testPaymentHoldValidate_Closed() {
-        po = PurchaseOrderChangeDocumentFixture.STATUS_CLOSED.generatePO();
-        savePO(po);       
-        assertFalse(holdRule.processValidation(po));
-    }
-
     @ConfigureContext(session = RORENFRO, shouldCommitTransactions=true)
     public void testPaymentHoldValidate_InvalidUser() {
         po = PurchaseOrderChangeDocumentFixture.STATUS_OPEN.generatePO();

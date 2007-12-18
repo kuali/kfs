@@ -25,7 +25,7 @@
         <li><portal:portalLink displayTitle="true" title="Invoice Item Code" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.InvoiceItemCode&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
         <li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
         <li><portal:portalLink displayTitle="true" title="Payment Medium" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.PaymentMedium&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
-
+        <li><portal:portalLink displayTitle="true" title="System Information" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.ar.bo.SystemInformation&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
     </ul>
 </div>
 <channel:portalChannelBottom />

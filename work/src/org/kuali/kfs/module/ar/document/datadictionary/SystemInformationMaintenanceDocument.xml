@@ -32,10 +32,10 @@
         </authorizations>
 
         <documentTypeName>SystemInformationMaintenanceDocument</documentTypeName>
-        <documentTypeCode>SIM</documentTypeCode>
+        <documentTypeCode>ARSI</documentTypeCode>
 
-        <label>Invoice Item Code Maintenance Document</label>
-        <shortLabel>InvoiceItemCodeMaintDoc</shortLabel>
+        <label>System Information Maintenance Document</label>
+        <shortLabel>SystemInformationMaintDoc</shortLabel>
 
         <summary>System Information maintenance document</summary>
         <description>Document used to create or update System Information</description>

@@ -70,13 +70,13 @@
                     	<defaultValueFinderClass>org.kuali.module.chart.lookup.valuefinder.CurrentUserOrgValueFinder</defaultValueFinderClass>                    
                     </maintainableField>
                     <maintainableField name="universityName" required="false" >
-                    	<defaultValue>Institution Name</defaultValue>
+                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>
                     </maintainableField>      
 					<maintainableField name="printInvoiceIndicator" >
                    		<defaultValue>Y</defaultValue>
                     </maintainableField>
                     <maintainableField name="organizationCheckPayableToName" required="false" >
-                    	<defaultValue>Institution Name</defaultValue>
+                    	<defaultValueFinderClass>org.kuali.module.ar.lookup.valuefinder.InstitutionNameValueFinder</defaultValueFinderClass>
                     </maintainableField>
                     <maintainableField name="organizationMessageText" required="false" />
                     <maintainableField name="organizationPaymentTermsText" required="false" />

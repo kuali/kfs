@@ -19,29 +19,31 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.rules.PreRulesContinuationBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.OrganizationOptions;
 
 /**
  * This class is used to ensure that default values are set accordingly if blank
  */
-public class OrganizationOptionsPreRules extends PreRulesContinuationBase {
+public class OrganizationOptionsPreRules extends PreRulesContinuationBase { 
 
     @Override
     public boolean doRules(Document document) {
 
         MaintenanceDocument maintenanceDocument = (MaintenanceDocument) document;
         OrganizationOptions organizationOptions = (OrganizationOptions) maintenanceDocument.getNewMaintainableObject().getBusinessObject();
+        String institutionName = SpringContext.getBean(ParameterService.class).getParameterValue(OrganizationOptions.class, ArConstants.INSTITUTION_NAME);
 
         // If university name is not provided, default to institution name
         if (StringUtils.isBlank(organizationOptions.getUniversityName())) {
-            // TODO use parameter to set the university name to default value
-            organizationOptions.setUniversityName("INDIANA UNIVERSITY");
+            organizationOptions.setUniversityName(institutionName);
         }
 
         // If check payable name is not provided, default to institution name
         if (StringUtils.isBlank(organizationOptions.getOrganizationCheckPayableToName())) {
-            // TODO use parameter to set the check payable name name to default value
-            organizationOptions.setOrganizationCheckPayableToName("INDIANA UNIVERSITY");
+            organizationOptions.setOrganizationCheckPayableToName(institutionName);
         }
 
         return true;

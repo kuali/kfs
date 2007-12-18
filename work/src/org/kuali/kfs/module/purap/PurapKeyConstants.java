@@ -45,6 +45,7 @@ public class PurapKeyConstants {
     public static final String REQ_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "error.purchaseOrderTotalLimit";
     public static final String PO_TOTAL_GREATER_THAN_PO_TOTAL_LIMIT = "warning.purchaseOrderTotalLimit";
     public static final String INVALID_CONTRACT_MANAGER_CODE = "error.invalidContractManagerCode";
+    public static final String NO_CONTRACT_MANAGER_ASSIGNED = "error.noContractManagerAssigned";
     public static final String ERROR_REQ_COPY_EXPIRED_CONTRACT = "error.requisition.copy.expired.contract";
     public static final String ERROR_REQ_COPY_INACTIVE_VENDOR = "error.requisition.copy.inactive.vendor";
     public static final String ERROR_STIPULATION_DESCRIPTION = "error.purchaseOrder.stipulationDescriptionEmpty";

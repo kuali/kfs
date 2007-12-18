@@ -72,8 +72,9 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     }
 
     /**
-     * Review the list of AssignContractManagerDetails where the user has entered ContractManagerCodes and validates that each code
-     * is valid.
+     * Review the list of AssignContractManagerDetails where the user has entered ContractManagerCodes,
+     * validates that each entered code is valid;
+     * on the other hand, validate that at least one row has a valid CM code assigned.
      * 
      * @param assignContractManagerDetails A list containing the code to be validated.
      * @return Boolean indicating if validation succeeded
@@ -81,6 +82,7 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
     public boolean validateContractManagerCodes(List assignContractManagerDetails) {
         LOG.debug("validateContractManagerCodes(): entered method.");
         boolean isValid = true;
+        int count = 0;
         for (Iterator iter = assignContractManagerDetails.iterator(); iter.hasNext();) {
             AssignContractManagerDetail detail = (AssignContractManagerDetail) iter.next();
 
@@ -92,6 +94,13 @@ public class AssignContractManagerDocumentRule extends TransactionalDocumentRule
                     GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.INVALID_CONTRACT_MANAGER_CODE, detail.getContractManagerCode().toString());
                     isValid = false;
                 }
+                else count++;
+            }
+            
+            // check if at least one row has a valid CM code assigned
+            if (count<1) {
+                GlobalVariables.getErrorMap().putError(PurapConstants.ASSIGN_CONTRACT_MANAGER_TAB_ERRORS, PurapKeyConstants.NO_CONTRACT_MANAGER_ASSIGNED);
+                isValid = false;                
             }
         }
         LOG.debug("validateContractManagerCodes(): leaving method.");

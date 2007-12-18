@@ -48,7 +48,6 @@ public class ExtractProcessReportDataHolder {
         this.errorMap = new HashMap<LedgerBalance, String>();
     }
 
-
     /**
      * update the value of the entry with the given key. If the key exists, the value will be the sum of the given and existing
      * values; otherwise, create a new entry with the key and value.

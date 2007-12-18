@@ -25,10 +25,16 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 public class EffortCertificationPeriodStatusCode extends PersistableBusinessObjectBase {
     private String effortCertificationReportPeriodStatusCode;
     private String effortCertificationReportPeriodStatusDescription;
-    
-    public static final String CLOSED = "C";
-    public static final String NOT_OPENED = "N";
-    public static final String OPEN = "O";
+
+    // the predefined status codes
+    public static enum StatusCode {
+        CLOSED("C"), NOT_OPENED("N"), OPEN("O");
+
+        public String statusCode;
+        private StatusCode(String statusCode) {
+            this.statusCode = statusCode;
+        }
+    }
 
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.
@@ -38,7 +44,8 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     }
 
     /**
-     * Gets the effortCertificationReportPeriodStatusCode attribute. 
+     * Gets the effortCertificationReportPeriodStatusCode attribute.
+     * 
      * @return Returns the effortCertificationReportPeriodStatusCode.
      */
     public String getEffortCertificationReportPeriodStatusCode() {
@@ -47,6 +54,7 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
 
     /**
      * Sets the effortCertificationReportPeriodStatusCode attribute value.
+     * 
      * @param effortCertificationReportPeriodStatusCode The effortCertificationReportPeriodStatusCode to set.
      */
     public void setEffortCertificationReportPeriodStatusCode(String effortCertificationReportPeriodStatusCode) {
@@ -54,7 +62,8 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     }
 
     /**
-     * Gets the effortCertificationReportPeriodStatusDescription attribute. 
+     * Gets the effortCertificationReportPeriodStatusDescription attribute.
+     * 
      * @return Returns the effortCertificationReportPeriodStatusDescription.
      */
     public String getEffortCertificationReportPeriodStatusDescription() {
@@ -63,6 +72,7 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
 
     /**
      * Sets the effortCertificationReportPeriodStatusDescription attribute value.
+     * 
      * @param effortCertificationReportPeriodStatusDescription The effortCertificationReportPeriodStatusDescription to set.
      */
     public void setEffortCertificationReportPeriodStatusDescription(String effortCertificationReportPeriodStatusDescription) {

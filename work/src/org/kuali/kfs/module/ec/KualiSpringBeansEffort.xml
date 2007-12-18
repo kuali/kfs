@@ -47,8 +47,21 @@
 				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<value>effortCertificationExtractStep</value>
+			</list>
+		</property>
 	</bean>
 	
+	<!-- Section 1: Batch Job Step Definitions -->
+	<bean id="effortCertificationExtractStep" class="org.kuali.module.effort.batch.EffortCertificationExtractStep" parent="step">
+		<property name="effortCertificationExtractService">
+			<ref bean="effortCertificationExtractService" />
+		</property>
+	</bean>  
+	
+	<!-- Section 2: Service declarations -->
 	<bean id="effortUserService" class="org.kuali.module.effort.service.impl.EffortUserServiceImpl"  parent="kualiModuleUserServiceBase" />
 	
 	<bean id="laborEffortCertificationService" class="org.kuali.module.effort.service.impl.LaborEffortCertificationServiceImpl" >
@@ -99,6 +112,7 @@
 	</bean>
 			
 	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" />
-			
+		
+	<!-- DAO declarations -->		
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
 </beans>

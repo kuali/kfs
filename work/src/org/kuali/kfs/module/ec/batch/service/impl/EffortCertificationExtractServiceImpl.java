@@ -77,11 +77,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private EffortCertificationReportService effortCertificationReportService;
 
     // the following constants can only be set once in the method setBasicStatisticsKeys()
-    private String NUM_EMPLOYEES_SELECTED;
-    private String NUM_BALANCE_RECORDS_READ;
-    private String NUM_BALANCE_RECORDS_SELECTED;
-    private String NUM_CERTIFICATION_RECORDS_WRITTEN;
-    private String NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN;
+    private final String NUM_EMPLOYEES_SELECTED = "numOfEmployeesSelected";
+    private final String NUM_BALANCES_READ = "numOfBalancesRead";
+    private final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
+    private final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
+    private final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLinesWritten";
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
@@ -111,7 +111,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
-        this.setBasicStatisticsKeys();
 
         List<String> employees = this.findEmployeesWithValidPayType(reportDefinition);
 
@@ -212,8 +211,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             documents = effortCertificationDocumentBuildService.generateDocumentBuild(reportDefinition, qualifiedLedgerBalance, parameters);
             businessObjectService.save(documents);
 
-            reportDataHolder.updateBasicStatistics(NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN, qualifiedLedgerBalance.size());
-            reportDataHolder.updateBasicStatistics(NUM_CERTIFICATION_RECORDS_WRITTEN, documents.size());
+            reportDataHolder.updateBasicStatistics(NUM_DETAIL_LINES_WRITTEN, qualifiedLedgerBalance.size());
+            reportDataHolder.updateBasicStatistics(NUM_CERTIFICATIONS_WRITTEN, documents.size());
         }
         reportDataHolder.updateBasicStatistics(NUM_EMPLOYEES_SELECTED, employees.size());
     }
@@ -249,11 +248,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
 
         Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
-        reportDataHolder.updateBasicStatistics(NUM_BALANCE_RECORDS_READ, ledgerBalances.size());
+        reportDataHolder.updateBasicStatistics(NUM_BALANCES_READ, ledgerBalances.size());
 
         // clear up the ledger balance collection
         this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
-        reportDataHolder.updateBasicStatistics(NUM_BALANCE_RECORDS_SELECTED, ledgerBalances.size());
+        reportDataHolder.updateBasicStatistics(NUM_BALANCES_SELECTED, ledgerBalances.size());
 
         // prepare an empty ledger balance for error report
         LedgerBalance emptyLedgerBalance = new LedgerBalance();
@@ -531,15 +530,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         consolidationKeys.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return consolidationKeys;
-    }
-    
-    // set basic statistics keys for working progress reports
-    private void setBasicStatisticsKeys() {
-        NUM_EMPLOYEES_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_EMPLOYEES_SELECTED);
-        NUM_BALANCE_RECORDS_READ = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_READ);
-        NUM_BALANCE_RECORDS_SELECTED = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_BALANCE_RECORDS_SELECTED);
-        NUM_CERTIFICATION_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN);
-        NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN);
     }
 
     /**

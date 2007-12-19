@@ -59,7 +59,7 @@
         <attributes>
 
             <attribute name="purchaseOrderCostSourceCode" forceUppercase="true">
-                <label>Purchase Order Cost Source Code</label>
+                <label>Cost Source Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>

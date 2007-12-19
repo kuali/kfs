@@ -264,6 +264,7 @@
 					    <kul:htmlControlAttribute
 						    attributeEntry="${itemAttributes.itemTypeCode}"
 						    property="document.item[${ctr}].itemTypeCode"
+						    extraReadOnlyProperty="document.item[${ctr}].itemType.itemTypeDescription"
 						    readOnly="${not (fullEntryMode or (amendmentEntry and itemLine.versionNumber == null))}" />
 					</td>
 

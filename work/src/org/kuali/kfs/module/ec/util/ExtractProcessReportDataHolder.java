@@ -15,7 +15,9 @@
  */
 package org.kuali.module.effort.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -27,7 +29,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 public class ExtractProcessReportDataHolder {
     private EffortCertificationReportDefinition reportDefinition;
     private Map<String, Integer> basicStatistics;
-    private Map<LedgerBalance, String> errorMap;
+    private List<LedgerBalanceWithMessage> ledgerBalancesWithMessage;
 
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
@@ -45,7 +47,7 @@ public class ExtractProcessReportDataHolder {
         super();
         this.reportDefinition = reportDefinition;
         this.basicStatistics = new HashMap<String, Integer>();
-        this.errorMap = new HashMap<LedgerBalance, String>();
+        this.ledgerBalancesWithMessage = new ArrayList<LedgerBalanceWithMessage>();
     }
 
     /**
@@ -100,20 +102,18 @@ public class ExtractProcessReportDataHolder {
     }
 
     /**
-     * Gets the errorMap attribute.
-     * 
-     * @return Returns the errorMap.
+     * Gets the ledgerBalancesWithMessage attribute. 
+     * @return Returns the ledgerBalancesWithMessage.
      */
-    public Map<LedgerBalance, String> getErrorMap() {
-        return errorMap;
+    public List<LedgerBalanceWithMessage> getLedgerBalancesWithMessage() {
+        return ledgerBalancesWithMessage;
     }
 
     /**
-     * Sets the errorMap attribute value.
-     * 
-     * @param errorMap The errorMap to set.
+     * Sets the ledgerBalancesWithMessage attribute value.
+     * @param ledgerBalancesWithMessage The ledgerBalancesWithMessage to set.
      */
-    public void setErrorMap(Map<LedgerBalance, String> errorMap) {
-        this.errorMap = errorMap;
+    public void setLedgerBalancesWithMessage(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage) {
+        this.ledgerBalancesWithMessage = ledgerBalancesWithMessage;
     }
 }

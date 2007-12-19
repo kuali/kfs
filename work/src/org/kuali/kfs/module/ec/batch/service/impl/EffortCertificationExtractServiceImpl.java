@@ -49,6 +49,7 @@ import org.kuali.module.effort.service.LaborEffortCertificationService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
+import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
@@ -105,7 +106,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (errorMessage != null) {
             throw new IllegalArgumentException(errorMessage.getMessage());
         }
-        
+
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(EffortConstants.ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
 
@@ -245,7 +246,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return the qualified labor ledger balance records of the given employee
      */
     private Collection<LedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters, ExtractProcessReportDataHolder reportDataHolder) {
-        Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
+        List<LedgerBalanceWithMessage> LedgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
         Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
         reportDataHolder.updateBasicStatistics(NUM_BALANCES_READ, ledgerBalances.size());
@@ -262,14 +263,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportDefinition);
         if (qualifiedLedgerBalances == null) {
             Message errorMessage = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, emplid, Message.TYPE_FATAL);
-            errorMap.put(emptyLedgerBalance, errorMessage.getMessage());
+            LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(emptyLedgerBalance, errorMessage.getMessage()));
             return null;
         }
 
         // the specified employee must have at least one grant account
         if (!hasGrantAccount(qualifiedLedgerBalances, parameters)) {
             Message errorMessage = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, emplid, Message.TYPE_FATAL);
-            errorMap.put(emptyLedgerBalance, errorMessage.getMessage());
+            LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(emptyLedgerBalance, errorMessage.getMessage()));
             return null;
         }
 
@@ -279,7 +280,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (isFederalFundsOnly) {
             if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
                 Message errorMessage = MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid, Message.TYPE_FATAL);
-                errorMap.put(emptyLedgerBalance, errorMessage.getMessage());
+                LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(emptyLedgerBalance, errorMessage.getMessage()));
                 return null;
             }
         }
@@ -295,13 +296,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private void removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
+        // Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
+        List<LedgerBalanceWithMessage> LedgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
         for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
             if (totalAmount.isZero()) {
-                this.reportInvalidLedgerBalance(errorMap, balance, EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, null);
+                this.reportInvalidLedgerBalance(LedgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, null);
                 ledgerBalances.remove(balance);
                 continue;
             }
@@ -309,7 +311,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             // every balance record must have valid high education function code
             if (balance.getAccount() == null) {
                 String account = balance.getChartOfAccountsCode() + ", " + balance.getAccountNumber();
-                this.reportInvalidLedgerBalance(errorMap, balance, EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
+                this.reportInvalidLedgerBalance(LedgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
 
                 ledgerBalances.remove(balance);
                 continue;
@@ -318,7 +320,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             // every balance record must have valid high education function code
             if (balance.getAccount().getFinancialHigherEdFunction() == null) {
                 String account = balance.getAccountNumber();
-                this.reportInvalidLedgerBalance(errorMap, balance, EffortKeyConstants.ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND, account);
+                this.reportInvalidLedgerBalance(LedgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND, account);
 
                 ledgerBalances.remove(balance);
                 continue;
@@ -489,9 +491,9 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(Map<LedgerBalance, String> errorMap, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
+    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> LedgerBalancesWithMessage, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
         Message errorMessage = MessageBuilder.buildErrorMessage(messageKey, invalidValue, Message.TYPE_FATAL);
-        errorMap.put(ledgerBalance, errorMessage.getMessage());
+        LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, errorMessage.getMessage()));
     }
 
     // store relating system parameters in a Map for later

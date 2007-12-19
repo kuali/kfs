@@ -47,9 +47,24 @@
 				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
 			</list>
 		</property>
+		<!-- will be enabled after testing
+		<property name="jobNames">
+			<list>
+				<value>effortCertificationExtractJob</value>
+			</list>
+		</property>
+		 -->
 	</bean>
 	
-	<!-- Section 1: Batch Job Step Definitions -->
+	<!-- Section 1: Batch Job Definitions -->
+	<bean id="effortCertificationExtractJob" parent="scheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="effortCertificationExtractStep"/>
+			</list>
+		</property>
+	</bean>
+	
 	<bean id="effortCertificationExtractStep" class="org.kuali.module.effort.batch.EffortCertificationExtractStep" parent="step">
 		<property name="effortCertificationExtractService">
 			<ref bean="effortCertificationExtractService" />

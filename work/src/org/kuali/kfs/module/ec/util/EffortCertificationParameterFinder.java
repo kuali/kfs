@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
@@ -74,7 +75,7 @@ public class EffortCertificationParameterFinder {
      * @return the fund group denotes C&G indicator setup in system paremters
      */
     public static boolean getFundGroupDenotesCGIndicator() {
-        return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.FUND_GROUP_DENOTES_CG_IND);
+        return parameterService.getIndicatorParameter(Account.class, SystemParameters.FUND_GROUP_DENOTES_CG_IND);
     }
 
     /**
@@ -94,7 +95,7 @@ public class EffortCertificationParameterFinder {
      * @return the C&G denoting values setup in system paremters
      */
     public static List<String> getCGDenotingValues() {
-        return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.CG_DENOTING_VALUE);
+        return parameterService.getParameterValues(Account.class, SystemParameters.CG_DENOTING_VALUE);
     }
 
     /**

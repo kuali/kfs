@@ -149,7 +149,6 @@ Workflow Tag: ${release.workflow.cvs.tag}
         <copy todir="${lib.directory}" flatten="true">
             <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.lib.suffix}" excludes="${rice.excludes}" />
         </copy>
-        <get src="https://test.kuali.org/maven/${workflow.name}/${workflow.name}/${workflow.version}/${workflow.name}-${workflow.version}.jar" dest="${basedir}/${lib.directory}/${rice.name}-${workflow.name}-${workflow.version}.jar" />
     </target>
     
     <target name="update-rice-web" depends="init-property-files">
@@ -176,6 +175,9 @@ Workflow Tag: ${release.workflow.cvs.tag}
     </target>
     
     <target name="update-rice-licenses" depends="init-property-files">
+        <delete>
+            <fileset dir="${build.project.directory}" includes="${rice.name}*${rice.output.licenses.suffix}" />
+        </delete>
         <zip destfile="${build.project.directory}/${rice.name}-${rice.version}-licenses.zip" basedir="${rice.project.directory}/${licenses.directory}" excludes="**/CVS" />
     </target>
     

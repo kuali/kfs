@@ -90,7 +90,6 @@
 		<path id="compile.tests.classpath">
 			<path refid="compile.source.classpath" />
 			<fileset dir="${test.lib.directory}" includes="*.jar" />
-			<pathelement location="${appserver.classes.dir}"/>
 		</path>
 		<patternset id="non.java.resources">
 			<include name="**/*.properties" />
@@ -145,11 +144,6 @@
 			</fileset>
 		</delete>
 		<delete failonerror="false">
-			<fileset dir="${appserver.classes.dir}">
-				<present targetdir="${build.appserver.directory}" />
-			</fileset>
-		</delete>
-		<delete failonerror="false">
 			<fileset dir="${appserver.localhost.dir}" includes="${ant.project.name}-*.xml" />
 		</delete>
 		<delete failonerror="false">
@@ -181,7 +175,6 @@
 	</target>
 	
 	<target name="filter-local" if="is.local.build" depends="init-properties">
-		<copy file="${build.appserver.directory}/${carol.file}" todir="${appserver.classes.dir}" overwrite="true" />
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.appserver.directory}" includes="*.jar" />
 		</copy>
@@ -288,7 +281,6 @@
 			<classpath>
 				<pathelement location="${make-source.target.directory}" />
 				<path refid="compile.source.classpath" />
-				<fileset dir="${appserver.classes.dir}" includes="*.jar" />
 			</classpath>		
 		</java>
 	</target>

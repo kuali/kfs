@@ -20,6 +20,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.core.service.WebAuthenticationService;
 import org.kuali.core.web.filter.KualiCasFilter;
 
+import edu.iu.uis.eden.user.AuthenticationUserId;
+import edu.iu.uis.eden.user.UserId;
 import edu.iu.uis.eden.web.session.UserSession;
 
 /**
@@ -48,6 +50,20 @@ public class WebAuthenticationServiceCas implements WebAuthenticationService {
      */
     public boolean isValidatePassword() {
         return validatePassword;
+    }    
+
+    /**
+     * @see edu.iu.uis.eden.web.WebAuthenticationService#establishInitialUserSession(edu.iu.uis.eden.web.session.UserSession, javax.servlet.http.HttpServletRequest)
+     */
+    public UserSession establishInitialUserSession(UserSession userSession, HttpServletRequest request) {
+        return userSession;
+    }
+
+    /**
+     * @see edu.iu.uis.eden.web.WebAuthenticationService#getUserId(javax.servlet.http.HttpServletRequest)
+     */
+    public UserId getUserId(HttpServletRequest request) {
+        return new AuthenticationUserId(getNetworkId(request));
     }
 
     public void setValidatePassword(boolean validatePassword) {

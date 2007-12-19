@@ -23,10 +23,6 @@
 		<property name="properties" ref="properties" />
 	</bean>
 
-	<bean id="jotm" class="org.springframework.transaction.jta.JotmFactoryBean">
-        <property name="defaultTimeout" value="${transaction.timeout}"/>
-    </bean>
-
 	<bean id="dbPlatformFactory" class="org.kuali.core.dbplatform.ConfigurableKualiDBPlatformFactory">
 		<property name="ojbPlatform" value="${datasource.ojb.platform}" />
 		<property name="dataSource" ref="dataSource" />
@@ -108,12 +104,21 @@
 	<alias name="webAuthenticationService" alias="enWebAuthenticationService" />
 	<alias name="encryptionService" alias="enEncryptionService" />
 
+	<bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+  		<property name="forceShutdown" value="true"/>
+  		<property name="transactionTimeout" value="${transaction.timeout}"/>
+	</bean>
+  
+	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+  		<property name="transactionTimeout" value="${transaction.timeout}"/>
+	</bean>
+
 	<bean id="platformTransactionManager" class="org.springframework.transaction.jta.JtaTransactionManager" lazy-init="true">
 		<property name="userTransaction">
-			<ref local="jotm" />
+			<ref local="atomikosUserTransaction" />
 		</property>
 		<property name="transactionManager">
-			<ref local="jotm" />
+			<ref local="atomikosTransactionManager" />
 		</property>
 	</bean>
 

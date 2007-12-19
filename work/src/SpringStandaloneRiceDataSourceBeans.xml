@@ -1,29 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-
-	<bean id="dataSource" class="org.kuali.rice.database.XAPoolDataSource">
-		<property name="transactionManager" ref="jotm" />
+	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+	  	<property name="uniqueResourceName" value="dataSource"/>
 		<property name="driverClassName" value="${dataSource.driverClassName}" />
-		<property name="maxSize" value="${dataSource.maxSize}" />
-		<property name="minSize" value="${dataSource.minSize}" />
-		<property name="maxWait" value="${dataSource.maxWait}" />
-		<property name="validationQuery" value="${dataSource.validationQuery}" />
 		<property name="url" value="${dataSource.url}" />
-		<property name="username" value="${dataSource.username}" />
+		<property name="user" value="${dataSource.username}"/>
 		<property name="password" value="${dataSource.password}" />
+		<property name="poolSize" value="${dataSource.maxSize}"/>
+		<property name="connectionTimeout" value="${dataSource.maxWait}"/>
+		<property name="validatingQuery" value="${dataSource.validationQuery}"/>
+		<property name="testOnBorrow" value="true"/>
 	</bean>
 
-    <bean id="kewDataSource" class="org.kuali.rice.database.XAPoolDataSource">
-        <property name="transactionManager" ref="jotm" />
+	<bean id="kewDataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
+	  	<property name="uniqueResourceName" value="kewDataSource"/>
         <property name="driverClassName" value="${rice.workflow.datasource.driverClassName}" />
-        <property name="maxSize" value="${rice.workflow.datasource.maxSize}" />
-        <property name="minSize" value="${rice.workflow.datasource.minSize}" />
-        <property name="maxWait" value="${rice.workflow.datasource.maxWait}" />
-        <property name="validationQuery" value="${rice.workflow.datasource.validationQuery}" />
         <property name="url" value="${rice.workflow.datasource.url}" />
-        <property name="username" value="${rice.workflow.datasource.username}" />
+		<property name="user" value="${rice.workflow.datasource.userna}"/>
         <property name="password" value="${rice.workflow.datasource.password}" />
+		<property name="poolSize" value="${rice.workflow.datasource.maxSize}"/>
+		<property name="connectionTimeout" value="${rice.workflow.datasource.maxWait}"/>
+		<property name="validatingQuery" value="${rice.workflow.datasource.validationQuery}"/>
+		<property name="testOnBorrow" value="true"/>
     </bean>
 
     <alias name="kewDataSource" alias="registryDataSource"/>

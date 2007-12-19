@@ -4,8 +4,8 @@
 
   <bean id="rice" class="org.kuali.rice.config.RiceConfigurer">
     <property name="dataSource" ref="dataSource" />
-    <property name="transactionManager" ref="jotm" />
-    <property name="userTransaction" ref="jotm" />
+    <property name="transactionManager" ref="atomikosTransactionManager" />
+    <property name="userTransaction" ref="atomikosUserTransaction" />
     <property name="messageEntity" value="KFS" />
     <property name="environment">
       <value>${build.environment}</value>

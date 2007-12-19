@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectDictionaryService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.KualiInteger;
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -249,6 +250,7 @@ public class BudgetConstructionForm extends KualiTransactionalDocumentFormBase {
         line.setAccountNumber(tdoc.getAccountNumber());
         line.setSubAccountNumber(tdoc.getSubAccountNumber());
         line.setFinancialBalanceTypeCode(BCConstants.FINANCIAL_BALANCE_TYPE_CODE_BB);
+        line.setFinancialBeginningBalanceLineAmount(KualiInteger.ZERO);
 
         if (isRevenue) {
             line.setFinancialObjectTypeCode(BCConstants.FINANCIAL_OBJECT_TYPE_CODE_REV);

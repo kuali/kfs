@@ -35,12 +35,26 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument arg0) {
         boolean isValid = true;
         EffortCertificationReportDefinition effortCertificationReport = (EffortCertificationReportDefinition) arg0.getNewMaintainableObject().getBusinessObject();
+        Integer beginPeriodCode;
+        Integer endPeriodCode;
+        
+        if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("AB")) beginPeriodCode = 14;
+        else if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("BB")) beginPeriodCode = 15;
+        else if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("CB")) beginPeriodCode = 16;
+        else beginPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode());
+        
+        if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("AB")) endPeriodCode = 14;
+        else if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("BB")) endPeriodCode = 15;
+        else if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("CB")) endPeriodCode = 16;
+        else endPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode());
         
         if (!GlobalVariables.getErrorMap().isEmpty()) return false;
         
         // report begin fiscal year must be less than report end fiscal year
-        if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() >= effortCertificationReport.getEffortCertificationReportEndFiscalYear() ||
-            Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()) ) {
+        //TODO: handle non-numeric fiscal periods
+        if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() > effortCertificationReport.getEffortCertificationReportEndFiscalYear() ||
+                (effortCertificationReport.getEffortCertificationReportBeginFiscalYear().equals(effortCertificationReport.getEffortCertificationReportEndFiscalYear()) &&
+                 Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()) )    ) {
             ErrorMap errors = GlobalVariables.getErrorMap();
             errors.putError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
             isValid = false;

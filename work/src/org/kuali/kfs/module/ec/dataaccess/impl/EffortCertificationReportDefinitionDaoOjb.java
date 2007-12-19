@@ -33,29 +33,132 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         criteria.addEqualTo("effortCertificationReportTypeCode", effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
         Collection col = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
         Iterator i = col.iterator();
+        int size = col.size();
         List<EffortCertificationReportDefinition> overlappingReportDefinitions = new ArrayList();
         //TODO: can i do this with the ojb criteria?
         while (i.hasNext()) {
             EffortCertificationReportDefinition temp = (EffortCertificationReportDefinition) i.next();
-            if (isOverlapping(temp, effortCertificationReportDefinition)) overlappingReportDefinitions.add(temp);
+            //do not check the old version of the object (the one that's being updated)
+            if ( !( temp.getEffortCertificationReportNumber().equals(effortCertificationReportDefinition.getEffortCertificationReportNumber()) && 
+                    temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear())) ) {
+                if (isOverlapping(temp, effortCertificationReportDefinition)) overlappingReportDefinitions.add(temp);
+            }
         }
         return overlappingReportDefinitions;
     }
 
     private boolean isOverlapping(EffortCertificationReportDefinition oldRecord, EffortCertificationReportDefinition newRecord) {
-        //check if old record has null values (and therefore is not overlapping)
-        if (oldRecord.getEffortCertificationReportBeginFiscalYear() ==  null || 
+        //check if old record has null values (and therefore is not overlapping) - this check is required because prerules run before framework null checks happen
+        if (oldRecord.getEffortCertificationReportBeginFiscalYear() == null || 
+            oldRecord.getEffortCertificationReportEndFiscalYear() ==  null || 
             oldRecord.getEffortCertificationReportBeginPeriodCode() ==  null ||
-            oldRecord.getEffortCertificationReportEndFiscalYear() ==    null ||
-            oldRecord.getEffortCertificationReportEndPeriodCode() ==    null) return false;
+            newRecord.getEffortCertificationReportEndPeriodCode() == null) return false;
         
+        //format non-numeric period codes
+        Integer newStartPeriod;
+        Integer newEndPeriod;
+        Integer oldStartPeriod;
+        Integer oldEndPeriod;
+        Integer oldStartYear = oldRecord.getEffortCertificationReportBeginFiscalYear();
+        Integer oldEndYear = oldRecord.getEffortCertificationReportEndFiscalYear();
+        Integer newStartYear = newRecord.getEffortCertificationReportBeginFiscalYear();
+        Integer newEndYear = newRecord.getEffortCertificationReportEndFiscalYear();
+        
+        //TODO: need to replace hard-coded strings with constants
+        if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("AB")) oldStartPeriod = 14;
+        else if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("BB")) oldStartPeriod = 15;
+        else if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("CB")) oldStartPeriod = 16;
+        else oldStartPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode());
+        
+        if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("AB")) oldEndPeriod = 14;
+        else if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("BB")) oldEndPeriod = 15;
+        else if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("CB")) oldEndPeriod = 16;
+        else oldEndPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportEndPeriodCode());
+        
+        if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("AB")) newStartPeriod = 14;
+        else if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("BB")) newStartPeriod = 15;
+        else if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("CB")) newStartPeriod = 16;
+        else newStartPeriod = Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode());
+        
+        if (newRecord.getEffortCertificationReportEndPeriodCode().equals("AB")) newEndPeriod = 14;
+        else if (newRecord.getEffortCertificationReportEndPeriodCode().equals("BB")) newEndPeriod = 15;
+        else if (newRecord.getEffortCertificationReportEndPeriodCode().equals("CB")) newEndPeriod = 16;
+        else newEndPeriod = Integer.parseInt(newRecord.getEffortCertificationReportEndPeriodCode());
+        
+        //check if new record has invalid values (will be caught by rules engine)
+        if (newStartYear > newEndYear) return false;
+        if (newStartYear.equals(newEndYear) && newStartPeriod > newEndPeriod) return false;
+       
+        //check if start and or end date are equal (easiest way to find boundry cases)
+        if (oldStartYear.equals(newStartYear) && oldEndYear.equals(newEndYear) ) {
+            //start and end dates are equal 
+            if (oldStartYear < oldEndYear) {
+                //reports overlap by more than one period (at least one year)
+                return true;
+            } else { //reports start and end in same year
+                if ((oldEndPeriod - oldStartPeriod) <=1 || (newEndPeriod - newStartPeriod) <=1) {
+                    //at least one report is only one period long so they cannot overlap for more than one period
+                    return false;
+                } else if ((oldEndPeriod <= newStartPeriod) || (newEndPeriod <= oldStartPeriod)) {
+                    //reports do not overlap (one reports starts and ends before the other starts)
+                    return false;
+                } else return true;
+            }
+        } else if (oldStartYear.equals(newStartYear) || oldEndYear.equals(newEndYear)) {
+            //start or end dates are equal
+            //if neither report starts and ends in the same fiscal year, then they must overlap by at least one year
+            if (oldStartYear < oldEndYear && newStartYear < newEndYear) {
+                //reports overlap by more than one period
+                return true;
+            } else if ( oldStartYear.equals(oldEndYear) ) { //old record starts and ends in same year
+                //if old record spans more than one period, then records overlap more than one period
+                if ( (oldEndPeriod - oldStartPeriod) > 1) {
+                    //records overlap by more than one period
+                    return true;
+                }
+            } else { //new record starts and ends in same year
+                //if new record spans more than one period, then records overlap more than one period
+                if ( (newEndPeriod - newStartPeriod) > 1) {
+                    //records overlap by more than one period
+                    return true;
+                }
+            }
+        } else if ( oldStartYear < newStartYear && oldEndYear  >=  newStartYear) {
+            //dates overlap - determine if periods overlap
+            //check for boundry case
+            if ( !oldEndYear.equals(newStartYear) ) {
+                //records overlap by more than one period
+                return true;
+            } else { //boundry case
+                if (oldEndPeriod <= newStartPeriod) {
+                    //records do not overlap by more than one period
+                    return false;
+                } else return true;
+            }
+        } else if (oldStartYear <= newEndYear && oldStartYear > newStartYear) {
+            //dates overlap - determine if periods overlap
+            //check for boundry case
+            if (oldStartYear != newEndYear) {
+                //records overlap by more than one period
+                return true;
+            } else { //boundry case
+                if (newEndPeriod <= oldStartPeriod) {
+                    //records do not overlap by more than one period
+                    return false;
+                } else return true;
+            }
+        }
+        return false;
+    }
+    
+    private boolean isOverlappingDate(EffortCertificationReportDefinition oldRecord, EffortCertificationReportDefinition newRecord) {
         //is old's start date before (inclusive) new start && old end after (inclusive) new's start
-        if ( Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode()) <= Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode()) &&
-             Integer.parseInt(oldRecord.getEffortCertificationReportEndPeriodCode())  >=  Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode())) return true;
+        if ( oldRecord.getEffortCertificationReportBeginFiscalYear() <= newRecord.getEffortCertificationReportBeginFiscalYear() &&
+             oldRecord.getEffortCertificationReportEndFiscalYear()  >=  newRecord.getEffortCertificationReportBeginFiscalYear()) return true;
         
         //new start's before (inclusive) old start && new end's after (inclusive) old starts
-        if ( Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode()) <= Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode()) &&
-                Integer.parseInt(newRecord.getEffortCertificationReportEndPeriodCode())  >=  Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode())) return true;
+        if ( newRecord.getEffortCertificationReportBeginFiscalYear() <= oldRecord.getEffortCertificationReportBeginFiscalYear() &&
+             newRecord.getEffortCertificationReportEndFiscalYear()  >=  oldRecord.getEffortCertificationReportBeginFiscalYear()) return true;
         return false;
     }
     

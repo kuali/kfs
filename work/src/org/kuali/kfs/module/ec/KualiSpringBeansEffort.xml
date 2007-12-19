@@ -47,11 +47,6 @@
 				<value>org/kuali/module/effort/OJB-repository-effort.xml</value>
 			</list>
 		</property>
-		<property name="jobNames">
-			<list>
-				<value>effortCertificationExtractStep</value>
-			</list>
-		</property>
 	</bean>
 	
 	<!-- Section 1: Batch Job Step Definitions -->

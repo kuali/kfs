@@ -55,7 +55,8 @@ public @interface RelatesTo {
      * show which tests relate to which issues.
      */
     public enum JiraIssue {
-        NONE;
+        
+        KULPURAP2225,NONE;
 
         private final static Pattern PATTERN = Pattern.compile("(\\p{Alpha}+)(\\p{Digit}+)");
 

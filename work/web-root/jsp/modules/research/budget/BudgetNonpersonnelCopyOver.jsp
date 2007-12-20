@@ -19,8 +19,7 @@
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Non-Personnel Copy Over"
 	htmlFormAction="researchBudgetNonpersonnelCopyOver"
-	headerTabActive="nonpersonnel" showTabButtons="true"
-	feedbackKey="app.feedback.link">
+	headerTabActive="nonpersonnel" showTabButtons="true">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

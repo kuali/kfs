@@ -19,8 +19,7 @@
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Overview"
 	htmlFormAction="researchBudgetOverview" showTabButtons="true"
-	headerDispatch="overview" headerTabActive="overview"
-	feedbackKey="app.feedback.link">
+	headerDispatch="overview" headerTabActive="overview">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

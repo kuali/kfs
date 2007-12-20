@@ -19,7 +19,6 @@
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetModular" headerDispatch="save"
 	headerTabActive="modular" showTabButtons="true"
-	feedbackKey="app.feedback.link"
 	auditCount="${AuditErrors['modularSoftAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

@@ -22,7 +22,6 @@
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetPersonnel" showTabButtons="true"
 	headerDispatch="savePersonnel" headerTabActive="personnel"
-	feedbackKey="app.feedback.link"
 	auditCount="${AuditErrors['personnelAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

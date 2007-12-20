@@ -19,8 +19,7 @@
 	documentTypeName="KualiBudgetDocument"
 	headerTitle="Research Administration - Indirect Costs"
 	htmlFormAction="researchBudgetIndirectCost"
-	headerDispatch="save" headerTabActive="indirectcost"
-	feedbackKey="app.feedback.link">
+	headerDispatch="save" headerTabActive="indirectcost">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

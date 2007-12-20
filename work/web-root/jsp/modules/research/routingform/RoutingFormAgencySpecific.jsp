@@ -18,8 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormAgencySpecific"
-	headerDispatch="save" feedbackKey="app.feedback.link"
-	headerTabActive="agencyspecific">
+	headerDispatch="save" headerTabActive="agencyspecific">
 	
 	<center>Agency Specific - Under Construction</center>
 	

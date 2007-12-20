@@ -21,8 +21,7 @@
 	htmlFormAction="researchBudgetAuditMode" 
 	headerDispatch="auditmode"
 	headerTabActive="auditmode"
-	showTabButtons="${!empty AuditErrors}"
-	feedbackKey="app.feedback.link">
+	showTabButtons="${!empty AuditErrors}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

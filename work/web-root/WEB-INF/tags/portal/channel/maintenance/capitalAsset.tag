@@ -21,7 +21,7 @@
 	<ul class="chan">
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Asset Acquisition"
+				title="Asset Acquisition Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetAcquisitionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />				
 		</li>
 		<li>
@@ -51,7 +51,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Asset Inventory Status"
+				title="Asset Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>
@@ -61,16 +61,16 @@
 		</li>	
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="CAB Action Code"
+				title="Capital Asset Builder Pending Action"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>				
         <li><portal:portalLink displayTitle="true" 
-                title="CAMS Campus Maintenance Security" 
+                title="Asset Campus Security" 
                 url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetCampusSecurity&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
         </li>
         <li>
              <portal:portalLink displayTitle="true"
-                 title="Asset Security Detail Document"
+                 title="Asset Security Detail"
                  url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetSecurityDetail&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
        </li>
 	</ul>

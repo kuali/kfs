@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.service;
 
+import java.util.List;
+
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 /**
  * Contains service methods for the Effort Certification Automatic Period Update Process
@@ -27,4 +29,23 @@ public interface EffortCertificationAutomaticReportPeriodUpdateService {
      * @return true reportDefinition is an overlapping report defintion
      */
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition);
+    
+    /**
+     * 
+     * adds an EffortCertificationReportDefinition
+     * @param reportDefinition
+     */
+    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition);
+    
+    /**
+     * deletes reportDefinitionRecord
+     * @param reportDefinition
+     */
+    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition);
+    
+    /**
+     * gets all EffortCertificationReportDefinition records
+     * @return list of EffortCertificationReportDefinition records
+     */
+    public List<EffortCertificationReportDefinition> getAllReportDefinitions();
 }

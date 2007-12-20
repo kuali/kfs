@@ -23,24 +23,14 @@ import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodU
 
 public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implements EffortCertificationAutomaticReportPeriodUpdateService {
     
-    private EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao;
-    
-    /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
-     */
-    public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        List<EffortCertificationReportDefinition> overlappingRecords = effortCertificationReportDefinitionDao.getOverlappingReportDefinitions(reportDefinition);
-        if (overlappingRecords != null && !overlappingRecords.isEmpty()) return true;
-        return false;
-        //return true;
-    }
-    
+    private EffortCertificationReportDefinitionDao reportDefinitionDao;
+   
     /**
      * get's spring managed effortCertificationReportDefinitionDao
      * @return
      */
     public EffortCertificationReportDefinitionDao getEffortCertificationReportDefinitionDao() {
-        return effortCertificationReportDefinitionDao;
+        return reportDefinitionDao;
     }
 
     /**
@@ -48,6 +38,34 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
      * @param effortCertificationReportDefinitionDao
      */
     public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao) {
-        this.effortCertificationReportDefinitionDao = effortCertificationReportDefinitionDao;
+        this.reportDefinitionDao = effortCertificationReportDefinitionDao;
     }
+
+    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        this.reportDefinitionDao.addReportDefinition(reportDefinition);
+    }
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#deleteReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        this.reportDefinitionDao.deleteReportDefinition(reportDefinition);
+    }
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
+     */
+    public List<EffortCertificationReportDefinition> getAllReportDefinitions() {
+        return this.reportDefinitionDao.getAll();
+    }
+    
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        List<EffortCertificationReportDefinition> overlappingRecords = reportDefinitionDao.getOverlappingReportDefinitions(reportDefinition);
+        if (overlappingRecords != null && !overlappingRecords.isEmpty()) return true;
+        return false;
+    }
+    
 }

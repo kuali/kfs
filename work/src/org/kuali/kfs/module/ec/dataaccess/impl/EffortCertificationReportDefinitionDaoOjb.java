@@ -28,6 +28,24 @@ import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 
 public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements EffortCertificationReportDefinitionDao {
     
+    /**
+     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#addReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        getPersistenceBrokerTemplate().store(reportDefinition);
+    }
+
+    public List<EffortCertificationReportDefinition> getAll() {
+        return (List<EffortCertificationReportDefinition>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, new Criteria()));
+    }
+
+    /**
+     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#deleteReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        getPersistenceBrokerTemplate().delete(reportDefinition);
+    }
+    
     public List<EffortCertificationReportDefinition> getOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("effortCertificationReportTypeCode", effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
@@ -161,5 +179,5 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
              newRecord.getEffortCertificationReportEndFiscalYear()  >=  oldRecord.getEffortCertificationReportBeginFiscalYear()) return true;
         return false;
     }
-    
+
 }

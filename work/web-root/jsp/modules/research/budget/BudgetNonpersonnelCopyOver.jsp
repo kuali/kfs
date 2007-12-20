@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Non-Personnel Copy Over"
 	htmlFormAction="researchBudgetNonpersonnelCopyOver"
 	headerTabActive="nonpersonnel" showTabButtons="true"
-	feedbackKey="app.krafeedback.link">
+	feedbackKey="app.feedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

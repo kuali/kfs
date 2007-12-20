@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetNotes" headerDispatch="notes"
-	headerTabActive="notes" feedbackKey="app.krafeedback.link" renderMultipart="true" >
+	headerTabActive="notes" feedbackKey="app.feedback.link" renderMultipart="true" >
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

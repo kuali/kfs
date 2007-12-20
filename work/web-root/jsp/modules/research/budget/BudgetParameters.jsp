@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiBudgetDocument"
 	htmlFormAction="researchBudgetParameters"
-	headerDispatch="saveParameters" feedbackKey="app.krafeedback.link"
+	headerDispatch="saveParameters" feedbackKey="app.feedback.link"
 	headerTabActive="parameters"
 	showTabButtons="true"
 	auditCount="${AuditErrors['parametersAuditErrors'].size}">

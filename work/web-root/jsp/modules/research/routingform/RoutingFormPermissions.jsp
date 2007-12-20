@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormPermissions"
-	headerDispatch="save" feedbackKey="app.krafeedback.link"
+	headerDispatch="save" feedbackKey="app.feedback.link"
 	headerTabActive="permissions" showTabButtons="true">
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

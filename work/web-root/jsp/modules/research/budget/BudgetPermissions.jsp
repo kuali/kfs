@@ -22,7 +22,7 @@
 	showTabButtons="true"
 	headerDispatch="save"
 	headerTabActive="permissions" 
-	feedbackKey="app.krafeedback.link">
+	feedbackKey="app.feedback.link">
 	
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 	

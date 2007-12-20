@@ -22,7 +22,7 @@
 	headerDispatch="auditmode"
 	headerTabActive="auditmode"
 	showTabButtons="${!empty AuditErrors}"
-	feedbackKey="app.krafeedback.link">
+	feedbackKey="app.feedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

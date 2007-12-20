@@ -22,7 +22,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormLink"
-	headerDispatch="save" feedbackKey="app.krafeedback.link"
+	headerDispatch="save" feedbackKey="app.feedback.link"
 	headerTabActive="link" showTabButtons="true">
   
   <kra-rf:routingFormHiddenDocumentFields />

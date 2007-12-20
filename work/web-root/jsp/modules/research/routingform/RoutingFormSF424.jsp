@@ -18,7 +18,7 @@
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="KualiRoutingFormDocument"
 	htmlFormAction="researchRoutingFormSF424"
-	headerDispatch="save" feedbackKey="app.krafeedback.link"
+	headerDispatch="save" feedbackKey="app.feedback.link"
 	headerTabActive="sf424">
 	
 	<center>SF424 - Under Construction</center>

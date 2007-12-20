@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Overview"
 	htmlFormAction="researchBudgetOverview" showTabButtons="true"
 	headerDispatch="overview" headerTabActive="overview"
-	feedbackKey="app.krafeedback.link">
+	feedbackKey="app.feedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

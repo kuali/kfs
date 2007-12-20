@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Indirect Costs"
 	htmlFormAction="researchBudgetIndirectCost"
 	headerDispatch="save" headerTabActive="indirectcost"
-	feedbackKey="app.krafeedback.link">
+	feedbackKey="app.feedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

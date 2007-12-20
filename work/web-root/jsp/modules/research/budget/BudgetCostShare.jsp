@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Cost Share"
 	htmlFormAction="researchBudgetCostShare" showTabButtons="true"
 	headerDispatch="saveBudgetCostShare" headerTabActive="costshare"
-	feedbackKey="app.krafeedback.link"
+	feedbackKey="app.feedback.link"
 	auditCount="${AuditErrors['costShareAuditErrors'].size}">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />

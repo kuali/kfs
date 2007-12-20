@@ -20,7 +20,7 @@
 	headerTitle="Research Administration - Non-Personnel Expenses"
 	htmlFormAction="researchBudgetNonpersonnel"
 	headerTabActive="nonpersonnel" showTabButtons="true"
-	headerDispatch="saveNonpersonnel" feedbackKey="app.krafeedback.link">
+	headerDispatch="saveNonpersonnel" feedbackKey="app.feedback.link">
 
 	<kul:errors keyMatch="${Constants.DOCUMENT_ERRORS}" />
 

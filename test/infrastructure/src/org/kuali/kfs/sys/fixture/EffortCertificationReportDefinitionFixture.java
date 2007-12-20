@@ -20,19 +20,28 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 public enum EffortCertificationReportDefinitionFixture {
     
     CONTROL_1(2008, 2008, "1", "12"),
-    CONTROL_2(2002, 2003, "1", "12"),
-    CONTROL_3(2008, 2008, "4", "7"),
-    CONTROL_4(2008, 2008, "4", "7"),
-    CONTROL_5(2008, 2008, "4", "7"),
-    CONTROL_6(2008, 2008, "4", "7"),
-    CONTROL_7(2002, 2004, "1", "2"),
     TEST_1_OVERLAP(2008, 2008, "2", "4"), 
-    TEST_2_NO_OVERLAP(2000, 2001, "1", "12"), 
-    TEST_3_NO_OVERLAP(2008, 2008, "2", "4"), 
-    TEST_4_NO_OVERLAP(2008, 2008, "1", "3"), 
+    
+    CONTROL_2(2002, 2003, "1", "12"),
+    TEST_2_NO_OVERLAP(2000, 2001, "1", "12"),
+    
+    CONTROL_3(2008, 2008, "4", "7"),
+    TEST_3_NO_OVERLAP(2008, 2008, "2", "4"),
+    
+    CONTROL_4(2008, 2008, "4", "7"),
+    TEST_4_NO_OVERLAP(2008, 2008, "1", "3"),
+    
+    CONTROL_5(2008, 2008, "4", "7"),
     TEST_5_NO_OVERLAP(2008, 2008, "7", "9"), 
+    
+    CONTROL_6(2008, 2008, "4", "7"),
     TEST_6_NO_OVERLAP(2008, 2008, "8", "10"), 
-    TEST_7_NO_OVERLAP(2001, 2003, "1", "2");
+    
+    CONTROL_7(2002, 2004, "1", "2"),
+    TEST_7_OVERLAP(2001, 2003, "1", "2"),
+    
+    CONTROL_8(2002, 2004, "1", "2"),
+    TEST_8_NO_OVERLAP(2002, 2002, "1", "1");
     
     private Integer startDate;
     private Integer endDate;

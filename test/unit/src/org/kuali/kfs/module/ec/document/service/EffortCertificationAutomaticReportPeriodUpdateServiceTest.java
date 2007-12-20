@@ -50,6 +50,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         //second test case
         EffortCertificationReportDefinition control2 = EffortCertificationReportDefinitionFixture.CONTROL_2.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test2 = EffortCertificationReportDefinitionFixture.TEST_2_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control2.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control2);
         assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test2));
         reportDefinitionService.deleteReportDefinition(control2);
@@ -57,6 +58,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         //third test case
         EffortCertificationReportDefinition control3 = EffortCertificationReportDefinitionFixture.CONTROL_3.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test3 = EffortCertificationReportDefinitionFixture.TEST_3_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control3.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control3);
         assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test3));
         reportDefinitionService.deleteReportDefinition(control3);
@@ -64,6 +66,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         //fourth test case
         EffortCertificationReportDefinition control4 = EffortCertificationReportDefinitionFixture.CONTROL_4.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test4 = EffortCertificationReportDefinitionFixture.TEST_4_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control4.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control4);
         assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test4));
         reportDefinitionService.deleteReportDefinition(control4);
@@ -71,6 +74,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         //fifth test case
         EffortCertificationReportDefinition control5 = EffortCertificationReportDefinitionFixture.CONTROL_5.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test5 = EffortCertificationReportDefinitionFixture.TEST_5_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control5.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control5);
         assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test5));
         reportDefinitionService.deleteReportDefinition(control5);
@@ -78,15 +82,25 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         //sixth test case
         EffortCertificationReportDefinition control6 = EffortCertificationReportDefinitionFixture.CONTROL_6.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test6 = EffortCertificationReportDefinitionFixture.TEST_6_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control6.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control6);
         assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test6));
         reportDefinitionService.deleteReportDefinition(control6);
         
         //seventh test case
         EffortCertificationReportDefinition control7 = EffortCertificationReportDefinitionFixture.CONTROL_7.createEffortCertificationReportDefinition();
-        EffortCertificationReportDefinition test7 = EffortCertificationReportDefinitionFixture.TEST_7_NO_OVERLAP.createEffortCertificationReportDefinition();
+        EffortCertificationReportDefinition test7 = EffortCertificationReportDefinitionFixture.TEST_7_OVERLAP.createEffortCertificationReportDefinition();
+        control7.setUniversityFiscalYear(1999);
         reportDefinitionService.addReportDefinition(control7);
-        assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test7));
+        assertTrue(reportDefinitionService.isAnOverlappingReportDefinition(test7));
         reportDefinitionService.deleteReportDefinition(control7);
+        
+        //eighth test case
+        EffortCertificationReportDefinition control8 = EffortCertificationReportDefinitionFixture.CONTROL_8.createEffortCertificationReportDefinition();
+        EffortCertificationReportDefinition test8= EffortCertificationReportDefinitionFixture.TEST_8_NO_OVERLAP.createEffortCertificationReportDefinition();
+        control8.setUniversityFiscalYear(1999);
+        reportDefinitionService.addReportDefinition(control8);
+        assertFalse(reportDefinitionService.isAnOverlappingReportDefinition(test8));
+        reportDefinitionService.deleteReportDefinition(control8);
     }
 }

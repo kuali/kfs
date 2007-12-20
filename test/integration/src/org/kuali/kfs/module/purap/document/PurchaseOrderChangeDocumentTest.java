@@ -15,11 +15,12 @@
  */
 package org.kuali.module.purap.document;
 
-import java.io.ByteArrayOutputStream;
+import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
+
 import java.util.ArrayList;
+
 import junit.framework.Assert;
 
-import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
@@ -29,11 +30,12 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderDocTypes;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
-import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.fixtures.PaymentRequestDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 
 public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     
@@ -141,6 +143,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         } */
     }
     
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testPurchaseOrderPaymentHold() throws Exception {
         createAndRoutePOChangeDocument(
@@ -167,6 +170,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testPurchaseOrderRemoveHold() throws Exception {
         poTest.setStatusCode(PurchaseOrderStatuses.PAYMENT_HOLD);
@@ -195,6 +199,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testPurchaseOrderClose() throws Exception {
         // There must be a PREQ against this PO in order to close this PO.
@@ -225,6 +230,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }   
     
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testPurchaseOrderReopen() throws Exception {     
         poTest.setStatusCode(PurchaseOrderStatuses.CLOSED);
@@ -253,6 +259,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
         //}
     }
     
+    @RelatesTo(JiraIssue.KULPURAP2226)
     @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
     public final void testPurchaseOrderVoid() throws Exception {
         createAndRoutePOChangeDocument(

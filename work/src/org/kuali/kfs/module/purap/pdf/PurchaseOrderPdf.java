@@ -341,6 +341,9 @@ public class PurchaseOrderPdf extends PurapPdf {
         if (StringUtils.isNotBlank(po.getVendorStateCode())) {
             vendorInfo.append(", " + po.getVendorStateCode());
         }
+        if (StringUtils.isNotBlank(po.getVendorAddressInternationalProvinceName())) {
+            vendorInfo.append(", " + po.getVendorAddressInternationalProvinceName());
+        }
         if (StringUtils.isNotBlank(po.getVendorPostalCode())) {
             vendorInfo.append(" " + po.getVendorPostalCode() + "\n");
         }

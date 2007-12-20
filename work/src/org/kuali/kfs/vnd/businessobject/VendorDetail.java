@@ -92,6 +92,7 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
     private String defaultAddressLine2; // not persisted in the db
     private String defaultAddressCity; // not persisted in the db
     private String defaultAddressStateCode; // not persisted in the db
+    private String defaultAddressInternationalProvince; // not persisted in the db
     private String defaultAddressPostalCode; // not persisted in the db
     private String defaultAddressCountryCode; // not persisted in the db
 
@@ -669,6 +670,14 @@ public class VendorDetail extends PersistableBusinessObjectBase implements Vendo
 
     public void setDefaultAddressStateCode(String defaultAddressStateCode) {
         this.defaultAddressStateCode = defaultAddressStateCode;
+    }
+
+    public String getDefaultAddressInternationalProvince() {
+        return defaultAddressInternationalProvince;
+    }
+
+    public void setDefaultAddressInternationalProvince(String defaultAddressInternationalProvince) {
+        this.defaultAddressInternationalProvince = defaultAddressInternationalProvince;
     }
 
     public String getDefaultAddressCountryCode() {

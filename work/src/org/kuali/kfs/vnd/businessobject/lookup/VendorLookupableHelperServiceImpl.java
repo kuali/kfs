@@ -228,6 +228,7 @@ public class VendorLookupableHelperServiceImpl extends AbstractLookupableHelperS
             vendor.setDefaultAddressCity(defaultAddress.getVendorCityName());
             vendor.setDefaultAddressPostalCode(defaultAddress.getVendorZipCode());
             vendor.setDefaultAddressStateCode(defaultAddress.getVendorStateCode());
+            vendor.setDefaultAddressInternationalProvince(defaultAddress.getVendorAddressInternationalProvinceName());
             vendor.setDefaultAddressCountryCode(defaultAddress.getVendorCountryCode());
         }
     }

@@ -73,35 +73,14 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
             newRecord.getEffortCertificationReportEndPeriodCode() == null) return false;
         
         //format non-numeric period codes
-        Integer newStartPeriod;
-        Integer newEndPeriod;
-        Integer oldStartPeriod;
-        Integer oldEndPeriod;
+        Integer newStartPeriod = Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode());
+        Integer newEndPeriod = Integer.parseInt(newRecord.getEffortCertificationReportEndPeriodCode());
+        Integer oldStartPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode());
+        Integer oldEndPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportEndPeriodCode());
         Integer oldStartYear = oldRecord.getEffortCertificationReportBeginFiscalYear();
         Integer oldEndYear = oldRecord.getEffortCertificationReportEndFiscalYear();
         Integer newStartYear = newRecord.getEffortCertificationReportBeginFiscalYear();
         Integer newEndYear = newRecord.getEffortCertificationReportEndFiscalYear();
-        
-        //TODO: need to replace hard-coded strings with constants
-        if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("AB")) oldStartPeriod = 14;
-        else if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("BB")) oldStartPeriod = 15;
-        else if (oldRecord.getEffortCertificationReportBeginPeriodCode().equals("CB")) oldStartPeriod = 16;
-        else oldStartPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportBeginPeriodCode());
-        
-        if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("AB")) oldEndPeriod = 14;
-        else if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("BB")) oldEndPeriod = 15;
-        else if (oldRecord.getEffortCertificationReportEndPeriodCode().equals("CB")) oldEndPeriod = 16;
-        else oldEndPeriod = Integer.parseInt(oldRecord.getEffortCertificationReportEndPeriodCode());
-        
-        if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("AB")) newStartPeriod = 14;
-        else if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("BB")) newStartPeriod = 15;
-        else if (newRecord.getEffortCertificationReportBeginPeriodCode().equals("CB")) newStartPeriod = 16;
-        else newStartPeriod = Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode());
-        
-        if (newRecord.getEffortCertificationReportEndPeriodCode().equals("AB")) newEndPeriod = 14;
-        else if (newRecord.getEffortCertificationReportEndPeriodCode().equals("BB")) newEndPeriod = 15;
-        else if (newRecord.getEffortCertificationReportEndPeriodCode().equals("CB")) newEndPeriod = 16;
-        else newEndPeriod = Integer.parseInt(newRecord.getEffortCertificationReportEndPeriodCode());
         
         //check if new record has invalid values (will be caught by rules engine)
         if (newStartYear > newEndYear) return false;

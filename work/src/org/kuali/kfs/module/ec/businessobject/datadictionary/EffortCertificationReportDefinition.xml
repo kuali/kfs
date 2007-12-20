@@ -152,8 +152,10 @@
             <attributeReference name="effortCertificationReportBeginPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
                 <label>Effort Certification Report Begin Period Code</label>
                 <shortLabel>Begin Period Code</shortLabel>
-
-                <summary>Effort Certification ReportBeginPeriodCode</summary>
+				<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
+				</control>
+				<summary>Effort Certification ReportBeginPeriodCode</summary>
                 <description>Effort Certification ReportBeginPeriodCode description...</description>
 			</attributeReference>
 
@@ -168,7 +170,9 @@
             <attributeReference name="effortCertificationReportEndPeriodCode" sourceClassName="org.kuali.module.chart.bo.AccountingPeriod" sourceAttributeName="universityFiscalPeriodCode">
                 <label>Effort Certification Report End Period Code</label>
                 <shortLabel>End Period Code</shortLabel>
-
+				<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.FiscalPeriodNonNumberValuesFinder" />
+				</control>
                 <summary>Effort Certification ReportEndPeriodCode</summary>
                 <description>Effort Certification ReportEndPeriodCode description...</description>
 			</attributeReference>

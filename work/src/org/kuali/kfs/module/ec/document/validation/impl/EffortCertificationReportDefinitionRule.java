@@ -35,18 +35,8 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument arg0) {
         boolean isValid = true;
         EffortCertificationReportDefinition effortCertificationReport = (EffortCertificationReportDefinition) arg0.getNewMaintainableObject().getBusinessObject();
-        Integer beginPeriodCode;
-        Integer endPeriodCode;
-        
-        if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("AB")) beginPeriodCode = 14;
-        else if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("BB")) beginPeriodCode = 15;
-        else if (effortCertificationReport.getEffortCertificationReportBeginPeriodCode().equals("CB")) beginPeriodCode = 16;
-        else beginPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode());
-        
-        if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("AB")) endPeriodCode = 14;
-        else if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("BB")) endPeriodCode = 15;
-        else if (effortCertificationReport.getEffortCertificationReportEndPeriodCode().equals("CB")) endPeriodCode = 16;
-        else endPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode());
+        Integer beginPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode());
+        Integer endPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode());
         
         if (!GlobalVariables.getErrorMap().isEmpty()) return false;
         

@@ -39,7 +39,6 @@
 
         <summary>Room maintenance document</summary>
         <description>Document used to create or update Room objects</description>
-        <help parameterNamespace="KFS-SY" parameterDetailType="Room" parameterName="ROOM" />
 
         <lockingKeys>
             <field attributeName="campusCode" />

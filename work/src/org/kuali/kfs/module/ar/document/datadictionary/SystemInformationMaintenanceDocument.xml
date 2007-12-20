@@ -59,6 +59,7 @@
             <reference attributeName="universityClearingAccount" attributeToHighlightOnFail="universityClearingAccountNumber" />
             <reference attributeName="universityClearingChartOfAccounts" attributeToHighlightOnFail="universityClearingChartOfAccountsCode" />
             <reference attributeName="universityClearingSubAccount" attributeToHighlightOnFail="universityClearingSubAccountNumber" />
+            <reference attributeName="universityFiscalY" attributeToHighlightOnFail="universityFiscalYear" />
         </defaultExistenceChecks>
 
         <maintainableSections>

@@ -56,6 +56,7 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private Account universityClearingAccount;
 	private Chart universityClearingChartOfAccounts;
     private SubAccount universityClearingSubAccount;
+    private ObjectCode universityFiscalY;
     
 	/**
 	 * Default constructor.
@@ -648,6 +649,14 @@ public class SystemInformation extends PersistableBusinessObjectBase {
         m.put("processingChartOfAccountCode", this.processingChartOfAccountCode);
         m.put("processingOrganizationCode", this.processingOrganizationCode);
 	    return m;
+    }
+
+    public ObjectCode getUniversityFiscalY() {
+        return universityFiscalY;
+    }
+
+    public void setUniversityFiscalY(ObjectCode universityFiscalY) {
+        this.universityFiscalY = universityFiscalY;
     }
 
 }

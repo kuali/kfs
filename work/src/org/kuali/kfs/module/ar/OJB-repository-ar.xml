@@ -732,6 +732,11 @@
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="paymentClearingFinancialObjectCode" />
 	</reference-descriptor>
+	<reference-descriptor name="universityFiscalY" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="universityFiscalYear" />
+		<foreignkey field-ref="processingChartOfAccountCode" />
+		<foreignkey field-ref="paymentClearingFinancialObjectCode" />
+	</reference-descriptor>
 	<reference-descriptor name="universityClearingSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityClearingChartOfAccountsCode" />

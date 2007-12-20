@@ -210,6 +210,9 @@ public class GenesisServiceImpl implements GenesisService {
         genesisDao.rebuildOrganizationHierarchy(BaseYear);
     }
 
+    public String testFindBCDocumentNumber (Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
+      return(genesisDao.testFindBCDocumentNumber(fiscalYear, chartOfAccounts, accountNumber, subAccountNumber));
+    }
     public void setGenesisDao(GenesisDao genesisDao) {
         this.genesisDao = genesisDao;
     }

@@ -80,5 +80,7 @@ public interface GenesisDao {
     // this is a junk method to do some testing for batch
     public void testObjectID();
 
+    // this is also a junk method to do some testing for batch
+    public String testFindBCDocumentNumber (Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber);
 
 }

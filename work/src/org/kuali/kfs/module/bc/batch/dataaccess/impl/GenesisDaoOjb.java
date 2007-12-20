@@ -4497,6 +4497,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         }
         return newDoc;
     }
+
+    public String testFindBCDocumentNumber (Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+        criteriaId.addEqualTo(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccounts);
+        criteriaId.addEqualTo(KFSPropertyConstants.ACCOUNT_NUMBER, accountNumber);
+        criteriaId.addEqualTo(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, subAccountNumber);
+        QueryByCriteria queryId = new QueryByCriteria(BudgetConstructionHeader.class, criteriaId);
+        BudgetConstructionHeader newBCHeader = (BudgetConstructionHeader) getPersistenceBrokerTemplate().getObjectByQuery(queryId);
+        return(newBCHeader.getDocumentNumber());
+    }
     
     public void testObjectID ()
     {

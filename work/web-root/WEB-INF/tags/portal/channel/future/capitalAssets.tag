@@ -26,7 +26,7 @@
 	      <li>Asset Location Maintenance</li>
 	      <li>Asset Maintenance</li>
 	      <li>Asset Merge</li>
-	      <li><portal:portalLink displayTitle="true" title="Asset Payment" url="camsPayment.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentDocument" /></li>
+	      <li>Asset Payment</li>
 	      <li>Asset Retirement</li>
 	      <li>Asset Security</li>
 	      <li>Asset Separation</li>

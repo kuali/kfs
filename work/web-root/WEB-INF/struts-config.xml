@@ -107,7 +107,6 @@
 
         <!-- CAMs Module Bean Definitions -->
         <form-bean name="AssetForm" type="org.kuali.module.cams.web.struts.form.AssetForm" />  
-        <form-bean name="PaymentForm" type="org.kuali.module.cams.web.struts.form.PaymentForm" />  
     </form-beans>
 
     <global-exceptions>

@@ -20,8 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * This class groups and holds the data presented to working reports of extract process
@@ -30,6 +33,8 @@ public class ExtractProcessReportDataHolder {
     private EffortCertificationReportDefinition reportDefinition;
     private Map<String, Integer> basicStatistics;
     private List<LedgerBalanceWithMessage> ledgerBalancesWithMessage;
+    
+    private Map<String, Object> reportData;
 
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
@@ -115,5 +120,25 @@ public class ExtractProcessReportDataHolder {
      */
     public void setLedgerBalancesWithMessage(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage) {
         this.ledgerBalancesWithMessage = ledgerBalancesWithMessage;
+    }
+
+    /**
+     * Gets the reportData attribute. 
+     * @return Returns the reportData.
+     */
+    public Map<String, Object> getReportData() {
+        List<String> keyFields = new ArrayList<String>();
+        keyFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE);
+        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE);
+        
+        reportData = ObjectUtil.buildPropertyMap(reportDefinition, keyFields);        
+        reportData.put("statistics", basicStatistics);
+        reportData.put("error", ledgerBalancesWithMessage);
+        return reportData;
     }
 }

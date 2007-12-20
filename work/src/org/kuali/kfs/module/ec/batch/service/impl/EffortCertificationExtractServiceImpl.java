@@ -47,13 +47,13 @@ import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportService;
 import org.kuali.module.effort.service.LaborEffortCertificationService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.effort.util.EffortReportRegistry;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
-import org.kuali.module.labor.util.ReportRegistry;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -78,11 +78,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private EffortCertificationReportService effortCertificationReportService;
 
     // the following constants can only be set once in the method setBasicStatisticsKeys()
-    private final String NUM_EMPLOYEES_SELECTED = "numOfEmployeesSelected";
+    private final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
     private final String NUM_BALANCES_READ = "numOfBalancesRead";
     private final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
     private final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
-    private final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLinesWritten";
+    private final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
+    private final String NUM_ERRORS_FOUND = "numOfErrors";
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
@@ -117,10 +118,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         this.removeExistingDocumentBuild(fieldValues);
         this.generateDucmentBuild(reportDefinition, employees, reportDataHolder, parameters);
+        reportDataHolder.updateBasicStatistics(NUM_ERRORS_FOUND, reportDataHolder.getLedgerBalancesWithMessage().size());
 
-        String reportsDirectory = ReportRegistry.getReportsDirectory();
+        String reportsDirectory = EffortReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
-        effortCertificationReportService.generate(reportDataHolder, null, reportsDirectory, runDate); // TODO
+        effortCertificationReportService.generateReportForExtractProcess(reportDataHolder, EffortReportRegistry.EFFORT_EXTRACT_SUMMARY, reportsDirectory, runDate);
     }
 
     /**

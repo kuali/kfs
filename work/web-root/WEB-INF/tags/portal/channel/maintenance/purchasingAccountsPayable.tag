@@ -72,7 +72,7 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
-				title="Purchase Order Transmission Method"
+				title="Method of PO Transmission"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		<li>

@@ -31,9 +31,9 @@
         </inquiry>
 
         <lookup>
-            <title>Purchase Order Transmission Method Lookup</title>
+            <title>Method of PO Transmission Lookup</title>
 
-            <instructions>Lookup a Purchase Order Transmission Method</instructions>
+            <instructions>Lookup a Method of PO Transmission</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -59,7 +59,7 @@
         <attributes>
 
             <attribute name="purchaseOrderTransmissionMethodCode" forceUppercase="true">
-                <label>Purchase Order Transmission Method Code</label>
+                <label>Method of PO Transmission Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -73,7 +73,7 @@
 			</attribute>
 
             <attribute name="purchaseOrderTransmissionMethodDescription" forceUppercase="true">
-                <label>Purchase Order Transmission Method Description</label>
+                <label>Method of PO Transmission Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -91,6 +91,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 		
         </attributes>
-        <objectLabel>Purchase Order Transmission Method</objectLabel>
+        <objectLabel>Method of PO Transmission</objectLabel>
     </businessObject>
 </dictionaryEntry>

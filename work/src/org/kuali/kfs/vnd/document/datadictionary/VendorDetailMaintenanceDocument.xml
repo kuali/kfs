@@ -67,9 +67,7 @@
                       </fieldAuthorization>
                     </maintainableField>
                     
-                    <maintainableField name="vendorHeader.vendorTaxTypeCode" >
-                        <defaultValue>FEIN</defaultValue>
-                    </maintainableField>
+                    <maintainableField name="vendorHeader.vendorTaxTypeCode" />
                     <maintainableField name="vendorHeader.vendorOwnershipCode" required="true"/>
                     <maintainableField name="vendorHeader.vendorOwnershipCategoryCode" />
                     <!--  To the next column -->

@@ -20,7 +20,9 @@ import java.util.List;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implements EffortCertificationAutomaticReportPeriodUpdateService {
     
     private EffortCertificationReportDefinitionDao reportDefinitionDao;

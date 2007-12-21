@@ -69,16 +69,16 @@ public enum AccountingPeriodMonth {
 
         int difference = endYear - beginYear;
         if (difference > 0) {
-            accountingPeriods.put(beginYear, buildPeriodCodeSetWithRange(beginPeriod, AccountingPeriodMonth.MONTH12));
+            accountingPeriods.put(beginYear, buildPeriodCodeSetWithinRange(beginPeriod, AccountingPeriodMonth.MONTH12));
 
             for (int middleYear = beginYear + 1; middleYear < endYear; middleYear++) {
-                accountingPeriods.put(middleYear, buildPeriodCodeSetWithRange(AccountingPeriodMonth.MONTH1, AccountingPeriodMonth.MONTH12));
+                accountingPeriods.put(middleYear, buildPeriodCodeSetWithinRange(AccountingPeriodMonth.MONTH1, AccountingPeriodMonth.MONTH12));
             }
 
-            accountingPeriods.put(endYear, buildPeriodCodeSetWithRange(AccountingPeriodMonth.MONTH1, endPeriod));
+            accountingPeriods.put(endYear, buildPeriodCodeSetWithinRange(AccountingPeriodMonth.MONTH1, endPeriod));
         }
         else if (difference == 0) {
-            accountingPeriods.put(beginYear, buildPeriodCodeSetWithRange(beginPeriod, endPeriod));
+            accountingPeriods.put(beginYear, buildPeriodCodeSetWithinRange(beginPeriod, endPeriod));
         }
         else {
             throw new IllegalArgumentException("The begin year " + beginYear + "should be no later than the end year " + endYear);
@@ -95,15 +95,15 @@ public enum AccountingPeriodMonth {
      * @return the period codes between the begin period and the end period. The returning codes include The codes of begin and end
      *         periods.
      */
-    public static Set<String> buildPeriodCodeSetWithRange(AccountingPeriodMonth beginPeriod, AccountingPeriodMonth endPeriod) {
+    public static Set<String> buildPeriodCodeSetWithinRange(AccountingPeriodMonth beginPeriod, AccountingPeriodMonth endPeriod) {
         if (beginPeriod.compareTo(endPeriod) > 0) {
             throw new IllegalArgumentException("The begin period " + beginPeriod + "should be no later than the end period " + endPeriod);
         }
 
-        Set<String> periodCodesInBeginYear = new HashSet<String>();
+        Set<String> periodCodesWithinRange = new HashSet<String>();
         for (AccountingPeriodMonth period : EnumSet.range(beginPeriod, endPeriod)) {
-            periodCodesInBeginYear.add(period.periodCode);
+            periodCodesWithinRange.add(period.periodCode);
         }
-        return periodCodesInBeginYear;
+        return periodCodesWithinRange;
     }
 }

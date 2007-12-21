@@ -16,6 +16,7 @@
 
 package org.kuali.module.purap.bo;
 
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -23,7 +24,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Status Business Object.
  */
-public class Status extends PersistableBusinessObjectBase {
+public class Status extends PersistableBusinessObjectBase implements Comparator<Status>{
 
     private String statusCode;
     private String statusDescription;
@@ -69,6 +70,10 @@ public class Status extends PersistableBusinessObjectBase {
         this.ojbConcreteClass = ojbConcreteClass;
     }
 
+    public int compare(Status s1, Status s2) {
+        return s1.getStatusDescription().compareTo(s2.getStatusDescription());        
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

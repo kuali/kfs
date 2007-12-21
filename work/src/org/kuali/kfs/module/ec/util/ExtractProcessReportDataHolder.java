@@ -35,6 +35,9 @@ public class ExtractProcessReportDataHolder {
     private List<LedgerBalanceWithMessage> ledgerBalancesWithMessage;
     
     private Map<String, Object> reportData;
+    
+    public final String KEY_OF_STATISTICS_ENTRY = "statistics";
+    public final String KEY_OF_ERRORS_ENTRY = "errors";
 
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
@@ -137,8 +140,8 @@ public class ExtractProcessReportDataHolder {
         keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE);
         
         reportData = ObjectUtil.buildPropertyMap(reportDefinition, keyFields);        
-        reportData.put("statistics", basicStatistics);
-        reportData.put("error", ledgerBalancesWithMessage);
+        reportData.put(KEY_OF_STATISTICS_ENTRY, basicStatistics);
+        reportData.put(KEY_OF_ERRORS_ENTRY, ledgerBalancesWithMessage);
         return reportData;
     }
 }

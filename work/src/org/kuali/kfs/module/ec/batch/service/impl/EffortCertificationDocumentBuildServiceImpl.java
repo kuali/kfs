@@ -64,6 +64,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
             for (LedgerBalance balance : balanceList) {
                 EffortCertificationDetailBuild detailLine = effortCertificationDetailBuildService.generateDetailBuild(postingYear, balance, reportDefinition, parameters);
+                detailLine.setEffortCertificationBuildNumber(document.getEffortCertificationBuildNumber());
 
                 payrollAmountHolder.setPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
                 calculatePayrollPercent(payrollAmountHolder);

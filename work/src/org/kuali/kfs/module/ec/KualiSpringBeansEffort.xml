@@ -57,6 +57,7 @@
 	</bean>
 	
 	<!-- Section 1: Batch Job Definitions -->
+	<!-- 
 	<bean id="effortCertificationExtractJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
@@ -64,6 +65,7 @@
 			</list>
 		</property>
 	</bean>
+	 -->
 	
 	<bean id="effortCertificationExtractStep" class="org.kuali.module.effort.batch.EffortCertificationExtractStep" parent="step">
 		<property name="effortCertificationExtractService">

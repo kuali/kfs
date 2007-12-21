@@ -77,13 +77,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
     private EffortCertificationReportService effortCertificationReportService;
 
-    // the following constants can only be set once in the method setBasicStatisticsKeys()
-    private final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
-    private final String NUM_BALANCES_READ = "numOfBalancesRead";
-    private final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
-    private final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
-    private final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
-    private final String NUM_ERRORS_FOUND = "numOfErrors";
+    // the following constants used as the key of the statistics entries for the working progress report
+    public final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
+    public final String NUM_BALANCES_READ = "numOfBalancesRead";
+    public final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
+    public final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
+    public final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
+    public final String NUM_ERRORS_FOUND = "numOfErrors";
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract()
@@ -118,7 +118,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         this.removeExistingDocumentBuild(fieldValues);
         this.generateDucmentBuild(reportDefinition, employees, reportDataHolder, parameters);
-        reportDataHolder.updateBasicStatistics(NUM_ERRORS_FOUND, reportDataHolder.getLedgerBalancesWithMessage().size());
 
         String reportsDirectory = EffortReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -135,7 +134,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private Message validateReportDefintion(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
-        String inputValues = fiscalYear + " ," + reportNumber;
+        String inputValues = fiscalYear + ", " + reportNumber;
 
         // Fiscal Year is required
         if (StringUtils.isEmpty(fiscalYear)) {
@@ -218,6 +217,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             reportDataHolder.updateBasicStatistics(NUM_CERTIFICATIONS_WRITTEN, documents.size());
         }
         reportDataHolder.updateBasicStatistics(NUM_EMPLOYEES_SELECTED, employees.size());
+        reportDataHolder.updateBasicStatistics(NUM_ERRORS_FOUND, reportDataHolder.getLedgerBalancesWithMessage().size());
     }
 
     /**

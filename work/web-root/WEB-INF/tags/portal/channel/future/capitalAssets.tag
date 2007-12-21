@@ -22,7 +22,6 @@
 	          TODO: these will eventually be portal links like the example below:
 	               <portal:portalLink displayTitle="true" title="Application" url="lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.gl.bo.CashBalance&docFormKey=88888888&returnLocation=portal.do&hideReturnLink=true" />
 	      --%> 
-	      <li><portal:portalLink displayTitle="true" title="Asset Addition" url="camsAsset.do?methodToCall=docHandler&command=initiate&docTypeName=AssetDocument" /></li>
 	      <li>Asset Location Maintenance</li>
 	      <li>Asset Maintenance</li>
 	      <li>Asset Merge</li>

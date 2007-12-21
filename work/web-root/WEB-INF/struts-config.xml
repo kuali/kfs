@@ -106,7 +106,7 @@
         <form-bean name="PdpFormatSummaryForm" type="org.kuali.module.pdp.form.format.FormatSummaryForm" />
 
         <!-- CAMs Module Bean Definitions -->
-        <form-bean name="AssetForm" type="org.kuali.module.cams.web.struts.form.AssetForm" />  
+        
     </form-beans>
 
     <global-exceptions>

@@ -15,56 +15,104 @@
  */
 package org.kuali.test.fixtures;
 
+import org.kuali.module.effort.EffortCertificationTestConstants;
+import org.kuali.module.effort.EffortCertificationTestConstants.EffortCertificationFiscalPeriod;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
 public enum EffortCertificationReportDefinitionFixture {
     
-    CONTROL_1(2008, 2008, "1", "12"),
-    TEST_1_OVERLAP(2008, 2008, "2", "4"), 
+    CONTROL_1(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    TEST_1_OVERLAP(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR), 
     
-    CONTROL_2(2002, 2003, "1", "12"),
-    TEST_2_NO_OVERLAP(2000, 2001, "1", "12"),
+    CONTROL_2(2002, 2003, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    TEST_2_NO_OVERLAP(2000, 2001, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
     
-    CONTROL_3(2008, 2008, "4", "7"),
-    TEST_3_NO_OVERLAP(2008, 2008, "2", "4"),
+    CONTROL_3(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN),
+    TEST_3_NO_OVERLAP(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR),
     
-    CONTROL_4(2008, 2008, "4", "7"),
-    TEST_4_NO_OVERLAP(2008, 2008, "1", "3"),
+    CONTROL_4(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN),
+    TEST_4_NO_OVERLAP(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.THREE),
     
-    CONTROL_5(2008, 2008, "4", "7"),
-    TEST_5_NO_OVERLAP(2008, 2008, "7", "9"), 
+    CONTROL_5(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN),
+    TEST_5_NO_OVERLAP(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.NINE), 
     
-    CONTROL_6(2008, 2008, "4", "7"),
-    TEST_6_NO_OVERLAP(2008, 2008, "8", "10"), 
+    CONTROL_6(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.FOUR, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.SEVEN),
+    TEST_6_NO_OVERLAP(2008, 2008, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.EIGHT, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TEN), 
     
-    CONTROL_7(2002, 2004, "1", "2"),
-    TEST_7_OVERLAP(2001, 2003, "1", "2"),
+    CONTROL_7(2002, 2004, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO),
+    TEST_7_OVERLAP(2001, 2003, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO),
     
-    CONTROL_8(2002, 2004, "1", "2"),
-    TEST_8_NO_OVERLAP(2002, 2002, "1", "1");
+    CONTROL_8(2002, 2004, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWO),
+    TEST_8_NO_OVERLAP(2002, 2002, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE),
+    
+    CONTROL_9_1(2002, 2003, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    CONTROL_9_2(2003, 2004, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    CONTROL_9_3(2004, 2005, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE),
+    TEST_9_OVERLAP(2002, 2005, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.ONE, 
+            EffortCertificationTestConstants.EffortCertificationFiscalPeriod.TWELVE);
     
     private Integer startDate;
     private Integer endDate;
     private String startPeriod;
     private String endPeriod;
     
-    private EffortCertificationReportDefinitionFixture(Integer startDate, Integer endDate, String startPeriod, String endPeriod) {
+    private EffortCertificationReportDefinitionFixture(Integer startDate, Integer endDate, EffortCertificationFiscalPeriod startPeriod, EffortCertificationFiscalPeriod endPeriod) {
         this.startDate = startDate;
         this.endDate = endDate;
-        this.endPeriod = endPeriod;
-        this.startPeriod = startPeriod;
+        this.endPeriod = endPeriod.getFiscalPeriod();
+        this.startPeriod = startPeriod.getFiscalPeriod();
     }
     
     public EffortCertificationReportDefinition createEffortCertificationReportDefinition() {
         EffortCertificationReportDefinition report = new EffortCertificationReportDefinition();
         
-        report.setEffortCertificationReportTypeCode("10");
+        report.setEffortCertificationReportTypeCode(EffortCertificationTestConstants.REPORT_TYPE);
         report.setEffortCertificationReportBeginFiscalYear(this.startDate);
         report.setEffortCertificationReportEndFiscalYear(this.endDate);
         report.setEffortCertificationReportBeginPeriodCode(this.startPeriod);
         report.setEffortCertificationReportEndPeriodCode(this.endPeriod);
-        report.setUniversityFiscalYear(1990);
-        report.setEffortCertificationReportNumber("ZZZ");
+        report.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_1990.getUniversityFiscalYear());
+        report.setEffortCertificationReportNumber(EffortCertificationTestConstants.REPORT_NUMBER);
+        report.setActive(true);
         
         return report;
     }

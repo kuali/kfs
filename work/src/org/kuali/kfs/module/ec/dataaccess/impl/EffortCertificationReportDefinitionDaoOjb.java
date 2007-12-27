@@ -58,7 +58,7 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
             EffortCertificationReportDefinition temp = (EffortCertificationReportDefinition) i.next();
             //do not check the old version of the object (the one that's being updated)
             if ( !( temp.getEffortCertificationReportNumber().equals(effortCertificationReportDefinition.getEffortCertificationReportNumber()) && 
-                    temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear())) ) {
+                    temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear())) && temp.isActive()) {
                 if (isOverlapping(temp, effortCertificationReportDefinition)) overlappingReportDefinitions.add(temp);
             }
         }

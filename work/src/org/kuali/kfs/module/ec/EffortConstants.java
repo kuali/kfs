@@ -38,14 +38,15 @@ public class EffortConstants extends JstlConstants {
         public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
         public static final String DERIVED_PAYROLL_CODE = "N";
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+        
+        // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
         public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
-        
         public static final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
         public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
-        // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
         public static final String NUM_ERRORS_FOUND = "numOfErrors";
+        
         public static final String PRORATED_CODE = "S";
         public static final String UPDATED_OVERALL_CODE = "S";
     }
@@ -69,11 +70,9 @@ public class EffortConstants extends JstlConstants {
     }
     
     public static final String VALUE_SEPARATOR  = ", ";
-
-    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();
-
     public static final String LABOR_OBJECT_SALARY_CODE = "S";
-    
+
+    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();   
     private static final List<String> getEeligibleBalanceTypesForEffortReport() {
         List<String> balanceTypeList = new ArrayList<String>();
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);

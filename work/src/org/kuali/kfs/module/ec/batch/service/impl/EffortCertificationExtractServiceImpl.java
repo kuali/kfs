@@ -197,7 +197,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             Collection<LedgerBalance> qualifiedLedgerBalance;
             qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters, reportDataHolder);
 
-            if (qualifiedLedgerBalance == null) {
+            if (qualifiedLedgerBalance == null || qualifiedLedgerBalance.isEmpty()) {
                 continue;
             }
 
@@ -249,19 +249,20 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_SELECTED, ledgerBalances.size());
 
-        LedgerBalance tempLedgerBalance = new LedgerBalance();
-        tempLedgerBalance.setEmplid(emplid);
-
-        // the total amount of all balances must be positive; otherwise, not generate effort report for the employee
+        // consolidate the selected ledger balances
         Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportDefinition);
-        if (qualifiedLedgerBalances == null) {
-            this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, tempLedgerBalance, EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, emplid);
+
+        // the total amount of all balances must be positive; otherwise, not to generate effort report for the employee
+        boolean isPositiveTotalAmount = this.isPositiveTotalAmount(qualifiedLedgerBalances, reportDefinition);
+        if (!isPositiveTotalAmount) {
+            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, emplid);
             return null;
         }
 
         // the specified employee must have at least one grant account
-        if (!hasGrantAccount(qualifiedLedgerBalances, parameters)) {
-            this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, tempLedgerBalance, EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, emplid);
+        boolean hasGrantAccount = this.hasGrantAccount(qualifiedLedgerBalances, parameters);
+        if (!hasGrantAccount) {
+            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, emplid);
             return null;
         }
 
@@ -269,13 +270,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         // employee with pay by federal grant
         boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
         if (isFederalFundsOnly) {
-            if (!hasFederalFunds(qualifiedLedgerBalances, parameters)) {
-                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, tempLedgerBalance, EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid);
+            boolean hasFederalFunds = this.hasFederalFunds(qualifiedLedgerBalances, parameters);
+            if (!hasFederalFunds) {
+                this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid);
                 return null;
             }
         }
 
-        return ledgerBalances;
+        return qualifiedLedgerBalances;
     }
 
     /**
@@ -293,6 +295,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
             if (totalAmount.isZero()) {
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, null);
+
                 ledgerBalances.remove(balance);
                 continue;
             }
@@ -408,8 +411,21 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             }
         }
 
-        KualiDecimal totalAmountForEmployee = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(cosolidatedLedgerBalances, reportPeriods);
-        return totalAmountForEmployee.isPositive() ? cosolidatedLedgerBalances : null;
+        return cosolidatedLedgerBalances;
+    }
+
+    /**
+     * determine if the total amount of the given balance is greater than ZERO
+     * 
+     * @param ledgerBalances the given labor ledger balances
+     * @param reportDefinition the specified report definition
+     * @return true if the total amount is greater than ZERO; otherwise, return false
+     */
+    private boolean isPositiveTotalAmount(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+
+        return totalAmount.isPositive();
     }
 
     /**
@@ -482,9 +498,16 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> LedgerBalancesWithMessage, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
+    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
         String errorMessage = MessageBuilder.buildErrorMessage(messageKey, invalidValue).getMessage();
-        LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, errorMessage));
+        ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, errorMessage));
+    }
+
+    // add an error entry into error map
+    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, String messageKey, String emplid) {
+        LedgerBalance ledgerBalance = new LedgerBalance();
+        ledgerBalance.setEmplid(emplid);
+        this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, messageKey, emplid);
     }
 
     // store and cache relating system parameters in a Map for the future use

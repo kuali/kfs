@@ -18,28 +18,41 @@ package org.kuali.module.effort.util;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
- * To hold the neccessary information of ledger balance for the report generation 
+ * To hold the neccessary information of ledger balance for the report generation
  */
 public class LedgerBalanceWithMessage {
-    
+
     private String chartOfAccountsCode;
     private String accountNumber;
     private String subAccountNumber;
     private String financialObjectCode;
     private String positionNumber;
-    private String emplid;    
+    private String emplid;
     private String message;
-    
+
     /**
      * Constructs a LedgerBalanceWithMessage.java.
      */
     public LedgerBalanceWithMessage() {
-        super();
-    }    
+        this("", "");
+    }
 
     /**
      * Constructs a LedgerBalanceWithMessage.java.
-     * @param ledgerBalance the given ledger balance 
+     * 
+     * @param emplid the given employee id
+     * @param message the message associated with the given ledger balance
+     */
+    public LedgerBalanceWithMessage(String emplid, String message) {
+        super();
+        this.emplid = emplid;
+        this.message = message;
+    }
+
+    /**
+     * Constructs a LedgerBalanceWithMessage.java.
+     * 
+     * @param ledgerBalance the given ledger balance
      * @param message the message associated with the given ledger balance
      */
     public LedgerBalanceWithMessage(LedgerBalance ledgerBalance, String message) {
@@ -54,7 +67,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
+     * Gets the chartOfAccountsCode attribute.
+     * 
      * @return Returns the chartOfAccountsCode.
      */
     public String getChartOfAccountsCode() {
@@ -63,6 +77,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the chartOfAccountsCode attribute value.
+     * 
      * @param chartOfAccountsCode The chartOfAccountsCode to set.
      */
     public void setChartOfAccountsCode(String chartOfAccountsCode) {
@@ -70,7 +85,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the accountNumber attribute. 
+     * Gets the accountNumber attribute.
+     * 
      * @return Returns the accountNumber.
      */
     public String getAccountNumber() {
@@ -79,6 +95,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the accountNumber attribute value.
+     * 
      * @param accountNumber The accountNumber to set.
      */
     public void setAccountNumber(String accountNumber) {
@@ -86,7 +103,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the subAccountNumber attribute. 
+     * Gets the subAccountNumber attribute.
+     * 
      * @return Returns the subAccountNumber.
      */
     public String getSubAccountNumber() {
@@ -95,6 +113,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the subAccountNumber attribute value.
+     * 
      * @param subAccountNumber The subAccountNumber to set.
      */
     public void setSubAccountNumber(String subAccountNumber) {
@@ -102,7 +121,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the financialObjectCode attribute. 
+     * Gets the financialObjectCode attribute.
+     * 
      * @return Returns the financialObjectCode.
      */
     public String getFinancialObjectCode() {
@@ -111,6 +131,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the financialObjectCode attribute value.
+     * 
      * @param financialObjectCode The financialObjectCode to set.
      */
     public void setFinancialObjectCode(String financialObjectCode) {
@@ -118,7 +139,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the positionNumber attribute. 
+     * Gets the positionNumber attribute.
+     * 
      * @return Returns the positionNumber.
      */
     public String getPositionNumber() {
@@ -127,6 +149,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the positionNumber attribute value.
+     * 
      * @param positionNumber The positionNumber to set.
      */
     public void setPositionNumber(String positionNumber) {
@@ -134,7 +157,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the emplid attribute. 
+     * Gets the emplid attribute.
+     * 
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -143,6 +167,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the emplid attribute value.
+     * 
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -150,7 +175,8 @@ public class LedgerBalanceWithMessage {
     }
 
     /**
-     * Gets the message attribute. 
+     * Gets the message attribute.
+     * 
      * @return Returns the message.
      */
     public String getMessage() {
@@ -159,6 +185,7 @@ public class LedgerBalanceWithMessage {
 
     /**
      * Sets the message attribute value.
+     * 
      * @param message The message to set.
      */
     public void setMessage(String message) {

@@ -51,6 +51,14 @@ public class EffortConstants extends JstlConstants {
         public static final String CALCULATED_OVERALL_CODE = "N";
         public static final String UPDATED_OVERALL_CODE = "S";
         public static final String PRORATED_CODE = "S";
+        
+        // the following constants used as the key of the statistics entries for the working progress report
+        public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
+        public static final String NUM_BALANCES_READ = "numOfBalancesRead";
+        public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
+        public static final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
+        public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
+        public static final String NUM_ERRORS_FOUND = "numOfErrors";
     }
     
     /**

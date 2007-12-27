@@ -27,6 +27,7 @@ import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
 
+@Deprecated
 public class LedgerBalanceFieldValidator {
 
     /**

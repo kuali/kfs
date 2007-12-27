@@ -63,7 +63,7 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  * <li>Identify employees who were paid on a grant or cost shared;</li>
  * <li>Select qualified Labor Ledger records for each identified employee;</li>
- * <li>Generate effor certification build document from the selected Labor Ledger records for each employee.</li>
+ * <li>Generate effort certification build document from the selected Labor Ledger records for each employee.</li>
  */
 @Transactional
 public class EffortCertificationExtractServiceImpl implements EffortCertificationExtractService {
@@ -117,7 +117,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         List<String> employees = this.findEmployeesWithValidPayType(reportDefinition);
 
         this.removeExistingDocumentBuild(fieldValues);
-        this.generateDucmentBuild(reportDefinition, employees, reportDataHolder, parameters);
+        this.generateDocumentBuild(reportDefinition, employees, reportDataHolder, parameters);
 
         String reportsDirectory = EffortReportRegistry.getReportsDirectory();
         Date runDate = dateTimeService.getCurrentSqlDate();
@@ -198,7 +198,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the holder of report data
      * @param parameters the given system parameters
      */
-    private void generateDucmentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    private void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
 
         for (String emplid : employees) {

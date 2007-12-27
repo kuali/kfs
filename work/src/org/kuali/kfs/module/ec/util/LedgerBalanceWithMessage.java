@@ -18,7 +18,7 @@ package org.kuali.module.effort.util;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
- * This class...
+ * To hold the neccessary information of ledger balance for the report generation 
  */
 public class LedgerBalanceWithMessage {
     

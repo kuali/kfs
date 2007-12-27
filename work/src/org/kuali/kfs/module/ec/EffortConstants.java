@@ -27,40 +27,29 @@ import org.kuali.kfs.KFSConstants.ChartApcParms;
  */
 public class EffortConstants extends JstlConstants {
 
-    public static final String LABOR_OBJECT_SALARY_CODE = "S";
-
-    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();
-
-    private static final List<String> getEeligibleBalanceTypesForEffortReport() {
-        List<String> balanceTypeList = new ArrayList<String>();
-        balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
-        balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
-        return balanceTypeList;
-    }
-
     /**
      * hold contants used by extract process
      */
     public class ExtractProcess{       
-        public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
-        public static final String DASH_ACCOUNT_NUMBER = "-------";       
-        public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
-              
-        public static final String DERIVED_PAYROLL_CODE = "N";
-        public static final String COST_SHARING_CODE = "S";
         public static final String CALCULATED_OVERALL_CODE = "N";
-        public static final String UPDATED_OVERALL_CODE = "S";
-        public static final String PRORATED_CODE = "S";
-        
-        // the following constants used as the key of the statistics entries for the working progress report
-        public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
+        public static final String COST_SHARING_CODE = "S";       
+        public static final String DASH_ACCOUNT_NUMBER = "-------";
+              
+        public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
+        public static final String DERIVED_PAYROLL_CODE = "N";
+        public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
         public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
+        
         public static final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
         public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
+        // the following constants used as the key of the statistics entries for the working progress report
+        public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
         public static final String NUM_ERRORS_FOUND = "numOfErrors";
+        public static final String PRORATED_CODE = "S";
+        public static final String UPDATED_OVERALL_CODE = "S";
     }
-    
+
     /**
      * hold all system parameter names of effort reporting module
      */
@@ -77,5 +66,18 @@ public class EffortConstants extends JstlConstants {
         public static final String RUN_FISCAL_YEAR  = "RUN_FISCAL_YEAR";
         public static final String RUN_IND = "RUN_IND";
         public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
+    }
+    
+    public static final String VALUE_SEPARATOR  = ", ";
+
+    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();
+
+    public static final String LABOR_OBJECT_SALARY_CODE = "S";
+    
+    private static final List<String> getEeligibleBalanceTypesForEffortReport() {
+        List<String> balanceTypeList = new ArrayList<String>();
+        balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
+        balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
+        return balanceTypeList;
     }
 }

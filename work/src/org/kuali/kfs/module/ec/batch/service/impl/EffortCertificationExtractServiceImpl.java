@@ -126,33 +126,33 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private String validateReportDefintion(Map<String, String> fieldValues) {
         String fiscalYear = fieldValues.get(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
         String reportNumber = fieldValues.get(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
-        String inputValues = fiscalYear + ", " + reportNumber;
+        String combinedFieldValues = new StringBuilder(fiscalYear).append(EffortConstants.VALUE_SEPARATOR).append(reportNumber).toString();
 
         // Fiscal Year is required
         if (StringUtils.isEmpty(fiscalYear)) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_MISSING, null, 0).getMessage();
+            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_MISSING, null).getMessage();
         }
 
         // Report Number is required
         if (StringUtils.isEmpty(reportNumber)) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_NUMBER_MISSING, null, 0).getMessage();
+            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_NUMBER_MISSING, null).getMessage();
         }
 
         // check if a report has been defined
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         if (reportDefinition == null) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID, inputValues, 0).getMessage();
+            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID, combinedFieldValues).getMessage();
         }
 
         // check if the selected report definition is still active
         if (!reportDefinition.isActive()) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, inputValues, 0).getMessage();
+            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, combinedFieldValues).getMessage();
         }
 
         // check if any document has been generated for the selected report definition
         int countOfDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
         if (countOfDocuments > 0) {
-            return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, 0, fiscalYear, reportNumber).getMessage();
+            return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, fiscalYear, reportNumber).getMessage();
         }
 
         return null;
@@ -286,7 +286,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private void removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        // Map<LedgerBalance, String> errorMap = reportDataHolder.getErrorMap();
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
         for (LedgerBalance balance : ledgerBalances) {
@@ -300,7 +299,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
             // every balance record must have valid high education function code
             if (balance.getAccount() == null) {
-                String account = balance.getChartOfAccountsCode() + ", " + balance.getAccountNumber();
+                String account = new StringBuilder(balance.getChartOfAccountsCode()).append(EffortConstants.VALUE_SEPARATOR).append(balance.getAccountNumber()).toString();
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
 
                 ledgerBalances.remove(balance);
@@ -484,7 +483,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     // add an error entry into error map
     private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> LedgerBalancesWithMessage, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
-        String errorMessage = MessageBuilder.buildErrorMessage(messageKey, invalidValue, 0).getMessage();
+        String errorMessage = MessageBuilder.buildErrorMessage(messageKey, invalidValue).getMessage();
         LedgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, errorMessage));
     }
 

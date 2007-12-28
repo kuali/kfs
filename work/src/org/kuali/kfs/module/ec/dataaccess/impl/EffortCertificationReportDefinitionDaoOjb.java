@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 
@@ -41,7 +42,7 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
      */
     public List<EffortCertificationReportDefinition> getOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
-        criteria.addEqualTo("effortCertificationReportTypeCode", effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
+        criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
         Collection col = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
         Iterator i = col.iterator();
         int size = col.size();

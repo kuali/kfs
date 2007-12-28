@@ -30,10 +30,10 @@ import org.kuali.test.fixtures.EffortCertificationReportDefinitionFixture;
  */
 @ConfigureContext
 public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends KualiTestBase {
-    
+
     private EffortCertificationAutomaticReportPeriodUpdateService reportDefinitionService;
     private BusinessObjectService businessObjectService;
-    
+
     /**
      * 
      * @see junit.framework.TestCase#setUp()
@@ -48,7 +48,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
             businessObjectService.delete(record);
         }
     }
-    
+
     /**
      * Tests report defintions with overlapping periods. Service method should return true.
      */
@@ -59,7 +59,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertTrue("report definition 'test' is expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * Tests report defintions without overlapping periods. Service method should return false.
      */
@@ -70,7 +70,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * Tests report defintions without overlapping dates. Service method should return false.
      */
@@ -81,7 +81,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests report defintions without overlapping periods. Service method should return false.
@@ -93,7 +93,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests report defintions without overlapping periods. Service method should return false.
@@ -105,7 +105,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * Tests report defintions without overlapping periods. Service method should return false.
      */
@@ -116,7 +116,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests report definitions with overlapping dates. Service method should return true.
@@ -128,18 +128,18 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertTrue("report definition 'test' is expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * Tests report definitions without overlapping dates. Service method should return false.
      */
     public void testIsAnOverlappingReportDefinition_dateBoundry() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_8.createEffortCertificationReportDefinition();
-        EffortCertificationReportDefinition test= EffortCertificationReportDefinitionFixture.TEST_8_NO_OVERLAP.createEffortCertificationReportDefinition();
+        EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_8_NO_OVERLAP.createEffortCertificationReportDefinition();
         control.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_1999.getUniversityFiscalYear());
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * Tests multiple report definitions where at least one contains an overlapping period. Service method should return true.
      */
@@ -147,18 +147,18 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         EffortCertificationReportDefinition control1 = EffortCertificationReportDefinitionFixture.CONTROL_9_1.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition control2 = EffortCertificationReportDefinitionFixture.CONTROL_9_2.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition control3 = EffortCertificationReportDefinitionFixture.CONTROL_9_3.createEffortCertificationReportDefinition();
-        EffortCertificationReportDefinition test= EffortCertificationReportDefinitionFixture.TEST_9_OVERLAP.createEffortCertificationReportDefinition();
-        
+        EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_9_OVERLAP.createEffortCertificationReportDefinition();
+
         control1.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_1999.getUniversityFiscalYear());
         businessObjectService.save(control1);
         control2.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_2000.getUniversityFiscalYear());
         businessObjectService.save(control2);
         control3.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_2001.getUniversityFiscalYear());
         businessObjectService.save(control3);
-        
+
         assertTrue("report definition 'test' is expected to be an overlapping record", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests report definition where there are no active records of that type. Service method should return false.
@@ -169,10 +169,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         control.setUniversityFiscalYear(EffortCertificationTestConstants.EffortCertificationUniversityFiscalYear.YEAR_1999.getUniversityFiscalYear());
         control.setActive(false);
         businessObjectService.save(control);
-        
+
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control' because 'control' is inactive", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests report defintion where no overlapping records exist of its report type. Service method should return false.
@@ -182,7 +182,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_7_OVERLAP.createEffortCertificationReportDefinition();
         test.setEffortCertificationReportTypeCode(EffortCertificationTestConstants.EffortCertificationReportType.REPORT_TYPE_INVALID.getReportType());
         businessObjectService.save(control);
-        
+
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control' because they do not have the same report type", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
 }

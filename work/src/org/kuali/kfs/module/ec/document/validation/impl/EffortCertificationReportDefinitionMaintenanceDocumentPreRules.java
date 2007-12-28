@@ -68,6 +68,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
                 return false;
             }
         }
+        
         return true;
     }
 

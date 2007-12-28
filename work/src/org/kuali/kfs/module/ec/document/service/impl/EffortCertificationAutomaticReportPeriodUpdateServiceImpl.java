@@ -67,6 +67,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
         List<EffortCertificationReportDefinition> overlappingRecords = reportDefinitionDao.getOverlappingReportDefinitions(reportDefinition);
         if (overlappingRecords != null && !overlappingRecords.isEmpty()) return true;
+        
         return false;
     }
     

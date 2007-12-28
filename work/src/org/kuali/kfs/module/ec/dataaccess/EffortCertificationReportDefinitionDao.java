@@ -34,18 +34,6 @@ public interface EffortCertificationReportDefinitionDao {
     public List<EffortCertificationReportDefinition> getOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition);
     
     /**
-     * adds EffortCertificationReportDefinition record
-     * @param reportDefinition
-     */
-    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition);
-    
-    /**
-     * deletes EffortCertificatoinReportDefinition
-     * @param reportDefinition
-     */
-    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition);
-    
-    /**
      * retrieves all EffortCertificationReportDefinition records
      * @return list of EffortCertificationReportDefinition records
      */

@@ -29,23 +29,13 @@ import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements EffortCertificationReportDefinitionDao {
 
     /**
-     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#addReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * 
+     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getAll()
      */
-    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        getPersistenceBrokerTemplate().store(reportDefinition);
-    }
-
     public List<EffortCertificationReportDefinition> getAll() {
         return (List<EffortCertificationReportDefinition>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, new Criteria()));
     }
-
-    /**
-     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#deleteReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
-     */
-    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        getPersistenceBrokerTemplate().delete(reportDefinition);
-    }
-
+    
     /**
      * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getOverlappingReportDefinitions(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */

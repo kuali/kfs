@@ -42,18 +42,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
     public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao) {
         this.reportDefinitionDao = effortCertificationReportDefinitionDao;
     }
-
-    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        this.reportDefinitionDao.addReportDefinition(reportDefinition);
-    }
-
-    /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#deleteReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
-     */
-    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        this.reportDefinitionDao.deleteReportDefinition(reportDefinition);
-    }
-
+    
     /**
      * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
      */

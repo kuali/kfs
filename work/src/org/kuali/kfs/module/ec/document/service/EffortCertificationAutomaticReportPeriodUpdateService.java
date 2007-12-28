@@ -31,19 +31,6 @@ public interface EffortCertificationAutomaticReportPeriodUpdateService {
     public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition);
     
     /**
-     * 
-     * adds an EffortCertificationReportDefinition
-     * @param reportDefinition
-     */
-    public void addReportDefinition(EffortCertificationReportDefinition reportDefinition);
-    
-    /**
-     * deletes reportDefinitionRecord
-     * @param reportDefinition
-     */
-    public void deleteReportDefinition(EffortCertificationReportDefinition reportDefinition);
-    
-    /**
      * gets all EffortCertificationReportDefinition records
      * @return list of EffortCertificationReportDefinition records
      */

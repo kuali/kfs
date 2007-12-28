@@ -105,7 +105,7 @@ public enum EffortCertificationReportDefinitionFixture {
     public EffortCertificationReportDefinition createEffortCertificationReportDefinition() {
         EffortCertificationReportDefinition report = new EffortCertificationReportDefinition();
         
-        report.setEffortCertificationReportTypeCode(EffortCertificationTestConstants.REPORT_TYPE);
+        report.setEffortCertificationReportTypeCode(EffortCertificationTestConstants.EffortCertificationReportType.REPORT_TYPE_VALID.getReportType());
         report.setEffortCertificationReportBeginFiscalYear(this.startDate);
         report.setEffortCertificationReportEndFiscalYear(this.endDate);
         report.setEffortCertificationReportBeginPeriodCode(this.startPeriod);

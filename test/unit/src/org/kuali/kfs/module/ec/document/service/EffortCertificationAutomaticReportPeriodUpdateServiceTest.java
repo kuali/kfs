@@ -31,6 +31,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
     private EffortCertificationAutomaticReportPeriodUpdateService reportDefinitionService;
     private BusinessObjectService businessObjectService;
     
+    /**
+     * 
+     * @see junit.framework.TestCase#setUp()
+     */
     @Override
     public void setUp() throws Exception {
         super.setUp();
@@ -54,7 +58,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
     }
     
     /**
-     * Tests report definitions
+     * Tests report defintions without overlapping periods. Service method should return false.
      */
     public void testIsAnOverlappingReportDefinition_overlappingPeriods2() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_3.createEffortCertificationReportDefinition();
@@ -65,7 +69,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
     }
     
     /**
-     * This method...
+     * Tests report defintions without overlapping dates. Service method should return false.
      */
     public void testIsAnOverlappingReportDefinition_noOverlappingDates() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_2.createEffortCertificationReportDefinition();
@@ -75,6 +79,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * 
+     * Tests report defintions without overlapping periods. Service method should return false.
+     */
     public void testIsAnOverlappingReportDefinition_boundry1() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_4.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_4_NO_OVERLAP.createEffortCertificationReportDefinition();
@@ -83,6 +91,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * 
+     * Tests report defintions without overlapping periods. Service method should return false.
+     */
     public void testIsAnOverlappingReportDefinition_boundry2() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_5.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_5_NO_OVERLAP.createEffortCertificationReportDefinition();
@@ -91,6 +103,9 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * Tests report defintions without overlapping periods. Service method should return false.
+     */
     public void testIsAnOverlappingReportDefinition_boundry3() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_6.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_6_NO_OVERLAP.createEffortCertificationReportDefinition();
@@ -99,6 +114,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * 
+     * Tests report definitions with overlapping dates. Service method should return true.
+     */
     public void testIsAnOverlappingReportDefinition_overlappingDates1() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_7.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_7_OVERLAP.createEffortCertificationReportDefinition();
@@ -107,6 +126,9 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertTrue("report definition 'test' is expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * Tests report definitions without overlapping dates. Service method should return false.
+     */
     public void testIsAnOverlappingReportDefinition_dateBoundry() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_8.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test= EffortCertificationReportDefinitionFixture.TEST_8_NO_OVERLAP.createEffortCertificationReportDefinition();
@@ -114,6 +136,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control'", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
+    
+    /**
+     * Tests multiple report definitions where at least one contains an overlapping period. Service method should return true.
+     */
     public void testIsAnOverlappingReportDefinition_multipleRecords() {
         EffortCertificationReportDefinition control1 = EffortCertificationReportDefinitionFixture.CONTROL_9_1.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition control2 = EffortCertificationReportDefinitionFixture.CONTROL_9_2.createEffortCertificationReportDefinition();
@@ -130,6 +156,10 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         assertTrue("report definition 'test' is expected to be an overlapping record", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
     
+    /**
+     * 
+     * Tests report definition where there are no active records of that type. Service method should return false.
+     */
     public void testIsAnOverlappingReportDefinition_inactiveRecordTest() {
         EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_7.createEffortCertificationReportDefinition();
         EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_7_OVERLAP.createEffortCertificationReportDefinition();
@@ -138,5 +168,18 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
         businessObjectService.save(control);
         
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control' because 'control' is inactive", reportDefinitionService.isAnOverlappingReportDefinition(test));
+    }
+    
+    /**
+     * 
+     * Tests report defintion where no overlapping records exist of its report type. Service method should return false.
+     */
+    public void testIsOverlappingReportDefinition_reportTypeTest() {
+        EffortCertificationReportDefinition control = EffortCertificationReportDefinitionFixture.CONTROL_7.createEffortCertificationReportDefinition();
+        EffortCertificationReportDefinition test = EffortCertificationReportDefinitionFixture.TEST_7_OVERLAP.createEffortCertificationReportDefinition();
+        test.setEffortCertificationReportTypeCode(EffortCertificationTestConstants.EffortCertificationReportType.REPORT_TYPE_INVALID.getReportType());
+        businessObjectService.save(control);
+        
+        assertFalse("report definition 'test' is not expected to overlap with report definintion 'control' because they do not have the same report type", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
 }

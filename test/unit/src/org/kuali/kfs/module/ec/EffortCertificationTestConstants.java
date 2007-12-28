@@ -59,7 +59,22 @@ public class EffortCertificationTestConstants {
         
     }
     
-    public static final String REPORT_TYPE = "10";
+    public enum EffortCertificationReportType {
+        REPORT_TYPE_VALID("10"),
+        REPORT_TYPE_INVALID("XX");
+        
+        private String reportType;
+        
+        private EffortCertificationReportType(String reportType) {
+            this.reportType = reportType;
+        }
+        
+        public String getReportType() {
+            return this.reportType;
+        }
+        
+    }
+    
     public static final String REPORT_NUMBER = "A01";
     
     

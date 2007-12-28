@@ -31,8 +31,6 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.service.OptionsService;
-import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -43,6 +41,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rules.LedgerBalanceFieldValidator;
 import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportService;
@@ -166,11 +165,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return the employees who were paid based on a set of specified pay type within the given report periods
      */
     private List<String> findEmployeesWithValidPayType(EffortCertificationReportDefinition reportDefinition) {
-        Map<String, Set<String>> earnCodePayGroupMap = this.findReportEarnPayMap(reportDefinition);
+        Map<String, Set<String>> earnCodePayGroups = this.findReportEarnCodePayGroups(reportDefinition);
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
-        return laborEffortCertificationService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroupMap);
+        return laborEffortCertificationService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroups);
     }
 
     /**
@@ -195,7 +194,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         for (String emplid : employees) {
             Collection<LedgerBalance> qualifiedLedgerBalance;
-            qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, parameters, reportDataHolder);
+            qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
             if (qualifiedLedgerBalance == null || qualifiedLedgerBalance.isEmpty()) {
                 continue;
@@ -237,11 +236,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param positionGroupCodes the specified position group codes
      * @param reportDefinition the specified report definition
      * @param parameters the system paramters setup in front
+     * @param reportDataHolder the given holder that contains any information to be written into the working report
      * @return the qualified labor ledger balance records of the given employee
      */
-    private Collection<LedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters, ExtractProcessReportDataHolder reportDataHolder) {
+    private Collection<LedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
+        // select ledger balances by the given employee and other criteria
         Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, ledgerBalances.size());
 
@@ -249,42 +251,24 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_SELECTED, ledgerBalances.size());
 
-        // consolidate the selected ledger balances
-        Collection<LedgerBalance> qualifiedLedgerBalances = this.getCosolidatedLedgerBalances(ledgerBalances, reportDefinition);
+        // consolidate the pre-qualified ledger balances
+        Collection<LedgerBalance> consolidatedLedgerBalances = this.cosolidateLedgerBalances(ledgerBalances, reportDefinition);
 
-        // the total amount of all balances must be positive; otherwise, not to generate effort report for the employee
-        boolean isPositiveTotalAmount = this.isPositiveTotalAmount(qualifiedLedgerBalances, reportDefinition);
-        if (!isPositiveTotalAmount) {
-            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, emplid);
-            return null;
-        }
-
-        // the specified employee must have at least one grant account
-        boolean hasGrantAccount = this.hasGrantAccount(qualifiedLedgerBalances, parameters);
-        if (!hasGrantAccount) {
-            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, emplid);
-            return null;
-        }
-
-        // check if there is at least one account funded by federal grants when an effort report can only be generated for an
-        // employee with pay by federal grant
-        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
-        if (isFederalFundsOnly) {
-            boolean hasFederalFunds = this.hasFederalFunds(qualifiedLedgerBalances, parameters);
-            if (!hasFederalFunds) {
-                this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, emplid);
-                return null;
-            }
-        }
-
+        // check the employee according to the pre-qualified ledger balances
+        boolean isQualifiedEmployee = this.checkEmployeeBasedOnLedgerBalances(emplid, consolidatedLedgerBalances, reportDefinition, reportDataHolder, parameters);
+        
+        // abort all ledger balances if the employee is not qualified; otherwise, adopt the consolidated balances
+        Collection<LedgerBalance> qualifiedLedgerBalances = isQualifiedEmployee ? consolidatedLedgerBalances : null;
+        
         return qualifiedLedgerBalances;
     }
 
     /**
-     * remove the ledger balances without valid account, higher education function code, and total amount
+     * remove the ledger balances without valid account, higher education function code, and nonzero total amount
      * 
      * @param ledgerBalances the given ledger balances
      * @param reportDefinition the given report definition
+     * @param reportDataHolder the given holder that contains any information to be written into the working report
      */
     private void removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
@@ -292,32 +276,72 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
-            KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(balance, reportPeriods);
-            if (totalAmount.isZero()) {
-                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, null);
+            String errorMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods).getMessage();
 
-                ledgerBalances.remove(balance);
-                continue;
+            // every balance record must be associated with a valid account
+            if (StringUtils.isEmpty(errorMessage)) {
+                errorMessage = LedgerBalanceFieldValidator.hasValidAccount(balance).getMessage();
             }
 
-            // every balance record must have valid high education function code
-            if (balance.getAccount() == null) {
-                String account = new StringBuilder(balance.getChartOfAccountsCode()).append(EffortConstants.VALUE_SEPARATOR).append(balance.getAccountNumber()).toString();
-                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
-
-                ledgerBalances.remove(balance);
-                continue;
+            // the account of every balance record must have valid high education function code
+            if (StringUtils.isEmpty(errorMessage)) {
+                errorMessage = LedgerBalanceFieldValidator.hasHigherEdFunction(balance).getMessage();
             }
 
-            // every balance record must have valid high education function code
-            if (balance.getAccount().getFinancialHigherEdFunction() == null) {
-                String account = balance.getAccountNumber();
-                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, EffortKeyConstants.ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND, account);
-
+            // remove the unqualified ledger balance from the list and report the error
+            if (StringUtils.isNotEmpty(errorMessage)) {
+                this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, errorMessage);
                 ledgerBalances.remove(balance);
-                continue;
             }
         }
+    }
+
+    /**
+     * check all ledger balances of the given employee and see if they can meet certain requiremnets. If not, the employee would be
+     * unqualified for effort reporting
+     * 
+     * @param emplid the given employee id
+     * @param ledgerBalances the all pre-qualified ledger balances of the employee
+     * @param reportDefinition the specified report definition
+     * @param reportDataHolder the given holder that contains any information to be written into the working report
+     * @param parameters the system paramters setup in front
+     * @return true if all ledger balances as whole meet requirements; otherwise, return false
+     */
+    private boolean checkEmployeeBasedOnLedgerBalances(String emplid, Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
+        List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
+
+        // the total amount of all balances must be positive; otherwise, not to generate effort report for the employee
+        String nonpositiveTotalError = LedgerBalanceFieldValidator.isTotalAmountPositive(ledgerBalances, reportPeriods).getMessage();
+        if (StringUtils.isNotEmpty(nonpositiveTotalError)) {
+            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, nonpositiveTotalError, emplid);
+            return false;
+        }
+
+        // the specified employee must have at least one grant account
+        boolean fundGroupDenotesCGIndictor = Boolean.parseBoolean(parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND).get(0));
+        List<String> fundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
+
+        String grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, fundGroupDenotesCGIndictor, fundGroupCodes).getMessage();
+        if (StringUtils.isNotEmpty(grantAccountNotFoundError)) {
+            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, grantAccountNotFoundError, emplid);
+            return false;
+        }
+
+        // check if there is at least one account funded by federal grants when an effort report can only be generated for an
+        // employee with pay by federal grant
+        boolean isFederalFundsOnly = Boolean.parseBoolean(parameters.get(SystemParameters.FEDERAL_ONLY_BALANCE_IND).get(0));
+        if (isFederalFundsOnly) {
+            List<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
+
+            String federalFundsNotFoundError = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes).getMessage();
+            if (StringUtils.isNotEmpty(federalFundsNotFoundError)) {
+                this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, federalFundsNotFoundError, emplid);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -352,26 +376,26 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the earn code and pay group combination for the specified report definition as a Map
      */
-    private Map<String, Set<String>> findReportEarnPayMap(EffortCertificationReportDefinition reportDefinition) {
+    private Map<String, Set<String>> findReportEarnCodePayGroups(EffortCertificationReportDefinition reportDefinition) {
         Collection<EffortCertificationReportEarnPaygroup> reportEarnPay = this.findReportEarnPay(reportDefinition);
-        Map<String, Set<String>> earnCodePayGroupMap = new HashMap<String, Set<String>>();
+        Map<String, Set<String>> earnCodePayGroups = new HashMap<String, Set<String>>();
 
         for (EffortCertificationReportEarnPaygroup earnPay : reportEarnPay) {
             String payGroup = earnPay.getPayGroup();
             String earnCode = earnPay.getEarnCode();
 
-            if (earnCodePayGroupMap.containsKey(payGroup)) {
-                Set<String> earnCodeSet = earnCodePayGroupMap.get(payGroup);
+            if (earnCodePayGroups.containsKey(payGroup)) {
+                Set<String> earnCodeSet = earnCodePayGroups.get(payGroup);
                 earnCodeSet.add(earnCode);
             }
             else {
                 Set<String> earnCodeSet = new HashSet<String>();
                 earnCodeSet.add(earnCode);
-                earnCodePayGroupMap.put(payGroup, earnCodeSet);
+                earnCodePayGroups.put(payGroup, earnCodeSet);
             }
         }
 
-        return earnCodePayGroupMap;
+        return earnCodePayGroups;
     }
 
     /**
@@ -395,7 +419,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return a collection of ledger balances if they are qualified; otherwise, return null
      */
-    private Collection<LedgerBalance> getCosolidatedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
+    private Collection<LedgerBalance> cosolidateLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
         Collection<LedgerBalance> cosolidatedLedgerBalances = new ArrayList<LedgerBalance>();
 
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
@@ -415,79 +439,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * determine if the total amount of the given balance is greater than ZERO
-     * 
-     * @param ledgerBalances the given labor ledger balances
-     * @param reportDefinition the specified report definition
-     * @return true if the total amount is greater than ZERO; otherwise, return false
-     */
-    private boolean isPositiveTotalAmount(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
-        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
-
-        return totalAmount.isPositive();
-    }
-
-    /**
-     * detemine whether there is at least one grant account in the given labor ledger balances
-     * 
-     * @param ledgerBalances the given labor ledger balances
-     * @param parameters the system paramters setup in front
-     * @return true if there is at least one grant account; otherwise, return false
-     */
-    private boolean hasGrantAccount(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
-        List<String> fundGroupDenotesCGIndictor = parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND);
-        List<String> fundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
-        List<String> subFundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
-
-        for (LedgerBalance balance : ledgerBalances) {
-            SubFundGroup subFundGroup = balance.getAccount().getSubFundGroup();
-            if (subFundGroup == null) {
-                continue;
-            }
-
-            boolean isfundGroupChecked = Boolean.parseBoolean(fundGroupDenotesCGIndictor.get(0));
-            if (isfundGroupChecked && fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
-                return true;
-            }
-
-            boolean isSubFundGroupChecked = !isfundGroupChecked;
-            if (isSubFundGroupChecked && subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * determine whether there is at least one account with federal funding
-     * 
-     * @param the given labor ledger balances
-     * @param parameters the system paramters setup in front
-     * @return true if there is at least one account with federal funding; otherwise, false
-     */
-    private boolean hasFederalFunds(Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
-        List<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
-
-        for (LedgerBalance balance : ledgerBalances) {
-            List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
-
-            for (AwardAccount awardAccount : awardAccountList) {
-                String agencyTypeCode = awardAccount.getAward().getAgency().getAgencyTypeCode();
-                if (federalAgencyTypeCodes.contains(agencyTypeCode)) {
-                    return true;
-                }
-
-                if (awardAccount.getAward().getFederalPassThroughIndicator()) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    /**
      * find a report definition by the primary key. The primary key is provided by the given field values.
      * 
      * @param fieldValues the given field values containing the primary key of a report definition
@@ -498,16 +449,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, String messageKey, String invalidValue) {
-        String errorMessage = MessageBuilder.buildErrorMessage(messageKey, invalidValue).getMessage();
-        ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, errorMessage));
+    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, String message) {
+        ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, message));
     }
 
     // add an error entry into error map
-    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, String messageKey, String emplid) {
+    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, String message, String emplid) {
         LedgerBalance ledgerBalance = new LedgerBalance();
         ledgerBalance.setEmplid(emplid);
-        this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, messageKey, emplid);
+        this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }
 
     // store and cache relating system parameters in a Map for the future use

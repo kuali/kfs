@@ -46,6 +46,10 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         getPersistenceBrokerTemplate().delete(reportDefinition);
     }
     
+    /**
+     * 
+     * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getOverlappingReportDefinitions(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
     public List<EffortCertificationReportDefinition> getOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo("effortCertificationReportTypeCode", effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
@@ -65,12 +69,19 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         return overlappingReportDefinitions;
     }
 
+    /**
+     * 
+     * compares oldRecord and newRecord to see if they are overlapping (dates and periods).
+     * @param oldRecord
+     * @param newRecord
+     * @return boolean representing whether or not the two report defintions overlap.
+     */
     private boolean isOverlapping(EffortCertificationReportDefinition oldRecord, EffortCertificationReportDefinition newRecord) {
         //check if old record has null values (and therefore is not overlapping) - this check is required because prerules run before framework null checks happen
         if (oldRecord.getEffortCertificationReportBeginFiscalYear() == null || 
             oldRecord.getEffortCertificationReportEndFiscalYear() ==  null || 
             oldRecord.getEffortCertificationReportBeginPeriodCode() ==  null ||
-            newRecord.getEffortCertificationReportEndPeriodCode() == null) return false;
+            oldRecord.getEffortCertificationReportEndPeriodCode() == null) return false;
         
         //format non-numeric period codes
         Integer newStartPeriod = Integer.parseInt(newRecord.getEffortCertificationReportBeginPeriodCode());

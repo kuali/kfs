@@ -25,6 +25,9 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.EffortCertificationReportDefinitionFixture;
 
+/**
+ * Contains methods that test the EffortCertificationAutomaticReportPeriodUpdateService.
+ */
 @ConfigureContext
 public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends KualiTestBase {
     

@@ -19,6 +19,9 @@ import org.kuali.module.effort.EffortCertificationTestConstants;
 import org.kuali.module.effort.EffortCertificationTestConstants.EffortCertificationFiscalPeriod;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
+/**
+ * Encapsulates test data for EffortCertificationAutomaticReportPeriodUpdateServiceTest
+ */
 public enum EffortCertificationReportDefinitionFixture {
     
     CONTROL_1(2008, 2008, 
@@ -95,6 +98,14 @@ public enum EffortCertificationReportDefinitionFixture {
     private String startPeriod;
     private String endPeriod;
     
+    /**
+     * 
+     * Constructs a EffortCertificationReportDefinitionFixture.java.
+     * @param startDate
+     * @param endDate
+     * @param startPeriod
+     * @param endPeriod
+     */
     private EffortCertificationReportDefinitionFixture(Integer startDate, Integer endDate, EffortCertificationFiscalPeriod startPeriod, EffortCertificationFiscalPeriod endPeriod) {
         this.startDate = startDate;
         this.endDate = endDate;
@@ -102,6 +113,11 @@ public enum EffortCertificationReportDefinitionFixture {
         this.startPeriod = startPeriod.getFiscalPeriod();
     }
     
+    /**
+     * 
+     * Creates EffortCertificationReportDefinitions based on the criteria of a particular enum.
+     * @return EffortCertificationReportDefinition
+     */
     public EffortCertificationReportDefinition createEffortCertificationReportDefinition() {
         EffortCertificationReportDefinition report = new EffortCertificationReportDefinition();
         

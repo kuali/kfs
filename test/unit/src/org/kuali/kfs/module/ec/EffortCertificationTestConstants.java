@@ -17,6 +17,9 @@ package org.kuali.module.effort;
 
 public class EffortCertificationTestConstants {
     
+    /**
+     * Contains fiscal period values used in Effort Certification junit tests
+     */
     public enum EffortCertificationFiscalPeriod {
         ONE("01"), 
         TWO("02"), 
@@ -42,6 +45,10 @@ public class EffortCertificationTestConstants {
         }
     }
     
+    /**
+     * 
+     * contains university fiscal year values used in Effort Certification junit tests
+     */
     public enum EffortCertificationUniversityFiscalYear {
         YEAR_1990(1990),
         YEAR_1999(1999),
@@ -59,6 +66,10 @@ public class EffortCertificationTestConstants {
         
     }
     
+    /**
+     * 
+     * contains effort certification report type values that are used in effort certification junit tests
+     */
     public enum EffortCertificationReportType {
         REPORT_TYPE_VALID("10"),
         REPORT_TYPE_INVALID("XX");
@@ -75,6 +86,9 @@ public class EffortCertificationTestConstants {
         
     }
     
+    /**
+     * valid report number for effort certification junit tests
+     */
     public static final String REPORT_NUMBER = "A01";
     
     

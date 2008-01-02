@@ -47,11 +47,11 @@ public class AccountingPeriodMonthTest extends TestCase {
         assertFalse(AccountingPeriodMonth.MONTH1.compareTo(month6) == 0);
         assertFalse(AccountingPeriodMonth.MONTH12.compareTo(month6) == 0);
 
-        AccountingPeriodMonth month13 = AccountingPeriodMonth.findAccountingPeriod("13");
-        assertNull(month13);
-
-        AccountingPeriodMonth unknownMonth = AccountingPeriodMonth.findAccountingPeriod("UN");
+        AccountingPeriodMonth unknownMonth = AccountingPeriodMonth.findAccountingPeriod("UNKNOWN");
         assertNull(unknownMonth);
+        
+        AccountingPeriodMonth emptyMonth = AccountingPeriodMonth.findAccountingPeriod("");
+        assertNull(emptyMonth);
     }
 
     /**

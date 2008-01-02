@@ -30,7 +30,7 @@
 </td>
 <td class="content" valign="top">
       <maintenanceChannel:vendor />
-      <maintenanceChannel:purchasingAccountsReceivable />
       <maintenanceChannel:purchasingAccountsPayable />
+      <maintenanceChannel:purchasingAccountsReceivable />
       <maintenanceChannel:preDisbursementProcessor />
 </td>

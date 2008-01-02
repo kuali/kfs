@@ -131,6 +131,4 @@ public class PayrollAmountHolder {
     public void setAccumulatedPercent(Integer accumulatedPercent) {
         this.accumulatedPercent = accumulatedPercent;
     }
-
-
 }

@@ -47,7 +47,16 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
         criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND, true);
-
+        
+        Criteria subCriteria = new Criteria();
+        Criteria subCriteriaReportNumber = new Criteria();
+        
+        subCriteria.addNotEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION_UNIVERSITY_FISCAL_YEAR, effortCertificationReportDefinition.getUniversityFiscalYear());
+        subCriteriaReportNumber.addNotEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, effortCertificationReportDefinition.getEffortCertificationReportNumber());
+        
+        subCriteria.addOrCriteria(subCriteriaReportNumber);
+        criteria.addAndCriteria(subCriteria);
+        
         Collection col = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
 
         Iterator i = col.iterator();
@@ -55,10 +64,7 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
 
         while (i.hasNext()) {
             EffortCertificationReportDefinition temp = (EffortCertificationReportDefinition) i.next();
-            // do not include the old version of the object (the one that's being updated)
-            if (!(temp.getEffortCertificationReportNumber().equals(effortCertificationReportDefinition.getEffortCertificationReportNumber()) && temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear()))) {
-                overlappingReportDefinitions.add(temp);
-            }
+            overlappingReportDefinitions.add(temp);
         }
 
         return overlappingReportDefinitions;

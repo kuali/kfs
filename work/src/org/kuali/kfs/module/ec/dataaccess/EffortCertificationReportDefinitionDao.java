@@ -27,11 +27,11 @@ public interface EffortCertificationReportDefinitionDao {
     
     /**
      * 
-     * Finds the effort certification report definitions that overlap this effortCertificationReportDefinition
+     * Finds all effort certification report definitions that have the same report type code and are active, which means they may potential overlap this report definition
      * @param effortCertificationReportDefinition
      * @return
      */
-    public List<EffortCertificationReportDefinition> getOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition);
+    public List<EffortCertificationReportDefinition> getPotentialOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition);
     
     /**
      * retrieves all EffortCertificationReportDefinition records

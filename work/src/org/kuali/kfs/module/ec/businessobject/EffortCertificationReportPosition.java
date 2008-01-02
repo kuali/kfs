@@ -14,7 +14,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private String effortCertificationReportNumber;
     private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
-    
+
     private PositionObjectGroup positionObjectGroup;
 
     /**
@@ -23,9 +23,10 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     public EffortCertificationReportPosition() {
 
     }
-    
+
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -34,6 +35,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -41,7 +43,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * Gets the effortCertificationReportNumber attribute. 
+     * Gets the effortCertificationReportNumber attribute.
+     * 
      * @return Returns the effortCertificationReportNumber.
      */
     public String getEffortCertificationReportNumber() {
@@ -50,6 +53,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
 
     /**
      * Sets the effortCertificationReportNumber attribute value.
+     * 
      * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
     public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
@@ -57,7 +61,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * Gets the effortCertificationReportPositionObjectGroupCode attribute. 
+     * Gets the effortCertificationReportPositionObjectGroupCode attribute.
+     * 
      * @return Returns the effortCertificationReportPositionObjectGroupCode.
      */
     public String getEffortCertificationReportPositionObjectGroupCode() {
@@ -66,6 +71,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
 
     /**
      * Sets the effortCertificationReportPositionObjectGroupCode attribute value.
+     * 
      * @param effortCertificationReportPositionObjectGroupCode The effortCertificationReportPositionObjectGroupCode to set.
      */
     public void setEffortCertificationReportPositionObjectGroupCode(String effortCertificationReportPositionObjectGroupCode) {
@@ -73,7 +79,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * Gets the active attribute. 
+     * Gets the active attribute.
+     * 
      * @return Returns the active.
      */
     public boolean isActive() {
@@ -82,6 +89,7 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
 
     /**
      * Sets the active attribute value.
+     * 
      * @param active The active to set.
      */
     public void setActive(boolean active) {
@@ -89,8 +97,8 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * 
      * gets the positionObjetGroup
+     * 
      * @return
      */
     public PositionObjectGroup getPositionObjectGroup() {
@@ -98,15 +106,15 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     }
 
     /**
-     * sets the positionObjectGroup
-     * This method...
+     * sets the positionObjectGroup This method...
+     * 
      * @param positionObjectGroup
      */
     @Deprecated
     public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

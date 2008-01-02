@@ -39,7 +39,7 @@ public class EffortPropertyConstants {
     public final static String EFFORT_CERTIFICATION_REPORT_TYPE_CODE = "effortCertificationReportTypeCode";
     public final static String EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND = "active";
     public final static String EFFORT_CERTIFICATION_REPORT_DEFINITION_UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
-    
+
     public final static String LABOR_OBJECT_FRINGE_OR_SALARY_CODE = LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE;
     public final static String ACCOUNT_ACCOUNT_TYPE_CODE = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE;
 }

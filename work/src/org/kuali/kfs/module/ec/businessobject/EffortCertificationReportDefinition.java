@@ -60,7 +60,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     private EffortCertificationPeriodStatusCode effortCertificationPeriodStatusCode;
     private EffortCertificationReportType effortCertificationReportType;
     private Collection<EffortCertificationReportPosition> effortCertificationReportPositions;
-    
+
     private Map<Integer, Set<String>> reportPeriods;
 
     /**
@@ -305,7 +305,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setExpenseTransferFiscalPeriod(AccountingPeriod expenseTransferFiscalPeriod) {
         this.expenseTransferFiscalPeriod = expenseTransferFiscalPeriod;
     }
-    
+
     /**
      * gets expenseTrasferYear
      * @return
@@ -321,8 +321,8 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     @Deprecated
     public void setExpenseTransferYear(Options expenseTransferYear) {
         this.expenseTransferYear = expenseTransferYear;
-    } 
-    
+    }
+
     /**
      * 
      * gets reportBeginFiscalYear attribute value
@@ -331,7 +331,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public Options getReportBeginFiscalYear() {
         return reportBeginFiscalYear;
     }
-    
+
     /**
      * 
      * sets the reportBeginFiscalYear attribute
@@ -341,7 +341,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setReportBeginFiscalYear(Options reportBeginFiscalYear) {
         this.reportBeginFiscalYear = reportBeginFiscalYear;
     }
-    
+
     /**
      * 
      * gets reportEndFiscalYear attribute
@@ -350,7 +350,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public Options getReportEndFiscalYear() {
         return reportEndFiscalYear;
     }
-    
+
     /**
      * 
      * sets reportEndFiscalYear attribute
@@ -360,7 +360,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setReportEndFiscalYear(Options reportEndFiscalYear) {
         this.reportEndFiscalYear = reportEndFiscalYear;
     }
-    
+
     /**
      * 
      * gets reportBeginPeriod
@@ -396,7 +396,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
     public void setReportEndPeriod(AccountingPeriod reportEndPeriod) {
         this.reportEndPeriod = reportEndPeriod;
     }
-    
+
     /**
      * Gets the effortCertificationPeriodStatusCode attribute.
      * 
@@ -531,7 +531,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
         String beginPeriodCode = this.getEffortCertificationReportBeginPeriodCode();
         Integer endYear = this.getEffortCertificationReportEndFiscalYear();
         String endPeriodCode = this.getEffortCertificationReportEndPeriodCode();
-        
+
         this.setReportPeriods(AccountingPeriodMonth.findAccountingPeriodsBetween(beginYear, beginPeriodCode, endYear, endPeriodCode));
     }
 
@@ -540,7 +540,7 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      * @return Returns the reportPeriods.
      */
     public Map<Integer, Set<String>> getReportPeriods() {
-        if(reportPeriods == null) {
+        if (reportPeriods == null) {
             this.buildReportPeriods();
         }
         return reportPeriods;
@@ -552,5 +552,5 @@ public class EffortCertificationReportDefinition extends PersistableBusinessObje
      */
     public void setReportPeriods(Map<Integer, Set<String>> reportPeriods) {
         this.reportPeriods = reportPeriods;
-    } 
+    }
 }

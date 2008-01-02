@@ -23,11 +23,39 @@ import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 import org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * @see org.rg.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService
+ */
 @Transactional
 public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implements EffortCertificationAutomaticReportPeriodUpdateService {
-    
+
     private EffortCertificationReportDefinitionDao reportDefinitionDao;
-   
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
+     */
+    public List<EffortCertificationReportDefinition> getAllReportDefinitions() {
+        return this.reportDefinitionDao.getAll();
+    }
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     */
+    public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
+        List<EffortCertificationReportDefinition> potentialOverlappingRecords = reportDefinitionDao.getAllOtherActiveByType(reportDefinition);
+        List<EffortCertificationReportDefinition> overlappingRecords = new ArrayList();
+
+        for (EffortCertificationReportDefinition potentialOverlappingRecord : potentialOverlappingRecords) {
+            if (isOverlapping(potentialOverlappingRecord, reportDefinition))
+                overlappingRecords.add(potentialOverlappingRecord);
+        }
+
+        if (!overlappingRecords.isEmpty())
+            return true;
+
+        return false;
+    }
+
     /**
      * get's spring managed effortCertificationReportDefinitionDao
      * @return
@@ -43,30 +71,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
     public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao) {
         this.reportDefinitionDao = effortCertificationReportDefinitionDao;
     }
-    
-    /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#getAllReportDefinitions()
-     */
-    public List<EffortCertificationReportDefinition> getAllReportDefinitions() {
-        return this.reportDefinitionDao.getAll();
-    }
-    
-    /**
-     * @see org.kuali.module.effort.service.EffortCertificationAutomaticReportPeriodUpdateService#isAnOverlappingReportDefinition(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
-     */
-    public boolean isAnOverlappingReportDefinition(EffortCertificationReportDefinition reportDefinition) {
-        List<EffortCertificationReportDefinition> potentialOverlappingRecords = reportDefinitionDao.getPotentialOverlappingReportDefinitions(reportDefinition);
-        List<EffortCertificationReportDefinition> overlappingRecords = new ArrayList();
-        
-        for (EffortCertificationReportDefinition potentialOverlappingRecord : potentialOverlappingRecords) {
-            if ( isOverlapping(potentialOverlappingRecord, reportDefinition) ) overlappingRecords.add(potentialOverlappingRecord);
-        }
-        
-        if ( !overlappingRecords.isEmpty() ) return true;
-        
-        return false;
-    }
-    
+
     /**
      * Compares existingRecord and newRecord to see if they are overlapping (dates and periods).
      * In order to find out if the definitions overlap, the method first checks if the start and/or end dates of the new record and the existing records are equal. This is the easiest way to find and compare boundry cases.
@@ -125,7 +130,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
                 // reports overlap by more than one period
                 return true;
             }
-            else if (existingStartYear.equals(existingEndYear)) { 
+            else if (existingStartYear.equals(existingEndYear)) {
                 // old record starts and ends in same year
                 // if old record spans more than one period, then records overlap more than one period
                 if ((existingEndPeriod - existingStartPeriod) > 1) {
@@ -133,7 +138,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
                     return true;
                 }
             }
-            else { 
+            else {
                 // new record starts and ends in same year
                 // if new record spans more than one period, then records overlap more than one period
                 if ((newEndPeriod - newStartPeriod) > 1) {
@@ -174,8 +179,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
                     return true;
             }
         }
-        
+
         return false;
     }
-    
 }

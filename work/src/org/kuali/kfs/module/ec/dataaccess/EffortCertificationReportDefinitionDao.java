@@ -21,20 +21,20 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
 /**
  * Provides interface for data operations on the EffortCertificationReportDefinition table
- * 
  */
 public interface EffortCertificationReportDefinitionDao {
-    
+
     /**
+     * Finds all effort certification report definitions that have the same report type code and are active (excluding the current record)
      * 
-     * Finds all effort certification report definitions that have the same report type code and are active, which means they may potential overlap this report definition
      * @param effortCertificationReportDefinition
      * @return
      */
-    public List<EffortCertificationReportDefinition> getPotentialOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition);
-    
+    public List<EffortCertificationReportDefinition> getAllOtherActiveByType(EffortCertificationReportDefinition effortCertificationReportDefinition);
+
     /**
      * retrieves all EffortCertificationReportDefinition records
+     * 
      * @return list of EffortCertificationReportDefinition records
      */
     public List<EffortCertificationReportDefinition> getAll();

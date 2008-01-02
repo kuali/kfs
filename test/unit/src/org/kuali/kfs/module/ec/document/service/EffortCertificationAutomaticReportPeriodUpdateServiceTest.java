@@ -185,7 +185,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends K
 
         assertFalse("report definition 'test' is not expected to overlap with report definintion 'control' because they do not have the same report type", reportDefinitionService.isAnOverlappingReportDefinition(test));
     }
-    
+
     /**
      * 
      * Tests that the same record is not included in the list of overlapping records (when a record is being updated). Service method should return false

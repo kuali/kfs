@@ -37,19 +37,17 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
         EffortCertificationReportDefinition effortCertificationReport = (EffortCertificationReportDefinition) arg0.getNewMaintainableObject().getBusinessObject();
         Integer beginPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode());
         Integer endPeriodCode = Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode());
-        
-        if (!GlobalVariables.getErrorMap().isEmpty()) return false;
-        
+
+        if (!GlobalVariables.getErrorMap().isEmpty())
+            return false;
+
         // report begin fiscal year must be less than report end fiscal year
-        //TODO: handle non-numeric fiscal periods
-        if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() > effortCertificationReport.getEffortCertificationReportEndFiscalYear() ||
-                (effortCertificationReport.getEffortCertificationReportBeginFiscalYear().equals(effortCertificationReport.getEffortCertificationReportEndFiscalYear()) &&
-                 Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()) )    ) {
+        if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() > effortCertificationReport.getEffortCertificationReportEndFiscalYear() || (effortCertificationReport.getEffortCertificationReportBeginFiscalYear().equals(effortCertificationReport.getEffortCertificationReportEndFiscalYear()) && Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()))) {
             ErrorMap errors = GlobalVariables.getErrorMap();
             errors.putError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
             isValid = false;
         }
-        
+
         return isValid;
     }
 

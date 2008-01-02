@@ -37,19 +37,17 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
     @Override
     public boolean doRules(Document arg0) {
         boolean preRulesFlag = true;
-        EffortCertificationReportDefinition reportDefinition = (EffortCertificationReportDefinition) ((MaintenanceDocument)arg0).getNewMaintainableObject().getBusinessObject();
-        
+        EffortCertificationReportDefinition reportDefinition = (EffortCertificationReportDefinition) ((MaintenanceDocument) arg0).getNewMaintainableObject().getBusinessObject();
+
         //if any of these required fields is null, do not check rule - allow framework to do required fields validations first
-        if (reportDefinition.getEffortCertificationReportBeginFiscalYear() == null ||
-                reportDefinition.getEffortCertificationReportBeginPeriodCode() == null ||
-                reportDefinition.getEffortCertificationReportEndFiscalYear() == null ||
-                reportDefinition.getEffortCertificationReportEndPeriodCode() == null ) return true;
-        
+        if (reportDefinition.getEffortCertificationReportBeginFiscalYear() == null || reportDefinition.getEffortCertificationReportBeginPeriodCode() == null || reportDefinition.getEffortCertificationReportEndFiscalYear() == null || reportDefinition.getEffortCertificationReportEndPeriodCode() == null)
+            return true;
+
         preRulesFlag = checkOverlappingReportPeriods(reportDefinition);
-        
+
         return preRulesFlag;
     }
-    
+
     /**
      * 
      * Checks for exisiting report definitions whoose periods overlap this report definition and warns the user.
@@ -68,7 +66,7 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
                 return false;
             }
         }
-        
+
         return true;
     }
 

@@ -15,6 +15,9 @@
  */
 package org.kuali.module.effort;
 
+/**
+ * Contains constants that are used in effort certification test cases
+ */
 public class EffortCertificationTestConstants {
 
     /**
@@ -35,7 +38,6 @@ public class EffortCertificationTestConstants {
     }
 
     /**
-     * 
      * contains university fiscal year values used in Effort Certification junit tests
      */
     public enum EffortCertificationUniversityFiscalYear {
@@ -53,7 +55,6 @@ public class EffortCertificationTestConstants {
     }
 
     /**
-     * 
      * contains effort certification report type values that are used in effort certification junit tests
      */
     public enum EffortCertificationReportType {

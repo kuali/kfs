@@ -48,8 +48,8 @@ public enum EffortCertificationReportDefinitionFixture {
     private String endPeriod;
 
     /**
-     * 
      * Constructs a EffortCertificationReportDefinitionFixture.java.
+     * 
      * @param startDate
      * @param endDate
      * @param startPeriod
@@ -63,8 +63,8 @@ public enum EffortCertificationReportDefinitionFixture {
     }
 
     /**
-     * 
      * Creates EffortCertificationReportDefinitions based on the criteria of a particular enum.
+     * 
      * @return EffortCertificationReportDefinition
      */
     public EffortCertificationReportDefinition createEffortCertificationReportDefinition() {

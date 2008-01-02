@@ -27,6 +27,9 @@ import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 
+/**
+ * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao
+ */
 public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoBaseOjb implements EffortCertificationReportDefinitionDao {
 
     /**
@@ -36,29 +39,29 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
     public List<EffortCertificationReportDefinition> getAll() {
         return (List<EffortCertificationReportDefinition>) getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, new Criteria()));
     }
-    
+
     /**
      * @see org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao#getOverlappingReportDefinitions(org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */
-    public List<EffortCertificationReportDefinition> getPotentialOverlappingReportDefinitions(EffortCertificationReportDefinition effortCertificationReportDefinition) {
+    public List<EffortCertificationReportDefinition> getAllOtherActiveByType(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
         criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND, true);
-        
+
         Collection col = getPersistenceBrokerTemplate().getCollectionByQuery(QueryFactory.newQuery(EffortCertificationReportDefinition.class, criteria));
-        
+
         Iterator i = col.iterator();
         List<EffortCertificationReportDefinition> overlappingReportDefinitions = new ArrayList();
-        
+
         while (i.hasNext()) {
             EffortCertificationReportDefinition temp = (EffortCertificationReportDefinition) i.next();
             // do not include the old version of the object (the one that's being updated)
-            if (!(temp.getEffortCertificationReportNumber().equals(effortCertificationReportDefinition.getEffortCertificationReportNumber()) && temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear())) ) {
+            if (!(temp.getEffortCertificationReportNumber().equals(effortCertificationReportDefinition.getEffortCertificationReportNumber()) && temp.getUniversityFiscalYear().equals(effortCertificationReportDefinition.getUniversityFiscalYear()))) {
                 overlappingReportDefinitions.add(temp);
             }
         }
-        
+
         return overlappingReportDefinitions;
     }
-    
+
 }

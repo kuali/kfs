@@ -52,8 +52,8 @@ public class PurchaseOrderDocSearchGenerator extends PurApDocumentSearchGenerato
     @Override
     public List<String> getGeneralSearchUserRequiredFormFieldNames() {
         List<String> fieldNames = new ArrayList<String>();
-        fieldNames.add("purapDocumentChartOfAccountsCode");
-        fieldNames.add("purapDocumentOrganizationCode");
+        //fieldNames.add("purapDocumentChartOfAccountsCode");
+        //fieldNames.add("purapDocumentOrganizationCode");
         return fieldNames;
     }
 

@@ -44,7 +44,7 @@ public class PurchaseOrderVendorQuoteStatusCodeValuesFinder extends KeyValuesBas
         keyValues.add(new KeyLabelPair(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING));
         ArrayList<PurchaseOrderQuoteStatus> poQuoteStatuses = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderQuoteStatusCodes();
         for (PurchaseOrderQuoteStatus status : poQuoteStatuses) {
-            keyValues.add(new KeyLabelPair(status.getPurchaseOrderQuoteStatusCode(), status.getPurchaseOrderQuoteStatusDescription()));
+            keyValues.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
         }
         return keyValues;
     }

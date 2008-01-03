@@ -26,7 +26,6 @@
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="statusCode" />
                 <field attributeName="statusDescription" />
-                <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -44,13 +43,11 @@
             <lookupFields>
                 <lookupField attributeName="statusCode" required="false" />
                 <lookupField attributeName="statusDescription" required="false" />
-                <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="statusCode" />
                 <field attributeName="statusDescription" />
-                <field attributeName="active" />
             </resultFields>
         </lookup>
 
@@ -84,8 +81,6 @@
 
 			</attribute>
 			
-			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
-
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

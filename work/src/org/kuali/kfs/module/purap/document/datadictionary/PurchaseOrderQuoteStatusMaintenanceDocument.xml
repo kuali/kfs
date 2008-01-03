@@ -47,7 +47,7 @@
                 <maintainableItems>
                     <maintainableField name="purchaseOrderQuoteStatusCode" required="true" />
                 	<maintainableField name="purchaseOrderQuoteStatusDescription" required="true" />
-                	<maintainableField name="active" readOnly="true" />
+                	<maintainableField name="active"/>
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

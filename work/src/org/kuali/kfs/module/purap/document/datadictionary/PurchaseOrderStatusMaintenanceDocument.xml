@@ -42,12 +42,13 @@
             <field attributeName="statusCode" />
         </lockingKeys>
 
+		<allowsNewOrCopy>false</allowsNewOrCopy>
+
         <maintainableSections>
             <maintainableSection title="Edit Purchase Order Status">
                 <maintainableItems>
                     <maintainableField name="statusCode" required="true" />
                     <maintainableField name="statusDescription" required="true" />
-                	<maintainableField name="active" readOnly="true" />
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

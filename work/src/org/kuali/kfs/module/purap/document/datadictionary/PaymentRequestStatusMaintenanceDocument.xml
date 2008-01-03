@@ -37,17 +37,18 @@
 
         <label>Payment Request Status</label>
         <help parameterNamespace="KFS-PA" parameterDetailType="PaymentRequestStatus" parameterName="PAYMENT_REQUEST_STATUS" />
-
+		
         <lockingKeys>
             <field attributeName="statusCode" />
         </lockingKeys>
-
+		
+		<allowsNewOrCopy>false</allowsNewOrCopy>
+		
         <maintainableSections>
             <maintainableSection title="Edit Payment Request Status">
                 <maintainableItems>
                     <maintainableField name="statusCode" required="true" />
                     <maintainableField name="statusDescription" required="true" />
-                    <maintainableField name="active" readOnly="true" />
                     <maintainableField name="versionNumber" />       
                 </maintainableItems>
             </maintainableSection>

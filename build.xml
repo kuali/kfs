@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <!--
  Copyright 2005-2007 The Kuali Foundation.
- 
+
  Licensed under the Educational Community License, Version 1.0 (the "License");
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
- 
+
  http://www.opensource.org/licenses/ecl1.php
- 
+
  Unless required by applicable law or agreed to in writing, software
  distributed under the License is distributed on an "AS IS" BASIS,
  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,15 +46,17 @@
 				<equals arg1="${use.p6spy}" arg2="true" />
 			</and>
 		</condition>
-		<condition property="driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
-		<condition property="driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
-		<property name="driver.class" value="${oracle.driver.class}" />
+		<condition property="datasource.driver.class" value="${p6spy.driver.class}"><equals arg1="${use.p6spy.local}" arg2="true"/></condition>
+		<condition property="datasource.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
+		<property name="datasource.driver.class" value="${oracle.driver.class}" />
 		<condition property="p6spy.real.driver.class" value="${mysql.driver.class}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="p6spy.real.driver.class" value="${oracle.driver.class}" />
 		<condition property="datasource.ojb.sequence.manager" value="${mysql.ojb.sequence.manager}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="datasource.ojb.sequence.manager" value="${oracle.ojb.sequence.manager}" />
 	    <condition property="rice.workflow.datasource.platform" value="${mysql.workflow.datasource.platform}"><equals arg1="${datasource.ojb.platform}" arg2="${mysql.ojb.platform}" /></condition>
 		<property name="rice.workflow.datasource.platform" value="${oracle.workflow.datasource.platform}" />
+		<property name="rice.workflow.datasource.url" value="${datasource.url}" />
+		<property name="rice.workflow.datasource.driver.class" value="${datasource.driver.class}" />
 		<condition property="appenders" value="INFO, LogFile, StdOut"><equals arg1="${is.local.build}" arg2="true" /></condition>
 		<property name="appenders" value="INFO, LogFile" />
 		<condition property="use.quartz.jdbc.jobstore" value="false"><equals arg1="${is.local.build}" arg2="true" /></condition>
@@ -173,7 +175,7 @@
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
-	
+
 	<target name="filter-local" if="is.local.build" depends="init-properties">
 		<copy todir="${appserver.lib.dir}" overwrite="true">
 			<fileset dir="${build.appserver.directory}" includes="*.jar" />
@@ -270,7 +272,7 @@
 		</copy>
 		<jar jarfile="${ant.project.name}-${build.environment}.war" basedir="${war.directory}" compress="false" />
 	</target>
-	
+
 	<target name="continuous-integration" depends="clean,make-tests,test">
 		<fail if="tests.failed" message="Tests failed" />
 	</target>
@@ -281,10 +283,10 @@
 			<classpath>
 				<pathelement location="${make-source.target.directory}" />
 				<path refid="compile.source.classpath" />
-			</classpath>		
+			</classpath>
 		</java>
 	</target>
-	
+
 	<target name="dist-plugin" depends="make-source" description="Generates a plugin for standalone KEW">
 		<copy todir="${plugin.classes.directory}">
 			<fileset dir="${make-source.target.directory}"/>
@@ -304,7 +306,7 @@
 		</copy>
 		<zip basedir="${plugin.directory}" destfile="en-plugins.zip"/>
 	</target>
-	
+
 	<target name="dist-standalone-kew-war" depends="make-source" description="Generates a WAR for running a standalone KEW server">
 		<copy todir="${build.standalone.directory}/WEB-INF/lib">
 			<fileset dir="${lib.directory}" includes="*.jar"/>
@@ -346,16 +348,16 @@
 			      build for your machine (you do not need to worry about the rice development section)
 			    - override other property values in ${user.home}/${ant.project.name}-build.properties as needed
 			    - save your changes
-			
+
 			2. run the echo-properties target and review the results
 
 			3. follow the instructions associated with the dist-local target and run that target
-						
+
 			4. right click on the root project directory and select "Refresh"
-			
+
 			5. click the "Run/Stop/Restart MyEclipse Application Servers" button in the "Java (default)" perspective in
 			eclipse to start tomcat
-			
+
 			6. launch a browser and access http://localhost:8080/kuali-dev
 
 	you can override the default log4j settings for your local deployments by copying
@@ -380,7 +382,7 @@
 			clean: removes all build output
 		</echo>
 	</target>
-	
+
 
 	<import file="build-foundation.xml"/>
 

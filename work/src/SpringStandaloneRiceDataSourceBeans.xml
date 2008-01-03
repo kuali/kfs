@@ -3,28 +3,27 @@
 <beans>
 	<bean id="dataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
 	  	<property name="uniqueResourceName" value="dataSource"/>
-		<property name="driverClassName" value="${dataSource.driverClassName}" />
-		<property name="url" value="${dataSource.url}" />
-		<property name="user" value="${dataSource.username}"/>
-		<property name="password" value="${dataSource.password}" />
-		<property name="poolSize" value="${dataSource.maxSize}"/>
-		<property name="connectionTimeout" value="${dataSource.maxWait}"/>
-		<property name="validatingQuery" value="${dataSource.validationQuery}"/>
+		<property name="driverClassName" value="${datasource.driver.class}"/>
+		<property name="url" value="${datasource.url}"/>
+		<property name="user" value="${datasource.username}"/>
+		<property name="password" value="${datasource.password}"/>
+		<property name="poolSize" value="${datasource.pool.size}"/>
+		<property name="connectionTimeout" value="${datasource.connection.timeout}"/>
+		<property name="validatingQuery" value="${datasource.validating.query}"/>
 		<property name="testOnBorrow" value="true"/>
 	</bean>
 
 	<bean id="kewDataSource" class="com.atomikos.jdbc.nonxa.NonXADataSourceBean">
 	  	<property name="uniqueResourceName" value="kewDataSource"/>
-        <property name="driverClassName" value="${rice.workflow.datasource.driverClassName}" />
-        <property name="url" value="${rice.workflow.datasource.url}" />
-		<property name="user" value="${rice.workflow.datasource.userna}"/>
-        <property name="password" value="${rice.workflow.datasource.password}" />
-		<property name="poolSize" value="${rice.workflow.datasource.maxSize}"/>
-		<property name="connectionTimeout" value="${rice.workflow.datasource.maxWait}"/>
-		<property name="validatingQuery" value="${rice.workflow.datasource.validationQuery}"/>
+		<property name="driverClassName" value="${rice.workflow.datasource.driver.class}"/>
+		<property name="url" value="${rice.workflow.datasource.url}"/>
+		<property name="user" value="${rice.workflow.datasource.username}"/>
+		<property name="password" value="${rice.workflow.datasource.password}"/>
+		<property name="poolSize" value="${rice.workflow.datasource.pool.size}"/>
+		<property name="connectionTimeout" value="${rice.workflow.datasource.connection.timeout}"/>
+		<property name="validatingQuery" value="${rice.workflow.datasource.validating.query}"/>
 		<property name="testOnBorrow" value="true"/>
-    </bean>
+	</bean>
 
     <alias name="kewDataSource" alias="registryDataSource"/>
-
 </beans>

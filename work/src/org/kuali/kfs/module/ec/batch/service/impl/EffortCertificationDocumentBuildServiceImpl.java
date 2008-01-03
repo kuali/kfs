@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -46,6 +47,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
      *      java.util.Collection, java.util.Map)
      */
+    @Logged
     public List<EffortCertificationDocumentBuild> generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
         List<EffortCertificationDocumentBuild> documentList = new ArrayList<EffortCertificationDocumentBuild>();
 

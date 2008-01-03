@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortConstants.ExtractProcess;
@@ -43,6 +44,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @see org.kuali.module.effort.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
      *      org.kuali.module.labor.bo.LedgerBalance, org.kuali.module.effort.bo.EffortCertificationReportDefinition, java.util.Map)
      */
+    @Logged
     public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         EffortCertificationDetailBuild detailLine = new EffortCertificationDetailBuild();
 

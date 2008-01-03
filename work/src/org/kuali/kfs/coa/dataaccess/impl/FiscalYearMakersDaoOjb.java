@@ -59,6 +59,10 @@ import org.kuali.module.chart.dao.FiscalYearMakersCopyAction;
 import org.kuali.module.chart.dao.FiscalYearMakersDao;
 import org.kuali.module.chart.dao.FiscalYearMakersFieldChangeAction;
 import org.kuali.module.chart.dao.FiscalYearMakersFilterAction;
+import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
+import org.kuali.module.effort.bo.EffortCertificationReportPosition;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.BenefitsCalculation;
@@ -66,7 +70,8 @@ import org.kuali.module.labor.bo.LaborObject;
 import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 /**
- * This class...
+ * Copy selected maintenance documents which depend on fiscal year into the coming fiscal year.  This precludes having to create rows
+ * for the new year on-line.  The copy is done in an order that respects any referential integrity in the database.
  */
 public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements FiscalYearMakersDao {
 
@@ -231,6 +236,56 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
         };
         addCopyAction(BenefitsCalculation.class, copyActionBenCalc);
+
+        /***************************************************************************************************************************
+         * EffortCertificationReportDefinition *
+         **************************************************************************************************************************/
+        FiscalYearMakersCopyAction copyActionEffortReportDefinition = new FiscalYearMakersCopyAction() {
+            FiscalYearMakersFieldChangeAction<EffortCertificationReportDefinition> fieldAction = new FiscalYearMakersFieldChangeAction<EffortCertificationReportDefinition>() {
+                public void customFieldChangeMethod(Integer currentFiscalYear, Integer newFiscalYear, EffortCertificationReportDefinition candidateRow) {
+                    // we have to update report return date, setting it to NULL.  it apparently varies from year to year.
+                    candidateRow.setEffortCertificationReportReturnDate(null);
+                    // set the various fiscal year fields up by 1
+                    candidateRow.setExpenseTransferFiscalYear(candidateRow.getExpenseTransferFiscalYear()+1);
+                    candidateRow.setEffortCertificationReportBeginFiscalYear(candidateRow.getEffortCertificationReportBeginFiscalYear()+1);
+                    candidateRow.setEffortCertificationReportEndFiscalYear(candidateRow.getEffortCertificationReportEndFiscalYear()+1);
+                    // we set all reporting period status codes to "not yet opened--updates allowed" before the
+                    // start of the coming year
+                    candidateRow.setEffortCertificationReportPeriodStatusCode(EffortConstants.PeriodStatusCodes.NOT_OPEN);
+                }
+            };
+
+            public void copyMethod(Integer baseYear, boolean replaceMode) {
+                MakersMethods<EffortCertificationReportDefinition> makersMethod = new MakersMethods<EffortCertificationReportDefinition>();
+                makersMethod.makeMethod(AccountingPeriod.class, baseYear, replaceMode, fieldAction);
+            }
+        };
+        //@@TODO: uncomment this when effort reporting is ready to test
+        // addCopyAction(EffortCertificationReportDefinition.class, copyActionEffortReportDefinition);
+
+        /***************************************************************************************************************************
+         * EffortCertificationReportEarnPaygroup *
+         **************************************************************************************************************************/
+        FiscalYearMakersCopyAction copyActionEffortReportEarnPaygroup = new FiscalYearMakersCopyAction() {
+            public void copyMethod(Integer baseYear, boolean replaceMode) {
+                MakersMethods<EffortCertificationReportEarnPaygroup> makersMethod = new MakersMethods<EffortCertificationReportEarnPaygroup>();
+                makersMethod.makeMethod(EffortCertificationReportEarnPaygroup.class, baseYear, replaceMode);
+            }
+        };
+        //@@TODO: uncomment this when effort certification is ready to test
+        // addCopyAction(EffortCertificationReportEarnPaygroup.class, copyActionEffortReportEarnPaygroup);
+
+        /***************************************************************************************************************************
+         * EffortCertificationReportPosition *
+         **************************************************************************************************************************/
+        FiscalYearMakersCopyAction copyActionEffortReportPosition = new FiscalYearMakersCopyAction() {
+            public void copyMethod(Integer baseYear, boolean replaceMode) {
+                MakersMethods<EffortCertificationReportPosition> makersMethod = new MakersMethods<EffortCertificationReportPosition>();
+                makersMethod.makeMethod(EffortCertificationReportPosition.class, baseYear, replaceMode);
+            }
+        };
+        //@@TODO: uncomment this when effort certification is ready to test
+        // addCopyAction(EffortCertificationReportPosition.class, copyActionEffortReportPosition);
 
         /***************************************************************************************************************************
          * IcrAutomatedEntry *

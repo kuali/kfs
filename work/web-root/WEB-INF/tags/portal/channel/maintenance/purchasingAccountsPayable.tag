@@ -82,6 +82,11 @@
 		</li>
 		<li>
 			<portal:portalLink displayTitle="true"
+				title="Purchase Order Quote Status"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.PurchaseOrderQuoteStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		<li>
+			<portal:portalLink displayTitle="true"
 				title="Recurring Payment Frequency"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.RecurringPaymentFrequency&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

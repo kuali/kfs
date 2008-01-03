@@ -31,14 +31,13 @@
         </authorizations>
 
 		<documentTypeName>EffortCertificationReportEarnPayDocument</documentTypeName>
-		<documentTypeCode>ARPS</documentTypeCode>
+		<documentTypeCode>ARPU</documentTypeCode>
 
 		<label>Effort Certification Report Earn Pay Document</label>
 		<shortLabel>Effort Certification Report Earn Pay Document</shortLabel>
 		
 		<summary>Effort Certification Report Earn Pay Document</summary>
 		<description>Document used to create or update Effort Certification Report Earn Pay Document</description>
-        <help parameterNamespace="KFS-ER" parameterDetailType="LaborObjectBenefit" parameterName="LABOR_OBJECT_BENEFIT" />
 
         <lockingKeys>
             <field attributeName="universityFiscalYear" />

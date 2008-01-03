@@ -40,7 +40,6 @@
 		
 		<summary>Report Type Code Document</summary>
 		<description>Document used to create or update Effort Certification Report Type</description>
-        <help parameterNamespace="KFS-LD" parameterDetailType="LaborBenefitCalculation" parameterName="LABOR_BENEFIT_CALCULATION" />
 
         <lockingKeys>
 			<field attributeName="effortCertificationReportTypeCode" />

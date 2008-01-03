@@ -79,4 +79,13 @@ public class EffortConstants extends JstlConstants {
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
         return balanceTypeList;
     }
+    
+    /**
+     * Constants for the fixed period status code values.
+     */
+    public class PeriodStatusCodes {
+        public static final String CLOSED = "C";
+        public static final String OPEN = "O";
+        public static final String NOT_OPEN = "N";
+    }
 }

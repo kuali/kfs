@@ -55,6 +55,7 @@ public class PurapKeyConstants {
     public static final String ERROR_NOT_100_PERCENT = "error.requisition.items.not.100.percent";
     public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
     public static final String ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST = "error.delivery.required.date.in.the.past";
+    public static final String ERROR_AUTHORIZATION_ACM_INITIATION = "error.authorization.assignContractManagerInitiation";
     
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";

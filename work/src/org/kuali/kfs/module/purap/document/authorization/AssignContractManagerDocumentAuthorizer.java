@@ -15,11 +15,23 @@
  */
 package org.kuali.module.purap.document.authorization;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.authorization.DocumentActionFlags;
 import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
+import org.kuali.core.exceptions.DocumentInitiationAuthorizationException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapPropertyConstants;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * Document Authorizer for the Assign Contract Manager document.
@@ -46,4 +58,23 @@ public class AssignContractManagerDocumentAuthorizer extends TransactionalDocume
         return flags;
     }
 
+    /**
+     * Override this method to add extra validation, so that when there's no requistion to
+     * assign contract manager, an error mesage will be displayed, instead of creating an
+     * AssignContractManagerDocument.
+     * 
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#gcanInitiate(String documentTypeName, UniversalUser user)
+     */
+    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        super.canInitiate(documentTypeName, user);
+        Map fieldValues = new HashMap();
+        fieldValues.put(PurapPropertyConstants.STATUS_CODE, PurapConstants.RequisitionStatuses.AWAIT_CONTRACT_MANAGER_ASSGN);
+        List<RequisitionDocument> unassignedRequisitions = new ArrayList(SpringContext.getBean(BusinessObjectService.class).findMatchingOrderBy(RequisitionDocument.class, fieldValues, PurapPropertyConstants.PURAP_DOC_ID, true));
+        if (unassignedRequisitions.size()==0) 
+            //throw new DocumentInitiationAuthorizationException(new String[] {"somegroup",documentTypeName});
+            throw new DocumentInitiationAuthorizationException(PurapKeyConstants.ERROR_AUTHORIZATION_ACM_INITIATION, new String[]{documentTypeName});
+            //throw new DocumentInitiationAuthorizationException("error.authorization.workgroupInitiation", new String[]{documentTypeName});
+    }
+    
 }

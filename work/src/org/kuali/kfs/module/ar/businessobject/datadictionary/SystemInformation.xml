@@ -328,7 +328,7 @@
                 <description>universityFiscalYear description...</description>
 			</attribute>
 -->
-			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="universityFiscalYear">
+			<attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>University Fiscal Year</label>
                 <shortLabel>University Fiscal Year</shortLabel>
 			</attributeReference>

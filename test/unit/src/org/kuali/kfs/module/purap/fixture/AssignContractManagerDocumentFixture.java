@@ -40,6 +40,10 @@ public enum AssignContractManagerDocumentFixture {
         }
     }
 
+    public List<AssignContractManagerDetail> getAssignContractManagerDetails() {
+        return assignContractManagerDetails;
+    }
+    
     public AssignContractManagerDocument createAssignContractManagerDocument() {
         AssignContractManagerDocument doc = null;
         try {

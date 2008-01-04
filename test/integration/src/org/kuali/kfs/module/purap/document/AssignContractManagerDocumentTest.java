@@ -64,19 +64,6 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
     }
 
     /**
-     * Tests the creation of a new AssignContractManagerDocument.
-     * 
-     * @throws Exception
-     */
-    public final void testGetNewDocument() throws Exception {
-        AssignContractManagerDocument document = (AssignContractManagerDocument) SpringContext.getBean(DocumentService.class).getNewDocument(DOCUMENT_CLASS);
-        // verify document was created
-        assertNotNull(document);
-        assertNotNull(document.getDocumentHeader());
-        assertNotNull(document.getDocumentHeader().getDocumentNumber());
-    }
-
-    /**
      * Tests the routing of AssignContractManagerDocument to final.
      * 
      * @throws Exception
@@ -119,12 +106,17 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
      * @throws Exception
      */
     private AssignContractManagerDocument buildSimpleDocument() throws Exception {
-        AssignContractManagerDocument acmDocument = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID.createAssignContractManagerDocument();
-        for (AssignContractManagerDetail detail : (List<AssignContractManagerDetail>)acmDocument.getAssignContractManagerDetails()) {
+        List<AssignContractManagerDetail> details = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID.getAssignContractManagerDetails();
+        for (AssignContractManagerDetail detail : details) {
             RequisitionDocument routedReq = routeRequisitionUntilAwaitingContractManager(detail.getRequisition());
             detail.setRequisitionIdentifier(routedReq.getPurapDocumentIdentifier());
             detail.refreshNonUpdateableReferences();
         }
+        acmDocument = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID.createAssignContractManagerDocument();
+        for (AssignContractManagerDetail detail : details) {
+            detail.setAssignContractManagerDocument(acmDocument);
+        }
+        acmDocument.setAssignContractManagerDetails(details);
         return acmDocument;
     }
 

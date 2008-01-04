@@ -26,6 +26,14 @@
 			<portal:portalLink displayTitle="true" title="Campus Parameter"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CampusParameter&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+        <li>
+            <portal:portalLink displayTitle="true" title="Capital Asset Transaction Type"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CapitalAssetTransactionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+        </li>
+        <li>
+            <portal:portalLink displayTitle="true" title="Carrier"
+                url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.Carrier&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+        </li>
 		<li>
 			<portal:portalLink displayTitle="true" title="Credit Memo Status"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.purap.bo.CreditMemoStatus&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

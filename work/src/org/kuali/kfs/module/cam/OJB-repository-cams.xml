@@ -186,6 +186,7 @@
 	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_IUPD_CASE_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetTypeCode" />

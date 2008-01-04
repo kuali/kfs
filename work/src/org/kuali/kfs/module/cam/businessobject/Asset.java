@@ -70,7 +70,8 @@ public class Asset extends PersistableBusinessObjectBase {
 	private String inventoryScannedCode;
 	private String signatureCode;
     private boolean active;
-
+    private Date capitalAssetInServiceDate;
+    
     private AssetType capitalAssetType;
 	private Account organizationOwnerAccount;
 	private Chart organizationOwnerChartOfAccounts;
@@ -1140,8 +1141,23 @@ public class Asset extends PersistableBusinessObjectBase {
 		this.signatureCode = signatureCode;
 	}
 
-
 	/**
+     * Gets the capitalAssetInServiceDate attribute. 
+     * @return Returns the capitalAssetInServiceDate.
+     */
+    public Date getCapitalAssetInServiceDate() {
+        return capitalAssetInServiceDate;
+    }
+
+    /**
+     * Sets the capitalAssetInServiceDate attribute value.
+     * @param capitalAssetInServiceDate The capitalAssetInServiceDate to set.
+     */
+    public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
+        this.capitalAssetInServiceDate = capitalAssetInServiceDate;
+    }
+
+    /**
 	 * Gets the capitalAssetType attribute.
 	 * 
 	 * @return Returns the capitalAssetType

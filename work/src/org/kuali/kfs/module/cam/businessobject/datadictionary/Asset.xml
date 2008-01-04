@@ -311,7 +311,7 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>
@@ -381,35 +381,17 @@
                 <description>conditionCode description...</description>
 			</attribute>
 
-            <attribute name="createDate" forceUppercase="true">
+            <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Create Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Create Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+            </attributeReference>
 
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>createDate</summary>
-                <description>createDate description...</description>
-			</attribute>
-
-            <attribute name="estimatedFabricationCompletionDate" forceUppercase="true">
+            <attributeReference name="estimatedFabricationCompletionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Estimated Fabrication Completion Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Estimated Fabrication Completion Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>estimatedFabricationCompletionDate</summary>
-                <description>estimatedFabricationCompletionDate description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="estimatedSellingPrice" forceUppercase="true">
                 <label>Estimated Selling Price</label>
@@ -426,20 +408,11 @@
                 <description>estimatedSellingPrice description...</description>
 			</attribute>
 
-            <attribute name="expectedReturnDate" forceUppercase="true">
+            <attributeReference name="expectedReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Expected Return Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Expected Return Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>expectedReturnDate</summary>
-                <description>expectedReturnDate description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="fabricationEstimatedTotalAmount" forceUppercase="true">
                 <label>Fabrication Estimated Total Amount</label>
@@ -546,50 +519,23 @@
                 <description>inventoryStatusCode description...</description>
 			</attribute>
 
-            <attribute name="lastInventoryDate" forceUppercase="true">
+            <attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Last Inventory Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Last Inventory Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+            </attributeReference>
 
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>lastInventoryDate</summary>
-                <description>lastInventoryDate description...</description>
-			</attribute>
-
-            <attribute name="loanDate" forceUppercase="true">
+            <attributeReference name="loanDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Loan Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Loan Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>loanDate</summary>
-                <description>loanDate description...</description>
-			</attribute>
-
-            <attribute name="loanReturnDate" forceUppercase="true">
+            </attributeReference>
+           
+            <attributeReference name="loanReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Loan Return Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Loan Return Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>loanReturnDate</summary>
-                <description>loanReturnDate description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="manufacturerModelNumber" forceUppercase="true">
                 <label>Manufacturer Model Number</label>
@@ -696,21 +642,12 @@
                 <description>primaryDepreciationMethodCode description...</description>
 			</attribute>
 
-            <attribute name="receiveDate" forceUppercase="true">
+            <attributeReference name="receiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Receive Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Receive Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>receiveDate</summary>
-                <description>receiveDate description...</description>
-			</attribute>
-
+            </attributeReference>
+            
             <attribute name="replacementAmount" forceUppercase="true">
                 <label>Replacement Amount</label>
                 <shortLabel>Amount</shortLabel>
@@ -935,7 +872,7 @@
                 <summary>vendorName</summary>
                 <description>vendorName description...</description>
 			</attribute>
-
+			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

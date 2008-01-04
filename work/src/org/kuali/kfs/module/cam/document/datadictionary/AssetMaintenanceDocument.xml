@@ -2,7 +2,7 @@
 <!--
  Copyright 2006-2007 The Kuali Foundation.
  
- Licensed under the Educational Community License, Version 1.0 (the "License");
+ Licensed under the Educational Community License, Version 1.0 (the "License")" />
  you may not use this file except in compliance with the License.
  You may obtain a copy of the License at
  
@@ -51,7 +51,56 @@
                     <maintainableField name="capitalAssetDescription" required="true" />
                     <maintainableField name="capitalAssetTypeCode" required="true" />
                     <maintainableField name="conditionCode" required="true" />
-					<maintainableField name="active" />
+                    <maintainableField name="createDate" required="true" />
+                    <maintainableField name="receiveDate" required="true" />
+                    <maintainableField name="loanReturnDate" />
+					<maintainableField name="loanDate" />
+					<maintainableField name="expectedReturnDate" />
+					<maintainableField name="financialDocumentPostingPeriodCode" />
+					<maintainableField name="financialDocumentPostingYear" />
+					<maintainableField name="organizationOwnerAccountNumber" />
+					<maintainableField name="organizationOwnerChartOfAccountsCode" />
+					<maintainableField name="vendorName" />
+					<maintainableField name="acquisitionTypeCode" />
+					<maintainableField name="totalCostAmount" />
+					<maintainableField name="replacementAmount" />
+					<maintainableField name="salePrice" />
+					<maintainableField name="estimatedSellingPrice" />
+					<maintainableField name="salvageAmount" />
+					<maintainableField name="campusCode" />
+					<maintainableField name="buildingCode" />
+					<maintainableField name="buildingRoomNumber" />
+					<maintainableField name="buildingSubRoomNumber" />
+					<maintainableField name="retirementChartOfAccountsCode" />
+					<maintainableField name="retirementAccountNumber" />
+					<maintainableField name="retirementReasonCode" />
+					<maintainableField name="retirementPeriodCode" />
+					<maintainableField name="retirementFiscalYear" />
+					<maintainableField name="cashReceiptFinancialDocumentNumber" />
+					<maintainableField name="primaryDepreciationMethodCode" />
+					<maintainableField name="secondaryDepreciationMethodCode" />
+					<maintainableField name="estimatedFabricationCompletionDate" />
+					<maintainableField name="fabricationEstimatedTotalAmount" />
+					<maintainableField name="transferOfFundsFinancialDocumentNumber" />
+					<maintainableField name="insuranceChargeAccountNumber" />
+					<maintainableField name="insuranceChartOfAccountsCode" />
+					<maintainableField name="inventoryStatusCode" />
+					<maintainableField name="campusTagNumber" />
+					<maintainableField name="lastInventoryDate" />
+					<maintainableField name="organizationInventoryName" />
+					<maintainableField name="oldTagNumber" />
+					<maintainableField name="manufacturerName" />
+					<maintainableField name="manufacturerModelNumber" />
+					<maintainableField name="serialNumber" />
+					<maintainableField name="representativeUniversalIdentifier" />
+					<maintainableField name="agencyNumber" />
+					<maintainableField name="campusPoliceDepartmentCaseNumber" />
+					<maintainableField name="inventoryScannedCode" />
+					<maintainableField name="signatureCode" />
+				    
+					<maintainableField name="active">
+                        <defaultValue>true</defaultValue>
+                    </maintainableField>
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

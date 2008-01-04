@@ -51,10 +51,6 @@ public class BudgetAdjustmentDocumentApprovalNoApprovalSplitNode implements Spli
         String documentID = routeContext.getDocument().getRouteHeaderId().toString();
         BudgetAdjustmentDocument budgetDocument = (BudgetAdjustmentDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(documentID);
 
-        // TODO: due to transaction scoping issues, any proxied items in budgetDocument are now irretrievable! Any
-        // attempt to retrieve them will cause OJB to throw an exception. This will be fixed in the
-        // general case in Phase 2.
-
         // new list so that sourceAccountingLines isn't modified by addAll statement. Important for
         // total calculations below.
         List accountingLines = new ArrayList();

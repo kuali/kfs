@@ -40,9 +40,7 @@ public class PurApStatusKeyValuesBase extends KeyValuesBase {
         Collection<Status> statuses = boService.findAll(getStatusClass());
         List labels = new ArrayList();
         for (Status status : statuses) {
-            if (status.isActive()) {
-                labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
-            }
+            labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
         }
         return labels;
     }

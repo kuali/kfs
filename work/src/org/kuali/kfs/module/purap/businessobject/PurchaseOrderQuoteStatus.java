@@ -26,6 +26,8 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
  */
 public class PurchaseOrderQuoteStatus extends Status {
 
+    private boolean active;
+    
     /**
      * Default constructor.
      */
@@ -34,5 +36,12 @@ public class PurchaseOrderQuoteStatus extends Status {
         super.ojbConcreteClass = this.getClass().getName();
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
     
 }

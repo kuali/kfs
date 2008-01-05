@@ -28,7 +28,6 @@ public class Status extends PersistableBusinessObjectBase implements Comparator<
 
     private String statusCode;
     private String statusDescription;
-    private boolean active;
     protected String ojbConcreteClass; // attribute needed for OJB polymorphism - do not alter!
 
     /**
@@ -52,14 +51,6 @@ public class Status extends PersistableBusinessObjectBase implements Comparator<
 
     public void setStatusDescription(String statusDescription) {
         this.statusDescription = statusDescription;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getOjbConcreteClass() {

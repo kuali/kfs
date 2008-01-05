@@ -24,8 +24,8 @@
             <title>Purchase Order Quote Status Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
@@ -37,28 +37,28 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="purchaseOrderQuoteStatusDescription" />
+                    <sortAttribute attributeName="statusDescription" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="purchaseOrderQuoteStatusCode" required="false" />
-                <lookupField attributeName="purchaseOrderQuoteStatusDescription" required="false" />
+                <lookupField attributeName="statusCode" required="false" />
+                <lookupField attributeName="statusDescription" required="false" />
                 <lookupField attributeName="active" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="purchaseOrderQuoteStatusCode" />
-                <field attributeName="purchaseOrderQuoteStatusDescription" />
+                <field attributeName="statusCode" />
+                <field attributeName="statusDescription" />
                 <field attributeName="active" />
             </resultFields>
         </lookup>
 
-        <titleAttribute>purchaseOrderQuoteStatusCode</titleAttribute>
+        <titleAttribute>statusCode</titleAttribute>
 
         <attributes>
 
-            <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
+            <attribute name="statusCode" forceUppercase="true">
                 <label>Purchase Order Quote Status Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -71,7 +71,7 @@
 
 			</attribute>
 
-            <attribute name="purchaseOrderQuoteStatusDescription">
+            <attribute name="statusDescription">
                 <label>Purchase Order Quote Status Description</label>
                 <shortLabel>Description</shortLabel>
 

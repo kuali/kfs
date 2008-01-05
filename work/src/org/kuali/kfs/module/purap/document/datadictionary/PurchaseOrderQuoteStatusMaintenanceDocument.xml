@@ -39,14 +39,14 @@
         <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderQuoteStatus" parameterName="PURCHASE_ORDER_QUOTE_STATUS" />
 
         <lockingKeys>
-            <field attributeName="purchaseOrderQuoteStatusCode" />
+            <field attributeName="statusCode" />
         </lockingKeys>
 
         <maintainableSections>
             <maintainableSection title="Edit Purchase Order Quote">
                 <maintainableItems>
-                    <maintainableField name="purchaseOrderQuoteStatusCode" required="true" />
-                	<maintainableField name="purchaseOrderQuoteStatusDescription" required="true" />
+                    <maintainableField name="statusCode" required="true" />
+                	<maintainableField name="statusDescription" required="true" />
                 	<maintainableField name="active"/>
                 	<maintainableField name="versionNumber" />
                 </maintainableItems>

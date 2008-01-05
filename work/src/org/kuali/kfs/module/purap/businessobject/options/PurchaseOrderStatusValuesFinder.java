@@ -72,9 +72,7 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
         // generate output
         List labels = new ArrayList();
         for (Status status : sortStatuses) {
-            if (status.isActive()) {
-                labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
-            }
+            labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
         }
         return labels;
     }

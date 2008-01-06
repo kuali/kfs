@@ -442,8 +442,7 @@
 
     <controller processorClass="org.kuali.core.web.struts.action.KualiRequestProcessor" maxFileSize="5M" />
 
-    <message-resources factory="org.kuali.core.web.struts.action.KualiPropertyMessageResourcesFactory" parameter="ApplicationResources" /> 
-    <message-resources factory="org.kuali.core.web.struts.action.KualiPropertyMessageResourcesFactory" key="kraResources" parameter="org.kuali.module.kra.KraResources" />
-
+	<message-resources factory="org.kuali.kfs.web.struts.KFSMessageResourcesFactory" parameter="" />
+ 	<message-resources factory="org.kuali.kfs.web.struts.KFSMessageResourcesFactory" key="kraResources" parameter="org.kuali.module.kra.KraResources" />
     <plug-in className="org.kuali.core.web.struts.pojo.PojoPlugin" />
 </struts-config>

@@ -15,13 +15,48 @@
  */
 package org.kuali.module.purap.lookup.keyvalues;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import org.kuali.core.service.KeyValuesService;
+import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.CreditMemoStatus;
+import org.kuali.module.purap.bo.Status;
 
 /**
  * Value Finder for Credit Memo Statuses.
  */
 public class CreditMemoStatusValuesFinder extends PurApStatusKeyValuesBase {
 
+    /**
+     * Overide this method to sort the PO statuses for proper display. 
+     * 
+     * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getKeyValues()
+     */
+    public List getKeyValues() {
+        // get all PO statuses
+        KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
+        Collection<Status> statuses = boService.findAll(getStatusClass());
+        
+        // sort the statuses according to their codes alphabetically
+        int ns = statuses.size();
+        Status[] sortStatuses = new Status[ns];
+        if ( ns > 0 ) {
+            sortStatuses = (Status[])statuses.toArray(sortStatuses);
+            Arrays.sort(sortStatuses, sortStatuses[0]);       
+        }        
+        
+        // generate output
+        List labels = new ArrayList();
+        for (Status status : sortStatuses) {
+            labels.add(new KeyLabelPair(status.getStatusCode(), status.getStatusDescription()));
+        }
+        return labels;
+    }
+    
     /**
      * @see org.kuali.module.purap.lookup.keyvalues.PurApStatusKeyValuesBase#getStatusClass()
      */

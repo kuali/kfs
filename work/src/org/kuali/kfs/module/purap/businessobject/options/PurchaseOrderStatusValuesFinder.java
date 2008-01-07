@@ -47,27 +47,7 @@ public class PurchaseOrderStatusValuesFinder extends PurApStatusKeyValuesBase {
         if ( ns > 0 ) {
             sortStatuses = (Status[])statuses.toArray(sortStatuses);
             Arrays.sort(sortStatuses, sortStatuses[0]);       
-        }
-        
-        /*
-        // since workflow reads and displays the statuses in the "right and down" order,
-        // while the user wants to read the statuses in the "down and over" order,
-        // we need to reorder the status list to feed the workflow 
-        // so that they come out right as the user wants 
-        statuses.clear();
-        int ncol = 3; // the number of columns when PO statuses are displayed
-        int nrow = ns / ncol; // the number of rows when PO statuses are displayed, assuming that ns % ncol = 0
-        int count = 0;
-        for (int i=0; i<nrow; i++) {
-            for (int j=0; j<ncol; j++) {
-                statuses.add(sorts[j*nrow+i]);
-                count++;
-            }
-        }
-        // in case  ns % ncol != 0, process the leftover, even though the order will be messed up
-        for (int n=count; n<ns; n++)
-            statuses.add(sorts[n]);
-        */
+        }        
         
         // generate output
         List labels = new ArrayList();

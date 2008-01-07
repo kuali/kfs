@@ -255,9 +255,20 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 }
             };
 
+            FiscalYearMakersFilterAction filterAction = new FiscalYearMakersFilterAction() {
+                public Criteria customCriteriaMethod() {
+                    /**
+                     *  do not copy any inactive current year rows
+                     */
+                    Criteria criteriaID = new Criteria();
+                    criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+                    return criteriaID;
+                }
+            };
+            
             public void copyMethod(Integer baseYear, boolean replaceMode) {
                 MakersMethods<EffortCertificationReportDefinition> makersMethod = new MakersMethods<EffortCertificationReportDefinition>();
-                makersMethod.makeMethod(AccountingPeriod.class, baseYear, replaceMode, fieldAction);
+                makersMethod.makeMethod(EffortCertificationReportDefinition.class, baseYear, replaceMode, fieldAction, filterAction);
             }
         };
         //@@TODO: uncomment this when effort reporting is ready to test
@@ -267,9 +278,21 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * EffortCertificationReportEarnPaygroup *
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionEffortReportEarnPaygroup = new FiscalYearMakersCopyAction() {
+
+            FiscalYearMakersFilterAction filterAction = new FiscalYearMakersFilterAction() {
+                public Criteria customCriteriaMethod() {
+                    /**
+                     *  do not copy any inactive current year rows
+                     */
+                    Criteria criteriaID = new Criteria();
+                    criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+                    return criteriaID;
+                }
+            };
+
             public void copyMethod(Integer baseYear, boolean replaceMode) {
-                MakersMethods<EffortCertificationReportEarnPaygroup> makersMethod = new MakersMethods<EffortCertificationReportEarnPaygroup>();
-                makersMethod.makeMethod(EffortCertificationReportEarnPaygroup.class, baseYear, replaceMode);
+               MakersMethods<EffortCertificationReportEarnPaygroup> makersMethod = new MakersMethods<EffortCertificationReportEarnPaygroup>();
+               makersMethod.makeMethod(EffortCertificationReportEarnPaygroup.class, baseYear, replaceMode, filterAction);
             }
         };
         //@@TODO: uncomment this when effort certification is ready to test
@@ -279,9 +302,21 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * EffortCertificationReportPosition *
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionEffortReportPosition = new FiscalYearMakersCopyAction() {
+
+            FiscalYearMakersFilterAction filterAction = new FiscalYearMakersFilterAction() {
+                public Criteria customCriteriaMethod() {
+                    /**
+                     *  do not copy any inactive current year rows
+                     */
+                    Criteria criteriaID = new Criteria();
+                    criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+                    return criteriaID;
+                }
+            };
+
             public void copyMethod(Integer baseYear, boolean replaceMode) {
-                MakersMethods<EffortCertificationReportPosition> makersMethod = new MakersMethods<EffortCertificationReportPosition>();
-                makersMethod.makeMethod(EffortCertificationReportPosition.class, baseYear, replaceMode);
+               MakersMethods<EffortCertificationReportPosition> makersMethod = new MakersMethods<EffortCertificationReportPosition>();
+               makersMethod.makeMethod(EffortCertificationReportPosition.class, baseYear, replaceMode, filterAction);
             }
         };
         //@@TODO: uncomment this when effort certification is ready to test

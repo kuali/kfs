@@ -18,10 +18,12 @@ package org.kuali.module.financial.service.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.module.financial.bo.FiscalYearFunctionControl;
 import org.kuali.module.financial.service.FiscalYearFunctionControlService;
 
@@ -91,7 +93,71 @@ public class FiscalYearFunctionControlServiceImpl implements FiscalYearFunctionC
     public boolean isBaseAmountChangeAllowed(Integer postingYear) {
         return getActiveIndByPrimaryId(postingYear, FY_FUNCTION_CONTROL_BASE_AMT_ALLOWED);
     }
+    /**
+     * 
+     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#getActiveBudgetYear()
+     */
+    public List<Integer> getActiveBudgetYear()
+    {
+        ArrayList<FiscalYearFunctionControl> activeYearObjects = (ArrayList<FiscalYearFunctionControl>) getByFunctionControlCodeAndActiveInd(KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE,KFSConstants.ACTIVE_INDICATOR);
+        ArrayList<Integer> activeYears = new ArrayList<Integer>(activeYearObjects.size());
+        Iterator<FiscalYearFunctionControl> activeYearObjectIterator = activeYearObjects.iterator();
+        int nextSlot = 0;
+        while (activeYearObjectIterator.hasNext())
+        {
+            activeYears.add(nextSlot++,activeYearObjectIterator.next().getUniversityFiscalYear());
+        }
+        return activeYears;
+    }
 
+
+    /**
+     * 
+     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isApplicationUpdateFromHumanResourcesAllowed(java.lang.Integer)
+     */
+    public boolean isApplicationUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_ON_LINE_SYNCHRONIZATION_OK);
+    }
+  
+    /**
+     * 
+     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBatchUpdateFromHumanResourcesAllowed(java.lang.Integer)
+     */
+    public boolean isBatchUpdateFromHumanResourcesAllowed(Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK);
+    }
+    
+    /**
+     * 
+     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBatchUpdateFromPayrollAllowed(java.lang.Integer)
+     */
+    public boolean isBatchUpdateFromPayrollAllowed (Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.CSF_UPDATES_OK);
+    }
+    
+
+    public boolean isBudgetConstructionActive(Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE);
+    }
+
+    /**
+     * 
+     * @see org.kuali.module.financial.service.FiscalYearFunctionControlService#isBudgetGeneralLedgerUpdateAllowed(java.lang.Integer)
+     */
+    public boolean isBudgetGeneralLedgerUpdateAllowed(Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BASE_BUDGET_UPDATES_OK);
+    }
+    
+    public boolean isBudgetUpdateAllowed(Integer universityFiscalYear)
+    {
+        return getActiveIndByPrimaryId(universityFiscalYear, KFSConstants.BudgetConstructionConstants.BUDGET_CONSTRUCTION_UPDATES_OK);
+    }
+    
     /**
      * 
      * Gets the value of the businessObjectService attribute.

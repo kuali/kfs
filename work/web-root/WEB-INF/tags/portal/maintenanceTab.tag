@@ -20,6 +20,7 @@
       <maintenanceChannel:workflow />
       <maintenanceChannel:chartOfAccounts />
       <maintenanceChannel:laborDistribution /> 
+      <maintenanceChannel:budgetConstruction /> 
       <maintenanceChannel:capitalAsset /> 
 </td>
 <td class="content" valign="top">

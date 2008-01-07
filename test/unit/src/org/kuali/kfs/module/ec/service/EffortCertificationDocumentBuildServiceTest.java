@@ -21,4 +21,7 @@ import org.kuali.test.ConfigureContext;
 @ConfigureContext
 public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
 
+    public void testGenerateDocumentBuild() throws Exception{
+        
+    }
 }

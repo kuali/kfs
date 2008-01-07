@@ -20,5 +20,9 @@ import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
+    
+    public void testGenerateDetailBuild() throws Exception{
+        
+    }
 
 }

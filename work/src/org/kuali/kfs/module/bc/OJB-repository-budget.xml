@@ -481,7 +481,6 @@
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionPosition" table="LD_BCN_POS_T">
 	<field-descriptor name="positionNumber" column="POSITION_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="universityFiscalYear" column="UNIV_FISCAL_YR" jdbc-type="INTEGER" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="positionEffectiveDate" column="POS_EFFDT" jdbc-type="DATE"/>
 	<field-descriptor name="positionEffectiveStatus" column="POS_EFF_STATUS" jdbc-type="VARCHAR"/>
@@ -729,7 +728,6 @@
 
 <class-descriptor class="org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbent" table="LD_BCN_INTINCBNT_T">
 	<field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="personName" column="PERSON_NM" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="setidSalary" column="SETID_SALARY" jdbc-type="VARCHAR"/>

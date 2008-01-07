@@ -95,10 +95,10 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         String subAccountTypeCode = getSubAccountTypeCode(ledgerBalance);
 
         if (subAccountTypeCode == null || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
-            detailLine.setSubAccountNumber(KFSConstants.getDashFinancialSubObjectCode());
+            detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
             detailLine.setSourceChartOfAccountsCode(EffortConstants.ExtractProcess.DASH_CHART_OF_ACCOUNTS_CODE);
             detailLine.setSourceAccountNumber(EffortConstants.ExtractProcess.DASH_ACCOUNT_NUMBER);
-            detailLine.setCostShareSourceSubAccountNumber(KFSConstants.EMPTY_STRING);
+            detailLine.setCostShareSourceSubAccountNumber(null);
         }
         else if (costShareSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(ledgerBalance.getSubAccountNumber());

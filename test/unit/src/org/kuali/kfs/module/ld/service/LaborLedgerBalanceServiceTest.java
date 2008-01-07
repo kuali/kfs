@@ -54,8 +54,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfTransaction"));
 
         List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
-        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for (LaborTransaction transaction : transactionList) {
+        List<LaborOriginEntry> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborOriginEntry transaction : transactionList) {
             assertNotNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction));
         }
     }
@@ -66,8 +66,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfNotFoundTransaction"));
 
         List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
-        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "notFoundTransaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for (LaborTransaction transaction : transactionList) {
+        List<LaborOriginEntry> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "notFoundTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborOriginEntry transaction : transactionList) {
             assertNull(laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction));
         }
     }
@@ -78,8 +78,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfNewTransaction"));
 
         List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
-        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "newTransaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for (LaborTransaction transaction : transactionList) {
+        List<LaborOriginEntry> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "newTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborOriginEntry transaction : transactionList) {
             laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, transaction);
         }
 
@@ -93,8 +93,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         int numberOfTransaction = Integer.valueOf(properties.getProperty(testTarget + "numOfExistingTransaction"));
 
         List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
-        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "existingTransaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for (LaborTransaction transaction : transactionList) {
+        List<LaborOriginEntry> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "existingTransaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborOriginEntry transaction : transactionList) {
             laborLedgerBalanceService.addLedgerBalance(ledgerBalanceList, transaction);
         }
 
@@ -109,8 +109,8 @@ public class LaborLedgerBalanceServiceTest extends KualiTestBase {
         int numberOfExpected = Integer.valueOf(properties.getProperty(testTarget + "numOfExpected"));
 
         List ledgerBalanceList = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "ledgerBalance", numberOfLedgerBalance);
-        List<LaborTransaction> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
-        for (LaborTransaction transaction : transactionList) {
+        List<LaborOriginEntry> transactionList = TestDataPreparator.buildTestDataList(LaborOriginEntry.class, properties, testTarget + "transaction", transactionFieldNames, deliminator, numberOfTransaction);
+        for (LaborOriginEntry transaction : transactionList) {
             LedgerBalance ledgerBalance = laborLedgerBalanceService.findLedgerBalance(ledgerBalanceList, transaction);
             if (ledgerBalance != null) {
                 laborLedgerBalanceService.updateLedgerBalance(ledgerBalance, transaction);

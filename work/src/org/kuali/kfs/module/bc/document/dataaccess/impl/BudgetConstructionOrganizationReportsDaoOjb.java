@@ -16,6 +16,7 @@
 package org.kuali.module.budget.dao.ojb;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -44,8 +45,25 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
-
-        return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria));
+        
+        QueryByCriteria qbc = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria);
+        //String groupBy = "subFundGroupCode";
+        
+        /*qbc.addOrderByAscending("organizationChartOfAccountsCode");
+        qbc.addOrderByAscending("organizationCode");
+        qbc.addOrderByAscending("chartOfAccountsCode");
+        qbc.addOrderByAscending("fundGroupCode");
+        */
+        //qbc.addOrderByAscending("subFundGroupCode");
+        //qbc.addGroupBy(groupBy);
+        /*qbc.addOrderByAscending("accountNumber");
+        qbc.addOrderByAscending("subAccountNumber");
+        qbc.addOrderByAscending("incomeExpenseCode");
+        */
+        
+        //Changed from (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getCollectionByQuery(qbc); 
+        //Since using primaryId, getObject should be better than collection. 
+        return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
 
     /**

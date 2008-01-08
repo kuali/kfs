@@ -59,20 +59,8 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         detailLine.setEffortCertificationPayrollAmount(payrollAmount);
         detailLine.setEffortCertificationOriginalPayrollAmount(payrollAmount);
 
-        detailLine.setEffortCertificationDerivedPayrollCode(ExtractProcess.DERIVED_PAYROLL_CODE);
-        detailLine.setEffortCertificationDerivedPayrollPercent(0);
-
-        detailLine.setEffortCertificationCostSharingCode(ExtractProcess.COST_SHARING_CODE);
-        detailLine.setEffortCertificationCostSharingPercent(0);
-
-        detailLine.setEffortCertificationCalculatedOverallCode(ExtractProcess.CALCULATED_OVERALL_CODE);
         detailLine.setEffortCertificationCalculatedOverallPercent(0);
-
-        detailLine.setEffortCertificationUpdatedOverallCode(ExtractProcess.UPDATED_OVERALL_CODE);
         detailLine.setEffortCertificationUpdatedOverallPercent(0);
-
-        detailLine.setEffortCertificationProratedCode(ExtractProcess.PRORATED_CODE);
-        detailLine.setEffortCertificationProratedPercent(0);
 
         populateCostShareRelatedFields(detailLine, ledgerBalance, parameters);
 

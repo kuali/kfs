@@ -36,20 +36,8 @@
                 <field attributeName="sourceAccountNumber" />
                 
                 <field attributeName="effortCertificationPayrollAmount" />
-                <field attributeName="effortCertificationDerivedPayrollCode" />
-                <field attributeName="effortCertificationDerivedPayrollPercent" />  
-				
-				<field attributeName="effortCertificationCostSharingCode" />
-                <field attributeName="effortCertificationCostSharingPercent" />
-                
-                <field attributeName="effortCertificationCalculatedOverallCode" />
                 <field attributeName="effortCertificationCalculatedOverallPercent" />
-
-                <field attributeName="effortCertificationUpdatedOverallCode" />
                 <field attributeName="effortCertificationUpdatedOverallPercent" />
-
-                <field attributeName="effortCertificationProratedCode" />
-                <field attributeName="effortCertificationProratedPercent" />
                 
                 <field attributeName="costShareSourceSubAccountNumber" /> 
                 <field attributeName="effortCertificationOriginalPayrollAmount" />               
@@ -93,96 +81,11 @@
                 <field attributeName="financialObjectCode" />
                 
                 <field attributeName="effortCertificationPayrollAmount" />
-                <field attributeName="effortCertificationDerivedPayrollPercent" />  
             </resultFields>
         </lookup>
 
-        <attributes>
-
-            <attribute name="effortCertificationCalculatedOverallCode" forceUppercase="true">
-                <label>Effort Certification Calculated Overall Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification CalculatedOverallCode</summary>
-                <description>Effort Certification CalculatedOverallCode description...</description>
-			</attribute>
-
-            <attribute name="effortCertificationCostSharingCode" forceUppercase="true">
-                <label>Effort Certification Labor Cost Sharing Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification LaborCostSharingCode</summary>
-                <description>Effort Certification LaborCostSharingCode description...</description>
-			</attribute>
-			
-            <attribute name="effortCertificationDerivedPayrollCode" forceUppercase="true">
-                <label>Effort Certification Labor Derived Payroll Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification DerivedPayrollCode</summary>
-                <description>Effort Certification LaborDerivedPayrollCode description...</description>
-			</attribute>
-					
-            <attribute name="effortCertificationProratedCode" forceUppercase="true">
-                <label>Effort Certification Labor Prorated Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification LaborProratedCode</summary>
-                <description>Effort Certification LaborProratedCode description...</description>
-			</attribute>
-			
- 			<attribute name="effortCertificationUpdatedOverallCode" forceUppercase="true">
-                <label>Effort Certification Labor Updated Overall Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="3" />
-                </control>
-
-                <summary>Effort Certification LaborUpdatedOverallCode</summary>
-                <description>Effort Certification LaborUpdatedOverallCode description...</description>
-			</attribute>
-			
+        <attributes>			
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
-
-            <attributeReference name="effortCertificationDerivedPayrollPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
-                <label>Effort Certification Labor Derived Payroll Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <summary>Effort Certification LaborDerivedPayrollPercent</summary>
-                <description>Effort Certification LaborDerivedPayrollPercent description...</description>
-			</attributeReference>
 
             <attributeReference name="effortCertificationOriginalPayrollAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Effort Certification Labor Original Payroll Amount</label>
@@ -207,22 +110,6 @@
                 <summary>Effort Certification LaborCalculatedOverallPercent</summary>
                 <description>Effort Certification LaborCalculatedOverallPercent description...</description>
 			</attributeReference>			
-
-            <attributeReference name="effortCertificationCostSharingPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
-                <label>Effort Certification Labor Cost Sharing Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <summary>Effort Certification LaborCostSharingPercent</summary>
-                <description>Effort Certification LaborCostSharingPercent description...</description>
-			</attributeReference>
-			
-            <attributeReference name="effortCertificationProratedPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
-                <label>Effort Certification Labor Prorated Percent</label>
-                <shortLabel>Percent</shortLabel>
-
-                <summary>Effort Certification LaborProratedPercent</summary>
-                <description>Effort Certification LaborProratedPercent description...</description>
-			</attributeReference>
 
             <attributeReference name="effortCertificationUpdatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
                 <label>Effort Certification Updated Overall Percent</label>

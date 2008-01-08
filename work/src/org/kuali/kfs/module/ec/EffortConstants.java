@@ -31,12 +31,9 @@ public class EffortConstants extends JstlConstants {
      * hold contants used by extract process
      */
     public class ExtractProcess{       
-        public static final String CALCULATED_OVERALL_CODE = "N";
-        public static final String COST_SHARING_CODE = "S";       
         public static final String DASH_ACCOUNT_NUMBER = "-------";
               
         public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
-        public static final String DERIVED_PAYROLL_CODE = "N";
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
         
         // the following constants used as the key of the statistics entries for the working progress report
@@ -46,9 +43,6 @@ public class EffortConstants extends JstlConstants {
         public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
         public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
         public static final String NUM_ERRORS_FOUND = "numOfErrors";
-        
-        public static final String PRORATED_CODE = "S";
-        public static final String UPDATED_OVERALL_CODE = "S";
     }
 
     /**

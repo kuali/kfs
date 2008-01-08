@@ -35,11 +35,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
  */
 public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private String documentNumber;
-    private String chartOfAccountsCode;
-    private String organizationCode;
     private String effortCertificationReportNumber;
-    private Date effortCertificationReportPrintedDate;
-    private Date effortCertificationReportApprovedDate;
     private String effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
@@ -77,38 +73,6 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the chartOfAccountsCode attribute. 
-     * @return Returns the chartOfAccountsCode.
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    /**
-     * Sets the chartOfAccountsCode attribute value.
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    /**
-     * Gets the organizationCode attribute. 
-     * @return Returns the organizationCode.
-     */
-    public String getOrganizationCode() {
-        return organizationCode;
-    }
-
-    /**
-     * Sets the organizationCode attribute value.
-     * @param organizationCode The organizationCode to set.
-     */
-    public void setOrganizationCode(String organizationCode) {
-        this.organizationCode = organizationCode;
-    }
-
-    /**
      * Gets the effortCertificationReportNumber attribute. 
      * @return Returns the effortCertificationReportNumber.
      */
@@ -122,38 +86,6 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
      */
     public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
         this.effortCertificationReportNumber = effortCertificationReportNumber;
-    }
-
-    /**
-     * Gets the effortCertificationReportPrintedDate attribute. 
-     * @return Returns the effortCertificationReportPrintedDate.
-     */
-    public Date getEffortCertificationReportPrintedDate() {
-        return effortCertificationReportPrintedDate;
-    }
-
-    /**
-     * Sets the effortCertificationReportPrintedDate attribute value.
-     * @param effortCertificationReportPrintedDate The effortCertificationReportPrintedDate to set.
-     */
-    public void setEffortCertificationReportPrintedDate(Date effortCertificationReportPrintedDate) {
-        this.effortCertificationReportPrintedDate = effortCertificationReportPrintedDate;
-    }
-
-    /**
-     * Gets the effortCertificationReportApprovedDate attribute. 
-     * @return Returns the effortCertificationReportApprovedDate.
-     */
-    public Date getEffortCertificationReportApprovedDate() {
-        return effortCertificationReportApprovedDate;
-    }
-
-    /**
-     * Sets the effortCertificationReportApprovedDate attribute value.
-     * @param effortCertificationReportApprovedDate The effortCertificationReportApprovedDate to set.
-     */
-    public void setEffortCertificationReportApprovedDate(Date effortCertificationReportApprovedDate) {
-        this.effortCertificationReportApprovedDate = effortCertificationReportApprovedDate;
     }
 
     /**

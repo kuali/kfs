@@ -25,12 +25,8 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="chartOfAccountsCode" />                
-                <field attributeName="organizationCode" /> 
                 
                 <field attributeName="effortCertificationReportNumber" />           
-                <field attributeName="effortCertificationReportPrintedDate" />
-                <field attributeName="effortCertificationReportApprovedDate" />
                 <field attributeName="effortCertificationDocumentCode" />                
                 
                 <field attributeName="universityFiscalYear" />
@@ -45,8 +41,8 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
+                    <sortAttribute attributeName="effortCertificationBuildNumber" />
+                    <sortAttribute attributeName="emplid" />
                 </sortAttributes>
             </defaultSort>
 
@@ -54,9 +50,6 @@
             	<lookupField attributeName="effortCertificationReportNumber" required="true" />
                 <lookupField attributeName="universityFiscalYear" required="true" />
                 <lookupField attributeName="emplid" required="true" />
-                
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="effortCertificationBuildNumber" required="false" />
             </lookupFields>
 
@@ -65,12 +58,8 @@
                 <field attributeName="emplid" />
                                                 
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />                
-                <field attributeName="organizationCode" /> 
                 
                 <field attributeName="effortCertificationReportNumber" />           
-                <field attributeName="effortCertificationReportPrintedDate" />
-                <field attributeName="effortCertificationReportApprovedDate" />
                 <field attributeName="effortCertificationDocumentCode" />                
             </resultFields>
         </lookup>
@@ -107,29 +96,11 @@
                 <description>effortCertificationBuildNumber description...</description>
 			</attribute>	
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
 
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear" />
 			
 			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
-
-            <attributeReference name="effortCertificationReportApprovedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Effort Certification Report Approved Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <summary>Effort Certification ReportApprovedDate</summary>
-                <description>Effort Certification Report Approved Date description...</description>
-			</attributeReference>
-
-            <attributeReference name="effortCertificationReportPrintedDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Effort Certification Report Printed Date</label>
-                <shortLabel>Date</shortLabel>
-
-                <summary>Effort Certification ReportPrintedDate</summary>
-                <description>Effort Certification ReportPrintedDate description...</description>
-			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

@@ -10,3 +10,4 @@ temp
 log4j.properties
 security.properties
 workflow.xml
+atomikos-tmp

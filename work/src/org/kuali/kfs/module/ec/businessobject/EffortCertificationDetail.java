@@ -41,16 +41,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String sourceChartOfAccountsCode;
     private String sourceAccountNumber;
     private KualiDecimal effortCertificationPayrollAmount;
-    private String effortCertificationDerivedPayrollCode;
-    private Integer effortCertificationDerivedPayrollPercent;
-    private String effortCertificationCostSharingCode;
-    private Integer effortCertificationCostSharingPercent;
-    private String effortCertificationCalculatedOverallCode;
     private Integer effortCertificationCalculatedOverallPercent;
-    private String effortCertificationUpdatedOverallCode;
     private Integer effortCertificationUpdatedOverallPercent;
-    private String effortCertificationProratedCode;
-    private Integer effortCertificationProratedPercent;
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
@@ -234,96 +226,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the effortCertificationDerivedPayrollCode attribute.
-     * 
-     * @return Returns the effortCertificationDerivedPayrollCode.
-     */
-    public String getEffortCertificationDerivedPayrollCode() {
-        return effortCertificationDerivedPayrollCode;
-    }
-
-    /**
-     * Sets the effortCertificationDerivedPayrollCode attribute value.
-     * 
-     * @param effortCertificationDerivedPayrollCode The effortCertificationDerivedPayrollCode to set.
-     */
-    public void setEffortCertificationDerivedPayrollCode(String effortCertificationDerivedPayrollCode) {
-        this.effortCertificationDerivedPayrollCode = effortCertificationDerivedPayrollCode;
-    }
-
-    /**
-     * Gets the effortCertificationDerivedPayrollPercent attribute.
-     * 
-     * @return Returns the effortCertificationDerivedPayrollPercent.
-     */
-    public Integer getEffortCertificationDerivedPayrollPercent() {
-        return effortCertificationDerivedPayrollPercent;
-    }
-
-    /**
-     * Sets the effortCertificationDerivedPayrollPercent attribute value.
-     * 
-     * @param effortCertificationDerivedPayrollPercent The effortCertificationDerivedPayrollPercent to set.
-     */
-    public void setEffortCertificationDerivedPayrollPercent(Integer effortCertificationDerivedPayrollPercent) {
-        this.effortCertificationDerivedPayrollPercent = effortCertificationDerivedPayrollPercent;
-    }
-
-    /**
-     * Gets the effortCertificationCostSharingCode attribute.
-     * 
-     * @return Returns the effortCertificationCostSharingCode.
-     */
-    public String getEffortCertificationCostSharingCode() {
-        return effortCertificationCostSharingCode;
-    }
-
-    /**
-     * Sets the effortCertificationCostSharingCode attribute value.
-     * 
-     * @param effortCertificationCostSharingCode The effortCertificationCostSharingCode to set.
-     */
-    public void setEffortCertificationCostSharingCode(String effortCertificationCostSharingCode) {
-        this.effortCertificationCostSharingCode = effortCertificationCostSharingCode;
-    }
-
-    /**
-     * Gets the effortCertificationCostSharingPercent attribute.
-     * 
-     * @return Returns the effortCertificationCostSharingPercent.
-     */
-    public Integer getEffortCertificationCostSharingPercent() {
-        return effortCertificationCostSharingPercent;
-    }
-
-    /**
-     * Sets the effortCertificationCostSharingPercent attribute value.
-     * 
-     * @param effortCertificationCostSharingPercent The effortCertificationCostSharingPercent to set.
-     */
-    public void setEffortCertificationCostSharingPercent(Integer effortCertificationCostSharingPercent) {
-        this.effortCertificationCostSharingPercent = effortCertificationCostSharingPercent;
-    }
-
-    /**
-     * Gets the effortCertificationCalculatedOverallCode attribute.
-     * 
-     * @return Returns the effortCertificationCalculatedOverallCode.
-     */
-    public String getEffortCertificationCalculatedOverallCode() {
-        return effortCertificationCalculatedOverallCode;
-    }
-
-    /**
-     * Sets the effortCertificationCalculatedOverallCode attribute value.
-     * 
-     * @param effortCertificationCalculatedOverallCode The effortCertificationCalculatedOverallCode to set.
-     */
-    public void setEffortCertificationCalculatedOverallCode(String effortCertificationCalculatedOverallCode) {
-        this.effortCertificationCalculatedOverallCode = effortCertificationCalculatedOverallCode;
-    }
-
-    /**
      * Gets the effortCertificationCalculatedOverallPercent attribute.
      * 
      * @return Returns the effortCertificationCalculatedOverallPercent.
@@ -342,24 +244,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the effortCertificationUpdatedOverallCode attribute.
-     * 
-     * @return Returns the effortCertificationUpdatedOverallCode.
-     */
-    public String getEffortCertificationUpdatedOverallCode() {
-        return effortCertificationUpdatedOverallCode;
-    }
-
-    /**
-     * Sets the effortCertificationUpdatedOverallCode attribute value.
-     * 
-     * @param effortCertificationUpdatedOverallCode The effortCertificationUpdatedOverallCode to set.
-     */
-    public void setEffortCertificationUpdatedOverallCode(String effortCertificationUpdatedOverallCode) {
-        this.effortCertificationUpdatedOverallCode = effortCertificationUpdatedOverallCode;
-    }
-
-    /**
      * Gets the effortCertificationUpdatedOverallPercent attribute.
      * 
      * @return Returns the effortCertificationUpdatedOverallPercent.
@@ -375,42 +259,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setEffortCertificationUpdatedOverallPercent(Integer effortCertificationUpdatedOverallPercent) {
         this.effortCertificationUpdatedOverallPercent = effortCertificationUpdatedOverallPercent;
-    }
-
-    /**
-     * Gets the effortCertificationProratedCode attribute.
-     * 
-     * @return Returns the effortCertificationProratedCode.
-     */
-    public String getEffortCertificationProratedCode() {
-        return effortCertificationProratedCode;
-    }
-
-    /**
-     * Sets the effortCertificationProratedCode attribute value.
-     * 
-     * @param effortCertificationProratedCode The effortCertificationProratedCode to set.
-     */
-    public void setEffortCertificationProratedCode(String effortCertificationProratedCode) {
-        this.effortCertificationProratedCode = effortCertificationProratedCode;
-    }
-
-    /**
-     * Gets the effortCertificationProratedPercent attribute.
-     * 
-     * @return Returns the effortCertificationProratedPercent.
-     */
-    public Integer getEffortCertificationProratedPercent() {
-        return effortCertificationProratedPercent;
-    }
-
-    /**
-     * Sets the effortCertificationProratedPercent attribute value.
-     * 
-     * @param effortCertificationProratedPercent The effortCertificationProratedPercent to set.
-     */
-    public void setEffortCertificationProratedPercent(Integer effortCertificationProratedPercent) {
-        this.effortCertificationProratedPercent = effortCertificationProratedPercent;
     }
 
     /**

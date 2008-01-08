@@ -26,16 +26,6 @@ public class EffortCertificationPeriodStatusCode extends PersistableBusinessObje
     private String effortCertificationReportPeriodStatusCode;
     private String effortCertificationReportPeriodStatusDescription;
 
-    // the predefined status codes
-    public static enum StatusCode {
-        CLOSED("C"), NOT_OPENED("N"), OPEN("O");
-
-        public String statusCode;
-        private StatusCode(String statusCode) {
-            this.statusCode = statusCode;
-        }
-    }
-
     /**
      * Constructs a EffortCertificationPeriodStatusCode.java.
      */

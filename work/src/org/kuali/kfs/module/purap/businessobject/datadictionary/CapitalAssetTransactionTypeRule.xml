@@ -23,10 +23,10 @@
         <inquiry>
             <title>Capital Asset Transaction Type Rule Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="capitalAssetRelationshipLimitNumber" />
+            <inquirySections><inquirySection title="Header Text"><inquiryFields>               
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="financialObjectSubTypeCode" />
+                <field attributeName="capitalAssetRelationshipLimitNumber" />
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
@@ -37,41 +37,29 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetRelationshipLimitNumber" />
+                    <sortAttribute attributeName="capitalAssetTransactionTypeCode" />
+                    <sortAttribute attributeName="financialObjectSubTypeCode" />
                 </sortAttributes>
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="capitalAssetRelationshipLimitNumber" required="false" />
                 <lookupField attributeName="capitalAssetTransactionTypeCode" required="false" />
                 <lookupField attributeName="financialObjectSubTypeCode" required="false" />
+                <lookupField attributeName="capitalAssetRelationshipLimitNumber" required="false" />
             </lookupFields>
 
-            <resultFields>
-                <field attributeName="capitalAssetRelationshipLimitNumber" />
+            <resultFields>               
                 <field attributeName="capitalAssetTransactionTypeCode" />
                 <field attributeName="financialObjectSubTypeCode" />
+                <field attributeName="capitalAssetRelationshipLimitNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="capitalAssetRelationshipLimitNumber" forceUppercase="true">
-                <label>Capital Asset Relationship Limit Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-			</attribute>
-
             <attribute name="capitalAssetTransactionTypeCode" forceUppercase="true">
                 <label>Capital Asset Transaction Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Tran Type Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -84,13 +72,26 @@
 
             <attribute name="financialObjectSubTypeCode" forceUppercase="true">
                 <label>Financial Object Sub Type Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Subobject Code</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
                     <text size="4" />
+                </control>
+
+			</attribute>
+			
+			<attribute name="capitalAssetRelationshipLimitNumber" forceUppercase="true">
+                <label>Capital Asset Relationship Limit Number</label>
+                <shortLabel>Relationship Limit</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
                 </control>
 
 			</attribute>

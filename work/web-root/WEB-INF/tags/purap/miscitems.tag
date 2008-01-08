@@ -201,23 +201,27 @@
 				hideFields="amount" accountingAddLineIndex="${ctr}"
 				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
 		</c:if>
-		<c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
-			<c:set var="optionalFields" value="accountLinePercent" />
-			<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
-			<c:set var="hideFields" value="amount" />
-			<c:if test="${showAmount}">
-				<c:set var="optionalFields" value="" />
-				<c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
-				<c:set var="hideFields" value="" />
-			</c:if>
-			<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
-				editableAccounts="${KualiForm.editableAccounts}"
-				sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
-				extraHiddenFields="${extraHiddenFields}"
-				accountingLineAttributes="${accountingLineAttributes}"
-				accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-				hideFields="${hideFields}" accountingAddLineIndex="${ctr}"
-				suppressCams="${true}" overrideTitle="Item Accounting Lines" />
+		
+		<!-- KULPURAP-1500 -->
+		<c:if test="${(((!empty KualiForm.editingMode['allowItemEntry']) && (!empty itemLine.itemDescription)) || (empty KualiForm.editingMode['allowItemEntry']))}">
+		    <c:if test="${(!amendmentEntry && KualiForm.document.statusCode!='AFOA') || (KualiForm.document.statusCode=='AFOA' && !empty KualiForm.document.items[ctr].itemUnitPrice)}">
+			    <c:set var="optionalFields" value="accountLinePercent" />
+			    <c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
+	    	    <c:set var="hideFields" value="amount" />
+			    <c:if test="${showAmount}">
+				    <c:set var="optionalFields" value="" />
+				    <c:set var="extraHiddenFields" value=",accountIdentifier,itemIdentifier,accountLinePercent" />
+				    <c:set var="hideFields" value="" />
+			    </c:if>
+			    <purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
+				    editableAccounts="${KualiForm.editableAccounts}"
+				    sourceAccountingLinesOnly="true" optionalFields="${optionalFields}"
+				    extraHiddenFields="${extraHiddenFields}"
+				    accountingLineAttributes="${accountingLineAttributes}"
+				    accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+				    hideFields="${hideFields}" accountingAddLineIndex="${ctr}"
+				    suppressCams="${true}" overrideTitle="Item Accounting Lines" />
+		    </c:if>
 		</c:if>
 	</c:if>
 </logic:iterate>

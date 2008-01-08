@@ -20,10 +20,10 @@
 
 <c:set var="stipulationAttributes" value="${DataDictionary.PurchaseOrderVendorStipulation.attributes}" />
 
-<kul:tab tabTitle="Stipulations & Info" defaultOpen="false" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
+<kul:tab tabTitle="Stipulations" defaultOpen="false" tabErrorKey="${PurapConstants.STIPULATIONS_TAB_ERRORS}">
     <div class="tab-container" align=center>
         <div class="h2-container">
-            <h2>Notes to Vendor</h2>
+            <h2>Vendor Stipulations and Information</h2>
         </div>
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Stipulations & Info Section">
             <tr>

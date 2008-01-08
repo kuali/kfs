@@ -1,0 +1,14 @@
+<config>
+
+        <param name="datasource.ojb.platform">Oracle9i</param>
+        <param name="datasource.platform">edu.iu.uis.eden.database.platform.OraclePlatform</param>
+        <param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
+		<param name="datasource.url">@rice-datasource-url@</param>
+		<param name="datasource.username">@rice-datasource-username-test@</param>
+		<param name="datasource.password">@rice-datasource-password-test@</param>
+        <param name="datasource.pool.validationQuery">select 1 from dual</param>
+        <param name="datasource.pool.maxWait">30000</param>
+        <param name="datasource.pool.minSize">2</param>
+        <param name="datasource.pool.maxSize">5</param>
+
+</config>

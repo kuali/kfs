@@ -2,18 +2,19 @@
 	<!-- App specific parameters -->
 	<param name="app.code">kr</param>
 	<param name="app.context.name">${app.code}-${environment}</param>
-	<param name="production.environment.code">PRD</param>
 	<param name="externalizable.help.url">/${app.context.name}/kr/static/help/</param>
 	<param name="externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="kr.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
 	<param name="travel.externalizable.images.url">/${app.context.name}/kr/static/images/</param>
-
-	<param name="javascript.files">kr/scripts/core.js,kr/scripts/dhtml.js,kr/scripts/my_common.js,kr/scripts/jscalendar-1.0/calendar.js,kr/scripts/jscalendar-1.0/lang/calendar-en.js,kr/scripts/jscalendar-1.0/calendar-setup.js,dwr/engine.js,dwr/util.js,dwr/interface/UserService.js,kr/scripts/objectInfo.js</param>
-    <param name="css.files">kr/css/kuali.css,kr/scripts/jscalendar-1.0/calendar-win2k-1.css</param>
-
 	<param name="kr.url">/${app.context.name}/kr</param>
+	<param name="use.clearDatabaseLifecycle">true</param>
+	<param name="use.kewXmlmlDataLoaderLifecycle">true</param>
+	<param name="use.sqlDataLoaderLifecycle">true</param>
+	<param name="test.mode">true</param>
+	<param name="ken.test.mode">true</param>
 
-	<!-- Misc parameters -->
+	<!-- Misc params -->
+	<param name="production.environment.code">PRD</param>
 	<param name="institution">iu</param>
 	<param name="version">03/19/2007 01:59 PM</param>
 	<param name="security.directory">/usr/local/rice/</param>
@@ -27,13 +28,13 @@
 	<param name="log4j.reload.minutes">5</param>
 	<param name="log4j.settings.path">classpath:log4j.properties</param>
 
-	<param name="application.url">http://localhost:8080/${app.context.name}</param>
-	<param name="workflow.url">${application.url}/en</param>
-	<param name="serviceServletUrl">${application.url}/remoting/</param>
+	<param name="workflow.url">http://localhost:9912/${app.context.name}/en</param>
+	<param name="application.url">http://localhost:9912/${app.context.name}</param>
+	<param name="serviceServletUrl">http://localhost:9912/${app.context.name}/remoting/</param>
 
 	<param name="datasource.url">@rice-datasource-url@</param>
-	<param name="datasource.username">@rice-datasource-username-dev@</param>
-	<param name="datasource.password">@rice-datasource-password-dev@</param>
+	<param name="datasource.username">@rice-datasource-username-test@</param>
+	<param name="datasource.password">@rice-datasource-password-test@</param>
 	<param name="datasource.ojb.platform">Oracle9i</param>
 	<param name="datasource.platform">edu.iu.uis.eden.database.platform.OraclePlatform</param>
 	<param name="datasource.driver.name">oracle.jdbc.driver.OracleDriver</param>
@@ -49,8 +50,6 @@
 
 	<param name="dev.mode">true</param>
 	<param name="message.persistence">synchronous</param>
-
-    <param name="edl.config.loc">classpath:META-INF/EDLConfig.xml</param>
 
 	<!-- XML ingester directories -->
 	<param name="data.xml.root.location">/opt/ears/${environment}/en/xml</param>
@@ -74,30 +73,5 @@
 
 	<param name="kfsLocator.useAppContext">true</param>
 	<param name="production.environment.code">prd</param>
-
-	<!-- Ken stuffs... -->
-    <!-- stock notification system configuration properties -->
-
-    <!-- Quartz Jobs (MS = Milli Seconds) -->
-    <param name="notification.resolveMessageDeliveriesJob.startDelayMS">5000</param>
-    <param name="notification.resolveMessageDeliveriesJob.intervalMS">10000</param>
-
-    <param name="notification.processUndeliveredJob.startDelayMS">10000</param>
-    <param name="notification.processUndeliveredJob.intervalMS">10000</param>
-
-    <param name="notification.processAutoRemovalJob.startDelayMS">60000</param>
-    <param name="notification.processAutoRemovalJob.intervalMS">60000</param>
-
-    <param name="notification.quartz.autostartup">true</param>
-    <param name="notification.concurrent.jobs">true</param>
-
-    <param name="notification.basewebappurl">http://localhost:8080/kr-dev/ken</param>
-    
-    <param name="notification.ojb.platform">Oracle</param>
-    
-    <!-- Email Plugin Properties -->
-    <param name="emailDeliverer.smtp.host">no_such_smtp_host</param>
-    
-    <!-- Turn off KEW use of quartz db to avoid db clear issues -->
-    <param name="useQuartzDatabase">false</param>
 </config>
+

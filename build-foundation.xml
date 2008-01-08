@@ -124,11 +124,14 @@ Workflow Tag: ${release.workflow.cvs.tag}
         </condition>
         <property name="os.safe.driver.path" value="${drivers.directory}/ojdbc14.jar" />
         <maven goals="install:install-file" options="-U -DgroupId=com.oracle -DartifactId=ojdbc14 -Dversion=10.1.0.3.0 -Dpackaging=jar -Dfile=${os.safe.driver.path}" />
-        <copy todir="${user.home}/kuali">
+        <copy todir="${user.home}/kuali" overwrite="true">
             <fileset dir="${build.user.directory}/${ant.project.name}" includes="**/**" />
             <filterset>
-                <filter token="dev-rice-password" value="${rice.datasource.password.dev}" />
-                <filter token="test-rice-password" value="${rice.datasource.password.test}" />
+            	<filter token="rice-datasource-url" value="${rice.datasource.url}" />
+            	<filter token="rice-datasource-username-dev" value="${rice.datasource.username.dev}" />
+            	<filter token="rice-datasource-password-dev" value="${rice.datasource.password.dev}" />
+            	<filter token="rice-datasource-username-test" value="${rice.datasource.username.test}" />
+            	<filter token="rice-datasource-password-test" value="${rice.datasource.password.test}" />
             </filterset>
         </copy>
         <maven goals="clean:clean install source:jar javadoc:jar" options="-U -Pinstall-kns-dev -Dpackaging=jar" />

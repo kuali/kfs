@@ -98,6 +98,9 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         document.setEffortCertificationReportNumber(reportDefinition.getEffortCertificationReportNumber());
         document.setUniversityFiscalYear(reportDefinition.getUniversityFiscalYear());
         document.setEmplid(ledgerBalance.getEmplid());
+        
+        document.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
+        document.setOrganizationCode(ledgerBalance.getAccount().getOrganizationCode());
 
         return document;
     }

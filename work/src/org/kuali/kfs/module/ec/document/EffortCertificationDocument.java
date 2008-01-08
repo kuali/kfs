@@ -35,6 +35,8 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
  */
 public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private String documentNumber;
+    private String chartOfAccountsCode;
+    private String organizationCode;
     private String effortCertificationReportNumber;
     private String effortCertificationDocumentCode;
     private Integer universityFiscalYear;
@@ -70,6 +72,38 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
+    }
+
+    /**
+     * Gets the chartOfAccountsCode attribute. 
+     * @return Returns the chartOfAccountsCode.
+     */
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    /**
+     * Sets the chartOfAccountsCode attribute value.
+     * @param chartOfAccountsCode The chartOfAccountsCode to set.
+     */
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
+    }
+
+    /**
+     * Gets the organizationCode attribute. 
+     * @return Returns the organizationCode.
+     */
+    public String getOrganizationCode() {
+        return organizationCode;
+    }
+
+    /**
+     * Sets the organizationCode attribute value.
+     * @param organizationCode The organizationCode to set.
+     */
+    public void setOrganizationCode(String organizationCode) {
+        this.organizationCode = organizationCode;
     }
 
     /**

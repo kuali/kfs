@@ -52,8 +52,8 @@ public class SpringAOPUsageTest extends KualiTestBase {
         SpringContext.getBean(BalanceTypService.class).getAllBalanceTyps();
         assertTrue(methodIsCached(BalanceTypService.class.getMethod("getAllBalanceTyps", new Class[] {}), new Object[] {}));
         // should not be cached cause no method annotation and no class annotation
-        SpringContext.getBean(BalanceTypService.class).getEncumbranceBalanceTypes();
-        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
+        SpringContext.getBean(BalanceTypService.class).getCurrentYearEncumbranceBalanceTypes();
+        assertFalse(methodIsCached(BalanceTypService.class.getMethod("getCurrentYearEncumbranceBalanceTypes", new Class[] {}), new Object[] {}));
         // should not be cached, cause no annotations on the class or its methods
         SpringContext.getBean(PriorYearAccountService.class).getByPrimaryKey("BL", "1031490");
         assertFalse(methodIsCached(PriorYearAccountService.class.getMethod("getByPrimaryKey", new Class[] { String.class, String.class }), new Object[] { "BL", "1031490" }));

@@ -56,21 +56,6 @@ public class LedgerBalanceFieldValidator {
     }
 
     /**
-     * check if the account of the given ledger balance has higher education function
-     * 
-     * @param ledgerBalance the given ledger balance
-     * @return null if the account of the given ledger balance has higher education function; otherwise, a message
-     */
-    public static Message hasHigherEdFunction(LedgerBalance ledgerBalance) {
-        Account account = ledgerBalance.getAccount();
-        if (account.getFinancialHigherEdFunction() == null) {
-            String accountNumber = ledgerBalance.getAccountNumber();
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND, accountNumber);
-        }
-        return null;
-    }
-
-    /**
      * detetermine if the fund group code associated with the given ledger balance is in the given fund group codes
      * 
      * @param ledgerBalance the given ledger balance

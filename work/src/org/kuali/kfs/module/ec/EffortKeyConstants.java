@@ -27,7 +27,6 @@ public class EffortKeyConstants {
     public static final String ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID = "error.effort.extract.fiscalYearOrReportNumberInvalid";
     public static final String ERROR_FISCAL_YR = "error.requiredForUs";
     public static final String ERROR_FUND_GROUP_NOT_FOUND = "error.effort.extract.fundGroupNotFound";
-    public static final String ERROR_HIGHER_EDUCATION_CODE_NOT_FOUND = "error.effort.extract.higherEducationCodeNotFound";
     public static final String ERROR_MULTIPLE_ORGANIZATIONS_FOUND = "error.effort.extract.multipleOrganizationFound";
     public static final String ERROR_NONPOSITIVE_PAYROLL_AMOUNT = "error.effort.extract.nonpositivePayrollAmount";
     public static final String ERROR_NOT_LABOR_OBJECT_CODE = "error.effort.extract.notLaborObjectCode";

@@ -83,8 +83,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     @Logged
     public void extract() {
-        Integer fiscalYear = EffortCertificationParameterFinder.getReportFiscalYear();
-        String reportNumber = EffortCertificationParameterFinder.getReportNumber();
+        Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
+        String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
 
         this.extract(fiscalYear, reportNumber);
     }
@@ -284,11 +284,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             // every balance record must be associated with a valid account
             if (StringUtils.isEmpty(errorMessage)) {
                 errorMessage = LedgerBalanceFieldValidator.hasValidAccount(balance).getMessage();
-            }
-
-            // the account of every balance record must have valid high education function code
-            if (StringUtils.isEmpty(errorMessage)) {
-                errorMessage = LedgerBalanceFieldValidator.hasHigherEdFunction(balance).getMessage();
             }
 
             // remove the unqualified ledger balance from the list and report the error

@@ -36,7 +36,5 @@ public interface EffortCertificationExtractService {
      * @param fiscalYear the given fiscal year with which Labor ledgers can be extracted.
      * @param reportNumber the given report number to run.
      */
-    public void extract(Integer fiscalYear, String reportNumber);
-    
-    
+    public void extract(Integer fiscalYear, String reportNumber);   
 }

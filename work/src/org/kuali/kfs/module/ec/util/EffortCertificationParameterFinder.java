@@ -22,6 +22,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
+import org.kuali.module.effort.batch.EffortCertificationCreateStep;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
 /**
@@ -108,20 +109,20 @@ public class EffortCertificationParameterFinder {
     }
 
     /**
-     * get the report fiscal year setup in system paremters
+     * get the report fiscal year setup in system paremters for extract process
      * 
      * @return the report fiscal year setup in system paremters
      */
-    public static Integer getReportFiscalYear() {
+    public static Integer getExtractReportFiscalYear() {
         return Integer.valueOf(parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_FISCAL_YEAR));
     }
 
     /**
-     * get the report number setup in system paremters
+     * get the report number setup in system paremters for extract process
      * 
      * @return the report number setup in system paremters
      */
-    public static String getReportNumber() {
+    public static String getExtractReportNumber() {
         return parameterService.getParameterValue(EffortCertificationExtractStep.class, SystemParameters.RUN_REPORT_NUMBER);
     }
 
@@ -141,5 +142,23 @@ public class EffortCertificationParameterFinder {
      */
     public static List<String> getExpenseSubAccountTypeCode() {
         return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
+    }
+    
+    /**
+     * get the report fiscal year setup in system paremters for create process
+     * 
+     * @return the report fiscal year setup in system paremters
+     */
+    public static Integer getCreateReportFiscalYear() {
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.RUN_FISCAL_YEAR));
+    }
+
+    /**
+     * get the report number setup in system paremters for create process
+     * 
+     * @return the report number setup in system paremters
+     */
+    public static String getCreateReportNumber() {
+        return parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.RUN_REPORT_NUMBER);
     }
 }

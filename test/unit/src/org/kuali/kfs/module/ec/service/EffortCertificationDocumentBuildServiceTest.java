@@ -105,6 +105,15 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         
         this.assertDocumentEquals(testTarget, true);
     }
+    
+    /**
+     * test if the percentages of detail lines can be calculated correctly
+     */
+    public void testGenerateDocumentBuild_PercentageCalculation() throws Exception {
+        String testTarget = "generateDocumentBuild.percentageCalculation.";
+        reportDefinition = this.buildReportDefinition("");
+        this.assertDocumentEquals(testTarget, false);
+    }
 
     /**
      * compare the resulting detail line with the expected

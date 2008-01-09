@@ -31,10 +31,22 @@ public interface EffortCertificationDocumentBuildService {
     /**
      * generate documents(build) for effort certification from the given collection of labor ledger balance
      * 
+     * @param postingYear the fiscal year when the document is generated
      * @param reportDefinition the given report definition of effort certification
      * @param ledgerBalances the given labor ledger balances
      * @param parameters the parameters setup in system parameters
      * @return documents(build) for effort certification from the given collection of labor ledger balance
      */
-    public List<EffortCertificationDocumentBuild> generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters);
+    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters);
+    
+    /**
+     * generate a document(build) for effort certification from the given collection of labor ledger balance
+     * 
+     * @param postingYear the fiscal year when the document is generated
+     * @param reportDefinition the given report definition of effort certification
+     * @param ledgerBalances the given labor ledger balances
+     * @param parameters the parameters setup in system parameters
+     * @return a document(build) for effort certification from the given collection of labor ledger balance
+     */
+    public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters);
 }

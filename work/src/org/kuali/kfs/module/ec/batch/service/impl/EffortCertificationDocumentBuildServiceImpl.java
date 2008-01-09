@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.spring.Logged;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -40,46 +39,54 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class EffortCertificationDocumentBuildServiceImpl implements EffortCertificationDocumentBuildService {
-    private UniversityDateService universityDateService;
     private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
      *      java.util.Collection, java.util.Map)
      */
-    @Logged
-    public List<EffortCertificationDocumentBuild> generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
         List<EffortCertificationDocumentBuild> documentList = new ArrayList<EffortCertificationDocumentBuild>();
-
-        Integer postingYear = universityDateService.getCurrentFiscalYear();
-        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
-        PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
 
         Map<String, List<LedgerBalance>> ledgerBalanceGroups = buildLedgerBalanceGroups(ledgerBalances);
         for (String key : ledgerBalanceGroups.keySet()) {
             List<LedgerBalance> balanceList = ledgerBalanceGroups.get(key);
-            LedgerBalance headOfBalanceList = balanceList.get(0);
 
-            EffortCertificationDocumentBuild document = populateDocument(reportDefinition, headOfBalanceList);
-            List<EffortCertificationDetailBuild> detailLineList = document.getEffortCertificationDetailLinesBuild();
-
-            for (LedgerBalance balance : balanceList) {
-                EffortCertificationDetailBuild detailLine = effortCertificationDetailBuildService.generateDetailBuild(postingYear, balance, reportDefinition, parameters);
-                detailLine.setEffortCertificationBuildNumber(document.getEffortCertificationBuildNumber());
-
-                payrollAmountHolder.setPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
-                calculatePayrollPercent(payrollAmountHolder);
-
-                detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
-                detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
-
-                detailLineList.add(detailLine);
-            }
+            EffortCertificationDocumentBuild document = this.generateDocumentBuild(postingYear, reportDefinition, balanceList, parameters);
             documentList.add(document);
         }
 
         return documentList;
+    }
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
+     *      java.util.List, java.util.Map)
+     */
+    public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+        Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
+
+        KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
+        PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
+
+        LedgerBalance headOfBalanceList = ledgerBalances.get(0);
+        EffortCertificationDocumentBuild document = populateDocument(reportDefinition, headOfBalanceList);
+        List<EffortCertificationDetailBuild> detailLineList = document.getEffortCertificationDetailLinesBuild();
+
+        for (LedgerBalance balance : ledgerBalances) {
+            EffortCertificationDetailBuild detailLine = effortCertificationDetailBuildService.generateDetailBuild(postingYear, balance, reportDefinition, parameters);
+            detailLine.setEffortCertificationBuildNumber(document.getEffortCertificationBuildNumber());
+
+            payrollAmountHolder.setPayrollAmount(detailLine.getEffortCertificationPayrollAmount());
+            calculatePayrollPercent(payrollAmountHolder);
+
+            detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
+            detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
+
+            detailLineList.add(detailLine);
+        }
+
+        return document;
     }
 
     /**
@@ -98,7 +105,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         document.setEffortCertificationReportNumber(reportDefinition.getEffortCertificationReportNumber());
         document.setUniversityFiscalYear(reportDefinition.getUniversityFiscalYear());
         document.setEmplid(ledgerBalance.getEmplid());
-        
+
         document.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
         document.setOrganizationCode(ledgerBalance.getAccount().getOrganizationCode());
 
@@ -134,7 +141,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
         KualiDecimal payrollAmount = payrollAmountHolder.getPayrollAmount();
         KualiDecimal accumulatedAmount = payrollAmountHolder.getAccumulatedAmount();
-        payrollAmountHolder.setAccumulatedAmount(accumulatedAmount.add(payrollAmount));
+        accumulatedAmount = accumulatedAmount.add(payrollAmount);
 
         int accumulatedPercent = payrollAmountHolder.getAccumulatedPercent();
         int quotientOne = Math.round(payrollAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
@@ -143,17 +150,9 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         int quotientTwo = Math.round(accumulatedAmount.multiply(PayrollAmountHolder.oneHundred).divide(totalAmount).floatValue());
         quotientTwo = quotientTwo - accumulatedPercent;
 
+        payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
-    }
-
-    /**
-     * Sets the universityDateService attribute value.
-     * 
-     * @param universityDateService The universityDateService to set.
-     */
-    public void setUniversityDateService(UniversityDateService universityDateService) {
-        this.universityDateService = universityDateService;
     }
 
     /**

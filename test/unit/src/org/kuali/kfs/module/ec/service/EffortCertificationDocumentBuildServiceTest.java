@@ -15,13 +15,189 @@
  */
 package org.kuali.module.effort.service;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
+import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortConstants.SystemParameters;
+import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
+import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
 @ConfigureContext
 public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
 
-    public void testGenerateDocumentBuild() throws Exception{
+    private Properties properties, message;
+    private String balanceFieldNames, detailFieldNames, documentFieldNames;
+    private String deliminator;
+    Integer postingYear;
+
+    private EffortCertificationReportDefinition reportDefinition;
+
+    private BusinessObjectService businessObjectService;
+    private PersistenceService persistenceService;
+    private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
+
+    /**
+     * Constructs a EffortCertificationDetailBuildServiceTest.java.
+     */
+    public EffortCertificationDocumentBuildServiceTest() {
+        super();
+        String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
+        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/effortCertificationDocumentBuildService.properties";
+
+        TestDataGenerator generator = new TestDataGenerator(propertiesFileName, messageFileName);
+        properties = generator.getProperties();
+        message = generator.getMessage();
+
+        deliminator = properties.getProperty("deliminator");
+
+        balanceFieldNames = properties.getProperty("balanceFieldNames");
+        detailFieldNames = properties.getProperty("detailFieldNames");
+        documentFieldNames = properties.getProperty("documentFieldNames");
         
+        postingYear = Integer.valueOf(properties.getProperty("postingYear")); 
+    }
+
+    @Override
+    public void setUp() throws Exception {
+        super.setUp();
+
+        businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        persistenceService = SpringContext.getBean(PersistenceService.class);
+        effortCertificationDocumentBuildService = SpringContext.getBean(EffortCertificationDocumentBuildService.class);
+
+        this.doCleanUp();
+    }
+
+    /**
+     * test if a build detail line can be generated from the specified ledger balance whose sub account is not in sub account table
+     */
+    public void testGenerateDocumentBuild() throws Exception {
+        String testTarget = "generateDocumentBuild.";
+        reportDefinition = this.buildReportDefinition("");
+        this.assertDocumentEquals(testTarget, false);
+    }
+    
+    /**
+     * test if a build detail line can be generated from the specified ledger balance whose sub account is not in sub account table
+     */
+    public void testGenerateDocumentBuild_SaveIntoDatabase() throws Exception {
+        String testTarget = "generateDocumentBuild.saveIntoDatabase.";
+        reportDefinition = this.buildReportDefinition("");
+        
+        EffortCertificationReportDefinition existingReportDefinition = (EffortCertificationReportDefinition)businessObjectService.retrieve(reportDefinition);
+        if(existingReportDefinition == null) {
+            businessObjectService.save(reportDefinition);
+        }
+        
+        this.assertDocumentEquals(testTarget, true);
+    }
+
+    /**
+     * compare the resulting detail line with the expected
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     */
+    private void assertDocumentEquals(String testTarget, boolean savedIntoDatabase) {
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        List<String> detailKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
+        Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
+
+        List<LedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
+
+        EffortCertificationDocumentBuild documentBuild = effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, ledgerBalances, systemParameters);
+        if(savedIntoDatabase) {
+            businessObjectService.save(documentBuild);
+            persistenceService.retrieveNonKeyFields(documentBuild);
+        }        
+        List<EffortCertificationDetailBuild> detailBuild = documentBuild.getEffortCertificationDetailLinesBuild();
+
+        EffortCertificationDocumentBuild expectedDocumentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator);
+        int numberOfExpectedDetails = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetails"));
+        List<EffortCertificationDetailBuild> expectedDetailsBuild = TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetail", detailFieldNames, deliminator, numberOfExpectedDetails);
+
+        String errorMessage = message.getProperty("error.documentBuildService.unexpectedDocumentGenerated");
+        assertTrue(errorMessage, ObjectUtil.compareObject(documentBuild, expectedDocumentBuild, documentKeyFields));
+
+        assertEquals(errorMessage, expectedDetailsBuild.size(), detailBuild.size());
+
+        for (int i = 0; i < numberOfExpectedDetails; i++) {
+            EffortCertificationDetailBuild expected = expectedDetailsBuild.get(i);
+            EffortCertificationDetailBuild actual = detailBuild.get(i);
+
+            assertTrue(errorMessage, ObjectUtil.compareObject(actual, expected, detailKeyFields));
+        }
+    }
+
+    /**
+     * construct a list of ledger balances and persist them
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     * @return a list of ledger balances
+     */
+    private List<LedgerBalance> buildLedgerBalances(String testTarget) {
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+
+        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfTestData);
+        businessObjectService.save(ledgerBalances);
+        for (LedgerBalance balance : ledgerBalances) {
+            persistenceService.retrieveNonKeyFields(balance);
+        }
+
+        return ledgerBalances;
+    }
+
+    /**
+     * construct a system parameter map
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     * @return a system parameter map
+     */
+    private Map<String, List<String>> buildSystemParameterMap(String testTarget) {
+        List<String> expSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.expenseSubAccountTypeCode"), deliminator);
+        List<String> csSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.costShareSubAccountTypeCode"), deliminator);
+
+        Map<String, List<String>> systemParameters = new HashMap<String, List<String>>();
+        systemParameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, expSubAccountType);
+        systemParameters.put(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE, csSubAccountType);
+
+        return systemParameters;
+    }
+
+    /**
+     * build a report defintion object from the given test target
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     * @return a report defintion object
+     */
+    private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
+        EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
+        String reprtDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
+        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
+
+        return reportDefinition;
+    }
+
+    /**
+     * remove the existing data from the database so that they cannot affact the test results
+     */
+    private void doCleanUp() throws Exception {
+        LedgerBalance cleanup = new LedgerBalance();
+        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", balanceFieldNames, deliminator);
+        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(balanceFieldNames, deliminator)));
+        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 }

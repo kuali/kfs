@@ -51,6 +51,7 @@ import org.kuali.module.effort.util.EffortReportRegistry;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
+import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -71,6 +72,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private BusinessObjectService businessObjectService;
     private OptionsService optionsService;
     private DateTimeService dateTimeService;
+    private UniversityDateService universityDateService;
 
     private LaborEffortCertificationService laborEffortCertificationService;
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
@@ -191,6 +193,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private void generateDocumentBuild(EffortCertificationReportDefinition reportDefinition, List<String> employees, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
+        Integer postingYear = universityDateService.getCurrentFiscalYear();
 
         for (String emplid : employees) {
             Collection<LedgerBalance> qualifiedLedgerBalance;
@@ -201,7 +204,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             }
 
             List<EffortCertificationDocumentBuild> documents;
-            documents = effortCertificationDocumentBuildService.generateDocumentBuild(reportDefinition, qualifiedLedgerBalance, parameters);
+            documents = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, qualifiedLedgerBalance, parameters);
             businessObjectService.save(documents);
 
             reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, qualifiedLedgerBalance.size());
@@ -256,10 +259,10 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         // check the employee according to the pre-qualified ledger balances
         boolean isQualifiedEmployee = this.checkEmployeeBasedOnLedgerBalances(emplid, consolidatedLedgerBalances, reportDefinition, reportDataHolder, parameters);
-        
+
         // abort all ledger balances if the employee is not qualified; otherwise, adopt the consolidated balances
         Collection<LedgerBalance> qualifiedLedgerBalances = isQualifiedEmployee ? consolidatedLedgerBalances : null;
-        
+
         return qualifiedLedgerBalances;
     }
 
@@ -315,6 +318,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         String nonpositiveTotalError = LedgerBalanceFieldValidator.isTotalAmountPositive(ledgerBalances, reportPeriods).getMessage();
         if (StringUtils.isNotEmpty(nonpositiveTotalError)) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, nonpositiveTotalError, emplid);
+            return false;
+        }
+        
+        // an employee must not be paid by multiple organizations
+        String multipleOrganizationError = LedgerBalanceFieldValidator.hasMultipleOrganizations(ledgerBalances).getMessage();
+        if (StringUtils.isNotEmpty(multipleOrganizationError)) {
+            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, multipleOrganizationError, emplid);
             return false;
         }
 
@@ -550,5 +560,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     public void setEffortCertificationReportService(EffortCertificationReportService effortCertificationReportService) {
         this.effortCertificationReportService = effortCertificationReportService;
+    }
+
+    /**
+     * Sets the universityDateService attribute value.
+     * 
+     * @param universityDateService The universityDateService to set.
+     */
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 }

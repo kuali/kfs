@@ -85,7 +85,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     public void testGenerateDetailBuild_NullSubAccount() throws Exception {
         String testTarget = "generateDetailBuild.nullSubAccount.";        
         reportDefinition = this.buildReportDefinition("");
-        this.assertDetailEqual(testTarget);
+        this.assertDetailEquals(testTarget);
     }
 
     /**
@@ -94,7 +94,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     public void testGenerateDetailBuild_ExpenseSubAccount() throws Exception {
         String testTarget = "generateDetailBuild.expenseSubAccount.";        
         reportDefinition = this.buildReportDefinition("");
-        this.assertDetailEqual(testTarget);
+        this.assertDetailEquals(testTarget);
     }
 
     /**
@@ -103,7 +103,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     public void testGenerateDetailBuild_CostShareSubAccount() throws Exception {
         String testTarget = "generateDetailBuild.costShareSubAccount.";
         reportDefinition = this.buildReportDefinition("");
-        this.assertDetailEqual(testTarget);
+        this.assertDetailEquals(testTarget);
     }
 
     /**
@@ -113,7 +113,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     public void testGenerateDetailBuild_UnspecifiedTypeSubAccount() throws Exception {
         String testTarget = "generateDetailBuild.unspecifiedTypeSubAccount.";        
         reportDefinition = this.buildReportDefinition("");        
-        this.assertDetailEqual(testTarget);
+        this.assertDetailEquals(testTarget);
     }
 
     /**
@@ -122,7 +122,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     public void testGenerateDetailBuild_LongReportPeriod() throws Exception {
         String testTarget = "generateDetailBuild.longReportPeriod.";
         reportDefinition = this.buildReportDefinition(testTarget);
-        this.assertDetailEqual(testTarget);
+        this.assertDetailEquals(testTarget);
     }
 
     /**
@@ -130,7 +130,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      * 
      * @param testTarget the given test target that specifies the test data being used
      */
-    private void assertDetailEqual(String testTarget) {
+    private void assertDetailEquals(String testTarget) {
         List<String> keyFields = ObjectUtil.split(detailFieldNames, deliminator);
         Map<String, List<String>> systemParameters = this.buildSystemParameterMap(testTarget);
 

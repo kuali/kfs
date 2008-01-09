@@ -101,6 +101,10 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>
+				
 		<property name="laborEffortCertificationService">
 			<ref bean="laborEffortCertificationService" />
 		</property>
@@ -117,10 +121,7 @@
 	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >
 		<property name="effortCertificationDetailBuildService">
 			<ref bean="effortCertificationDetailBuildService" />
-		</property>		
-		<property name="universityDateService">
-			<ref bean="universityDateService" />
-		</property>			
+		</property>					
 	</bean>
 			
 	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" />

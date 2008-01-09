@@ -150,7 +150,7 @@ public class EffortCertificationParameterFinder {
      * @return the report fiscal year setup in system paremters
      */
     public static Integer getCreateReportFiscalYear() {
-        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.RUN_FISCAL_YEAR));
+        return Integer.valueOf(parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.CREATE_FISCAL_YEAR));
     }
 
     /**
@@ -159,6 +159,6 @@ public class EffortCertificationParameterFinder {
      * @return the report number setup in system paremters
      */
     public static String getCreateReportNumber() {
-        return parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.RUN_REPORT_NUMBER);
+        return parameterService.getParameterValue(EffortCertificationCreateStep.class, SystemParameters.CREATE_REPORT_NUMBER);
     }
 }

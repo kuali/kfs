@@ -67,8 +67,8 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         balanceFieldNames = properties.getProperty("balanceFieldNames");
         detailFieldNames = properties.getProperty("detailFieldNames");
         documentFieldNames = properties.getProperty("documentFieldNames");
-        
-        postingYear = Integer.valueOf(properties.getProperty("postingYear")); 
+
+        postingYear = Integer.valueOf(properties.getProperty("postingYear"));
     }
 
     @Override
@@ -90,22 +90,31 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         reportDefinition = this.buildReportDefinition("");
         this.assertDocumentEquals(testTarget, false);
     }
-    
+
+    /**
+     * test if the input balances can be grouped and converted to documents correctly 
+     */
+    public void testGenerateDocumentBuildList() throws Exception {
+        String testTarget = "generateDocumentBuildList.";
+        reportDefinition = this.buildReportDefinition("");
+        this.assertDocumentListEquals(testTarget);
+    }
+
     /**
      * test if a build document as well as its detail lines can be generated and stored into database approperiately
      */
     public void testGenerateDocumentBuild_SaveIntoDatabase() throws Exception {
         String testTarget = "generateDocumentBuild.saveIntoDatabase.";
         reportDefinition = this.buildReportDefinition("");
-        
-        EffortCertificationReportDefinition existingReportDefinition = (EffortCertificationReportDefinition)businessObjectService.retrieve(reportDefinition);
-        if(existingReportDefinition == null) {
+
+        EffortCertificationReportDefinition existingReportDefinition = (EffortCertificationReportDefinition) businessObjectService.retrieve(reportDefinition);
+        if (existingReportDefinition == null) {
             businessObjectService.save(reportDefinition);
         }
-        
+
         this.assertDocumentEquals(testTarget, true);
     }
-    
+
     /**
      * test if the percentages of detail lines can be calculated correctly
      */
@@ -128,10 +137,10 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         List<LedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
 
         EffortCertificationDocumentBuild documentBuild = effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, ledgerBalances, systemParameters);
-        if(savedIntoDatabase) {
+        if (savedIntoDatabase) {
             businessObjectService.save(documentBuild);
             persistenceService.retrieveNonKeyFields(documentBuild);
-        }        
+        }
         List<EffortCertificationDetailBuild> detailBuild = documentBuild.getEffortCertificationDetailLinesBuild();
 
         EffortCertificationDocumentBuild expectedDocumentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator);
@@ -148,6 +157,45 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
             EffortCertificationDetailBuild actual = detailBuild.get(i);
 
             assertTrue(errorMessage, ObjectUtil.compareObject(actual, expected, detailKeyFields));
+        }
+    }
+
+    /**
+     * compare the resulting detail line with the expected
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     */
+    private void assertDocumentListEquals(String testTarget) {
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
+
+        List<LedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, ledgerBalances, systemParameters);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        String errorMessage = message.getProperty("error.documentBuildService.unexpectedDocumentGenerated");
+        assertEquals(errorMessage, expectedDocumentBuildList.size(), documentBuildList.size());
+
+        for (int j = 0; j < numberOfExpectedDocuments; j++) {
+            EffortCertificationDocumentBuild expected = expectedDocumentBuildList.get(j);
+            boolean contain = false;
+            
+            for (int i = 0; i < numberOfExpectedDocuments - j; i++) {
+                EffortCertificationDocumentBuild actual = documentBuildList.get(i);
+                
+                contain = ObjectUtil.compareObject(actual, expected, documentKeyFields);
+                if(contain) {
+                    documentBuildList.remove(i);
+                    break;
+                }               
+            }
+            
+            if(!contain) {
+                fail(errorMessage);
+            }
         }
     }
 

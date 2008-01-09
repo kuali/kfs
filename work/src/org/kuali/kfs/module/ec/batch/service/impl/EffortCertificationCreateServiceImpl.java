@@ -29,8 +29,8 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
      * @see org.kuali.module.effort.service.EffortCertificationCreateService#create()
      */
     public void create() {
-        Integer fiscalYear = EffortCertificationParameterFinder.getExtractReportFiscalYear();
-        String reportNumber = EffortCertificationParameterFinder.getExtractReportNumber();
+        Integer fiscalYear = EffortCertificationParameterFinder.getCreateReportFiscalYear();
+        String reportNumber = EffortCertificationParameterFinder.getCreateReportNumber();
 
         this.create(fiscalYear, reportNumber);
     }

@@ -43,6 +43,8 @@ public class EffortConstants extends JstlConstants {
         public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
         public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
         public static final String NUM_ERRORS_FOUND = "numOfErrors";
+        
+        public static final String DEFAULT_DOCUMENT_CODE = "N";
     }
 
     /**
@@ -61,6 +63,9 @@ public class EffortConstants extends JstlConstants {
         public static final String RUN_FISCAL_YEAR  = "RUN_FISCAL_YEAR";
         public static final String RUN_IND = "RUN_IND";
         public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
+        
+        public static final String CREATE_FISCAL_YEAR  = "CREATE_FISCAL_YEAR";
+        public static final String CREATE_REPORT_NUMBER  = "CREATE_REPORT_NUMBER";
     }
     
     public static final String VALUE_SEPARATOR  = ", ";

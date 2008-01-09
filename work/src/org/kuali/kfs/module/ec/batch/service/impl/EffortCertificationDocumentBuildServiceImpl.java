@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -100,7 +101,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         EffortCertificationDocumentBuild document = new EffortCertificationDocumentBuild();
 
         document.setEffortCertificationBuildNumber(null);
-        document.setEffortCertificationDocumentCode(null);
+        document.setEffortCertificationDocumentCode(EffortConstants.ExtractProcess.DEFAULT_DOCUMENT_CODE);
 
         document.setEffortCertificationReportNumber(reportDefinition.getEffortCertificationReportNumber());
         document.setUniversityFiscalYear(reportDefinition.getUniversityFiscalYear());

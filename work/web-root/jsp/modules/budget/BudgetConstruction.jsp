@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 <c:set var="budgetConstructionAttributes"
-	value="${DataDictionary['KualiBudgetConstructionDocument'].attributes}" />
+	value="${DataDictionary['BudgetConstructionDocument'].attributes}" />
 
 <c:if test="${KualiForm.pickListClose}">
 <kul:page showDocumentInfo="false"

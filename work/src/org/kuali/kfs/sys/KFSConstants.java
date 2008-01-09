@@ -930,7 +930,7 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
 
         /* Budget Construction document type */
         public final static String BUDGET_CONSTRUCTION_DOCUMENT_TYPE = "BC";
-        public final static String BUDGET_CONSTRUCTION_DOCUMENT_NAME = "KualiBudgetConstructionDocument";
+        public final static String BUDGET_CONSTRUCTION_DOCUMENT_NAME = "BudgetConstructionDocument";
         public final static String BUDGET_CONSTRUCTION_DOCUMENT_DESCRIPTION = "Budget Construction";
         public final static String BUDGET_CONSTRUCTION_DOCUMENT_INITIAL_STATUS = "$";
         public final static String ORG_REVIEW_RULE_TEMPLATE = "KualiOrgReviewTemplate";

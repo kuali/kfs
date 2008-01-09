@@ -45,8 +45,8 @@ public class PermissionServiceTest extends KualiTestBase {
 
     /**
      * This tests org.kuali.module.budget.service.PermissionService.getOrgReview() It depends on certain WorkFlow OrgReview rules to
-     * exist for the KualiBudgetConstructionDocument type. It verifies that khuntley is a KBCD approver for one organization and it
-     * is IU-UNIV It verifies that hsoucy is a KBCD approver for two organizations in the review hierarchy (BL-BL,UA-UA) one as a
+     * exist for the BudgetConstructionDocument type. It verifies that khuntley is a BCD approver for one organization and it
+     * is IU-UNIV It verifies that hsoucy is a BCD approver for two organizations in the review hierarchy (BL-BL,UA-UA) one as a
      * member of the workgroup KUALI-BLSPECIAL (BL-BL) and one as an individual (UA-UA)
      * 
      * @throws Exception
@@ -70,8 +70,8 @@ public class PermissionServiceTest extends KualiTestBase {
 
     /**
      * This tests org.kuali.module.budget.service.PermissionService.isOrgReviewApprover() It depends on certain WorkFlow OrgReview
-     * rules to exist for the KualiBudgetConstructionDocument type. It verfies that khuntley is a KBCD approver for the organization
-     * IU-UNIV It verfies that khuntley is *NOT* a KBCD approver for the organization BL-BL It verfies that dfogle is a KBCD
+     * rules to exist for the BudgetConstructionDocument type. It verfies that khuntley is a BCD approver for the organization
+     * IU-UNIV It verfies that khuntley is *NOT* a BCD approver for the organization BL-BL It verfies that dfogle is a KBCD
      * approver for the organization BL-PSY
      * 
      * @throws Exception

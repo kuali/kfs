@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-<c:set var="documentAttributes" value="${DataDictionary.KualiBudgetConstructionDocument.attributes}" />
+<c:set var="documentAttributes" value="${DataDictionary.BudgetConstructionDocument.attributes}" />
 <c:set var="accountAttributes" value="${DataDictionary.Account.attributes}" />
 <c:set var="subFundGroupAttributes" value="${DataDictionary.SubFundGroup.attributes}" />
 <c:set var="orgAttributes" value="${DataDictionary.Org.attributes}" />

@@ -83,7 +83,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     }
 
     /**
-     * test if a build detail line can be generated from the specified ledger balance whose sub account is not in sub account table
+     * test if a build document as well as its detail lines can be generated approperiately
      */
     public void testGenerateDocumentBuild() throws Exception {
         String testTarget = "generateDocumentBuild.";
@@ -92,7 +92,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     }
     
     /**
-     * test if a build detail line can be generated from the specified ledger balance whose sub account is not in sub account table
+     * test if a build document as well as its detail lines can be generated and stored into database approperiately
      */
     public void testGenerateDocumentBuild_SaveIntoDatabase() throws Exception {
         String testTarget = "generateDocumentBuild.saveIntoDatabase.";

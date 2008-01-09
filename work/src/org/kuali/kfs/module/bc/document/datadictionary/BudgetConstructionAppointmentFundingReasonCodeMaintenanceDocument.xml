@@ -32,10 +32,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetConstructionAppointmentFundingReasonCodeMaintenanceDocument</documentTypeName>
+        <documentTypeName>AppointmentFundingReasonCodeMaintenanceDocument</documentTypeName>
         <documentTypeCode>BCRC</documentTypeCode>
 
-        <label>Budget Construction Appointment Funding Reason Code Maintenance Document</label>
+        <label>Appointment Funding Reason Code</label>
         <shortLabel>BC - Appt Funding Reason Code Maint Doc</shortLabel>
 
         <summary>Budget Construction Appointment Funding Reason Code Maintenance Document</summary>

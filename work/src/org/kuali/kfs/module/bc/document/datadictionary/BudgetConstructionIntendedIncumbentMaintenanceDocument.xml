@@ -32,10 +32,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetConstructionIntendedIncumbentMaintenanceDocument</documentTypeName>
+        <documentTypeName>IntendedIncumbentMaintenanceDocument</documentTypeName>
         <documentTypeCode>IINC</documentTypeCode>
 
-        <label>Budget Construction Intended Incumbent Maintenance Document</label>
+        <label>Intended Incumbent</label>
         <shortLabel>BC - BC Intended Incumbent Code Maint Doc</shortLabel>
 
         <summary>Budget Construction Intended Incumbent Maintenance Document</summary>

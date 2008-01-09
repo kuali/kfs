@@ -32,14 +32,14 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetConstructionPositionMaintenanceDocument</documentTypeName>
+        <documentTypeName>BudgetConstructionPositionMaintenanceDocument</documentTypeName>
         <documentTypeCode>BCPS</documentTypeCode>
 
        
         <webScriptFile>../dwr/interface/BudgetConstructionPosition.js</webScriptFile>
         <webScriptFile>../scripts/budget/budgetConstructionPositionDocument.js</webScriptFile>
         
-        <label>Budget Construction Position Maintenance Document</label>
+        <label>Budget Construction Position</label>
         <shortLabel>BC - BC Position Maint Doc</shortLabel>
 
         <summary>Budget Construction Position Maintenance Document</summary>

@@ -32,10 +32,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetConstructionDurationMaintenanceDocument</documentTypeName>
+        <documentTypeName>AppointmentFundingDurationMaintenanceDocument</documentTypeName>
         <documentTypeCode>DURA</documentTypeCode>
 
-        <label>Budget Construction Duration Maintenance Document</label>
+        <label>Appointment Funding Duration</label>
         <shortLabel>BC - BC Duration Code Maint Doc</shortLabel>
 
         <summary>Budget Construction Duration Maintenance Document</summary>

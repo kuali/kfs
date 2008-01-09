@@ -33,10 +33,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiCalculatedSalaryFoundationTrackerOverrideMaintenanceDocument</documentTypeName>
+        <documentTypeName>CalculatedSalaryFoundationTrackerOverrideMaintenanceDocument</documentTypeName>
         <documentTypeCode>CSFO</documentTypeCode>
 
-        <label>Calculated Salary Foundation Tracker Override Maintenance Document</label>
+        <label>Calculated Salary Foundation Tracker Override</label>
         <shortLabel>CSF Tracker Maint Override Doc</shortLabel>
 
         <summary>Calculated Salary Foundation Tracker Override Maintenance Document</summary>

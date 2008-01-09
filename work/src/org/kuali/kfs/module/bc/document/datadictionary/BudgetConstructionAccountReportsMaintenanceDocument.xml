@@ -32,10 +32,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>KualiBudgetConstructionAccountReportsMaintenanceDocument</documentTypeName>
+        <documentTypeName>AccountReportsMaintenanceDocument</documentTypeName>
         <documentTypeCode>BCAR</documentTypeCode>
 
-        <label>Budget Construction Account Reports Maintenance Document</label>
+        <label>Account Reports</label>
         <shortLabel>BC - Account Rpts Maint Doc</shortLabel>
 
         <summary>Budget Construction Account Reports Maintenance Document</summary>

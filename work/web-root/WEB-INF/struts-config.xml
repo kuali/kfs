@@ -72,7 +72,8 @@
    		<form-bean name="PositionSalarySettingForm" type="org.kuali.module.budget.web.struts.form.PositionSalarySettingForm" />
    		<form-bean name="IncumbentSalarySettingForm" type="org.kuali.module.budget.web.struts.form.IncumbentSalarySettingForm" />
    		<form-bean name="TempListLookupForm" type="org.kuali.module.budget.web.struts.form.TempListLookupForm" />
-
+   		<form-bean name="AccountListSelectionForm" type="org.kuali.module.budget.web.struts.form.AccountListSelectionForm" />
+   		
         <!-- KRA Module Bean Definitions -->
         <form-bean name="BudgetForm" type="org.kuali.module.kra.budget.web.struts.form.BudgetForm" />
         <form-bean name="RoutingForm" type="org.kuali.module.kra.routingform.web.struts.form.RoutingForm" />

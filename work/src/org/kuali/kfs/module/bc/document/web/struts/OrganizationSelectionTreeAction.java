@@ -23,6 +23,7 @@ import java.util.Properties;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -46,6 +47,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.service.PermissionService;
+import org.kuali.module.budget.web.struts.form.AccountListSelectionForm;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 import org.kuali.module.chart.bo.Org;
 
@@ -740,14 +742,39 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         // TODO use this method as a template to create an action for a specific report button when running in REPORTS mode
 
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
-        if (!storedSelectedOrgs(organizationSelectionTreeForm.getSelectionSubTreeOrgs())) {
+        List<BudgetConstructionPullup> selectionSubTreeOrgs = organizationSelectionTreeForm.getSelectionSubTreeOrgs();
+        if (!storedSelectedOrgs(selectionSubTreeOrgs)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
 
             // TODO this will eventually change to call the budgeted incumbents picklist screen
-            return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+            String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+             
+            
+            Properties parameters = new Properties();
+            String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+            
+            //String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
+            String lookupUrl = basePath + "/budgetAccountListSelection.do";
+            
+            
+            return new ActionForward(lookupUrl, true);
         }
 
+        //String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
+        
+        /*
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "search");
+        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
+        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
+        parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
+        parameters.put(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE.toString());
+
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
+
+        return new ActionForward(lookupUrl, true);
+*/        
     }
 }

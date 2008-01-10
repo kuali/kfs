@@ -71,7 +71,7 @@
 	        	    <maintainableField name="effortCertificationReportTypeCode" required="true" />
 	        	    <maintainableField name="expenseTransferFiscalYear" required="true" />
 	                <maintainableField name="expenseTransferFiscalPeriodCode" required="true" />
-	                <maintainableField name="effortCertificationReportReturnDate" required="true" />
+	                <maintainableField name="effortCertificationReportReturnDate" />
 	                <maintainableField name="active" />
 	                <maintainableField name="versionNumber" />
 	         	</maintainableItems>
@@ -80,8 +80,11 @@
 				<maintainableItems>
 					<maintainableCollection name="effortCertificationReportPositions" businessObjectClass="org.kuali.module.effort.bo.EffortCertificationReportPosition">
 						<maintainableField name="effortCertificationReportPositionObjectGroupCode" required="true" />
-			            <maintainableField name="active" required="true" />
-					</maintainableCollection>
+			            <maintainableField name="active" required="true" >
+			            	<defaultValue>true</defaultValue>
+						</maintainableField>
+			            <maintainableField name="newCollectionRecord" />
+			        </maintainableCollection>
 				</maintainableItems>
 			</maintainableSection>
 	    </maintainableSections>

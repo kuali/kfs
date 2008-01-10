@@ -72,7 +72,9 @@
 	        	    <maintainableField name="expenseTransferFiscalYear" required="true" />
 	                <maintainableField name="expenseTransferFiscalPeriodCode" required="true" />
 	                <maintainableField name="effortCertificationReportReturnDate" />
-	                <maintainableField name="active" />
+	                <maintainableField name="active" required="true" >
+			        	<defaultValue>true</defaultValue>
+					</maintainableField>
 	                <maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

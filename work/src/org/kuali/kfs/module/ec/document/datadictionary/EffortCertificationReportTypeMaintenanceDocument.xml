@@ -50,7 +50,9 @@
 	        	<maintainableItems>
 	            	<maintainableField name="effortCertificationReportTypeCode" required="true" />
 	            	<maintainableField name="effortCertificationReportDescription" required="true" />
-	            	<maintainableField name="active" required="true"/>
+	            	<maintainableField name="active" required="true" >
+			        	<defaultValue>true</defaultValue>
+					</maintainableField>
 	            	<maintainableField name="versionNumber" />	            	
 	         	</maintainableItems>
 	        </maintainableSection>

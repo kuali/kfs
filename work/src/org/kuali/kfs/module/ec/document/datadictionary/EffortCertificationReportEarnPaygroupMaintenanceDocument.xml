@@ -57,7 +57,9 @@
 	                <maintainableField name="effortCertificationReportTypeCode" required="true" />
                     <maintainableField name="earnCode" required="true" />
                     <maintainableField name="payGroup" required="true" />
-                    <maintainableField name="active" required="true" />
+                    <maintainableField name="active" required="true" >
+			        	<defaultValue>true</defaultValue>
+					</maintainableField>
 	                <maintainableField name="versionNumber" />
 	         	</maintainableItems>
 	        </maintainableSection>

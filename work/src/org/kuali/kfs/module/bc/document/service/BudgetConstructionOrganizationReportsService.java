@@ -15,7 +15,9 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 
@@ -35,6 +37,8 @@ public interface BudgetConstructionOrganizationReportsService {
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
+    public Collection getByPrimaryId(Class cls, Map searchCriteria);
+    
     /**
      * This method returns a list of child BC organization reports objects for the passed in org.
      * 

@@ -15,7 +15,9 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
@@ -44,6 +46,11 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode) {
         return budgetConstructionOrganizationReportsDao.getByPrimaryId(chartOfAccountsCode, organizationCode);
     }
+    
+    public Collection getByPrimaryId(Class cls, Map searchCriteria) {
+        return budgetConstructionOrganizationReportsDao.getByPrimaryId(cls, searchCriteria);
+    }
+  
 
     /**
      * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String,

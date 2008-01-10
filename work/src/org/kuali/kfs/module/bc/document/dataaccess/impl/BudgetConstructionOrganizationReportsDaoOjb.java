@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryByCriteria;
@@ -64,6 +65,20 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         //Changed from (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getCollectionByQuery(qbc); 
         //Since using primaryId, getObject should be better than collection. 
         return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
+    }
+    
+    public Collection getByPrimaryId(Class cls, Map searchCriteria){
+        
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
+        
+        QueryByCriteria qbc = QueryFactory.newQuery(cls, criteria);
+        
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        
     }
 
     /**

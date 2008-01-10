@@ -69,6 +69,10 @@
         <lookup>
             <title>Asset Lookup</title>
 
+            <menubar>
+                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
+            </menubar>
+
             <instructions>Look up an Asset</instructions>
 
             <defaultSort sortAscending="true">

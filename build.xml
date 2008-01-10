@@ -16,6 +16,10 @@
 -->
 <project name="kuali" default="dist-local" basedir=".">
 	<!-- run the help target to view usage instructions for public targets -->
+	
+	<!-- include resource for ant-contrib verifydesign task -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
 	<target name="dist-local" if="is.local.build" depends="clean,filter-project,filter-local" description="Prepare local configuration files and tokenized resources and deploy tomcat context file on development workstation">
 		<copy file="${metainf.directory}/${context.file}" tofile="${appserver.localhost.dir}/${ant.project.name}-${build.environment}.xml" overwrite="true" />
 	</target>
@@ -102,7 +106,7 @@
 		</patternset>
 	</target>
 
-	<target name="clean-project" depends="init-property-files">
+	<target name="clean-project" depends="init-property-files,clean-help,clean-rice">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${source.directory}/${configuration.file}" />
@@ -117,11 +121,17 @@
 				<include name="${build.temp.directory}"/>
 			</fileset>
 		</delete>
+	</target>
+
+	<target name="clean-help" depends="init-property-files" unless="nohelp">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${help.directory}/**" />
 			</fileset>
 		</delete>
+	</target>
+
+	<target name="clean-rice" depends="init-property-files" unless="norice">
 		<delete failonerror="false">
 			<fileset dir="${basedir}">
 				<include name="${licenses.directory}/${rice.name}/**" />
@@ -165,13 +175,19 @@
 		<copy file="${build.directory}/${log4j.library.file}" todir="${appserver.lib.dir}"/>
 	</target>
 
-	<target name="filter-project" depends="filter-project-p6spy">
+	<target name="filter-project" depends="filter-project-p6spy,filter-project-help,filter-project-rice">
 		<echo file="${source.directory}/${configuration.file}" message="${configuration}" />
 		<echo file="${source.directory}/${p6spy.file}" message="${p6spy}" />
 		<echo file="${webinf.directory}/${web.file}" message="${web}" />
 		<mkdir dir="${metainf.directory}" />
 		<echo file="${metainf.directory}/${context.file}" message="${context}" />
+	</target>
+
+	<target name="filter-project-help" unless="nohelp">
 		<unzip dest="${help.directory}" src="${build.project.directory}/help.zip" />
+	</target>
+
+	<target name="filter-project-rice" unless="norice">
 		<unzip dest="${webroot.directory}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.web.suffix}" />
 		<unzip dest="${licenses.directory}/${rice.name}" src="${build.project.directory}/${rice.name}-${rice.version}${rice.output.licenses.suffix}" />
 	</target>
@@ -192,6 +208,16 @@
 		<copy todir="${external.work.directory}">
 			<fileset dir="${build.work.directory}" />
 		</copy>
+	</target>
+	
+	<target name="check-modularization" depends="make-source" description="Checks over dependency issues within kuali code">
+	  <verifydesign design="design.xml">
+	    <path>
+	      <fileset dir="${classes.directory}/org/kuali/module">
+			<include name="**/*.class"/>
+	      </fileset>
+	    </path>
+	  </verifydesign>
 	</target>
 
 	<target name="make-source" depends="init-make-references,filter-project">

@@ -16,14 +16,18 @@
 package org.kuali.module.purap.rules;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.validation.fieldlevel.PhoneNumberValidationPattern;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.service.LookupService;
 import org.kuali.core.util.ErrorMap;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -35,15 +39,20 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapRuleConstants;
 import org.kuali.module.purap.PurapConstants.ItemFields;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
+import org.kuali.module.purap.bo.CapitalAssetTransactionType;
+import org.kuali.module.purap.bo.CapitalAssetTransactionTypeRule;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchasingItemBase;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.vendor.VendorPropertyConstants;
@@ -87,7 +96,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
         for (PurApItem item : itemList) {
-            // refresh item type for validation
+            // Refresh the item type for validation.
             item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
 
             GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
@@ -97,6 +106,8 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 valid &= validateItemQuantity(item, identifierString);
+                RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+                valid &= processItemCapitalAssetValidation(item, recurringPaymentType, identifierString);
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -502,6 +513,429 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         }
 
         return true;
+    }
+    
+    /**
+     * Wrapper to do Capital Asset validations, defaulted to generate errors instead of warnings. Makes sure that 
+     * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
+     * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
+     * all object codes are valid (real) object codes.
+     * 
+     * @param item                      A PurApItem
+     * @param recurringPaymentType      The item's document's RecurringPaymentType
+     * @param itemIdentifier            The item number (String)
+     * @return True if the item passes all Capital Asset validations
+     */
+    public boolean processItemCapitalAssetValidation(PurApItem item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+        boolean valid = true;
+        valid &= processItemCapitalAssetValidation(item, recurringPaymentType, false, itemIdentifier);
+        return valid;
+    }
+    
+    /**
+     * Makes sure that the given item's data relevant to its later possible classification as a Capital Asset is 
+     * internally consistent, by marshalling and calling the methods marked as Capital Asset validations.
+     * This implementation assumes that all object codes are valid (real) object codes.
+     * 
+     * @param item                      A PurApItem
+     * @param recurringPaymentType      The item's document's RecurringPaymentType
+     * @param warn                      A boolean which should be set to true if warnings are to be set on the calling document 
+     *                                      for most of the validations, rather than errors.
+     * @param itemIdentifier            The item number (String)
+     * @return  True if the item passes all Capital Asset validations
+     */
+    protected boolean processItemCapitalAssetValidation(PurApItem item, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
+        boolean valid = true;       
+        KualiDecimal itemQuantity = item.getItemQuantity();       
+        HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
+        
+        for( PurApAccountingLine accountingLine : item.getSourceAccountingLines() ) {
+            ObjectCode objectCode = accountingLine.getObjectCode();
+            String capitalOrExpense = objectCodeCapitalOrExpense(objectCode);
+            capitalOrExpenseSet.add(capitalOrExpense); // HashSets accumulate distinct values (and nulls) only.
+            
+            valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, warn, itemIdentifier, objectCode);
+            // The following may yield a warning, but should not affect validity.
+            validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), accountingLine, itemIdentifier);
+            
+            // Do the checks involving capital asset transaction type.
+            String capitalAssetTransactionTypeCode = item.getCapitalAssetTransactionTypeCode();
+            if (StringUtils.isEmpty(capitalAssetTransactionTypeCode)) {
+                valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
+            }
+            else {
+                accountingLine.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
+                CapitalAssetTransactionType capitalAssetTransactionType = item.getCapitalAssetTransactionType();
+                
+                valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
+                valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
+                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);
+                // TODO: Pass in list of capital asset numbers associated with the item.
+                valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, warn, itemIdentifier);
+            }
+        }
+        
+        
+        return valid;
+    }
+    
+    /**
+     * Capital Asset validation: An item cannot have among its associated accounting lines both object codes 
+     * that indicate it is a Capital Asset, and object codes that indicate that the item is not a Capital Asset.  
+     * Whether an object code indicates that the item is a Capital Asset is determined by whether its level is 
+     * among a specific set of levels that are deemed acceptable for such items.
+     * 
+     * @param capitalOrExpenseSet   A HashSet containing the distinct values of either "Capital" or "Expense"
+     *                              that have been added to it.
+     * @param warn                  A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier        A String identifying the item for error display
+     * @param objectCode            An ObjectCode, for error display
+     * @return  True if the given HashSet contains at most one of either "Capital" or "Expense"
+     */
+    public boolean validateAccountingLinesNotCapitalAndExpense(HashSet capitalOrExpenseSet, boolean warn, String itemIdentifier, ObjectCode objectCode) {
+        boolean valid = true;
+        // If the set contains more than one distinct string, fail.
+        if ( capitalOrExpenseSet.size() > 1 ) {
+            if (warn) {
+                //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED);
+                //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                //warning = StringUtils.replace(warning,"{1}",objectCode.getFinancialObjectCodeName());
+                //GlobalVariables.getMessageList().add(warning);
+                GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED);
+            } 
+            else { 
+                GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, 
+                        PurapKeyConstants.ERROR_ITEM_ACCOUNT_EXPIRED,itemIdentifier,objectCode.getFinancialObjectCodeName());
+                valid &= false;
+            }           
+        }
+        return valid;
+    }
+    
+    /**
+     * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to 
+     * the threshold for becoming a Capital Asset, the object codes on all the item's associated accounting lines 
+     * must be among a specific set of levels that are deemed acceptable for such items, if not of the Capital Asset 
+     * level itself.  Failure of this validation gives a warning both at the Requisition stage and at the Purchase Order 
+     * stage.
+     * 
+     * @param accountingLine
+     * @param itemQuantity
+     * @param itemIdentifier
+     */
+    public void validateLevelCapitalAssetIndication(KualiDecimal itemQuantity, KualiDecimal extendedPrice, PurApAccountingLine accountingLine, String itemIdentifier) {
+        if ((ObjectUtils.isNotNull(itemQuantity)) && 
+            (itemQuantity.isGreaterThan(KualiDecimal.ZERO))) {
+            String capitalAssetPriceThreshold = SpringContext.getBean(ParameterService.class).getParameterValue(
+                    ParameterConstants.PURCHASING_DOCUMENT.class, 
+                    PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_PRICE_THRESHOLD);
+            if ((ObjectUtils.isNotNull(extendedPrice)) &&
+                (StringUtils.isNotEmpty(capitalAssetPriceThreshold)) &&
+                (extendedPrice.isGreaterEqual(new KualiDecimal(capitalAssetPriceThreshold)))) {
+                String possiblyCapitalAssetObjectCodeLevel = SpringContext.getBean(ParameterService.class).getParameterValue(
+                        ParameterConstants.PURCHASING_DOCUMENT.class, 
+                        PurapParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS,
+                        accountingLine.getObjectCode().getFinancialObjectLevel().getFinancialObjectLevelCode());
+                if (StringUtils.isEmpty(possiblyCapitalAssetObjectCodeLevel)) {
+                    //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                    //        PurapKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
+                    //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                    //warning = StringUtils.replace(warning,"{1}",capitalAssetPriceThreshold);                   
+                    //GlobalVariables.getMessageList().add(warning);
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
+                }
+            }
+        }
+
+    }
+    
+    /**
+     * Capital Asset validation: If the item has no transaction type code, check whether any of the object codes 
+     * on the item's associated accounting lines are of a subtype which indicates that a transaction type code 
+     * should be present.
+     * 
+     * @param objectCode        An ObjectCode
+     * @param warn              A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier    The item number (String)
+     * @return      False if a transaction type code should be present, according to the given object code's subtype.
+     */
+    public boolean validateCapitalAssetTransactionTypeIsRequired(ObjectCode objectCode, boolean warn, String itemIdentifier) {
+        boolean valid = true;
+        
+        // For each object code subtype in the AssetTransactionTypeRule table ...
+        for (String subTypeCode : getAssetTransactionTypeDistinctObjectCodeSubtypes()) {
+            // If the current object code subtype code is the same as the one in our object code ...
+            if (StringUtils.equals(subTypeCode,objectCode.getFinancialObjectSubTypeCode())) {
+                // This validation fails.
+                if (warn) {
+                    //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                    //        PurapKeyConstants.ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE);
+                    //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                    //warning = StringUtils.replace(warning,"{1}",objectCode.getFinancialObjectCodeName());
+                    //warning = StringUtils.replace(warning,"{2}",objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());                    
+                    //GlobalVariables.getMessageList().add(warning);
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE);
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                            PurapKeyConstants.ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE,
+                            itemIdentifier,
+                            objectCode.getFinancialObjectCodeName(),
+                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                    valid &= false;
+                }
+            }
+        }
+        
+        return valid;
+    }
+    
+    /**
+     * Capital Asset validation: If the item has a transaction type, check that the transaction type is acceptable 
+     * for the object code subtypes of all the object codes on the associated accounting lines.
+     * 
+     * @param objectCode
+     * @param capitalAssetTransactionType
+     * @param warn                          A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier
+     * @return
+     */
+    public boolean validateObjectCodeVersusTransactionType(ObjectCode objectCode, CapitalAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier) {
+        boolean valid = true;
+        HashMap tranTypeMap = new HashMap();
+        tranTypeMap.put("capitalAssetTransactionTypeCode",capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+        List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
+        boolean found = false;
+        for( CapitalAssetTransactionTypeRule relation : relevantRelations ) {
+            if( StringUtils.equalsIgnoreCase(relation.getFinancialObjectSubTypeCode(),objectCode.getFinancialObjectSubTypeCode())) {
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            if (warn) {
+                //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE);
+                //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                //warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                //warning = StringUtils.replace(warning,"{2}",objectCode.getFinancialObjectCodeName());
+                //warning = StringUtils.replace(warning,"{3}",objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                //GlobalVariables.getMessageList().add(warning);
+                GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE);
+            }
+            else {
+                GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                        PurapKeyConstants.ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE,
+                        itemIdentifier,
+                        capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
+                        objectCode.getFinancialObjectCodeName(),
+                        objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                valid &= false;
+            }
+        }
+        return valid;
+    }
+    
+    /**
+     * Capital Asset validation: If there is a capital asset transaction type, and the transaction does not indicate 
+     * association with a service item, and if the object code subtypes of the object codes on any of the item's associated 
+     * accounting lines are in a specific set of object codes for quantity items, the item must have a quantity.
+     *
+     * @param capitalAssetTransactionType
+     * @param itemQuantity
+     * @param objectCode
+     * @param warn                          A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier
+     * @return
+     */
+    public boolean validateQuantityVersusObjectCode(CapitalAssetTransactionType capitalAssetTransactionType, KualiDecimal itemQuantity, ObjectCode objectCode, boolean warn, String itemIdentifier) {
+        boolean valid = true;
+        if (((ObjectUtils.isNull(itemQuantity)) || (itemQuantity.isLessEqual(KualiDecimal.ZERO))) && 
+            (!capitalAssetTransactionType.getCapitalAssetTransactionTypeServiceIndicator())) {
+                String quantityObjectCodeSubtype = SpringContext.getBean(ParameterService.class).getParameterValue(
+                        ParameterConstants.PURCHASING_DOCUMENT.class, 
+                        PurapParameterConstants.CapitalAsset.QUANTITY_OBJECT_CODE_SUBTYPES,
+                        objectCode.getFinancialObjectSubTypeCode());
+            if (StringUtils.isNotEmpty(quantityObjectCodeSubtype)) {
+                if (warn) {
+                    //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE);
+                    //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                    //warning = StringUtils.replace(warning,"{1}",objectCode.getFinancialObjectCodeName());
+                    //warning = StringUtils.replace(warning,"{2}",objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());                    
+                    //GlobalVariables.getMessageList().add(warning);
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE);
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.QUANTITY, 
+                            PurapKeyConstants.ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE,
+                            itemIdentifier,
+                            objectCode.getFinancialObjectCodeName(),
+                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                    valid &= false;
+                }               
+            }
+        }
+        
+        return valid;
+    }
+        
+    /**
+     * Capital Asset validation: If the item has a transaction type, check that if the document specifies that recurring 
+     * payments are to be made, that the transaction type is one that is appropriate for this situation, and that if the 
+     * document does not specify that recurring payments are to be made, that the transaction type is one that is 
+     * appropriate for that situation.
+     * 
+     * @param capitalAssetTransactionType
+     * @param recurringPaymentType
+     * @param warn                          A boolean which should be set to true if warnings are to be set on the calling document
+     * @param itemIdentifier
+     * @return
+     */
+    public boolean validateCapitalAssetTransactionTypeVersusRecurrence(CapitalAssetTransactionType capitalAssetTransactionType, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
+        boolean valid = true;
+
+        // If there is a tran type ...
+        if ((ObjectUtils.isNotNull(capitalAssetTransactionType)) &&
+            (ObjectUtils.isNotNull(capitalAssetTransactionType.getCapitalAssetTransactionTypeCode()))) {
+            String recurringTransactionTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(
+                    ParameterConstants.PURCHASING_DOCUMENT.class, 
+                    PurapParameterConstants.CapitalAsset.RECURRING_CAMS_TRAN_TYPES,
+                    capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
+            
+            if (ObjectUtils.isNotNull(recurringPaymentType)) { // If there is a recurring payment type ...                
+                if (StringUtils.isEmpty(recurringTransactionTypeCode)) {
+                    // There should be a recurring tran type code.
+                    if (warn) {
+                        //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
+                        //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                        //warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                        //warning = StringUtils.replace(warning,"{2}",PurapConstants.CAMSValidationStrings.RECURRING);                    
+                        //GlobalVariables.getMessageList().add(warning);
+                        GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
+                    }
+                    else {
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                                PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE,
+                                itemIdentifier,
+                                capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
+                                PurapConstants.CAMSValidationStrings.RECURRING);
+                        valid &= false;
+                    }                   
+                }
+            }
+            else { //If the payment type is not recurring ...
+                // There should not be a recurring tran type code.
+                if (StringUtils.isNotEmpty(recurringTransactionTypeCode)) {
+                    if (warn) {
+                        //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
+                        //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                        //warning = StringUtils.replace(warning,"{1}",capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription());
+                        //warning = StringUtils.replace(warning,"{2}",PurapConstants.CAMSValidationStrings.NON_RECURRING);                    
+                        //GlobalVariables.getMessageList().add(warning);
+                        GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE);
+                    }
+                    else {
+                        GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                                PurapKeyConstants.ERROR_ITEM_WRONG_TRAN_TYPE,
+                                itemIdentifier,
+                                capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
+                                PurapConstants.CAMSValidationStrings.NON_RECURRING);
+                        valid &= false;
+                    }                   
+                }
+            }
+        }
+        else {  // If there is no tran type ...
+            if (ObjectUtils.isNotNull(recurringPaymentType)) { // If there is a recurring payment type ...
+                if (warn) {
+                    //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
+                    //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                    //warning = StringUtils.replace(warning,"{1}",PurapConstants.CAMSValidationStrings.RECURRING);                    
+                    //GlobalVariables.getMessageList().add(warning);
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                            PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
+                            itemIdentifier,
+                            PurapConstants.CAMSValidationStrings.RECURRING);
+                    valid &= false;
+                }               
+            }
+            else { //If the payment type is not recurring ...
+                if (warn) {
+                    //String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
+                    //warning = StringUtils.replace(warning,"{0}",itemIdentifier);
+                    //warning = StringUtils.replace(warning,"{1}",PurapConstants.CAMSValidationStrings.NON_RECURRING);                    
+                    //GlobalVariables.getMessageList().add(warning);
+                    GlobalVariables.getMessageList().add(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
+                }
+                else {
+                    GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
+                            PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
+                            itemIdentifier,
+                            PurapConstants.CAMSValidationStrings.NON_RECURRING);
+                    valid &= false;
+                }               
+            }   
+        }
+
+        return valid;
+    }
+    
+    /**
+     * Capital Asset validation: If the item has a transaction type and the transaction type is one of a specific set 
+     * of transaction types, the item should have an asset number.
+     * 
+     * @param capitalAssetTransactionType
+     * @param warn
+     * @param itemIdentifier
+     * @return
+     */
+    public boolean validateCapitalAssetNumberRequirements(CapitalAssetTransactionType capitalAssetTransactionType, boolean warn, String itemIdentifier) {
+        boolean valid = true;
+        // TODO: Finish me.
+        return valid;
+    }
+    
+    /**
+     * Utility wrapping isCapitalAssetObjectCode for the use of processItemCapitalAssetValidation.
+     * 
+     * @param oc    An ObjectCode
+     * @return      A String indicating that the given object code is either Capital or Expense
+     */
+    private String objectCodeCapitalOrExpense(ObjectCode oc) {
+        String capital = PurapConstants.CAMSValidationStrings.CAPITAL;
+        String expense = PurapConstants.CAMSValidationStrings.EXPENSE;
+        return ( isCapitalAssetObjectCode(oc) ? capital : expense );
+    }
+    
+    /**
+     * Predicate to determine whether the given object code is of a specifically capital asset level.
+     * 
+     * @param oc    An ObjectCode
+     * @return      True if the ObjectCode's level is the one designated as specifically for capital assets.
+     */
+    public boolean isCapitalAssetObjectCode(ObjectCode oc) {
+        String capitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, 
+                PurapParameterConstants.CapitalAsset.CAPITAL_ASSET_OBJECT_LEVELS);
+        return ( StringUtils.containsIgnoreCase( capitalAssetObjectCodeLevels, oc.getFinancialObjectLevelCode() ) ? true : false );
+    }
+    
+    /**
+     * Gets the distinct object code subtypes that exist in the AssetTransactionTypeRule table.
+     * 
+     * @return  A HashSet containing the distinct Object Code Subtypes
+     */
+    private HashSet<String> getAssetTransactionTypeDistinctObjectCodeSubtypes() {
+        HashSet<String> objectCodeSubtypesInTable = new HashSet();
+        HashMap dummyMap = new HashMap();
+        List<CapitalAssetTransactionTypeRule> allRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, dummyMap);
+        for ( CapitalAssetTransactionTypeRule relation : allRelations ) {
+            // Add subtype codes if not already there.
+            objectCodeSubtypesInTable.add(relation.getFinancialObjectSubTypeCode());
+        }
+        
+        return objectCodeSubtypesInTable;
     }
 
 }

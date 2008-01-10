@@ -42,6 +42,17 @@ public class PurapParameterConstants implements ParameterKeyConstants {
 
     public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
+    
+    public static class CapitalAsset {
+        public static final String CAPITAL_ASSET_OBJECT_LEVELS = "CAPITAL_ASSET_OBJECT_LEVELS";
+        public static final String POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS = "POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS";
+        public static final String CAPITAL_ASSET_PRICE_THRESHOLD = "CAPITAL_ASSET_PRICE_THRESHOLD";
+        public static final String ASSET_NUMBER_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_ASSET_NUMBERS";
+        public static final String QUANTITY_OBJECT_CODE_SUBTYPES = "OBJECT_SUB_TYPES_REQUIRING_QUANTITY";
+        public static final String RECURRING_CAMS_TRAN_TYPES = "CAPITAL_ASSET_TRANSACTION_TYPES_REQUIRING_RECURRING_PAYMENT_TERMS";
+        
+        public static final String OVERRIDE_CAPITAL_ASSET_WARNINGS_IND = "OVERRIDE_CAPITAL_ASSET_WARNINGS_IND";
+    }
 
     public static class Workgroups {
         public static final String SEARCH_SPECIAL_ACCESS = "SEARCH_SPECIAL_ACCESS_GROUP";

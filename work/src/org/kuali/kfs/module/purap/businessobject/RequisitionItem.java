@@ -17,6 +17,7 @@
 package org.kuali.module.purap.bo;
 
 import org.kuali.module.purap.document.RequisitionDocument;
+import java.util.List;
 
 /**
  * Requisition Item Business Object.
@@ -24,6 +25,8 @@ import org.kuali.module.purap.document.RequisitionDocument;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
+    
+    private List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets;
 
     private RequisitionDocument requisition;
 
@@ -39,6 +42,14 @@ public class RequisitionItem extends PurchasingItemBase {
 
     public void setItemRestrictedIndicator(boolean itemRestrictedIndicator) {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
+    }
+
+    public List<RequisitionItemCapitalAsset> getRequisitionItemCapitalAssets() {
+        return requisitionItemCapitalAssets;
+    }
+
+    public void setRequisitionItemCapitalAssets(List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets) {
+        this.requisitionItemCapitalAssets = requisitionItemCapitalAssets;
     }
 
     public RequisitionDocument getRequisition() {

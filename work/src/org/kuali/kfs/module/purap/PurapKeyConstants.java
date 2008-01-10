@@ -185,6 +185,13 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_ACCOUNTING_AMOUNT_TOTAL = "errors.item.accounting.amount.total";
     public static final String ERROR_ACCOUNT_AMOUNT_TOTAL = "errors.accountString.totalAmount.negative";
     public static final String ERROR_ITEM_ACCOUNT_EXPIRED = "errors.item.accounting.expired";
+    public static final String ERROR_ITEM_CAPITAL_AND_EXPENSE = "errors.item.capitalAsset.capital.and.expense";
+    public static final String ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE = "errors.item.capitalAsset.objectCodeSubtype.requires.tranType";
+    public static final String ERROR_ITEM_TRAN_TYPE_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.tranType.objectCodeSubtype";
+    public static final String ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.quantity.objectCodeSubtype";
+    public static final String ERROR_ITEM_WRONG_TRAN_TYPE = "errors.item.capitalAsset.wrong.tranType";
+    public static final String ERROR_ITEM_NO_TRAN_TYPE = "errors.item.capitalAsset.no.tranType";
+    public static final String WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL = "warnings.item.capitalAsset.threshold.objectCodeLevel";
 
     // Credit Memo
     public static final String ERROR_CREDIT_MEMO_REQUIRED_FIELDS = "errors.creditMemo.required.fields";

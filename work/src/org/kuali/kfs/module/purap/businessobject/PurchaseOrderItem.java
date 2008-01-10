@@ -41,6 +41,8 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private String purchaseOrderCommodityCd;
+    
+    private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
     private PurchaseOrderDocument purchaseOrder;
 
@@ -185,6 +187,14 @@ public class PurchaseOrderItem extends PurchasingItemBase {
 
     public void setItemSelectedForRetransmitIndicator(boolean itemSelectedForRetransmitIndicator) {
         this.itemSelectedForRetransmitIndicator = itemSelectedForRetransmitIndicator;
+    }    
+
+    public List<PurchaseOrderItemCapitalAsset> getPurchaseOrderItemCapitalAssets() {
+        return purchaseOrderItemCapitalAssets;
+    }
+
+    public void setPurchaseOrderItemCapitalAssets(List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets) {
+        this.purchaseOrderItemCapitalAssets = purchaseOrderItemCapitalAssets;
     }
 
     /**

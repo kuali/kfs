@@ -664,5 +664,12 @@ public class PurapConstants extends JstlConstants {
     }
 
     public static final HashMap<String, String> PURAP_DETAIL_TYPE_CODE_MAP = getPurapParameterDetailTypeCodes();
+    
+    public static class CAMSValidationStrings {
+        public static final String CAPITAL = "Capital";
+        public static final String EXPENSE = "Expense";
+        public static final String RECURRING = "Recurring";
+        public static final String NON_RECURRING = "Non-recurring";
+    }
 
 }

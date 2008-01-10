@@ -31,10 +31,15 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -269,6 +274,34 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         }
 
         return false;
+    }
+    
+    
+    
+    /**
+     * Wrapper to do Capital Asset validations, with warnings optional. Makes sure that the given item's 
+     * data relevant to its later possible classification as a Capital Asset is internally consistent, 
+     * by marshalling and calling the methods marked as Capital Asset validations. This implementation 
+     * assumes that all object codes are valid (real) object codes.
+     * 
+     * @param item                      A PurApItem
+     * @param recurringPaymentType      The item's document's RecurringPaymentType
+     * @param itemIdentifier            The item number (String)
+     * @return True if the item passes all Capital Asset validations
+     */
+    @Override
+    public boolean processItemCapitalAssetValidation(PurApItem item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+        boolean valid = true;
+        // TODO: Uncomment this section and test warnings when Parameter is added.
+        //if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
+            // Run the validations yielding errors on failure.
+        //    valid &= processItemCapitalAssetValidation(item, recurringPaymentType, false, itemIdentifier);
+        //}
+        //else {
+            // Run the validations yielding warnings on failure.
+            valid &= processItemCapitalAssetValidation(item, recurringPaymentType, true, itemIdentifier);
+        //}
+        return valid;
     }
 
 }

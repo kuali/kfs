@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <transactionalDocument>
+        <documentClass>org.kuali.module.ar.document.CustomerInvoiceDocument</documentClass>
+        <businessRulesClass>org.kuali.module.ar.rules.CustomerInvoiceDocumentRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.module.ar.document.authorization.CustomerInvoiceDocumentAuthorizer</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>kualiUniversalGroup</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>InvoiceDocument</documentTypeName>
+        <documentTypeCode>INV</documentTypeCode>
+
+        <label>Invoice</label>
+
+        <!--  help parameterNamespace="KFS-AR" parameterDetailType="Invoice" parameterName="?" /-->
+  		<attributes>
+            <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
+                <label>University Fiscal Period Code</label>
+                <shortLabel>Fiscal Period Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.FiscalPeriodValuesFinder" />
+                </control>
+            </attribute>
+
+            <attribute name="invoiceHeaderText">
+                <label>Header Text</label>
+                <shortLabel>Header</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Header Text of Invoice</description>
+            </attribute>
+
+            <attribute name="invoiceAttentionLineText">
+                <label>Attention Line Text</label>
+                <shortLabel>Attention Line</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The attention line for this invoice</description>
+            </attribute>
+			<attributeReference name="invoiceDueDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Due Date</label>
+                <shortLabel>Due Date</shortLabel>
+
+                <required>true</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this invoice is due</description>
+            </attributeReference>
+			<attributeReference name="billingDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Billing Date</label>
+                <shortLabel>Billing Date</shortLabel>
+
+                <required>true</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this invoice was billed</description>
+            </attributeReference>
+            <attribute name="invoiceTermsText">
+                <label>Terms</label>
+                <shortLabel>Terms</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    The terms for this invoice.
+                </description>
+            </attribute>
+
+            <attribute name="organizationInvoiceNumber">
+                <label>Organization Invoice Number</label>
+                <shortLabel>Invoice Number</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The invoice number for this invoice</description>
+            </attribute>
+
+            <attribute name="writeoffIndicator">
+                <label>Write off Indicator</label>
+                <shortLabel>Write-off</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="customerPurchaseOrderNumber">
+                <label>Customer Purchase Order Number</label>
+                <shortLabel>P.O. Number</shortLabel>
+
+                <maxLength>20</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>
+                    <![CDATA[&nbsp;]]>
+                </description>
+            </attribute>
+
+            <attribute name="printInvoiceIndicator">
+                <label>Print Invoice Indicator</label>
+                <shortLabel>Print Inv Ind</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>Print Invoice Indicator</summary>
+                <description>...</description>
+            </attribute>
+
+            <attribute name="invoiceWriteoffAmount">
+                <label>Write Off Amount</label>
+                <shortLabel>Write-off Amt</shortLabel>
+
+                <maxLength>19</maxLength>
+
+                <validationPattern>
+                    <fixedPoint allowNegative="false" precision="19" scale="2" />
+                </validationPattern>
+                <required>true</required>
+
+                <control>
+                    <text size="8" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The dollar amount that this invoice can be written off for.</description>
+            </attribute>
+			<attribute name="invoiceDescription">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>50</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="50" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Description of Invoice</description>
+            </attribute>
+            <attributeReference name="customerPurchaseOrderDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
+                <label>Customer Purchase Order Date</label>
+                <shortLabel>P.O. Date</shortLabel>
+
+                <required>true</required>
+
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this P.O. for this invoice was created</description>
+            </attributeReference>
+			<attributeReference name="billByChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Billing Chart of Accounts Code</label>
+                <shortLabel>Billing Chart Code</shortLabel>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+			<attributeReference name="billedByOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <label>Billed By Organization Object Code</label>
+                <shortLabel>OrgObjCode</shortLabel>
+
+                <maxLength>4</maxLength>
+                <required>false</required>
+
+                <control>
+                    <text size="4" />
+                </control>
+            </attributeReference>
+
+            <attribute name="customerShipToAddressIdentifier">
+                <label>Ship To Address Identifier</label>
+                <shortLabel>Ship To Add Id</shortLabel>
+
+                <maxLength>5</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Ship To address Identifier to use for this customer</description>
+            </attribute>
+            <attribute name="customerBillToAddressIdentifier">
+                <label>Bill To Address Identifier</label>
+                <shortLabel>Bill To Add Id</shortLabel>
+
+                <maxLength>5</maxLength>
+
+                <required>true</required>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>The Bill To address Identifier to use for this customer</description>
+            </attribute>
+            <attribute name="customerSpecialProcessingCode">
+                <label>Special Processing Code</label>
+                <shortLabel>Special Processing</shortLabel>
+
+                <maxLength>10</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Special Processing Instructions</description>
+            </attribute>
+            
+            <attribute name="customerRecordAttachmentIndicator">
+                <label>Record Attachment Indicator</label>
+                <shortLabel>Attachment</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Is there an attachment for the customer</description>
+            </attribute>
+
+			<attribute name="openInvoiceIndicator">
+                <label>Open Invoice Indicator</label>
+                <shortLabel>Open Invoice</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <required>false</required>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>
+                    <![CDATA[&nbsp;]]>
+                </summary>
+                <description>Indicates if there is already an open invoice for this customer</description>
+            </attribute>
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+        </attributes>
+  		
+        <allowsCopy>false</allowsCopy>
+        <allowsErrorCorrection>false</allowsErrorCorrection>
+    </transactionalDocument>
+</dictionaryEntry>

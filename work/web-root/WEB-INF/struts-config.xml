@@ -54,6 +54,7 @@
         
         <!--  Accounts Receivable Module Bean Definitions -->
         <form-bean name="CashControlDocumentForm" type="org.kuali.module.ar.web.struts.form.CashControlDocumentForm" />
+        <form-bean name="InvoiceForm" type="org.kuali.module.ar.web.struts.form.InvoiceForm" />
         
 		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />

@@ -46,7 +46,7 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
         List<EffortCertificationReportDefinition> overlappingRecords = new ArrayList();
 
         for (EffortCertificationReportDefinition potentialOverlappingRecord : potentialOverlappingRecords) {
-            if (isOverlapping(potentialOverlappingRecord, reportDefinition))
+            if (isOverlapping2(potentialOverlappingRecord, reportDefinition))
                 overlappingRecords.add(potentialOverlappingRecord);
         }
 
@@ -181,5 +181,62 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
         }
 
         return false;
+    }
+    
+    private boolean isOverlapping2(EffortCertificationReportDefinition existingReportDefinition, EffortCertificationReportDefinition newReportDefiniton) {
+        Integer existingStartYear = existingReportDefinition.getEffortCertificationReportBeginFiscalYear();
+        String existingStartPeriod = existingReportDefinition.getEffortCertificationReportBeginPeriodCode();
+        
+        Integer existingEndYear = existingReportDefinition.getEffortCertificationReportEndFiscalYear();
+        String existingEndPeriod = existingReportDefinition.getEffortCertificationReportEndPeriodCode();
+        
+        if (existingStartYear == null || existingEndPeriod == existingStartPeriod || existingEndYear == null || existingEndPeriod == null) {
+            return false;
+        }
+
+        Integer newStartYear = newReportDefiniton.getEffortCertificationReportBeginFiscalYear();
+        String newStartPeriod = newReportDefiniton.getEffortCertificationReportBeginPeriodCode();
+        
+        Integer newEndYear = newReportDefiniton.getEffortCertificationReportEndFiscalYear();
+        String newEndPeriod = newReportDefiniton.getEffortCertificationReportEndPeriodCode();        
+        
+        boolean isNewStartPeriodWithin = isNewPeriodWithinRange(existingStartYear, existingStartPeriod, existingEndYear, existingEndPeriod, newStartYear, newStartPeriod);
+        if(isNewStartPeriodWithin) {
+            return true;
+        }
+        
+        boolean isNewEndPeriodWithin = isNewPeriodWithinRange(existingStartYear, existingStartPeriod, existingEndYear, existingEndPeriod, newEndYear, newEndPeriod);
+        if(isNewEndPeriodWithin) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean isNewPeriodWithinRange(Integer startYear, String startPeriod, Integer endYear, String endPeriod, Integer newYear, String newPeriod) {        
+        return compare(startYear, startPeriod, newYear, newPeriod) <=0 && compare(endYear, endPeriod, newYear, newPeriod)>=0;
+    }
+
+    private int compare(Integer year, String periodCode, Integer anotherYear, String anotherPeriodCode) {
+        String period = year + periodCode;
+        String anotherPeriod = anotherYear + anotherPeriodCode;
+
+        return period.compareTo(anotherPeriod);
+    }
+    
+    // compare the period with another period when the period codes are preferred as numbers
+    private int compare2(Integer year, String periodCode, Integer anotherYear, String anotherPeriodCode) {
+        int periodCodeAsNumber = Integer.parseInt(anotherPeriodCode);
+        int anotherPeriodCodeAsNumber = Integer.parseInt(periodCode);
+        
+        if(year > anotherYear) {
+            return 1;
+        }
+        
+        if(year < anotherYear) {
+            return -1;
+        }
+
+        return anotherPeriodCodeAsNumber - periodCodeAsNumber;
     }
 }

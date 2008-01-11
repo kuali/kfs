@@ -16,21 +16,17 @@
 package org.kuali.module.effort.rules;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.cg.bo.AwardAccount;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
@@ -60,7 +56,8 @@ public class LedgerBalanceFieldValidator {
      * 
      * @param ledgerBalance the given ledger balance
      * @param fundGroupCodes the given fund group codes
-     * @return null if the fund group code associated with the given ledger balance is in the given fund group codes; otherwise, a message
+     * @return null if the fund group code associated with the given ledger balance is in the given fund group codes; otherwise, a
+     *         message
      */
     public static Message isInFundGroups(LedgerBalance ledgerBalance, List<String> fundGroupCodes) {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
@@ -177,24 +174,28 @@ public class LedgerBalanceFieldValidator {
         }
         return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, Message.TYPE_FATAL);
     }
-    
+
     /**
      * determine if the given ledger balances have the accounts that belong to multiple organizations
      * 
      * @param ledgerBalance the given ledger balance
      * @return null if the given ledger balances have the accounts that belong to a single organization; otherwise, a message
      */
-    public static LedgerBalanceWithMessage hasMultipleOrganizations(Collection<LedgerBalance> ledgerBalances) {
+    public static Message isFromSingleOrganization(Collection<LedgerBalance> ledgerBalances) {
         Org tempOrganization = null;
-        
-        for (LedgerBalance balance : ledgerBalances) {
+
+        boolean isFirstTime = true;
+        for (LedgerBalance balance : ledgerBalances) {            
             Org organization = balance.getAccount().getOrganization();
             
-            if(!organization.equals(tempOrganization)) {
-                MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_MULTIPLE_ORGANIZATIONS_FOUND, Message.TYPE_FATAL);
+            if(isFirstTime) {
+                tempOrganization = organization;
+                isFirstTime = false;
             }
-            
-            tempOrganization = organization;
+
+            if (!organization.equals(tempOrganization)) {
+                return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_MULTIPLE_ORGANIZATIONS_FOUND, Message.TYPE_FATAL);
+            }
         }
         return null;
     }

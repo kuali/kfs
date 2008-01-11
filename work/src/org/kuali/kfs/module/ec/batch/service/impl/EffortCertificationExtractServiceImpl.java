@@ -267,7 +267,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * remove the ledger balances without valid account, higher education function code, and nonzero total amount
+     * remove the ledger balances without valid account, and nonzero total amount
      * 
      * @param ledgerBalances the given ledger balances
      * @param reportDefinition the given report definition
@@ -317,7 +317,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         }
         
         // an employee must not be paid by multiple organizations
-        String multipleOrganizationError = LedgerBalanceFieldValidator.hasMultipleOrganizations(ledgerBalances).getMessage();
+        String multipleOrganizationError = LedgerBalanceFieldValidator.isFromSingleOrganization(ledgerBalances).getMessage();
         if (StringUtils.isNotEmpty(multipleOrganizationError)) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, multipleOrganizationError, emplid);
             return false;
@@ -372,7 +372,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();
         List<String> balanceTypes = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborEffortCertificationService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+        return laborEffortCertificationService.findLedgerBalances
+        (fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
     }
 
     /**

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -47,6 +48,7 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
     private Org organization;
     private UniversalUser employee;
     private Options options;
+    private DocumentHeader documentHeader;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
     
@@ -277,5 +279,22 @@ public class EffortCertificationDocument extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
+    }
+
+    /**
+     * Gets the documentHeader attribute. 
+     * @return Returns the documentHeader.
+     */
+    public DocumentHeader getDocumentHeader() {
+        return documentHeader;
+    }
+
+    /**
+     * Sets the documentHeader attribute value.
+     * @param documentHeader The documentHeader to set.
+     */
+    @Deprecated
+    public void setDocumentHeader(DocumentHeader documentHeader) {
+        this.documentHeader = documentHeader;
     }
 }

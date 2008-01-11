@@ -619,7 +619,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
                 discountItem = findDiscountItem(paymentRequestDocument);
             }
             // discount item should no longer be null, update if necessary
-            if (discountItem.getExtendedPrice().isZero()) {
+            if (discountItem.getExtendedPrice()==null || 
+                discountItem.getExtendedPrice().isZero()) {
                 KualiDecimal totalCost = paymentRequestDocument.getTotalDollarAmountAboveLineItems();
                 BigDecimal discountAmount = pt.getVendorPaymentTermsPercent().multiply(totalCost.bigDecimalValue()).multiply(new BigDecimal(PurapConstants.PREQ_DISCOUNT_MULT));
                 // do we really need to set both, not positive, but probably won't hurt

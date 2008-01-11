@@ -34,7 +34,7 @@ import org.kuali.module.purap.util.SummaryAccount;
  */
 public class PurchasingAccountsPayableFormBase extends KualiAccountingDocumentFormBase {
 
-    private List<SummaryAccount> summaryAccounts;
+    private transient List<SummaryAccount> summaryAccounts;
 
     /**
      * Constructs a PurchasingAccountsPayableFormBase instance and initializes summary accounts.

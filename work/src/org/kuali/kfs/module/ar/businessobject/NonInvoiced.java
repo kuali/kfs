@@ -1,6 +1,8 @@
 package org.kuali.module.ar.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -36,11 +38,14 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	private Account account;
 	private ProjectCode project;
 
+    List<NonInvoicedDistribution> nonInvoicedDistributions;
+    
 	/**
 	 * Default constructor.
 	 */
 	public NonInvoiced() {
-
+        nonInvoicedDistributions = new ArrayList<NonInvoicedDistribution>();
+        
 	}
 
 	/**
@@ -411,6 +416,22 @@ public class NonInvoiced extends PersistableBusinessObjectBase {
 	}
 
 	/**
+     * Gets the nonInvoicedDistributions attribute. 
+     * @return Returns the nonInvoicedDistributions.
+     */
+    public List<NonInvoicedDistribution> getNonInvoicedDistributions() {
+        return nonInvoicedDistributions;
+    }
+
+    /**
+     * Sets the nonInvoicedDistributions attribute value.
+     * @param nonInvoicedDistributions The nonInvoicedDistributions to set.
+     */
+    public void setNonInvoicedDistributions(List<NonInvoicedDistribution> nonInvoicedDistributions) {
+        this.nonInvoicedDistributions = nonInvoicedDistributions;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

@@ -18,7 +18,6 @@ public class NonAppliedDistribution extends PersistableBusinessObjectBase {
 	private String universityFiscalPeriodCode;
 	private KualiDecimal financialDocumentLineAmount;
 
-    private NonAppliedHolding nonAppliedHolding;
 	private AccountingPeriod universityFiscalPeriod;
 
 	/**
@@ -152,24 +151,7 @@ public class NonAppliedDistribution extends PersistableBusinessObjectBase {
 	public void setFinancialDocumentLineAmount(KualiDecimal financialDocumentLineAmount) {
 		this.financialDocumentLineAmount = financialDocumentLineAmount;
 	}
-
-    /**
-     * Gets the nonAppliedHolding attribute. 
-     * @return Returns the nonAppliedHolding.
-     */
-    public NonAppliedHolding getNonAppliedHolding() {
-        return nonAppliedHolding;
-    }
-
-    /**
-     * Sets the nonAppliedHolding attribute value.
-     * @param nonAppliedHolding The nonAppliedHolding to set.
-     * @deprecated
-     */
-    public void setNonAppliedHolding(NonAppliedHolding nonAppliedHolding) {
-        this.nonAppliedHolding = nonAppliedHolding;
-    }    
-    
+   
 	/**
 	 * Gets the universityFiscalPeriod attribute.
 	 * 

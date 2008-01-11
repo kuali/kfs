@@ -217,6 +217,11 @@
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+    <collection-descriptor name="nonAppliedDistributions" element-class-ref="org.kuali.module.ar.bo.NonAppliedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <orderby name="documentNumber" sort="ASC" />
+        <orderby name="paidAppliedItemNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="referenceFinancialDocumentNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.CashControl" table="AR_CSH_CTRL_T">
@@ -258,6 +263,9 @@
 	</reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.module.ar.bo.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="referenceFinancialDocumentNumber" />
 	</reference-descriptor>
 </class-descriptor>
 
@@ -500,6 +508,11 @@
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />
 	</reference-descriptor>
+    <collection-descriptor name="nonAppliedHoldings" element-class-ref="org.kuali.module.ar.bo.NonAppliedHolding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="financialDocumentReferenceInvoiceNumber" attribute-value="parent.financialDocumentReferenceInvoiceNumber" />
+        </query-customizer>
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.Lockbox" table="AR_LOCKBOX_T">
@@ -575,6 +588,11 @@
 	<reference-descriptor name="project" class-ref="org.kuali.module.chart.bo.ProjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="projectCode" />
 	</reference-descriptor>
+    <collection-descriptor name="nonInvoicedDistributions" element-class-ref="org.kuali.module.ar.bo.NonInvoicedDistribution" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <orderby name="referenceFinancialDocumentNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+        <inverse-foreignkey field-ref="financialDocumentLineNumber" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.NonAppliedDistribution" table="AR_NON_APLD_DIST_T">
@@ -590,9 +608,6 @@
 	<reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />
-	</reference-descriptor>
-	<reference-descriptor name="nonAppliedHolding" class-ref="org.kuali.module.ar.bo.NonAppliedHolding" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="referenceFinancialDocumentNumber" />
 	</reference-descriptor>
 </class-descriptor>
 

@@ -1,6 +1,8 @@
 package org.kuali.module.ar.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
@@ -18,12 +20,15 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 	private Customer customer;
     private DocumentHeader documentHeader;
+
+    List<NonAppliedDistribution> nonAppliedDistributions;
     
 	/**
 	 * Default constructor.
 	 */
 	public NonAppliedHolding() {
-
+        nonAppliedDistributions = new ArrayList<NonAppliedDistribution>();
+        
 	}
 
 	/**
@@ -147,6 +152,22 @@ public class NonAppliedHolding extends PersistableBusinessObjectBase {
     }    
     
 	/**
+     * Gets the nonAppliedDistributions attribute. 
+     * @return Returns the nonAppliedDistributions.
+     */
+    public List<NonAppliedDistribution> getNonAppliedDistributions() {
+        return nonAppliedDistributions;
+    }
+
+    /**
+     * Sets the nonAppliedDistributions attribute value.
+     * @param nonAppliedDistributions The nonAppliedDistributions to set.
+     */
+    public void setNonAppliedDistributions(List<NonAppliedDistribution> nonAppliedDistributions) {
+        this.nonAppliedDistributions = nonAppliedDistributions;
+    }
+
+    /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */
 	protected LinkedHashMap toStringMapper() {

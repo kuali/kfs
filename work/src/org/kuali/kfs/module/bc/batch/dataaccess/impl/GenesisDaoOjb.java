@@ -4348,6 +4348,126 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //        }
    }
     
+    public void testNullForeignKeys()
+    {
+        // this verifies that some of the code we used in fiscalYearMakers works
+        //
+        // build a bogus row with some null fields
+        Integer oldYear = new Integer(1997);
+        CalculatedSalaryFoundationTracker testCSFRow = new CalculatedSalaryFoundationTracker();
+        testCSFRow.setUniversityFiscalYear(oldYear);
+        testCSFRow.setChartOfAccountsCode("BL");
+        testCSFRow.setAccountNumber("1031400");
+        testCSFRow.setSubAccountNumber("-----");
+        testCSFRow.setFinancialObjectCode("3000");
+        testCSFRow.setFinancialSubObjectCode("---");
+        testCSFRow.setPositionNumber("00000000");
+        testCSFRow.setEmplid("0000000000");
+        testCSFRow.setCsfCreateTimestamp(dateTimeService.getCurrentTimestamp());
+        // save the row to force nulls in uniitialized fields
+        getPersistenceBrokerTemplate().store(testCSFRow);
+        getPersistenceBrokerTemplate().clearCache();
+        // get the row
+        Criteria criteriaID = new Criteria();
+        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, oldYear);  
+        QueryByCriteria queryID = new QueryByCriteria(CalculatedSalaryFoundationTracker.class,criteriaID);
+        testCSFRow = (CalculatedSalaryFoundationTracker) getPersistenceBrokerTemplate().getObjectByQuery(queryID);
+        // now we want to do exactly what we are doing in fiscal year makers
+        // on a string--
+        String earnCode = new String("");
+        String accountNumber = null;
+        try 
+        {
+            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow,"earnCode");
+            if (returnValue != null)
+            {
+                earnCode = returnValue.toString();
+            }
+            returnValue = PropertyUtils.getProperty(testCSFRow,"accountNumber");
+            // make sure one we know is there translates correctly from Object to string
+            accountNumber = returnValue.toString();
+        }
+        catch (InvocationTargetException ex)
+        {
+            LOG.error(String.format("\n  InvocationTargetException getting earnCode from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (NoSuchMethodException ex)
+        {
+            LOG.error(String.format("\n  NoSuchMethodException getting earnCode from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (IllegalAccessException ex)
+        {
+            LOG.error(String.format("\n  IllegalAccessException getting earnCode from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        LOG.warn(String.format("\n>>> earnCode string length %d, earnCode = %s",earnCode.length(),earnCode));
+        LOG.warn(String.format("\n   string from Object accountNumber (String) %s",accountNumber));
+        // on a number--
+        String employeeRecord = new String("");
+        String universityFiscalYear = new String("");
+        try 
+        {
+            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow,"employeeRecord");
+            if (returnValue != null)
+            {
+                employeeRecord = returnValue.toString();
+            }
+            // make sure one we know is there translates correctly from Object to string
+            returnValue = PropertyUtils.getProperty(testCSFRow,"universityFiscalYear");
+            universityFiscalYear = returnValue.toString();
+        }
+        catch (InvocationTargetException ex)
+        {
+            LOG.error(String.format("\n  InvocationTargetException getting employeeRecord from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (NoSuchMethodException ex)
+        {
+            LOG.error(String.format("\n  NoSuchMethodException getting employeeRecord from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (IllegalAccessException ex)
+        {
+            LOG.error(String.format("\n  IllegalAccessException getting employeeRecord from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        LOG.warn(String.format("\n>>> employeeRecord string length %d, employeeRecord = %s",employeeRecord.length(),employeeRecord));
+        LOG.warn(String.format("\n   string from Object universityFiscalYear (Integer) %s",universityFiscalYear));
+        // on a date--
+        String effectiveDate = new String("");
+        String csfCreateTimestamp = new String("");
+        try 
+        {
+            Object returnValue = (String) PropertyUtils.getProperty(testCSFRow,"effectiveDate");
+            if (returnValue != null)
+            {
+                effectiveDate = returnValue.toString();
+            }
+            returnValue = PropertyUtils.getProperty(testCSFRow,"csfCreateTimestamp");
+            csfCreateTimestamp = returnValue.toString();
+        }
+        catch (InvocationTargetException ex)
+        {
+            LOG.error(String.format("\n  InvocationTargetException getting effectiveDate from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (NoSuchMethodException ex)
+        {
+            LOG.error(String.format("\n  NoSuchMethodException getting effectiveDate from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        catch (IllegalAccessException ex)
+        {
+            LOG.error(String.format("\n  IllegalAccessException getting effectiveDate from fake CSF row\n%s\n",ex.getMessage()));
+        }
+        LOG.warn(String.format("\n>>> effectiveDate string length %d, effectiveDate = %s",effectiveDate.length(),effectiveDate));
+        LOG.warn(String.format("\n   string from Object csfCreateTimestamp (time stamp) %s",csfCreateTimestamp));
+        // now test the string builder
+        StringBuilder testBuilder = new StringBuilder(500);
+        LOG.warn(String.format("\n\nString builder length = %d and value = %s when unitialized",testBuilder.toString().length(),testBuilder.toString()));
+        testBuilder.delete(0,testBuilder.length());
+        String emptyString = testBuilder.toString();
+        LOG.warn(String.format("\n\nString builder length = %d and value = %s after delete",testBuilder.toString().length(),testBuilder.toString()));
+        testBuilder.append(testCSFRow.getAccountNumber());
+        testBuilder.delete(0,testBuilder.length());
+        emptyString = testBuilder.toString();
+        LOG.warn(String.format("\n\nString builder length = %d and value = %s after fill, then delete",testBuilder.toString().length(),testBuilder.toString()));
+    }
+    
     /*
      *   @@TODO:  take this out
      */

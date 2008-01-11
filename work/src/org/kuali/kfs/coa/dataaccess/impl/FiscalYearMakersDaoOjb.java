@@ -16,6 +16,7 @@
 package org.kuali.module.chart.dao.ojb;
 
 import java.lang.reflect.InvocationTargetException;
+import java.lang.StringBuilder;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
@@ -812,11 +814,11 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         /**
          * this is the signature used for an object which has both special filter criteria and required changes to additional fields
          * 
-         * @param ojbMappedClass
-         * @param currentFiscalYear
-         * @param replaceMode
-         * @param changeAction
-         * @param filterAction
+         * @param ojbMappedClass    the class of the object being copied to the new year
+         * @param currentFiscalYear the current fiscal year (normally the year to copy from) 
+         * @param replaceMode       true if the copy is "add and update", false if it is "add only"
+         * @param changeAction      method to change fields other than fiscal year in the source row
+         * @param filterAction      method to identify rows source rows which should not be copied (inatcive rows, for example)
          */
         private void makeMethod(Class ojbMappedClass, Integer currentFiscalYear, boolean replaceMode, FiscalYearMakersFieldChangeAction changeAction, FiscalYearMakersFilterAction filterAction) {
             if (laggingCopyCycle.contains(ojbMappedClass.getName())) {
@@ -881,10 +883,10 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         /**
          * routine to build rows for the coming fiscal year, replacing any that already exist
          * 
-         * @param ojbMappedClass
-         * @param currentFiscalYear
-         * @param changeAction
-         * @param filterAction
+         * @param ojbMappedClass    the class of the object being copied to the new year
+         * @param currentFiscalYear the current fiscal year (normally the year to copy from)
+         * @param changeAction      method to change fields other than fiscal year in the source row
+         * @param filterAction      method to identify rows source rows which should not be copied (inatcive rows, for example)
          * @throws NoSuchFieldException
          * @throws NoSuchMethodException
          * @throws IllegalAccessException
@@ -946,21 +948,26 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
             LOG.warn(String.format("\n%s:\n%d read = %d\n%d written = %d\nfailed RI = %d", ojbMappedClass.getName(), currentFiscalYear, rowsRead, newFiscalYear, rowsWritten, rowsFailingRI));
             // if a parent has inverse foreign keys into the child, when we copy the
-            // parent the child rows will be in the cache as well of auto-retrieve is
+            // parent the child rows will be in the cache as well if auto-retrieve is
             // true and proxy is false. then, when we build the child rows later these
             // cached rows cause an OJB "optimistic locking" error. we therefore remove
             // any cached rows after all the rows for each object have been copied to
             // the database
             getPersistenceBrokerTemplate().clearCache();
+            //@@TODO:
+            //  write errors here.  this method returns a boolean value, which will will pass up through the callers to
+            //  signal that there were copy failures.  the top level will then have the option to throw an exception
+            // return writeCopyFailureMessages(parentKeyChecker);
+            writeCopyFailureMessages(parentKeyChecker);
         }
 
         /**
          * routine to only add, not replace, rows for the coming fiscal year
          * 
-         * @param ojbMappedClass
-         * @param currentFiscalYear
-         * @param changeAction
-         * @param filterAction
+         * @param ojbMappedClass    the class of the object being copied to the new year
+         * @param currentFiscalYear the current fiscal year (normally the year to copy from)
+         * @param changeAction      method to change fields other than fiscal year in the source row
+         * @param filterAction      method to identify rows source rows which should not be copied (inatcive rows, for example)
          * @throws NoSuchFieldException
          * @throws NoSuchMethodException
          * @throws IllegalAccessException
@@ -1038,14 +1045,19 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             // any cached rows after all the rows for each object have been copied to
             // the database
             getPersistenceBrokerTemplate().clearCache();
+            //@@TODO:
+            //  write errors here.  this method returns a boolean value, which will will pass up through the callers to
+            //  signal that there were copy failures.  the top level will then have the option to throw an exception
+            // return writeCopyFailureMessages(parentKeyChecker);
+            writeCopyFailureMessages(parentKeyChecker);
         }
 
         /**
          * the compiler doesn't know the class of the object at this point, so we can't use the methods contained in the object the
          * compiler would not be able to find them PropertyUtils uses reflection at run time to find the correct set method
          * 
-         * @param ourBO
-         * @param newFiscalYear
+         * @param ourBO                     the object being copied to the new year (generic type is T)
+         * @param newFiscalYear             the target fiscal year
          * @throws NoSuchFieldException
          * @throws IllegalAccessException
          * @throws NoSuchMethodException
@@ -1064,6 +1076,25 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             // ourBO.getClass().getSuperclass().getDeclaredField(KFSPropertyConstants.VERSION_NUMBER);
             // fld.setAccessible(true);
             // fld.set(ourBO, (Object) (new Long(0)));
+        }
+        
+        private boolean writeCopyFailureMessages(ParentKeyChecker parentKeyChecker)
+        {
+            ArrayList<String> messageList = parentKeyChecker.getCopyFailureLog();
+            if (messageList.isEmpty())
+            {
+                // no failures
+                return true;
+            }
+            LOG.warn("\n");
+            Iterator<String> messagesToLog = messageList.iterator();
+            while (messagesToLog.hasNext())
+            {
+                LOG.warn(String.format("\n%s",messagesToLog.next()));
+            }
+            LOG.warn("\n");
+            // report the failure of some rows for this child to copy
+            return false;
         }
 
     };
@@ -1334,7 +1365,6 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      */
     public class ParentKeyChecker<C> {
         private ParentClass<C>[] parentClassList = null;
-
         /**
          * Constructs a FiscalYearMakersDaoOjb.java.
          * 
@@ -1353,7 +1383,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         }
 
         /**
-         * This method...
+         * check to see if the child row has valid keys into all the parents (a valid key includes a null field)
          * 
          * @param ourBO
          * @return true if child row satisfies referential integrity
@@ -1371,6 +1401,24 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
             return returnValue;
         }
+        /**
+         * 
+         * return a log of the copy failures due to RI for this child to all of its parents.
+         * @return
+         */
+        public ArrayList<String> getCopyFailureLog()
+        {
+            ArrayList<String> copyFailureLog = new ArrayList<String>(10);
+            if (parentClassList == null)
+            {
+               return copyFailureLog;
+            }
+            for (int i = 0; i < parentClassList.length; i++)
+            {
+                copyFailureLog.addAll(parentClassList[i].getCopyFailureLog());
+            }
+            return copyFailureLog;
+        }
     };
 
 
@@ -1381,7 +1429,13 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     public class ParentClass<C> {
         // this holds all the data needed to check RI for each relationship between a given parent and its child <C>
         private ArrayList<RelationshipContainer> keyChain = new ArrayList<RelationshipContainer>(1);
-
+        /*
+         * we allow the value of a child key converted to a string to be up to 500 characters long
+         */
+        private final int CHILD_KEY_LENGTH = 500;
+        // we need the parentClass for error messages
+        private Class parentClass;
+        private ArrayList<String> copyFailureLog = new ArrayList<String>(10);
         /**
          * Constructs a FiscalYearMakersDaoOjb.java. the constructor will initialize the key hashmap for this parent object it will
          * also get the foreign key fields from the persistence data structure (the assumption is that the fields names returned are
@@ -1393,6 +1447,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * @param requestYear
          */
         public ParentClass(Class parentClass, Class childClass, Integer requestYear) {
+            this.parentClass = parentClass;
             // fill in the key field names for the child keys and the corresponding parent keys
             keyChain = fetchForeignKeysToParent(childClass, parentClass);
             // get all the rows from the parent for each foreign key relationship
@@ -1423,29 +1478,94 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         }
 
         /**
-         * This method...
+         * convert the child key fields to a string that can be compared to the parent keys in the hash map
          * 
-         * @param ourBO
-         * @return
+         * @param the business object representing the child row to be copied into the new year
+         * @return a string consisting of the concatenated values (converted to strings) of the foreign keys of the child into the parent
+         *         (this will be an empty string if one of the keys in the child row has a null value)
          * @throws IllegalAccessException
          * @throws InvocationTargetException
          * @throws NoSuchMethodException
          */
         private String buildChildTestKey(C ourBO, String[] childKeyFields) 
         throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-            StringBuffer returnKey = new StringBuffer("");
+            StringBuilder returnKey = new StringBuilder(CHILD_KEY_LENGTH);
             // we will convert all the keys to strings
             for (int i = 0; i < childKeyFields.length; i++) {
-                returnKey.append(PropertyUtils.getProperty(ourBO, childKeyFields[i].toString()));
+                Object childKeyAnyType = PropertyUtils.getProperty(ourBO, childKeyFields[i].toString());
+                if (childKeyAnyType == null)
+                {
+                   /*
+                    * the key value is null--referential integrity does not apply
+                    * return a null string
+                    */   
+                    returnKey.delete(0,returnKey.length());
+                    break;
+                }
+                else
+                {
+                   returnKey.append(childKeyAnyType.toString());
+                }
             }
             return returnKey.toString();
         }
 
         /**
+         * 
+         * find out if the child satisfies RI in the parent, and add to the log if it does not
+         * @param ourBO            the child object being copied
+         * @param relationshipRI   the object describing the parent-child relationship
+         * @return
+         * @throws IllegalAccessException
+         * @throws InvocationTargetException
+         * @throws NoSuchMethodException
+         */
+        
+        private boolean findCorrespondingParentRowAndLogFailures(C ourBO, RelationshipContainer relationshipRI) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
+        {
+            String childTestKey = buildChildTestKey(ourBO, relationshipRI.childKeyFields);
+            // if one of the key fields is null, RI id satisfied
+            if (childTestKey.length() == 0)
+            {
+                return true;
+            }
+            if (relationshipRI.parentKeys.contains(childTestKey))
+            {
+                return true;
+            }
+            // we have a full key (no null fields), but it is not in the parent
+            StringBuilder errorCopyFailedMessage = new StringBuilder(250);
+            errorCopyFailedMessage.append(ourBO.getClass().getName());
+            errorCopyFailedMessage.append(" row for ");
+            String[] childKeyFields = relationshipRI.childKeyFields;
+            for (int i = 0; i < childKeyFields.length; i++)
+            {
+                errorCopyFailedMessage.append(childKeyFields[i]);
+                errorCopyFailedMessage.append("+");
+            }
+            errorCopyFailedMessage.replace(errorCopyFailedMessage.length(),errorCopyFailedMessage.length()," = ");
+            errorCopyFailedMessage.append(childTestKey);
+            errorCopyFailedMessage.append(" not in ");
+            errorCopyFailedMessage.append(this.parentClass.getName());
+            copyFailureLog.add(errorCopyFailedMessage.toString());
+            return false;
+        }
+   
+        /**
+         * 
+         * return the copy failure messages logged
+         * @return ArrayList<String>
+         */
+        public ArrayList<String> getCopyFailureLog()
+        {
+            return this.copyFailureLog;
+        }
+
+        /**
          * method to test whether a key of the child row matches one in parent
          * 
-         * @param ourBO
-         * @return
+         * @param the business object representing the child row to be copied
+         * @return true if the child satisfies referential integrity for each foreign key into this parent, false otherwise
          * @throws IllegalAccessException
          * @throws InvocationTargetException
          * @throws NoSuchMethodException
@@ -1461,12 +1581,14 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 RelationshipContainer relationshipRI = contentsRI.next();
                 //@@TODO:  if we are going to add a mesage indicating which child keys failed,
                 //         it would go here
-                result = result && 
-                         relationshipRI.parentKeys.contains(buildChildTestKey(ourBO, relationshipRI.childKeyFields));
+                /*
+                 *   the child satisfies referential integrity if (a) one of the keys into the parent is NULL or (b) the key is in one of the parent rows
+                 */
+                String childTestKey = buildChildTestKey(ourBO, relationshipRI.childKeyFields);
+                result = result && findCorrespondingParentRowAndLogFailures(ourBO, relationshipRI);
             }
             return (result);
         }
-
     }
 
     /*******************************************************************************************************************************
@@ -1484,7 +1606,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * This method... 
+     * convert the key values for an object to a string
      * @param inKeys
      * @return a string of keys from the array
      */
@@ -1616,7 +1738,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * This method...
+     * build a relationship object that describes the relationship in OJB between the child and its parent
      * 
      * @param parentClass
      * @param childClass
@@ -1670,7 +1792,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     }
 
     /**
-     * This method takes a child class and parent class and
+     * build a relationship object that describes the relationship in OJB between the child and its parent
      * 
      * @param childClass
      * @param parentClass
@@ -1792,7 +1914,8 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
      * routines that use a plug-in or create and store documents, it may not be.
      ******************************************************************************************************************************/
     /**
-     * This class
+     * This class will change the repository auto-xxx attributes for an OJB relationship for the duration of the run.
+     * the current value will be saved, and can be restored at the end of the run using methods in this class. 
      */
     private class PersistenceStructureWindow {
         private DescriptorRepository descriptorRepository;

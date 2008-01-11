@@ -60,7 +60,8 @@ public class GenesisServiceImpl implements GenesisService {
         // CSFOK);
         // 09/17/2008 genesisDao.genesisUnitTest(currentFiscalYear);
         // 09/17/2008 test of OJB
-        genesisDao.testObjectID();
+        // 01/10/08 genesisDao.testObjectID();
+        genesisDao.testNullForeignKeys();
     }
 
     /*

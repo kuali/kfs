@@ -51,6 +51,7 @@
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="4" />
@@ -65,7 +66,8 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="42" />

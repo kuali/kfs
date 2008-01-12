@@ -376,8 +376,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
         valid &= processVendorValidation(document);
         if (ObjectUtils.isNotNull(newVendor.getVendorHeader().getVendorType())) {
             valid &= processAddressValidation(document);
+            valid &= processContractValidation(document);
         }
-        valid &= processContractValidation(document);
 
         return valid;
     }

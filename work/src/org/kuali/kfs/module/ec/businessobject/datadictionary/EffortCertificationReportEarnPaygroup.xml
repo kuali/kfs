@@ -22,9 +22,9 @@
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Report Earn Pay</title>
+            <title>Report Earn Paygroup</title>
 
-            <instructions>Look Up Effort Certification Report Earn Pay</instructions>
+            <instructions>Report Earn Paygroup</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

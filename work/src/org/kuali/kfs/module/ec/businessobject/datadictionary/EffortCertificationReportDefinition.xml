@@ -69,6 +69,7 @@
                 <field attributeName="effortCertificationReportBeginPeriodCode" />
                 <field attributeName="effortCertificationReportEndFiscalYear" />
                 <field attributeName="effortCertificationReportEndPeriodCode" />
+                <!-- field attributeName="effortCertificationReportPositions" /-->
                 <field attributeName="effortCertificationReportTypeCode" />
                 <field attributeName="expenseTransferFiscalYear" />
                 <field attributeName="expenseTransferFiscalPeriodCode" />

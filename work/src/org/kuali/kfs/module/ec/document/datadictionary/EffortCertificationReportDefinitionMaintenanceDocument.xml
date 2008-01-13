@@ -86,6 +86,10 @@
 			            	<defaultValue>true</defaultValue>
 						</maintainableField>
 			            <maintainableField name="newCollectionRecord" />
+			            <maintainableField name="versionNumber" />
+			            <summaryFields>
+                            <summaryField name="effortCertificationReportPositionObjectGroupCode" />
+                        </summaryFields>
 			        </maintainableCollection>
 				</maintainableItems>
 			</maintainableSection>

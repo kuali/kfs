@@ -87,7 +87,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetRetirementReason retirementReason;
     private DocumentHeader cashReceiptFinancialDocument;
     private DocumentHeader transferOfFundsFinancialDocument;
-   
+    private AssetCondition condition;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -1438,8 +1439,24 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setFinancialDocumentPostingPeriod(AccountingPeriod financialDocumentPostingPeriod) {
         this.financialDocumentPostingPeriod = financialDocumentPostingPeriod;
     }
-
     
+    /**
+     * Gets the condition attribute. 
+     * @return Returns the condition.
+     */
+    public AssetCondition getCondition() {
+        return condition;
+    }
+
+    /**
+     * Sets the condition attribute value.
+     * @param condition The condition to set.
+     * @deprecated
+     */
+    public void setCondition(AssetCondition condition) {
+        this.condition = condition;
+    }
+
     /**
      * Gets the active attribute.
      * 

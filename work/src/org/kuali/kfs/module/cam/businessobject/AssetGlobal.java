@@ -28,6 +28,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     private String conditionCode;
 
     private AssetType capitalAssetType;
+    private AssetCondition condition;
     
     private List<AssetGlobalDetail> assetGlobalDetails;
     
@@ -165,6 +166,23 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         this.capitalAssetType = capitalAssetType;
     }
     
+    /**
+     * Gets the condition attribute. 
+     * @return Returns the condition.
+     */
+    public AssetCondition getCondition() {
+        return condition;
+    }
+
+    /**
+     * Sets the condition attribute value.
+     * @param condition The condition to set.
+     * @deprecated
+     */
+    public void setCondition(AssetCondition condition) {
+        this.condition = condition;
+    }
+
     /**
      * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
      */

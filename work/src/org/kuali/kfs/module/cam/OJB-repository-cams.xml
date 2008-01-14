@@ -241,6 +241,9 @@
 	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="condition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="conditionCode" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_CPTLAST_CHG_DOC_T">
@@ -259,6 +262,10 @@
 
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="capitalAssetTypeCode" />
+	</reference-descriptor>
+
+	<reference-descriptor name="condition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="conditionCode" />
 	</reference-descriptor>
 </class-descriptor>
 

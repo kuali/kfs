@@ -30,10 +30,10 @@
             </authorization>
         </authorizations>
 
-		<documentTypeName>EffortCertificationReportEarnPayDocument</documentTypeName>
+		<documentTypeName>EffortCertificationReportEarnPaygroupMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPU</documentTypeCode>
 
-		<label>Effort Certification Report Earn Pay Document</label>
+		<label>Effort Certification Report Earn Paygroup</label>
 		<shortLabel>Effort Certification Report Earn Pay Document</shortLabel>
 		
 		<summary>Effort Certification Report Earn Pay Document</summary>

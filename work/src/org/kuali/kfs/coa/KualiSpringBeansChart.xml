@@ -478,6 +478,18 @@
             <entry key="org.kuali.module.financial.bo.WireCharge">
               <value>org.kuali.module.financial.bo.WireCharge</value>
             </entry>    
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup">
+              <value>org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup</value>
+            </entry>    
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportPosition">
+              <value>org.kuali.module.effort.bo.EffortCertificationReportPosition</value>
+            </entry>    
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportDefinition">
+              <value>org.kuali.module.effort.bo.EffortCertificationReportDefinition</value>
+            </entry>  
+            <entry key="org.kuali.module.ar.bo.SystemInformation">
+              <value>org.kuali.module.ar.bo.SystemInformation</value> 
+            </entry>   
             <entry key="org.kuali.module.gl.bo.UniversityDate">
               <value>org.kuali.module.gl.bo.UniversityDate</value>
             </entry>    
@@ -545,6 +557,28 @@
               <list>
                 <value>org.kuali.kfs.bo.Options</value>
                 <value>org.kuali.module.chart.bo.ObjectCode</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup">
+              <list>
+                <value>org.kuali.kfs.bo.Options</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportPosition">
+              <list>
+                <value>org.kuali.module.effort.bo.EffortCertificationReportDefinition</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.effort.bo.EffortCertificationReportDefinition">
+              <list>
+                <value>org.kuali.kfs.bo.Options</value>
+                <value>org.kuali.module.chart.bo.AccountingPeriod</value>
+              </list>
+            </entry>
+            <entry key="org.kuali.module.ar.bo.SystemInformation">
+              <list>
+                <value>org.kuali.module.chart.bo.ObjectCode</value>
+                <value>org.kuali.module.chart.bo.SubObjCd</value>
               </list>
             </entry>
             <entry key="org.kuali.module.gl.bo.UniversityDate">

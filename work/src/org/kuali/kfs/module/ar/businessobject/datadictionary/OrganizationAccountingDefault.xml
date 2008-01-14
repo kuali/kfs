@@ -99,12 +99,12 @@
             <attributeReference name="defaultInvoiceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Default Invoice Account Number</label>
                 <shortLabel>Def. Inv. Acct. Nbr.</shortLabel>
-                <required>true</required>
+                <required>false</required>
             </attributeReference>
 			<attributeReference name="defaultInvoiceChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Default Invoice Chart Code</label>
                 <shortLabel>Def. Inv. Chart</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="2" />
                 </control>
@@ -153,12 +153,12 @@
 			<attributeReference name="defaultPaymentAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber">
                 <label>Default Payment Account Number</label>
                 <shortLabel>Def. Payment Acct. Nbr.</shortLabel>
-                <required>true</required>
+                <required>false</required>
             </attributeReference>
 			<attributeReference name="defaultPaymentChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Default Payment Chart Code</label>
                 <shortLabel>Def. Payment Chart</shortLabel>
-                <required>true</required>
+                <required>false</required>
                 <control>
                     <text size="2" />
                 </control>
@@ -189,8 +189,8 @@
                 <required>false</required>
             </attributeReference>
 			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-                <label>Organization Object Code</label>
-                <shortLabel>OrgObjCode</shortLabel>
+                <label>Organization Code</label>
+                <shortLabel>OrgCode</shortLabel>
 
                 <maxLength>4</maxLength>
                 <required>true</required>
@@ -204,7 +204,7 @@
                 <shortLabel>LateChargeObjCode</shortLabel>
 
                 <maxLength>4</maxLength>
-                <required>true</required>
+                <required>false</required>
 
                 <control>
                     <text size="4" />

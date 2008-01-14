@@ -16,14 +16,13 @@
 
 package org.kuali.module.effort.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.DocumentHeader;
-import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
@@ -34,7 +33,7 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends PersistableBusinessObjectBase {
+public class EffortCertificationDocument extends TransactionalDocumentBase {
     private String documentNumber;
     private String chartOfAccountsCode;
     private String organizationCode;

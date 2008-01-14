@@ -128,4 +128,29 @@
 		
 	<!-- DAO declarations -->		
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />
+	
+	<!-- lookup declarations -->
+	<bean id="outstandingReportsByOrganizationLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+		<property name="lookupableHelperService">
+			<ref bean="outstandingReportsByOrganizationLookupableHelperService" />
+		</property>
+	</bean>
+
+	<bean id="outstandingReportsByOrganizationLookupableHelperService" class="org.kuali.module.effort.lookup.OutstandingReportsByOrganizationLookupableHelperServiceImpl" singleton="false">
+		<property name="persistenceStructureService">
+			<ref bean="persistenceStructureService" />
+		</property>
+		<property name="lookupService">
+			<ref bean="lookupService" />
+		</property>
+		<property name="businessObjectDictionaryService">
+			<ref bean="businessObjectDictionaryService" />
+		</property>
+		<property name="businessObjectMetaDataService">
+			<ref bean="businessObjectMetaDataService" />
+		</property>
+		<property name="dataDictionaryService">
+			<ref bean="dataDictionaryService" />
+		</property>		
+	</bean> 
 </beans>

@@ -48,9 +48,9 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
 
         boolean success = true;
-        success &= isWriteOffObjectValidExpense();
-        success &= isLateChargeObjectValidIncome();
-        success &= isDefaultInvoiceFinancialObjectValidIncome();
+        success &= isWriteOffObjectValidExpense(newOrganizationAccountingDefault);
+        success &= isLateChargeObjectValidIncome(newOrganizationAccountingDefault);
+        success &= isDefaultInvoiceFinancialObjectValidIncome(newOrganizationAccountingDefault);
 
         return success;
     }
@@ -84,17 +84,17 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * 
      * @return true if it is an expense object
      */
-    protected boolean isWriteOffObjectValidExpense() {
+    protected boolean isWriteOffObjectValidExpense(OrganizationAccountingDefault organizationAccountingDefault) {
 
         boolean success = true;
-        Integer universityFiscalYear = newOrganizationAccountingDefault.getUniversityFiscalYear();
-        String writeOffObjectCode = newOrganizationAccountingDefault.getWriteoffObjectCode();
+        Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
+        String writeOffObjectCode = organizationAccountingDefault.getWriteoffObjectCode();
 
         if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(writeOffObjectCode)) {
             success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(writeOffObjectCode);
 
             if (!success) {
-                putFieldError("writeoffObjectCode", KFSKeyConstants.OrganizationAccountingDefaults.WRITE_OFF_OBJECT_CODE_INVALID, writeOffObjectCode);
+                putFieldError("writeoffObjectCode", KFSKeyConstants.OrganizationAccountingDefault.WRITE_OFF_OBJECT_CODE_INVALID, writeOffObjectCode);
             }
         }
 
@@ -112,16 +112,16 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * 
      * @return true if it is an income object
      */
-    protected boolean isLateChargeObjectValidIncome() {
+    protected boolean isLateChargeObjectValidIncome(OrganizationAccountingDefault organizationAccountingDefault) {
         boolean success = true;
-        Integer universityFiscalYear = newOrganizationAccountingDefault.getUniversityFiscalYear();
-        String lateChargeObjectCode = newOrganizationAccountingDefault.getOrganizationLateChargeObjectCode();
+        Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
+        String lateChargeObjectCode = organizationAccountingDefault.getOrganizationLateChargeObjectCode();
 
         if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(lateChargeObjectCode)) {
             success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(lateChargeObjectCode);
 
             if (!success) {
-                putFieldError("organizationLateChargeObjectCode", KFSKeyConstants.OrganizationAccountingDefaults.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObjectCode);
+                putFieldError("organizationLateChargeObjectCode", KFSKeyConstants.OrganizationAccountingDefault.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObjectCode);
             }
         }
 
@@ -139,16 +139,16 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      * 
      * @return true if it is an income object
      */
-    protected boolean isDefaultInvoiceFinancialObjectValidIncome() {
+    protected boolean isDefaultInvoiceFinancialObjectValidIncome(OrganizationAccountingDefault organizationAccountingDefault) {
         boolean success = true;
-        Integer universityFiscalYear = newOrganizationAccountingDefault.getUniversityFiscalYear();
-        String defaultInvoiceFinancialObjectCode = newOrganizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
+        Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
+        String defaultInvoiceFinancialObjectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
         if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(defaultInvoiceFinancialObjectCode)) {
             success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceFinancialObjectCode);
 
             if (!success) {
-                putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefaults.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObjectCode);
+                putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObjectCode);
             }
         }
 

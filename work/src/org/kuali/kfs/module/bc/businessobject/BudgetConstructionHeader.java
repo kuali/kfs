@@ -297,7 +297,9 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     }
 
     public UniversalUser getBudgetLockUser() {
-        budgetLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+        if (budgetLockUserIdentifier != null){
+            budgetLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetLockUserIdentifier, budgetLockUser);
+        }
         return budgetLockUser;
     }
 
@@ -330,7 +332,9 @@ public class BudgetConstructionHeader extends PersistableBusinessObjectBase {
     }
 
     public UniversalUser getBudgetTransactionLockUser() {
-        budgetTransactionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+        if (budgetTransactionLockUserIdentifier != null){
+            budgetTransactionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(budgetTransactionLockUserIdentifier, budgetTransactionLockUser);
+        }
         return budgetTransactionLockUser;
     }
 

@@ -653,7 +653,9 @@ public class BudgetConstructionPosition extends PersistableBusinessObjectBase {
      * @return Returns the positionLockUser
      */
     public UniversalUser getPositionLockUser() {
-        positionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+        if (positionLockUserIdentifier != null){
+            positionLockUser = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(positionLockUserIdentifier, positionLockUser);
+        }
         return positionLockUser;
     }
 

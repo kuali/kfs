@@ -48,49 +48,73 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="customer800PhoneNumber" required="false" />
-                <lookupField attributeName="customerActiveIndicator" required="false" />
-                <lookupField attributeName="customerAddressChangeDate" required="false" />
-                <lookupField attributeName="customerBirthDate" required="false" />
-                <lookupField attributeName="customerContactName" required="false" />
-                <lookupField attributeName="customerContactPhoneNumber" required="false" />
-                <lookupField attributeName="customerCreditApprovedByName" required="false" />
-                <lookupField attributeName="customerCreditLimitAmount" required="false" />
-                <lookupField attributeName="customerEmailAddress" required="false" />
-                <lookupField attributeName="customerFaxNumber" required="false" />
-                <lookupField attributeName="customerFederalIdentifierNumber" required="false" />
-                <lookupField attributeName="customerLastActivityDate" required="false" />
-                <lookupField attributeName="customerName" required="false" />
+<!--                <lookupField attributeName="customer800PhoneNumber" required="false" />-->
+<!--                <lookupField attributeName="customerActiveIndicator" required="false" />-->
+<!--                <lookupField attributeName="customerAddressChangeDate" required="false" />-->
+<!--                <lookupField attributeName="customerBirthDate" required="false" />-->
+<!--                <lookupField attributeName="customerContactName" required="false" />-->
+<!--                <lookupField attributeName="customerContactPhoneNumber" required="false" />-->
+<!--                <lookupField attributeName="customerCreditApprovedByName" required="false" />-->
+<!--                <lookupField attributeName="customerCreditLimitAmount" required="false" />-->
+<!--                <lookupField attributeName="customerEmailAddress" required="false" />-->
+<!--                <lookupField attributeName="customerFaxNumber" required="false" />-->
+<!--                <lookupField attributeName="customerFederalIdentifierNumber" required="false" />-->
+<!--                <lookupField attributeName="customerLastActivityDate" required="false" />-->
+<!--                <lookupField attributeName="customerName" required="false" />-->
+<!--                <lookupField attributeName="customerNumber" required="false" />-->
+<!--                <lookupField attributeName="customerParentCompanyNumber" required="false" />-->
+<!--                <lookupField attributeName="customerPhoneNumber" required="false" />-->
+<!--                <lookupField attributeName="customerRecordAddDate" required="false" />-->
+<!--                <lookupField attributeName="customerSocialSecurityNumberIdentifier" required="false" />-->
+<!--                <lookupField attributeName="customerTaxExemptIndicator" required="false" />-->
+<!--                <lookupField attributeName="customerTypeCode" required="false" />-->
+                
+                
                 <lookupField attributeName="customerNumber" required="false" />
-                <lookupField attributeName="customerParentCompanyNumber" required="false" />
-                <lookupField attributeName="customerPhoneNumber" required="false" />
-                <lookupField attributeName="customerRecordAddDate" required="false" />
-                <lookupField attributeName="customerSocialSecurityNumberIdentifier" required="false" />
-                <lookupField attributeName="customerTaxExemptIndicator" required="false" />
-                <lookupField attributeName="customerTypeCode" required="false" />
+                <lookupField attributeName="customerName" required="false" />
+         	 	<lookupField attributeName="customerPhoneNumber" required="false" />
+        	    <lookupField attributeName="customerFederalIdentifierNumber" required="false" />
+                <lookupField attributeName="customerActiveIndicator" required="false" />
+               
+               
+                
+                
+                
+                
+                
+                
             </lookupFields>
 
             <resultFields>
-                <field attributeName="customer800PhoneNumber" />
-                <field attributeName="customerActiveIndicator" />
-                <field attributeName="customerAddressChangeDate" />
-                <field attributeName="customerBirthDate" />
-                <field attributeName="customerContactName" />
-                <field attributeName="customerContactPhoneNumber" />
-                <field attributeName="customerCreditApprovedByName" />
-                <field attributeName="customerCreditLimitAmount" />
-                <field attributeName="customerEmailAddress" />
-                <field attributeName="customerFaxNumber" />
-                <field attributeName="customerFederalIdentifierNumber" />
-                <field attributeName="customerLastActivityDate" />
-                <field attributeName="customerName" />
-                <field attributeName="customerNumber" />
-                <field attributeName="customerParentCompanyNumber" />
-                <field attributeName="customerPhoneNumber" />
-                <field attributeName="customerRecordAddDate" />
-                <field attributeName="customerSocialSecurityNumberIdentifier" />
-                <field attributeName="customerTaxExemptIndicator" />
-                <field attributeName="customerTypeCode" />
+<!--                <field attributeName="customer800PhoneNumber" />-->
+<!--                <field attributeName="customerActiveIndicator" />-->
+<!--                <field attributeName="customerAddressChangeDate" />-->
+<!--                <field attributeName="customerBirthDate" />-->
+<!--                <field attributeName="customerContactName" />-->
+<!--                <field attributeName="customerContactPhoneNumber" />-->
+<!--                <field attributeName="customerCreditApprovedByName" />-->
+<!--                <field attributeName="customerCreditLimitAmount" />-->
+<!--                <field attributeName="customerEmailAddress" />-->
+<!--                <field attributeName="customerFaxNumber" />-->
+<!--                <field attributeName="customerFederalIdentifierNumber" />-->
+<!--                <field attributeName="customerLastActivityDate" />-->
+<!--                <field attributeName="customerName" />-->
+<!--                <field attributeName="customerNumber" />-->
+<!--                <field attributeName="customerParentCompanyNumber" />-->
+<!--                <field attributeName="customerPhoneNumber" />-->
+<!--                <field attributeName="customerRecordAddDate" />-->
+<!--                <field attributeName="customerSocialSecurityNumberIdentifier" />-->
+<!--                <field attributeName="customerTaxExemptIndicator" />-->
+<!--                <field attributeName="customerTypeCode" />-->
+					<field attributeName="customerNumber" />
+              	 	<field attributeName="customerName" />
+         	 		<field attributeName="customerPhoneNumber" />
+        	 	    <field attributeName="customerFederalIdentifierNumber" />
+              	    <field attributeName="customerActiveIndicator" />
+               
+               
+
+
             </resultFields>
         </lookup>
 

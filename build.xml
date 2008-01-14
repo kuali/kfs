@@ -209,16 +209,6 @@
 			<fileset dir="${build.work.directory}" />
 		</copy>
 	</target>
-	
-	<target name="check-modularization" depends="make-source" description="Checks over dependency issues within kuali code">
-	  <verifydesign design="design.xml">
-	    <path>
-	      <fileset dir="${classes.directory}/org/kuali/module">
-			<include name="**/*.class"/>
-	      </fileset>
-	    </path>
-	  </verifydesign>
-	</target>
 
 	<target name="make-source" depends="init-make-references,filter-project">
 		<mkdir dir="${make-source.target.directory}" />

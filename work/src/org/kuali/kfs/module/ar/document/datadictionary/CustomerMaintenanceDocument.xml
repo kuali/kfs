@@ -38,7 +38,7 @@
         <label>Customer</label>
 
         <summary>Customer Maintenance Document</summary>
-        <description>Document used to create or update Agency objects</description>
+        <description>Document used to create or update Customer objects</description>
         <help parameterNamespace="KFS-AR" parameterDetailType="Customer" parameterName="CUSTOMER" />
 
         <lockingKeys>
@@ -63,25 +63,29 @@
 					-->
 					
                     <maintainableField name="customerNumber" readOnly="true" required="true" />
+					<maintainableField name="customerParentCompanyNumber" />		
+					<maintainableField name="customerName" />	
 
+ 					<maintainableField name="customerSocialSecurityNumberIdentifier" />
+   					<maintainableField name="customerFederalIdentifierNumber" />
+ 					<maintainableField name="customerTaxExemptIndicator" />
+
+					<maintainableField name="customerCreditApprovedByName" />	
+					<maintainableField name="customerCreditLimitAmount" />
+
+					<maintainableField name="customerEmailAddress" />
+					<maintainableField name="customerPhoneNumber" />	
                     <maintainableField name="customer800PhoneNumber" />
-                    <maintainableField name="customerAddressChangeDate" />
-                    <maintainableField name="customerBirthDate" />
-                    <maintainableField name="customerContactName" />
-                    <maintainableField name="customerContactPhoneNumber" />
-                    <maintainableField name="customerCreditApprovedByName" />
-                    <maintainableField name="customerCreditLimitAmount" />
-                    <maintainableField name="customerEmailAddress" />
                     <maintainableField name="customerFaxNumber" />
-                    <maintainableField name="customerFederalIdentifierNumber" />
+                    
+                    <maintainableField name="customerContactName" />
+                    <maintainableField name="customerContactPhoneNumber" />                
+                    <maintainableField name="customerBirthDate" />
+                                       
+                    <maintainableField name="customerAddressChangeDate" />
                     <maintainableField name="customerLastActivityDate" />
-                    <maintainableField name="customerName" />
-                    <maintainableField name="customerParentCompanyNumber" />
-                    <maintainableField name="customerPhoneNumber" />
-
-                    <maintainableField name="customerRecordAddDate" />
-                    <maintainableField name="customerSocialSecurityNumberIdentifier" />
-                    <maintainableField name="customerTaxExemptIndicator" />
+                    <maintainableField name="customerRecordAddDate" />          
+                   
 					<maintainableField name="versionNumber" />
 
                     <maintainableField name="customerActiveIndicator" />

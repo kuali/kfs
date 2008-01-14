@@ -25,7 +25,6 @@
 	<field-descriptor name="printInvoiceIndicator" column="AR_PRN_INV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="organizationPaymentTermsText" column="ORG_PMT_TERMS_TXT" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationMessageText" column="ORG_MSG_TXT" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationRemitToAddressName" column="ORG_REMIT_ADDR_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine1StreetAddress" column="ORG_REMIT_LN1_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToLine2StreetAddress" column="ORG_REMIT_LN2_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationRemitToCityName" column="ORG_REMIT_CITY_NM" jdbc-type="VARCHAR"/>
@@ -72,7 +71,7 @@
 	</reference-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.CreditMemo" table="AR_CREDIT_MEMO_T">
+<class-descriptor class="org.kuali.module.ar.document.CustomerCreditMemoDocument" table="AR_CREDIT_MEMO_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -150,7 +149,7 @@
 	<field-descriptor name="entryDate" column="AR_ENTRY_DT" jdbc-type="DATE"/>
 	<field-descriptor name="financialDocumentExplanationText" column="FDOC_EXPLAIN_TXT" jdbc-type="VARCHAR"/>
 
-	<reference-descriptor name="cashControl" class-ref="org.kuali.module.ar.bo.CashControl" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="cashControl" class-ref="org.kuali.module.ar.document.CashControlDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -224,7 +223,7 @@
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.CashControl" table="AR_CSH_CTRL_T">
+<class-descriptor class="org.kuali.module.ar.document.CashControlDocument" table="AR_CSH_CTRL_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

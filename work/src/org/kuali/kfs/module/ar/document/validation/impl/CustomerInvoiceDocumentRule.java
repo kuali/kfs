@@ -82,6 +82,8 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
     
     protected boolean isValidBillingChartAndOrganization(CustomerInvoiceDocument doc) {
         boolean success = true;
+        
+        // billbychartofaccountcode is not empty and billedbyorgcode is not empty
         doc.refreshReferenceObject("billByChartOfAccount");
         if(doc.getBillByChartOfAccount() != null) {
             doc.refreshReferenceObject("billedByOrganization");

@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
@@ -20,7 +21,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	private Date entryDate;
 	private String financialDocumentExplanationText;
 
-    private CashControl cashControl;
+    private CashControlDocument cashControl;
 	private Customer customer;
 	private Chart processingChartOfAccount;
 	private Org processingOrganization;
@@ -165,7 +166,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @return Returns the cashControl
 	 * 
 	 */
-	public CashControl getCashControl() { 
+	public CashControlDocument getCashControl() { 
 		return cashControl;
 	}
 
@@ -175,7 +176,7 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	 * @param cashControl The cashControl to set.
 	 * @deprecated
 	 */
-	public void setCashControl(CashControl cashControl) {
+	public void setCashControl(CashControlDocument cashControl) {
 		this.cashControl = cashControl;
 	}
 

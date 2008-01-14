@@ -52,7 +52,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     public EffortCertificationExtractServiceTest() {
         super();
         String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
-        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/EffortCertificationExtractService.properties";
+        String propertiesFileName = "test/src/org/kuali/module/effort/testdata/effortCertificationExtractService.properties";
 
         TestDataGenerator generator = new TestDataGenerator(propertiesFileName, messageFileName);
         properties = generator.getProperties();

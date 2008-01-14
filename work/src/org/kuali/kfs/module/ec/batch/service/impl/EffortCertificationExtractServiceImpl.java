@@ -97,7 +97,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<String, String> fieldValues = EffortCertificationReportDefinition.buildKeyMap(fiscalYear, reportNumber);
 
         String errorMessage = this.validateReportDefintion(fieldValues);
-        if (StringUtils.isEmpty(errorMessage)) {
+        if (StringUtils.isNotEmpty(errorMessage)) {
+            LOG.fatal(errorMessage);
             throw new IllegalArgumentException(errorMessage);
         }
 

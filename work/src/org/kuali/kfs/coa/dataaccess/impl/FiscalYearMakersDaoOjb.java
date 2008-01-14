@@ -50,6 +50,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.module.ar.bo.SystemInformation;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.IcrAutomatedEntry;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -65,6 +66,7 @@ import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
 import org.kuali.module.effort.bo.EffortCertificationReportPosition;
+import org.kuali.module.financial.bo.TravelPerDiem;
 import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.labor.bo.BenefitsCalculation;
@@ -273,8 +275,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 makersMethod.makeMethod(EffortCertificationReportDefinition.class, baseYear, replaceMode, fieldAction, filterAction);
             }
         };
-        //@@TODO: uncomment this when effort reporting is ready to test
-        // addCopyAction(EffortCertificationReportDefinition.class, copyActionEffortReportDefinition);
+         addCopyAction(EffortCertificationReportDefinition.class, copyActionEffortReportDefinition);
 
         /***************************************************************************************************************************
          * EffortCertificationReportEarnPaygroup *
@@ -297,8 +298,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                makersMethod.makeMethod(EffortCertificationReportEarnPaygroup.class, baseYear, replaceMode, filterAction);
             }
         };
-        //@@TODO: uncomment this when effort certification is ready to test
-        // addCopyAction(EffortCertificationReportEarnPaygroup.class, copyActionEffortReportEarnPaygroup);
+         addCopyAction(EffortCertificationReportEarnPaygroup.class, copyActionEffortReportEarnPaygroup);
 
         /***************************************************************************************************************************
          * EffortCertificationReportPosition *
@@ -321,8 +321,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                makersMethod.makeMethod(EffortCertificationReportPosition.class, baseYear, replaceMode, filterAction);
             }
         };
-        //@@TODO: uncomment this when effort certification is ready to test
-        // addCopyAction(EffortCertificationReportPosition.class, copyActionEffortReportPosition);
+          addCopyAction(EffortCertificationReportPosition.class, copyActionEffortReportPosition);
 
         /***************************************************************************************************************************
          * IcrAutomatedEntry *
@@ -462,6 +461,41 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             }
         };
         addCopyAction(SubObjCd.class, copyActionSubObjCd);
+
+        /***************************************************************************************************************************
+         * SystemInformation *
+         **************************************************************************************************************************/
+        FiscalYearMakersCopyAction copyActionSystemInformation = new FiscalYearMakersCopyAction() {
+
+            FiscalYearMakersFilterAction filterAction = new FiscalYearMakersFilterAction() {
+                public Criteria customCriteriaMethod() {
+                    /**
+                     *  do not copy any inactive current year rows
+                     */
+                    Criteria criteriaID = new Criteria();
+                    criteriaID.addEqualTo(KFSPropertyConstants.ACTIVE, true);
+                    return criteriaID;
+                }
+            };
+
+            public void copyMethod(Integer baseYear, boolean replaceMode) {
+               MakersMethods<SystemInformation> makersMethod = new MakersMethods<SystemInformation>();
+               makersMethod.makeMethod(SystemInformation.class, baseYear, replaceMode, filterAction);
+            }
+        };
+          addCopyAction(SystemInformation.class, copyActionSystemInformation);
+        
+        /***************************************************************************************************************************
+         * TravelPerDiem (fiscal year field in inappropriately named in OJB, so we have to comment this out)*
+         **************************************************************************************************************************/
+       // FiscalYearMakersCopyAction copyActionTravelPerDiem = new FiscalYearMakersCopyAction() {
+       //     public void copyMethod(Integer baseYear, boolean replaceMode) {
+       //          MakersMethods<TravelPerDiem> makersMethod = new MakersMethods<TravelPerDiem>();
+       //         makersMethod.makeMethod(TravelPerDiem.class, baseYear, replaceMode);
+       //     }
+       // };
+       // addCopyAction(TravelPerDiem.class, copyActionTravelPerDiem);
+        
         /***************************************************************************************************************************
          * University Date *
          **************************************************************************************************************************/
@@ -1524,7 +1558,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         private boolean findCorrespondingParentRowAndLogFailures(C ourBO, RelationshipContainer relationshipRI) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException
         {
             String childTestKey = buildChildTestKey(ourBO, relationshipRI.childKeyFields);
-            // if one of the key fields is null, RI id satisfied
+            // if one of the key fields is null, RI is satisfied
             if (childTestKey.length() == 0)
             {
                 return true;
@@ -1543,7 +1577,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 errorCopyFailedMessage.append(childKeyFields[i]);
                 errorCopyFailedMessage.append("+");
             }
-            errorCopyFailedMessage.replace(errorCopyFailedMessage.length(),errorCopyFailedMessage.length()," = ");
+            errorCopyFailedMessage.replace(errorCopyFailedMessage.length()-1,errorCopyFailedMessage.length()," = ");
             errorCopyFailedMessage.append(childTestKey);
             errorCopyFailedMessage.append(" not in ");
             errorCopyFailedMessage.append(this.parentClass.getName());
@@ -1573,6 +1607,9 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         public boolean isInParent(C ourBO) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
             boolean result = true;
             if (keyChain.isEmpty()) {
+                // this will occur if the XML designates a parent but there is no relationship between the parent and the child
+                // in OJB.  in that case, we can't list the key because we don't know what it is.  a message stating there is 
+                // no parent/child relationship was issued when the repository was queried, however.
                 return false;
             }
             Iterator<RelationshipContainer> contentsRI = keyChain.iterator();

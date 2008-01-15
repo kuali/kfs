@@ -47,11 +47,8 @@ public class EffortCertificationAutomaticReportPeriodUpdateServiceImpl implement
 
         for (EffortCertificationReportDefinition potentialOverlappingRecord : potentialOverlappingRecords) {
             if (isOverlapping(potentialOverlappingRecord, reportDefinition))
-                overlappingRecords.add(potentialOverlappingRecord);
+                return true;
         }
-
-        if (!overlappingRecords.isEmpty())
-            return true;
 
         return false;
     }

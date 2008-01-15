@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.PendingPurchaseOrder">
+ 
+        <inquiry>
+            <title>Pending Purchase Order Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="deliverToAddress1" />
+                        <field attributeName="deliverToAddress2" />
+                        <field attributeName="deliverToName" />
+                        <field attributeName="departmentRepresentative" />
+                        <field attributeName="purchaseOrderNumber" />
+                        <field attributeName="requestAddress1" />
+                        <field attributeName="requestAddress2" />
+                        <field attributeName="requestName" />
+                        <field attributeName="requestorPersonEmailAddress" />
+                        <field attributeName="requestorPersonPhoneNumber" />
+                        <field attributeName="requiredNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Pending Purchase Order Lookup</title>
+
+            <instructions>Look up a Pending Purchase Order</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="purchaseOrderNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="deliverToAddress1" required="false" />
+                <lookupField attributeName="deliverToAddress2" required="false" />
+                <lookupField attributeName="deliverToName" required="false" />
+                <lookupField attributeName="departmentRepresentative" required="false" />
+                <lookupField attributeName="purchaseOrderNumber" required="false" />
+                <lookupField attributeName="requestAddress1" required="false" />
+                <lookupField attributeName="requestAddress2" required="false" />
+                <lookupField attributeName="requestName" required="false" />
+                <lookupField attributeName="requestorPersonEmailAddress" required="false" />
+                <lookupField attributeName="requestorPersonPhoneNumber" required="false" />
+                <lookupField attributeName="requiredNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="deliverToAddress1" />
+                <field attributeName="deliverToAddress2" />
+                <field attributeName="deliverToName" />
+                <field attributeName="departmentRepresentative" />
+                <field attributeName="purchaseOrderNumber" />
+                <field attributeName="requestAddress1" />
+                <field attributeName="requestAddress2" />
+                <field attributeName="requestName" />
+                <field attributeName="requestorPersonEmailAddress" />
+                <field attributeName="requestorPersonPhoneNumber" />
+                <field attributeName="requiredNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="deliverToAddress1" forceUppercase="true">
+                <label>Deliver To Address1</label>
+                <shortLabel>Address1</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>deliverToAddress1</summary>
+                <description>deliverToAddress1 description...</description>
+			</attribute>
+
+            <attribute name="deliverToAddress2" forceUppercase="true">
+                <label>Deliver To Address2</label>
+                <shortLabel>Address2</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>deliverToAddress2</summary>
+                <description>deliverToAddress2 description...</description>
+			</attribute>
+
+            <attribute name="deliverToName" forceUppercase="true">
+                <label>Deliver To Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>deliverToName</summary>
+                <description>deliverToName description...</description>
+			</attribute>
+
+            <attribute name="departmentRepresentative" forceUppercase="true">
+                <label>Department Representative</label>
+                <shortLabel>Representative</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>departmentRepresentative</summary>
+                <description>departmentRepresentative description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderNumber" forceUppercase="true">
+                <label>Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderNumber</summary>
+                <description>purchaseOrderNumber description...</description>
+			</attribute>
+
+            <attribute name="requestAddress1" forceUppercase="true">
+                <label>Request Address1</label>
+                <shortLabel>Address1</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>requestAddress1</summary>
+                <description>requestAddress1 description...</description>
+			</attribute>
+
+            <attribute name="requestAddress2" forceUppercase="true">
+                <label>Request Address2</label>
+                <shortLabel>Address2</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>requestAddress2</summary>
+                <description>requestAddress2 description...</description>
+			</attribute>
+
+            <attribute name="requestName" forceUppercase="true">
+                <label>Request Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>requestName</summary>
+                <description>requestName description...</description>
+			</attribute>
+
+            <attribute name="requestorPersonEmailAddress" forceUppercase="true">
+                <label>Requestor Person Email Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>100</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="102" />
+                </control>
+
+                <summary>requestorPersonEmailAddress</summary>
+                <description>requestorPersonEmailAddress description...</description>
+			</attribute>
+
+            <attribute name="requestorPersonPhoneNumber" forceUppercase="true">
+                <label>Requestor Person Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>requestorPersonPhoneNumber</summary>
+                <description>requestorPersonPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="requiredNumber" forceUppercase="true">
+                <label>Required Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>requiredNumber</summary>
+                <description>requiredNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

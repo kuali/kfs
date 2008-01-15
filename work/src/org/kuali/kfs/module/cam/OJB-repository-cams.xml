@@ -617,4 +617,84 @@
         <foreignkey field-ref="offCampusStateCode" />
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.Pretag" table="CM_PRTG_T">
+	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="quantityInvoiced" column="QUANTITY_INVOICED" jdbc-type="DECIMAL"/>
+	<field-descriptor name="capitalAssetTypeCode" column="CPTLAST_TYP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="manufacturerName" column="CPTLAST_MFR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="manufacturerModelNumber" column="CPTLAST_MFRMDL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="vendorName" column="VENDOR_NAME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="assetTopsDescription" column="CPTLAST_TOPS_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationDescription" column="ORG_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationText" column="CPTLAST_ORG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="pretagCreateDate" column="CM_PRTG_CRT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+
+    <collection-descriptor name="pretagDetails" element-class-ref="org.kuali.module.cams.bo.PretagDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <orderby name="campusTagNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="purchaseOrderNumber" />
+        <inverse-foreignkey field-ref="lineItemNumber" />
+    </collection-descriptor>
+	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="chartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.cams.bo.PendingPurchaseOrder" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="purchaseOrderNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">
+	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="lineItemNumber" column="LINE_ITEM_NUMBER" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="pretagTagCreateDate" column="AST_PRTGTAG_CRT_DT" jdbc-type="DATE"/>
+
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
+    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.bo.Room" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+        <foreignkey field-ref="buildingRoomNumber" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.PendingPurchaseOrder" table="CB_PND_PO_T">
+	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="requiredNumber" column="REQ_NUMBER" jdbc-type="VARCHAR"/>
+	<field-descriptor name="departmentRepresentative" column="DEPT_REP" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliverToName" column="DELIVER_TO_NAME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliverToAddress1" column="DELIVER_TO_ADDR1" jdbc-type="VARCHAR"/>
+	<field-descriptor name="deliverToAddress2" column="DELIVER_TO_ADDR2" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestName" column="REQUEST_NAME" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestAddress1" column="REQUEST_ADDR1" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestAddress2" column="REQUEST_ADDR2" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
+</class-descriptor>
 </descriptor-repository>

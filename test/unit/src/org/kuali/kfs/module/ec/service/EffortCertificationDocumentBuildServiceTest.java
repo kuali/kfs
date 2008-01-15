@@ -224,8 +224,8 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
      * @return a system parameter map
      */
     private Map<String, List<String>> buildSystemParameterMap(String testTarget) {
-        List<String> expSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.expenseSubAccountTypeCode"), deliminator);
-        List<String> csSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.costShareSubAccountTypeCode"), deliminator);
+        List<String> expSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.EXPENSE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
+        List<String> csSubAccountType = ObjectUtil.split(properties.getProperty(testTarget + "systemParameter.COST_SHARE_SUB_ACCOUNT_TYPE_CODE"), deliminator);
 
         Map<String, List<String>> systemParameters = new HashMap<String, List<String>>();
         systemParameters.put(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE, expSubAccountType);

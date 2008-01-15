@@ -32,7 +32,7 @@ public class PermissionServiceTest extends KualiTestBase {
     private List<Org> orgs;
 
     private boolean runTests() { // change this to return false to prevent running tests
-        return false;
+        return true;
     }
 
     @Override

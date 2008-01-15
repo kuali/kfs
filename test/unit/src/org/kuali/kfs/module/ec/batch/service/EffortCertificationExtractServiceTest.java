@@ -192,11 +192,11 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         reportDefinition = (EffortCertificationReportDefinition) businessObjectService.retrieve(reportDefinition);
         reportDefinition.setActive(true);
 
-        DocumentHeader header = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + "documentHeader", documentHeaderFieldNames, deliminator);
-        //header = this.persistDataObject(header);
+        DocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + "documentHeader", documentHeaderFieldNames, deliminator);
+        documentHeader = this.persistDataObject(documentHeader);
 
         EffortCertificationDocument document = this.buildDocument(testTarget);
-        document.setDocumentHeader(header);
+        document.setDocumentHeader(documentHeader);
         document = this.persistDataObject(document);
 
         try {

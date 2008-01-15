@@ -31,7 +31,7 @@
         </authorizations>
 
 		<documentTypeName>EffortCertificationReportEarnPaygroupMaintenanceDocument</documentTypeName>
-		<documentTypeCode>ARPU</documentTypeCode>
+		<documentTypeCode>ARPG</documentTypeCode>
 
 		<label>Effort Certification Report Earn Paygroup</label>
 		<shortLabel>Effort Certification Report Earn Pay Document</shortLabel>

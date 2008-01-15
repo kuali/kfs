@@ -50,6 +50,8 @@ import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.chart.service.BalanceTypService;
+import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.LaborPropertyConstants;
@@ -507,6 +509,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      */
     public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
         Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
+        criteria.addEqualTo(LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.LABOR_OBJECT_SALARY_CODE);
 
         for (String fieldName : exclusiveFieldValues.keySet()) {
             criteria.addNotEqualTo(fieldName, exclusiveFieldValues.get(fieldName));

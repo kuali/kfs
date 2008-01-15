@@ -240,4 +240,6 @@ public class LaborConstants {
     }
 
     public static final String[] ACCOUNT_FIELDS = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, KFSPropertyConstants.ACCOUNT_NUMBER };
+    
+    public static final String LABOR_OBJECT_SALARY_CODE = "S";
 }

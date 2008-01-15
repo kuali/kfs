@@ -16,6 +16,7 @@
 package org.kuali.module.effort.service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -26,10 +27,12 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
@@ -38,7 +41,8 @@ import org.kuali.test.ConfigureContext;
 public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     private final Properties properties, message;
-    private final String balanceFieldNames, detailFieldNames, documentFieldNames, documentHeaderFieldNames, reportDefinitionFieldNames;
+    private final String balanceFieldNames, entryFieldNames;
+    private final String detailFieldNames, documentFieldNames, documentHeaderFieldNames, reportDefinitionFieldNames;
     private final String deliminator;
 
     private BusinessObjectService businessObjectService;
@@ -61,6 +65,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         deliminator = properties.getProperty("deliminator");
 
         balanceFieldNames = properties.getProperty("balanceFieldNames");
+        entryFieldNames = properties.getProperty("entryFieldNames");
+
         detailFieldNames = properties.getProperty("detailFieldNames");
         documentFieldNames = properties.getProperty("documentFieldNames");
         reportDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
@@ -76,7 +82,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         effortCertificationDetailBuildService = SpringContext.getBean(EffortCertificationDetailBuildService.class);
         effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
 
-        this.doCleanUp("");
+        this.doCleanUp(LedgerBalance.class, "dataCleanup", balanceFieldNames, deliminator);
     }
 
     /**
@@ -91,11 +97,11 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = this.persistDataObject(reportDefinition);
-        
-        this.doCleanUp(testTarget);
-        
+
+        this.doCleanUp(LedgerBalance.class, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+
         try {
-            effortCertificationExtractService.extract(fiscalYear, reportNumber);           
+            effortCertificationExtractService.extract(fiscalYear, reportNumber);
         }
         catch (Exception e) {
             fail(message.getProperty("error.effortCertificationExtractService.inputParameters.validParameters"));
@@ -189,8 +195,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
-        reportDefinition = (EffortCertificationReportDefinition) businessObjectService.retrieve(reportDefinition);
-        reportDefinition.setActive(true);
+        reportDefinition = this.persistDataObject(reportDefinition);
 
         DocumentHeader documentHeader = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + "documentHeader", documentHeaderFieldNames, deliminator);
         documentHeader = this.persistDataObject(documentHeader);
@@ -210,7 +215,40 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * employees that meet certain criteria can be selected
      */
-    public void testEmployeeSelection() throws Exception {
+    public void testEmployeeSelection_Selected() throws Exception {
+        String testTarget = "employeeSelection.selected.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+
+        this.doCleanUp(LedgerEntry.class, testTarget + "dataCleanup", entryFieldNames, deliminator);
+        this.doCleanUp(LedgerBalance.class, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+        this.doCleanUp(EffortCertificationDocumentBuild.class, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
+        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        this.persistDataObject(ledgerBalances);
+
+        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
+        List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
+        this.persistDataObject(ledgerEntries);
+
+        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
+        reportDefinition = this.persistDataObject(reportDefinition);
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = this.findMatching(EffortCertificationDocumentBuild.class, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+    }
+
+    /**
+     * employees that meet certain criteria can be selected
+     */
+    public void testEmployeeSelection_NotSelected() throws Exception {
 
     }
 
@@ -301,12 +339,39 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
+     * persist the given data object if it is not in the persistent store
+     * 
+     * @param dataObject the given data object
+     * @return return the data object persisted into the data store
+     */
+    private <T extends PersistableBusinessObject> void persistDataObject(List<T> dataObjects) {
+        for (T dataObject : dataObjects) {
+            this.persistDataObject(dataObject);
+        }
+    }
+
+    /**
      * remove the existing data from the database so that they cannot affact the test results
      */
-    private void doCleanUp(String testTarget) throws Exception {
-        LedgerBalance cleanup = new LedgerBalance();
-        ObjectUtil.populateBusinessObject(cleanup, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
-        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(balanceFieldNames, deliminator)));
-        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
+    private <T> void doCleanUp(Class<T> clazz, String propertykey, String fieldNames, String deliminator) throws Exception {
+        Map<String, Object> fieldValues = this.buildFiledValues(clazz, propertykey, fieldNames, deliminator);
+        businessObjectService.deleteMatching(clazz, fieldValues);
+    }
+
+    /**
+     * remove the existing data from the database so that they cannot affact the test results
+     */
+    private <T extends PersistableBusinessObject> List<T> findMatching(Class<T> clazz, String propertykey, String fieldNames, String deliminator) throws Exception {
+        Map<String, Object> fieldValues = this.buildFiledValues(clazz, propertykey, fieldNames, deliminator);
+        return (List<T>) businessObjectService.findMatching(clazz, fieldValues);
+    }
+
+    /**
+     * build field value map
+     */
+    private <T> Map<String, Object> buildFiledValues(Class<T> clazz, String propertykey, String fieldNames, String deliminator) throws Exception {
+        T cleanup = clazz.newInstance();
+        ObjectUtil.populateBusinessObject(cleanup, properties, propertykey, fieldNames, deliminator);
+        return ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(fieldNames, deliminator)));
     }
 }

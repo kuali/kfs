@@ -36,6 +36,7 @@ import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortConstants.ExtractProcess;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
+import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
@@ -52,6 +53,7 @@ import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.financial.service.UniversityDateService;
+import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -196,7 +198,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
         Integer postingYear = universityDateService.getCurrentFiscalYear();
 
-        for (String emplid : employees) {
+        for (String emplid : employees) {            
             Collection<LedgerBalance> qualifiedLedgerBalance;
             qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
@@ -206,6 +208,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
             List<EffortCertificationDocumentBuild> documents;
             documents = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, qualifiedLedgerBalance, parameters);
+            
             businessObjectService.save(documents);
 
             reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, qualifiedLedgerBalance.size());
@@ -280,15 +283,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
-            String errorMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods).getMessage();
+            Message errorMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods);
 
             // every balance record must be associated with a valid account
-            if (StringUtils.isEmpty(errorMessage)) {
-                errorMessage = LedgerBalanceFieldValidator.hasValidAccount(balance).getMessage();
+            if (errorMessage == null) {
+                errorMessage = LedgerBalanceFieldValidator.hasValidAccount(balance);
             }
 
             // remove the unqualified ledger balance from the list and report the error
-            if (StringUtils.isNotEmpty(errorMessage)) {
+            if (errorMessage != null) {
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, errorMessage);
                 ledgerBalances.remove(balance);
             }
@@ -311,15 +314,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
         // the total amount of all balances must be positive; otherwise, not to generate effort report for the employee
-        String nonpositiveTotalError = LedgerBalanceFieldValidator.isTotalAmountPositive(ledgerBalances, reportPeriods).getMessage();
-        if (StringUtils.isNotEmpty(nonpositiveTotalError)) {
+        Message nonpositiveTotalError = LedgerBalanceFieldValidator.isTotalAmountPositive(ledgerBalances, reportPeriods);
+        if (nonpositiveTotalError != null) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, nonpositiveTotalError, emplid);
             return false;
         }
         
         // an employee must not be paid by multiple organizations
-        String multipleOrganizationError = LedgerBalanceFieldValidator.isFromSingleOrganization(ledgerBalances).getMessage();
-        if (StringUtils.isNotEmpty(multipleOrganizationError)) {
+        Message multipleOrganizationError = LedgerBalanceFieldValidator.isFromSingleOrganization(ledgerBalances);
+        if (multipleOrganizationError != null) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, multipleOrganizationError, emplid);
             return false;
         }
@@ -328,8 +331,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         boolean fundGroupDenotesCGIndictor = Boolean.parseBoolean(parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND).get(0));
         List<String> fundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
 
-        String grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, fundGroupDenotesCGIndictor, fundGroupCodes).getMessage();
-        if (StringUtils.isNotEmpty(grantAccountNotFoundError)) {
+        Message grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, fundGroupDenotesCGIndictor, fundGroupCodes);
+        if (grantAccountNotFoundError != null) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, grantAccountNotFoundError, emplid);
             return false;
         }
@@ -340,8 +343,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         if (isFederalFundsOnly) {
             List<String> federalAgencyTypeCodes = parameters.get(SystemParameters.FEDERAL_AGENCY_TYPE_CODE);
 
-            String federalFundsNotFoundError = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes).getMessage();
-            if (StringUtils.isNotEmpty(federalFundsNotFoundError)) {
+            Message federalFundsNotFoundError = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes);
+            if (federalFundsNotFoundError != null) {
                 this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, federalFundsNotFoundError, emplid);
                 return false;
             }
@@ -365,7 +368,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<String, String> fieldValues = new HashMap<String, String>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCode);
-        fieldValues.put(EffortPropertyConstants.LABOR_OBJECT_FRINGE_OR_SALARY_CODE, EffortConstants.LABOR_OBJECT_SALARY_CODE);
 
         Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
         exclusiveFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, accountTypeCode);
@@ -373,8 +375,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();
         List<String> balanceTypes = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborEffortCertificationService.findLedgerBalances
-        (fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+        return laborEffortCertificationService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
     }
 
     /**
@@ -456,12 +457,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, String message) {
-        ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, message));
+    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, Message message) {
+        ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, message.toString()));
     }
 
     // add an error entry into error map
-    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, String message, String emplid) {
+    private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
         LedgerBalance ledgerBalance = new LedgerBalance();
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);

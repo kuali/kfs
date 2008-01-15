@@ -116,8 +116,8 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
         for(String payGroup : earnCodePayGroupMap.keySet()) {
             Criteria criteriaForEarnPay = new Criteria();
             
-            criteriaForEarnPay.addEqualTo(KFSPropertyConstants.EARN_CODE, payGroup); 
-            criteriaForEarnPay.addIn(KFSPropertyConstants.PAY_GROUP, earnCodePayGroupMap.get(payGroup)); 
+            criteriaForEarnPay.addEqualTo(KFSPropertyConstants.PAY_GROUP, payGroup); 
+            criteriaForEarnPay.addIn(KFSPropertyConstants.EARN_CODE, earnCodePayGroupMap.get(payGroup)); 
             
             criteriaForEarnCodePayGroup.addOrCriteria(criteriaForEarnPay);
         }

@@ -31,6 +31,7 @@ import org.kuali.core.authorization.FieldAuthorization;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.datadictionary.validation.fieldlevel.ZipcodeValidationPattern;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer;
@@ -788,7 +789,8 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
     }
 
     /**
-     * Validates that if US is selected for the country then the state and zip cannot be empty
+     * Validates that if US is selected for the country then the state and zip cannot be empty. Also,
+     * zip format validation is added if US is selected.
      * 
      * @param addresses VendorAddress which is being validated
      * @return boolean false if the country is United States and there is no state or zip code
@@ -810,6 +812,15 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
             if (noPriorErrMsg && StringUtils.isEmpty(address.getVendorZipCode())) {
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_US_REQUIRES_ZIP);
                 valid &= false;
+            }
+            
+            // Check to see if the zipcode is in allowed format - KULPURAP-1088 
+            if (valid){
+                ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
+                if (!zipPattern.matches(address.getVendorZipCode())) {
+                    valid &= false;
+                    GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_POSTAL_CODE_INVALID);
+                }
             }
         }
         return valid;

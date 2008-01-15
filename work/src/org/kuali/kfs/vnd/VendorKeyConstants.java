@@ -61,6 +61,7 @@ public class VendorKeyConstants {
     // Vendor Maintenance Address
     public static final String ERROR_US_REQUIRES_STATE = "error.vendorMaint.vendorAddress.USRequiresStateAndZip";
     public static final String ERROR_US_REQUIRES_ZIP = "error.vendorMaint.vendorAddress.USRequiresStateAndZip";
+    public static final String ERROR_POSTAL_CODE_INVALID = "error.vendorMaint.vendorAddress.postalCode.invalid";
     public static final String ERROR_FAX_NUMBER = "error.vendorMaint.vendorAddress.faxNumber";
     public static final String ERROR_ADDRESS_TYPE = "error.vendorMaint.vendorAddress.addressType";
     public static final String ERROR_ADDRESS_TYPE_DIVISIONS = "error.vendorMaint.vendorAddress.addressType.divisions";

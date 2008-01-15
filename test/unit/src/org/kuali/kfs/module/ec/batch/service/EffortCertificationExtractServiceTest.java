@@ -98,7 +98,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);           
         }
         catch (Exception e) {
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.validParameters"));
         }
 
     }
@@ -114,7 +114,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(null, reportNumber);
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.emptyFiscalYear"));
         }
         catch (Exception e) {
         }
@@ -132,7 +132,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.emptyReportNumber"));
         }
         catch (Exception e) {
         }
@@ -150,7 +150,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.undefinedReportDefinition"));
         }
         catch (Exception e) {
         }
@@ -172,7 +172,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.inactiveReportDefinition"));
         }
         catch (Exception e) {
         }
@@ -193,14 +193,15 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         reportDefinition.setActive(true);
 
         DocumentHeader header = TestDataPreparator.buildTestDataObject(DocumentHeader.class, properties, testTarget + "documentHeader", documentHeaderFieldNames, deliminator);
-        header = this.persistDataObject(header);
+        //header = this.persistDataObject(header);
 
         EffortCertificationDocument document = this.buildDocument(testTarget);
+        document.setDocumentHeader(header);
         document = this.persistDataObject(document);
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail();
+            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.documentExist"));
         }
         catch (Exception e) {
         }

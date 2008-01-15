@@ -430,7 +430,7 @@
         </property>
    </bean>
 
-    <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb" >
+    <bean id="fiscalYearMakersDao" parent="platformAwareDao" class="org.kuali.module.chart.dao.ojb.FiscalYearMakersDaoOjb" init-method="setUpTwoYearCopy">
         <property name="persistenceStructureService">
             <ref bean="persistenceStructureService" />
         </property>
@@ -439,6 +439,11 @@
         </property>
         <property name="fiscalYearStartDate">
             <ref bean="fiscalYearStartDate" />
+        </property>
+        <property name="copyTwoYearsList">
+         <set>
+          <value>org.kuali.module.gl.bo.UniversityDate</value>
+         </set>
         </property>
         <property name="makerObjectsList">
           <map>

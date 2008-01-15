@@ -73,15 +73,4 @@ public class EffortCertificationDocumentBuild extends EffortCertificationDocumen
     public void setEffortCertificationDetailLinesBuild(List<EffortCertificationDetailBuild> effortCertificationDetailLinesBuild) {
         this.effortCertificationDetailLinesBuild = effortCertificationDetailLinesBuild;
     }
-
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        if (this.effortCertificationBuildNumber != null) {
-            m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
-        }
-        return m;
-    }
 }

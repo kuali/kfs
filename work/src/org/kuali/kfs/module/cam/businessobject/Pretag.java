@@ -34,6 +34,7 @@ public class Pretag extends PersistableBusinessObjectBase {
 	private Chart chartOfAccounts;
 	private Org organization;
     private PendingPurchaseOrder purchaseOrder;
+    private AssetType capitalAssetType;
     
     private List<PretagDetail> pretagDetails;
     
@@ -432,6 +433,23 @@ public class Pretag extends PersistableBusinessObjectBase {
         this.purchaseOrder = purchaseOrder;
     }
     
+    /**
+     * Gets the capitalAssetType attribute. 
+     * @return Returns the capitalAssetType.
+     */
+    public AssetType getCapitalAssetType() {
+        return capitalAssetType;
+    }
+
+    /**
+     * Sets the capitalAssetType attribute value.
+     * @param capitalAssetType The capitalAssetType to set.
+     * @deprecated
+     */
+    public void setCapitalAssetType(AssetType capitalAssetType) {
+        this.capitalAssetType = capitalAssetType;
+    }
+
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

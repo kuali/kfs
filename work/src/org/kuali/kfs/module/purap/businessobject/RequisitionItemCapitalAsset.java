@@ -23,12 +23,10 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Requisition Item Capital Asset Business Object.
  */
-public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
+public class RequisitionItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     private Integer requisitionItemCapitalAssetIdentifier;
-    private Integer requisitionItemIdentifier;
-    private Long capitalAssetNumber;
-    private String addCapitalAssetNumber;
+    private Integer itemIdentifier;
 
     private RequisitionItem requisitionItem;
 
@@ -36,7 +34,14 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public RequisitionItemCapitalAsset() {
-
+    }
+    
+    /**
+     * Constructs a RequisitionItemCapitalAsset.
+     * @param capitalAssetNumber
+     */
+    public RequisitionItemCapitalAsset(Long capitalAssetNumber){
+        this.setCapitalAssetNumber(capitalAssetNumber);
     }
 
     public Integer getRequisitionItemCapitalAssetIdentifier() {
@@ -47,32 +52,16 @@ public class RequisitionItemCapitalAsset extends PersistableBusinessObjectBase {
         this.requisitionItemCapitalAssetIdentifier = requisitionItemCapitalAssetIdentifier;
     }
 
-    public Integer getRequisitionItemIdentifier() {
-        return requisitionItemIdentifier;
+    public Integer getItemIdentifier() {
+        return itemIdentifier;
     }
 
-    public void setRequisitionItemIdentifier(Integer requisitionItemIdentifier) {
-        this.requisitionItemIdentifier = requisitionItemIdentifier;
-    }
-
-    public Long getCapitalAssetNumber() {
-        return capitalAssetNumber;
-    }
-
-    public void setCapitalAssetNumber(Long capitalAssetNumber) {
-        this.capitalAssetNumber = capitalAssetNumber;
+    public void setItemIdentifier(Integer itemIdentifier) {
+        this.itemIdentifier = itemIdentifier;
     }
 
     public RequisitionItem getRequisitionItem() {
         return requisitionItem;
-    }
-
-    public String getAddCapitalAssetNumber() {
-        return addCapitalAssetNumber;
-    }
-
-    public void setAddCapitalAssetNumber(String addCapitalAssetNumber) {
-        this.addCapitalAssetNumber = addCapitalAssetNumber;
     }
 
     /**

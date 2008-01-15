@@ -22,7 +22,10 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.purap.bo.RequisitionItem;
+import org.kuali.module.purap.bo.RequisitionItemCapitalAsset;
 import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.web.struts.form.RequisitionForm;
@@ -61,5 +64,23 @@ public class RequisitionAction extends PurchasingActionBase {
 
         return forward;
     }
-
+    
+    /**
+     * Adds a PurchasingItemCapitalAsset (a container for the Capital Asset Number) to the selected 
+     * item's list.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          The Form
+     * @param request       An HttpServletRequest
+     * @param response      The HttpServletResponse
+     * @return      An ActionForward
+     * @throws Exception
+     */
+    public ActionForward addAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        RequisitionForm rqForm = (RequisitionForm) form;
+        RequisitionDocument document = (RequisitionDocument) rqForm.getDocument();
+        RequisitionItem item = (RequisitionItem)document.getItemByLineNumber(getSelectedLine(request) + 1);
+        item.addAsset();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

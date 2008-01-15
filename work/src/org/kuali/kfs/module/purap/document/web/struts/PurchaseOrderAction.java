@@ -61,12 +61,15 @@ import org.kuali.module.purap.bo.PurchaseOrderQuoteList;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteListVendor;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
+import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.document.RequisitionDocument;
 import org.kuali.module.purap.question.SingleConfirmationQuestion;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.purap.web.struts.form.RequisitionForm;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorConstants.AddressTypes;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -1451,4 +1454,22 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         po.setInternalPurchasingLimit(SpringContext.getBean(PurchaseOrderService.class).getInternalPurchasingDollarLimit(po));
     }
 
+    /**
+     * Adds a PurchasingItemCapitalAsset (a container for the Capital Asset Number) to the selected 
+     * item's list.
+     * 
+     * @param mapping       An ActionMapping
+     * @param form          The Form
+     * @param request       An HttpServletRequest
+     * @param response      The HttpServletResponse
+     * @return      An ActionForward
+     * @throws Exception
+     */
+    public ActionForward addAsset(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm)form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument)poForm.getDocument();
+        PurchaseOrderItem item = (PurchaseOrderItem)document.getItemByLineNumber(getSelectedLine(request));
+        item.addAsset();
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

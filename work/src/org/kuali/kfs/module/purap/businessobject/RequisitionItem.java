@@ -16,8 +16,11 @@
 
 package org.kuali.module.purap.bo;
 
-import org.kuali.module.purap.document.RequisitionDocument;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.module.purap.document.RequisitionDocument;
 
 /**
  * Requisition Item Business Object.
@@ -25,9 +28,6 @@ import java.util.List;
 public class RequisitionItem extends PurchasingItemBase {
 
     private boolean itemRestrictedIndicator;
-    
-    private List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets;
-
     private RequisitionDocument requisition;
 
     /**
@@ -42,15 +42,7 @@ public class RequisitionItem extends PurchasingItemBase {
 
     public void setItemRestrictedIndicator(boolean itemRestrictedIndicator) {
         this.itemRestrictedIndicator = itemRestrictedIndicator;
-    }
-
-    public List<RequisitionItemCapitalAsset> getRequisitionItemCapitalAssets() {
-        return requisitionItemCapitalAssets;
-    }
-
-    public void setRequisitionItemCapitalAssets(List<RequisitionItemCapitalAsset> requisitionItemCapitalAssets) {
-        this.requisitionItemCapitalAssets = requisitionItemCapitalAssets;
-    }
+    }   
 
     public RequisitionDocument getRequisition() {
         return requisition;
@@ -67,5 +59,18 @@ public class RequisitionItem extends PurchasingItemBase {
     public Class getAccountingLineClass() {
         return RequisitionAccount.class;
     }
-
+    
+    /**
+     * Constructs a new PurchasingItemCapitalAsset from the number stored in the addCapitalAsset field and adds it to
+     * the Collection.
+     */
+    public void addAsset(){
+        if (ObjectUtils.isNull(this.getPurchasingItemCapitalAssets())) {
+            setPurchasingItemCapitalAssets(new ArrayList());
+        }
+        if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
+            RequisitionItemCapitalAsset asset = new RequisitionItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
+            getPurchasingItemCapitalAssets().add(asset);
+        }
+    }
 }

@@ -395,7 +395,7 @@
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
 						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="true" overrideTitle="Item Accounting Lines" />
+                        suppressCams="false" overrideTitle="Item Accounting Lines" />
     				    </c:when>
 	        			<c:otherwise>
 				    <c:set target="${KualiForm.editingMode}" property="viewOnly" value="true" />
@@ -409,7 +409,7 @@
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
 						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="true" overrideTitle="Item Accounting Lines" />
+                        suppressCams="false" overrideTitle="Item Accounting Lines" />
 				        </c:otherwise>
 				    </c:choose>
 				</c:if>
@@ -427,7 +427,7 @@
 						hideFields="amount" accountingAddLineIndex="${ctr}"
 						itemsAttributes="${itemAttributes}"
 						camsAttributes="${camsAttributes}" ctr="${ctr}"
-                        suppressCams="true" overrideTitle="Item Accounting Lines" />
+                        suppressCams="false" overrideTitle="Item Accounting Lines" />
 				</c:if>
 
 				<c:if test="${isOpen != 'true' && isOpen != 'TRUE'}">

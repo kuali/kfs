@@ -110,6 +110,9 @@
         <inverse-foreignkey field-ref="documentNumber" />
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
+    <collection-descriptor name="purchasingItemCapitalAssets" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderItemCapitalAsset" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <inverse-foreignkey field-ref="itemIdentifier" />
+    </collection-descriptor>
 
 </class-descriptor>
 
@@ -212,6 +215,9 @@
     <collection-descriptor name="sourceAccountingLines" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionAccount" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <orderby name="chartOfAccountsCode" sort="ASC" />
         <orderby name="accountNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="itemIdentifier" />
+    </collection-descriptor>
+    <collection-descriptor name="purchasingItemCapitalAssets" proxy="true" element-class-ref="org.kuali.module.purap.bo.RequisitionItemCapitalAsset" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
         <inverse-foreignkey field-ref="itemIdentifier" />
     </collection-descriptor>
 </class-descriptor>
@@ -2475,10 +2481,10 @@
     <field-descriptor name="requisitionItemCapitalAssetIdentifier" column="REQS_ITM_CPTL_AST_ID" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true" sequence-name="REQS_ITM_CPTL_AST_ID"/>
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-    <field-descriptor name="requisitionItemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
+    <field-descriptor name="itemIdentifier" column="REQS_ITM_ID" jdbc-type="INTEGER" index="true"/>
     <field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" index="true"/>
     <reference-descriptor name="requisitionItem" class-ref="org.kuali.module.purap.bo.RequisitionItem" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="requisitionItemIdentifier" />
+        <foreignkey field-ref="itemIdentifier" />
     </reference-descriptor>
 </class-descriptor>
 

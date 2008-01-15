@@ -19,7 +19,6 @@
 <%@ attribute name="camsAttributes" required="true" type="java.util.Map" description="A parameter to specify an data dictionary entry for a sub-classed cams data."%>
 <%@ attribute name="ctr" required="true" description="item count"%>
 
-
 <c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
 <c:set var="tabTitle" value="CAMS-${currentTabIndex}" />
 <c:set var="topLevelTabIndex" value="${KualiForm.currentTabIndex}" scope="request" />
@@ -65,14 +64,14 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" property="document.item[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.capitalAssetTransactionTypeCode}" property="document.items[${ctr}].capitalAssetTransactionTypeCode" readOnly="${not (fullEntryMode or amendmentEntry)}" />
         </td>
         <th align=right valign=middle class="bord-l-b">
-            <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.addCapitalAssetNumber}" /></div>
+            <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.addCapitalAssetNumber}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
-            <html:image property="methodToCall.addAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.addCapitalAssetNumber}" property="document.items[${ctr}].addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}"/>&nbsp;
+            <html:image property="methodToCall.addAsset.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
         </td>
     </tr>
 
@@ -81,17 +80,17 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" property="document.item[${ctr}].itemCapitalAssetNoteText" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+            <kul:htmlControlAttribute attributeEntry="${itemsAttributes.itemCapitalAssetNoteText}" property="document.items[${ctr}].itemCapitalAssetNoteText" readOnly="${not (fullEntryMode or amendmentEntry)}" />
         </td>
         <th align=right valign=middle class="bord-l-b">
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.capitalAssetNumber}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <!-- TODO add logic to loop through assets on item -->
-            <!-- for:each -->
-                <!-- kul:htmlControlAttribute attributeEntry="${camsAttributes.addCapitalAssetNumber}" property="document.addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}" / -->&nbsp;
-                <html:image property="methodToCall.deleteAsset" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
-            <!-- /for:each -->
+            <c:forEach items="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" var="capitalAsset" varStatus="assetCtr">
+                ${capitalAsset.capitalAssetNumber}&nbsp;                
+                <html:image property="methodToCall.deleteAsset.line${ctr}.asset${assetCtr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
+            </c:forEach>
+            <html:hidden property="purchasingItemCapitalAssets" value="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" />
         </td>
     </tr>
 

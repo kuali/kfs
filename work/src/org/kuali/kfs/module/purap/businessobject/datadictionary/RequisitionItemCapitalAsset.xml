@@ -22,21 +22,6 @@
 
         <attributes>
 
-            <attribute name="addCapitalAssetNumber" >
-                <label>Add Asset Number</label>
-                <shortLabel>Add Asset #</shortLabel>
-            
-                <maxLength>12</maxLength>
-                <validationPattern>
-                    <numeric />
-                </validationPattern>
-            
-                <control>
-                    <text size="14" />
-                </control>
-
-            </attribute>
-
             <attribute name="capitalAssetNumber" forceUppercase="true">
                 <label>Capital Asset Number</label>
                 <shortLabel>Number</shortLabel>
@@ -50,8 +35,8 @@
 
 			</attribute>
 
-            <attribute name="requisitionItemIdentifier" forceUppercase="true">
-                <label>Requisition Item Identifier</label>
+            <attribute name="itemIdentifier" forceUppercase="true">
+                <label>Item Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>10</maxLength>

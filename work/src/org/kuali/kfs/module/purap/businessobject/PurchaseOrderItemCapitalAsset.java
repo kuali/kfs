@@ -23,12 +23,11 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 /**
  * Purchase Order Item Capital Asset Business Object.
  */
-public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase {
+public class PurchaseOrderItemCapitalAsset extends PurchasingItemCapitalAsset {
 
     private String documentNumber;
     private Integer purchaseOrderItemCapitalAssetIdentifier;
     private Integer purchaseOrderItemIdentifier;
-    private Long capitalAssetNumber;
 
     private PurchaseOrderItem purchaseOrderItem;
 
@@ -36,7 +35,14 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
      * Default constructor.
      */
     public PurchaseOrderItemCapitalAsset() {
-
+    }
+    
+    /**
+     * Constructs a PurchaseOrderItemCapitalAsset.
+     * @param capitalAssetNumber
+     */
+    public PurchaseOrderItemCapitalAsset(Long capitalAssetNumber){
+        this.setCapitalAssetNumber(capitalAssetNumber);
     }
 
     public String getDocumentNumber() {
@@ -61,14 +67,6 @@ public class PurchaseOrderItemCapitalAsset extends PersistableBusinessObjectBase
 
     public void setPurchaseOrderItemIdentifier(Integer purchaseOrderItemIdentifier) {
         this.purchaseOrderItemIdentifier = purchaseOrderItemIdentifier;
-    }
-
-    public Long getCapitalAssetNumber() {
-        return capitalAssetNumber;
-    }
-
-    public void setCapitalAssetNumber(Long capitalAssetNumber) {
-        this.capitalAssetNumber = capitalAssetNumber;
     }
 
     public PurchaseOrderItem getPurchaseOrderItem() {

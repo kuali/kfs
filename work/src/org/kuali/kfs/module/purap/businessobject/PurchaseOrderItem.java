@@ -270,4 +270,18 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         }
         return false;
     }
+    
+    /**
+     * Constructs a new PurchasingItemCapitalAsset from the number stored in the addCapitalAsset field and adds it to
+     * the Collection.
+     */
+    public void addAsset(){
+        if (ObjectUtils.isNull(this.getPurchasingItemCapitalAssets())) {
+            setPurchasingItemCapitalAssets(new ArrayList());
+        }
+        if (ObjectUtils.isNotNull(this.getAddCapitalAssetNumber())) {
+            PurchaseOrderItemCapitalAsset asset = new PurchaseOrderItemCapitalAsset(new Long(this.getAddCapitalAssetNumber()));
+            getPurchasingItemCapitalAssets().add(asset);
+        }
+    }
 }

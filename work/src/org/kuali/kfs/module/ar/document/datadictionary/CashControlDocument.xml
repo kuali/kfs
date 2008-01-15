@@ -36,7 +36,7 @@
 
         <label>Cash Control</label>
 
-        <help parameterNamespace="KFS-AR" parameterDetailType="CashControl" parameterName="CRTL" />
+        <help parameterNamespace="KFS-AR" parameterDetailType="CashControl" parameterName="CTRL" />
   
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

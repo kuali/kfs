@@ -67,6 +67,10 @@ public interface FiscalYearMakersDao {
      */
 
     /**
+     *   return true if the business object class passed in is to be copied for the next two years instead of just one
+     */
+    public boolean copyTwoYears(String ClassName);
+    /**
      * fetch and set a map of child classes involved in fiscal year makers (ALL such classes should be included, even those which
      * have no parent(s) in the RI tree.)
      * 
@@ -75,8 +79,7 @@ public interface FiscalYearMakersDao {
     public HashMap<String, Class> getMakerObjectsList();
 
     /**
-     * This method...
-     * 
+     * sets a property--the map of all the classes to be copied 
      * @param makerObjectList
      */
     public void setMakerObjectsList(HashMap<String, Class> makerObjectList);
@@ -89,11 +92,20 @@ public interface FiscalYearMakersDao {
     public HashMap<String, ArrayList<Class>> getChildParentMap();
 
     /**
-     * This method...
+     * set a property--the map keyed on child pointing to an array of the child's parents
      * 
      * @param childParentArrayMap
      */
     public void setChildParentArrayMap(HashMap<String, Class[]> childParentArrayMap);
+    
+    /**
+     * 
+     * set a property--the list of objects to be copied for the next two years instead of just one (the RI parents will
+     * also be copied for the next two years without explicitly being in this list)
+     * @param copyTwoYearsList
+     */
+    public void setCopyTwoYearsList(HashSet<String> copyTwoYearsList);
+    
 
     /**
      * the "lagging copy cycle" objects are those which are always one fiscal period behind. in other words, the base period for the
@@ -103,6 +115,12 @@ public interface FiscalYearMakersDao {
      * @param laggingCopyCycle
      */
     public void setLaggingCopyCycle(HashSet<String> laggingCopyCycle);
+    
+    /**
+     * 
+     * initilaizes the bean to allow some objects to be copied two years out
+     */
+    public void setUpTwoYearCopy();
 
     /**
      * auto-update or auto-delete in OJB will interfere with the copy order prescribed above. (Tables A and C may be a parents of

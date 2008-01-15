@@ -140,6 +140,11 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 RequestYear = RequestYear - 1;
             }
             deleteNewYearRows(RequestYear, classesToDelete.getValue());
+            if (copyTwoYears(classesToDelete.getKey()))
+            {
+                // we are going to copy rows two years out--we have to get rid of an extra year
+                deleteNewYearRows(RequestYear+1, classesToDelete.getValue());
+            }
         }
         getPersistenceBrokerTemplate().clearCache();
     }
@@ -1153,7 +1158,19 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     // this is the set of objects which are copied from LAST YEAR to the
     // current year, instead of from the CURRENT YEAR to the next year
     private HashSet<String> laggingCopyCycle = new HashSet<String>(20);
+    // this is the set of objects which are copied into the next two years (baseYear+1 and baseYear+2)
+    // at present, this set  consists of UniversityDate and its parents
+    private HashSet<String> copyTwoYearsList = new HashSet<String>(20);
 
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#copyTwoYears(java.lang.String)
+     */
+    public boolean copyTwoYears(String ClassName)
+    {
+        return copyTwoYearsList.contains(ClassName);
+    }
+    
     /**
      * the list of all the fiscal year makers objects
      * 
@@ -1201,6 +1218,15 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
             childParentMap.put(fromMap.getKey(), targetList);
         }
     }
+    
+    /**
+     * 
+     * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setCopyTwoYearsList(java.util.HashSet)
+     */
+    public void setCopyTwoYearsList(HashSet<String> copyTwoYearsList)
+    {
+        this.copyTwoYearsList = copyTwoYearsList;
+    }
 
     /**
      * @see org.kuali.module.chart.dao.FiscalYearMakersDao#setLaggingCopyCycle(java.util.HashSet)
@@ -1208,12 +1234,34 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
     public void setLaggingCopyCycle(HashSet<String> laggingCopyCycle) {
         this.laggingCopyCycle = laggingCopyCycle;
     }
+    
+    public void setUpTwoYearCopy()
+    {
+        // called after the properties are set to add parents to the two year copy list
+        // Spring has already imported our list--now it will use the property lists imported to build a list
+        // of objects which are to be copied into the next two years
+        ArrayList<String> parentClasses = new ArrayList<String>(20);
+        Iterator<String> twoYearClassNames = copyTwoYearsList.iterator();
+        while (twoYearClassNames.hasNext())
+        {
+            Class[] nextParents = childParentArrayMap.get(twoYearClassNames.next());
+            for (int i = 0; i < nextParents.length; i++)
+            {
+                parentClasses.add(nextParents[i].getName());
+            }
+        }
+        Iterator<String> parentClassNames = parentClasses.iterator();
+        while (parentClassNames.hasNext())
+        {
+            copyTwoYearsList.add(parentClassNames.next());
+        }
+    }
 
     /**
      * this is a map of the execution order for the classes the class name is followed by a class ID which contains the copy method
      * it is called at the end of setUp, and uses the classSpecificActions map built during setUp to get the copy action required
      * 
-     * @return
+     * @return a linked list which can be traversed in order to copy in the order dictated by referential integrity
      * @throws RuntimeException
      */
     private LinkedHashMap<String, FiscalYearMakersCopyAction> getCopyOrder() throws RuntimeException {
@@ -1497,7 +1545,17 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                     RelationshipContainer relationshipRI = contentsRI.next();
                     // build a query to get the keys of the rows we have already copied to the parent
                     Criteria criteriaID = new Criteria();
-                    criteriaID.addEqualTo(KFSConstants.UNIV_FISCAL_YR, requestYear);
+                    // we get the next two years if the parent is on the list of objects to copy into the next two years
+                    // (the child row may not have a fiscal year KEY for the parent's extra year.  but, there could be a child foreign key for a
+                    //  fiscal year that matches the parent's extra year.  in that case, the child could still be a "one-year-copy".)
+                    if (! copyTwoYears(parentClass.getName()))
+                    {
+                      criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, requestYear);
+                    }
+                    else
+                    {
+                      criteriaID.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear,requestYear+1);  
+                    }
                     ReportQueryByCriteria queryID = 
                         new ReportQueryByCriteria(parentClass, relationshipRI.parentKeyFields, criteriaID, true);
                     // build a hash set of the keys in the parent rows
@@ -1621,7 +1679,6 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                 /*
                  *   the child satisfies referential integrity if (a) one of the keys into the parent is NULL or (b) the key is in one of the parent rows
                  */
-                String childTestKey = buildChildTestKey(ourBO, relationshipRI.childKeyFields);
                 result = result && findCorrespondingParentRowAndLogFailures(ourBO, relationshipRI);
             }
             return (result);

@@ -39,8 +39,9 @@ public class CapitalAssetTransactionTypeValuesFinder extends KeyValuesBase {
         KeyValuesService boService = SpringContext.getBean(KeyValuesService.class);
         Collection types = boService.findAll(CapitalAssetTransactionType.class);
         List labels = new ArrayList();
+        labels.add(new KeyLabelPair("",""));
         for (Object type : types) {
-            CapitalAssetTransactionType camsType = (CapitalAssetTransactionType)type;
+            CapitalAssetTransactionType camsType = (CapitalAssetTransactionType)type;           
             labels.add(new KeyLabelPair(camsType.getCapitalAssetTransactionTypeCode(), camsType.getCapitalAssetTransactionTypeDescription()));
         }
 

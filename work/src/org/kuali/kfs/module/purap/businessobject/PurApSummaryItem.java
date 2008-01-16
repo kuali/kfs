@@ -23,8 +23,7 @@ import org.kuali.kfs.bo.SourceAccountingLine;
  */
 public class PurApSummaryItem extends PurApItemBase {
 
-    private KualiDecimal estimatedEncumberanceAmount;
-    private String itemTypeDescription;
+    private KualiDecimal estimatedEncumberanceAmount;   
 
     public PurApSummaryItem() {
         this(KualiDecimal.ZERO);
@@ -40,14 +39,6 @@ public class PurApSummaryItem extends PurApItemBase {
 
     public void setEstimatedEncumberanceAmount(KualiDecimal estimatedEncumberanceAmount) {
         this.estimatedEncumberanceAmount = estimatedEncumberanceAmount;
-    }
-
-    public String getItemTypeDescription() {
-        return itemTypeDescription;
-    }
-
-    public void setItemTypeDescription(String itemTypeDescription) {
-        this.itemTypeDescription = itemTypeDescription;
     }
 
     /**

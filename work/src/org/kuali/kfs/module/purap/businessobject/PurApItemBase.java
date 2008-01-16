@@ -376,7 +376,7 @@ public abstract class PurApItemBase extends PersistableBusinessObjectBase implem
     public PurApSummaryItem getSummaryItem() {
         PurApSummaryItem summaryItem = new PurApSummaryItem();
         PurApObjectUtils.populateFromBaseClass(PurApItemBase.class, this, summaryItem, new HashMap());
-        summaryItem.setItemTypeDescription(this.itemType.getItemTypeDescription());
+        summaryItem.getItemType().setItemTypeDescription(this.itemType.getItemTypeDescription());
         return summaryItem;
     }
 

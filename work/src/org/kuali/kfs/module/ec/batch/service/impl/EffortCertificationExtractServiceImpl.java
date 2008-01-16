@@ -37,7 +37,6 @@ import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.EffortConstants.ExtractProcess;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
-import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup;
@@ -55,8 +54,6 @@ import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.util.Message;
-import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -201,7 +198,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         List<String> positionGroupCodes = this.findPositionObjectGroupCodes(reportDefinition);
         Integer postingYear = universityDateService.getCurrentFiscalYear();
 
-        for (String emplid : employees) {            
+        for (String emplid : employees) {
             Collection<LedgerBalance> qualifiedLedgerBalance;
             qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
@@ -211,7 +208,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
             List<EffortCertificationDocumentBuild> documents;
             documents = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, qualifiedLedgerBalance, parameters);
-            
+
             businessObjectService.save(documents);
 
             reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, qualifiedLedgerBalance.size());
@@ -357,18 +354,18 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the labor ledger balances for the specifed employee
      */
-    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {       
+    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         List<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
         List<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
         List<String> emplids = Arrays.asList(emplid);
         List<String> laborObjectCodes = Arrays.asList(EffortConstants.LABOR_OBJECT_SALARY_CODE);
-        
+
         Map<String, List<String>> fieldValues = new HashMap<String, List<String>>();
         fieldValues.put(KFSPropertyConstants.EMPLID, emplids);
         fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
         fieldValues.put(EffortPropertyConstants.LABOR_OBJECT_FRINGE_OR_SALARY_CODE, laborObjectCodes);
 
-        Map<String, List<String>> excludedFieldValues = new HashMap<String, List<String>>();        
+        Map<String, List<String>> excludedFieldValues = new HashMap<String, List<String>>();
         excludedFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, excludedAccountTypeCode);
 
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();

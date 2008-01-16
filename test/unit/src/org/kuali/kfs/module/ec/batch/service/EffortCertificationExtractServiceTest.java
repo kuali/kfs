@@ -104,7 +104,6 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
             e.printStackTrace();
             fail(message.getProperty("error.effortCertificationExtractService.inputParameters.validParameters"));
         }
-
     }
 
     /**
@@ -217,21 +216,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         String testTarget = "employeeSelection.selected.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
-
-        TestDataPreparator.doCleanUpWithoutReference(LedgerEntry.class, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
-
-        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
-        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
-        TestDataPreparator.persistDataObject(ledgerBalances);
-
-        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
-        List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
-        TestDataPreparator.persistDataObject(ledgerEntries);
-
-        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
-        reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
+        this.loadTestData(testTarget);
 
         effortCertificationExtractService.extract(fiscalYear, reportNumber);
 
@@ -247,7 +232,17 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * employees that meet certain criteria can be selected
      */
     public void testEmployeeSelection_NotSelected() throws Exception {
+        String testTarget = "employeeSelection.notSelected.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
     /**
@@ -286,6 +281,23 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     }
 
+    private void loadTestData(String testTarget) throws Exception {
+        TestDataPreparator.doCleanUpWithoutReference(LedgerEntry.class, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
+        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        TestDataPreparator.persistDataObject(ledgerBalances);
+
+        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
+        List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
+        TestDataPreparator.persistDataObject(ledgerEntries);
+
+        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
+        reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
+    }
+
     /**
      * construct a ledger balance and persist it
      * 
@@ -315,7 +327,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     private EffortCertificationDocument buildDocument(String testTarget) {
         return this.buildDataObject(EffortCertificationDocument.class, properties, testTarget + "document", documentFieldNames, deliminator);
     }
-    
+
     /**
      * build an Effort Certification Document object from the given test target
      * 

@@ -156,7 +156,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         // check if any document has been generated for the selected report definition
         int countOfDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
         if (countOfDocuments > 0) {
-            return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, fiscalYear, reportNumber).getMessage();
+            return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, reportNumber, fiscalYear).getMessage();
         }
 
         return null;

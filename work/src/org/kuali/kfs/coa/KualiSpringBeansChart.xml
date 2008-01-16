@@ -442,6 +442,7 @@
         </property>
         <property name="copyTwoYearsList">
          <set>
+          <value>org.kuali.module.chart.bo.AccountingPeriod</value>
           <value>org.kuali.module.gl.bo.UniversityDate</value>
          </set>
         </property>

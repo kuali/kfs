@@ -206,6 +206,13 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
          * AccountingPeriod *
          **************************************************************************************************************************/
         FiscalYearMakersCopyAction copyActionAcctPrd = new FiscalYearMakersCopyAction() {
+            /*
+             * Accounting Period
+             * for the first fiscal year to be copied, we set the accounting periods to open
+             * for subsequent years, we set them to closed.
+             */
+            private String initialPeriodStatus = new String(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+            
             FiscalYearMakersFieldChangeAction<AccountingPeriod> fieldAction = new FiscalYearMakersFieldChangeAction<AccountingPeriod>() {
                 public void customFieldChangeMethod(Integer currentFiscalYear, Integer newFiscalYear, AccountingPeriod candidateRow) {
                     // there is a four-character year in periods 01 through 12, and a two-character
@@ -224,13 +231,23 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
                     candidateRow.setUniversityFiscalPeriodEndDate(addYearToDate(candidateRow.getUniversityFiscalPeriodEndDate()));
                     // we set all of the fiscal period status codes to "open" before the
                     // start of the coming year
-                    candidateRow.setUniversityFiscalPeriodStatusCode(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+                    candidateRow.setUniversityFiscalPeriodStatusCode(initialPeriodStatus);
                 }
             };
 
             public void copyMethod(Integer baseYear, boolean replaceMode) {
                 MakersMethods<AccountingPeriod> makersMethod = new MakersMethods<AccountingPeriod>();
                 makersMethod.makeMethod(AccountingPeriod.class, baseYear, replaceMode, fieldAction);
+                if ((!replaceMode) && (initialPeriodStatus.compareTo(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN) == 0))
+                {
+                    /*
+                     * Accounting Period
+                     * we need to toggle the initial value so that copies in future years will default to closed
+                     * we also need to be certain that ALL periods for the year just copied are open
+                     */
+                   setAccountingPeriodStatus(baseYear+1); 
+                   initialPeriodStatus =  KFSConstants.ACCOUNTING_PERIOD_STATUS_CLOSED;
+                }
             }
         };
         addCopyAction(AccountingPeriod.class, copyActionAcctPrd);
@@ -705,6 +722,7 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         return currentFiscalYear;
     }
 
+    
     // @@TODO:
     // this code is duplicated from GenesisDaoOjb. we don't need to overload the
     // hashObjectSize method here
@@ -743,6 +761,28 @@ public class FiscalYearMakersDaoOjb extends PlatformAwareDaoBaseOjb implements F
         return (new Integer(1));
     }
 
+    /**
+     *  sets the accounting period status for a year to open
+     *  (this is necessary in warm and fuzzy mode, because the accounting periods for the coming fiscal year
+     *   must start out as open, but could have been copied the year before as closed.  AccountingPeriod is copied
+     *   two years at a time.)
+     */
+    public void setAccountingPeriodStatus(Integer requestYear) {
+        // get all the accounting period rows for this year which are not open
+        Criteria criteriaId = new Criteria();
+        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,requestYear);
+        criteriaId.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_STATUS_CODE,KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+        QueryByCriteria queryId = new QueryByCriteria(AccountingPeriod.class,criteriaId);
+        // iterate through all the rows we find and set the accounting period to open
+        Iterator<AccountingPeriod> closedPeriodRows = getPersistenceBrokerTemplate().getIteratorByQuery(queryId);
+        while (closedPeriodRows.hasNext())
+        {
+            AccountingPeriod rowWithClosedPeriod = closedPeriodRows.next();
+            rowWithClosedPeriod.setUniversityFiscalPeriodStatusCode(KFSConstants.ACCOUNTING_PERIOD_STATUS_OPEN);
+            getPersistenceBrokerTemplate().store(rowWithClosedPeriod);
+        }
+    }
+    
     /**
      * this routine is reminiscent of computing in 1970, when disk space was scarce and every byte was fraught with meaning. some
      * fields are captions and titles, and they contain things like the fiscal year. for the new year, we have to update these

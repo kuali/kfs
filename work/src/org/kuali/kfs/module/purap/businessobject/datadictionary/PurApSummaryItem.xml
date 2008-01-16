@@ -18,7 +18,6 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd" [
 <!ENTITY purApItemBaseAttributes SYSTEM "../dictionary/entity/PurApItemBaseAttributes.xml">
-<!ENTITY purchasingItemBaseAttributes SYSTEM "../dictionary/entity/PurchasingItemBaseAttributes.xml">
 ]>
 <dictionaryEntry>
 	<businessObject businessObjectClass="org.kuali.module.purap.bo.PurApSummaryItem">
@@ -26,8 +25,6 @@
 		<attributes>
 
 			&purApItemBaseAttributes;
-
-            &purchasingItemBaseAttributes;
             
 			<attributeReference name="estimatedEncumberanceAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
     			<label>Estimated Encumberance Amount</label>

@@ -52,6 +52,16 @@
 				<value>org/kuali/module/budget/dwr-budget.xml</value>
 			</list>
 		</property>
+		<property name="jobNames">
+			<list>
+				<value>genesisBatchJob</value>
+			</list>
+		</property>
+		<property name="triggerNames">
+			<list>
+				<value>genesisBatchJobTrigger</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="budgetUserService" class="org.kuali.module.budget.service.impl.BudgetUserServiceImpl" parent="kualiModuleUserServiceBase">
@@ -275,4 +285,17 @@
         
     <bean id="genesisBatchStep" class="org.kuali.module.budget.batch.GenesisBatchStep" parent="step"> </bean>
     	
+    <bean id="genesisBatchJob" parent="scheduledJobDescriptor">
+    	<property name="steps">
+    		<list>
+    			<ref bean="genesisBatchStep" />
+    		</list>
+    	</property>
+    </bean>
+    
+    <bean id="genesisBatchJobTrigger" parent="simpleTrigger">
+    	<property name="jobName" value="genesisBatchJob" />
+    	<property name="startDelay" value="300000" />
+    	<property name="repeatCount" value="0" />
+    </bean>
 </beans>

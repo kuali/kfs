@@ -39,8 +39,8 @@ public class Job implements StatefulJob, InterruptableJob {
 
     public static final String JOB_RUN_START_STEP = "JOB_RUN_START_STEP";
     public static final String JOB_RUN_END_STEP = "JOB_RUN_END_STEP";
-    private static final String STEP_RUN_PARM_NM = "RUN_IND";
-    private static final String STEP_USER_PARM_NM = "USER";
+    public static final String STEP_RUN_PARM_NM = "RUN_IND";
+    public static final String STEP_USER_PARM_NM = "USER";
     private static final Logger LOG = Logger.getLogger(Job.class);
     private SchedulerService schedulerService;
     private ParameterService parameterService;

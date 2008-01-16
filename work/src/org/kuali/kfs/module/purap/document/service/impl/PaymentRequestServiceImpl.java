@@ -67,6 +67,7 @@ import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
+import org.kuali.module.purap.exceptions.PurError;
 import org.kuali.module.purap.rule.event.ContinueAccountsPayableEvent;
 import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.NegativePaymentRequestApprovalLimitService;
@@ -78,11 +79,14 @@ import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.ExpiredOrClosedAccountEntry;
 import org.kuali.module.purap.util.PurApItemUtils;
 import org.kuali.module.purap.util.VendorGroupingHelper;
+import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.bo.PaymentTermType;
+import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorDetail;
+import org.kuali.module.vendor.service.VendorService;
 import org.springframework.transaction.annotation.Transactional;
 
 import edu.iu.uis.eden.exception.WorkflowException;
-
 
 /**
  * This class provides services of use to a payment request document
@@ -1144,6 +1148,77 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
             }
             return false;
         }
+    }
+
+    public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId) {
+        
+        VendorService vendorService = SpringContext.getBean(VendorService.class);
+        
+        VendorDetail primaryVendor = vendorService.getVendorDetail(
+                preq.getOriginalVendorHeaderGeneratedIdentifier(), preq.getOriginalVendorDetailAssignedIdentifier());
+        
+        if (primaryVendor == null){
+             LOG.error("useAlternateVendor() primaryVendorDetail from database for header id " + headerId + " and detail id " + detailId + "is null");
+             throw new PurError("AlternateVendor: VendorDetail from database for header id " + headerId + " and detail id " + detailId + "is null");
+        }
+        
+        //set vendor detail
+        VendorDetail vd = vendorService.getVendorDetail(headerId, detailId);
+        if (vd == null){
+            LOG.error("changeVendor() VendorDetail from database for header id " + headerId + " and detail id " + detailId + "is null");
+            throw new PurError("changeVendor: VendorDetail from database for header id " + headerId + " and detail id " + detailId + "is null");
+        }        
+        preq.setVendorDetail(vd);
+        preq.setVendorName(vd.getVendorName());
+        preq.setVendorNumber(vd.getVendorNumber());
+        preq.setVendorHeaderGeneratedIdentifier(vd.getVendorHeaderGeneratedIdentifier());
+        preq.setVendorDetailAssignedIdentifier(vd.getVendorDetailAssignedIdentifier());        
+        preq.setVendorPaymentTermsCode(vd.getVendorPaymentTermsCode());
+        preq.setVendorShippingPaymentTermsCode(vd.getVendorShippingPaymentTermsCode());        
+        preq.setVendorShippingTitleCode(vd.getVendorShippingTitleCode());
+        preq.refreshReferenceObject("vendorPaymentTerms");
+        preq.refreshReferenceObject("vendorShippingPaymentTerms");
+        
+        //Set vendor address
+        String deliveryCampus = preq.getPurchaseOrderDocument().getDeliveryCampusCode();
+        VendorAddress va = vendorService.getVendorDefaultAddress(headerId, detailId, VendorConstants.AddressTypes.REMIT, deliveryCampus);
+        if (va == null){
+            va = vendorService.getVendorDefaultAddress(headerId, detailId, VendorConstants.AddressTypes.PURCHASE_ORDER, deliveryCampus);
+        }
+        if (va == null){
+          LOG.error("changeVendor() VendorAddress from database for header id " + headerId + " and detail id " + detailId + "is null");
+          throw new PurError("changeVendor  VendorAddress from database for header id " + headerId + " and detail id " + detailId + "is null");
+        }
+              
+        if (preq != null) {
+            setVendorAddress(va, preq);
+        } else {
+          LOG.error("changeVendor(): Null link back to the Purchase Order.");
+          throw new PurError("Null link back to the Purchase Order.");
+        }
+        
+     }
+
+    /**
+     * Set the Vendor address of the given ID.
+     * 
+     * @param addressID   ID of the address to set
+     * @param pr          PaymentRequest to set in
+     * @return            New PaymentRequest to use
+     */
+    private void setVendorAddress(VendorAddress va, PaymentRequestDocument preq) {
+                        
+      if (va != null) {          
+        preq.setVendorAddressGeneratedIdentifier(va.getVendorAddressGeneratedIdentifier());
+        preq.setVendorAddressInternationalProvinceName(va.getVendorAddressInternationalProvinceName());        
+        preq.setVendorLine1Address(va.getVendorLine1Address());
+        preq.setVendorLine2Address(va.getVendorLine2Address());        
+        preq.setVendorCityName(va.getVendorCityName());
+        preq.setVendorStateCode(va.getVendorStateCode());        
+        preq.setVendorPostalCode(va.getVendorZipCode());
+        preq.setVendorCountryCode(va.getVendorCountryCode());
+      }
+
     }
 
     /**

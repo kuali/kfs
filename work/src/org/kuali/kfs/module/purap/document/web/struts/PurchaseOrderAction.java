@@ -1472,4 +1472,18 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         item.addAsset();
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+
+    public ActionForward removeAlternateVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();
+        
+        document.setAlternateVendorDetailAssignedIdentifier(null);
+        document.setAlternateVendorHeaderGeneratedIdentifier(null);
+        document.setAlternateVendorName(null);
+        document.setAlternateVendorNumber(null);
+        
+        document.refreshNonUpdateableReferences();
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

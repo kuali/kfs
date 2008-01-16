@@ -24,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.question.ConfirmationQuestion;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -33,11 +34,14 @@ import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
 import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.rule.event.CalculateAccountsPayableEvent;
 import org.kuali.module.purap.service.PaymentRequestService;
 import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.util.PurQuestionCallback;
 import org.kuali.module.purap.web.struts.form.PaymentRequestForm;
+import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
+import org.kuali.module.vendor.bo.VendorDetail;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -288,4 +292,25 @@ public class PaymentRequestAction extends AccountsPayableActionBase {
     public String getActionName() {
         return PurapConstants.PAYMENT_REQUEST_ACTION_NAME;
     }
+    
+    public ActionForward useAlternateVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+                        
+        SpringContext.getBean(PaymentRequestService.class).changeVendor(
+                document, document.getAlternateVendorHeaderGeneratedIdentifier(), document.getAlternateVendorDetailAssignedIdentifier());
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
+    public ActionForward useOriginalVendor(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PaymentRequestForm preqForm = (PaymentRequestForm) form;
+        PaymentRequestDocument document = (PaymentRequestDocument) preqForm.getDocument();
+
+        SpringContext.getBean(PaymentRequestService.class).changeVendor(
+                document, document.getOriginalVendorHeaderGeneratedIdentifier(), document.getOriginalVendorDetailAssignedIdentifier());
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+
 }

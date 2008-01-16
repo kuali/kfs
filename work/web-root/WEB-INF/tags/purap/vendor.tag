@@ -58,6 +58,19 @@
         <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.vendorDetailAssignedIdentifier" />
 
+        <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
+        <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
+
+		<c:if test="${displayPurchaseOrderFields}">
+		<html:hidden property="document.alternateVendorName" />
+		<html:hidden property="document.alternateVendorNumber" />
+		</c:if>
+		
+		<c:if test="${displayPaymentRequestFields}">
+		<html:hidden property="document.originalVendorHeaderGeneratedIdentifier" />
+        <html:hidden property="document.originalVendorDetailAssignedIdentifier" />
+		</c:if>
+		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Vendor Section">
             <tr>
                 <td colspan="4" class="subhead">Vendor Address</td>
@@ -185,28 +198,8 @@
                     </c:if>
                 </td>
 
-                <c:if test="false">
-                <!-- Placeholder for alternate payee logic -->
-                    <th align=right valign=middle class="bord-l-b">
-                        <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></div>
-                    </th>
-                    <td align=left valign=middle class="datacell">
-                        <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="true" />
-                        <c:if test="${not empty document.alternateVendorNumber}">
-                            &nbsp;(<kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />)&nbsp;
-                        </c:if>
-                        <c:if test="${(fullEntryMode or amendmentEntry) and displayPurchaseOrderFields}">
-                            <kul:lookup  boClassName="org.kuali.module.vendor.bo.VendorDetail" fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier"/>
-                        </c:if>
-                        <c:if test="${(fullEntryMode or amendmentEntry) and displayPaymentRequestFields}">
-                            select
-                        </c:if>
-                    </td>
-                </c:if>                                                 
-                <c:if test="true">
-                    <th align=right valign=middle class="bord-l-b">&nbsp;</th>
-                    <td align=left valign=middle class="datacell">&nbsp;</td>
-                </c:if>                                                 
+                <th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                <td align=left valign=middle class="datacell">&nbsp;</td>
             </tr>
 
             <tr>
@@ -376,6 +369,77 @@
                     <td align=left valign=middle class="datacell">&nbsp;</td>
                 </tr> 
             </c:if>
+            
+			<c:choose> 				
+			
+            <c:when test="${displayPurchaseOrderFields}">                 
+            <c:if test="${(fullEntryMode or amendmentEntry) or ( (not(fullEntryMode or amendmentEntry)) and (not empty KualiForm.document.alternateVendorHeaderGeneratedIdentifier) )}">
+                <!-- display search and remove alternate vendor if on purchase order document -->               
+                <tr>
+            	<th align=right valign=middle class="bord-l-b">&nbsp;</th>
+                <td align=left valign=middle class="datacell">&nbsp;</td>
+            
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right">Alternate Vendor For Escrow Payment:</div>
+                </th>
+                <td align=left valign=middle class="datacell">
+					<!-- -<input type="image" name="methodToCall." src="${ConfigProperties.externalizable.images.url}tinybutton-searchaltvend.gif" class="tinybutton" title="Search for alternate vendor" alt="Search for alternate vendor">-->
+					<c:if test="${fullEntryMode or amendmentEntry}">
+					<div align="left">
+					<b>Search for alternate vendor</b> 						
+					<kul:lookup 
+						boClassName="org.kuali.module.vendor.bo.VendorDetail" 
+						fieldConversions="vendorHeaderGeneratedIdentifier:document.alternateVendorHeaderGeneratedIdentifier,vendorDetailAssignedIdentifier:document.alternateVendorDetailAssignedIdentifier" 
+						lookupParameters="'Y':activeIndicator, 'PO':vendorHeader.vendorTypeCode"
+						fieldLabel="Search for alternate vendor"/>
+					</div>
+					<br/>
+					</c:if>
+											
+					<div align="left">						
+					<b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorName}" /></b>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorName}" property="document.alternateVendorName" readOnly="true" />
+                    </div>
+        
+                    <div align="left">
+                    <b><kul:htmlAttributeLabel attributeEntry="${documentAttributes.alternateVendorNumber}" /></b>
+                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.alternateVendorNumber}" property="document.alternateVendorNumber" readOnly="true" />
+                    </div>						
+					
+					<c:if test="${fullEntryMode or amendmentEntry}">
+					<br/>
+					<input type="image" name="methodToCall.removeAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-remaltvendor.gif" class="tinybutton" title="Remove alternate vendor" alt="Remove alternate vendor">
+					</c:if>
+                </td>      
+                </tr>
+            </c:if>          
+            </c:when>
+			
+            <c:when test="${displayPaymentRequestFields and (not empty KualiForm.document.alternateVendorHeaderGeneratedIdentifier)}">
+                <!-- display use alternate or original vendor if on payment request document and there is an alternate to select from -->
+                <tr>
+                <th align=right valign=middle class="bord-l-b">
+                    <div align="right">Alternate Vendor For Escrow Payment:</div>
+                </th>
+                <td align=left valign=middle class="datacell">
+                <c:choose>
+                <c:when test="${fullEntryMode}">
+                <div align="left"><input type="image" name="methodToCall.useAlternateVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-usealtvendor.gif" class="tinybutton" title="Use alternate vendor" alt="Use alternate vendor"></div>
+                <br>
+				<div align="left"><input type="image" name="methodToCall.useOriginalVendor" src="${ConfigProperties.externalizable.images.url}tinybutton-useorigvendor.gif" class="tinybutton" title="Use original vendor" alt="Use original vendor"></div>
+				</c:when>
+				<c:otherwise>
+					&nbsp;
+				</c:otherwise>
+				</c:choose>
+                </td>
+                    
+                <th align=right valign=middle class="bord-l-b">Primary Vendor Name:</th>
+                <td align=left valign=middle class="datacell"><kul:htmlControlAttribute attributeEntry="${documentAttributes.primaryVendorName}" property="document.primaryVendorName" readOnly="true" /></td>
+                </tr>
+			</c:when>
+
+			</c:choose>
 
         </table>
 

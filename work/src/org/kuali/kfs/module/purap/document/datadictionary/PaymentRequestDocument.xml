@@ -278,6 +278,8 @@
                 <required>false</required>
             </attributeReference>
 
+			<attributeReference name="primaryVendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName"/>			
+
             <attributeReference name="vendorPaymentTermsCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorPaymentTermsCode"/>
             
             <attributeReference name="vendorShippingTitleCode" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorShippingTitleCode"/>

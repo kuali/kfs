@@ -321,4 +321,15 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @return      boolean true if the payment request document has at least one discount item.
      */
     public boolean hasDiscountItem(PaymentRequestDocument preq);
+    
+    /**
+     * Changes the current vendor to the vendor passed in.
+     * 
+     * @param preq
+     * @param headerId
+     * @param detailId
+     * @param primaryHeaderId
+     * @param primaryDetailId
+     */
+    public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId);
 }

@@ -118,13 +118,13 @@
             </attributeReference>
 
             <attributeReference name="alternateVendorNumber" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorNumber">
-                <label>Alternate Vendor Number For Escrow Payment</label>
+                <label>Vendor Number</label>
                 <required>false</required>
 
             </attributeReference>
 
             <attributeReference name="alternateVendorName" sourceClassName="org.kuali.module.vendor.bo.VendorDetail" sourceAttributeName="vendorName">
-                <label>Alternate Vendor For Escrow Payment</label>
+                <label>Vendor Name</label>
                 <required>false</required>
 
             </attributeReference>

@@ -64,6 +64,7 @@ import org.kuali.module.vendor.bo.PaymentTermType;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.ShippingPaymentTerms;
 import org.kuali.module.vendor.bo.VendorAddress;
+import org.kuali.module.vendor.bo.VendorDetail;
 import org.kuali.module.vendor.service.VendorService;
 
 import edu.iu.uis.eden.clientapp.vo.ActionTakenEventVO;
@@ -101,7 +102,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
     private Date purchaseOrderEndDate;
-
+    private String primaryVendorName;
+    
     // BELOW USED BY ROUTING
     private Integer requisitionIdentifier;
 
@@ -429,7 +431,15 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         this.setVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());
         this.setVendorCustomerNumber(po.getVendorCustomerNumber());
         this.setVendorName(po.getVendorName());
-
+        
+        //set original vendor
+        this.setOriginalVendorHeaderGeneratedIdentifier(po.getVendorHeaderGeneratedIdentifier());
+        this.setOriginalVendorDetailAssignedIdentifier(po.getVendorDetailAssignedIdentifier());        
+        
+        //set alternate vendor info as well
+        this.setAlternateVendorHeaderGeneratedIdentifier(po.getAlternateVendorHeaderGeneratedIdentifier());
+        this.setAlternateVendorDetailAssignedIdentifier(po.getAlternateVendorDetailAssignedIdentifier());
+        
         // populate preq vendor address with the default remit address type for the vendor if found
         String userCampus = GlobalVariables.getUserSession().getUniversalUser().getCampusCode();
         VendorAddress vendorAddress = SpringContext.getBean(VendorService.class).getVendorDefaultAddress(po.getVendorHeaderGeneratedIdentifier(), po.getVendorDetailAssignedIdentifier(), VendorConstants.AddressTypes.REMIT, userCampus);
@@ -931,4 +941,24 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
         return item;
     }
 
+    public String getPrimaryVendorName() {
+        
+        if(primaryVendorName == null){
+            VendorDetail vd = SpringContext.getBean(VendorService.class).getVendorDetail(
+                    this.getOriginalVendorHeaderGeneratedIdentifier(), this.getOriginalVendorDetailAssignedIdentifier());
+        
+            if (vd != null){
+                primaryVendorName = vd.getVendorName();
+            }
+        }
+        
+        return primaryVendorName;
+    }
+
+    /**
+     * @deprecated
+     */
+    public void setPrimaryVendorName(String primaryVendorName){
+    }
+    
 }

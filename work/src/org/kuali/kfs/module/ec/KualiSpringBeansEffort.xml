@@ -151,6 +151,9 @@
 		</property>
 		<property name="dataDictionaryService">
 			<ref bean="dataDictionaryService" />
-		</property>		
+		</property>
+		<property name="universalUserService">
+            <ref bean="universalUserService" />
+        </property>		
 	</bean> 
 </beans>

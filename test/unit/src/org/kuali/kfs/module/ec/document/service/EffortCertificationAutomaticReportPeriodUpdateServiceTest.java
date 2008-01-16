@@ -24,11 +24,13 @@ import org.kuali.module.effort.EffortCertificationTestConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.fixtures.EffortCertificationReportDefinitionFixture;
+import org.kuali.test.suite.RelatesTo;
 
 /**
  * Contains methods that test the EffortCertificationAutomaticReportPeriodUpdateService.
  */
 @ConfigureContext
+@RelatesTo(RelatesTo.JiraIssue.KULEFR9)
 public class EffortCertificationAutomaticReportPeriodUpdateServiceTest extends KualiTestBase {
 
     private EffortCertificationAutomaticReportPeriodUpdateService reportDefinitionService;

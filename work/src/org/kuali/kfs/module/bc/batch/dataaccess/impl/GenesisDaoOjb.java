@@ -2995,7 +2995,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
        if (ovrdIter.hasNext())
        {
-           BigDecimal resultValue = (BigDecimal) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(ovrdIter))[0];
+           Number resultValue = (Number) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(ovrdIter))[0];
            acctCount = acctCount +
                        (Integer) resultValue.intValue();  
        }
@@ -3006,7 +3006,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
            getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryCSF);
        if (csfIter.hasNext())
        {
-           BigDecimal resultValue = (BigDecimal) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(csfIter))[0];
+           Number resultValue = (Number) ((Object[]) TransactionalServiceUtils.retrieveFirstAndExhaustIterator(csfIter))[0];
            acctCount = acctCount +
                        (Integer) resultValue.intValue();  
        }
@@ -4030,11 +4030,11 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
           getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(queryID);
       while (positionRows.hasNext())
       {
-          // apparently, numbers always come back in report queries as BigDecimal
+          // apparently, numbers come back from report queries in DB-specific ways.  use Number to be safe (as OJB itself does)
           // the results do not go through the business object
           Object[] positionRow = (Object[]) positionRows.next();
           positionNormalWorkMonths.put((String) positionRow[0],
-                                       (Integer) ((BigDecimal) positionRow[1]).intValue());
+                                       (Integer) ((Number) positionRow[1]).intValue());
       }
     }
         
@@ -4277,7 +4277,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //        while (rowCounter.hasNext())
 //        {
 //            Integer rowCount = 
-//                ((BigDecimal)((Object[]) rowCounter.next())[0]).intValue();
+//                ((Number)((Object[]) rowCounter.next())[0]).intValue();
 //            LOG.info(String.format("\nPBGL rows with detailed position objects: %d",
 //                     rowCount));
 //        }

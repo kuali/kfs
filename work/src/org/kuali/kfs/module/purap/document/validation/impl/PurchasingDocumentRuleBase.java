@@ -564,7 +564,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 valid &= validateCapitalAssetTransactionTypeIsRequired(objectCode, warn, itemIdentifier);
             }
             else {
-                accountingLine.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
+                item.refreshReferenceObject(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE);
                 CapitalAssetTransactionType capitalAssetTransactionType = item.getCapitalAssetTransactionType();
                 
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);

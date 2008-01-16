@@ -47,7 +47,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.budget.web.struts.form.AccountListSelectionForm;
+import org.kuali.module.budget.web.struts.form.OrgReportSubFundListSelectionForm;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 import org.kuali.module.chart.bo.Org;
 
@@ -757,7 +757,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
             
             //String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
-            String lookupUrl = basePath + "/budgetAccountListSelection.do";
+            String lookupUrl = basePath + "/budgetOrgReportSubFundListSelection.do";
             
             
             return new ActionForward(lookupUrl, true);

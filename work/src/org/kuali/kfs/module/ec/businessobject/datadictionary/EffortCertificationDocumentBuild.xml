@@ -25,9 +25,7 @@
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="chartOfAccountsCode" />                
-                <field attributeName="organizationCode" /> 
-                
+
                 <field attributeName="effortCertificationReportNumber" />           
                 <field attributeName="effortCertificationDocumentCode" />                
                 
@@ -43,8 +41,9 @@
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
-                    <sortAttribute attributeName="chartOfAccountsCode" />
-                    <sortAttribute attributeName="organizationCode" />
+                	<sortAttribute attributeName="effortCertificationBuildNumber" />
+                	<sortAttribute attributeName="emplid" />
+                    <sortAttribute attributeName="universityFiscalYear" />
                 </sortAttributes>
             </defaultSort>
 
@@ -52,9 +51,6 @@
             	<lookupField attributeName="effortCertificationReportNumber" required="true" />
                 <lookupField attributeName="universityFiscalYear" required="true" />
                 <lookupField attributeName="emplid" required="true" />
-                
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="effortCertificationBuildNumber" required="false" />
             </lookupFields>
 
@@ -63,8 +59,6 @@
                 <field attributeName="emplid" />
                                                 
                 <field attributeName="universityFiscalYear" />
-                <field attributeName="chartOfAccountsCode" />                
-                <field attributeName="organizationCode" /> 
                 
                 <field attributeName="effortCertificationReportNumber" />           
                 <field attributeName="effortCertificationDocumentCode" />                
@@ -103,10 +97,7 @@
                 <description>effortCertificationBuildNumber description...</description>
 			</attribute>	
 
-            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
-            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode"/>
-
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear" />
 			
 			<attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />

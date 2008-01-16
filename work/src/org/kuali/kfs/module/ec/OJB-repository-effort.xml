@@ -120,8 +120,6 @@
 	<field-descriptor name="effortCertificationBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="A21_BLD_NBR_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true"/>
@@ -129,15 +127,6 @@
 	
 	<reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="universityFiscalYear" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
-	
-	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	
     <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -227,8 +216,6 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
@@ -238,18 +225,9 @@
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-  
     <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="effortCertificationReportNumber" />
-    </reference-descriptor>
-  
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
     </reference-descriptor>
     
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -272,8 +250,6 @@
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
-    <field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" index="true" />
-    <field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true" />
     <field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
     <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
@@ -283,20 +259,11 @@
 		<foreignkey field-ref="universityFiscalYear" />
 	</reference-descriptor>
 	
-    <reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-    </reference-descriptor>
-  
     <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="universityFiscalYear" />
         <foreignkey field-ref="effortCertificationReportNumber" />
     </reference-descriptor>
-  
-    <reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="chartOfAccountsCode" />
-        <foreignkey field-ref="organizationCode" />
-    </reference-descriptor>
-    
+
     <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>

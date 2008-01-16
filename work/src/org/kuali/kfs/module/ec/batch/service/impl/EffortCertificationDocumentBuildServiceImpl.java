@@ -107,9 +107,6 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         document.setUniversityFiscalYear(reportDefinition.getUniversityFiscalYear());
         document.setEmplid(ledgerBalance.getEmplid());
 
-        document.setChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
-        document.setOrganizationCode(ledgerBalance.getAccount().getOrganizationCode());
-
         return document;
     }
 
@@ -123,7 +120,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         Map<String, List<LedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LedgerBalance>>();
 
         for (LedgerBalance balance : ledgerBalances) {
-            String consolidationKeys = balance.getChartOfAccountsCode() + "," + balance.getAccount().getOrganizationCode();
+            String consolidationKeys = balance.getEmplid();
             LedgerBalanceConsolidationHelper.groupLedgerBalancesByKeys(ledgerBalanceGroups, balance, consolidationKeys);
         }
         return ledgerBalanceGroups;

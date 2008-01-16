@@ -35,16 +35,12 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
  */
 public class EffortCertificationDocument extends TransactionalDocumentBase {
     private String documentNumber;
-    private String chartOfAccountsCode;
-    private String organizationCode;
     private String effortCertificationReportNumber;
     private String effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
 
-    private Chart chartOfAccounts;
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
-    private Org organization;
     private UniversalUser employee;
     private Options options;
 
@@ -72,38 +68,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      */
     public void setDocumentNumber(String documentNumber) {
         this.documentNumber = documentNumber;
-    }
-
-    /**
-     * Gets the chartOfAccountsCode attribute. 
-     * @return Returns the chartOfAccountsCode.
-     */
-    public String getChartOfAccountsCode() {
-        return chartOfAccountsCode;
-    }
-
-    /**
-     * Sets the chartOfAccountsCode attribute value.
-     * @param chartOfAccountsCode The chartOfAccountsCode to set.
-     */
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.chartOfAccountsCode = chartOfAccountsCode;
-    }
-
-    /**
-     * Gets the organizationCode attribute. 
-     * @return Returns the organizationCode.
-     */
-    public String getOrganizationCode() {
-        return organizationCode;
-    }
-
-    /**
-     * Sets the organizationCode attribute value.
-     * @param organizationCode The organizationCode to set.
-     */
-    public void setOrganizationCode(String organizationCode) {
-        this.organizationCode = organizationCode;
     }
 
     /**
@@ -171,23 +135,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the chartOfAccounts attribute. 
-     * @return Returns the chartOfAccounts.
-     */
-    public Chart getChartOfAccounts() {
-        return chartOfAccounts;
-    }
-
-    /**
-     * Sets the chartOfAccounts attribute value.
-     * @param chartOfAccounts The chartOfAccounts to set.
-     */
-    @Deprecated
-    public void setChartOfAccounts(Chart chartOfAccounts) {
-        this.chartOfAccounts = chartOfAccounts;
-    }
-
-    /**
      * Gets the effortCertificationReportDefinition attribute. 
      * @return Returns the effortCertificationReportDefinition.
      */
@@ -202,23 +149,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     @Deprecated
     public void setEffortCertificationReportDefinition(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         this.effortCertificationReportDefinition = effortCertificationReportDefinition;
-    }
-
-    /**
-     * Gets the organization attribute. 
-     * @return Returns the organization.
-     */
-    public Org getOrganization() {
-        return organization;
-    }
-
-    /**
-     * Sets the organization attribute value.
-     * @param organization The organization to set.
-     */
-    @Deprecated
-    public void setOrganization(Org organization) {
-        this.organization = organization;
     }
 
     /**

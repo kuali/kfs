@@ -137,11 +137,11 @@ public interface LaborLedgerBalanceDao {
      * find all ledger balances matching the given criteria within the given fiscal years
      * 
      * @param fieldValues the given field values
-     * @param exclusiveFieldValues the given field values that must not be matched
+     * @param excludedFieldValues the given field values that must not be matched
      * @param fiscalYears the given fiscal years
      * @param balanceTypeList the given balance type code list
      * @param positionObjectGroupCodes the specified position obejct group codes
      * @return all ledger balances matching the given criteria within the given fiscal years
      */
-    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes);
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes);
 }

@@ -507,12 +507,19 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
      * @see org.kuali.module.labor.dao.LaborLedgerBalanceDao#findLedgerBalances(java.util.Map, java.util.Map, java.util.Set,
      *      java.util.List, java.util.List)
      */
-    public Collection<LedgerBalance> findLedgerBalances(Map<String, String> fieldValues, Map<String, String> exclusiveFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
-        Criteria criteria = OJBUtility.buildCriteriaFromMap(fieldValues, new LedgerBalance());
-        criteria.addEqualTo(LaborPropertyConstants.LABOR_OBJECT + "." + LaborPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE, LaborConstants.LABOR_OBJECT_SALARY_CODE);
+    public Collection<LedgerBalance> findLedgerBalances(Map<String, List<String>> fieldValues, Map<String, List<String>> excludedFieldValues, Set<Integer> fiscalYears, List<String> balanceTypeList, List<String> positionObjectGroupCodes) {
+        Criteria criteria = new Criteria();
 
-        for (String fieldName : exclusiveFieldValues.keySet()) {
-            criteria.addNotEqualTo(fieldName, exclusiveFieldValues.get(fieldName));
+        for (String fieldName : fieldValues.keySet()) {
+            Criteria criteriaForIncludedFields = new Criteria();
+            criteria.addIn(fieldName, fieldValues.get(fieldName));
+            criteria.addAndCriteria(criteriaForIncludedFields);
+        }        
+        
+        for (String fieldName : excludedFieldValues.keySet()) {
+            Criteria criteriaForExcludedFields = new Criteria();
+            criteria.addNotIn(fieldName, excludedFieldValues.get(fieldName));
+            criteria.addAndCriteria(criteriaForExcludedFields);
         }
 
         if (fiscalYears != null && !fiscalYears.isEmpty()) {

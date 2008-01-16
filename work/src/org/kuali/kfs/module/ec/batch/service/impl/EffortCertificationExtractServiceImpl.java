@@ -16,6 +16,7 @@
 package org.kuali.module.effort.service.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
@@ -54,6 +55,8 @@ import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.gl.util.Message;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
@@ -319,13 +322,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, nonpositiveTotalError, emplid);
             return false;
         }
-        
-        // an employee must not be paid by multiple organizations
-        Message multipleOrganizationError = LedgerBalanceFieldValidator.isFromSingleOrganization(ledgerBalances);
-        if (multipleOrganizationError != null) {
-            this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, multipleOrganizationError, emplid);
-            return false;
-        }
 
         // the specified employee must have at least one grant account
         boolean fundGroupDenotesCGIndictor = Boolean.parseBoolean(parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND).get(0));
@@ -361,21 +357,24 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the labor ledger balances for the specifed employee
      */
-    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
-        String expenseObjectTypeCode = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE).get(0);
-        String accountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT).get(0);
+    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {       
+        List<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
+        List<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
+        List<String> emplids = Arrays.asList(emplid);
+        List<String> laborObjectCodes = Arrays.asList(EffortConstants.LABOR_OBJECT_SALARY_CODE);
+        
+        Map<String, List<String>> fieldValues = new HashMap<String, List<String>>();
+        fieldValues.put(KFSPropertyConstants.EMPLID, emplids);
+        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCodes);
+        fieldValues.put(EffortPropertyConstants.LABOR_OBJECT_FRINGE_OR_SALARY_CODE, laborObjectCodes);
 
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
-        fieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_TYPE_CODE, expenseObjectTypeCode);
-
-        Map<String, String> exclusiveFieldValues = new HashMap<String, String>();
-        exclusiveFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, accountTypeCode);
+        Map<String, List<String>> excludedFieldValues = new HashMap<String, List<String>>();        
+        excludedFieldValues.put(EffortPropertyConstants.ACCOUNT_ACCOUNT_TYPE_CODE, excludedAccountTypeCode);
 
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();
         List<String> balanceTypes = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborEffortCertificationService.findLedgerBalances(fieldValues, exclusiveFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+        return laborEffortCertificationService.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
     }
 
     /**

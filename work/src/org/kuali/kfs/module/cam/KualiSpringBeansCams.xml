@@ -52,4 +52,13 @@
 	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+    <bean id="assetLookupableHelperService" class="org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+    </bean>
+
+    <bean id="assetLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+    </bean>
+
 </beans>

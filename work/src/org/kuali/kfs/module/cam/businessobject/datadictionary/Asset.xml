@@ -67,6 +67,7 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>assetLookupable</lookupableID>
             <title>Asset Lookup</title>
 
             <menubar>

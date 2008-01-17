@@ -58,9 +58,11 @@
         <html:hidden property="document.vendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.vendorDetailAssignedIdentifier" />
 
+		<c:if test="${displayPurchaseOrderFields or displayPaymentRequestFields}">
         <html:hidden property="document.alternateVendorHeaderGeneratedIdentifier" />
         <html:hidden property="document.alternateVendorDetailAssignedIdentifier" />
-
+		</c:if>
+		
 		<c:if test="${displayPurchaseOrderFields}">
 		<html:hidden property="document.alternateVendorName" />
 		<html:hidden property="document.alternateVendorNumber" />

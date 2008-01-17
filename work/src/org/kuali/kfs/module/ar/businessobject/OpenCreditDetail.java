@@ -40,7 +40,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
     private Org billedByOrganization;
     private Org processingOrganization;
     private Customer customer;
-    private InvoiceDetail invoiceItem;
+    private CustomerInvoiceDetail invoiceItem;
     
     
     /**
@@ -456,7 +456,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * Gets the invoiceItem attribute. 
      * @return Returns the invoiceItem.
      */
-    public InvoiceDetail getInvoiceItem() {
+    public CustomerInvoiceDetail getInvoiceItem() {
         return invoiceItem;
     }
 
@@ -465,7 +465,7 @@ public class OpenCreditDetail extends PersistableBusinessObjectBase {
      * @param invoiceItem The invoiceItem to set.
      * @deprecated
      */
-    public void setInvoiceItem(InvoiceDetail invoiceItem) {
+    public void setInvoiceItem(CustomerInvoiceDetail invoiceItem) {
         this.invoiceItem = invoiceItem;
     }
 

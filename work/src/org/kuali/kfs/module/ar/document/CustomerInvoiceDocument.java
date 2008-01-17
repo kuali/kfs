@@ -10,7 +10,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerProcessingType;
-import org.kuali.module.ar.bo.InvoiceDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -48,13 +48,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private Org billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
 
-    private List<InvoiceDetail> invoiceDetails;
+    private List<CustomerInvoiceDetail> invoiceDetails;
     
 	/**
 	 * Default constructor.
 	 */
 	public CustomerInvoiceDocument() {
-        invoiceDetails = new ArrayList<InvoiceDetail>();
+        invoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         
 	}
 
@@ -624,7 +624,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
      * Gets the invoiceDetails attribute. 
      * @return Returns the invoiceDetails.
      */
-    public List<InvoiceDetail> getInvoiceDetails() {
+    public List<CustomerInvoiceDetail> getInvoiceDetails() {
         return invoiceDetails;
     }
 
@@ -632,7 +632,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
      * Sets the invoiceDetails attribute value.
      * @param invoiceDetails The invoiceDetails to set.
      */
-    public void setInvoiceDetails(List<InvoiceDetail> invoiceDetails) {
+    public void setInvoiceDetails(List<CustomerInvoiceDetail> invoiceDetails) {
         this.invoiceDetails = invoiceDetails;
     }    
     

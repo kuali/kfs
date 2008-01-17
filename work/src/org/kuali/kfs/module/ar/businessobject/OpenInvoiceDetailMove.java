@@ -41,7 +41,7 @@ public class OpenInvoiceDetailMove extends PersistableBusinessObjectBase {
 	private Chart processingChartOfAccount;
 	private Org processingOrganization;
     private Customer customer;
-    private InvoiceDetail invoiceItem;
+    private CustomerInvoiceDetail invoiceItem;
     
 	/**
 	 * Default constructor.
@@ -590,7 +590,7 @@ public class OpenInvoiceDetailMove extends PersistableBusinessObjectBase {
      * Gets the invoiceItem attribute. 
      * @return Returns the invoiceItem.
      */
-    public InvoiceDetail getInvoiceItem() {
+    public CustomerInvoiceDetail getInvoiceItem() {
         return invoiceItem;
     }
 
@@ -599,7 +599,7 @@ public class OpenInvoiceDetailMove extends PersistableBusinessObjectBase {
      * @param invoiceItem The invoiceItem to set.
      * @deprecated
      */
-    public void setInvoiceItem(InvoiceDetail invoiceItem) {
+    public void setInvoiceItem(CustomerInvoiceDetail invoiceItem) {
         this.invoiceItem = invoiceItem;
     }    
     

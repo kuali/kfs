@@ -311,13 +311,13 @@
 	<reference-descriptor name="customerSpecialProcessing" class-ref="org.kuali.module.ar.bo.CustomerProcessingType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerSpecialProcessingCode" />
 	</reference-descriptor>
-    <collection-descriptor name="invoiceDetails" element-class-ref="org.kuali.module.ar.bo.InvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="invoiceDetails" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="invoiceItemNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.InvoiceDetail" table="AR_INV_DTL_T">
+<class-descriptor class="org.kuali.module.ar.bo.CustomerInvoiceDetail" table="AR_INV_DTL_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="invoiceItemNumber" column="AR_INV_ITM_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -431,7 +431,7 @@
 	<field-descriptor name="customerInternalNoteText" column="CUST_INT_NTE_TXT" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.ar.bo.InvoiceItemCode" table="AR_INV_ITM_CODE_T">
+<class-descriptor class="org.kuali.module.ar.bo.CustomerInvoiceItemCode" table="AR_INV_ITM_CODE_T">
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="invoiceItemCode" column="AR_INV_ITM_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
@@ -499,7 +499,7 @@
     <reference-descriptor name="accountsReceivableDocumentHeader" class-ref="org.kuali.module.ar.bo.AccountsReceivableDocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
-	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.InvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialDocumentReferenceInvoiceNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />
 	</reference-descriptor>
@@ -930,7 +930,7 @@
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.InvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />
 	</reference-descriptor>
@@ -984,7 +984,7 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.InvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />
 	</reference-descriptor>
@@ -1102,7 +1102,7 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.InvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="invoiceItem" class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="documentNumber" />
 		<foreignkey field-ref="invoiceItemNumber" />
 	</reference-descriptor>

@@ -18,9 +18,9 @@
 <channel:portalChannelTop channelTitle="Accounts Receivable" />
 <div class="body">
     <ul class="chan">
-	      <li><portal:portalLink displayTitle="true" title="Application" url="arApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=ApplicationDocument" /></li>
+	      <li><portal:portalLink displayTitle="true" title="Payment Application" url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentApplicationDocument" /></li>
 	      <li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
-	      <li><portal:portalLink displayTitle="true" title="Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CreditMemoDocument" /></li>
+	      <li><portal:portalLink displayTitle="true" title="Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerCreditMemoDocument" /></li>
 	      <li>Customer</li>
 	      <li>Invoice</li>
 	      <li>Organization Accounting Defaults</li>

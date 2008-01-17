@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.ar.bo.CustomerInvoiceItemCode</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <businessRulesClass>org.kuali.module.ar.rules.CustomerInvoiceItemCodeRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>CustomerInvoiceItemCodeMaintenanceDocument</documentTypeName>
+        <documentTypeCode>IICO</documentTypeCode>
+
+        <label>Invoice Item Code Maintenance Document</label>
+        <shortLabel>InvoiceItemCodeMaintDoc</shortLabel>
+
+        <summary>Invoice Item Code maintenance document</summary>
+        <description>Document used to create or update Invoice Item Codes</description>
+
+        <lockingKeys>
+            <field attributeName="chartOfAccountsCode" />
+            <field attributeName="organizationCode" />
+            <field attributeName="invoiceItemCode" />
+        </lockingKeys>
+
+        <defaultExistenceChecks>
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="defaultInvoiceAccount" attributeToHighlightOnFail="defaultInvoiceAccountNumber" />
+            <reference attributeName="defaultInvoiceSubAccount" attributeToHighlightOnFail="defaultInvoiceSubAccountNumber" />
+            <reference attributeName="defaultInvoiceChartOfAccounts" attributeToHighlightOnFail="defaultInvoiceChartOfAccountsCode" />
+            <reference attributeName="defaultInvoiceFinancialObject" attributeToHighlightOnFail="defaultInvoiceFinancialObjectCode" />
+            <reference attributeName="defaultInvoiceFinancialSubObject" attributeToHighlightOnFail="defaultInvoiceFinancialSubObjectCode" />
+            <reference attributeName="defaultInvoiceProject" attributeToHighlightOnFail="defaultInvoiceProjectCode" />
+        </defaultExistenceChecks>
+
+        <maintainableSections>
+            <maintainableSection title="Edit Invoice Item Codes">
+                <maintainableItems>
+                    <maintainableField name="chartOfAccountsCode" required="true" />
+                    <maintainableField name="organizationCode" required="true" />
+                    <maintainableField name="invoiceItemCode" required="true" />
+                    <maintainableField name="invoiceItemDescription" required="true" />
+                    <maintainableField name="relatedStockNumber" required="false" />
+                    <maintainableField name="defaultInvoiceChartOfAccountsCode" required="false" />
+                    <maintainableField name="defaultInvoiceAccountNumber" required="false" />
+                    <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
+                    <maintainableField name="defaultInvoiceFinancialObjectCode" required="false" />
+                    <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
+                    <maintainableField name="defaultInvoiceProjectCode" required="false" />
+                    <maintainableField name="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
+                    <maintainableField name="itemDefaultPrice" required="false" />
+                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
+                    <maintainableField name="itemDefaultQuantity" required="false" />
+                    <maintainableField name="active" required="true" />
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

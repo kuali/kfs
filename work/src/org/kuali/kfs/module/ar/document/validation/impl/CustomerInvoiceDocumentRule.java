@@ -28,7 +28,7 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.ar.ArConstants;
-import org.kuali.module.ar.bo.InvoiceDetail;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
@@ -137,7 +137,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
      * 
      * @return
      */
-    protected boolean validateInvoiceItemDetail(InvoiceDetail detail) {
+    protected boolean validateInvoiceItemDetail(CustomerInvoiceDetail detail) {
         boolean success = true;
         if (detail.getInvoiceItemQuantity() == null) {
             // rule failure
@@ -163,7 +163,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
     }
 
 
-    protected boolean isValidUnitOfMeasure(InvoiceDetail detail) {
+    protected boolean isValidUnitOfMeasure(CustomerInvoiceDetail detail) {
         boolean success = true;
         // this most likely will be a parameter service call
         if (!StringUtils.isEmpty(detail.getInvoiceItemUnitOfMeasureCode())) {
@@ -172,7 +172,7 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
         return success;
     }
 
-    protected boolean isValidAccountNumber(InvoiceDetail detail) {
+    protected boolean isValidAccountNumber(CustomerInvoiceDetail detail) {
         boolean success = true;
         return success;
     }

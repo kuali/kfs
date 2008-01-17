@@ -31,10 +31,10 @@
             </authorization>
         </authorizations>
 
-        <documentTypeName>InvoiceDocument</documentTypeName>
+        <documentTypeName>CustomerInvoiceDocument</documentTypeName>
         <documentTypeCode>INV</documentTypeCode>
 
-        <label>Invoice</label>
+        <label>Customer Invoice</label>
 
         <!--  help parameterNamespace="KFS-AR" parameterDetailType="Invoice" parameterName="?" /-->
   		<attributes>

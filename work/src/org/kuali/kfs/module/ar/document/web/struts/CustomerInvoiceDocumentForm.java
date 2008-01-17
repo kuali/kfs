@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,29 +19,27 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
-import org.kuali.module.ar.document.CustomerCreditMemoDocument;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
-public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormBase {
+public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
     public DateTimeService dateTimeService;
-   
-    public CustomerCreditMemoDocumentForm() {
+    
+    public CustomerInvoiceDocumentForm() {
         super();
-        setDocument(new CustomerCreditMemoDocument());
-
-
+        setDocument(new CustomerInvoiceDocument());
         setupServices();
-        //setupDefaultValues((CustomerInvoiceDocument)getDocument());
+        setupDefaultValues((CustomerInvoiceDocument)getDocument());
     }
 
     private void setupServices() {
         setDateTimeService(SpringContext.getBean(DateTimeService.class));
-
+        
     }
 
     /**
@@ -53,49 +51,49 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
         if(currentUser != null) {
             //Billing chart = user's chart
             document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
-
+            
             //Billing org = user's org
             document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
         }
-
+        
         Date today = dateTimeService.getCurrentSqlDate();
-
+        
         //Invoice create date = current date
         document.setBillingDate(today);
-
+        
         //Invoice due date = current date + 30 days
         Calendar cal = dateTimeService.getCurrentCalendar();
         cal.add(Calendar.DATE, 30);
         java.util.Date dueDate = cal.getTime();
         Date sqlDueDate = null;
         try {
-            sqlDueDate =  dateTimeService.convertToSqlDate(dueDate.toString());
+           sqlDueDate =  dateTimeService.convertToSqlDate(dueDate.toString());
         } catch (ParseException e) {
             //TODO: throw an error here, but don't die
         }
         if(sqlDueDate != null) {
             document.setInvoiceDueDate(sqlDueDate);
         }
-
+        
         //Write-off Indicator = 'Y'
         document.setWriteoffIndicator(true);
-
+        
         //Print Invoice Indicator = "Y"
         document.setPrintInvoiceIndicator(true);
-
+        
         //Processing Chart = Processing Chart retrieved from Billing Org options
         //convert this into some kind of service maybe?
         //document.getAccountsReceivableDocumentHeader().setProcessingChartOfAccountCode(processingChartOfAccountCode);
-
+        
         //Processing Org = Processing Org retrieved from Billing Org Options
         //document.getAccountsReceivableDocumentHeader().setProcessingOrganizationCode(processingOrganizationCode);
-
+        
         //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
         //can't find this one
-
+        
         //Payment Terms Text = Payment Terms Text retrieved from Billing Org Options
         //document.setInvoiceTermsText(invoiceTermsText);
-
+        
     }
 
     public DateTimeService getDateTimeService() {
@@ -105,6 +103,7 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
     }
-
-
+    
+    
+    
 }

@@ -21,7 +21,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private String universityFiscalPeriodCode;
 	private KualiDecimal invoiceItemAppliedAmount;
 
-    private InvoiceDetail invoiceItem;
+    private CustomerInvoiceDetail invoiceItem;
 	private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
@@ -188,7 +188,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	 * @return Returns the invoiceItem
 	 * 
 	 */
-	public InvoiceDetail getInvoiceItem() { 
+	public CustomerInvoiceDetail getInvoiceItem() { 
 		return invoiceItem;
 	}
 
@@ -198,7 +198,7 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	 * @param invoiceItem The invoiceItem to set.
 	 * @deprecated
 	 */
-	public void setInvoiceItem(InvoiceDetail invoiceItem) {
+	public void setInvoiceItem(CustomerInvoiceDetail invoiceItem) {
 		this.invoiceItem = invoiceItem;
 	}
 

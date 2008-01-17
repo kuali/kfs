@@ -53,7 +53,7 @@
         <form-bean name="YearEndBudgetAdjustmentForm" type="org.kuali.module.financial.web.struts.form.YearEndBudgetAdjustmentForm" />
         
         <!--  Accounts Receivable Module Bean Definitions -->
-        <form-bean name="ApplicationDocumentForm" type="org.kuali.module.ar.web.struts.form.ApplicationDocumentForm" />
+        <form-bean name="PaymentApplicationDocumentForm" type="org.kuali.module.ar.web.struts.form.PaymentApplicationDocumentForm" />
         <form-bean name="CashControlDocumentForm" type="org.kuali.module.ar.web.struts.form.CashControlDocumentForm" />
         <form-bean name="CustomerCreditMemoDocumentForm" type="org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm" />
         <form-bean name="CustomerInvoiceForm" type="org.kuali.module.ar.web.struts.form.CustomerInvoiceForm" />

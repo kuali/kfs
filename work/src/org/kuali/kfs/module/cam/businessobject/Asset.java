@@ -88,6 +88,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private DocumentHeader cashReceiptFinancialDocument;
     private DocumentHeader transferOfFundsFinancialDocument;
     private AssetCondition condition;
+    private AssetStatus inventoryStatus;
     
 	/**
 	 * Default constructor.
@@ -1455,6 +1456,23 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setCondition(AssetCondition condition) {
         this.condition = condition;
+    }
+
+    /**
+     * Gets the inventoryStatus attribute. 
+     * @return Returns the inventoryStatus.
+     */
+    public AssetStatus getInventoryStatus() {
+        return inventoryStatus;
+    }
+
+    /**
+     * Sets the inventoryStatus attribute value.
+     * @param inventoryStatus The inventoryStatus to set.
+     * @deprecated
+     */
+    public void setInventoryStatus(AssetStatus inventoryStatus) {
+        this.inventoryStatus = inventoryStatus;
     }
 
     /**

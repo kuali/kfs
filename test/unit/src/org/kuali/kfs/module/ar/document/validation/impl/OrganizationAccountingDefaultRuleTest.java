@@ -30,15 +30,17 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
     
     OrganizationAccountingDefault organizationAccountingDefault;
     
-    private static Integer UNIVERSITY_FISCAL_YEAR = new Integer(2007);
-    private static String EXPENSE_OBJECT_CODE = "EX";
-    private static String INCOME_OBJECT_CODE = "IN";
+    private static Integer UNIVERSITY_FISCAL_YEAR = new Integer(2008);
+    private static String EXPENSE_OBJECT_CODE = "3310";
+    private static String INCOME_OBJECT_CODE = "0776";
+    private static String CHART_CODE = "IU";
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         organizationAccountingDefault = new OrganizationAccountingDefault();
         organizationAccountingDefault.setUniversityFiscalYear(UNIVERSITY_FISCAL_YEAR);
+        organizationAccountingDefault.setChartOfAccountsCode(CHART_CODE);
     }
     
     /**
@@ -47,6 +49,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
     public void testIsWriteOffObjectValidExpense_True(){
         
         organizationAccountingDefault.setWriteoffObjectCode(EXPENSE_OBJECT_CODE);
+        organizationAccountingDefault.refreshReferenceObject("writeoffObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isWriteOffObjectValidExpense(organizationAccountingDefault);
@@ -58,6 +61,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsWriteOffObjectValidExpense_False(){
         organizationAccountingDefault.setWriteoffObjectCode(INCOME_OBJECT_CODE);
+        organizationAccountingDefault.refreshReferenceObject("writeoffObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isWriteOffObjectValidExpense(organizationAccountingDefault);
@@ -70,6 +74,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsLateChargeObjectValidIncome_True(){
         organizationAccountingDefault.setOrganizationLateChargeObjectCode(INCOME_OBJECT_CODE);
+        organizationAccountingDefault.refreshReferenceObject("organizationLateChargeObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isLateChargeObjectValidIncome(organizationAccountingDefault);
@@ -81,6 +86,7 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsLateChargeObjectValidIncome_False(){
         organizationAccountingDefault.setOrganizationLateChargeObjectCode(EXPENSE_OBJECT_CODE);
+        organizationAccountingDefault.refreshReferenceObject("organizationLateChargeObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isLateChargeObjectValidIncome(organizationAccountingDefault);
@@ -93,6 +99,8 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsDefaultInvoiceFinancialObjectValidIncome_True(){
         organizationAccountingDefault.setDefaultInvoiceFinancialObjectCode(INCOME_OBJECT_CODE);
+        organizationAccountingDefault.setDefaultInvoiceChartOfAccountsCode(CHART_CODE);
+        organizationAccountingDefault.refreshReferenceObject("defaultInvoiceFinancialObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isDefaultInvoiceFinancialObjectValidIncome(organizationAccountingDefault);
@@ -105,6 +113,8 @@ public class OrganizationAccountingDefaultRuleTest extends MaintenanceRuleTestBa
      */
     public void testIsDefaultInvoiceFinancialObjectValidIncome_False(){
         organizationAccountingDefault.setDefaultInvoiceFinancialObjectCode(EXPENSE_OBJECT_CODE);
+        organizationAccountingDefault.setDefaultInvoiceChartOfAccountsCode(CHART_CODE);
+        organizationAccountingDefault.refreshReferenceObject("defaultInvoiceFinancialObject");
         OrganizationAccountingDefaultRule rule = (OrganizationAccountingDefaultRule) setupMaintDocRule(newMaintDoc(organizationAccountingDefault), OrganizationAccountingDefaultRule.class);
         
         boolean result = rule.isDefaultInvoiceFinancialObjectValidIncome(organizationAccountingDefault);

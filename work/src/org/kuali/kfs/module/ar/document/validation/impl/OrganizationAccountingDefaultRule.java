@@ -23,6 +23,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectTypeService;
 
 public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBase {
@@ -88,13 +89,14 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
 
         boolean success = true;
         Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
-        String writeOffObjectCode = organizationAccountingDefault.getWriteoffObjectCode();
+        ObjectCode writeObject = organizationAccountingDefault.getWriteoffObject();
 
-        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(writeOffObjectCode)) {
-            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(writeOffObjectCode);
+        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(writeObject)) {
+
+            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(writeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("writeoffObjectCode", KFSKeyConstants.OrganizationAccountingDefault.WRITE_OFF_OBJECT_CODE_INVALID, writeOffObjectCode);
+                putFieldError("writeoffObjectCode", KFSKeyConstants.OrganizationAccountingDefault.WRITE_OFF_OBJECT_CODE_INVALID, writeObject.getCode());
             }
         }
 
@@ -115,13 +117,13 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
     protected boolean isLateChargeObjectValidIncome(OrganizationAccountingDefault organizationAccountingDefault) {
         boolean success = true;
         Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
-        String lateChargeObjectCode = organizationAccountingDefault.getOrganizationLateChargeObjectCode();
+        ObjectCode lateChargeObject = organizationAccountingDefault.getOrganizationLateChargeObject();
 
-        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(lateChargeObjectCode)) {
-            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(lateChargeObjectCode);
+        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(lateChargeObject)) {
+            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(lateChargeObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("organizationLateChargeObjectCode", KFSKeyConstants.OrganizationAccountingDefault.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObjectCode);
+                putFieldError("organizationLateChargeObjectCode", KFSKeyConstants.OrganizationAccountingDefault.LATE_CHARGE_OBJECT_CODE_INVALID, lateChargeObject.getCode());
             }
         }
 
@@ -141,14 +143,25 @@ public class OrganizationAccountingDefaultRule extends MaintenanceDocumentRuleBa
      */
     protected boolean isDefaultInvoiceFinancialObjectValidIncome(OrganizationAccountingDefault organizationAccountingDefault) {
         boolean success = true;
-        Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
-        String defaultInvoiceFinancialObjectCode = organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode();
 
-        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(defaultInvoiceFinancialObjectCode)) {
-            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceFinancialObjectCode);
+        if (StringUtils.isNotEmpty(organizationAccountingDefault.getDefaultInvoiceFinancialObjectCode()) &&
+                StringUtils.isEmpty(organizationAccountingDefault.getDefaultInvoiceChartOfAccountsCode())) {
+            
+            putFieldError("defaultInvoiceChartOfAccountsCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_CHART_OF_ACCOUNTS_REQUIRED_IF_DEFAULT_OBJECT_CODE_EXISTS );
+            success = false;
+            
+        } else {
+            Integer universityFiscalYear = organizationAccountingDefault.getUniversityFiscalYear();
 
-            if (!success) {
-                putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObjectCode);
+
+            ObjectCode defaultInvoiceFinancialObject = organizationAccountingDefault.getDefaultInvoiceFinancialObject();
+
+            if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(defaultInvoiceFinancialObject)) {
+                success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(defaultInvoiceFinancialObject.getFinancialObjectTypeCode());
+
+                if (!success) {
+                    putFieldError("defaultInvoiceFinancialObjectCode", KFSKeyConstants.OrganizationAccountingDefault.DEFAULT_INVOICE_FINANCIAL_OBJECT_CODE_INVALID, defaultInvoiceFinancialObject.getCode());
+                }
             }
         }
 

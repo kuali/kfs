@@ -18,6 +18,7 @@ package org.kuali.module.effort.service;
 import java.util.List;
 
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
 
 /**
  * Contains service methods for the Effort Certification Automatic Period Update Process
@@ -36,4 +37,11 @@ public interface EffortCertificationAutomaticReportPeriodUpdateService {
      * @return list of EffortCertificationReportDefinition records
      */
     public List<EffortCertificationReportDefinition> getAllReportDefinitions();
+    
+    /**
+     * 
+     * Sets dao to be used by service
+     * @param effortCertificationReportDefinitionDao
+     */
+    public void setEffortCertificationReportDefinitionDao(EffortCertificationReportDefinitionDao effortCertificationReportDefinitionDao);
 }

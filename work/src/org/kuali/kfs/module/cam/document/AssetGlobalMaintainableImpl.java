@@ -41,14 +41,20 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
 
         for (AssetGlobalDetail detail : assetGlobal.getAssetGlobalDetails()) {
             MaintenanceLock maintenanceLock = new MaintenanceLock();
-            StringBuffer lockrep = new StringBuffer();
+            StringBuffer lockRep = new StringBuffer();
 
-            lockrep.append(Asset.class.getName() + KFSConstants.Maintenance.AFTER_CLASS_DELIM);
-            lockrep.append("capitalAssetNumber" + KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockrep.append(detail.getCapitalAssetNumber());
+            lockRep.append(Asset.class.getName());
+            lockRep.append(KFSConstants.Maintenance.AFTER_CLASS_DELIM);
+            lockRep.append("documentNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(detail.getDocumentNumber());
+            lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
+            lockRep.append("financialDocumentLineNumber");
+            lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
+            lockRep.append(detail.getFinancialDocumentLineNumber());
 
             maintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
-            maintenanceLock.setLockingRepresentation(lockrep.toString());
+            maintenanceLock.setLockingRepresentation(lockRep.toString());
             maintenanceLocks.add(maintenanceLock);
         }
         return maintenanceLocks;

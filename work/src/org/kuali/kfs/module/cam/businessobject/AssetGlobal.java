@@ -1,20 +1,15 @@
 package org.kuali.module.cams.bo;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.core.bo.GlobalBusinessObject;
 import org.kuali.core.bo.GlobalBusinessObjectDetail;
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.context.SpringContext;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -200,61 +195,26 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
 
         for (AssetGlobalDetail detail : assetGlobalDetails) {
 
-            Map pk = new HashMap();
-            pk.put("CPTLAST_NBR", detail.getCapitalAssetNumber());
-            
             /** @TODO check into a better way to do the below other then getting / setting a dozen fields -- deepCopy? */
+
+            // Asset never exists since per location we don't look up Asset numbers.
+            Asset asset = new Asset();
+            asset.setCapitalAssetDescription(capitalAssetDescription);
+            asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
+            asset.setConditionCode(conditionCode);
+
+            // capitalAssetNumber stays null so that the sequencer sets it
+            asset.setCampusCode(detail.getCampusCode());
+            asset.setBuildingCode(detail.getBuildingCode());
+            asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
+            asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
             
-            Asset asset = (Asset) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(Asset.class, pk);
-            if (ObjectUtils.isNull(asset)) {
-                // Asset doesn't exist yet, create and set our values
-                asset = new Asset();
-                asset.setCapitalAssetDescription(capitalAssetDescription);
-                asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
-                asset.setConditionCode(conditionCode);
-
-                asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
-                asset.setCampusCode(detail.getCampusCode());
-                asset.setBuildingCode(detail.getBuildingCode());
-                asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());
-                asset.setBuildingSubRoomNumber(detail.getBuildingSubRoomNumber());
-                
-                asset.setActive(true);
-            } else {
-                // Asset exists, overwrite our values only if they are provided
-                asset.setCapitalAssetDescription(update(capitalAssetDescription, asset.getCapitalAssetDescription()));
-                asset.setCapitalAssetTypeCode(update(capitalAssetTypeCode, asset.getCapitalAssetTypeCode()));
-                asset.setConditionCode(update(conditionCode, asset.getConditionCode()));
-
-                asset.setCapitalAssetNumber(update(asset.getCapitalAssetNumber(), detail.getCapitalAssetNumber()));
-                asset.setCampusCode(update(asset.getCampusCode(), detail.getCampusCode()));
-                asset.setBuildingCode(update(asset.getBuildingCode(), detail.getBuildingCode()));
-                asset.setBuildingRoomNumber(update(asset.getBuildingRoomNumber(), detail.getBuildingRoomNumber()));
-                asset.setBuildingSubRoomNumber(update(asset.getBuildingSubRoomNumber(), detail.getBuildingSubRoomNumber()));
-                
-                asset.setActive(active);
-            }
+            asset.setActive(true);
 
             persistables.add(asset);
         }
 
         return persistables;
-    }
-    
-    /** @TODO this is taken from ObjectCodeGlobal -- should it be centralized? ObjectUtils? */
-    private String update(String newValue, String oldValue) {
-        if (newValue == null || newValue.length() == 0) {
-            return oldValue;
-        }
-        return newValue;
-    }
-    
-    /** @TODO See above comment. Same thing but this one doesn't exist in ObjectUtils. */
-    private Long update(Long newValue, Long oldValue) {
-        if (newValue == null) {
-            return oldValue;
-        }
-        return newValue;
     }
     
     public boolean isPersistable() {

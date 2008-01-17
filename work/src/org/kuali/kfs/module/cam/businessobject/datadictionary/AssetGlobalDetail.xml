@@ -20,24 +20,9 @@
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail">
 
-
         <attributes>
-            <attribute name="campusCode" forceUppercase="true">
-                <label>Campus Code</label>
-                <shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>campusCode</summary>
-                <description>campusCode description...</description>
-			</attribute>
-			
-			<attribute name="buildingCode" forceUppercase="true">
+            <attribute name="buildingCode" forceUppercase="true">
                 <label>Building Code</label>
                 <shortLabel>Code</shortLabel>
 
@@ -81,11 +66,174 @@
                 <summary>buildingSubRoomNumber</summary>
                 <description>buildingSubRoomNumber description...</description>
 			</attribute>
-			
+
+            <attribute name="campusCode" forceUppercase="true">
+                <label>Campus Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>campusCode</summary>
+                <description>campusCode description...</description>
+			</attribute>
+
+            <attribute name="campusTagNumber" forceUppercase="true">
+                <label>Campus Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>campusTagNumber</summary>
+                <description>campusTagNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="financialDocumentLineNumber" forceUppercase="true">
+                <label>Financial Document Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>financialDocumentLineNumber</summary>
+                <description>financialDocumentLineNumber description...</description>
+			</attribute>
+
+            <attribute name="offCampusAddress" forceUppercase="true">
+                <label>Off Campus Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>offCampusAddress</summary>
+                <description>offCampusAddress description...</description>
+			</attribute>
+
+            <attribute name="offCampusCityName" forceUppercase="true">
+                <label>Off Campus City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>offCampusCityName</summary>
+                <description>offCampusCityName description...</description>
+			</attribute>
+
+            <attribute name="offCampusStateCode" forceUppercase="true">
+                <label>Off Campus State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>offCampusStateCode</summary>
+                <description>offCampusStateCode description...</description>
+			</attribute>
+
+            <attribute name="offCampusZipCode" forceUppercase="true">
+                <label>Off Campus Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>offCampusZipCode</summary>
+                <description>offCampusZipCode description...</description>
+			</attribute>
+
+            <attribute name="organizationCapitalAssetTypeIdentifier" forceUppercase="true">
+                <label>Organization Capital Asset Type Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>organizationCapitalAssetTypeIdentifier</summary>
+                <description>organizationCapitalAssetTypeIdentifier description...</description>
+			</attribute>
+
+            <attribute name="organizationInventoryName" forceUppercase="true">
+                <label>Organization Inventory Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationInventoryName</summary>
+                <description>organizationInventoryName description...</description>
+			</attribute>
+
+            <attribute name="serialNumber" forceUppercase="true">
+                <label>Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>serialNumber</summary>
+                <description>serialNumber description...</description>
+			</attribute>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
-            <attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
-            
         </attributes>
         
         <objectLabel>Asset Change Detail</objectLabel>

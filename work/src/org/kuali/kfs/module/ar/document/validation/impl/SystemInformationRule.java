@@ -24,6 +24,7 @@ import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.OrganizationAccountingDefault;
 import org.kuali.module.ar.bo.SystemInformation;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectTypeService;
 
 public class SystemInformationRule extends MaintenanceDocumentRuleBase {
@@ -73,13 +74,13 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
     protected boolean checkSalesTaxObjectValidCode(SystemInformation document) {
         boolean success = true;
         Integer universityFiscalYear = document.getUniversityFiscalYear();
-        String salesTaxFinancialObjectCode = document.getSalesTaxFinancialObjectCode();
+        ObjectCode salesTaxFinancialObject = document.getSalesTaxFinancialObject();
         
-        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(salesTaxFinancialObjectCode)) {
-            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(salesTaxFinancialObjectCode);
+        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(salesTaxFinancialObject)) {
+            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(salesTaxFinancialObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("salesTaxFinancialObjectCode",KFSKeyConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObjectCode);
+                putFieldError("salesTaxFinancialObjectCode",KFSKeyConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObject.getCode());
             }
         }
         return success;
@@ -99,13 +100,13 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         
         boolean success = true;
         Integer universityFiscalYear = document.getUniversityFiscalYear();
-        String refundFinancialObjectCode = document.getRefundFinancialObjectCode();
+        ObjectCode refundFinancialObject = document.getRefundFinancialObject();
         
-        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(refundFinancialObjectCode)) {
-            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObjectCode);
+        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(refundFinancialObject)) {
+            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObject.getFinancialObjectType());
 
             if (!success) {
-                putFieldError("refundFinancialObjectCode",KFSKeyConstants.SystemInformation.REFUND_OBJECT_CODE_INVALID,refundFinancialObjectCode);
+                putFieldError("refundFinancialObjectCode",KFSKeyConstants.SystemInformation.REFUND_OBJECT_CODE_INVALID,refundFinancialObject.getCode());
             }
         }
         return success;

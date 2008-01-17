@@ -700,4 +700,53 @@
 	<field-descriptor name="requestorPersonEmailAddress" column="RQSTR_PRSN_EMAIL_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="requestorPersonPhoneNumber" column="RQSTR_PRSN_PHN_NBR" jdbc-type="VARCHAR"/>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetRetirementDocument" table="CM_AST_RETIREDOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="inventoryStatusCode" column="AST_INVN_STAT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementChartOfAccountsCode" column="AST_RETIR_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementAccountNumber" column="AST_RETIR_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementReasonCode" column="AST_RETIRE_REAS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementDate" column="CPTLAST_RETIRE_DT" jdbc-type="DATE"/>
+	<field-descriptor name="retirementContactName" column="AST_RETIR_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementInstitutionName" column="AST_RETIR_INST_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementStreetAddress" column="AST_RETIRSTRT_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementCityName" column="AST_RETIR_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementStateCode" column="AST_RETIR_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementZipCode" column="AST_RETIR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementCountryCode" column="AST_RETIR_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="retirementPhoneNumber" column="AST_RETIR_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="estimatedSellingPrice" column="AST_EST_SELL_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="salePrice" column="CPTLAST_SALE_PRC" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="cashReceiptFinancialDocumentNumber" column="CASH_RCPT_FDOC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="handlingFeeAmount" column="AST_HANDLG_FEE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="preventiveMaintenanceAmount" column="AST_PRVNTMAINT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="buyerDescription" column="CPTLAST_BUYER_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusPoliceDepartmentCaseNumber" column="AST_IUPD_CASE_NBR" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="retirementAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="retirementChartOfAccountsCode" />
+		<foreignkey field-ref="retirementAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="retirementChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="retirementChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="retirementReason" class-ref="org.kuali.module.cams.bo.AssetRetirementReason" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="retirementReasonCode" />
+	</reference-descriptor>
+	<reference-descriptor name="cashReceiptFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="cashReceiptFinancialDocumentNumber" />
+	</reference-descriptor>
+    <reference-descriptor name="retirementState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="retirementStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="retirementCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="retirementCountryCode" />
+    </reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

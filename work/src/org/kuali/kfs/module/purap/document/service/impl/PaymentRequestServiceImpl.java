@@ -968,13 +968,9 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
     }
 
     /**
-     * A helper method to create the description for the payment request document.
-     * 
-     * @param purchaseOrderIdentifier  The purchase order identifier to be used as part of the description.
-     * @param vendorName               The vendor name to be used as part of the description.
-     * @return                         The resulting description string for the payment request document.
+     * @see org.kuali.module.purap.service.PaymentRequestService#createPreqDocumentDescription(java.lang.Integer, java.lang.String)
      */
-    private String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName) {
+    public String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName) {
         StringBuffer descr = new StringBuffer("");
         descr.append("PO: ");
         descr.append(purchaseOrderIdentifier);
@@ -1197,6 +1193,8 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
           throw new PurError("Null link back to the Purchase Order.");
         }
         
+        //change document description
+        preq.getDocumentHeader().setFinancialDocumentDescription( createPreqDocumentDescription(preq.getPurchaseOrderIdentifier(), preq.getVendorName()) );
      }
 
     /**

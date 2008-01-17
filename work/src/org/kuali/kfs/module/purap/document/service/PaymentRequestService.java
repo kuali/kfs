@@ -332,4 +332,13 @@ public interface PaymentRequestService extends AccountsPayableDocumentSpecificSe
      * @param primaryDetailId
      */
     public void changeVendor(PaymentRequestDocument preq, Integer headerId, Integer detailId);
+    
+    /**
+     * A method to create the description for the payment request document.
+     * 
+     * @param purchaseOrderIdentifier  The purchase order identifier to be used as part of the description.
+     * @param vendorName               The vendor name to be used as part of the description.
+     * @return                         The resulting description string for the payment request document.
+     */
+    public String createPreqDocumentDescription(Integer purchaseOrderIdentifier, String vendorName);
 }

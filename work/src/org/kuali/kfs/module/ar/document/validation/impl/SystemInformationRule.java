@@ -15,11 +15,49 @@
  */
 package org.kuali.module.ar.rules;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.bo.OrganizationAccountingDefault;
+import org.kuali.module.ar.bo.SystemInformation;
+import org.kuali.module.chart.service.ObjectTypeService;
 
 public class SystemInformationRule extends MaintenanceDocumentRuleBase {
     protected static Logger LOG = org.apache.log4j.Logger.getLogger(SystemInformationRule.class);
+    
+    private ObjectTypeService objectTypeService;
+    private SystemInformation newSystemInformation;
+
+    public SystemInformationRule() {
+        // insert object type service
+        this.setObjectTypeService(SpringContext.getBean(ObjectTypeService.class));
+    }
+
+    @Override
+    public void setupConvenienceObjects() {
+        newSystemInformation = (SystemInformation) super.getNewBo();
+    }
+
+    @Override
+    protected boolean processCustomRouteDocumentBusinessRules(MaintenanceDocument document) {
+
+        boolean success;
+        success = checkSalesTaxObjectValidCode(newSystemInformation);
+        success &= checkRefundObjectValidCode(newSystemInformation);
+
+        return success;
+    }
+
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        // always return true even if there are business rule failures.
+        processCustomRouteDocumentBusinessRules(document);
+        return true;
+    }
     
     /**
      * 
@@ -32,10 +70,21 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
      * </ul>
      * @return true if it is an income object
      */
-    protected boolean checkSalesTaxObjectValidCode() {
-        return true;
+    protected boolean checkSalesTaxObjectValidCode(SystemInformation document) {
+        boolean success = true;
+        Integer universityFiscalYear = document.getUniversityFiscalYear();
+        String salesTaxFinancialObjectCode = document.getSalesTaxFinancialObjectCode();
+        
+        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(salesTaxFinancialObjectCode)) {
+            success = objectTypeService.getBasicIncomeObjectTypes(universityFiscalYear).contains(salesTaxFinancialObjectCode);
+
+            if (!success) {
+                putFieldError("salesTaxFinancialObjectCode",KFSKeyConstants.SystemInformation.SALES_TAX_OBJECT_CODE_INVALID,salesTaxFinancialObjectCode);
+            }
+        }
+        return success;
     }
-    
+
     /**
      * 
      * This method checks that the Refund Object Code is of type Expense
@@ -46,8 +95,27 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
      * </ul>
      * @return true if it is an expense object
      */
-    protected boolean checkRefundObjectValidCode() {
-        return true;
+    protected boolean checkRefundObjectValidCode(SystemInformation document) {
+        
+        boolean success = true;
+        Integer universityFiscalYear = document.getUniversityFiscalYear();
+        String refundFinancialObjectCode = document.getRefundFinancialObjectCode();
+        
+        if (ObjectUtils.isNotNull(universityFiscalYear) && StringUtils.isNotEmpty(refundFinancialObjectCode)) {
+            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObjectCode);
+
+            if (!success) {
+                putFieldError("refundFinancialObjectCode",KFSKeyConstants.SystemInformation.REFUND_OBJECT_CODE_INVALID,refundFinancialObjectCode);
+            }
+        }
+        return success;
     }
 
+    public ObjectTypeService getObjectTypeService() {
+        return objectTypeService;
+    }
+
+    public void setObjectTypeService(ObjectTypeService objectTypeService) {
+        this.objectTypeService = objectTypeService;
+    }
 }

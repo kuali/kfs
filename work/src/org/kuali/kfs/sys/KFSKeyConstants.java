@@ -940,6 +940,11 @@ public class KFSKeyConstants {
         public static final String NONPOSITIVE_ITEM_DEFAULT_QUANTITY = "error.invoiceItemCode.nonPositiveNumericValue";
     }
     
+    public static final class SystemInformation {
+        public static final String SALES_TAX_OBJECT_CODE_INVALID = "error.SystemInformation.salesTaxObjectCodeInvalid";
+        public static final String REFUND_OBJECT_CODE_INVALID ="error.SystemInformation.refundObjectCodeInvalid";
+    }
+    
     //AR Specific Error Codes
     
     public static final class OrganizationAccountingDefault {

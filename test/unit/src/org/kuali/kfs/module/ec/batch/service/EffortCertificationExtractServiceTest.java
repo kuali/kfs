@@ -15,21 +15,30 @@
  */
 package org.kuali.module.effort.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.effort.batch.EffortCertificationExtractStep;
+import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerEntry;
+import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -217,6 +226,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
         this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
         effortCertificationExtractService.extract(fiscalYear, reportNumber);
 
@@ -236,6 +246,63 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
         this.loadTestData(testTarget);
+        this.updateSystemParameters("");
+        
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+    }
+
+    /**
+     * check if the qualified balances for effort reporting can be selected 
+     */
+    public void testBalanceSelection_Selected() throws Exception {
+        String testTarget = "balanceSelection.selected.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        documentKeyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
+        assertTrue(TestDataPreparator.hasSameElements(documentBuildList, expectedDocumentBuildList, documentKeyFields));
+
+        List<EffortCertificationDetailBuild> detailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
+        for (EffortCertificationDocumentBuild document : documentBuildList) {
+            detailLinesBuild.addAll(document.getEffortCertificationDetailLinesBuild());
+        }
+
+        int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
+        List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
+        
+        assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
+        
+        List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
+        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
+    }
+
+    /**
+     * check if the balances without qualified balance type codes cannot be selected
+     */
+    public void testBalanceSelection_UnqualifiedBalanceType() throws Exception {
+        String testTarget = "balanceSelection.unqualifiedBalanceType.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
         effortCertificationExtractService.extract(fiscalYear, reportNumber);
 
@@ -246,41 +313,194 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * balances that meet certain criteria can be selected
+     * check if the balances without the qualified object type codes cannot be selected 
      */
-    public void testBalanceSelection() throws Exception {
+    public void testBalanceSelection_UnqualifiedObjectType() throws Exception {
+        String testTarget = "balanceSelection.unqualifiedObjectType.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
     /**
-     * the selected employee must be paid by at lease on grant account or cost shared
+     * check if the non-salary balances cannot be selected 
      */
-    public void testGrantAccountValidation() throws Exception {
+    public void testBalanceSelection_NotSalary() throws Exception {
+        String testTarget = "balanceSelection.notSalary.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
     /**
-     * the account used to pay the selected employee must have valid account number and higher education function code
+     * check if the employees not paid by grants cannot be selected 
      */
-    public void testAccountValidation() throws Exception {
+    public void testBalanceSelection_NotGrantAccount() throws Exception {
+        String testTarget = "balanceSelection.notGrantAccount.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
     /**
-     * the account used to pay the empolyee must be funded by a federal agency only if the employee who was paid by fedeal grants is
-     * required to have effort reports.
+     * check if the balances with Zero total amount cannot be selected
      */
-    public void testFederalFundsAccountValidation() throws Exception {
+    public void testBalanceSelection_ZeroAmountBalance() throws Exception {
+        String testTarget = "balanceSelection.zeroAmountBalance.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+    }
+    
+    /**
+     * check if the employees without positive payments cannot be selected
+     */
+    public void testBalanceSelection_NonpositiveTotalAmount() throws Exception {
+        String testTarget = "balanceSelection.nonpositiveTotalAmount.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
     /**
-     * examine the generated build documents and their detail lines
+     * check if the employees paid by federal fundings can be selected when federal fund only indicator is enabled 
      */
-    public void testBuildDocumentGeneration() throws Exception {
+    public void testFederalGrantOnly_HasFederalGrant() throws Exception {
+        String testTarget = "federalGrantOnly.hasFederalGrant.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters(testTarget);
 
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        documentKeyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
+        assertTrue(TestDataPreparator.hasSameElements(documentBuildList, expectedDocumentBuildList, documentKeyFields));
+
+        List<EffortCertificationDetailBuild> detailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
+        for (EffortCertificationDocumentBuild document : documentBuildList) {
+            detailLinesBuild.addAll(document.getEffortCertificationDetailLinesBuild());
+        }
+
+        int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
+        List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
+        
+        assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
+
+        List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
+        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
+    }
+    
+    /**
+     * check if the employees not paid by federal fundings cannot be selected when federal fund only indicator is enabled
+     */
+    public void testFederalGrantOnly_NoFederalGrant() throws Exception {
+        String testTarget = "federalGrantOnly.noFederalGrant.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters(testTarget);
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
 
+    /**
+     * check if the documents are generated correctly
+     */
+    public void testDocumentGeneration() throws Exception {
+        String testTarget = "documentGeneration.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters("");
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        documentKeyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
+        assertTrue(TestDataPreparator.hasSameElements(documentBuildList, expectedDocumentBuildList, documentKeyFields));
+
+        List<EffortCertificationDetailBuild> detailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
+        for (EffortCertificationDocumentBuild document : documentBuildList) {
+            detailLinesBuild.addAll(document.getEffortCertificationDetailLinesBuild());
+        }
+
+        int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
+        List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
+
+        List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
+        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
+    }
+
+    /**
+     * load test data into database before a test case starts
+     * 
+     * @param testTarget the target test case
+     */
     private void loadTestData(String testTarget) throws Exception {
         TestDataPreparator.doCleanUpWithoutReference(LedgerEntry.class, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
@@ -336,5 +556,28 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      */
     private <T> T buildDataObject(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) {
         return TestDataPreparator.buildTestDataObject(clazz, properties, propertykey, fieldNames, deliminator);
+    }
+
+    /**
+     * update the system parameters
+     * 
+     * @param testTarget the given test target that specifies the test data being used
+     */
+    private void updateSystemParameters(String testTarget) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("parameterNamespaceCode", "KFS-ER");
+        fieldValues.put("parameterDetailTypeCode", EffortCertificationExtractStep.class.getSimpleName());
+
+        List<Parameter> parameters = (List<Parameter>) businessObjectService.findMatching(Parameter.class, fieldValues);
+        for (Parameter param : parameters) {
+            String name = param.getParameterName();
+
+            String propertyKey = testTarget + "systemParameter." + name;
+            String propertyValue = StringUtils.trim(properties.getProperty(propertyKey));
+
+            if (propertyValue != null) {
+                param.setParameterValue(propertyValue);
+            }
+        }
     }
 }

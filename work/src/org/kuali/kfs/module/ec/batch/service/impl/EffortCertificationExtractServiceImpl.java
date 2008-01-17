@@ -295,6 +295,10 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, errorMessage);
                 ledgerBalances.remove(balance);
             }
+            
+            if(ledgerBalances.isEmpty()) {
+                break;
+            }
         }
     }
 

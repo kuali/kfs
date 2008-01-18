@@ -18,18 +18,17 @@ package org.kuali.module.effort.service.impl;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.kuali.module.effort.service.EffortCertificationReportService;
-import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.EffortReportRegistry;
+import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.ReportGenerator;
 
 /**
  * This class...
  */
 public class EffortCertificationReportServiceImpl implements EffortCertificationReportService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportServiceImpl.class);
     public static final String PDF_FILE_EXTENSION = "pdf";
 
     /**
@@ -40,6 +39,8 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
         String fileNamePrefix = reportInfo.reportFilename();
         String template = reportInfo.getReportTemplateName();
         String fullReportFileName = this.buildFullFileName(reportsDirectory, fileNamePrefix, PDF_FILE_EXTENSION, runDate);
+
+        LOG.info(reportDataHolder);
 
         ReportGenerator.generatePDFReport(reportDataHolder.getReportData(), template, fullReportFileName);
     }

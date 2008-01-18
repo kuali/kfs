@@ -44,9 +44,9 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
-     *      java.util.Collection, java.util.Map)
+     *      java.util.List, java.util.Map)
      */
-    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
         List<EffortCertificationDocumentBuild> documentList = new ArrayList<EffortCertificationDocumentBuild>();
 
         Map<String, List<LedgerBalance>> ledgerBalanceGroups = buildLedgerBalanceGroups(ledgerBalances);
@@ -116,7 +116,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param ledgerBalances the given ledger balances
      * @return the map holding ledger balance groups
      */
-    private Map<String, List<LedgerBalance>> buildLedgerBalanceGroups(Collection<LedgerBalance> ledgerBalances) {
+    private Map<String, List<LedgerBalance>> buildLedgerBalanceGroups(List<LedgerBalance> ledgerBalances) {
         Map<String, List<LedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LedgerBalance>>();
 
         for (LedgerBalance balance : ledgerBalances) {

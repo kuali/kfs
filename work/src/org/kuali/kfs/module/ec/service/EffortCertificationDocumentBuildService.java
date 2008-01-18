@@ -15,7 +15,6 @@
  */
 package org.kuali.module.effort.service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +36,7 @@ public interface EffortCertificationDocumentBuildService {
      * @param parameters the parameters setup in system parameters
      * @return documents(build) for effort certification from the given collection of labor ledger balance
      */
-    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, Collection<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters);
+    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters);
     
     /**
      * generate a document(build) for effort certification from the given collection of labor ledger balance

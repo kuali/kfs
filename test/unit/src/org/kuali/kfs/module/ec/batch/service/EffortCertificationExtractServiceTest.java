@@ -86,8 +86,6 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         persistenceService = SpringContext.getBean(PersistenceService.class);
         effortCertificationDetailBuildService = SpringContext.getBean(EffortCertificationDetailBuildService.class);
         effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
-
-        TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, "dataCleanup", balanceFieldNames, deliminator);
     }
 
     /**
@@ -506,13 +504,13 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
 
-        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
-        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
-        TestDataPreparator.persistDataObject(ledgerBalances);
-
         int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
         List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
         TestDataPreparator.persistDataObject(ledgerEntries);
+
+        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
+        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        TestDataPreparator.persistDataObject(ledgerBalances);
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);

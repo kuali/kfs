@@ -219,7 +219,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * employees that meet certain criteria can be selected
      */
-    public void testEmployeeSelection_Selected() throws Exception {
+    public void EmployeeSelection_Selected() throws Exception {
         String testTarget = "employeeSelection.selected.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -257,7 +257,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * check if the qualified balances for effort reporting can be selected 
      */
-    public void testBalanceSelection_Selected() throws Exception {
+    public void BalanceSelection_Selected() throws Exception {
         String testTarget = "balanceSelection.selected.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -403,7 +403,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * check if the employees paid by federal fundings can be selected when federal fund only indicator is enabled 
      */
-    public void testFederalGrantOnly_HasFederalGrant() throws Exception {
+    public void FederalGrantOnly_HasFederalGrant() throws Exception {
         String testTarget = "federalGrantOnly.hasFederalGrant.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -461,7 +461,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * check if the documents are generated correctly
      */
-    public void testDocumentGeneration() throws Exception {
+    public void DocumentGeneration() throws Exception {
         String testTarget = "documentGeneration.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");

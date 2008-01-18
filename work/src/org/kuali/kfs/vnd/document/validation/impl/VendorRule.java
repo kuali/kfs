@@ -814,9 +814,9 @@ public class VendorRule extends MaintenanceDocumentRuleBase {
                 valid &= false;
             }
             
-            // Check to see if the zipcode is in allowed format - KULPURAP-1088 
+            // Check to see if the zipcode is in allowed format - KULPURAP-1088
             ZipcodeValidationPattern zipPattern = new ZipcodeValidationPattern();
-            if (!zipPattern.matches(address.getVendorZipCode())) {
+            if (!zipPattern.matches(StringUtils.defaultString(address.getVendorZipCode()))) {
                 valid &= false;
                 GlobalVariables.getErrorMap().putError(VendorPropertyConstants.VENDOR_ADDRESS_ZIP, VendorKeyConstants.ERROR_POSTAL_CODE_INVALID);
             }

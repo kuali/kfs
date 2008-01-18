@@ -203,12 +203,6 @@
         <foreignkey field-ref="subAccountNumber" />
     </reference-descriptor>
     
-    <reference-descriptor name="costShareSourceSubAccount" class-ref="org.kuali.module.chart.bo.SubAccount" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="sourceChartOfAccountsCode" />
-        <foreignkey field-ref="sourceAccountNumber" />
-        <foreignkey field-ref="costShareSourceSubAccountNumber" />
-    </reference-descriptor>
-    
 </class-descriptor>
 
 

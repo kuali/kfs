@@ -56,6 +56,7 @@ public class ExtractProcessReportDataHolder {
         this.reportDefinition = reportDefinition;
         this.basicStatistics = new HashMap<String, Integer>();
         this.ledgerBalancesWithMessage = new ArrayList<LedgerBalanceWithMessage>();
+        this.reportData = new HashMap<String, Object>();
     }
 
     /**
@@ -143,5 +144,13 @@ public class ExtractProcessReportDataHolder {
         reportData.put(KEY_OF_STATISTICS_ENTRY, basicStatistics);
         reportData.put(KEY_OF_ERRORS_ENTRY, ledgerBalancesWithMessage);
         return reportData;
+    }
+    
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return this.getReportData().toString();
     }
 }

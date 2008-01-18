@@ -191,4 +191,20 @@ public class LedgerBalanceWithMessage {
     public void setMessage(String message) {
         this.message = message;
     }
+    /**
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        StringBuilder ledgerBalanceWithMessage = new StringBuilder();
+        ledgerBalanceWithMessage.append("[chartOfAccountsCode=").append(this.getChartOfAccountsCode()).append(", ");
+        ledgerBalanceWithMessage.append("accountNumber=").append(this.getAccountNumber()).append(", ");
+        ledgerBalanceWithMessage.append("subAccountNumber=").append(this.getSubAccountNumber()).append(", ");
+        ledgerBalanceWithMessage.append("financialObjectCode=").append(this.getFinancialObjectCode()).append(", ");
+        ledgerBalanceWithMessage.append("positionNumber=").append(this.getPositionNumber()).append(", ");
+        ledgerBalanceWithMessage.append("emplid=").append(this.getEmplid()).append(", ");
+        ledgerBalanceWithMessage.append("message=").append(this.getMessage()).append("]");
+        
+        return ledgerBalanceWithMessage.toString();
+    }
 }

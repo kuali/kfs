@@ -34,29 +34,20 @@
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.cams.bo.AssetSecurityDetail" table="CM_SEC_DETL_DOC_T">
+<class-descriptor class="org.kuali.module.cams.bo.AssetSecurity" table="CM_SEC_DETL_DOC_T">
+	<field-descriptor name="personUniversalIdentifier" column="PERSON_UNVL_ID" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="chartOfAccountsCode" column="FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="securityTypeCode" column="CPTLAST_SEC_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="securityChartOfAccountsCode" column="AST_SEC_FIN_COA_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="securityOrganizationCode" column="CPTLAST_SEC_ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="organizationHierarchyIndicator" column="ORG_HIER_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-
 	<reference-descriptor name="chartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 	</reference-descriptor>
 	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="chartOfAccountsCode" />
 		<foreignkey field-ref="organizationCode" />
-	</reference-descriptor>
-	<reference-descriptor name="securityOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="securityChartOfAccountsCode" />
-		<foreignkey field-ref="securityOrganizationCode" />
-	</reference-descriptor>
-	<reference-descriptor name="securityChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="securityChartOfAccountsCode" />
 	</reference-descriptor>
 </class-descriptor>
 

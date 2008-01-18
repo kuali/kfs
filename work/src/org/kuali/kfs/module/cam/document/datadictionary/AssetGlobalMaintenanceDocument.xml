@@ -52,9 +52,6 @@
                 <maintainableField name="capitalAssetDescription" required="true" />
                 <maintainableField name="capitalAssetTypeCode" required="true" />
                 <maintainableField name="conditionCode" required="true" />
-                <maintainableField name="active">
-                    <defaultValue>true</defaultValue>
-                </maintainableField>
                 <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

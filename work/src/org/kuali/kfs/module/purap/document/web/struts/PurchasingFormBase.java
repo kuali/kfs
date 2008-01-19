@@ -18,6 +18,7 @@ package org.kuali.module.purap.web.struts.form;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.struts.upload.FormFile;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApAccountingLineBase;
 import org.kuali.module.purap.bo.PurApItem;
@@ -30,13 +31,14 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
     private Boolean notOtherDeliveryBuilding = true;
     private Boolean hideDistributeAccounts = true;
     private PurApItem newPurchasingItemLine;
+    private FormFile itemImportFile; // file from which items can be imported
 
     // *** Note that the following variables do not use camel caps ON PURPOSE, because of how the accounting lines tag uses the
     // accountPrefix
     private Integer accountDistributionnextSourceLineNumber;
     private List<PurApAccountingLine> accountDistributionsourceAccountingLines;
     private PurApAccountingLine accountDistributionnewSourceLine;
-
+    
     /**
      * Constructs a PurchasingFormBase instance and sets up the appropriately casted document.
      */
@@ -96,6 +98,14 @@ public class PurchasingFormBase extends PurchasingAccountsPayableFormBase {
 
     public void setNewPurchasingItemLine(PurApItem newPurchasingItemLine) {
         this.newPurchasingItemLine = newPurchasingItemLine;
+    }
+    
+    public FormFile getItemImportFile() {
+        return itemImportFile;
+    }
+
+    public void setItemImportFile(FormFile itemImportFile) {
+        this.itemImportFile = itemImportFile;
     }
 
     /**

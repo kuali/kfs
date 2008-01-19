@@ -29,10 +29,12 @@ public class PurapPropertyConstants {
     public static final String EXTENDED_PRICE = "extendedPrice";
     public static final String ITEM_TYPE = "itemType";
     public static final String ITEM = "item";
-    public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
+    public static final String ITEM_CATALOG_NUMBER = "itemCatalogNumber";
     public static final String ITEM_DESCRIPTION = "itemDescription";
+    public static final String ITEM_QUANTITY = "itemQuantity";
     public static final String ITEM_UNIT_OF_MEASURE_CODE = "itemUnitOfMeasureCode";
     public static final String ITEM_UNIT_OF_MEASURE_DESCRIPTION = "itemUnitOfMeasureDescription";
+    public static final String ITEM_UNIT_PRICE = "itemUnitPrice";
     public static final String NEW_PURCHASING_ITEM_LINE = "newPurchasingItemLine";
     public static final String ITEM_CAPITAL_ASSET_TRANSACTION_TYPE = "capitalAssetTransactionType";
 

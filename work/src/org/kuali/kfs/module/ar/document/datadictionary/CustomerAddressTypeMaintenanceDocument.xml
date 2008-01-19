@@ -33,7 +33,7 @@
         </authorizations>
 
         <documentTypeName>CustomerAddressTypeMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AAAA</documentTypeCode>
+        <documentTypeCode>CATY</documentTypeCode>
 
         <label>Customer Address Type</label>
         <shortLabel>CustAddrTyp</shortLabel>

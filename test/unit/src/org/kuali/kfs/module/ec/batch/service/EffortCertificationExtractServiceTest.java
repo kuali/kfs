@@ -29,6 +29,7 @@ import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
@@ -52,6 +53,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
     private BusinessObjectService businessObjectService;
     private PersistenceService persistenceService;
+    private ParameterService parameterService;
+    
     private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
     private EffortCertificationExtractService effortCertificationExtractService;
 
@@ -84,6 +87,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
+        parameterService = SpringContext.getBean(ParameterService.class);
+        
         effortCertificationDetailBuildService = SpringContext.getBean(EffortCertificationDetailBuildService.class);
         effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
     }
@@ -219,7 +224,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * employees that meet certain criteria can be selected
      */
-    public void EmployeeSelection_Selected() throws Exception {
+    public void testEmployeeSelection_Selected() throws Exception {
         String testTarget = "employeeSelection.selected.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -257,7 +262,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     /**
      * check if the qualified balances for effort reporting can be selected 
      */
-    public void BalanceSelection_Selected() throws Exception {
+    public void testBalanceSelection_Selected() throws Exception {
         String testTarget = "balanceSelection.selected.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -399,11 +404,47 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
+    
+    /**
+     * check if the documents are generated correctly
+     */
+    public void testDocumentGeneration() throws Exception {
+        String testTarget = "documentGeneration.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        this.loadTestData(testTarget);
+        this.updateSystemParameters(testTarget);
+
+        effortCertificationExtractService.extract(fiscalYear, reportNumber);
+
+        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
+
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+
+        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
+
+        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
+        documentKeyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
+        assertTrue(TestDataPreparator.hasSameElements(documentBuildList, expectedDocumentBuildList, documentKeyFields));
+
+        List<EffortCertificationDetailBuild> detailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
+        for (EffortCertificationDocumentBuild document : documentBuildList) {
+            detailLinesBuild.addAll(document.getEffortCertificationDetailLinesBuild());
+        }
+
+        int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
+        List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
+
+        List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
+        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
+        assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
+    }
 
     /**
      * check if the employees paid by federal fundings can be selected when federal fund only indicator is enabled 
      */
-    public void FederalGrantOnly_HasFederalGrant() throws Exception {
+    public void testFederalGrantOnly_HasFederalGrant() throws Exception {
         String testTarget = "federalGrantOnly.hasFederalGrant.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
@@ -453,45 +494,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
 
         int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
-        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
-
         assertEquals(numberOfExpectedDocuments, documentBuildList.size());
-    }
-
-    /**
-     * check if the documents are generated correctly
-     */
-    public void DocumentGeneration() throws Exception {
-        String testTarget = "documentGeneration.";
-        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
-        String reportNumber = properties.getProperty(testTarget + "reportNumber");
-        this.loadTestData(testTarget);
-        this.updateSystemParameters("");
-
-        effortCertificationExtractService.extract(fiscalYear, reportNumber);
-
-        List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
-
-        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
-        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
-
-        assertEquals(numberOfExpectedDocuments, documentBuildList.size());
-
-        List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
-        documentKeyFields.remove(KFSPropertyConstants.DOCUMENT_NUMBER);
-        assertTrue(TestDataPreparator.hasSameElements(documentBuildList, expectedDocumentBuildList, documentKeyFields));
-
-        List<EffortCertificationDetailBuild> detailLinesBuild = new ArrayList<EffortCertificationDetailBuild>();
-        for (EffortCertificationDocumentBuild document : documentBuildList) {
-            detailLinesBuild.addAll(document.getEffortCertificationDetailLinesBuild());
-        }
-
-        int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
-        List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
-
-        List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
-        detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
-        assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
     }
 
     /**
@@ -574,8 +577,9 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
             String propertyValue = StringUtils.trim(properties.getProperty(propertyKey));
 
             if (propertyValue != null) {
-                param.setParameterValue(propertyValue);
+                // NOTE: parameter servcie is caching the searching results that may cause the tests unstable.
+                parameterService.setParameterForTesting(EffortCertificationExtractStep.class, name, propertyValue);
             }
-        }
+        }       
     }
 }

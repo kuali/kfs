@@ -83,8 +83,8 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
             detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
             detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
-
-            detailLineList.add(detailLine);
+            
+            this.updateDetailLineList(detailLineList, detailLine);
         }
 
         return document;
@@ -151,6 +151,29 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         payrollAmountHolder.setAccumulatedAmount(accumulatedAmount);
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
+    }
+    
+    private void updateDetailLineList(List<EffortCertificationDetailBuild> detailLineList, EffortCertificationDetailBuild detailLine) {
+        int index = detailLineList.indexOf(detailLine);
+        if(index >= 0) {
+            EffortCertificationDetailBuild existingDetailLine = detailLineList.get(index);
+            
+            int calculatedOverallPercent = existingDetailLine.getEffortCertificationCalculatedOverallPercent() + detailLine.getEffortCertificationCalculatedOverallPercent();
+            existingDetailLine.setEffortCertificationCalculatedOverallPercent(calculatedOverallPercent);
+            
+            int updatedOverallPercent = existingDetailLine.getEffortCertificationUpdatedOverallPercent() + detailLine.getEffortCertificationUpdatedOverallPercent();
+            existingDetailLine.setEffortCertificationUpdatedOverallPercent(updatedOverallPercent);
+            
+            KualiDecimal originalPayrollAmount = existingDetailLine.getEffortCertificationOriginalPayrollAmount().add(detailLine.getEffortCertificationOriginalPayrollAmount());
+            existingDetailLine.setEffortCertificationOriginalPayrollAmount(originalPayrollAmount);
+            
+            KualiDecimal payrollAmount = existingDetailLine.getEffortCertificationPayrollAmount().add(detailLine.getEffortCertificationPayrollAmount());
+            existingDetailLine.setEffortCertificationPayrollAmount(payrollAmount);
+            
+        }
+        else {
+            detailLineList.add(detailLine);
+        }
     }
 
     /**

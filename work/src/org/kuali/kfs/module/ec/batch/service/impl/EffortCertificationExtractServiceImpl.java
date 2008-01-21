@@ -108,7 +108,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
 
-        EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);      
+        EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
 
         List<String> employees = this.findEmployeesWithValidPayType(reportDefinition);
@@ -213,7 +213,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
             businessObjectService.save(documents);
 
-            reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, qualifiedLedgerBalance.size());
+            reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, this.getNumberOfDetailLines(documents));
             reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_CERTIFICATIONS_WRITTEN, documents.size());
         }
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_EMPLOYEES_SELECTED, employees.size());
@@ -228,6 +228,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      */
     private List<String> findPositionObjectGroupCodes(EffortCertificationReportDefinition reportDefinition) {
         Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE.toString());
+        
         Collection<EffortCertificationReportPosition> reportPosition = businessObjectService.findMatching(EffortCertificationReportPosition.class, fieldValues);
 
         List<String> positionGroupCodes = new ArrayList<String>();
@@ -253,7 +255,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
         // select ledger balances by the given employee and other criteria
-        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);       
+        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, ledgerBalances.size());
 
         // clear up the ledger balance collection
@@ -282,27 +284,27 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private List<LedgerBalance> removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
-        
+
         List<LedgerBalance> validLedgerBalances = new ArrayList<LedgerBalance>();
 
-        for (LedgerBalance balance : ledgerBalances) { 
+        for (LedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             Message errorAmountMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods);
             if (errorAmountMessage != null) {
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, errorAmountMessage);
             }
-            
+
             // every balance record must be associated with a valid account
             Message invalidAccountMessage = LedgerBalanceFieldValidator.hasValidAccount(balance);
             if (invalidAccountMessage != null) {
                 this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, balance, invalidAccountMessage);
             }
-            
-            if(errorAmountMessage == null && invalidAccountMessage == null) {
+
+            if (errorAmountMessage == null && invalidAccountMessage == null) {
                 validLedgerBalances.add(balance);
             }
         }
-        
+
         ledgerBalances = null;
         return validLedgerBalances;
     }
@@ -319,10 +321,10 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @return true if all ledger balances as whole meet requirements; otherwise, return false
      */
     private boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
-        if(ledgerBalances == null || ledgerBalances.isEmpty()) {
+        if (ledgerBalances == null || ledgerBalances.isEmpty()) {
             return false;
         }
-        
+
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
@@ -425,6 +427,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
         fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, reportDefinition.getEffortCertificationReportTypeCode());
+        fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE.toString());
 
         return businessObjectService.findMatching(EffortCertificationReportEarnPaygroup.class, fieldValues);
     }
@@ -499,6 +502,14 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         expenseObjectTypeCodes.add(optionsService.getOptions(fiscalYear).getFinObjTypeExpenditureexpCd());
 
         return expenseObjectTypeCodes;
+    }
+
+    private int getNumberOfDetailLines(List<EffortCertificationDocumentBuild> documents) {
+        int numOfDetailLines = 0;
+        for (EffortCertificationDocumentBuild document : documents) {
+            numOfDetailLines += document.getEffortCertificationDetailLinesBuild().size();
+        }
+        return numOfDetailLines;
     }
 
     // get the field names used to build the keys for record consolidation

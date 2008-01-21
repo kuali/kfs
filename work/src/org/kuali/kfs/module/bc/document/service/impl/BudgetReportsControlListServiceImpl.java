@@ -17,7 +17,9 @@ package org.kuali.module.budget.service.impl;
 
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
 
     BudgetReportsControlListDao budgetReportsControlListDao;

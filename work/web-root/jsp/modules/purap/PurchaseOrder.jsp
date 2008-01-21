@@ -106,7 +106,10 @@
 
     <purap:additional
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
-        
+
+    <purap:purchaseOrderRestriction
+        restrictedMaterialsAttributes="${DataDictionary.RestrictedMaterial.attributes}" />
+                
     <purap:summaryaccounts
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  

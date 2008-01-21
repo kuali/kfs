@@ -247,4 +247,6 @@ public interface PurchasingAccountsPayableDocument extends AccountingDocument {
     public Integer getVendorAddressGeneratedIdentifier();
 
     public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier);
+    
+    public void hideRestrictedMaterials();
 }

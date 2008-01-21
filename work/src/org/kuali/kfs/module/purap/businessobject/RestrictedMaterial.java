@@ -31,6 +31,9 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
     private String restrictedMaterialWorkgroupName;
     private boolean active;
 
+    //Not persisted in DB
+    private boolean selected;
+    
     /**
      * Default constructor.
      */
@@ -85,6 +88,14 @@ public class RestrictedMaterial extends PersistableBusinessObjectBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put("restrictedMaterialCode", this.restrictedMaterialCode);
         return m;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean isSelected) {
+        this.selected = isSelected;
     }
 
 }

@@ -16,6 +16,7 @@
 package org.kuali.module.purap.document.authorization;
 
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,6 @@ import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
-import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapAuthorizationConstants;
@@ -33,6 +33,7 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.service.PaymentRequestService;
@@ -51,6 +52,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean pendingActionIndicator;
     private boolean purchaseOrderAutomatedIndicator;
     private boolean isUserAuthorized;
+    private boolean isUserAuthorizedForRestrictedMaterials;
     private boolean hasPaymentRequest;
     private List<PaymentRequestDocument> pReqs;
     
@@ -270,4 +272,13 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean isApprover() {
         return approver;
     }
+
+    public boolean isUserAuthorizedForRestrictedMaterials() {
+        return isUserAuthorizedForRestrictedMaterials;
+    }
+
+    public void setUserAuthorizedForRestrictedMaterials(boolean isUserAuthorizedForRestrictedMaterials) {
+        this.isUserAuthorizedForRestrictedMaterials = isUserAuthorizedForRestrictedMaterials;
+    }
+    
 }

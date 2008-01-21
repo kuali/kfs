@@ -87,7 +87,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     private void createAndSavePOChangeDocument(String documentType, String documentStatus) throws Exception {
         try {
             poChange = poService.createAndSavePotentialChangeDocument(
-                    poTest.getDocumentNumber(), documentType, documentStatus);
+                    poTest.getPurchaseOrderRestrictedMaterials(), poTest.getPurchaseOrderRestrictionStatusHistories(), poTest.getDocumentNumber(), documentType, documentStatus);
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {
@@ -109,7 +109,7 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
     private void createAndRoutePOChangeDocument(String documentType, String documentStatus) throws Exception {
         try {
             poChange = poService.createAndRoutePotentialChangeDocument(
-                    poTest.getDocumentNumber(), documentType, "unit test", new ArrayList(), documentStatus);
+                    poTest.getPurchaseOrderRestrictedMaterials(), poTest.getPurchaseOrderRestrictionStatusHistories(), poTest.getDocumentNumber(), documentType, "unit test", new ArrayList(), documentStatus);
             poTest = poService.getPurchaseOrderByDocumentNumber(poTest.getDocumentNumber());
         }
         catch (ValidationException ve) {

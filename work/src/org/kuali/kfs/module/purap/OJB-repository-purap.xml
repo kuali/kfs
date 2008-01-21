@@ -631,7 +631,17 @@
         <orderby name="transactionLedgerEntrySequenceNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
-
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderCloseDocument" table="PUR_PO_T">
@@ -842,6 +852,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor> 
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderReopenDocument" table="PUR_PO_T">
@@ -1052,9 +1074,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
-    <!-- reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterialStatusHistory" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="purchaseOrderIdentifier" />
-    </reference-descriptor -->
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderAmendmentDocument" table="PUR_PO_T">
@@ -1266,6 +1297,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderVoidDocument" table="PUR_PO_T">
@@ -1476,6 +1519,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderPaymentHoldDocument" table="PUR_PO_T">
@@ -1686,6 +1741,17 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor> 
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderRemoveHoldDocument" table="PUR_PO_T">
@@ -1896,6 +1962,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor>
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PurchaseOrderRetransmitDocument" table="PUR_PO_T">
@@ -2106,6 +2184,18 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 
+    <collection-descriptor name="purchaseOrderRestrictedMaterials" proxy="true" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <orderby name="restrictedMaterialCode" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+    
+    <collection-descriptor name="purchaseOrderRestrictionStatusHistories" element-class-ref="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="none" proxy="true">
+        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
+            <attribute attribute-name="purapDocumentIdentifier" attribute-value="parent.purapDocumentIdentifier" />
+        </query-customizer>
+        <orderby name="lastUpdate" sort="DESC" />
+    </collection-descriptor> 
+    
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.document.PaymentRequestDocument" table="AP_PMT_RQST_T">
@@ -2507,9 +2597,32 @@
     <reference-descriptor name="restrictedMaterial" class-ref="org.kuali.module.purap.bo.RestrictedMaterial" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="restrictedMaterialCode" />
     </reference-descriptor>
-    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory" table="PUR_PO_RSTRC_MTRL_STATHST_T">
+    <field-descriptor name="id" column="PO_RSTRC_MTRL_STATHST_ID" jdbc-type="INTEGER" primarykey="true" sequence-name="PO_RSTRC_MTRL_STATHST_ID" autoincrement="true"/>
+    <!-- field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR"/ -->
+    <field-descriptor name="purapDocumentIdentifier" column="PO_ID" jdbc-type="INTEGER" />
+    <field-descriptor name="restrictionCode" column="RSTRC_MTRL_CD" jdbc-type="VARCHAR"/>
+    <field-descriptor name="restrictionIndicator" column="PO_RSTRC_MTRL_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion" />
+    <field-descriptor name="lastUpdateUserId" column="RSTRC_MTRL_STATHST_USR_ID" jdbc-type="VARCHAR"/>
+    <field-descriptor name="lastUpdate" column="RSTRC_MTRL_STATHST_TS" jdbc-type="TIMESTAMP"/>
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    
+    <reference-descriptor auto-delete="none" auto-retrieve="true" auto-update="none"
+        class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" name="purchaseOrder">
+        <foreignkey field-ref="purapDocumentIdentifier"/>
+    </reference-descriptor>
+    
+    <reference-descriptor auto-delete="none" auto-retrieve="true" auto-update="none"
+        class-ref="org.kuali.module.purap.bo.RestrictedMaterial" name="restrictedMaterial">
+        <foreignkey field-ref="restrictionCode"/>
+    </reference-descriptor>
+
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.purap.bo.PurchaseOrderQuoteList" table="PUR_PO_QT_LST_T">

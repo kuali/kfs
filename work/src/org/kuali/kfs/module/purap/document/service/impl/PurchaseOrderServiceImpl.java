@@ -58,6 +58,8 @@ import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeD
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.dao.PurchaseOrderDao;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -545,21 +547,47 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             break;
         }
 
+        //We need this because the restrictedMaterialCodes are
+        //set to null during the creation of the new change document because
+        //it is one of the two primary keys of the PurchaseOrderRestrictedMaterial 
+        //class. If we don't have this, the restrictedMaterialCode
+        //would be null, which violates a not null database constraint and will
+        //throw SQL exception upon saving to the database.
+        updateRestrictedMaterialFields( newPurchaseOrderChangeDocument );
+        
         newPurchaseOrderChangeDocument.refreshNonUpdateableReferences();
+        
         return newPurchaseOrderChangeDocument;
     }
 
     /**
+     * Updates the restrictedMaterialCode fields of each of the new purchase order
+     * change document's purchaseOrderRestrictedMaterials list to the value in
+     * the restrictedMaterial's restrictedMaterialCode.
+     * 
+     * @param newPurchaseOrderChangeDocument
+     */
+    private void updateRestrictedMaterialFields(PurchaseOrderDocument newPurchaseOrderChangeDocument) {
+        for (PurchaseOrderRestrictedMaterial porm : newPurchaseOrderChangeDocument.getPurchaseOrderRestrictedMaterials()) {
+            porm.setRestrictedMaterialCode(porm.getRestrictedMaterial().getRestrictedMaterialCode());
+        }
+    }
+    
+    /**
      * @see org.kuali.module.purap.service.PurchaseOrderService#createAndSavePotentialChangeDocument(java.lang.String,
      *      java.lang.String, java.lang.String)
      */
-    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String currentDocumentStatusCode) {
-        //TODO: Release 3 (KULPURAP-2115), remove the SpringContext.getBean(PurchaseOrderService.class). from this next line 
-        //because the getPurchaseOrderByDocumentNumber is already in this class, no need to get the PurchaseOrderService 
-        //anymore (we're already currently in PurchaseOrderService).
-        PurchaseOrderDocument currentDocument = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String currentDocumentStatusCode) {
+        PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
+        for (PurchaseOrderRestrictedMaterial porm : poRestrictedMaterials) {
+            porm.getRestrictedMaterial().setRestrictedMaterialCode(porm.getRestrictedMaterialCode());
+        }
+        
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
+            newDocument.setPurchaseOrderRestrictedMaterials(poRestrictedMaterials);
+            newDocument.setPurchaseOrderRestrictionStatusHistories(poRestrictionStatusHistories);
+            
             if (ObjectUtils.isNotNull(newDocument)) {
                 newDocument.setStatusCode(PurchaseOrderStatuses.CHANGE_IN_PROCESS);
                 // set status if needed
@@ -575,7 +603,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                 }
                 // if no validation exception was thrown then rules have passed and we are ok to edit the current PO
                 currentDocument.setPendingActionIndicator(true);
+                
                 saveDocumentNoValidationUsingClearErrorMap(currentDocument);
+                
                 return newDocument;
             }
             else {
@@ -595,9 +625,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @see org.kuali.module.purap.service.PurchaseOrderService#createAndRoutePotentialChangeDocument(java.lang.String,
      *      java.lang.String, java.lang.String, java.util.List, java.lang.String)
      */
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String currentDocumentStatusCode) {
         PurchaseOrderDocument currentDocument = getPurchaseOrderByDocumentNumber(documentNumber);
-
+        currentDocument.setPurchaseOrderRestrictedMaterials(poRestrictedMaterials);
+        currentDocument.setPurchaseOrderRestrictionStatusHistories(poRestrictionStatusHistories);
+        
         purapService.updateStatus(currentDocument, currentDocumentStatusCode);
         try {
             PurchaseOrderDocument newDocument = createPurchaseOrderDocumentFromSourceDocument(currentDocument, docType);
@@ -610,6 +642,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
                      */
                     currentDocument.setPendingActionIndicator(true);
                     saveDocumentNoValidationUsingClearErrorMap(currentDocument);
+                    
+                    //After we saved the "currentDocument", the purchase order restriction status histories
+                    //would have been saved in the database and already contained the history id etc for the
+                    //status histories that were newly added when the user performed the change document operation.
+                    //However, the "newDocument" still contains the purchase order restriction status histories
+                    //that were copied over from the "currentDocument" when those new histories still had history
+                    //id and version id null. If we continue on routing the newDocument now, it's going to
+                    //insert duplicate histories to the database. So we'll need to reset the histories of the
+                    //"newDocument" with the histories from the "currentDocument" to prevent duplicates before
+                    //routing the "newDocument".
+                    
+                    resetPurchaseOrderRestrictionStatusHistories(currentDocument, newDocument);
                     documentService.routeDocument(newDocument, annotation, adhocRoutingRecipients);
                 }
                 // if we catch a ValidationException it means the new PO doc found errors
@@ -636,6 +680,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         }
     }
 
+    /**
+     * Resets the purchase order restriction status histories of the change document from the values from the current document.
+     * 
+     * @param currentDocument  The current PurchaseOrderDocument.
+     * @param newDocument      The new change document.
+     */
+    private void resetPurchaseOrderRestrictionStatusHistories(PurchaseOrderDocument currentDocument, PurchaseOrderDocument newDocument) {
+        newDocument.setPurchaseOrderRestrictedMaterials(currentDocument.getPurchaseOrderRestrictedMaterials());
+        newDocument.setPurchaseOrderRestrictionStatusHistories(currentDocument.getPurchaseOrderRestrictionStatusHistories());
+    }
+    
     /**
      * Returns the current route node name.
      * 

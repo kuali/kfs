@@ -22,32 +22,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.core.exceptions.GroupNotFoundException;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
-import org.kuali.core.service.KualiGroupService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.ui.ExtraButton;
 import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.purap.PurapAuthorizationConstants;
-import org.kuali.module.purap.PurapConstants;
-import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapConstants.PaymentRequestStatuses;
-import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
-import org.kuali.module.purap.document.PaymentRequestDocument;
+import org.kuali.module.purap.bo.RestrictedMaterial;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.authorization.PurchaseOrderDocumentActionAuthorizer;
-import org.kuali.module.purap.service.PaymentRequestService;
-import org.kuali.module.purap.service.PurApWorkflowIntegrationService;
 
 /**
  * Struts Action Form for Purchase Order document.
@@ -57,7 +48,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     private PurchaseOrderVendorStipulation newPurchaseOrderVendorStipulationLine;
     private PurchaseOrderVendorQuote newPurchaseOrderVendorQuote;
     private Long awardedVendorNumber;
-
+    PurchaseOrderDocumentActionAuthorizer auth;
+    
     // Retransmit.
     private String[] retransmitItemsSelected = {};
     private String retransmitTransmissionMethod;
@@ -67,6 +59,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
     // Need this for amendment for accounting line only
     protected Map accountingLineEditingMode;
 
+    // Restricted Materials.
+    private List<RestrictedMaterial> maintRestrictedMaterials;
+    
     /**
      * Constructs a PurchaseOrderForm instance and sets up the appropriately casted document.
      */
@@ -218,7 +213,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
         PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
 
-        PurchaseOrderDocumentActionAuthorizer auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
         if (auth.canRetransmit()) {
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
             extraButtons.add(retransmitButton);
@@ -260,6 +255,7 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             ExtraButton removeHoldButton = (ExtraButton) buttonsMap.get("methodToCall.removeHoldPo");
             extraButtons.add(removeHoldButton);
         }
+        
         return extraButtons;
     }        
     
@@ -346,9 +342,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
 
         // call this to make sure it's refreshed from the database if need be since the populate setter doesn't do that
         po.getDocumentBusinessObject();
-
+        
         super.populate(request);
-
+        
         if (ObjectUtils.isNotNull(po.getPurapDocumentIdentifier())) {
             po.refreshDocumentBusinessObject();
         }
@@ -356,5 +352,30 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         for (org.kuali.core.bo.Note note : (java.util.List<org.kuali.core.bo.Note>) po.getDocumentBusinessObject().getBoNotes()) {
             note.refreshReferenceObject("attachment");
         }
+        
     }
+    
+    public List<RestrictedMaterial> getMaintRestrictedMaterials() {
+        return maintRestrictedMaterials;
+    }
+
+    public void setMaintRestrictedMaterials(List<RestrictedMaterial> maintRestrictedMaterials) {
+        this.maintRestrictedMaterials = maintRestrictedMaterials;
+    }
+
+    public RestrictedMaterial getMaintRestrictedMaterial(int i) {
+        if (maintRestrictedMaterials != null && maintRestrictedMaterials.size() > i) {
+            return (RestrictedMaterial)maintRestrictedMaterials.get(i);
+        }
+        return null;
+    }
+
+    public PurchaseOrderDocumentActionAuthorizer getAuth() {
+        return auth;
+    }
+
+    public void setAuth(PurchaseOrderDocumentActionAuthorizer auth) {
+        this.auth = auth;
+    }
+    
 }

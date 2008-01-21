@@ -54,6 +54,8 @@ import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorChoice;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
@@ -114,7 +116,9 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
     private List<PurchaseOrderVendorQuote> purchaseOrderVendorQuotes;
-
+    private List<PurchaseOrderRestrictedMaterial> purchaseOrderRestrictedMaterials;
+    private List<PurchaseOrderRestrictionStatusHistory> purchaseOrderRestrictionStatusHistories;
+    
     // NOT PERSISTED IN DB
     private String statusChange;
     private String alternateVendorNumber;
@@ -122,7 +126,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private String retransmitHeader;
     private Integer purchaseOrderQuoteListIdentifier;
     private KualiDecimal internalPurchasingLimit;
-
+    
     // REFERENCE OBJECTS
     private PurchaseOrderVendorChoice purchaseOrderVendorChoice;
     private PaymentTermType vendorPaymentTerms;
@@ -138,6 +142,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         super();
         this.purchaseOrderVendorStipulations = new TypedArrayList(PurchaseOrderVendorStipulation.class);
         this.purchaseOrderVendorQuotes = new TypedArrayList(PurchaseOrderVendorQuote.class);
+        this.purchaseOrderRestrictedMaterials = new TypedArrayList(PurchaseOrderRestrictedMaterial.class);
+        this.purchaseOrderRestrictionStatusHistories = new TypedArrayList(PurchaseOrderRestrictionStatusHistory.class);
     }
 
     /**
@@ -1062,5 +1068,68 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setInternalPurchasingLimit(KualiDecimal internalPurchasingLimit) {
         this.internalPurchasingLimit = internalPurchasingLimit;
+    }
+
+    
+    public List<PurchaseOrderRestrictedMaterial> getPurchaseOrderRestrictedMaterials() {
+        return purchaseOrderRestrictedMaterials;
+    }
+
+    public void setPurchaseOrderRestrictedMaterials(List<PurchaseOrderRestrictedMaterial> purchaseOrderRestrictedMaterials) {
+        this.purchaseOrderRestrictedMaterials = purchaseOrderRestrictedMaterials;
+    }
+   
+    public PurchaseOrderRestrictedMaterial getPurchaseOrderRestrictedMaterial(int index) {
+        return this.purchaseOrderRestrictedMaterials.get(index);
+    }
+    
+    public int indexOfThisRestrictedMaterial(String restrictedMaterialCode) {
+        if (purchaseOrderRestrictedMaterials != null) {
+            int i = 0;
+            for (PurchaseOrderRestrictedMaterial porm : purchaseOrderRestrictedMaterials) {
+                if (porm.getRestrictedMaterialCode().equals(restrictedMaterialCode)) {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+        else {
+            return -1;
+        }
+    }
+    
+    public List<PurchaseOrderRestrictionStatusHistory> getPurchaseOrderRestrictionStatusHistories() {
+        return purchaseOrderRestrictionStatusHistories;
+    }
+
+    public void setPurchaseOrderRestrictionStatusHistories(List<PurchaseOrderRestrictionStatusHistory> purchaseOrderRestrictionStatusHistories) {
+        this.purchaseOrderRestrictionStatusHistories = purchaseOrderRestrictionStatusHistories;
+    }
+
+    public PurchaseOrderRestrictionStatusHistory getPurchaseOrderRestrictionStatusHistory(int index) {
+        return this.purchaseOrderRestrictionStatusHistories.get(index);
+    }
+    
+    public List<PurchaseOrderRestrictionStatusHistory> getMostRecentPurchaseOrderRestrictionStatusHistory() {
+        List<PurchaseOrderRestrictionStatusHistory> result = new ArrayList<PurchaseOrderRestrictionStatusHistory>();   
+        long newestVersionNumber = 0;
+        for (PurchaseOrderRestrictionStatusHistory history : this.getPurchaseOrderRestrictionStatusHistories()) {
+            if (history.getVersionNumber() != null) {
+                if (newestVersionNumber == 0) {
+                    newestVersionNumber = history.getVersionNumber().longValue();
+                }
+                if (newestVersionNumber == history.getVersionNumber().longValue()) {
+                    result.add(history);
+                }
+                if (newestVersionNumber != history.getVersionNumber().longValue()) {
+                    break;
+                }
+            }
+            else {
+                result.add(history);
+            }
+        }
+        return result;
     }
 }

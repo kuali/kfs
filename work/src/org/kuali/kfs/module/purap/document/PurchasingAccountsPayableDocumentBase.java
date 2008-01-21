@@ -18,15 +18,21 @@ package org.kuali.module.purap.document;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.dao.ojb.DocumentDaoOjb;
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.core.exceptions.GroupNotFoundException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.service.KualiGroupService;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
@@ -41,11 +47,13 @@ import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
 import org.kuali.module.purap.bo.PaymentRequestView;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderView;
 import org.kuali.module.purap.bo.RequisitionView;
 import org.kuali.module.purap.bo.Status;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.util.PurApOjbCollectionHelper;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -781,4 +789,58 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
     public void setAccountsForRouting(List<SourceAccountingLine> accountsForRouting) {
         this.accountsForRouting = accountsForRouting;
     }
+    
+    public void hideRestrictedMaterials() {
+        UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
+        Map<String, Boolean> restrictionsAuthorizationMap = new HashMap<String, Boolean>();
+        List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories = null;
+        
+        if (this instanceof PurchaseOrderDocument) {
+            if ( !((PurchaseOrderDocument)this).isPurchaseOrderCurrentIndicator() ) {
+                PurchaseOrderDocument purchaseOrder = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(this.getPurapDocumentIdentifier());
+                poRestrictionStatusHistories = purchaseOrder.getMostRecentPurchaseOrderRestrictionStatusHistory();    
+            }
+            else {
+                poRestrictionStatusHistories = ((PurchaseOrderDocument)this).getMostRecentPurchaseOrderRestrictionStatusHistory();
+            }
+        }
+        else if (this.getRelatedPurchaseOrderViews() != null && this.getRelatedPurchaseOrderViews().size() > 0) {
+            PurchaseOrderView poView = (PurchaseOrderView)this.getRelatedPurchaseOrderViews().get(0);
+            PurchaseOrderDocument purchaseOrder = SpringContext.getBean(PurchaseOrderService.class).getCurrentPurchaseOrder(poView.getPurapDocumentIdentifier());
+            poRestrictionStatusHistories = purchaseOrder.getMostRecentPurchaseOrderRestrictionStatusHistory();
+        }
+        if (poRestrictionStatusHistories != null) {
+            for (PurchaseOrderRestrictionStatusHistory history : poRestrictionStatusHistories) {
+                if (history.getRestrictedMaterial() == null) {
+                    history.refreshReferenceObject("restrictedMaterial");
+                }
+                String authorizedWorkgroup = history.getRestrictedMaterial().getRestrictedMaterialWorkgroupName();
+                Boolean canSeeRestrictions = (Boolean)restrictionsAuthorizationMap.get(authorizedWorkgroup);
+             
+                if (canSeeRestrictions == null) {
+
+                    try {
+                        canSeeRestrictions = SpringContext.getBean(KualiGroupService.class).getByGroupName(authorizedWorkgroup).hasMember(user);
+                    }
+                    catch (GroupNotFoundException gnfe) {
+                        canSeeRestrictions = new Boolean(false);
+                    }
+                    restrictionsAuthorizationMap.put(authorizedWorkgroup, canSeeRestrictions);
+                }
+                if (history.getRestrictionIndicator() && !canSeeRestrictions) {
+                    alterItemsForRestrictedMaterials(history.getRestrictedMaterial().getRestrictedMaterialDefaultDescription());
+                }
+            }
+        }
+    }
+    
+    private void alterItemsForRestrictedMaterials(String defaultDescription) {
+        for (PurApItem item : (List<PurApItem>)this.getItems()) {
+            if (item.getItemDescription() != null && (item.getItemDescription().trim().length() > 0)) {
+                item.setItemDescription(defaultDescription);
+                item.setItemCatalogNumber(null);
+            }
+        }
+    }
+    
 }

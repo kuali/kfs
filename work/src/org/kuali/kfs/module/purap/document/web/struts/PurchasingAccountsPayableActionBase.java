@@ -39,8 +39,10 @@ import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
+import org.kuali.module.purap.document.PurchasingAccountsPayableDocumentBase;
 import org.kuali.module.purap.service.PurapAccountingService;
 import org.kuali.module.purap.service.PurapService;
+import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -72,6 +74,20 @@ public class PurchasingAccountsPayableActionBase extends KualiAccountingDocument
         updateBaseline(document, (PurchasingAccountsPayableFormBase) kualiDocumentFormBase);
     }
 
+    /**
+     * Overrides the superclass method to hide restricted materials 
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        ActionForward forward = super.execute(mapping, form, request, response);
+        PurchasingAccountsPayableFormBase purapForm = (PurchasingAccountsPayableFormBase)form;
+        PurchasingAccountsPayableDocument document = (PurchasingAccountsPayableDocument) purapForm.getDocument();
+        document.hideRestrictedMaterials();
+        return forward;
+    }
+    
     /**
      * Updates the baseline accounts on form and doc.
      * 

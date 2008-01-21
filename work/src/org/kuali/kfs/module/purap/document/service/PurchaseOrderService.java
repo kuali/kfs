@@ -22,6 +22,8 @@ import java.util.List;
 import org.kuali.core.bo.Note;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteStatus;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictedMaterial;
+import org.kuali.module.purap.bo.PurchaseOrderRestrictionStatusHistory;
 import org.kuali.module.purap.bo.PurchaseOrderVendorQuote;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -67,12 +69,13 @@ public interface PurchaseOrderService {
      *        document is created.
      * @return The resulting new purchase order change document created by this method.
      */
-    public PurchaseOrderDocument createAndSavePotentialChangeDocument(String documentNumber, String docType, String newDocumentStatusCode);
+    public PurchaseOrderDocument createAndSavePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String newDocumentStatusCode);
 
     /**
      * Creates and routes the purchase order change document (for example, PurchaseOrderCloseDocument) based on an existing purchase
      * order document.
      * 
+     * @param
      * @param documentNumber The document number of the existing purchase order document from which we try to create a new change
      *        document.
      * @param docType The document type of the new change document.
@@ -83,7 +86,7 @@ public interface PurchaseOrderService {
      *        document is created.
      * @return The resulting new purchase order change document created by this method.
      */
-    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
+    public PurchaseOrderDocument createAndRoutePotentialChangeDocument(List<PurchaseOrderRestrictedMaterial> poRestrictedMaterials, List<PurchaseOrderRestrictionStatusHistory> poRestrictionStatusHistories, String documentNumber, String docType, String annotation, List adhocRoutingRecipients, String newDocumentStatusCode);
 
     /**
      * Obtains the internal purchasing dollar limit amount for a purchase order document.

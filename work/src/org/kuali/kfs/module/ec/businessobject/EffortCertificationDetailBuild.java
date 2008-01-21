@@ -16,7 +16,15 @@
 
 package org.kuali.module.effort.bo;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * Business Object for the Effort Certification Detail Build Table.
@@ -72,10 +80,43 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+        LinkedHashMap m = super.toStringMapper();
         if (this.effortCertificationBuildNumber != null) {
             m.put("effortCertificationBuildNumber", this.effortCertificationBuildNumber.toString());
         }
         return m;
+    }
+    
+    /**
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object otherEntry) {
+        return ObjectUtil.compareObject(this, otherEntry, getKeyList());
+    }
+    
+    /**
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return ObjectUtil.generateHashCode(this, getKeyList());
+    }
+
+    /**
+     * get the field name list of the key fields of the Class
+     * @return the field name list of the key fields of the Class
+     */
+    public static List<String> getKeyList() {
+        List<String> keyList = new ArrayList<String>();
+        keyList.add(EffortPropertyConstants.EFFORT_CERTIFICATION_BUILD_NUMBER);
+        keyList.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        keyList.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        keyList.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        keyList.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+        keyList.add(KFSPropertyConstants.POSITION_NUMBER);
+        keyList.add(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE);
+        keyList.add(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER);
+        return keyList;
     }
 }

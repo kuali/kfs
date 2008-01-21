@@ -184,7 +184,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param fieldValues the map containing fiscalYear and report number
      */
     private void removeExistingDocumentBuild(Map<String, String> fieldValues) {
-        List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>)businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
+        List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>) businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
         businessObjectService.delete(documents);
     }
 
@@ -229,7 +229,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private List<String> findPositionObjectGroupCodes(EffortCertificationReportDefinition reportDefinition) {
         Map<String, String> fieldValues = reportDefinition.buildKeyMapForCurrentReportDefinition();
         fieldValues.put(KFSPropertyConstants.ACTIVE, Boolean.TRUE.toString());
-        
+
         Collection<EffortCertificationReportPosition> reportPosition = businessObjectService.findMatching(EffortCertificationReportPosition.class, fieldValues);
 
         List<String> positionGroupCodes = new ArrayList<String>();

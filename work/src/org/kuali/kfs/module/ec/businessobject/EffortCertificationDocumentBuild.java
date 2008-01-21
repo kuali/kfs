@@ -17,7 +17,6 @@
 package org.kuali.module.effort.bo;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.module.effort.document.EffortCertificationDocument;

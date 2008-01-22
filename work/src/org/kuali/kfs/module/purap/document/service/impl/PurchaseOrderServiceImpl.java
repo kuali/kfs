@@ -687,7 +687,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      * @param newDocument      The new change document.
      */
     private void resetPurchaseOrderRestrictionStatusHistories(PurchaseOrderDocument currentDocument, PurchaseOrderDocument newDocument) {
-        newDocument.setPurchaseOrderRestrictedMaterials(currentDocument.getPurchaseOrderRestrictedMaterials());
+        List<PurchaseOrderRestrictedMaterial>poRestrictedMaterials = new ArrayList<PurchaseOrderRestrictedMaterial>();
+        for (PurchaseOrderRestrictedMaterial porm : currentDocument.getPurchaseOrderRestrictedMaterials()) {
+            PurchaseOrderRestrictedMaterial newPorm = new PurchaseOrderRestrictedMaterial(newDocument, porm.getRestrictedMaterialCode());
+            poRestrictedMaterials.add(newPorm);
+        }
+        newDocument.setPurchaseOrderRestrictedMaterials(poRestrictedMaterials);
         newDocument.setPurchaseOrderRestrictionStatusHistories(currentDocument.getPurchaseOrderRestrictionStatusHistories());
     }
     

@@ -60,7 +60,26 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public EffortCertificationDetail() {
+        this(null);
+    }
 
+    public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {
+        super();
+        if (effortCertificationDetail != null) {
+            this.chartOfAccountsCode = effortCertificationDetail.getChartOfAccountsCode();
+            this.accountNumber = effortCertificationDetail.getAccountNumber();
+            this.subAccountNumber = effortCertificationDetail.getSubAccountNumber();
+            this.positionNumber = effortCertificationDetail.getPositionNumber();
+            this.financialObjectCode = effortCertificationDetail.getFinancialObjectCode();
+            this.sourceChartOfAccountsCode = effortCertificationDetail.getSourceChartOfAccountsCode();
+            this.sourceAccountNumber = effortCertificationDetail.getSourceAccountNumber();
+            this.effortCertificationPayrollAmount = effortCertificationDetail.getEffortCertificationPayrollAmount();
+            this.effortCertificationCalculatedOverallPercent = effortCertificationDetail.getEffortCertificationCalculatedOverallPercent();
+            this.effortCertificationUpdatedOverallPercent = effortCertificationDetail.getEffortCertificationUpdatedOverallPercent();
+            this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
+            this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
+            this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
+        }
     }
 
     /**

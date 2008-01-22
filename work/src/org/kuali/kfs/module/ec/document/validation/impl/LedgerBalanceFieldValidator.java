@@ -46,7 +46,7 @@ public class LedgerBalanceFieldValidator {
     public static Message hasValidAccount(LedgerBalance ledgerBalance) {
         if (ledgerBalance.getAccount() == null) {
             String account = new StringBuilder(ledgerBalance.getChartOfAccountsCode()).append(EffortConstants.VALUE_SEPARATOR).append(ledgerBalance.getAccountNumber()).toString();
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
         }
         return null;
     }
@@ -63,7 +63,7 @@ public class LedgerBalanceFieldValidator {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
         if (subFundGroup == null || !fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getFundGroupCode());
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getFundGroupCode());
         }
         return null;
     }
@@ -80,7 +80,7 @@ public class LedgerBalanceFieldValidator {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
         if (subFundGroup == null || !subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getSubFundGroupCode());
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, subFundGroup.getSubFundGroupCode());
         }
         return null;
     }
@@ -97,7 +97,7 @@ public class LedgerBalanceFieldValidator {
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
 
         if (totalAmount.isZero()) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ZERO_PAYROLL_AMOUNT, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -114,7 +114,7 @@ public class LedgerBalanceFieldValidator {
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
 
         if (!totalAmount.isPositive()) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, Message.TYPE_FATAL);
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NONPOSITIVE_PAYROLL_AMOUNT, Message.TYPE_FATAL);
         }
         return null;
     }
@@ -146,7 +146,7 @@ public class LedgerBalanceFieldValidator {
             }
         }
 
-        return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, Message.TYPE_FATAL);
+        return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, Message.TYPE_FATAL);
     }
 
     /**
@@ -172,7 +172,7 @@ public class LedgerBalanceFieldValidator {
                 }
             }
         }
-        return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, Message.TYPE_FATAL);
+        return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, Message.TYPE_FATAL);
     }
 
     /**
@@ -194,7 +194,7 @@ public class LedgerBalanceFieldValidator {
             }
 
             if (!organization.equals(tempOrganization)) {
-                return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_MULTIPLE_ORGANIZATIONS_FOUND, Message.TYPE_FATAL);
+                return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_MULTIPLE_ORGANIZATIONS_FOUND, Message.TYPE_FATAL);
             }
         }
         return null;

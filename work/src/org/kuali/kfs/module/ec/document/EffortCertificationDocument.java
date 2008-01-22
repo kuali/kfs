@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -42,15 +43,14 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private Options options;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
-    
+
     /**
      * Default constructor.
      */
     public EffortCertificationDocument() {
         effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>(); 
-        
     }
-    
+
     /**
      * Gets the documentNumber attribute. 
      * @return Returns the documentNumber.
@@ -204,5 +204,20 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
+    }
+    
+    /**
+     * get the total amount of the given effort certification document
+     * @param effortCertificationDocument the given effort certification document
+     * @return the total amount of the given effort certification document
+     */
+    public static KualiDecimal getDocumentTotalAmount(EffortCertificationDocument effortCertificationDocument) {
+        KualiDecimal totalAmount = KualiDecimal.ZERO;
+        
+        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        for(EffortCertificationDetail line : detailLines) {
+            totalAmount = totalAmount.add(line.getEffortCertificationPayrollAmount());
+        }
+        return totalAmount;
     }
 }

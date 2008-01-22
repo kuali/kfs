@@ -34,4 +34,12 @@ public class EffortCertificationCreateStep extends AbstractStep {
         
         return true;
     }
+
+    /**
+     * Sets the effortCertificationCreateService attribute value.
+     * @param effortCertificationCreateService The effortCertificationCreateService to set.
+     */
+    public void setEffortCertificationCreateService(EffortCertificationCreateService effortCertificationCreateService) {
+        this.effortCertificationCreateService = effortCertificationCreateService;
+    }
 }

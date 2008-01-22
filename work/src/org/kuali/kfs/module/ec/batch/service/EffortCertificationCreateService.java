@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.service;
 
+import edu.iu.uis.eden.exception.WorkflowException;
+
 /**
  * This class...
  */

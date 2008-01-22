@@ -29,6 +29,7 @@ import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.Log4jConfigurer;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -114,6 +115,11 @@ public class EffortBatchRunner {
                 System.out.println("Extracting Effort Certifications ...");
                 EffortCertificationExtractService effortCertificationExtractService = LaborSpringContext.getBean(EffortCertificationExtractService.class);
                 effortCertificationExtractService.extract(2007, "B01");
+            }
+            else if (StringUtils.equalsIgnoreCase("-create", args[0])) {
+                System.out.println("Creating Effort Certifications ...");
+                EffortCertificationCreateService effortCertificationCreateService = LaborSpringContext.getBean(EffortCertificationCreateService.class);
+                effortCertificationCreateService.create(2007, "B01");
             }
             else {
                 throw new IllegalArgumentException("Wrong argument -- The argument only can be -load or -extract");

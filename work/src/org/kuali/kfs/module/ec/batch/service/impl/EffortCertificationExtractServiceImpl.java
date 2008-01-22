@@ -135,29 +135,29 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         // Fiscal Year is required
         if (StringUtils.isEmpty(fiscalYear)) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_MISSING, null).getMessage();
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_MISSING, null).getMessage();
         }
 
         // Report Number is required
         if (StringUtils.isEmpty(reportNumber)) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_NUMBER_MISSING, null).getMessage();
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_REPORT_NUMBER_MISSING, null).getMessage();
         }
 
         // check if a report has been defined
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
         if (reportDefinition == null) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID, combinedFieldValues).getMessage();
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FISCAL_YEAR_OR_REPORT_NUMBER_INVALID, combinedFieldValues).getMessage();
         }
 
         // check if the selected report definition is still active
         if (!reportDefinition.isActive()) {
-            return MessageBuilder.buildErrorMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, combinedFieldValues).getMessage();
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, combinedFieldValues).getMessage();
         }
 
         // check if any document has been generated for the selected report definition
         int countOfDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);
         if (countOfDocuments > 0) {
-            return MessageBuilder.buildErrorMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, reportNumber, fiscalYear).getMessage();
+            return MessageBuilder.buildMessageWithPlaceHolder(EffortKeyConstants.ERROR_REPORT_DOCUMENT_EXIST, reportNumber, fiscalYear).getMessage();
         }
 
         return null;

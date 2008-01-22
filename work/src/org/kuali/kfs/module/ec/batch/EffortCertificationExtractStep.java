@@ -39,7 +39,7 @@ public class EffortCertificationExtractStep extends AbstractStep {
         }
         else {
             String key = EffortKeyConstants.ERROR_BATCH_JOB_NOT_SCHEDULED;
-            String message = MessageBuilder.buildErrorMessageWithPlaceHolder(key, 0, jobName, SystemParameters.RUN_IND).toString();            
+            String message = MessageBuilder.buildMessageWithPlaceHolder(key, 0, jobName, SystemParameters.RUN_IND).toString();            
             LOG.warn(message);
         }
         return true;

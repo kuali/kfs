@@ -103,7 +103,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
         ObjectCode refundFinancialObject = document.getRefundFinancialObject();
         
         if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(refundFinancialObject)) {
-            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObject.getFinancialObjectType());
+            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObject.getFinancialObjectTypeCode());
 
             if (!success) {
                 putFieldError("refundFinancialObjectCode",KFSKeyConstants.SystemInformation.REFUND_OBJECT_CODE_INVALID,refundFinancialObject.getCode());

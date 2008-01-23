@@ -84,19 +84,34 @@
 
             <lookupFields>
                 <lookupField attributeName="acquisitionTypeCode" required="false" />
-                <lookupField attributeName="agencyNumber" required="false" />
+                <lookupField attributeName="capitalAssetDescription" required="false" />
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                
+                
+                
+                <lookupField attributeName="totalCostAmount" required="false" />
+                
+                <lookupField attributeName="capitalAssetTypeCode" required="false" />
+                
                 <lookupField attributeName="buildingCode" required="false" />
                 <lookupField attributeName="buildingRoomNumber" required="false" />
                 <lookupField attributeName="buildingSubRoomNumber" required="false" />
                 <lookupField attributeName="campusCode" required="false" />
                 <lookupField attributeName="campusPoliceDepartmentCaseNumber" required="false" />
-                <lookupField attributeName="campusTagNumber" required="false" />
-                <lookupField attributeName="capitalAssetDescription" required="false" />
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
+                
                 <lookupField attributeName="conditionCode" required="false" />
                 <lookupField attributeName="createDate" required="false" />
+                
+                <lookupField attributeName="inventoryStatusCode" required="false" />
+                <lookupField attributeName="campusTagNumber" required="false" />
+                
+                <lookupField attributeName="lastInventoryDate" required="false" />
+                
+                 <lookupField attributeName="manufacturerName" required="false" />
+                <lookupField attributeName="manufacturerModelNumber" required="false" />
+               
+                <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
+                
                 <lookupField attributeName="estimatedFabricationCompletionDate" required="false" />
                 <lookupField attributeName="estimatedSellingPrice" required="false" />
                 <lookupField attributeName="expectedReturnDate" required="false" />
@@ -106,86 +121,55 @@
                 <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
                 <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
                 <lookupField attributeName="inventoryScannedCode" required="false" />
-                <lookupField attributeName="inventoryStatusCode" required="false" />
-                <lookupField attributeName="lastInventoryDate" required="false" />
-                <lookupField attributeName="loanDate" required="false" />
-                <lookupField attributeName="loanReturnDate" required="false" />
-                <lookupField attributeName="manufacturerModelNumber" required="false" />
-                <lookupField attributeName="manufacturerName" required="false" />
+                
                 <lookupField attributeName="oldTagNumber" required="false" />
+                
                 <lookupField attributeName="organizationInventoryName" required="false" />
                 <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
                 <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
+                <lookupField attributeName="agencyNumber" required="false" />
+                
+                <lookupField attributeName="retirementFiscalYear" required="false" />
+                <lookupField attributeName="retirementPeriodCode" required="false" />
+                <lookupField attributeName="retirementReasonCode" required="false" />
+                
+                <lookupField attributeName="serialNumber" required="false" />
+                
+                <lookupField attributeName="loanDate" required="false" />
+                <lookupField attributeName="loanReturnDate" required="false" />
+                
+                
+                
                 <lookupField attributeName="primaryDepreciationMethodCode" required="false" />
                 <lookupField attributeName="receiveDate" required="false" />
                 <lookupField attributeName="replacementAmount" required="false" />
                 <lookupField attributeName="representativeUniversalIdentifier" required="false" />
                 <lookupField attributeName="retirementAccountNumber" required="false" />
                 <lookupField attributeName="retirementChartOfAccountsCode" required="false" />
-                <lookupField attributeName="retirementFiscalYear" required="false" />
-                <lookupField attributeName="retirementPeriodCode" required="false" />
-                <lookupField attributeName="retirementReasonCode" required="false" />
+                
+                
                 <lookupField attributeName="salePrice" required="false" />
                 <lookupField attributeName="salvageAmount" required="false" />
                 <lookupField attributeName="secondaryDepreciationMethodCode" required="false" />
-                <lookupField attributeName="serialNumber" required="false" />
+                
                 <lookupField attributeName="signatureCode" required="false" />
-                <lookupField attributeName="totalCostAmount" required="false" />
+                
                 <lookupField attributeName="transferOfFundsFinancialDocumentNumber" required="false" />
                 <lookupField attributeName="vendorName" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="acquisitionTypeCode" />
-                <field attributeName="agencyNumber" />
-                <field attributeName="buildingCode" />
-                <field attributeName="buildingRoomNumber" />
-                <field attributeName="buildingSubRoomNumber" />
-                <field attributeName="campusCode" />
-                <field attributeName="campusPoliceDepartmentCaseNumber" />
-                <field attributeName="campusTagNumber" />
-                <field attributeName="capitalAssetDescription" />
                 <field attributeName="capitalAssetNumber" />
-                <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="cashReceiptFinancialDocumentNumber" />
-                <field attributeName="conditionCode" />
-                <field attributeName="createDate" />
-                <field attributeName="estimatedFabricationCompletionDate" />
-                <field attributeName="estimatedSellingPrice" />
-                <field attributeName="expectedReturnDate" />
-                <field attributeName="fabricationEstimatedTotalAmount" />
-                <field attributeName="financialDocumentPostingPeriodCode" />
-                <field attributeName="financialDocumentPostingYear" />
-                <field attributeName="insuranceChargeAccountNumber" />
-                <field attributeName="insuranceChartOfAccountsCode" />
-                <field attributeName="inventoryScannedCode" />
-                <field attributeName="inventoryStatusCode" />
-                <field attributeName="lastInventoryDate" />
-                <field attributeName="loanDate" />
-                <field attributeName="loanReturnDate" />
-                <field attributeName="manufacturerModelNumber" />
-                <field attributeName="manufacturerName" />
-                <field attributeName="oldTagNumber" />
-                <field attributeName="organizationInventoryName" />
+                <field attributeName="campusTagNumber" />
                 <field attributeName="organizationOwnerAccountNumber" />
                 <field attributeName="organizationOwnerChartOfAccountsCode" />
-                <field attributeName="primaryDepreciationMethodCode" />
-                <field attributeName="receiveDate" />
-                <field attributeName="replacementAmount" />
-                <field attributeName="representativeUniversalIdentifier" />
-                <field attributeName="retirementAccountNumber" />
-                <field attributeName="retirementChartOfAccountsCode" />
-                <field attributeName="retirementFiscalYear" />
-                <field attributeName="retirementPeriodCode" />
-                <field attributeName="retirementReasonCode" />
-                <field attributeName="salePrice" />
-                <field attributeName="salvageAmount" />
-                <field attributeName="secondaryDepreciationMethodCode" />
-                <field attributeName="serialNumber" />
-                <field attributeName="signatureCode" />
-                <field attributeName="totalCostAmount" />
-                <field attributeName="transferOfFundsFinancialDocumentNumber" />
-                <field attributeName="vendorName" />
+                <field attributeName="buildingCode" />
+                <field attributeName="inventoryStatusCode" />
+                <field attributeName="capitalAssetDescription" />
+                <field attributeName="capitalAssetTypeCode" />
+                <field attributeName="expectedReturnDate" />
+                <field attributeName="createDate" />
+                <field attributeName="agencyNumber" />
             </resultFields>
         </lookup>
 

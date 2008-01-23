@@ -19,6 +19,16 @@
 <div class="body">
 	<ul class="chan">			
 		<li>
+			<portal:portalLink displayTitle="true" title="Detail"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDocumentForLookup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
+		
+		<li>
+			<portal:portalLink displayTitle="true" title="Detail Line"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDetail&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>	
+			
+		<li>
 			<portal:portalLink displayTitle="true" title="Detail Build"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDocumentBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>

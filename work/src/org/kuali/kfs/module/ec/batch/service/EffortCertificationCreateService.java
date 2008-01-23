@@ -15,10 +15,9 @@
  */
 package org.kuali.module.effort.service;
 
-import edu.iu.uis.eden.exception.WorkflowException;
-
 /**
- * This class...
+ * The interface defines the methods that creates effort certification documents from the temporary build documents and routes them
+ * for approval.
  */
 public interface EffortCertificationCreateService {
 

@@ -114,7 +114,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         }
         catch (Exception e) {
             e.printStackTrace();
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.validParameters"));
+            fail(message.getProperty("error.validParameters"));
         }
     }
 
@@ -129,7 +129,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(null, reportNumber);
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.emptyFiscalYear"));
+            fail(message.getProperty("error.emptyFiscalYear"));
         }
         catch (Exception e) {
         }
@@ -147,7 +147,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.emptyReportNumber"));
+            fail(message.getProperty("error.emptyReportNumber"));
         }
         catch (Exception e) {
         }
@@ -165,7 +165,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.undefinedReportDefinition"));
+            fail(message.getProperty("error.undefinedReportDefinition"));
         }
         catch (Exception e) {
         }
@@ -187,7 +187,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.inactiveReportDefinition"));
+            fail(message.getProperty("error.inactiveReportDefinition"));
         }
         catch (Exception e) {
         }
@@ -215,7 +215,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         try {
             effortCertificationExtractService.extract(fiscalYear, reportNumber);
-            fail(message.getProperty("error.effortCertificationExtractService.inputParameters.documentExist"));
+            fail(message.getProperty("error.documentExist"));
         }
         catch (Exception e) {
         }

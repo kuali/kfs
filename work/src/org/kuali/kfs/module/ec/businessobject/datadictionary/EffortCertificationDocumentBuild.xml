@@ -23,15 +23,43 @@
         <inquiry>
             <title>Effort Certification Detail Build Inquiry</title>
 
-            <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="effortCertificationBuildNumber" />
-
-                <field attributeName="effortCertificationReportNumber" />           
-                <field attributeName="effortCertificationDocumentCode" />                
-                
-                <field attributeName="universityFiscalYear" />
-                <field attributeName="emplid" />
-            </inquiryFields></inquirySection></inquirySections>
+            <inquirySections>
+	            <inquirySection title="Effort Certification Detail Build"><inquiryFields>
+	                <field attributeName="effortCertificationBuildNumber" />
+	
+	                <field attributeName="effortCertificationReportNumber" />           
+	                <field attributeName="effortCertificationDocumentCode" />                
+	                
+	                <field attributeName="universityFiscalYear" />
+	                <field attributeName="emplid" />
+	            </inquiryFields></inquirySection>
+	            
+	            <inquirySection title="Effort Certification Detail Lines Build">
+	                <inquiryFields>
+	                    <inquiryCollection name="effortCertificationDetailLinesBuild" businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetailBuild" numberOfColumns="1">
+			                <field attributeName="effortCertificationBuildNumber" />
+			                <field attributeName="financialDocumentPostingYear" />
+			                
+			                <field attributeName="chartOfAccountsCode" />                                
+			                <field attributeName="accountNumber" />   
+			                <field attributeName="subAccountNumber" />
+			                <field attributeName="positionNumber" />
+			                <field attributeName="financialObjectCode" />
+			                <field attributeName="sourceChartOfAccountsCode" />
+			                <field attributeName="sourceAccountNumber" />
+			                
+			                <field attributeName="effortCertificationPayrollAmount" />
+			
+			                <field attributeName="effortCertificationCalculatedOverallPercent" />
+			                <field attributeName="effortCertificationUpdatedOverallPercent" />
+			                
+			                <field attributeName="costShareSourceSubAccountNumber" /> 
+			                <field attributeName="effortCertificationOriginalPayrollAmount" />               
+	                    </inquiryCollection>
+	                </inquiryFields>
+	            </inquirySection>
+            
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -104,6 +132,13 @@
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
+
+        <collections>            
+            <collection name="effortCertificationDetailLinesBuild">
+            	<label>Effort Certification Detail Lines Build</label>
+            	<shortLabel>Detail Lines Build</shortLabel>
+            </collection>
+		</collections>         
         
         <relationships>
             <relationship objectAttributeName="employee" >

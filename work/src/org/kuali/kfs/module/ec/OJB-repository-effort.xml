@@ -240,6 +240,40 @@
     </collection-descriptor>
 </class-descriptor>
 
+<class-descriptor class="org.kuali.module.effort.bo.EffortCertificationDocumentForLookup" table="LD_A21_DETAIL_T">
+    <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
+    <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true" />
+    <field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true" />
+    <field-descriptor name="effortCertificationDocumentCode" column="A21_LBR_DOC_CD" jdbc-type="VARCHAR" />
+    <field-descriptor name="universityFiscalYear" column="A21_LBR_FSCL_YR" jdbc-type="INTEGER" index="true" />
+    <field-descriptor name="emplid" column="EMPLID" jdbc-type="VARCHAR" index="true" />
+   
+   	<reference-descriptor name="options" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="universityFiscalYear" />
+	</reference-descriptor>
+	
+    <reference-descriptor name="effortCertificationReportDefinition" class-ref="org.kuali.module.effort.bo.EffortCertificationReportDefinition" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="universityFiscalYear" />
+        <foreignkey field-ref="effortCertificationReportNumber" />
+    </reference-descriptor>
+
+    <reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="object" auto-delete="object">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
+  
+    <collection-descriptor name="effortCertificationDetailLines" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
+        <orderby name="chartOfAccountsCode" sort="ASC" />
+        <orderby name="accountNumber" sort="ASC" />
+        <orderby name="subAccountNumber" sort="ASC" />
+        <orderby name="positionNumber" sort="ASC" />
+        <orderby name="financialObjectCode" sort="ASC" />
+        <orderby name="sourceChartOfAccountsCode" sort="ASC" />
+        <orderby name="sourceAccountNumber" sort="ASC" />
+        <inverse-foreignkey field-ref="documentNumber" />
+    </collection-descriptor>
+</class-descriptor>
+
 <class-descriptor class="org.kuali.module.effort.bo.OutstandingReportsByOrganization" table="LD_A21_DETAIL_T">
     <field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true" />
     <field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true" />

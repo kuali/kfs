@@ -24,6 +24,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.spring.Logged;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
@@ -44,9 +45,9 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This Process creates effort certification documents from the temporary build table created by the batch process and routes effort
  * certification documents to project directors, fiscal officers, and central workgroups. The process includes the following steps:
  * 
- * <li>contruct an effort certification document from a temporary effort certification document; </li>
+ * <li>construct an effort certification document from a temporary effort certification document; </li>
  * <li>route each effort certification document; </li>
- * <li>delete the temporary effort certification document after routing succussfully. </li>
+ * <li>delete the temporary effort certification document after routing successfully. </li>
  */
 @Transactional
 public class EffortCertificationCreateServiceImpl implements EffortCertificationCreateService {
@@ -148,6 +149,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
             effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
             effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
             effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
+            effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
 
             // populcate the detail line of the document
             List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
@@ -161,7 +163,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
             documentHeader.setFinancialDocumentDescription(MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_DOCUMENT_EXPLANATION));
             documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
 
-            documentService.routeDocument(effortCertificationDocument, "", null);
+            documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }
         catch (WorkflowException we) {
             LOG.error(we);

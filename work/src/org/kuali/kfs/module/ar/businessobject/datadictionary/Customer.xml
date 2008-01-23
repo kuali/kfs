@@ -125,7 +125,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><phoneNumber /></validationPattern>
 
                 <control>
                     <text size="22" />
@@ -199,7 +199,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><phoneNumber /></validationPattern>
 
                 <control>
                     <text size="22" />
@@ -259,7 +259,7 @@
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>20</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><phoneNumber /></validationPattern>
 
                 <control>
                     <text size="22" />

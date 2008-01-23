@@ -241,4 +241,12 @@ public interface PurchaseOrderService {
      *        transmission.
      */
     public void setupDocumentForPendingFirstTransmission(PurchaseOrderDocument po, boolean hasActionRequestForDocumentTransmission);
+
+    /**
+     * Saves the PurchaseOrderDocument to the database without calling the
+     * saveDocument from documentService to save the restricted material changes.
+     * 
+     * @param po The PurchaseOrderDocument to be saved.
+     */
+    public void savePurchaseOrderRestrictedMaterial(PurchaseOrderDocument po);
 }

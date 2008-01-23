@@ -986,4 +986,12 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         return poQuoteStatuses;
     }
 
+    /**
+     * @see org.kuali.module.purap.service.PurchaseOrderService#savePurchaseOrderRestrictedMaterial(org.kuali.module.purap.document.PurchaseOrderDocument)
+     */
+    public void savePurchaseOrderRestrictedMaterial(PurchaseOrderDocument po) {
+        po.setGeneralLedgerPendingEntries(null);
+        businessObjectService.save(po);    
+        //saveDocumentNoValidation(po);
+    }
 }

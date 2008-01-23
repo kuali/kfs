@@ -107,8 +107,10 @@
     <purap:additional
         documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}" />
 
-    <purap:purchaseOrderRestriction
-        restrictedMaterialsAttributes="${DataDictionary.RestrictedMaterial.attributes}" />
+    <c:if test="${KualiForm.canViewRestrictedMaterialTab}">
+        <purap:purchaseOrderRestriction
+            restrictedMaterialsAttributes="${DataDictionary.RestrictedMaterial.attributes}" />
+    </c:if>
                 
     <purap:summaryaccounts
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"

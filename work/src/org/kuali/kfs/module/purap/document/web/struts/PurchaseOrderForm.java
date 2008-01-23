@@ -211,9 +211,11 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         Map buttonsMap = createButtonsMap();
 
         String documentType = this.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentType();
-        PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
-
-        auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        
+        if (auth == null) {
+            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
+            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        }
         if (auth.canRetransmit()) {
             ExtraButton retransmitButton = (ExtraButton) buttonsMap.get("methodToCall.retransmitPo");    
             extraButtons.add(retransmitButton);
@@ -258,6 +260,14 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         
         return extraButtons;
     }        
+    
+    public boolean isCanViewRestrictedMaterialTab() {
+        if (auth == null) {
+            PurchaseOrderDocument purchaseOrder = (PurchaseOrderDocument) this.getDocument();
+            auth = new PurchaseOrderDocumentActionAuthorizer(purchaseOrder, getEditingMode());
+        }
+        return auth.isUserAuthorizedForRestrictedMaterials();
+    }
     
     /**
      * Creates a MAP for all the buttons to appear on the Purchase Order Form, and sets the attributes of these buttons.

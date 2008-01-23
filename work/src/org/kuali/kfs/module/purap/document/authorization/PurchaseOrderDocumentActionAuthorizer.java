@@ -52,7 +52,6 @@ public class PurchaseOrderDocumentActionAuthorizer {
     private boolean pendingActionIndicator;
     private boolean purchaseOrderAutomatedIndicator;
     private boolean isUserAuthorized;
-    private boolean isUserAuthorizedForRestrictedMaterials;
     private boolean hasPaymentRequest;
     private List<PaymentRequestDocument> pReqs;
     
@@ -274,11 +273,7 @@ public class PurchaseOrderDocumentActionAuthorizer {
     }
 
     public boolean isUserAuthorizedForRestrictedMaterials() {
-        return isUserAuthorizedForRestrictedMaterials;
+        return isUserAuthorized;
     }
 
-    public void setUserAuthorizedForRestrictedMaterials(boolean isUserAuthorizedForRestrictedMaterials) {
-        this.isUserAuthorizedForRestrictedMaterials = isUserAuthorizedForRestrictedMaterials;
-    }
-    
 }

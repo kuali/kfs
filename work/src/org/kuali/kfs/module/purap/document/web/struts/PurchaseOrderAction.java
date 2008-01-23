@@ -1609,7 +1609,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      */
     public ActionForward savePurchaseOrderRestrictedMaterial(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         PurchaseOrderDocument po = ((PurchaseOrderForm)form).getPurchaseOrderDocument();
-        SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(po);
+        SpringContext.getBean(PurchaseOrderService.class).savePurchaseOrderRestrictedMaterial(po);
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

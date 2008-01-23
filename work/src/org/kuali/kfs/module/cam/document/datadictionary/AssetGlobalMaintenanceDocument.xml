@@ -63,6 +63,11 @@
                         <maintainableField name="buildingRoomNumber" />
                         <maintainableField name="buildingSubRoomNumber" />
 
+                        <maintainableField name="offCampusAddress" />
+                        <maintainableField name="offCampusCityName" />
+                        <maintainableField name="offCampusStateCode" />
+                        <maintainableField name="offCampusZipCode" />
+ 
                         <maintainableField name="versionNumber" />
                         <maintainableField name="newCollectionRecord" />
                         <summaryFields>
@@ -72,6 +77,7 @@
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
+            
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

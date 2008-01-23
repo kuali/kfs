@@ -84,7 +84,7 @@ public class SystemInformationRuleTest extends MaintenanceRuleTestBase {
     }
 
     /**
-     * This method tests if the isLateChargeObjectValidIncome rule returns false when late charge object is set to an expense object code
+     * This method tests if the checkSalesTaxObjectValidCode rule returns false when salesTaxFinancialObjectCode is set to an expense object code
      */
 
     public void testCheckSalesTaxObjectValidCode_False(){

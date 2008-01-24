@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -39,6 +40,7 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.attribute.WorkflowLookupableImpl;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
@@ -193,7 +195,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     }
 
     public edu.iu.uis.eden.lookupable.Row getOverrideCodeRowUsingKualiWorkflowUtils() {
-        return KualiWorkflowUtils.buildTextRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY);
+        java.lang.reflect.Field[] overrideCodes = AccountingLineOverride.CODE.class.getDeclaredFields();
+        Map optionMap = new LinkedHashMap<String,String>();
+        for (int i=0;i<overrideCodes.length ;i++){
+            optionMap.put(overrideCodes[i].toString(),overrideCodes[i].getName());
+        }
+        return KualiWorkflowUtils.buildDropdownRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY, optionMap, false);
     }
 
     /**

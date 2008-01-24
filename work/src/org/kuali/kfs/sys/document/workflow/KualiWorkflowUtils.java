@@ -20,6 +20,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,6 +30,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.apache.commons.collections.map.LinkedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.RicePropertyConstants;
@@ -48,6 +50,7 @@ import edu.iu.uis.eden.doctype.DocumentType;
 import edu.iu.uis.eden.engine.RouteContext;
 import edu.iu.uis.eden.lookupable.Field;
 import edu.iu.uis.eden.lookupable.Row;
+import edu.iu.uis.eden.util.KeyLabelPair;
 
 /**
  * This class contains static utility methods used by the Kuali Workflow Attribute Classes.
@@ -412,6 +415,51 @@ public class KualiWorkflowUtils extends WorkflowUtils {
         List chartFields = new ArrayList();
         chartFields.add(new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.TEXT, true, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), lookupableClassNameImpl, workflowPropertyKey));
         chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, lookupableName)); // quickfinder/lookup icon
+        return new Row(chartFields);
+    }
+    
+    /**
+     * This method builds a workflow-lookup-screen Row of type DROPDOWN.
+     * 
+     * @param propertyClass The Class of the BO that this row is based on. For example, Account.class for accountNumber.
+     * @param boPropertyName The property name on the BO that this row is based on. For example, accountNumber for
+     *        Account.accountNumber.
+     * @param workflowPropertyKey The workflow-lookup-screen property key. For example, account_nbr for Account.accountNumber. This
+     *        key can be anything, but needs to be consistent with what is used for the row/field key on the java attribute, so
+     *        everything links up correctly.
+     * @param optionMap The map of value, text pairs that will be used to constuct the dropdown list.
+     * @return A populated and ready-to-use workflow lookupable.Row.
+     */
+    public static edu.iu.uis.eden.lookupable.Row buildDropdownRow(Class propertyClass, String boPropertyName, String workflowPropertyKey, Map <String, String> optionMap, boolean addBlankRow) {
+        if (propertyClass == null) {
+            throw new IllegalArgumentException("Method parameter 'propertyClass' was passed a NULL value.");
+        }
+        if (StringUtils.isBlank(boPropertyName)) {
+            throw new IllegalArgumentException("Method parameter 'boPropertyName' was passed a NULL or blank value.");
+        }
+        if (StringUtils.isBlank(workflowPropertyKey)) {
+            throw new IllegalArgumentException("Method parameter 'workflowPropertyKey' was passed a NULL or blank value.");
+        }
+        if (optionMap == null){
+            throw new IllegalArgumentException("Method parameter 'optionMap' was passed a NULL value.");
+        }
+        List chartFields = new ArrayList();
+        org.kuali.core.web.ui.Field field;
+        field = FieldUtils.getPropertyField(propertyClass, boPropertyName, false);
+        //Fields in KEW/Rice are different from fields in KFS and there is no common ancestor.
+        Field workflowField = new Field(field.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(field), Field.DROPDOWN, false, workflowPropertyKey, field.getPropertyValue(), field.getFieldValidValues(), null, workflowPropertyKey);
+        ArrayList optionList = new ArrayList<String>();
+        if (addBlankRow){
+            optionList.add(new KeyLabelPair(null," "));
+        }
+        Iterator <String> options =optionMap.keySet().iterator();
+        while (options.hasNext()){
+            String key =  options.next();
+            optionList.add(new KeyLabelPair(key, optionMap.get(key)));
+        }
+        
+        workflowField.setFieldValidValues(optionList);
+        chartFields.add(workflowField);
         return new Row(chartFields);
     }
 

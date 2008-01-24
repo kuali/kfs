@@ -36,6 +36,7 @@ import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborJournalVoucherDetail;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.PositionData;
@@ -76,7 +77,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
         // position code existence check
         String positionNumber = laborVoucherAccountingLine.getPositionNumber();
-        if (!StringUtils.isBlank(positionNumber) && !KFSConstants.getDashPositionNumber().equals(positionNumber)) {
+        if (!StringUtils.isBlank(positionNumber) && !LaborConstants.getDashPositionNumber().equals(positionNumber)) {
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.POSITION_NUMBER, positionNumber);
 
@@ -90,7 +91,7 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
         // emplid existence check
         String emplid = laborVoucherAccountingLine.getEmplid();
-        if (!StringUtils.isBlank(emplid) && !KFSConstants.getDashEmplId().equals(emplid)) {
+        if (!StringUtils.isBlank(emplid) && !LaborConstants.getDashEmplId().equals(emplid)) {
             Map criteria = new HashMap();
             criteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, emplid);
 
@@ -162,11 +163,11 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
             pendingLedgerEntry.setFinancialDocumentTypeCode(laborJournalVoucherDocument.getOffsetTypeCode());
 
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())) {
-                pendingLedgerEntry.setEmplid(KFSConstants.getDashEmplId());
+                pendingLedgerEntry.setEmplid(LaborConstants.getDashEmplId());
             }
 
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getPositionNumber())) {
-                pendingLedgerEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
+                pendingLedgerEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
             }
 
             laborJournalVoucherDocument.getLaborLedgerPendingEntries().add(pendingLedgerEntry);

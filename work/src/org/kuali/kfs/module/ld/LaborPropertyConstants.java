@@ -64,13 +64,11 @@ public class LaborPropertyConstants {
     public static final String ANNUAL_ACTUAL_AMOUNT = "annualActualAmount";
     public static final String EARN_CODE = "earnCode";
     public static final String EFFECTIVE_DATE = "effectiveDate";
-    public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
     public static final String GRADE = "grade";
     public static final String HRMS_COMPANY = "hrmsCompany";
     public static final String JULY_1_BUDGET_AMOUNT = "july1BudgetAmount";
     public static final String JULY_1_BUDGET_FTE_QUANTITY = "july1BudgetFteQuantity";
     public static final String JULY_1_BUDGET_TIME_PERCENT = "july1BudgetTimePercent";
-    public static final String LABOR_OBJECT = "laborObject";
     public static final String LABORLEDGER_ORIGINAL_ACCOUNT_NUMBER = "laborLedgerOriginalAccountNumber";
     public static final String LABORLEDGER_ORIGINAL_CHART_OF_ACCOUNTS_CODE = "laborLedgerOriginalChartOfAccountsCode";
     public static final String LABORLEDGER_ORIGINAL_FINANCIAL_OBJECT_CODE = "laborLedgerOriginalFinancialObjectCode";

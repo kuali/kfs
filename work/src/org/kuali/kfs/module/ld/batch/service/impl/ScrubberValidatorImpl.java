@@ -83,11 +83,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         refreshOriginEntryReferences(laborScrubbedEntry);
 
         if (org.apache.commons.lang.StringUtils.isBlank(laborOriginEntry.getEmplid())) {
-            laborScrubbedEntry.setEmplid(KFSConstants.getDashEmplId());
+            laborScrubbedEntry.setEmplid(LaborConstants.getDashEmplId());
         }
 
         if (org.apache.commons.lang.StringUtils.isBlank(laborOriginEntry.getPositionNumber())) {
-            laborScrubbedEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
+            laborScrubbedEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
         }
 
         Message err = null;

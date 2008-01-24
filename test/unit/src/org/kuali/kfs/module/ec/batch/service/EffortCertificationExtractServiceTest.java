@@ -27,8 +27,11 @@ import org.kuali.core.bo.Parameter;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -38,8 +41,6 @@ import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -54,9 +55,13 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private PersistenceService persistenceService;
     private ParameterService parameterService;
-    
+
     private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
     private EffortCertificationExtractService effortCertificationExtractService;
+    private LaborModuleService laborModuleService;
+
+    private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
+    private Class<? extends LaborLedgerEntry> ledgerEntryClass;
 
     /**
      * Constructs a EffortCertificationDetailBuildServiceTest.java.
@@ -88,9 +93,13 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
         parameterService = SpringContext.getBean(ParameterService.class);
-        
+
         effortCertificationDetailBuildService = SpringContext.getBean(EffortCertificationDetailBuildService.class);
         effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
+        laborModuleService = SpringContext.getBean(LaborModuleService.class);
+
+        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
+        ledgerEntryClass = laborModuleService.getLaborLedgerEntryClass();
     }
 
     /**
@@ -105,8 +114,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
-
-        TestDataPreparator.doCleanUpWithoutReference(LedgerEntry.class, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
+        System.out.println("ledgerEntryClass: " + ledgerEntryClass);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
 
         try {
@@ -250,7 +259,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
         this.loadTestData(testTarget);
         this.updateSystemParameters("");
-        
+
         effortCertificationExtractService.extract(fiscalYear, reportNumber);
 
         List<EffortCertificationDocumentBuild> documentBuildList = TestDataPreparator.findMatching(EffortCertificationDocumentBuild.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
@@ -260,7 +269,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * check if the qualified balances for effort reporting can be selected 
+     * check if the qualified balances for effort reporting can be selected
      */
     public void testBalanceSelection_Selected() throws Exception {
         String testTarget = "balanceSelection.selected.";
@@ -289,9 +298,9 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
         List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
-        
+
         assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
-        
+
         List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
         detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
@@ -316,7 +325,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * check if the balances without the qualified object type codes cannot be selected 
+     * check if the balances without the qualified object type codes cannot be selected
      */
     public void testBalanceSelection_UnqualifiedObjectType() throws Exception {
         String testTarget = "balanceSelection.unqualifiedObjectType.";
@@ -334,7 +343,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * check if the non-salary balances cannot be selected 
+     * check if the non-salary balances cannot be selected
      */
     public void testBalanceSelection_NotSalary() throws Exception {
         String testTarget = "balanceSelection.notSalary.";
@@ -352,7 +361,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * check if the employees not paid by grants cannot be selected 
+     * check if the employees not paid by grants cannot be selected
      */
     public void testBalanceSelection_NotGrantAccount() throws Exception {
         String testTarget = "balanceSelection.notGrantAccount.";
@@ -386,7 +395,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
-    
+
     /**
      * check if the employees without positive payments cannot be selected
      */
@@ -404,7 +413,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         assertEquals(numberOfExpectedDocuments, documentBuildList.size());
     }
-    
+
     /**
      * check if the documents are generated correctly
      */
@@ -442,7 +451,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
     }
 
     /**
-     * check if the employees paid by federal fundings can be selected when federal fund only indicator is enabled 
+     * check if the employees paid by federal fundings can be selected when federal fund only indicator is enabled
      */
     public void testFederalGrantOnly_HasFederalGrant() throws Exception {
         String testTarget = "federalGrantOnly.hasFederalGrant.";
@@ -471,14 +480,14 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         int numberOfExpectedDetailLines = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetailLines"));
         List<EffortCertificationDetailBuild> expectedDetailLines = TestDataPreparator.buildExpectedValueList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetailLine", detailFieldNames, deliminator, numberOfExpectedDetailLines);
-        
+
         assertEquals(expectedDetailLines.size(), detailLinesBuild.size());
 
         List<String> detailLineKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
         detailLineKeyFields.remove(EffortPropertyConstants.FINANCIAL_DOCUMENT_POSTING_YEAR);
         assertTrue(TestDataPreparator.hasSameElements(detailLinesBuild, expectedDetailLines, detailLineKeyFields));
     }
-    
+
     /**
      * check if the employees not paid by federal fundings cannot be selected when federal fund only indicator is enabled
      */
@@ -503,16 +512,16 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * @param testTarget the target test case
      */
     private void loadTestData(String testTarget) throws Exception {
-        TestDataPreparator.doCleanUpWithoutReference(LedgerEntry.class, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithoutReference(LedgerBalance.class, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
 
         int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
-        List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
+        List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
         TestDataPreparator.persistDataObject(ledgerEntries);
 
         int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
-        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
         TestDataPreparator.persistDataObject(ledgerBalances);
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
@@ -525,8 +534,8 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * @param testTarget the given test target that specifies the test data being used
      * @return a ledger balance
      */
-    private LedgerBalance buildLedgerBalance(String testTarget) {
-        return this.buildDataObject(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
+    private LaborLedgerBalance buildLedgerBalance(String testTarget) {
+        return this.buildDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
     }
 
     /**
@@ -580,6 +589,6 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
                 // NOTE: parameter servcie is caching the searching results that may cause the tests unstable.
                 parameterService.setParameterForTesting(EffortCertificationExtractStep.class, name, propertyValue);
             }
-        }       
+        }
     }
 }

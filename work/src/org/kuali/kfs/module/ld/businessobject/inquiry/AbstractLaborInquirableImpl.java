@@ -279,7 +279,7 @@ public abstract class AbstractLaborInquirableImpl extends KfsInquirableImpl {
             else if (keyName.equals(KFSPropertyConstants.PROJECT_CODE) && keyValue.equals(KFSConstants.getDashProjectCode())) {
                 return true;
             }
-            else if (keyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(KFSConstants.getDashPositionNumber())) {
+            else if (keyName.equals(KFSPropertyConstants.POSITION_NUMBER) && keyValue.equals(LaborConstants.getDashPositionNumber())) {
                 return true;
             }
             else if (keyName.equals(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE) && keyValue.equals(LaborConstants.BalanceInquiries.BALANCE_TYPE_AC_AND_A21)) {

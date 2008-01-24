@@ -27,14 +27,14 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.context.Log4jConfigurer;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.bo.LedgerEntry;
 import org.kuali.module.labor.service.impl.LaborScrubberProcess;
 import org.kuali.module.labor.util.LaborSpringContext;
 import org.kuali.module.labor.util.TestDataPreparator;
@@ -47,6 +47,10 @@ public class EffortBatchRunner {
     private final String deliminator;
 
     private BusinessObjectService businessObjectService;
+    private LaborModuleService laborModuleService;
+
+    private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
+    private Class<? extends LaborLedgerEntry> ledgerEntryClass;
 
     public EffortBatchRunner() {
         String messageFileName = "test/src/org/kuali/module/effort/testdata/message.properties";
@@ -65,6 +69,10 @@ public class EffortBatchRunner {
 
         LaborSpringContext.initializeApplicationContext();
         businessObjectService = LaborSpringContext.getBean(BusinessObjectService.class);
+        laborModuleService = SpringContext.getBean(LaborModuleService.class);
+
+        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
+        ledgerEntryClass = laborModuleService.getLaborLedgerEntryClass();
     }
 
     public void loadData() {
@@ -81,14 +89,14 @@ public class EffortBatchRunner {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, "2007");
 
-        businessObjectService.deleteMatching(LedgerEntry.class, fieldValues);
-        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
+        businessObjectService.deleteMatching(ledgerBalanceClass, fieldValues);
+        businessObjectService.deleteMatching(ledgerEntryClass, fieldValues);
 
     }
 
     private void loadDataForEmployee(String emplid, Integer sequenceNumber) {
         int numberOfEntries = Integer.valueOf(properties.getProperty("ledgerEntry.numOfEntries"));
-        List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, "ledgerEntry.seed", entryFieldNames, deliminator, numberOfEntries);
+        List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, "ledgerEntry.seed", entryFieldNames, deliminator, numberOfEntries);
         for (LaborLedgerEntry entry : ledgerEntries) {
             entry.setEmplid(emplid);
             entry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
@@ -96,8 +104,8 @@ public class EffortBatchRunner {
         businessObjectService.save(ledgerEntries);
 
         int numberOfBalances = Integer.valueOf(properties.getProperty("ledgerBalance.numOfBalances"));
-        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, "ledgerBalance.seed", balanceFieldNames, deliminator, numberOfBalances);
-        for (LedgerBalance balance : ledgerBalances) {
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, "ledgerBalance.seed", balanceFieldNames, deliminator, numberOfBalances);
+        for (LaborLedgerBalance balance : ledgerBalances) {
             balance.setEmplid(emplid);
         }
         businessObjectService.save(ledgerBalances);

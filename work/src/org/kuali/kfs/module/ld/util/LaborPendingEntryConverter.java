@@ -35,6 +35,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectCodeService;
 import org.kuali.module.financial.document.YearEndDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
+import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -142,8 +143,8 @@ public class LaborPendingEntryConverter {
 
         pendingEntry.setFinancialSubObjectCode(KFSConstants.getDashFinancialSubObjectCode());
         pendingEntry.setTransactionLedgerEntryAmount(benefitAmount.abs());
-        pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
-        pendingEntry.setEmplid(KFSConstants.getDashEmplId());
+        pendingEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
+        pendingEntry.setEmplid(LaborConstants.getDashEmplId());
         pendingEntry.setTransactionLedgerEntrySequenceNumber(getNextSequenceNumber(sequenceHelper));
 
         // year end document should post to previous fiscal year and final period
@@ -232,8 +233,8 @@ public class LaborPendingEntryConverter {
         pendingEntry.setTransactionLedgerEntryAmount(clearingAmount.abs());
 
         pendingEntry.setProjectCode(KFSConstants.getDashProjectCode());
-        pendingEntry.setPositionNumber(KFSConstants.getDashPositionNumber());
-        pendingEntry.setEmplid(KFSConstants.getDashEmplId());
+        pendingEntry.setPositionNumber(LaborConstants.getDashPositionNumber());
+        pendingEntry.setEmplid(LaborConstants.getDashEmplId());
         pendingEntry.setTransactionTotalHours(null);
 
         // year end document should post to previous fiscal year and final period

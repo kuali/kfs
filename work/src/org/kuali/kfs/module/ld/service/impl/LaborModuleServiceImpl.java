@@ -42,7 +42,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private Class<? extends LaborLedgerBalance> laborLedgerBalanceClass;
     private Class<? extends LaborLedgerEntry> laborLedgerEntryClass;
     private Class<? extends LaborLedgerObject> laborLedgerObjectClass;
-    private Class<? extends LaborLedgerPositionObjectGroup> LaborLedgerPositionObjectGroupClass;
+    private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
 
     /**
      * @see org.kuali.module.effort.service.LaborEffortCertificationService#createLaborLedgerBalance()
@@ -62,7 +62,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.module.effort.service.LaborModuleService#createLaborLedgerPositionObjectGroup()
      */
     public LaborLedgerPositionObjectGroup createLaborLedgerPositionObjectGroup() {
-        return this.createLaborBusinessObject(LaborLedgerPositionObjectGroupClass);
+        return this.createLaborBusinessObject(laborLedgerPositionObjectGroupClass);
     }
 
     /**
@@ -120,21 +120,21 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectGroupClass()
      */
     public Class<? extends LaborLedgerPositionObjectGroup> getLaborLedgerPositionObjectGroupClass() {
-        return LaborLedgerPositionObjectGroupClass;
+        return this.laborLedgerPositionObjectGroupClass;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerBalanceClass()
      */
     public Class<? extends LaborLedgerBalance> getLaborLedgerBalanceClass() {
-        return laborLedgerBalanceClass;
+        return this.laborLedgerBalanceClass;
     }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerEntryClass()
      */
     public Class<? extends LaborLedgerEntry> getLaborLedgerEntryClass() {
-        return null;
+        return this.laborLedgerEntryClass;
     }
 
     /**
@@ -170,7 +170,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      * @param laborLedgerPositionObjectGroupClass The laborLedgerPositionObjectGroupClass to set.
      */
     public void setLaborLedgerPositionObjectGroupClass(Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass) {
-        LaborLedgerPositionObjectGroupClass = laborLedgerPositionObjectGroupClass;
+        this.laborLedgerPositionObjectGroupClass = laborLedgerPositionObjectGroupClass;
     }
 
     /**

@@ -37,7 +37,6 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_EXPIRED_OVERRIDE = "accountExpiredOverride";
     public static final String ACCOUNT_EXPIRED_OVERRIDE_NEEDED = "accountExpiredOverrideNeeded";
     public static final String ACCOUNT_FINANCIAL_OBJECT_TYPE_CODE = "accountFinancialObjectTypeCode";
-    public static final String ACCOUNT_NUMBER_FINANCIAL_OBJECT_CODE = "accountNumberFinancialObjectCode";
     public static final String ACCOUNT_FISCAL_OFFICER_SYSTEM_IDENTIFIER = "accountFiscalOfficerSystemIdentifier";
     public static final String ACCOUNT_FISCAL_OFFICER_USER = "accountFiscalOfficerUser";
     public static final String ACCOUNT_GUIDELINE = "accountGuideline";
@@ -56,6 +55,7 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_MANAGER_USER = "accountManagerUser";
     public static final String ACCOUNT_NAME = "accountName";
     public static final String ACCOUNT_NUMBER = "accountNumber";
+    public static final String ACCOUNT_NUMBER_FINANCIAL_OBJECT_CODE = "accountNumberFinancialObjectCode";
     public static final String ACCOUNT_OFF_CAMPUS_INDICATOR = "accountOffCampusIndicator";
     public static final String ACCOUNT_PHYSICAL_CAMPUS = "accountPhysicalCampus";
     public static final String ACCOUNT_PHYSICAL_CAMPUS_CODE = "accountPhysicalCampusCode";
@@ -74,8 +74,8 @@ public class KFSPropertyConstants {
     public static final String ACCOUNT_TYPE_CODE = "accountTypeCode";
     public static final String ACCOUNT_TYPE_NAME = "accountTypeName";
     public static final String ACCOUNT_ZIP_CODE = "accountZipCode";
-    public static final String ACCOUNTING_LINE_PARSER = "accountingLineParser";
     public static final String ACCOUNTING_LINE_ANNUAL_BALANCE_AMOUNT = "accountLineAnnualBalanceAmount";
+    public static final String ACCOUNTING_LINE_PARSER = "accountingLineParser";
     public static final String ACCOUNTING_PERIOD = "accountingPeriod";
     public static final String ACCOUNTS_DELEGATE_PRMRT_INDICATOR = "accountsDelegatePrmrtIndicator";
     public static final String ACCOUNTS_FRINGES_BNFT_INDICATOR = "accountsFringesBnftIndicator";
@@ -97,8 +97,8 @@ public class KFSPropertyConstants {
     public static final String ADDRESS_LINE1 = "addressLine1";
     public static final String ADDRESS_LINE2 = "addressLine2";
     public static final String ADMINISTRATOR_USER = "administratorUser";
-    public static final String ADVANCE_DEPOSIT_DETAIL = "advanceDepositDetail";
     public static final String ADVANCE_DEPOSIT_AMOUNT = "financialDocumentAdvanceDepositAmount";
+    public static final String ADVANCE_DEPOSIT_DETAIL = "advanceDepositDetail";
     public static final String AGENCY_COPY_INDICATOR = "agencyCopyIndicator";
     public static final String AGENCY_EXTENSION = "agencyExtension";
     public static final String AGENCY_FRINGE_BENEFIT_TOTAL_AMOUNT = "agencyFringeBenefitTotalAmount";
@@ -137,8 +137,8 @@ public class KFSPropertyConstants {
     public static final String ATTRIBUTE_SHORT_LABEL = "attributeShortLabel";
     public static final String ATTRIBUTE_SUMMARY = "attributeSummary";
     public static final String ATTRIBUTE_VALIDATING_EXPRESSION = "attributeValidatingExpression";
-    public static final String AWARD_ACCOUNTS = "awardAccounts";
     public static final String AUTHENTICATION_USER_ID = "authenticationUserId";
+    public static final String AWARD_ACCOUNTS = "awardAccounts";
     public static final String AWARD_ACCUMULATED_TO_DATE_DIRECT_COST_AMOUNT = "awardAccumulatedToDateDirectCostAmount";
     public static final String AWARD_BEGINNING_DATE = "awardBeginningDate";
     public static final String AWARD_ENDING_DATE = "awardEndingDate";
@@ -272,8 +272,8 @@ public class KFSPropertyConstants {
     public static final String CASH_RECEIPT = "cashReceipt";
     public static final String CATALOG_OF_DOMESTIC_ASSISTANCE_NUMBER = "accountCfdaNumber";
     public static final String CENTRAL_PROCESSOR_USER = "centralProcessorUser";
-    public static final String CHART = "chart";
     public static final String CFDA_NUMBER = "cfdaNumber";
+    public static final String CHART = "chart";
     public static final String CHART_OF_ACCOUNTS = "chartOfAccounts";
     public static final String CHART_OF_ACCOUNTS_CODE = "chartOfAccountsCode";
     public static final String CHART_RESPONSIBILITIES = "chartResponsibilities";
@@ -340,8 +340,8 @@ public class KFSPropertyConstants {
     public static final String DEPOSIT_DATE = "depositDate";
     public static final String DEPTID = "deptid";
     public static final String DESCRIPTION = "description";
-    public static final String DETAIL_TEXT = "detailText";
     public static final String DETAIL_POSITION_REQUIRED_INDICATOR = "detailPositionRequiredIndicator";
+    public static final String DETAIL_TEXT = "detailText";
     public static final String DICTIONARY_BUSINESS_OBJECT_NAME = "dictionaryBusinessObjectName";
     public static final String DISB_VCHR_ADDITIONAL_WIRE_TEXT = "disbVchrAdditionalWireText";
     public static final String DISB_VCHR_ALIEN_PAYMENT_CODE = "disbVchrAlienPaymentCode";
@@ -456,8 +456,8 @@ public class KFSPropertyConstants {
     public static final String DV_PERDIEM_CHANGE_REASON_TEXT = "dvPerdiemChangeReasonText";
     public static final String DV_PERDIEM_END_DTTM_STAMP = "dvPerdiemEndDttmStamp";
     public static final String DV_PERDIEM_START_DTTM_STAMP = "dvPerdiemStartDttmStamp";
-    public static final String DV_PERSONAL_CAR_MILEAGE_AMOUNT = "dvPersonalCarMileageAmount";
     public static final String DV_PERSONAL_CAR_AMOUNT = "disbVchrPersonalCarAmount";
+    public static final String DV_PERSONAL_CAR_MILEAGE_AMOUNT = "dvPersonalCarMileageAmount";
     public static final String DV_PRE_CONFERENCE_DETAIL = "dvPreConferenceDetail";
     public static final String DV_PRE_CONFERENCE_REGISTRANTS = "dvPreConferenceRegistrants";
     public static final String DV_PRE_CONFERENCE_REQUEST_NUMBER = "dvPreConferenceRequestNumber";
@@ -469,6 +469,7 @@ public class KFSPropertyConstants {
     public static final String DV_TRAVEL_FROM_COUNTRY_CODE = "dvTravelFromCountryCode";
     public static final String DV_WIRE_ADMINISTRATOR_USER = "DVWireAdministratorUser";
     public static final String DV_WIRE_TRANSFER = "dvWireTransfer";
+    public static final String EARN_CODE = "earnCode";
     public static final String EDIT = "edit";
     public static final String ELECTRONIC_RESEARCH_ADMINISTRATION_GRANT_NUMBER = "electronicResearchAdministrationGrantNumber";
     public static final String EMAIL_ADDRESS = "emailAddress";
@@ -605,6 +606,7 @@ public class KFSPropertyConstants {
     public static final String FINANCIAL_OBJECT_CODE = "financialObjectCode";
     public static final String FINANCIAL_OBJECT_CODE_NAME = "financialObjectCodeName";
     public static final String FINANCIAL_OBJECT_CODE_SHORT_NAME = "financialObjectCodeShortName";
+    public static final String FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE = "financialObjectFringeOrSalaryCode";
     public static final String FINANCIAL_OBJECT_LEVEL = "financialObjectLevel";
     public static final String FINANCIAL_OBJECT_LEVEL_ACTIVE_INDICATOR = "financialObjectLevelActiveIndicator";
     public static final String FINANCIAL_OBJECT_LEVEL_CODE = "financialObjectLevelCode";
@@ -748,6 +750,7 @@ public class KFSPropertyConstants {
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     // public static final String KUALI_USER_PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
     public static final String KUALI_USER_PERSON_USER_IDENTIFIER = "personUserIdentifier";
+    public static final String LABOR_OBJECT = "laborObject";
     public static final String LAST_UPDATE = "lastUpdate";
     public static final String LAST_UPDATE_TIMESTAMP = "lastUpdateTimestamp";
     public static final String LINE = "line";
@@ -775,6 +778,7 @@ public class KFSPropertyConstants {
     public static final String NAME = "name";
     public static final String NEW = "new";
     public static final String NEW_ADVANCE_DEPOSIT = "newAdvanceDeposit";
+    public static final String NEW_COLLECTION_RECORD = "newCollectionRecord";
     public static final String NEW_CREDIT_CARD_RECEIPT = "newCreditCardReceipt";
     public static final String NEW_ITEM = "newItem";
     public static final String NEW_MAINTAINABLE_OBJECT = "newMaintainableObject";
@@ -783,7 +787,6 @@ public class KFSPropertyConstants {
     public static final String NEW_PREPAID_EXPENSE_LINE = "newPrePaidNonEmployeeExpenseLine";
     public static final String NEXT_CAPITAL_ASSET_NUMBER = "nextCapitalAssetNumber";
     public static final String NEXT_CHECK_SEQUENCE_ID = "nextCheckSequenceId";
-    public static final String NEW_COLLECTION_RECORD = "newCollectionRecord";
     public static final String NEXT_CONTRACTS_AND_GRANTS_AGENCY_NUMBER = "nextContractsAndGrantsAgencyNumber";
     public static final String NEXT_CONTRACTS_AND_GRANTS_SUBCONTRACTOR_NUMBER = "nextContractsAndGrantsSubcontractorNumber";
     public static final String NEXT_CORRECTION_GROUP_NUMBER = "nextCorrectionGroupNumber";
@@ -870,6 +873,7 @@ public class KFSPropertyConstants {
     public static final String ORIGIN_ENTRY_GROUP_ID = "originEntryGroupId";
     public static final String ORIGINATION = "origination";
     public static final String OVERRIDE_CODE = "overrideCode";
+    public static final String PAY_GROUP = "payGroup";
     public static final String PAYEE = "payee";
     public static final String PAYEE_ACTIVE_CODE = "payeeActiveCode";
     public static final String PAYEE_CITY_NAME = "payeeCityName";
@@ -922,6 +926,7 @@ public class KFSPropertyConstants {
     public static final String PERSON_PAYROLL_IDENTIFIER = "personPayrollIdentifier";
     public static final String PERSON_POST_DOCTORAL_INDICATOR = "personPostDoctoralIndicator";
     public static final String PERSON_PROJECT_DIRECTORY_INDICATOR = "personProjectDirectoryIndicator";
+    public static final String PERSON_ROLE_SORT_NUMBER = "personRoleSortNumber";
     public static final String PERSON_SALARY_JUSTIFICATION_TEXT = "personSalaryJustificationText";
     public static final String PERSON_SECRETARIAL_CLERICAL_INDICATOR = "personSecretarialClericalIndicator";
     public static final String PERSON_SENIOR_KEY_INDICATOR = "personSeniorKeyIndicator";
@@ -929,14 +934,12 @@ public class KFSPropertyConstants {
     public static final String PERSON_UNIVERSAL_IDENTIFIER = "personUniversalIdentifier";
     public static final String PERSON_UPDATE_ABILITY_CODE = "personUpdateAbilityCode";
     public static final String PERSON_UPDATE_ABILITY_NUMBER = "personUpdateAbilityNumber";
-    public static final String PERSON_USER_IDENTIFIER = "personUserIdentifier";
     public static final String PERSON_USER_ID = "personUserId";
+    public static final String PERSON_USER_IDENTIFIER = "personUserIdentifier";
     public static final String PERSON_WEEKS_AMOUNT = "personWeeksAmount";
     public static final String PERSON_WEEKS_JUSTIFICATION_TEXT = "personWeeksJustificationText";
     public static final String PERSONNEL = "personnel";
     public static final String PERSONNEL_NEXT_SEQUENCE_NUMBER = "personnelNextSequenceNumber";
-    public static final String PERSON_ROLE_SORT_NUMBER = "personRoleSortNumber";
-    public static final String USER_SORT_NUMBER = "userSortNumber";
     public static final String POSITION_NUMBER = "positionNumber";
     public static final String POSITION_OBJECT_GROUP_CODE = "positionObjectGroupCode";
     public static final String POSTAL_CITY_NAME = "postalCityName";
@@ -950,9 +953,10 @@ public class KFSPropertyConstants {
     public static final String POSTING_YEAR = "postingYear";
     public static final String PREPAID_EXPENSE = "prepaidExpense";
     public static final String PRIMARY_DEPARTMENT_CODE = "primaryDepartmentCode";
+    public static final String PROCESS = "process";
     public static final String PROCESS_BATCH_SEQUENCE_NUMBER = "processBatchSequenceNumber";
-    public static final String PROCESS_TOTAL_RECORD_COUNT = "processTotalRecordCount";
     public static final String PROCESS_TOTAL_AMOUNT = "processTotalAmount";
+    public static final String PROCESS_TOTAL_RECORD_COUNT = "processTotalRecordCount";
     public static final String PROCESS_TRANSMISSION_DATE = "processTransmissionDate";
     public static final String PROCESSING_FIN_CHART_OF_ACCT = "processingFinChartOfAcct";
     public static final String PROCESSING_FIN_CHART_OF_ACCT_CD = "processingFinChartOfAcctCd";
@@ -973,9 +977,9 @@ public class KFSPropertyConstants {
     public static final String PROPOSAL_PROJECT_DIRECTORS = "proposalProjectDirectors";
     public static final String PROPOSAL_SUBCONTRACTORS = "proposalSubcontractors";
     public static final String REFERENCE_DOCUMENT_NUMBER = "referenceDocumentNumber";
-    public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
     public static final String REFERENCE_DOCUMENT_TYPE = "referenceDocumentType";
     public static final String REFERENCE_FIN_DOCUMENT_TYPE_CODE = "referenceFinancialDocumentTypeCode";
+    public static final String REFERENCE_FINANCIAL_DOCUMENT_NUMBER = "referenceFinancialDocumentNumber";
     public static final String REFERENCE_FINANCIAL_DOCUMENT_TYPE_CODE = "referenceFinancialDocumentTypeCode";
     public static final String REFERENCE_FINANCIAL_SYSTEM_ORIGINATION_CODE = "referenceFinancialSystemOriginationCode";
     public static final String REFERENCE_NUMBER = "referenceNumber";
@@ -995,14 +999,15 @@ public class KFSPropertyConstants {
     public static final String REPORTS_TO_FINANCIAL_OBJECT_CODE = "reportsToFinancialObjectCode";
     public static final String REPORTS_TO_ORGANIZATION = "reportsToOrganization";
     public static final String REPORTS_TO_ORGANIZATION_CODE = "reportsToOrganizationCode";
-    public static final String RESPONSIBILITY_CENTER = "responsibilityCenter";
     public static final String RESEARCH_RISK_TYPE_DESCRIPTION = "researchRiskTypeDescription";
+    public static final String RESPONSIBILITY_CENTER = "responsibilityCenter";
     public static final String RESPONSIBILITY_CENTER_CODE = "responsibilityCenterCode";
     public static final String RESPONSIBILITY_CENTER_DESCRIPTION = "responsibilityCenterDescription";
     public static final String REVERSAL_DATE = "reversalDate";
     public static final String ROLE = "role";
     public static final String ROUTE_SHEET_TRACK_NUMBER = "routeSheetTrackNumber";
     public static final String ROUTING_FORM_SUBMISSION_DETAILS = "routingFormMainPageSubmissionDetails";
+    public static final String SCRUB = "scrub";
     public static final String SELECTED_ACCOUNTING_PERIOD = "selectedAccountingPeriod";
     public static final String SELECTED_BALANCE_TYPE = "selectedBalanceType";
     public static final String SEQUENCE_ID = "sequenceId";
@@ -1028,8 +1033,8 @@ public class KFSPropertyConstants {
     public static final String SUB_FUND_GROUP_DESCRIPTION = "subFundGroupDescription";
     public static final String SUB_FUND_GROUP_TYPE_CODE = "subFundGroupTypeCode";
     public static final String SUB_FUND_GROUP_WAGES_INDICATOR = "subFundGroupWagesIndicator";
-    public static final String SUB_OBJECT_CODE = "subObjectCode";
     public static final String SUB_OBJ_CODE_CHANGE_DETAILS = "subObjCdGlobalDetails";
+    public static final String SUB_OBJECT_CODE = "subObjectCode";
     public static final String SUBCONTRACTOR_NUMBER = "subcontractorNumber";
     public static final String SUBFUNDGRP_ACTIVITY_INDICATOR = "subfundgrpActivityIndicator";
     public static final String SUFFICIENT_FUNDS_CODE = "sufficientFundsCode";
@@ -1053,8 +1058,8 @@ public class KFSPropertyConstants {
     public static final String TAXPAYER_ZIP_CODE = "taxpayerZipCode";
     public static final String TIMESTAMP = "timestamp";
     public static final String TOTAL = "total";
-    public static final String TOTAL_AMOUNT = "totalAmount";
     public static final String TOTAL_ACTUAL_DIRECT_COST_AMOUNT = "totalActualDirectCostAmount";
+    public static final String TOTAL_AMOUNT = "totalAmount";
     public static final String TOTAL_CASH_AMOUNT = "totalCashAmount";
     public static final String TOTAL_CHECK_AMOUNT = "totalCheckAmount";
     public static final String TOTAL_COIN_AMOUNT = "totalCoinAmount";
@@ -1085,8 +1090,8 @@ public class KFSPropertyConstants {
     public static final String TRANSACTION_LEDGER_ENTRY_AMOUNT = "transactionLedgerEntryAmount";
     public static final String TRANSACTION_LEDGER_ENTRY_DESC = "transactionLedgerEntryDescription";
     public static final String TRANSACTION_POSTING_DATE = "transactionPostingDate";
-    public static final String TRN_ENTRY_LEDGER_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TRANSMISSION_DATE = "transmissionDate";
+    public static final String TRN_ENTRY_LEDGER_SEQUENCE_NUMBER = "transactionLedgerEntrySequenceNumber";
     public static final String TWO_DIGIT_TEXT_CODE = "twoDigitTextCode";
     public static final String TYPE = "type";
     public static final String TYPE_CODE = "typeCode";
@@ -1123,19 +1128,16 @@ public class KFSPropertyConstants {
     public static final String USER_APPOINTMENT_TASKS = "userAppointmentTasks";
     public static final String USER_BUDGET_PERIOD_SALARY_AMOUNT = "userBudgetPeriodSalaryAmount";
     public static final String USER_HOURLY_RATE = "userHourlyRate";
-    public static final String USER_UNIVERSITY_HOURS = "userUniversityHours";
     public static final String USER_SEQUENCE_NUMBER = "userSequenceNumber";
+    public static final String USER_SORT_NUMBER = "userSortNumber";
+    public static final String USER_UNIVERSITY_HOURS = "userUniversityHours";
     public static final String UU_ID = "uuId";
+    public static final String VALID = "valid";
     public static final String VALUE = "value";
     public static final String VENDOR = "vendor";
     public static final String VERSION_NUMBER = "versionNumber";
     public static final String WORKFLOW_DOCUMENT = "workflowDocument";
-    public static final String WORKGROUP_NAME = "workgroupName";
+    public static final String WORKGROUP_NAME = "workgroupName";   
     public static final String XML_DOCUMENT_CONTENTS = "xmlDocumentContents";
     public static final String ZIP_CODE = "zipCode";
-    public static final String PROCESS = "process";
-    public static final String VALID = "valid";
-    public static final String SCRUB = "scrub";
-    public static final String EARN_CODE = "earnCode";
-    public static final String PAY_GROUP = "payGroup";
 }

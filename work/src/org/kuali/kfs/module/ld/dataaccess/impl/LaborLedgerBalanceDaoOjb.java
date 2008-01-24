@@ -536,7 +536,7 @@ public class LaborLedgerBalanceDaoOjb extends PlatformAwareDaoBaseOjb implements
 
         if (positionObjectGroupCodes != null && !positionObjectGroupCodes.isEmpty()) {
             Criteria criteriaForLaborObjects = new Criteria();
-            criteriaForLaborObjects.addIn(LaborPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.POSITION_OBJECT_GROUP_CODE, positionObjectGroupCodes);
+            criteriaForLaborObjects.addIn(KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.POSITION_OBJECT_GROUP_CODE, positionObjectGroupCodes);
             criteria.addAndCriteria(criteriaForLaborObjects);
         }
 

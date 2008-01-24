@@ -200,7 +200,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         for (int i=0;i<overrideCodes.length ;i++){
             optionMap.put(overrideCodes[i].toString(),overrideCodes[i].getName());
         }
-        return KualiWorkflowUtils.buildDropdownRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY, optionMap, false);
+        return KualiWorkflowUtils.buildDropdownRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY, optionMap, true);
     }
 
     /**

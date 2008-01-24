@@ -19,19 +19,17 @@ package org.kuali.module.effort.bo;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
-import org.kuali.module.labor.LaborConstants;
 
 /**
  * Business Object for the Effort Certification Detail Build Table.
  */
 public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     private Long effortCertificationBuildNumber;
-    
+
     private EffortCertificationDocumentBuild effortCertificationDocumentBuild;
 
     /**
@@ -60,7 +58,8 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     }
 
     /**
-     * Gets the effortCertificationDocumentBuild attribute. 
+     * Gets the effortCertificationDocumentBuild attribute.
+     * 
      * @return Returns the effortCertificationDocumentBuild.
      */
     public EffortCertificationDocumentBuild getEffortCertificationDocumentBuild() {
@@ -69,6 +68,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
 
     /**
      * Sets the effortCertificationDocumentBuild attribute value.
+     * 
      * @param effortCertificationDocumentBuild The effortCertificationDocumentBuild to set.
      */
     @Deprecated
@@ -86,7 +86,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
         }
         return m;
     }
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
@@ -94,7 +94,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
     public boolean equals(Object otherEntry) {
         return ObjectUtil.compareObject(this, otherEntry, getKeyList());
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      */
@@ -105,6 +105,7 @@ public class EffortCertificationDetailBuild extends EffortCertificationDetail {
 
     /**
      * get the field name list of the key fields of the Class
+     * 
      * @return the field name list of the key fields of the Class
      */
     public static List<String> getKeyList() {

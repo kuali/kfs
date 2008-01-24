@@ -93,10 +93,6 @@
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	
-	<reference-descriptor name="positionObjectGroup" class-ref="org.kuali.module.labor.bo.PositionObjectGroup" auto-retrieve="true" auto-update="none" auto-delete="none">
-        <foreignkey field-ref="effortCertificationReportPositionObjectGroupCode" />
-    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup" table="LD_A21_RPT_EARN_PAY_T">

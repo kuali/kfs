@@ -15,16 +15,13 @@
  */
 package org.kuali.module.effort.util;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.BusinessObjectService;
-import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
@@ -35,12 +32,11 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.service.impl.LaborScrubberProcess;
 import org.kuali.module.labor.util.LaborSpringContext;
 import org.kuali.module.labor.util.TestDataPreparator;
 
 public class EffortBatchRunner {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortBatchRunner.class);
 
     private final Properties properties, message;
     private final String balanceFieldNames, entryFieldNames;

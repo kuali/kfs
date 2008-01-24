@@ -4,8 +4,6 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.Inactivateable;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
-import org.kuali.module.labor.bo.PositionObjectGroup;
 
 /**
  * Business Object for the Effort Certification Report Position Table.
@@ -15,8 +13,6 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
     private String effortCertificationReportNumber;
     private String effortCertificationReportPositionObjectGroupCode;
     private boolean active;
-
-    private PositionObjectGroup positionObjectGroup;
 
     /**
      * Default constructor.
@@ -95,25 +91,6 @@ public class EffortCertificationReportPosition extends PersistableBusinessObject
      */
     public void setActive(boolean active) {
         this.active = active;
-    }
-
-    /**
-     * gets the positionObjetGroup
-     * 
-     * @return
-     */
-    public PositionObjectGroup getPositionObjectGroup() {
-        return positionObjectGroup;
-    }
-
-    /**
-     * sets the positionObjectGroup This method...
-     * 
-     * @param positionObjectGroup
-     */
-    @Deprecated
-    public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
-        this.positionObjectGroup = positionObjectGroup;
     }
 
     /**

@@ -49,6 +49,7 @@ import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -61,7 +62,6 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.bo.LedgerBalanceForYearEndBalanceForward;
 import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.util.ConsolidationUtil;
-import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * This is the data access object for ledger balance.

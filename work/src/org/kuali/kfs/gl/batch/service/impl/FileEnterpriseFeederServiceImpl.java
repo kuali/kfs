@@ -23,6 +23,7 @@ import java.util.Arrays;
 import org.apache.commons.io.filefilter.SuffixFileFilter;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.OriginEntrySource;
 import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
@@ -30,7 +31,6 @@ import org.kuali.module.gl.service.EnterpriseFeederService;
 import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.RequiredFilesMissingStatus;
 
 /**

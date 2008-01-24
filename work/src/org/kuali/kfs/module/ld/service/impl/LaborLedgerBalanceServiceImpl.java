@@ -23,6 +23,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.IteratorUtils;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.util.OJBUtility;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborBalanceSummary;
@@ -33,7 +34,6 @@ import org.kuali.module.labor.dao.LaborLedgerBalanceDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.util.DebitCreditUtil;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional

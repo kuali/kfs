@@ -34,6 +34,7 @@ import org.kuali.core.util.BeanPropertyComparator;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
@@ -41,7 +42,6 @@ import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
 import org.kuali.module.labor.service.LaborLedgerPendingEntryService;
 import org.kuali.module.labor.util.DebitCreditUtil;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.inquirable.EmployeeFundingInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 

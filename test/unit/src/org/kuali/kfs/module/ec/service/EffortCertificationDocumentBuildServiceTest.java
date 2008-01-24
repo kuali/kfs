@@ -24,15 +24,17 @@ import java.util.Properties;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -49,6 +51,9 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private PersistenceService persistenceService;
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
+    private LaborModuleService laborModuleService;
+    
+    private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
 
     /**
      * Constructs a EffortCertificationDetailBuildServiceTest.java.
@@ -78,6 +83,9 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
         effortCertificationDocumentBuildService = SpringContext.getBean(EffortCertificationDocumentBuildService.class);
+        laborModuleService = SpringContext.getBean(LaborModuleService.class);
+        
+        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
         this.doCleanUp();
     }
@@ -134,7 +142,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         List<String> detailKeyFields = ObjectUtil.split(detailFieldNames, deliminator);
         Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
 
-        List<LedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
+        List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
 
         EffortCertificationDocumentBuild documentBuild = effortCertificationDocumentBuildService.generateDocumentBuild(postingYear, reportDefinition, ledgerBalances, systemParameters);
         if (savedIntoDatabase) {
@@ -169,7 +177,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         List<String> documentKeyFields = ObjectUtil.split(documentFieldNames, deliminator);
         Map<String, List<String>> systemParameters = this.buildSystemParameterMap("");
 
-        List<LedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
+        List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
 
         List<EffortCertificationDocumentBuild> documentBuildList = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, ledgerBalances, systemParameters);
 
@@ -205,12 +213,12 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
      * @param testTarget the given test target that specifies the test data being used
      * @return a list of ledger balances
      */
-    private List<LedgerBalance> buildLedgerBalances(String testTarget) {
+    private List<LaborLedgerBalance> buildLedgerBalances(String testTarget) {
         int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
 
-        List<LedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfTestData);
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfTestData);
         businessObjectService.save(ledgerBalances);
-        for (LedgerBalance balance : ledgerBalances) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             persistenceService.retrieveNonKeyFields(balance);
         }
 

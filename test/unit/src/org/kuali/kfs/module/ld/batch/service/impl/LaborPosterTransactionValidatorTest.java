@@ -27,13 +27,14 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
+import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -74,7 +75,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
     public void testVerifyTransactionWithForeignReference() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("verifyTransaction.numOfData"));
 
-        List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
+        List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
         List<Integer> expectedNumOfErrors = getExpectedDataList("verifyTransaction.expectedNumOfErrors", numberOfTestData);
 
         businessObjectService.save(transactionList);
@@ -89,7 +90,7 @@ public class LaborPosterTransactionValidatorTest extends KualiTestBase {
 
     public void testVerifyTransactionWithoutForeignReference() throws Exception {
         int numberOfTestData = Integer.valueOf(properties.getProperty("verifyTransaction.numOfData"));
-        List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
+        List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "verifyTransaction.testData", numberOfTestData, group1);
 
         for (int i = 0; i < numberOfTestData - 1; i++) {
             LaborOriginEntry transaction = transactionList.get(i);

@@ -24,6 +24,8 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentType;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerEntry;
+import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.module.chart.bo.Account;
@@ -41,7 +43,7 @@ import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 /**
  * Labor business object for LedgerEntry
  */
-public class LedgerEntry extends Entry {
+public class LedgerEntry extends Entry implements LaborLedgerEntry {
 
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
@@ -105,7 +107,6 @@ public class LedgerEntry extends Entry {
     private OriginationCode referenceOriginationCode;
     private ProjectCode project;
     private OriginationCode financialSystemOrigination;
-    private LedgerBalance ledgerBalance;
     private LaborObject laborObject;
 
     /**
@@ -1254,22 +1255,37 @@ public class LedgerEntry extends Entry {
     }
 
     /**
-     * Gets the ledgerBalance
-     * 
-     * @return Returns the ledgerBalance.
+     * @see org.kuali.module.effort.bo.LaborLedgerEntry#getLaborLedgerObject()
      */
-    public LedgerBalance getLedgerBalance() {
-        return ledgerBalance;
+    public LaborLedgerObject getLaborLedgerObject() {
+        return this.laborObject;
     }
 
     /**
-     * Sets the ledgerBalance
-     * 
-     * @param ledgerBalance The ledgerBalance to set.
+     * @see org.kuali.module.effort.bo.LaborLedgerEntry#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
      */
     @Deprecated
-    public void setLedgerBalance(LedgerBalance ledgerBalance) {
-        this.ledgerBalance = ledgerBalance;
+    public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
+        this.laborObject = (LaborObject) laborLedgerObject;
+    }
+
+    /**
+     * Gets the laborObject attribute.
+     * 
+     * @return Returns the laborObject.
+     */
+    public LaborObject getLaborObject() {
+        return laborObject;
+    }
+
+    /**
+     * Sets the laborObject attribute value.
+     * 
+     * @param laborObject The laborObject to set.
+     */
+    @Deprecated
+    public void setLaborObject(LaborObject laborObject) {
+        this.laborObject = laborObject;
     }
 
     /**
@@ -1297,23 +1313,5 @@ public class LedgerEntry extends Entry {
         }
 
         return m;
-    }
-
-    /**
-     * Gets the laborObject
-     * 
-     * @return Returns the laborObject.
-     */
-    public LaborObject getLaborObject() {
-        return laborObject;
-    }
-
-    /**
-     * Sets the laborObject
-     * 
-     * @param laborObject The laborObject to set.
-     */
-    public void setLaborObject(LaborObject laborObject) {
-        this.laborObject = laborObject;
     }
 }

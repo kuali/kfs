@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.Transaction;
 
 import com.lowagie.text.Document;

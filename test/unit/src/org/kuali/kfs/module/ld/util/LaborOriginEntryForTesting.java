@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * This class...

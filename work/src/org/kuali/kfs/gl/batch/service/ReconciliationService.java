@@ -18,8 +18,8 @@ package org.kuali.module.gl.service;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntryFull;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ReconciliationBlock;
 
 /**

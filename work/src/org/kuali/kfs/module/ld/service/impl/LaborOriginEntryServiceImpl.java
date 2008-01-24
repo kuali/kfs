@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.dao.OriginEntryDao;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -45,7 +46,6 @@ import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.dao.LaborOriginEntryDao;
 import org.kuali.module.labor.service.LaborOriginEntryService;
 import org.kuali.module.labor.util.LaborLedgerUnitOfWork;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

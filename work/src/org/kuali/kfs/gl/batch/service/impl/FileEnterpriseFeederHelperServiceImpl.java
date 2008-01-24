@@ -23,6 +23,7 @@ import java.io.Reader;
 import java.util.Iterator;
 import java.util.List;
 
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.FileEnterpriseFeederHelperService;
@@ -33,7 +34,6 @@ import org.kuali.module.gl.util.EnterpriseFeederStatusAndErrorMessagesWrapper;
 import org.kuali.module.gl.util.ExceptionCaughtStatus;
 import org.kuali.module.gl.util.FileReconBadLoadAbortedStatus;
 import org.kuali.module.gl.util.FileReconOkLoadOkStatus;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.OriginEntryFileIterator;
 import org.kuali.module.gl.util.ReconciliationBlock;
 import org.springframework.transaction.annotation.Transactional;

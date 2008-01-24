@@ -22,9 +22,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.labor.LaborConstants;
-import org.kuali.module.labor.util.ObjectUtil;
 
 /**
  * Business Object for the Effort Certification Detail Build Table.

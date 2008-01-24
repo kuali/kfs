@@ -17,6 +17,8 @@ package org.kuali.module.gl.util;
 
 import java.util.List;
 
+import org.kuali.kfs.util.Message;
+
 /**
  * This class serves as a wrapper containing references to the feeder status and error messages list. This works around java's
  * inability to return a value and throw an exception at the same time. Exceptions in KFS are generally needed to force the

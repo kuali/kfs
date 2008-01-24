@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
@@ -32,7 +33,6 @@ import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.PayrollAmountHolder;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -46,12 +46,12 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
      *      java.util.List, java.util.Map)
      */
-    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+    public List<EffortCertificationDocumentBuild> generateDocumentBuildList(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
         List<EffortCertificationDocumentBuild> documentList = new ArrayList<EffortCertificationDocumentBuild>();
 
-        Map<String, List<LedgerBalance>> ledgerBalanceGroups = buildLedgerBalanceGroups(ledgerBalances);
+        Map<String, List<LaborLedgerBalance>> ledgerBalanceGroups = buildLedgerBalanceGroups(ledgerBalances);
         for (String key : ledgerBalanceGroups.keySet()) {
-            List<LedgerBalance> balanceList = ledgerBalanceGroups.get(key);
+            List<LaborLedgerBalance> balanceList = ledgerBalanceGroups.get(key);
 
             EffortCertificationDocumentBuild document = this.generateDocumentBuild(postingYear, reportDefinition, balanceList, parameters);
             documentList.add(document);
@@ -64,17 +64,17 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
      *      java.util.List, java.util.Map)
      */
-    public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
+    public EffortCertificationDocumentBuild generateDocumentBuild(Integer postingYear, EffortCertificationReportDefinition reportDefinition, List<LaborLedgerBalance> ledgerBalances, Map<String, List<String>> parameters) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
         PayrollAmountHolder payrollAmountHolder = new PayrollAmountHolder(totalAmount, KualiDecimal.ZERO, 0);
 
-        LedgerBalance headOfBalanceList = ledgerBalances.get(0);
+        LaborLedgerBalance headOfBalanceList = ledgerBalances.get(0);
         EffortCertificationDocumentBuild document = populateDocument(reportDefinition, headOfBalanceList);
         List<EffortCertificationDetailBuild> detailLineList = document.getEffortCertificationDetailLinesBuild();
 
-        for (LedgerBalance balance : ledgerBalances) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             EffortCertificationDetailBuild detailLine = effortCertificationDetailBuildService.generateDetailBuild(postingYear, balance, reportDefinition, parameters);
             detailLine.setEffortCertificationBuildNumber(document.getEffortCertificationBuildNumber());
 
@@ -97,7 +97,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param ledgerBalance the given ledger balance
      * @return a dument build object populated with the given information
      */
-    private static EffortCertificationDocumentBuild populateDocument(EffortCertificationReportDefinition reportDefinition, LedgerBalance ledgerBalance) {
+    private static EffortCertificationDocumentBuild populateDocument(EffortCertificationReportDefinition reportDefinition, LaborLedgerBalance ledgerBalance) {
         EffortCertificationDocumentBuild document = new EffortCertificationDocumentBuild();
 
         document.setEffortCertificationBuildNumber(null);
@@ -116,10 +116,10 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      * @param ledgerBalances the given ledger balances
      * @return the map holding ledger balance groups
      */
-    private Map<String, List<LedgerBalance>> buildLedgerBalanceGroups(List<LedgerBalance> ledgerBalances) {
-        Map<String, List<LedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LedgerBalance>>();
+    private Map<String, List<LaborLedgerBalance>> buildLedgerBalanceGroups(List<LaborLedgerBalance> ledgerBalances) {
+        Map<String, List<LaborLedgerBalance>> ledgerBalanceGroups = new HashMap<String, List<LaborLedgerBalance>>();
 
-        for (LedgerBalance balance : ledgerBalances) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             String consolidationKeys = balance.getEmplid();
             LedgerBalanceConsolidationHelper.groupLedgerBalancesByKeys(ledgerBalanceGroups, balance, consolidationKeys);
         }

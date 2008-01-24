@@ -30,13 +30,13 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.lookup.LookupableSpringContext;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusCurrentFunds;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.test.ConfigureContext;
 
 /**

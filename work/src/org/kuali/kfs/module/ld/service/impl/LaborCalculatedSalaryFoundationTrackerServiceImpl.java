@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.LookupService;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.EmployeeFunding;
 import org.kuali.module.labor.bo.July1PositionFunding;
 import org.kuali.module.labor.bo.LaborCalculatedSalaryFoundationTracker;
 import org.kuali.module.labor.dao.LaborCalculatedSalaryFoundationTrackerDao;
 import org.kuali.module.labor.service.LaborCalculatedSalaryFoundationTrackerService;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

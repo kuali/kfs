@@ -20,8 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.util.ObjectUtil;
 
 public class LedgerEntryForTesting extends LedgerEntry {
     @Override

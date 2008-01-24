@@ -27,6 +27,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.context.Log4jConfigurer;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
@@ -88,7 +89,7 @@ public class EffortBatchRunner {
     private void loadDataForEmployee(String emplid, Integer sequenceNumber) {
         int numberOfEntries = Integer.valueOf(properties.getProperty("ledgerEntry.numOfEntries"));
         List<LedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(LedgerEntry.class, properties, "ledgerEntry.seed", entryFieldNames, deliminator, numberOfEntries);
-        for (LedgerEntry entry : ledgerEntries) {
+        for (LaborLedgerEntry entry : ledgerEntries) {
             entry.setEmplid(emplid);
             entry.setTransactionLedgerEntrySequenceNumber(sequenceNumber);
         }

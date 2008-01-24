@@ -18,9 +18,9 @@ package org.kuali.module.gl.service;
 import java.util.List;
 
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntry;
 import org.kuali.module.gl.bo.UniversityDate;
-import org.kuali.module.gl.util.Message;
 
 /**
  * An interface that declares methods that would be needed to validate origin entries and transactions run through the scrubber

@@ -22,12 +22,12 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.TypeUtils;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.dao.ReconciliationDao;
 import org.kuali.module.gl.exception.LoadException;
 import org.kuali.module.gl.service.ReconciliationService;
 import org.kuali.module.gl.util.ColumnReconciliation;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ReconciliationBlock;
 import org.springframework.transaction.annotation.Transactional;
 

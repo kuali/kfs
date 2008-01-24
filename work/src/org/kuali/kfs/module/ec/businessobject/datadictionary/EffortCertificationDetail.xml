@@ -58,8 +58,8 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="true" />
+                <lookupField attributeName="documentNumber" required="true" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
                 
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />

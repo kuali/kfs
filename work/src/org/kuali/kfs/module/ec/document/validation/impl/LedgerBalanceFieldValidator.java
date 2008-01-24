@@ -21,15 +21,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.util.Message;
+import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.gl.util.Message;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.MessageBuilder;
 
 /**
  * The validator provides a set of facilities to determine whether the given ledger balances meet the specified requirements. As a
@@ -43,7 +43,7 @@ public class LedgerBalanceFieldValidator {
      * @param ledgerBalance the given ledger balance
      * @return null if the given ledger balance has an account qualified for effort reporting; otherwise, a message
      */
-    public static Message hasValidAccount(LedgerBalance ledgerBalance) {
+    public static Message hasValidAccount(LaborLedgerBalance ledgerBalance) {
         if (ledgerBalance.getAccount() == null) {
             String account = new StringBuilder(ledgerBalance.getChartOfAccountsCode()).append(EffortConstants.VALUE_SEPARATOR).append(ledgerBalance.getAccountNumber()).toString();
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_ACCOUNT_NUMBER_NOT_FOUND, account);
@@ -59,7 +59,7 @@ public class LedgerBalanceFieldValidator {
      * @return null if the fund group code associated with the given ledger balance is in the given fund group codes; otherwise, a
      *         message
      */
-    public static Message isInFundGroups(LedgerBalance ledgerBalance, List<String> fundGroupCodes) {
+    public static Message isInFundGroups(LaborLedgerBalance ledgerBalance, List<String> fundGroupCodes) {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
         if (subFundGroup == null || !fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
@@ -76,7 +76,7 @@ public class LedgerBalanceFieldValidator {
      * @return null if the sub fund group code associated with the given ledger balance is in the given sub fund group codes;
      *         otherwise, an error message
      */
-    public static Message isInSubFundGroups(LedgerBalance ledgerBalance, List<String> subFundGroupCodes) {
+    public static Message isInSubFundGroups(LaborLedgerBalance ledgerBalance, List<String> subFundGroupCodes) {
         SubFundGroup subFundGroup = getSubFundGroup(ledgerBalance);
 
         if (subFundGroup == null || !subFundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
@@ -93,7 +93,7 @@ public class LedgerBalanceFieldValidator {
      * @return null the total amount within the specified periods of the given ledger balance is NOT ZERO; otherwise, a message
      *         message
      */
-    public static Message isNonZeroAmountBalanceWithinReportPeriod(LedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
+    public static Message isNonZeroAmountBalanceWithinReportPeriod(LaborLedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
 
         if (totalAmount.isZero()) {
@@ -110,7 +110,7 @@ public class LedgerBalanceFieldValidator {
      * @return null the total amount within the specified periods of the given ledger balance is positive; otherwise, a message
      *         message
      */
-    public static Message isTotalAmountPositive(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+    public static Message isTotalAmountPositive(Collection<LaborLedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
         KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalances, reportPeriods);
 
         if (!totalAmount.isPositive()) {
@@ -130,8 +130,8 @@ public class LedgerBalanceFieldValidator {
      * @return null if one of the group codes associated with the ledger balances is in the specified codes; otherwise, a message
      *         message
      */
-    public static Message hasGrantAccount(Collection<LedgerBalance> ledgerBalances, boolean fundGroupDenotesCGIndictor, List<String> fundGroupCodes) {
-        for (LedgerBalance balance : ledgerBalances) {
+    public static Message hasGrantAccount(Collection<LaborLedgerBalance> ledgerBalances, boolean fundGroupDenotesCGIndictor, List<String> fundGroupCodes) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             SubFundGroup subFundGroup = getSubFundGroup(balance);
             if (subFundGroup == null) {
                 continue;
@@ -157,8 +157,8 @@ public class LedgerBalanceFieldValidator {
      * @param federalAgencyTypeCodes the given federal agency type codes
      * @return null if there is at least one account with federal funding; otherwise, a message
      */
-    public static Message hasFederalFunds(Collection<LedgerBalance> ledgerBalances, List<String> federalAgencyTypeCodes) {
-        for (LedgerBalance balance : ledgerBalances) {
+    public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, List<String> federalAgencyTypeCodes) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
 
             for (AwardAccount awardAccount : awardAccountList) {
@@ -181,11 +181,11 @@ public class LedgerBalanceFieldValidator {
      * @param ledgerBalance the given ledger balance
      * @return null if the given ledger balances have the accounts that belong to a single organization; otherwise, a message
      */
-    public static Message isFromSingleOrganization(Collection<LedgerBalance> ledgerBalances) {
+    public static Message isFromSingleOrganization(Collection<LaborLedgerBalance> ledgerBalances) {
         Org tempOrganization = null;
 
         boolean isFirstTime = true;
-        for (LedgerBalance balance : ledgerBalances) {            
+        for (LaborLedgerBalance balance : ledgerBalances) {            
             Org organization = balance.getAccount().getOrganization();
             
             if(isFirstTime) {
@@ -206,7 +206,7 @@ public class LedgerBalanceFieldValidator {
      * @param ledgerBalance the given ledger balance
      * @return the sub fund group associated with the given ledger balance
      */
-    private static SubFundGroup getSubFundGroup(LedgerBalance ledgerBalance) {
+    private static SubFundGroup getSubFundGroup(LaborLedgerBalance ledgerBalance) {
         SubFundGroup subFundGroup = null;
         try {
             subFundGroup = ledgerBalance.getAccount().getSubFundGroup();

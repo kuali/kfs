@@ -15,7 +15,7 @@
  */
 package org.kuali.module.effort.util;
 
-import org.kuali.module.labor.bo.LedgerBalance;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 
 /**
  * To hold the neccessary information of ledger balance for the report generation
@@ -55,7 +55,7 @@ public class LedgerBalanceWithMessage {
      * @param ledgerBalance the given ledger balance
      * @param message the message associated with the given ledger balance
      */
-    public LedgerBalanceWithMessage(LedgerBalance ledgerBalance, String message) {
+    public LedgerBalanceWithMessage(LaborLedgerBalance ledgerBalance, String message) {
         super();
         this.chartOfAccountsCode = ledgerBalance.getChartOfAccountsCode();
         this.accountNumber = ledgerBalance.getAccountNumber();

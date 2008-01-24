@@ -21,6 +21,7 @@ import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortConstants.ExtractProcess;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
@@ -28,7 +29,6 @@ import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -43,7 +43,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @see org.kuali.module.effort.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
      *      org.kuali.module.labor.bo.LedgerBalance, org.kuali.module.effort.bo.EffortCertificationReportDefinition, java.util.Map)
      */
-    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
+    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         EffortCertificationDetailBuild detailLine = new EffortCertificationDetailBuild();
 
         detailLine.setFinancialDocumentPostingYear(postingYear);
@@ -74,7 +74,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @param ledgerBalance the given ledger balance
      * @param parameters the given parameters setup in the calling client
      */
-    private void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LedgerBalance ledgerBalance, Map<String, List<String>> parameters) {
+    private void populateCostShareRelatedFields(EffortCertificationDetailBuild detailLine, LaborLedgerBalance ledgerBalance, Map<String, List<String>> parameters) {
         List<String> expenseSubAccountTypeCodes = parameters.get(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
         List<String> costShareSubAccountTypeCodes = parameters.get(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
 
@@ -106,7 +106,7 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
      * @param ledgerBalance the given ledger balance
      * @return the sub account type code of the given ledger balance; return null if the code is not found
      */
-    private String getSubAccountTypeCode(LedgerBalance ledgerBalance) {
+    private String getSubAccountTypeCode(LaborLedgerBalance ledgerBalance) {
         String subAccountTypeCode = null;
         try {
             subAccountTypeCode = ledgerBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode();

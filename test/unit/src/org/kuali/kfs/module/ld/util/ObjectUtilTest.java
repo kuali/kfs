@@ -24,6 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.util.testobject.SimpleAddress;
 
 public class ObjectUtilTest extends TestCase {

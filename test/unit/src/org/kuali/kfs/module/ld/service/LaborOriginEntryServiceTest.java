@@ -32,13 +32,14 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
 import org.kuali.module.gl.util.LedgerEntryHolder;
 import org.kuali.module.gl.util.PosterOutputSummaryEntry;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
-import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -188,7 +189,7 @@ public class LaborOriginEntryServiceTest extends KualiTestBase {
     }
 
     private List getInputDataList(String propertyKeyPrefix, int numberOfInputData, OriginEntryGroup group) {
-        return TestDataPreparator.getLaborOriginEntryList(properties, propertyKeyPrefix, numberOfInputData, group);
+        return LaborTestDataPreparator.getLaborOriginEntryList(properties, propertyKeyPrefix, numberOfInputData, group);
     }
 
     private List<LaborOriginEntry> convertIteratorAsList(Iterator<LaborOriginEntry> entries) {

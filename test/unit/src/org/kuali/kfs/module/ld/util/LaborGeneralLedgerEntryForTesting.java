@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
-import org.kuali.module.labor.util.ObjectUtil;
 
 public class LaborGeneralLedgerEntryForTesting extends LaborGeneralLedgerEntry {
 

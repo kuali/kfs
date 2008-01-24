@@ -32,7 +32,11 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.service.OptionsService;
+import org.kuali.kfs.util.Message;
+import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -47,16 +51,12 @@ import org.kuali.module.effort.rules.LedgerBalanceFieldValidator;
 import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.service.EffortCertificationReportService;
-import org.kuali.module.effort.service.LaborEffortCertificationService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.module.effort.util.EffortReportRegistry;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.LedgerBalanceWithMessage;
 import org.kuali.module.financial.service.UniversityDateService;
-import org.kuali.module.gl.util.Message;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -77,7 +77,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private DateTimeService dateTimeService;
     private UniversityDateService universityDateService;
 
-    private LaborEffortCertificationService laborEffortCertificationService;
+    private LaborModuleService laborModuleService;
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
     private EffortCertificationReportService effortCertificationReportService;
 
@@ -175,7 +175,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         List<String> balanceTypeList = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
-        return laborEffortCertificationService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroups);
+        return laborModuleService.findEmployeesWithPayType(reportPeriods, balanceTypeList, earnCodePayGroups);
     }
 
     /**
@@ -201,7 +201,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Integer postingYear = universityDateService.getCurrentFiscalYear();
 
         for (String emplid : employees) {
-            List<LedgerBalance> qualifiedLedgerBalance;
+            List<LaborLedgerBalance> qualifiedLedgerBalance;
             qualifiedLedgerBalance = this.getQualifiedLedgerBalances(emplid, positionGroupCodes, reportDefinition, reportDataHolder, parameters);
 
             if (qualifiedLedgerBalance == null || qualifiedLedgerBalance.isEmpty()) {
@@ -250,26 +250,26 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      * @return the qualified labor ledger balance records of the given employee
      */
-    private List<LedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    private List<LaborLedgerBalance> getQualifiedLedgerBalances(String emplid, List<String> positionGroupCodes, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
 
         // select ledger balances by the given employee and other criteria
-        Collection<LedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
+        Collection<LaborLedgerBalance> ledgerBalances = this.selectLedgerBalanceByEmployee(emplid, positionGroupCodes, reportDefinition, parameters);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, ledgerBalances.size());
 
         // clear up the ledger balance collection
-        List<LedgerBalance> validLedgerBalances = this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
+        List<LaborLedgerBalance> validLedgerBalances = this.removeUnqualifiedLedgerBalances(ledgerBalances, reportDefinition, reportDataHolder);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_SELECTED, validLedgerBalances.size());
 
         // consolidate the pre-qualified ledger balances
-        List<LedgerBalance> consolidatedLedgerBalances = this.cosolidateLedgerBalances(validLedgerBalances, reportDefinition);
+        List<LaborLedgerBalance> consolidatedLedgerBalances = this.cosolidateLedgerBalances(validLedgerBalances, reportDefinition);
 
         // check the employee according to the pre-qualified ledger balances
         boolean isQualifiedEmployee = this.checkEmployeeBasedOnLedgerBalances(emplid, consolidatedLedgerBalances, reportDefinition, reportDataHolder, parameters);
 
         // abort all ledger balances if the employee is not qualified; otherwise, adopt the consolidated balances
-        List<LedgerBalance> qualifiedLedgerBalances = isQualifiedEmployee ? consolidatedLedgerBalances : null;
+        List<LaborLedgerBalance> qualifiedLedgerBalances = isQualifiedEmployee ? consolidatedLedgerBalances : null;
 
         return qualifiedLedgerBalances;
     }
@@ -281,13 +281,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the given report definition
      * @param reportDataHolder the given holder that contains any information to be written into the working report
      */
-    private List<LedgerBalance> removeUnqualifiedLedgerBalances(Collection<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
+    private List<LaborLedgerBalance> removeUnqualifiedLedgerBalances(Collection<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder) {
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
         List<LedgerBalanceWithMessage> ledgerBalancesWithMessage = reportDataHolder.getLedgerBalancesWithMessage();
 
-        List<LedgerBalance> validLedgerBalances = new ArrayList<LedgerBalance>();
+        List<LaborLedgerBalance> validLedgerBalances = new ArrayList<LaborLedgerBalance>();
 
-        for (LedgerBalance balance : ledgerBalances) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             // within the given periods, the total amount of a single balance cannot be ZERO
             Message errorAmountMessage = LedgerBalanceFieldValidator.isNonZeroAmountBalanceWithinReportPeriod(balance, reportPeriods);
             if (errorAmountMessage != null) {
@@ -320,7 +320,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param parameters the system paramters setup in front
      * @return true if all ledger balances as whole meet requirements; otherwise, return false
      */
-    private boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
+    private boolean checkEmployeeBasedOnLedgerBalances(String emplid, List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition, ExtractProcessReportDataHolder reportDataHolder, Map<String, List<String>> parameters) {
         if (ledgerBalances == null || ledgerBalances.isEmpty()) {
             return false;
         }
@@ -369,7 +369,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return the labor ledger balances for the specifed employee
      */
-    private Collection<LedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
+    private Collection<LaborLedgerBalance> selectLedgerBalanceByEmployee(String emplid, List<String> positionObjectGroupCodes, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters) {
         List<String> expenseObjectTypeCodes = parameters.get(ExtractProcess.EXPENSE_OBJECT_TYPE);
         List<String> excludedAccountTypeCode = parameters.get(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT);
         List<String> emplids = Arrays.asList(emplid);
@@ -386,7 +386,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         Set<Integer> fiscalYears = reportDefinition.getReportPeriods().keySet();
         List<String> balanceTypes = EffortConstants.ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT;
 
-        return laborEffortCertificationService.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
+        return laborModuleService.findLedgerBalances(fieldValues, excludedFieldValues, fiscalYears, balanceTypes, positionObjectGroupCodes);
     }
 
     /**
@@ -439,15 +439,15 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
      * @param reportDefinition the specified report definition
      * @return a collection of ledger balances if they are qualified; otherwise, return null
      */
-    private List<LedgerBalance> cosolidateLedgerBalances(List<LedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
-        List<LedgerBalance> cosolidatedLedgerBalances = new ArrayList<LedgerBalance>();
+    private List<LaborLedgerBalance> cosolidateLedgerBalances(List<LaborLedgerBalance> ledgerBalances, EffortCertificationReportDefinition reportDefinition) {
+        List<LaborLedgerBalance> cosolidatedLedgerBalances = new ArrayList<LaborLedgerBalance>();
 
         Map<Integer, Set<String>> reportPeriods = reportDefinition.getReportPeriods();
-        Map<String, LedgerBalance> ledgerBalanceMap = new HashMap<String, LedgerBalance>();
+        Map<String, LaborLedgerBalance> ledgerBalanceMap = new HashMap<String, LaborLedgerBalance>();
         LedgerBalanceConsolidationHelper.consolidateLedgerBalances(ledgerBalanceMap, ledgerBalances, this.getConsolidationKeys());
 
         for (String key : ledgerBalanceMap.keySet()) {
-            LedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
+            LaborLedgerBalance ledgerBalance = ledgerBalanceMap.get(key);
 
             KualiDecimal totalAmount = LedgerBalanceConsolidationHelper.calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
             if (totalAmount.isNonZero()) {
@@ -469,13 +469,13 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     // add an error entry into error map
-    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LedgerBalance ledgerBalance, Message message) {
+    private void reportInvalidLedgerBalance(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, LaborLedgerBalance ledgerBalance, Message message) {
         ledgerBalancesWithMessage.add(new LedgerBalanceWithMessage(ledgerBalance, message.toString()));
     }
 
     // add an error entry into error map
     private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
-        LedgerBalance ledgerBalance = new LedgerBalance();
+        LaborLedgerBalance ledgerBalance = laborModuleService.createLaborLedgerBalance();
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }
@@ -554,12 +554,12 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * Sets the laborEffortCertificationService attribute value.
+     * Sets the laborModuleService attribute value.
      * 
-     * @param laborEffortCertificationService The laborEffortCertificationService to set.
+     * @param laborModuleService The laborModuleService to set.
      */
-    public void setLaborEffortCertificationService(LaborEffortCertificationService laborEffortCertificationService) {
-        this.laborEffortCertificationService = laborEffortCertificationService;
+    public void setLaborModuleService(LaborModuleService laborModuleService) {
+        this.laborModuleService = laborModuleService;
     }
 
     /**

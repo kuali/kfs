@@ -19,11 +19,12 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
 
 /**
  * Labor business object for PositionObjectGroup
  */
-public class PositionObjectGroup extends PersistableBusinessObjectBase {
+public class PositionObjectGroup extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectGroup {
     private String positionObjectGroupCode;
     private String positionObjectGroupName;
     private boolean rowActiveIndicator;

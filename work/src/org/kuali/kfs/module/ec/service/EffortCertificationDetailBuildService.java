@@ -18,9 +18,9 @@ package org.kuali.module.effort.service;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * Provides the facilities that can generate detail line (build) for effort certification from the given labor ledger balance record
@@ -36,5 +36,5 @@ public interface EffortCertificationDetailBuildService {
      * @param parameters the parameters setup in the system parameters
      * @return a detail line (build) for effort certification from the given labor ledger balance
      */
-    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters);
+    public EffortCertificationDetailBuild generateDetailBuild(Integer postingYear, LaborLedgerBalance ledgerBalance, EffortCertificationReportDefinition reportDefinition, Map<String, List<String>> parameters);
 }

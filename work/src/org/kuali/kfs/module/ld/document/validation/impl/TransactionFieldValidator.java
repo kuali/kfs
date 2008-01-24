@@ -23,10 +23,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
-import org.kuali.module.gl.util.Message;
+import org.kuali.kfs.util.Message;
+import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.labor.LaborKeyConstants;
 import org.kuali.module.labor.bo.LaborTransaction;
-import org.kuali.module.labor.util.MessageBuilder;
 
 /**
  * This class provides a set of utilities that can be used to validate a transaction in the field level.

@@ -51,7 +51,7 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
 import org.kuali.module.labor.document.LaborLedgerPostingDocument;
 import org.kuali.module.labor.rule.GenerateLaborLedgerPendingEntriesRule;
-import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.kfs.util.ObjectUtil;
 
 /**
  * Business rule(s) applicable to Labor Expense Transfer documents.

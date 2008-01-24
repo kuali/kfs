@@ -22,9 +22,9 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.document.SalaryExpenseTransferDocument;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 import org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm;
 

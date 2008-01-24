@@ -28,11 +28,11 @@ import org.kuali.core.service.MailService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.batch.EnterpriseFeedStep;
 import org.kuali.module.gl.service.EnterpriseFeederNotificationService;
 import org.kuali.module.gl.util.EnterpriseFeederStatus;
 import org.kuali.module.gl.util.FileReconOkLoadOkStatus;
-import org.kuali.module.gl.util.Message;
 
 /**
  * The base implementation of EnterpriseFeederNotificationService; performs email-based notifications

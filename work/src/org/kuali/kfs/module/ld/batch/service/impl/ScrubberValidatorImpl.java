@@ -32,6 +32,7 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.service.AccountService;
 import org.kuali.module.chart.service.BalanceTypService;
@@ -41,7 +42,6 @@ import org.kuali.module.gl.bo.OriginEntryFull;
 import org.kuali.module.gl.bo.UniversityDate;
 import org.kuali.module.gl.service.OriginEntryLookupService;
 import org.kuali.module.gl.service.ScrubberValidator;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.ObjectHelper;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.batch.LaborScrubberStep;
@@ -223,7 +223,7 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
      */
     private Message validateAccount(LaborOriginEntry laborOriginEntry, LaborOriginEntry laborWorkingEntry, UniversityDate universityRunDate) {
         LOG.debug("validateAccount() started");
-        
+
         Account account = laborOriginEntry.getAccount();
         boolean suspenseAccountLogicInd = SpringContext.getBean(ParameterService.class).getIndicatorParameter(LaborScrubberStep.class, LaborConstants.Scrubber.SUSPENSE_ACCOUNT_LOGIC_PARAMETER);
         if (account == null) {
@@ -439,11 +439,11 @@ public class ScrubberValidatorImpl implements ScrubberValidator {
         if (account == null) {
             return new Message("Suspense account is Invalid.", Message.TYPE_FATAL);
         }
-        
+
         workingEntry.setAccount(account);
         workingEntry.setAccountNumber(suspenseAccountNumber);
         workingEntry.setChartOfAccountsCode(suspenseCOAcode);
-        
+
         return null;
     }
 

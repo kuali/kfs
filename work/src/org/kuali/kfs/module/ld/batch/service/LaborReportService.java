@@ -20,11 +20,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.bo.Transaction;
 import org.kuali.module.gl.service.impl.scrubber.DemergerReportData;
 import org.kuali.module.gl.service.impl.scrubber.ScrubberReportData;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.Summary;
 import org.kuali.module.labor.document.LaborCorrectionDocument;
 import org.kuali.module.labor.util.ReportRegistry;

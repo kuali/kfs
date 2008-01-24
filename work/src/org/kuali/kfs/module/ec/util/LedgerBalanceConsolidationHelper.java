@@ -22,8 +22,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.module.labor.bo.LedgerBalance;
-import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.util.ObjectUtil;
 
 /**
  * To provide a set of utilities to consolidate/group the specified ledger balances and build a returning ledger balance Map.
@@ -38,7 +38,7 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balance to be consolidated
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, LedgerBalance ledgerBalance, List<String> consolidationKeys) {
+    public static void consolidateLedgerBalances(Map<String, LaborLedgerBalance> ledgerBalanceMap, LaborLedgerBalance ledgerBalance, List<String> consolidationKeys) {
         String consolidationKeyFieldsAsString = ObjectUtil.concatPropertyAsString(ledgerBalance, consolidationKeys);
         
         consolidateLedgerBalances(ledgerBalanceMap, ledgerBalance, consolidationKeyFieldsAsString);
@@ -52,9 +52,9 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balance to be consolidated
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, LedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
+    public static void consolidateLedgerBalances(Map<String, LaborLedgerBalance> ledgerBalanceMap, LaborLedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
         if (ledgerBalanceMap.containsKey(consolidationKeyFieldsAsString)) {
-            LedgerBalance existingBalance = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
+            LaborLedgerBalance existingBalance = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
             addLedgerBalanceAmounts(existingBalance, ledgerBalance);
         }
         else {
@@ -70,8 +70,8 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalances the given ledger balances to be consolidated
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void consolidateLedgerBalances(Map<String, LedgerBalance> ledgerBalanceMap, Collection<LedgerBalance> ledgerBalances, List<String> consolidationKeys) {
-        for (LedgerBalance balance : ledgerBalances) {
+    public static void consolidateLedgerBalances(Map<String, LaborLedgerBalance> ledgerBalanceMap, Collection<LaborLedgerBalance> ledgerBalances, List<String> consolidationKeys) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             consolidateLedgerBalances(ledgerBalanceMap, balance, consolidationKeys);
         }
     }
@@ -84,7 +84,7 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balance to be grouped
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, LedgerBalance ledgerBalance, List<String> consolidationKeys) {
+    public static void groupLedgerBalancesByKeys(Map<String, List<LaborLedgerBalance>> ledgerBalanceMap, LaborLedgerBalance ledgerBalance, List<String> consolidationKeys) {
         String consolidationKeyFieldsAsString = ObjectUtil.concatPropertyAsString(ledgerBalance, consolidationKeys);
         groupLedgerBalancesByKeys(ledgerBalanceMap, ledgerBalance, consolidationKeyFieldsAsString);
     }
@@ -97,13 +97,13 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balance to be grouped
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, LedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
+    public static void groupLedgerBalancesByKeys(Map<String, List<LaborLedgerBalance>> ledgerBalanceMap, LaborLedgerBalance ledgerBalance, String consolidationKeyFieldsAsString) {
         if (ledgerBalanceMap.containsKey(consolidationKeyFieldsAsString)) {
-            List<LedgerBalance> balanceList = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
+            List<LaborLedgerBalance> balanceList = ledgerBalanceMap.get(consolidationKeyFieldsAsString);
             balanceList.add(ledgerBalance);
         }
         else {
-            List<LedgerBalance> balanceList = new ArrayList<LedgerBalance>();
+            List<LaborLedgerBalance> balanceList = new ArrayList<LaborLedgerBalance>();
             balanceList.add(ledgerBalance);
             ledgerBalanceMap.put(consolidationKeyFieldsAsString, balanceList);
         }
@@ -117,8 +117,8 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balances to be grouped
      * @param consolidationKeys the given key field names used to build the keys of ledgerBalanceMap
      */
-    public static void groupLedgerBalancesByKeys(Map<String, List<LedgerBalance>> ledgerBalanceMap, Collection<LedgerBalance> ledgerBalances, List<String> consolidationKeys) {
-        for (LedgerBalance balance : ledgerBalances) {
+    public static void groupLedgerBalancesByKeys(Map<String, List<LaborLedgerBalance>> ledgerBalanceMap, Collection<LaborLedgerBalance> ledgerBalances, List<String> consolidationKeys) {
+        for (LaborLedgerBalance balance : ledgerBalances) {
             groupLedgerBalancesByKeys(ledgerBalanceMap, balance, consolidationKeys);
         }
     }
@@ -129,7 +129,7 @@ public class LedgerBalanceConsolidationHelper {
      * @param ledgerBalance the given ledger balance, which holds the summerized monthly amounts
      * @param anotherLedgerBalance the given ledger balance, which contributes monthly amounts
      */
-    public static void addLedgerBalanceAmounts(LedgerBalance ledgerBalance, LedgerBalance anotherLedgerBalance) {
+    public static void addLedgerBalanceAmounts(LaborLedgerBalance ledgerBalance, LaborLedgerBalance anotherLedgerBalance) {
         if (anotherLedgerBalance == null) {
             return;
         }
@@ -152,7 +152,7 @@ public class LedgerBalanceConsolidationHelper {
      * @param reportPeriods the given report periods
      * @return the total amounts of the given balance within the specified report periods
      */
-    public static KualiDecimal calculateTotalAmountWithinReportPeriod(LedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(LaborLedgerBalance ledgerBalance, Map<Integer, Set<String>> reportPeriods) {
         Integer fiscalYear = ledgerBalance.getUniversityFiscalYear();
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
@@ -170,10 +170,10 @@ public class LedgerBalanceConsolidationHelper {
      * @param reportPeriods the given report periods
      * @return the total amounts of the given balances within the specified report periods
      */
-    public static KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
+    public static KualiDecimal calculateTotalAmountWithinReportPeriod(Collection<LaborLedgerBalance> ledgerBalances, Map<Integer, Set<String>> reportPeriods) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
 
-        for (LedgerBalance ledgerBalance : ledgerBalances) {
+        for (LaborLedgerBalance ledgerBalance : ledgerBalances) {
             KualiDecimal totalAmountForOneBalance = calculateTotalAmountWithinReportPeriod(ledgerBalance, reportPeriods);
             totalAmount = totalAmount.add(totalAmountForOneBalance);
         }

@@ -19,6 +19,8 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -26,7 +28,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * Labor business object for LaborObject.
  */
-public class LaborObject extends PersistableBusinessObjectBase {
+public class LaborObject extends PersistableBusinessObjectBase implements LaborLedgerObject {
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String financialObjectCode;
@@ -230,7 +232,7 @@ public class LaborObject extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the positionObjectGroup
+     * Gets the positionObjectGroup attribute.
      * 
      * @return Returns the positionObjectGroup.
      */
@@ -239,12 +241,28 @@ public class LaborObject extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Sets the positionObjectGroup
+     * Sets the positionObjectGroup attribute value.
      * 
      * @param positionObjectGroup The positionObjectGroup to set.
      */
+    @Deprecated
     public void setPositionObjectGroup(PositionObjectGroup positionObjectGroup) {
         this.positionObjectGroup = positionObjectGroup;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.LaborLedgerObject#getLaborLedgerPositionObjectGroup()
+     */
+    public LaborLedgerPositionObjectGroup getLaborLedgerPositionObjectGroup() {
+        return this.positionObjectGroup;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.LaborLedgerObject#setLaborLedgerPositionObjectGroup(org.kuali.kfs.bo.LaborLedgerPositionObjectGroup)
+     */
+    @Deprecated
+    public void setLaborLedgerPositionObjectGroup(LaborLedgerPositionObjectGroup laborLedgerPositionObjectGroup) {
+        this.positionObjectGroup = (PositionObjectGroup) laborLedgerPositionObjectGroup;
     }
 
     /**

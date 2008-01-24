@@ -26,6 +26,7 @@ import java.util.Map.Entry;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.util.Message;
 import org.kuali.module.gl.batch.collector.CollectorBatch;
 import org.kuali.module.gl.bo.CollectorDetail;
 import org.kuali.module.gl.bo.OriginEntry;
@@ -37,7 +38,6 @@ import org.kuali.module.gl.service.ScrubberService;
 import org.kuali.module.gl.util.CollectorReportData;
 import org.kuali.module.gl.util.CollectorScrubberStatus;
 import org.kuali.module.gl.util.DocumentGroupData;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.gl.util.OriginEntryTotals;
 import org.kuali.module.gl.util.ScrubberStatus;
 

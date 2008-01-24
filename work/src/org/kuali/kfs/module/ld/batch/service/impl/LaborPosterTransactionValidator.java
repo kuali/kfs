@@ -21,13 +21,13 @@ import java.util.List;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
+import org.kuali.kfs.util.Message;
+import org.kuali.kfs.util.MessageBuilder;
 import org.kuali.module.gl.batch.poster.VerifyTransaction;
 import org.kuali.module.gl.bo.Transaction;
-import org.kuali.module.gl.util.Message;
 import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.LaborTransaction;
 import org.kuali.module.labor.rules.TransactionFieldValidator;
-import org.kuali.module.labor.util.MessageBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

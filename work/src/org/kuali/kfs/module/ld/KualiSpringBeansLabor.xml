@@ -64,6 +64,20 @@
 			</list>
 		</property>
 	</bean>
+			
+	<bean id="laborModuleService" class="org.kuali.module.labor.service.impl.LaborModuleServiceImpl" >
+		<property name="laborLedgerEntryService">
+			<ref bean="laborLedgerEntryService" />
+		</property>
+		<property name="laborLedgerBalanceService">
+			<ref bean="laborLedgerBalanceService" />
+		</property>
+		
+		<property name="laborLedgerBalanceClass" value="org.kuali.module.labor.bo.LedgerBalance"/>
+		<property name="laborLedgerEntryClass" value="org.kuali.module.labor.bo.LedgerEntry"/>
+		<property name="laborLedgerObjectClass" value="org.kuali.module.labor.bo.LaborObject"/>
+		<property name="laborLedgerPositionObjectGroupClass" value="org.kuali.module.labor.bo.PositionObjectGroup"/>
+	</bean>
 
     <!--  Section 1: Spring Beans for Business Objects -->
 

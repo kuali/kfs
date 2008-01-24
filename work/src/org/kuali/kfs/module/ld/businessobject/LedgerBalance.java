@@ -26,6 +26,9 @@ import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.kfs.bo.OriginationCode;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectType;
@@ -35,7 +38,7 @@ import org.kuali.module.labor.service.LaborUserService;
 /**
  * Labor business object for LedgerBalance.
  */
-public class LedgerBalance extends Balance {
+public class LedgerBalance extends Balance implements LaborLedgerBalance{
     private String financialObjectCode;
     private String financialSubObjectCode;
     private String financialBalanceTypeCode;
@@ -49,9 +52,6 @@ public class LedgerBalance extends Balance {
     private ObjectType financialObjectType;
     private UniversalUser ledgerPerson;
     private LaborObject laborObject;
-
-    @Deprecated
-    private Balance financialBalance; // this field is unnecessary
 
     /**
      * Default constructor.
@@ -98,26 +98,6 @@ public class LedgerBalance extends Balance {
      */
     public void setEmplid(String emplid) {
         this.emplid = emplid;
-    }
-
-    /**
-     * Gets the financialBalance
-     * 
-     * @return Returns the financialBalance.
-     */
-    @Deprecated
-    public Balance getFinancialBalance() {
-        return financialBalance;
-    }
-
-    /**
-     * Sets the financialBalance
-     * 
-     * @param financialBalance The financialBalance to set.
-     */
-    @Deprecated
-    public void setFinancialBalance(Balance financialBalance) {
-        this.financialBalance = financialBalance;
     }
 
     /**
@@ -457,23 +437,37 @@ public class LedgerBalance extends Balance {
     }
 
     /**
-     * Retrieve the associated <code>{@link LaborObject}</code> linked by chart of accounts code, financial object code, and
-     * university fiscal year
+     * @see org.kuali.module.effort.bo.LaborLedgerEntry#getLaborLedgerObject()
+     */
+    public LaborLedgerObject getLaborLedgerObject() {
+        return this.laborObject;
+    }
+
+    /**
+     * @see org.kuali.module.effort.bo.LaborLedgerEntry#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
+     */
+    @Deprecated
+    public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
+        this.laborObject = (LaborObject) laborLedgerObject;
+    }
+
+    /**
+     * Gets the laborObject attribute.
      * 
-     * @return Returns the Labor Object
+     * @return Returns the laborObject.
      */
     public LaborObject getLaborObject() {
         return laborObject;
     }
 
     /**
-     * For OJB to assign a Labor Object association
+     * Sets the laborObject attribute value.
      * 
-     * @param lobj
+     * @param laborObject The laborObject to set.
      */
     @Deprecated
-    public void setLaborObject(LaborObject lobj) {
-        laborObject = lobj;
+    public void setLaborObject(LaborObject laborObject) {
+        this.laborObject = laborObject;
     }
 
     /**

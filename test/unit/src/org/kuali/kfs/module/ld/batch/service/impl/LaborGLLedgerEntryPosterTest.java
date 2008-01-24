@@ -31,6 +31,7 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.batch.poster.PostTransaction;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.gl.service.OriginEntryGroupService;
@@ -38,7 +39,7 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborGeneralLedgerEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborGeneralLedgerEntryService;
-import org.kuali.module.labor.util.ObjectUtil;
+import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
 
@@ -89,7 +90,7 @@ public class LaborGLLedgerEntryPosterTest extends KualiTestBase {
         int expectedMaxSequenceNumber = Integer.valueOf(properties.getProperty("post.expectedMaxSequenceNumber"));
         int expectedInsertion = Integer.valueOf(properties.getProperty("post.expectedInsertion"));
 
-        List<LaborOriginEntry> transactionList = TestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
+        List<LaborOriginEntry> transactionList = LaborTestDataPreparator.getLaborOriginEntryList(properties, "post.testData", numberOfTestData, group1);
         Map<String, Integer> operationType = new HashMap<String, Integer>();
 
         for (LaborOriginEntry transaction : transactionList) {

@@ -35,6 +35,8 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.bo.TransientBalanceInquiryAttributes;
 import org.kuali.module.gl.web.Constant;
 import org.kuali.module.labor.LaborKeyConstants;
@@ -45,7 +47,6 @@ import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.dao.LaborDao;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
 import org.kuali.module.labor.service.LaborLedgerBalanceService;
-import org.kuali.module.labor.util.ObjectUtil;
 import org.kuali.module.labor.web.inquirable.CurrentFundsInquirableImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -103,7 +104,7 @@ public class CurrentFundsLookupableHelperServiceImpl extends AbstractLookupableH
             objectCodeFieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, fieldValues.get(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE));
             objectCodeFieldValues.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, searchObjectCodeVal);
 
-            LaborObject foundObjectCode = (LaborObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
+            LaborLedgerObject foundObjectCode = (LaborLedgerObject) businessObjectService.findByPrimaryKey(LaborObject.class, objectCodeFieldValues);
 
             if (foundObjectCode == null) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, LaborKeyConstants.ERROR_INVALID_LABOR_OBJECT_CODE, "2");

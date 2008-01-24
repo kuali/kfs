@@ -59,8 +59,8 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="effortCertificationBuildNumber" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="true" />
+                <lookupField attributeName="effortCertificationBuildNumber" required="true" />
+                <lookupField attributeName="financialDocumentPostingYear" required="false" />
                 
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="accountNumber" required="false" />

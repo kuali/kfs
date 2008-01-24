@@ -22,6 +22,7 @@ import java.util.Collection;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.query.ReportQueryByCriteria;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.labor.bo.LedgerBalance;
 
 /**

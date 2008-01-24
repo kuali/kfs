@@ -507,11 +507,6 @@
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />
 	</reference-descriptor>
-    <collection-descriptor name="nonAppliedHoldings" element-class-ref="org.kuali.module.ar.bo.NonAppliedHolding" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
-        <query-customizer class="org.kuali.kfs.dao.ojb.OjbQueryCustomizer">
-            <attribute attribute-name="referenceFinancialDocumentNumber" attribute-value="parent.financialDocumentReferenceInvoiceNumber" />
-        </query-customizer>
-    </collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.ar.bo.Lockbox" table="AR_LOCKBOX_T">

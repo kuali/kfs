@@ -25,13 +25,10 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
 	private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
-    List<NonAppliedHolding> nonAppliedHoldings;
-    
 	/**
 	 * Default constructor.
 	 */
 	public InvoicePaidApplied() {
-        nonAppliedHoldings = new ArrayList<NonAppliedHolding>();
         
 	}
 
@@ -239,22 +236,6 @@ public class InvoicePaidApplied extends PersistableBusinessObjectBase {
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
     }    
     
-	/**
-     * Gets the nonAppliedHoldings attribute. 
-     * @return Returns the nonAppliedHoldings.
-     */
-    public List<NonAppliedHolding> getNonAppliedHoldings() {
-        return nonAppliedHoldings;
-    }
-
-    /**
-     * Sets the nonAppliedHoldings attribute value.
-     * @param nonAppliedHoldings The nonAppliedHoldings to set.
-     */
-    public void setNonAppliedHoldings(List<NonAppliedHolding> nonAppliedHoldings) {
-        this.nonAppliedHoldings = nonAppliedHoldings;
-    }
-
     /**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
 	 */

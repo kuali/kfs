@@ -30,9 +30,11 @@
 <c:choose>
     <c:when test= "${fn:contains(documentType, 'PurchaseOrder')}">
         <c:set var="isATypeOfPODoc" value="true" />
+        <c:set var="acctExtraHiddenFields" value=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount" />
     </c:when>
     <c:otherwise>
         <c:set var="isATypeOfPODoc" value="false" />
+        <c:set var="acctExtraHiddenFields" value=",accountIdentifier,itemIdentifier,amount" />
     </c:otherwise>
 </c:choose>
 
@@ -389,7 +391,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+						extraHiddenFields=",accountIdentifier,itemIdentifier,amount,itemAccountOutstandingEncumbranceAmount"
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -403,7 +405,7 @@
 						editableAccounts="${KualiForm.editableAccounts}"
 						sourceAccountingLinesOnly="true"
 						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
+						extraHiddenFields="${acctExtraHiddenFields}"
 						accountingLineAttributes="${accountingLineAttributes}"
 						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
 						hideFields="amount" accountingAddLineIndex="${ctr}"
@@ -418,15 +420,15 @@
 					    <c:set target="${KualiForm.editingMode}" property="expenseEntry" value="true" />
 					</c:if>
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
-						editableAccounts="${KualiForm.editableAccounts}"
-						sourceAccountingLinesOnly="true"
-						optionalFields="accountLinePercent"
-						extraHiddenFields=",accountIdentifier,itemIdentifier,amount"
-						accountingLineAttributes="${accountingLineAttributes}"
-						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-						hideFields="amount" accountingAddLineIndex="${ctr}"
-						itemsAttributes="${itemAttributes}"
-						camsAttributes="${camsAttributes}" ctr="${ctr}"
+    	    		    editableAccounts="${KualiForm.editableAccounts}"
+	    				sourceAccountingLinesOnly="true"
+		    			optionalFields="accountLinePercent"
+			    		extraHiddenFields="${acctExtraHiddenFields}"
+				    	accountingLineAttributes="${accountingLineAttributes}"
+					   	accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+					    hideFields="amount" accountingAddLineIndex="${ctr}"
+					    itemsAttributes="${itemAttributes}"
+					    camsAttributes="${camsAttributes}" ctr="${ctr}"
                         suppressCams="false" overrideTitle="Item Accounting Lines" />
 				</c:if>
 

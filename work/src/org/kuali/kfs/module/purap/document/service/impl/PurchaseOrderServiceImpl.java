@@ -992,6 +992,5 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
     public void savePurchaseOrderRestrictedMaterial(PurchaseOrderDocument po) {
         po.setGeneralLedgerPendingEntries(null);
         businessObjectService.save(po);    
-        //saveDocumentNoValidation(po);
     }
 }

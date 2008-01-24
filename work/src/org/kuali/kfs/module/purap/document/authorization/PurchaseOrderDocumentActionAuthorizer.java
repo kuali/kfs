@@ -113,14 +113,29 @@ public class PurchaseOrderDocumentActionAuthorizer {
      * Determines whether to display the retransmit button. 
      * The last transmit date must not be null. The purchase order must be current,
      * must not be pending and the purchase order status must be open. If the 
-     * purchase order is an Automated Purchase Order (APO) then any users can see
+     * purchase order is an Automated Purchase Order (APO) and the purchase order
+     * does not have any restricted material set to true, then any users can see
      * the retransmit button, otherwise, only users in the purchasing group can see it.
      * 
      * @return boolean true if the retransmit button can be displayed.
      */
     public boolean canRetransmit() {
-        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || purchaseOrder.getPurchaseOrderAutomaticIndicator())) {
+        if (purchaseOrder.getPurchaseOrderLastTransmitDate() != null && purchaseOrder.isPurchaseOrderCurrentIndicator() && !purchaseOrder.isPendingActionIndicator() && purchaseOrder.getStatusCode().equals(PurapConstants.PurchaseOrderStatuses.OPEN) && (isUserAuthorized || (purchaseOrder.getPurchaseOrderAutomaticIndicator() && !containsRestrictedMaterial()))) {
             return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determines whether the purchase order document contains at least one restricted material.
+     * 
+     * @return boolean true if the purchase order has at least one restricted material.
+     */
+    private boolean containsRestrictedMaterial() {
+        for (PurchaseOrderRestrictionStatusHistory history : purchaseOrder.getMostRecentPurchaseOrderRestrictionStatusHistory()) {
+            if (history.getRestrictionIndicator().booleanValue()) {
+                return true;
+            }
         }
         return false;
     }

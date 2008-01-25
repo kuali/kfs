@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
  * this suite in JUnit).
  */
 public class PreCommitSuite extends AnnotationTestSuite.Superclass {
-    public static TestSuite suite() throws Exception {
+    public static Test suite() throws Exception {
         return new PreCommitSuite().getSuite();
     }
 
@@ -36,7 +36,7 @@ public class PreCommitSuite extends AnnotationTestSuite.Superclass {
      * JUnit tests.
      */
     public static class Not {
-        public static TestSuite suite() throws Exception {
+        public static Test suite() throws Exception {
             return new PreCommitSuite().getNegativeSuite();
         }
     }

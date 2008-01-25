@@ -20,5 +20,8 @@ package org.kuali.module.cams;
  * Constants for cams business object property names.
  */
 public class CamsPropertyConstants {
-    // TODO None here yet!
+
+    public static class Asset {
+        public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
+    }
 }

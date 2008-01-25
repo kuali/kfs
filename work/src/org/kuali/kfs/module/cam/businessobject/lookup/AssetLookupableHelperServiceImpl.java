@@ -15,8 +15,16 @@
  */
 package org.kuali.module.cams.lookup;
 
+import java.util.Properties;
+
+import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
+import org.kuali.core.util.UrlFactory;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 
 /**
@@ -35,26 +43,57 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 
         /** TODO per authorization don't show some links **/
         /** TODO per Asset status don't show some links **/
-        /** TODO make the below KFSConstants **/
         
-        actions.append(getMaintenanceUrl(bo, "edit"));
+        actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, "copy"));
+        actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append("seperate");
+        actions.append(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
-        actions.append("payment");
+        actions.append(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
-        actions.append("retire");
+        actions.append(CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
-        actions.append("transfer");
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append("loan / return");
+        actions.append(CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
-        actions.append("fabrication");
+        actions.append(CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
-        actions.append("merge");
+        actions.append(CamsConstants.MAINTENANCE_FABRICATION_METHOD_TO_CALL);
+        actions.append("&nbsp;&nbsp;");
+        actions.append(CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL);
         
         return actions.toString();
+    }
+    
+    /**
+     * Custom maintenance Urls. In addition to edit / copy CAMs has a lot of urls that are essentially an edit, pass different
+     * doc types and hence hide certain sections. The different doc types are also important for possible posts to the GL.
+     * 
+     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
+     */
+    @Override
+    public String getMaintenanceUrl(BusinessObject businessObject, String methodToCall) {
+        Asset asset = (Asset) businessObject;
+        
+        Properties parameters = new Properties();
+        parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
+        parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObject.getClass().getName());
+        
+        // Asset PK
+        parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+        
+        if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {            
+            parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, CamsConstants.DocumentType.ASSET_RETIREMENT);
+            
+            String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
+            url = "<a href=\"" + url + "\">" + CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL + "</a>";
+            return url;
+        }
+        else {
+            // Regular maintenance document functionality
+            return super.getMaintenanceUrl(businessObject, methodToCall);
+        }
     }
 }

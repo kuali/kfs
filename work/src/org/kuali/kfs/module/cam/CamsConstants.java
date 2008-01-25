@@ -20,5 +20,16 @@ package org.kuali.module.cams;
  * Global constancts for cams.
  */
 public class CamsConstants {
-    // TODO None here yet!
+    public static final String MAINTENANCE_TAG_METHOD_TO_CALL = "tag";
+    public static final String MAINTENANCE_SEPERATE_METHOD_TO_CALL = "seperate";
+    public static final String MAINTENANCE_PAYMENT_METHOD_TO_CALL = "payment";
+    public static final String MAINTENANCE_RETIRE_METHOD_TO_CALL = "retire";
+    public static final String MAINTENANCE_TRANSFER_METHOD_TO_CALL = "transfer";
+    public static final String MAINTENANCE_LOAN_METHOD_TO_CALL = "loan";
+    public static final String MAINTENANCE_FABRICATION_METHOD_TO_CALL = "fabrication";
+    public static final String MAINTENANCE_MERGE_METHOD_TO_CALL = "merge";
+
+    public static class DocumentType {
+        public static final String ASSET_RETIREMENT = "AR";
+    }
 }

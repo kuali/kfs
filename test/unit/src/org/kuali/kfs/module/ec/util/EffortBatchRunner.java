@@ -32,8 +32,8 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.util.LaborSpringContext;
-import org.kuali.module.labor.util.TestDataPreparator;
+import org.kuali.test.util.SpringContextForBatchRunner;
+import org.kuali.test.util.TestDataPreparator;
 
 public class EffortBatchRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortBatchRunner.class);
@@ -63,8 +63,8 @@ public class EffortBatchRunner {
 
         Log4jConfigurer.configureLogging(false);
 
-        LaborSpringContext.initializeApplicationContext();
-        businessObjectService = LaborSpringContext.getBean(BusinessObjectService.class);
+        SpringContextForBatchRunner.initializeApplicationContext();
+        businessObjectService = SpringContextForBatchRunner.getBean(BusinessObjectService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
@@ -118,12 +118,12 @@ public class EffortBatchRunner {
             }
             else if (StringUtils.equalsIgnoreCase("-extract", args[0])) {
                 System.out.println("Extracting Effort Certifications ...");
-                EffortCertificationExtractService effortCertificationExtractService = LaborSpringContext.getBean(EffortCertificationExtractService.class);
+                EffortCertificationExtractService effortCertificationExtractService = SpringContextForBatchRunner.getBean(EffortCertificationExtractService.class);
                 effortCertificationExtractService.extract(2007, "B01");
             }
             else if (StringUtils.equalsIgnoreCase("-create", args[0])) {
                 System.out.println("Creating Effort Certifications ...");
-                EffortCertificationCreateService effortCertificationCreateService = LaborSpringContext.getBean(EffortCertificationCreateService.class);
+                EffortCertificationCreateService effortCertificationCreateService = SpringContextForBatchRunner.getBean(EffortCertificationCreateService.class);
                 effortCertificationCreateService.create(2007, "B01");
             }
             else {

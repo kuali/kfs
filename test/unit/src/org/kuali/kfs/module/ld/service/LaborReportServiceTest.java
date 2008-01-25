@@ -44,8 +44,8 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.util.LaborTestDataPreparator;
 import org.kuali.module.labor.util.ReportRegistry;
-import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 /**
  * This class...

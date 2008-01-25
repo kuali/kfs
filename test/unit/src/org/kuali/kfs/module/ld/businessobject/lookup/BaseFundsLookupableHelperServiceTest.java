@@ -39,10 +39,10 @@ import org.kuali.module.labor.LaborConstants;
 import org.kuali.module.labor.bo.AccountStatusBaseFunds;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborInquiryOptionsService;
-import org.kuali.module.labor.util.TestDataPreparator;
 //import org.kuali.module.labor.util.testobject.AccountStatusBaseFundsForTesting;
 import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 import org.kuali.module.gl.web.Constant;
 
 /**

@@ -22,6 +22,7 @@ import java.util.Properties;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.bo.OriginEntryGroup;
 import org.kuali.module.labor.bo.LaborOriginEntry;
+import org.kuali.test.util.TestDataPreparator;
 
 public class LaborTestDataPreparator {
     /**

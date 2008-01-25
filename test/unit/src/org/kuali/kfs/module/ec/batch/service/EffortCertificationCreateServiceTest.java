@@ -32,8 +32,8 @@ import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 @ConfigureContext(session = KULUSER)
 public class EffortCertificationCreateServiceTest extends KualiTestBase {

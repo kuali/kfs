@@ -29,9 +29,9 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LedgerEntry;
-import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.module.labor.util.testobject.LedgerEntryForTesting;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 @ConfigureContext
 public class LaborLedgerEntryServiceTest extends KualiTestBase {

@@ -27,8 +27,8 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
-import org.kuali.module.labor.util.TestDataPreparator;
 import org.kuali.test.ConfigureContext;
+import org.kuali.test.util.TestDataPreparator;
 
 @ConfigureContext
 public class LaborLedgerPendingEntryServiceTest extends KualiTestBase {

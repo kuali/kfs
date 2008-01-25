@@ -34,11 +34,11 @@ import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.module.labor.bo.LaborLedgerPendingEntry;
 import org.kuali.module.labor.bo.LaborOriginEntry;
 import org.kuali.module.labor.service.LaborOriginEntryService;
-import org.kuali.module.labor.service.impl.LaborScrubberProcess;
 import org.kuali.module.labor.util.testobject.PendingLedgerEntryForTesting;
+import org.kuali.test.util.SpringContextForBatchRunner;
 
 public class TestDataLoader {
-    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborScrubberProcess.class);
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(TestDataLoader.class);
 
     private Properties properties;
     private String fieldNames;
@@ -60,12 +60,12 @@ public class TestDataLoader {
         fieldLength = properties.getProperty("fieldLength");
         deliminator = properties.getProperty("deliminator");
 
-        LaborSpringContext.initializeApplicationContext();
+        SpringContextForBatchRunner.initializeApplicationContext();
         keyFieldList = Arrays.asList(StringUtils.split(fieldNames, deliminator));
         fieldLengthList = Arrays.asList(StringUtils.split(fieldLength, deliminator));
-        businessObjectService = LaborSpringContext.getBean(BusinessObjectService.class);
+        businessObjectService = SpringContextForBatchRunner.getBean(BusinessObjectService.class);
 
-        laborOriginEntryService = LaborSpringContext.getBean(LaborOriginEntryService.class);
+        laborOriginEntryService = SpringContextForBatchRunner.getBean(LaborOriginEntryService.class);
     }
 
     public int loadTransactionIntoPendingEntryTable() {

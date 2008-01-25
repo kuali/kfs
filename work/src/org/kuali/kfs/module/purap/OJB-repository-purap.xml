@@ -2409,7 +2409,7 @@
     <field-descriptor name="vendorStipulationDescription" column="VNDR_STPLTN_DESC" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorStipulationAuthorEmployeeIdentifier" column="VNDR_STPLTN_AUTH_EMP_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="vendorStipulationCreateDate" column="VNDR_STPLTN_CRTE_DT" jdbc-type="DATE"/>
-    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="object" auto-delete="object">
+    <reference-descriptor name="purchaseOrder" class-ref="org.kuali.module.purap.document.PurchaseOrderDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
 </class-descriptor>

@@ -85,9 +85,7 @@
                                                 
                 <field attributeName="universityFiscalYear" />              
                 <field attributeName="effortCertificationReportNumber" /> 
-                <field attributeName="emplid" />
-                          
-                <field attributeName="effortCertificationDocumentCode" />                
+                <field attributeName="emplid" />               
             </resultFields>
         </lookup>
         

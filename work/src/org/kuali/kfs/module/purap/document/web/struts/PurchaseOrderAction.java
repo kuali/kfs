@@ -1330,6 +1330,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
+     * Overrides the method in PurchasingAccountsPayableActionBase to perform some
+     * steps for restricted material.
+     * 
      * @see org.kuali.module.purap.web.struts.action.PurchasingAccountsPayableActionBase#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
      */
     @Override
@@ -1445,6 +1448,15 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         }
     }
     
+    /**
+     * Checks whether the purchase order restricted material that we passed in the input parameter
+     * has already existed and is currently marked as selected.
+     * 
+     * @param po    The PurchaseOrderDocument whose restricted materials to be verified.
+     * @param porm  The PurchaseOrderRestrictedMaterial to be verified whether it has existed and is selected.
+     * @return boolean true if the purchase order restricted material in the input parameter has already
+     *         existed and is currently marked as selected.
+     */
     private boolean checkWithRestrictionStatusHistory(PurchaseOrderDocument po, PurchaseOrderRestrictedMaterial porm) {
         if (po.getPurchaseOrderRestrictionStatusHistories().size() > 0) {
             for (PurchaseOrderRestrictionStatusHistory history : po.getMostRecentPurchaseOrderRestrictionStatusHistory()) {
@@ -1458,6 +1470,12 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         return false;
     }
     
+    /**
+     * Populates the purchase order restricted material list of the PO from the
+     * list of restricted materials from the PurchaseOrderForm if it hasn't existed yet.
+     * 
+     * @param poForm  The PurchaseOrderFormed to be used to obtain a list of restricted materials.
+     */
     private void populatePurchaseOrderRestrictedMaterialsFromMaintRestrictedMaterials(PurchaseOrderForm poForm) {
         PurchaseOrderDocument po = poForm.getPurchaseOrderDocument();
         for (RestrictedMaterial rm : poForm.getMaintRestrictedMaterials()) {

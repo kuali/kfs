@@ -114,7 +114,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
-        System.out.println("ledgerEntryClass: " + ledgerEntryClass);
+
         TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, testTarget + "documentCleanup", documentFieldNames, deliminator);
 
@@ -535,7 +535,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * @return a ledger balance
      */
     private LaborLedgerBalance buildLedgerBalance(String testTarget) {
-        return this.buildDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
     }
 
     /**
@@ -545,7 +545,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * @return a report defintion object
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
-        return this.buildDataObject(EffortCertificationReportDefinition.class, properties, testTarget + "reportDefinitionFieldValues", reportDefinitionFieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationReportDefinition.class, properties, testTarget + "reportDefinitionFieldValues", reportDefinitionFieldNames, deliminator);
     }
 
     /**
@@ -555,17 +555,7 @@ public class EffortCertificationExtractServiceTest extends KualiTestBase {
      * @return an Effort Certification Document object
      */
     private EffortCertificationDocument buildDocument(String testTarget) {
-        return this.buildDataObject(EffortCertificationDocument.class, properties, testTarget + "document", documentFieldNames, deliminator);
-    }
-
-    /**
-     * build an Effort Certification Document object from the given test target
-     * 
-     * @param testTarget the given test target that specifies the test data being used
-     * @return an Effort Certification Document object
-     */
-    private <T> T buildDataObject(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) {
-        return TestDataPreparator.buildTestDataObject(clazz, properties, propertykey, fieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationDocument.class, properties, testTarget + "document", documentFieldNames, deliminator);
     }
 
     /**

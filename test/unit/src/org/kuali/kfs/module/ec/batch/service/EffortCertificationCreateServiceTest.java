@@ -299,7 +299,7 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
      * @return a report defintion object
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
-        return this.buildDataObject(EffortCertificationReportDefinition.class, properties, testTarget + "reportDefinitionFieldValues", reportDefinitionFieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationReportDefinition.class, properties, testTarget + "reportDefinitionFieldValues", reportDefinitionFieldNames, deliminator);
     }
 
     /**
@@ -309,20 +309,10 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
      * @return an Effort Certification Document object
      */
     private EffortCertificationDocument buildDocument(String testTarget) {
-        return this.buildDataObject(EffortCertificationDocument.class, properties, testTarget + "document", documentFieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationDocument.class, properties, testTarget + "document", documentFieldNames, deliminator);
     }
 
     private EffortCertificationDocumentBuild buildDocumentBuild(String testTarget) {
-        return this.buildDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "documentBuild", documentFieldNames, deliminator);
-    }
-
-    /**
-     * build an Effort Certification Document object from the given test target
-     * 
-     * @param testTarget the given test target that specifies the test data being used
-     * @return an Effort Certification Document object
-     */
-    private <T> T buildDataObject(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) {
-        return TestDataPreparator.buildTestDataObject(clazz, properties, propertykey, fieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "documentBuild", documentFieldNames, deliminator);
     }
 }

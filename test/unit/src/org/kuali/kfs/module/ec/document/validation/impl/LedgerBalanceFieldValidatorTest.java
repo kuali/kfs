@@ -75,7 +75,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
-        this.doCleanUp();
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
     }
 
     public void testHasValidAccount_valid() throws Exception {
@@ -320,15 +320,5 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
 
         return reportDefinition;
-    }
-
-    /**
-     * remove the existing data from the database so that they cannot affact the test results
-     */
-    private void doCleanUp() throws Exception {
-        LaborLedgerBalance cleanup = laborModuleService.createLaborLedgerBalance();
-        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", balanceFieldNames, deliminator);
-        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(balanceFieldNames, deliminator)));
-        businessObjectService.deleteMatching(ledgerBalanceClass, fieldValues);
     }
 }

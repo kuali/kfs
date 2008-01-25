@@ -15,13 +15,11 @@
  */
 package org.kuali.module.effort.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.bo.LaborLedgerBalance;
@@ -34,7 +32,6 @@ import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 
@@ -52,7 +49,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     private PersistenceService persistenceService;
     private EffortCertificationDocumentBuildService effortCertificationDocumentBuildService;
     private LaborModuleService laborModuleService;
-    
+
     private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
 
     /**
@@ -84,10 +81,10 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         persistenceService = SpringContext.getBean(PersistenceService.class);
         effortCertificationDocumentBuildService = SpringContext.getBean(EffortCertificationDocumentBuildService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
-        
+
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
-        this.doCleanUp();
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
     }
 
     /**
@@ -100,7 +97,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
     }
 
     /**
-     * test if the input balances can be grouped and converted to documents correctly 
+     * test if the input balances can be grouped and converted to documents correctly
      */
     public void testGenerateDocumentBuildList() throws Exception {
         String testTarget = "generateDocumentBuildList.";
@@ -190,18 +187,18 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         for (int j = 0; j < numberOfExpectedDocuments; j++) {
             EffortCertificationDocumentBuild expected = expectedDocumentBuildList.get(j);
             boolean contain = false;
-            
+
             for (int i = 0; i < numberOfExpectedDocuments - j; i++) {
                 EffortCertificationDocumentBuild actual = documentBuildList.get(i);
-                
+
                 contain = ObjectUtil.compareObject(actual, expected, documentKeyFields);
-                if(contain) {
+                if (contain) {
                     documentBuildList.remove(i);
                     break;
-                }               
+                }
             }
-            
-            if(!contain) {
+
+            if (!contain) {
                 fail(errorMessage);
             }
         }
@@ -254,15 +251,5 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
 
         return reportDefinition;
-    }
-
-    /**
-     * remove the existing data from the database so that they cannot affact the test results
-     */
-    private void doCleanUp() throws Exception {
-        LedgerBalance cleanup = new LedgerBalance();
-        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", balanceFieldNames, deliminator);
-        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(balanceFieldNames, deliminator)));
-        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 }

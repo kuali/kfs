@@ -15,23 +15,22 @@
  */
 package org.kuali.module.effort.service;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.gl.web.TestDataGenerator;
-import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
 
@@ -48,6 +47,9 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private PersistenceService persistenceService;
     private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
+    private LaborModuleService laborModuleService;
+
+    private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
 
     /**
      * Constructs a EffortCertificationDetailBuildServiceTest.java.
@@ -65,7 +67,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
 
         balanceFieldNames = properties.getProperty("balanceFieldNames");
         detailFieldNames = properties.getProperty("detailFieldNames");
-        postingYear = Integer.valueOf(properties.getProperty("postingYear")); 
+        postingYear = Integer.valueOf(properties.getProperty("postingYear"));
     }
 
     @Override
@@ -75,15 +77,18 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
         effortCertificationDetailBuildService = SpringContext.getBean(EffortCertificationDetailBuildService.class);
+        laborModuleService = SpringContext.getBean(LaborModuleService.class);
 
-        this.doCleanUp();
+        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
+
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
     }
 
     /**
      * test if a build detail line can be generated from the specified ledger balance whose sub account is not in sub account table
      */
     public void testGenerateDetailBuild_NullSubAccount() throws Exception {
-        String testTarget = "generateDetailBuild.nullSubAccount.";        
+        String testTarget = "generateDetailBuild.nullSubAccount.";
         reportDefinition = this.buildReportDefinition("");
         this.assertDetailEquals(testTarget);
     }
@@ -92,7 +97,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      * test if a build detail line can be generated from the specified ledger balance whose sub account is of expense type.
      */
     public void testGenerateDetailBuild_ExpenseSubAccount() throws Exception {
-        String testTarget = "generateDetailBuild.expenseSubAccount.";        
+        String testTarget = "generateDetailBuild.expenseSubAccount.";
         reportDefinition = this.buildReportDefinition("");
         this.assertDetailEquals(testTarget);
     }
@@ -111,8 +116,8 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      * and the specified as the system parameters
      */
     public void testGenerateDetailBuild_UnspecifiedTypeSubAccount() throws Exception {
-        String testTarget = "generateDetailBuild.unspecifiedTypeSubAccount.";        
-        reportDefinition = this.buildReportDefinition("");        
+        String testTarget = "generateDetailBuild.unspecifiedTypeSubAccount.";
+        reportDefinition = this.buildReportDefinition("");
         this.assertDetailEquals(testTarget);
     }
 
@@ -134,7 +139,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         List<String> keyFields = ObjectUtil.split(detailFieldNames, deliminator);
         Map<String, List<String>> systemParameters = this.buildSystemParameterMap(testTarget);
 
-        LedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
+        LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
 
         EffortCertificationDetailBuild detailBuild = effortCertificationDetailBuildService.generateDetailBuild(postingYear, ledgerBalance, reportDefinition, systemParameters);
 
@@ -150,8 +155,8 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      * @param testTarget the given test target that specifies the test data being used
      * @return a ledger balance
      */
-    private LedgerBalance buildLedgerBalance(String testTarget) {
-        LedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(LedgerBalance.class, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
+    private LaborLedgerBalance buildLedgerBalance(String testTarget) {
+        LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
         businessObjectService.save(ledgerBalance);
         persistenceService.retrieveNonKeyFields(ledgerBalance);
 
@@ -185,17 +190,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
         String reprtDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
         ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
-        
+
         return reportDefinition;
-    }
-    
-    /**
-     * remove the existing data from the database so that they cannot affact the test results 
-     */
-    private void doCleanUp() throws Exception {
-        LedgerBalance cleanup = new LedgerBalance();
-        ObjectUtil.populateBusinessObject(cleanup, properties, "dataCleanup", balanceFieldNames, deliminator);
-        Map<String, Object> fieldValues = ObjectUtil.buildPropertyMap(cleanup, Arrays.asList(StringUtils.split(balanceFieldNames, deliminator)));
-        businessObjectService.deleteMatching(LedgerBalance.class, fieldValues);
     }
 }

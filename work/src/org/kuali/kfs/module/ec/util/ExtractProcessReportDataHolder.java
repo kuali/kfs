@@ -24,7 +24,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
-import org.kuali.module.labor.bo.LedgerBalance;
 
 /**
  * This class groups and holds the data presented to working reports of extract process

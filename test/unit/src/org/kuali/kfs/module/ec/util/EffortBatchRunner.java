@@ -15,6 +15,8 @@
  */
 package org.kuali.module.effort.util;
 
+import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,9 +34,13 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
 import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.gl.web.TestDataGenerator;
+import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.SpringContextForBatchRunner;
 import org.kuali.test.util.TestDataPreparator;
 
+/**
+ * This batch runner is just for testing purpose and used by effort team members.
+ */
 public class EffortBatchRunner {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortBatchRunner.class);
 

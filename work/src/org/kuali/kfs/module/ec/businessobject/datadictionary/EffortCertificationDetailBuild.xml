@@ -24,9 +24,7 @@
             <title>Effort Certification Detail Line Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="financialDocumentPostingYear" />
-                
+                <field attributeName="effortCertificationBuildNumber" />                
                 <field attributeName="chartOfAccountsCode" />                                
                 <field attributeName="accountNumber" />   
                 <field attributeName="subAccountNumber" />
@@ -41,7 +39,8 @@
                 <field attributeName="effortCertificationUpdatedOverallPercent" />
                 
                 <field attributeName="costShareSourceSubAccountNumber" /> 
-                <field attributeName="effortCertificationOriginalPayrollAmount" />               
+                <field attributeName="effortCertificationOriginalPayrollAmount" />  
+                <field attributeName="financialDocumentPostingYear" />             
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 

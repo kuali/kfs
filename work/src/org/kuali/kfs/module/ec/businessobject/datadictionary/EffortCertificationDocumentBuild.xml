@@ -38,8 +38,7 @@
 	                <inquiryFields>
 	                    <inquiryCollection name="effortCertificationDetailLinesBuild" businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetailBuild" numberOfColumns="1">
 			                <field attributeName="effortCertificationBuildNumber" />
-			                <field attributeName="financialDocumentPostingYear" />
-			                
+			                			                
 			                <field attributeName="chartOfAccountsCode" />                                
 			                <field attributeName="accountNumber" />   
 			                <field attributeName="subAccountNumber" />
@@ -48,13 +47,13 @@
 			                <field attributeName="sourceChartOfAccountsCode" />
 			                <field attributeName="sourceAccountNumber" />
 			                
-			                <field attributeName="effortCertificationPayrollAmount" />
-			
+			                <field attributeName="effortCertificationPayrollAmount" />			
 			                <field attributeName="effortCertificationCalculatedOverallPercent" />
 			                <field attributeName="effortCertificationUpdatedOverallPercent" />
 			                
 			                <field attributeName="costShareSourceSubAccountNumber" /> 
-			                <field attributeName="effortCertificationOriginalPayrollAmount" />               
+			                <field attributeName="effortCertificationOriginalPayrollAmount" />   
+			                <field attributeName="financialDocumentPostingYear" />           
 	                    </inquiryCollection>
 	                </inquiryFields>
 	            </inquirySection>
@@ -78,20 +77,21 @@
             <lookupFields>
             	<lookupField attributeName="effortCertificationReportNumber" required="true" />
                 <lookupField attributeName="universityFiscalYear" required="true" />
-                <lookupField attributeName="emplid" required="true" />
-                <lookupField attributeName="effortCertificationBuildNumber" required="false" />
+                <lookupField attributeName="emplid" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="emplid" />
                                                 
-                <field attributeName="universityFiscalYear" />
-                
-                <field attributeName="effortCertificationReportNumber" />           
+                <field attributeName="universityFiscalYear" />              
+                <field attributeName="effortCertificationReportNumber" /> 
+                <field attributeName="emplid" />
+                          
                 <field attributeName="effortCertificationDocumentCode" />                
             </resultFields>
         </lookup>
+        
+        <titleAttribute>effortCertificationBuildNumber</titleAttribute>
 
         <attributes>
 

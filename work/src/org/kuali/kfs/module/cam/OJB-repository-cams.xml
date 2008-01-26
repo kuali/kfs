@@ -206,6 +206,9 @@
 	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
+ 	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">
+        <inverse-foreignkey field-ref="capitalAssetNumber" />
+    </collection-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_MULT_AST_DOC_T">
@@ -264,6 +267,11 @@
 	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="financialObjectSubTypeCode" />
 	</reference-descriptor>
+ 	<!-- collection-descriptor name="ObjectCodes" element-class-ref="org.kuali.module.chart.bo.ObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<inverse-foreignkey field-ref="universityFiscalYear" />
+		<inverse-foreignkey field-ref="chartOfAccountsCode" />
+		<inverse-foreignkey field-ref="financialObjectSubTypeCode"/>        
+    </collection-descriptor-->		
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction" table="CB_PND_ACTION_T">
@@ -559,6 +567,8 @@
         <foreignkey field-ref="buildingRoomNumber" />
     </reference-descriptor>
 </class-descriptor>
+
+
 
 <class-descriptor class="org.kuali.module.cams.bo.PendingPurchaseOrder" table="CB_PND_PO_T">
 	<field-descriptor name="purchaseOrderNumber" column="PO_NUMBER" jdbc-type="VARCHAR" primarykey="true" index="true"/>

@@ -47,10 +47,42 @@
 				<value>org/kuali/module/cams/OJB-repository-cams.xml</value>
 			</list>
 		</property>
+		<!--  property name="jobNames">
+			<list>
+				<value>camsAssetDepreciationJob</value>
+			</list>
+		</property-->		
 	</bean>
 
 	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
+
+<!-- ********* Begin of depreciation batch beans ********** -->
+    <!-- bean id="camsAssetDepreciationStep" class="org.kuali.module.cams.batch.CamsAssetDepreciationStep" parent="step">
+		<property name="camsAssetDepreciationService">
+			<ref bean="camsAssetDepreciationService" />
+		</property>
+	</bean-->
+
+	<!-- bean id="camsAssetDepreciationJob" parent="unscheduledJobDescriptor">
+		<property name="steps">
+			<list>
+				<ref bean="camsAssetDepreciationStep"/>
+			</list>
+		</property>
+	</bean-->
+
+	<bean id="camsAssetDepreciationService" class="org.kuali.module.cams.service.impl.CamsAssetDepreciationServiceImpl">											       
+        <property name="parameterService">
+            <ref bean="parameterService" />
+        </property>
+        <property name="camsDepreciableAssetsDao">
+            <ref bean="camsDepreciableAssetsDao" />
+        </property>        
+    </bean>
+    
+	<bean id="camsDepreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.CamsDepreciableAssetsDaoOjb" />    
+<!-- *********  End of depreciation batch beans ********** -->
 
     <bean id="assetLookupableHelperService" class="org.kuali.module.cams.lookup.AssetLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
     </bean>

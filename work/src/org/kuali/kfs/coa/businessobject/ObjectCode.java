@@ -25,6 +25,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.impl.PersistenceStructureServiceImpl;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.cams.bo.AssetObjectCode;
 import org.kuali.module.chart.bo.codes.BudgetAggregationCode;
 import org.kuali.module.chart.bo.codes.FederalFundedCode;
 import org.kuali.module.chart.bo.codes.MandatoryTransferEliminationCode;
@@ -70,7 +71,8 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private transient ObjectCode reportsToFinancialObject;
     private transient ObjectType financialObjectType;
     private transient ObjSubTyp financialObjectSubType;
-
+    
+    private AssetObjectCode assetObjectCode;
     /**
      * Default no-arg constructor.
      */
@@ -605,4 +607,11 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         return this.financialObjectCodeName;
     }
 
+    public AssetObjectCode getAssetObjectCode() {
+        return assetObjectCode;
+    }
+
+    public void setAssetObjectCode(AssetObjectCode assetObjectCode) {
+        this.assetObjectCode = assetObjectCode;
+    }
 }

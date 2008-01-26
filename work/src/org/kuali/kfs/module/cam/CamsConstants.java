@@ -20,6 +20,11 @@ package org.kuali.module.cams;
  * Global constancts for cams.
  */
 public class CamsConstants {
+    public static final String TRANSACTION_TYPE_CREDIT="C";
+    public static final String TRANSACTION_TYPE_DEBIT ="D";
+    
+    public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE="SV";
+    public static final String DEPRECIATION_METHOD_STRAIGHT_LINE_CODE="SL"; 
     public static final String MAINTENANCE_TAG_METHOD_TO_CALL = "tag";
     public static final String MAINTENANCE_SEPERATE_METHOD_TO_CALL = "seperate";
     public static final String MAINTENANCE_PAYMENT_METHOD_TO_CALL = "payment";

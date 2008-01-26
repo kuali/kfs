@@ -3,6 +3,7 @@ package org.kuali.module.cams.bo;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
@@ -87,10 +88,10 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetRetirementReason retirementReason;
     private DocumentHeader cashReceiptFinancialDocument;
     private DocumentHeader transferOfFundsFinancialDocument;
-    private AssetCondition condition;
+    private AssetCondition condition;        
     private AssetStatus inventoryStatus;
-    
-	/**
+    private List<AssetPayment> assetPayments;
+    /**
 	 * Default constructor.
 	 */
 	public Asset() {
@@ -1459,23 +1460,6 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the inventoryStatus attribute. 
-     * @return Returns the inventoryStatus.
-     */
-    public AssetStatus getInventoryStatus() {
-        return inventoryStatus;
-    }
-
-    /**
-     * Sets the inventoryStatus attribute value.
-     * @param inventoryStatus The inventoryStatus to set.
-     * @deprecated
-     */
-    public void setInventoryStatus(AssetStatus inventoryStatus) {
-        this.inventoryStatus = inventoryStatus;
-    }
-
-    /**
      * Gets the active attribute.
      * 
      * @return Returns the active
@@ -1509,4 +1493,11 @@ public class Asset extends PersistableBusinessObjectBase {
         return m;
     }
 
+    public List<AssetPayment> getAssetPayments() {
+        return assetPayments;
+    }
+
+    public void setAssetPayments(List<AssetPayment> assetPayments) {
+        this.assetPayments = assetPayments;
+    }
 }

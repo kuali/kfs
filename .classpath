@@ -70,6 +70,5 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/transactions-api-3.2.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/transactions-jta-3.2.1.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jta-1.0.1B.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jasperreports-2.0.4.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>
 </classpath>

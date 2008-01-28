@@ -28,7 +28,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.KualiInteger;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.kfs.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -36,8 +39,8 @@ import org.kuali.module.chart.bo.ObjectType;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.chart.bo.SubObjCd;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
-import org.kuali.module.labor.bo.LaborObject;
-import org.kuali.module.labor.bo.PositionObjectBenefit;
+//import org.kuali.module.labor.bo.LaborObject;
+//import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 
 /**
@@ -70,8 +73,8 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
 
     // TODO These are only used by PBGLExpenditureLines so should probably put these in an extension class
     // These are not defined under ojb since not all expenditure line objects have these
-    private LaborObject laborObject;
-    private List<PositionObjectBenefit> positionObjectBenefit;
+    private LaborLedgerObject laborObject;
+    private List<LaborLedgerPositionObjectBenefit> positionObjectBenefit;
 
     private KualiDecimal percentChange;
 
@@ -495,14 +498,14 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @return Returns the laborObject.
      */
-    public LaborObject getLaborObject() {
+    public LaborLedgerObject getLaborObject() {
         if (laborObject == null) {
             Map pkeys = new HashMap();
             pkeys.put("universityFiscalYear", getUniversityFiscalYear());
             pkeys.put("chartOfAccountsCode", getChartOfAccountsCode());
             pkeys.put("financialObjectCode", getFinancialObjectCode());
-
-            setLaborObject((LaborObject) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(LaborObject.class, pkeys));
+            
+            setLaborObject((LaborLedgerObject) SpringContext.getBean(BusinessObjectService.class).findByPrimaryKey(SpringContext.getBean(LaborModuleService.class).getLaborLedgerObjectClass(), pkeys));
 
         }
         return laborObject;
@@ -513,7 +516,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @param laborObject The laborObject to set.
      */
-    public void setLaborObject(LaborObject laborObject) {
+    public void setLaborObject(LaborLedgerObject laborObject) {
         this.laborObject = laborObject;
     }
 
@@ -522,14 +525,14 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @return Returns the positionObjectBenefit.
      */
-    public List<PositionObjectBenefit> getPositionObjectBenefit() {
+    public List<LaborLedgerPositionObjectBenefit> getPositionObjectBenefit() {
         if (positionObjectBenefit == null) {
             Map fieldValues = new HashMap();
             fieldValues.put("universityFiscalYear", getUniversityFiscalYear());
             fieldValues.put("chartOfAccountsCode", getChartOfAccountsCode());
             fieldValues.put("financialObjectCode", getFinancialObjectCode());
 
-            setPositionObjectBenefit((List<PositionObjectBenefit>) SpringContext.getBean(BusinessObjectService.class).findMatching(PositionObjectBenefit.class, fieldValues));
+            setPositionObjectBenefit((List<LaborLedgerPositionObjectBenefit>) SpringContext.getBean(BusinessObjectService.class).findMatching(SpringContext.getBean(LaborModuleService.class).getLaborLedgerPositionObjectBenefitClass(), fieldValues));
 
         }
         return positionObjectBenefit;
@@ -540,7 +543,7 @@ public class PendingBudgetConstructionGeneralLedger extends PersistableBusinessO
      * 
      * @param positionObjectBenefit The positionObjectBenefit to set.
      */
-    public void setPositionObjectBenefit(List<PositionObjectBenefit> positionObjectBenefit) {
+    public void setPositionObjectBenefit(List<LaborLedgerPositionObjectBenefit> positionObjectBenefit) {
         this.positionObjectBenefit = positionObjectBenefit;
     }
 

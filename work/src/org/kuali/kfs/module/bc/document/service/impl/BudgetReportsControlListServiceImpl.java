@@ -15,6 +15,9 @@
  */
 package org.kuali.module.budget.service.impl;
 
+import java.util.List;
+
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,22 +26,63 @@ import org.springframework.transaction.annotation.Transactional;
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
 
     BudgetReportsControlListDao budgetReportsControlListDao;
-    
-    public void subFundSelectList() {
-        String personUserIdentifier = ""; 
-        budgetReportsControlListDao.cleanSubFundSelectList(personUserIdentifier);
-        budgetReportsControlListDao.buildSubFundSelectList();
-    }
 
-    public void cleanAndupdateReportsControlList(String idForSession, String personUserIdentifier, String chartOfAcocuntCode, Integer universityFiscalYear, String organizationCode){
+    public void cleanReportsControlList(String idForSession, String personUserIdentifier) {
+        
         
         budgetReportsControlListDao.cleanReportsControlList(personUserIdentifier);
         budgetReportsControlListDao.cleanReportsControlListPart1(idForSession);
         budgetReportsControlListDao.cleanReportsControlListPart2(idForSession);
+
+    }
+
+    public void updateRportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup) {
+
         
         budgetReportsControlListDao.updateReportsControlListpart1(idForSession, personUserIdentifier, universityFiscalYear);
-        budgetReportsControlListDao.updateReportsControlListpart2(idForSession, personUserIdentifier, chartOfAcocuntCode, organizationCode);
+        
+        for (BudgetConstructionPullup bcp : budgetConstructionPullup){
+            budgetReportsControlListDao.updateReportsControlListpart2(idForSession, personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
+        }
+        
         budgetReportsControlListDao.updateReportsControlListDisp1(idForSession);
+        
+        
+        
+
+    }
+    
+    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier){
+        budgetReportsControlListDao.cleanReportsSubFundGroupSelectList(personUserIdentifier);
+    }
+    
+    public void updateReportsSubFundGroupSelectList(String personUserIdentifier){
+        budgetReportsControlListDao.updateReportsSubFundGroupSelectList(personUserIdentifier);
+    }
+    
+
+    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup){
+        
+        for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
+            budgetReportsControlListDao.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
+        }
+    }
+    
+    public void cleanReportsAccountSummaryTable (String personUserIdentifier){
+        budgetReportsControlListDao.cleanReportsAccountSummaryTable(personUserIdentifier);
+    }
+    
+    
+    
+    public void updateRepotsAccountSummaryTable(String personUserIdentifier){
+        budgetReportsControlListDao.updateRepotsAccountSummaryTable(personUserIdentifier);
+    }
+    
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList){
+        
+        for (String subfundCode: selectedSubfundGroupCodeList){
+            budgetReportsControlListDao.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundCode);
+        }
         
     }
     
@@ -46,5 +90,5 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
         this.budgetReportsControlListDao = budgetReportsControlListDao;
     }
 
-    
+
 }

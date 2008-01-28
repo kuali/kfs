@@ -25,7 +25,7 @@ public interface BudgetConstructionOrganizationReportsDao {
 
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
-    public Collection getByPrimaryId(Class cls, Map searchCriteria);
+    public Collection getBySearchCriteria(Class cls, Map searchCriteria);
     
     /**
      * This method returns active organizations that report to the passed in organization.

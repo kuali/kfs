@@ -67,7 +67,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
     
-    public Collection getByPrimaryId(Class cls, Map searchCriteria){
+    public Collection getBySearchCriteria(Class cls, Map searchCriteria){
         
         Criteria criteria = new Criteria();
         for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {

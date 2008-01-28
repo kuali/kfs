@@ -15,6 +15,7 @@
  */
 package org.kuali.module.budget.web.struts.action;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -34,6 +35,7 @@ import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiModuleService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.Guid;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiAction;
@@ -46,8 +48,8 @@ import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
+import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.service.PermissionService;
-import org.kuali.module.budget.web.struts.form.OrgReportSubFundListSelectionForm;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 import org.kuali.module.chart.bo.Org;
 
@@ -747,8 +749,27 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
-
-            // TODO this will eventually change to call the budgeted incumbents picklist screen
+            // TODO This should be moved to after user choose ok in Account List
+            // clean and update control list
+            GlobalVariables.getUserSession().addObject("selectionSubTreeOrgs", selectionSubTreeOrgs);
+            
+            String idForSession = (new Guid()).toString();
+            String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            Integer universityFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+            
+            BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
+            
+            //change flag
+            budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectionSubTreeOrgs);
+            
+            budgetReportsControlListService.cleanReportsControlList(idForSession, personUserIdentifier);
+            budgetReportsControlListService.updateRportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectionSubTreeOrgs);
+            
+            //update sub-fund selection list - This should be moved after implemention account list.
+            budgetReportsControlListService.cleanReportsSubFundGroupSelectList(personUserIdentifier);
+            budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
+            
+            // Go to next page
             String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
             String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
              

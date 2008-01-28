@@ -37,7 +37,7 @@ public interface BudgetConstructionOrganizationReportsService {
      */
     public BudgetConstructionOrganizationReports getByPrimaryId(String chartOfAccountsCode, String organizationCode);
 
-    public Collection getByPrimaryId(Class cls, Map searchCriteria);
+    public Collection getBySearchCriteria(Class cls, Map searchCriteria);
     
     /**
      * This method returns a list of child BC organization reports objects for the passed in org.

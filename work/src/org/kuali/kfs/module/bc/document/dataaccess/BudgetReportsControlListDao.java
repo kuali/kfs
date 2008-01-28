@@ -19,9 +19,6 @@ public interface BudgetReportsControlListDao {
 
     
     public void buildSubFundSelectList();
-        
-        
-    public void cleanSubFundSelectList(String personUserIdentifier);
     
     public void cleanReportsControlList(String personUserIdentifier);    
     
@@ -34,4 +31,17 @@ public interface BudgetReportsControlListDao {
     public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode );
 
     public void updateReportsControlListDisp1(String idForSession);    
+    
+    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
+    
+    public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
+            
+    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
+    
+    public void cleanReportsAccountSummaryTable (String personUserIdentifier);
+    
+    public void updateRepotsAccountSummaryTable(String personUserIdentifier);
+    
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode);
+    
 }

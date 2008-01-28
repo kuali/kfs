@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.service;
 
+import java.util.List;
+
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
+
 
 /**
  * TODO Need to modify comments
@@ -23,7 +27,20 @@ package org.kuali.module.budget.service;
  */
 public interface BudgetReportsControlListService {
     
-    public void cleanAndupdateReportsControlList(String idForSession, String personUserIdentifier, String chartOfAcocuntCode, Integer universityFiscalYear, String organizationCode);
+    public void cleanReportsControlList(String idForSession, String personUserIdentifier);
     
-        
+    public void updateRportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup);
+    
+    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup);
+    
+    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
+    
+    public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
+    
+    public void cleanReportsAccountSummaryTable(String personUserIdentifier);
+    
+    public void updateRepotsAccountSummaryTable(String personUserIdentifier);
+    
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList);
+    
 }

@@ -691,6 +691,7 @@ public class KFSPropertyConstants {
     public static final String INC_BDGT_ELIMINATIONS_FIN_OBJ_CD = "incBdgtEliminationsFinObjCd";
     public static final String INCOME_CLASS = "incomeClass";
     public static final String INCOME_CLASS_CODE = "incomeClassCode";
+    public static final String INCOME_EXPENSE_CODE = "incomeExpenseCode";
     public static final String INCOME_FINANCIAL_OBJECT = "incomeFinancialObject";
     public static final String INCOME_FINANCIAL_OBJECT_CODE = "incomeFinancialObjectCode";
     public static final String INCOME_STREAM_ACCOUNT = "incomeStreamAccount";
@@ -835,6 +836,7 @@ public class KFSPropertyConstants {
     public static final String ORGANIZATION = "organization";
     public static final String ORGANIZATION_ACTIVE_INDICATOR = "organizationActiveIndicator";
     public static final String ORGANIZATION_BEGIN_DATE = "organizationBeginDate";
+    public static final String ORGANIZATION_CHART_OF_ACCOUNTS_CODE = "organizationChartOfAccountsCode";
     public static final String ORGANIZATION_CITY_NAME = "organizationCityName";
     public static final String ORGANIZATION_CODE = "organizationCode";
     public static final String ORGANIZATION_DEFAULT_ACCOUNT = "organizationDefaultAccount";
@@ -1033,6 +1035,7 @@ public class KFSPropertyConstants {
     public static final String SUB_FUND_GROUP_DESCRIPTION = "subFundGroupDescription";
     public static final String SUB_FUND_GROUP_TYPE_CODE = "subFundGroupTypeCode";
     public static final String SUB_FUND_GROUP_WAGES_INDICATOR = "subFundGroupWagesIndicator";
+    public static final String SUB_FUND_SORT_CODE = "subFundSortCode";
     public static final String SUB_OBJ_CODE_CHANGE_DETAILS = "subObjCdGlobalDetails";
     public static final String SUB_OBJECT_CODE = "subObjectCode";
     public static final String SUBCONTRACTOR_NUMBER = "subcontractorNumber";

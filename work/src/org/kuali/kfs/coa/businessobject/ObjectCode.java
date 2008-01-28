@@ -538,6 +538,10 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
         return financialBudgetAggregation;
     }
 
+    public void setFinancialBudgetAggregation(BudgetAggregationCode financialBudgetAggregation) {
+        this.financialBudgetAggregation = financialBudgetAggregation;
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */

@@ -230,6 +230,15 @@
 			<ref bean="budgetConstructionOrganizationReportsDao" />
 		</property>
 	</bean>
+	
+	
+	<bean id="budgetConstructionOrganizationJasperReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationJasperReportsServiceImpl">
+	<property name="budgetConstructionAccountSummaryService">
+		<ref bean="budgetConstructionAccountSummaryService" />
+	</property>
+	</bean>
+	
+	
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />
 		

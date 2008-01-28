@@ -80,12 +80,20 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Properties parameters = new Properties();
         parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObject.getClass().getName());
+
+        // following is required to short circuit KualiMaintenanceForm into setting our newMaintainableObject population
+        //parameters.put("docTypeName", "AssetMaintenanceDocument");
+        //parameters.put(KFSConstants.OVERRIDE_KEYS, "modelName" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelChartOfAccountsCode" + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + "modelOrganizationCode");
+        //parameters.put(RiceConstants.OVERRIDE_KEYS, CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER + KFSConstants.FIELD_CONVERSIONS_SEPERATOR + CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE);
         
         // Asset PK
         parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
         
-        if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {            
-            parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, CamsConstants.DocumentType.ASSET_RETIREMENT);
+        if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {
+//            parameters.put("editingMode(" + CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE + ")", CamsConstants.DocumentTypes.ASSET_RETIREMENT);
+//            parameters.put(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE,
+//                    CamsConstants.DocumentTypes.ASSET_RETIREMENT);
+            parameters.put(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_RETIREMENT);
             
             String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
             url = "<a href=\"" + url + "\">" + CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL + "</a>";

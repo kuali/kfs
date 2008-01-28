@@ -22,6 +22,7 @@ package org.kuali.module.cams;
 public class CamsPropertyConstants {
 
     public static class Asset {
+        public static final String DOCUMENT_TYPE_CODE = "documentTypeCode";
         public static final String CAPITAL_ASSET_NUMBER = "capitalAssetNumber";
     }
 }

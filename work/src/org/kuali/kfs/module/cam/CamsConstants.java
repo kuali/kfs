@@ -17,7 +17,7 @@ package org.kuali.module.cams;
 
 
 /**
- * Global constancts for cams.
+ * Global constants for cams.
  */
 public class CamsConstants {
     public static final String DEPRECIATION_METHOD_SALVAGE_VALUE_CODE   ="SV";
@@ -32,7 +32,12 @@ public class CamsConstants {
     public static final String MAINTENANCE_FABRICATION_METHOD_TO_CALL   = "fabrication";
     public static final String MAINTENANCE_MERGE_METHOD_TO_CALL         = "merge";
 
-    public static class DocumentType {
+    public static class DocumentTypes {
         public static final String ASSET_RETIREMENT = "AR";
+    }
+    
+    // Following constants will be retired by KFSMI-324
+    public static class SectionTitles {
+        public static final String ASSET_RETIREMENT = "Retire";
     }
 }

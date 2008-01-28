@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.Asset</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.cams.maintenance.AssetMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
@@ -108,6 +108,18 @@
 				</maintainableItems>
 			</maintainableSection>
             
+            <maintainableSection title="Retire">
+                <maintainableItems>
+					
+					<maintainableField name="retirementChartOfAccountsCode" />
+					<maintainableField name="retirementAccountNumber" />
+					<maintainableField name="retirementReasonCode" />
+					<maintainableField name="retirementPeriodCode" />
+					<maintainableField name="retirementFiscalYear" />
+					
+				</maintainableItems>
+			</maintainableSection>
+            
             <maintainableSection title="Find a proper home for these attributes?">
               	
               	<maintainableItems>
@@ -121,11 +133,6 @@
 					<maintainableField name="financialDocumentPostingPeriodCode" />
 					<maintainableField name="financialDocumentPostingYear" />
 					
-					<maintainableField name="retirementChartOfAccountsCode" />
-					<maintainableField name="retirementAccountNumber" />
-					<maintainableField name="retirementReasonCode" />
-					<maintainableField name="retirementPeriodCode" />
-					<maintainableField name="retirementFiscalYear" />
 					<maintainableField name="cashReceiptFinancialDocumentNumber" />
 					
 					<maintainableField name="estimatedFabricationCompletionDate" />

@@ -20,6 +20,9 @@ import org.kuali.module.chart.bo.Chart;
  */
 public class Asset extends PersistableBusinessObjectBase {
 
+    // field is here so that AssetLookupableHelperServiceImpl can pass action information
+    private String documentTypeCode;
+    
 	private Long capitalAssetNumber;
 	private String capitalAssetDescription;
 	private String capitalAssetTypeCode;
@@ -98,6 +101,26 @@ public class Asset extends PersistableBusinessObjectBase {
 
 	}
 
+    /**
+     * Gets the documentTypeCode attribute.
+     * 
+     * @return Returns the documentTypeCode
+     * 
+     */
+    public String getDocumentTypeCode() { 
+        return documentTypeCode;
+    }
+
+    /**
+     * Sets the documentTypeCode attribute.
+     * 
+     * @param documentTypeCode The documentTypeCode to set.
+     * 
+     */
+    public void setDocumentTypeCode(String documentTypeCode) {
+        this.documentTypeCode = documentTypeCode;
+    }
+    
 	/**
 	 * Gets the capitalAssetNumber attribute.
 	 * 

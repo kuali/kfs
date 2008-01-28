@@ -19,6 +19,7 @@ package org.kuali.module.labor.bo;
 import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.kfs.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.bo.Options;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -26,7 +27,7 @@ import org.kuali.module.chart.bo.ObjectCode;
 /**
  * Labor business object for Modeling of Position Object Benefit
  */
-public class PositionObjectBenefit extends PersistableBusinessObjectBase {
+public class PositionObjectBenefit extends PersistableBusinessObjectBase implements LaborLedgerPositionObjectBenefit {
     private Integer universityFiscalYear;
     private String chartOfAccountsCode;
     private String financialObjectCode;

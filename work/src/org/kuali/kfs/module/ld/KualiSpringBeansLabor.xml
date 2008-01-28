@@ -77,6 +77,7 @@
 		<property name="laborLedgerEntryClass" value="org.kuali.module.labor.bo.LedgerEntry"/>
 		<property name="laborLedgerObjectClass" value="org.kuali.module.labor.bo.LaborObject"/>
 		<property name="laborLedgerPositionObjectGroupClass" value="org.kuali.module.labor.bo.PositionObjectGroup"/>
+		<property name="laborLedgerPositionObjectBenefitClass" value="org.kuali.module.labor.bo.PositionObjectBenefit"/>
 	</bean>
 
     <!--  Section 1: Spring Beans for Business Objects -->

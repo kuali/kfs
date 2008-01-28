@@ -24,6 +24,7 @@ import java.util.Set;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.kfs.bo.LaborLedgerPositionObjectBenefit;
 import org.kuali.kfs.bo.LaborLedgerPositionObjectGroup;
 import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.labor.bo.LedgerBalance;
@@ -43,6 +44,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private Class<? extends LaborLedgerEntry> laborLedgerEntryClass;
     private Class<? extends LaborLedgerObject> laborLedgerObjectClass;
     private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
+    private Class<? extends LaborLedgerPositionObjectBenefit> laborLedgerPositionObjectBenefitClass;
 
     /**
      * @see org.kuali.module.effort.service.LaborEffortCertificationService#createLaborLedgerBalance()
@@ -138,6 +140,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * @see org.kuali.kfs.service.LaborModuleService#getLaborLedgerPositionObjectBenefitClass()
+     */
+    public Class<? extends LaborLedgerPositionObjectBenefit> getLaborLedgerPositionObjectBenefitClass() {
+        return this.laborLedgerPositionObjectBenefitClass;
+    }
+
+    /**
      * Sets the laborLedgerEntryService attribute value.
      * 
      * @param laborLedgerEntryService The laborLedgerEntryService to set.
@@ -189,5 +198,13 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public void setLaborLedgerEntryClass(Class<? extends LaborLedgerEntry> laborLedgerEntryClass) {
         this.laborLedgerEntryClass = laborLedgerEntryClass;
+    }
+
+    /**
+     * Sets the laborLedgerPositionObjectBenefitClass attribute value.
+     * @param laborLedgerPositionObjectBenefitClass The laborLedgerPositionObjectBenefitClass to set.
+     */
+    public void setLaborLedgerPositionObjectBenefitClass(Class<? extends LaborLedgerPositionObjectBenefit> laborLedgerPositionObjectBenefitClass) {
+        this.laborLedgerPositionObjectBenefitClass = laborLedgerPositionObjectBenefitClass;
     }
 }

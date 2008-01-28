@@ -59,8 +59,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
          * routine will be acceptable. 
          */
         sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
-        sqlBuilder.append("WHERE (LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = ?)\n");
-        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.FDOC_NBR = ?)\n");
+        sqlBuilder.append("WHERE (LD_BCNSTR_MONTH_T.FDOC_NBR = ?)\n");
+        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = ?)\n");
         sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.FIN_COA_CD = ?)\n");
         sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = ?)\n");
         sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = ?)\n");
@@ -77,6 +77,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)\n");
         sqlBuilder.append("         AND (LD_PND_BCNSTR_GL_T.FIN_BEG_BAL_LN_AMT = 0)))\n");
         String sqlZeroth = sqlBuilder.toString();
+        sqlBuilder.delete(0,sqlBuilder.length());
         /**
          * get rid of fringe benefits objects with no base
          */
@@ -203,18 +204,18 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("    ?,\n");
         sqlBuilder.append("   ld_benefits_calc_t.pos_frngben_obj_cd, ?, ?, ?,\n    ");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo2_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo3_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo4_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo5_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo6_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo7_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo8_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo9_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo10_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo11_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0)),\n");
-        sqlBuilder.append("   SUM(COALESCE(ROUND(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0),0))\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo1_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo2_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo3_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo4_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo5_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo6_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo7_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo8_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo9_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo10_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo11_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0),\n");
+        sqlBuilder.append("   ROUND(SUM(COALESCE(ld_bcnstr_month_t.fdoc_ln_mo12_amt * (ld_benefits_calc_t.pos_frng_bene_pct/100.0),0)),0)\n");
         sqlBuilder.append("FROM ld_bcnstr_month_t,\n");
         sqlBuilder.append("    ld_benefits_calc_t,\n");
         sqlBuilder.append("    ld_lbr_obj_bene_t\n");
@@ -282,9 +283,10 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
 
         getSimpleJdbcTemplate().update(sqlAnnualTemplates[0], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
         getSimpleJdbcTemplate().update(sqlAnnualTemplates[1], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualTemplates[2], idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
-        getSimpleJdbcTemplate().update(sqlAnnualTemplates[3], idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, idForSession);
-        getSimpleJdbcTemplate().update(sqlAnnualTemplates[4], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, idForSession);
+        getSimpleJdbcTemplate().update(sqlAnnualTemplates[2], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualTemplates[3], idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber);
+        getSimpleJdbcTemplate().update(sqlAnnualTemplates[4], idForSession, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, idForSession);
+        getSimpleJdbcTemplate().update(sqlAnnualTemplates[5], documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, documentNumber, fiscalYear, chartOfAccounts, accountNumber, subAccountNumber, defaultSubObjectCode, budgetBalanceTypeCode, finObjTypeExpenditureexpCd, idForSession);
         clearTempTableBySesId("LD_BCN_BENEFITS_RECALC01_MT", "SESID", idForSession);
     }
 

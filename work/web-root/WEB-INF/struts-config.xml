@@ -293,6 +293,7 @@
             <forward name="viewRelatedDocuments" path="/jsp/modules/purap/ViewRelatedDocuments.jsp" redirect="false" />
             <forward name="viewPaymentHistory" path="/jsp/modules/purap/ViewPaymentHistory.jsp" redirect="false" />
             <forward name="printPurchaseOrderPDF" path="/jsp/modules/purap/PrintForward.jsp" redirect="false" />
+            <forward name="retransmitPurchaseOrderPDF" path="/jsp/modules/purap/RetransmitForward.jsp" redirect="false" />
         </action>
 
         <action path="/cg*" name="{1}Form" input="/jsp/modules/cg/{1}.jsp" type="org.kuali.module.cg.web.struts.action.{1}Action" scope="request" parameter="methodToCall" validate="true" attribute="KualiForm">

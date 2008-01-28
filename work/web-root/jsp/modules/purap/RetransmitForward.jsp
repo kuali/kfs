@@ -1,0 +1,62 @@
+<%--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+--%>
+<%-- @ include file="tldHeader.jsp" --%>
+<html>
+<head>
+
+</head>
+<body>
+<%-- Below form used for non java script enabled browsers --%>
+<form name="disabledJavaScriptPrintForm" id="disabledJavaScriptPrintForm" method="post" action="${printPOPDFUrl}">
+  <input type="hidden" name="retransmitHeader" value="${KualiForm.document.retransmitHeader}" />
+  <input type="hidden" name="selectedItemIndexes" value="${selectedItemIndexes}" />
+  <input type="hidden" name="poDocumentNumberForRetransmit" value="${docId}">
+  <noscript>
+    Click this button to see the ${purchaseOrderLabel} PDF:&nbsp;&nbsp;&nbsp;<input type="submit" value="View ${purchaseOrderLabel} PDF">
+  </noscript>
+</form>
+<form name="disabledJavaScriptReturnForm" id="disabledJavaScriptReturnForm" method="post" action="${displayPOTabbedPageUrl}">
+  <noscript>
+    Click this button return to the ${purchaseOrderLabel} tabbed page:&nbsp;&nbsp;&nbsp;<input type="submit" value="Return to the ${purchaseOrderLabel}">
+  </noscript>
+</form>
+
+<%-- Below forms used for java script enabled browsers --%>
+
+<form name="backForm" id="backForm" method="post" action="${displayPOTabbedPageUrl}">
+</form>
+
+
+<!-- form name="printPOPDFForm" id="printPOPDFForm" method="post" action="${printPOPDFUrl}" -->
+<form name="KualiForm" method="post" action="${printPOPDFUrl}">
+  <input type="hidden" name="useJavascript" value="true"/>
+  <input type="hidden" name="retransmitHeader" value="${KualiForm.document.retransmitHeader}" />
+  <input type="hidden" name="selectedItemIndexes" value="${selectedItemIndexes}" />
+  <input type="hidden" name="poDocumentNumberForRetransmit" value="${docId}">
+  <script language ="javascript">
+    window.onload = dothis();
+    function dothis() {
+      _win = window.open('', 'printpopdf');
+      document.KualiForm.target=_win.name;
+      document.KualiForm.submit();
+      document.backForm.submit();
+    }
+  </script>
+</form>
+
+
+</body>
+</html>

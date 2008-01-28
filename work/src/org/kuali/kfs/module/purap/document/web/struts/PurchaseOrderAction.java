@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -882,6 +883,63 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
+     * Forwards to the RetransmitForward.jsp page so that we could open 2 windows for retransmit,
+     * one is to display the PO tabbed page and the other one display the pdf document.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String basePath = getBasePath(request);
+        String docId = ((PurchaseOrderForm) form).getPurchaseOrderDocument().getDocumentNumber();
+        String methodToCallPrintRetransmitPurchaseOrderPDF = "printingRetransmitPoOnly";
+        String methodToCallDocHandler = "docHandler";
+        String printPOPDFUrl = getUrlForPrintPO(basePath, docId, methodToCallPrintRetransmitPurchaseOrderPDF);
+        String displayPOTabbedPageUrl = getUrlForPrintPO(basePath, docId, methodToCallDocHandler);
+        
+        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
+        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+        
+        StringBuffer itemIndexesBuffer = createSelectedItemIndexes(po.getItems());
+        if (itemIndexesBuffer.length() > 0) {
+            itemIndexesBuffer.deleteCharAt(itemIndexesBuffer.lastIndexOf(","));
+            request.setAttribute("selectedItemIndexes", itemIndexesBuffer.toString());
+        }
+        
+        request.setAttribute("printPOPDFUrl", printPOPDFUrl);
+        request.setAttribute("displayPOTabbedPageUrl", displayPOTabbedPageUrl);
+        request.setAttribute("docId", docId);
+        String label = SpringContext.getBean(DataDictionaryService.class).getDocumentLabelByClass(PurchaseOrderDocument.class);
+        request.setAttribute("purchaseOrderLabel", label);
+        return mapping.findForward("retransmitPurchaseOrderPDF");
+    }
+    
+    /**
+     * Helper method to create a StringBuffer of the indexes of items that the user
+     * has selected for retransmit to be passed in as an attribute to the RetransmitForward
+     * page so that we could add these items later on to the pdf page.
+     * 
+     * @param items The List of items on the PurchaseOrderDocument.
+     * @return
+     */
+    private StringBuffer createSelectedItemIndexes(List<PurchaseOrderItem>items) {
+        StringBuffer itemIndexesBuffer = new StringBuffer();
+        int i = 0;
+        for (PurchaseOrderItem item : items) {
+            if (item.isItemSelectedForRetransmitIndicator()) {
+                itemIndexesBuffer.append(i);
+                itemIndexesBuffer.append(',');
+            }
+            i++;
+        }
+        return itemIndexesBuffer;
+    }
+    
+    /**
      * Creates a PDF document based on the PO information and the items that were selected by the user on the Purchase Order
      * Retransmit Document page to be retransmitted, then display the PDF to the browser.
      * 
@@ -892,16 +950,17 @@ public class PurchaseOrderAction extends PurchasingActionBase {
      * @throws Exception
      * @return An ActionForward
      */
-    public ActionForward printingRetransmitPo(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        KualiDocumentFormBase kualiDocumentFormBase = (KualiDocumentFormBase) form;
-        PurchaseOrderDocument po = (PurchaseOrderDocument) kualiDocumentFormBase.getDocument();
+    public ActionForward printingRetransmitPoOnly(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        List items = po.getItems();
-        String retransmitHeader = po.getRetransmitHeader();
-        po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(po.getDocumentNumber());
+        String selectedItemIndexes = (String)request.getParameter("selectedItemIndexes");
+        String documentNumber = (String)request.getParameter("poDocumentNumberForRetransmit");
+        PurchaseOrderDocument po = SpringContext.getBean(PurchaseOrderService.class).getPurchaseOrderByDocumentNumber(documentNumber);
+        String retransmitHeader = (String)request.getParameter("retransmitHeader");
+        
         // setting the isItemSelectedForRetransmitIndicator items of the PO obtained from the database based on its value from
         // the po from the form
-        setItemSelectedForRetransmitIndicatorFromPOInForm(items, po.getItems());
+        
+        setItemSelectedForRetransmitIndicatorFromPOInForm(selectedItemIndexes, po.getItems());
         po.setRetransmitHeader(retransmitHeader);
         ByteArrayOutputStream baosPDF = new ByteArrayOutputStream();
         try {
@@ -949,20 +1008,21 @@ public class PurchaseOrderAction extends PurchasingActionBase {
     }
 
     /**
-     * Sets the <code>isItemSelectedForRetransmitIndicator</code> on items of the purchase order obtained from the database, based
-     * on the indicator's value from the form.
+     * Sets the itemSelectedForRetransmitIndicator to true to the items that the
+     * user has selected for retransmit.
      * 
-     * @param itemsFromForm A List<PurchaseOrderItem> obtained from the form
-     * @param itemsFromDB A List<PurchaseOrderItem> obtained from the database.
+     * @param selectedItemIndexes  The String containing the indexes of items selected to be retransmitted, separated by comma.
+     * @param itemsFromDB          The List of items of the PurchaseOrderDocument obtained from the database.
      */
-    private void setItemSelectedForRetransmitIndicatorFromPOInForm(List itemsFromForm, List itemsFromDB) {
+    private void setItemSelectedForRetransmitIndicatorFromPOInForm(String selectedItemIndexes, List itemsFromDB) {
         int i = 0;
-        for (PurchaseOrderItem itemFromForm : (List<PurchaseOrderItem>) itemsFromForm) {
-            ((PurchaseOrderItem) (itemsFromDB.get(i))).setItemSelectedForRetransmitIndicator(itemFromForm.isItemSelectedForRetransmitIndicator());
-            i++;
+        StringTokenizer tok = new StringTokenizer(selectedItemIndexes, ",");
+        while (tok.hasMoreTokens()) {
+            i = Integer.parseInt(tok.nextToken());
+            ((PurchaseOrderItem) (itemsFromDB.get(i))).setItemSelectedForRetransmitIndicator(true);
         }
     }
-
+    
     /**
      * Checks on a few conditions that would cause a warning message to be displayed on top of the Purchase Order page.
      * 

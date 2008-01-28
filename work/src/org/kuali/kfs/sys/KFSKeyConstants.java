@@ -712,6 +712,7 @@ public class KFSKeyConstants {
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PCDO = "message.batchUpload.title.procurementCard";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_COLLECTOR = "message.batchUpload.title.collector";
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_ENTERPRISE_FEEDER = "message.batchUpload.title.enterprise.feeder";
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL = "message.batchUpload.saveSuccessful";
     public static final String MESSAGE_BATCH_UPLOAD_SAVE_SUCCESSFUL_WITH_FILE_INFO = "message.batchUpload.saveSuccessful.with.file.info";
     public static final String MESSAGE_BATCH_UPLOAD_DELETE_SUCCESSFUL = "message.batchUpload.deleteSuccessful";

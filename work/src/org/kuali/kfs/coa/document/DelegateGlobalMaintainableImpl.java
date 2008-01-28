@@ -49,8 +49,8 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#setupNewFromExisting()
      */
     @Override
-    public void setupNewFromExisting() {
-        super.setupNewFromExisting();
+    public void setupNewFromExisting( Map parameters ) {
+        super.setupNewFromExisting( parameters );
 
         DelegateGlobal globalDelegate = (DelegateGlobal) this.getBusinessObject();
         // 1. if model name, chart of accounts, and org code are all present

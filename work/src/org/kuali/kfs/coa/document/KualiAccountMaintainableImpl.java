@@ -16,6 +16,7 @@
 package org.kuali.module.chart.maintenance;
 
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
@@ -57,12 +58,12 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
-    public void processAfterCopy() {
+    public void processAfterCopy( Map parameters ) {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
         account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         account.setAccountClosedIndicator(false);
-        super.processAfterCopy();
+        super.processAfterCopy( parameters );
     }
 
 

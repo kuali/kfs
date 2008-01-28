@@ -15,6 +15,8 @@
  */
 package org.kuali.module.purap.maintenance;
 
+import java.util.Map;
+
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.kfs.context.SpringContext;
@@ -34,9 +36,10 @@ public class PurchaseOrderContractLanguageMaintainableImpl extends KualiMaintain
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
-    public void processAfterCopy() {
+    public void processAfterCopy( Map parameters ) {
         PurchaseOrderContractLanguage pocl = (PurchaseOrderContractLanguage) super.getBusinessObject();
         pocl.setContractLanguageCreateDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+        super.processAfterCopy(parameters);
     }
 
 }

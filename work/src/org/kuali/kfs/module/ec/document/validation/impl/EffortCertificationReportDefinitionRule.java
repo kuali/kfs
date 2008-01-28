@@ -44,7 +44,6 @@ public class EffortCertificationReportDefinitionRule extends MaintenanceDocument
         // report begin fiscal year must be less than report end fiscal year
         if (effortCertificationReport.getEffortCertificationReportBeginFiscalYear() > effortCertificationReport.getEffortCertificationReportEndFiscalYear() || (effortCertificationReport.getEffortCertificationReportBeginFiscalYear().equals(effortCertificationReport.getEffortCertificationReportEndFiscalYear()) && Integer.parseInt(effortCertificationReport.getEffortCertificationReportBeginPeriodCode()) >= Integer.parseInt(effortCertificationReport.getEffortCertificationReportEndPeriodCode()))) {
             putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
-            putFieldError(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE, EffortKeyConstants.ERROR_END_FISCAL_YEAR);
             isValid = false;
         }
 

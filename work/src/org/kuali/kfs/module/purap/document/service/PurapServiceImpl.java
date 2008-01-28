@@ -25,10 +25,13 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.UserSession;
+import org.kuali.core.bo.Note;
 import org.kuali.core.exceptions.UserNotFoundException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
+import org.kuali.core.service.NoteService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -480,6 +483,27 @@ public class PurapServiceImpl implements PurapService {
          */
         if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_CLOSE_DOCUMENT.equals(docType)) {
             apDocument.setClosePurchaseOrderIndicator(false);
+            
+            //add a note to the purchase order indicating it has been closed by a payment request document            
+            String userName = apDocument.getLastActionPerformedByPersonName();
+            StringBuffer poNote = new StringBuffer("");
+            poNote.append("PO was closed manually by ");            
+            poNote.append( userName );
+            poNote.append(" in approving PREQ with ID ");
+            poNote.append(apDocument.getDocumentNumber());
+                        
+            //save the note to the purchase order
+            DocumentService documentService = SpringContext.getBean(DocumentService.class);
+            NoteService noteService = SpringContext.getBean(NoteService.class);
+            try{
+                Note noteObj = documentService.createNoteFromDocument(apDocument.getPurchaseOrderDocument(), poNote.toString());
+                documentService.addNoteToDocument(apDocument.getPurchaseOrderDocument(), noteObj);
+                noteService.save(noteObj);
+            }catch(Exception e){
+                String errorMessage = "Error creating and saving close note for purchase order with document service";
+                LOG.error("processCloseReopenPo() " + errorMessage, e);
+                throw new RuntimeException(errorMessage, e);
+            }                        
         }
         else if (PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_REOPEN_DOCUMENT.equals(docType)) {
             apDocument.setReopenPurchaseOrderIndicator(false);

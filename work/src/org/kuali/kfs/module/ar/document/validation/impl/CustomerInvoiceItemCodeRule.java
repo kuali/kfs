@@ -53,7 +53,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    private boolean validateItemDefaultPrice(CustomerInvoiceItemCode document) {
+    public boolean validateItemDefaultPrice(CustomerInvoiceItemCode document) {
         
         boolean validEntry = true;
         KualiDecimal itemDefaultPrice = document.getItemDefaultPrice();
@@ -66,7 +66,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         return validEntry;
     }
     
-    private boolean validateItemDefaultQuantity(CustomerInvoiceItemCode document) {
+    public boolean validateItemDefaultQuantity(CustomerInvoiceItemCode document) {
         
         boolean validEntry = true;
         BigDecimal itemDefaultQuantity = document.getItemDefaultQuantity();

@@ -48,7 +48,35 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         budgetBalanceTypeCode = KFSConstants.BALANCE_TYPE_BASE_BUDGET;
         defaultSubObjectCode = LABOR_LEDGER_PENDING_ENTRY_CODE.BLANK_SUB_OBJECT_CODE;
 
-        StringBuilder sqlBuilder = new StringBuilder(1500);
+        StringBuilder sqlBuilder = new StringBuilder(2500);
+        /**
+         * this needs to be done before we can get rid of annual fringe benefits objects with no base.
+         * LD_BNCSTR_MNTH_T has an RI child constraint on LD_PND_BCNSTR_GL_T.  So, before we eliminate any Budget Construction
+         * general ledger rows, we have to get rid of any dependent Budget Construction Monthly rows.  If we call this set of
+         * queries to rebuild budgeted benefits for the general ledger, the next set of queries will also have to be called if
+         * monthly budgets exist.  If no monthly budgets exist, the query below will not do anything.  In that case, calling the
+         * Budget Construction general ledger benefits calculation routine without calling the monthly benefits calculation 
+         * routine will be acceptable. 
+         */
+        sqlBuilder.append("DELETE FROM LD_BCNSTR_MONTH_T\n");
+        sqlBuilder.append("WHERE (LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = ?)\n");
+        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.FDOC_NBR = ?)\n");
+        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.FIN_COA_CD = ?)\n");
+        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = ?)\n");
+        sqlBuilder.append("AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = ?)\n");
+        sqlBuilder.append("AND (EXISTS (SELECT 1\n");
+        sqlBuilder.append("       FROM (LD_PND_BCNSTR_GL_T INNER JOIN LD_BENEFITS_CALC_T\n");
+        sqlBuilder.append("       ON ((LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = LD_BENEFITS_CALC_T.UNIV_FISCAL_YR)\n");
+        sqlBuilder.append("           AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = LD_BENEFITS_CALC_T.FIN_COA_CD)\n");
+        sqlBuilder.append("           AND (LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD = LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD)))\n");
+        sqlBuilder.append("       WHERE (LD_BCNSTR_MONTH_T.UNIV_FISCAL_YR = LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR)\n");
+        sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FDOC_NBR = LD_PND_BCNSTR_GL_T.FDOC_NBR)\n");
+        sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FIN_COA_CD = LD_PND_BCNSTR_GL_T.FIN_COA_CD)\n");
+        sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.ACCOUNT_NBR = LD_PND_BCNSTR_GL_T.ACCOUNT_NBR)\n");
+        sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.SUB_ACCT_NBR = LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR)\n");
+        sqlBuilder.append("         AND (LD_BCNSTR_MONTH_T.FIN_OBJECT_CD = LD_PND_BCNSTR_GL_T.FIN_OBJECT_CD)\n");
+        sqlBuilder.append("         AND (LD_PND_BCNSTR_GL_T.FIN_BEG_BAL_LN_AMT = 0)))\n");
+        String sqlZeroth = sqlBuilder.toString();
         /**
          * get rid of fringe benefits objects with no base
          */
@@ -78,7 +106,8 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.delete(0, sqlBuilder.length());
         sqlBuilder.append("INSERT INTO LD_BCN_BENEFITS_RECALC01_MT\n(SESID, POS_FRNGBEN_OBJ_CD, FB_SUM)\n");
         sqlBuilder.append("(SELECT ?,LD_BENEFITS_CALC_T.POS_FRNGBEN_OBJ_CD,\n");
-        sqlBuilder.append(" ROUND(SUM(LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT),0)\n FROM LD_PND_BCNSTR_GL_T,\n");
+        sqlBuilder.append(" ROUND(SUM(LD_PND_BCNSTR_GL_T.ACLN_ANNL_BAL_AMT * (LD_BENEFITS_CALC_T.POS_FRNG_BENE_PCT/100.0)),0)\n ");
+        sqlBuilder.append(" FROM LD_PND_BCNSTR_GL_T,\n");
         sqlBuilder.append("      LD_LBR_OBJ_BENE_T,\n      LD_BENEFITS_CALC_T\n WHERE (LD_PND_BCNSTR_GL_T.FDOC_NBR = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.UNIV_FISCAL_YR = ?)\n   AND (LD_PND_BCNSTR_GL_T.FIN_COA_CD = ?)\n");
         sqlBuilder.append("   AND (LD_PND_BCNSTR_GL_T.ACCOUNT_NBR = ?)\n   AND (LD_PND_BCNSTR_GL_T.SUB_ACCT_NBR = ?)\n");
@@ -139,7 +168,7 @@ public class BenefitsCalculationDaoJdbc extends BudgetConstructionDaoJdbcBase im
         sqlBuilder.append("   AND ld_bcn_benefits_recalc01_mt.sesid = ?)");
         String sqlFifth = sqlBuilder.toString();
         sqlBuilder.delete(0, sqlBuilder.length());
-        sqlAnnualTemplates = new String[] { sqlFirst, sqlSecond, sqlThird, sqlFourth, sqlFifth };
+        sqlAnnualTemplates = new String[] { sqlZeroth, sqlFirst, sqlSecond, sqlThird, sqlFourth, sqlFifth };
         /**
          * this is the SQL for the monthly budget benefits. any rounding amount is added to the amount for month 1
          */

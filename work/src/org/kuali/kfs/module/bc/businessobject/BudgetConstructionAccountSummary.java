@@ -57,6 +57,7 @@ public class BudgetConstructionAccountSummary extends PersistableBusinessObjectB
      * Default constructor.
      */
     public BudgetConstructionAccountSummary() {
+        
 
     }
 

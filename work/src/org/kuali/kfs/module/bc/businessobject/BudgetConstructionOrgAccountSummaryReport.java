@@ -20,11 +20,13 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.ojb.broker.PersistenceBrokerException;
 import org.kuali.core.web.comparator.StringValueComparator;
+import org.kuali.kfs.KFSPropertyConstants;
 
 public class BudgetConstructionOrgAccountSummaryReport {
 
@@ -70,17 +72,17 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private BigDecimal totalGrossBaseAmount = BigDecimal.ZERO;
     private BigDecimal totalTransferInBaseAmount = BigDecimal.ZERO;
     private BigDecimal totalNetTransferBaseAmount = BigDecimal.ZERO;
-    
+
     private BigDecimal totalRevenueReqAmount = BigDecimal.ZERO;
     private BigDecimal totalGrossReqAmount = BigDecimal.ZERO;
     private BigDecimal totalTransferInReqAmount = BigDecimal.ZERO;
     private BigDecimal totalNetTransferReqAmount = BigDecimal.ZERO;
-    
+
     private BigDecimal totalRevenueAmountChange = BigDecimal.ZERO;
     private BigDecimal totalGrossAmountChange = BigDecimal.ZERO;
     private BigDecimal totalTransferAmountChange = BigDecimal.ZERO;
     private BigDecimal totalNetTransferAmountChange = BigDecimal.ZERO;
-    
+
     private BigDecimal totalRevenuePercentChange = BigDecimal.ZERO;
     private BigDecimal totalGrossPercentChange = BigDecimal.ZERO;
     private BigDecimal totalTransferInPercentChange = BigDecimal.ZERO;
@@ -90,26 +92,66 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private BigDecimal revExpDifferenceReqAmount = BigDecimal.ZERO;
     private BigDecimal revExpDifferenceAmountChange = BigDecimal.ZERO;
     private BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;
-
-    private boolean trExist = false;
     
-    BudgetConstructionOrgAccountSummaryReport bcosr;
+    BudgetConstructionOrgAccountSummaryReport bcoasr;
+
     private Integer tempFiscalYear = new Integer(2008);
 
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Collection<BudgetConstructionAccountSummary> list) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
-        StringValueComparator comparator = new StringValueComparator();
-        Collections.sort((List) list, new BeanComparator("subFundGroupCode", comparator));
-      
+        List<BudgetConstructionOrgAccountSummaryReportTotal> orgAccountSummaryReportTotalList;
+
+        // NumericValueComparator numericComparator = new NumericValueComparator();
+        StringValueComparator stringComparator = new StringValueComparator();
+
+        /*
+         * Collections.sort((List) list, new BeanComparator("organizationChartOfAccountsCode", stringComparator));
+         * Collections.sort((List) list, new BeanComparator("organizationCode", stringComparator)); Collections.sort((List) list,
+         * new BeanComparator("chartOfAccountsCode", stringComparator)); Collections.sort((List) list, new
+         * BeanComparator("subFundSortCode", stringComparator)); Collections.sort((List) list, new BeanComparator("fundGroupCode",
+         * stringComparator)); Collections.sort((List) list, new BeanComparator("subFundGroupCode", stringComparator));
+         * Collections.sort((List) list, new BeanComparator("accountNumber", stringComparator)); Collections.sort((List) list, new
+         * BeanComparator("subAccountNumber", stringComparator)); Collections.sort((List) list, new
+         * BeanComparator("incomeExpenseCode", stringComparator));
+         */
+        
+        
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.INCOME_EXPENSE_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ACCOUNT_NUMBER, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.SUB_FUND_GROUP_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.FUND_GROUP_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.SUB_FUND_SORT_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ORGANIZATION_CODE, stringComparator));
+        Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, stringComparator));
+
+
+        /*
+         * organizationChartOfAccountsCode organizationCode chartOfAccountsCode subFundSortCode fundGroupCode subFundGroupCode
+         * accountNumber subAccountNumber incomeExpenseCode
+         */
+
+
+        // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
+        List simpleList = deleteDuplicated((List) list);
+
+        // Calculate Total Section
+        orgAccountSummaryReportTotalList = calculateTotal((List) list, simpleList);
+
+
         for (BudgetConstructionAccountSummary bcasEntry : list) {
-            bcosr = new BudgetConstructionOrgAccountSummaryReport();
-            
+
+            bcoasr = new BudgetConstructionOrgAccountSummaryReport();
+            BudgetConstructionOrgAccountSummaryReportTotal bcoasrTotal = new BudgetConstructionOrgAccountSummaryReportTotal();
+
             buildReportsHeader(bcasEntry);
             buildReportsBody(bcasEntry);
-            buildReportsTotal(bcasEntry);
 
-            reportSet.add(bcosr);
-            
+            buildReportsTotal(bcasEntry, orgAccountSummaryReportTotalList);
+
+            reportSet.add(bcoasr);
+
         }
 
         return reportSet;
@@ -124,182 +166,291 @@ public class BudgetConstructionOrgAccountSummaryReport {
         String subFundGroupDes = bcas.getSubFundGroup().getSubFundGroupDescription();
 
         Integer prevFiscalyear = tempFiscalYear - 1;
-        bcosr.setFiscalYear(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2,4));
-        bcosr.setOrgChartOfAccountsCode(bcas.getOrganizationChartOfAccountsCode());
+        bcoasr.setFiscalYear(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
+        bcoasr.setOrgChartOfAccountsCode(bcas.getOrganizationChartOfAccountsCode());
         if (orgChartDesc == null) {
-            bcosr.setOrgChartOfAccountDescription("Error getting account description");
+            bcoasr.setOrgChartOfAccountDescription("Error getting account description");
         }
         else {
-            bcosr.setOrgChartOfAccountDescription(orgChartDesc);
+            bcoasr.setOrgChartOfAccountDescription(orgChartDesc);
         }
 
-        bcosr.setOrganizationCode(bcas.getOrganizationCode());
+        bcoasr.setOrganizationCode(bcas.getOrganizationCode());
         if (orgName == null) {
-            bcosr.setOrganizationName("Error getting organization name");
+            bcoasr.setOrganizationName("Error getting organization name");
         }
         else {
-            bcosr.setOrganizationName(orgName);
+            bcoasr.setOrganizationName(orgName);
         }
 
-        bcosr.setChartOfAccountsCode(bcas.getChartOfAccountsCode());
+        bcoasr.setChartOfAccountsCode(bcas.getChartOfAccountsCode());
         if (chartDesc == null) {
-            bcosr.setChartOfAccountDescription("Error getting chart description");
+            bcoasr.setChartOfAccountDescription("Error getting chart description");
         }
         else {
-            bcosr.setChartOfAccountDescription(chartDesc);
+            bcoasr.setChartOfAccountDescription(chartDesc);
         }
 
-        bcosr.setFundGroupCode(bcas.getFundGroupCode());
+        bcoasr.setFundGroupCode(bcas.getFundGroupCode());
         if (subFundGroupName == null) {
-            bcosr.setFundGroupName("Error getting fund group name");
+            bcoasr.setFundGroupName("Error getting fund group name");
         }
         else {
-            bcosr.setFundGroupName(subFundGroupName);
+            bcoasr.setFundGroupName(subFundGroupName);
         }
 
-        bcosr.setSubFundGroupCode(bcas.getSubFundGroupCode());
+        bcoasr.setSubFundGroupCode(bcas.getSubFundGroupCode());
         if (subFundGroupName == null) {
-            bcosr.setSubFundGroupDescription("Error getting sub-fund group description");
+            bcoasr.setSubFundGroupDescription("Error getting sub-fund group description");
         }
         else {
-            bcosr.setSubFundGroupDescription(subFundGroupDes);
+            bcoasr.setSubFundGroupDescription(subFundGroupDes);
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        bcosr.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        bcosr.setReqFy(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
+        bcoasr.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
+        bcoasr.setReqFy(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
 
-        bcosr.setHeader1("Account/Sub");
-        bcosr.setHeader2("Account/Sub name");
-        bcosr.setHeader3("Base Amount");
-        bcosr.setHeader4("Req. Amount");
-        bcosr.setHeader5("Change");
-        bcosr.setHeader6("Change");
-        bcosr.setConsHdr("");
+        bcoasr.setHeader1("Account/Sub");
+        bcoasr.setHeader2("Account/Sub name");
+        bcoasr.setHeader3("Base Amount");
+        bcoasr.setHeader4("Req. Amount");
+        bcoasr.setHeader5("Change");
+        bcoasr.setHeader6("Change");
+        bcoasr.setConsHdr("");
 
     }
 
     public void buildReportsBody(BudgetConstructionAccountSummary bcas) {
-        bcosr.setAccountNumber(bcas.getAccountNumber());
-        bcosr.setSubAccountNumber(bcas.getSubAccountNumber());
-
+        bcoasr.setAccountNumber(bcas.getAccountNumber());
+        bcoasr.setSubAccountNumber(bcas.getSubAccountNumber());
+        boolean trExist = false;
         if (bcas.getSubAccountNumber().equals("-----")) {
             if (bcas.getAccount().getAccountName() == null) {
-                bcosr.setAccountNameAndSubAccountName("Error getting account description");
+                bcoasr.setAccountNameAndSubAccountName("Error getting account description");
             }
             else
-                bcosr.setAccountNameAndSubAccountName(bcas.getAccount().getAccountName());
+                bcoasr.setAccountNameAndSubAccountName(bcas.getAccount().getAccountName());
         }
         else {
             // TODO check when the subAccountNumber is not "-----"
             try {
                 if (bcas.getSubAccount().getSubAccountName() == null) {
-                    bcosr.setAccountNameAndSubAccountName("Error getting sub-account description");
+                    bcoasr.setAccountNameAndSubAccountName("Error getting sub-account description");
                 }
                 else
-                    bcosr.setAccountNameAndSubAccountName(bcas.getSubAccount().getSubAccountName());
+                    bcoasr.setAccountNameAndSubAccountName(bcas.getSubAccount().getSubAccountName());
             }
             catch (PersistenceBrokerException e) {
-                bcosr.setAccountNameAndSubAccountName("Error getting sub-account description");
+                bcoasr.setAccountNameAndSubAccountName("Error getting sub-account description");
             }
         }
 
 
         // build income expense description
         if (bcas.getIncomeExpenseCode().equals("A")) {
-            bcosr.setIncExpDesc("Revenue");
-            
-            totalRevenueBaseAmount = totalRevenueBaseAmount.add(bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue());
-            totalRevenueReqAmount = totalRevenueReqAmount.add(bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
-            
+            bcoasr.setIncExpDesc("Revenue");
         }
         else if (bcas.getIncomeExpenseCode().equals("E")) {
-            bcosr.setIncExpDesc("Exp.(Gross)");
-            
-            totalGrossBaseAmount = totalGrossBaseAmount.add(bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
-            totalGrossReqAmount = totalGrossReqAmount.add(bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue());
-            
+            bcoasr.setIncExpDesc("Exp.(Gross)");
         }
         else if (bcas.getIncomeExpenseCode().equals("T")) {
             trExist = true;
-            bcosr.setIncExpDesc("Trnfr In");
-            
-            totalTransferInBaseAmount = totalTransferInBaseAmount.add(bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
-            totalTransferInReqAmount = totalTransferInReqAmount.add(bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue());
-            
+            bcoasr.setIncExpDesc("Trnfr In");
         }
         else {
             if (trExist) {
                 trExist = false;
-                bcosr.setIncExpDesc("Exp.(Net Trnfr)");
-                
-                totalNetTransferBaseAmount = totalNetTransferBaseAmount.add(bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
-                totalNetTransferReqAmount = totalNetTransferReqAmount.add(bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                bcoasr.setIncExpDesc("Exp.(Net Trnfr)");
             }
             else {
-                bcosr.setIncExpDesc("Expenditure");
-                
-                totalGrossBaseAmount = totalGrossBaseAmount.add(bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
-                totalGrossReqAmount = totalGrossReqAmount.add(bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue());
-                
+                bcoasr.setIncExpDesc("Expenditure");
             }
         }
-        
-        
+
+
         BigDecimal beginingBalanceLineAmt = BigDecimal.ZERO;
         BigDecimal accountLineAnnualBalAmt = BigDecimal.ZERO;
-        if(bcas.getFinancialBeginningBalanceLineAmount() != null){
+        if (bcas.getFinancialBeginningBalanceLineAmount() != null) {
             beginingBalanceLineAmt = bcas.getFinancialBeginningBalanceLineAmount().bigDecimalValue();
         }
-        
-        if(bcas.getFinancialBeginningBalanceLineAmount() != null){
-            beginingBalanceLineAmt = bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue();
+
+        if (bcas.getFinancialBeginningBalanceLineAmount() != null) {
+            accountLineAnnualBalAmt = bcas.getAccountLineAnnualBalanceAmount().bigDecimalValue();
         }
-        
-        bcosr.setBaseAmount(beginingBalanceLineAmt);
-        bcosr.setReqAmount(accountLineAnnualBalAmt);
-        bcosr.setAmountChange(accountLineAnnualBalAmt.subtract(beginingBalanceLineAmt));
-    
+
+        bcoasr.setBaseAmount(beginingBalanceLineAmt);
+        bcoasr.setReqAmount(accountLineAnnualBalAmt);
+        bcoasr.setAmountChange(accountLineAnnualBalAmt.subtract(beginingBalanceLineAmt));
+
         if (!beginingBalanceLineAmt.equals(BigDecimal.ZERO)) {
-            bcosr.setPercentChange(bcosr.getAmountChange().divide(beginingBalanceLineAmt, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+            bcoasr.setPercentChange(bcoasr.getAmountChange().divide(beginingBalanceLineAmt, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
         }
 
     }
 
-    public void buildReportsTotal(BudgetConstructionAccountSummary bcas) {
-        
-        totalRevenueAmountChange = totalRevenueReqAmount.subtract(totalRevenueBaseAmount);
-        if (!totalRevenueBaseAmount.equals(BigDecimal.ZERO)){
-            totalRevenuePercentChange = totalRevenueAmountChange.divide(totalRevenueBaseAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+    public void buildReportsTotal(BudgetConstructionAccountSummary bcas, List reportTotalList) {
+
+        Iterator totalListIter = reportTotalList.iterator();
+        while (totalListIter.hasNext()) {
+            BudgetConstructionOrgAccountSummaryReportTotal bcasTotalEntry = (BudgetConstructionOrgAccountSummaryReportTotal) totalListIter.next();
+            if (isSameAccountSummaryEntry(bcas, bcasTotalEntry.getBcas())) {
+
+                bcoasr.setTotalRevenueBaseAmount(bcasTotalEntry.getTotalRevenueBaseAmount());
+                bcoasr.setTotalGrossBaseAmount(bcasTotalEntry.getTotalGrossBaseAmount());
+                bcoasr.setTotalTransferInBaseAmount(bcasTotalEntry.getTotalTransferInBaseAmount());
+                bcoasr.setTotalNetTransferBaseAmount(bcasTotalEntry.getTotalNetTransferBaseAmount());
+
+                bcoasr.setTotalRevenueReqAmount(bcasTotalEntry.getTotalRevenueReqAmount());
+                bcoasr.setTotalGrossReqAmount(bcasTotalEntry.getTotalGrossReqAmount());
+                bcoasr.setTotalTransferInReqAmount(bcasTotalEntry.getTotalTransferInReqAmount());
+                bcoasr.setTotalNetTransferReqAmount(bcasTotalEntry.getTotalNetTransferReqAmount());
+
+                bcoasr.setTotalRevenueAmountChange(bcoasr.getTotalRevenueReqAmount().subtract(bcoasr.getTotalRevenueBaseAmount()));
+                if (!bcoasr.getTotalRevenueBaseAmount().equals(BigDecimal.ZERO)) {
+                    bcoasr.setTotalRevenuePercentChange(bcoasr.getTotalRevenueAmountChange().divide(bcoasr.getTotalRevenueBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
+                bcoasr.setTotalGrossAmountChange(bcoasr.getTotalGrossReqAmount().subtract(bcoasr.getTotalGrossBaseAmount()));
+
+                if (!bcoasr.getTotalGrossBaseAmount().equals(BigDecimal.ZERO)) {
+                    bcoasr.setTotalGrossPercentChange(bcoasr.getTotalGrossAmountChange().divide(bcoasr.getTotalGrossBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
+                bcoasr.setTotalTransferAmountChange(bcoasr.getTotalTransferInReqAmount().subtract(bcoasr.getTotalTransferInBaseAmount()));
+
+                if (!bcoasr.getTotalTransferInBaseAmount().equals(BigDecimal.ZERO)) {
+                    bcoasr.setTotalTransferInPercentChange(bcoasr.getTotalTransferAmountChange().divide(bcoasr.getTotalTransferInBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
+                bcoasr.setTotalNetTransferAmountChange(bcoasr.getTotalNetTransferReqAmount().subtract(bcoasr.getTotalNetTransferBaseAmount()));
+                if (!bcoasr.getTotalNetTransferBaseAmount().equals(BigDecimal.ZERO)) {
+                    bcoasr.setTotalNetTransferPercentChange(bcoasr.getTotalNetTransferAmountChange().divide(bcoasr.getTotalNetTransferBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
+                bcoasr.setRevExpDifferenceBaseAmount(bcoasr.getTotalRevenueBaseAmount().subtract(bcoasr.getTotalNetTransferBaseAmount()));
+                bcoasr.setRevExpDifferenceReqAmount(bcoasr.getTotalRevenueReqAmount().subtract(bcoasr.getTotalNetTransferReqAmount()));
+                bcoasr.setRevExpDifferenceAmountChange(bcoasr.getRevExpDifferenceReqAmount().subtract(bcoasr.getRevExpDifferenceBaseAmount()));
+
+                if (!bcoasr.getRevExpDifferenceBaseAmount().equals(BigDecimal.ZERO)) {
+                    bcoasr.setRevExpDifferencePercentChange(bcoasr.getRevExpDifferenceAmountChange().divide(bcoasr.getRevExpDifferenceBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
+
+            }
+
         }
+    }
+
+
+    public List calculateTotal(List bcasList, List simpleList) {
+
+        List returnList = new ArrayList();
+
+        Iterator simpleListIterator = simpleList.iterator();
         
-        totalGrossAmountChange = totalRevenueReqAmount.subtract(totalGrossBaseAmount);
-        
-        if (!totalGrossBaseAmount.equals(BigDecimal.ZERO)){
-            totalGrossPercentChange = totalGrossAmountChange.divide(totalGrossBaseAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+        boolean prev = false;
+        while (simpleListIterator.hasNext()) {
+            BudgetConstructionAccountSummary simpleBcasEntry = (BudgetConstructionAccountSummary) simpleListIterator.next();
+            Iterator bcasListIterator = bcasList.iterator();
+            while (bcasListIterator.hasNext()) {
+                BudgetConstructionAccountSummary bcasListEntry = (BudgetConstructionAccountSummary) bcasListIterator.next();
+                if (isSameAccountSummaryEntry(simpleBcasEntry, bcasListEntry)) {
+                    if (bcasListEntry.getIncomeExpenseCode().equals("A")) {
+                        prev = false;
+                        totalRevenueBaseAmount = totalRevenueBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
+                        totalRevenueReqAmount = totalRevenueReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                    }
+                    else if (bcasListEntry.getIncomeExpenseCode().equals("E")) {
+                        prev = false;
+                        totalGrossBaseAmount = totalGrossBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
+                        totalGrossReqAmount = totalGrossReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                        
+                    }
+                    else if (bcasListEntry.getIncomeExpenseCode().equals("T")) {
+                        prev = true;
+                        totalTransferInBaseAmount = totalTransferInBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
+                        totalTransferInReqAmount = totalTransferInReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                    }
+                    else if (bcasListEntry.getIncomeExpenseCode().equals("X")) {
+                        totalNetTransferBaseAmount = totalNetTransferBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
+                        totalNetTransferReqAmount = totalNetTransferReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                        if (!prev) {
+                            prev = false;
+                            totalGrossBaseAmount = totalGrossBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
+                            totalGrossReqAmount = totalGrossReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
+                        }
+                    }
+                }
+            }
+
+            BudgetConstructionOrgAccountSummaryReportTotal bcoasrTotal = new BudgetConstructionOrgAccountSummaryReportTotal();
+
+            bcoasrTotal.setBcas(simpleBcasEntry);
+            bcoasrTotal.setTotalGrossBaseAmount(totalGrossBaseAmount);
+            bcoasrTotal.setTotalGrossReqAmount(totalGrossReqAmount);
+            bcoasrTotal.setTotalNetTransferBaseAmount(totalNetTransferBaseAmount);
+            bcoasrTotal.setTotalNetTransferReqAmount(totalNetTransferReqAmount);
+            bcoasrTotal.setTotalRevenueBaseAmount(totalRevenueBaseAmount);
+            bcoasrTotal.setTotalRevenueReqAmount(totalRevenueReqAmount);
+            bcoasrTotal.setTotalTransferInBaseAmount(totalTransferInBaseAmount);
+            bcoasrTotal.setTotalTransferInReqAmount(totalTransferInReqAmount);
+
+            returnList.add(bcoasrTotal);
+
+            totalGrossBaseAmount = BigDecimal.ZERO;
+            totalGrossReqAmount = BigDecimal.ZERO;
+            totalNetTransferBaseAmount = BigDecimal.ZERO;
+            totalNetTransferReqAmount = BigDecimal.ZERO;
+            totalRevenueBaseAmount = BigDecimal.ZERO;
+            totalRevenueReqAmount = BigDecimal.ZERO;
+            totalTransferInBaseAmount = BigDecimal.ZERO;
+            totalTransferInReqAmount = BigDecimal.ZERO;
         }
-        
-        totalTransferAmountChange = totalTransferInReqAmount.subtract(totalTransferInBaseAmount);
-        
-        if (!totalTransferInBaseAmount.equals(BigDecimal.ZERO)){
-            totalTransferInPercentChange = totalTransferAmountChange.divide(totalTransferInBaseAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+
+
+        return returnList;
+    }
+
+
+    public boolean isSameAccountSummaryEntry(BudgetConstructionAccountSummary firstBcas, BudgetConstructionAccountSummary secondBcas) {
+
+        if (firstBcas.getOrganizationChartOfAccountsCode().equals(secondBcas.getOrganizationChartOfAccountsCode()) && firstBcas.getOrganizationCode().equals(secondBcas.getOrganizationCode()) && firstBcas.getChartOfAccountsCode().equals(secondBcas.getChartOfAccountsCode()) && firstBcas.getSubFundGroupCode().equals(secondBcas.getSubFundGroupCode())) {
+            return true;
         }
-        
-        totalNetTransferAmountChange = totalNetTransferReqAmount.subtract(totalNetTransferBaseAmount);
-        
-        if (!totalNetTransferBaseAmount.equals(BigDecimal.ZERO)){
-            totalNetTransferPercentChange = totalNetTransferAmountChange.divide(totalNetTransferBaseAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
+        else
+            return false;
+
+    }
+
+
+    public List deleteDuplicated(List list) {
+        int count = 0;
+        BudgetConstructionAccountSummary bcas = null;
+        BudgetConstructionAccountSummary bcasAux = null;
+        List returnList = new ArrayList();
+
+        if ((list != null) && (list.size() > 0)) {
+            bcas = (BudgetConstructionAccountSummary) list.get(count);
+            bcasAux = (BudgetConstructionAccountSummary) list.get(count);
+
+            returnList.add(bcas);
+
+            count++;
+
+            while (count < list.size()) {
+                bcas = (BudgetConstructionAccountSummary) list.get(count);
+
+                if (!(bcas.getOrganizationChartOfAccountsCode().equals(bcasAux.getOrganizationChartOfAccountsCode()) && bcas.getOrganizationCode().equals(bcasAux.getOrganizationCode()) && bcas.getChartOfAccountsCode().equals(bcasAux.getChartOfAccountsCode()) && bcas.getSubFundGroupCode().equals(bcasAux.getSubFundGroupCode()))) {
+                    returnList.add(bcas);
+                    bcasAux = bcas;
+                }
+
+                count++;
+            }
         }
-        
-        revExpDifferenceBaseAmount = totalRevenueBaseAmount.subtract(totalNetTransferBaseAmount);
-        revExpDifferenceReqAmount = totalRevenueReqAmount.subtract(totalNetTransferReqAmount);
-        revExpDifferenceAmountChange = revExpDifferenceReqAmount.subtract(revExpDifferenceBaseAmount);
-        
-        if (!revExpDifferenceBaseAmount.equals(BigDecimal.ZERO)){
-            revExpDifferencePercentChange = revExpDifferenceAmountChange.divide(revExpDifferenceBaseAmount, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
-        }
-        
-        
+
+        return returnList;
     }
 
 

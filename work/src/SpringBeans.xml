@@ -150,10 +150,22 @@
 		<property name="pointcut" ref="methodCachePointcut" />
 	</bean>
 
+    <bean id="methodCacheNoCopyAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="advice" ref="methodCacheNoCopyInterceptor" />
+        <property name="pointcut" ref="methodCacheNoCopyPointcut" />
+    </bean>
+
 	<bean id="methodCacheInterceptor" class="org.kuali.core.util.cache.MethodCacheInterceptor">
 		<property name="cache" ref="methodCache" />
 		<property name="expirationTimeInSeconds">
 			<value>60</value>
+		</property>
+	</bean>
+
+    <bean id="methodCacheNoCopyInterceptor" class="org.kuali.core.util.cache.MethodCacheNoCopyInterceptor">
+        <property name="cache" ref="methodCacheNoCopy" />
+        <property name="expirationTimeInSeconds">
+            <value>600</value>
 		</property>
 	</bean>
 
@@ -171,8 +183,26 @@
 		</constructor-arg>
 	</bean>
 
+    <bean id="methodCacheNoCopy" factory-bean="methodResultsCacheNoCopyAdministrator" factory-method="getCache" />
+
+    <bean id="methodResultsCacheNoCopyAdministrator" class="com.opensymphony.oscache.general.GeneralCacheAdministrator" destroy-method="destroy">
+        <constructor-arg index="0">
+            <props>
+                <prop key="cache.memory">true</prop>
+                <prop key="cache.key">__oscache_mrcache</prop>
+                <prop key="cache.persistence.overflow.only">false</prop>
+                <prop key="cache.capacity">1000</prop>
+                <prop key="cache.event.listeners">org.kuali.core.util.cache.MethodResultsCacheNoCopyMonitor</prop>
+            </props>
+        </constructor-arg>
+    </bean>
+
 	<bean id="methodCachePointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
 		<constructor-arg value="org.kuali.core.util.spring.Cached" />
+	</bean>
+
+    <bean id="methodCacheNoCopyPointcut" class="org.kuali.core.util.spring.ClassOrMethodAnnotationPointcut">
+        <constructor-arg value="org.kuali.core.util.spring.CacheNoCopy" />
 	</bean>
 
 	<bean id="methodLoggingAdvisor" class="org.springframework.aop.support.DefaultPointcutAdvisor">
@@ -702,5 +732,6 @@
 		<property name="persistenceStructureService">
 			<ref bean="persistenceStructureService" />
 		</property>
+        <property name="ojbCollectionHelper" ref="ojbCollectionHelper" />
 	</bean>
 </beans>

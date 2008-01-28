@@ -948,7 +948,8 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
          */
         public final static Integer ESTIMATED_PENDING_GENERAL_LEDGER_ROWS = 70000;
         public final static Integer AVERAGE_REPORTING_TREE_SIZE = 4;
-
+        
+        public final static String BC_ORG_ACCOUNT_SUMMARY_REPORT = "BCOrgAccountSummaryReport";
     }
 
     public static class OperationType {

@@ -233,11 +233,17 @@
 	
 	
 	<bean id="budgetConstructionOrganizationJasperReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationJasperReportsServiceImpl">
-	<property name="budgetConstructionAccountSummaryService">
-		<ref bean="budgetConstructionAccountSummaryService" />
-	</property>
+		<property name="budgetConstructionAccountSummaryService">
+			<ref bean="budgetConstructionAccountSummaryService" />
+		</property>
+		<property name="dateTimeService">
+    		<ref bean="dateTimeService"/>
+        </property>
+        <property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+	    </property>
+	    <property name="directoryName" value="${staging.directory}"/>
 	</bean>
-	
 	
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />

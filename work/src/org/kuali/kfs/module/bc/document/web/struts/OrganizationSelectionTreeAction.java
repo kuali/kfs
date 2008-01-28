@@ -784,18 +784,5 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             return new ActionForward(lookupUrl, true);
         }
 
-        //String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + request.getContextPath();
-        
-        /*
-        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "search");
-        parameters.put(KFSConstants.DOC_FORM_KEY, GlobalVariables.getUserSession().addObject(form));
-        parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, boClassName);
-        parameters.put(KFSConstants.RETURN_LOCATION_PARAMETER, basePath + mapping.getPath() + ".do");
-        parameters.put(GLConstants.LookupableBeanKeys.SEGMENTED_LOOKUP_FLAG_NAME, Boolean.TRUE.toString());
-
-        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + actionPath, parameters);
-
-        return new ActionForward(lookupUrl, true);
-*/        
     }
 }

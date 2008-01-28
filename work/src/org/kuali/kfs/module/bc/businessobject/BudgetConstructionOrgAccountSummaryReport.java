@@ -17,6 +17,7 @@ package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -92,7 +93,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private BigDecimal revExpDifferenceReqAmount = BigDecimal.ZERO;
     private BigDecimal revExpDifferenceAmountChange = BigDecimal.ZERO;
     private BigDecimal revExpDifferencePercentChange = BigDecimal.ZERO;
-    
+
     BudgetConstructionOrgAccountSummaryReport bcoasr;
 
     private Integer tempFiscalYear = new Integer(2008);
@@ -104,18 +105,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
         // NumericValueComparator numericComparator = new NumericValueComparator();
         StringValueComparator stringComparator = new StringValueComparator();
 
-        /*
-         * Collections.sort((List) list, new BeanComparator("organizationChartOfAccountsCode", stringComparator));
-         * Collections.sort((List) list, new BeanComparator("organizationCode", stringComparator)); Collections.sort((List) list,
-         * new BeanComparator("chartOfAccountsCode", stringComparator)); Collections.sort((List) list, new
-         * BeanComparator("subFundSortCode", stringComparator)); Collections.sort((List) list, new BeanComparator("fundGroupCode",
-         * stringComparator)); Collections.sort((List) list, new BeanComparator("subFundGroupCode", stringComparator));
-         * Collections.sort((List) list, new BeanComparator("accountNumber", stringComparator)); Collections.sort((List) list, new
-         * BeanComparator("subAccountNumber", stringComparator)); Collections.sort((List) list, new
-         * BeanComparator("incomeExpenseCode", stringComparator));
-         */
-        
-        
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.INCOME_EXPENSE_CODE, stringComparator));
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, stringComparator));
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ACCOUNT_NUMBER, stringComparator));
@@ -126,32 +115,21 @@ public class BudgetConstructionOrgAccountSummaryReport {
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ORGANIZATION_CODE, stringComparator));
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ORGANIZATION_CHART_OF_ACCOUNTS_CODE, stringComparator));
 
-
-        /*
-         * organizationChartOfAccountsCode organizationCode chartOfAccountsCode subFundSortCode fundGroupCode subFundGroupCode
-         * accountNumber subAccountNumber incomeExpenseCode
-         */
-
-
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List simpleList = deleteDuplicated((List) list);
 
         // Calculate Total Section
         orgAccountSummaryReportTotalList = calculateTotal((List) list, simpleList);
 
-
         for (BudgetConstructionAccountSummary bcasEntry : list) {
-
             bcoasr = new BudgetConstructionOrgAccountSummaryReport();
             BudgetConstructionOrgAccountSummaryReportTotal bcoasrTotal = new BudgetConstructionOrgAccountSummaryReportTotal();
 
             buildReportsHeader(bcasEntry);
             buildReportsBody(bcasEntry);
-
             buildReportsTotal(bcasEntry, orgAccountSummaryReportTotalList);
 
             reportSet.add(bcoasr);
-
         }
 
         return reportSet;
@@ -218,7 +196,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
         bcoasr.setHeader5("Change");
         bcoasr.setHeader6("Change");
         bcoasr.setConsHdr("");
-
     }
 
     public void buildReportsBody(BudgetConstructionAccountSummary bcas) {
@@ -246,7 +223,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
             }
         }
 
-
         // build income expense description
         if (bcas.getIncomeExpenseCode().equals("A")) {
             bcoasr.setIncExpDesc("Revenue");
@@ -268,7 +244,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
             }
         }
 
-
         BigDecimal beginingBalanceLineAmt = BigDecimal.ZERO;
         BigDecimal accountLineAnnualBalAmt = BigDecimal.ZERO;
         if (bcas.getFinancialBeginningBalanceLineAmount() != null) {
@@ -286,7 +261,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
         if (!beginingBalanceLineAmt.equals(BigDecimal.ZERO)) {
             bcoasr.setPercentChange(bcoasr.getAmountChange().divide(beginingBalanceLineAmt, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
         }
-
     }
 
     public void buildReportsTotal(BudgetConstructionAccountSummary bcas, List reportTotalList) {
@@ -335,20 +309,16 @@ public class BudgetConstructionOrgAccountSummaryReport {
                 if (!bcoasr.getRevExpDifferenceBaseAmount().equals(BigDecimal.ZERO)) {
                     bcoasr.setRevExpDifferencePercentChange(bcoasr.getRevExpDifferenceAmountChange().divide(bcoasr.getRevExpDifferenceBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
-
-
             }
-
         }
     }
-
 
     public List calculateTotal(List bcasList, List simpleList) {
 
         List returnList = new ArrayList();
 
         Iterator simpleListIterator = simpleList.iterator();
-        
+
         boolean prev = false;
         while (simpleListIterator.hasNext()) {
             BudgetConstructionAccountSummary simpleBcasEntry = (BudgetConstructionAccountSummary) simpleListIterator.next();
@@ -365,7 +335,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
                         prev = false;
                         totalGrossBaseAmount = totalGrossBaseAmount.add(bcasListEntry.getFinancialBeginningBalanceLineAmount().bigDecimalValue());
                         totalGrossReqAmount = totalGrossReqAmount.add(bcasListEntry.getAccountLineAnnualBalanceAmount().bigDecimalValue());
-                        
+
                     }
                     else if (bcasListEntry.getIncomeExpenseCode().equals("T")) {
                         prev = true;
@@ -408,10 +378,8 @@ public class BudgetConstructionOrgAccountSummaryReport {
             totalTransferInReqAmount = BigDecimal.ZERO;
         }
 
-
         return returnList;
     }
-
 
     public boolean isSameAccountSummaryEntry(BudgetConstructionAccountSummary firstBcas, BudgetConstructionAccountSummary secondBcas) {
 
@@ -420,9 +388,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
         }
         else
             return false;
-
     }
-
 
     public List deleteDuplicated(List list) {
         int count = 0;
@@ -452,7 +418,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
         return returnList;
     }
-
 
     public String getAccountNameAndSubAccountName() {
         return accountNameAndSubAccountName;
@@ -845,5 +810,4 @@ public class BudgetConstructionOrgAccountSummaryReport {
     public void setFundGroupName(String fundGroupName) {
         this.fundGroupName = fundGroupName;
     }
-
 }

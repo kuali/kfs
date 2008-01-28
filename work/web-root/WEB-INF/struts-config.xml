@@ -56,7 +56,7 @@
         <form-bean name="PaymentApplicationDocumentForm" type="org.kuali.module.ar.web.struts.form.PaymentApplicationDocumentForm" />
         <form-bean name="CashControlDocumentForm" type="org.kuali.module.ar.web.struts.form.CashControlDocumentForm" />
         <form-bean name="CustomerCreditMemoDocumentForm" type="org.kuali.module.ar.web.struts.form.CustomerCreditMemoDocumentForm" />
-        <form-bean name="CustomerInvoiceForm" type="org.kuali.module.ar.web.struts.form.CustomerInvoiceForm" />
+        <form-bean name="CustomerInvoiceDocumentForm" type="org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm" />
         
 		<!-- Labor Distribution Bean Definitions -->
    		<form-bean name="LaborSalaryExpenseTransferForm" type="org.kuali.module.labor.web.struts.form.SalaryExpenseTransferForm" />

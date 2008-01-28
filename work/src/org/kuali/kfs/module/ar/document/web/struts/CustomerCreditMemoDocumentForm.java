@@ -33,8 +33,6 @@ public class CustomerCreditMemoDocumentForm extends KualiAccountingDocumentFormB
     public CustomerCreditMemoDocumentForm() {
         super();
         setDocument(new CustomerCreditMemoDocument());
-
-
         setupServices();
         //setupDefaultValues((CustomerInvoiceDocument)getDocument());
     }

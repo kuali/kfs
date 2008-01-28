@@ -54,6 +54,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 * Default constructor.
 	 */
 	public CustomerInvoiceDocument() {
+	    super();
         invoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         
 	}
@@ -534,7 +535,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 * Sets the accountsReceivableDocumentHeader attribute.
 	 * 
 	 * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
-	 * @deprecated
 	 */
 	public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
 		this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;

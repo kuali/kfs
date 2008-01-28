@@ -38,7 +38,7 @@
 
         <!--  help parameterNamespace="KFS-AR" parameterDetailType="Invoice" parameterName="?" /-->
   		<attributes>
-            <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
+           <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
 
             <attribute name="universityFiscalYear" forceUppercase="true">
                 <label>University Fiscal Year</label>
@@ -346,7 +346,7 @@
                 <required>false</required>
 
                 <control>
-                    <text size="11" />
+                    <checkbox />
                 </control>
 
                 <summary>

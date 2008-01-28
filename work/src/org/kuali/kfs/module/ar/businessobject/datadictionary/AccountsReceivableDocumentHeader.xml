@@ -54,20 +54,7 @@
 
         <attributes>
 
-            <attribute name="customerNumber" forceUppercase="true">
-                <label>Customer Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>customerNumber</summary>
-                <description>customerNumber description...</description>
-			</attribute>
+			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber" />
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>

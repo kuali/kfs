@@ -81,8 +81,8 @@
 		                <td align=left valign=middle class="datacell">
 		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentDescription" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentDescription}" readOnly="true" />
 		                </td>
-		                <td align=left valign=middle class="datacell">
-		                    <kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" />
+		                <td align=right valign=middle class="datacell">
+		                    <div align="right"><kul:htmlControlAttribute property="document.assignContractManagerDetail[${ctr}].requisition.documentHeader.financialDocumentTotalAmount" attributeEntry="${requisitionAttributes.documentHeader.financialDocumentTotalAmount}" readOnly="true" /></div>
 		                </td>		               
 		                <td align=left valign=middle class="datacell">
 		                    <%-- fmt:formatDate value="${acmDetail.requisition.documentHeader.workflowDocument.createDate}" pattern="hh:mm a MM/dd/yyyy" / --%>

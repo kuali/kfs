@@ -35,7 +35,7 @@
         <documentTypeName>ContractManagerMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCO</documentTypeCode>
 
-        <label>Contract Manager</label>
+        <label>Purchasing Contract Manager</label>
         <help parameterNamespace="KFS-VN" parameterDetailType="ContractManager" parameterName="CONTRACT_MANAGER" />
 
         <lockingKeys>
@@ -43,7 +43,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Contract Manager">
+            <maintainableSection title="Edit Purchasing Contract Manager">
                 <maintainableItems>
                     <maintainableField name="contractManagerCode" required="true" />
                 	<maintainableField name="contractManagerUserIdentifier" required="true" >

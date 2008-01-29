@@ -32,7 +32,7 @@
         </authorizations>
 
         <documentTypeName>EffortCertificationDocument</documentTypeName>
-        <documentTypeCode>A21R</documentTypeCode>
+        <documentTypeCode>A21</documentTypeCode>
 
         <label>Effort Certification Document</label>
         

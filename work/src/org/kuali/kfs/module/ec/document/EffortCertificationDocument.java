@@ -17,14 +17,18 @@
 package org.kuali.module.effort.document;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
+import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
@@ -153,7 +157,10 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
-        return employee;
+        Map searchCriteria = new HashMap();
+        searchCriteria.put("personPayrollIdentifier", getEmplid());
+        
+        return new ArrayList<UniversalUser>(SpringContext.getBean(UniversalUserService.class).findUniversalUsers(searchCriteria)).get(0);
     }
 
     /**

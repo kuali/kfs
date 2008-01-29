@@ -39,7 +39,7 @@
                             attributeEntry="${stipulationAttributes.vendorStipulationDescription}" 
                             property="newPurchaseOrderVendorStipulationLine.vendorStipulationDescription" />
                         <kul:lookup boClassName="org.kuali.module.purap.bo.VendorStipulation" 
-                        	readOnlyFields="active" lookupParameters="'Y': active"
+                        	readOnlyFields="active" lookupParameters="'Y':active"
                         	fieldConversions="vendorStipulationDescription:document.vendorStipulationDescription" /></div>
                     </td>
                     <td class="infoline">

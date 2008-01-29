@@ -790,6 +790,9 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         this.accountsForRouting = accountsForRouting;
     }
     
+    /**
+     * @see org.kuali.module.purap.document.PurchasingAccountsPayableDocument#hideRestrictedMaterials()
+     */
     public void hideRestrictedMaterials() {
         UniversalUser user = GlobalVariables.getUserSession().getUniversalUser();
         Map<String, Boolean> restrictionsAuthorizationMap = new HashMap<String, Boolean>();
@@ -834,6 +837,12 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
     }
     
+    /**
+     * Sets the item description of each item of this document to default description
+     * of the restricted material and sets the item catalog number to null.
+     * 
+     * @param defaultDescription
+     */
     private void alterItemsForRestrictedMaterials(String defaultDescription) {
         for (PurApItem item : (List<PurApItem>)this.getItems()) {
             if (item.getItemDescription() != null && (item.getItemDescription().trim().length() > 0)) {

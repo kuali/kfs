@@ -287,6 +287,13 @@ public class PurchaseOrderDocumentActionAuthorizer {
         return approver;
     }
 
+    /**
+     * Determines whether the current user is authorized
+     * to see the Restricted Material tab on the Purchase 
+     * Order tabbed page.
+     * 
+     * @return boolean true if the user is authorized and false otherwise.
+     */
     public boolean isUserAuthorizedForRestrictedMaterials() {
         return isUserAuthorized;
     }

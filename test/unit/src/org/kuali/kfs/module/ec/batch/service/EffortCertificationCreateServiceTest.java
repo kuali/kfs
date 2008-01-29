@@ -28,6 +28,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -164,13 +165,54 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
 
-        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
+        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition(testTarget);
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
-        reportDefinition.setActive(false);
 
         try {
             effortCertificationCreateService.create(fiscalYear, reportNumber);
             fail(message.getProperty("error.inactiveReportDefinition"));
+        }
+        catch (Exception e) {
+        }
+    }
+    
+    /**
+     * check if the service can approperiately handle the input parameters
+     * 
+     * @see EffortCertificationCreateService.create(Integer, String)
+     */
+    public void testInputParameters_NotOpenedReportDefinition() throws Exception {
+        String testTarget = "inputParameters.notOpenedReportDefinition.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+
+        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition(testTarget);
+        reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
+
+        try {
+            effortCertificationCreateService.create(fiscalYear, reportNumber);
+            fail(message.getProperty("error.notOpenedReportDefinition"));
+        }
+        catch (Exception e) {
+        }
+    }
+    
+    /**
+     * check if the service can approperiately handle the input parameters
+     * 
+     * @see EffortCertificationCreateService.create(Integer, String)
+     */
+    public void testInputParameters_ClosedReportDefinition() throws Exception {
+        String testTarget = "inputParameters.closedReportDefinition.";
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
+        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+
+        EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition(testTarget);
+        reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
+
+        try {
+            effortCertificationCreateService.create(fiscalYear, reportNumber);
+            fail(message.getProperty("error.closedReportDefinition"));
         }
         catch (Exception e) {
         }

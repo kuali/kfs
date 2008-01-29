@@ -180,17 +180,15 @@ public class TestDataPreparator {
      */
     public static <T extends PersistableBusinessObject> T persistDataObject(T dataObject) {
         T existingDataObject = (T) businessObjectService.retrieve(dataObject);
-        if (existingDataObject == null) {
-            List<T> dataObjects = new ArrayList<T>();
-            dataObjects.add(dataObject);
-            
-            businessObjectService.save(dataObjects);
-            persistenceService.retrieveNonKeyFields(dataObject);
-            
-            return dataObject;
+        
+        if(existingDataObject != null) {
+            businessObjectService.delete(existingDataObject);
         }
-
-        return existingDataObject;
+        
+        businessObjectService.save(dataObject);
+        persistenceService.retrieveNonKeyFields(dataObject);
+            
+        return dataObject;
     }
 
     /**

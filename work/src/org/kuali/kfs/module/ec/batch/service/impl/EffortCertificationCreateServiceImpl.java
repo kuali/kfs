@@ -120,6 +120,12 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
         if (!reportDefinition.isActive()) {
             return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_INACTIVE, combinedFieldValues).getMessage();
         }
+           
+        // check if the report period of the selected report definition is open. If not, throws an error message
+        LOG.info("====>" + reportDefinition.getEffortCertificationReportPeriodStatusCode());
+        if (!EffortConstants.PeriodStatusCodes.OPEN.equals(reportDefinition.getEffortCertificationReportPeriodStatusCode())) {
+            return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED, combinedFieldValues).getMessage();
+        }
 
         // check if any document has been generated for the selected report definition. If so, return with an error message
         int countOfDocuments = businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues);

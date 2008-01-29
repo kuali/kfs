@@ -25,7 +25,7 @@ import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.ReportGenerator;
 
 /**
- * This class...
+ * To generate the working progress reports for the effort certification
  */
 public class EffortCertificationReportServiceImpl implements EffortCertificationReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportServiceImpl.class);
@@ -37,12 +37,12 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
      */
     public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         String fileNamePrefix = reportInfo.reportFilename();
-        String template = reportInfo.getReportTemplateName();
+        String template = "report/" + reportInfo.getReportTemplateName();
         String fullReportFileName = this.buildFullFileName(reportsDirectory, fileNamePrefix, PDF_FILE_EXTENSION, runDate);
 
         LOG.info(reportDataHolder);
 
-        ReportGenerator.generatePDFReport(reportDataHolder.getReportData(), template, fullReportFileName);
+        //ReportGenerator.generateReportToPdfFile(reportDataHolder.getReportData(), template, fullReportFileName);
     }
 
     /**
@@ -58,6 +58,6 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
         String sdf = new SimpleDateFormat("yyyyMMdd_HHmmss").format(runDate);
         String fileNamePattern = "{0}/{1}.{2}";
 
-        return MessageFormat.format(fileNamePattern, directory, fileNamePrefix, fileNameExtension);
+        return MessageFormat.format(fileNamePattern, directory, fileNamePrefix + sdf, fileNameExtension);
     }
 }

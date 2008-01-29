@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.util;
 
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 
 /**
@@ -34,7 +35,7 @@ public class LedgerBalanceWithMessage {
      * Constructs a LedgerBalanceWithMessage.java.
      */
     public LedgerBalanceWithMessage() {
-        this("", "");
+        this(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
     }
 
     /**
@@ -45,6 +46,11 @@ public class LedgerBalanceWithMessage {
      */
     public LedgerBalanceWithMessage(String emplid, String message) {
         super();
+        this.chartOfAccountsCode = KFSConstants.EMPTY_STRING;
+        this.accountNumber = KFSConstants.EMPTY_STRING;
+        this.subAccountNumber = KFSConstants.EMPTY_STRING;
+        this.financialObjectCode = KFSConstants.EMPTY_STRING;
+        this.positionNumber = KFSConstants.EMPTY_STRING;
         this.emplid = emplid;
         this.message = message;
     }
@@ -191,6 +197,7 @@ public class LedgerBalanceWithMessage {
     public void setMessage(String message) {
         this.message = message;
     }
+
     /**
      * @see java.lang.Object#toString()
      */
@@ -204,7 +211,7 @@ public class LedgerBalanceWithMessage {
         ledgerBalanceWithMessage.append("positionNumber=").append(this.getPositionNumber()).append(", ");
         ledgerBalanceWithMessage.append("emplid=").append(this.getEmplid()).append(", ");
         ledgerBalanceWithMessage.append("message=").append(this.getMessage()).append("]");
-        
+
         return ledgerBalanceWithMessage.toString();
     }
 }

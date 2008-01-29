@@ -35,8 +35,12 @@ public class ExtractProcessReportDataHolder {
     
     private Map<String, Object> reportData;
     
-    public final String KEY_OF_STATISTICS_ENTRY = "statistics";
-    public final String KEY_OF_ERRORS_ENTRY = "errors";
+    public final static String KEY_OF_STATISTICS_ENTRY = "statistics";
+    public final static String KEY_OF_ERRORS_ENTRY = "errors";
+    public final static String REPORT_YEAR = "reportYear";
+    public final static String REPORT_NUMBER = "reportNumber";
+    public final static String REPORT_PERIOD_BEGIN = "reportPeriodBegin";
+    public final static String REPORT_PERIOD_END = "reportPeriodEnd";
 
     /**
      * Constructs a ExtractProcessReportDataHolder.java.
@@ -129,17 +133,12 @@ public class ExtractProcessReportDataHolder {
      * Gets the reportData attribute. 
      * @return Returns the reportData.
      */
-    public Map<String, Object> getReportData() {
-        List<String> keyFields = new ArrayList<String>();
-        keyFields.add(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE);
-        keyFields.add(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE);
-        
-        reportData = ObjectUtil.buildPropertyMap(reportDefinition, keyFields);        
+    public Map<String, Object> getReportData() {        
+        reportData.put(REPORT_YEAR, reportDefinition.getUniversityFiscalYear());
+        reportData.put(REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());
+        reportData.put(REPORT_PERIOD_BEGIN, reportDefinition.getEffortCertificationReportBeginPeriodCode() + "/" + reportDefinition.getEffortCertificationReportBeginFiscalYear());
+        reportData.put(REPORT_PERIOD_END, reportDefinition.getEffortCertificationReportEndPeriodCode() + "/" + reportDefinition.getEffortCertificationReportEndFiscalYear());
+                
         reportData.put(KEY_OF_STATISTICS_ENTRY, basicStatistics);
         reportData.put(KEY_OF_ERRORS_ENTRY, ledgerBalancesWithMessage);
         return reportData;

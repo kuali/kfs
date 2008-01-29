@@ -109,7 +109,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(fiscalYear));
 
         EffortCertificationReportDefinition reportDefinition = this.findReportDefinitionByPrimaryKey(fieldValues);
-        ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
+        ExtractProcessReportDataHolder reportDataHolder = this.initializeReportData(reportDefinition);
 
         List<String> employees = this.findEmployeesWithValidPayType(reportDefinition);
 
@@ -524,6 +524,20 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         consolidationKeys.add(KFSPropertyConstants.POSITION_NUMBER);
 
         return consolidationKeys;
+    }
+    
+    // initialize the report data hold with default values 
+    private ExtractProcessReportDataHolder initializeReportData(EffortCertificationReportDefinition reportDefinition) {
+        ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
+        
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, 0);
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_SELECTED, 0);
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, 0);
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_CERTIFICATIONS_WRITTEN, 0);
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_EMPLOYEES_SELECTED, 0);
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_ERRORS_FOUND, 0); 
+
+        return reportDataHolder;
     }
 
     /**

@@ -16,6 +16,7 @@
 package org.kuali.module.purap.web.struts.action;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.apache.struts.upload.DiskFile;
+import org.apache.struts.upload.FormFile;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.service.BusinessObjectService;
@@ -45,7 +48,10 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
+import org.kuali.module.purap.exceptions.ItemParserException;
 import org.kuali.module.purap.rule.event.AddPurchasingAccountsPayableItemEvent;
+import org.kuali.module.purap.util.ItemParser;
+import org.kuali.module.purap.util.ItemParserBase;
 import org.kuali.module.purap.web.struts.form.PurchasingAccountsPayableFormBase;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
 import org.kuali.module.vendor.VendorConstants;
@@ -53,6 +59,7 @@ import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.service.PhoneNumberService;
 import org.kuali.module.vendor.service.VendorService;
+
 
 /**
  * Struts Action for Purchasing documents.
@@ -224,6 +231,47 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
             purDocument.addItem(item);
         }
 
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Import items to the document from a spreadsheet.
+     * 
+     * @param mapping An ActionMapping
+     * @param form An ActionForm
+     * @param request The HttpServletRequest
+     * @param response The HttpServletResponse
+     * @throws Exception
+     * @return An ActionForward
+     */
+    public ActionForward importItems(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        LOG.info("Importing item lines");
+
+        PurchasingFormBase purchasingForm = ( PurchasingFormBase )form;
+        PurchasingDocument purDocument = ( PurchasingDocument )purchasingForm.getDocument();
+        String documentNumber = purDocument.getDocumentNumber();
+        FormFile itemFile = purchasingForm.getItemImportFile();           
+        Class itemClass = purDocument.getItemClass();
+        List<PurApItem> importedItems = null;
+        String errorPath = PurapConstants.ITEM_TAB_ERRORS;   
+        ItemParser itemParser = new ItemParserBase();
+        
+        try {
+            importedItems = itemParser.importItems( itemFile, itemClass, documentNumber );
+            // validate imported items
+            boolean allPassed = true;
+            for (PurApItem item : importedItems ) {
+                allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item)); 
+            }        
+            if (allPassed) {
+                for (PurApItem item : importedItems ) 
+                    purDocument.addItem(item);            
+            }
+        }
+        catch (ItemParserException e) {
+            GlobalVariables.getErrorMap().putError( errorPath, e.getErrorKey(), e.getErrorParameters() );
+        }
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 

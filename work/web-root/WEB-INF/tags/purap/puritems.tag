@@ -44,7 +44,38 @@
 	<table cellpadding="0" cellspacing="0" class="datatable" summary="Items Section">
 		<c:if test="${(fullEntryMode or amendmentEntry)}">
 			<tr>
-				<td colspan="11" class="subhead"><span class="subhead-left">Add Item</span></td>
+				<td colspan="6" class="subhead"><span class="subhead-left">Add Item</span></td>
+				<td colspan="4" class="subhead" align="right" nowrap="nowrap" style="border-left: none;">
+					<SCRIPT type="text/javascript">
+                		<!--
+                  		function hideImport() {
+                      		document.getElementById("showLink").style.display="inline";
+                      		document.getElementById("uploadDiv").style.display="none";
+                  		}
+                  		function showImport() {
+                      		document.getElementById("showLink").style.display="none";
+                      		document.getElementById("uploadDiv").style.display="inline";
+                  		}
+                  		document.write(
+                    		'<a id="showLink" href="#" onclick="showImport();return false;">' +
+                      		'<img src="${ConfigProperties.externalizable.images.url}tinybutton-importlines.gif" title="import items from file" alt="import items from file"' +
+                      		'     width=72 height=15 border=0 align="right" class="det-button">' +
+                    		'<\/a>' +
+                    		'<div id="uploadDiv" style="display:none;" >' +
+                      		'<html:file size="30" property="itemImportFile" />' +
+                      		'<html:image property="methodToCall.importItems" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+                                    styleClass="tinybutton" alt="add imported items" title="add imported items" />' +
+                      		'<html:image property="methodToCall.cancel" src="${ConfigProperties.externalizable.images.url}tinybutton-cancelimport.gif"
+                                    styleClass="tinybutton" alt="cancel import" title="cancel import" onclick="hideImport();return false;" />' +
+                    		'<\/div>');
+                		//-->
+            		</SCRIPT>
+					<NOSCRIPT>
+						Import lines
+						<html:file size="30" property="itemImportFile" style="font:10px;height:16px;" />
+						<html:image property="methodToCall.importItems" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="add imported items" title="add imported items" />
+					</NOSCRIPT>
+				</td>
 			</tr>
 			<tr>
 				<kul:htmlAttributeHeaderCell attributeEntry="${itemAttributes.itemLineNumber}" />
@@ -420,15 +451,15 @@
 					    <c:set target="${KualiForm.editingMode}" property="expenseEntry" value="true" />
 					</c:if>
 					<purap:puraccountingLineCams editingMode="${KualiForm.editingMode}"
-    	    		    editableAccounts="${KualiForm.editableAccounts}"
-	    				sourceAccountingLinesOnly="true"
-		    			optionalFields="accountLinePercent"
+						editableAccounts="${KualiForm.editableAccounts}"
+						sourceAccountingLinesOnly="true"
+						optionalFields="accountLinePercent"
 			    		extraHiddenFields="${acctExtraHiddenFields}"
-				    	accountingLineAttributes="${accountingLineAttributes}"
-					   	accountPrefix="document.item[${ctr}]." hideTotalLine="true"
-					    hideFields="amount" accountingAddLineIndex="${ctr}"
-					    itemsAttributes="${itemAttributes}"
-					    camsAttributes="${camsAttributes}" ctr="${ctr}"
+						accountingLineAttributes="${accountingLineAttributes}"
+						accountPrefix="document.item[${ctr}]." hideTotalLine="true"
+						hideFields="amount" accountingAddLineIndex="${ctr}"
+						itemsAttributes="${itemAttributes}"
+						camsAttributes="${camsAttributes}" ctr="${ctr}"
                         suppressCams="false" overrideTitle="Item Accounting Lines" />
 				</c:if>
 

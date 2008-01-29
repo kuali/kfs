@@ -31,22 +31,28 @@
 
 <tr>
 	<td class="infoline" colspan="3">
+	    <div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmount}"
 		    property="document.itemTotalPoEncumbranceAmount"
 		    readOnly="true" />
+		</div>
 	</td>
 	<td class="infoline" colspan="3">
+		<div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoEncumbranceAmountRelieved}"
 		    property="document.itemTotalPoEncumbranceAmountRelieved"
 		    readOnly="true" />
+		</div>
 	</td>
 	<td class="infoline" colspan="4">
+		<div align="right">
 	    <kul:htmlControlAttribute
 		    attributeEntry="${documentAttributes.itemTotalPoPaidAmount}"
 		    property="document.itemTotalPoPaidAmount"
 		    readOnly="true" />	
+		</div>
 	</td>				    
 </tr>
 

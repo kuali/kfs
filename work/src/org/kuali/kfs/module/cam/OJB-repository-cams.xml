@@ -473,12 +473,9 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="serialNumber" column="CPTLAST_SERIAL_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
-	<field-descriptor name="organizationCapitalAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR"/>

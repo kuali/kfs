@@ -178,7 +178,7 @@
                 <description>Effort Certification ReportEndPeriodCode description...</description>
 			</attributeReference>
 			
-			<attributeReference name="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" sourceClassName="org.kuali.module.labor.bo.PositionObjectGroup" sourceAttributeName="positionObjectGroupCode">
+			<attributeReference name="effortCertificationReportPositions.effortCertificationReportPositionObjectGroupCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportPosition" sourceAttributeName="effortCertificationReportPositionObjectGroupCode">
                 <label>Position Object Group Code</label>
                 <shortLabel>Pos Obj Grp Cd</shortLabel>
                 <summary>Position Object Group Code</summary>
@@ -197,11 +197,5 @@
 			</collection>
         </collections>
         
-        <relationships>
-            <relationship objectAttributeName="effortCertificationReportPositions.positionObjectGroup" >
-                <primitiveAttribute sourceName="effortCertificationReportPositions.positionObjectGroup.positionObjectGroupCode" targetName="positionObjectGroupCode" />
-            </relationship>
-        </relationships>
-       
     </businessObject>
 </dictionaryEntry>

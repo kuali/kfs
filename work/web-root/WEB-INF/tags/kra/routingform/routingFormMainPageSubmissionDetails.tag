@@ -23,8 +23,8 @@
 <c:set var="viewOnly" value="${KualiForm.editingMode['viewOnly']}"/>
 <c:set var="budgetLinked" value="${KualiForm.editingMode['budgetLinked']}"/>
 
-<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormLayDescription,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
-	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormBudget*,document.submissionTypeCode,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber" isLink="false" includesTitle="true"/></div></div>
+<kul:tab tabTitle="Submission Details" defaultOpen="true" tabErrorKey="document.contractGrantProposal*,document.projectAbstract,document.routingFormProjectTitle,document.routingFormLayDescription,document.routingFormBudget*" auditCluster="mainPageAuditErrors" tabAuditKey="document.routingFormBudget*,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber">
+	<div class="tab-container-error"><div class="left-errmsg-tab"><kra:auditErrors cluster="mainPageAuditErrors" keyMatch="document.routingFormBudget*,document.previousFederalIdentifier,document.routingFormPurposeCode,document.researchTypeCode,document.routingFormOtherPurposeDescription,document.routingFormProjectTitle,document.routingFormLayDescription,document.projectAbstract,document.routingFormProjectTypes*,document.projectTypeOtherDescription,document.routingFormPriorGrantNumber,document.grantNumber" isLink="false" includesTitle="true"/></div></div>
 
           <div class="tab-container" align="center">
             <div class="h2-container">
@@ -32,39 +32,6 @@
             </div>
             <table cellpadding="0" cellspacing="0" summary="view/edit document overview information">
 
-			  <%-- Grants.gov %>
-              <tr>
-                <td colspan=4 class="tab-subhead"><span class="left"><kul:htmlAttributeLabel attributeEntry="${routingFormAttributes.submissionTypeCode}" skipHelpUrl="true" noColon="true"/></span> </td>
-              </tr>
-              <tr>
-                <th align=right valign=middle>Type:</th>
-                <td colspan="3" align=left valign=middle nowrap >
-                  <c:forEach items="${KualiForm.document.routingFormSubmissionTypes}" var="routingFormSubmissionType" varStatus="status"> 
-		            <html:hidden property="document.routingFormSubmissionTypes[${status.index}].documentNumber" /> 
-		            <html:hidden property="document.routingFormSubmissionTypes[${status.index}].submissionTypeCode" /> 
-		            <html:hidden property="document.routingFormSubmissionTypes[${status.index}].versionNumber" /> 
-		            <html:hidden property="document.routingFormSubmissionTypes[${status.index}].submissionType.submissionTypeDescription" /> 
-                    <label>
-                      <c:choose>
-                        <c:when test="${!viewOnly}">
-                          <html:radio property="document.submissionTypeCode" value="${routingFormSubmissionType.submissionTypeCode}" disabled="${viewOnly}"/>
-                        </c:when>
-                        <c:when test="${KualiForm.document.submissionTypeCode eq routingFormSubmissionType.submissionTypeCode}">
-                          <html:hidden property="document.submissionTypeCode" />
-                          Yes
-                        </c:when>
-    				    <c:otherwise> No </c:otherwise>
-                      </c:choose>
-		              ${routingFormSubmissionType.submissionType.submissionTypeDescription}
-		            </label>
-		            <c:if test="${routingFormSubmissionType.submissionTypeCode eq KualiForm.systemParametersMap[KraConstants.SUBMISSION_TYPE_CHANGE]}">
-		              &nbsp;<kul:htmlControlAttribute property="document.previousFederalIdentifier" attributeEntry="${routingFormAttributes.previousFederalIdentifier}" readOnly="${viewOnly}"/>
-		            </c:if>
-                  <br>
-	              </c:forEach>
-                </td>
-              </tr>
-              --%>
               
               <tr>
                 <td colspan=4 class="tab-subhead"><kul:htmlAttributeLabel attributeEntry="${routingFormProjectTypeAttributes.projectTypeCode}" skipHelpUrl="true" noColon="true"/></td>

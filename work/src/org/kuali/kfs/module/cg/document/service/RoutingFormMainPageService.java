@@ -22,7 +22,6 @@ import org.kuali.module.kra.routingform.bo.PersonRole;
 import org.kuali.module.kra.routingform.bo.ProjectType;
 import org.kuali.module.kra.routingform.bo.ResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
-import org.kuali.module.kra.routingform.bo.SubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 
 /**
@@ -31,18 +30,11 @@ import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 public interface RoutingFormMainPageService {
 
     /**
-     * Setup maintainables for Main Page: DueDateType, SubmissionType, ProjectType, Purpose, ResearchTypeCode, and PersonRole.
+     * Setup maintainables for Main Page: DueDateType, ProjectType, Purpose, ResearchTypeCode, and PersonRole.
      * 
      * @param routingFormDocument the doc to set up
      */
     public void setupMainPageMaintainables(RoutingFormDocument routingFormDocument);
-
-    /**
-     * Returns the complete list of SubmissionTypes except for the inactive ones.
-     * 
-     * @return typed list of SubmissionTypes
-     */
-    public List<SubmissionType> getSubmissionTypes();
 
     /**
      * Returns the complete list of ResearchTypeCodes except for the inactive ones.

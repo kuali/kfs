@@ -112,7 +112,6 @@ public class RoutingFormXml {
         routingFormElement.appendChild(createProjectDetailElement(routingFormDocument, xmlDoc));
         routingFormElement.appendChild(createApprovalsElement(routingFormDocument, xmlDoc));
         routingFormElement.appendChild(createKeywordsElement(routingFormDocument.getRoutingFormKeywords(), xmlDoc));
-        // createSubmissionTypesElement would go here but is skipped because it's not needed at this time.
         routingFormElement.appendChild(createCommentsElement(routingFormDocument, xmlDoc));
     }
 

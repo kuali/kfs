@@ -657,7 +657,6 @@
 	<field-descriptor name="routingFormSubcontractorIndicator" column="RF_SUBCNR_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 	<field-descriptor name="institutionAccountNumber" column="INST_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="researchTypeCode" column="RSRCH_TYP_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="submissionTypeCode" column="SUBM_TYP_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="previousFederalIdentifier" column="PREV_FED_ID" jdbc-type="VARCHAR"/>
     <field-descriptor name="projectTypeOtherDescription" column="PROJ_TYP_OTHR_DESC" jdbc-type="VARCHAR"/> 
 	<field-descriptor name="federalIdentifier" column="FED_ID" jdbc-type="VARCHAR"/>
@@ -683,9 +682,6 @@
 	</reference-descriptor>
 	<reference-descriptor name="researchType" class-ref="org.kuali.module.kra.routingform.bo.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="researchTypeCode" />
-	</reference-descriptor>
-	<reference-descriptor name="submissionType" class-ref="org.kuali.module.kra.routingform.bo.SubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="submissionTypeCode" />
 	</reference-descriptor>
     <reference-descriptor name="federalPassThroughAgency" class-ref="org.kuali.module.cg.bo.Agency" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="agencyFederalPassThroughNumber" />
@@ -714,10 +710,6 @@
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     <collection-descriptor name="routingFormOrganizations" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormOrganization" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <inverse-foreignkey field-ref="documentNumber" />
-    </collection-descriptor>
-    <collection-descriptor name="routingFormSubmissionTypes" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
-        <orderby name="submissionType.userSortNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
     <collection-descriptor name="routingFormPurposes" proxy="true" element-class-ref="org.kuali.module.kra.routingform.bo.RoutingFormPurpose" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object">
@@ -990,15 +982,6 @@
 	<field-descriptor name="researchTypeDescription" column="RSRCH_TYP_DESC" jdbc-type="VARCHAR"/>
 </class-descriptor>
 
-<class-descriptor class="org.kuali.module.kra.routingform.bo.SubmissionType" table="ER_SUBM_TYP_T">
-	<field-descriptor name="submissionTypeCode" column="SUBM_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="dataObjectMaintenanceCodeActiveIndicator" column="DOBJ_MAINT_CD_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
-	<field-descriptor name="submissionTypeDescription" column="SUBM_TYP_DESC" jdbc-type="VARCHAR"/>
-	<field-descriptor name="userSortNumber" column="USR_SORT_NBR" jdbc-type="INTEGER"/>
-</class-descriptor>
-
 <class-descriptor class="org.kuali.module.kra.routingform.bo.Keyword" table="ER_KEYWRD_T">
 	<field-descriptor name="routingFormKeywordDescription" column="RF_KEYWRD_DESC" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
@@ -1165,16 +1148,6 @@
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<reference-descriptor name="researchType" class-ref="org.kuali.module.kra.routingform.bo.ResearchTypeCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="researchTypeCode" />
-	</reference-descriptor>
-</class-descriptor>
-
-<class-descriptor class="org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType" table="ER_RF_SUBM_TYP_T">
-	<field-descriptor name="documentNumber" column="RDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="submissionTypeCode" column="SUBM_TYP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
-	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<reference-descriptor name="submissionType" class-ref="org.kuali.module.kra.routingform.bo.SubmissionType" auto-retrieve="true" auto-update="none" auto-delete="none">
-		<foreignkey field-ref="submissionTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
 

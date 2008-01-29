@@ -64,7 +64,6 @@
 			<portal:portalLink displayTitle="true" title="Person Role"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.PersonRole&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
-		<%-- Grants.gov %><li><portal:portalLink displayTitle="true" title="Submission Type" url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.SubmissionType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li> --%>
 		<li>
 			<portal:portalLink displayTitle="true" title="Project Type"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.kra.routingform.bo.ProjectType&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />

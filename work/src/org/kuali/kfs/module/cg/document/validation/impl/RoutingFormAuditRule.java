@@ -276,19 +276,6 @@ public class RoutingFormAuditRule {
 
         boolean valid = true;
 
-        // Submission type - Grants.gov
-        // if (ObjectUtils.isNull(routingFormDocument.getSubmissionTypeCode())) {
-        // valid = false;
-        // auditErrors.add(new AuditError("document.submissionTypeCode", KraKeyConstants.AUDIT_MAIN_PAGE_SUBMISSION_TYPE_REQUIRED,
-        // "mainpage.anchor3"));
-        // }
-        // if (SUBMISSION_TYPE_CHANGE.equals(routingFormDocument.getSubmissionTypeCode()) &&
-        // ObjectUtils.isNull(routingFormDocument.getPreviousFederalIdentifier())) {
-        // valid = false;
-        // auditErrors.add(new AuditError("document.previousFederalIdentifier",
-        // KraKeyConstants.AUDIT_MAIN_PAGE_SUBMISSION_TYPE_FEDID_REQUIRED, "mainpage.anchor3"));
-        // }
-
         // Project Type
 
         // TreeSet so that we get the natural order of projectCodes. Important because

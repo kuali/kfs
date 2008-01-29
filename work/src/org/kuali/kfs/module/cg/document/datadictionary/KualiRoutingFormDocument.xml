@@ -566,20 +566,6 @@
                 <description>researchTypeCode description...</description>
       </attribute>
 
-            <attribute name="submissionTypeCode" forceUppercase="true">
-                <label>Submission Type</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>1</maxLength>
-
-                <control>
-                    <checkbox />
-                </control>
-
-                <summary>submissionTypeCode</summary>
-                <description>submissionTypeCode description...</description>
-      </attribute>
-	
             <attribute name="previousFederalIdentifier" forceUppercase="true">
                 <label>Previous Federal Identifier</label>
                 <shortLabel>Identifier</shortLabel>

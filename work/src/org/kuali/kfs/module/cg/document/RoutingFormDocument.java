@@ -66,8 +66,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormResearchRisk;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode;
 import org.kuali.module.kra.routingform.bo.RoutingFormStatus;
 import org.kuali.module.kra.routingform.bo.RoutingFormSubcontractor;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
-import org.kuali.module.kra.routingform.bo.SubmissionType;
 import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
 import org.kuali.module.kra.routingform.service.RoutingFormProjectDetailsService;
 import org.kuali.module.kra.routingform.service.RoutingFormResearchRiskService;
@@ -112,7 +110,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private boolean routingFormSubcontractorIndicator;
     private String institutionAccountNumber;
     private String researchTypeCode;
-    private String submissionTypeCode;
     private String previousFederalIdentifier;
     private String federalIdentifier;
     private String grantsGovernmentConfirmationNumber;
@@ -137,7 +134,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormKeyword> routingFormKeywords;
     private RoutingFormBudget routingFormBudget;
     private ResearchTypeCode researchType;
-    private SubmissionType submissionType;
     private ContractGrantProposal contractGrantProposal;
     private List<RoutingFormInstitutionCostShare> routingFormInstitutionCostShares;
     private List<RoutingFormOtherCostShare> routingFormOtherCostShares;
@@ -147,7 +143,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
     private List<RoutingFormOrganizationCreditPercent> routingFormOrganizationCreditPercents;
     private List<RoutingFormQuestion> routingFormQuestions;
     private List<RoutingFormOrganization> routingFormOrganizations;
-    private List<RoutingFormSubmissionType> routingFormSubmissionTypes;
     private List<RoutingFormResearchTypeCode> routingFormResearchTypeCodes;
     private List<RoutingFormPurpose> routingFormPurposes;
     private List<RoutingFormProjectType> routingFormProjectTypes;
@@ -177,7 +172,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         routingFormOrganizationCreditPercents = new TypedArrayList(RoutingFormOrganizationCreditPercent.class);
         routingFormQuestions = new ArrayList<RoutingFormQuestion>();
         routingFormOrganizations = new ArrayList<RoutingFormOrganization>();
-        routingFormSubmissionTypes = new TypedArrayList(RoutingFormSubmissionType.class);
         routingFormResearchTypeCodes = new TypedArrayList(RoutingFormResearchTypeCode.class);
         routingFormPurposes = new TypedArrayList(RoutingFormPurpose.class);
         routingFormProjectTypes = new TypedArrayList(RoutingFormProjectType.class);
@@ -883,26 +877,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
         this.researchTypeCode = researchTypeCode;
     }
 
-
-    /**
-     * Gets the submissionTypeCode attribute.
-     * 
-     * @return Returns the submissionTypeCode
-     */
-    public String getSubmissionTypeCode() {
-        return submissionTypeCode;
-    }
-
-    /**
-     * Sets the submissionTypeCode attribute.
-     * 
-     * @param submissionTypeCode The submissionTypeCode to set.
-     */
-    public void setSubmissionTypeCode(String submissionTypeCode) {
-        this.submissionTypeCode = submissionTypeCode;
-    }
-
-
     /**
      * Gets the previousFederalIdentifier attribute.
      * 
@@ -1236,25 +1210,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setResearchType(ResearchTypeCode researchType) {
         this.researchType = researchType;
-    }
-
-    /**
-     * Gets the submissionType attribute.
-     * 
-     * @return Returns the submissionType.
-     */
-    public SubmissionType getSubmissionType() {
-        return submissionType;
-    }
-
-    /**
-     * Sets the submissionType attribute value.
-     * 
-     * @param submissionType The submissionType to set.
-     * @deprecated
-     */
-    public void setSubmissionType(SubmissionType submissionType) {
-        this.submissionType = submissionType;
     }
 
     public ContractGrantProposal getContractGrantProposal() {
@@ -1683,24 +1638,6 @@ public class RoutingFormDocument extends ResearchDocumentBase {
      */
     public void setRoutingFormResearchTypeCodes(List<RoutingFormResearchTypeCode> routingFormResearchTypeCodes) {
         this.routingFormResearchTypeCodes = routingFormResearchTypeCodes;
-    }
-
-    /**
-     * Gets the routingFormSubmissionTypes attribute.
-     * 
-     * @return Returns the routingFormSubmissionTypes.
-     */
-    public List<RoutingFormSubmissionType> getRoutingFormSubmissionTypes() {
-        return routingFormSubmissionTypes;
-    }
-
-    /**
-     * Sets the routingFormSubmissionTypes attribute value.
-     * 
-     * @param routingFormSubmissionTypes The routingFormSubmissionTypes to set.
-     */
-    public void setRoutingFormSubmissionTypes(List<RoutingFormSubmissionType> routingFormSubmissionTypes) {
-        this.routingFormSubmissionTypes = routingFormSubmissionTypes;
     }
 
     /**

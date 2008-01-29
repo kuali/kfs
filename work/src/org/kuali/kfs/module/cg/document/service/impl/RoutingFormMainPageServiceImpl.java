@@ -38,8 +38,6 @@ import org.kuali.module.kra.routingform.bo.RoutingFormPersonnel;
 import org.kuali.module.kra.routingform.bo.RoutingFormProjectType;
 import org.kuali.module.kra.routingform.bo.RoutingFormPurpose;
 import org.kuali.module.kra.routingform.bo.RoutingFormResearchTypeCode;
-import org.kuali.module.kra.routingform.bo.RoutingFormSubmissionType;
-import org.kuali.module.kra.routingform.bo.SubmissionType;
 import org.kuali.module.kra.routingform.document.RoutingFormDocument;
 import org.kuali.module.kra.routingform.service.PurposeService;
 import org.kuali.module.kra.routingform.service.RoutingFormMainPageService;
@@ -59,7 +57,6 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
      */
     public void setupMainPageMaintainables(RoutingFormDocument routingFormDocument) {
         this.setupRoutingFormDueDateTypes(routingFormDocument);
-        this.setupRoutingFormSubmissionTypes(routingFormDocument);
         this.setupRoutingFormProjectTypes(routingFormDocument);
         this.setupRoutingFormPurposes(routingFormDocument);
         this.setupRoutingFormResearchTypeCodes(routingFormDocument);
@@ -113,18 +110,6 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
     }
 
     /**
-     * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#getSubmissionTypes()
-     */
-    public List<SubmissionType> getSubmissionTypes() {
-        Map fieldValues = new HashMap();
-        fieldValues.put(KFSPropertyConstants.DATA_OBJECT_MAINTENANCE_CODE_ACTIVE_INDICATOR, KFSConstants.ACTIVE_INDICATOR);
-
-        Collection col = businessObjectService.findMatchingOrderBy(SubmissionType.class, fieldValues, KFSPropertyConstants.USER_SORT_NUMBER, true);
-
-        return new ArrayList(col);
-    }
-
-    /**
      * @see org.kuali.module.kra.routingform.service.RoutingFormMainPageService#checkCoPdExistance(java.util.List)
      */
     public boolean checkCoPdExistance(List<RoutingFormPersonnel> routingFormPersonnel) {
@@ -163,21 +148,6 @@ public class RoutingFormMainPageServiceImpl implements RoutingFormMainPageServic
         }
 
         return null;
-    }
-
-    /**
-     * Setup routing form submission types.
-     * 
-     * @param routingFormDocument
-     */
-    private void setupRoutingFormSubmissionTypes(RoutingFormDocument routingFormDocument) {
-        List<SubmissionType> submissionTypes = getSubmissionTypes();
-        List<RoutingFormSubmissionType> routingFormSubmissionTypes = new ArrayList<RoutingFormSubmissionType>();
-        for (SubmissionType submissionType : submissionTypes) {
-            routingFormSubmissionTypes.add(new RoutingFormSubmissionType(routingFormDocument.getDocumentNumber(), submissionType));
-        }
-
-        routingFormDocument.setRoutingFormSubmissionTypes(routingFormSubmissionTypes);
     }
 
     /**

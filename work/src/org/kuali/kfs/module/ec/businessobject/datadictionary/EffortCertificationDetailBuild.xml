@@ -24,7 +24,12 @@
             <title>Effort Certification Detail Line Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
-                <field attributeName="effortCertificationBuildNumber" />                
+                <field attributeName="effortCertificationBuildNumber" />
+            	
+                <field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
+                <field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+                <field attributeName="effortCertificationDocumentBuild.emplid"/>
+                               
                 <field attributeName="chartOfAccountsCode" />                                
                 <field attributeName="accountNumber" />   
                 <field attributeName="subAccountNumber" />
@@ -32,22 +37,21 @@
                 <field attributeName="financialObjectCode" />
                 <field attributeName="sourceChartOfAccountsCode" />
                 <field attributeName="sourceAccountNumber" />
-                
-                <field attributeName="effortCertificationPayrollAmount" />
-
-                <field attributeName="effortCertificationCalculatedOverallPercent" />
-                <field attributeName="effortCertificationUpdatedOverallPercent" />
-                
                 <field attributeName="costShareSourceSubAccountNumber" /> 
-                <field attributeName="effortCertificationOriginalPayrollAmount" />  
-                <field attributeName="financialDocumentPostingYear" />             
+                <field attributeName="financialDocumentPostingYear" /> 
+
+                <field attributeName="effortCertificationUpdatedOverallPercent" /> 
+                <field attributeName="effortCertificationCalculatedOverallPercent" />                               
+                <field attributeName="effortCertificationPayrollAmount" />
+                
+                <field attributeName="effortCertificationOriginalPayrollAmount" />              
             </inquiryFields></inquirySection></inquirySections>
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Detail Line Build Lookup</title>
+            <title>Effoft Certification Detail Build Lookup</title>
 
-            <instructions>Look up an Effort Certification Detail Line Build</instructions>
+            <instructions>Look up an Effort Certification Detail Build</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -58,6 +62,11 @@
             </defaultSort>
 
             <lookupFields>
+                <lookupField attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber" required="true" />
+                <lookupField attributeName="effortCertificationDocumentBuild.universityFiscalYear" required="true" />
+                <lookupField attributeName="effortCertificationDocumentBuild.emplid" required="false" />
+                
+                <!-- 
                 <lookupField attributeName="effortCertificationBuildNumber" required="true" />
                 <lookupField attributeName="financialDocumentPostingYear" required="false" />
                 
@@ -66,21 +75,25 @@
                 <lookupField attributeName="subAccountNumber" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="positionNumber" required="false" />
+                -->
             </lookupFields>
 
             <resultFields>
-                <field attributeName="effortCertificationBuildNumber" />
-                <field attributeName="sourceChartOfAccountsCode" />
-                <field attributeName="sourceAccountNumber" />
-                
-                <field attributeName="financialDocumentPostingYear" />               
+            	<field attributeName="effortCertificationBuildNumber" />
+            	
+                <field attributeName="effortCertificationDocumentBuild.effortCertificationReportNumber"/>
+                <field attributeName="effortCertificationDocumentBuild.universityFiscalYear"/>
+                <field attributeName="effortCertificationDocumentBuild.emplid"/>
+                              
                 <field attributeName="chartOfAccountsCode" />                                
                 <field attributeName="accountNumber" />   
                 <field attributeName="subAccountNumber" />
-                <field attributeName="positionNumber" />
-                <field attributeName="financialObjectCode" />
+                                
+                <field attributeName="sourceChartOfAccountsCode" />
+                <field attributeName="sourceAccountNumber" />
                 
                 <field attributeName="effortCertificationPayrollAmount" />
+                <field attributeName="effortCertificationCalculatedOverallPercent" />
             </resultFields>
         </lookup>
 
@@ -160,6 +173,19 @@
 			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+            
+			<attributeReference name="effortCertificationDocumentBuild.effortCertificationBuildNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="effortCertificationBuildNumber" />
+            <attributeReference name="effortCertificationDocumentBuild.emplid" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="emplid"/>
+            <attributeReference name="effortCertificationDocumentBuild.universityFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="universityFiscalYear"/>			
+			<attributeReference name="effortCertificationDocumentBuild.effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" sourceAttributeName="effortCertificationReportNumber"/>
+            
         </attributes>
+        
+        <relationships>
+            <relationship objectAttributeName="effortCertificationDocumentBuild.employee" >
+                <primitiveAttribute sourceName="effortCertificationDocumentBuild.employee.personUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="effortCertificationDocumentBuild.emplid" targetName="personPayrollIdentifier" identifier="true" />
+	        </relationship>
+        </relationships>        
     </businessObject>
 </dictionaryEntry>

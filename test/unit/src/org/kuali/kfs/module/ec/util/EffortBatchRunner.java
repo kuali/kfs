@@ -80,7 +80,7 @@ public class EffortBatchRunner {
     public void loadData() {
         this.doCleanup();
 
-        int numberOfEmplid = Integer.valueOf(properties.getProperty("emplid.numOfEmplid"));
+        int numberOfEmplid = Integer.valueOf(StringUtils.trim(properties.getProperty("emplid.numOfEmplid")));
         for (int i = 1; i <= numberOfEmplid; i++) {
             String emplid = StringUtils.trim(properties.getProperty("emplid" + i));
             this.loadDataForEmployee(emplid, i);
@@ -97,7 +97,7 @@ public class EffortBatchRunner {
     }
 
     private void loadDataForEmployee(String emplid, Integer sequenceNumber) {
-        int numberOfEntries = Integer.valueOf(properties.getProperty("ledgerEntry.numOfEntries"));
+        int numberOfEntries = Integer.valueOf(StringUtils.trim(properties.getProperty("ledgerEntry.numOfEntries")));
         List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, "ledgerEntry.seed", entryFieldNames, deliminator, numberOfEntries);
         for (LaborLedgerEntry entry : ledgerEntries) {
             entry.setEmplid(emplid);
@@ -105,7 +105,7 @@ public class EffortBatchRunner {
         }
         businessObjectService.save(ledgerEntries);
 
-        int numberOfBalances = Integer.valueOf(properties.getProperty("ledgerBalance.numOfBalances"));
+        int numberOfBalances = Integer.valueOf(StringUtils.trim(properties.getProperty("ledgerBalance.numOfBalances")));
         List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, "ledgerBalance.seed", balanceFieldNames, deliminator, numberOfBalances);
         for (LaborLedgerBalance balance : ledgerBalances) {
             balance.setEmplid(emplid);

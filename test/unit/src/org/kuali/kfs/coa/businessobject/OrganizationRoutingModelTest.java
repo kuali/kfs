@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.service.DocumentTypeService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
@@ -51,7 +52,7 @@ public class OrganizationRoutingModelTest extends KualiTestBase {
         routingModel.setChartOfAccountsCode(model.getChartOfAccountsCode());
         routingModel.setOrganizationCode(model.getOrganizationCode());
         routingModel.setAccountDelegateUniversalId(model.getAccountDelegateUniversalId());
-        routingModel.setFinancialDocumentTypeCode("xx");
+        routingModel.setFinancialDocumentTypeCode("GDLM");
         SpringContext.getBean(BusinessObjectService.class).save(routingModel);
 
         assertTrue(loadModel(name, model.getClass()));

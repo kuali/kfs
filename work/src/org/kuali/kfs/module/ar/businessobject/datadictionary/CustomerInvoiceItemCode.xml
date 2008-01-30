@@ -6,26 +6,26 @@
     <businessObject businessObjectClass="org.kuali.module.ar.bo.CustomerInvoiceItemCode">
  
         <inquiry>
-            <title>Invoice Item Code Inquiry</title>
+            <title>Customer Invoice Item Code Inquiry</title>
              
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
                         <field attributeName="chartOfAccountsCode" />
-                        <field attributeName="defaultInvoiceAccountNumber" />
-                        <field attributeName="defaultInvoiceChartOfAccountsCode" />
-                        <field attributeName="defaultInvoiceFinancialObjectCode" />
-                        <field attributeName="defaultInvoiceFinancialSubObjectCode" />
-                        <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-                        <field attributeName="defaultInvoiceProjectCode" />
-                        <field attributeName="defaultInvoiceSubAccountNumber" />
-                        <field attributeName="defaultUnitOfMeasureCode" />
+                        <field attributeName="organizationCode" />
                         <field attributeName="invoiceItemCode" />
                         <field attributeName="invoiceItemDescription" />
+                        <field attributeName="relatedStockNumber" />
+                        <field attributeName="defaultInvoiceChartOfAccountsCode" />
+                        <field attributeName="defaultInvoiceAccountNumber" />
+                        <field attributeName="defaultInvoiceFinancialObjectCode" />
+                        <field attributeName="defaultInvoiceProjectCode" />
                         <field attributeName="itemDefaultPrice" />
                         <field attributeName="itemDefaultQuantity" />
-                        <field attributeName="organizationCode" />
-                        <field attributeName="relatedStockNumber" />
+                        <field attributeName="defaultUnitOfMeasureCode" />
+                        <field attributeName="defaultInvoiceSubAccountNumber" />
+                        <field attributeName="defaultInvoiceFinancialSubObjectCode" />
+                        <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
                         <field attributeName="active" />
                     </inquiryFields>
                 </inquirySection>
@@ -33,9 +33,9 @@
         </inquiry>
 
         <lookup>
-            <title>Invoice Item Code Lookup</title>
+            <title>Customer Invoice Item Code Lookup</title>
 
-            <instructions>Look up an Invoice Item Code</instructions>
+            <instructions>Look up a Customer Invoice Item Code</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -47,40 +47,20 @@
 
             <lookupFields>
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="defaultInvoiceAccountNumber" required="false" />
-                <lookupField attributeName="defaultInvoiceChartOfAccountsCode" required="false" />
-                <lookupField attributeName="defaultInvoiceFinancialObjectCode" required="false" />
-                <lookupField attributeName="defaultInvoiceFinancialSubObjectCode" required="false" />
-                <lookupField attributeName="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
-                <lookupField attributeName="defaultInvoiceProjectCode" required="false" />
-                <lookupField attributeName="defaultInvoiceSubAccountNumber" required="false" />
-                <lookupField attributeName="defaultUnitOfMeasureCode" required="false" />
-                <lookupField attributeName="invoiceItemCode" required="false" />
-                <lookupField attributeName="invoiceItemDescription" required="false" />
-                <lookupField attributeName="itemDefaultPrice" required="false" />
-                <lookupField attributeName="itemDefaultQuantity" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="relatedStockNumber" required="false" />
-                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="invoiceItemCode" required="false" />
+                <lookupField attributeName="defaultInvoiceChartOfAccountsCode" required="false" />
+                <lookupField attributeName="defaultInvoiceAccountNumber" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="defaultInvoiceAccountNumber" />
-                <field attributeName="defaultInvoiceChartOfAccountsCode" />
-                <field attributeName="defaultInvoiceFinancialObjectCode" />
-                <field attributeName="defaultInvoiceFinancialSubObjectCode" />
-                <field attributeName="defaultInvoiceOrganizationReferenceIdentifier" />
-                <field attributeName="defaultInvoiceProjectCode" />
-                <field attributeName="defaultInvoiceSubAccountNumber" />
-                <field attributeName="defaultUnitOfMeasureCode" />
+                <field attributeName="organizationCode" />
                 <field attributeName="invoiceItemCode" />
                 <field attributeName="invoiceItemDescription" />
-                <field attributeName="itemDefaultPrice" />
-                <field attributeName="itemDefaultQuantity" />
-                <field attributeName="organizationCode" />
                 <field attributeName="relatedStockNumber" />
+                <field attributeName="defaultInvoiceChartOfAccountsCode" />
+                <field attributeName="defaultInvoiceAccountNumber" />
             </resultFields>
         </lookup>
 
@@ -116,7 +96,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceAccountNumber" forceUppercase="true">
-                <label>Default Invoice Account Number</label>
+                <label>Invoice Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>7</maxLength>
@@ -131,7 +111,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceChartOfAccountsCode" forceUppercase="true">
-                <label>Default Invoice Chart Of Accounts Code</label>
+                <label>Invoice Chart Of Accounts Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -146,7 +126,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceFinancialObjectCode" forceUppercase="true">
-                <label>Default Invoice Financial Object Code</label>
+                <label>Invoice Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -161,7 +141,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceFinancialSubObjectCode" forceUppercase="true">
-                <label>Default Invoice Financial Sub Object Code</label>
+                <label>Invoice Sub Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -176,7 +156,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceOrganizationReferenceIdentifier" forceUppercase="true">
-                <label>Default Invoice Organization Reference Identifier</label>
+                <label>Invoice Organization Reference Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>8</maxLength>
@@ -191,7 +171,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceProjectCode" forceUppercase="true">
-                <label>Default Invoice Project Code</label>
+                <label>Invoice Project Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>10</maxLength>
@@ -206,7 +186,7 @@
 			</attribute>
 
             <attribute name="defaultInvoiceSubAccountNumber" forceUppercase="true">
-                <label>Default Invoice Sub Account Number</label>
+                <label>Invoice Sub Account Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>5</maxLength>
@@ -266,7 +246,7 @@
 			</attribute>
 
             <attribute name="itemDefaultPrice" forceUppercase="true">
-                <label>Item Default Price</label>
+                <label>Default Price</label>
                 <shortLabel>Price</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -281,7 +261,7 @@
 			</attribute>
 
             <attribute name="itemDefaultQuantity" forceUppercase="true">
-                <label>Item Default Quantity</label>
+                <label>Default Quantity</label>
                 <shortLabel>Quantity</shortLabel>
 
                 <maxLength>9</maxLength>

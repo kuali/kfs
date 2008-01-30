@@ -68,14 +68,14 @@
                     <maintainableField name="relatedStockNumber" required="false" />
                     <maintainableField name="defaultInvoiceChartOfAccountsCode" required="false" />
                     <maintainableField name="defaultInvoiceAccountNumber" required="false" />
-                    <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
                     <maintainableField name="defaultInvoiceFinancialObjectCode" required="false" />
-                    <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
                     <maintainableField name="defaultInvoiceProjectCode" required="false" />
-                    <maintainableField name="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
                     <maintainableField name="itemDefaultPrice" required="false" />
-                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
                     <maintainableField name="itemDefaultQuantity" required="false" />
+                    <maintainableField name="defaultUnitOfMeasureCode" required="false" />
+                    <maintainableField name="defaultInvoiceSubAccountNumber" required="false" />
+                    <maintainableField name="defaultInvoiceFinancialSubObjectCode" required="false" />
+                    <maintainableField name="defaultInvoiceOrganizationReferenceIdentifier" required="false" />
                     <maintainableField name="active" required="true" />
                     <maintainableField name="versionNumber" />
                 </maintainableItems>

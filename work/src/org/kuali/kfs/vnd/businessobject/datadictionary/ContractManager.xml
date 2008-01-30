@@ -93,6 +93,7 @@
                     <text size="21" />
                 </control>
 
+				<formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attribute>
 
             <attribute name="contractManagerFaxNumber" forceUppercase="true">

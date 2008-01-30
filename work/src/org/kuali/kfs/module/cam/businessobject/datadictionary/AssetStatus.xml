@@ -48,7 +48,7 @@
             <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator" />
 
             <attribute name="inventoryStatusCode" forceUppercase="true">
-                <label>Inventory Status Code</label>
+                <label>Asset Status Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -63,7 +63,7 @@
 			</attribute>
 
             <attribute name="inventoryStatusName" forceUppercase="true">
-                <label>Inventory Status Name</label>
+                <label>Asset Status Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>

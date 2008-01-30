@@ -320,6 +320,10 @@
                         <div align="center">
                             <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" />
                         </div>
+                        <div align="center">
+                            <html:checkbox property="accSumConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
+                        </div>
+                        
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">

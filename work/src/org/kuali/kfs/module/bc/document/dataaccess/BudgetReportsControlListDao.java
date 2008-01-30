@@ -42,6 +42,8 @@ public interface BudgetReportsControlListDao {
     
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
     
+    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+    
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode);
     
 }

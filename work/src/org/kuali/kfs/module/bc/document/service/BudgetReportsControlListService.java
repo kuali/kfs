@@ -41,6 +41,8 @@ public interface BudgetReportsControlListService {
     
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
     
+    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+    
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList);
     
 }

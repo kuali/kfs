@@ -78,6 +78,10 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
         budgetReportsControlListDao.updateRepotsAccountSummaryTable(personUserIdentifier);
     }
     
+    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier){
+        budgetReportsControlListDao.updateRepotsAccountSummaryTableWithConsolidation(personUserIdentifier);
+    }
+    
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList){
         
         for (String subfundCode: selectedSubfundGroupCodeList){

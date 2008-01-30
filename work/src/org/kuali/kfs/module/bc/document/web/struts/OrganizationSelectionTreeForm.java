@@ -56,6 +56,9 @@ public class OrganizationSelectionTreeForm extends KualiForm {
 
     // holds the BC fiscal year that is currently active
     private Integer universityFiscalYear;
+    private String accSumConsolidation;
+    
+    
 
     /**
      * Constructs a OrganizationSelectionTreeForm.java.
@@ -374,6 +377,14 @@ public class OrganizationSelectionTreeForm extends KualiForm {
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
         this.universityFiscalYear = universityFiscalYear;
+    }
+
+    public String getAccSumConsolidation() {
+        return accSumConsolidation;
+    }
+
+    public void setAccSumConsolidation(String accSumConsolidation) {
+        this.accSumConsolidation = accSumConsolidation;
     }
 
 

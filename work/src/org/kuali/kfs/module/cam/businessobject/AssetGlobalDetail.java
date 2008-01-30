@@ -17,9 +17,12 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 	private Integer financialDocumentLineNumber;
 	private String campusCode;
 	private String buildingCode;
+	private String serialNumber;
 	private String buildingRoomNumber;
 	private String buildingSubRoomNumber;
 	private String campusTagNumber;
+	private String organizationInventoryName;
+	private String organizationCapitalAssetTypeIdentifier;
 	private String offCampusAddress;
 	private String offCampusCityName;
 	private String offCampusStateCode;
@@ -120,6 +123,28 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 		this.buildingCode = buildingCode;
 	}
 
+
+	/**
+	 * Gets the serialNumber attribute.
+	 * 
+	 * @return Returns the serialNumber
+	 * 
+	 */
+	public String getSerialNumber() { 
+		return serialNumber;
+	}
+
+	/**
+	 * Sets the serialNumber attribute.
+	 * 
+	 * @param serialNumber The serialNumber to set.
+	 * 
+	 */
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+
 	/**
 	 * Gets the buildingRoomNumber attribute.
 	 * 
@@ -181,6 +206,49 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 	public void setCampusTagNumber(String campusTagNumber) {
 		this.campusTagNumber = campusTagNumber;
 	}
+
+
+	/**
+	 * Gets the organizationInventoryName attribute.
+	 * 
+	 * @return Returns the organizationInventoryName
+	 * 
+	 */
+	public String getOrganizationInventoryName() { 
+		return organizationInventoryName;
+	}
+
+	/**
+	 * Sets the organizationInventoryName attribute.
+	 * 
+	 * @param organizationInventoryName The organizationInventoryName to set.
+	 * 
+	 */
+	public void setOrganizationInventoryName(String organizationInventoryName) {
+		this.organizationInventoryName = organizationInventoryName;
+	}
+
+
+	/**
+	 * Gets the organizationCapitalAssetTypeIdentifier attribute.
+	 * 
+	 * @return Returns the organizationCapitalAssetTypeIdentifier
+	 * 
+	 */
+	public String getOrganizationCapitalAssetTypeIdentifier() { 
+		return organizationCapitalAssetTypeIdentifier;
+	}
+
+	/**
+	 * Sets the organizationCapitalAssetTypeIdentifier attribute.
+	 * 
+	 * @param organizationCapitalAssetTypeIdentifier The organizationCapitalAssetTypeIdentifier to set.
+	 * 
+	 */
+	public void setOrganizationCapitalAssetTypeIdentifier(String organizationCapitalAssetTypeIdentifier) {
+		this.organizationCapitalAssetTypeIdentifier = organizationCapitalAssetTypeIdentifier;
+	}
+
 
 	/**
 	 * Gets the offCampusAddress attribute.

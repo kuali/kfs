@@ -187,6 +187,51 @@
                 <description>offCampusZipCode description...</description>
 			</attribute>
 
+            <attribute name="organizationCapitalAssetTypeIdentifier" forceUppercase="true">
+                <label>Organization Capital Asset Type Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>20</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="22" />
+                </control>
+
+                <summary>organizationCapitalAssetTypeIdentifier</summary>
+                <description>organizationCapitalAssetTypeIdentifier description...</description>
+			</attribute>
+
+            <attribute name="organizationInventoryName" forceUppercase="true">
+                <label>Organization Inventory Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>organizationInventoryName</summary>
+                <description>organizationInventoryName description...</description>
+			</attribute>
+
+            <attribute name="serialNumber" forceUppercase="true">
+                <label>Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>serialNumber</summary>
+                <description>serialNumber description...</description>
+			</attribute>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

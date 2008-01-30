@@ -25,6 +25,7 @@ import junit.framework.TestCase;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.labor.bo.LedgerBalance;
 import org.kuali.module.labor.util.testobject.SimpleAddress;
 
 public class ObjectUtilTest extends TestCase {
@@ -272,5 +273,12 @@ public class ObjectUtilTest extends TestCase {
 
         sourceAddress = new SimpleAddress("1000 Main Street", "Source City", "Kuali", 10000, new KualiDecimal(200000), new Date(1000000));
         assertTrue(!ObjectUtil.hasNullValueField(sourceAddress));
+    }
+    
+    public void testParseNestedAttribute() throws Exception {
+        LedgerBalance balance = new LedgerBalance();       
+        String attributes = "laborObject.chartOfAccounts.chartOfAccountsCode";
+        
+        System.out.println(ObjectUtil.getNestedAttributeTypes(LedgerBalance.class, attributes));    
     }
 }

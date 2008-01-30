@@ -15,11 +15,15 @@
  */
 package org.kuali.kfs.util;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -457,5 +461,31 @@ public class ObjectUtil {
             }
         }
         return false;
+    }
+
+    /**
+     * get the types of the nested attributes starting at the given class
+     * @param clazz the given class
+     * @param nestedAttribute the nested attributes of the given class
+     * @return a map that contains the types of the nested attributes and the attribute names
+     */
+    public static Map<Class<?>, String> getNestedAttributeTypes(Class<?> clazz, String nestedAttribute){
+        List<String> attributes = Arrays.asList(StringUtils.split(nestedAttribute, PropertyUtils.NESTED_DELIM));
+        Map<Class<?>, String> nestedAttributes = new HashMap<Class<?>, String>();
+
+        Class<?> currentClass = clazz;        
+        for (String propertyName : attributes) {
+            String methodName = "get" + StringUtils.capitalize(propertyName);
+            try {
+                Method method = currentClass.getMethod(methodName);
+                currentClass = method.getReturnType();
+                nestedAttributes.put(currentClass, propertyName);
+            }
+            catch (Exception e) {
+                LOG.info(e);
+                break;
+            }
+        }
+        return nestedAttributes;
     }
 }

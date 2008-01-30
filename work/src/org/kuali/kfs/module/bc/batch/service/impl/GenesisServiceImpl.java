@@ -20,6 +20,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.BudgetConstructionConstants;
 import org.kuali.module.budget.dao.GenesisDao;
 import org.kuali.module.budget.service.GenesisService;
+import org.kuali.module.budget.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -29,6 +30,7 @@ public class GenesisServiceImpl implements GenesisService {
     /* settings for common fields for all document headers for budget construction */
 
     private GenesisDao genesisDao;
+    private BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService;
 
     private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisServiceImpl.class);
 
@@ -73,7 +75,7 @@ public class GenesisServiceImpl implements GenesisService {
         boolean ReturnValue = (genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING)) || ((genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE)) && (genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.BUDGET_BATCH_SYNCHRONIZATION_OK)));
         return ReturnValue;
     }
-
+    
     public boolean CSFUpdatesAllowed(Integer BaseYear) {
         Integer RequestYear = BaseYear + 1;
         boolean ReturnValue = (genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.BUDGET_CONSTRUCTION_GENESIS_RUNNING)) || ((genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.BUDGET_CONSTRUCTION_ACTIVE)) && (genesisDao.getBudgetConstructionControlFlag(RequestYear, BudgetConstructionConstants.CSF_UPDATES_OK)));
@@ -214,7 +216,13 @@ public class GenesisServiceImpl implements GenesisService {
     public String testFindBCDocumentNumber (Integer fiscalYear, String chartOfAccounts, String accountNumber, String subAccountNumber) {
       return(genesisDao.testFindBCDocumentNumber(fiscalYear, chartOfAccounts, accountNumber, subAccountNumber));
     }
+
     public void setGenesisDao(GenesisDao genesisDao) {
         this.genesisDao = genesisDao;
+    }
+    
+    public void setBudgetConstructionHumanResourcesPayrollInterfaceService(BudgetConstructionHumanResourcesPayrollInterfaceService budgetConstructionHumanResourcesPayrollInterfaceService)
+    {
+        this.budgetConstructionHumanResourcesPayrollInterfaceService = budgetConstructionHumanResourcesPayrollInterfaceService; 
     }
 }

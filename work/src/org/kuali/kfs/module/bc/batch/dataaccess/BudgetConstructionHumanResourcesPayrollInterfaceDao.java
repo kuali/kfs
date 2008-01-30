@@ -49,4 +49,14 @@ public interface BudgetConstructionHumanResourcesPayrollInterfaceDao {
      */
     public void buildBudgetConstructionPositonRequestYear (Integer requestFiscalYear);
     
+    /**
+     * 
+     *  use this method to update the "IU_CLASSIF_LEVEL" (an attribute which indicates the principal type of academic title)
+     *  this attribute is only for display, so this method can be implemented (as we do here) to do nothing at all.
+     *  Alternatively, if you add fields to your intended incumbent table, this method can be called to update those
+     *  attributes on the existing rows in intended incumbent.
+     * @param requestFiscalYear
+     */
+    public void updateBudgetConstructionIntendedIncumbentAttributes (Integer requestFiscalYear);
+    
 }

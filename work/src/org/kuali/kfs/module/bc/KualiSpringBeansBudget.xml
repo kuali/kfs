@@ -252,6 +252,9 @@
         <property name="genesisDao">
             <ref bean="genesisDao" />
         </property>
+        <property name="budgetConstructionHumanResourcesPayrollInterfaceService">
+            <ref bean="budgetConstructionHumanResourcesPayrollInterfaceService" />
+        </property>    
     </bean>
 
     <bean id="genesisDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GenesisDaoOjb">
@@ -275,7 +278,16 @@
         </property>
     </bean>
     
+    <bean id="budgetConstructionHumanResourcesPayrollInterfaceService" class="org.kuali.module.budget.service.impl.BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl">
+        <property name="budgetConstructionHumanResourcesPayrollInterfaceDao">
+            <ref bean="budgetConstructionHumanResourcesPayrollInterfaceDao" />
+        </property>
+    </bean>
+    
     <bean id="benefitsCalculationDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BenefitsCalculationDaoJdbc">
+    </bean>
+    
+    <bean id="budgetConstructionHumanResourcesPayrollInterfaceDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc">
     </bean>
 
     <bean id="generalLedgerBudgetLoadDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.GeneralLedgerBudgetLoadDaoOjb">

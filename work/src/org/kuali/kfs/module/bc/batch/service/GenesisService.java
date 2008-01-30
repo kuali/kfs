@@ -24,7 +24,7 @@ public interface GenesisService {
      * these routines indicate which actions are allowed in genesis
      */
     public boolean BatchPositionSynchAllowed(Integer BaseYear);
-
+    
     public boolean CSFUpdatesAllowed(Integer BaseYear);
 
     public boolean GLUpdatesAllowed(Integer BaseYear);

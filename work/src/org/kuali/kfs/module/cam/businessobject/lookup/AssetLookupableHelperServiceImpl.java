@@ -93,7 +93,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
 //            parameters.put("editingMode(" + CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE + ")", CamsConstants.DocumentTypes.ASSET_RETIREMENT);
 //            parameters.put(KFSPropertyConstants.DOCUMENT + "." + KFSPropertyConstants.NEW_MAINTAINABLE_OBJECT + "." + CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE,
 //                    CamsConstants.DocumentTypes.ASSET_RETIREMENT);
-            parameters.put(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_RETIREMENT);
+            parameters.put(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE, CamsConstants.DocumentType.ASSET_RETIREMENT);
             
             String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
             url = "<a href=\"" + url + "\">" + CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL + "</a>";

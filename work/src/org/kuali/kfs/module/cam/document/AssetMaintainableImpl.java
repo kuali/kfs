@@ -48,7 +48,7 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         for (Section section : coreSections) {
             if (StringUtils.isEmpty(asset.getDocumentTypeCode())) {
                 sections.add(section);
-            } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_RETIREMENT) &&
+            } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentType.ASSET_RETIREMENT) &&
                     section.getSectionTitle().equalsIgnoreCase(CamsConstants.SectionTitles.ASSET_RETIREMENT)) {
                 sections.add(section);
             }

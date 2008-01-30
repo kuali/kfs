@@ -98,10 +98,17 @@
 			    &nbsp;<b><html:hidden write="true" property="document.item[${ctr}].itemLineNumber" /></b> 
 			</td>
 			<td class="infoline">
+				<c:choose>
+				<c:when test="${document.item[ctr].quantityBasedGeneralLedgerIndicator}">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.poOutstandingQuantity}"
 				    property="document.item[${ctr}].poOutstandingQuantity"
 				    readOnly="true" />
+				</c:when>
+				<c:otherwise>
+					&nbsp;
+				</c:otherwise>
+				</c:choose>
 			</td>
 			<td class="infoline">
 			    <kul:htmlControlAttribute

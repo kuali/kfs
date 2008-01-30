@@ -113,12 +113,17 @@
 			
 	    	<c:if test="${usePO}" >
 		    	<td class="infoline">
-		    	 <div align="right">
+		    	<c:if test="${itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
+		    	 <div align="right">		    	 
 			       <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.poInvoicedTotalQuantity}"
 				    property="document.item[${ctr}].poInvoicedTotalQuantity"
 				    readOnly="true" styleClass="infoline" />
 				  </div>  
+				</c:if>  
+		    	<c:if test="${!itemLine.itemType.quantityBasedGeneralLedgerIndicator}" >
+		    		&nbsp;
+		    	</c:if>  				  
 		    	</td>
 		     	<td class="infoline">
 		    	  <div align="right">

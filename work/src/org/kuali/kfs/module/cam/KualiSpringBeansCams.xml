@@ -99,7 +99,7 @@
       	</property>
 	</bean>
 
-	<bean id="preAssetTaggingJob" parent="scheduledJobDescriptor">
+	<bean id="preAssetTaggingJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="preAssetTaggingStep"/>

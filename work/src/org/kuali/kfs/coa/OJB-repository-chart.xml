@@ -406,11 +406,6 @@
     <reference-descriptor name="universityFiscal" class-ref="org.kuali.kfs.bo.Options" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="universityFiscalYear" />
     </reference-descriptor>
-	<reference-descriptor name="assetObjectCode" class-ref="org.kuali.module.cams.bo.AssetObjectCode" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">
-		<foreignkey field-ref="universityFiscalYear" />
-		<foreignkey field-ref="chartOfAccountsCode" />
-		<foreignkey field-ref="financialObjectSubTypeCode"/>        
-	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.chart.bo.ObjectCodeCurrent" table="CA_OBJECT_CODE_V">

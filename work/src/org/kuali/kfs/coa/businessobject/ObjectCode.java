@@ -72,7 +72,6 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
     private transient ObjectType financialObjectType;
     private transient ObjSubTyp financialObjectSubType;
     
-    private AssetObjectCode assetObjectCode;
     /**
      * Default no-arg constructor.
      */
@@ -609,13 +608,5 @@ public class ObjectCode extends PersistableBusinessObjectBase implements Summari
 
     public String getName() {
         return this.financialObjectCodeName;
-    }
-
-    public AssetObjectCode getAssetObjectCode() {
-        return assetObjectCode;
-    }
-
-    public void setAssetObjectCode(AssetObjectCode assetObjectCode) {
-        this.assetObjectCode = assetObjectCode;
     }
 }

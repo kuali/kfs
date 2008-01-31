@@ -52,22 +52,32 @@
                     <!--  maintainableField name="capitalAssetNumber" required="true" / -->
                     <maintainableField name="organizationOwnerChartOfAccountsCode" />
                     <maintainableField name="organizationOwnerAccountNumber" />
-                    <maintainableField name="totalCostAmount" />
+                    <maintainableField name="agencyNumber" />
+                    <maintainableField name="acquisitionTypeCode" />
+                    <maintainableField name="conditionCode" required="true" />
                     <maintainableField name="capitalAssetDescription" required="true" />
+                    
+                    
                     <maintainableField name="capitalAssetTypeCode" required="true" />
                     <maintainableField name="vendorName" />
                     <maintainableField name="manufacturerName" />
-                    <maintainableField name="acquisitionTypeCode" />
+                    
                     <maintainableField name="manufacturerModelNumber" />
 					<maintainableField name="serialNumber" />
-                    <maintainableField name="conditionCode" required="true" />
+                    
                     <maintainableField name="campusTagNumber" />
                     <maintainableField name="oldTagNumber" />
+                    <maintainableField name="lastInventoryDate" />
                     <maintainableField name="inventoryStatusCode" />
                     
                     <maintainableField name="createDate" required="true" />
-                    <maintainableField name="lastInventoryDate" />
                     
+                    <maintainableField name="financialDocumentPostingPeriodCode" />
+					<maintainableField name="financialDocumentPostingYear" />
+					
+                    
+                    
+                    <maintainableField name="totalCostAmount" />
                    
 					
 					<maintainableField name="active">
@@ -130,8 +140,6 @@
                     <maintainableField name="loanReturnDate" />
 					<maintainableField name="loanDate" />
 					<maintainableField name="expectedReturnDate" />
-					<maintainableField name="financialDocumentPostingPeriodCode" />
-					<maintainableField name="financialDocumentPostingYear" />
 					
 					<maintainableField name="cashReceiptFinancialDocumentNumber" />
 					
@@ -141,7 +149,7 @@
 					<maintainableField name="insuranceChargeAccountNumber" />
 					<maintainableField name="insuranceChartOfAccountsCode" />
 
-					<maintainableField name="agencyNumber" />
+					
 					<maintainableField name="campusPoliceDepartmentCaseNumber" />
 					<maintainableField name="inventoryScannedCode" />
 					<maintainableField name="signatureCode" />

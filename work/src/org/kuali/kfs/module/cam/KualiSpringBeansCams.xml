@@ -99,13 +99,13 @@
       	</property>
 	</bean>
 
-	<bean id="preAssetTaggingJob" parent="unscheduledJobDescriptor">
+	<!-- bean id="preAssetTaggingJob" parent="scheduledJobDescriptor">
 		<property name="steps">
 			<list>
 				<ref bean="preAssetTaggingStep"/>
 			</list>
 		</property>
-	</bean>
+	</bean-->
 
 	<bean id="preAssetTaggingStep" class="org.kuali.module.cams.batch.PreAssetTaggingStep" parent="step">
 		<property name="preAssetTaggingService">

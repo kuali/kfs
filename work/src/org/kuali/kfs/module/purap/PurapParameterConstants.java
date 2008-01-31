@@ -43,6 +43,9 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     
+    public static final String DEFAULT_ABOVE_QUANTITY_ITEM_TYPE_CODE = "DEFAULT_ABOVE_QUANTITY_ITEM_TYPE_CODE";
+    public static final String DEFAULT_ABOVE_NONQUANTITY_ITEM_TYPE_CODE = "DEFAULT_ABOVE_NONQUANTITY_ITEM_TYPE_CODE";
+    
     public static class CapitalAsset {
         public static final String CAPITAL_ASSET_OBJECT_LEVELS = "CAPITAL_ASSET_OBJECT_LEVELS";
         public static final String POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS = "POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS";

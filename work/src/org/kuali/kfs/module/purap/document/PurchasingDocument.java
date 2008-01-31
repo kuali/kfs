@@ -30,6 +30,7 @@ import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.util.ItemParser;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorContract;
 import org.kuali.module.vendor.bo.VendorDetail;
@@ -39,6 +40,13 @@ import org.kuali.module.vendor.bo.VendorDetail;
  * Interface for Purchasing Documents.
  */
 public interface PurchasingDocument extends PurchasingAccountsPayableDocument {
+
+    /**
+     * Gets the appropriate <code>{@link ItemParser}</code> for the <code>PurchasingDocument</code>
+     * 
+     * @return an ItemParser instance
+     */
+    public ItemParser getItemParser();
 
     public String getFundingSourceCode();
 

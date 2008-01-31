@@ -254,7 +254,7 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         Class itemClass = purDocument.getItemClass();
         List<PurApItem> importedItems = null;
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;   
-        ItemParser itemParser = new ItemParserBase();
+        ItemParser itemParser = purDocument.getItemParser();
         
         try {
             importedItems = itemParser.importItems( itemFile, itemClass, documentNumber );

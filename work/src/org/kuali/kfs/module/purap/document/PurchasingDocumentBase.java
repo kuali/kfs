@@ -30,6 +30,8 @@ import org.kuali.module.purap.bo.FundingSource;
 import org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionSource;
+import org.kuali.module.purap.util.ItemParser;
+import org.kuali.module.purap.util.ItemParserBase;
 import org.kuali.module.vendor.bo.PurchaseOrderCostSource;
 import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.bo.VendorContract;
@@ -180,6 +182,13 @@ public abstract class PurchasingDocumentBase extends PurchasingAccountsPayableDo
 
     // GETTERS AND SETTERS
 
+    /**
+     * @see org.kuali.module.purap.document.PurchasingDocument.getItemParser().
+     */
+    public ItemParser getItemParser() {
+        return new ItemParserBase();
+    }
+    
     public String getBillingCityName() {
         return billingCityName;
     }

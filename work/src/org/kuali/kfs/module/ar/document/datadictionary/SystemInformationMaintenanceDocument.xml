@@ -69,10 +69,12 @@
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="processingChartOfAccountCode" required="true" />
                     <maintainableField name="processingOrganizationCode" required="true" />
-                    <maintainableField name="universityFederalEmployerIdentificationNumber" required="false" />
+                    <!-- 
+                    <maintainableField name="universityFederalEmployerIdentificationNumber" required="false" />  
+                    -->
+                    <maintainableField name="lockboxNumber" required="false" />
                     <maintainableField name="salesTaxAccountNumber" required="false" />
                     <maintainableField name="salesTaxFinancialObjectCode" required="false" />
-                    <maintainableField name="refundFinancialObjectCode" required="false" />
                     <maintainableField name="badDebtExpenseFinancialObjectCode" required="false" />
                     <maintainableField name="universityClearingChartOfAccountsCode" required="false" />
                     <maintainableField name="universityClearingAccountNumber" required="false" />
@@ -80,8 +82,10 @@
                     <maintainableField name="universityClearingObjectCode" required="false" />
                     <maintainableField name="universityClearingSubObjectCode" required="false" />
                     <maintainableField name="paymentClearingFinancialObjectCode" required="false" />
-                    <maintainableField name="lockboxNumber" required="false" />
+                    <maintainableField name="refundFinancialObjectCode" required="false" />
+                    <!-- 
                     <maintainableField name="active" required="false" />
+                    -->
                     <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>

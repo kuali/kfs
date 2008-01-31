@@ -11,22 +11,27 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
+                    	<!-- 
                     	<field attributeName="active" />
-                        <field attributeName="badDebtExpenseFinancialObjectCode" />
-                        <field attributeName="lockboxNumber" />
-                        <field attributeName="paymentClearingFinancialObjectCode" />
-                        <field attributeName="processingChartOfAccountCode" />
+                    	 -->
+                    	<field attributeName="universityFiscalYear" />
+                    	<field attributeName="processingChartOfAccountCode" />
                         <field attributeName="processingOrganizationCode" />
-                        <field attributeName="refundFinancialObjectCode" />
+                        <field attributeName="lockboxNumber" />
                         <field attributeName="salesTaxAccountNumber" />
                         <field attributeName="salesTaxFinancialObjectCode" />
-                        <field attributeName="universityClearingAccountNumber" />
+                        <field attributeName="badDebtExpenseFinancialObjectCode" />
                         <field attributeName="universityClearingChartOfAccountsCode" />
-                        <field attributeName="universityClearingObjectCode" />
+                        <field attributeName="universityClearingAccountNumber" />
                         <field attributeName="universityClearingSubAccountNumber" />
+                        <field attributeName="universityClearingObjectCode" />
                         <field attributeName="universityClearingSubObjectCode" />
+                        <field attributeName="paymentClearingFinancialObjectCode" />
+                        <field attributeName="refundFinancialObjectCode" />
+                      <!--   
                         <field attributeName="universityFederalEmployerIdentificationNumber" />
-                        <field attributeName="universityFiscalYear" />
+                       -->
+                        
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -46,11 +51,13 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="badDebtExpenseFinancialObjectCode" required="false" />
-                <lookupField attributeName="lockboxNumber" required="false" />
-                <lookupField attributeName="paymentClearingFinancialObjectCode" required="false" />
+                <lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="processingChartOfAccountCode" required="false" />
                 <lookupField attributeName="processingOrganizationCode" required="false" />
+                <lookupField attributeName="lockboxNumber" required="false" />
+                <!--  
+                <lookupField attributeName="badDebtExpenseFinancialObjectCode" required="false" />
+                <lookupField attributeName="paymentClearingFinancialObjectCode" required="false" />
                 <lookupField attributeName="refundFinancialObjectCode" required="false" />
                 <lookupField attributeName="salesTaxAccountNumber" required="false" />
                 <lookupField attributeName="salesTaxFinancialObjectCode" required="false" />
@@ -60,27 +67,29 @@
                 <lookupField attributeName="universityClearingSubAccountNumber" required="false" />
                 <lookupField attributeName="universityClearingSubObjectCode" required="false" />
                 <lookupField attributeName="universityFederalEmployerIdentificationNumber" required="false" />
-                <lookupField attributeName="universityFiscalYear" required="false" />
                 <lookupField attributeName="active" required="false" />
+                -->
             </lookupFields>
 
             <resultFields>
-                <field attributeName="active" />
-                <field attributeName="badDebtExpenseFinancialObjectCode" />
-                <field attributeName="lockboxNumber" />
-                <field attributeName="paymentClearingFinancialObjectCode" />
+                <field attributeName="universityFiscalYear" />
                 <field attributeName="processingChartOfAccountCode" />
                 <field attributeName="processingOrganizationCode" />
-                <field attributeName="refundFinancialObjectCode" />
+                <field attributeName="lockboxNumber" />
                 <field attributeName="salesTaxAccountNumber" />
                 <field attributeName="salesTaxFinancialObjectCode" />
-                <field attributeName="universityClearingAccountNumber" />
+                <field attributeName="badDebtExpenseFinancialObjectCode" />
                 <field attributeName="universityClearingChartOfAccountsCode" />
-                <field attributeName="universityClearingObjectCode" />
+                <field attributeName="universityClearingAccountNumber" />
                 <field attributeName="universityClearingSubAccountNumber" />
+                <field attributeName="universityClearingObjectCode" />
                 <field attributeName="universityClearingSubObjectCode" />
+                <field attributeName="paymentClearingFinancialObjectCode" />
+                <field attributeName="refundFinancialObjectCode" />
+              <!--  
+                <field attributeName="active" />
                 <field attributeName="universityFederalEmployerIdentificationNumber" />
-                <field attributeName="universityFiscalYear" />
+              -->
             </resultFields>
         </lookup>
 
@@ -101,7 +110,7 @@
 			</attribute>
 
             <attribute name="badDebtExpenseFinancialObjectCode" forceUppercase="true">
-                <label>Bad Debt Expense Financial Object Code</label>
+                <label>Adjustment Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -131,7 +140,7 @@
 			</attribute>
 
             <attribute name="paymentClearingFinancialObjectCode" forceUppercase="true">
-                <label>Payment Clearing Financial Object Code</label>
+                <label>Credit Card Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>
@@ -176,7 +185,7 @@
 			</attribute>
 
             <attribute name="refundFinancialObjectCode" forceUppercase="true">
-                <label>Refund Financial Object Code</label>
+                <label>Debit Object Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>4</maxLength>

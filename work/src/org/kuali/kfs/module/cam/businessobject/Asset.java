@@ -1523,4 +1523,20 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setAssetPayments(List<AssetPayment> assetPayments) {
         this.assetPayments = assetPayments;
     }
+
+    /**
+     * Gets the inventoryStatus attribute. 
+     * @return Returns the inventoryStatus.
+     */
+    public AssetStatus getInventoryStatus() {
+        return inventoryStatus;
+    }
+
+    /**
+     * Sets the inventoryStatus attribute value.
+     * @param inventoryStatus The inventoryStatus to set.
+     */
+    public void setInventoryStatus(AssetStatus inventoryStatus) {
+        this.inventoryStatus = inventoryStatus;
+    }
 }

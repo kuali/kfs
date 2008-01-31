@@ -17,18 +17,33 @@ package org.kuali.module.cams.maintenance;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
 import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 
 /**
  * Methods for the Asset maintenance document UI.
  */
 public class AssetMaintainableImpl extends KualiMaintainableImpl {
+
+    /**
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit(java.util.Map)
+     */
+    @Override
+    public void processAfterEdit(Map parameters) {
+        Asset asset = (Asset) this.getBusinessObject();
+        String[] value = (String[]) parameters.get(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE);
+        if (value != null){
+            asset.setDocumentTypeCode(value[0]);
+        }    
+        super.processAfterEdit(parameters);
+     }
 
     /**
      * Allows customizing the maintenance document interface to hide / show based on priviledge and document

@@ -203,7 +203,7 @@
 	<reference-descriptor name="condition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="conditionCode" />
 	</reference-descriptor>
-	<reference-descriptor name="inventoryStatusCode" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="inventoryStatus" class-ref="org.kuali.module.cams.bo.AssetStatus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="inventoryStatusCode" />
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">

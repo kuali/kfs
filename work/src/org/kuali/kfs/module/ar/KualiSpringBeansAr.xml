@@ -50,4 +50,13 @@
 	</bean>
 
 	<bean id="arUserService" class="org.kuali.module.ar.service.impl.ArUserServiceImpl"  parent="kualiModuleUserServiceBase" />
+	
+	<bean id="organizationAccountingDefaultDao" parent="platformAwareDao" class="org.kuali.module.ar.dao.ojb.OrganizationAccountingDefaultDaoOjb" />
+
+	<bean id="organizationAccountingDefaultService" class="org.kuali.module.ar.service.impl.OrganizationAccountingDefaultServiceImpl">
+		<property name="organizationAccountingDefaultDao">
+			<ref bean="organizationAccountingDefaultDao" />
+		</property>
+	</bean>
+	
 </beans>

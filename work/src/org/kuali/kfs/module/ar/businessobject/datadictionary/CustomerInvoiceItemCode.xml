@@ -86,6 +86,7 @@
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="4" />
@@ -101,6 +102,7 @@
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="9" />
@@ -116,6 +118,7 @@
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="4" />
@@ -131,6 +134,7 @@
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="6" />
@@ -221,6 +225,7 @@
 
                 <maxLength>6</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="8" />
@@ -235,7 +240,8 @@
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="42" />
@@ -281,6 +287,7 @@
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="6" />

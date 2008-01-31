@@ -44,6 +44,8 @@
             <field attributeName="capitalAssetNumber" />
         </lockingKeys>
         
+        <allowsNewOrCopy>false</allowsNewOrCopy>
+        
         <maintainableSections>
             <maintainableSection title="Asset Detail Info">
                 <maintainableItems>

@@ -46,8 +46,6 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
-        actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL);
@@ -68,7 +66,7 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
     }
     
     /**
-     * Custom maintenance Urls. In addition to edit / copy CAMs has a lot of urls that are essentially an edit, pass different
+     * Custom maintenance Urls. In addition to edit CAMs has a lot of urls that are essentially an edit, pass different
      * doc types and hence hide certain sections. The different doc types are also important for possible posts to the GL.
      * 
      * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)

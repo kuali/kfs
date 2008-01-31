@@ -99,7 +99,7 @@
 			</td>
 			<td class="infoline">
 				<c:choose>
-				<c:when test="${document.item[ctr].quantityBasedGeneralLedgerIndicator}">
+				<c:when test="${KualiForm.document.items[ctr].itemType.quantityBasedGeneralLedgerIndicator}">
 			    <kul:htmlControlAttribute
 				    attributeEntry="${itemAttributes.poOutstandingQuantity}"
 				    property="document.item[${ctr}].poOutstandingQuantity"

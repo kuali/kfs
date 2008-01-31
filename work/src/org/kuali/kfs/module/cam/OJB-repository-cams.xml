@@ -468,7 +468,7 @@
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobalDetail" table="CM_MULT_AST_DTL_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
-	<field-descriptor name="financialDocumentLineNumber" column="FDOC_LINE_NBR" jdbc-type="INTEGER" primarykey="true" index="true" autoincrement="true"/>
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
@@ -479,10 +479,12 @@
 	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="organizationCapitalAssetTypeIdentifier" column="ORG_CPTLAST_TYP_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusName" column="AST_OFFCMP_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusCountryCode" column="AST_OFFCMP_CNTRY_CD" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="campusCode" />

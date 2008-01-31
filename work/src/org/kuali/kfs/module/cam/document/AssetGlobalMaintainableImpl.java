@@ -51,7 +51,7 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
             lockRep.append("financialDocumentLineNumber");
             lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-            lockRep.append(detail.getFinancialDocumentLineNumber());
+//            lockRep.append(detail.getFinancialDocumentLineNumber());
 
             maintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
             maintenanceLock.setLockingRepresentation(lockRep.toString());

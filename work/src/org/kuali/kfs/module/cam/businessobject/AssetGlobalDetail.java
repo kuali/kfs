@@ -14,7 +14,7 @@ import org.kuali.kfs.bo.State;
 public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
 	private String documentNumber;
-	private Integer financialDocumentLineNumber;
+    private Long capitalAssetNumber;
 	private String campusCode;
 	private String buildingCode;
 	private String serialNumber;
@@ -23,11 +23,13 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 	private String campusTagNumber;
 	private String organizationInventoryName;
 	private String organizationCapitalAssetTypeIdentifier;
-	private String offCampusAddress;
+    private String offCampusName;
+    private String offCampusAddress;
 	private String offCampusCityName;
 	private String offCampusStateCode;
 	private String offCampusZipCode;
-
+    private String offCampusCountryCode;
+    
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -60,27 +62,21 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 		this.documentNumber = documentNumber;
 	}
 
-
 	/**
-	 * Gets the financialDocumentLineNumber attribute.
-	 * 
-	 * @return Returns the financialDocumentLineNumber
-	 * 
-	 */
-	public Integer getFinancialDocumentLineNumber() { 
-		return financialDocumentLineNumber;
-	}
+     * Gets the capitalAssetNumber attribute. 
+     * @return Returns the capitalAssetNumber.
+     */
+    public Long getCapitalAssetNumber() {
+        return capitalAssetNumber;
+    }
 
-	/**
-	 * Sets the financialDocumentLineNumber attribute.
-	 * 
-	 * @param financialDocumentLineNumber The financialDocumentLineNumber to set.
-	 * 
-	 */
-	public void setFinancialDocumentLineNumber(Integer financialDocumentLineNumber) {
-		this.financialDocumentLineNumber = financialDocumentLineNumber;
-	}
-
+    /**
+     * Sets the capitalAssetNumber attribute value.
+     * @param capitalAssetNumber The capitalAssetNumber to set.
+     */
+    public void setCapitalAssetNumber(Long capitalAssetNumber) {
+        this.capitalAssetNumber = capitalAssetNumber;
+    }
 
 	/**
 	 * Gets the campusCode attribute.
@@ -333,8 +329,39 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 		this.offCampusZipCode = offCampusZipCode;
 	}
 
-
 	/**
+     * Gets the offCampusCountryCode attribute. 
+     * @return Returns the offCampusCountryCode.
+     */
+    public String getOffCampusCountryCode() {
+        return offCampusCountryCode;
+    }
+
+    /**
+     * Sets the offCampusCountryCode attribute value.
+     * @param offCampusCountryCode The offCampusCountryCode to set.
+     */
+    public void setOffCampusCountryCode(String offCampusCountryCode) {
+        this.offCampusCountryCode = offCampusCountryCode;
+    }
+
+    /**
+     * Gets the offCampusName attribute. 
+     * @return Returns the offCampusName.
+     */
+    public String getOffCampusName() {
+        return offCampusName;
+    }
+
+    /**
+     * Sets the offCampusName attribute value.
+     * @param offCampusName The offCampusName to set.
+     */
+    public void setOffCampusName(String offCampusName) {
+        this.offCampusName = offCampusName;
+    }
+
+    /**
 	 * Gets the campus attribute.
 	 * 
 	 * @return Returns the campus
@@ -411,8 +438,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();      
         m.put("documentNumber", this.documentNumber);
-        if (this.financialDocumentLineNumber != null) {
-            m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
+        if (this.capitalAssetNumber != null) {
+            m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         }
         return m;
     }

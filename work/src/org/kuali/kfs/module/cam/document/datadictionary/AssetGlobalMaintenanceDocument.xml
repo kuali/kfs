@@ -58,6 +58,7 @@
             <maintainableSection title="Edit Multiple Location">
                 <maintainableItems>
                     <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetGlobalDetails" summaryTitle="Location">
+                        <maintainableField name="capitalAssetNumber" readOnly="true"/>
                         <maintainableField name="campusCode" />
                         <maintainableField name="buildingCode" />
                         <maintainableField name="buildingRoomNumber" />
@@ -71,8 +72,7 @@
                         <maintainableField name="versionNumber" />
                         <maintainableField name="newCollectionRecord" />
                         <summaryFields>
-                            <summaryField name="campusCode" />
-                            <summaryField name="buildingCode" />
+                            <summaryField name="capitalAssetNumber" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>

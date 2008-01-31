@@ -32,7 +32,7 @@ public class CamsConstants {
     public static final String MAINTENANCE_FABRICATION_METHOD_TO_CALL   = "fabrication";
     public static final String MAINTENANCE_MERGE_METHOD_TO_CALL         = "merge";
 
-    public static class DocumentType {
+    public static class DocumentTypes {
         public static final String ASSET_RETIREMENT = "AR";
     }
     

@@ -24,11 +24,30 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
+import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+    /**
+     * Hook for quantity and setting asset numbers.
+     * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
+     */
+    @Override
+    public void addNewLineToCollection(String collectionName) {
+        AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
+        
+//        if (addAssetLine.quantity > 1) {
+//            Add multiples times
+//        }
+        
+        Long assetNumber = NextAssetNumberFinder.getLongValue();
+        addAssetLine.setCapitalAssetNumber(assetNumber);
+        
+        super.addNewLineToCollection(collectionName);
+    }
+
     /**
      * This creates the particular locking representation for this global document.
      * 
@@ -49,9 +68,9 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
             lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
             lockRep.append(detail.getDocumentNumber());
             lockRep.append(KFSConstants.Maintenance.AFTER_VALUE_DELIM);
-            lockRep.append("financialDocumentLineNumber");
+            lockRep.append("capitalAssetNumber");
             lockRep.append(KFSConstants.Maintenance.AFTER_FIELDNAME_DELIM);
-//            lockRep.append(detail.getFinancialDocumentLineNumber());
+            lockRep.append(detail.getCapitalAssetNumber());
 
             maintenanceLock.setDocumentNumber(assetGlobal.getDocumentNumber());
             maintenanceLock.setLockingRepresentation(lockRep.toString());

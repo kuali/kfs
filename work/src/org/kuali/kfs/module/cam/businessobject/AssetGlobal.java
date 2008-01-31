@@ -184,7 +184,7 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
             asset.setCapitalAssetTypeCode(capitalAssetTypeCode);
             asset.setConditionCode(conditionCode);
 
-            // capitalAssetNumber stays null so that the sequencer sets it
+            asset.setCapitalAssetNumber(detail.getCapitalAssetNumber());
             asset.setCampusCode(detail.getCampusCode());
             asset.setBuildingCode(detail.getBuildingCode());
             asset.setBuildingRoomNumber(detail.getBuildingRoomNumber());

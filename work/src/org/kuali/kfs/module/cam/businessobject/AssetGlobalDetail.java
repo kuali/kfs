@@ -14,7 +14,7 @@ import org.kuali.kfs.bo.State;
 public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 
 	private String documentNumber;
-    private Long capitalAssetNumber;
+	private Long capitalAssetNumber;
 	private String campusCode;
 	private String buildingCode;
 	private String serialNumber;
@@ -63,20 +63,24 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
 	}
 
 	/**
-     * Gets the capitalAssetNumber attribute. 
-     * @return Returns the capitalAssetNumber.
-     */
-    public Long getCapitalAssetNumber() {
-        return capitalAssetNumber;
-    }
+	 * Gets the capitalAssetNumber attribute.
+	 * 
+	 * @return Returns the capitalAssetNumber
+	 * 
+	 */
+	public Long getCapitalAssetNumber() { 
+		return capitalAssetNumber;
+	}
 
-    /**
-     * Sets the capitalAssetNumber attribute value.
-     * @param capitalAssetNumber The capitalAssetNumber to set.
-     */
-    public void setCapitalAssetNumber(Long capitalAssetNumber) {
-        this.capitalAssetNumber = capitalAssetNumber;
-    }
+	/**
+	 * Sets the capitalAssetNumber attribute.
+	 * 
+	 * @param capitalAssetNumber The capitalAssetNumber to set.
+	 * 
+	 */
+	public void setCapitalAssetNumber(Long capitalAssetNumber) {
+		this.capitalAssetNumber = capitalAssetNumber;
+	}
 
 	/**
 	 * Gets the campusCode attribute.

@@ -59,6 +59,7 @@ import org.kuali.module.chart.bo.Org;
 public class OrganizationSelectionTreeAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
 
+    private boolean performBuildPointOfViewFlag = false; 
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -166,7 +167,8 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     public ActionForward performBuildPointOfView(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
-
+        performBuildPointOfViewFlag = true;
+        
         // check for point of view change
         if (organizationSelectionTreeForm.getCurrentPointOfViewKeyCode() != null) {
             if ((organizationSelectionTreeForm.getPreviousPointOfViewKeyCode() == null) || (!organizationSelectionTreeForm.getPreviousPointOfViewKeyCode().equalsIgnoreCase(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode()) == true)) {
@@ -764,7 +766,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject("selectedOrgs");
             
             
-            if (sessionSelectionSubTreeOrgs == null || !compareSessionSelectionSubTreeOrgs(sessionSelectionSubTreeOrgs, selectedOrgs)) {
+            if (sessionSelectionSubTreeOrgs == null || performBuildPointOfViewFlag || !compareSessionSelectionSubTreeOrgs(sessionSelectionSubTreeOrgs, selectedOrgs)) {
                 // change flag
                 budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
 
@@ -775,6 +777,8 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 budgetReportsControlListService.cleanReportsSubFundGroupSelectList(personUserIdentifier);
                 budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
             }
+            
+            performBuildPointOfViewFlag = false;
 
             // Go to next page
             String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);

@@ -913,7 +913,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="609"
-						y="128"
+						y="143"
 						width="74"
 						height="13"
 						key="textField-29"/>
@@ -926,7 +926,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="128"
+						y="143"
 						width="74"
 						height="13"
 						key="textField-31"/>
@@ -939,7 +939,7 @@
 				<staticText>
 					<reportElement
 						x="609"
-						y="143"
+						y="128"
 						width="74"
 						height="13"
 						key="staticText-26"/>
@@ -952,7 +952,7 @@
 				<staticText>
 					<reportElement
 						x="684"
-						y="143"
+						y="128"
 						width="74"
 						height="13"
 						key="staticText-27"/>

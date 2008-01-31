@@ -136,23 +136,24 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     public void buildReportsHeader(BudgetConstructionAccountSummary bcas) {
-
         String orgChartDesc = bcas.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
-        String orgName = bcas.getOrganization().getOrganizationName();
         String chartDesc = bcas.getChartOfAccounts().getFinChartOfAccountDescription();
+        String orgName = bcas.getOrganization().getOrganizationName();
+        String reportChartDesc = bcas.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
         String subFundGroupName = bcas.getFundGroup().getName();
         String subFundGroupDes = bcas.getSubFundGroup().getSubFundGroupDescription();
 
         Integer prevFiscalyear = tempFiscalYear - 1;
         bcoasr.setFiscalYear(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
+        
         bcoasr.setOrgChartOfAccountsCode(bcas.getOrganizationChartOfAccountsCode());
         if (orgChartDesc == null) {
-            bcoasr.setOrgChartOfAccountDescription("Error getting account description");
+            bcoasr.setOrgChartOfAccountDescription("Error getting chart description");
         }
         else {
             bcoasr.setOrgChartOfAccountDescription(orgChartDesc);
         }
-
+        
         bcoasr.setOrganizationCode(bcas.getOrganizationCode());
         if (orgName == null) {
             bcoasr.setOrganizationName("Error getting organization name");
@@ -168,7 +169,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
         else {
             bcoasr.setChartOfAccountDescription(chartDesc);
         }
-
+        
         bcoasr.setFundGroupCode(bcas.getFundGroupCode());
         if (subFundGroupName == null) {
             bcoasr.setFundGroupName("Error getting fund group name");
@@ -458,29 +459,13 @@ public class BudgetConstructionOrgAccountSummaryReport {
     public void setBaseFy(String baseFy) {
         this.baseFy = baseFy;
     }
-
-    public String getChartOfAccountsCode() {
-        return orgChartOfAccountsCode;
-    }
-
-    public void setChartOfAccountsCode(String chartOfAccountsCode) {
-        this.orgChartOfAccountsCode = chartOfAccountsCode;
-    }
-
+  
     public String getConsHdr() {
         return consHdr;
     }
 
     public void setConsHdr(String consHdr) {
         this.consHdr = consHdr;
-    }
-
-    public String getFinChartOfAccountDescription() {
-        return orgChartOfAccountDescription;
-    }
-
-    public void setFinChartOfAccountDescription(String finChartOfAccountDescription) {
-        this.orgChartOfAccountDescription = finChartOfAccountDescription;
     }
 
     public String getFiscalYear() {
@@ -779,12 +764,28 @@ public class BudgetConstructionOrgAccountSummaryReport {
         this.totalTransferInReqAmount = totalTransferInReqAmount;
     }
 
+    public String getFundGroupName() {
+        return fundGroupName;
+    }
+
+    public void setFundGroupName(String fundGroupName) {
+        this.fundGroupName = fundGroupName;
+    }
+
     public String getChartOfAccountDescription() {
         return chartOfAccountDescription;
     }
 
     public void setChartOfAccountDescription(String chartOfAccountDescription) {
         this.chartOfAccountDescription = chartOfAccountDescription;
+    }
+
+    public String getChartOfAccountsCode() {
+        return chartOfAccountsCode;
+    }
+
+    public void setChartOfAccountsCode(String chartOfAccountsCode) {
+        this.chartOfAccountsCode = chartOfAccountsCode;
     }
 
     public String getOrgChartOfAccountDescription() {
@@ -803,11 +804,4 @@ public class BudgetConstructionOrgAccountSummaryReport {
         this.orgChartOfAccountsCode = orgChartOfAccountsCode;
     }
 
-    public String getFundGroupName() {
-        return fundGroupName;
-    }
-
-    public void setFundGroupName(String fundGroupName) {
-        this.fundGroupName = fundGroupName;
-    }
 }

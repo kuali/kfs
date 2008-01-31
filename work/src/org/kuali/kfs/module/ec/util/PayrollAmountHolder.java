@@ -17,6 +17,9 @@ package org.kuali.module.effort.util;
 
 import org.kuali.core.util.KualiDecimal;
 
+/**
+ * To hold the payroll amount and percent
+ */
 public class PayrollAmountHolder {
     public static final KualiDecimal oneHundred = new KualiDecimal(100);
 
@@ -27,13 +30,12 @@ public class PayrollAmountHolder {
 
     private KualiDecimal accumulatedAmount;
     private Integer accumulatedPercent;
-    
-    
+     
     /**
      * Constructs a PayrollAmountHolder.java.
-     * @param totalAmount
-     * @param accumulatedAmount
-     * @param accumulatedPercent
+     * @param totalAmount the total payroll amount
+     * @param accumulatedAmount the accumulated payroll amount
+     * @param accumulatedPercent the accumulated payroll percent
      */
     public PayrollAmountHolder(KualiDecimal totalAmount, KualiDecimal accumulatedAmount, Integer accumulatedPercent) {
         super();

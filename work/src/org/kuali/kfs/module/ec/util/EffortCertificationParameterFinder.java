@@ -26,7 +26,7 @@ import org.kuali.module.effort.batch.EffortCertificationCreateStep;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
 /**
- * This class is a convenient utility that can delegate the calling client to retrieve system parameters of effor certification
+ * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification
  * module.
  */
 public class EffortCertificationParameterFinder {

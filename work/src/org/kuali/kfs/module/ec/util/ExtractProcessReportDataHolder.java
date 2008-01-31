@@ -26,7 +26,7 @@ import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
 /**
- * This class groups and holds the data presented to working reports of extract process
+ * To group and hold the data presented to working reports of extract process
  */
 public class ExtractProcessReportDataHolder {
     private EffortCertificationReportDefinition reportDefinition;

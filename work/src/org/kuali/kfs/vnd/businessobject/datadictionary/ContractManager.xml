@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.ContractManager">
 
         <inquiry>
-            <title>Purchasing Contract Manager Inquiry</title>
+            <title>Contract Manager Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="contractManagerCode" />
@@ -34,7 +34,7 @@
         </inquiry>
 
         <lookup>
-            <title>Purchasing Contract Manager Lookup</title>
+            <title>Contract Manager Lookup</title>
 
             <instructions>Lookup a Contract Manager</instructions>
 
@@ -70,7 +70,7 @@
         <attributes>
 
             <attribute name="contractManagerCode" forceUppercase="true">
-                <label>Purchasing Contract Manager Code</label>
+                <label>Contract Manager Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>2</maxLength>
@@ -83,7 +83,7 @@
 			</attribute>
 
             <attribute name="contractManagerDelegationDollarLimit" forceUppercase="false">
-                <label>Purchasing Contract Manager Delegation Dollar Limit</label>
+                <label>Contract Manager Delegation Dollar Limit</label>
                 <shortLabel>Limit</shortLabel>
 
                 <maxLength>19</maxLength>
@@ -97,7 +97,7 @@
 			</attribute>
 
             <attribute name="contractManagerFaxNumber" forceUppercase="true">
-                <label>Purchasing Contract Manager Fax Number</label>
+                <label>Contract Manager Fax Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -110,7 +110,7 @@
 			</attribute>
 
             <attribute name="contractManagerName" forceUppercase="true">
-                <label>Purchasing Contract Manager Name</label>
+                <label>Contract Manager Name</label>
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -123,7 +123,7 @@
 			</attribute>
 
             <attribute name="contractManagerPhoneNumber" forceUppercase="true">
-                <label>Purchasing Contract Manager Phone Number</label>
+                <label>Contract Manager Phone Number</label>
                 <shortLabel>Number</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -136,7 +136,7 @@
 			</attribute>
 
             <attribute name="contractManagerSignatureImageLocationDescription" forceUppercase="true">
-                <label>Purchasing Contract Manager Signature Image Location Description</label>
+                <label>Contract Manager Signature Image Location Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -149,7 +149,7 @@
 			</attribute>
 
             <attribute name="contractManagerUserIdentifier" forceUppercase="true">
-                <label>Purchasing Contract Manager User Identifier</label>
+                <label>Contract Manager User Identifier</label>
                 <shortLabel>Identifier</shortLabel>
 
                 <maxLength>11</maxLength>

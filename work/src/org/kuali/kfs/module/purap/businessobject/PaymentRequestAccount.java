@@ -66,4 +66,12 @@ public class PaymentRequestAccount extends PurApAccountingLineBase {
         this.paymentRequestItem = paymentRequestItem;
     }
 
+    /**
+     * Caller of this method should takecare of creating PaymentRequestItems
+     */
+    public void copyFrom(PaymentRequestAccount other) {
+        super.copyFrom(other);
+        setDisencumberedAmount(other.getDisencumberedAmount());
+    }
+
 }

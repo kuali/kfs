@@ -83,4 +83,12 @@ public class PurchaseOrderAccount extends PurApAccountingLineBase {
         this.purchaseOrderItem = purchaseOrderItem;
     }
 
+    /**
+     * Caller of this method should take care of creating PurchaseOrderItems
+     * 
+     */
+    public void copyFrom(PurchaseOrderAccount other) {
+        super.copyFrom(other);
+        setItemAccountOutstandingEncumbranceAmount(other.getItemAccountOutstandingEncumbranceAmount());
+    }
 }

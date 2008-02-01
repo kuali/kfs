@@ -22,4 +22,6 @@ public class ArConstants {
     
     //Valid number of days the invoice due date can be more than invoice creation date.
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
+    
+    public static final String AR_SUPERVISOR_GROUP_NAME = "AR_ROLE_MAINTAINERS";
 }

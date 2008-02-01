@@ -23,11 +23,11 @@
         <businessObjectClass>org.kuali.module.ar.bo.OrganizationAccountingDefault</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.ar.rules.OrganizationAccountingDefaultRule</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <documentAuthorizerClass>org.kuali.module.ar.document.authorization.OrganizationAccountingDefaultAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>AR_ROLE_MAINTAINERS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

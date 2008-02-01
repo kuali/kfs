@@ -22,7 +22,7 @@ public interface BudgetConstructionHumanResourcesPayrollInterfaceDao {
      * use this method to populate the budget construction administrative posts from the human resources system
      * @param requestFiscalYear
      */
-    public void buildBudgetConstructionAdministrativePosts (Integer requestFiscalYear);
+    public void buildBudgetConstructionAdministrativePosts ();
     /**
      * 
      * use this method to initialize appointment funding reasons (union codes in the present FIS) from the human resources system

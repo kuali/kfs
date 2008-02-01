@@ -44,7 +44,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl impleme
         if (positionSynchOK)
         {
             budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionPositonRequestYear(requestYear);
-            budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionAdministrativePosts(requestYear);
+            budgetConstructionHumanResourcesPayrollInterfaceDao.buildBudgetConstructionAdministrativePosts();
         }
     }
 

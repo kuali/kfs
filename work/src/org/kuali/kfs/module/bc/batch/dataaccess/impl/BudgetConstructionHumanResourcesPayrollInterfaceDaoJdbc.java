@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.util.GregorianCalendar;
 import java.lang.String;
 import java.lang.StringBuilder;
+import java.sql.Types;
 
 import org.kuali.core.util.Guid;
 import org.kuali.core.dbplatform.RawSQL;
@@ -42,12 +43,12 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
      * @see org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao#buildBudgetConstructionAdministrativePosts(java.lang.Integer)
      */
     @RawSQL
-    public void buildBudgetConstructionAdministrativePosts(Integer requestFiscalYear) {
+    public void buildBudgetConstructionAdministrativePosts() {
       /**
        * this unrealistic implementation will simply clean out what is already there
        */
-       String sqlString = new String("DELETE FROM LD_BCN_ADM_POST_T WHERE (UNIV_FISCAL_YR = ?)\n");
-       getSimpleJdbcTemplate().update(sqlString,requestFiscalYear);
+       String sqlString = new String("DELETE FROM LD_BCN_ADM_POST_T\n");
+       getSimpleJdbcTemplate().update(sqlString);
     }
 
     /**
@@ -73,15 +74,16 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          * this unrealistic implementation will refresh all incumbents who presently exist in the CSF tracker, but
          * leave any who no longer do in place.
          */
+        Integer baseFiscalYear = requestFiscalYear - 1;
          StringBuilder sqlBuilder = new StringBuilder(1500);
          sqlBuilder.append("DELETE FROM LD_BCN_INTINCBNT_T\n");
          sqlBuilder.append("WHERE (EXISTS (SELECT 1\n");
          sqlBuilder.append("               FROM LD_CSF_TRACKER_T\n");
-         sqlBuilder.append("               WHERE (LD_CSF_TRACKER_T.UNIV_FISCAL_YR = LD_BCN_INTINCBNT_T.UNIV_FISCAL_YR)\n");
+         sqlBuilder.append("               WHERE (LD_CSF_TRACKER_T.UNIV_FISCAL_YR = ?)\n");
          sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.EMPLID = LD_BCN_INTINCBNT_T.EMPLID)\n");
-         sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.POS_CSF_DELETE_CD = ?)\n");
+         sqlBuilder.append("                 AND (LD_CSF_TRACKER_T.POS_CSF_DELETE_CD = ?)))\n");
          String sqlString = sqlBuilder.toString();
-         getSimpleJdbcTemplate().update(sqlString,requestFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+         getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
 
          sqlBuilder.delete(0, sqlBuilder.length());
          /**
@@ -91,13 +93,11 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
           *  July 1 of the coming fiscal year, or, if the person is a 10-month appointee, those that start on August 1 of the
           *  coming fiscal year.
           */
-         Integer baseFiscalYear = requestFiscalYear - 1;
          String defaultClassificationId = new String("TL");
          GregorianCalendar calendarJuly1 = new GregorianCalendar(baseFiscalYear, Calendar.JULY, 1);
          GregorianCalendar calendarAugust1 = new GregorianCalendar(baseFiscalYear, Calendar.AUGUST, 1);
          Date julyFirst = new Date(calendarJuly1.getTimeInMillis());
          Date augustFirst = new Date(calendarAugust1.getTimeInMillis());
-         String objIDValue = new Guid().toString();
          /**
           *  this SQL is unrealistic, but tries to provide decent test data that will cover most cases.
           *  the "in-line view" is required because of the OBJ_ID, which frustrates using a DISTINCT directly.
@@ -110,8 +110,8 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
           *  the alias "makeUnique" for the in-line view is required by MySQL (but not by Oracle).
           */
          sqlBuilder.append("INSERT INTO LD_BCN_INTINCBNT_T\n");
-         sqlBuilder.append("(EMPLID, PERSON_NM, SETID_SALARY, SAL_ADMIN_PLAN, GRADE, IU_CLASSIF_LEVEL, OBJ_ID)\n");
-         sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?, ?\n"); 
+         sqlBuilder.append("(EMPLID, PERSON_NM, SETID_SALARY, SAL_ADMIN_PLAN, GRADE, IU_CLASSIF_LEVEL)\n");
+         sqlBuilder.append("(SELECT EMPLID, PERSON_NM, BUSINESS_UNIT, POS_SAL_PLAN_DFLT, POS_GRADE_DFLT, ?\n"); 
          sqlBuilder.append("FROM\n");
          sqlBuilder.append("(SELECT DISTINCT csf.EMPLID,\n");
          sqlBuilder.append("        FS_UNIVERSAL_USR_T.PERSON_NM,\n");
@@ -138,7 +138,10 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
          sqlBuilder.append("                      AND (csf.POSITION_NBR < cfx.POSITION_NBR)))) makeUnique)\n");
          
          sqlString = sqlBuilder.toString();
-         getSimpleJdbcTemplate().update(sqlString,defaultClassificationId,objIDValue,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE,julyFirst,augustFirst,julyFirst,augustFirst,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+         Object[] sqlArgumentList = {defaultClassificationId,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE,julyFirst,augustFirst,julyFirst,augustFirst,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE};
+         int[] sqlArgumentTypes = {Types.VARCHAR,Types.INTEGER,Types.VARCHAR,Types.DATE,Types.DATE,Types.DATE,Types.DATE,Types.VARCHAR};
+         getSimpleJdbcTemplate().update(sqlString,sqlArgumentList);
+//         getSimpleJdbcTemplate().getJdbcOperations().update(sqlString,sqlArgumentList,sqlArgumentTypes);
     }
 
     /**
@@ -152,11 +155,10 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         /**
          *  we have to do this because imbedding a constant string in SQL assumes a string delimiter--that can vary with the DBMS 
          */
+        Integer requestFiscalYear = baseFiscalYear + 1;
         String orgSeparator = new String("-");
-        GregorianCalendar calendarJuly1 = new GregorianCalendar(baseFiscalYear, Calendar.JULY, 1);
-        GregorianCalendar calendarAugust1 = new GregorianCalendar(baseFiscalYear, Calendar.AUGUST, 1);
+        GregorianCalendar calendarJuly1 = new GregorianCalendar(requestFiscalYear, Calendar.JULY, 1);
         Date julyFirst = new Date(calendarJuly1.getTimeInMillis());
-        Date augustFirst = new Date(calendarAugust1.getTimeInMillis());
         /**
          * first, delete everything for the base year--we will refresh it in case the position has changed
          */
@@ -172,6 +174,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         sqlBuilder.delete(0, sqlBuilder.length());
         /**
          * re-create the base year position data
+         * we take the latest position that is active BEFORE the coming fiscal year
          */
         sqlBuilder.append("INSERT INTO LD_BCN_POS_T\n");
         sqlBuilder.append("(POSITION_NBR, UNIV_FISCAL_YR, POS_EFFDT, POS_EFF_STATUS, POSN_STATUS,\n");
@@ -203,7 +206,7 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         sqlBuilder.append("                  AND (csf.POS_CSF_DELETE_CD = ?)\n");
         sqlBuilder.append("                  AND (csf.POSITION_NBR = px.POSITION_NBR))))\n");
         sqlString = sqlBuilder.toString();
-        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,defaultRCCd,orgSeparator,julyFirst,baseFiscalYear,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
+        getSimpleJdbcTemplate().update(sqlString,baseFiscalYear,defaultRCCd,orgSeparator,julyFirst,baseFiscalYear,julyFirst,baseFiscalYear,KFSConstants.BudgetConstructionConstants.ACTIVE_CSF_DELETE_CODE);
         // set the things that we'll need for testing but which we don't have enough information to set from the Kuali DB
         // this code is obviously somewhat arbitrary--it should be replaced with institution-specific algorithms
         setAcademicDefaultObjectClass(baseFiscalYear);

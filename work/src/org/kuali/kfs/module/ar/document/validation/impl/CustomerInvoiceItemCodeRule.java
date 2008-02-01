@@ -16,14 +16,20 @@
 package org.kuali.module.ar.rules;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.kuali.RiceConstants;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSKeyConstants.InvoiceItemCode;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.bo.CustomerInvoiceItemCode;
+import org.kuali.module.ar.bo.OrganizationOptions;
 
 public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
     
@@ -42,6 +48,7 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         boolean success;
         success = validateItemDefaultPrice(newInvoiceItemCode);
         success &= validateItemDefaultQuantity(newInvoiceItemCode);
+        success &= validateExistenceOfOrganizationOption(newInvoiceItemCode);
 
         return success;
     }
@@ -53,31 +60,54 @@ public class CustomerInvoiceItemCodeRule extends MaintenanceDocumentRuleBase {
         return true;
     }
 
-    public boolean validateItemDefaultPrice(CustomerInvoiceItemCode document) {
+    public boolean validateItemDefaultPrice(CustomerInvoiceItemCode customerInvoiceItemCode) {
         
         boolean validEntry = true;
-        KualiDecimal itemDefaultPrice = document.getItemDefaultPrice();
+        KualiDecimal itemDefaultPrice = customerInvoiceItemCode.getItemDefaultPrice();
         
         if (ObjectUtils.isNotNull(itemDefaultPrice)) {
             validEntry = itemDefaultPrice.isPositive();
             if (!validEntry)
-                putFieldError("itemDefaultPrice",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_PRICE);
+                putFieldError("itemDefaultPrice",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_PRICE, "Item Default Price" );
         }
         return validEntry;
     }
     
-    public boolean validateItemDefaultQuantity(CustomerInvoiceItemCode document) {
+    public boolean validateItemDefaultQuantity(CustomerInvoiceItemCode customerInvoiceItemCode) {
         
         boolean validEntry = true;
-        BigDecimal itemDefaultQuantity = document.getItemDefaultQuantity();
+        BigDecimal itemDefaultQuantity = customerInvoiceItemCode.getItemDefaultQuantity();
         
         if (ObjectUtils.isNotNull(itemDefaultQuantity)) {
             if (itemDefaultQuantity.floatValue() <= 0) {
-                putFieldError("itemDefaultQuantity",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_QUANTITY);
+                putFieldError("itemDefaultQuantity",KFSKeyConstants.InvoiceItemCode.NONPOSITIVE_ITEM_DEFAULT_QUANTITY, "Item Default Quantity" );
                 validEntry = false;
             }
         }
         return validEntry;
     }
     
+    /**
+     * This method returns true of organization option row exists with the same chart of accounts code and organization code
+     * as the customer invoice item code
+     * 
+     * @param customerInvoiceItemCode
+     * @return
+     */
+    public boolean validateExistenceOfOrganizationOption(CustomerInvoiceItemCode customerInvoiceItemCode) {
+       
+        boolean isValid = true;
+        
+        Map<String, String> criteria = new HashMap<String, String>();
+        criteria.put("chartOfAccountsCode", customerInvoiceItemCode.getChartOfAccountsCode());
+        criteria.put("organizationCode", customerInvoiceItemCode.getOrganizationCode());
+        
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        if( businessObjectService.countMatching(OrganizationOptions.class, criteria) == 0) {
+            putFieldError("organizationCode",KFSKeyConstants.InvoiceItemCode.ORG_OPTIONS_DOES_NOT_EXIST_FOR_CHART_AND_ORG, new String[]{customerInvoiceItemCode.getChartOfAccountsCode(),customerInvoiceItemCode.getOrganizationCode()});
+            isValid = false;
+        }
+        
+        return isValid;
+    }
 }

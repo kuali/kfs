@@ -21,7 +21,7 @@
 <dictionaryEntry>
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.ar.bo.OrganizationOptions</businessObjectClass>
-        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+        <maintainableClass>org.kuali.module.ar.maintenance.OrganizationOptionsMaintainableImpl</maintainableClass>
         <businessRulesClass>org.kuali.module.ar.rules.OrganizationOptionsRule</businessRulesClass>
         <preRulesCheckClass>org.kuali.module.ar.rules.OrganizationOptionsPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>

@@ -48,7 +48,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
         boolean success;
         success = checkSalesTaxObjectValidCode(newSystemInformation);
-        success &= checkRefundObjectValidCode(newSystemInformation);
+        success &= checkDiscountObjectValidCode(newSystemInformation);
 
         return success;
     }
@@ -88,7 +88,7 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
 
     /**
      * 
-     * This method checks that the Refund Object Code is of type Expense
+     * This method checks that the Discount Object Code is of type Expense
      * <ul>
      * <li>EE</li>
      * <li>ES</li>
@@ -96,17 +96,17 @@ public class SystemInformationRule extends MaintenanceDocumentRuleBase {
      * </ul>
      * @return true if it is an expense object
      */
-    protected boolean checkRefundObjectValidCode(SystemInformation document) {
+    protected boolean checkDiscountObjectValidCode(SystemInformation document) {
         
         boolean success = true;
         Integer universityFiscalYear = document.getUniversityFiscalYear();
-        ObjectCode refundFinancialObject = document.getRefundFinancialObject();
+        ObjectCode discountFinancialObject = document.getDiscountFinancialObject();
         
-        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(refundFinancialObject)) {
-            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(refundFinancialObject.getFinancialObjectTypeCode());
+        if (ObjectUtils.isNotNull(universityFiscalYear) && ObjectUtils.isNotNull(discountFinancialObject)) {
+            success = objectTypeService.getBasicExpenseObjectTypes(universityFiscalYear).contains(discountFinancialObject.getFinancialObjectTypeCode());
 
             if (!success) {
-                putFieldError("refundFinancialObjectCode",KFSKeyConstants.SystemInformation.REFUND_OBJECT_CODE_INVALID,refundFinancialObject.getCode());
+                putFieldError("discountObjectCode",KFSKeyConstants.SystemInformation.DISCOUNT_OBJECT_CODE_INVALID,discountFinancialObject.getCode());
             }
         }
         return success;

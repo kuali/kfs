@@ -48,12 +48,12 @@
         </lockingKeys>
 
         <defaultExistenceChecks>
-            <reference attributeName="badDebtExpenseFinancialObject" attributeToHighlightOnFail="badDebtExpenseFinancialObjectCode" />
+            <reference attributeName="adjustmentFinancialObject" attributeToHighlightOnFail="adjustmentObjectCode" />
             <reference attributeName="salesTaxFinancialObject" attributeToHighlightOnFail="salesTaxFinancialObjectCode" />
-            <reference attributeName="paymentClearingFinancialObject" attributeToHighlightOnFail="paymentClearingFinancialObjectCode" />
+            <reference attributeName="creditCardFinancialObject" attributeToHighlightOnFail="creditCardObjectCode" />
             <reference attributeName="universityClearingSubObject" attributeToHighlightOnFail="universityClearingSubObjectCode" />
             <reference attributeName="universityClearingObject" attributeToHighlightOnFail="universityClearingObjectCode" />
-            <reference attributeName="refundFinancialObject" attributeToHighlightOnFail="refundFinancialObjectCode" />
+            <reference attributeName="discountFinancialObject" attributeToHighlightOnFail="discountObjectCode" />
             <reference attributeName="processingOrganization" attributeToHighlightOnFail="processingOrganizationCode" />
             <reference attributeName="processingChartOfAccount" attributeToHighlightOnFail="processingChartOfAccountCode" />
             <reference attributeName="salesTaxAccount" attributeToHighlightOnFail="salesTaxAccountNumber" />
@@ -69,20 +69,17 @@
                     <maintainableField name="universityFiscalYear" required="true" />
                     <maintainableField name="processingChartOfAccountCode" required="true" />
                     <maintainableField name="processingOrganizationCode" required="true" />
-                    <!-- 
-                    <maintainableField name="universityFederalEmployerIdentificationNumber" required="false" />  
-                    -->
                     <maintainableField name="lockboxNumber" required="false" />
                     <maintainableField name="salesTaxAccountNumber" required="false" />
                     <maintainableField name="salesTaxFinancialObjectCode" required="false" />
-                    <maintainableField name="badDebtExpenseFinancialObjectCode" required="false" />
+                    <maintainableField name="adjustmentObjectCode" required="false" />
                     <maintainableField name="universityClearingChartOfAccountsCode" required="false" />
                     <maintainableField name="universityClearingAccountNumber" required="false" />
                     <maintainableField name="universityClearingSubAccountNumber" required="false" />
                     <maintainableField name="universityClearingObjectCode" required="false" />
                     <maintainableField name="universityClearingSubObjectCode" required="false" />
-                    <maintainableField name="paymentClearingFinancialObjectCode" required="false" />
-                    <maintainableField name="refundFinancialObjectCode" required="false" />
+                    <maintainableField name="creditCardObjectCode" required="false" />
+                    <maintainableField name="discountObjectCode" required="false" />
                     <!-- 
                     <maintainableField name="active" required="false" />
                     -->

@@ -30,26 +30,25 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	private Integer universityFiscalYear;
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
-	private String universityFederalEmployerIdentificationNumber;
 	private String salesTaxAccountNumber;
 	private String salesTaxFinancialObjectCode;
-	private String refundFinancialObjectCode;
-	private String badDebtExpenseFinancialObjectCode;
+	private String discountObjectCode;
+	private String adjustmentObjectCode;
 	private String universityClearingChartOfAccountsCode;
 	private String universityClearingAccountNumber;
 	private String universityClearingSubAccountNumber;
 	private String universityClearingObjectCode;
 	private String universityClearingSubObjectCode;
-	private String paymentClearingFinancialObjectCode;
+	private String creditCardObjectCode;
 	private String lockboxNumber;
 	private boolean active;
 
-    private ObjectCode badDebtExpenseFinancialObject;
+    private ObjectCode adjustmentFinancialObject;
 	private ObjectCode salesTaxFinancialObject;
-	private ObjectCode paymentClearingFinancialObject;
+	private ObjectCode creditCardFinancialObject;
 	private SubObjCd universityClearingSubObject;
 	private ObjectCode universityClearingObject;
-	private ObjectCode refundFinancialObject;
+	private ObjectCode discountFinancialObject;
 	private Org processingOrganization;
 	private Chart processingChartOfAccount;
 	private Account salesTaxAccount;
@@ -129,27 +128,6 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the universityFederalEmployerIdentificationNumber attribute.
-	 * 
-	 * @return Returns the universityFederalEmployerIdentificationNumber
-	 * 
-	 */
-	public String getUniversityFederalEmployerIdentificationNumber() { 
-		return universityFederalEmployerIdentificationNumber;
-	}
-
-	/**
-	 * Sets the universityFederalEmployerIdentificationNumber attribute.
-	 * 
-	 * @param universityFederalEmployerIdentificationNumber The universityFederalEmployerIdentificationNumber to set.
-	 * 
-	 */
-	public void setUniversityFederalEmployerIdentificationNumber(String universityFederalEmployerIdentificationNumber) {
-		this.universityFederalEmployerIdentificationNumber = universityFederalEmployerIdentificationNumber;
-	}
-
-
-	/**
 	 * Gets the salesTaxAccountNumber attribute.
 	 * 
 	 * @return Returns the salesTaxAccountNumber
@@ -192,44 +170,44 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the refundFinancialObjectCode attribute.
+	 * Gets the discountObjectCode attribute.
 	 * 
-	 * @return Returns the refundFinancialObjectCode
+	 * @return Returns the discountObjectCode
 	 * 
 	 */
-	public String getRefundFinancialObjectCode() { 
-		return refundFinancialObjectCode;
+	public String getDiscountObjectCode() { 
+		return discountObjectCode;
 	}
 
 	/**
-	 * Sets the refundFinancialObjectCode attribute.
+	 * Sets the discountObjectCode attribute.
 	 * 
-	 * @param refundFinancialObjectCode The refundFinancialObjectCode to set.
+	 * @param discountObjectCode The discountObjectCode to set.
 	 * 
 	 */
-	public void setRefundFinancialObjectCode(String refundFinancialObjectCode) {
-		this.refundFinancialObjectCode = refundFinancialObjectCode;
+	public void setDiscountObjectCode(String refundFinancialObjectCode) {
+		this.discountObjectCode = refundFinancialObjectCode;
 	}
 
 
 	/**
-	 * Gets the badDebtExpenseFinancialObjectCode attribute.
+	 * Gets the adjustmentObjectCode attribute.
 	 * 
-	 * @return Returns the badDebtExpenseFinancialObjectCode
+	 * @return Returns the adjustmentObjectCode
 	 * 
 	 */
-	public String getBadDebtExpenseFinancialObjectCode() { 
-		return badDebtExpenseFinancialObjectCode;
+	public String getAdjustmentObjectCode() { 
+		return adjustmentObjectCode;
 	}
 
 	/**
-	 * Sets the badDebtExpenseFinancialObjectCode attribute.
+	 * Sets the adjustmentObjectCode attribute.
 	 * 
-	 * @param badDebtExpenseFinancialObjectCode The badDebtExpenseFinancialObjectCode to set.
+	 * @param adjustmentObjectCode The adjustmentObjectCode to set.
 	 * 
 	 */
-	public void setBadDebtExpenseFinancialObjectCode(String badDebtExpenseFinancialObjectCode) {
-		this.badDebtExpenseFinancialObjectCode = badDebtExpenseFinancialObjectCode;
+	public void setAdjustmentObjectCode(String adjustmentObjectCode) {
+		this.adjustmentObjectCode = adjustmentObjectCode;
 	}
 
 
@@ -339,23 +317,23 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the paymentClearingFinancialObjectCode attribute.
+	 * Gets the creditCardObjectCode attribute.
 	 * 
-	 * @return Returns the paymentClearingFinancialObjectCode
+	 * @return Returns the creditCardObjectCode
 	 * 
 	 */
-	public String getPaymentClearingFinancialObjectCode() { 
-		return paymentClearingFinancialObjectCode;
+	public String getCreditCardObjectCode() { 
+		return creditCardObjectCode;
 	}
 
 	/**
-	 * Sets the paymentClearingFinancialObjectCode attribute.
+	 * Sets the creditCardObjectCode attribute.
 	 * 
-	 * @param paymentClearingFinancialObjectCode The paymentClearingFinancialObjectCode to set.
+	 * @param creditCardObjectCode The creditCardObjectCode to set.
 	 * 
 	 */
-	public void setPaymentClearingFinancialObjectCode(String paymentClearingFinancialObjectCode) {
-		this.paymentClearingFinancialObjectCode = paymentClearingFinancialObjectCode;
+	public void setCreditCardObjectCode(String creditCardObjectCode) {
+		this.creditCardObjectCode = creditCardObjectCode;
 	}
 
 
@@ -402,23 +380,23 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 
 
 	/**
-	 * Gets the badDebtExpenseFinancialObject attribute.
+	 * Gets the adjustmentFinancialObject attribute.
 	 * 
-	 * @return Returns the badDebtExpenseFinancialObject
+	 * @return Returns the adjustmentFinancialObject
 	 * 
 	 */
-	public ObjectCode getBadDebtExpenseFinancialObject() { 
-		return badDebtExpenseFinancialObject;
+	public ObjectCode getAdjustmentFinancialObject() { 
+		return adjustmentFinancialObject;
 	}
 
 	/**
-	 * Sets the badDebtExpenseFinancialObject attribute.
+	 * Sets the adjustmentFinancialObject attribute.
 	 * 
-	 * @param badDebtExpenseFinancialObject The badDebtExpenseFinancialObject to set.
+	 * @param adjustmentFinancialObject The adjustmentFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setBadDebtExpenseFinancialObject(ObjectCode badDebtExpenseFinancialObject) {
-		this.badDebtExpenseFinancialObject = badDebtExpenseFinancialObject;
+	public void setAdjustmentFinancialObject(ObjectCode adjustmentFinancialObject) {
+		this.adjustmentFinancialObject = adjustmentFinancialObject;
 	}
 
 	/**
@@ -442,23 +420,23 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * Gets the paymentClearingFinancialObject attribute.
+	 * Gets the creditCardFinancialObject attribute.
 	 * 
-	 * @return Returns the paymentClearingFinancialObject
+	 * @return Returns the creditCardFinancialObject
 	 * 
 	 */
-	public ObjectCode getPaymentClearingFinancialObject() { 
-		return paymentClearingFinancialObject;
+	public ObjectCode getCreditCardFinancialObject() { 
+		return creditCardFinancialObject;
 	}
 
 	/**
-	 * Sets the paymentClearingFinancialObject attribute.
+	 * Sets the creditCardFinancialObject attribute.
 	 * 
-	 * @param paymentClearingFinancialObject The paymentClearingFinancialObject to set.
+	 * @param creditCardFinancialObject The creditCardFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setPaymentClearingFinancialObject(ObjectCode paymentClearingFinancialObject) {
-		this.paymentClearingFinancialObject = paymentClearingFinancialObject;
+	public void setCreditCardFinancialObject(ObjectCode creditCardFinancialObject) {
+		this.creditCardFinancialObject = creditCardFinancialObject;
 	}
 
 	/**
@@ -502,23 +480,23 @@ public class SystemInformation extends PersistableBusinessObjectBase {
 	}
 
 	/**
-	 * Gets the refundFinancialObject attribute.
+	 * Gets the discountFinancialObject attribute.
 	 * 
-	 * @return Returns the refundFinancialObject
+	 * @return Returns the discountFinancialObject
 	 * 
 	 */
-	public ObjectCode getRefundFinancialObject() { 
-		return refundFinancialObject;
+	public ObjectCode getDiscountFinancialObject() { 
+		return discountFinancialObject;
 	}
 
 	/**
-	 * Sets the refundFinancialObject attribute.
+	 * Sets the discountFinancialObject attribute.
 	 * 
-	 * @param refundFinancialObject The refundFinancialObject to set.
+	 * @param discountFinancialObject The discountFinancialObject to set.
 	 * @deprecated
 	 */
-	public void setRefundFinancialObject(ObjectCode refundFinancialObject) {
-		this.refundFinancialObject = refundFinancialObject;
+	public void setDiscountFinancialObject(ObjectCode refundFinancialObject) {
+		this.discountFinancialObject = refundFinancialObject;
 	}
 
 	/**

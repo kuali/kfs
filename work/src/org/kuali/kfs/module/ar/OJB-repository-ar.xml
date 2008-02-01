@@ -712,39 +712,38 @@
 	<field-descriptor name="processingOrganizationCode" column="PRCS_ORG_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
-	<field-descriptor name="universityFederalEmployerIdentificationNumber" column="UNIV_FEIN_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salesTaxAccountNumber" column="SALESTAX_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="salesTaxFinancialObjectCode" column="SALESTAX_FINOBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="refundFinancialObjectCode" column="REFUND_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="badDebtExpenseFinancialObjectCode" column="DBTEXP_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="discountObjectCode" column="REFUND_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="adjustmentObjectCode" column="DBTEXP_FIN_OBJ_CD" jdbc-type="VARCHAR"/>adjustmentObjectCode
 	<field-descriptor name="universityClearingChartOfAccountsCode" column="UNIV_CLR_COA_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingAccountNumber" column="UNIV_CLR_ACCT_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingSubAccountNumber" column="UNIV_CLR_SUBAC_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingObjectCode" column="UNIV_CLR_OBJECT_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="universityClearingSubObjectCode" column="UNIV_CLR_SUBOBJ_CD" jdbc-type="VARCHAR"/>
-	<field-descriptor name="paymentClearingFinancialObjectCode" column="PMT_CLR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="creditCardObjectCode" column="PMT_CLR_FIN_OBJ_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="lockboxNumber" column="AR_LOCKBOX_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="active" column="ROW_ACTV_IND" jdbc-type="VARCHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
 
-	<reference-descriptor name="badDebtExpenseFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="adjustmentFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="badDebtExpenseFinancialObjectCode" />
+		<foreignkey field-ref="adjustmentObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="salesTaxFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
 		<foreignkey field-ref="salesTaxFinancialObjectCode" />
 	</reference-descriptor>
-	<reference-descriptor name="paymentClearingFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="creditCardFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="paymentClearingFinancialObjectCode" />
+		<foreignkey field-ref="creditCardObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="universityFiscalY" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="paymentClearingFinancialObjectCode" />
+		<foreignkey field-ref="creditCardObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="universityClearingSubObject" class-ref="org.kuali.module.chart.bo.SubObjCd" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
@@ -763,10 +762,10 @@
 		<foreignkey field-ref="universityClearingAccountNumber" />
 		<foreignkey field-ref="universityClearingSubAccountNumber" />
 	</reference-descriptor>
-	<reference-descriptor name="refundFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="discountFinancialObject" class-ref="org.kuali.module.chart.bo.ObjectCode" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="processingChartOfAccountCode" />
-		<foreignkey field-ref="refundFinancialObjectCode" />
+		<foreignkey field-ref="discountObjectCode" />
 	</reference-descriptor>
 	<reference-descriptor name="processingOrganization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="processingChartOfAccountCode" />

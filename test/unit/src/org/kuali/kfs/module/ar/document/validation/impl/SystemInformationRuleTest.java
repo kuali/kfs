@@ -49,11 +49,11 @@ public class SystemInformationRuleTest extends MaintenanceRuleTestBase {
      */
     public void testCheckRefundObjectValidCode_True(){
         
-        systemInformation.setRefundFinancialObjectCode(EXPENSE_OBJECT_CODE);
+        systemInformation.setDiscountObjectCode(EXPENSE_OBJECT_CODE);
         systemInformation.refreshReferenceObject("refundFinancialObject");
         SystemInformationRule rule = (SystemInformationRule) setupMaintDocRule(newMaintDoc(systemInformation), SystemInformationRule.class);
         
-        boolean result = rule.checkRefundObjectValidCode(systemInformation);
+        boolean result = rule.checkDiscountObjectValidCode(systemInformation);
         assertEquals( "When refund object code is " + EXPENSE_OBJECT_CODE + ", checkRefundObjectValidCode should return true. ", true, result );
     }
     
@@ -61,11 +61,11 @@ public class SystemInformationRuleTest extends MaintenanceRuleTestBase {
      * This method tests if the checkRefundObjectValidCode rule returns false when refundFinancialObjectCode is set to an income object code
      */
     public void testCheckRefundObjectValidCode_False(){
-        systemInformation.setRefundFinancialObjectCode(INCOME_OBJECT_CODE);
+        systemInformation.setDiscountObjectCode(INCOME_OBJECT_CODE);
         systemInformation.refreshReferenceObject("refundFinancialObject");
         SystemInformationRule rule = (SystemInformationRule) setupMaintDocRule(newMaintDoc(systemInformation), SystemInformationRule.class);
         
-        boolean result = rule.checkRefundObjectValidCode(systemInformation);
+        boolean result = rule.checkDiscountObjectValidCode(systemInformation);
         assertEquals( "When refund object code is " + INCOME_OBJECT_CODE + ", checkRefundObjectValidCode should return false. ", false, result );
         
     }

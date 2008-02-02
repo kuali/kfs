@@ -31,6 +31,8 @@ public class CamsConstants {
     public static final String MAINTENANCE_LOAN_METHOD_TO_CALL          = "loan";
     public static final String MAINTENANCE_FABRICATION_METHOD_TO_CALL   = "fabrication";
     public static final String MAINTENANCE_MERGE_METHOD_TO_CALL         = "merge";
+    
+    public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class DocumentTypes {
         public static final String ASSET_RETIREMENT = "AR";
@@ -42,7 +44,8 @@ public class CamsConstants {
         public static final String NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES       ="NON_DEPRECIABLE_NON_CAPITAL_ASSETS_STATUS_CODES";
         public static final String NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPES="NON_DEPRECIABLE_ORGANIZATON_PLANT_FUND_SUB_OBJECT_TYPE";                
     }
-// Following constants will be retired by KFSMI-324
+    
+    // Following constants will be retired by KFSMI-324
     public static class SectionTitles {
         public static final String ASSET_RETIREMENT = "Retire";
     }    

@@ -984,7 +984,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
 
     public static final String PCDO_FILE_TYPE_INDENTIFIER = "procurementCardInputFileType";
     public static final String COLLECTOR_FILE_TYPE_INDENTIFIER = "collectorInputFileType";
-    public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
     public static final String ENTERPRISE_FEEDER_FILE_SET_TYPE_INDENTIFIER = "enterpriseFeederFileSetType";
 
     // next 3 variables for the enterprise feeder batch upload

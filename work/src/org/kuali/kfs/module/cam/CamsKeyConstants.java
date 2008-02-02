@@ -20,5 +20,6 @@ package org.kuali.module.cams;
  * Holds error key constants.
  */
 public class CamsKeyConstants {
-    // TODO None here yet!
+
+    public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
 }

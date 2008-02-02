@@ -540,6 +540,9 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
+	<reference-descriptor name="personPayrollIdentifier" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="representativeUniversalIdentifier" />
+	</reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">

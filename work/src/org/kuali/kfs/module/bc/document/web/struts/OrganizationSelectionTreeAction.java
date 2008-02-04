@@ -535,7 +535,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionPositionSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put("showInitialResults", "true");
-            parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
+            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
@@ -585,7 +585,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put("showInitialResults", "true");
-            parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
+            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
@@ -631,7 +631,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionAccountSelect");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             parameters.put("showInitialResults", "true");
-            parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
+            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
 
             parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
 
@@ -763,7 +763,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
 
-            List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject("selectedOrgs");
+            List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
             
             
             if (sessionSelectionSubTreeOrgs == null || performBuildPointOfViewFlag || !compareSessionSelectionSubTreeOrgs(sessionSelectionSubTreeOrgs, selectedOrgs)) {
@@ -791,7 +791,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             // build out the actual form key that will be used to retrieve the form on refresh
             String returnFormKey = GlobalVariables.getUserSession().addObject(form);
 
-            GlobalVariables.getUserSession().addObject("selectedOrgs", selectedOrgs);
+            GlobalVariables.getUserSession().addObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS, selectedOrgs);
 
             // now add required parameters
             Properties parameters = new Properties();
@@ -802,9 +802,9 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionSubFundPick");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             if (organizationSelectionTreeForm.getAccSumConsolidation() != null){
-                parameters.put("accSumConsolidation", organizationSelectionTreeForm.getAccSumConsolidation());
+                parameters.put(BCConstants.Report.ORG_ACCT_SUM_CONSOLIDATION_BUTTON_NAME, organizationSelectionTreeForm.getAccSumConsolidation());
             }
-            parameters.put("universityFiscalYear", organizationSelectionTreeForm.getUniversityFiscalYear().toString());
+            parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetOrgReportSubFundListSelection.do", parameters);
         
             return new ActionForward(lookupUrl, true);

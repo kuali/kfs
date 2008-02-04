@@ -805,7 +805,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 parameters.put(BCConstants.Report.ORG_ACCT_SUM_CONSOLIDATION_BUTTON_NAME, organizationSelectionTreeForm.getAccSumConsolidation());
             }
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
-            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetOrgReportSubFundListSelection.do", parameters);
+            String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetOrganizationReportSelection.do", parameters);
         
             return new ActionForward(lookupUrl, true);
         }

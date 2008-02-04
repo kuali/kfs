@@ -154,7 +154,7 @@ public class BCConstants extends JstlConstants {
         public final static String FILE_NAME_ORG_ACCOUNT_SUMMARY = "BudgetOrgAccountSummary";
         public final static String FILE_EXTENSION_PDF = ".pdf";
         public final static String FILE_EXTENSION_JASPER = ".jasper";
-        public final static String FILE_EXTENSION_JASPER_XML = "jrxml";
+        public final static String FILE_EXTENSION_JASPER_XML = ".jrxml";
         public static final String FILE_LOCATION_JASPER = "/java/projects/kuali_project/work/src/org/kuali/module/budget/report/";
         public static final String JASPER_FILE_NAME = "BudgetOrgAccountSummary";
     }

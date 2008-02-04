@@ -30,6 +30,7 @@ import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
- * To implement the service related to the effort certification document
+ * To implement the services related to the effort certification document
  */
 @Transactional
 public class EffortCertificationDocumentServiceImpl implements EffortCertificationDocumentService {
@@ -45,7 +46,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     private LaborModuleService laborModuleService;
     private DocumentService documentService;
-    
+
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#createEffortCertificationDocument(org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
      */
@@ -68,7 +69,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
             // populate the document header of the document
             DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
-            documentHeader.setFinancialDocumentDescription(MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_DOCUMENT_EXPLANATION));
+            documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
             documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
 
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
@@ -172,8 +173,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setPositionNumber(detailLine.getPositionNumber());
         accountingLine.setPayrollTotalHours(BigDecimal.ZERO);
 
-        accountingLine.setPayrollEndDateFiscalYear(effortCertificationDocument.getEffortCertificationReportDefinition().getUniversityFiscalYear());
-        accountingLine.setPayrollEndDateFiscalPeriodCode(effortCertificationDocument.getEffortCertificationReportDefinition().getEffortCertificationReportPeriodStatusCode());
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
+        accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getUniversityFiscalYear());
+        accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getEffortCertificationReportPeriodStatusCode());
     }
 
     /**
@@ -188,6 +190,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the laborModuleService attribute value.
+     * 
      * @param laborModuleService The laborModuleService to set.
      */
     public void setLaborModuleService(LaborModuleService laborModuleService) {
@@ -196,6 +199,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     /**
      * Sets the documentService attribute value.
+     * 
      * @param documentService The documentService to set.
      */
     public void setDocumentService(DocumentService documentService) {

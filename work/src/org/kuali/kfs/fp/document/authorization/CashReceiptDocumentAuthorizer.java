@@ -61,7 +61,7 @@ public class CashReceiptDocumentAuthorizer extends AccountingDocumentAuthorizerB
             CashReceiptDocument crd = (CashReceiptDocument) document;
 
             String unitName = SpringContext.getBean(CashReceiptService.class).getCashReceiptVerificationUnitForCampusCode(crd.getCampusLocationCode());
-            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(unitName, false);
+            CashDrawer cd = SpringContext.getBean(CashDrawerService.class).getByWorkgroupName(unitName, true);
             if (cd == null) {
                 throw new IllegalStateException("There is no cash drawer associated with cash receipt: " + crd.getDocumentNumber());
             }

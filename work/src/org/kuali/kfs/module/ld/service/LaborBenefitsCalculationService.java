@@ -15,10 +15,34 @@
  */
 package org.kuali.module.labor.service;
 
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.module.labor.bo.BenefitsCalculation;
+import org.kuali.module.labor.bo.LaborObject;
 
+/**
+ * The interface provides its clients with access to the benefit calculation.
+ * 
+ * @see org.kuali.module.labor.bo.BenefitsCalculation
+ */
 public interface LaborBenefitsCalculationService {
 
+    /**
+     * get the benefit calculation object based on the given information
+     * 
+     * @param universityFiscalYear the given fiscal year
+     * @param chartOfAccountsCode the given chart of accounts code
+     * @param benefitTypeCode the given benefit type code
+     * @return the benefit calculation object matching the given information
+     */
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode);
 
+    /**
+     * calculate the fringe benefit amount for the given labor object and salary amount
+     * 
+     * @param laborLedgerObject the given labor object
+     * @param salaryAmount the given salary amount
+     * @return the fringe benefit amount for the given labor object and salary amount
+     */
+    public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
 }

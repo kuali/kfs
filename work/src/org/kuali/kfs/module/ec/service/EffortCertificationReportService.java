@@ -17,8 +17,8 @@ package org.kuali.module.effort.service;
 
 import java.util.Date;
 
+import org.kuali.module.effort.report.EffortReportRegistry;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
-import org.kuali.module.effort.util.EffortReportRegistry;
 
 /** 
  * To generate the working progress reports for the effort certification  

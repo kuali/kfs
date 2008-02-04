@@ -153,6 +153,12 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
     }
     
+    /**
+     * update the given detail line if the given detail line is in the list; otherwise, add the given line into the list
+     * 
+     * @param detailLineList the given list of detail lines
+     * @param detailLine the given detail line
+     */
     private void updateDetailLineList(List<EffortCertificationDetailBuild> detailLineList, EffortCertificationDetailBuild detailLine) {
         int index = detailLineList.indexOf(detailLine);
         if(index >= 0) {

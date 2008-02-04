@@ -41,12 +41,13 @@ public class EffortKeyConstants {
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.undefinedUnversityDate";        
     public static final String ERROR_ZERO_PAYROLL_AMOUNT = "error.effort.zeroPayrollAmount";
     
+    public static final String MESSAGE_CREATE_DOCUMENT_EXPLANATION = "message.effort.create.explanation";
+    public static final String MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION = "message.effort.create.SETDocument.explanation";
     public static final String MESSAGE_NUM_BALANCE_RECORDS_READ = "message.effort.report.numOfBalanceRecordsRead";
     public static final String MESSAGE_NUM_BALANCE_RECORDS_SELECTED = "message.effort.report.numOfBalanceRecordsSelected";
     public static final String MESSAGE_NUM_CERTIFICATION_RECORDS_WRITTEN = "message.effort.report.numOfCertificationRecordsWritten";
-    public static final String MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = "message.effort.report.numOfDetailLineBuildRecordsWritten";
+    public static final String MESSAGE_NUM_DETAIL_LINE_BUILD_RECORDS_WRITTEN = "message.effort.report.numOfDetailLineBuildRecordsWritten";    
     public static final String MESSAGE_NUM_EMPLOYEES_SELECTED = "message.effort.report.numOfEmployeesSelected";
-    public static final String MESSAGE_CREATE_DOCUMENT_EXPLANATION = "message.effort.create.explanation";
     
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
 }

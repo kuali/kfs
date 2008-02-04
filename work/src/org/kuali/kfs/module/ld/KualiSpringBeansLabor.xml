@@ -72,12 +72,20 @@
 		<property name="laborLedgerBalanceService">
 			<ref bean="laborLedgerBalanceService" />
 		</property>
+		<property name="laborBenefitsCalculationService">
+			<ref bean="laborBenefitsCalculationService" />
+		</property>
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>
 		
 		<property name="laborLedgerBalanceClass" value="org.kuali.module.labor.bo.LedgerBalance"/>
 		<property name="laborLedgerEntryClass" value="org.kuali.module.labor.bo.LedgerEntry"/>
 		<property name="laborLedgerObjectClass" value="org.kuali.module.labor.bo.LaborObject"/>
 		<property name="laborLedgerPositionObjectGroupClass" value="org.kuali.module.labor.bo.PositionObjectGroup"/>
 		<property name="laborLedgerPositionObjectBenefitClass" value="org.kuali.module.labor.bo.PositionObjectBenefit"/>
+		<property name="expenseTransferSourceAccountingLineClass" value="org.kuali.module.labor.bo.ExpenseTransferSourceAccountingLine"/>
+		<property name="expenseTransferTargetAccountingLineClass" value="org.kuali.module.labor.bo.ExpenseTransferTargetAccountingLine"/>
 	</bean>
 
     <!--  Section 1: Spring Beans for Business Objects -->
@@ -145,6 +153,9 @@
 	<bean id="laborBenefitsCalculationService" class="org.kuali.module.labor.service.impl.LaborBenefitsCalculationServiceImpl">
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
+		</property>
+		<property name="laborPositionObjectBenefitService">
+			<ref bean="laborPositionObjectBenefitService" />
 		</property>
 	</bean>
 			

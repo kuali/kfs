@@ -36,6 +36,7 @@ import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.service.EffortCertificationCreateService;
+import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,7 +55,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationCreateServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
-    private DocumentService documentService;
+    private EffortCertificationDocumentService effortCertificationDocumentService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationCreateService#create()
@@ -81,10 +82,12 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
         }
 
         Collection<EffortCertificationDocumentBuild> documentsBuild = businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
-        for (EffortCertificationDocumentBuild documentBuild : documentsBuild) {
-            this.createEffortCertificationDocument(documentBuild);
-
-            businessObjectService.delete(documentBuild);
+        for (EffortCertificationDocumentBuild documentBuild : documentsBuild) {          
+            boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
+            
+            if(isCreated) {
+                businessObjectService.delete(documentBuild);
+            }
         }
     }
 
@@ -142,43 +145,6 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
     }
 
     /**
-     * create an effort certification document from the given document build record
-     * 
-     * @param documentBuild the given effort certification document build
-     */
-    private void createEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
-        try {
-            EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortCertificationDocument.class);
-
-            // populate the fields of the docuemnt
-            effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
-            effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
-            effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
-            effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
-
-            // populcate the detail line of the document
-            List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-            List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
-            for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
-                detailLines.add(new EffortCertificationDetail(detailLineBuild));
-            }
-
-            // populate the document header of the document
-            DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
-            documentHeader.setFinancialDocumentDescription(MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_DOCUMENT_EXPLANATION));
-            documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
-
-            documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
-        }
-        catch (WorkflowException we) {
-            LOG.error(we);
-        }
-        catch (Exception e) {
-            LOG.error(e);
-        }
-    }
-
-    /**
      * Sets the businessObjectService attribute value.
      * 
      * @param businessObjectService The businessObjectService to set.
@@ -188,11 +154,10 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
     }
 
     /**
-     * Sets the documentService attribute value.
-     * 
-     * @param documentService The documentService to set.
+     * Sets the effortCertificationDocumentService attribute value.
+     * @param effortCertificationDocumentService The effortCertificationDocumentService to set.
      */
-    public void setDocumentService(DocumentService documentService) {
-        this.documentService = documentService;
+    public void setEffortCertificationDocumentService(EffortCertificationDocumentService effortCertificationDocumentService) {
+        this.effortCertificationDocumentService = effortCertificationDocumentService;
     }
 }

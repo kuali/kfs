@@ -1255,14 +1255,14 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
     }
 
     /**
-     * @see org.kuali.module.effort.bo.LaborLedgerEntry#getLaborLedgerObject()
+     * @see org.kuali.kfs.bo.LaborLedgerEntry#getLaborLedgerObject()
      */
     public LaborLedgerObject getLaborLedgerObject() {
         return this.laborObject;
     }
 
     /**
-     * @see org.kuali.module.effort.bo.LaborLedgerEntry#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
+     * @see org.kuali.kfs.bo.LaborLedgerEntry#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
      */
     @Deprecated
     public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
@@ -1293,6 +1293,7 @@ public class LedgerEntry extends Entry implements LaborLedgerEntry {
      * 
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         if (this.universityFiscalYear != null) {

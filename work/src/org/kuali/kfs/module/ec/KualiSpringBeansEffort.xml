@@ -118,20 +118,31 @@
 		<property name="businessObjectService">
 			<ref bean="businessObjectService" />
 		</property>
-		<property name="documentService">
-			<ref bean="documentService" />
+		<property name="effortCertificationDocumentService">
+			<ref bean="effortCertificationDocumentService" />
 		</property>	
 	</bean>
 	
-	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl" />	
+	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl">
+		<property name="resourceBundleBaseName" value="org/kuali/module/effort/report/messages" />
+	</bean>	
 	
 	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >
 		<property name="effortCertificationDetailBuildService">
 			<ref bean="effortCertificationDetailBuildService" />
-		</property>					
+		</property>				
 	</bean>
 			
 	<bean id="effortCertificationDetailBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDetailBuildServiceImpl" />
+	
+	<bean id="effortCertificationDocumentService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentServiceImpl" >
+		<property name="laborModuleService">
+			<ref bean="laborModuleService" />
+		</property>	
+		<property name="documentService">
+			<ref bean="documentService" />
+		</property>			
+	</bean>	
 		
 	<!-- DAO declarations -->		
 	<bean id="effortCertificationReportDefinitionDao" parent="platformAwareDao" class="org.kuali.module.effort.dao.ojb.EffortCertificationReportDefinitionDaoOjb" />

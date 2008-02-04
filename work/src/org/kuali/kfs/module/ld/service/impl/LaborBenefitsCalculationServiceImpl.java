@@ -15,27 +15,94 @@
  */
 package org.kuali.module.labor.service.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.service.BusinessObjectService;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerObject;
+import org.kuali.module.labor.LaborConstants;
+import org.kuali.module.labor.LaborPropertyConstants;
 import org.kuali.module.labor.bo.BenefitsCalculation;
+import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
 import org.kuali.module.labor.service.LaborBenefitsCalculationService;
+import org.kuali.module.labor.service.LaborPositionObjectBenefitService;
+import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * To provide its clients with access to the benefit calculation.
+ */
+@Transactional
 public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalculationService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborBenefitsCalculationServiceImpl.class);
 
     private BusinessObjectService businessObjectService;
+    private LaborPositionObjectBenefitService laborPositionObjectBenefitService;
 
-    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
-        this.businessObjectService = businessObjectService;
-    }
-
+    /**
+     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#getBenefitsCalculation(java.lang.Integer,
+     *      java.lang.String, java.lang.String)
+     */
     public BenefitsCalculation getBenefitsCalculation(Integer universityFiscalYear, String chartOfAccountsCode, String benefitTypeCode) {
-        Map fieldValues = new HashMap();
-        fieldValues.put("universityFiscalYear", universityFiscalYear);
-        fieldValues.put("chartOfAccountsCode", chartOfAccountsCode);
-        fieldValues.put("positionBenefitTypeCode", benefitTypeCode);
+        Map<String, Object> fieldValues = new HashMap<String, Object>();
+        fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, universityFiscalYear);
+        fieldValues.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, chartOfAccountsCode);
+        fieldValues.put(LaborPropertyConstants.POSITION_BENEFIT_TYPE_CODE, benefitTypeCode);
 
         return (BenefitsCalculation) businessObjectService.findByPrimaryKey(BenefitsCalculation.class, fieldValues);
+    }
+
+    /**
+     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.LaborObject,
+     *      org.kuali.core.util.KualiDecimal)
+     */
+    public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
+        KualiDecimal fringeBenefit = KualiDecimal.ZERO;
+
+        if (salaryAmount.isZero() || ObjectUtils.isNull(laborLedgerObject)) {
+            return fringeBenefit;
+        }
+
+        String FringeOrSalaryCode = laborLedgerObject.getFinancialObjectFringeOrSalaryCode();
+        if (!LaborConstants.SalaryExpenseTransfer.LABOR_LEDGER_SALARY_CODE.equals(FringeOrSalaryCode)) {
+            return fringeBenefit;
+        }
+
+        Integer fiscalYear = laborLedgerObject.getUniversityFiscalYear();
+        String chartOfAccountsCode = laborLedgerObject.getChartOfAccountsCode();
+        String objectCode = laborLedgerObject.getFinancialObjectCode();
+
+        Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getPositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
+        for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
+            // calculate the benefit amount (ledger amt * (benfit pct/100) )
+            KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
+            KualiDecimal benefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(new KualiDecimal(100));
+
+            fringeBenefit = fringeBenefit.add(benefitAmount);
+        }
+
+        return fringeBenefit;
+    }
+
+    /**
+     * Sets the laborPositionObjectBenefitService attribute value.
+     * 
+     * @param laborPositionObjectBenefitService The laborPositionObjectBenefitService to set.
+     */
+    public void setLaborPositionObjectBenefitService(LaborPositionObjectBenefitService laborPositionObjectBenefitService) {
+        this.laborPositionObjectBenefitService = laborPositionObjectBenefitService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

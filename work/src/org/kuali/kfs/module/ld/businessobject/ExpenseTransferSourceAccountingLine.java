@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashMap;
 
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.kfs.bo.SourceAccountingLine;
 
 /**
@@ -141,10 +142,26 @@ public class ExpenseTransferSourceAccountingLine extends SourceAccountingLine im
     public void setLaborObject(LaborObject laborObject) {
         this.laborObject = laborObject;
     }
+    
+    /**
+     * @see org.kuali.kfs.bo.LaborLedgerExpenseTransferAccoutingLine#getLaborLedgerObject()
+     */
+    public LaborLedgerObject getLaborLedgerObject() {
+        return this.laborObject;
+    }
+
+    /**
+     * @see org.kuali.kfs.bo.LaborLedgerExpenseTransferAccoutingLine#setLaborLedgerObject(org.kuali.kfs.bo.LaborLedgerObject)
+     */
+    @Deprecated
+    public void setLaborLedgerObject(LaborLedgerObject laborLedgerObject) {
+        this.laborObject = (LaborObject) laborLedgerObject;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.getDocumentNumber());

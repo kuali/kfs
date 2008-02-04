@@ -949,13 +949,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         public final static Integer ESTIMATED_PENDING_GENERAL_LEDGER_ROWS = 70000;
         public final static Integer AVERAGE_REPORTING_TREE_SIZE = 4;
         
-        /* Budget Construction Reports */
-        
-        public static final String PDF_FILE_EXTENSION = ".pdf";
-        public static final String JASPER_FILE_EXTENSION = ".jasper";
-        public static final String JASPER_XML_FILE_EXTENSION = ".jrxml";
-        public static final String JASPER_FILE_LOCATION = "/java/projects/kuali_project/work/src/org/kuali/module/budget/report/";
-        public static final String JASPER_FILE_NAME = "BudgetOrgAccountSummary";
     }
 
     public static class OperationType {

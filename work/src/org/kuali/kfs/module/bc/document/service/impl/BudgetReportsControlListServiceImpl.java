@@ -80,9 +80,8 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
             budgetReportsControlListDao.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
         }
     }
-    
+
     /**
-     * 
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsAccountSummaryTable(java.lang.String)
      */
     public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
@@ -90,7 +89,6 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * 
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
     public void updateRepotsAccountSummaryTable(String personUserIdentifier) {
@@ -98,16 +96,15 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * 
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
      */
     public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
         budgetReportsControlListDao.updateRepotsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
-    
+
     /**
-     * 
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSelectedSubFundGroupFlags(java.lang.String, java.util.List)
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSelectedSubFundGroupFlags(java.lang.String,
+     *      java.util.List)
      */
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList) {
 

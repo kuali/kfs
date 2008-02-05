@@ -22,7 +22,6 @@
 	docTitle="${KualiForm.operatingModeTitle}"
     transactionalDocument="false">
 
-<%--	<kul:hiddenDocumentFields /> --%>
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
@@ -31,11 +30,7 @@
 
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
-    
-    
-    
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
-    
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
         <tr>
             <th class="grid" colspan="6" align="left">
@@ -47,8 +42,8 @@
 	    <tr>
             <%--point of view header --%>
             <th class="grid" > Select <br> </th>
-		    <th class="grid" > Subfund Group Code <br> </th>
-		    <th class="grid" > Subfund Group Description <br> </th>
+		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupCode.name}"/> <br> </th>
+		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupDescription.name}"/> <br> </th>
 	    </tr>
 	  
 		<c:forEach var="subfund" items="${KualiForm.bcSubfundList}">

@@ -32,33 +32,39 @@ import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 
 public class OrganizationReportSelectionForm extends KualiForm {
-    
+
     private List<BudgetConstructionSubFundPick> bcSubfundList = new ArrayList();
-    private List<String> selectedSubfundGroupCode = new ArrayList();  
+    private List<String> selectedSubfundGroupCode = new ArrayList();
     private String operatingModeTitle;
-    private Integer universityFiscalYear; 
+    private Integer universityFiscalYear;
     private String backLocation;
     private String returnAnchor;
     private String docFormKey;
     private String operatingMode;
     private String accSumConsolidation;
-    
 
+
+    /**
+     * Constructs a OrganizationReportSelectionForm.java
+     */
+    public OrganizationReportSelectionForm() {
+        super();
+        setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
+    }
+
+    /**
+     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
+     */
     @Override
     public void populate(HttpServletRequest request) {
-        
+
         super.populate(request);
-        
+
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-        
-        bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
-    }
 
-    public OrganizationReportSelectionForm(){
-        super();
-        setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
+        bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
     }
 
     /**
@@ -66,7 +72,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
      * 
      * @return Returns the bcSubfundList
      */
-    
+
     public List<BudgetConstructionSubFundPick> getBcSubfundList() {
         return bcSubfundList;
     }
@@ -169,7 +175,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
     public void setOperatingMode(String operatingMode) {
         this.operatingMode = operatingMode;
     }
-    
+
     /**
      * Gets the returnAnchor
      * 
@@ -187,7 +193,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
     public void setReturnAnchor(String returnAnchor) {
         this.returnAnchor = returnAnchor;
     }
-    
+
     /**
      * Gets the docFormKey
      * 
@@ -225,5 +231,4 @@ public class OrganizationReportSelectionForm extends KualiForm {
     }
 
 
-  
 }

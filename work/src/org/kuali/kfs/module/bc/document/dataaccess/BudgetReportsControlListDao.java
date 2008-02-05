@@ -15,9 +15,12 @@
  */
 package org.kuali.module.budget.dao;
 
+/**
+ * This is the data access object for Budget Construction Organization Report.
+ */
 public interface BudgetReportsControlListDao {
 
-    
+
     /**
      * This method cleans control list table.
      * 
@@ -25,8 +28,8 @@ public interface BudgetReportsControlListDao {
      * @param personUserIdentifier
      * @return
      */
-    public void cleanReportsControlList(String personUserIdentifier);    
-    
+    public void cleanReportsControlList(String personUserIdentifier);
+
     /**
      * This method cleans control list table 01.
      * 
@@ -34,8 +37,8 @@ public interface BudgetReportsControlListDao {
      * @param personUserIdentifier
      * @return
      */
-    public void cleanReportsControlListPart1(String personUserIdentifier);    
-    
+    public void cleanReportsControlListPart1(String personUserIdentifier);
+
     /**
      * This method cleans control list table 01.
      * 
@@ -44,7 +47,7 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void cleanReportsControlListPart2(String personUserIdentifier);
-    
+
     /**
      * This method updates control list table 01.
      * 
@@ -63,7 +66,7 @@ public interface BudgetReportsControlListDao {
      * @param universityFiscalYear
      * @return
      */
-    public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode );
+    public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
 
     /**
      * This method updates control list table disp1.
@@ -71,8 +74,8 @@ public interface BudgetReportsControlListDao {
      * @param idForSession
      * @return
      */
-    public void updateReportsControlListDisp1(String idForSession);    
-    
+    public void updateReportsControlListDisp1(String idForSession);
+
     /**
      * This method changes flags in ld_bcn_pullup_t with Organization and Chart code.
      * 
@@ -81,7 +84,7 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
-    
+
     /**
      * This method updates sub-fund group list
      * 
@@ -89,7 +92,7 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
-            
+
     /**
      * This method cleans sub-fund group list.
      * 
@@ -97,15 +100,15 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
-    
+
     /**
      * This method cleans acount summary table.
      * 
      * @param personUserIdentifier
      * @return
      */
-    public void cleanReportsAccountSummaryTable (String personUserIdentifier);
-    
+    public void cleanReportsAccountSummaryTable(String personUserIdentifier);
+
     /**
      * This method updates acount summary table.
      * 
@@ -113,7 +116,7 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
-    
+
     /**
      * This method updates acount summary table when users choose consolidation.
      * 
@@ -121,7 +124,7 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
-    
+
     /**
      * This method updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
      * 
@@ -130,5 +133,5 @@ public interface BudgetReportsControlListDao {
      * @return
      */
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode);
-    
+
 }

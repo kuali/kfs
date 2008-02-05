@@ -25,7 +25,7 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
  * BudgetConstructionPullup with methods that populate and depopulate the associated table for a specific user.
  */
 public interface BudgetReportsControlListService {
-    
+
     /**
      * This method cleans all control list tables.
      * 
@@ -70,7 +70,7 @@ public interface BudgetReportsControlListService {
      * @return
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
-    
+
     /**
      * This method cleans acount summary table.
      * 
@@ -78,7 +78,7 @@ public interface BudgetReportsControlListService {
      * @return
      */
     public void cleanReportsAccountSummaryTable(String personUserIdentifier);
-    
+
     /**
      * This method updates acount summary table.
      * 
@@ -86,7 +86,7 @@ public interface BudgetReportsControlListService {
      * @return
      */
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
-    
+
     /**
      * This method updates acount summary table when users choose consolidation.
      * 
@@ -103,5 +103,5 @@ public interface BudgetReportsControlListService {
      * @return
      */
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList);
-    
+
 }

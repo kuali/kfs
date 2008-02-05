@@ -51,6 +51,9 @@ import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.web.struts.form.BudgetConstructionSelectionForm;
 import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
 
+/**
+ * Struts Action Class for the Organization Report Selection Screen.
+ */
 public class OrganizationReportSelectionAction extends KualiAction {
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -58,11 +61,21 @@ public class OrganizationReportSelectionAction extends KualiAction {
         OrganizationReportSelectionForm subFundListSelectionForm = (OrganizationReportSelectionForm) form;
 
         String backUrl = subFundListSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + subFundListSelectionForm.getDocFormKey();
-    
+
         return new ActionForward(backUrl, true);
 
     }
 
+    /**
+     * This method is for submitting user's selection and generate report.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
@@ -86,14 +99,15 @@ public class OrganizationReportSelectionAction extends KualiAction {
         budgetReportsControlListService.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundListSelectionForm.getSelectedSubfundGroupCode());
 
         budgetReportsControlListService.cleanReportsAccountSummaryTable(personUserIdentifier);
-        
-        //check consolidation
-        if (subfundListSelectionForm.getAccSumConsolidation() != null){
+
+        // check consolidation
+        if (subfundListSelectionForm.getAccSumConsolidation() != null) {
             budgetReportsControlListService.updateRepotsAccountSummaryTableWithConsolidation(personUserIdentifier);
-        } else {
+        }
+        else {
             budgetReportsControlListService.updateRepotsAccountSummaryTable(personUserIdentifier);
         }
-        
+
 
         BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
 
@@ -113,6 +127,16 @@ public class OrganizationReportSelectionAction extends KualiAction {
         return null;
     }
 
+    /**
+     * This method is for selecting all sub-fund group code.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward selectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
@@ -124,6 +148,16 @@ public class OrganizationReportSelectionAction extends KualiAction {
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 
+    /**
+     * This method is for un-selecting all sub-fund group code.
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward unSelectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;

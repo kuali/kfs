@@ -59,7 +59,8 @@ import org.kuali.module.chart.bo.Org;
 public class OrganizationSelectionTreeAction extends KualiAction {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationSelectionTreeAction.class);
 
-    private boolean performBuildPointOfViewFlag = false; 
+    private boolean performBuildPointOfViewFlag = false;
+
     /**
      * @see org.kuali.core.web.struts.action.KualiAction#execute(org.apache.struts.action.ActionMapping,
      *      org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
@@ -168,7 +169,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         performBuildPointOfViewFlag = true;
-        
+
         // check for point of view change
         if (organizationSelectionTreeForm.getCurrentPointOfViewKeyCode() != null) {
             if ((organizationSelectionTreeForm.getPreviousPointOfViewKeyCode() == null) || (!organizationSelectionTreeForm.getPreviousPointOfViewKeyCode().equalsIgnoreCase(organizationSelectionTreeForm.getCurrentPointOfViewKeyCode()) == true)) {
@@ -741,6 +742,17 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
     }
 
+    /**
+     * This method is for Budget Construction Organization Account Summary Report
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         // TODO use this method as a template to create an action for a specific report button when running in REPORTS mode
@@ -750,10 +762,11 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         if (!storedSelectedOrgs(selectionSubTreeOrgs)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        
+
         else {
+            // Remove unselected SubTreeOrgs, since selectionSubTreeOrgs contains all SubTreeOrgs.
             List<BudgetConstructionPullup> selectedOrgs = removeUnselectedSubTreeOrgs(selectionSubTreeOrgs);
-            
+
             // TODO This should be moved to after user choose ok in Account List
             // clean and update control list
 
@@ -764,8 +777,8 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
 
             List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
-            
-            
+
+
             if (sessionSelectionSubTreeOrgs == null || performBuildPointOfViewFlag || !compareSessionSelectionSubTreeOrgs(sessionSelectionSubTreeOrgs, selectedOrgs)) {
                 // change flag
                 budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
@@ -777,7 +790,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 budgetReportsControlListService.cleanReportsSubFundGroupSelectList(personUserIdentifier);
                 budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
             }
-            
+
             performBuildPointOfViewFlag = false;
 
             // Go to next page
@@ -801,49 +814,64 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionSubFundPick");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
-            if (organizationSelectionTreeForm.getAccSumConsolidation() != null){
+            if (organizationSelectionTreeForm.getAccSumConsolidation() != null) {
                 parameters.put(BCConstants.Report.ORG_ACCT_SUM_CONSOLIDATION_BUTTON_NAME, organizationSelectionTreeForm.getAccSumConsolidation());
             }
             parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, organizationSelectionTreeForm.getUniversityFiscalYear().toString());
             String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + "budgetOrganizationReportSelection.do", parameters);
-        
+
             return new ActionForward(lookupUrl, true);
         }
     }
-    
-    public boolean compareSessionSelectionSubTreeOrgs( List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs, List<BudgetConstructionPullup> selectionSubTreeOrgs){
+
+    /**
+     * This method is for tracking user's selection of SubTreeOrgs. It will returns true only when user's previous selections and
+     * current selections are same.
+     * 
+     * @param sessionSelectionSubTreeOrgs
+     * @param selectionSubTreeOrgs
+     * @return
+     */
+    public boolean compareSessionSelectionSubTreeOrgs(List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs, List<BudgetConstructionPullup> selectionSubTreeOrgs) {
         int sessionListLength = sessionSelectionSubTreeOrgs.toArray().length;
         int selectionListLength = selectionSubTreeOrgs.toArray().length;
-        if (sessionListLength != selectionListLength) { return false; }
-        
-        int check = 0;        
-        
-        for (BudgetConstructionPullup sessionBudgetConstructionPullup :  sessionSelectionSubTreeOrgs){
-            for (BudgetConstructionPullup budgetConstructionPullup :  selectionSubTreeOrgs){
-                if(sessionBudgetConstructionPullup.getChartOfAccountsCode().equals(budgetConstructionPullup.getChartOfAccountsCode())
-                        && sessionBudgetConstructionPullup.getOrganizationCode().equals(budgetConstructionPullup.getOrganizationCode())
-                        && sessionBudgetConstructionPullup.getReportsToChartOfAccountsCode().equals(budgetConstructionPullup.getReportsToChartOfAccountsCode())
-                        && sessionBudgetConstructionPullup.getReportsToOrganizationCode().equals(budgetConstructionPullup.getReportsToOrganizationCode()))
-                { check += 1; }
+        if (sessionListLength != selectionListLength) {
+            return false;
+        }
+
+        int check = 0;
+
+        for (BudgetConstructionPullup sessionBudgetConstructionPullup : sessionSelectionSubTreeOrgs) {
+            for (BudgetConstructionPullup budgetConstructionPullup : selectionSubTreeOrgs) {
+                if (sessionBudgetConstructionPullup.getChartOfAccountsCode().equals(budgetConstructionPullup.getChartOfAccountsCode()) && sessionBudgetConstructionPullup.getOrganizationCode().equals(budgetConstructionPullup.getOrganizationCode()) && sessionBudgetConstructionPullup.getReportsToChartOfAccountsCode().equals(budgetConstructionPullup.getReportsToChartOfAccountsCode()) && sessionBudgetConstructionPullup.getReportsToOrganizationCode().equals(budgetConstructionPullup.getReportsToOrganizationCode())) {
+                    check += 1;
+                }
             }
         }
-        
-        if (sessionListLength != check) { return false; }
-        
+
+        if (sessionListLength != check) {
+            return false;
+        }
+
         return true;
     }
-    
-    
-    
-    public List<BudgetConstructionPullup> removeUnselectedSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTreeOrgs){
+
+
+    /**
+     * This method is for removing unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
+     * 
+     * @param selectionSubTreeOrgs
+     * @return
+     */
+    public List<BudgetConstructionPullup> removeUnselectedSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTreeOrgs) {
         List<BudgetConstructionPullup> returnList = new ArrayList();
-        for (BudgetConstructionPullup pullUp : selectionSubTreeOrgs){
-            
+        for (BudgetConstructionPullup pullUp : selectionSubTreeOrgs) {
+
             if (pullUp.getPullFlag() > 0) {
                 returnList.add(pullUp);
             }
         }
         return returnList;
     }
-    
+
 }

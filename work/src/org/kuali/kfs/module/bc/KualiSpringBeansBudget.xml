@@ -233,8 +233,8 @@
 	
 	
 	<bean id="budgetConstructionOrganizationJasperReportsService" class="org.kuali.module.budget.service.impl.BudgetConstructionOrganizationJasperReportsServiceImpl">
-		<property name="budgetConstructionAccountSummaryService">
-			<ref bean="budgetConstructionAccountSummaryService" />
+		<property name="budgetConstructionOrganizationReportsService">
+			<ref bean="budgetConstructionOrganizationReportsService" />
 		</property>
 	</bean>
 	
@@ -294,14 +294,6 @@
     
     <bean id="calculatedSalaryFoundationTrackerOverrideService" class="org.kuali.module.budget.service.impl.CalculatedSalaryFoundationTrackerOverrideServiceImpl">
     </bean>
-    
-    <bean id="budgetConstructionAccountSummaryService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryServiceImpl">
-	<property name="budgetConstructionAccountSummaryDao">
-		<ref bean="budgetConstructionAccountSummaryDao" />
-	</property>
-	</bean>
-	
-	<bean id="budgetConstructionAccountSummaryDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionAccountSummaryDaoOjb" />
         
     <bean id="genesisBatchStep" class="org.kuali.module.budget.batch.GenesisBatchStep" parent="step"> </bean>
     	

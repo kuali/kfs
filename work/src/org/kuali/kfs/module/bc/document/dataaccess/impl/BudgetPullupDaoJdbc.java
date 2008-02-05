@@ -34,8 +34,8 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         
         StringBuilder sqlText = new StringBuilder(500);
         sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
-        sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, OBJ_ID, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
-        sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, sys_guid(), r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
+        sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
+        sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
         sqlText.append("FROM ld_bcn_org_rpts_t r \n");
         sqlText.append("WHERE fin_coa_cd = ? \n");
         sqlText.append("  AND org_cd = ? \n");
@@ -43,8 +43,8 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
         sqlText.delete(0, sqlText.length());
         
         sqlText.append("INSERT INTO ld_bcn_pullup_t \n");
-        sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, OBJ_ID, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
-        sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, sys_guid(), r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
+        sqlText.append(" (PERSON_UNVL_ID, FIN_COA_CD, ORG_CD, RPTS_TO_FIN_COA_CD, RPTS_TO_ORG_CD, PULL_FLAG) \n");
+        sqlText.append("SELECT ?, r.fin_coa_cd, r.org_cd, r.rpts_to_fin_coa_cd, r.rpts_to_org_cd, ? \n");
         sqlText.append("FROM ld_bcn_org_rpts_t r, ld_bcn_pullup_t p, ca_org_t o \n");
         sqlText.append("WHERE p.person_unvl_id = ? \n");
         sqlText.append("  AND p.pull_flag = ? \n");

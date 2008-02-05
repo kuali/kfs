@@ -35,7 +35,8 @@
         <documentTypeCode>POC</documentTypeCode>
 
         <label>Purchase Order Close</label>
-
+        
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

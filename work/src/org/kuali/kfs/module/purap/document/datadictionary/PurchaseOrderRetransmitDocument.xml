@@ -36,6 +36,7 @@
 
         <label>Purchase Order Retransmit</label>
 
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

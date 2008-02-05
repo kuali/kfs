@@ -369,7 +369,7 @@
             </attributeReference>
 
         </attributes>
-
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
         <allowsCopy>true</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

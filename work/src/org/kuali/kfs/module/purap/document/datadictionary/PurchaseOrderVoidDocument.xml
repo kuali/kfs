@@ -36,6 +36,7 @@
 
         <label>Purchase Order Void</label>
 
+        <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrder" parameterName="PURCHASE_ORDER" />
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>
         

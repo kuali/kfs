@@ -71,7 +71,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      */
     @RawSQL
     public void initPointOfView(String personUserIdentifier, String chartOfAccountsCode, String organizationCode, int currentLevel) {
-        //TODO remove OBJ_ID from the table and here before implementing any calls to this method
    
         LOG.debug("initPointOfView() called");
         
@@ -85,7 +84,6 @@ public class BudgetPullupDaoJdbc extends BudgetConstructionDaoJdbcBase implement
      */
     @RawSQL
     public void insertChildOrgs(String personUserIdentifier, int previousLevel) {
-        //TODO remove OBJ_ID from the table and here before implementing any calls to this method
         
         LOG.debug("insertChildOrgs() called");
 

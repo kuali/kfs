@@ -195,7 +195,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setPayrollTotalHours(BigDecimal.ZERO);
 
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();        
-        accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getUniversityFiscalYear());
+        accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getExpenseTransferFiscalYear());
         accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getExpenseTransferFiscalPeriodCode());
     }
 

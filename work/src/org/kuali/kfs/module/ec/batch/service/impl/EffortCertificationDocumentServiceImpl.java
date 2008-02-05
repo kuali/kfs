@@ -129,11 +129,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     private List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         List<LaborLedgerExpenseTransferAccountingLine> accountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-
+        
+        int sequenceNumber = 0;
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             boolean isQualified = this.getDifference(detailLine).isPositive();
             if (isQualified) {
                 LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createExpenseTransferSourceAccountingLine();
+                accountingLine.setSequenceNumber(sequenceNumber);
 
                 this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
                 accountingLines.add(accountingLine);
@@ -152,10 +154,12 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
         List<LaborLedgerExpenseTransferAccountingLine> accountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
 
+        int sequenceNumber = 0;
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
             boolean isQualified = this.getDifference(detailLine).isNegative();
             if (isQualified) {
                 LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createExpenseTransferTargetAccountingLine();
+                accountingLine.setSequenceNumber(sequenceNumber);
 
                 this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
                 accountingLines.add(accountingLine);
@@ -192,7 +196,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();        
         accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getUniversityFiscalYear());
-        accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getEffortCertificationReportPeriodStatusCode());
+        accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getExpenseTransferFiscalPeriodCode());
     }
 
     /**

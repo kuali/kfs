@@ -26,8 +26,11 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.bo.LaborLedgerEntry;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
@@ -41,11 +44,17 @@ import org.kuali.test.util.TestDataPreparator;
 @ConfigureContext(session = KULUSER)
 public class EffortCertificationDocumentServiceTest extends KualiTestBase {
     private final Properties properties, message;
+    private final String balanceFieldNames, entryFieldNames;
     private final String detailFieldNames, documentFieldNames, reportDefinitionFieldNames;
     private final String deliminator;
 
     private BusinessObjectService businessObjectService;
     private EffortCertificationDocumentService effortCertificationDocumentService;
+    
+    private LaborModuleService laborModuleService;
+
+    private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
+    private Class<? extends LaborLedgerEntry> ledgerEntryClass;
 
     /**
      * Constructs a EffortCertificationCreateServiceTest.java.
@@ -60,6 +69,9 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         message = generator.getMessage();
 
         deliminator = properties.getProperty("deliminator");
+        
+        balanceFieldNames = properties.getProperty("balanceFieldNames");
+        entryFieldNames = properties.getProperty("entryFieldNames");
 
         detailFieldNames = properties.getProperty("detailFieldNames");
         documentFieldNames = properties.getProperty("documentFieldNames");
@@ -71,7 +83,11 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         super.setUp();
 
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-        effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
+        effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);        
+        laborModuleService = SpringContext.getBean(LaborModuleService.class);
+
+        ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
+        ledgerEntryClass = laborModuleService.getLaborLedgerEntryClass();
     }
 
     /**
@@ -121,6 +137,8 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         String testTarget = "generateSalaryExpenseTransferDocument.";
         Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
         String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        
+        this.loadLaborTestData(testTarget);
 
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, "documentCleanup", documentFieldNames, deliminator);
         TestDataPreparator.doCleanUpWithReference(EffortCertificationDocumentBuild.class, properties, "documentCleanup", documentFieldNames, deliminator);
@@ -140,10 +158,10 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
             document.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
             try {
                 boolean isGenerated = effortCertificationDocumentService.generateSalaryExpenseTransferDocument(document);
-                fail("The document cannot pass the rule validation.");
+                assertTrue(true);
             }
             catch(ValidationException ve) {
-                assertTrue(true);
+                fail("The document should be generated and approved.");
             }
         }
     }
@@ -168,5 +186,23 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
     private List<EffortCertificationDetailBuild> buildDetailLineBuild(String testTarget) {
         int numberOfDetailBuild = Integer.valueOf(properties.getProperty(testTarget + "numOfDetailBuild"));
         return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + "detailBuild", detailFieldNames, deliminator, numberOfDetailBuild);
+    }
+    
+    /**
+     * load test data into database before a test case starts
+     * 
+     * @param testTarget the target test case
+     */
+    private void loadLaborTestData(String testTarget) throws Exception {
+        TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+        
+        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
+        List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
+        TestDataPreparator.persistDataObject(ledgerEntries);
+
+        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        TestDataPreparator.persistDataObject(ledgerBalances);
     }
 }

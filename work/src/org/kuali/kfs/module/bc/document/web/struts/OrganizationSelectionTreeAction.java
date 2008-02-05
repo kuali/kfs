@@ -183,7 +183,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
 
                 // build a new selection subtree
                 String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-                SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullup(personUniversalIdentifier, flds[0], flds[1]);
+                SpringContext.getBean(BudgetOrganizationTreeService.class).buildPullupSql(personUniversalIdentifier, flds[0], flds[1]);
 
                 // initialize the selection tool to the root
                 map.put("personUniversalIdentifier", personUniversalIdentifier);

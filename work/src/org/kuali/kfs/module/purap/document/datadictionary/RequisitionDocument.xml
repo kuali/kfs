@@ -24,6 +24,7 @@
     <transactionalDocument>
         <documentClass>org.kuali.module.purap.document.RequisitionDocument</documentClass>
         <businessRulesClass>org.kuali.module.purap.rules.RequisitionDocumentRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.RequisitionDocumentPreRules</preRulesCheckClass>
         <documentAuthorizerClass>org.kuali.module.purap.document.authorization.RequisitionDocumentAuthorizer</documentAuthorizerClass>
         
         <authorizations>

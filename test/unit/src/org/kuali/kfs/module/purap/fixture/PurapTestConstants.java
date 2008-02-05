@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.RequisitionAccount;
@@ -91,5 +92,9 @@ public class PurapTestConstants {
         static final KualiDecimal HIGH_AMOUNT = new KualiDecimal(32);
         static final KualiDecimal LOW_AMOUNT = new KualiDecimal(16);
         static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
+    }
+    
+    static class PurCams {
+        static final ObjectCode OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","5000");
     }
 }

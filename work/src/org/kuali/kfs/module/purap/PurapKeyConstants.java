@@ -56,6 +56,7 @@ public class PurapKeyConstants {
     public static final String ERROR_REQUISITION_ACCOUNT_CLOSED = "error.document.requisition.accountClosed";
     public static final String ERROR_DELIVERY_REQUIRED_DATE_IN_THE_PAST = "error.delivery.required.date.in.the.past";
     public static final String ERROR_AUTHORIZATION_ACM_INITIATION = "error.authorization.assignContractManagerInitiation";
+    public static final String REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS = "requisition.question.fix.capitalAsset.warnings";
     
     // Requisition APO Ineligibility reasons
     public static final String NON_APO_REQUISITION_TOTAL_GREATER_THAN_APO_LIMIT = "requisition.nonAPO.requisitionTotal.greaterThan.APOLimit";
@@ -199,6 +200,7 @@ public class PurapKeyConstants {
     public static final String ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE = "errors.item.capitalAsset.quantity.objectCodeSubtype";
     public static final String ERROR_ITEM_WRONG_TRAN_TYPE = "errors.item.capitalAsset.wrong.tranType";
     public static final String ERROR_ITEM_NO_TRAN_TYPE = "errors.item.capitalAsset.no.tranType";
+    public static final String ERROR_ITEM_TRAN_TYPE_REQUIRES_ASSET_NUMBER = "errors.item.capitalAsset.tranType.requires.assetNumber";
     public static final String WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL = "warnings.item.capitalAsset.threshold.objectCodeLevel";
 
     // Credit Memo

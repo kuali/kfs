@@ -17,9 +17,14 @@ package org.kuali.module.purap.rules;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
+import java.util.HashSet;
+
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
+import org.kuali.module.purap.fixtures.PurapTestConstants;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
+import org.kuali.module.purap.fixtures.PurchasingCapitalAssetFixture;
 import org.kuali.module.purap.fixtures.RecurringPaymentBeginEndDatesFixture;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
 import org.kuali.test.ConfigureContext;
@@ -159,4 +164,26 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         PurchasingDocument document = DeliveryRequiredDateFixture.DELIVERY_REQUIRED_AFTER_CURRENT_DATE.createPurchaseOrderDocument();
         assertTrue(rules.processDeliveryValidation(document));
     }
+    
+    // Capital Asset Validation tests
+    
+    public void testValidateAccountingLinesNotCapitalAndExpense_TwoCapital() {
+       HashSet set = PurchasingCapitalAssetFixture.TWO_CAPITAL.populateForCapitalAndExpenseCheck();
+       ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_CAPITAL.getObjectCode();
+       assertTrue(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
+    }
+    
+    public void testValidateAccountingLinesNotCapitalAndExpense_TwoExpense() {
+        HashSet set = PurchasingCapitalAssetFixture.TWO_EXPENSE.populateForCapitalAndExpenseCheck();
+        ObjectCode objectCode = PurchasingCapitalAssetFixture.TWO_EXPENSE.getObjectCode();
+        assertTrue(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));       
+    }
+       
+    public void testValidateAccountingLinesNotCapitalAndExpense_CapitalExpense() {
+        HashSet set = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.populateForCapitalAndExpenseCheck();
+        ObjectCode objectCode = PurchasingCapitalAssetFixture.CAPITAL_EXPENSE.getObjectCode();
+        assertFalse(rules.validateAccountingLinesNotCapitalAndExpense(set, false, "1", objectCode));
+    }
+    
+    
 }

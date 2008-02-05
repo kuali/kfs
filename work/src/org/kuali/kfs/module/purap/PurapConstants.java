@@ -330,6 +330,7 @@ public class PurapConstants extends JstlConstants {
     }
 
     public static final String PO_OVERRIDE_NOT_TO_EXCEED_QUESTION = "OverrideNotToExceed";
+    public static final String FIX_CAPITAL_ASSET_WARNINGS = "FixCapitalAssetWarnings";
 
     // ACCOUNTS PAYABLE
     public static final String AP_OVERRIDE_INVOICE_NOMATCH_QUESTION = "OverrideInvoiceNoMatch";

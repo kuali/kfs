@@ -39,6 +39,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.RequisitionDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.PurApItem;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
 import org.kuali.module.purap.document.PurchasingDocument;
@@ -62,7 +63,7 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
-
+        valid &= processItemValidation(purapDocument);
         return valid;
     }
 
@@ -276,32 +277,27 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
         return false;
     }
     
-    
-    
     /**
-     * Wrapper to do Capital Asset validations, with warnings optional. Makes sure that the given item's 
-     * data relevant to its later possible classification as a Capital Asset is internally consistent, 
-     * by marshalling and calling the methods marked as Capital Asset validations. This implementation 
-     * assumes that all object codes are valid (real) object codes.
-     * 
-     * @param item                      A PurApItem
-     * @param recurringPaymentType      The item's document's RecurringPaymentType
-     * @param itemIdentifier            The item number (String)
-     * @return True if the item passes all Capital Asset validations
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#processItemValidation(org.kuali.module.purap.document.PurchasingAccountsPayableDocument)
      */
     @Override
-    public boolean processItemCapitalAssetValidation(PurApItem item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
-        boolean valid = true;
-        // TODO: Uncomment this section and test warnings when Parameter is added.
-        //if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
-            // Run the validations yielding errors on failure.
-        //    valid &= processItemCapitalAssetValidation(item, recurringPaymentType, false, itemIdentifier);
-        //}
-        //else {
-            // Run the validations yielding warnings on failure.
-            valid &= processItemCapitalAssetValidation(item, recurringPaymentType, true, itemIdentifier);
-        //}
+    public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
+        boolean valid = super.processItemValidation(purapDocument);
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
+            RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+            List<PurApItem> itemList = purapDocument.getItems();
+            int i = 0;
+            for (PurApItem item : itemList) {
+                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+                String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                    PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+                    valid &= processItemCapitalAssetValidation(purchasingItem, recurringPaymentType, false, identifierString);
+                }
+                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+                i++;
+            }
+        }
         return valid;
     }
-
 }

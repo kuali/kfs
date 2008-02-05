@@ -34,11 +34,8 @@ import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.service.ParameterService;
-import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
-import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.ItemTypeCodes;
 import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
@@ -46,6 +43,7 @@ import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeD
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
 import org.kuali.module.purap.bo.PurchaseOrderVendorStipulation;
+import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
 import org.kuali.module.purap.document.PurchasingAccountsPayableDocument;
@@ -71,6 +69,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
+        valid &= processItemValidation(purapDocument);
         valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
 
         return valid;
@@ -100,12 +99,22 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        for (PurApItem item : purapDocument.getItems()) {
-            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+        int i = 0;
+        for (PurApItem item : purapDocument.getItems()) {            
+            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());            
+            
             valid &= validateEmptyItemWithAccounts((PurchaseOrderItem) item, identifierString);
             if (purapDocument.getDocumentHeader().getWorkflowDocument() != null && purapDocument.getDocumentHeader().getWorkflowDocument().getDocumentType().equals(PurapConstants.PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT)) {
                 valid &= validateItemForAmendment((PurchaseOrderItem) item, identifierString);
             }
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+                PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+                valid &= processItemCapitalAssetValidation(purchasingItem, recurringPaymentType, identifierString);
+                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");                
+            }
+            i++;
         }
         valid &= validateTradeInAndDiscountCoexistence((PurchasingDocument) purapDocument);
 

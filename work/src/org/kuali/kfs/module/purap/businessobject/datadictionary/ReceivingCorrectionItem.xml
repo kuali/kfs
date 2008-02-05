@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ReceivingCorrectionItem">
+ 
+        <inquiry>
+            <title>Receiving Correction Item Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="documentNumber" />
+                        <field attributeName="itemCatalogNumber" />
+                        <field attributeName="itemCorrectedDamagedTotalQuantity" />
+                        <field attributeName="itemCorrectedReceivedTotalQuantity" />
+                        <field attributeName="itemCorrectedReturnedTotalQuantity" />
+                        <field attributeName="itemDescription" />
+                        <field attributeName="itemLineNumber" />
+                        <field attributeName="itemOriginalDamagedTotalQuantity" />
+                        <field attributeName="itemOriginalReceivedTotalQuantity" />
+                        <field attributeName="itemOriginalReturnedTotalQuantity" />
+                        <field attributeName="itemReasonAddedCode" />
+                        <field attributeName="itemTypeCode" />
+                        <field attributeName="itemUnitOfMeasureCode" />
+                        <field attributeName="purchaseOrderIdentifier" />
+                        <field attributeName="receivingCorrectionItemIdentifier" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Receiving Correction Item Lookup</title>
+
+            <instructions>Look up a Receiving Correction Item</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="receivingCorrectionItemIdentifier" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="itemCatalogNumber" required="false" />
+                <lookupField attributeName="itemCorrectedDamagedTotalQuantity" required="false" />
+                <lookupField attributeName="itemCorrectedReceivedTotalQuantity" required="false" />
+                <lookupField attributeName="itemCorrectedReturnedTotalQuantity" required="false" />
+                <lookupField attributeName="itemDescription" required="false" />
+                <lookupField attributeName="itemLineNumber" required="false" />
+                <lookupField attributeName="itemOriginalDamagedTotalQuantity" required="false" />
+                <lookupField attributeName="itemOriginalReceivedTotalQuantity" required="false" />
+                <lookupField attributeName="itemOriginalReturnedTotalQuantity" required="false" />
+                <lookupField attributeName="itemReasonAddedCode" required="false" />
+                <lookupField attributeName="itemTypeCode" required="false" />
+                <lookupField attributeName="itemUnitOfMeasureCode" required="false" />
+                <lookupField attributeName="purchaseOrderIdentifier" required="false" />
+                <lookupField attributeName="receivingCorrectionItemIdentifier" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="documentNumber" />
+                <field attributeName="itemCatalogNumber" />
+                <field attributeName="itemCorrectedDamagedTotalQuantity" />
+                <field attributeName="itemCorrectedReceivedTotalQuantity" />
+                <field attributeName="itemCorrectedReturnedTotalQuantity" />
+                <field attributeName="itemDescription" />
+                <field attributeName="itemLineNumber" />
+                <field attributeName="itemOriginalDamagedTotalQuantity" />
+                <field attributeName="itemOriginalReceivedTotalQuantity" />
+                <field attributeName="itemOriginalReturnedTotalQuantity" />
+                <field attributeName="itemReasonAddedCode" />
+                <field attributeName="itemTypeCode" />
+                <field attributeName="itemUnitOfMeasureCode" />
+                <field attributeName="purchaseOrderIdentifier" />
+                <field attributeName="receivingCorrectionItemIdentifier" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="itemCatalogNumber" forceUppercase="true">
+                <label>Item Catalog Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>itemCatalogNumber</summary>
+                <description>itemCatalogNumber description...</description>
+			</attribute>
+
+            <attribute name="itemCorrectedDamagedTotalQuantity" forceUppercase="true">
+                <label>Item Corrected Damaged Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemCorrectedDamagedTotalQuantity</summary>
+                <description>itemCorrectedDamagedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemCorrectedReceivedTotalQuantity" forceUppercase="true">
+                <label>Item Corrected Received Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemCorrectedReceivedTotalQuantity</summary>
+                <description>itemCorrectedReceivedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemCorrectedReturnedTotalQuantity" forceUppercase="true">
+                <label>Item Corrected Returned Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemCorrectedReturnedTotalQuantity</summary>
+                <description>itemCorrectedReturnedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemDescription" forceUppercase="true">
+                <label>Item Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>4000</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>itemDescription</summary>
+                <description>itemDescription description...</description>
+			</attribute>
+
+            <attribute name="itemLineNumber" forceUppercase="true">
+                <label>Item Line Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>3</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="5" />
+                </control>
+
+                <summary>itemLineNumber</summary>
+                <description>itemLineNumber description...</description>
+			</attribute>
+
+            <attribute name="itemOriginalDamagedTotalQuantity" forceUppercase="true">
+                <label>Item Original Damaged Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemOriginalDamagedTotalQuantity</summary>
+                <description>itemOriginalDamagedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemOriginalReceivedTotalQuantity" forceUppercase="true">
+                <label>Item Original Received Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemOriginalReceivedTotalQuantity</summary>
+                <description>itemOriginalReceivedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemOriginalReturnedTotalQuantity" forceUppercase="true">
+                <label>Item Original Returned Total Quantity</label>
+                <shortLabel>Quantity</shortLabel>
+
+                <maxLength>11</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="13" />
+                </control>
+
+                <summary>itemOriginalReturnedTotalQuantity</summary>
+                <description>itemOriginalReturnedTotalQuantity description...</description>
+			</attribute>
+
+            <attribute name="itemReasonAddedCode" forceUppercase="true">
+                <label>Item Reason Added Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemReasonAddedCode</summary>
+                <description>itemReasonAddedCode description...</description>
+			</attribute>
+
+            <attribute name="itemTypeCode" forceUppercase="true">
+                <label>Item Type Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemTypeCode</summary>
+                <description>itemTypeCode description...</description>
+			</attribute>
+
+            <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
+                <label>Item Unit Of Measure Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemUnitOfMeasureCode</summary>
+                <description>itemUnitOfMeasureCode description...</description>
+			</attribute>
+
+            <attribute name="purchaseOrderIdentifier" forceUppercase="true">
+                <label>Purchase Order Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>purchaseOrderIdentifier</summary>
+                <description>purchaseOrderIdentifier description...</description>
+			</attribute>
+
+            <attribute name="receivingCorrectionItemIdentifier" forceUppercase="true">
+                <label>Receiving Correction Item Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>receivingCorrectionItemIdentifier</summary>
+                <description>receivingCorrectionItemIdentifier description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

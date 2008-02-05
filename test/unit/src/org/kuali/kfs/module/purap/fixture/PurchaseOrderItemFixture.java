@@ -216,7 +216,7 @@ public enum PurchaseOrderItemFixture {
         item.setItemInvoicedTotalQuantity(itemInvoicedTotalQuantity);
         item.setItemInvoicedTotalAmount(itemInvoicedTotalAmount);
         item.setItemReceivedTotalQuantity(itemReceivedTotalQuantity);
-        item.setItemReturnedTotalQuantity(itemReturnedTotalQuantity);
+//        item.setItemReturnedTotalQuantity(itemReturnedTotalQuantity);
         item.setItemOutstandingEncumberedQuantity(itemOutstandingEncumberedQuantity);
         item.setItemOutstandingEncumberedAmount(itemOutstandingEncumberedAmount);
         item.setItemActiveIndicator(itemActiveIndicator);

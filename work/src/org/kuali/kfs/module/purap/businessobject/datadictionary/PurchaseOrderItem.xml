@@ -47,7 +47,6 @@
 						<field attributeName="itemOutstandingEncumberedQuantity" />
 						<field attributeName="itemOutstandingEncumberedAmount" />
 						<field attributeName="itemReceivedTotalQuantity" />
-						<field attributeName="itemReturnedTotalQuantity" />
 						<field attributeName="itemTypeCode" />
 						<field attributeName="itemUnitOfMeasureCode" />
 						<field attributeName="itemUnitPrice" />
@@ -86,7 +85,6 @@
 				<lookupField attributeName="itemOutstandingEncumberedQuantity" required="false" />
 				<lookupField attributeName="itemOutstandingEncumberedAmount" required="false" />
 				<lookupField attributeName="itemReceivedTotalQuantity" required="false" />
-				<lookupField attributeName="itemReturnedTotalQuantity" required="false" />
 				<lookupField attributeName="itemTypeCode" required="false" />
 				<lookupField attributeName="itemUnitOfMeasureCode" required="false" />
 				<lookupField attributeName="itemUnitPrice" required="false" />
@@ -111,7 +109,6 @@
 				<field attributeName="itemOutstandingEncumberedQuantity" />
 				<field attributeName="itemOutstandingEncumberedAmount" />
 				<field attributeName="itemReceivedTotalQuantity" />
-				<field attributeName="itemReturnedTotalQuantity" />
 				<field attributeName="itemTypeCode" />
 				<field attributeName="itemUnitOfMeasureCode" />
 				<field attributeName="itemUnitPrice" />
@@ -164,12 +161,6 @@
 			<attributeReference name="itemReceivedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
 				<label>Item Received Total Quantity</label>
 				<shortLabel>Received Total Quantity</shortLabel>
-
-			</attributeReference>
-
-			<attributeReference name="itemReturnedTotalQuantity" sourceClassName="org.kuali.module.purap.bo.PurApAttributeReferenceDummy" sourceAttributeName="genericItemQuantity">
-				<label>Item Returned Total Quantity</label>
-				<shortLabel>Returned Total Quantity</shortLabel>
 
 			</attributeReference>
 

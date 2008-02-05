@@ -98,6 +98,8 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
     private Integer alternateVendorDetailAssignedIdentifier;
     private String purchaseOrderNotes;
     private String recurringPaymentTypeCode;
+    private boolean receivingDocumentRequiredIndicator;
+    private boolean paymentRequestPositiveApprovalIndicator;
     
     // NOT PERSISTED IN DB
     private String vendorShippingTitleCode;
@@ -357,6 +359,38 @@ public class PaymentRequestDocument extends AccountsPayableDocumentBase {
 
     public void setPurchaseOrderEndDate(Date purchaseOrderEndDate) {
         this.purchaseOrderEndDate = purchaseOrderEndDate;
+    }
+
+    /**
+     * Gets the paymentRequestPositiveApprovalIndicator attribute. 
+     * @return Returns the paymentRequestPositiveApprovalIndicator.
+     */
+    public boolean isPaymentRequestPositiveApprovalIndicator() {
+        return paymentRequestPositiveApprovalIndicator;
+    }
+
+    /**
+     * Sets the paymentRequestPositiveApprovalIndicator attribute value.
+     * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
+     */
+    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
+        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+    }
+
+    /**
+     * Gets the receivingDocumentRequiredIndicator attribute. 
+     * @return Returns the receivingDocumentRequiredIndicator.
+     */
+    public boolean isReceivingDocumentRequiredIndicator() {
+        return receivingDocumentRequiredIndicator;
+    }
+
+    /**
+     * Sets the receivingDocumentRequiredIndicator attribute value.
+     * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
+     */
+    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
+        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
     }
 
     /**

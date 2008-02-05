@@ -36,11 +36,11 @@ public class PurchaseOrderItem extends PurchasingItemBase {
     private KualiDecimal itemInvoicedTotalQuantity;
     private KualiDecimal itemInvoicedTotalAmount;
     private KualiDecimal itemReceivedTotalQuantity;
-    private KualiDecimal itemReturnedTotalQuantity;
     private KualiDecimal itemOutstandingEncumberedQuantity;
     private KualiDecimal itemOutstandingEncumberedAmount;
     private boolean itemActiveIndicator = true;
     private String purchaseOrderCommodityCd;
+    private KualiDecimal itemDamagedTotalQuantity;
     
     private List<PurchaseOrderItemCapitalAsset> purchaseOrderItemCapitalAssets;
 
@@ -146,12 +146,20 @@ public class PurchaseOrderItem extends PurchasingItemBase {
         this.itemReceivedTotalQuantity = itemReceivedTotalQuantity;
     }
 
-    public KualiDecimal getItemReturnedTotalQuantity() {
-        return itemReturnedTotalQuantity;
+    /**
+     * Gets the itemDamagedTotalQuantity attribute. 
+     * @return Returns the itemDamagedTotalQuantity.
+     */
+    public KualiDecimal getItemDamagedTotalQuantity() {
+        return itemDamagedTotalQuantity;
     }
 
-    public void setItemReturnedTotalQuantity(KualiDecimal itemReturnedTotalQuantity) {
-        this.itemReturnedTotalQuantity = itemReturnedTotalQuantity;
+    /**
+     * Sets the itemDamagedTotalQuantity attribute value.
+     * @param itemDamagedTotalQuantity The itemDamagedTotalQuantity to set.
+     */
+    public void setItemDamagedTotalQuantity(KualiDecimal itemDamagedTotalQuantity) {
+        this.itemDamagedTotalQuantity = itemDamagedTotalQuantity;
     }
 
     public PurchaseOrderDocument getPurchaseOrder() {

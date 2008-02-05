@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.purap.bo.ItemReasonAdded">
+ 
+        <inquiry>
+            <title>Item Reason Added Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="active" />
+                        <field attributeName="itemReasonAddedCode" />
+                        <field attributeName="itemReasonAddedDescription" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Item Reason Added Lookup</title>
+
+            <instructions>Look up an Item Reason Added</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="itemReasonAddedCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="active" required="false" />
+                <lookupField attributeName="itemReasonAddedCode" required="false" />
+                <lookupField attributeName="itemReasonAddedDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="active" />
+                <field attributeName="itemReasonAddedCode" />
+                <field attributeName="itemReasonAddedDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="active" forceUppercase="true">
+                <label>Active</label>
+                <shortLabel>Active</shortLabel>
+
+                <maxLength>1</maxLength>
+
+                <control>
+                    <checkbox />
+                </control>
+
+                <summary>active</summary>
+                <description>active description...</description>
+			</attribute>
+
+            <attribute name="itemReasonAddedCode" forceUppercase="true">
+                <label>Item Reason Added Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>itemReasonAddedCode</summary>
+                <description>itemReasonAddedCode description...</description>
+			</attribute>
+
+            <attribute name="itemReasonAddedDescription" forceUppercase="true">
+                <label>Item Reason Added Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="47" />
+                </control>
+
+                <summary>itemReasonAddedDescription</summary>
+                <description>itemReasonAddedDescription description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

@@ -112,6 +112,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private boolean pendingActionIndicator = false;
     private Date purchaseOrderFirstTransmissionDate;
     private Integer contractManagerCode;
+    private boolean receivingDocumentRequiredIndicator;
+    private boolean paymentRequestPositiveApprovalIndicator;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -210,7 +212,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             // Set quantities
             item.setItemOutstandingEncumberedQuantity(item.getItemQuantity());
             item.setItemReceivedTotalQuantity(ZERO);
-            item.setItemReturnedTotalQuantity(ZERO);
+//            item.setItemReturnedTotalQuantity(ZERO);
             item.setItemInvoicedTotalQuantity(ZERO);
             item.setItemInvoicedTotalAmount(ZERO);
 
@@ -801,6 +803,38 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
 
     public void setPurchaseOrderFirstTransmissionDate(Date purchaseOrderFirstTransmissionDate) {
         this.purchaseOrderFirstTransmissionDate = purchaseOrderFirstTransmissionDate;
+    }
+
+    /**
+     * Gets the paymentRequestPositiveApprovalIndicator attribute. 
+     * @return Returns the paymentRequestPositiveApprovalIndicator.
+     */
+    public boolean isPaymentRequestPositiveApprovalIndicator() {
+        return paymentRequestPositiveApprovalIndicator;
+    }
+
+    /**
+     * Sets the paymentRequestPositiveApprovalIndicator attribute value.
+     * @param paymentRequestPositiveApprovalIndicator The paymentRequestPositiveApprovalIndicator to set.
+     */
+    public void setPaymentRequestPositiveApprovalIndicator(boolean paymentRequestPositiveApprovalIndicator) {
+        this.paymentRequestPositiveApprovalIndicator = paymentRequestPositiveApprovalIndicator;
+    }
+
+    /**
+     * Gets the receivingDocumentRequiredIndicator attribute. 
+     * @return Returns the receivingDocumentRequiredIndicator.
+     */
+    public boolean isReceivingDocumentRequiredIndicator() {
+        return receivingDocumentRequiredIndicator;
+    }
+
+    /**
+     * Sets the receivingDocumentRequiredIndicator attribute value.
+     * @param receivingDocumentRequiredIndicator The receivingDocumentRequiredIndicator to set.
+     */
+    public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
+        this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
     }
 
     /**

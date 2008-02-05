@@ -110,12 +110,12 @@ public class PurchaseOrderDocumentAuthorizer extends AccountingDocumentAuthorize
             }
 
             /**
-             * CONTRACTS & GRANTS ROUTE LEVEL - Approvers cannot edit any detail on PO. BUDGET OFFICE ROUTE LEVEL - Approvers cannot
-             * edit any detail on PO. VENDOR TAX ROUTE LEVEL - Approvers cannot edit any detail on PO. DOCUMENT TRANSMISSION ROUTE
-             * LEVEL - Approvers cannot edit any detail on PO.
+             * CONTRACTS & GRANTS ROUTE LEVEL, BUDGET OFFICE ROUTE LEVEL, VENDOR TAX ROUTE LEVEL, DOCUMENT TRANSMISSION ROUTE LEVEL,
+             * and Adhoc - Approvers in these route levels cannot edit any detail on PO.
              */
             else {
-                // VIEW_ENTRY that is already being set is sufficient.
+                // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
+                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
         }
         editModeMap.put(editMode, "TRUE");

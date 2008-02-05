@@ -100,19 +100,12 @@ public class RequisitionDocumentAuthorizer extends AccountingDocumentAuthorizerB
             }
 
             /**
-             * SEP of DUTIES ROUTE LEVEL - Approvers can only approve or disapprove.
-             */
-            else if (reqDocument.isDocumentStoppedInRouteNode(NodeDetailEnum.SEPARATION_OF_DUTIES_REVIEW)) {
-                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
-                editMode = AuthorizationConstants.TransactionalEditMode.VIEW_ONLY;
-            }
-
-            /**
-             * SUB-ACCOUNT ROUTE LEVEL - Approvers cannot edit any detail on REQ. BASE ORG REVIEW ROUTE LEVEL - Approvers cannot
-             * edit any detail on REQ. SEPARATION OF DUTIES ROUTE LEVEL - Approvers cannot edit any detail on REQ.
+             * SUB-ACCOUNT ROUTE LEVEL, BASE ORG REVIEW ROUTE LEVEL, SEPARATION OF DUTIES ROUTE LEVEL, and Adhoc - Approvers in
+             * these route levels cannot edit any detail on REQ.
              */
             else {
-                // VIEW_ENTRY that is already being set is sufficient.
+                // VIEW_ENTRY that is already being set is sufficient, but need to remove FULL_ENTRY
+                editModeMap.remove(AuthorizationConstants.EditMode.FULL_ENTRY);
             }
 
             editModeMap.put(editMode, "TRUE");

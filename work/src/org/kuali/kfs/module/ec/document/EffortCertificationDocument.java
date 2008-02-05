@@ -259,9 +259,6 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         LOG.debug("handleRouteStatusChange() start...");
 
         super.handleRouteStatusChange();
-
-        if (this.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
-        }
+        SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
     }
 }

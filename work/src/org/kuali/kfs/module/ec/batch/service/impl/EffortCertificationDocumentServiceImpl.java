@@ -84,7 +84,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
             documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
             documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
-
+            
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }
         catch (WorkflowException we) {

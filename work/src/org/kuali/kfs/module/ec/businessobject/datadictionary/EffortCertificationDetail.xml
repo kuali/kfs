@@ -93,6 +93,7 @@
 
                 <summary>Effort Certification LaborOriginalPayrollAmount</summary>
                 <description>Effort Certification LaborOriginalPayrollAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 
             <attributeReference name="effortCertificationPayrollAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
@@ -101,6 +102,7 @@
 
                 <summary>Effort Certification LaborPayrollAmount</summary>
                 <description>Effort Certification LaborPayrollAmount description...</description>
+                <formatterClass>org.kuali.core.web.format.CurrencyFormatter</formatterClass>
 			</attributeReference>
 			
 			<attributeReference name="effortCertificationCalculatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
@@ -109,6 +111,7 @@
 
                 <summary>Effort Certification LaborCalculatedOverallPercent</summary>
                 <description>Effort Certification LaborCalculatedOverallPercent description...</description>
+                <formatterClass>org.kuali.core.web.format.IntegerFormatter</formatterClass>                
 			</attributeReference>			
 
             <attributeReference name="effortCertificationUpdatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
@@ -117,19 +120,12 @@
 
                 <summary>Effort Certification LaborUpdatedOverallPercent</summary>
                 <description>Effort Certification LaborUpdatedOverallPercent description...</description>
+                <formatterClass>org.kuali.core.web.format.IntegerFormatter</formatterClass>
 			</attributeReference>		
 
 			<attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" />
             <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" />
-            
-            <attributeReference name="costShareSourceSubAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber" >
-                <label>Cost Share Source Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
-                
-                <summary>costShareSourceSubAccountNumber</summary>
-                <description>costShareSourceSubAccountNumber description...</description>
-			</attributeReference>
 
             <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Financial Document Posting Year</label>
@@ -143,21 +139,45 @@
 
             <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" />
 
-			<attributeReference name="sourceAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
+			<attribute name="sourceAccountNumber" forceUppercase="true">
                 <label>Source Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Source Account</shortLabel>
+				
+				<maxLength>7</maxLength>
 
+                <control>
+                    <text size="10" />
+                </control>
                 <summary>sourceAccountNumber</summary>
                 <description>sourceAccountNumber description...</description>
-			</attributeReference>
+			</attribute>
 
-            <attributeReference name="sourceChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode" >
+            <attribute name="sourceChartOfAccountsCode" forceUppercase="true">
                 <label>Source Chart Of Accounts Code</label>
                 <shortLabel>Code</shortLabel>
+                
+                <maxLength>2</maxLength>
 
+                <control>
+                    <text size="2" />
+                </control>
+                
                 <summary>sourceFinancialChartOfAccountsCode</summary>
                 <description>sourceFinancialChartOfAccountsCode description...</description>
-			</attributeReference>
+			</attribute>
+						            
+            <attribute name="costShareSourceSubAccountNumber" forceUppercase="true">
+                <label>Cost Share Source Sub Account Number</label>
+                <shortLabel>Source Sub Number</shortLabel>
+                
+                <maxLength>5</maxLength>
+                <control>
+                    <text size="5" />
+                </control>
+                
+                <summary>costShareSourceSubAccountNumber</summary>
+                <description>costShareSourceSubAccountNumber description...</description>
+			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>

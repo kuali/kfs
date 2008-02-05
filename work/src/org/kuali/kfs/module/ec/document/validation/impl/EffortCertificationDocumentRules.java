@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.rules;
 
+import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -40,6 +41,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule#processGenerateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
      */
     public boolean processGenerateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
-        return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+        if(!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {        
+            return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+        }
+        return true;
     }
 }

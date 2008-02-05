@@ -26,6 +26,7 @@ public class EffortPropertyConstants {
     public static final String EFFORT_CERTIFICATION_PERIOD_STATUS_CODE = "effortCertificationPeriodStatusCode";
     public static final String EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR = "effortCertificationReportBeginFiscalYear";
     public static final String EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE = "effortCertificationReportBeginPeriodCode";
+    public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION = "effortCertificationReportDefinition";
     public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND = "active";
     public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION_UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     public static final String EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR = "effortCertificationReportEndFiscalYear";

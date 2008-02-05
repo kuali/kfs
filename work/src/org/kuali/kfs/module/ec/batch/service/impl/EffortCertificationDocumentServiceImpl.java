@@ -105,11 +105,11 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = buildTargetAccountingLines(effortCertificationDocument);
-
+        
         if (sourceAccoutingLines.isEmpty() || targetAccoutingLines.isEmpty()) {
             return true;
         }
-
+        
         try {
             laborModuleService.createSalaryExpenseTransferDocument(documentDescription, explanation, sourceAccoutingLines, targetAccoutingLines);
         }
@@ -117,7 +117,6 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             LOG.error(e);
             return false;
         }
-
         return true;
     }
 
@@ -191,7 +190,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setPositionNumber(detailLine.getPositionNumber());
         accountingLine.setPayrollTotalHours(BigDecimal.ZERO);
 
-        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();        
         accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getUniversityFiscalYear());
         accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getEffortCertificationReportPeriodStatusCode());
     }

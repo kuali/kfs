@@ -29,6 +29,7 @@ import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
@@ -355,6 +356,14 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
     }
 
     private EffortCertificationDocumentBuild buildDocumentBuild(String testTarget) {
-        return TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "documentBuild", documentFieldNames, deliminator);
+        EffortCertificationDocumentBuild documentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "documentBuild", documentFieldNames, deliminator);
+        List<EffortCertificationDetailBuild> detailBuild = this.buildDetailLineBuild(testTarget);
+        documentBuild.setEffortCertificationDetailLinesBuild(detailBuild);
+        return documentBuild;
+    }
+    
+    private List<EffortCertificationDetailBuild> buildDetailLineBuild(String testTarget) {
+        int numberOfDetailBuild = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "numOfDetailBuild")));
+        return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + "detailBuild", detailFieldNames, deliminator, numberOfDetailBuild);
     }
 }

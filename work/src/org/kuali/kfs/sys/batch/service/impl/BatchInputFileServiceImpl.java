@@ -41,6 +41,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.datadictionary.exception.InitException;
 import org.kuali.core.exceptions.AuthorizationException;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSConstants.SystemGroupParameterNames;
@@ -549,6 +550,9 @@ public class BatchInputFileServiceImpl implements BatchInputFileService {
      * @see org.kuali.kfs.service.BatchInputFileService#isFileUserIdentifierProperlyFormatted(java.lang.String)
      */
     public boolean isFileUserIdentifierProperlyFormatted(String fileUserIdentifier) {
+        if(ObjectUtils.isNull(fileUserIdentifier)) {
+            return false;
+        }
         for (int i = 0; i < fileUserIdentifier.length(); i++) {
             char c = fileUserIdentifier.charAt(i);
             if (!(Character.isLetterOrDigit(c))) {

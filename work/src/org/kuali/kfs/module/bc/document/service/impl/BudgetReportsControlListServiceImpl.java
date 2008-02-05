@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Service implementation of BudgetReportsControlListService.
  */
-
 @Transactional
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
 
@@ -36,12 +35,9 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      *      java.lang.String)
      */
     public void cleanReportsControlList(String idForSession, String personUserIdentifier) {
-
-
         budgetReportsControlListDao.cleanReportsControlList(personUserIdentifier);
         budgetReportsControlListDao.cleanReportsControlListPart1(idForSession);
         budgetReportsControlListDao.cleanReportsControlListPart2(idForSession);
-
     }
 
     /**
@@ -49,11 +45,11 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      *      java.lang.String, java.lang.Integer, java.util.List)
      */
     public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup) {
-
         budgetReportsControlListDao.updateReportsControlListpart1(idForSession, personUserIdentifier, universityFiscalYear);
         for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
             budgetReportsControlListDao.updateReportsControlListpart2(idForSession, personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
         }
+
         budgetReportsControlListDao.updateReportsControlListDisp1(idForSession);
     }
 
@@ -122,6 +118,4 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     public void setBudgetReportsControlListDao(BudgetReportsControlListDao budgetReportsControlListDao) {
         this.budgetReportsControlListDao = budgetReportsControlListDao;
     }
-
-
 }

@@ -20,7 +20,6 @@ package org.kuali.module.budget.dao;
  */
 public interface BudgetReportsControlListDao {
 
-
     /**
      * This method cleans control list table.
      * 

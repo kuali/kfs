@@ -44,16 +44,12 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private String organizationCode;
     private String organizationName;
     private String consHdr;
-
     private String fundGroupCode;
     private String fundGroupName;
-
     private String subFundGroupCode;
     private String subFundGroupDescription;
-
     private String baseFy;
     private String reqFy;
-
     private String header1;
     private String header2;
     private String header3;
@@ -66,7 +62,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private String subAccountNumber;
     private String accountNameAndSubAccountName;
     private String incExpDesc;
-
     private BigDecimal baseAmount;
     private BigDecimal reqAmount;
     private BigDecimal amountChange;
@@ -110,10 +105,8 @@ public class BudgetConstructionOrgAccountSummaryReport {
     public Collection<BudgetConstructionOrgAccountSummaryReport> buildReports(Collection<BudgetConstructionAccountSummary> list) {
         Collection<BudgetConstructionOrgAccountSummaryReport> reportSet = new ArrayList();
         List<BudgetConstructionOrgAccountSummaryReportTotal> orgAccountSummaryReportTotalList;
-
         // NumericValueComparator numericComparator = new NumericValueComparator();
         StringValueComparator stringComparator = new StringValueComparator();
-
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.INCOME_EXPENSE_CODE, stringComparator));
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, stringComparator));
         Collections.sort((List) list, new BeanComparator(KFSPropertyConstants.ACCOUNT_NUMBER, stringComparator));
@@ -126,17 +119,13 @@ public class BudgetConstructionOrgAccountSummaryReport {
 
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
         List simpleList = deleteDuplicated((List) list);
-
         // Calculate Total Section
         orgAccountSummaryReportTotalList = calculateTotal((List) list, simpleList);
-
         for (BudgetConstructionAccountSummary bcasEntry : list) {
             bcoasr = new BudgetConstructionOrgAccountSummaryReport();
-
             buildReportsHeader(bcasEntry);
             buildReportsBody(bcasEntry);
             buildReportsTotal(bcasEntry, orgAccountSummaryReportTotalList);
-
             reportSet.add(bcoasr);
         }
 
@@ -155,11 +144,10 @@ public class BudgetConstructionOrgAccountSummaryReport {
         String reportChartDesc = bcas.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
         String subFundGroupName = bcas.getFundGroup().getName();
         String subFundGroupDes = bcas.getSubFundGroup().getSubFundGroupDescription();
-
         Integer prevFiscalyear = tempFiscalYear - 1;
         bcoasr.setFiscalYear(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
-
         bcoasr.setOrgChartOfAccountsCode(bcas.getOrganizationChartOfAccountsCode());
+
         if (orgChartDesc == null) {
             bcoasr.setOrgChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
         }
@@ -202,7 +190,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
         bcoasr.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
         bcoasr.setReqFy(prevFiscalyear.toString() + " - " + tempFiscalYear.toString().substring(2, 4));
-
         bcoasr.setHeader1(BCConstants.Report.HEADER_ACCOUNT_SUB);
         bcoasr.setHeader2(BCConstants.Report.HEADER_ACCOUNT_SUB_NAME);
         bcoasr.setHeader3(BCConstants.Report.HEADER_BASE_AMOUNT);
@@ -289,12 +276,10 @@ public class BudgetConstructionOrgAccountSummaryReport {
      * @param List reportTotalList
      */
     public void buildReportsTotal(BudgetConstructionAccountSummary bcas, List reportTotalList) {
-
         Iterator totalListIter = reportTotalList.iterator();
         while (totalListIter.hasNext()) {
             BudgetConstructionOrgAccountSummaryReportTotal bcasTotalEntry = (BudgetConstructionOrgAccountSummaryReportTotal) totalListIter.next();
             if (isSameAccountSummaryEntry(bcas, bcasTotalEntry.getBcas())) {
-
                 bcoasr.setTotalRevenueBaseAmount(bcasTotalEntry.getTotalRevenueBaseAmount());
                 bcoasr.setTotalGrossBaseAmount(bcasTotalEntry.getTotalGrossBaseAmount());
                 bcoasr.setTotalTransferInBaseAmount(bcasTotalEntry.getTotalTransferInBaseAmount());
@@ -345,11 +330,8 @@ public class BudgetConstructionOrgAccountSummaryReport {
      * @param List simpleList
      */
     public List calculateTotal(List bcasList, List simpleList) {
-
         List returnList = new ArrayList();
-
         Iterator simpleListIterator = simpleList.iterator();
-
         boolean prev = false;
         while (simpleListIterator.hasNext()) {
             BudgetConstructionAccountSummary simpleBcasEntry = (BudgetConstructionAccountSummary) simpleListIterator.next();
@@ -396,9 +378,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
             bcoasrTotal.setTotalRevenueReqAmount(totalRevenueReqAmount);
             bcoasrTotal.setTotalTransferInBaseAmount(totalTransferInBaseAmount);
             bcoasrTotal.setTotalTransferInReqAmount(totalTransferInReqAmount);
-
             returnList.add(bcoasrTotal);
-
             totalGrossBaseAmount = BigDecimal.ZERO;
             totalGrossReqAmount = BigDecimal.ZERO;
             totalNetTransferBaseAmount = BigDecimal.ZERO;
@@ -420,7 +400,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
      * @return true if the given entries are same; otherwise, return false
      */
     public boolean isSameAccountSummaryEntry(BudgetConstructionAccountSummary firstBcas, BudgetConstructionAccountSummary secondBcas) {
-
         if (firstBcas.getOrganizationChartOfAccountsCode().equals(secondBcas.getOrganizationChartOfAccountsCode()) && firstBcas.getOrganizationCode().equals(secondBcas.getOrganizationCode()) && firstBcas.getChartOfAccountsCode().equals(secondBcas.getChartOfAccountsCode()) && firstBcas.getSubFundGroupCode().equals(secondBcas.getSubFundGroupCode())) {
             return true;
         }
@@ -439,15 +418,11 @@ public class BudgetConstructionOrgAccountSummaryReport {
         BudgetConstructionAccountSummary bcas = null;
         BudgetConstructionAccountSummary bcasAux = null;
         List returnList = new ArrayList();
-
         if ((list != null) && (list.size() > 0)) {
             bcas = (BudgetConstructionAccountSummary) list.get(count);
             bcasAux = (BudgetConstructionAccountSummary) list.get(count);
-
             returnList.add(bcas);
-
             count++;
-
             while (count < list.size()) {
                 bcas = (BudgetConstructionAccountSummary) list.get(count);
 
@@ -455,7 +430,6 @@ public class BudgetConstructionOrgAccountSummaryReport {
                     returnList.add(bcas);
                     bcasAux = bcas;
                 }
-
                 count++;
             }
         }
@@ -867,7 +841,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     public BigDecimal getRevExpDifferencePercentChange() {
         return revExpDifferencePercentChange;
     }
-    
+
     /**
      * Sets the revExpDifferencePercentChange
      * 
@@ -1038,7 +1012,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     public void setTotalNetTransferAmountChange(BigDecimal totalNetTransferAmountChange) {
         this.totalNetTransferAmountChange = totalNetTransferAmountChange;
     }
-    
+
     /**
      * Gets the totalNetTransferBaseAmount
      * 

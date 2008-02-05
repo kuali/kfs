@@ -31,6 +31,9 @@ import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 
+/**
+ * Struts Action Form for the Organization Report Selection Screen.
+ */
 public class OrganizationReportSelectionForm extends KualiForm {
 
     private List<BudgetConstructionSubFundPick> bcSubfundList = new ArrayList();
@@ -42,7 +45,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
     private String docFormKey;
     private String operatingMode;
     private String accSumConsolidation;
-
 
     /**
      * Constructs a OrganizationReportSelectionForm.java
@@ -57,13 +59,10 @@ public class OrganizationReportSelectionForm extends KualiForm {
      */
     @Override
     public void populate(HttpServletRequest request) {
-
         super.populate(request);
-
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-
         bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
     }
 
@@ -72,7 +71,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
      * 
      * @return Returns the bcSubfundList
      */
-
     public List<BudgetConstructionSubFundPick> getBcSubfundList() {
         return bcSubfundList;
     }
@@ -229,6 +227,4 @@ public class OrganizationReportSelectionForm extends KualiForm {
     public void setAccSumConsolidation(String accSumConsolidation) {
         this.accSumConsolidation = accSumConsolidation;
     }
-
-
 }

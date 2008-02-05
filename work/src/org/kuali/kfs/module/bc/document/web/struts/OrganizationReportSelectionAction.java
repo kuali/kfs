@@ -57,13 +57,9 @@ import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
 public class OrganizationReportSelectionAction extends KualiAction {
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationReportSelectionForm subFundListSelectionForm = (OrganizationReportSelectionForm) form;
-
         String backUrl = subFundListSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + subFundListSelectionForm.getDocFormKey();
-
         return new ActionForward(backUrl, true);
-
     }
 
     /**
@@ -77,18 +73,14 @@ public class OrganizationReportSelectionAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward submit(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
-
         subfundListSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
-
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         List<BudgetConstructionPullup> selectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
-
         BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
-
+        BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
+        
         Iterator iter = subfundListSelectionForm.getBcSubfundList().iterator();
-
         while (iter.hasNext()) {
             BudgetConstructionSubFundPick bcsfp = (BudgetConstructionSubFundPick) iter.next();
             if (request.getParameter(bcsfp.getSubFundGroupCode()) != null) {
@@ -97,7 +89,6 @@ public class OrganizationReportSelectionAction extends KualiAction {
         }
 
         budgetReportsControlListService.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundListSelectionForm.getSelectedSubfundGroupCode());
-
         budgetReportsControlListService.cleanReportsAccountSummaryTable(personUserIdentifier);
 
         // check consolidation
@@ -108,19 +99,14 @@ public class OrganizationReportSelectionAction extends KualiAction {
             budgetReportsControlListService.updateRepotsAccountSummaryTable(personUserIdentifier);
         }
 
-
-        BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
-
         // Keep User's selection
         Map searchCriteria = new HashMap();
         searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
         subfundListSelectionForm.setBcSubfundList((List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria));
 
         // Open PDF file in new window.
-
         String filename = BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
         budgetConstructionOrganizationJasperReportsService.generageOrgAccountSummaryReport(personUserIdentifier, baos);
         WebUtils.saveMimeOutputStreamAsFile(response, "application/pdf", baos, filename);
 
@@ -138,9 +124,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward selectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
-
         for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubfundList()) {
             bcsfp.setReportFlag(new Integer(1));
         }
@@ -159,15 +143,11 @@ public class OrganizationReportSelectionAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward unSelectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
-
         for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubfundList()) {
             bcsfp.setReportFlag(new Integer(0));
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
-
 }

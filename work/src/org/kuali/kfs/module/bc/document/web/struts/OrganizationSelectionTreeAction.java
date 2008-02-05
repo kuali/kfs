@@ -754,64 +754,46 @@ public class OrganizationSelectionTreeAction extends KualiAction {
      */
 
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
         // TODO use this method as a template to create an action for a specific report button when running in REPORTS mode
-
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
         List<BudgetConstructionPullup> selectionSubTreeOrgs = organizationSelectionTreeForm.getSelectionSubTreeOrgs();
         if (!storedSelectedOrgs(selectionSubTreeOrgs)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-
         else {
             // Remove unselected SubTreeOrgs, since selectionSubTreeOrgs contains all SubTreeOrgs.
             List<BudgetConstructionPullup> selectedOrgs = removeUnselectedSubTreeOrgs(selectionSubTreeOrgs);
-
             // TODO This should be moved to after user choose ok in Account List
             // clean and update control list
-
             String idForSession = (new Guid()).toString();
             String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
             Integer universityFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
-
             BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
-
             List<BudgetConstructionPullup> sessionSelectionSubTreeOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
-
-
             if (sessionSelectionSubTreeOrgs == null || performBuildPointOfViewFlag || !compareSessionSelectionSubTreeOrgs(sessionSelectionSubTreeOrgs, selectedOrgs)) {
                 // change flag
                 budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
-
                 budgetReportsControlListService.cleanReportsControlList(idForSession, personUserIdentifier);
                 budgetReportsControlListService.updateReportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectedOrgs);
-
                 // update sub-fund selection list - This should be moved after implemention account list.
                 budgetReportsControlListService.cleanReportsSubFundGroupSelectList(personUserIdentifier);
                 budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
             }
 
             performBuildPointOfViewFlag = false;
-
             // Go to next page
             String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
             String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
-
-
             // build out base path for return location, using config service
             String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-
             // build out the actual form key that will be used to retrieve the form on refresh
             String returnFormKey = GlobalVariables.getUserSession().addObject(form);
-
             GlobalVariables.getUserSession().addObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS, selectedOrgs);
-
             // now add required parameters
             Properties parameters = new Properties();
             // parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.START_METHOD);
             parameters.put(KFSConstants.DOC_FORM_KEY, returnFormKey);
             parameters.put(KFSConstants.BACK_LOCATION, basePath + mapping.getPath() + ".do");
-
             parameters.put(KFSConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, "org.kuali.module.budget.bo.BudgetConstructionSubFundPick");
             parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
             if (organizationSelectionTreeForm.getAccSumConsolidation() != null) {
@@ -838,9 +820,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         if (sessionListLength != selectionListLength) {
             return false;
         }
-
         int check = 0;
-
         for (BudgetConstructionPullup sessionBudgetConstructionPullup : sessionSelectionSubTreeOrgs) {
             for (BudgetConstructionPullup budgetConstructionPullup : selectionSubTreeOrgs) {
                 if (sessionBudgetConstructionPullup.getChartOfAccountsCode().equals(budgetConstructionPullup.getChartOfAccountsCode()) && sessionBudgetConstructionPullup.getOrganizationCode().equals(budgetConstructionPullup.getOrganizationCode()) && sessionBudgetConstructionPullup.getReportsToChartOfAccountsCode().equals(budgetConstructionPullup.getReportsToChartOfAccountsCode()) && sessionBudgetConstructionPullup.getReportsToOrganizationCode().equals(budgetConstructionPullup.getReportsToOrganizationCode())) {
@@ -848,14 +828,11 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 }
             }
         }
-
         if (sessionListLength != check) {
             return false;
         }
-
         return true;
     }
-
 
     /**
      * This method is for removing unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
@@ -866,12 +843,10 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     public List<BudgetConstructionPullup> removeUnselectedSubTreeOrgs(List<BudgetConstructionPullup> selectionSubTreeOrgs) {
         List<BudgetConstructionPullup> returnList = new ArrayList();
         for (BudgetConstructionPullup pullUp : selectionSubTreeOrgs) {
-
             if (pullUp.getPullFlag() > 0) {
                 returnList.add(pullUp);
             }
         }
         return returnList;
     }
-
 }

@@ -17,8 +17,9 @@ package org.kuali.module.budget.service.impl;
 
 import org.kuali.module.budget.service.BudgetConstructionHumanResourcesPayrollInterfaceService;
 import org.kuali.module.budget.dao.BudgetConstructionHumanResourcesPayrollInterfaceDao;
+import org.springframework.transaction.annotation.Transactional;
 
-
+@Transactional
 public class BudgetConstructionHumanResourcesPayrollInterfaceServiceImpl implements BudgetConstructionHumanResourcesPayrollInterfaceService {
 
     private BudgetConstructionHumanResourcesPayrollInterfaceDao budgetConstructionHumanResourcesPayrollInterfaceDao;

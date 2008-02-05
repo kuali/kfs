@@ -123,6 +123,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setExplanation(explanation);
 
         documentService.blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
+        
+        LOG.info("SET has been generated and its status is: " + document.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
     }
 
     /**

@@ -180,7 +180,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setFinancialObjectCode(detailLine.getFinancialObjectCode());
         accountingLine.setBalanceTypeCode(KFSConstants.BALANCE_TYPE_ACTUAL);
 
-        accountingLine.setAmount(this.getDifference(detailLine));
+        accountingLine.setAmount(this.getDifference(detailLine).abs());
 
         accountingLine.setFinancialSubObjectCode(KFSConstants.EMPTY_STRING);
         accountingLine.setProjectCode(KFSConstants.EMPTY_STRING);

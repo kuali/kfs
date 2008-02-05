@@ -41,6 +41,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule#processGenerateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
      */
     public boolean processGenerateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
+        LOG.info("processGenerateSalaryExpenseTransferDocument() start");
+        
         if(!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {        
             return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
         }

@@ -488,6 +488,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
@@ -498,6 +499,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         m.put("financialObjectCode", this.financialObjectCode);
         m.put("sourceChartOfAccountsCode", this.sourceChartOfAccountsCode);
         m.put("sourceAccountNumber", this.sourceAccountNumber);
+        m.put("effortCertificationPayrollAmount", this.effortCertificationPayrollAmount);
+        m.put("effortCertificationOriginalPayrollAmount", this.effortCertificationOriginalPayrollAmount);
+        
         return m;
     }
 }

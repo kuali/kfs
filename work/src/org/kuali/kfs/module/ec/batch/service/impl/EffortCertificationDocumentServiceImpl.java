@@ -22,6 +22,7 @@ import java.util.List;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.service.LaborModuleService;
@@ -48,8 +49,20 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     private DocumentService documentService;
 
     /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument)
+     */
+    public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
+        if (!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            LOG.error("The given document has not beeen approved.");
+            return;
+        }
+        //TODO: add logic here
+    }
+
+    /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#createEffortCertificationDocument(org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
      */
+    @Logged
     public boolean createEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortCertificationDocument.class);
@@ -85,12 +98,17 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
      */
+    @Logged
     public boolean generateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
         String documentDescription = effortCertificationDocument.getEmplid();
         String explanation = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION);
 
         List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = buildSourceAccountingLines(effortCertificationDocument);
         List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = buildTargetAccountingLines(effortCertificationDocument);
+
+        if (sourceAccoutingLines.isEmpty() || targetAccoutingLines.isEmpty()) {
+            return true;
+        }
 
         try {
             laborModuleService.createSalaryExpenseTransferDocument(documentDescription, explanation, sourceAccoutingLines, targetAccoutingLines);

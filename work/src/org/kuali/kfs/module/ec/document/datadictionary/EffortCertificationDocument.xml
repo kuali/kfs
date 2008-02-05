@@ -21,6 +21,9 @@
 <dictionaryEntry>
     <transactionalDocument>
         <documentClass>org.kuali.module.effort.document.EffortCertificationDocument</documentClass>
+        <!-- 
+        <businessRulesClass>org.kuali.module.effort.rules.EffortCertificationDocumentRules</businessRulesClass>
+         -->
 
 		<documentAuthorizerClass>org.kuali.module.effort.document.authorization.EffortCertificationDocumentAuthorizer</documentAuthorizerClass>
         <authorizations>

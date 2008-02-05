@@ -15,11 +15,11 @@
  */
 package org.kuali.module.effort.document.authorization;
 
-import org.kuali.kfs.document.authorization.AccountingDocumentAuthorizerBase;
+import org.kuali.core.document.authorization.DocumentAuthorizerBase;
 
 /**
  * Document Authorizer for the Effort Certification document.
  */
-public class EffortCertificationDocumentAuthorizer extends AccountingDocumentAuthorizerBase {
+public class EffortCertificationDocumentAuthorizer extends DocumentAuthorizerBase {
 
 }

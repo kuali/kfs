@@ -26,6 +26,13 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 public interface EffortCertificationDocumentService {
     
     /**
+     * process the approved effort certification document
+     * 
+     * @param effortCertificationDocument the approved effort certification document
+     */
+    public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument);
+    
+    /**
      * create an effort certification document from the given document build record
      * 
      * @param documentBuild the given effort certification document build

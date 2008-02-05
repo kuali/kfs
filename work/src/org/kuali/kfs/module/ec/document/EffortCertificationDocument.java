@@ -31,11 +31,14 @@ import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.service.EffortCertificationDocumentService;
 
 /**
  * Effort Certification Document Class.
  */
 public class EffortCertificationDocument extends TransactionalDocumentBase {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
+
     private String documentNumber;
     private String effortCertificationReportNumber;
     private String effortCertificationDocumentCode;
@@ -52,11 +55,12 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * Default constructor.
      */
     public EffortCertificationDocument() {
-        effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>(); 
+        effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>();
     }
 
     /**
-     * Gets the documentNumber attribute. 
+     * Gets the documentNumber attribute.
+     * 
      * @return Returns the documentNumber.
      */
     public String getDocumentNumber() {
@@ -65,6 +69,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the documentNumber attribute value.
+     * 
      * @param documentNumber The documentNumber to set.
      */
     public void setDocumentNumber(String documentNumber) {
@@ -72,7 +77,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the effortCertificationReportNumber attribute. 
+     * Gets the effortCertificationReportNumber attribute.
+     * 
      * @return Returns the effortCertificationReportNumber.
      */
     public String getEffortCertificationReportNumber() {
@@ -81,6 +87,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the effortCertificationReportNumber attribute value.
+     * 
      * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
      */
     public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
@@ -88,7 +95,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the effortCertificationDocumentCode attribute. 
+     * Gets the effortCertificationDocumentCode attribute.
+     * 
      * @return Returns the effortCertificationDocumentCode.
      */
     public String getEffortCertificationDocumentCode() {
@@ -97,6 +105,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the effortCertificationDocumentCode attribute value.
+     * 
      * @param effortCertificationDocumentCode The effortCertificationDocumentCode to set.
      */
     public void setEffortCertificationDocumentCode(String effortCertificationDocumentCode) {
@@ -104,7 +113,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the universityFiscalYear attribute. 
+     * Gets the universityFiscalYear attribute.
+     * 
      * @return Returns the universityFiscalYear.
      */
     public Integer getUniversityFiscalYear() {
@@ -113,6 +123,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the universityFiscalYear attribute value.
+     * 
      * @param universityFiscalYear The universityFiscalYear to set.
      */
     public void setUniversityFiscalYear(Integer universityFiscalYear) {
@@ -120,7 +131,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the emplid attribute. 
+     * Gets the emplid attribute.
+     * 
      * @return Returns the emplid.
      */
     public String getEmplid() {
@@ -129,6 +141,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the emplid attribute value.
+     * 
      * @param emplid The emplid to set.
      */
     public void setEmplid(String emplid) {
@@ -136,7 +149,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the effortCertificationReportDefinition attribute. 
+     * Gets the effortCertificationReportDefinition attribute.
+     * 
      * @return Returns the effortCertificationReportDefinition.
      */
     public EffortCertificationReportDefinition getEffortCertificationReportDefinition() {
@@ -145,6 +159,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the effortCertificationReportDefinition attribute value.
+     * 
      * @param effortCertificationReportDefinition The effortCertificationReportDefinition to set.
      */
     @Deprecated
@@ -153,18 +168,20 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the employee attribute. 
+     * Gets the employee attribute.
+     * 
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
         Map searchCriteria = new HashMap();
         searchCriteria.put("personPayrollIdentifier", getEmplid());
-        
+
         return new ArrayList<UniversalUser>(SpringContext.getBean(UniversalUserService.class).findUniversalUsers(searchCriteria)).get(0);
     }
 
     /**
      * Sets the employee attribute value.
+     * 
      * @param employee The employee to set.
      */
     public void setEmployee(UniversalUser employee) {
@@ -172,7 +189,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the options attribute. 
+     * Gets the options attribute.
+     * 
      * @return Returns the options.
      */
     public Options getOptions() {
@@ -181,6 +199,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the options attribute value.
+     * 
      * @param options The options to set.
      */
     public void setOptions(Options options) {
@@ -188,7 +207,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the effortCertificationDetailLines attribute. 
+     * Gets the effortCertificationDetailLines attribute.
+     * 
      * @return Returns the effortCertificationDetailLines.
      */
     public List<EffortCertificationDetail> getEffortCertificationDetailLines() {
@@ -197,6 +217,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
     /**
      * Sets the effortCertificationDetailLines attribute value.
+     * 
      * @param effortCertificationDetailLines The effortCertificationDetailLines to set.
      */
     @Deprecated
@@ -207,24 +228,40 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
+    @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
         LinkedHashMap m = new LinkedHashMap();
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
-    
+
     /**
      * get the total amount of the given effort certification document
+     * 
      * @param effortCertificationDocument the given effort certification document
      * @return the total amount of the given effort certification document
      */
     public static KualiDecimal getDocumentTotalAmount(EffortCertificationDocument effortCertificationDocument) {
         KualiDecimal totalAmount = KualiDecimal.ZERO;
-        
+
         List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        for(EffortCertificationDetail line : detailLines) {
+        for (EffortCertificationDetail line : detailLines) {
             totalAmount = totalAmount.add(line.getEffortCertificationPayrollAmount());
         }
         return totalAmount;
+    }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
+     */
+    @Override
+    public void handleRouteStatusChange() {
+        LOG.debug("handleRouteStatusChange() start...");
+
+        super.handleRouteStatusChange();
+
+        if (this.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
+            SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+        }
     }
 }

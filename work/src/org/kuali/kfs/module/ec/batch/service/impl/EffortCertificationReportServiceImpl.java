@@ -28,7 +28,6 @@ import org.kuali.module.effort.report.EffortReportRegistry;
 import org.kuali.module.effort.service.EffortCertificationReportService;
 import org.kuali.module.effort.util.ExtractProcessReportDataHolder;
 import org.kuali.module.effort.util.ReportGenerator;
-import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -37,22 +36,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EffortCertificationReportServiceImpl implements EffortCertificationReportService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportServiceImpl.class);
-    
+
     private String resourceBundleBaseName;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generate(org.kuali.module.effort.util.ExtractProcessReportDataHolder,
      *      org.kuali.module.effort.util.EffortReportRegistry, java.lang.String, java.util.Date)
      */
-    public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {       
+    public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         String template = "report/" + reportInfo.getReportTemplateName();
         String fullReportFileName = this.buildFullFileName(reportsDirectory, reportInfo.reportFilename(), runDate);
-        
+
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
 
         LOG.info(reportDataHolder);
-        //ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
+        // ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
     }
 
     /**
@@ -78,7 +77,9 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
     }
 
     /**
-     * Sets the resourceBundleBaseName attribute value.
+     * Sets the resourceBundleBaseName attribute value. The base name includes the full-qualified package name. If a resource bundle is
+     * org/kuali/module/effort/report/messages.properties, the base name can be org/kuali/module/effort/report/messages.
+     * 
      * @param resourceBundleBaseName The resourceBundleBaseName to set.
      */
     public void setResourceBundleBaseName(String resourceBundleBaseName) {

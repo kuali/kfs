@@ -771,7 +771,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
                 budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
 
                 budgetReportsControlListService.cleanReportsControlList(idForSession, personUserIdentifier);
-                budgetReportsControlListService.updateRportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectedOrgs);
+                budgetReportsControlListService.updateReportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectedOrgs);
 
                 // update sub-fund selection list - This should be moved after implemention account list.
                 budgetReportsControlListService.cleanReportsSubFundGroupSelectList(personUserIdentifier);

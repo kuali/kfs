@@ -21,28 +21,87 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 
 
 /**
- * TODO Need to modify comments
  * This interface defines methods that manipulate objects used by the Organization Selection screens. Manipulated objects include
  * BudgetConstructionPullup with methods that populate and depopulate the associated table for a specific user.
  */
 public interface BudgetReportsControlListService {
     
+    /**
+     * This method cleans all control list tables.
+     * 
+     * @param idForSession
+     * @param personUserIdentifier
+     * @return
+     */
+
     public void cleanReportsControlList(String idForSession, String personUserIdentifier);
-    
-    public void updateRportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup);
-    
+
+    /**
+     * This method updates all control list tables.
+     * 
+     * @param idForSession
+     * @param personUserIdentifier
+     * @param universityFiscalYear
+     * @return
+     */
+    public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup);
+
+    /**
+     * This method changes flags in ld_bcn_pullup_t with Organization and Chart code.
+     * 
+     * @param personUserIdentifier
+     * @param budgetConstructionPullup
+     * @return
+     */
     public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup);
-    
+
+    /**
+     * This method cleans sub-fund group list.
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
     public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
-    
+
+    /**
+     * This method updates sub-fund group list
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
     
+    /**
+     * This method cleans acount summary table.
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
     public void cleanReportsAccountSummaryTable(String personUserIdentifier);
     
+    /**
+     * This method updates acount summary table.
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
     
+    /**
+     * This method updates acount summary table when users choose consolidation.
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
     public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
-    
+
+    /**
+     * This method updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
+     * 
+     * @param personUserIdentifier
+     * @param selectedSubfundGroupCodeList
+     * @return
+     */
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList);
     
 }

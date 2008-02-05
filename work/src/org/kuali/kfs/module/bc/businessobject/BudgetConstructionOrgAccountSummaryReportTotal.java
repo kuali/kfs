@@ -17,6 +17,9 @@ package org.kuali.module.budget.bo;
 
 import java.math.BigDecimal;
 
+/**
+ * Total Part of Budget Construction Organization Account Summary Report Business Object.
+ */
 public class BudgetConstructionOrgAccountSummaryReportTotal {
     
     BudgetConstructionAccountSummary bcas;
@@ -35,63 +38,164 @@ public class BudgetConstructionOrgAccountSummaryReportTotal {
         
     }
     
+    /**
+     * Gets the totalGrossBaseAmount
+     * 
+     * @return Returns the totalGrossBaseAmount.
+     */
     public BigDecimal getTotalGrossBaseAmount() {
         return totalGrossBaseAmount;
     }
+    
+    /**
+     * Sets the totalGrossBaseAmount
+     * 
+     * @param totalGrossBaseAmount The totalGrossBaseAmount to set.
+     */
     public void setTotalGrossBaseAmount(BigDecimal totalGrossBaseAmount) {
         this.totalGrossBaseAmount = totalGrossBaseAmount;
     }
+    
+    /**
+     * Gets the totalGrossReqAmount
+     * 
+     * @return Returns the totalGrossReqAmount.
+     */
     public BigDecimal getTotalGrossReqAmount() {
         return totalGrossReqAmount;
     }
+    
+    /**
+     * Sets the totalGrossReqAmount
+     * 
+     * @param totalGrossReqAmount The totalGrossReqAmount to set.
+     */
     public void setTotalGrossReqAmount(BigDecimal totalGrossReqAmount) {
         this.totalGrossReqAmount = totalGrossReqAmount;
     }
+    
+    /**
+     * Gets the totalNetTransferBaseAmount
+     * 
+     * @return Returns the totalNetTransferBaseAmount.
+     */
     public BigDecimal getTotalNetTransferBaseAmount() {
         return totalNetTransferBaseAmount;
     }
+    
+    /**
+     * Sets the totalNetTransferBaseAmount
+     * 
+     * @param totalNetTransferBaseAmount The totalNetTransferBaseAmount to set.
+     */
     public void setTotalNetTransferBaseAmount(BigDecimal totalNetTransferBaseAmount) {
         this.totalNetTransferBaseAmount = totalNetTransferBaseAmount;
     }
+    
+    /**
+     * Gets the totalNetTransferReqAmount
+     * 
+     * @return Returns the totalNetTransferReqAmount.
+     */
     public BigDecimal getTotalNetTransferReqAmount() {
         return totalNetTransferReqAmount;
     }
+    
+    /**
+     * Sets the totalNetTransferReqAmount
+     * 
+     * @param totalNetTransferReqAmount The totalNetTransferReqAmount to set.
+     */
     public void setTotalNetTransferReqAmount(BigDecimal totalNetTransferReqAmount) {
         this.totalNetTransferReqAmount = totalNetTransferReqAmount;
     }
+    
+    /**
+     * Gets the totalRevenueBaseAmount
+     * 
+     * @return Returns the totalRevenueBaseAmount.
+     */
     public BigDecimal getTotalRevenueBaseAmount() {
         return totalRevenueBaseAmount;
     }
+    
+    /**
+     * Sets the totalRevenueBaseAmount
+     * 
+     * @param totalRevenueBaseAmount The totalRevenueBaseAmount to set.
+     */
     public void setTotalRevenueBaseAmount(BigDecimal totalRevenueBaseAmount) {
         this.totalRevenueBaseAmount = totalRevenueBaseAmount;
     }
+    
+    /**
+     * Gets the totalRevenueReqAmount
+     * 
+     * @return Returns the totalRevenueReqAmount.
+     */
     public BigDecimal getTotalRevenueReqAmount() {
         return totalRevenueReqAmount;
     }
+    
+    /**
+     * Sets the totalRevenueReqAmount
+     * 
+     * @param totalRevenueReqAmount The totalRevenueReqAmount to set.
+     */
     public void setTotalRevenueReqAmount(BigDecimal totalRevenueReqAmount) {
         this.totalRevenueReqAmount = totalRevenueReqAmount;
     }
+    
+    /**
+     * Gets the totalTransferInBaseAmount
+     * 
+     * @return Returns the totalTransferInBaseAmount.
+     */
     public BigDecimal getTotalTransferInBaseAmount() {
         return totalTransferInBaseAmount;
     }
+    
+    /**
+     * Sets the totalTransferInBaseAmount
+     * 
+     * @param totalTransferInBaseAmount The totalTransferInBaseAmount to set.
+     */
     public void setTotalTransferInBaseAmount(BigDecimal totalTransferInBaseAmount) {
         this.totalTransferInBaseAmount = totalTransferInBaseAmount;
     }
+    
+    /**
+     * Gets the totalTransferInReqAmount
+     * 
+     * @return Returns the totalTransferInReqAmount.
+     */
     public BigDecimal getTotalTransferInReqAmount() {
         return totalTransferInReqAmount;
     }
+    
+    /**
+     * Sets the totalTransferInReqAmount
+     * 
+     * @param totalTransferInReqAmount The totalTransferInReqAmount to set.
+     */
     public void setTotalTransferInReqAmount(BigDecimal totalTransferInReqAmount) {
         this.totalTransferInReqAmount = totalTransferInReqAmount;
     }
-
-
-
+    
+    /**
+     * Gets the budgetConstructionAccountSummary
+     * 
+     * @return Returns the bcas.
+     */
     public BudgetConstructionAccountSummary getBcas() {
         return bcas;
     }
-
-
-
+    
+    /**
+     * Sets the budgetConstructionAccountSummary
+     * 
+     * @param bcas The budgetConstructionAccountSummary to set.
+     */
     public void setBcas(BudgetConstructionAccountSummary bcas) {
         this.bcas = bcas;
     }

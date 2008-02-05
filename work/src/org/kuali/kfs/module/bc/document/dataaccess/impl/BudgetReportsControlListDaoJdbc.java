@@ -20,34 +20,17 @@ import java.util.List;
 import org.kuali.core.dbplatform.RawSQL;
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 
+/**
+ * A class to do the database queries needed to get valid data for OrganizationReportSelection screen
+ */
 public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBase implements BudgetReportsControlListDao {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationBCDocumentSearchDaoJdbc.class);
 
-    private static String[] buildSubFundSelectListTemplates = new String[1];
-
-    @RawSQL
-    public BudgetReportsControlListDaoJdbc() {
-
-
-    }
-
     /**
-     * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#buildAccountSelectPullList(java.lang.String,
-     *      java.lang.Integer)
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListpart1(java.lang.String, java.lang.String, java.lang.Integer)
      */
     @RawSQL
-    public void buildSubFundSelectList() {
-
-        LOG.debug("buildSubFundSelectList() started");
-
-        StringBuilder sqlText = new StringBuilder(500);
-
-        
-        // getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear,
-        // personUserIdentifier, universityFiscalYear);
-    }
-
-    
     public void updateReportsControlListpart1(String idForSession, String personUserIdentifier, Integer universityFiscalYear) {
 
         StringBuilder sqlText = new StringBuilder(500);
@@ -65,7 +48,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         sqlText.append("  AND hier.org_cd = pull.org_cd \n");
 
         String buildReportsControlListPart1 = sqlText.toString();
-
         getSimpleJdbcTemplate().update(buildReportsControlListPart1, idForSession, personUserIdentifier, universityFiscalYear);
 
 
@@ -77,6 +59,11 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
          */
     }
 
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListpart2(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @RawSQL
     public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode ) {
 
         StringBuilder sqlText = new StringBuilder(500);
@@ -97,33 +84,34 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         sqlText.append("  AND hier.fin_coa_cd = head.fin_coa_cd \n");
         sqlText.append("  AND hier.account_nbr = head.account_nbr \n");
         sqlText.append("  AND sel.sesid = ? \n");
-        
-
+ 
         String buildReportsControlListPart2 = sqlText.toString();
-
         getSimpleJdbcTemplate().update(buildReportsControlListPart2, idForSession, personUserIdentifier, chartOfAccountsCode, organizationCode, idForSession);
-
-
         /*
         INSERT INTO LD_BCN_BUILD_CTRL_LIST02_MT 
- (SESID, PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, 
-  SUB_ACCT_NBR, HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG) 
-SELECT DISTINCT '511929BA-7C72-0C5C-64D1-E6F182B13CAF', '3949401795' , head.fdoc_nbr, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, 
- head.sub_acct_nbr, hier.org_level_cd, sel.org_level_cd, sel.org_fin_coa_cd, sel.org_cd, sel.pull_flag 
-FROM LD_BCN_ACCT_ORG_HIER_T hier, LD_BCNSTR_HDR_T head, LD_BCN_BUILD_CTRL_LIST01_MT sel  
-WHERE hier.org_fin_coa_cd = 'BL'  
-  AND hier.org_cd = 'BL'
-  AND hier.univ_fiscal_yr = sel.univ_fiscal_yr 
-  AND hier.fin_coa_cd = sel.fin_coa_cd 
-  AND hier.account_nbr = sel.account_nbr 
-  AND head.org_level_cd <= hier.org_level_cd 
-  AND hier.univ_fiscal_yr = head.univ_fiscal_yr 
-  AND hier.fin_coa_cd = head.fin_coa_cd 
-  AND hier.account_nbr = head.account_nbr 
-  AND sel.sesid = '511929BA-7C72-0C5C-64D1-E6F182B13CAF'
+        (SESID, PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, 
+        SUB_ACCT_NBR, HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG) 
+        SELECT DISTINCT '511929BA-7C72-0C5C-64D1-E6F182B13CAF', '3949401795' , head.fdoc_nbr, head.univ_fiscal_yr, head.fin_coa_cd, head.account_nbr, 
+        head.sub_acct_nbr, hier.org_level_cd, sel.org_level_cd, sel.org_fin_coa_cd, sel.org_cd, sel.pull_flag 
+        FROM LD_BCN_ACCT_ORG_HIER_T hier, LD_BCNSTR_HDR_T head, LD_BCN_BUILD_CTRL_LIST01_MT sel  
+        WHERE hier.org_fin_coa_cd = 'BL'  
+        AND hier.org_cd = 'BL'
+        AND hier.univ_fiscal_yr = sel.univ_fiscal_yr 
+        AND hier.fin_coa_cd = sel.fin_coa_cd 
+        AND hier.account_nbr = sel.account_nbr 
+        AND head.org_level_cd <= hier.org_level_cd 
+        AND hier.univ_fiscal_yr = head.univ_fiscal_yr 
+        AND hier.fin_coa_cd = head.fin_coa_cd 
+        AND hier.account_nbr = head.account_nbr 
+        AND sel.sesid = '511929BA-7C72-0C5C-64D1-E6F182B13CAF'
          */
     }
 
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsControlListDisp1(java.lang.String)
+     */
+    @RawSQL
     public void updateReportsControlListDisp1(String idForSession) {
 
         StringBuilder sqlText = new StringBuilder(500);
@@ -145,9 +133,7 @@ WHERE hier.org_fin_coa_cd = 'BL'
         sqlText.append("  and pbgl.account_nbr = ctrl.account_nbr \n");
         sqlText.append("  and pbgl.sub_acct_nbr = ctrl.sub_acct_nbr) \n");
         
-        
         String buildReportsControlListDisp1 = sqlText.toString();
-
         getSimpleJdbcTemplate().update(buildReportsControlListDisp1, idForSession);
 
 
@@ -170,6 +156,11 @@ WHERE hier.org_fin_coa_cd = 'BL'
          */
     }
     
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#changeFlagOrganizationAndChartOfAccountCodeSelection(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @RawSQL
     public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode) {
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -181,10 +172,14 @@ WHERE hier.org_fin_coa_cd = 'BL'
         sqlText.append("  AND org_cd = ? \n");
         
         String flagToNonZero = sqlText.toString();
-
         getSimpleJdbcTemplate().update(flagToNonZero, personUserIdentifier, chartOfAccountsCode, organizationCode);
     }
     
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSubFundGroupSelectList(java.lang.String)
+     */
+    @RawSQL
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier){
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -196,7 +191,6 @@ WHERE hier.org_fin_coa_cd = 'BL'
         
         
         String subFundList = sqlText.toString();
-
         getSimpleJdbcTemplate().update(subFundList, personUserIdentifier, personUserIdentifier);
         
         /*INSERT INTO LD_BCN_SUBFUND_PICK_T (PERSON_UNVL_ID, SUB_FUND_GRP_CD, REPORT_FLAG)
@@ -205,6 +199,11 @@ WHERE hier.org_fin_coa_cd = 'BL'
         WHERE ctrl.person_unvl_id = '1111'*/
     }
     
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSelectedSubFundGroupFlags(java.lang.String, java.lang.String)
+     */
+    @RawSQL
     public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode){
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -214,17 +213,23 @@ WHERE hier.org_fin_coa_cd = 'BL'
         sqlText.append("WHERE person_unvl_id = ? \n");
         sqlText.append("  AND sub_fund_grp_cd = ? \n");
         
-        
         String subFundSelectListFlags = sqlText.toString();
-
         getSimpleJdbcTemplate().update(subFundSelectListFlags, personUserIdentifier, subfundGroupCode);
-           
     }
-    
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsAccountSummaryTable(java.lang.String)
+     */
+    @RawSQL
     public void cleanReportsAccountSummaryTable (String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_ACCT_SUMM_T", "PERSON_UNVL_ID", personUserIdentifier);
     }
     
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     */
+    @RawSQL
     public void updateRepotsAccountSummaryTable(String personUserIdentifier){
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -318,7 +323,6 @@ WHERE hier.org_fin_coa_cd = 'BL'
         sqlText.append(" ctrl.sel_sub_fund_grp, ctrl.account_nbr, ctrl.sub_acct_nbr \n");
         
         String repotsAccountSummary = sqlText.toString();
-
         getSimpleJdbcTemplate().update(repotsAccountSummary, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, 
                 personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
         
@@ -493,10 +497,11 @@ WHERE hier.org_fin_coa_cd = 'BL'
                     ctrl.sub_acct_nbr
 */
     
-    
-    
-    
-    
+    /**
+     * 
+     *  @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateRepotsAccountSummaryTable(java.lang.String)
+     */
+    @RawSQL
     public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier){   
         
         StringBuilder sqlText = new StringBuilder(500);
@@ -601,8 +606,6 @@ WHERE hier.org_fin_coa_cd = 'BL'
 
         getSimpleJdbcTemplate().update(repotsAccountSummary, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier,
                 personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
-        
-      
     
        /* INSERT INTO ld_bcn_acct_summ_t (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD, 
             ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD)
@@ -765,18 +768,34 @@ WHERE hier.org_fin_coa_cd = 'BL'
     /**
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)
      */
+    @RawSQL
     public void cleanReportsSubFundGroupSelectList(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_SUBFUND_PICK_T", "PERSON_UNVL_ID", personUserIdentifier);
     }
-
+    
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlList(java.lang.String)
+     */
+    @RawSQL
     public void cleanReportsControlList(String personUserIdentifier) {
         clearTempTableByUnvlId("LD_BCN_CTRL_LIST_T", "PERSON_UNVL_ID", personUserIdentifier);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlListPart1(java.lang.String)
+     */
+    @RawSQL
     public void cleanReportsControlListPart1(String idForSession) {
         clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST01_MT", "SESID", idForSession);
     }
 
+    /**
+     * 
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#cleanReportsControlListPart2(java.lang.String)
+     */
+    @RawSQL
     public void cleanReportsControlListPart2(String idForSession) {
         clearTempTableBySesId("LD_BCN_BUILD_CTRL_LIST02_MT", "SESID", idForSession);
     }

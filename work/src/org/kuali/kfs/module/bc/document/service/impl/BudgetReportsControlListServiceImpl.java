@@ -22,74 +22,106 @@ import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service implementation of BudgetReportsControlListService.
+ */
+
 @Transactional
 public class BudgetReportsControlListServiceImpl implements BudgetReportsControlListService {
 
     BudgetReportsControlListDao budgetReportsControlListDao;
 
+    /**
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsControlList(java.lang.String,
+     *      java.lang.String)
+     */
     public void cleanReportsControlList(String idForSession, String personUserIdentifier) {
-        
-        
+
+
         budgetReportsControlListDao.cleanReportsControlList(personUserIdentifier);
         budgetReportsControlListDao.cleanReportsControlListPart1(idForSession);
         budgetReportsControlListDao.cleanReportsControlListPart2(idForSession);
 
     }
 
-    public void updateRportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup) {
+    /**
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
+     *      java.lang.String, java.lang.Integer, java.util.List)
+     */
+    public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup) {
 
-        
         budgetReportsControlListDao.updateReportsControlListpart1(idForSession, personUserIdentifier, universityFiscalYear);
-        
-        for (BudgetConstructionPullup bcp : budgetConstructionPullup){
+        for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
             budgetReportsControlListDao.updateReportsControlListpart2(idForSession, personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
         }
-        
         budgetReportsControlListDao.updateReportsControlListDisp1(idForSession);
-        
-        
-        
-
     }
-    
-    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier){
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsSubFundGroupSelectList(java.lang.String)
+     */
+    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier) {
         budgetReportsControlListDao.cleanReportsSubFundGroupSelectList(personUserIdentifier);
     }
-    
-    public void updateReportsSubFundGroupSelectList(String personUserIdentifier){
+
+    /**
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSubFundGroupSelectList(java.lang.String)
+     */
+    public void updateReportsSubFundGroupSelectList(String personUserIdentifier) {
         budgetReportsControlListDao.updateReportsSubFundGroupSelectList(personUserIdentifier);
     }
-    
 
-    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup){
-        
+    /**
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#changeFlagOrganizationAndChartOfAccountCodeSelection(java.lang.String,
+     *      java.util.List)
+     */
+    public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup) {
         for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
             budgetReportsControlListDao.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
         }
     }
     
-    public void cleanReportsAccountSummaryTable (String personUserIdentifier){
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsAccountSummaryTable(java.lang.String)
+     */
+    public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
         budgetReportsControlListDao.cleanReportsAccountSummaryTable(personUserIdentifier);
     }
-    
-    
-    
-    public void updateRepotsAccountSummaryTable(String personUserIdentifier){
+
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
+     */
+    public void updateRepotsAccountSummaryTable(String personUserIdentifier) {
         budgetReportsControlListDao.updateRepotsAccountSummaryTable(personUserIdentifier);
     }
-    
-    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier){
+
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
+     */
+    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
         budgetReportsControlListDao.updateRepotsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
     
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList){
-        
-        for (String subfundCode: selectedSubfundGroupCodeList){
+    /**
+     * 
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSelectedSubFundGroupFlags(java.lang.String, java.util.List)
+     */
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList) {
+
+        for (String subfundCode : selectedSubfundGroupCodeList) {
             budgetReportsControlListDao.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundCode);
         }
-        
+
     }
-    
+
+    /**
+     * Sets the budgetReportsControlListDao
+     * 
+     * @param budgetReportsControlListDao The budgetReportsControlListDao to set.
+     */
     public void setBudgetReportsControlListDao(BudgetReportsControlListDao budgetReportsControlListDao) {
         this.budgetReportsControlListDao = budgetReportsControlListDao;
     }

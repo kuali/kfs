@@ -146,7 +146,6 @@ public class NegativeAPOTest extends KualiTestBase {
      }
      
      //Requisition contains alternate vendor name
-     @RelatesTo(JiraIssue.KULPURAP2225)
      @ConfigureContext(session = KHUNTLEY, shouldCommitTransactions=true)
      public final void testInvalidAPOHasAlternateVendorName() throws Exception {
          RequisitionDocument requisitionDocument = RequisitionDocumentFixture.REQ_APO_INVALID_ALTERNATE_VENDOR_NAMES.createRequisitionDocument();

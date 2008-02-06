@@ -58,6 +58,8 @@ import org.kuali.module.vendor.bo.VendorAddress;
 import org.kuali.module.vendor.service.VendorService;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
+import org.kuali.test.suite.RelatesTo;
+import org.kuali.test.suite.RelatesTo.JiraIssue;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -119,7 +121,8 @@ public class PaymentRequestDocumentTest extends KualiTestBase {
                 purchaseOrderDocument, true, new KualiDecimal[] {new KualiDecimal(100)});
     }
     
-    @ConfigureContext(session = APPLETON, shouldCommitTransactions=false)
+    @RelatesTo(JiraIssue.KULPURAP2283)
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
     public final void testRouteDocument() throws Exception {
         purchaseOrderDocument = createPurchaseOrderDocument(PurchaseOrderDocumentFixture.PO_APPROVAL_REQUIRED, false);
         paymentRequestDocument = createPaymentRequestDocument(PaymentRequestDocumentFixture.PREQ_APPROVAL_REQUIRED, 

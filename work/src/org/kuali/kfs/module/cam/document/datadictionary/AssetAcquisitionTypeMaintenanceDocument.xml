@@ -35,7 +35,7 @@
         <documentTypeName>AssetAcquisitionTypeMaintenanceDocument</documentTypeName>
         <documentTypeCode>ACQT</documentTypeCode>
 
-        <label>Asset Acquisition</label>
+        <label>Asset Acquisition Type</label>
 
         <summary>Asset acquisition maintenance document</summary>
         <description>Document used to create or update asset acquisition objects</description>

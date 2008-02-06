@@ -6,7 +6,7 @@
     <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetAcquisitionType">
  
         <inquiry>
-            <title>Acquisition Type Inquiry</title>
+            <title>Asset Acquisition Type</title>
              
             <inquirySections>
                 <inquirySection title="Header Text">
@@ -21,7 +21,7 @@
         </inquiry>
 
         <lookup>
-            <title>Acquisition Type Lookup</title>
+            <title>Asset Acquisition Type</title>
 
             <instructions>Look up an Acquisition Type</instructions>
 

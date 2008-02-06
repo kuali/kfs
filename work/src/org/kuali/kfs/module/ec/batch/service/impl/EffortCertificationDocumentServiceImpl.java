@@ -89,7 +89,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         }
         catch (WorkflowException we) {
             LOG.error(we);
-            return false;
+            throw new RuntimeException(we);
         }
 
         return true;
@@ -113,9 +113,9 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         try {
             laborModuleService.createSalaryExpenseTransferDocument(documentDescription, explanation, sourceAccoutingLines, targetAccoutingLines);
         }
-        catch (WorkflowException e) {
-            LOG.error(e);
-            return false;
+        catch (WorkflowException we) {
+            LOG.error(we);
+            throw new RuntimeException(we);
         }
         return true;
     }

@@ -159,8 +159,8 @@ public class PurapKeyConstants {
     // Item parser
     public static final String ERROR_ITEMPARSER_INVALID_FILE_FORMAT = "error.itemParser.invalidFileFormat";
     public static final String ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER = "error.itemParser.wrongPropertyNumber";
-    public static final String ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE = "error.itemParser.emptyPropertyValue";
-    public static final String ERROR_ITEMPARSER_INVALID_PROPERTY_VALUE = "error.itemParser.invalidPropertyValue";
+    public static final String ERROR_ITEMPARSER_INVALID_UOM_CODE = "error.itemParser.invalidUOMCode";
+    public static final String ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE = "error.itemParser.invalidNumericValue";
     public static final String ERROR_ITEMPARSER_ITEM_LINE = "error.itemParser.itemLine";
     public static final String ERROR_ITEMPARSER_ITEM_PROPERTY = "error.itemParser.itemProperty";
 

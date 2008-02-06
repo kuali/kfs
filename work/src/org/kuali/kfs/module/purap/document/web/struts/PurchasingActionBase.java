@@ -255,17 +255,20 @@ public class PurchasingActionBase extends PurchasingAccountsPayableActionBase {
         List<PurApItem> importedItems = null;
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;   
         ItemParser itemParser = purDocument.getItemParser();
-        
+        int itemLinePosition = purDocument.getItemLinePosition();
+            
         try {
             importedItems = itemParser.importItems( itemFile, itemClass, documentNumber );
             // validate imported items
             boolean allPassed = true;
+            int itemLineNumber = itemLinePosition + 1;
             for (PurApItem item : importedItems ) {
+                // It's important to set the item line number before the validation, since the error message will use line number.
+                item.setItemLineNumber(itemLineNumber++);
                 allPassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddPurchasingAccountsPayableItemEvent("", purDocument, item)); 
             }        
             if (allPassed) {
-                for (PurApItem item : importedItems ) 
-                    purDocument.addItem(item);            
+                purDocument.getItems().addAll(itemLinePosition, importedItems);            
             }
         }
         catch (ItemParserException e) {

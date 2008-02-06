@@ -15,8 +15,8 @@
  */
 package org.kuali.module.purap.util;
 
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_PROPERTY_VALUE;
+import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE;
+import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
@@ -80,7 +80,7 @@ public class ItemParserTest extends KualiTestBase {
      * 
      * @param e the specified ItemParserException
      * @param propertyName the property name for the empty property value
-     */
+     *
     private static void assertEmptyPropertyValue( ItemParserException e, String propertyName) {
         assertEquals(e.getErrorKey(), ERROR_ITEMPARSER_ITEM_PROPERTY);
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
@@ -94,19 +94,20 @@ public class ItemParserTest extends KualiTestBase {
             }
         }
     }
+    */
     
     /**
      * Asserts true if the specified ItemParserException reports the appropriate error message 
-     * with the expected parameters upon invalid input item property value.
+     * with the expected parameters upon invalid numeric value for input item property.
      * 
      * @param e the specified ItemParserException
      * @param propertyName the property name for the invalid property value
      * @param propertyValue the invalid property value
      */
-    private static void assertInvalidPropertyValue( ItemParserException e, String propertyName, String propertyValue ) {
+    private static void assertInvalidNumericValue( ItemParserException e, String propertyName, String propertyValue ) {
         assertEquals(e.getErrorKey(), ERROR_ITEMPARSER_ITEM_PROPERTY);
         String errorPath = PurapConstants.ITEM_TAB_ERRORS;
-        String errorKey = ERROR_ITEMPARSER_INVALID_PROPERTY_VALUE;
+        String errorKey = ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
         assertTrue(GlobalVariables.getErrorMap().containsMessageKey(errorKey));
         TypedArrayList params = GlobalVariables.getErrorMap().getMessages(errorPath);
         for (int i=0; i<params.size(); i++) {
@@ -188,7 +189,7 @@ public class ItemParserTest extends KualiTestBase {
     
     /**
      * Tests whether parseItem catches exceptions upon empty properties in the input item line.
-     */
+     *
     public void testParseEmptyPropertyItem() {
         String itemLine = "2.5,BX,123,,5.99";
         try {
@@ -199,18 +200,19 @@ public class ItemParserTest extends KualiTestBase {
             assertEmptyPropertyValue(e, parser.getItemFormat()[3]);
         }
     }
+    */
     
     /**
-     * Tests whether parseItem catches exceptions upon invalid properties in the input item line.
+     * Tests whether parseItem catches exceptions upon invalid numeric properties values in the input item line.
      */
-    public void testParseInvalidPropertyItem() {
+    public void testParseInvalidNumericItem() {
         String itemLine = "2.5,BX,123,paper,blahblah";
         try {
             PurApItem item = parser.parseItem(itemLine, itemClass, documentNumber);
-            fail("Fail to throw ItemParserException with empty or invalid item property fields.");
+            fail("Fail to throw ItemParserException with invalid numeric values for item property fields.");
         }
         catch(ItemParserException e) {
-            assertInvalidPropertyValue(e, parser.getItemFormat()[4], "blahblah");
+            assertInvalidNumericValue(e, parser.getItemFormat()[4], "blahblah");
         }
     }    
 }

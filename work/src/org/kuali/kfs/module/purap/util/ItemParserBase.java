@@ -17,8 +17,8 @@ package org.kuali.module.purap.util;
 
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_FILE_FORMAT;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_PROPERTY_VALUE;
+import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE;
+import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_LINE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
@@ -58,6 +58,10 @@ import org.kuali.module.purap.exceptions.ItemParserException;
 
 public class ItemParserBase implements ItemParser {
 
+    /**
+     * The default format defines the expected item property names and their order in the import file.
+     * Please update this if the import file format changes (i.e. adding/deleting item properties, changing their order).
+     */
     protected static final String[] DEFAULT_FORMAT = {ITEM_QUANTITY, ITEM_UNIT_OF_MEASURE_CODE, ITEM_CATALOG_NUMBER, ITEM_DESCRIPTION, ITEM_UNIT_PRICE};
     private Integer lineNo = 0;
 
@@ -176,11 +180,13 @@ public class ItemParserBase implements ItemParser {
             String key = entry.getKey();
             String value = entry.getValue();          
             try {
+                /* removing this part as the checking are done in rule class later
                 if ((key.equals(ITEM_DESCRIPTION) || key.equals(ITEM_UNIT_PRICE)) && value.equals("")) {
                     String[] errorParams = { key, "" + lineNo };
                     throw new ItemParserException("empty property value for " + key + " (line " + lineNo + ")", ERROR_ITEMPARSER_EMPTY_PROPERTY_VALUE, errorParams);                    
                 }
-                else if (key.equals(ITEM_UNIT_OF_MEASURE_CODE)) {
+                else */
+                if (key.equals(ITEM_UNIT_OF_MEASURE_CODE)) {
                     value = value.toUpperCase(); // force UOM code to uppercase
                 }
                 try {
@@ -188,7 +194,7 @@ public class ItemParserBase implements ItemParser {
                 }
                 catch (FormatException e) {
                     String[] errorParams = { value, key, "" + lineNo };
-                    throw new ItemParserException("invalid property value: " + key + " = " + value + " (line " + lineNo + ")", ERROR_ITEMPARSER_INVALID_PROPERTY_VALUE, errorParams);
+                    throw new ItemParserException("invalid numeric property value: " + key + " = " + value + " (line " + lineNo + ")", ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE, errorParams);
                 }
             }
             catch (ItemParserException e) {

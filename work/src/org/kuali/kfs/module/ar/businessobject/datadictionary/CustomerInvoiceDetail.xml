@@ -11,26 +11,26 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="accountNumber" />
-                        <field attributeName="accountsReceivableObjectCode" />
-                        <field attributeName="accountsReceivableSubObjectCode" />
-                        <field attributeName="chartOfAccountsCode" />
                         <field attributeName="documentNumber" />
-                        <field attributeName="financialDocumentOverrideCode" />
-                        <field attributeName="financialDocumentPostingYear" />
+                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="accountNumber" />
+                        <field attributeName="subAccountNumber" />
                         <field attributeName="financialObjectCode" />
                         <field attributeName="financialSubObjectCode" />
-                        <field attributeName="invoiceItemCode" />
-                        <field attributeName="invoiceItemDescription" />
-                        <field attributeName="invoiceItemNumber" />
-                        <field attributeName="invoiceItemQuantity" />
-                        <field attributeName="invoiceItemServiceDate" />
-                        <field attributeName="invoiceItemTotalAmount" />
-                        <field attributeName="invoiceItemUnitOfMeasureCode" />
-                        <field attributeName="invoiceItemUnitPrice" />
-                        <field attributeName="organizationReferenceId" />
                         <field attributeName="projectCode" />
-                        <field attributeName="subAccountNumber" />
+                        <field attributeName="organizationReferenceId" />
+						<field attributeName="accountsReceivableObjectCode" />
+                        <field attributeName="accountsReceivableSubObjectCode" />
+						<field attributeName="financialDocumentOverrideCode" />
+                        <field attributeName="financialDocumentPostingYear" />
+                        <field attributeName="invoiceItemQuantity" />
+                        <field attributeName="invoiceItemCode" />
+                        <field attributeName="invoiceItemUnitOfMeasureCode" />
+                        <field attributeName="invoiceItemDescription" />
+                        <field attributeName="invoiceItemUnitPrice" />
+                        <field attributeName="invoiceItemTotalAmount" />
+                        <field attributeName="invoiceItemServiceDate" />
+                        <field attributeName="invoiceItemNumber" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -50,14 +50,14 @@
 
             <lookupFields>
                 <lookupField attributeName="accountNumber" required="false" />
-                <lookupField attributeName="accountsReceivableObjectCode" required="false" />
-                <lookupField attributeName="accountsReceivableSubObjectCode" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
                 <lookupField attributeName="financialDocumentOverrideCode" required="false" />
                 <lookupField attributeName="financialDocumentPostingYear" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
+				<lookupField attributeName="accountsReceivableObjectCode" required="false" />
+                <lookupField attributeName="accountsReceivableSubObjectCode" required="false" />
                 <lookupField attributeName="invoiceItemCode" required="false" />
                 <lookupField attributeName="invoiceItemDescription" required="false" />
                 <lookupField attributeName="invoiceItemNumber" required="false" />
@@ -99,7 +99,7 @@
 
             <attribute name="accountNumber" forceUppercase="true">
                 <label>Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Account Number</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -114,7 +114,7 @@
 
             <attribute name="accountsReceivableObjectCode" forceUppercase="true">
                 <label>Accounts Receivable Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>AR Object Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -129,7 +129,7 @@
 
             <attribute name="accountsReceivableSubObjectCode" forceUppercase="true">
                 <label>Accounts Receivable Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>AR Sub Object Code</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -144,7 +144,7 @@
 
             <attribute name="chartOfAccountsCode" forceUppercase="true">
                 <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>COA</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -159,7 +159,7 @@
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Document Number</shortLabel>
 
                 <maxLength>14</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -174,7 +174,7 @@
 
             <attribute name="financialDocumentOverrideCode" forceUppercase="true">
                 <label>Financial Document Override Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Override Code</shortLabel>
 
                 <maxLength>1</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -189,7 +189,7 @@
 
             <attribute name="financialDocumentPostingYear" forceUppercase="true">
                 <label>Financial Document Posting Year</label>
-                <shortLabel>Year</shortLabel>
+                <shortLabel>Posting Year</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -204,7 +204,7 @@
 
             <attribute name="financialObjectCode" forceUppercase="true">
                 <label>Financial Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Object Code</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -219,7 +219,7 @@
 
             <attribute name="financialSubObjectCode" forceUppercase="true">
                 <label>Financial Sub Object Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Sub Object Code</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -234,7 +234,7 @@
 
             <attribute name="invoiceItemCode" forceUppercase="true">
                 <label>Invoice Item Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Item Code</shortLabel>
 
                 <maxLength>6</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -255,7 +255,7 @@
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <textarea rows="5" cols="80"/>
+                    <text size="20" />
                 </control>
 
                 <summary>invoiceItemDescription</summary>
@@ -264,7 +264,7 @@
 
             <attribute name="invoiceItemNumber" forceUppercase="true">
                 <label>Invoice Item Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Item Number</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -294,7 +294,7 @@
 
             <attribute name="invoiceItemServiceDate" forceUppercase="true">
                 <label>Invoice Item Service Date</label>
-                <shortLabel>Date</shortLabel>
+                <shortLabel>Service Date</shortLabel>
 
                 <maxLength>7</maxLength>
                 <validationPattern><date /></validationPattern>
@@ -309,7 +309,7 @@
 
             <attribute name="invoiceItemTotalAmount" forceUppercase="true">
                 <label>Invoice Item Total Amount</label>
-                <shortLabel>Amount</shortLabel>
+                <shortLabel>Total Amount</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -324,7 +324,7 @@
 
             <attribute name="invoiceItemUnitOfMeasureCode" forceUppercase="true">
                 <label>Invoice Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>UOM</shortLabel>
 
                 <maxLength>2</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -339,7 +339,7 @@
 
             <attribute name="invoiceItemUnitPrice" forceUppercase="true">
                 <label>Invoice Item Unit Price</label>
-                <shortLabel>Price</shortLabel>
+                <shortLabel>Unit Price</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -354,7 +354,7 @@
 
             <attribute name="organizationReferenceId" forceUppercase="true">
                 <label>Organization Reference Id</label>
-                <shortLabel>Id</shortLabel>
+                <shortLabel>Org Ref Id</shortLabel>
 
                 <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -369,7 +369,7 @@
 
             <attribute name="projectCode" forceUppercase="true">
                 <label>Project Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Project Code</shortLabel>
 
                 <maxLength>10</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -384,7 +384,7 @@
 
             <attribute name="subAccountNumber" forceUppercase="true">
                 <label>Sub Account Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Sub Account Number</shortLabel>
 
                 <maxLength>5</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

@@ -22,7 +22,7 @@
 	      <li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
 	      <li><portal:portalLink displayTitle="true" title="Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerCreditMemoDocument" /></li>
 	      <li>Customer</li>
-	      <li><portal:portalLink displayTitle="true" title="Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
+	      <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
 	      <li>Organization Accounting Defaults</li>
 	      <li>Organization Options</li>
 	</ul>

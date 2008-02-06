@@ -32,7 +32,8 @@
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" />
         
 	<ar:invoiceDetails
-        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" />        
+        documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"
+        customerInvoiceDetailAttributes="${DataDictionary.CustomerInvoiceDetail.attributes}" />        
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 

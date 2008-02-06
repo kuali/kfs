@@ -59,7 +59,6 @@ public class EffortCertificationReportDefinitionMaintenanceDocumentPreRules exte
         boolean isOverlapping = SpringContext.getBean(EffortCertificationAutomaticReportPeriodUpdateService.class).isAnOverlappingReportDefinition(reportDefinition);
         String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(EffortKeyConstants.QUESTION_OVERLAPPING_REPORT_DEFINITION);
         if (isOverlapping) {
-            //TODO what should be used for the key value?
             boolean correctOverlappingReportDefinition = !super.askOrAnalyzeYesNoQuestion(KFSConstants.BudgetAdjustmentDocumentConstants.GENERATE_BENEFITS_QUESTION_ID, questionText);
             if (!correctOverlappingReportDefinition) {
                 super.event.setActionForwardName(KFSConstants.MAPPING_BASIC);

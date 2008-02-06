@@ -41,6 +41,8 @@
 
 <%@ taglib tagdir="/WEB-INF/tags/ar" prefix="ar" %>
 
+<%@ taglib tagdir="/WEB-INF/tags/er" prefix="er" %>
+
 <%@ taglib tagdir="/WEB-INF/tags/portal" prefix="portal"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel" prefix="channel"%>
 <%@ taglib tagdir="/WEB-INF/tags/portal/channel/administration" prefix="admininstrationChannel"%>

@@ -111,6 +111,9 @@
 
         <!-- CAMs Module Bean Definitions -->
         
+        <!-- Effort Certification Bean Definitions -->
+        <form-bean name="EffortCertificationForm" type="org.kuali.module.effort.web.struts.form.EffortCertificationForm" />
+        
     </form-beans>
 
     <global-exceptions>

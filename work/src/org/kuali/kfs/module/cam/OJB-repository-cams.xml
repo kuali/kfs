@@ -501,6 +501,9 @@
     <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <foreignkey field-ref="offCampusStateCode" />
     </reference-descriptor>
+    <reference-descriptor name="offCampusCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+        <foreignkey field-ref="offCampusCountryCode" />
+    </reference-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.Pretag" table="CM_PRTG_T">

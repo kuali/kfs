@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.GlobalBusinessObjectDetailBase;
 import org.kuali.kfs.bo.Building;
+import org.kuali.kfs.bo.Country;
 import org.kuali.kfs.bo.Room;
 import org.kuali.kfs.bo.State;
 
@@ -34,7 +35,8 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private Building building;
     private Room buildingRoom;
     private State offCampusState;
-   
+    private Country offCampusCountry;
+    
 	/**
 	 * Default constructor.
 	 */
@@ -434,6 +436,23 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
      */
     public void setOffCampusState(State offCampusState) {
         this.offCampusState = offCampusState;
+    }
+
+    /**
+     * Gets the offCampusCountry attribute. 
+     * @return Returns the offCampusCountry.
+     */
+    public Country getOffCampusCountry() {
+        return offCampusCountry;
+    }
+
+    /**
+     * Sets the offCampusCountry attribute value.
+     * @param offCampusCountry The offCampusCountry to set.
+     * @deprecated
+     */
+    public void setOffCampusCountry(Country offCampusCountry) {
+        this.offCampusCountry = offCampusCountry;
     }
 
     /**

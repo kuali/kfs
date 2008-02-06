@@ -475,7 +475,8 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
     // add an error entry into error map
     private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
-        LaborLedgerBalance ledgerBalance = laborModuleService.createLaborLedgerBalance();
+        Class<? extends LaborLedgerBalance> clazz = laborModuleService.getLaborLedgerBalanceClass();
+        LaborLedgerBalance ledgerBalance = laborModuleService.createLaborBusinessObject(clazz);
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }

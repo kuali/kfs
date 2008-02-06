@@ -53,10 +53,10 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      */
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
         if (!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsApproved()) {
-            LOG.error("The given document has not beeen approved.");
+            LOG.debug("The given document has not beeen approved.");
             return;
         }
-        //TODO: add logic here
+        // TODO: add logic here
     }
 
     /**
@@ -84,7 +84,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
             documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
             documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
-            
+
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }
         catch (WorkflowException we) {
@@ -103,13 +103,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         String documentDescription = effortCertificationDocument.getEmplid();
         String explanation = MessageBuilder.getPropertyString(EffortKeyConstants.MESSAGE_CREATE_SET_DOCUMENT_DESCRIPTION);
 
-        List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = buildSourceAccountingLines(effortCertificationDocument);
-        List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = buildTargetAccountingLines(effortCertificationDocument);
-        
+        List<LaborLedgerExpenseTransferAccountingLine> sourceAccoutingLines = this.buildSourceAccountingLines(effortCertificationDocument);
+        List<LaborLedgerExpenseTransferAccountingLine> targetAccoutingLines = this.buildTargetAccountingLines(effortCertificationDocument);
+
         if (sourceAccoutingLines.isEmpty() || targetAccoutingLines.isEmpty()) {
             return true;
         }
-        
+
         try {
             laborModuleService.createSalaryExpenseTransferDocument(documentDescription, explanation, sourceAccoutingLines, targetAccoutingLines);
         }
@@ -121,57 +121,65 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * build the source accounting lines for a salary expense transfer document from the given effort certification document
+     * build the source accounting lines for a salary expense transfer document from the given effort certification document. In the
+     * holder, the first item is source accounting line list and the second the target accounting line list.
      * 
      * @param effortCertificationDocument the given effort certification document
      * @return the source accounting lines for a salary expense transfer document built from the given effort certification document
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildSourceAccountingLines(EffortCertificationDocument effortCertificationDocument) {
-        List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<LaborLedgerExpenseTransferAccountingLine> accountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-        
-        int sequenceNumber = 0;
-        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            boolean isQualified = this.getDifference(detailLine).isPositive();
-            if (isQualified) {
-                LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createExpenseTransferSourceAccountingLine();
-                accountingLine.setSequenceNumber(sequenceNumber);
+        List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
+        Class<? extends LaborLedgerExpenseTransferAccountingLine> sourceLineclass = laborModuleService.getExpenseTransferSourceAccountingLineClass();
 
-                this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
-                accountingLines.add(accountingLine);
+        List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            if (this.getDifference(detailLine).isPositive()) {
+                this.addAccountingLineIntoList(sourceAccountingLines, sourceLineclass, effortCertificationDocument, detailLine);
             }
         }
-        return accountingLines;
+        return sourceAccountingLines;
     }
 
     /**
-     * build the target accounting lines for a salary expense transfer document from the given effort certification document
+     * build the target accounting lines for a salary expense transfer document from the given effort certification document. In the
+     * holder, the first item is source accounting line list and the second the target accounting line list.
      * 
      * @param effortCertificationDocument the given effort certification document
      * @return the target accounting lines for a salary expense transfer document built from the given effort certification document
      */
     private List<LaborLedgerExpenseTransferAccountingLine> buildTargetAccountingLines(EffortCertificationDocument effortCertificationDocument) {
+        List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
+        Class<? extends LaborLedgerExpenseTransferAccountingLine> targetLineclass = laborModuleService.getExpenseTransferTargetAccountingLineClass();
+
         List<EffortCertificationDetail> effortCertificationDetailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<LaborLedgerExpenseTransferAccountingLine> accountingLines = new ArrayList<LaborLedgerExpenseTransferAccountingLine>();
-
-        int sequenceNumber = 0;
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            boolean isQualified = this.getDifference(detailLine).isNegative();
-            if (isQualified) {
-                LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createExpenseTransferTargetAccountingLine();
-                accountingLine.setSequenceNumber(sequenceNumber);
-
-                this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
-                accountingLines.add(accountingLine);
+            if (this.getDifference(detailLine).isNegative()) {
+                this.addAccountingLineIntoList(targetAccountingLines, targetLineclass, effortCertificationDocument, detailLine);
             }
         }
-        return accountingLines;
+        return targetAccountingLines;
     }
 
     /**
-     * populate an accounting line from the given detail line of the effort certification document
+     * add a new accounting line into the given accounting line list. The accounting line is generated from the given detail line
      * 
-     * @param effortCertificationDocument the effort certification document containing the detail line
+     * @param accountingLines a list of accounting lines
+     * @param clazz the specified class of the accounting line
+     * @param effortCertificationDocument the given effort certification document that contains the given detail line
+     * @param detailLine the given detail line that is used to generate an accounting line
+     */
+    private void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, Class<? extends LaborLedgerExpenseTransferAccountingLine> clazz, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
+        LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createLaborBusinessObject(clazz);
+        accountingLine.setSequenceNumber(accountingLineList.size() + 1);
+
+        this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);
+        accountingLineList.add(accountingLine);
+    }
+
+    /**
+     * populate an accounting line from the given detail line
+     * 
+     * @param effortCertificationDocument the given effort certification document that contains the given detail line
      * @param detailLine the given detail line
      * @param accountingLine the accounting line needed to be populated
      */
@@ -194,7 +202,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         accountingLine.setPositionNumber(detailLine.getPositionNumber());
         accountingLine.setPayrollTotalHours(BigDecimal.ZERO);
 
-        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();        
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
         accountingLine.setPayrollEndDateFiscalYear(reportDefinition.getExpenseTransferFiscalYear());
         accountingLine.setPayrollEndDateFiscalPeriodCode(reportDefinition.getExpenseTransferFiscalPeriodCode());
     }

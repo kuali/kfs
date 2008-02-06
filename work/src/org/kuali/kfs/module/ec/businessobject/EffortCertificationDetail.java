@@ -47,7 +47,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String costShareSourceSubAccountNumber;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
 
-    private EffortCertificationDocument financialDocument;
+    private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
     private Chart chartOfAccounts;
     private Account account;
@@ -334,23 +334,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.effortCertificationOriginalPayrollAmount = effortCertificationOriginalPayrollAmount;
     }
 
-    /**
-     * Gets the financialDocument attribute.
-     * 
-     * @return Returns the financialDocument.
-     */
-    public EffortCertificationDocument getFinancialDocument() {
-        return financialDocument;
-    }
-
-    /**
-     * Sets the financialDocument attribute value.
-     * 
-     * @param financialDocument The financialDocument to set.
-     */
-    public void setFinancialDocument(EffortCertificationDocument financialDocument) {
-        this.financialDocument = financialDocument;
-    }
 
     /**
      * Gets the financialObject attribute.
@@ -388,6 +371,23 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     @Deprecated
     public void setChartOfAccounts(Chart chartOfAccounts) {
         this.chartOfAccounts = chartOfAccounts;
+    }
+
+    /**
+     * Gets the effortCertificationDocument attribute. 
+     * @return Returns the effortCertificationDocument.
+     */
+    public EffortCertificationDocument getEffortCertificationDocument() {
+        return effortCertificationDocument;
+    }
+
+    /**
+     * Sets the effortCertificationDocument attribute value.
+     * @param effortCertificationDocument The effortCertificationDocument to set.
+     */
+    @Deprecated
+    public void setEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
+        this.effortCertificationDocument = effortCertificationDocument;
     }
 
     /**

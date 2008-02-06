@@ -330,7 +330,7 @@
 		<foreignkey field-ref="financialDocumentPostingYear" />
 	</reference-descriptor>
    
-    <reference-descriptor name="financialDocument" class-ref="org.kuali.module.effort.document.EffortCertificationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+    <reference-descriptor name="effortCertificationDocument" class-ref="org.kuali.module.effort.document.EffortCertificationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
         <foreignkey field-ref="documentNumber" />
     </reference-descriptor>
    

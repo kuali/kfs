@@ -62,6 +62,27 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferSourceAccountingLineClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass;
+    
+    /**
+     * @see org.kuali.kfs.service.LaborModuleService#createLaborBusinessObject(java.lang.Class)
+     */
+    public <T> T createLaborBusinessObject(Class<T> clazz) {
+        T businessObject = null;
+
+        try {
+            businessObject = clazz.newInstance();
+        }
+        catch (InstantiationException ie) {
+            LOG.error(ie);
+            throw new RuntimeException(ie);
+        }
+        catch (IllegalAccessException iae) {
+            LOG.error(iae);
+            throw new RuntimeException(iae);
+        }
+
+        return businessObject;
+    }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(org.kuali.kfs.bo.LaborLedgerObject,
@@ -69,41 +90,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount) {
         return laborBenefitsCalculationService.calculateFringeBenefit(laborLedgerObject, salaryAmount);
-    }
-
-    /**
-     * @see org.kuali.module.effort.service.LaborEffortCertificationService#createLaborLedgerBalance()
-     */
-    public LaborLedgerBalance createLaborLedgerBalance() {
-        return this.createLaborBusinessObject(laborLedgerBalanceClass);
-    }
-
-    /**
-     * @see org.kuali.module.effort.service.LaborModuleService#createLaborLedgerObject()
-     */
-    public LaborLedgerObject createLaborLedgerObject() {
-        return this.createLaborBusinessObject(laborLedgerObjectClass);
-    }
-
-    /**
-     * @see org.kuali.module.effort.service.LaborModuleService#createLaborLedgerPositionObjectGroup()
-     */
-    public LaborLedgerPositionObjectGroup createLaborLedgerPositionObjectGroup() {
-        return this.createLaborBusinessObject(laborLedgerPositionObjectGroupClass);
-    }
-
-    /**
-     * @see org.kuali.kfs.service.LaborModuleService#createExpenseTransferSourceAccountingLine()
-     */
-    public LaborLedgerExpenseTransferAccountingLine createExpenseTransferSourceAccountingLine() {
-        return this.createLaborBusinessObject(expenseTransferSourceAccountingLineClass);
-    }
-
-    /**
-     * @see org.kuali.kfs.service.LaborModuleService#createExpenseTransferTargetAccountingLine()
-     */
-    public LaborLedgerExpenseTransferAccountingLine createExpenseTransferTargetAccountingLine() {
-        return this.createLaborBusinessObject(expenseTransferTargetAccountingLineClass);
     }
 
     /**
@@ -299,27 +285,5 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public void setExpenseTransferTargetAccountingLineClass(Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass) {
         this.expenseTransferTargetAccountingLineClass = expenseTransferTargetAccountingLineClass;
-    }
-
-    /**
-     * create an object of the specified type
-     * 
-     * @param clazz the specified type of the object
-     * @return an object of the specified type
-     */
-    private <T> T createLaborBusinessObject(Class<T> clazz) {
-        T businessObject = null;
-
-        try {
-            businessObject = clazz.newInstance();
-        }
-        catch (InstantiationException e) {
-            LOG.error(e);
-        }
-        catch (IllegalAccessException e) {
-            LOG.error(e);
-        }
-
-        return businessObject;
     }
 }

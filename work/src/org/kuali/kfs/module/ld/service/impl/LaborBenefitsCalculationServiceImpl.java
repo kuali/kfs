@@ -78,14 +78,24 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
         Collection<PositionObjectBenefit> positionObjectBenefits = laborPositionObjectBenefitService.getPositionObjectBenefits(fiscalYear, chartOfAccountsCode, objectCode);
         for (PositionObjectBenefit positionObjectBenefit : positionObjectBenefits) {
-            // calculate the benefit amount (ledger amt * (benfit pct/100) )
-            KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
-            KualiDecimal benefitAmount = fringeBenefitPercent.multiply(salaryAmount).divide(new KualiDecimal(100));
-
+            KualiDecimal benefitAmount = this.calculateFringeBenefit(positionObjectBenefit, salaryAmount);
             fringeBenefit = fringeBenefit.add(benefitAmount);
         }
 
         return fringeBenefit;
+    }
+    
+    /**
+     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.PositionObjectBenefit, org.kuali.core.util.KualiDecimal)
+     */
+    public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {
+        if (salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {
+            return KualiDecimal.ZERO;
+        }
+
+        // calculate the benefit amount (ledger amt * (benfit pct/100) )
+        KualiDecimal fringeBenefitPercent = positionObjectBenefit.getBenefitsCalculation().getPositionFringeBenefitPercent();
+        return fringeBenefitPercent.multiply(salaryAmount).divide(new KualiDecimal(100));
     }
 
     /**

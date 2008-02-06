@@ -19,6 +19,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.LaborLedgerObject;
 import org.kuali.module.labor.bo.BenefitsCalculation;
 import org.kuali.module.labor.bo.LaborObject;
+import org.kuali.module.labor.bo.PositionObjectBenefit;
 
 /**
  * The interface provides its clients with access to the benefit calculation.
@@ -45,4 +46,13 @@ public interface LaborBenefitsCalculationService {
      * @return the fringe benefit amount for the given labor object and salary amount
      */
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
+    
+    /**
+     * calculate the fringe benefit amount from the given position object benefit and salary amount
+     * 
+     * @param positionObjectBenefit the given position object benefit
+     * @param salaryAmount the given salary amount
+     * @return the fringe benefit amount for the given position object benefit and salary amount
+     */
+    public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount);
 }

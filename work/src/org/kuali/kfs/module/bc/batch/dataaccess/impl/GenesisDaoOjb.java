@@ -460,42 +460,17 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
      */
     public void clearDBForGenesis(Integer BaseYear)
     {
-        clearBothYearsBudgetConstructionAdministrativePost(BaseYear);
-        clearBothYearsBudgetConstructionIntendedIncumbent(BaseYear);
+        //clearBudgetConstructionAdministrativePost();
+        //clearBudgetConstructionIntendedIncumbent();
         //  the order is important because of referential integrity in the database
         clearBothYearsBCSF(BaseYear);
-        clearBothYearsBudgetConstructionAppointmentFundingReason(BaseYear);
+        // clearBothYearsBudgetConstructionAppointmentFundingReason(BaseYear);
         clearBothYearsPendingApptFunding(BaseYear);
         clearBothYearsBCPosition(BaseYear);
         //  the calling order is important because of referential integrity in the 
         //  database
         clearBothYearsPBGL(BaseYear);
         clearBothYearsHeaders(BaseYear);
-    }
-
-    private void clearBaseYearBudgetConstructionAdministrativePost(Integer BaseYear)
-    {
-        Criteria criteriaId = new Criteria();
-        criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                BaseYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionAdministrativePost.class,
-                    criteriaId);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
-    }
-
-    private void clearBothYearsBudgetConstructionAdministrativePost(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear+1;
-        Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                              BaseYear,RequestYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionAdministrativePost.class,
-                                                      criteriaId);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
     }
     
     private void clearBudgetConstructionAdministrativePost()
@@ -506,19 +481,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
-    
-    private void clearRequestYearBudgetConstructionAdministrativePost(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear +1;
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionAdministrativePost.class,
-                    criteriaId);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
-    }
+
     private void clearBaseYearBudgetConstructionAppointmentFundingReason(Integer BaseYear)
     {
         Criteria criteriaId = new Criteria();
@@ -599,50 +562,12 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }
-
-    private void clearBaseYearBudgetConstructionIntendedIncumbent(Integer BaseYear)
-    {
-        Criteria criteriaId = new Criteria();
-        criteriaId.addColumnEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                BaseYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionIntendedIncumbent.class,
-                    criteriaId);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
-    }
-
-    private void clearBothYearsBudgetConstructionIntendedIncumbent(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear+1;
-        Criteria criteriaId = new Criteria();
-        criteriaId.addBetween(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                              BaseYear,RequestYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionIntendedIncumbent.class,
-                                                      criteriaId);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
-    }
     
     private void clearBudgetConstructionIntendedIncumbent()
     {
         QueryByCriteria queryId = 
             new QueryByCriteria(BudgetConstructionIntendedIncumbent.class,
                                 QueryByCriteria.CRITERIA_SELECT_ALL);
-        getPersistenceBrokerTemplate().deleteByQuery(queryId);
-        getPersistenceBrokerTemplate().clearCache();
-    }
-    
-    private void clearRequestYearBudgetConstructionIntendedIncumbent(Integer BaseYear)
-    {
-        Integer RequestYear = BaseYear +1;
-        Criteria criteriaId = new Criteria();
-        criteriaId.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
-                RequestYear);
-        QueryByCriteria queryId = 
-            new QueryByCriteria(BudgetConstructionIntendedIncumbent.class,
-                    criteriaId);
         getPersistenceBrokerTemplate().deleteByQuery(queryId);
         getPersistenceBrokerTemplate().clearCache();
     }

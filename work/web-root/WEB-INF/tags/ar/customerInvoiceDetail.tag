@@ -27,7 +27,7 @@
 <%@ attribute name="cssClass" required="true" %>
 
 <tr>
-    <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row">
+    <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row" rowspan="2">
         <%-- Outside this th, these hidden fields would be invalid HTML. --%>
         <html:hidden property="${propertyName}.documentNumber" />
         <html:hidden property="${propertyName}.invoiceItemNumber" />
@@ -56,7 +56,7 @@
 		<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.invoiceItemServiceDate }" property="${propertyName}.invoiceItemServiceDate"/>
 	</td>
 	<c:if test="${not readOnly}">
-        <td class="${cssClass}">
+        <td class="${cssClass}" rowspan="2">
         	<div align="center">
         		<html:image property="methodToCall.${actionMethod}" src="${actionImage}" alt="${actionAlt}" title="${actionAlt}" styleClass="tinybutton"/>
         	</div>

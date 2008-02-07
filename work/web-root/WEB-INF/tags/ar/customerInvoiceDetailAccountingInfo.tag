@@ -18,14 +18,10 @@
 <%@ attribute name="propertyName" required="true" description="The customer invoice detail" %>              
 <%@ attribute name="cssClass" required="true" description="The cssClass" %>
               
-<c:set var="tabTitle" value="Customer Invoice Detail Accounting Info"/>
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
-<c:set var="currentTabIndex" value="${KualiForm.currentTabIndex}"/>
-<c:set var="tabKey" value="${kfunc:generateTabKey(tabTitle)}"/>
-<!--  hit form method to increment tab index -->
-<c:set var="dummyIncrementer" value="${kfunc:incrementTabIndex(KualiForm, tabKey)}" />
-
+<%-- generate unique tab key from propertyName --%>
+<c:set var="tabKey" value="${kfunc:generateTabKey(propertyName)}"/>
 <c:set var="currentTab" value="${kfunc:getTabState(KualiForm, tabKey)}"/>
 
 <%-- default to closed --%>
@@ -41,9 +37,8 @@
 <html:hidden property="tabStates(${tabKey})" value="${(isOpen ? 'OPEN' : 'CLOSE')}" />
 
 <tr>
-    <th>&nbsp;</th>
-    <td class="total-line" colspan="7" style="padding: 0px;">
-        <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable">
+    <td colspan="7" style="padding: 0px;">
+        <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
             <tr>
                 <td class="tab-subhead" style="border-right: none;">Accounting Information 
                   <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
@@ -63,7 +58,7 @@
             <div style="display: none;" id="tab-${tabKey}-div">
         </c:if>
 
-        <table class="datatable" style="width: 100%;">
+        <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
         	<tr>
         		<kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${customerInvoiceDetailAttributes.accountNumber}" />
@@ -111,5 +106,4 @@
           </table>
         </div>
     </td>
-    <th>&nbsp;</th>
 </tr>

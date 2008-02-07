@@ -94,6 +94,9 @@ public class Asset extends PersistableBusinessObjectBase {
     private AssetCondition condition;        
     private AssetStatus inventoryStatus;
     private List<AssetPayment> assetPayments;
+    
+    // Non-persisted attributes:
+    private KualiDecimal federalContributionAmount;
     /**
 	 * Default constructor.
 	 */
@@ -1538,5 +1541,21 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setInventoryStatus(AssetStatus inventoryStatus) {
         this.inventoryStatus = inventoryStatus;
+    }
+
+    /**
+     * Gets the federalContributionAmount attribute. 
+     * @return Returns the federalContributionAmount.
+     */
+    public KualiDecimal getFederalContributionAmount() {
+        return federalContributionAmount;
+    }
+
+    /**
+     * Sets the federalContributionAmount attribute value.
+     * @param federalContributionAmount The federalContributionAmount to set.
+     */
+    public void setFederalContributionAmount(KualiDecimal federalContributionAmount) {
+        this.federalContributionAmount = federalContributionAmount;
     }
 }

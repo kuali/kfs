@@ -18,34 +18,64 @@ package org.kuali.module.cams.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
+import org.kuali.module.pdp.batch.LoadPayments;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets
  */
 public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
+    
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetGlobalMaintainableImpl.class);
+    
     /**
      * Hook for quantity and setting asset numbers.
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#addNewLineToCollection(java.lang.String)
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
+        
+        LOG.info("LEO collectionName = " + collectionName);
+        
         AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
         
-//        if (addAssetLine.quantity > 1) {
-//            Add multiples times
-//        }
+        LOG.info("LEO locQuantity = " + addAssetLine.getLocationQuantity());
+        if (addAssetLine.getLocationQuantity() >= 1) {
+            
+            for (int i = 0; i < addAssetLine.getLocationQuantity(); i++) {
+              
+                LOG.info("LEO getBuildingCode = " + addAssetLine.getBuildingCode());
+                addAssetLine.setCampusCode(addAssetLine.getBuildingCode());
+                
+                LOG.info("LEO getBuildingRoomNumber = " + addAssetLine.getBuildingRoomNumber());
+                addAssetLine.setBuildingRoomNumber(addAssetLine.getBuildingRoomNumber());
+
+                LOG.info("LEO getBuildingSubRoomNumber = " + addAssetLine.getBuildingSubRoomNumber());
+                addAssetLine.setBuildingSubRoomNumber(addAssetLine.getBuildingSubRoomNumber());
+                
+                // get asset number
+                Long assetNumber = NextAssetNumberFinder.getLongValue();
+                LOG.info("LEO assetNumber = " + assetNumber);
+                addAssetLine.setCapitalAssetNumber(assetNumber);
+              
+                // add new data to collection
+                super.addNewLineToCollection(collectionName);
+            }
+        }
         
-        Long assetNumber = NextAssetNumberFinder.getLongValue();
-        addAssetLine.setCapitalAssetNumber(assetNumber);
+        //Long assetNumber = NextAssetNumberFinder.getLongValue();
+        //LOG.info("LEO assetNumber = " + assetNumber);
+        //addAssetLine.setCapitalAssetNumber(assetNumber);
         
-        super.addNewLineToCollection(collectionName);
+        //super.addNewLineToCollection(collectionName);
     }
 
     /**

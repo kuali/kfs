@@ -37,7 +37,27 @@ public class AssetGlobalDetail extends GlobalBusinessObjectDetailBase {
     private State offCampusState;
     private Country offCampusCountry;
     
+    private int locationQuantity;
+    
 	/**
+     * Gets the locationQuantity attribute.
+     * 
+     * @return Returns the locationQuantity.
+     */
+    public int getLocationQuantity() {
+        return locationQuantity;
+    }
+
+    /**
+     * Sets the locationQuantity attribute value.
+     * 
+     * @param locationQuantity The locationQuantity to set.
+     */
+    public void setLocationQuantity(int locationQuantity) {
+        this.locationQuantity = locationQuantity;
+    }
+
+    /**
 	 * Default constructor.
 	 */
 	public AssetGlobalDetail() {

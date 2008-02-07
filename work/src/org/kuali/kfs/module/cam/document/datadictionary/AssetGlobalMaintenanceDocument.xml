@@ -49,16 +49,17 @@
         <maintainableSections>
             <maintainableSection title="Global Asset Maintenance">
                 <maintainableItems>
-                <maintainableField name="capitalAssetDescription" required="true" />
-                <maintainableField name="capitalAssetTypeCode" required="true" />
-                <maintainableField name="conditionCode" required="true" />
-                <maintainableField name="versionNumber" />
+	                <maintainableField name="capitalAssetDescription" required="true" />
+	                <maintainableField name="capitalAssetTypeCode" required="true" />
+	                <maintainableField name="conditionCode" required="true" />
+	                <maintainableField name="versionNumber" />
                 </maintainableItems>
             </maintainableSection>
+
             <maintainableSection title="Edit Multiple Location">
                 <maintainableItems>
                     <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetGlobalDetails" summaryTitle="Location">
-                        <maintainableField name="capitalAssetNumber" readOnly="true"/>
+						<maintainableField name="capitalAssetNumber" readOnly="true"/>
                         <maintainableField name="campusCode" />
                         <maintainableField name="buildingCode" />
                         <maintainableField name="buildingRoomNumber" />
@@ -68,16 +69,17 @@
                         <maintainableField name="offCampusCityName" />
                         <maintainableField name="offCampusStateCode" />
                         <maintainableField name="offCampusZipCode" />
- 
-                        <maintainableField name="versionNumber" />
-                        <maintainableField name="newCollectionRecord" />
+
+						<maintainableField name="versionNumber" />
+                        <maintainableField name="locationQuantity" />
+                        <!-- <maintainableField name="newCollectionRecord" /> -->
                         <summaryFields>
                             <summaryField name="capitalAssetNumber" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>
             </maintainableSection>
-            
+
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

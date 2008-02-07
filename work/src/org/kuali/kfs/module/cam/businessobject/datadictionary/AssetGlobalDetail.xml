@@ -262,6 +262,18 @@
                 <description>offCampusCountryCode description...</description>
 			</attribute>
 
+            <attribute name="locationQuantity">
+                <label>Location Quantity</label>
+                <shortLabel>qty</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="3" />
+                </control>
+                <summary>locationQuantity</summary>
+                <description>locationQuantity description...</description>
+			</attribute>
+
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

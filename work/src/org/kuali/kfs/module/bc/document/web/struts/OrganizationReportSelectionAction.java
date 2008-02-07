@@ -80,6 +80,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
         BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
         BudgetConstructionOrganizationJasperReportsService budgetConstructionOrganizationJasperReportsService = SpringContext.getBean(BudgetConstructionOrganizationJasperReportsService.class);
         
+        //get selected sub-fund group code
         Iterator iter = subfundListSelectionForm.getBcSubfundList().iterator();
         while (iter.hasNext()) {
             BudgetConstructionSubFundPick bcsfp = (BudgetConstructionSubFundPick) iter.next();

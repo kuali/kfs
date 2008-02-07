@@ -22,7 +22,7 @@
 
 
         <inquiry>
-            <title>Effort Certification Report Inquiry</title>
+            <title>Effort Certification Report Definition Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="universityFiscalYear" />
@@ -42,7 +42,7 @@
         </inquiry>
 
         <lookup>
-            <title>Effort Certification Report Lookup</title>
+            <title>Effort Certification Report Definition Lookup</title>
 
             <instructions>Look up an Effort Certification Report</instructions>
 

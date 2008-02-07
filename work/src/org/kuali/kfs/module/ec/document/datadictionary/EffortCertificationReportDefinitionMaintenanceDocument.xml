@@ -34,10 +34,10 @@
 		<documentTypeName>EffortCertificationPeriodStatusCodeMaintenanceDocument</documentTypeName>
 		<documentTypeCode>ARPS</documentTypeCode>
 
-		<label>Effort Certification Report Maintenance Document</label>
+		<label>Effort Certification Report Definition Maintenance Document</label>
 		<shortLabel>Effort Cert Report Maint Doc</shortLabel>
 		
-		<summary>Effort Certification Report Maintenance Document</summary>
+		<summary>Effort Certification Report Definition Maintenance Document</summary>
 		<description>Document used to create or update Effort Certification Report Maintenance Document</description>
 
         <lockingKeys>

@@ -47,7 +47,7 @@
 		</li>
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Report Definition"
+			<portal:portalLink displayTitle="true" title="Effort Certification Report Definition"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		

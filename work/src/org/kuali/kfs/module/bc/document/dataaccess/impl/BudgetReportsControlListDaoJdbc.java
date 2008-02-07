@@ -47,14 +47,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
 
         String buildReportsControlListPart1 = sqlText.toString();
         getSimpleJdbcTemplate().update(buildReportsControlListPart1, idForSession, personUserIdentifier, universityFiscalYear);
-
-        /*
-         * INSERT INTO LD_BCN_BUILD_CTRL_LIST01_MT (SESID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, ORG_LEVEL_CD, ORG_FIN_COA_CD,
-         * ORG_CD, PULL_FLAG) SELECT '000000001', hier.univ_fiscal_yr, hier.fin_coa_cd, hier.account_nbr, hier.org_level_cd,
-         * hier.org_fin_coa_cd, hier.org_cd, pull.pull_flag FROM LD_BCN_PULLUP_T pull, LD_BCN_ACCT_ORG_HIER_T hier WHERE
-         * pull.person_unvl_id = '3949401795' AND hier.univ_fiscal_yr = 2007 AND hier.org_fin_coa_cd = pull.fin_coa_cd AND
-         * hier.org_cd = pull.org_cd
-         */
     }
 
     /**
@@ -83,17 +75,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
 
         String buildReportsControlListPart2 = sqlText.toString();
         getSimpleJdbcTemplate().update(buildReportsControlListPart2, idForSession, personUserIdentifier, chartOfAccountsCode, organizationCode, idForSession);
-        /*
-         * INSERT INTO LD_BCN_BUILD_CTRL_LIST02_MT (SESID, PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR,
-         * SUB_ACCT_NBR, HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG) SELECT DISTINCT
-         * '511929BA-7C72-0C5C-64D1-E6F182B13CAF', '3949401795' , head.fdoc_nbr, head.univ_fiscal_yr, head.fin_coa_cd,
-         * head.account_nbr, head.sub_acct_nbr, hier.org_level_cd, sel.org_level_cd, sel.org_fin_coa_cd, sel.org_cd, sel.pull_flag
-         * FROM LD_BCN_ACCT_ORG_HIER_T hier, LD_BCNSTR_HDR_T head, LD_BCN_BUILD_CTRL_LIST01_MT sel WHERE hier.org_fin_coa_cd = 'BL'
-         * AND hier.org_cd = 'BL' AND hier.univ_fiscal_yr = sel.univ_fiscal_yr AND hier.fin_coa_cd = sel.fin_coa_cd AND
-         * hier.account_nbr = sel.account_nbr AND head.org_level_cd <= hier.org_level_cd AND hier.univ_fiscal_yr =
-         * head.univ_fiscal_yr AND hier.fin_coa_cd = head.fin_coa_cd AND hier.account_nbr = head.account_nbr AND sel.sesid =
-         * '511929BA-7C72-0C5C-64D1-E6F182B13CAF'
-         */
     }
 
     /**
@@ -121,18 +102,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
 
         String buildReportsControlListDisp1 = sqlText.toString();
         getSimpleJdbcTemplate().update(buildReportsControlListDisp1, idForSession);
-
-
-        /*
-         * insert into LD_BCN_CTRL_LIST_T (PERSON_UNVL_ID, FDOC_NBR, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR,
-         * HIER_ORG_LVL_CD, SEL_ORG_LVL_CD, SEL_ORG_FIN_COA, SEL_ORG_CD, SEL_PULL_FLAG, SEL_SUB_FUND_GRP) select
-         * ctrl.person_unvl_id, ctrl.fdoc_nbr, ctrl.univ_fiscal_yr, ctrl.fin_coa_cd, ctrl.account_nbr, ctrl.sub_acct_nbr,
-         * ctrl.hier_org_lvl_cd, ctrl.sel_org_lvl_cd, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.sel_pull_flag,
-         * acct.sub_fund_grp_cd from LD_BCN_BUILD_CTRL_LIST02_MT ctrl, CA_ACCOUNT_T acct where ctrl.sesid = 'SESSIONID' and
-         * acct.fin_coa_cd = ctrl.fin_coa_cd and acct.account_nbr = ctrl.account_nbr and exists (select * from LD_PND_BCNSTR_GL_T
-         * pbgl where pbgl.fdoc_nbr = ctrl.fdoc_nbr and pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr and pbgl.fin_coa_cd =
-         * ctrl.fin_coa_cd and pbgl.account_nbr = ctrl.account_nbr and pbgl.sub_acct_nbr = ctrl.sub_acct_nbr);
-         */
     }
 
     /**
@@ -165,12 +134,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
 
         String subFundList = sqlText.toString();
         getSimpleJdbcTemplate().update(subFundList, personUserIdentifier, personUserIdentifier);
-
-        /*
-         * INSERT INTO LD_BCN_SUBFUND_PICK_T (PERSON_UNVL_ID, SUB_FUND_GRP_CD, REPORT_FLAG) SELECT DISTINCT '1111',
-         * ctrl.sel_sub_fund_grp, 0 FROM LD_BCN_CTRL_LIST_T ctrl WHERE ctrl.person_unvl_id = '1111'
-         */
-    }
+  }
 
     /**
      * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSelectedSubFundGroupFlags(java.lang.String,
@@ -292,53 +256,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
 
         String repotsAccountSummary = sqlText.toString();
         getSimpleJdbcTemplate().update(repotsAccountSummary, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
-
-        /*
-         * INSERT INTO LD_BCN_ACCT_SUMM_T (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,
-         * ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) SELECT '1234',
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr,
-         * ctrl.sub_acct_nbr, 'A', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM
-         * LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf WHERE
-         * pbgl.fin_obj_typ_cd in ('IN','IC','CH','AS') AND ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id =
-         * pick.person_unvl_id AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd =
-         * sf.sub_fund_grp_cd AND pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd =
-         * ctrl.fin_coa_cd AND pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr GROUP BY
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp,
-         * ctrl.account_nbr, ctrl.sub_acct_nbr UNION SELECT '1234', ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd,
-         * sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr, ctrl.sub_acct_nbr, 'E', sum(pbgl.acln_annl_bal_amt),
-         * sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T
-         * ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND
-         * ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id = pick.person_unvl_id AND ctrl.sel_sub_fund_grp =
-         * pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd AND pbgl.fdoc_nbr =
-         * ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd = ctrl.fin_coa_cd AND pbgl.account_nbr =
-         * ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr AND o.univ_fiscal_yr = pbgl.univ_fiscal_yr AND o.fin_coa_cd =
-         * pbgl.fin_coa_cd AND o.fin_object_cd = pbgl.fin_object_cd AND o.fin_obj_level_cd not in ('CORI','TRIN') AND EXISTS (SELECT *
-         * FROM CA_OBJECT_CODE_T o1, LD_PND_BCNSTR_GL_T pb WHERE pb.fdoc_nbr = pbgl.fdoc_nbr AND pb.univ_fiscal_yr =
-         * pbgl.univ_fiscal_yr AND pb.fin_coa_cd = pbgl.fin_coa_cd AND pb.account_nbr = pbgl.account_nbr AND pb.sub_acct_nbr =
-         * pbgl.sub_acct_nbr AND o1.univ_fiscal_yr = pb.univ_fiscal_yr AND o1.fin_coa_cd = pb.fin_coa_cd AND o1.fin_object_cd =
-         * pb.fin_object_cd AND o1.fin_obj_level_cd in ('CORI','TRIN')) GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd,
-         * ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr, ctrl.sub_acct_nbr UNION
-         * SELECT '1234', ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp,
-         * ctrl.account_nbr, ctrl.sub_acct_nbr, 'T', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt),
-         * sf.fin_report_sort_cd FROM LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T
-         * pick, CA_SUB_FUND_GRP_T sf WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND ctrl.person_unvl_id = '1234' AND
-         * ctrl.person_unvl_id = pick.person_unvl_id AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND
-         * pick.sub_fund_grp_cd = sf.sub_fund_grp_cd AND pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr
-         * AND pbgl.fin_coa_cd = ctrl.fin_coa_cd AND pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr
-         * AND o.univ_fiscal_yr = pbgl.univ_fiscal_yr AND o.fin_coa_cd = pbgl.fin_coa_cd AND o.fin_object_cd = pbgl.fin_object_cd
-         * AND o.fin_obj_level_cd in ('CORI','TRIN') GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd,
-         * sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr, ctrl.sub_acct_nbr UNION SELECT '1234',
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr,
-         * ctrl.sub_acct_nbr, 'X', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM
-         * LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf WHERE
-         * pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id =
-         * pick.person_unvl_id AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd =
-         * sf.sub_fund_grp_cd AND pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd =
-         * ctrl.fin_coa_cd AND pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr GROUP BY
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp,
-         * ctrl.account_nbr, ctrl.sub_acct_nbr
-         */
-
     }
 
 
@@ -447,49 +364,6 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         String repotsAccountSummary = sqlText.toString();
         getSimpleJdbcTemplate().update(repotsAccountSummary, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
 
-        /*
-         * INSERT INTO ld_bcn_acct_summ_t (PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,
-         * ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) SELECT '1234',
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr, '-----',
-         * 'A', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM LD_PND_BCNSTR_GL_T pbgl,
-         * LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf WHERE pbgl.fin_obj_typ_cd in
-         * ('IN','IC','CH','AS') AND ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id = pick.person_unvl_id AND
-         * ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd AND
-         * pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd = ctrl.fin_coa_cd AND
-         * pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr GROUP BY ctrl.sel_org_fin_coa,
-         * ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr UNION
-         * SELECT '1234', ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp,
-         * ctrl.account_nbr, '-----', 'E', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM
-         * LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf
-         * WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id =
-         * pick.person_unvl_id AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd =
-         * sf.sub_fund_grp_cd AND pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd =
-         * ctrl.fin_coa_cd AND pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr AND o.univ_fiscal_yr =
-         * pbgl.univ_fiscal_yr AND o.fin_coa_cd = pbgl.fin_coa_cd AND o.fin_object_cd = pbgl.fin_object_cd AND o.fin_obj_level_cd
-         * not in ('CORI','TRIN') AND EXISTS (SELECT * FROM CA_OBJECT_CODE_T o1, LD_PND_BCNSTR_GL_T pb WHERE pb.univ_fiscal_yr =
-         * pbgl.univ_fiscal_yr AND pb.fin_coa_cd = pbgl.fin_coa_cd AND pb.account_nbr = pbgl.account_nbr AND o1.univ_fiscal_yr =
-         * pb.univ_fiscal_yr AND o1.fin_coa_cd = pb.fin_coa_cd AND o1.fin_object_cd = pb.fin_object_cd AND o1.fin_obj_level_cd in
-         * ('CORI','TRIN')) GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd,
-         * ctrl.sel_sub_fund_grp, ctrl.account_nbr UNION SELECT '1234', ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd,
-         * sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr, '-----', 'T', sum(pbgl.acln_annl_bal_amt),
-         * sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd FROM LD_PND_BCNSTR_GL_T pbgl, CA_OBJECT_CODE_T o, LD_BCN_CTRL_LIST_T
-         * ctrl, LD_BCN_SUBFUND_PICK_T pick, CA_SUB_FUND_GRP_T sf WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND
-         * ctrl.person_unvl_id = '1234' AND ctrl.person_unvl_id = pick.person_unvl_id AND ctrl.sel_sub_fund_grp =
-         * pick.sub_fund_grp_cd AND pick.report_flag > 0 AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd AND pbgl.fdoc_nbr =
-         * ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr AND pbgl.fin_coa_cd = ctrl.fin_coa_cd AND pbgl.account_nbr =
-         * ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr AND o.univ_fiscal_yr = pbgl.univ_fiscal_yr AND o.fin_coa_cd =
-         * pbgl.fin_coa_cd AND o.fin_object_cd = pbgl.fin_object_cd AND o.fin_obj_level_cd in ('CORI','TRIN') GROUP BY
-         * ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp,
-         * ctrl.account_nbr UNION SELECT '1234', ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd,
-         * ctrl.sel_sub_fund_grp, ctrl.account_nbr, '-----', 'X', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt),
-         * sf.fin_report_sort_cd FROM LD_PND_BCNSTR_GL_T pbgl, LD_BCN_CTRL_LIST_T ctrl, LD_BCN_SUBFUND_PICK_T pick,
-         * CA_SUB_FUND_GRP_T sf WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') AND ctrl.person_unvl_id = '1234' AND
-         * ctrl.person_unvl_id = pick.person_unvl_id AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd AND pick.report_flag > 0 AND
-         * pick.sub_fund_grp_cd = sf.sub_fund_grp_cd AND pbgl.fdoc_nbr = ctrl.fdoc_nbr AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr
-         * AND pbgl.fin_coa_cd = ctrl.fin_coa_cd AND pbgl.account_nbr = ctrl.account_nbr AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr
-         * GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd,
-         * ctrl.sel_sub_fund_grp, ctrl.account_nbr;
-         */
     }
 
     /**

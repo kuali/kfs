@@ -98,7 +98,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     private Integer tempFiscalYear = new Integer(2008);
 
     /**
-     * Building report
+     * builds a report
      * 
      * @param Collection<BudgetConstructionAccountSummary> list
      */
@@ -133,7 +133,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Building report Header
+     * builds report Header
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
@@ -200,7 +200,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Building report body
+     * builds report body
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
@@ -270,7 +270,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Building report total
+     * builds report total
      * 
      * @param BudgetConstructionAccountSummary bcas
      * @param List reportTotalList
@@ -324,7 +324,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Calculate total part of report
+     * Calculates total part of report
      * 
      * @param List bcasList
      * @param List simpleList
@@ -393,7 +393,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Checking wheather or not the entry of account is same
+     * Checks wheather or not the entry of account is same
      * 
      * @param BudgetConstructionAccountSummary firstBcas
      * @param BudgetConstructionAccountSummary secondBcas
@@ -408,7 +408,7 @@ public class BudgetConstructionOrgAccountSummaryReport {
     }
 
     /**
-     * Delete duplicated entry from list
+     * Deletes duplicated entry from list
      * 
      * @param List list
      * @return a list that all duplicated entries were deleted

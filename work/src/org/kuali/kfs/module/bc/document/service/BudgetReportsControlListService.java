@@ -27,7 +27,7 @@ import org.kuali.module.budget.bo.BudgetConstructionPullup;
 public interface BudgetReportsControlListService {
 
     /**
-     * This method cleans all control list tables.
+     * cleans all control list tables.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -37,7 +37,7 @@ public interface BudgetReportsControlListService {
     public void cleanReportsControlList(String idForSession, String personUserIdentifier);
 
     /**
-     * This method updates all control list tables.
+     * updates all control list tables.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -47,7 +47,7 @@ public interface BudgetReportsControlListService {
     public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup);
 
     /**
-     * This method changes flags in ld_bcn_pullup_t with Organization and Chart code.
+     * changes flags in ld_bcn_pullup_t with Organization and Chart code.
      * 
      * @param personUserIdentifier
      * @param budgetConstructionPullup
@@ -56,7 +56,7 @@ public interface BudgetReportsControlListService {
     public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, List<BudgetConstructionPullup> budgetConstructionPullup);
 
     /**
-     * This method cleans sub-fund group list.
+     * cleans sub-fund group list.
      * 
      * @param personUserIdentifier
      * @return
@@ -64,7 +64,7 @@ public interface BudgetReportsControlListService {
     public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
 
     /**
-     * This method updates sub-fund group list
+     * updates sub-fund group list
      * 
      * @param personUserIdentifier
      * @return
@@ -72,7 +72,7 @@ public interface BudgetReportsControlListService {
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
 
     /**
-     * This method cleans acount summary table.
+     * cleans acount summary table.
      * 
      * @param personUserIdentifier
      * @return
@@ -80,7 +80,7 @@ public interface BudgetReportsControlListService {
     public void cleanReportsAccountSummaryTable(String personUserIdentifier);
 
     /**
-     * This method updates acount summary table.
+     * updates acount summary table.
      * 
      * @param personUserIdentifier
      * @return
@@ -88,7 +88,7 @@ public interface BudgetReportsControlListService {
     public void updateRepotsAccountSummaryTable(String personUserIdentifier);
 
     /**
-     * This method updates acount summary table when users choose consolidation.
+     * updates acount summary table when users choose consolidation.
      * 
      * @param personUserIdentifier
      * @return
@@ -96,7 +96,7 @@ public interface BudgetReportsControlListService {
     public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
 
     /**
-     * This method updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
+     * updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
      * 
      * @param personUserIdentifier
      * @param selectedSubfundGroupCodeList

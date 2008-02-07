@@ -63,7 +63,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
     }
 
     /**
-     * This method is for submitting user's selection and generate report.
+     * submits user's selection and generate report.
      * 
      * @param mapping
      * @param form
@@ -114,7 +114,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
     }
 
     /**
-     * This method is for selecting all sub-fund group code.
+     * selects all sub-fund group code.
      * 
      * @param mapping
      * @param form
@@ -133,7 +133,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
     }
 
     /**
-     * This method is for un-selecting all sub-fund group code.
+     * un-selects all sub-fund group code.
      * 
      * @param mapping
      * @param form

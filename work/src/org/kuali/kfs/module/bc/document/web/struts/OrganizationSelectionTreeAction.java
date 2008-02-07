@@ -743,7 +743,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     }
 
     /**
-     * This method is for Budget Construction Organization Account Summary Report
+     * Starts process for Budget Construction Organization Account Summary Report
      * 
      * @param mapping
      * @param form
@@ -807,7 +807,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     }
 
     /**
-     * This method is for tracking user's selection of SubTreeOrgs. It will returns true only when user's previous selections and
+     * tracks user's selection of SubTreeOrgs. It will returns true only when user's previous selections and
      * current selections are same.
      * 
      * @param sessionSelectionSubTreeOrgs
@@ -835,7 +835,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
     }
 
     /**
-     * This method is for removing unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
+     * removes unselected SubTreeOrgs since selectionSubTreeOrgs contains all SubTreeOrgs.
      * 
      * @param selectionSubTreeOrgs
      * @return

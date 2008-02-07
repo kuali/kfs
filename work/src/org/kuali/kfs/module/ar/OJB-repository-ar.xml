@@ -311,7 +311,7 @@
 	<reference-descriptor name="customerSpecialProcessing" class-ref="org.kuali.module.ar.bo.CustomerProcessingType" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerSpecialProcessingCode" />
 	</reference-descriptor>
-    <collection-descriptor name="invoiceDetails" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    <collection-descriptor name="customerInvoiceDetails" element-class-ref="org.kuali.module.ar.bo.CustomerInvoiceDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <orderby name="invoiceItemNumber" sort="ASC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>

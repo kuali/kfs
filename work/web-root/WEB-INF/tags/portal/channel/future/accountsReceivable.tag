@@ -18,13 +18,13 @@
 <channel:portalChannelTop channelTitle="Accounts Receivable" />
 <div class="body">
     <ul class="chan">
-	      <li><portal:portalLink displayTitle="true" title="Payment Application" url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentApplicationDocument" /></li>
-	      <li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
-	      <li><portal:portalLink displayTitle="true" title="Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerCreditMemoDocument" /></li>
-	      <li>Customer</li>
-	      <li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
-	      <li>Organization Accounting Defaults</li>
-	      <li>Organization Options</li>
+		<li><portal:portalLink displayTitle="true" title="Cash Control" url="arCashControlDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CashControlDocument" /></li>
+		<li><portal:portalLink displayTitle="true" title="Credit Memo" url="arCustomerCreditMemoDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerCreditMemoDocument" /></li>
+		<li>Customer</li>
+		<li><portal:portalLink displayTitle="true" title="Customer Invoice" url="arCustomerInvoiceDocument.do?methodToCall=docHandler&command=initiate&docTypeName=CustomerInvoiceDocument" /></li>
+		<li>Organization Accounting Defaults</li>
+		<li>Organization Options</li>
+		<li><portal:portalLink displayTitle="true" title="Payment Application" url="arPaymentApplicationDocument.do?methodToCall=docHandler&command=initiate&docTypeName=PaymentApplicationDocument" /></li>	      
 	</ul>
 </div>
 <channel:portalChannelBottom />

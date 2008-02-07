@@ -15,6 +15,9 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="readOnly"
+	value="${!empty KualiForm.editingMode['viewOnly']}" />
+
 <kul:documentPage showDocumentInfo="true"
 	documentTypeName="CustomerInvoiceDocument"
 	htmlFormAction="arCustomerInvoiceDocument" renderMultipart="true"
@@ -28,12 +31,13 @@
 
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	
-    <ar:invoice
+    <ar:customerInvoice
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}" />
         
-	<ar:invoiceDetails
+	<ar:customerInvoiceDetails
         documentAttributes="${DataDictionary.CustomerInvoiceDocument.attributes}"
-        customerInvoiceDetailAttributes="${DataDictionary.CustomerInvoiceDetail.attributes}" />        
+        customerInvoiceDetailAttributes="${DataDictionary.CustomerInvoiceDetail.attributes}"
+        readOnly="${readOnly}" />        
 		            
 	<kul:notes notesBo="${KualiForm.document.documentBusinessObject.boNotes}" noteType="${Constants.NoteTypeEnum.BUSINESS_OBJECT_NOTE_TYPE}"  allowsNoteFYI="true"/> 
 

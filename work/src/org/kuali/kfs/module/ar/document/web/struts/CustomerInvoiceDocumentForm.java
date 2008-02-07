@@ -28,8 +28,12 @@ import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
+    
     private CustomerInvoiceDetail newCustomerInvoiceDetail; 
     
+    /**
+     * Constructs a CustomerInvoiceDocumentForm.java.  Also sets new customer invoice document detail to a newly constructed customer invoice detail. 
+     */
     public CustomerInvoiceDocumentForm() {
         super();
         setDocument(new CustomerInvoiceDocument());

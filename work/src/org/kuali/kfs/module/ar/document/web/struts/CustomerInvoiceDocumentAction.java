@@ -19,16 +19,32 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.util.Calendar;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
+import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.bo.CashReceiptHeader;
+import org.kuali.module.financial.bo.Check;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.document.CashReceiptDocument;
+import org.kuali.module.financial.rule.event.AddCheckEvent;
+import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
+import org.kuali.module.financial.web.struts.form.CashReceiptForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -120,6 +136,59 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }    
+    
+    /**
+     * Adds a CustomerInvoiceDetail instance created from the current "new customer invoice detail" line to the document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward addCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+
+        CustomerInvoiceDetail newCustomerInvoiceDetail = customerInvoiceDocumentForm.getNewCustomerInvoiceDetail();
+        newCustomerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        
+
+        // check business rules
+        //boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
+        boolean rulePassed = true;
+        if (rulePassed) {
+            // add check
+            customerInvoiceDocument.addCustomerInvoiceDetail(newCustomerInvoiceDetail);
+
+            // clear the used customer invoice detail
+            customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(new CustomerInvoiceDetail());
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    /**
+     * Deletes the selected customer invoice detail line from the document
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return ActionForward
+     * @throws Exception
+     */
+    public ActionForward deleteCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
+        CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
+
+        int indexOfLineToDelete = getLineToDelete(request);
+        // delete advanceDeposit
+        customerInvoiceDocument.deleteCustomerInvoiceDetail(indexOfLineToDelete);
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }    
 
 }

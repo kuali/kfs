@@ -14,6 +14,8 @@ import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.bo.Check;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -48,14 +50,14 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private Org billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
 
-    private List<CustomerInvoiceDetail> invoiceDetails;
+    private List<CustomerInvoiceDetail> customerInvoiceDetails;
     
 	/**
 	 * Default constructor.
 	 */
 	public CustomerInvoiceDocument() {
 	    super();
-        invoiceDetails = new ArrayList<CustomerInvoiceDetail>();
+        customerInvoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         
 	}
 
@@ -621,19 +623,19 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	}
 
     /**
-     * Gets the invoiceDetails attribute. 
-     * @return Returns the invoiceDetails.
+     * Gets the customerInvoiceDetails attribute. 
+     * @return Returns the customerInvoiceDetails.
      */
-    public List<CustomerInvoiceDetail> getInvoiceDetails() {
-        return invoiceDetails;
+    public List<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
+        return customerInvoiceDetails;
     }
 
     /**
-     * Sets the invoiceDetails attribute value.
-     * @param invoiceDetails The invoiceDetails to set.
+     * Sets the customerInvoiceDetails attribute value.
+     * @param customerInvoiceDetails The customerInvoiceDetails to set.
      */
-    public void setInvoiceDetails(List<CustomerInvoiceDetail> invoiceDetails) {
-        this.invoiceDetails = invoiceDetails;
+    public void setCustomerInvoiceDetails(List<CustomerInvoiceDetail> customerInvoiceDetails) {
+        this.customerInvoiceDetails = customerInvoiceDetails;
     }    
     
 	/**
@@ -644,5 +646,36 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
         m.put("documentNumber", this.documentNumber);
 	    return m;
     }
-
+	
+    /**
+     * Retrieves a specific customer invoice detail from the list, by array index
+     * 
+     * @param index the index of the checks array to retrieve the check from
+     * @return a Check
+     */
+    public CustomerInvoiceDetail getCustomerInvoiceDetail(int index) {
+        if (index >= customerInvoiceDetails.size()) {
+            for (int i = customerInvoiceDetails.size(); i <= index; i++) {
+                customerInvoiceDetails.add(new CustomerInvoiceDetail());
+            }
+        }
+        return customerInvoiceDetails.get(index);
+    }	
+	
+	/**
+	 * This method adds the passed in customer invoice detail to the collection of customer invoice details
+	 * @param customerInvoiceDetail
+	 */
+	public void addCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail){
+	    customerInvoiceDetails.add(customerInvoiceDetail);
+	}
+	
+	
+	/**
+	 * This method removes the customer invoice detail and the specified index
+	 * @param index
+	 */
+	public void deleteCustomerInvoiceDetail(int index){
+	    customerInvoiceDetails.remove(index);
+	}
 }

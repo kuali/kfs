@@ -1138,4 +1138,11 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 </class-descriptor>
+
+<!-- TEMPORARY TABLE -->
+<class-descriptor class="org.kuali.module.ar.bo.CreditMemoDocument" table="AR_CREDIT_MEMO_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+</class-descriptor>
 </descriptor-repository>

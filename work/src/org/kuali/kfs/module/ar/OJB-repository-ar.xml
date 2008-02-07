@@ -233,6 +233,9 @@
 	<field-descriptor name="customerPaymentMediumCode" column="CUST_PMT_MEDIUM_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="cashControlTotalAmount" column="AR_CSHCTRL_TOT_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
 
+	<reference-descriptor name="customerPaymentMedium" class-ref="org.kuali.module.ar.bo.PaymentMedium" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="customerPaymentMediumCode" />
+	</reference-descriptor>
 	<reference-descriptor name="universityFiscalPeriod" class-ref="org.kuali.module.chart.bo.AccountingPeriod" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="universityFiscalYear" />
 		<foreignkey field-ref="universityFiscalPeriodCode" />

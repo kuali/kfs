@@ -8,6 +8,7 @@ import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.bo.PaymentMedium;
 import org.kuali.module.chart.bo.AccountingPeriod;
 
 /**
@@ -22,6 +23,7 @@ public class CashControlDocument extends TransactionalDocumentBase {
 	private String customerPaymentMediumCode;
 	private KualiDecimal cashControlTotalAmount;
 
+    private PaymentMedium customerPaymentMedium;
 	private AccountingPeriod universityFiscalPeriod;
     private AccountsReceivableDocumentHeader accountsReceivableDocumentHeader;
 
@@ -220,6 +222,22 @@ public class CashControlDocument extends TransactionalDocumentBase {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
 	    return m;
+    }
+
+    /**
+     * Gets the customerPaymentMedium attribute.
+     * @return Returns the customerPaymentMedium
+     */
+    public PaymentMedium getCustomerPaymentMedium() {
+        return customerPaymentMedium;
+    }
+
+    /**
+     * Sets the customerPaymentMedium attribute value.
+     * @param customerPaymentMedium The customerPaymentMedium to set.
+     */
+    public void setCustomerPaymentMedium(PaymentMedium customerPaymentMedium) {
+        this.customerPaymentMedium = customerPaymentMedium;
     }
 
 }

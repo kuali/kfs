@@ -1039,4 +1039,6 @@ public class KFSConstants extends JstlConstants implements ParameterKeyConstants
         }
         return DASH_PROJECT_CODE;
     }
+    
+    public static final String CUSTOMER_INVOICE_DETAIL_ERRORS = "newCustomerInvoiceDetail*,document.customerInvoiceDetail*";
 }

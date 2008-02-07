@@ -38,6 +38,15 @@
     </c:otherwise>
 </c:choose>
 
+<c:choose>
+	<c:when test= "${fn:contains(documentType, 'PurchaseOrder') or fn:contains(documentType, 'Requisition')}">
+        <c:set var="isATypeofPurDoc" value="true" />
+    </c:when>
+    <c:otherwise>
+        <c:set var="isATypeofPurDoc" value="false" />
+    </c:otherwise>
+</c:choose>
+
 <kul:tab tabTitle="Items" defaultOpen="false" tabErrorKey="${PurapConstants.ITEM_TAB_ERRORS}">
 	<div class="tab-container" align=center>
     <!--  if (fullEntryMode or (amendmentEntry and itemLine.itemActiveIndicator)), then display the addLine -->
@@ -472,8 +481,7 @@
 			<th height=30 colspan="11">&nbsp;</th>
 		</tr>
 
-		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="${extraHiddenItemFields}" />
-
+		<purap:miscitems itemAttributes="${itemAttributes}" accountingLineAttributes="${accountingLineAttributes}" extraHiddenItemFields="${extraHiddenItemFields}" descriptionFirst="${isATypeofPurDoc}"/>
 
 		<!-- BEGIN TOTAL SECTION -->
 		<tr>

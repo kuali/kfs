@@ -26,7 +26,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.DiskFile;
 import org.apache.struts.upload.FormFile;
 import org.kuali.RicePropertyConstants;
 import org.kuali.core.question.ConfirmationQuestion;

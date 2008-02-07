@@ -36,6 +36,8 @@
 <%@ attribute name="specialItemTotalType" required="false" %>
 <%@ attribute name="specialItemTotalOverride" required="false" fragment="true"
               description="Fragment of code to specify special item total line" %>
+<%@ attribute name="descriptionFirst" required="false" type="java.lang.Boolean"
+    description="Whether or not to show item description before extended price." %>
               
 <c:if test="${empty overrideTitle}">
 	<c:set var="overrideTitle" value="Misc Items"/>
@@ -114,10 +116,20 @@
 			attributeEntry="${itemAttributes.poOutstandingAmount}" />
 	</c:if>
 	
-	<kul:htmlAttributeHeaderCell colspan="2"
-		attributeEntry="${itemAttributes.extendedPrice}" />
-	<kul:htmlAttributeHeaderCell colspan="3"
-		attributeEntry="${itemAttributes.itemDescription}" />
+<c:choose>
+	<c:when test="${descriptionFirst}">
+		<kul:htmlAttributeHeaderCell colspan="2"
+			attributeEntry="${itemAttributes.itemDescription}" />
+		<kul:htmlAttributeHeaderCell colspan="3"
+			attributeEntry="${itemAttributes.extendedPrice}" />
+	</c:when>
+    <c:otherwise>
+		<kul:htmlAttributeHeaderCell colspan="2"
+			attributeEntry="${itemAttributes.extendedPrice}" />
+		<kul:htmlAttributeHeaderCell colspan="3"
+			attributeEntry="${itemAttributes.itemDescription}" />
+	</c:otherwise>
+</c:choose>	
 </tr>
 
 <logic:iterate indexId="ctr" name="KualiForm" property="document.items"
@@ -177,16 +189,28 @@
 				    	readOnly="true" />	
 				</td>			
 			</c:if>
-			<td class="infoline" colspan="2">
-			<div align="right"><kul:htmlControlAttribute
-				attributeEntry="${itemAttributes.itemUnitPrice}"
-				property="document.item[${ctr}].itemUnitPrice"
-				readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" /></div>
-			</td>
-			<td class="infoline" colspan="3"><kul:htmlControlAttribute
-				attributeEntry="${itemAttributes.itemDescription}"
-				property="document.item[${ctr}].itemDescription"
-				readOnly="${not (fullEntryMode or amendmentEntry)}" /></td>
+			<c:choose>
+				<c:when test="${descriptionFirst}">
+					<td class="infoline" colspan="2">
+						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+					</td>
+					<td class="infoline" colspan="3">
+						<div align="right">
+							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
+						</div>
+					</td>
+				</c:when>
+    			<c:otherwise>
+					<td class="infoline" colspan="2">
+						<div align="right">
+							<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemUnitPrice}" property="document.item[${ctr}].itemUnitPrice" readOnly="${not (fullEntryMode or amendmentEntry)}" styleClass="amount" />
+						</div>
+					</td>
+					<td class="infoline" colspan="3">
+						<kul:htmlControlAttribute attributeEntry="${itemAttributes.itemDescription}" property="document.item[${ctr}].itemDescription" readOnly="${not (fullEntryMode or amendmentEntry)}" />
+					</td>
+				</c:otherwise>
+			</c:choose>
 		</tr>
 
 		<c:if test="${amendmentEntry}">

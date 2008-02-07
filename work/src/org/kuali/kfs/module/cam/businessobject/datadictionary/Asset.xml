@@ -83,35 +83,37 @@
             </defaultSort>
 
             <lookupFields>
+	            <lookupField attributeName="campusTagNumber" required="false" />
+	            <lookupField attributeName="capitalAssetNumber" required="false" />
+	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
+	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
+	            <!--  new added, pls check ??-->
+	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" />
+	            <lookupField attributeName="agencyNumber" required="false" />
+	            <lookupField attributeName="inventoryStatusCode" required="false" />
+	            <lookupField attributeName="conditionCode" required="false" />
                 <lookupField attributeName="acquisitionTypeCode" required="false" />
-                <lookupField attributeName="capitalAssetDescription" required="false" />
-                <lookupField attributeName="capitalAssetNumber" required="false" />
-                
-                
-                
-                <lookupField attributeName="totalCostAmount" required="false" />
-                
                 <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                
+                <lookupField attributeName="capitalAssetDescription" required="false" />
+                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
+                <lookupField attributeName="organizationInventoryName" required="false" />
+                <lookupField attributeName="campusCode" required="false" />
                 <lookupField attributeName="buildingCode" required="false" />
                 <lookupField attributeName="buildingRoomNumber" required="false" />
                 <lookupField attributeName="buildingSubRoomNumber" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="campusPoliceDepartmentCaseNumber" required="false" />
-                
-                <lookupField attributeName="conditionCode" required="false" />
-                <lookupField attributeName="createDate" required="false" />
-                
-                <lookupField attributeName="inventoryStatusCode" required="false" />
-                <lookupField attributeName="campusTagNumber" required="false" />
-                
-                <lookupField attributeName="lastInventoryDate" required="false" />
-                
-                 <lookupField attributeName="manufacturerName" required="false" />
+                <lookupField attributeName="vendorName" required="false" />
+                <lookupField attributeName="manufacturerName" required="false" />
                 <lookupField attributeName="manufacturerModelNumber" required="false" />
-               
+                <lookupField attributeName="serialNumber" required="false" />
+                <lookupField attributeName="createDate" required="false" />
+                <lookupField attributeName="lastInventoryDate" required="false" />
+                <lookupField attributeName="oldTagNumber" required="false" />
+                <lookupField attributeName="totalCostAmount" required="false" />
+                                
+                <!-- not required field, delete?? -->
+                <!-- 
+                <lookupField attributeName="campusPoliceDepartmentCaseNumber" required="false" />
                 <lookupField attributeName="cashReceiptFinancialDocumentNumber" required="false" />
-                
                 <lookupField attributeName="estimatedFabricationCompletionDate" required="false" />
                 <lookupField attributeName="estimatedSellingPrice" required="false" />
                 <lookupField attributeName="expectedReturnDate" required="false" />
@@ -121,53 +123,35 @@
                 <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
                 <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
                 <lookupField attributeName="inventoryScannedCode" required="false" />
-                
-                <lookupField attributeName="oldTagNumber" required="false" />
-                
-                <lookupField attributeName="organizationInventoryName" required="false" />
-                <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-                <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
-                <lookupField attributeName="agencyNumber" required="false" />
-                
                 <lookupField attributeName="retirementFiscalYear" required="false" />
                 <lookupField attributeName="retirementPeriodCode" required="false" />
                 <lookupField attributeName="retirementReasonCode" required="false" />
-                
-                <lookupField attributeName="serialNumber" required="false" />
-                
                 <lookupField attributeName="loanDate" required="false" />
                 <lookupField attributeName="loanReturnDate" required="false" />
-                
-                
-                
                 <lookupField attributeName="primaryDepreciationMethodCode" required="false" />
                 <lookupField attributeName="receiveDate" required="false" />
                 <lookupField attributeName="replacementAmount" required="false" />
-                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
                 <lookupField attributeName="retirementAccountNumber" required="false" />
                 <lookupField attributeName="retirementChartOfAccountsCode" required="false" />
-                
-                
                 <lookupField attributeName="salePrice" required="false" />
                 <lookupField attributeName="salvageAmount" required="false" />
                 <lookupField attributeName="secondaryDepreciationMethodCode" required="false" />
-                
                 <lookupField attributeName="signatureCode" required="false" />
-                
                 <lookupField attributeName="transferOfFundsFinancialDocumentNumber" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
+                -->
             </lookupFields>
 
             <resultFields>
                 <field attributeName="capitalAssetNumber" />
                 <field attributeName="campusTagNumber" />
-                <field attributeName="organizationOwnerAccountNumber" />
-                <field attributeName="organizationOwnerChartOfAccountsCode" />
+                <field attributeName="organizationOwnerAccount.organizationCode" />
                 <field attributeName="buildingCode" />
+                
+                <!-- need double check inventoryStatusCode or inventoryStatus.inventoryStatusName?? -->
                 <field attributeName="inventoryStatusCode" />
+                
                 <field attributeName="capitalAssetDescription" />
                 <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="expectedReturnDate" />
                 <field attributeName="createDate" />
                 <field attributeName="agencyNumber" />
             </resultFields>
@@ -324,7 +308,6 @@
                 <summary>capitalAssetNumber</summary>
                 <description>capitalAssetNumber description...</description>
 			</attribute>
-
             <attribute name="capitalAssetTypeCode" forceUppercase="true">
                 <label>Capital Asset Type Code</label>
                 <shortLabel>Code</shortLabel>
@@ -339,7 +322,6 @@
                 <summary>capitalAssetTypeCode</summary>
                 <description>capitalAssetTypeCode description...</description>
 			</attribute>
-
             <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
                 <label>Cash Receipt Financial Document Number</label>
                 <shortLabel>Number</shortLabel>
@@ -861,9 +843,21 @@
                 <summary>vendorName</summary>
                 <description>vendorName description...</description>
 			</attribute>
+			
+			<!-- add new attribute, how to set? -->
+			<!-- 
+			<attribute name="capitalAssetInServiceDate" >
+				<label>In-service Date</label>
+				<shortLabel>Date</shortLabel>								
+			</attribute>			
+			-->
 			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-
+			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode" />
+			<attributeReference name="assetPayments.chartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="chartOfAccountsCode" />
+			<!-- capitalAssetTypeCode can be defined as reference -->
+		<!--<attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" />-->
+			<attributeReference name="capitalAssetType.depreciableLifeLimit" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="depreciableLifeLimit" />
         </attributes>
     </businessObject>
 </dictionaryEntry>

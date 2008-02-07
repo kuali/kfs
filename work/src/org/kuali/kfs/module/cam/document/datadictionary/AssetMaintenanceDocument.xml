@@ -47,50 +47,45 @@
         <allowsNewOrCopy>false</allowsNewOrCopy>
         
         <maintainableSections>
-            <maintainableSection title="Asset Detail Info">
-                <maintainableItems>
+            <maintainableSection title="Asset Detail Information">
+                <maintainableItems> 
                 	<subSectionHeader name="Asset Detail Info" />
+                	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
                     <!--  maintainableField name="capitalAssetNumber" required="true" / -->
                     <maintainableField name="organizationOwnerChartOfAccountsCode" />
                     <maintainableField name="organizationOwnerAccountNumber" />
+                    <maintainableField name="organizationOwnerAccount.organizationCode" />
                     <maintainableField name="agencyNumber" />
                     <maintainableField name="acquisitionTypeCode" />
+                    <maintainableField name="inventoryStatusCode" required="true"/>
                     <maintainableField name="conditionCode" required="true" />
                     <maintainableField name="capitalAssetDescription" required="true" />
-                    
-                    
                     <maintainableField name="capitalAssetTypeCode" required="true" />
                     <maintainableField name="vendorName" />
-                    <maintainableField name="manufacturerName" />
-                    
+                    <maintainableField name="manufacturerName" required="true" />
                     <maintainableField name="manufacturerModelNumber" />
 					<maintainableField name="serialNumber" />
-                    
                     <maintainableField name="campusTagNumber" />
                     <maintainableField name="oldTagNumber" />
                     <maintainableField name="lastInventoryDate" />
-                    <maintainableField name="inventoryStatusCode" />
-                    
-                    <maintainableField name="createDate" required="true" />
-                    
+                    <maintainableField name="createDate" />
+                    <maintainableField name="financialDocumentPostingYear" />
                     <maintainableField name="financialDocumentPostingPeriodCode" />
-					<maintainableField name="financialDocumentPostingYear" />
-					
-                    
-                    
+                    <!-- wait setting in asset DD-->
+                    <!-- 
+                    <maintainableField name="capitalAssetInServiceDate" />
+                    -->
                     <maintainableField name="totalCostAmount" />
-                   
-					
 					<maintainableField name="active">
                         <defaultValue>true</defaultValue>
                     </maintainableField>
                     <maintainableField name="versionNumber" />
 					
-					<subSectionHeader name="Location - On Campus" />
-					<maintainableField name="campusCode" />
-					<maintainableField name="buildingCode" />
-					<maintainableField name="buildingRoomNumber" />
+					<subSectionHeader name="Asset Location - On Campus" />
+					<maintainableField name="campusCode" required="true" />
+					<maintainableField name="buildingCode" required="true" />
+					<maintainableField name="buildingRoomNumber" required="true" />
 					<maintainableField name="buildingSubRoomNumber" />
 					
 					<!--  subSectionHeader name="Location - Off Campus - Where to get the ifo for this From? Name, Address, City, State, Zip?" /-->
@@ -99,66 +94,95 @@
 					</maintainableItems>
             </maintainableSection>
             
-            <maintainableSection title="Organization Info">
+            <maintainableSection title="Organization Information">
                 <maintainableItems>
                 	<!-- Organization Tag, Asset Representative, Org Asset Type, Organization Text, Receive Date -->
                 	<maintainableField name="organizationInventoryName" />
                 	<maintainableField name="representativeUniversalIdentifier" />
+                	<maintainableField name="receiveDate" />
+                	<maintainableField name="replacementAmount" />
+                	<maintainableField name="estimatedSellingPrice" />
                  </maintainableItems>
             </maintainableSection>
-            
-            <maintainableSection title="Depreciation">
+           
+           <!--  need more work on payment collection
+			<maintainableSection title="View Payments">
+				<maintainableItems>
+					<maintainableField name="assetPayments.chartOfAccountsCode" />				
+				</maintainableItems>
+			</maintainableSection>
+			-->
+			
+            <maintainableSection title="Asset Depreciation Information">
                 <maintainableItems>
-					
-					<maintainableField name="primaryDepreciationMethodCode" />
-					<maintainableField name="secondaryDepreciationMethodCode" />
-					<maintainableField name="replacementAmount" />
+					<maintainableField name="primaryDepreciationMethodCode" required="true" />
+					<maintainableField name="capitalAssetType.depreciableLifeLimit" />
+					<maintainableField name="salvageAmount" />
+					<maintainableField name="secondaryDepreciationMethodCode" required="true" />
+			<!-- set to the same value as in primary? -->
+			<!-- 	<maintainableField name="capitalAssetType.depreciableLifeLimit" />
+					<maintainableField name="salvageAmount" />
+			-->		
+				</maintainableItems>
+			</maintainableSection>
+          
+          <!-- need more work -->
+          <!--   
+            <maintainableSection title="View Asset History">
+            	<maintainableItems>
+                	<subSectionHeader name="View Related Documents" />
+                	<subSectionHeader name="View Merge History" />
+                	<subSectionHeader name="View Separate History" />
+                	<subSectionHeader name="View Retirement Information" />
+                	<subSectionHeader name="View Equipment Loan Information " />
+            	</maintainableItems>
+            </maintainableSection>
+           --> 
+            <maintainableSection title="View Retirement Information">
+                <maintainableItems>
+					<maintainableField name="retirementReasonCode" />
 					<maintainableField name="salePrice" />
 					<maintainableField name="estimatedSellingPrice" />
-					<maintainableField name="salvageAmount" />
-					
-				</maintainableItems>
-			</maintainableSection>
-            
-            <maintainableSection title="Retire">
-                <maintainableItems>
-					
+					<maintainableField name="cashReceiptFinancialDocumentNumber" />
 					<maintainableField name="retirementChartOfAccountsCode" />
 					<maintainableField name="retirementAccountNumber" />
-					<maintainableField name="retirementReasonCode" />
-					<maintainableField name="retirementPeriodCode" />
-					<maintainableField name="retirementFiscalYear" />
-					
+					<maintainableField name="campusPoliceDepartmentCaseNumber" />
 				</maintainableItems>
 			</maintainableSection>
             
-            <maintainableSection title="Find a proper home for these attributes?">
+            <maintainableSection title="View Equipment Loan Information   ">
               	
               	<maintainableItems>
-            			
+            		<maintainableField name="loanDate" />	
+					<maintainableField name="expectedReturnDate" />
+					<maintainableField name="loanReturnDate" />
 					
 					 <!--  Where to put the following information? -->
-                    <maintainableField name="receiveDate" required="true" />
-                    <maintainableField name="loanReturnDate" />
-					<maintainableField name="loanDate" />
-					<maintainableField name="expectedReturnDate" />
-					
+              <!--  ??     
 					<maintainableField name="cashReceiptFinancialDocumentNumber" />
-					
 					<maintainableField name="estimatedFabricationCompletionDate" />
 					<maintainableField name="fabricationEstimatedTotalAmount" />
 					<maintainableField name="transferOfFundsFinancialDocumentNumber" />
 					<maintainableField name="insuranceChargeAccountNumber" />
 					<maintainableField name="insuranceChartOfAccountsCode" />
-
-					
 					<maintainableField name="campusPoliceDepartmentCaseNumber" />
 					<maintainableField name="inventoryScannedCode" />
 					<maintainableField name="signatureCode" />
-				    
+			  -->	    
 					
                 </maintainableItems>
             </maintainableSection>
+            
+            <!-- need more work -->
+          <!--   
+            <maintainableSection title="Warranty and Repair History ">
+            	<maintainableItems>
+                	<subSectionHeader name="Warranty" />
+                	<subSectionHeader name="Repair History" />
+                	<subSectionHeader name="Component" />
+            	</maintainableItems>
+            </maintainableSection>
+           --> 
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

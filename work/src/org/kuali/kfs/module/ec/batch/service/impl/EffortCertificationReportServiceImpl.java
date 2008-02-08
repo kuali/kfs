@@ -52,8 +52,9 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
         reportData.put(ReportGenerator.PARAMETER_NAME_SUBREPORT_DIR, reportTemplateClassPath);
-
-        ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
+        
+        //TODO: 
+        //ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
 
         LOG.info(reportDataHolder);
     }

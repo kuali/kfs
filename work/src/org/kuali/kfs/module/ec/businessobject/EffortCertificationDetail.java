@@ -60,7 +60,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public EffortCertificationDetail() {
-        this(null);
+        super();
     }
 
     public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {

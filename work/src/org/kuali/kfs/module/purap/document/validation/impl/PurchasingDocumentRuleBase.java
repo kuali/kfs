@@ -96,6 +96,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
+        
         List<PurApItem> itemList = purapDocument.getItems();
         int i = 0;
         for (PurApItem item : itemList) {
@@ -108,7 +109,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             valid &= validateUnitOfMeasure(item, identifierString);
             // This validation is applicable to the above the line items only.
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                valid &= validateItemQuantity(item, identifierString);
+                valid &= validateItemQuantity(item, identifierString);                
             }
             else {
                 // If the item is below the line, no accounts can be entered on below the line items
@@ -536,7 +537,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
     }
     
     /**
-     * Wrapper to do Capital Asset validations, defaulted to generate errors instead of warnings. Makes sure that 
+     * Wrapper to do Capital Asset validations, generating errors instead of warnings. Makes sure that 
      * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
      * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
      * all object codes are valid (real) object codes.
@@ -546,10 +547,23 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return True if the item passes all Capital Asset validations
      */
-    public boolean processItemCapitalAssetValidation(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
-        boolean valid = true;
-        valid &= processItemCapitalAssetValidation(item, recurringPaymentType, false, itemIdentifier);
-        return valid;
+    public boolean validateItemCapitalAssetWithErrors(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+        return validateItemCapitalAsset(item, recurringPaymentType, false, itemIdentifier);
+    }
+    
+    /**
+     * Wrapper to do Capital Asset validations, generating warnings instead of errors. Makes sure that 
+     * the given item's data relevant to its later possible classification as a Capital Asset is internally consistent, 
+     * by marshalling and calling the methods marked as Capital Asset validations. This implementation assumes that 
+     * all object codes are valid (real) object codes.
+     * 
+     * @param item                      A PurchasingItemBase object
+     * @param recurringPaymentType      The item's document's RecurringPaymentType
+     * @param itemIdentifier            The item number (String)
+     * @return True if the item passes all Capital Asset validations
+     */
+    public boolean validateItemCapitalAssetWithWarnings(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+        return validateItemCapitalAsset(item, recurringPaymentType, true, itemIdentifier);
     }
     
     /**
@@ -564,7 +578,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
      * @param itemIdentifier            The item number (String)
      * @return  True if the item passes all Capital Asset validations
      */
-    protected boolean processItemCapitalAssetValidation(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
+    protected boolean validateItemCapitalAsset(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, boolean warn, String itemIdentifier) {
         boolean valid = true;       
         KualiDecimal itemQuantity = item.getItemQuantity();       
         HashSet capitalOrExpenseSet = new HashSet(); // For the first validation on every accounting line.
@@ -576,10 +590,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
             
             valid &= validateAccountingLinesNotCapitalAndExpense(capitalOrExpenseSet, warn, itemIdentifier, objectCode);
             if (warn) {
-                //valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+                valid &= validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
             } 
             else {
-                //validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
+                validateLevelCapitalAssetIndication(itemQuantity, item.getExtendedPrice(), objectCode, itemIdentifier);
             }
             
             // Do the checks involving capital asset transaction type.
@@ -593,7 +607,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 
                 valid &= validateObjectCodeVersusTransactionType(objectCode, capitalAssetTransactionType, warn, itemIdentifier);
                 valid &= validateQuantityVersusObjectCode(capitalAssetTransactionType, itemQuantity, objectCode, warn, itemIdentifier);
-                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);
+                valid &= validateCapitalAssetTransactionTypeVersusRecurrence(capitalAssetTransactionType, recurringPaymentType, warn, itemIdentifier);                
                 valid &= validateCapitalAssetNumberRequirements(capitalAssetTransactionType, item.getPurchasingItemCapitalAssets(), warn, itemIdentifier);
             }
         }
@@ -629,18 +643,20 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 GlobalVariables.getErrorMap().putError(KFSConstants.FINANCIAL_OBJECT_LEVEL_CODE_PROPERTY_NAME, 
                         PurapKeyConstants.ERROR_ITEM_CAPITAL_AND_EXPENSE,itemIdentifier,objectCode.getFinancialObjectCodeName());              
             }
-                valid &= false;
-            }           
+            valid &= false;
+        }
         return valid;
     }
     
+
+ 
     /**
      * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to 
      * the threshold for becoming a Capital Asset, the object codes on all the item's associated accounting lines 
      * must be among a specific set of levels that are deemed acceptable for such items, if not of the Capital Asset 
      * level itself.  Failure of this validation gives a warning both at the Requisition stage and at the Purchase Order 
      * stage.
-     * 
+     *  
      * @param itemQuantity          The quantity as a KualiDecimal
      * @param extendedPrice         The extended price as a KualiDecimal
      * @param objectCode            The ObjectCode
@@ -661,15 +677,15 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 String possiblyCapitalAssetObjectCodeLevels = "";
                 try {
                     possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(
-                        ParameterConstants.PURCHASING_DOCUMENT.class, 
+                            ParameterConstants.PURCHASING_DOCUMENT.class, 
                             PurapParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
                     if (!StringUtils.contains(possiblyCapitalAssetObjectCodeLevels,objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
                         valid &= false;
+                    }
                 }
-            }
                 catch (NullPointerException npe) {
                     valid &= false;
-        }
+                }
                 if (!valid) {
                     String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
                             PurapKeyConstants.WARNING_ABOVE_THRESHOLD_SUGESTS_CAPITAL_ASSET_LEVEL);
@@ -679,7 +695,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                 }
             }
         }
-
+        
         return valid;
     }
     
@@ -714,11 +730,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                             PurapKeyConstants.ERROR_ITEM_OBJECT_CODE_SUBTYPE_REQUIRES_TRAN_TYPE,
                             itemIdentifier,
                             objectCode.getFinancialObjectCodeName(),
-                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());                   
                 }
-                    valid &= false;
-                }
+                valid &= false;
             }
+        }
         
         return valid;
     }
@@ -738,6 +754,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         HashMap tranTypeMap = new HashMap();
         tranTypeMap.put("capitalAssetTransactionTypeCode",capitalAssetTransactionType.getCapitalAssetTransactionTypeCode());
         List<CapitalAssetTransactionTypeRule> relevantRelations = (List<CapitalAssetTransactionTypeRule>)SpringContext.getBean(LookupService.class).findCollectionBySearch(CapitalAssetTransactionTypeRule.class, tranTypeMap);
+        
         boolean found = false;
         for( CapitalAssetTransactionTypeRule relation : relevantRelations ) {
             if( StringUtils.equals(relation.getFinancialObjectSubTypeCode(),objectCode.getFinancialObjectSubTypeCode())) {
@@ -759,10 +776,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                         itemIdentifier,
                         capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
                         objectCode.getFinancialObjectCodeName(),
-                        objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                        objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());              
             }
-                valid &= false;
-            }
+            valid &= false;
+        }
         return valid;
     }
     
@@ -799,11 +816,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                             PurapKeyConstants.ERROR_ITEM_QUANTITY_OBJECT_CODE_SUBTYPE,
                             itemIdentifier,
                             objectCode.getFinancialObjectCodeName(),
-                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());
+                            objectCode.getFinancialObjectSubType().getFinancialObjectSubTypeName());                
                 }
-                    valid &= false;
-                }               
+                valid &= false;
             }
+        }
         
         return valid;
     }
@@ -847,9 +864,9 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                                 capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
                                 PurapConstants.CAMSValidationStrings.RECURRING);
                     }
-                        valid &= false;
-                    }                   
+                    valid &= false;
                 }
+            }
             else { //If the payment type is not recurring ...
                 // There should not be a recurring tran type code.
                 if (StringUtils.contains(recurringTransactionTypeCodes,capitalAssetTransactionType.getCapitalAssetTransactionTypeCode())) {
@@ -867,10 +884,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                                 capitalAssetTransactionType.getCapitalAssetTransactionTypeDescription(),
                                 PurapConstants.CAMSValidationStrings.NON_RECURRING);
                     }
-                        valid &= false;
-                    }                   
+                    valid &= false;
                 }
             }
+        }
         else {  // If there is no tran type ...
             if (recurringPaymentType != null) { // If there is a recurring payment type ...
                 if (warn) {
@@ -883,10 +900,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
                             PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
                             itemIdentifier,
-                            PurapConstants.CAMSValidationStrings.RECURRING);
+                            PurapConstants.CAMSValidationStrings.RECURRING);                 
                 }
-                    valid &= false;
-                }               
+                valid &= false;
+            }
             else { //If the payment type is not recurring ...
                 if (warn) {
                     String warning = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE);
@@ -898,11 +915,11 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     GlobalVariables.getErrorMap().putError(PurapPropertyConstants.ITEM_CAPITAL_ASSET_TRANSACTION_TYPE, 
                             PurapKeyConstants.ERROR_ITEM_NO_TRAN_TYPE,
                             itemIdentifier,
-                            PurapConstants.CAMSValidationStrings.NON_RECURRING);
+                            PurapConstants.CAMSValidationStrings.NON_RECURRING);                 
                 }
-                    valid &= false;
-                }               
+                valid &= false;
             }   
+        }
 
         return valid;
     }

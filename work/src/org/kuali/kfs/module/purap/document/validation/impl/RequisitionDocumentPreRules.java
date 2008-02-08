@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
@@ -28,7 +29,6 @@ import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapParameterConstants;
-import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.bo.PurchasingItemBase;
 import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.RequisitionDocument;
@@ -47,13 +47,35 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         
         RequisitionDocument requisitionDocument = (RequisitionDocument)document;
         
-        if (!SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, 
-                PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
-            if (StringUtils.isBlank(event.getQuestionContext()) || !StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
-                preRulesOK &= confirmFixCapitalAssetWarningConditions(requisitionDocument);
-            }       
+        if (StringUtils.isBlank(event.getQuestionContext()) || StringUtils.equals(question, PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
+            preRulesOK &= confirmFixCapitalAssetWarningConditions(requisitionDocument);
         }
+        
         return preRulesOK;
+    }
+    
+    /**
+     * Analogous to similarly-named methods in Rule classes.  Loops through the items and runs validations
+     * applying only to items.
+     * 
+     * @param requisitionDocument
+     * @return
+     */
+    public boolean processItemValidation(RequisitionDocument requisitionDocument) {
+        boolean valid = true;                         
+        RecurringPaymentType recurringPaymentType = requisitionDocument.getRecurringPaymentType();
+              
+        List<PurchasingItemBase> itemList = requisitionDocument.getItems();    
+        for (PurchasingItemBase item : itemList) {
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+                
+                if (capitalAssetWarningConditionsExist(item, recurringPaymentType, identifierString)) {
+                    valid &= false;
+                }
+            }               
+        }
+        return valid;
     }
     
     /**
@@ -65,19 +87,30 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      */
     public boolean confirmFixCapitalAssetWarningConditions(RequisitionDocument requisitionDocument) {
         boolean proceed = true;
-
-        if (capitalAssetWarningConditionsExist(requisitionDocument)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
-                    PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
-            for ( String warning : (List<String>)GlobalVariables.getMessageList() ) {
-                questionText += warning+"<br/>";
-            }
-            proceed = super.askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
-            
+        
+        if (!SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, 
+                PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
+            String questionText = "";
             if (StringUtils.isBlank(event.getQuestionContext())) {
-                // Set a marker to record that this method has been used.
-                event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
+                if (!processItemValidation(requisitionDocument)) {
+                    proceed &= false;
+                    questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(
+                            PurapKeyConstants.REQ_QUESTION_FIX_CAPITAL_ASSET_WARNINGS)+"<br/><br/>";
+                    List<String> warnings =  (List<String>)GlobalVariables.getMessageList();
+                    if ( !warnings.isEmpty() ) {
+                        questionText += "<table class=\"datatable\">";
+                        for ( String warning :  warnings ) {
+                            questionText += "<tr><td align=left valign=middle class=\"datacell\">"+warning+"</td></tr>";
+                        }
+                        questionText += "</table>";
+                    }                                                        
+                }
             }
+            if (!proceed || question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
+                proceed &= askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
+            }
+            // Set a marker to record that this method has been used.
+            event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
             event.setActionForwardName(KFSConstants.MAPPING_BASIC);
         }
         return proceed;
@@ -90,24 +123,47 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
      * @param requisitionDocument   A RequisitionDocument
      * @return  True if capital asset warning conditions exist.
      */
-    public boolean capitalAssetWarningConditionsExist(RequisitionDocument requisitionDocument) {
-        boolean noWarnings = true;
-            
-        // Run the validations yielding warnings on failure.                  
-        RecurringPaymentType recurringPaymentType = requisitionDocument.getRecurringPaymentType();
+    public boolean capitalAssetWarningConditionsExist(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String identifierString) {
         PurchasingDocumentRuleBase ruleBase = new PurchasingDocumentRuleBase();
-        
-        List<PurchasingItemBase> itemList = requisitionDocument.getItems();    
-        for (PurchasingItemBase item : itemList) {
-            item.refreshReferenceObject(PurapPropertyConstants.ITEM_TYPE);
-            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-                
-                noWarnings &= ruleBase.processItemCapitalAssetValidation(item, recurringPaymentType, true, identifierString);
-            }               
-        }
-        
-        return !noWarnings;
+        return !ruleBase.validateItemCapitalAssetWithWarnings(item, recurringPaymentType, identifierString);        
     }
+    
+    /**
+     * HACK ALERT.  By rights, I shouldn't have to override this, but it doesn't work otherwise.  Most of this
+     * is just copied from the superclass.  See discussion in KULPURAP-1961.
+     * 
+     * @see org.kuali.core.rules.PreRulesContinuationBase#askOrAnalyzeYesNoQuestion(java.lang.String, java.lang.String)
+     */
+    @Override
+    public boolean askOrAnalyzeYesNoQuestion(String id, String text) {
+
+        ContextSession session = new ContextSession(event.getQuestionContext(), event);
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Entering askOrAnalyzeYesNoQuestion(" + id + "," + text + ")");
+        }
+
+        String cached = (String) session.getAttribute(id);
+        if (cached != null) {
+            LOG.debug("returning cached value: " + id + "=" + cached);
+            return new Boolean(cached).booleanValue();
+        }
+
+        if (id.equals(question)) {
+            session.setAttribute(id, Boolean.toString(!ConfirmationQuestion.NO.equals(buttonClicked)));
+            return !ConfirmationQuestion.NO.equals(buttonClicked);
+        }
+        else if (!session.hasAsked(id)) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Forcing question to be asked: " + id);
+            }
+            session.askQuestion(id, text);
+        }
+
+        LOG.debug("Throwing Exception to force return to Action");
+        //throw new IsAskingException();
+        return true;
+    }
+
 
 }

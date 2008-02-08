@@ -111,7 +111,7 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
             if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
                 GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
                 PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-                valid &= processItemCapitalAssetValidation(purchasingItem, recurringPaymentType, identifierString);
+                valid &= validateItemCapitalAssetWithErrors(purchasingItem, recurringPaymentType, identifierString);
                 GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");                
             }
             i++;

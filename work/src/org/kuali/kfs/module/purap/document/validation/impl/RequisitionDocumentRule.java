@@ -283,21 +283,32 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     @Override
     public boolean processItemValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processItemValidation(purapDocument);
-        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
-            RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
-            List<PurApItem> itemList = purapDocument.getItems();
-            int i = 0;
-            for (PurApItem item : itemList) {
-                GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
-                String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
-                if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
-                    PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
-                    valid &= processItemCapitalAssetValidation(purchasingItem, recurringPaymentType, false, identifierString);
-                }
-                GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
-                i++;
+        RecurringPaymentType recurringPaymentType = ((PurchasingDocument)purapDocument).getRecurringPaymentType();
+        List<PurApItem> itemList = purapDocument.getItems();
+        int i = 0;
+        for (PurApItem item : itemList) {
+            GlobalVariables.getErrorMap().addToErrorPath("document.item[" + i + "]");
+            String identifierString = (item.getItemType().isItemTypeAboveTheLineIndicator() ? "Item " + item.getItemLineNumber().toString() : item.getItemType().getItemTypeDescription());
+            if (item.getItemType().isItemTypeAboveTheLineIndicator()) {
+                PurchasingItemBase purchasingItem = (PurchasingItemBase)item;
+                valid &= validateItemCapitalAssetWithErrors(purchasingItem, recurringPaymentType, identifierString);
             }
+            GlobalVariables.getErrorMap().removeFromErrorPath("document.item[" + i + "]");
+            i++;
         }
         return valid;
+    }
+    
+    /**
+     * @see org.kuali.module.purap.rules.PurchasingDocumentRuleBase#validateItemCapitalAssetWithErrors(org.kuali.module.purap.bo.PurchasingItemBase, org.kuali.module.purap.bo.RecurringPaymentType, java.lang.String)
+     */
+    @Override
+    public boolean validateItemCapitalAssetWithErrors(PurchasingItemBase item, RecurringPaymentType recurringPaymentType, String itemIdentifier) {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(RequisitionDocument.class, PurapParameterConstants.CapitalAsset.OVERRIDE_CAPITAL_ASSET_WARNINGS_IND)) {
+            return super.validateItemCapitalAssetWithErrors(item,recurringPaymentType,itemIdentifier);
+        }
+        else {
+            return true;
+        }
     }
 }

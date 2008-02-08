@@ -88,6 +88,12 @@
 		</property>
 	</bean>
 
+	<bean id="budgetPushPullService" class="org.kuali.module.budget.service.impl.BudgetPushPullServiceImpl">
+		<property name="budgetOrganizationPushPullDao">
+			<ref bean="bcBudgetOrganizationPushPullDao" />
+		</property>
+	</bean>
+
 	<bean id="budgetOrganizationSalarySettingSearchService" class="org.kuali.module.budget.service.impl.OrganizationSalarySettingSearchServiceImpl">
 		<property name="organizationSalarySettingSearchDao">
 			<ref bean="bcOrganizationSalarySettingSearchDao" />
@@ -214,6 +220,9 @@
 	</bean>
 	
 	<bean id="bcBudgetPullupDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetPullupDaoJdbc">
+	</bean>
+
+	<bean id="bcBudgetOrganizationPushPullDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetOrganizationPushPullDaoJdbc">
 	</bean>
 
 	<bean id="budgetReportsControlListDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetReportsControlListDaoJdbc">

@@ -15,11 +15,27 @@
  */
 package org.kuali.module.effort.document.authorization;
 
-import org.kuali.core.document.authorization.DocumentAuthorizerBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentActionFlags;
+import org.kuali.core.document.authorization.TransactionalDocumentAuthorizerBase;
 
 /**
  * Document Authorizer for the Effort Certification document.
  */
-public class EffortCertificationDocumentAuthorizer extends DocumentAuthorizerBase {
+public class EffortCertificationDocumentAuthorizer extends TransactionalDocumentAuthorizerBase {
+
+    @Override
+    public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
+        
+        TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
+        tflags.setCanErrorCorrect(true); 
+
+        return flags;
+    }
+    
+    
 
 }

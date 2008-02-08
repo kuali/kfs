@@ -31,7 +31,7 @@ public class EffortCertificationDocumentAuthorizer extends TransactionalDocument
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
         
         TransactionalDocumentActionFlags tflags = (TransactionalDocumentActionFlags) flags;
-        tflags.setCanErrorCorrect(true); 
+        tflags.setCanErrorCorrect(false); 
 
         return flags;
     }

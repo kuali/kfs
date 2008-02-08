@@ -131,6 +131,7 @@
 	
 	<bean id="effortCertificationReportService" class="org.kuali.module.effort.service.impl.EffortCertificationReportServiceImpl">
 		<property name="resourceBundleBaseName" value="org/kuali/module/effort/report/messages" />
+		<property name="reportTemplateClassPath" value="org/kuali/module/effort/report/" />
 	</bean>	
 	
 	<bean id="effortCertificationDocumentBuildService" class="org.kuali.module.effort.service.impl.EffortCertificationDocumentBuildServiceImpl" >

@@ -38,20 +38,22 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationReportServiceImpl.class);
 
     private String resourceBundleBaseName;
+    private String reportTemplateClassPath;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationReportService#generate(org.kuali.module.effort.util.ExtractProcessReportDataHolder,
      *      org.kuali.module.effort.util.EffortReportRegistry, java.lang.String, java.util.Date)
      */
     public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {
-        String template = "report/" + reportInfo.getReportTemplateName();
+        String template = reportTemplateClassPath + reportInfo.getReportTemplateName();
         String fullReportFileName = this.buildFullFileName(reportsDirectory, reportInfo.reportFilename(), runDate);
 
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
 
+        ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
+        
         LOG.info(reportDataHolder);
-        // ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
     }
 
     /**
@@ -84,5 +86,13 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
      */
     public void setResourceBundleBaseName(String resourceBundleBaseName) {
         this.resourceBundleBaseName = resourceBundleBaseName;
+    }
+
+    /**
+     * Sets the reportTemplateClassPath attribute value.
+     * @param reportTemplateClassPath The reportTemplateClassPath to set.
+     */
+    public void setReportTemplateClassPath(String reportTemplateClassPath) {
+        this.reportTemplateClassPath = reportTemplateClassPath;
     }
 }

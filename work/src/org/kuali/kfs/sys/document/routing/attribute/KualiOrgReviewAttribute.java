@@ -120,9 +120,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         List fields = new ArrayList();
 
         ruleRows = new ArrayList();
-        ruleRows.add(getChartRowUsingKualiWorkflowUtils());
-        ruleRows.add(getOrgRowUsingKualiWorkflowUtils());
-        ruleRows.add(getOverrideCodeRowUsingKualiWorkflowUtils());
+        ruleRows.add(getChartRow());
+        ruleRows.add(getOrgRow());
+        ruleRows.add(getOverrideCodeRow());
 
         fields = new ArrayList();
         fields.add(new Field("From Amount", "", Field.TEXT, true, FROM_AMOUNT_KEY, "", null, null, FROM_AMOUNT_KEY));
@@ -132,9 +132,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         ruleRows.add(new Row(fields));
 
         routingDataRows = new ArrayList();
-        routingDataRows.add(getChartRowUsingKualiWorkflowUtils());
-        routingDataRows.add(getOrgRowUsingKualiWorkflowUtils());
-        routingDataRows.add(getOverrideCodeRowUsingKualiWorkflowUtils());
+        routingDataRows.add(getChartRow());
+        routingDataRows.add(getOrgRow());
+        routingDataRows.add(getOverrideCodeRow());
 
         // fields = new ArrayList();
         // fields.add(new Field("Total Amount", "", Field.TEXT, true, TOTAL_AMOUNT_KEY, "", null, null, TOTAL_AMOUNT_KEY));
@@ -146,17 +146,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * This method produces a chart row.
      *
      * @return
-     * @deprecated Use getChartRowUsingKualiWorkflowUtils() instead
      */
-    public edu.iu.uis.eden.lookupable.Row getChartRow() {
-        org.kuali.core.web.ui.Field kualiChartField = FieldUtils.getPropertyField(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, false);
-        List chartFields = new ArrayList();
-        chartFields.add(new Field(kualiChartField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiChartField), Field.TEXT, true, FIN_COA_CD_KEY, kualiChartField.getPropertyValue(), kualiChartField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Chart.class), FIN_COA_CD_KEY));
-        chartFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Chart.class), new StringBuffer(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
-        return new Row(chartFields);
-    }
+    
 
-    public edu.iu.uis.eden.lookupable.Row getChartRowUsingKualiWorkflowUtils() {
+    public edu.iu.uis.eden.lookupable.Row getChartRow() {
         return KualiWorkflowUtils.buildTextRowWithLookup(Chart.class, KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
     }
 
@@ -164,17 +157,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * This method produces an org row.
      *
      * @return
-     * @deprecated Use getOrgRowUsingKualiWorkflowUtils() instead
      */
-    public edu.iu.uis.eden.lookupable.Row getOrgRow() {
-        org.kuali.core.web.ui.Field kualiOrgField = FieldUtils.getPropertyField(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, false);
-        List orgFields = new ArrayList();
-        orgFields.add(new Field(kualiOrgField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOrgField), Field.TEXT, true, ORG_CD_KEY, kualiOrgField.getPropertyValue(), kualiOrgField.getFieldValidValues(), WorkflowLookupableImpl.getLookupableImplName(Org.class), ORG_CD_KEY));
-        orgFields.add(new Field("", "", Field.QUICKFINDER, false, "", "", null, WorkflowLookupableImpl.getLookupableName(WorkflowLookupableImpl.getLookupableImplName(Org.class), new StringBuffer("").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME).append(":").append(ORG_CD_KEY).append(",").append(WorkflowLookupableImpl.LOOKUPABLE_IMPL_NAME_PREFIX).append(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME).append(":").append(FIN_COA_CD_KEY).toString())));
-        return new Row(orgFields);
-    }
+   
 
-    public edu.iu.uis.eden.lookupable.Row getOrgRowUsingKualiWorkflowUtils() {
+    public edu.iu.uis.eden.lookupable.Row getOrgRow() {
         Map fieldConversionMap = new HashMap();
         fieldConversionMap.put(KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, FIN_COA_CD_KEY);
         return KualiWorkflowUtils.buildTextRowWithLookup(Org.class, KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, ORG_CD_KEY, fieldConversionMap);
@@ -184,21 +170,18 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * This method produces an overrideCode row.
      *
      * @return
-     * @deprecated Use getOverrideCodeRowUsingKualiWorkflowUtils() instead
      */
-    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
-        org.kuali.core.web.ui.Field kualiOverrideCodeField;
-        kualiOverrideCodeField = FieldUtils.getPropertyField(SourceAccountingLine.class, "overrideCode", false);
-        List orgFields = new ArrayList();
-        orgFields.add(new Field(kualiOverrideCodeField.getFieldLabel(), KualiWorkflowUtils.getHelpUrl(kualiOverrideCodeField), Field.TEXT, true, OVERRIDE_CD_KEY, kualiOverrideCodeField.getPropertyValue(), kualiOverrideCodeField.getFieldValidValues(), null, OVERRIDE_CD_KEY));
-        return new Row(orgFields);
-    }
+    
 
-    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRowUsingKualiWorkflowUtils() {
+    public edu.iu.uis.eden.lookupable.Row getOverrideCodeRow() {
         java.lang.reflect.Field[] overrideCodes = AccountingLineOverride.CODE.class.getDeclaredFields();
         Map optionMap = new LinkedHashMap<String,String>();
         for (int i=0;i<overrideCodes.length ;i++){
-            optionMap.put(overrideCodes[i].toString(),overrideCodes[i].getName());
+            try{
+                optionMap.put(overrideCodes[i].get(null), overrideCodes[i].getName());
+            }catch (Exception e){
+                LOG.error("Error occured reading override codes for dropdown "+e);
+            }
         }
         return KualiWorkflowUtils.buildDropdownRow(SourceAccountingLine.class, "overrideCode", OVERRIDE_CD_KEY, optionMap, true);
     }
@@ -314,7 +297,7 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
     public List filterNonMatchingRules(RouteContext routeContext, List rules) {
         List filteredRules = new ArrayList();
         DocumentType documentType = routeContext.getDocument().getDocumentType();
-        Set chartOrgValues = populateFromDocContent(documentType, routeContext.getDocumentContent(), routeContext);
+        Set chartOrgOverrideValues = populateFromDocContent(documentType, routeContext.getDocumentContent(), routeContext);
         for (Iterator iterator = rules.iterator(); iterator.hasNext();) {
             RuleBaseValues rule = (RuleBaseValues) iterator.next();
             List ruleExtensions = rule.getRuleExtensions();
@@ -323,22 +306,32 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             this.fromAmount = getRuleExtentionValue(FROM_AMOUNT_KEY, ruleExtensions);
             this.toAmount = getRuleExtentionValue(TO_AMOUNT_KEY, ruleExtensions);
             this.overrideCd = LookupUtils.forceUppercase(SourceAccountingLine.class, "overrideCode", getRuleExtentionValue(OVERRIDE_CD_KEY, ruleExtensions));
-            if (ruleMatches(rule, chartOrgValues, routeContext)) {
+            if (ruleMatches(rule, chartOrgOverrideValues, routeContext)) {
                 filteredRules.add(rule);
             }
         }
-        Collections.sort(filteredRules, new ChartOrgRuleComparator(chartOrgValues));
+        Collections.sort(filteredRules, new ChartOrgRuleComparator(chartOrgOverrideValues));
         return filteredRules;
     }
 
     /**
      * Determines if the given Rule matches the document data by comparing the Org, total dollar amount, and override code.
      */
-    protected boolean ruleMatches(RuleBaseValues rule, Set chartOrgValues, RouteContext routeContext) {
+    protected boolean ruleMatches(RuleBaseValues rule, Set chartOrgOverrideValues, RouteContext routeContext) {
         boolean matchesOrg = false;
-        for (Iterator iter = chartOrgValues.iterator(); iter.hasNext();) {
-            Org org = (Org) iter.next();
+        for (Iterator iter = chartOrgOverrideValues.iterator(); iter.hasNext();) {
+            OrgOverride orgOverride = (OrgOverride) iter.next();
+            Org org = orgOverride.getOrg();
             if (org.getChartOfAccountsCode().equals(this.getFinCoaCd()) && org.getOrganizationCode().equals(this.getOrgCd())) {
+                if (this.overrideCd != null){
+                    String docOverrideCd = orgOverride.getOverrideCd();
+                    //If the doc doesn't have an override code, match even if the rule specifies an override code
+                    if (this.overrideCd.equalsIgnoreCase(docOverrideCd)|| StringUtils.isEmpty(docOverrideCd)){
+                        matchesOrg = true;
+                        break;
+                    }
+                    continue;
+                }
                 matchesOrg = true;
                 break;
             }
@@ -365,13 +358,6 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                 }
             }
         }
-
-        if (this.overrideCd != null) {
-            String docOverrideCd = getOverrideCd(routeContext.getDocument().getDocumentType(), routeContext.getDocumentContent());
-            if (!this.overrideCd.equalsIgnoreCase(docOverrideCd)) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -381,13 +367,15 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      * @param chartOrgSet
      * @param chartOrg
      */
-    private void buildOrgReviewHierarchy(int counter, Set chartOrgSet, Org startOrg) {
+    private void buildOrgReviewHierarchy(int counter, Set chartOrgOverrideSet, OrgOverride startOrgOverride) {
         LOG.info("buildOrgReviewHierarchy iteration: " + counter);
+        String overrideCd = startOrgOverride.getOverrideCd();
+        Org startOrg = startOrgOverride.getOrg();
         // this will cause NPEs, so we dont let it through
         if (startOrg == null) {
             throw new IllegalArgumentException("Parameter value for startOrg passed in was null.");
         }
-
+        
         // we're done if the reportsToOrg is the same as the Org, ie we're at the top of the Org hiearchy
         if (startOrg.getChartOfAccountsCode().equalsIgnoreCase(startOrg.getReportsToChartOfAccountsCode())) {
             if (startOrg.getOrganizationCode().equalsIgnoreCase(startOrg.getReportsToOrganizationCode())) {
@@ -398,8 +386,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
         if (reportsToOrg == null) {
             throw new RuntimeException("Org " + startOrg.getChartOfAccountsCode() + "-" + startOrg.getOrganizationCode() + " has a reportsToOrganization (" + startOrg.getReportsToChartOfAccountsCode() + "-" + startOrg.getReportsToOrganizationCode() + ") " + " that does not exist in the system.");
         }
-        chartOrgSet.add(reportsToOrg);
-        buildOrgReviewHierarchy(++counter, chartOrgSet, reportsToOrg);
+        OrgOverride reportsToOrgOverride = new OrgOverride(reportsToOrg, overrideCd);
+        chartOrgOverrideSet.add(reportsToOrgOverride);
+        buildOrgReviewHierarchy(++counter, chartOrgOverrideSet, reportsToOrgOverride);
     }
 
     private String getRuleExtentionValue(String key, List ruleExtensions) {
@@ -426,12 +415,12 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      *         the document
      */
     private Set populateFromDocContent(DocumentType docType, DocumentContent docContent, RouteContext routeContext) {
-        Set chartOrgValues = null;
+        Set chartOrgOverrideValues = null;
         if (routeContext.getParameters().containsKey(DOCUMENT_CHART_ORG_VALUES_KEY)) {
-            chartOrgValues = (Set) routeContext.getParameters().get(DOCUMENT_CHART_ORG_VALUES_KEY);
+            chartOrgOverrideValues = (Set) routeContext.getParameters().get(DOCUMENT_CHART_ORG_VALUES_KEY);
         }
         else {
-            chartOrgValues = new HashSet();
+            chartOrgOverrideValues = new HashSet();
             NodeList nodes = null;
             XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
             try {
@@ -475,16 +464,18 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     if (docOrg == null) {
                         throw new RuntimeException("Org declared on the document cannot be found in the system, routing cannot continue.");
                     }
+                    OrgOverride docOrgOverride = new OrgOverride(docOrg, null);
                     // possibly duplicate add, but this is safe in a HashSet
-                    chartOrgValues.add(docOrg);
-                    buildOrgReviewHierarchy(0, chartOrgValues, docOrg);
+                    chartOrgOverrideValues.add(docOrgOverride);
+                    buildOrgReviewHierarchy(0, chartOrgOverrideValues, docOrgOverride);
                 }
                 else {
                     // now look at the global documents
                     List<Org> globalDocOrgs = getGlobalDocOrgs(docType.getName(), xpath, docContent);
                     for (Org globalOrg : globalDocOrgs) {
-                        chartOrgValues.add(globalOrg);
-                        buildOrgReviewHierarchy(0, chartOrgValues, globalOrg);
+                        OrgOverride globalOrgOverride = new OrgOverride(globalOrg, null);
+                        chartOrgOverrideValues.add(globalOrg);
+                        buildOrgReviewHierarchy(0, chartOrgOverrideValues, globalOrgOverride);
                     }
                     String xpathExp = null;
                     if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
@@ -495,13 +486,13 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                     }
                     else {
                         if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                         else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                         else {
-                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                            xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
                         }
                     }
                     nodes = (NodeList) xpath.evaluate(xpathExp, docContent.getDocument(), XPathConstants.NODESET);
@@ -512,12 +503,20 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
                         if (!StringUtils.isEmpty(referenceString)) {
                             accountingLineNode = (Node) xpath.evaluate(referenceString, accountingLineNode, XPathConstants.NODE);
                         }
-                        String finCoaCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountingLineNode);
-                        String orgCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, accountingLineNode);
+                        /**Because the override code is an attribute of the accounting line and the chart and org are attributes of the
+                         * account on the line, the override code must be determined before the node is stripped down to represent an account,
+                         * when it still has accounting line data.  It must be done at this point so that the override code is correctly
+                         * associated with the related chart and org.
+                         */
+                        String overrideCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + "/overrideCode", accountingLineNode);
+                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append("account").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
+                        Node accountNode = (Node) xpath.evaluate(xpathExp, accountingLineNode,XPathConstants.NODE);
+                        String finCoaCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.CHART_OF_ACCOUNTS_CODE_PROPERTY_NAME, accountNode);
+                        String orgCd = xpath.evaluate(KualiWorkflowUtils.XSTREAM_MATCH_RELATIVE_PREFIX + KFSConstants.ORGANIZATION_CODE_PROPERTY_NAME, accountNode);
                         if (!StringUtils.isEmpty(finCoaCd) && !StringUtils.isEmpty(orgCd)) {
-                            Org organization = SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd);
-                            chartOrgValues.add(organization);
-                            buildOrgReviewHierarchy(0, chartOrgValues, organization);
+                            OrgOverride organization = new OrgOverride(SpringContext.getBean(OrganizationService.class).getByPrimaryIdWithCaching(finCoaCd, orgCd), overrideCd);
+                            chartOrgOverrideValues.add(organization);
+                            buildOrgReviewHierarchy(0, chartOrgOverrideValues, organization);
                         }
                     }
                 }
@@ -525,9 +524,9 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            routeContext.getParameters().put(DOCUMENT_CHART_ORG_VALUES_KEY, chartOrgValues);
+            routeContext.getParameters().put(DOCUMENT_CHART_ORG_VALUES_KEY, chartOrgOverrideValues);
         }
-        return chartOrgValues;
+        return chartOrgOverrideValues;
     }
 
     private List<Org> getGlobalDocOrgs(String docTypeName, XPath xpath, DocumentContent docContent) throws Exception {
@@ -564,45 +563,6 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             }
         }
         return null;
-    }
-
-    private String getOverrideCd(DocumentType docType, DocumentContent docContent) {
-        try {
-            XPath xpath = KualiWorkflowUtils.getXPath(docContent.getDocument());
-            boolean isReport = ((Boolean) xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument(), XPathConstants.BOOLEAN)).booleanValue();
-            if (isReport) {
-                return xpath.evaluate(new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.XML_REPORT_DOC_CONTENT_XPATH_PREFIX).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString(), docContent.getDocument());
-            }
-            String xpathExp = null;
-            do {
-                if (KualiWorkflowUtils.isMaintenanceDocument(docType)) {
-                    return null;
-                }
-                else {
-                    if (KualiWorkflowUtils.isSourceLineOnly(docType.getName())) {
-                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                        break;
-                    }
-                    else if (KualiWorkflowUtils.isTargetLineOnly(docType.getName())) {
-                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                        break;
-                    }
-                    else {
-                        xpathExp = new StringBuffer(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getSourceAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).append(" | ").append(KualiWorkflowUtils.XSTREAM_SAFE_PREFIX).append(KualiWorkflowUtils.XSTREAM_MATCH_ANYWHERE_PREFIX).append(KualiWorkflowUtils.getTargetAccountingLineClassName(docType.getName())).append("/overrideCode").append(KualiWorkflowUtils.XSTREAM_SAFE_SUFFIX).toString();
-                        break;
-                    }
-                }
-
-            } while (docType != null);
-
-            return xpath.evaluate(xpathExp, docContent.getDocument());
-
-        }
-        catch (Exception e) {
-            LOG.error("Caught excpeption getting document override code", e);
-            throw new RuntimeException(e);
-        }
-
     }
 
 
@@ -727,10 +687,10 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
      */
     private class ChartOrgRuleComparator implements Comparator<RuleBaseValues> {
 
-        private Set chartOrgs;
+        private Set chartOrgOverrideSet;
 
-        public ChartOrgRuleComparator(Set chartOrgs) {
-            this.chartOrgs = chartOrgs;
+        public ChartOrgRuleComparator(Set chartOrgOverrideSet) {
+            this.chartOrgOverrideSet = chartOrgOverrideSet;
         }
 
         public int compare(RuleBaseValues rule1, RuleBaseValues rule2) {
@@ -763,6 +723,34 @@ public class KualiOrgReviewAttribute implements WorkflowAttribute, MassRuleAttri
             return 1 + getDistanceFromRoot(reportsToOrg);
         }
 
+    }
+    
+    private class OrgOverride{
+        String overrideCd;
+        Org org;
+
+        OrgOverride(Org org){
+            this.org=org;      
+        }
+        
+        OrgOverride(Org org, String overrideCd){
+            this.org=org;
+            this.overrideCd=overrideCd;
+        }
+        public Org getOrg() {
+            return org;
+        }
+        public void setOrg(Org org) {
+            this.org = org;
+        }
+        
+        public String getOverrideCd() {
+            return overrideCd;
+        }
+
+        public void setOverrideCd(String overrideCd) {
+            this.overrideCd = overrideCd;
+        }
     }
 
 }

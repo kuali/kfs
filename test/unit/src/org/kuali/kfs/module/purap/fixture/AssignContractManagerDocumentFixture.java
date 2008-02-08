@@ -27,7 +27,8 @@ import org.kuali.test.DocumentTestUtils;
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public enum AssignContractManagerDocumentFixture {
-    ACM_DOCUMENT_VALID (new AssignContractManagerDetailFixture[] {AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS } )
+    ACM_DOCUMENT_VALID (new AssignContractManagerDetailFixture[] {AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS } ),
+    ACM_DOCUMENT_VALID_2 (new AssignContractManagerDetailFixture[] {AssignContractManagerDetailFixture.ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2 } )
  ;
 
     private AssignContractManagerDetailFixture[] acmDetailFixtures;

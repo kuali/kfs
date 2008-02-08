@@ -17,6 +17,7 @@ package org.kuali.module.purap.document;
 
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.test.fixtures.UserNameFixture.APPLETON;
+import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
 
@@ -96,6 +97,23 @@ public class CreditMemoDocumentTest extends KualiTestBase {
         creditMemoDocument.setAccountsPayableProcessorIdentifier("khuntley");
         //creditMemoDocument.setPurchaseOrderIdentifier(createAPORequisition());
         AccountingDocumentTestUtils.testSaveDocument(creditMemoDocument, SpringContext.getBean(DocumentService.class));
+    }
+
+    @ConfigureContext(session = APPLETON, shouldCommitTransactions=true)
+    public final CreditMemoDocument routeDocument(PaymentRequestDocument preqDocument) throws Exception {
+        creditMemoDocument = buildSimpleDocument();
+        creditMemoDocument.setPaymentRequestDocument(preqDocument);
+        CreditMemoItem cmItem = (CreditMemoItem) creditMemoDocument.getItem(0);
+        cmItem.setPreqInvoicedTotalQuantity(new KualiDecimal(1));
+        cmItem.setItemQuantity(new KualiDecimal(1));    
+        cmItem.setPreqExtendedPrice(new KualiDecimal(1));
+        SpringContext.getBean(CreditMemoService.class).calculateCreditMemo(creditMemoDocument);
+        creditMemoDocument.prepareForSave();       
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(creditMemoDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        AccountingDocumentTestUtils.routeDocument(creditMemoDocument, "saving copy source docu ament", null, documentService);
+        WorkflowTestUtils.waitForStatusChange(creditMemoDocument.getDocumentHeader().getWorkflowDocument(), "F");    
+        return creditMemoDocument;
     }
 
     /*

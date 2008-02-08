@@ -24,6 +24,10 @@ public enum AssignContractManagerDetailFixture {
             new Integer(12),   // contractManagerCode
             RequisitionDocumentFixture.REQ_NO_APO_VALID.createRequisitionDocument() // purchasingDocumentFixture
     ),
+    ACM_DETAIL_REQ_ONLY_REQUIRED_FIELDS_2("", // documentNumber
+            new Integer(12),   // contractManagerCode
+            RequisitionDocumentFixture.REQ_NO_APO_VALID_2.createRequisitionDocument() // purchasingDocumentFixture
+    ),
  ;
 
     private String documentNumber;

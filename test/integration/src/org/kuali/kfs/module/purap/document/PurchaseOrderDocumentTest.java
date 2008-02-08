@@ -18,41 +18,29 @@ package org.kuali.module.purap.document;
 import static org.kuali.module.financial.document.AccountingDocumentTestUtils.testGetNewDocument_byDocumentClass;
 import static org.kuali.module.purap.fixtures.PurchaseOrderItemAccountsFixture.WITH_DESC_WITH_UOM_WITH_PRICE_WITH_ACCOUNT;
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
+import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
-import static org.kuali.test.fixtures.UserNameFixture.PARKE;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.document.Document;
-import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.TransactionalDocumentDictionaryService;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
-import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
-import org.kuali.module.purap.document.WorkflowXmlPurchaseOrderDocument.DummyContractManager;
-import org.kuali.module.purap.document.WorkflowXmlPurchaseOrderDocument.DummyStatus;
-import org.kuali.module.purap.document.WorkflowXmlPurchaseOrderDocument.DummyVendorContract;
+import org.kuali.module.purap.bo.PurchasingItem;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderItemAccountsFixture;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.DocumentTestUtils;
 import org.kuali.test.fixtures.UserNameFixture;
-import org.kuali.test.monitor.ChangeMonitor;
-import org.kuali.test.monitor.DocumentWorkflowStatusMonitor;
 import org.kuali.workflow.WorkflowTestUtils;
-
-import edu.iu.uis.eden.EdenConstants;
 
 /**
  * Used to create and test populated Purchase Order Documents of various kinds. 

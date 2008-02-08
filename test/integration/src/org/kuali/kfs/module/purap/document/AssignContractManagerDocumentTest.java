@@ -17,13 +17,10 @@ package org.kuali.module.purap.document;
 
 import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 import static org.kuali.test.fixtures.UserNameFixture.PARKE;
-import static org.kuali.test.fixtures.UserNameFixture.RJWEISS;
 import static org.kuali.test.fixtures.UserNameFixture.RORENFRO;
-import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
 import java.util.List;
 
-import org.kuali.core.bo.AdHocRouteRecipient;
 import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
@@ -34,7 +31,6 @@ import org.kuali.module.financial.document.AccountingDocumentTestUtils;
 import org.kuali.module.purap.bo.AssignContractManagerDetail;
 import org.kuali.module.purap.fixtures.AssignContractManagerDocumentFixture;
 import org.kuali.test.ConfigureContext;
-import org.kuali.test.fixtures.UserNameFixture;
 import org.kuali.workflow.WorkflowTestUtils;
 
 import edu.iu.uis.eden.EdenConstants;
@@ -82,6 +78,25 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
     }
     
     /**
+     * Tests the routing of AssignContractManagerDocument to final.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = PARKE, shouldCommitTransactions = true)
+    public final String testRouteDocument2() throws Exception {
+        acmDocument = buildSimpleDocument2();
+        
+        acmDocument.prepareForSave();
+        DocumentService documentService = SpringContext.getBean(DocumentService.class);
+        assertFalse("R".equals(acmDocument.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus()));
+        routeDocument(acmDocument, "saving copy source document", documentService);
+        WorkflowTestUtils.waitForStatusChange(acmDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+        AssignContractManagerDocument document = (AssignContractManagerDocument) documentService.getByDocumentHeaderId(acmDocument.getDocumentNumber());
+        assertTrue("Document should now be final.", document.getDocumentHeader().getWorkflowDocument().stateIsFinal());
+        return acmDocument.getAssignContractManagerDetail(0).getRequisition().getDocumentNumber();
+    }
+    
+    /**
      * Helper method to route the document.
      * 
      * @param document                 The assign contract manager document to be routed.
@@ -121,6 +136,27 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
     }
 
     /**
+     * Helper method to create a new valid AssignContractManagerDocument.
+     * 
+     * @return            The AssignContractManagerDocument created by this method.
+     * @throws Exception
+     */
+    private AssignContractManagerDocument buildSimpleDocument2() throws Exception {
+        List<AssignContractManagerDetail> details = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID_2.getAssignContractManagerDetails();
+        for (AssignContractManagerDetail detail : details) {
+            RequisitionDocument routedReq = routeRequisitionUntilAwaitingContractManager2(detail.getRequisition());
+            detail.setRequisitionIdentifier(routedReq.getPurapDocumentIdentifier());
+            detail.refreshNonUpdateableReferences();
+        }
+        acmDocument = AssignContractManagerDocumentFixture.ACM_DOCUMENT_VALID_2.createAssignContractManagerDocument();
+        for (AssignContractManagerDetail detail : details) {
+            detail.setAssignContractManagerDocument(acmDocument);
+        }
+        acmDocument.setAssignContractManagerDetails(details);
+        return acmDocument;
+    }
+
+    /**
      * Helper method to route a requisition document until AwaitingContractManager status.
      * The requisition document will be used to create the AssignContractManagerDocument.
      * 
@@ -140,6 +176,36 @@ public class AssignContractManagerDocumentTest extends KualiTestBase {
         assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
         assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
         SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as RORENFRO", null);
+
+        WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
+
+        changeCurrentUser(KHUNTLEY);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("Document should now be final.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsFinal());   
+        changeCurrentUser(PARKE);
+        return requisitionDocument;
+    }
+
+    /**
+     * Helper method to route a requisition document until AwaitingContractManager status.
+     * The requisition document will be used to create the AssignContractManagerDocument.
+     * 
+     * @param requisitionDocument The RequisitionDocument to be routed until AwaitingContractManager status.
+     * @return                    The RequisitionDocument that was routed until AwaitingContractManager status.
+     * @throws Exception
+     */
+    private RequisitionDocument routeRequisitionUntilAwaitingContractManager2(RequisitionDocument requisitionDocument) throws Exception {
+        final String docId = requisitionDocument.getDocumentNumber();
+        AccountingDocumentTestUtils.routeDocument(requisitionDocument, SpringContext.getBean(DocumentService.class));
+        WorkflowTestUtils.waitForNodeChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), ACCOUNT_REVIEW);
+
+        // the document should now be routed to VPUTMAN as Fiscal Officer
+        changeCurrentUser(RORENFRO);
+        requisitionDocument = (RequisitionDocument) SpringContext.getBean(DocumentService.class).getByDocumentHeaderId(docId);
+        assertTrue("At incorrect node.", WorkflowTestUtils.isAtNode(requisitionDocument, ACCOUNT_REVIEW));
+        assertTrue("Document should be enroute.", requisitionDocument.getDocumentHeader().getWorkflowDocument().stateIsEnroute());
+        assertTrue("RORENFRO should have an approve request.", requisitionDocument.getDocumentHeader().getWorkflowDocument().isApprovalRequested());
+        SpringContext.getBean(DocumentService.class).approveDocument(requisitionDocument, "Test approving as vputman", null);
 
         WorkflowTestUtils.waitForStatusChange(requisitionDocument.getDocumentHeader().getWorkflowDocument(), EdenConstants.ROUTE_HEADER_FINAL_CD);
 

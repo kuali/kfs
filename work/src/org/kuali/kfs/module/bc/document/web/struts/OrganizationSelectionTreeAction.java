@@ -48,6 +48,7 @@ import org.kuali.module.budget.BCConstants.OrgSelControlOption;
 import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
+import org.kuali.module.budget.service.BudgetPushPullService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
@@ -664,7 +665,17 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         }
         else {
 
-            // TODO this will eventually change to perform pullup
+            // get the needed params from the form and environment
+            String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
+            Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+            String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            
+            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, new Integer(2008), flds[0], flds[1]);
+            
+            //TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
+            //     build process should return number of accounts in list, if non-zero call display
+            //     otherwise add successful pullup message if no accounts are on the list
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 
@@ -688,7 +699,8 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         }
         else {
 
-            // TODO this will eventually change to perform show budget docs to be pulled up
+            //TODO this will eventually change to perform show budget docs to be pulled up
+            //TODO i.e. Budgeted Account list of Documents set at level that is less than the user's point of view
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

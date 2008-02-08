@@ -670,7 +670,7 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
             String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
             
-            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, new Integer(2008), flds[0], flds[1]);
+            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, flds[0], flds[1]);
             
             //TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
             //     build process should return number of accounts in list, if non-zero call display

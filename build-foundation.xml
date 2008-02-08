@@ -26,6 +26,9 @@ are intended for use only by Kuali Foundation developers.
     <target name="dist-local" />
     <target name="clean" />
 
+	<!-- include resource for ant-contrib verifydesign task -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+	
 	<target name="check-modularization" depends="make-source" description="Checks over dependency issues within kuali code">
 	  <verifydesign design="design.xml">
 	    <path>

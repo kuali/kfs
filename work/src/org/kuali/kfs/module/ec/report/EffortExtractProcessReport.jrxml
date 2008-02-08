@@ -46,7 +46,6 @@
 	<parameter name="reportNumber" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="reportPeriodBegin" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="reportPeriodEnd" isForPrompting="false" class="java.lang.String"/>
-	
 	<parameter name="numOfEmployee" isForPrompting="false" class="java.lang.Integer"/>
 	<parameter name="numOfBalancesRead" isForPrompting="false" class="java.lang.Integer"/>
 	<parameter name="numOfBalancesSelected" isForPrompting="false" class="java.lang.Integer"/>
@@ -54,7 +53,7 @@
 	<parameter name="numOfDetailLineWritten" isForPrompting="false" class="java.lang.Integer"/>
 	<parameter name="numOfErrors" isForPrompting="false" class="java.lang.Integer"/>
 	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["report/"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["./"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="statistics" isForPrompting="false" class="java.util.Map"/>
 	<parameter name="errors" isForPrompting="false" class="java.util.List"/>
@@ -375,9 +374,14 @@
 		</columnHeader>
 		<detail>
 			<band height="22"  isSplitAllowed="true" >
-				<subreport isUsingCache="true">
-					<reportElement	x="84" y="0" width="646" height="22" key="subreport-1"/>
-					<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="84"
+						y="0"
+						width="646"
+						height="22"
+						key="subreport-1"/>
+					<subreportParameter  name="REPORT_RESOURCE_BUNDLE">
 						<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
 					</subreportParameter>
 					<dataSourceExpression><![CDATA[new JRBeanCollectionDataSource($P{errors})]]></dataSourceExpression>

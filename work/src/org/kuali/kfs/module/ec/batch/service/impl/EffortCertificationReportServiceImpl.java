@@ -46,13 +46,15 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
      */
     public void generateReportForExtractProcess(ExtractProcessReportDataHolder reportDataHolder, EffortReportRegistry reportInfo, String reportsDirectory, Date runDate) {
         String template = reportTemplateClassPath + reportInfo.getReportTemplateName();
+
         String fullReportFileName = this.buildFullFileName(reportsDirectory, reportInfo.reportFilename(), runDate);
 
         Map<String, Object> reportData = reportDataHolder.getReportData();
         reportData.put(JRParameter.REPORT_RESOURCE_BUNDLE, this.getResourceBundle());
+        reportData.put("SUBREPORT_DIR", reportTemplateClassPath);
 
         ReportGenerator.generateReportToPdfFile(reportData, template, fullReportFileName);
-        
+
         LOG.info(reportDataHolder);
     }
 
@@ -79,8 +81,8 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
     }
 
     /**
-     * Sets the resourceBundleBaseName attribute value. The base name includes the full-qualified package name. If a resource bundle is
-     * org/kuali/module/effort/report/messages.properties, the base name can be org/kuali/module/effort/report/messages.
+     * Sets the resourceBundleBaseName attribute value. The base name includes the full-qualified package name. If a resource bundle
+     * is org/kuali/module/effort/report/messages.properties, the base name can be org/kuali/module/effort/report/messages.
      * 
      * @param resourceBundleBaseName The resourceBundleBaseName to set.
      */
@@ -90,6 +92,7 @@ public class EffortCertificationReportServiceImpl implements EffortCertification
 
     /**
      * Sets the reportTemplateClassPath attribute value.
+     * 
      * @param reportTemplateClassPath The reportTemplateClassPath to set.
      */
     public void setReportTemplateClassPath(String reportTemplateClassPath) {

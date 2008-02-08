@@ -21,9 +21,16 @@ import java.util.List;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.service.OrganizationOptionsService;
+import org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
 
@@ -40,9 +47,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
     
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-        if (isValid) {
             
-        }
         return isValid;
     }
     
@@ -68,8 +73,11 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
         while(it.hasNext()) {
             CashControlDetail detail = it.next();
             KualiDecimal lineAmount = detail.getFinancialDocumentLineAmount();
-            if (lineAmount.isZero())
+            if (lineAmount.isZero()) {
+
+                GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
                 return false;
+            }
             if (lineAmount.isNegative())
                 count++;
         }
@@ -88,23 +96,40 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
     }
     
     private boolean checkOrgDocNumber(CashControlDocument document) {
-        boolean isValid = false;
+        boolean isValid = true;
         
         String paymentMedium = document.getCustomerPaymentMediumCode();
         if (paymentMedium.equals("CA")) {
-        
+            String orgDocNumber = document.getDocumentHeader().getOrganizationDocumentNumber();
+            if (orgDocNumber == null) {
+                GlobalVariables.getErrorMap().putError("organizationDocumentNumber", ArConstants.ERROR_ORGANIZATION_DOC_NUMBER_CANNOT_BE_NULL_FOR_PAYMENT_MEDIUM_CASH);
+                isValid = false;
+            }
         }
         return isValid;
     }
     
     private boolean checkReferenceDocument(CashControlDocument document) {
-        boolean isValid;
+        boolean isValid = true;
         
         String refDocNumber = document.getReferenceFinancialDocumentNumber();
-        if (null == refDocNumber)
+        if (null == refDocNumber) {
+            GlobalVariables.getErrorMap().putError("referenceFinancialDocumentNumber", ArConstants.ERROR_REFERENCE_DOC_NUMBER_CANNOT_BE_NULL);
             isValid = false;
-        else 
-            isValid = true;
+        }
         return isValid;
+    }
+    
+    private boolean checkUserOrgOptions(CashControlDocument document) {
+       boolean success = true;
+        ChartUser user = ValueFinderUtil.getCurrentChartUser();
+        String chartCode = user.getChartOfAccountsCode();
+        String orgCode = user.getUserOrganizationCode();
+        OrganizationOptionsService service = new OrganizationOptionsServiceImpl();
+        
+        if (null != service.getByPrimaryKey(chartCode, orgCode)) {
+            success = false;
+        }
+        return success;
     }
 }

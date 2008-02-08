@@ -15,128 +15,50 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.Calendar;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.rule.event.AddCustomerInvoiceDetailEvent;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
-import org.kuali.module.financial.bo.CashReceiptHeader;
-import org.kuali.module.financial.bo.Check;
-import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.module.financial.document.CashReceiptDocument;
-import org.kuali.module.financial.rule.event.AddCheckEvent;
-import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
-import org.kuali.module.financial.web.struts.form.CashReceiptForm;
+import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentActionBase {
     
-    private DateTimeService dateTimeService;
-    
-    public CustomerInvoiceDocumentAction() {
-        super();
-        setupServices();
-    }
-    
     /**
+     * Makes a call to parent's createDocument method, but this method also defaults values for customer invoice document
+     * 
      * @see org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase#createDocument(org.kuali.core.web.struts.form.KualiDocumentFormBase)
      */
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
         super.createDocument(kualiDocumentFormBase);
-
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
-        setupDefaultValues(customerInvoiceDocument);
-    }
+        
 
-    private void setupServices() {
-        setDateTimeService(SpringContext.getBean(DateTimeService.class));
+        //set up the default values for customer invoice document
+        customerInvoiceDocument.setupDefaultValues();
+        
+        Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        AccountsReceivableDocumentHeader arDocHdr = customerInvoiceDocument.getAccountsReceivableDocumentHeader();
+        CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+        customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getCustomerInvoiceDetailForAddLine(currentUniversityFiscalYear, arDocHdr.getProcessingChartOfAccountCode(), arDocHdr.getProcessingOrganizationCode() ));
     }
-
-    /**
-     * This method sets up the default values for the customer invoice document
-     * 
-     * @param document
-     */
-    private void setupDefaultValues(CustomerInvoiceDocument document) {
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        if(currentUser != null) {
-            //Billing chart = user's chart
-            document.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
-            
-            //Billing org = user's org
-            document.setBilledByOrganizationCode(currentUser.getOrganizationCode());
-        }
-        
-        Date today = dateTimeService.getCurrentSqlDate();
-        
-        //Invoice create date = current date
-        document.setBillingDate(today);
-        
-        //Invoice due date = current date + 30 days
-        Calendar cal = dateTimeService.getCurrentCalendar();
-        cal.add(Calendar.DATE, 30);
-        Date sqlDueDate = null;
-        try {
-           sqlDueDate =  dateTimeService.convertToSqlDate(cal.getTime().toString());
-        } catch (ParseException e) {
-            //TODO: throw an error here, but don't die
-        }
-        if(sqlDueDate != null) {
-            document.setInvoiceDueDate(sqlDueDate);
-        }
-        
-        //Write-off Indicator = 'Y'
-        document.setWriteoffIndicator(true);
-        
-        //Print Invoice Indicator = "Y"
-        document.setPrintInvoiceIndicator(true);
-        
-        //Processing Chart = Processing Chart retrieved from Billing Org options
-        //convert this into some kind of service maybe?
-        //document.getAccountsReceivableDocumentHeader().setProcessingChartOfAccountCode(processingChartOfAccountCode);
-        
-        //Processing Org = Processing Org retrieved from Billing Org Options
-        //document.getAccountsReceivableDocumentHeader().setProcessingOrganizationCode(processingOrganizationCode);
-        
-        //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
-        //can't find this one
-        
-        //Payment Terms Text = Payment Terms Text retrieved from Billing Org Options
-        //document.setInvoiceTermsText(invoiceTermsText);
-        
-        //Set AR document header
-        document.setAccountsReceivableDocumentHeader(new AccountsReceivableDocumentHeader());
-        document.getAccountsReceivableDocumentHeader().setDocumentNumber(document.getDocumentNumber());
-    }
-
-    public DateTimeService getDateTimeService() {
-        return dateTimeService;
-    }
-
-    public void setDateTimeService(DateTimeService dateTimeService) {
-        this.dateTimeService = dateTimeService;
-    }    
     
     /**
      * Adds a CustomerInvoiceDetail instance created from the current "new customer invoice detail" line to the document
@@ -155,12 +77,10 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDetail newCustomerInvoiceDetail = customerInvoiceDocumentForm.getNewCustomerInvoiceDetail();
         newCustomerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
         
-
-        // check business rules
-        //boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCheckEvent(KFSConstants.NEW_CHECK_PROPERTY_NAME, crDoc, newCheck));
-        boolean rulePassed = true;
+        // check business rules for adding customer detail event
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCustomerInvoiceDetailEvent(ArConstants.NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX, customerInvoiceDocument, newCustomerInvoiceDetail));
         if (rulePassed) {
-            // add check
+            // add customer invoice detail
             customerInvoiceDocument.addCustomerInvoiceDetail(newCustomerInvoiceDetail);
 
             // clear the used customer invoice detail
@@ -185,10 +105,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
 
         int indexOfLineToDelete = getLineToDelete(request);
-        // delete advanceDeposit
+        // delete customer invoice detail with specific line
         customerInvoiceDocument.deleteCustomerInvoiceDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }    
-
+    }
 }

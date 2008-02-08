@@ -59,4 +59,10 @@
 		</property>
 	</bean>
 	
+	<bean id="CustomerInvoiceDetailService" class="org.kuali.module.ar.service.impl.CustomerInvoiceDetailServiceImpl">
+		<property name="organizationAccountingDefaultService">
+			<ref bean="organizationAccountingDefaultService" />
+		</property>
+	</bean>	
+	
 </beans>

@@ -22,16 +22,22 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
+import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.DateUtils;
+import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule;
 
-public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
+public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements AddCustomerInvoiceDetailRule {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
 
     private CustomerInvoiceDocument document = null;
@@ -177,4 +183,27 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase {
         return success;
     }
 
+    /**
+     * @see org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule#processAddCustomerInvoiceBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.ar.bo.CustomerInvoiceDetail)
+     */
+    public boolean processAddCustomerInvoiceBusinessRules(AccountingDocument financialDocument, CustomerInvoiceDetail customerInvoiceDetail) {
+        boolean isValid = validateCustomerInvoiceDetail(customerInvoiceDetail);
+
+        return isValid;
+    }
+    
+    /**
+     * This method returns true if customer invoice detail passes BO data dictionary rules
+     * 
+     * @param customerInvoiceDetail
+     * @return
+     */
+    private boolean validateCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail){
+        // validate the specific customer invoice coming in
+        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(customerInvoiceDetail);
+
+        boolean isValid = GlobalVariables.getErrorMap().isEmpty();
+        
+        return isValid;
+    }
 }

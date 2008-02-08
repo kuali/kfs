@@ -1,21 +1,25 @@
 package org.kuali.module.ar.document;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
-import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
+import org.kuali.module.ar.bo.CustomerProcessingType;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
+import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
-import org.kuali.module.financial.bo.Check;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -677,5 +681,87 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 */
 	public void deleteCustomerInvoiceDetail(int index){
 	    customerInvoiceDetails.remove(index);
+	}
+	
+	/**
+	 * This method sets the default values for an invoice
+	 */
+	public void setupDefaultValues(){
+	    ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        if(currentUser != null) {
+            setDefaultBillByChartOfAccountsCode(currentUser);
+            setDefaultBilledByOrganizationCode(currentUser);
+        }
+        
+        DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
+        setDefaultInvoiceDueDate(dateTimeService);
+        setDefaultBillingDate(dateTimeService);
+        
+        //Write-off Indicator = 'Y'
+        setWriteoffIndicator(true);
+        
+        //Print Invoice Indicator = "Y"
+        setPrintInvoiceIndicator(true);
+        
+        //Processing Chart = Processing Chart retrieved from Billing Org options
+        //convert this into some kind of service maybe?
+        //this.getAccountsReceivablethisHeader().setProcessingChartOfAccountCode(processingChartOfAccountCode);
+        
+        //Processing Org = Processing Org retrieved from Billing Org Options
+        //this.getAccountsReceivablethisHeader().setProcessingOrganizationCode(processingOrganizationCode);
+        
+        //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
+        //can't find this one
+        
+        //Payment Terms Text = Payment Terms Text retrieved from Billing Org Options
+        //this.setInvoiceTermsText(invoiceTermsText);
+        
+        //Set AR this header
+        this.setAccountsReceivableDocumentHeader(new AccountsReceivableDocumentHeader());
+        this.getAccountsReceivableDocumentHeader().setDocumentNumber(this.getDocumentNumber());	    
+	}
+	
+	/**
+	 * This method sets billing date equal to todays date by default
+	 * @param dateTimeService
+	 */
+	public void setDefaultBillingDate(DateTimeService dateTimeService){
+	    Date today = dateTimeService.getCurrentSqlDate();
+        this.setBillingDate(today);
+	}
+	
+    /**
+     * This method sets due date equal to todays date +30 days by default
+     * @param dateTimeService
+     */
+    public void setDefaultInvoiceDueDate(DateTimeService dateTimeService){
+        //Invoice due date = current date + 30 days
+        Calendar cal = dateTimeService.getCurrentCalendar();
+        cal.add(Calendar.DATE, 30);
+        Date sqlDueDate = null;
+        try {
+           sqlDueDate =  dateTimeService.convertToSqlDate(new Timestamp(cal.getTime().getTime()));
+        } catch (ParseException e) {
+            //TODO: throw an error here, but don't die
+        }
+        if(sqlDueDate != null) {
+            this.setInvoiceDueDate(sqlDueDate);
+        }
+    }	
+	
+	/**
+	 * Sets documents default chart of accounts code based on current user
+	 * @param currentUser
+	 */
+	public void setDefaultBillByChartOfAccountsCode(ChartUser currentUser){
+	    this.setBillByChartOfAccountCode(currentUser.getChartOfAccountsCode());
+	}
+	
+	/**
+	 * Sets documents default organization code based on current user
+	 * @param currentUser
+	 */
+	public void setDefaultBilledByOrganizationCode(ChartUser currentUser){
+	    this.setBilledByOrganizationCode(currentUser.getOrganizationCode());
 	}
 }

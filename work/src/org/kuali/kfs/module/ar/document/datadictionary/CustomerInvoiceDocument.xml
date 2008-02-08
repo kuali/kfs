@@ -291,8 +291,6 @@
 
                 <maxLength>5</maxLength>
 
-                <required>true</required>
-
                 <control>
                     <text size="6" />
                 </control>

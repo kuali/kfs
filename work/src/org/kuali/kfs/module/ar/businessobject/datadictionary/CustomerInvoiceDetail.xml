@@ -96,66 +96,49 @@
         </lookup>
 
         <attributes>
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode"/>
+            <attributeReference name="accountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" />
+            <attributeReference name="subAccountNumber" sourceClassName="org.kuali.module.chart.bo.SubAccount" sourceAttributeName="subAccountNumber">
+            	<required>false</required>
+            </attributeReference>
+            <attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode" />
+            <attributeReference name="financialSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
+            	<required>false</required>
+            </attributeReference>
+            <attributeReference name="projectCode" sourceClassName="org.kuali.module.chart.bo.ProjectCode" sourceAttributeName="code">
+            	<required>false</required>
+            </attributeReference>
+            
+            <attribute name="organizationReferenceId" forceUppercase="true">
+                <label>Organization Reference Id</label>
+                <shortLabel>Org Ref Id</shortLabel>
 
-            <attribute name="accountNumber" forceUppercase="true">
-                <label>Account Number</label>
-                <shortLabel>Account Number</shortLabel>
-
-                <maxLength>7</maxLength>
+                <maxLength>8</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
-                <summary>accountNumber</summary>
-                <description>accountNumber description...</description>
-			</attribute>
+                <summary>organizationReferenceId</summary>
+                <description>organizationReferenceId description...</description>
+			</attribute>            
 
-            <attribute name="accountsReceivableObjectCode" forceUppercase="true">
+            <attributeReference name="accountsReceivableObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
                 <label>Accounts Receivable Object Code</label>
                 <shortLabel>AR Object Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
+                <required>true</required>
                 <summary>accountsReceivableObjectCode</summary>
                 <description>accountsReceivableObjectCode description...</description>
-			</attribute>
+			</attributeReference>
 
-            <attribute name="accountsReceivableSubObjectCode" forceUppercase="true">
+			<attributeReference name="accountsReceivableSubObjectCode" sourceClassName="org.kuali.module.chart.bo.SubObjCd" sourceAttributeName="financialSubObjectCode">
                 <label>Accounts Receivable Sub Object Code</label>
-                <shortLabel>AR Sub Object Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
+                <shortLabel>AR Sub-Object Code</shortLabel>
+                <required>false</required>
                 <summary>accountsReceivableSubObjectCode</summary>
                 <description>accountsReceivableSubObjectCode description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>COA</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
+			</attributeReference>
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
@@ -202,35 +185,6 @@
                 <description>financialDocumentPostingYear description...</description>
 			</attribute>
 
-            <attribute name="financialObjectCode" forceUppercase="true">
-                <label>Financial Object Code</label>
-                <shortLabel>Object Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>financialObjectCode</summary>
-                <description>financialObjectCode description...</description>
-			</attribute>
-
-            <attribute name="financialSubObjectCode" forceUppercase="true">
-                <label>Financial Sub Object Code</label>
-                <shortLabel>Sub Object Code</shortLabel>
-
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="5" />
-                </control>
-
-                <summary>financialSubObjectCode</summary>
-                <description>financialSubObjectCode description...</description>
-			</attribute>
 
             <attribute name="invoiceItemCode" forceUppercase="true">
                 <label>Invoice Item Code</label>
@@ -283,6 +237,7 @@
 
                 <maxLength>9</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="11" />
@@ -291,21 +246,19 @@
                 <summary>invoiceItemQuantity</summary>
                 <description>invoiceItemQuantity description...</description>
 			</attribute>
-
-            <attribute name="invoiceItemServiceDate" forceUppercase="true">
+			
+			<attributeReference name="invoiceItemServiceDate"
+                sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+                sourceAttributeName="genericDate" >
                 <label>Invoice Item Service Date</label>
                 <shortLabel>Service Date</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
+                <required>true</required>
 
-                <control>
-                    <text size="9" />
-                </control>
+                <summary><![CDATA[&nbsp;]]> </summary>
+                <description>The date that this invoice was billed</description>
+            </attributeReference>			
 
-                <summary>invoiceItemServiceDate</summary>
-                <description>invoiceItemServiceDate description...</description>
-			</attribute>
 
             <attribute name="invoiceItemTotalAmount" forceUppercase="true">
                 <label>Invoice Item Total Amount</label>
@@ -343,6 +296,7 @@
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
+                <required>true</required>
 
                 <control>
                     <text size="21" />
@@ -350,51 +304,6 @@
 
                 <summary>invoiceItemUnitPrice</summary>
                 <description>invoiceItemUnitPrice description...</description>
-			</attribute>
-
-            <attribute name="organizationReferenceId" forceUppercase="true">
-                <label>Organization Reference Id</label>
-                <shortLabel>Org Ref Id</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>organizationReferenceId</summary>
-                <description>organizationReferenceId description...</description>
-			</attribute>
-
-            <attribute name="projectCode" forceUppercase="true">
-                <label>Project Code</label>
-                <shortLabel>Project Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>projectCode</summary>
-                <description>projectCode description...</description>
-			</attribute>
-
-            <attribute name="subAccountNumber" forceUppercase="true">
-                <label>Sub Account Number</label>
-                <shortLabel>Sub Account Number</shortLabel>
-
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="7" />
-                </control>
-
-                <summary>subAccountNumber</summary>
-                <description>subAccountNumber description...</description>
 			</attribute>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />

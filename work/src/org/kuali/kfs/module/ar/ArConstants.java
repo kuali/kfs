@@ -24,4 +24,8 @@ public class ArConstants {
     public static final int VALID_NUMBER_OF_DAYS_INVOICE_DUE_DATE_PAST_INVOICE_DATE = 90;
     
     public static final String AR_SUPERVISOR_GROUP_NAME = "AR_ROLE_MAINTAINERS";
+    
+    public static final String NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX = "newCustomerInvoiceDetail";
+    
+    public static final String CUSTOMER_INVOICE_DETAIL_UOM_DEFAULT = "EA";
 }

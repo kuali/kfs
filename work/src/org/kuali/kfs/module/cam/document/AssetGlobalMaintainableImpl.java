@@ -18,16 +18,13 @@ package org.kuali.module.cams.maintenance;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
 import org.kuali.module.cams.bo.AssetGlobalDetail;
 import org.kuali.module.cams.lookup.valuefinder.NextAssetNumberFinder;
-import org.kuali.module.pdp.batch.LoadPayments;
 
 /**
  * This class overrides the base {@link KualiGlobalMaintainableImpl} to generate the specific maintenance locks for Global assets

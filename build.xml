@@ -101,6 +101,7 @@
 			<include name="**/*.html" />
 			<include name="**/*.xsd" />
 			<include name="**/*.jasper" />
+			<include name="**/*.jrxml" />
 		</patternset>
 	</target>
 

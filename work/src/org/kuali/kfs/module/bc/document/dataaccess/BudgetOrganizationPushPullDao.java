@@ -29,7 +29,7 @@ public interface BudgetOrganizationPushPullDao {
      * @param pointOfViewCharOfAccountsCode
      * @param pointOfViewOrganizationCode
      */
-    public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
+    public void pullupSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);
 
     /**
      * Pushes down Budget Construction documents based on user selected Organizations and the current point of view Organization
@@ -40,6 +40,6 @@ public interface BudgetOrganizationPushPullDao {
      * @param pointOfViewCharOfAccountsCode
      * @param pointOfViewOrganizationCode
      */
-    public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);    
+    public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer fiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode);    
 
 }

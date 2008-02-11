@@ -724,7 +724,17 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         }
         else {
 
-            // TODO this will eventually change to perform pushdown
+            // get the needed params from the form and environment
+            String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
+            Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
+            String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            
+            SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, flds[0], flds[1]);
+            
+            //TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
+            //     build process should return number of accounts in list, if non-zero call display
+            //     otherwise add successful pullup message if no accounts are on the list
+
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
 

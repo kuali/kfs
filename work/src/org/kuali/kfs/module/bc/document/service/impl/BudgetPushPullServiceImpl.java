@@ -47,7 +47,8 @@ public class BudgetPushPullServiceImpl implements BudgetPushPullService {
      */
     @Logged
     public void pushdownSelectedOrganizationDocuments(String personUniversalIdentifier, Integer FiscalYear, String pointOfViewCharOfAccountsCode, String pointOfViewOrganizationCode) {
-        // TODO Auto-generated method stub
+
+        budgetOrganizationPushPullDao.pushdownSelectedOrganizationDocuments(personUniversalIdentifier, FiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
 
     }
 

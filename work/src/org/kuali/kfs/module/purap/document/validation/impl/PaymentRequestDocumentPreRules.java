@@ -18,11 +18,13 @@ package org.kuali.module.purap.rules;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.service.KualiConfigurationService;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.PurapConstants.PREQDocumentsStrings;
+import org.kuali.module.purap.document.AccountsPayableDocument;
 import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
@@ -117,4 +119,35 @@ public class PaymentRequestDocumentPreRules extends AccountsPayableDocumentPreRu
     public String getDocumentName() {
         return "Payment Request";
     }
+
+    /**
+     * @see org.kuali.module.purap.rules.AccountsPayableDocumentPreRulesBase#createInvoiceNoMatchQuestionText(org.kuali.module.purap.document.AccountsPayableDocument)
+     */
+    @Override
+    public String createInvoiceNoMatchQuestionText(AccountsPayableDocument accountsPayableDocument){
+                
+        String questionText = super.createInvoiceNoMatchQuestionText(accountsPayableDocument);
+        
+        CurrencyFormatter cf = new CurrencyFormatter();
+        PaymentRequestDocument preq = (PaymentRequestDocument) accountsPayableDocument;        
+        
+        StringBuffer questionTextBuffer = new StringBuffer("");        
+        questionTextBuffer.append(questionText);
+        questionTextBuffer.append( "<style type=\"text/css\"> table.questionTable {border-collapse: collapse;} td.leftTd { border-bottom:1px solid #000000; border-right:1px solid #000000; padding:3px; width:300px; } td.rightTd { border-bottom:1px solid #000000; border-left:1px solid #000000; padding:3px; width:300px; } </style>" );
+                    
+        questionTextBuffer.append("<br/><br/>Summary Detail Below:<br/><br/><table class=\"questionTable\" align=\"center\">");
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Vendor Invoice Amount entered on start screen:</td><td class=\"rightTd\">" + (String)cf.format(preq.getInitialAmount()) + "</td></tr>");
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Invoice Total Prior to Additional Charges:</td><td class=\"rightTd\">" + (String)cf.format(preq.getTotalDollarAmountAboveLineItems()) + "</td></tr>");
+
+        //only add this line if payment request has a discount
+        if( preq.isDiscount() ){
+            questionTextBuffer.append("<tr><td class=\"leftTd\">Total Before Discount:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotalExcludingDiscount()) + "</td></tr>");
+        }
+        
+        questionTextBuffer.append("<tr><td class=\"leftTd\">Grand Total:</td><td class=\"rightTd\">" + (String)cf.format(preq.getGrandTotal()) + "</td></tr></table>");
+                        
+        return questionTextBuffer.toString();
+        
+    }
+
 }

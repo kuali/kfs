@@ -24,6 +24,7 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapKeyConstants;
 import org.kuali.module.purap.document.AccountsPayableDocument;
+import org.kuali.module.purap.document.PaymentRequestDocument;
 import org.kuali.module.purap.service.PurapService;
 
 /**
@@ -71,9 +72,9 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
 
         // If the values are mismatched, ask for confirmation.
         if (validateInvoiceTotalsAreMismatched(accountsPayableDocument)) {
-            String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.AP_QUESTION_CONFIRM_INVOICE_MISMATCH);
-            questionText = StringUtils.replace(questionText, "{0}", getDocumentName());
-
+            
+            String questionText = createInvoiceNoMatchQuestionText(accountsPayableDocument);
+            
             boolean confirmOverride = super.askOrAnalyzeYesNoQuestion(PurapConstants.AP_OVERRIDE_INVOICE_NOMATCH_QUESTION, questionText);
 
             // Set a marker to record that this method has been used.
@@ -91,6 +92,20 @@ public class AccountsPayableDocumentPreRulesBase extends PreRulesContinuationBas
         return true;
     }
 
+    /**
+     * Creates the text for the invoice no match question being asked of the user.
+     * 
+     * @param accountsPayableDocument - to be used by overriding method.
+     * @return
+     */
+    public String createInvoiceNoMatchQuestionText(AccountsPayableDocument accountsPayableDocument){
+
+        String questionText = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(PurapKeyConstants.AP_QUESTION_CONFIRM_INVOICE_MISMATCH); 
+        questionText = StringUtils.replace(questionText, "{0}", getDocumentName());
+        
+        return questionText;        
+    }
+    
     /**
      * Determines if the amount entered on the init tab is mismatched with the grand total of the document.
      * 

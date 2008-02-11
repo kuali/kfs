@@ -317,6 +317,11 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return grandTotal;
     }
 
+    public KualiDecimal getGrandTotalExcludingRestockingFee() {
+        String[] restockingFeeCode = new String[] { PurapConstants.ItemTypeCodes.ITEM_TYPE_RESTCK_FEE_CODE };
+        return this.getTotalDollarAmountWithExclusions(restockingFeeCode, true);
+    }
+
     public Integer getPaymentRequestIdentifier() {
         return paymentRequestIdentifier;
     }

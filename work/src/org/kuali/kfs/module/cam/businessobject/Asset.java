@@ -75,6 +75,8 @@ public class Asset extends PersistableBusinessObjectBase {
 	private String signatureCode;
     private boolean active;
     private Date capitalAssetInServiceDate;
+    private String governmentTagNumber;
+    private String nationalStockNumber;
     
     private AssetType capitalAssetType;
 	private Account organizationOwnerAccount;
@@ -1184,6 +1186,38 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setCapitalAssetInServiceDate(Date capitalAssetInServiceDate) {
         this.capitalAssetInServiceDate = capitalAssetInServiceDate;
+    }
+
+    /**
+     * Gets the governmentTagNumber attribute. 
+     * @return Returns the governmentTagNumber.
+     */
+    public String getGovernmentTagNumber() {
+        return governmentTagNumber;
+    }
+
+    /**
+     * Sets the governmentTagNumber attribute value.
+     * @param governmentTagNumber The governmentTagNumber to set.
+     */
+    public void setGovernmentTagNumber(String governmentTagNumber) {
+        this.governmentTagNumber = governmentTagNumber;
+    }
+
+    /**
+     * Gets the nationalStockNumber attribute. 
+     * @return Returns the nationalStockNumber.
+     */
+    public String getNationalStockNumber() {
+        return nationalStockNumber;
+    }
+
+    /**
+     * Sets the nationalStockNumber attribute value.
+     * @param nationalStockNumber The nationalStockNumber to set.
+     */
+    public void setNationalStockNumber(String nationalStockNumber) {
+        this.nationalStockNumber = nationalStockNumber;
     }
 
     /**

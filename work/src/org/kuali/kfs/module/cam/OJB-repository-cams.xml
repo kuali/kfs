@@ -146,6 +146,8 @@
 	<field-descriptor name="inventoryScannedCode" column="AST_INVN_SCAN_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
+	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
@@ -561,6 +563,8 @@
 	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="pretagTagCreateDate" column="AST_PRTGTAG_CRT_DT" jdbc-type="DATE"/>
+	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="campusCode" />
@@ -705,6 +709,40 @@
 		<foreignkey field-ref="uploaderUniversalIdentifier" />
 		<foreignkey field-ref="uploaderSequenceNumber" />
 		<foreignkey field-ref="uploadRowNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetComponent" table="CM_AST_COMPONENT_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="componentNumber" column="CACMP_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="componentDescription" column="CACMP_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentContactPhoneNumber" column="CACMP_CNTCTPHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentConditionCode" column="CACMP_COND_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentEstimatedLifetimeLimit" column="CACMP_EST_LFTM_LMT" jdbc-type="INTEGER"/>
+	<field-descriptor name="componentManufacturerName" column="CACMP_MFR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentManufacturerModelNumber" column="CACMP_MFR_MDL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentSerialNumber" column="CACMP_SERIAL_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentOrganizationTagNumber" column="CACMP_ORG_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentOrganizationText" column="CACMP_ORG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentReplacementAmount" column="CACMP_REPLACE_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="componentVendorName" column="CACMP_VENDOR_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentWarrantyNumber" column="CACMP_WRNTY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentWarrantyPhoneNumber" column="CACMP_WRNTYPHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentWarrantyContactName" column="CACMP_WRNTYCNTC_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentWarrantyPurchaseOrderNumber" column="CACMP_WRNTY_PO_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentWarrantyBeginningDate" column="CACMP_WRNTY_BEG_DT" jdbc-type="DATE"/>
+	<field-descriptor name="componentWarrantyEndingDate" column="CACMP_WRNTY_END_DT" jdbc-type="DATE"/>
+	<field-descriptor name="componentWarrantyText" column="CACMP_WRNTY_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="componentCondition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="componentConditionCode" />
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

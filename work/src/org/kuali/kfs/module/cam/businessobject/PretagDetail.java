@@ -23,7 +23,9 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 	private String buildingRoomNumber;
 	private String buildingSubRoomNumber;
 	private Date pretagTagCreateDate;
-
+    private String governmentTagNumber;
+    private String nationalStockNumber;
+    
     private Campus campus;
     private Building building;
     private Room buildingRoom;
@@ -244,6 +246,37 @@ public class PretagDetail extends PersistableBusinessObjectBase {
 		this.pretagTagCreateDate = pretagTagCreateDate;
 	}
 
+    /**
+     * Gets the governmentTagNumber attribute. 
+     * @return Returns the governmentTagNumber.
+     */
+    public String getGovernmentTagNumber() {
+        return governmentTagNumber;
+    }
+
+    /**
+     * Sets the governmentTagNumber attribute value.
+     * @param governmentTagNumber The governmentTagNumber to set.
+     */
+    public void setGovernmentTagNumber(String governmentTagNumber) {
+        this.governmentTagNumber = governmentTagNumber;
+    }
+
+    /**
+     * Gets the nationalStockNumber attribute. 
+     * @return Returns the nationalStockNumber.
+     */
+    public String getNationalStockNumber() {
+        return nationalStockNumber;
+    }
+
+    /**
+     * Sets the nationalStockNumber attribute value.
+     * @param nationalStockNumber The nationalStockNumber to set.
+     */
+    public void setNationalStockNumber(String nationalStockNumber) {
+        this.nationalStockNumber = nationalStockNumber;
+    }
 
 	/**
 	 * Gets the campus attribute.

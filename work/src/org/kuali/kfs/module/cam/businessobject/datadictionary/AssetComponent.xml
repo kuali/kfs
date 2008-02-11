@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetComponent">
+ 
+        <inquiry>
+            <title>Asset Component Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="componentConditionCode" />
+                        <field attributeName="componentContactPhoneNumber" />
+                        <field attributeName="componentDescription" />
+                        <field attributeName="componentEstimatedLifetimeLimit" />
+                        <field attributeName="componentManufacturerModelNumber" />
+                        <field attributeName="componentManufacturerName" />
+                        <field attributeName="componentNumber" />
+                        <field attributeName="componentOrganizationTagNumber" />
+                        <field attributeName="componentOrganizationText" />
+                        <field attributeName="componentReplacementAmount" />
+                        <field attributeName="componentSerialNumber" />
+                        <field attributeName="componentVendorName" />
+                        <field attributeName="componentWarrantyBeginningDate" />
+                        <field attributeName="componentWarrantyContactName" />
+                        <field attributeName="componentWarrantyEndingDate" />
+                        <field attributeName="componentWarrantyNumber" />
+                        <field attributeName="componentWarrantyPurchaseOrderNumber" />
+                        <field attributeName="componentWarrantyText" />
+                        <field attributeName="componentWarrantyPhoneNumber" />
+                        <field attributeName="governmentTagNumber" />
+                        <field attributeName="nationalStockNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Component Lookup</title>
+
+            <instructions>Look up an Asset Component</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                    <sortAttribute attributeName="componentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="componentConditionCode" required="false" />
+                <lookupField attributeName="componentContactPhoneNumber" required="false" />
+                <lookupField attributeName="componentDescription" required="false" />
+                <lookupField attributeName="componentEstimatedLifetimeLimit" required="false" />
+                <lookupField attributeName="componentManufacturerModelNumber" required="false" />
+                <lookupField attributeName="componentManufacturerName" required="false" />
+                <lookupField attributeName="componentNumber" required="false" />
+                <lookupField attributeName="componentOrganizationTagNumber" required="false" />
+                <lookupField attributeName="componentOrganizationText" required="false" />
+                <lookupField attributeName="componentReplacementAmount" required="false" />
+                <lookupField attributeName="componentSerialNumber" required="false" />
+                <lookupField attributeName="componentVendorName" required="false" />
+                <lookupField attributeName="componentWarrantyBeginningDate" required="false" />
+                <lookupField attributeName="componentWarrantyContactName" required="false" />
+                <lookupField attributeName="componentWarrantyEndingDate" required="false" />
+                <lookupField attributeName="componentWarrantyNumber" required="false" />
+                <lookupField attributeName="componentWarrantyPurchaseOrderNumber" required="false" />
+                <lookupField attributeName="componentWarrantyText" required="false" />
+                <lookupField attributeName="componentWarrantyPhoneNumber" required="false" />
+                <lookupField attributeName="governmentTagNumber" required="false" />
+                <lookupField attributeName="nationalStockNumber" required="false" /> 
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="componentConditionCode" />
+                <field attributeName="componentContactPhoneNumber" />
+                <field attributeName="componentDescription" />
+                <field attributeName="componentEstimatedLifetimeLimit" />
+                <field attributeName="componentManufacturerModelNumber" />
+                <field attributeName="componentManufacturerName" />
+                <field attributeName="componentNumber" />
+                <field attributeName="componentOrganizationTagNumber" />
+                <field attributeName="componentOrganizationText" />
+                <field attributeName="componentReplacementAmount" />
+                <field attributeName="componentSerialNumber" />
+                <field attributeName="componentVendorName" />
+                <field attributeName="componentWarrantyBeginningDate" />
+                <field attributeName="componentWarrantyContactName" />
+                <field attributeName="componentWarrantyEndingDate" />
+                <field attributeName="componentWarrantyNumber" />
+                <field attributeName="componentWarrantyPurchaseOrderNumber" />
+                <field attributeName="componentWarrantyText" />
+                <field attributeName="componentWarrantyPhoneNumber" />
+                <field attributeName="governmentTagNumber" />
+                <field attributeName="nationalStockNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="componentConditionCode" forceUppercase="true">
+                <label>Component Condition Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>componentConditionCode</summary>
+                <description>componentConditionCode description...</description>
+			</attribute>
+
+            <attribute name="componentContactPhoneNumber" forceUppercase="true">
+                <label>Component Contact Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>componentContactPhoneNumber</summary>
+                <description>componentContactPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="componentDescription" forceUppercase="true">
+                <label>Component Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>componentDescription</summary>
+                <description>componentDescription description...</description>
+			</attribute>
+
+            <attribute name="componentEstimatedLifetimeLimit" forceUppercase="true">
+                <label>Component Estimated Lifetime Limit</label>
+                <shortLabel>Limit</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>componentEstimatedLifetimeLimit</summary>
+                <description>componentEstimatedLifetimeLimit description...</description>
+			</attribute>
+
+            <attribute name="componentManufacturerModelNumber" forceUppercase="true">
+                <label>Component Manufacturer Model Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>componentManufacturerModelNumber</summary>
+                <description>componentManufacturerModelNumber description...</description>
+			</attribute>
+
+            <attribute name="componentManufacturerName" forceUppercase="true">
+                <label>Component Manufacturer Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>componentManufacturerName</summary>
+                <description>componentManufacturerName description...</description>
+			</attribute>
+
+            <attribute name="componentNumber" forceUppercase="true">
+                <label>Component Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>5</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="7" />
+                </control>
+
+                <summary>componentNumber</summary>
+                <description>componentNumber description...</description>
+			</attribute>
+
+            <attribute name="componentOrganizationTagNumber" forceUppercase="true">
+                <label>Component Organization Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>componentOrganizationTagNumber</summary>
+                <description>componentOrganizationTagNumber description...</description>
+			</attribute>
+
+            <attribute name="componentOrganizationText" forceUppercase="true">
+                <label>Component Organization Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>componentOrganizationText</summary>
+                <description>componentOrganizationText description...</description>
+			</attribute>
+
+            <attribute name="componentReplacementAmount" forceUppercase="true">
+                <label>Component Replacement Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>componentReplacementAmount</summary>
+                <description>componentReplacementAmount description...</description>
+			</attribute>
+
+            <attribute name="componentSerialNumber" forceUppercase="true">
+                <label>Component Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>componentSerialNumber</summary>
+                <description>componentSerialNumber description...</description>
+			</attribute>
+
+            <attribute name="componentVendorName" forceUppercase="true">
+                <label>Component Vendor Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>componentVendorName</summary>
+                <description>componentVendorName description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyBeginningDate" forceUppercase="true">
+                <label>Component Warranty Beginning Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>componentWarrantyBeginningDate</summary>
+                <description>componentWarrantyBeginningDate description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyContactName" forceUppercase="true">
+                <label>Component Warranty Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>componentWarrantyContactName</summary>
+                <description>componentWarrantyContactName description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyEndingDate" forceUppercase="true">
+                <label>Component Warranty Ending Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>componentWarrantyEndingDate</summary>
+                <description>componentWarrantyEndingDate description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyNumber" forceUppercase="true">
+                <label>Component Warranty Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>componentWarrantyNumber</summary>
+                <description>componentWarrantyNumber description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyPurchaseOrderNumber" forceUppercase="true">
+                <label>Component Warranty Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>componentWarrantyPurchaseOrderNumber</summary>
+                <description>componentWarrantyPurchaseOrderNumber description...</description>
+			</attribute>
+
+            <attribute name="componentWarrantyText" forceUppercase="true">
+                <label>Component Warranty Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>componentWarrantyText</summary>
+                <description>componentWarrantyText description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attribute name="componentWarrantyPhoneNumber" forceUppercase="true">
+                <label>Component Warranty Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>componentWarrantyPhoneNumber</summary>
+                <description>componentWarrantyPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="governmentTagNumber" forceUppercase="true">
+                <label>Government Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>governmentTagNumber</summary>
+                <description>governmentTagNumber description...</description>
+			</attribute>
+			
+            <attribute name="nationalStockNumber" forceUppercase="true">
+                <label>National Stock Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>nationalStockNumber</summary>
+                <description>nationalStockNumber description...</description>
+			</attribute>			
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

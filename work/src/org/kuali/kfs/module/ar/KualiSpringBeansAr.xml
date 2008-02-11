@@ -63,6 +63,9 @@
 		<property name="organizationAccountingDefaultService">
 			<ref bean="organizationAccountingDefaultService" />
 		</property>
+		<property name="dateTimeService">
+			<ref bean="dateTimeService" />
+		</property>		
 	</bean>	
 	
 </beans>

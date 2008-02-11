@@ -33,6 +33,8 @@ import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.event.AddCustomerInvoiceDetailEvent;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -54,10 +56,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         //set up the default values for customer invoice document
         customerInvoiceDocument.setupDefaultValues();
         
-        Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
-        AccountsReceivableDocumentHeader arDocHdr = customerInvoiceDocument.getAccountsReceivableDocumentHeader();
+        //set up the default values for customer invoice detail add line
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getCustomerInvoiceDetailForAddLine(currentUniversityFiscalYear, arDocHdr.getProcessingChartOfAccountCode(), arDocHdr.getProcessingOrganizationCode() ));
+        customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
     }
     
     /**
@@ -84,7 +85,9 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
             customerInvoiceDocument.addCustomerInvoiceDetail(newCustomerInvoiceDetail);
 
             // clear the used customer invoice detail
-            customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(new CustomerInvoiceDetail());
+            //set up the default values for customer invoice detail add line
+            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+            customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);

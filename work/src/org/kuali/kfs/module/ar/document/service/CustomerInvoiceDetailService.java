@@ -29,6 +29,15 @@ public interface CustomerInvoiceDetailService {
      * 
      * @return
      */
-    public CustomerInvoiceDetail getCustomerInvoiceDetailForAddLine(Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
+    public CustomerInvoiceDetail getAddLineCustomerInvoiceDetail(Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
+    
+    /**
+     * This method returns a customer invoice detail for current user and current fiscal year for use on the CustomerInvoiceDocumentAction.  If corresponding
+     * organization accounting default exists for billing chart and org, then the customer invoice detail is defaulted
+     * using the organization accounting default values.
+     * 
+     * @return
+     */
+    public CustomerInvoiceDetail getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
 
 }

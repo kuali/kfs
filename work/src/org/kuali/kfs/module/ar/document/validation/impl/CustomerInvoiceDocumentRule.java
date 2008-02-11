@@ -37,7 +37,7 @@ import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule;
 
-public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements AddCustomerInvoiceDetailRule {
+public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements AddCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
 
     private CustomerInvoiceDocument document = null;

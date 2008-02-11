@@ -260,7 +260,7 @@
 	<field-descriptor name="customerNumber" column="CUST_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="customerPaymentDate" column="CUST_PMT_DT" jdbc-type="DATE"/>
 
-	<reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+	<reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.module.ar.document.PaymentApplicationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="referenceFinancialDocumentNumber" />
 	</reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
@@ -1133,7 +1133,7 @@ that no longer exist in the FP_DOC_HEADER_T table.  A solution will be needed fo
 <!-- END OF VIEWS -->
 
 <!-- TEMPORARY TABLE -->
-<class-descriptor class="org.kuali.module.ar.bo.ApplicationDocument" table="AR_APPLICATION_DOC_T">
+<class-descriptor class="org.kuali.module.ar.document.PaymentApplicationDocument" table="AR_APPLICATION_DOC_T">
 	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>

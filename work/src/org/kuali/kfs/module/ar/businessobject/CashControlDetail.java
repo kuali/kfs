@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.ar.document.PaymentApplicationDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -20,7 +21,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	private String customerNumber;
 	private Date customerPaymentDate;
 
-    private DocumentHeader referenceFinancialDocument;
+    private PaymentApplicationDocument referenceFinancialDocument;
 	private Customer customer;
     private NonAppliedHolding nonAppliedHolding;
     
@@ -184,7 +185,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * @return Returns the referenceFinancialDocument
 	 * 
 	 */
-	public DocumentHeader getReferenceFinancialDocument() { 
+	public PaymentApplicationDocument getReferenceFinancialDocument() { 
 		return referenceFinancialDocument;
 	}
 
@@ -194,7 +195,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * @param referenceFinancialDocument The referenceFinancialDocument to set.
 	 * @deprecated
 	 */
-	public void setReferenceFinancialDocument(DocumentHeader referenceFinancialDocument) {
+	public void setReferenceFinancialDocument(PaymentApplicationDocument referenceFinancialDocument) {
 		this.referenceFinancialDocument = referenceFinancialDocument;
 	}
 

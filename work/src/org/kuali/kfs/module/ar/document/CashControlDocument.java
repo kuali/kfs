@@ -16,7 +16,6 @@ import org.kuali.module.chart.bo.AccountingPeriod;
  */
 public class CashControlDocument extends TransactionalDocumentBase {
 
-	private String documentNumber;
 	private String referenceFinancialDocumentNumber;
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;

@@ -22,5 +22,5 @@ public class PaymentApplicationDocument  extends AccountingDocumentBase {
     public PaymentApplicationDocument() {
         super();
     }
-    
+
 }

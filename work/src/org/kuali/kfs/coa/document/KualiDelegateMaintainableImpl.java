@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.DataDictionaryService;
@@ -44,9 +45,9 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterRetrieve()
      */
     @Override
-    public void processAfterCopy( Map parameters ) {
+    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
         this.setStartDateDefault();
-        super.processAfterCopy( parameters );
+        super.processAfterCopy( document, parameters );
     }
 
     /**
@@ -55,9 +56,9 @@ public class KualiDelegateMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit()
      */
     @Override
-    public void processAfterEdit( Map parameters ) {
+    public void processAfterEdit( MaintenanceDocument document, Map<String,String[]> parameters ) {
         this.setStartDateDefault();
-        super.processAfterEdit( parameters );
+        super.processAfterEdit( document, parameters );
     }
 
     /**

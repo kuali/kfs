@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
@@ -49,8 +50,8 @@ public class DelegateGlobalMaintainableImpl extends KualiGlobalMaintainableImpl 
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#setupNewFromExisting()
      */
     @Override
-    public void setupNewFromExisting( Map parameters ) {
-        super.setupNewFromExisting( parameters );
+    public void setupNewFromExisting( MaintenanceDocument document, Map<String,String[]> parameters ) {
+        super.setupNewFromExisting( document, parameters );
 
         DelegateGlobal globalDelegate = (DelegateGlobal) this.getBusinessObject();
         // 1. if model name, chart of accounts, and org code are all present

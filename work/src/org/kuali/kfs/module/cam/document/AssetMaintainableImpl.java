@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
@@ -36,13 +37,13 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit(java.util.Map)
      */
     @Override
-    public void processAfterEdit(Map parameters) {
+    public void processAfterEdit(MaintenanceDocument document, Map<String,String[]> parameters) {
         Asset asset = (Asset) this.getBusinessObject();
-        String[] value = (String[]) parameters.get(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE);
+        String[] value = parameters.get(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE);
         if (value != null){
             asset.setDocumentTypeCode(value[0]);
         }    
-        super.processAfterEdit(parameters);
+        super.processAfterEdit(document, parameters);
      }
 
     /**

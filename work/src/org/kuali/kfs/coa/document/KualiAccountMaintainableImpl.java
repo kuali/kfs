@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DateTimeService;
@@ -58,12 +59,12 @@ public class KualiAccountMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterCopy()
      */
     @Override
-    public void processAfterCopy( Map parameters ) {
+    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
         Account account = (Account) this.getBusinessObject();
         account.setAccountCreateDate(null); // account's pre-rules will fill this field in
         account.setAccountEffectiveDate(SpringContext.getBean(DateTimeService.class).getCurrentTimestamp());
         account.setAccountClosedIndicator(false);
-        super.processAfterCopy( parameters );
+        super.processAfterCopy( document, parameters );
     }
 
 

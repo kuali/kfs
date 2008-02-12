@@ -70,9 +70,9 @@ public class ProposalMaintainableImpl extends KualiMaintainableImpl {
      * Use a new proposal number when creating a copy.
      */
     @Override
-    public void processAfterCopy( Map parameters ) {
+    public void processAfterCopy( MaintenanceDocument document, Map<String,String[]> parameters ) {
         getProposal().setProposalNumber(NextProposalNumberFinder.getLongValue());
-        super.processAfterCopy( parameters );
+        super.processAfterCopy( document, parameters );
     }
 
     /**

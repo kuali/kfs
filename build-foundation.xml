@@ -180,7 +180,7 @@ Workflow Tag: ${release.workflow.cvs.tag}
         <delete>
             <fileset dir="${dependencies.project.directory}" includes="${rice.output.file.prefix}" />
         </delete>
-        <maven goals="source:jar javadoc:jar" />
+        <maven goals="source:jar javadoc:jar" options="-Pinstall-kns-dev" />
         <copy todir="${dependencies.project.directory}">
             <fileset dir="${rice.project.directory}" includes="${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.src.suffix},${rice.output.directories}${rice.output.file.prefix}${rice.version}${rice.output.doc.suffix}" excludes="${rice.excludes}" />
             <chainedmapper>

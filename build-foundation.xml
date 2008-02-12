@@ -35,8 +35,8 @@ are intended for use only by Kuali Foundation developers.
 	<target name="check-modularization" description="Checks over dependency issues within kuali code">
 	  <verifydesign design="design.xml">
 	    <path>
-	      <fileset dir="${classes.directory}/org/kuali/module">
-			<include name="**/*.class"/>
+	      <fileset dir="work/web-root/WEB-INF/classes/org/kuali/module">
+		<include name="**/*.class" />
 	      </fileset>
 	    </path>
 	  </verifydesign>

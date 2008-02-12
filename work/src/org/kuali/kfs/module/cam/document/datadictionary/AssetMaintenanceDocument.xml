@@ -98,7 +98,10 @@
                 <maintainableItems>
                 	<!-- Organization Tag, Asset Representative, Org Asset Type, Organization Text, Receive Date -->
                 	<maintainableField name="organizationInventoryName" />
-                	<maintainableField name="representativeUniversalIdentifier" />
+                	<maintainableField name="assetRepresentative.personName" />
+                	<maintainableField name="assetOrganization.organizationText" />
+                	<maintainableField name="assetOrganization.organizationTagNumber" />
+                	<maintainableField name="assetOrganization.organizationAssetTypeIdentifier" />
                 	<maintainableField name="receiveDate" />
                 	<maintainableField name="replacementAmount" />
                 	<maintainableField name="estimatedSellingPrice" />
@@ -115,9 +118,11 @@
 			
             <maintainableSection title="Asset Depreciation Information">
                 <maintainableItems>
+	                <subSectionHeader name="Primary" />
 					<maintainableField name="primaryDepreciationMethodCode" required="true" />
 					<maintainableField name="capitalAssetType.depreciableLifeLimit" />
 					<maintainableField name="salvageAmount" />
+					<subSectionHeader name="Secondary" />
 					<maintainableField name="secondaryDepreciationMethodCode" required="true" />
 			<!-- set to the same value as in primary? -->
 			<!-- 	<maintainableField name="capitalAssetType.depreciableLifeLimit" />
@@ -156,19 +161,6 @@
             		<maintainableField name="loanDate" />	
 					<maintainableField name="expectedReturnDate" />
 					<maintainableField name="loanReturnDate" />
-					
-					 <!--  Where to put the following information? -->
-              <!--  ??     
-					<maintainableField name="cashReceiptFinancialDocumentNumber" />
-					<maintainableField name="estimatedFabricationCompletionDate" />
-					<maintainableField name="fabricationEstimatedTotalAmount" />
-					<maintainableField name="transferOfFundsFinancialDocumentNumber" />
-					<maintainableField name="insuranceChargeAccountNumber" />
-					<maintainableField name="insuranceChartOfAccountsCode" />
-					<maintainableField name="campusPoliceDepartmentCaseNumber" />
-					<maintainableField name="inventoryScannedCode" />
-					<maintainableField name="signatureCode" />
-			  -->	    
 					
                 </maintainableItems>
             </maintainableSection>

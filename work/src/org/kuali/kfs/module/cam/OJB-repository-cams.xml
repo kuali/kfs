@@ -210,7 +210,13 @@
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="false" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="capitalAssetNumber" />
-    </collection-descriptor>	
+    </collection-descriptor>
+   	<reference-descriptor name="assetRepresentative" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="representativeUniversalIdentifier" />
+	</reference-descriptor>	
+	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_MULT_AST_DOC_T">

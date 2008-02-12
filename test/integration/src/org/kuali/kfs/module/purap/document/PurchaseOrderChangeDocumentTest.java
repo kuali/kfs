@@ -25,6 +25,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.financial.document.AccountingDocumentTestUtils;
@@ -141,6 +142,31 @@ public class PurchaseOrderChangeDocumentTest extends KualiTestBase {
             assertFalse(poChange.isPendingActionIndicator());
             assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.OPEN));
         } */
+    }
+    
+    /**
+     * Creates and saves a PurchaseOrderAmendmentDocument, then calls
+     * the documentService to cancel the PurchaseOrderAmendmentDocument.
+     * This is to test the case for canceling a PurchaseOrderAmendmentDocument.
+     * 
+     * @throws Exception
+     */
+    @ConfigureContext(session = KULUSER, shouldCommitTransactions=true)
+    public final void testCancelAmendPurchaseOrder() throws Exception {        
+        createAndSavePOChangeDocument(
+                    PurchaseOrderDocTypes.PURCHASE_ORDER_AMENDMENT_DOCUMENT, 
+                    PurchaseOrderStatuses.AMENDMENT);
+        assertMatchChangePO(poTest, poChange);
+        if (!poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals("F")) {
+            assertTrue(poTest.isPurchaseOrderCurrentIndicator());
+            assertTrue(poTest.isPendingActionIndicator());
+            assertTrue(poTest.getStatusCode().equals(PurchaseOrderStatuses.AMENDMENT));
+            assertFalse(poChange.isPurchaseOrderCurrentIndicator());
+            assertFalse(poChange.isPendingActionIndicator());
+            assertTrue(poChange.getStatusCode().equals(PurchaseOrderStatuses.CHANGE_IN_PROCESS));
+        } 
+        SpringContext.getBean(DocumentService.class).cancelDocument(poChange, "");
+        assertTrue(poChange.getDocumentHeader().getWorkflowDocument().getRouteHeader().getDocRouteStatus().equals(KFSConstants.DocumentStatusCodes.CANCELLED));
     }
     
     @RelatesTo(JiraIssue.KULPURAP2226)

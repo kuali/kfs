@@ -17,9 +17,8 @@
 
 <kul:tab tabTitle="Report Information" defaultOpen="true" tabErrorKey="${KFSConstants.DV_CONTACT_TAB_ERRORS}">
 	<c:set var="erAttributes" value="${DataDictionary.EffortCertificationDocument.attributes}" />
-	<c:set var="sharedDocumentAttributes" value="${DataDictionary.OutstandingReportsByOrganization.attributes}" />
-	<c:set var="documentObject" value="${KualiForm.effortCertificationDocument}" />
-    <c:set var="detailLines" value="${KualiForm.effortCertificationDocument.effortCertificationDetailLines}" />
+	<c:set var="documentObject" value="${KualiForm.document}" />
+    <c:set var="detailLines" value="${KualiForm.document.effortCertificationDetailLines}" />
   	<div class="tab-container" align=center > 
     <div class="h2-container">
 <h2>Report Information</h2>
@@ -27,7 +26,7 @@
 	<table class="datatable" summary="Report Information" cellpadding="0">
     	<tbody>
         	<tr>
-            	<th width="35%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${sharedDocumentAttributes['employee.personName']}"/></div></th>
+            	<th width="35%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}"/></div></th>
                 <td width="65%"><a href="#"><c:out value="${documentObject.employee.personName}" /></a></td>
             </tr>
             <tr>

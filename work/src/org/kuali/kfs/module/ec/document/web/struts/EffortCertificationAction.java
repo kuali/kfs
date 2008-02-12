@@ -15,30 +15,42 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
-import org.kuali.module.financial.bo.InternalBillingItem;
-import org.kuali.module.financial.web.struts.form.InternalBillingForm;
+import org.kuali.module.effort.document.EffortCertificationDocument;
 
 /**
  * This class handles Actions for InternalBilling.
  */
 public class EffortCertificationAction extends KualiTransactionalDocumentActionBase {
-
     
-    public ActionForward insertItem(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward initiate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+        
+    public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
 }

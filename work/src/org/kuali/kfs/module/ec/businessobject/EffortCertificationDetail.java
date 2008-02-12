@@ -23,6 +23,7 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
+import org.kuali.module.cg.bo.AwardAccount;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -631,5 +632,64 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT, this.effortCertificationOriginalPayrollAmount);
 
         return map;
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public KualiDecimal getEffortCertificationOriginalBenefitAmount() {
+        //TODO: stub method
+        return new KualiDecimal(0);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public KualiDecimal getEffortCertificationUpdatedBenefiteAmount() {
+        //TODO: stub method
+        return new KualiDecimal(0);
+    }
+    
+    /**
+     * 
+     * @return
+     */
+    public boolean getFederalPassThrough() {
+        this.federalOrFederalPassThroughIndicator = false;
+        
+        //TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
+        /*AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards());
+        List<String> federalAgencyCodeList = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
+        
+        for (String federalAgencyCode : federalAgencyCodeList) {
+            if (primaryAward.getAward() != null && federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) {
+                return true;
+            } else if (primaryAward.getAward() != null && primaryAward.getAward().getFederalPassThroughIndicator()) {
+                return true;
+            }
+        }*/
+        
+        return this.federalOrFederalPassThroughIndicator;
+    }
+    
+    /**
+     * 
+     * @param awardList
+     * @return
+     */
+    private AwardAccount getPrimaryAward(List<AwardAccount> awardList) {
+        AwardAccount primaryAward = null;
+        long highestProposal = 0;
+        
+        for(AwardAccount award: awardList) {
+            if (award.getProposalNumber() > highestProposal) {
+                highestProposal = award.getProposalNumber();
+                primaryAward = award;
+            }
+        }
+        
+        return primaryAward;
     }
 }

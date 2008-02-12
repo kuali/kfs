@@ -16,12 +16,14 @@
 package org.kuali.module.effort.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 
 /**
  * This class is the action form for Internal Billing.
  */
 public class EffortCertificationForm extends KualiTransactionalDocumentFormBase {
+    private EffortCertificationDetail newDetailLine;
     
     public EffortCertificationForm() {
         super();
@@ -29,17 +31,18 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     }
 
     /**
-     * @return Returns the internalBillingDocument.
+     * 
+     * @return
      */
-    public EffortCertificationDocument getEffortCertificationDocument() {
-        return (EffortCertificationDocument) getDocument();
+    public EffortCertificationDetail getNewDetailLine() {
+        return newDetailLine;
     }
-
+    
     /**
-     * @param internalBillingDocument The internalBillingDocument to set.
+     * @param newDetailLine
      */
-    public void setEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
-        setDocument(effortCertificationDocument);
+    public void setNewDetailLine(EffortCertificationDetail newDetailLine) {
+        this.newDetailLine = newDetailLine;
     }
-   
+  
 }

@@ -15,10 +15,13 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="effortEffortCertification"
 	documentTypeName="EffortCertificationDocument" renderMultipart="true"
 	showTabButtons="true">
+	
+	<kul:hiddenDocumentFields />
 		
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<er:reportInformation />

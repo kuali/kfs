@@ -26,25 +26,29 @@ import org.kuali.kfs.KFSConstants.ChartApcParms;
  * General constants for the effort reporting module.
  */
 public class EffortConstants extends JstlConstants {
-
     /**
      * hold contants used by extract process
      */
     public class ExtractProcess{       
-        public static final String DASH_ACCOUNT_NUMBER = "-------";
-              
-        public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
-        public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
+        public static final String DEFAULT_DOCUMENT_CODE = "N";
         
+        public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
         // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
         public static final String NUM_BALANCES_SELECTED = "numOfBalancesSelected";
         public static final String NUM_CERTIFICATIONS_WRITTEN = "numOfCertificationWritten";
         public static final String NUM_DETAIL_LINES_WRITTEN = "numOfDetailLineWritten";
         public static final String NUM_EMPLOYEES_SELECTED = "numOfEmployees";
-        public static final String NUM_ERRORS_FOUND = "numOfErrors";
         
-        public static final String DEFAULT_DOCUMENT_CODE = "N";
+        public static final String NUM_ERRORS_FOUND = "numOfErrors";
+    }   
+    /**
+     * Constants for the fixed period status code values.
+     */
+    public class PeriodStatusCodes {
+        public static final String CLOSED = "C";
+        public static final String NOT_OPEN = "N";
+        public static final String OPEN = "O";
     }
 
     /**
@@ -55,36 +59,30 @@ public class EffortConstants extends JstlConstants {
         public static final String CG_DENOTING_VALUE = ChartApcParms.ACCOUNT_CG_DENOTING_VALUE;
         public static final String COST_SHARE_SUB_ACCOUNT_TYPE_CODE = "COST_SHARE_SUB_ACCOUNT_TYPE_CODE"; 
         
-        public static final String EXPENSE_SUB_ACCOUNT_TYPE_CODE = "EXPENSE_SUB_ACCOUNT_TYPE_CODE";
-        public static final String FEDERAL_AGENCY_TYPE_CODE = "FEDERAL_AGENCY_TYPE_CODE";
-        public static final String FEDERAL_ONLY_BALANCE_IND = "FEDERAL_ONLY_BALANCE_IND";     
-        public static final String FUND_GROUP_DENOTES_CG_IND = ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG;
-        
-        public static final String RUN_FISCAL_YEAR  = "RUN_FISCAL_YEAR";
-        public static final String RUN_IND = "RUN_IND";
-        public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
-        
         public static final String CREATE_FISCAL_YEAR  = "CREATE_FISCAL_YEAR";
         public static final String CREATE_REPORT_NUMBER  = "CREATE_REPORT_NUMBER";
+        public static final String EXPENSE_SUB_ACCOUNT_TYPE_CODE = "EXPENSE_SUB_ACCOUNT_TYPE_CODE";     
+        public static final String FEDERAL_AGENCY_TYPE_CODE = "FEDERAL_AGENCY_TYPE_CODE";
+        
+        public static final String FEDERAL_ONLY_BALANCE_IND = "FEDERAL_ONLY_BALANCE_IND";
+        public static final String FUND_GROUP_DENOTES_CG_IND = ChartApcParms.ACCOUNT_FUND_GROUP_DENOTES_CG;
+        public static final String RUN_FISCAL_YEAR  = "RUN_FISCAL_YEAR";
+        
+        public static final String RUN_IND = "RUN_IND";
+        public static final String RUN_REPORT_NUMBER  = "RUN_REPORT_NUMBER";
     }
-    
-    public static final String VALUE_SEPARATOR  = ", ";
-    public static final String LABOR_OBJECT_SALARY_CODE = "S";
 
-    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();   
+    public static final String DASH_ACCOUNT_NUMBER = "-------";   
+    public static final String DASH_CHART_OF_ACCOUNTS_CODE = "--";
+    
+    public static final String LABOR_OBJECT_SALARY_CODE = "S";   
+    public static final String VALUE_SEPARATOR  = ", ";
+    
+    public static final List<String> ELIGIBLE_BALANCE_TYPES_FOR_EFFORT_REPORT = getEeligibleBalanceTypesForEffortReport();
     private static final List<String> getEeligibleBalanceTypesForEffortReport() {
         List<String> balanceTypeList = new ArrayList<String>();
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_ACTUAL);
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
         return balanceTypeList;
-    }
-    
-    /**
-     * Constants for the fixed period status code values.
-     */
-    public class PeriodStatusCodes {
-        public static final String CLOSED = "C";
-        public static final String OPEN = "O";
-        public static final String NOT_OPEN = "N";
     }
 }

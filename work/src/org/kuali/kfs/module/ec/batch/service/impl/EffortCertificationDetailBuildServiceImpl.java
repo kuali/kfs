@@ -82,8 +82,8 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
 
         if (subAccountTypeCode == null || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-            detailLine.setSourceChartOfAccountsCode(EffortConstants.ExtractProcess.DASH_CHART_OF_ACCOUNTS_CODE);
-            detailLine.setSourceAccountNumber(EffortConstants.ExtractProcess.DASH_ACCOUNT_NUMBER);
+            detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
+            detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
             detailLine.setCostShareSourceSubAccountNumber(null);
         }
         else if (costShareSubAccountTypeCodes.contains(subAccountTypeCode)) {
@@ -94,8 +94,8 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         }
         else {
             detailLine.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
-            detailLine.setSourceChartOfAccountsCode(EffortConstants.ExtractProcess.DASH_CHART_OF_ACCOUNTS_CODE);
-            detailLine.setSourceAccountNumber(EffortConstants.ExtractProcess.DASH_ACCOUNT_NUMBER);
+            detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
+            detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
             detailLine.setCostShareSourceSubAccountNumber(null);
         }
     }

@@ -193,7 +193,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
         List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
 
-        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, true, fundGroupCodes);
+        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.byFundGroup.contain");
         assertTrue(errorMessage.toString(), validationMessage == null);
     }
@@ -203,7 +203,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
         List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
 
-        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, true, fundGroupCodes);
+        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.byFundGroup.notContain");
         assertTrue(errorMessage.toString(), validationMessage != null);
     }
@@ -213,7 +213,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
         List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
 
-        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, false, fundGroupCodes);
+        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.bySubFundGroup.contain");
         assertTrue(errorMessage.toString(), validationMessage == null);
     }
@@ -223,7 +223,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
         List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
 
-        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, false, fundGroupCodes);
+        Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.bySubFundGroup.notContain");
         assertTrue(errorMessage.toString(), validationMessage != null);
     }

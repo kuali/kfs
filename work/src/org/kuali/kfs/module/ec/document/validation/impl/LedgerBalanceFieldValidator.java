@@ -125,23 +125,12 @@ public class LedgerBalanceFieldValidator {
      * ledger balances; otherwise, the sub fund group code.
      * 
      * @param ledgerBalances the given ledger balances
-     * @param fundGroupDenotesCGIndictor indicate whether the fund group code or sub fund group code would be examined
-     * @param fundGroupCodes the specified fun group codes
      * @return null if one of the group codes associated with the ledger balances is in the specified codes; otherwise, a message
      *         message
      */
-    public static Message hasGrantAccount(Collection<LaborLedgerBalance> ledgerBalances, boolean fundGroupDenotesCGIndictor, List<String> fundGroupCodes) {
+    public static Message hasGrantAccount(Collection<LaborLedgerBalance> ledgerBalances) {
         for (LaborLedgerBalance balance : ledgerBalances) {
-            SubFundGroup subFundGroup = getSubFundGroup(balance);
-            if (subFundGroup == null) {
-                continue;
-            }
-
-            if (fundGroupDenotesCGIndictor && fundGroupCodes.contains(subFundGroup.getFundGroupCode())) {
-                return null;
-            }
-
-            if (!fundGroupDenotesCGIndictor && fundGroupCodes.contains(subFundGroup.getSubFundGroupCode())) {
+            if(balance.getAccount().isForContractsAndGrants()) {
                 return null;
             }
         }

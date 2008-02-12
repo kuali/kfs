@@ -336,10 +336,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
         }
 
         // the specified employee must have at least one grant account
-        boolean fundGroupDenotesCGIndictor = Boolean.parseBoolean(parameters.get(SystemParameters.FUND_GROUP_DENOTES_CG_IND).get(0));
-        List<String> fundGroupCodes = parameters.get(SystemParameters.CG_DENOTING_VALUE);
-
-        Message grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances, fundGroupDenotesCGIndictor, fundGroupCodes);
+        Message grantAccountNotFoundError = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         if (grantAccountNotFoundError != null) {
             this.reportEmployeeWithoutValidBalances(ledgerBalancesWithMessage, grantAccountNotFoundError, emplid);
             return false;
@@ -485,8 +482,6 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     private Map<String, List<String>> getSystemParameters() {
         Map<String, List<String>> parameters = new HashMap<String, List<String>>();
 
-        parameters.put(SystemParameters.FUND_GROUP_DENOTES_CG_IND, EffortCertificationParameterFinder.getFundGroupDenotesCGIndicatorAsString());
-        parameters.put(SystemParameters.CG_DENOTING_VALUE, EffortCertificationParameterFinder.getCGDenotingValues());
         parameters.put(SystemParameters.ACCOUNT_TYPE_CODE_BALANCE_SELECT, EffortCertificationParameterFinder.getAccountTypeCodes());
         parameters.put(SystemParameters.FEDERAL_ONLY_BALANCE_IND, EffortCertificationParameterFinder.getFederalOnlyBalanceIndicatorAsString());
         parameters.put(SystemParameters.FEDERAL_AGENCY_TYPE_CODE, EffortCertificationParameterFinder.getFederalAgencyTypeCodes());

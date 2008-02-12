@@ -46,6 +46,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
+    
+    private boolean isNewLine;
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -483,6 +485,22 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     @Deprecated
     public void setOptions(Options options) {
         this.options = options;
+    }
+    
+    /**
+     * Gets the isNewLine attribute. 
+     * @return Returns the isNewLine.
+     */
+    public boolean isNewLine() {
+        return isNewLine;
+    }
+
+    /**
+     * Sets the isNewLine attribute value.
+     * @param isNewLine The isNewLine to set.
+     */
+    public void setNewLine(boolean isNewLine) {
+        this.isNewLine = isNewLine;
     }
 
     /**

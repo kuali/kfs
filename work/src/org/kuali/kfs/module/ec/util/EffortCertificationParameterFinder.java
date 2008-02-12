@@ -71,35 +71,6 @@ public class EffortCertificationParameterFinder {
     }
 
     /**
-     * get the fund group denotes C&G indicator setup in system paremters
-     * 
-     * @return the fund group denotes C&G indicator setup in system paremters
-     */
-    public static boolean getFundGroupDenotesCGIndicator() {
-        return parameterService.getIndicatorParameter(Account.class, SystemParameters.FUND_GROUP_DENOTES_CG_IND);
-    }
-
-    /**
-     * get the fund group denotes C&G indicator setup in system paremters
-     * 
-     * @return the fund group denotes C&G indicator setup in system paremters
-     */
-    public static List<String> getFundGroupDenotesCGIndicatorAsString() {
-        List<String> indicatorList = new ArrayList<String>();
-        indicatorList.add(Boolean.toString(getFundGroupDenotesCGIndicator()));
-        return indicatorList;
-    }
-
-    /**
-     * get the C&G denoting values setup in system paremters
-     * 
-     * @return the C&G denoting values setup in system paremters
-     */
-    public static List<String> getCGDenotingValues() {
-        return parameterService.getParameterValues(Account.class, SystemParameters.CG_DENOTING_VALUE);
-    }
-
-    /**
      * get the account type codes setup in system parameters
      * 
      * @return the account type codes setup in system parameters

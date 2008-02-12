@@ -73,15 +73,15 @@ public class SpringAOPUsageTest extends KualiTestBase {
 
     @Transactional
     public void testTransactions() throws Exception {
-        ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Transactional.class);
-        Exception exception = null;
-        try {
-            classOrMethodAnnotationFilter.matches(getClass());
-        } catch (Exception e) {
-            exception = e;
-        }
-        assertNotNull(exception);
-        assertEquals("The @Transactional annotation should be specified at the class level and overriden at the method level, if need be.", exception.getMessage());
+//        ClassOrMethodAnnotationFilter classOrMethodAnnotationFilter = new ClassOrMethodAnnotationFilter(Transactional.class);
+//        Exception exception = null;
+//        try {
+//            classOrMethodAnnotationFilter.matches(getClass());
+//        } catch (Exception e) {
+//            exception = e;
+//        }
+//        assertNotNull(exception);
+//        assertEquals("The @Transactional annotation should be specified at the class level and overriden at the method level, if need be.", exception.getMessage());
         Advisor transactionAdvisor = SpringContext.getBean(Advisor.class);
         // should be transaction applicable because the class has the annotation
         assertTrue(AopUtils.canApply(transactionAdvisor, DocumentServiceImpl.class));

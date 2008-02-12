@@ -203,37 +203,21 @@ public abstract class AccountsPayableDocumentBase extends PurchasingAccountsPaya
     public void handleRouteLevelChange(DocumentRouteLevelChangeVO levelChangeEvent) {
         LOG.debug("handleRouteLevelChange() started");
         super.handleRouteLevelChange(levelChangeEvent);
-        try {
-            String newNodeName = levelChangeEvent.getNewNodeName();
-            if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
-                if (StringUtils.isNotBlank(newNodeName)) {
-                    ReportCriteriaVO reportCriteriaVO = new ReportCriteriaVO(Long.valueOf(getDocumentNumber()));
-                    reportCriteriaVO.setTargetNodeName(newNodeName);
-                    if (SpringContext.getBean(KualiWorkflowInfo.class).documentWillHaveAtLeastOneActionRequest(reportCriteriaVO, new String[] { EdenConstants.ACTION_REQUEST_APPROVE_REQ, EdenConstants.ACTION_REQUEST_COMPLETE_REQ })) {
-                        NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
-                        if (ObjectUtils.isNotNull(nodeDetailEnum)) {
-                            String statusCode = nodeDetailEnum.getAwaitingStatusCode();
-                            if (StringUtils.isNotBlank(statusCode)) {
-                                SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
-                                saveDocumentFromPostProcessing();
-                            }
-                            else {
-                                LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
-                            }
-                        }
-                        else {
-                            LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "' but node cannot be found to get awaiting status");
-                        }
+        String newNodeName = levelChangeEvent.getNewNodeName();
+        if (processNodeChange(newNodeName, levelChangeEvent.getOldNodeName())) {
+            if (StringUtils.isNotBlank(newNodeName)) {
+                NodeDetails nodeDetailEnum = getNodeDetailEnum(newNodeName);
+                if (ObjectUtils.isNotNull(nodeDetailEnum)) {
+                    String statusCode = nodeDetailEnum.getAwaitingStatusCode();
+                    if (StringUtils.isNotBlank(statusCode)) {
+                        SpringContext.getBean(PurapService.class).updateStatus(this, statusCode);
+                        saveDocumentFromPostProcessing();
                     }
                     else {
-                        LOG.debug("Document with id " + getDocumentNumber() + " will not stop in route node '" + newNodeName + "'");
+                        LOG.debug("Document with id " + getDocumentNumber() + " will stop in route node '" + newNodeName + "' but no awaiting status found to set");
                     }
                 }
             }
-        }
-        catch (WorkflowException e) {
-            String errorMsg = "Workflow Error found checking actions requests on document with id " + getDocumentNumber() + ". *** WILL NOT UPDATE PURAP STATUS ***";
-            LOG.warn(errorMsg, e);
         }
     }
 

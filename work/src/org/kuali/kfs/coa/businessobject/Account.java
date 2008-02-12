@@ -1813,4 +1813,27 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
         this.awards = awards;
     }
 
+    /**
+     * determine if the given account is awarded by a federal agency
+     * 
+     * @param account the given account
+     * @param federalAgencyTypeCodes the given federal agency type code
+     * @return true if the given account is funded by a federal agency or associated with federal pass through indicator; otherwise,
+     *         false
+     */
+    public boolean isAwardedByFederalAcency(List<String> federalAgencyTypeCodes) {
+        List<AwardAccount> awardAccountList = this.getAwards();
+        for (AwardAccount awardAccount : awardAccountList) {
+            String agencyTypeCode = awardAccount.getAward().getAgency().getAgencyTypeCode();
+            if (federalAgencyTypeCodes.contains(agencyTypeCode)) {
+                return true;
+            }
+
+            if (awardAccount.getAward().getFederalPassThroughIndicator()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

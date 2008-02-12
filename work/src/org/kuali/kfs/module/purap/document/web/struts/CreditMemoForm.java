@@ -133,7 +133,7 @@ public class CreditMemoForm extends AccountsPayableFormBase {
                 }
 
                 // add the calculate button
-                if (PurapConstants.CreditMemoStatuses.IN_PROCESS.equals(cmDocument.getStatusCode())) {
+                if ( SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(cmDocument) == false ) {
                     addExtraButton("methodToCall.calculate", appExternalImageURL + "buttonsmall_calculate.gif", "Calculate");
                 }
             }

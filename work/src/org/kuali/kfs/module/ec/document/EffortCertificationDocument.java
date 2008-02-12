@@ -44,8 +44,9 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private String effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
-    
+
     private Integer totalEffortPercent;
+    private Integer totalOriginalEffortPercent;
     private KualiDecimal totalPayrollAmount;
     private KualiDecimal totalOriginalPayrollAmount;
 
@@ -177,8 +178,8 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      * @return Returns the employee.
      */
     public UniversalUser getEmployee() {
-        Map searchCriteria = new HashMap();
-        searchCriteria.put("personPayrollIdentifier", getEmplid());
+        Map<String, Object> searchCriteria = new HashMap<String, Object>();
+        searchCriteria.put(KFSPropertyConstants.PERSON_PAYROLL_IDENTIFIER, getEmplid());
 
         return new ArrayList<UniversalUser>(SpringContext.getBean(UniversalUserService.class).findUniversalUsers(searchCriteria)).get(0);
     }
@@ -267,44 +268,62 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     }
 
     /**
-     * Gets the totalEffortPercent attribute. 
+     * Gets the totalEffortPercent attribute.
+     * 
      * @return Returns the totalEffortPercent.
      */
     public Integer getTotalEffortPercent() {
         totalEffortPercent = 0;
-        
-        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();           
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();
         }
-        
+
         return totalEffortPercent;
     }
 
     /**
-     * Gets the totalPayrollAmount attribute. 
+     * Gets the totalOriginalEffortPercent attribute.
+     * 
+     * @return Returns the totalOriginalEffortPercent.
+     */
+    public Integer getTotalOriginalEffortPercent() {
+        totalOriginalEffortPercent = 0;
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalEffortPercent += detailLine.getEffortCertificationUpdatedOverallPercent();
+        }
+
+        return totalOriginalEffortPercent;
+    }
+
+    /**
+     * Gets the totalPayrollAmount attribute.
+     * 
      * @return Returns the totalPayrollAmount.
      */
     public KualiDecimal getTotalPayrollAmount() {
         totalPayrollAmount = KualiDecimal.ZERO;
-        
-        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());           
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());
         }
-        
+
         return totalPayrollAmount;
     }
 
     /**
-     * Gets the totalOriginalPayrollAmount attribute. 
+     * Gets the totalOriginalPayrollAmount attribute.
+     * 
      * @return Returns the totalOriginalPayrollAmount.
      */
     public KualiDecimal getTotalOriginalPayrollAmount() {
         totalOriginalPayrollAmount = KualiDecimal.ZERO;
-        
-        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalOriginalPayrollAmount = totalOriginalPayrollAmount.add(detailLine.getEffortCertificationOriginalPayrollAmount());           
+
+        for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalPayrollAmount = totalOriginalPayrollAmount.add(detailLine.getEffortCertificationOriginalPayrollAmount());
         }
-        
+
         return totalOriginalPayrollAmount;
     }
 }

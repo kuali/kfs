@@ -27,6 +27,7 @@ import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 
@@ -42,14 +43,19 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private String sourceChartOfAccountsCode;
     private String sourceAccountNumber;
+    
     private KualiDecimal effortCertificationPayrollAmount;
+    private KualiDecimal effortCertificationOriginalPayrollAmount;
     private Integer effortCertificationCalculatedOverallPercent;
     private Integer effortCertificationUpdatedOverallPercent;
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
-    private KualiDecimal effortCertificationOriginalPayrollAmount;
 
-    private boolean newLineIndicator; // to indicate if this detail line has been persised or not
+    private KualiDecimal fringeBenefitAmount;
+    private KualiDecimal originalFringeBenefitAmount;
+    
+    private String overrideCode; // to hold the override code if the associated account is expired
+    private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
     private boolean editable; // to indicate if this detail line can be changed or deleted
     private boolean federalOrFederalPassThroughIndicator; // to indicate if this line is associated with a federal or federal pass
     // through account.
@@ -558,24 +564,72 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
         this.federalOrFederalPassThroughIndicator = federalOrFederalPassThroughIndicator;
     }
+    
+    /**
+     * Gets the overrideCode attribute. 
+     * @return Returns the overrideCode.
+     */
+    public String getOverrideCode() {
+        return overrideCode;
+    }
 
+    /**
+     * Sets the overrideCode attribute value.
+     * @param overrideCode The overrideCode to set.
+     */
+    public void setOverrideCode(String overrideCode) {
+        this.overrideCode = overrideCode;
+    }
+
+    /**
+     * Gets the fringeBenefitAmount attribute. 
+     * @return Returns the fringeBenefitAmount.
+     */
+    public KualiDecimal getFringeBenefitAmount() {
+        return fringeBenefitAmount;
+    }
+
+    /**
+     * Sets the fringeBenefitAmount attribute value.
+     * @param fringeBenefitAmount The fringeBenefitAmount to set.
+     */
+    public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
+        this.fringeBenefitAmount = fringeBenefitAmount;
+    }
+
+    /**
+     * Gets the originalFringeBenefitAmount attribute. 
+     * @return Returns the originalFringeBenefitAmount.
+     */
+    public KualiDecimal getOriginalFringeBenefitAmount() {
+        return originalFringeBenefitAmount;
+    }
+
+    /**
+     * Sets the originalFringeBenefitAmount attribute value.
+     * @param originalFringeBenefitAmount The originalFringeBenefitAmount to set.
+     */
+    public void setOriginalFringeBenefitAmount(KualiDecimal originalFringeBenefitAmount) {
+        this.originalFringeBenefitAmount = originalFringeBenefitAmount;
+    }
+    
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
     @SuppressWarnings("unchecked")
     protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
-        m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
-        m.put("chartOfAccountsCode", this.chartOfAccountsCode);
-        m.put("accountNumber", this.accountNumber);
-        m.put("subAccountNumber", this.subAccountNumber);
-        m.put("positionNumber", this.positionNumber);
-        m.put("financialObjectCode", this.financialObjectCode);
-        m.put("sourceChartOfAccountsCode", this.sourceChartOfAccountsCode);
-        m.put("sourceAccountNumber", this.sourceAccountNumber);
-        m.put("effortCertificationPayrollAmount", this.effortCertificationPayrollAmount);
-        m.put("effortCertificationOriginalPayrollAmount", this.effortCertificationOriginalPayrollAmount);
+        LinkedHashMap map = new LinkedHashMap();
+        map.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
+        map.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, this.chartOfAccountsCode);
+        map.put(KFSPropertyConstants.ACCOUNT_NUMBER, this.accountNumber);
+        map.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, this.subAccountNumber);
+        map.put(KFSPropertyConstants.POSITION_NUMBER, this.positionNumber);
+        map.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, this.financialObjectCode);
+        map.put(EffortPropertyConstants.SOURCE_CHART_OF_ACCOUNTS_CODE, this.sourceChartOfAccountsCode);
+        map.put(EffortPropertyConstants.SOURCE_ACCOUNT_NUMBER, this.sourceAccountNumber);
+        map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, this.effortCertificationPayrollAmount);
+        map.put(EffortPropertyConstants.EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT, this.effortCertificationOriginalPayrollAmount);
 
-        return m;
+        return map;
     }
 }

@@ -92,8 +92,8 @@
 			</attributeReference> 
 
             <attribute name="creditMemoAmount" forceUppercase="true">
-                <label>Credit Memo Amount from Init Screen</label>
-                <shortLabel>Credit Memo Amt from Init Screen</shortLabel>
+                <label>Vendor Credit Memo Amount</label>
+                <shortLabel>Vendor Credit Memo Amount</shortLabel>
 
                 <maxLength>19</maxLength>
                 

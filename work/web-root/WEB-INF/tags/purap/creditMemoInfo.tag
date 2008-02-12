@@ -60,11 +60,25 @@
              </tr>
              
              <tr>
-                <th align=right valign=middle class="bord-l-b">
-                   <div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" useShortLabel="true" /></div>
+                <th align=right valign=middle class="bord-l-b">                   
+                	<c:choose>
+                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">
+					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.creditMemoAmount}" useShortLabel="true" /></div>
+					</c:when>
+					<c:otherwise>
+					&nbsp;
+					</c:otherwise>
+					</c:choose>                   
                 </th>
-                <td align=left valign=middle class="datacell">
-                   <kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" readOnly="true" />
+                <td align=left valign=middle class="datacell">                   
+                	<c:choose>
+                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">                
+                	<kul:htmlControlAttribute attributeEntry="${documentAttributes.creditMemoAmount}" property="document.creditMemoAmount" readOnly="true" />
+					</c:when>
+					<c:otherwise>
+					&nbsp;
+					</c:otherwise>
+					</c:choose>                	                   
                 </td>
              <tr>   
              

@@ -90,8 +90,8 @@
 			</attribute>
 			
 			<attribute name="vendorInvoiceAmount" forceUppercase="true">
-                <label>Vendor Invoice Amount from Init Screen</label>
-                <shortLabel>Vendor Inv Amt from Init Screen</shortLabel>
+                <label>Vendor Invoice Amount</label>
+                <shortLabel>Vendor Invoice Amount</shortLabel>
 
                 <maxLength>19</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>

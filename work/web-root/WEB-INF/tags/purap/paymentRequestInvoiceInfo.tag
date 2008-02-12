@@ -110,10 +110,24 @@
                    <kul:htmlControlAttribute attributeEntry="${documentAttributes.paymentAttachmentIndicator}" property="document.paymentAttachmentIndicator"  readOnly="${not (fullEntryMode or editPreExtract)}"/>
                 </td>
                 <th align=right valign=middle class="bord-l-b">
+                	<c:choose>
+                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">
 					<div align="right"><kul:htmlAttributeLabel attributeEntry="${documentAttributes.vendorInvoiceAmount}" useShortLabel="true"/></div>
+					</c:when>
+					<c:otherwise>
+					&nbsp;
+					</c:otherwise>
+					</c:choose>
                 </th>
                 <td align=left valign=middle class="datacell">
+                	<c:choose>
+                	<c:when test="${KualiForm.fullDocumentEntryCompleted eq false}">                
                 	<kul:htmlControlAttribute attributeEntry="${documentAttributes.vendorInvoiceAmount}" property="document.vendorInvoiceAmount" readOnly="true" />
+					</c:when>
+					<c:otherwise>
+					&nbsp;
+					</c:otherwise>
+					</c:choose>                	
                 </td>
             </tr>
 			<tr>

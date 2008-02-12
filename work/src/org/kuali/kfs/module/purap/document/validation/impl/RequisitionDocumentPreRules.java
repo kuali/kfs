@@ -23,6 +23,7 @@ import org.kuali.core.question.ConfirmationQuestion;
 import org.kuali.core.rules.PreRulesContinuationBase;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
@@ -106,7 +107,7 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
                     }                                                        
                 }
             }
-            if (!proceed || question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)) {
+            if (!proceed || ((ObjectUtils.isNotNull(question)) && (question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)))) {
                 proceed &= askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
             }
             // Set a marker to record that this method has been used.

@@ -29,7 +29,10 @@ are intended for use only by Kuali Foundation developers.
 	<!-- include resource for ant-contrib verifydesign task -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
 	
-	<target name="check-modularization" depends="make-source" description="Checks over dependency issues within kuali code">
+	<!-- depends="make-source" 
+	Can't reference main build.xml targets or Eclipse will report the project as having errors.
+	 -->
+	<target name="check-modularization" description="Checks over dependency issues within kuali code">
 	  <verifydesign design="design.xml">
 	    <path>
 	      <fileset dir="${classes.directory}/org/kuali/module">

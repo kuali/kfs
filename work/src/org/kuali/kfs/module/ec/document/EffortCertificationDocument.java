@@ -44,6 +44,10 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     private String effortCertificationDocumentCode;
     private Integer universityFiscalYear;
     private String emplid;
+    
+    private Integer totalEffortPercent;
+    private KualiDecimal totalPayrollAmount;
+    private KualiDecimal totalOriginalPayrollAmount;
 
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private UniversalUser employee;
@@ -260,5 +264,47 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         super.handleRouteStatusChange();
         SpringContext.getBean(EffortCertificationDocumentService.class).processApprovedEffortCertificationDocument(this);
+    }
+
+    /**
+     * Gets the totalEffortPercent attribute. 
+     * @return Returns the totalEffortPercent.
+     */
+    public Integer getTotalEffortPercent() {
+        totalEffortPercent = 0;
+        
+        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();           
+        }
+        
+        return totalEffortPercent;
+    }
+
+    /**
+     * Gets the totalPayrollAmount attribute. 
+     * @return Returns the totalPayrollAmount.
+     */
+    public KualiDecimal getTotalPayrollAmount() {
+        totalPayrollAmount = KualiDecimal.ZERO;
+        
+        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalPayrollAmount = totalPayrollAmount.add(detailLine.getEffortCertificationPayrollAmount());           
+        }
+        
+        return totalPayrollAmount;
+    }
+
+    /**
+     * Gets the totalOriginalPayrollAmount attribute. 
+     * @return Returns the totalOriginalPayrollAmount.
+     */
+    public KualiDecimal getTotalOriginalPayrollAmount() {
+        totalOriginalPayrollAmount = KualiDecimal.ZERO;
+        
+        for(EffortCertificationDetail detailLine : effortCertificationDetailLines) {
+            totalOriginalPayrollAmount = totalOriginalPayrollAmount.add(detailLine.getEffortCertificationOriginalPayrollAmount());           
+        }
+        
+        return totalOriginalPayrollAmount;
     }
 }

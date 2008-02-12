@@ -24,7 +24,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
-import org.kuali.module.cg.bo.AwardAccount;
+import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.bo.SubFundGroup;
 import org.kuali.module.effort.EffortConstants;
@@ -130,7 +130,7 @@ public class LedgerBalanceFieldValidator {
      */
     public static Message hasGrantAccount(Collection<LaborLedgerBalance> ledgerBalances) {
         for (LaborLedgerBalance balance : ledgerBalances) {
-            if(balance.getAccount().isForContractsAndGrants()) {
+            if (balance.getAccount().isForContractsAndGrants()) {
                 return null;
             }
         }
@@ -148,17 +148,9 @@ public class LedgerBalanceFieldValidator {
      */
     public static Message hasFederalFunds(Collection<LaborLedgerBalance> ledgerBalances, List<String> federalAgencyTypeCodes) {
         for (LaborLedgerBalance balance : ledgerBalances) {
-            List<AwardAccount> awardAccountList = balance.getAccount().getAwards();
-
-            for (AwardAccount awardAccount : awardAccountList) {
-                String agencyTypeCode = awardAccount.getAward().getAgency().getAgencyTypeCode();
-                if (federalAgencyTypeCodes.contains(agencyTypeCode)) {
-                    return null;
-                }
-
-                if (awardAccount.getAward().getFederalPassThroughIndicator()) {
-                    return null;
-                }
+            Account account = balance.getAccount();
+            if (account.isAwardedByFederalAcency(federalAgencyTypeCodes)) {
+                return null;
             }
         }
         return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_FEDERAL_FUNDS, Message.TYPE_FATAL);
@@ -174,10 +166,10 @@ public class LedgerBalanceFieldValidator {
         Org tempOrganization = null;
 
         boolean isFirstTime = true;
-        for (LaborLedgerBalance balance : ledgerBalances) {            
+        for (LaborLedgerBalance balance : ledgerBalances) {
             Org organization = balance.getAccount().getOrganization();
-            
-            if(isFirstTime) {
+
+            if (isFirstTime) {
                 tempOrganization = organization;
                 isFirstTime = false;
             }
@@ -195,7 +187,7 @@ public class LedgerBalanceFieldValidator {
      * @param ledgerBalance the given ledger balance
      * @return the sub fund group associated with the given ledger balance
      */
-    private static SubFundGroup getSubFundGroup(LaborLedgerBalance ledgerBalance) {
+    public static SubFundGroup getSubFundGroup(LaborLedgerBalance ledgerBalance) {
         SubFundGroup subFundGroup = null;
         try {
             subFundGroup = ledgerBalance.getAccount().getSubFundGroup();

@@ -17,6 +17,7 @@
 package org.kuali.module.effort.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
@@ -27,6 +28,7 @@ import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.bo.SubAccount;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 
 /**
  * Business Object for the Effort Certification Detail Table.
@@ -46,8 +48,11 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
-    
-    private boolean isNewLine;
+
+    private boolean newLineIndicator; // to indicate if this detail line has been persised or not
+    private boolean editable; // to indicate if this detail line can be changed or deleted
+    private boolean federalOrFederalPassThroughIndicator; // to indicate if this line is associated with a federal or federal pass
+    // through account.
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -81,6 +86,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
+            this.editable = effortCertificationDetail.isEditable();
         }
     }
 
@@ -376,7 +382,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the effortCertificationDocument attribute. 
+     * Gets the effortCertificationDocument attribute.
+     * 
      * @return Returns the effortCertificationDocument.
      */
     public EffortCertificationDocument getEffortCertificationDocument() {
@@ -385,6 +392,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the effortCertificationDocument attribute value.
+     * 
      * @param effortCertificationDocument The effortCertificationDocument to set.
      */
     @Deprecated
@@ -486,21 +494,69 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setOptions(Options options) {
         this.options = options;
     }
-    
+
     /**
-     * Gets the isNewLine attribute. 
-     * @return Returns the isNewLine.
+     * Gets the newLineIndicator attribute.
+     * 
+     * @return Returns the newLineIndicator.
      */
-    public boolean isNewLine() {
-        return isNewLine;
+    public boolean isNewLineIndicator() {
+        return newLineIndicator;
     }
 
     /**
-     * Sets the isNewLine attribute value.
-     * @param isNewLine The isNewLine to set.
+     * Sets the newLineIndicator attribute value.
+     * 
+     * @param newLineIndicator The newLineIndicator to set.
      */
-    public void setNewLine(boolean isNewLine) {
-        this.isNewLine = isNewLine;
+    public void setNewLineIndicator(boolean newLineIndicator) {
+        this.newLineIndicator = newLineIndicator;
+    }
+
+    /**
+     * Gets the isEditable attribute. If the account of this detail line is closed, the line cannot be edited.
+     * 
+     * @return Returns the isEditable.
+     */
+    public boolean isEditable() {
+        if (this.getAccount() != null && this.getAccount().isAccountClosedIndicator()) {
+            this.setEditable(false);
+        }
+
+        return editable;
+    }
+
+    /**
+     * Sets the editable attribute value.
+     * 
+     * @param isEditable The editable to set.
+     */
+    public void setEditable(boolean isEditable) {
+        this.editable = isEditable;
+    }
+
+    /**
+     * Gets the federalOrFederalPassThroughIndicator attribute. If this line is associated with a valid account, the indicator will
+     * be retrieved and updated.
+     * 
+     * @return Returns the federalOrFederalPassThroughIndicator.
+     */
+    public boolean isFederalOrFederalPassThroughIndicator() {
+        if (this.getAccount() != null) {
+            List<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
+            this.setFederalOrFederalPassThroughIndicator(this.getAccount().isAwardedByFederalAcency(federalAgencyTypeCodes));
+        }
+
+        return federalOrFederalPassThroughIndicator;
+    }
+
+    /**
+     * Sets the federalOrFederalPassThroughIndicator attribute value.
+     * 
+     * @param federalOrFederalPassThroughIndicator The federalOrFederalPassThroughIndicator to set.
+     */
+    public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
+        this.federalOrFederalPassThroughIndicator = federalOrFederalPassThroughIndicator;
     }
 
     /**
@@ -519,7 +575,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         m.put("sourceAccountNumber", this.sourceAccountNumber);
         m.put("effortCertificationPayrollAmount", this.effortCertificationPayrollAmount);
         m.put("effortCertificationOriginalPayrollAmount", this.effortCertificationOriginalPayrollAmount);
-        
+
         return m;
     }
 }

@@ -17,7 +17,9 @@ package org.kuali.module.effort.rules;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.KualiDecimal;
@@ -85,11 +87,20 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         return comparableFields;
     }
     
-    public static void updateSourceAccountInformation(EffortCertificationDetail detailLine) {
+    private void updateSourceAccountInformation(EffortCertificationDetail detailLine) {
         A21SubAccount a21SubAccount = detailLine.getSubAccount().getA21SubAccount();
 
         detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
         detailLine.setSourceAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
         detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
+    }
+    
+    private void objectCodeExchangeMap() {
+        Map<String, String> objectCodeExchangeMap = new HashMap<String, String>();
+        
+        objectCodeExchangeMap.put("2000", "2008");
+        objectCodeExchangeMap.put("2400", "2408");
+        objectCodeExchangeMap.put("2280", "2288");
+        objectCodeExchangeMap.put("2480", "2488");        
     }
 }

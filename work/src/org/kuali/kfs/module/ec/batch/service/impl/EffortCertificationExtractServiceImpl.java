@@ -521,17 +521,17 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
 
         return consolidationKeys;
     }
-    
-    // initialize the report data hold with default values 
+
+    // initialize the report data hold with default values
     private ExtractProcessReportDataHolder initializeReportData(EffortCertificationReportDefinition reportDefinition) {
         ExtractProcessReportDataHolder reportDataHolder = new ExtractProcessReportDataHolder(reportDefinition);
-        
+
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_READ, 0);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_BALANCES_SELECTED, 0);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_DETAIL_LINES_WRITTEN, 0);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_CERTIFICATIONS_WRITTEN, 0);
         reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_EMPLOYEES_SELECTED, 0);
-        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_ERRORS_FOUND, 0); 
+        reportDataHolder.updateBasicStatistics(ExtractProcess.NUM_ERRORS_FOUND, 0);
 
         return reportDataHolder;
     }

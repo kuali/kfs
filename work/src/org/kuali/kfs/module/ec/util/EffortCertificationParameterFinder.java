@@ -20,14 +20,12 @@ import java.util.List;
 
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
-import org.kuali.module.chart.bo.Account;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.batch.EffortCertificationCreateStep;
 import org.kuali.module.effort.batch.EffortCertificationExtractStep;
 
 /**
- * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification
- * module.
+ * A convenient utility that can delegate the calling client to retrieve system parameters of effor certification module.
  */
 public class EffortCertificationParameterFinder {
     private static ParameterService parameterService = SpringContext.getBean(ParameterService.class);
@@ -40,7 +38,7 @@ public class EffortCertificationParameterFinder {
     public static boolean getRunIndicator() {
         return parameterService.getIndicatorParameter(EffortCertificationExtractStep.class, SystemParameters.RUN_IND);
     }
-    
+
     /**
      * get the federal agency type codes setup in system parameters
      * 
@@ -114,7 +112,7 @@ public class EffortCertificationParameterFinder {
     public static List<String> getExpenseSubAccountTypeCode() {
         return parameterService.getParameterValues(EffortCertificationExtractStep.class, SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
     }
-    
+
     /**
      * get the report fiscal year setup in system paremters for create process
      * 

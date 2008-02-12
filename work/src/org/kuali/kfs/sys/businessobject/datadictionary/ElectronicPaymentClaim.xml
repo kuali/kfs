@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.kfs.bo.ElectronicPaymentClaim">
+    	<inquiry>
+    		<title>Electronic Payment Claim</title>
+    		
+    		<inquirySections>
+    			<inquirySection title="Electronic Payment Claim">
+    				<inquiryFields>
+    					<field attributeName="documentNumber" />
+    					<field attributeName="financialDocumentLineNumber" />
+    					<field attributeName="referenceFinancialDocumentNumber" />
+    					<field attributeName="financialDocumentPostingYear" />
+    					<field attributeName="financialDocumentPostingPeriodCode" />
+    				</inquiryFields>
+    			</inquirySection>
+    		</inquirySections>
+    	</inquiry>
+    	<lookup>
+    		<title>Electronic Payment Claim Lookup</title>
+    		
+    		<instructions>Look up Electronic Payment Claims.  Click "Return Results" to claim them.</instructions>
+    		
+    		<lookupFields>
+    			<lookupField attributeName="financialDocumentPostingPeriodCode" />
+    			<lookupField attributeName="financialDocumentPostingYear" />
+    		</lookupFields>
+    			
+    		<resultFields>
+    			<field attributeName="documentNumber" />
+    			<field attributeName="financialDocumentLineNumber" />
+    			<field attributeName="referenceFinancialDocumentNumber" />
+    			<field attributeName="financialDocumentPostingYear" />
+    			<field attributeName="financialDocumentPostingPeriodCode" />
+    		</resultFields>
+    	</lookup>
+    	
+    	<attributes>
+    		<attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+    		
+    		<attributeReference name="financialDocumentLineNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="transactionEntrySequenceId" />
+    		
+    		<attributeReference name="referenceFinancialDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber" />
+    		
+    		<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="universityFiscalAccountingPeriod">
+                <label>Financial Document Fiscal Period</label>
+                <shortLabel>Fiscal Period</shortLabel>
+                <maxLength>2</maxLength>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>Financial Document Posting Fiscal Accounting Period</summary>
+                <description>One of a prescribed list of Accounting Periods when the document that generated this electronic payment claim was posted.</description>
+            </attributeReference>
+            
+            <attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+                <label>Financial Document Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+                <description>The fiscal year when the document that generated this electronic payment claim was generated.</description>
+            </attributeReference>
+    	</attributes>
+    </businessObject>
+</dictionaryEntry>

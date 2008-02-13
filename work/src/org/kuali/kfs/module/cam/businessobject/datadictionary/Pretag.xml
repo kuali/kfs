@@ -11,21 +11,22 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
-                        <field attributeName="assetTopsDescription" />
-                        <field attributeName="capitalAssetTypeCode" />
-                        <field attributeName="chartOfAccountsCode" />
+                        <field attributeName="purchaseOrderNumber" />
                         <field attributeName="lineItemNumber" />
-                        <field attributeName="manufacturerModelNumber" />
+                        <field attributeName="quantityInvoiced" />
+                        <field attributeName="capitalAssetTypeCode" />
                         <field attributeName="manufacturerName" />
+                        <field attributeName="manufacturerModelNumber" />
+                        <field attributeName="vendorName" />
                         <field attributeName="organizationCode" />
                         <field attributeName="organizationDescription" />
                         <field attributeName="organizationInventoryName" />
+                        <!--  <field attributeName="representativeUniversalIdentifier" /> -->
+	                    <field attributeName="personUniversal.personName" />
                         <field attributeName="organizationText" />
+                        <field attributeName="assetTopsDescription" />
+                        <field attributeName="chartOfAccountsCode" />
                         <field attributeName="pretagCreateDate" />
-                        <field attributeName="purchaseOrderNumber" />
-                        <field attributeName="quantityInvoiced" />
-                        <field attributeName="representativeUniversalIdentifier" />
-                        <field attributeName="vendorName" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -44,50 +45,93 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="assetTopsDescription" required="false" />
-                <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
+                <lookupField attributeName="purchaseOrderNumber" required="false" />
                 <lookupField attributeName="lineItemNumber" required="false" />
-                <lookupField attributeName="manufacturerModelNumber" required="false" />
+                <lookupField attributeName="quantityInvoiced" required="false" />
+                <lookupField attributeName="capitalAssetTypeCode" required="false" />
                 <lookupField attributeName="manufacturerName" required="false" />
+                <lookupField attributeName="manufacturerModelNumber" required="false" />
+                <lookupField attributeName="vendorName" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="organizationDescription" required="false" />
                 <lookupField attributeName="organizationInventoryName" required="false" />
+<!--                 <lookupField attributeName="representativeUniversalIdentifier" required="false" />  -->
+                <lookupField attributeName="personUniversal.personUserIdentifier" required="false" />
                 <lookupField attributeName="organizationText" required="false" />
+                <lookupField attributeName="assetTopsDescription" required="false" />
+                <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="pretagCreateDate" required="false" />
-                <lookupField attributeName="purchaseOrderNumber" required="false" />
-                <lookupField attributeName="quantityInvoiced" required="false" />
-                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
             </lookupFields>
 
             <resultFields>
-                <field attributeName="assetTopsDescription" />
-                <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="chartOfAccountsCode" />
+                <field attributeName="purchaseOrderNumber" />
                 <field attributeName="lineItemNumber" />
-                <field attributeName="manufacturerModelNumber" />
+                <field attributeName="quantityInvoiced" />
+                <field attributeName="capitalAssetTypeCode" />
                 <field attributeName="manufacturerName" />
+                <field attributeName="manufacturerModelNumber" />
+                <field attributeName="vendorName" />
                 <field attributeName="organizationCode" />
                 <field attributeName="organizationDescription" />
                 <field attributeName="organizationInventoryName" />
+<!--                 <field attributeName="representativeUniversalIdentifier" /> -->
+	            <field attributeName="personUniversal.personUserIdentifier" />
                 <field attributeName="organizationText" />
+                <field attributeName="assetTopsDescription" />
+                <field attributeName="chartOfAccountsCode" />
                 <field attributeName="pretagCreateDate" />
-                <field attributeName="purchaseOrderNumber" />
-                <field attributeName="quantityInvoiced" />
-                <field attributeName="representativeUniversalIdentifier" />
-                <field attributeName="vendorName" />
             </resultFields>
         </lookup>
 
         <attributes>
+            <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" />
 
-            <attribute name="assetTopsDescription" forceUppercase="true">
+            <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
+                <label>Organization Code</label>
+                <shortLabel>Org Cd</shortLabel>
+                <required>false</required>
+            </attributeReference>
+
+            <attributeReference name="personUniversal.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier">
+                <label>Representative Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+                <required>false</required>
+                <control>
+                    <kualiUser universalIdAttributeName="representativeUniversalIdentifier" userIdAttributeName="personUniversal.personUserIdentifier" personNameAttributeName="personUniversal.personName" />
+                </control>
+            </attributeReference>
+            
+
+            <attributeReference name="personUniversal.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName">
+                <required>false</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
+
+
+            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+                <label>Chart of Accounts Code</label>
+                <shortLabel>Fiscal Chart</shortLabel>
+                <required>false</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
+                </control>
+            </attributeReference>
+            
+            <attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.PendingPurchaseOrder" sourceAttributeName="purchaseOrderNumber">
+                <label>Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+                <required>true</required>
+            </attributeReference>
+
+
+            <attribute name="assetTopsDescription">
                 <label>Asset Tops Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>
@@ -97,37 +141,7 @@
                 <description>assetTopsDescription description...</description>
 			</attribute>
 
-            <attribute name="capitalAssetTypeCode" forceUppercase="true">
-                <label>Capital Asset Type Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>capitalAssetTypeCode</summary>
-                <description>capitalAssetTypeCode description...</description>
-			</attribute>
-
-            <attribute name="chartOfAccountsCode" forceUppercase="true">
-                <label>Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>chartOfAccountsCode</summary>
-                <description>chartOfAccountsCode description...</description>
-			</attribute>
-
-            <attribute name="lineItemNumber" forceUppercase="true">
+            <attribute name="lineItemNumber" >
                 <label>Line Item Number</label>
                 <shortLabel>Number</shortLabel>
 
@@ -162,7 +176,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="42" />
@@ -172,27 +186,12 @@
                 <description>manufacturerName description...</description>
 			</attribute>
 
-            <attribute name="organizationCode" forceUppercase="true">
-                <label>Organization Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>4</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="6" />
-                </control>
-
-                <summary>organizationCode</summary>
-                <description>organizationCode description...</description>
-			</attribute>
-
-            <attribute name="organizationDescription" forceUppercase="true">
+            <attribute name="organizationDescription" >
                 <label>Organization Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>
@@ -217,12 +216,12 @@
                 <description>organizationInventoryName description...</description>
 			</attribute>
 
-            <attribute name="organizationText" forceUppercase="true">
+            <attribute name="organizationText" >
                 <label>Organization Text</label>
                 <shortLabel>Text</shortLabel>
 
                 <maxLength>255</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <textarea rows="5" cols="80"/>
@@ -232,21 +231,21 @@
                 <description>organizationText description...</description>
 			</attribute>
 
-            <attribute name="pretagCreateDate" forceUppercase="true">
+            <attribute name="pretagCreateDate" >
                 <label>Pretag Create Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>pretagCreateDate</summary>
                 <description>pretagCreateDate description...</description>
 			</attribute>
-
+<!-- 
             <attribute name="purchaseOrderNumber" forceUppercase="true">
                 <label>Purchase Order Number</label>
                 <shortLabel>Number</shortLabel>
@@ -261,8 +260,8 @@
                 <summary>purchaseOrderNumber</summary>
                 <description>purchaseOrderNumber description...</description>
 			</attribute>
-
-            <attribute name="quantityInvoiced" forceUppercase="true">
+-->
+            <attribute name="quantityInvoiced" >
                 <label>Quantity Invoiced</label>
                 <shortLabel>Invoiced</shortLabel>
 
@@ -275,21 +274,6 @@
 
                 <summary>quantityInvoiced</summary>
                 <description>quantityInvoiced description...</description>
-			</attribute>
-
-            <attribute name="representativeUniversalIdentifier" forceUppercase="true">
-                <label>Representative Universal Identifier</label>
-                <shortLabel>Identifier</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="12" />
-                </control>
-
-                <summary>representativeUniversalIdentifier</summary>
-                <description>representativeUniversalIdentifier description...</description>
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">
@@ -310,5 +294,14 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
+        
+        <relationships>
+            <relationship objectAttributeName="personUniversal" >
+                <primitiveAttribute sourceName="representativeUniversalIdentifier" targetName="personUniversalIdentifier" />
+				<supportAttribute sourceName="personUniversal.personUserIdentifier" targetName="personUserIdentifier" identifier="true" />
+				<supportAttribute sourceName="personUniversal.personName" targetName="personName" />
+            </relationship>
+        </relationships>
+
     </businessObject>
 </dictionaryEntry>

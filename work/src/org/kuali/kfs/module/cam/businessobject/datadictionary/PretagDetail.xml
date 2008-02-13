@@ -11,16 +11,16 @@
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
+                        <field attributeName="purchaseOrderNumber" />
+                        <field attributeName="lineItemNumber" />
+                        <field attributeName="campusTagNumber" />
+                        <field attributeName="serialNumber" />
+                        <field attributeName="organizationTagNumber" />
+                        <field attributeName="campusCode" />
                         <field attributeName="buildingCode" />
                         <field attributeName="buildingRoomNumber" />
                         <field attributeName="buildingSubRoomNumber" />
-                        <field attributeName="campusCode" />
-                        <field attributeName="campusTagNumber" />
-                        <field attributeName="lineItemNumber" />
-                        <field attributeName="organizationTagNumber" />
-                        <field attributeName="pretagTagCreateDate" />
-                        <field attributeName="purchaseOrderNumber" />
-                        <field attributeName="serialNumber" />
+                         <field attributeName="pretagTagCreateDate" />
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -40,63 +40,47 @@
             </defaultSort>
 
             <lookupFields>
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingRoomNumber" required="false" />
-                <lookupField attributeName="buildingSubRoomNumber" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="campusTagNumber" required="false" />
-                <lookupField attributeName="lineItemNumber" required="false" />
-                <lookupField attributeName="organizationTagNumber" required="false" />
-                <lookupField attributeName="pretagTagCreateDate" required="false" />
-                <lookupField attributeName="purchaseOrderNumber" required="false" />
+                <lookupField attributeName="purchaseOrderNumber" required="true" />
+                <lookupField attributeName="lineItemNumber" required="true" />
+                <lookupField attributeName="campusTagNumber" required="true" />
                 <lookupField attributeName="serialNumber" required="false" />
+                <lookupField attributeName="organizationTagNumber" required="false" />
+                <lookupField attributeName="buildingCode" required="true" />
+                <lookupField attributeName="campusCode" required="true" />
+                <lookupField attributeName="buildingRoomNumber" required="true" />
+                <lookupField attributeName="buildingSubRoomNumber" required="false" />
+                <lookupField attributeName="pretagTagCreateDate" required="true" />
             </lookupFields>
 
             <resultFields>
+                <field attributeName="purchaseOrderNumber" />
+                <field attributeName="lineItemNumber" />
+                <field attributeName="campusTagNumber" />
+                <field attributeName="serialNumber" />
+                <field attributeName="organizationTagNumber" />
+                <field attributeName="campusCode" />
                 <field attributeName="buildingCode" />
                 <field attributeName="buildingRoomNumber" />
                 <field attributeName="buildingSubRoomNumber" />
-                <field attributeName="campusCode" />
-                <field attributeName="campusTagNumber" />
-                <field attributeName="lineItemNumber" />
-                <field attributeName="organizationTagNumber" />
                 <field attributeName="pretagTagCreateDate" />
-                <field attributeName="purchaseOrderNumber" />
-                <field attributeName="serialNumber" />
             </resultFields>
         </lookup>
 
         <attributes>
 
-            <attribute name="buildingCode" forceUppercase="true">
-                <label>Building Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>10</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
+            <attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="purchaseOrderNumber" />
+            
+            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="lineItemNumber" />
+ 
+            <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
                 <control>
-                    <text size="12" />
+                    <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
                 </control>
+            </attributeReference>
 
-                <summary>buildingCode</summary>
-                <description>buildingCode description...</description>
-			</attribute>
+            <attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Building" sourceAttributeName="buildingCode" />
 
-            <attribute name="buildingRoomNumber" forceUppercase="true">
-                <label>Building Room Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>buildingRoomNumber</summary>
-                <description>buildingRoomNumber description...</description>
-			</attribute>
+            <attributeReference name="buildingRoomNumber" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingRoomNumber" />
 
             <attribute name="buildingSubRoomNumber" forceUppercase="true">
                 <label>Building Sub Room Number</label>
@@ -113,20 +97,6 @@
                 <description>buildingSubRoomNumber description...</description>
 			</attribute>
 
-            <attribute name="campusCode" forceUppercase="true">
-                <label>Campus Code</label>
-                <shortLabel>Code</shortLabel>
-
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="4" />
-                </control>
-
-                <summary>campusCode</summary>
-                <description>campusCode description...</description>
-			</attribute>
 
             <attribute name="campusTagNumber" forceUppercase="true">
                 <label>Campus Tag Number</label>
@@ -141,21 +111,6 @@
 
                 <summary>campusTagNumber</summary>
                 <description>campusTagNumber description...</description>
-			</attribute>
-
-            <attribute name="lineItemNumber" forceUppercase="true">
-                <label>Line Item Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
-
-                <control>
-                    <text size="14" />
-                </control>
-
-                <summary>lineItemNumber</summary>
-                <description>lineItemNumber description...</description>
 			</attribute>
 
             <attribute name="organizationTagNumber" forceUppercase="true">
@@ -177,30 +132,15 @@
                 <label>Pretag Tag Create Date</label>
                 <shortLabel>Date</shortLabel>
 
-                <maxLength>7</maxLength>
+                <maxLength>10</maxLength>
                 <validationPattern><date /></validationPattern>
 
                 <control>
-                    <text size="9" />
+                    <text size="10" />
                 </control>
 
                 <summary>pretagTagCreateDate</summary>
                 <description>pretagTagCreateDate description...</description>
-			</attribute>
-
-            <attribute name="purchaseOrderNumber" forceUppercase="true">
-                <label>Purchase Order Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderNumber</summary>
-                <description>purchaseOrderNumber description...</description>
 			</attribute>
 
             <attribute name="serialNumber" forceUppercase="true">

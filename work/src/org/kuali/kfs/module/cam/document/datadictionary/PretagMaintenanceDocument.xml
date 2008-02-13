@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2006-2007 The Kuali Foundation.
+ 
+ Licensed under the Educational Community License, Version 1.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ 
+ http://www.opensource.org/licenses/ecl1.php
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+
+<dictionaryEntry>
+    <maintenanceDocument>
+        <businessObjectClass>org.kuali.module.cams.bo.Pretag</businessObjectClass>
+        <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
+<!-- 
+        <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.cams.rules.PretagPreRules</preRulesCheckClass>
+-->
+        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>PretagMaintenanceDocument</documentTypeName>
+        <documentTypeCode>PTAG</documentTypeCode>
+
+        <label>Pre Asset Tagging</label>
+
+        <summary>Pre Asset Tagging maintenance document</summary>
+        <description>Document used to create or update Pre Asset Tagging</description>
+
+        <lockingKeys>
+            <field attributeName="purchaseOrderNumber" />
+            <field attributeName="lineItemNumber" />
+         </lockingKeys>
+       
+        <defaultExistenceChecks>
+            <reference attributeName="capitalAssetType" attributeToHighlightOnFail="capitalAssetTypeCode" />
+            <reference attributeName="organization" attributeToHighlightOnFail="organizationCode" />
+            <reference attributeName="personUniversal" attributeToHighlightOnFail="personUniversal.personUserIdentifier" displayFieldName="Representative Universal Identifier" />
+            <reference attributeName="chartOfAccounts" attributeToHighlightOnFail="chartOfAccountsCode" />
+        </defaultExistenceChecks>
+                
+        <maintainableSections>
+            <maintainableSection title="Edit Pre Asset Tagging">
+                <maintainableItems>
+                    <maintainableField name="purchaseOrderNumber" required="true" />
+                    <maintainableField name="lineItemNumber" required="true" />
+                    <maintainableField name="quantityInvoiced" required="true" />
+                    <maintainableField name="capitalAssetTypeCode" required="true" />
+                    <maintainableField name="manufacturerName" required="true" />
+                    <maintainableField name="manufacturerModelNumber" required="false" />
+                    <maintainableField name="vendorName" required="true" />
+                    <maintainableField name="organizationCode" required="false" />
+                    <maintainableField name="organizationDescription" required="false" />
+                    <maintainableField name="organizationInventoryName" required="true" />
+                    <maintainableField name="personUniversal.personUserIdentifier" required="false" />
+                    <maintainableField name="personUniversal.personName" required="false" readOnly="true" />
+                    <maintainableField name="organizationText" required="true" />
+                    <maintainableField name="assetTopsDescription" required="true" />
+                    <maintainableField name="chartOfAccountsCode" required="false" />
+                    <maintainableField name="pretagCreateDate" required="false" >
+  						<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+					</maintainableField>
+                    <maintainableField name="versionNumber" />
+                </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Edit List of Pre Asset Tagging Details">
+                <maintainableItems>
+<!-- 
+                    <maintainableCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="pretagDetails" summaryTitle="Detail">
+-->
+                    <maintainableCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail" summaryTitle="Detail">
+                        <maintainableField name="purchaseOrderNumber" readOnlyAfterAdd="true" />
+                        <maintainableField name="lineItemNumber" readOnlyAfterAdd="true" />
+                        <maintainableField name="campusTagNumber" required="true" readOnlyAfterAdd="true" />
+                        <maintainableField name="serialNumber" />
+                        <maintainableField name="organizationTagNumber" />
+                        <maintainableField name="campusCode" required="true"/>
+                        <maintainableField name="buildingCode" required="true"/>
+                        <maintainableField name="buildingRoomNumber" required="true"/>
+                        <maintainableField name="buildingSubRoomNumber" />
+                        <maintainableField name="pretagTagCreateDate" >
+ 							<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
+						</maintainableField>
+                        <maintainableField name="versionNumber" />
+                        <summaryFields>
+                            <summaryField name="purchaseOrderNumber" />
+                            <summaryField name="lineItemNumber" />
+                            <summaryField name="campusTagNumber" />
+                            <summaryField name="campusCode" />
+                            <summaryField name="buildingRoomNumber" />
+                            <summaryField name="buildingSubRoomNumber" />
+                        </summaryFields>
+                        
+                        <duplicateIdentificationFields>
+                            <duplicateIdentificationField name="purchaseOrderNumber"/>
+                            <duplicateIdentificationField name="lineItemNumber"/>
+                            <duplicateIdentificationField name="campusTagNumber"/>
+                        </duplicateIdentificationFields>       
+                    </maintainableCollection>
+                </maintainableItems>
+            </maintainableSection>
+           
+        </maintainableSections>
+    </maintenanceDocument>
+</dictionaryEntry>

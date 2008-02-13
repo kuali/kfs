@@ -7,6 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
+import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.service.UniversalUserService;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
@@ -35,9 +38,11 @@ public class Pretag extends PersistableBusinessObjectBase {
 	private Org organization;
     private PendingPurchaseOrder purchaseOrder;
     private AssetType capitalAssetType;
+    private UniversalUser personUniversal;
     
     private List<PretagDetail> pretagDetails;
     
+  
 	/**
 	 * Default constructor.
 	 */
@@ -276,6 +281,14 @@ public class Pretag extends PersistableBusinessObjectBase {
 		this.organizationInventoryName = organizationInventoryName;
 	}
 
+    public UniversalUser getPersonUniversal() {
+        personUniversal = SpringContext.getBean(UniversalUserService.class).updateUniversalUserIfNecessary(representativeUniversalIdentifier, personUniversal);
+        return personUniversal;
+    }
+
+    public void setPersonUniversal(UniversalUser personUniversal) {
+        this.personUniversal = personUniversal;
+    }
 
 	/**
 	 * Gets the representativeUniversalIdentifier attribute.
@@ -287,15 +300,15 @@ public class Pretag extends PersistableBusinessObjectBase {
 		return representativeUniversalIdentifier;
 	}
 
-	/**
-	 * Sets the representativeUniversalIdentifier attribute.
-	 * 
-	 * @param representativeUniversalIdentifier The representativeUniversalIdentifier to set.
-	 * 
-	 */
-	public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
-		this.representativeUniversalIdentifier = representativeUniversalIdentifier;
-	}
+    /**
+     * Sets the representativeUniversalIdentifier attribute.
+     * 
+     * @param representativeUniversalIdentifier The representativeUniversalIdentifier to set.
+     * 
+     */
+    public void setRepresentativeUniversalIdentifier(String representativeUniversalIdentifier) {
+        this.representativeUniversalIdentifier = representativeUniversalIdentifier;
+    }
 
 
 	/**

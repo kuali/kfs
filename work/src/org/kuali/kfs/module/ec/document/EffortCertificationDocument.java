@@ -341,17 +341,18 @@ public class EffortCertificationDocument extends AccountingDocumentBase implemen
 
         KualiDecimal maxAmount = null;
         for (EffortCertificationDetail line : this.getEffortCertificationDetailLines()) {
+            KualiDecimal currentAmount = line.getEffortCertificationPayrollAmount();
+            
             if (maxAmount == null) {
-                maxAmount = line.getEffortCertificationPayrollAmount();
+                maxAmount = currentAmount;
                 detailLines.add(line);
                 continue;
             }
 
-            KualiDecimal currentAmount = line.getEffortCertificationPayrollAmount();
             if (maxAmount.isLessThan(currentAmount)) {
-                detailLines.removeAll(detailLines);
-                detailLines.add(line);
+                detailLines.removeAll(detailLines);                
                 maxAmount = currentAmount;
+                detailLines.add(line);
             }
             else if(maxAmount.equals(currentAmount)){
                 detailLines.add(line);

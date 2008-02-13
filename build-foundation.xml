@@ -25,7 +25,10 @@ are intended for use only by Kuali Foundation developers.
     <target name="init-property-files" />
     <target name="dist-local" />
     <target name="clean" />
-	
+
+	<!-- include resource for ant-contrib tasks (design/verifydesign, etc) -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
+
 	<target name="check-modularization">
 	  <verifydesign design="design.xml">
 	    <path>

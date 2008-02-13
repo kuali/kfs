@@ -140,7 +140,11 @@
 			</attributeReference>
 
             <attributeReference name="effortCertificationReportTypeCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportType" sourceAttributeName="effortCertificationReportTypeCode" />
-            <attributeReference name="effortCertificationReportPeriodStatusCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" sourceAttributeName="effortCertificationReportPeriodStatusCode" />
+            <attributeReference name="effortCertificationReportPeriodStatusCode" sourceClassName="org.kuali.module.effort.bo.EffortCertificationPeriodStatusCode" sourceAttributeName="effortCertificationReportPeriodStatusCode" >
+            	<control>
+					<select valuesFinderClass="org.kuali.module.effort.lookup.keyvalues.PeriodStatusCodeValuesFinder" />
+				</control>
+			</attributeReference>
 
             <attributeReference name="effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
                 <label>Effort Certification Report Begin Fiscal Year</label>

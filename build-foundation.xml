@@ -27,11 +27,9 @@ are intended for use only by Kuali Foundation developers.
     <target name="clean" />
 	
 	<target name="check-modularization">
-		<ant target="clean" />
-		<ant target="make-source" />
 	  <verifydesign design="design.xml">
 	    <path>
-	      <fileset dir="work/web-root/WEB-INF/classes/org/kuali/module">
+	      <fileset dir="build/war/WEB-INF/classes/org/kuali/module">
 			<include name="**/*.class" />
 	      </fileset>
 	    </path>

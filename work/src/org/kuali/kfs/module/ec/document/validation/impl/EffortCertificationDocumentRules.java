@@ -40,6 +40,7 @@ import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
@@ -54,6 +55,7 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -65,6 +67,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public final KualiDecimal LIMIT_OF_TOTAL_SALARY_CHANGE = new KualiDecimal(0.009);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
+    private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
     /**
      * Constructs a EffortCertificationDocumentRules.java.
@@ -88,7 +91,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processAddLineBusinessRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddLineBusinessRules() start");
 
-        this.applyDefaultvalues(detailLine);
+        this.applyDefaultvalues(document, detailLine);
         
         if(!this.checkDetailLineAttributes(detailLine)) {
             return false;
@@ -170,7 +173,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         // TODO: if a change on one of accounts, provide a note
 
-        if (EffortCertificationDocumentValidator.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
+        /*if (EffortCertificationDocumentValidator.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
@@ -178,7 +181,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (EffortCertificationDocumentValidator.isTotalEffortPercentageAs100(effortCertificationDocument)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
-        }
+        }*/
 
         return true;
     }
@@ -234,7 +237,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * 
      * @param detailLine the given detail line
      */
-    private void applyDefaultvalues(EffortCertificationDetail detailLine) {
+    private void applyDefaultvalues(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
         }
@@ -250,6 +253,20 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (StringUtils.isBlank(detailLine.getSourceAccountNumber())) {
             detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
         }
+        
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationPayrollAmount())) {
+            detailLine.setEffortCertificationPayrollAmount(KualiDecimal.ZERO);
+        }
+        
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
+            detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
+        }
+        
+        detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
+        
+        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
+        
+        
     }
     
     /**

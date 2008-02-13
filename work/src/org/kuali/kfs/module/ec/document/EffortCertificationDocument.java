@@ -330,4 +330,35 @@ public class EffortCertificationDocument extends AccountingDocumentBase implemen
 
         return totalOriginalPayrollAmount;
     }
+
+    /**
+     * find the detail lines that have max payroll amount
+     * 
+     * @return the detail lines that have max payroll amount
+     */
+    public List<EffortCertificationDetail> getEffortCertificationDetailWithMaxPayrollAmount() {
+        List<EffortCertificationDetail> detailLines = new ArrayList<EffortCertificationDetail>();
+        detailLines.addAll(this.getEffortCertificationDetailLines());
+
+        EffortCertificationDetail detailLineWithMaxAmount = null;
+        KualiDecimal maxAmount = KualiDecimal.ZERO;
+        for (EffortCertificationDetail detailLine : detailLines) {
+            if (detailLineWithMaxAmount == null) {
+                detailLineWithMaxAmount = detailLine;
+                maxAmount = detailLineWithMaxAmount.getEffortCertificationPayrollAmount();
+                continue;
+            }
+
+            KualiDecimal currentAmount = detailLine.getEffortCertificationPayrollAmount();
+            if (maxAmount.isGreaterThan(currentAmount)) {
+                detailLines.remove(detailLine);
+            }
+            else if (maxAmount.isLessThan(currentAmount)) {
+                detailLines.remove(detailLineWithMaxAmount);
+                detailLineWithMaxAmount = detailLine;
+            }
+        }
+
+        return detailLines;
+    }
 }

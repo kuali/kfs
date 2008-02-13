@@ -280,7 +280,7 @@ public class EffortCertificationDocument extends AccountingDocumentBase implemen
         totalEffortPercent = 0;
 
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();
+            totalEffortPercent += detailLine.getEffortCertificationUpdatedOverallPercent();
         }
 
         return totalEffortPercent;
@@ -295,7 +295,7 @@ public class EffortCertificationDocument extends AccountingDocumentBase implemen
         totalOriginalEffortPercent = 0;
 
         for (EffortCertificationDetail detailLine : effortCertificationDetailLines) {
-            totalOriginalEffortPercent += detailLine.getEffortCertificationUpdatedOverallPercent();
+            totalOriginalEffortPercent += detailLine.getEffortCertificationCalculatedOverallPercent();
         }
 
         return totalOriginalEffortPercent;

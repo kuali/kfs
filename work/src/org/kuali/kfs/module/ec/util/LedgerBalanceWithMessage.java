@@ -15,6 +15,7 @@
  */
 package org.kuali.module.effort.util;
 
+import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 
@@ -28,6 +29,7 @@ public class LedgerBalanceWithMessage {
     private String subAccountNumber;
     private String financialObjectCode;
     private String positionNumber;
+    private String employeeName;
     private String emplid;
     private String message;
 
@@ -35,16 +37,17 @@ public class LedgerBalanceWithMessage {
      * Constructs a LedgerBalanceWithMessage.java.
      */
     public LedgerBalanceWithMessage() {
-        this(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
+        this(KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING, KFSConstants.EMPTY_STRING);
     }
 
     /**
      * Constructs a LedgerBalanceWithMessage.java.
      * 
      * @param emplid the given employee id
+     * @param employeeName the given employee name
      * @param message the message associated with the given ledger balance
      */
-    public LedgerBalanceWithMessage(String emplid, String message) {
+    public LedgerBalanceWithMessage(String emplid, String employeeName, String message) {
         super();
         this.chartOfAccountsCode = KFSConstants.EMPTY_STRING;
         this.accountNumber = KFSConstants.EMPTY_STRING;
@@ -52,6 +55,7 @@ public class LedgerBalanceWithMessage {
         this.financialObjectCode = KFSConstants.EMPTY_STRING;
         this.positionNumber = KFSConstants.EMPTY_STRING;
         this.emplid = emplid;
+        this.employeeName = employeeName;
         this.message = message;
     }
 
@@ -70,6 +74,9 @@ public class LedgerBalanceWithMessage {
         this.positionNumber = ledgerBalance.getPositionNumber();
         this.emplid = ledgerBalance.getEmplid();
         this.message = message;
+        
+        UniversalUser employee = ledgerBalance.getLedgerPerson();
+        this.employeeName = employee != null ? employee.getPersonName() : KFSConstants.EMPTY_STRING;
     }
 
     /**
@@ -179,6 +186,22 @@ public class LedgerBalanceWithMessage {
     public void setEmplid(String emplid) {
         this.emplid = emplid;
     }
+    
+    /**
+     * Gets the employeeName attribute. 
+     * @return Returns the employeeName.
+     */
+    public String getEmployeeName() {
+        return employeeName;
+    }
+
+    /**
+     * Sets the employeeName attribute value.
+     * @param employeeName The employeeName to set.
+     */
+    public void setEmployeeName(String employeeName) {
+        this.employeeName = employeeName;
+    }
 
     /**
      * Gets the message attribute.
@@ -210,6 +233,7 @@ public class LedgerBalanceWithMessage {
         ledgerBalanceWithMessage.append("financialObjectCode=").append(this.getFinancialObjectCode()).append(", ");
         ledgerBalanceWithMessage.append("positionNumber=").append(this.getPositionNumber()).append(", ");
         ledgerBalanceWithMessage.append("emplid=").append(this.getEmplid()).append(", ");
+        ledgerBalanceWithMessage.append("employeeName=").append(this.getEmployeeName()).append(", ");
         ledgerBalanceWithMessage.append("message=").append(this.getMessage()).append("]");
 
         return ledgerBalanceWithMessage.toString();

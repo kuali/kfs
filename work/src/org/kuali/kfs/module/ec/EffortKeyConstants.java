@@ -31,6 +31,7 @@ public class EffortKeyConstants {
     public static final String ERROR_NONPOSITIVE_PAYROLL_AMOUNT = "error.effort.nonpositivePayrollAmount";
     public static final String ERROR_NOT_LABOR_OBJECT_CODE = "error.effort.notLaborObjectCode";
     public static final String ERROR_NOT_PAID_BY_FEDERAL_FUNDS = "error.effort.notPaidByFederalFunds";
+    public static final String ERROR_NOT_PAID_BY_GRANT_ACCOUNT = "error.effort.notPaidByGrantAccount";
     public static final String ERROR_REPORT_DEFINITION_INACTIVE = "error.effort.reportDefinitionInactive";
     public static final String ERROR_REPORT_DEFINITION_PERIOD_NOT_OPENED = "error.effort.reportDefinitionPeriodNotOpened";
     public static final String ERROR_REPORT_DOCUMENT_BUILD_NOT_EXIST = "error.effort.reportDocumentBuildNotExist";

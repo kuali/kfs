@@ -15,39 +15,20 @@
  */
 package org.kuali.module.effort.rules;
 
-import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
-import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERROR_PATTERN;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_INVALID_FORMAT;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_DOCUMENT_ACCOUNTING_LINE_MAX_LENGTH;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_INVALID_FORMAT;
-import static org.kuali.kfs.KFSKeyConstants.ERROR_MAX_LENGTH;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.document.Document;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
-import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DictionaryValidationService;
-import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
@@ -82,10 +63,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processGenerateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
         LOG.info("processGenerateSalaryExpenseTransferDocument() start");
 
-        if (!effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated()) {
-            return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+        if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
+            return true;
         }
-        return true;
+            
+        return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
     }
 
     public boolean processAddLineBusinessRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
@@ -169,11 +151,14 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         LOG.info("processAddLineBusinessRules() start");
 
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;               
+        if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
+            return true;
+        }
 
         // TODO: if a change on one of accounts, provide a note
 
-        /*if (EffortCertificationDocumentValidator.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
+        if (EffortCertificationDocumentValidator.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
@@ -181,9 +166,18 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (EffortCertificationDocumentValidator.isTotalEffortPercentageAs100(effortCertificationDocument)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
-        }*/
+        }
 
         return true;
+    }
+    
+    /**
+     * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
+     * @param effortCertificationDocument the given document
+     * @return true if the given document is in the state of initiation; otherwise, false
+     */
+    private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
+        return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
     }
     
     
@@ -264,9 +258,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         
         detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
         
-        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
-        
-        
+        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();        
     }
     
     /**

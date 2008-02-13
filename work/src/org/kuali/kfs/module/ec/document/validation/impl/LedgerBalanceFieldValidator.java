@@ -135,7 +135,7 @@ public class LedgerBalanceFieldValidator {
             }
         }
 
-        return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_FUND_GROUP_NOT_FOUND, Message.TYPE_FATAL);
+        return MessageBuilder.buildMessage(EffortKeyConstants.ERROR_NOT_PAID_BY_GRANT_ACCOUNT, Message.TYPE_FATAL);
     }
 
     /**

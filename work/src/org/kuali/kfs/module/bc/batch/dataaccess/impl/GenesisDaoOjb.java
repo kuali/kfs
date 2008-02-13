@@ -3706,7 +3706,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
                  CSFBCAFRowsMarkedDeleted));
     }
     
-    private ArrayList<String> findPositonRequiredObjectCodes (Integer BaseYear)
+    private ArrayList<String> findPositionRequiredObjectCodes (Integer BaseYear)
     {
         // we want to build an SQL IN criteria to filter a return set
         // we will find distinct objects only, regardless of chart
@@ -3992,7 +3992,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
         criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
                               RequestYear);
         criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
-                this.findPositonRequiredObjectCodes(BaseYear));
+                this.findPositionRequiredObjectCodes(BaseYear));
         currentPBGLKeys = new HashSet<String>(hashObjectSize(
                 PendingBudgetConstructionGeneralLedger.class,criteriaID));
         // now do the same for the detailed position object code--> object type
@@ -4338,7 +4338,7 @@ public class GenesisDaoOjb extends PlatformAwareDaoBaseOjb
 //        criteriaID.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR,
 //                              RequestYear);
 //        criteriaID.addIn(KFSPropertyConstants.FINANCIAL_OBJECT_CODE,
-//                this.findPositonRequiredObjectCodes(BaseYear));
+//                this.findPositionRequiredObjectCodes(BaseYear));
 //        String[] selectCount = {"COUNT(*)"};
 //        ReportQueryByCriteria queryID =
 //            new ReportQueryByCriteria(PendingBudgetConstructionGeneralLedger.class,

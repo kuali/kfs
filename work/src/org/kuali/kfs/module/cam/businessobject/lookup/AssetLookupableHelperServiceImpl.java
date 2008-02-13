@@ -46,6 +46,8 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
+        actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
+        actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL);
         actions.append("&nbsp;&nbsp;");
         actions.append(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL);

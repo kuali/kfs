@@ -142,6 +142,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
 
         EffortCertificationDetailBuild detailBuild = effortCertificationDetailBuildService.generateDetailBuild(postingYear, ledgerBalance, reportDefinition, systemParameters);
+        System.out.printf("FringeBenefitAmount = %s; PayrollAmount = %s.\n", detailBuild.getFringeBenefitAmount(), detailBuild.getEffortCertificationPayrollAmount());
 
         EffortCertificationDetailBuild expectedDetailBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetail", detailFieldNames, deliminator);
 

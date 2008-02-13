@@ -35,8 +35,6 @@ import org.kuali.kfs.util.ObjectUtil;
 public class TestDataPreparator {
     public static final String DEFAULT_FIELD_NAMES = "fieldNames";
     public static final String DEFAULT_DELIMINATOR = "deliminator";
-    private static BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
-    private static PersistenceService persistenceService = SpringContext.getBean(PersistenceService.class);
 
     /**
      * build a list of objects of type "clazz" from the test data provided by the given properties. The default fieldNames and
@@ -178,11 +176,11 @@ public class TestDataPreparator {
      * @param dataObject the given data object
      * @return return the data object persisted into the data store
      */
-    public static <T extends PersistableBusinessObject> T persistDataObject(T dataObject) {
-        T existingDataObject = (T) businessObjectService.retrieve(dataObject);
+    public static <T extends PersistableBusinessObject> T persistDataObject(T dataObject) {        
+        T existingDataObject = (T) getBusinessObjectService ().retrieve(dataObject);
         if (existingDataObject == null) {
-            businessObjectService.save(dataObject);
-            persistenceService.retrieveNonKeyFields(dataObject);
+            getBusinessObjectService ().save(dataObject);
+            getPersistenceService().retrieveNonKeyFields(dataObject);
             return dataObject;
         }
         else {
@@ -209,7 +207,7 @@ public class TestDataPreparator {
      */
     public static <T extends PersistableBusinessObject> void doCleanUpWithoutReference(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         Map<String, Object> fieldValues = buildFieldValues(clazz, properties, propertykey, fieldNames, deliminator);
-        businessObjectService.deleteMatching(clazz, fieldValues);
+        getBusinessObjectService ().deleteMatching(clazz, fieldValues);
     }
     
     /**
@@ -219,7 +217,7 @@ public class TestDataPreparator {
         List<T> dataObjects = findMatching(clazz, properties, propertykey, fieldNames, deliminator);
         
         for(T object : dataObjects) {
-            businessObjectService.delete(object);
+            getBusinessObjectService ().delete(object);
         }
     }
 
@@ -228,7 +226,7 @@ public class TestDataPreparator {
      */
     public static <T extends PersistableBusinessObject> List<T> findMatching(Class<T> clazz, Properties properties, String propertykey, String fieldNames, String deliminator) throws Exception {
         Map<String, Object> fieldValues = buildFieldValues(clazz, properties, propertykey, fieldNames, deliminator);
-        return (List<T>) businessObjectService.findMatching(clazz, fieldValues);
+        return (List<T>) getBusinessObjectService ().findMatching(clazz, fieldValues);
     }
 
     /**
@@ -283,5 +281,13 @@ public class TestDataPreparator {
         }
         
         return true;
-    }    
+    } 
+    
+    private static BusinessObjectService getBusinessObjectService () {
+        return SpringContext.getBean(BusinessObjectService.class);
+    }
+    
+    private static PersistenceService getPersistenceService() {
+        return SpringContext.getBean(PersistenceService.class);
+    }
 }

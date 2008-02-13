@@ -338,24 +338,23 @@ public class EffortCertificationDocument extends AccountingDocumentBase implemen
      */
     public List<EffortCertificationDetail> getEffortCertificationDetailWithMaxPayrollAmount() {
         List<EffortCertificationDetail> detailLines = new ArrayList<EffortCertificationDetail>();
-        detailLines.addAll(this.getEffortCertificationDetailLines());
 
-        EffortCertificationDetail detailLineWithMaxAmount = null;
-        KualiDecimal maxAmount = KualiDecimal.ZERO;
-        for (EffortCertificationDetail detailLine : detailLines) {
-            if (detailLineWithMaxAmount == null) {
-                detailLineWithMaxAmount = detailLine;
-                maxAmount = detailLineWithMaxAmount.getEffortCertificationPayrollAmount();
+        KualiDecimal maxAmount = null;
+        for (EffortCertificationDetail line : this.getEffortCertificationDetailLines()) {
+            if (maxAmount == null) {
+                maxAmount = line.getEffortCertificationPayrollAmount();
+                detailLines.add(line);
                 continue;
             }
 
-            KualiDecimal currentAmount = detailLine.getEffortCertificationPayrollAmount();
-            if (maxAmount.isGreaterThan(currentAmount)) {
-                detailLines.remove(detailLine);
+            KualiDecimal currentAmount = line.getEffortCertificationPayrollAmount();
+            if (maxAmount.isLessThan(currentAmount)) {
+                detailLines.removeAll(detailLines);
+                detailLines.add(line);
+                maxAmount = currentAmount;
             }
-            else if (maxAmount.isLessThan(currentAmount)) {
-                detailLines.remove(detailLineWithMaxAmount);
-                detailLineWithMaxAmount = detailLine;
+            else if(maxAmount.equals(currentAmount)){
+                detailLines.add(line);
             }
         }
 

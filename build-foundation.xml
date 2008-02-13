@@ -33,15 +33,14 @@ are intended for use only by Kuali Foundation developers.
 	Can't reference main build.xml targets or Eclipse will report the project as having errors.
 	 -->
 	<target name="check-modularization" description="Checks over dependency issues within kuali code">
-		
+	  <echo>${is.local.build}</echo>
+  	  <property name="is.local.build" value="true" />
+	  <ant target="clean" />
+	  <ant target="make-source" />
 	  <verifydesign design="design.xml">
-	  	<echo>${is.local.build}</echo>
-	  	<property name="is.local.build" value="true" />
-	  	<ant target="clean" />
-	  	<ant target="make-source" />
 	    <path>
 	      <fileset dir="work/web-root/WEB-INF/classes/org/kuali/module">
-			<include name="**/*.class" />
+		<include name="**/*.class" />
 	      </fileset>
 	    </path>
 	  </verifydesign>

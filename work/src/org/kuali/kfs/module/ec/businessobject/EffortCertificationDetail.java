@@ -44,7 +44,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private String financialObjectCode;
     private String sourceChartOfAccountsCode;
     private String sourceAccountNumber;
-    
+
     private KualiDecimal effortCertificationPayrollAmount;
     private KualiDecimal effortCertificationOriginalPayrollAmount;
     private Integer effortCertificationCalculatedOverallPercent;
@@ -54,7 +54,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     private KualiDecimal fringeBenefitAmount;
     private KualiDecimal originalFringeBenefitAmount;
-    
+
     private String overrideCode; // to hold the override code if the associated account is expired
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
     private boolean editable; // to indicate if this detail line can be changed or deleted
@@ -93,6 +93,9 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
+            this.fringeBenefitAmount = effortCertificationDetail.getFringeBenefitAmount();
+            this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
+
             this.editable = effortCertificationDetail.isEditable();
         }
     }
@@ -565,9 +568,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
         this.federalOrFederalPassThroughIndicator = federalOrFederalPassThroughIndicator;
     }
-    
+
     /**
-     * Gets the overrideCode attribute. 
+     * Gets the overrideCode attribute.
+     * 
      * @return Returns the overrideCode.
      */
     public String getOverrideCode() {
@@ -576,6 +580,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the overrideCode attribute value.
+     * 
      * @param overrideCode The overrideCode to set.
      */
     public void setOverrideCode(String overrideCode) {
@@ -583,7 +588,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the fringeBenefitAmount attribute. 
+     * Gets the fringeBenefitAmount attribute.
+     * 
      * @return Returns the fringeBenefitAmount.
      */
     public KualiDecimal getFringeBenefitAmount() {
@@ -592,6 +598,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the fringeBenefitAmount attribute value.
+     * 
      * @param fringeBenefitAmount The fringeBenefitAmount to set.
      */
     public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
@@ -599,7 +606,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the originalFringeBenefitAmount attribute. 
+     * Gets the originalFringeBenefitAmount attribute.
+     * 
      * @return Returns the originalFringeBenefitAmount.
      */
     public KualiDecimal getOriginalFringeBenefitAmount() {
@@ -608,12 +616,13 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
     /**
      * Sets the originalFringeBenefitAmount attribute value.
+     * 
      * @param originalFringeBenefitAmount The originalFringeBenefitAmount to set.
      */
     public void setOriginalFringeBenefitAmount(KualiDecimal originalFringeBenefitAmount) {
         this.originalFringeBenefitAmount = originalFringeBenefitAmount;
     }
-    
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -633,47 +642,45 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
 
         return map;
     }
-    
+
     /**
      * 
      * @return
      */
     public KualiDecimal getEffortCertificationOriginalBenefitAmount() {
-        //TODO: stub method
+        // TODO: stub method
         return new KualiDecimal(0);
     }
-    
+
     /**
      * 
      * @return
      */
     public KualiDecimal getEffortCertificationUpdatedBenefiteAmount() {
-        //TODO: stub method
+        // TODO: stub method
         return new KualiDecimal(0);
     }
-    
+
     /**
      * 
      * @return
      */
     public boolean getFederalPassThrough() {
         this.federalOrFederalPassThroughIndicator = false;
-        
-        //TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
-        /*AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards());
-        List<String> federalAgencyCodeList = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-        
-        for (String federalAgencyCode : federalAgencyCodeList) {
-            if (primaryAward.getAward() != null && federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) {
-                return true;
-            } else if (primaryAward.getAward() != null && primaryAward.getAward().getFederalPassThroughIndicator()) {
-                return true;
-            }
-        }*/
-        
+
+        // TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
+        /*
+         * AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards()); List<String> federalAgencyCodeList =
+         * EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
+         * 
+         * for (String federalAgencyCode : federalAgencyCodeList) { if (primaryAward.getAward() != null &&
+         * federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) { return true; } else if
+         * (primaryAward.getAward() != null && primaryAward.getAward().getFederalPassThroughIndicator()) { return true; } }
+         */
+
         return this.federalOrFederalPassThroughIndicator;
     }
-    
+
     /**
      * 
      * @param awardList
@@ -682,14 +689,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private AwardAccount getPrimaryAward(List<AwardAccount> awardList) {
         AwardAccount primaryAward = null;
         long highestProposal = 0;
-        
-        for(AwardAccount award: awardList) {
+
+        for (AwardAccount award : awardList) {
             if (award.getProposalNumber() > highestProposal) {
                 highestProposal = award.getProposalNumber();
                 primaryAward = award;
             }
         }
-        
+
         return primaryAward;
     }
 }

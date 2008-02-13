@@ -79,34 +79,34 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.hasNonnegativePayrollAmount(detailLine)) {
+        if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.hasValidEffortPercent(detailLine)) {
+        if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (EffortCertificationDocumentValidator.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
+        if (EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (EffortCertificationDocumentValidator.hasClosedAccount(detailLine)) {
+        if (EffortCertificationDocumentRuleUtil.hasClosedAccount(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.canExpiredAccountBeUsed(detailLine)) {
+        if (!EffortCertificationDocumentRuleUtil.canExpiredAccountBeUsed(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (EffortCertificationDocumentValidator.hasA21SubAccount(detailLine)) {
+        if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(detailLine)) {
             List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
-            if (!EffortCertificationDocumentValidator.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes)) {
+            if (!EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes)) {
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
                 return false;
             }
@@ -124,17 +124,17 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.hasValidEffortPercent(detailLine)) {
+        if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.hasNonnegativePayrollAmount(detailLine)) {
+        if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (!EffortCertificationDocumentValidator.isPayrollAmountOverChanged(detailLine, LIMIT_OF_LINE_SALARY_CHANGE)) {
+        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, LIMIT_OF_LINE_SALARY_CHANGE)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
@@ -158,12 +158,12 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         // TODO: if a change on one of accounts, provide a note
 
-        if (EffortCertificationDocumentValidator.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
+        if (EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
 
-        if (EffortCertificationDocumentValidator.isTotalEffortPercentageAs100(effortCertificationDocument)) {
+        if (EffortCertificationDocumentRuleUtil.isTotalEffortPercentageAs100(effortCertificationDocument)) {
             GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
             return false;
         }
@@ -187,11 +187,11 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         detailLine.refreshNonUpdateableReferences();
         
         // check if the fields in the detail line are in the correct formats defined in the data dictionary
-        boolean hasCorrectFormat = EffortCertificationDocumentValidator.hasValidFormat(detailLine);
+        boolean hasCorrectFormat = EffortCertificationDocumentRuleUtil.hasValidFormat(detailLine);
         
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
         if(hasCorrectFormat) {
-            return EffortCertificationDocumentValidator.hasValidReferences(detailLine);
+            return EffortCertificationDocumentRuleUtil.hasValidReferences(detailLine);
         }
 
         return true;
@@ -267,8 +267,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     private void updateObjectCode(EffortCertificationDetail detailLine) {
         List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
-        boolean hasCostShareSubAccount = EffortCertificationDocumentValidator.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes);
-        boolean hasContractGrantAccount = EffortCertificationDocumentValidator.hasContractGrantAccount(detailLine);
+        boolean hasCostShareSubAccount = EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes);
+        boolean hasContractGrantAccount = EffortCertificationDocumentRuleUtil.hasContractGrantAccount(detailLine);
         
         String currentObjectCode = detailLine.getFinancialObjectCode();           
         String alternativeObjectCode = this.getAlternativeObjectCode(currentObjectCode, hasContractGrantAccount && !hasCostShareSubAccount);

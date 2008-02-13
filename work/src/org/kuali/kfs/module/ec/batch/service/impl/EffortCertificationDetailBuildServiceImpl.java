@@ -22,8 +22,8 @@ import java.util.Set;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.EffortConstants;
-import org.kuali.module.effort.EffortConstants.ExtractProcess;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -38,6 +38,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class EffortCertificationDetailBuildServiceImpl implements EffortCertificationDetailBuildService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDetailBuildServiceImpl.class);
+    
+    private LaborModuleService laborModuleService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDetailBuildService#generateDetailBuild(java.lang.Integer,
@@ -58,7 +60,11 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
 
         detailLine.setEffortCertificationPayrollAmount(payrollAmount);
         detailLine.setEffortCertificationOriginalPayrollAmount(payrollAmount);
-
+        
+        KualiDecimal fringeBenefitAmount = laborModuleService.calculateFringeBenefit(ledgerBalance.getLaborLedgerObject(), payrollAmount);
+        detailLine.setFringeBenefitAmount(fringeBenefitAmount);
+        detailLine.setOriginalFringeBenefitAmount(fringeBenefitAmount);
+        
         detailLine.setEffortCertificationCalculatedOverallPercent(0);
         detailLine.setEffortCertificationUpdatedOverallPercent(0);
 
@@ -115,5 +121,13 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
             LOG.debug(npe);
         }
         return subAccountTypeCode;
+    }
+
+    /**
+     * Sets the laborModuleService attribute value.
+     * @param laborModuleService The laborModuleService to set.
+     */
+    public void setLaborModuleService(LaborModuleService laborModuleService) {
+        this.laborModuleService = laborModuleService;
     }
 }

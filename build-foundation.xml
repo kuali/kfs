@@ -32,15 +32,18 @@ are intended for use only by Kuali Foundation developers.
 	<!-- depends="make-source" 
 	Can't reference main build.xml targets or Eclipse will report the project as having errors.
 	 -->
-	<target name="check-modularization" description="Checks over dependency issues within kuali code">
-	  <echo>${is.local.build}</echo>
-  	  <property name="is.local.build" value="true" />
-	  <ant target="clean" />
-	  <ant target="make-source" />
+	<target name="check-modularization" depends="check-modularization-clean,check-modularization-make-source,check-modularization-verifydesign" description="Checks over dependency issues within kuali code" />
+	<target name="check-modularization-clean"><ant target="clean" /></target>
+	<target name="check-modularization-make-source">
+		<property name="is.local.build" value="true" />
+		<echo>${is.local.build}</echo>
+		<ant target="make-source" />
+	</target>
+	<target name="check-modularization-verifydesign">
 	  <verifydesign design="design.xml">
 	    <path>
 	      <fileset dir="work/web-root/WEB-INF/classes/org/kuali/module">
-		<include name="**/*.class" />
+			<include name="**/*.class" />
 	      </fileset>
 	    </path>
 	  </verifydesign>

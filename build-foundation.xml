@@ -31,10 +31,10 @@ are intended for use only by Kuali Foundation developers.
 
 	<target name="check-modularization">
 	  <ant target="make-source" />
-	  <verifydesign design="design.xml" failonerror="false">
+	  <verifydesign design="design.xml" fillInBuildException="true">
 	    <path>
 	      <fileset dir="build/war/WEB-INF/classes/org/kuali/module">
-			<include name="**/*.class" />
+		<include name="**/*.class" />
 	      </fileset>
 	    </path>
 	  </verifydesign>

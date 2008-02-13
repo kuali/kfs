@@ -30,9 +30,6 @@ are intended for use only by Kuali Foundation developers.
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
 
 	<target name="check-modularization">
-	  <ant antfile="build.xml" target="make-source">
-		<property name="is.local.build" value="true" />
-	  </ant>
 	  <verifydesign design="design.xml">
 	    <path>
 	      <fileset dir="build/war/WEB-INF/classes/org/kuali/module">

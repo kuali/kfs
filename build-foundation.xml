@@ -26,6 +26,10 @@ are intended for use only by Kuali Foundation developers.
     <target name="dist-local" />
     <target name="clean" />
 
+	<target name="check-modularization">
+		<echo>Check Complete</echo>
+	</target>
+
 	<target name="export-dataset">
     	<mkdir dir="temp/${name}-dataset" />
         <cvs command="export -d ${name}-dataset" dest="temp" cvsroot="${release.cvs.root}" package="${release.database.cvs.module}" failonerror="true" tag="${branch}" compressionlevel="6" />

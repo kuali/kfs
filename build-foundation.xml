@@ -25,9 +25,17 @@ are intended for use only by Kuali Foundation developers.
     <target name="init-property-files" />
     <target name="dist-local" />
     <target name="clean" />
-
+	
 	<target name="check-modularization">
-		<echo>Check Complete</echo>
+		<ant target="clean" />
+		<ant target="make-source" />
+	  <verifydesign design="design.xml">
+	    <path>
+	      <fileset dir="work/web-root/WEB-INF/classes/org/kuali/module">
+			<include name="**/*.class" />
+	      </fileset>
+	    </path>
+	  </verifydesign>
 	</target>
 
 	<target name="export-dataset">

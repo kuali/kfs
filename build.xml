@@ -210,6 +210,7 @@
 	</target>
 
 	<target name="make-source" depends="init-make-references,filter-project">
+		<echo>${is.local.build}</echo>
 		<mkdir dir="${make-source.target.directory}" />
 		<javac destdir="${make-source.target.directory}" srcdir="${source.directory}" debug="true" nowarn="true" optimize="true" fork="true" memoryinitialsize="${compile.min.memory}" memorymaximumsize="${compile.max.memory}">
 			<classpath refid="compile.source.classpath" />

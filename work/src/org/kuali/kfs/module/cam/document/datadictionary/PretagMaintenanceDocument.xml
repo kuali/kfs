@@ -92,6 +92,8 @@
                         <maintainableField name="campusTagNumber" required="true" readOnlyAfterAdd="true" />
                         <maintainableField name="serialNumber" />
                         <maintainableField name="organizationTagNumber" />
+                       <maintainableField name="governmentTagNumber" />
+                       <maintainableField name="nationalStockNumber" />
                         <maintainableField name="campusCode" required="true"/>
                         <maintainableField name="buildingCode" required="true"/>
                         <maintainableField name="buildingRoomNumber" required="true"/>

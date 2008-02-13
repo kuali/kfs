@@ -16,6 +16,8 @@
                         <field attributeName="campusTagNumber" />
                         <field attributeName="serialNumber" />
                         <field attributeName="organizationTagNumber" />
+                        <field attributeName="governmentTagNumber" />
+                        <field attributeName="nationalStockNumber" />                       
                         <field attributeName="campusCode" />
                         <field attributeName="buildingCode" />
                         <field attributeName="buildingRoomNumber" />
@@ -45,6 +47,8 @@
                 <lookupField attributeName="campusTagNumber" required="true" />
                 <lookupField attributeName="serialNumber" required="false" />
                 <lookupField attributeName="organizationTagNumber" required="false" />
+                <lookupField attributeName="governmentTagNumber" required="false" />
+                <lookupField attributeName="nationalStockNumber" required="false" />
                 <lookupField attributeName="buildingCode" required="true" />
                 <lookupField attributeName="campusCode" required="true" />
                 <lookupField attributeName="buildingRoomNumber" required="true" />
@@ -58,6 +62,8 @@
                 <field attributeName="campusTagNumber" />
                 <field attributeName="serialNumber" />
                 <field attributeName="organizationTagNumber" />
+                <field attributeName="governmentTagNumber" />
+                <field attributeName="nationalStockNumber" />
                 <field attributeName="campusCode" />
                 <field attributeName="buildingCode" />
                 <field attributeName="buildingRoomNumber" />
@@ -77,6 +83,12 @@
                     <select valuesFinderClass="org.kuali.core.lookup.keyvalues.CampusValuesFinder" />
                 </control>
             </attributeReference>
+            
+            <attributeReference name="pretagTagCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Pretag Tag Create Date</label>
+                <shortLabel>Date</shortLabel>
+            </attributeReference>
+
 
             <attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Building" sourceAttributeName="buildingCode" />
 
@@ -127,7 +139,37 @@
                 <summary>organizationTagNumber</summary>
                 <description>organizationTagNumber description...</description>
 			</attribute>
+			
+            <attribute name="governmentTagNumber" forceUppercase="true">
+                <label>Government Tag Number</label>
+                <shortLabel>Number</shortLabel>
 
+                <maxLength>12</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>governmentTagNumber</summary>
+                <description>governmentTagNumber description...</description>
+			</attribute>
+			
+            <attribute name="nationalStockNumber" forceUppercase="true">
+                <label>National Stock Number (NSN)</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>nationalStockNumber</summary>
+                <description>nationalStockNumber description...</description>
+			</attribute>
+<!-- 
             <attribute name="pretagTagCreateDate" forceUppercase="true">
                 <label>Pretag Tag Create Date</label>
                 <shortLabel>Date</shortLabel>
@@ -142,7 +184,7 @@
                 <summary>pretagTagCreateDate</summary>
                 <description>pretagTagCreateDate description...</description>
 			</attribute>
-
+-->
             <attribute name="serialNumber" forceUppercase="true">
                 <label>Serial Number</label>
                 <shortLabel>Number</shortLabel>

@@ -24,7 +24,6 @@
                         <!--  <field attributeName="representativeUniversalIdentifier" /> -->
 	                    <field attributeName="personUniversal.personName" />
                         <field attributeName="organizationText" />
-                        <field attributeName="assetTopsDescription" />
                         <field attributeName="chartOfAccountsCode" />
                         <field attributeName="pretagCreateDate" />
                     </inquiryFields>
@@ -125,6 +124,10 @@
                 <required>true</required>
             </attributeReference>
 
+            <attributeReference name="pretagCreateDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericTimestamp">
+                <label>Pretag Create Date</label>
+                <shortLabel>Date</shortLabel>
+            </attributeReference>
 
             <attribute name="assetTopsDescription">
                 <label>Asset Tops Description</label>
@@ -230,7 +233,7 @@
                 <summary>organizationText</summary>
                 <description>organizationText description...</description>
 			</attribute>
-
+<!--
             <attribute name="pretagCreateDate" >
                 <label>Pretag Create Date</label>
                 <shortLabel>Date</shortLabel>
@@ -245,7 +248,7 @@
                 <summary>pretagCreateDate</summary>
                 <description>pretagCreateDate description...</description>
 			</attribute>
-<!-- 
+ 
             <attribute name="purchaseOrderNumber" forceUppercase="true">
                 <label>Purchase Order Number</label>
                 <shortLabel>Number</shortLabel>

@@ -36,7 +36,71 @@
 
         <label>Cash Control</label>
 
-        <help parameterNamespace="KFS-AR" parameterDetailType="CashControl" parameterName="CTRL" />
+        
+        
+        <attributes>
+<!--              <attributeReference name="documentHeader.financialDocumentDescription" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="financialDocumentDescription" />
+            <attributeReference name="documentHeader.organizationDocumentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="organizationDocumentNumber" />
+
+            <attribute name="universityFiscalYear" forceUppercase="true">
+                <label>University Fiscal Year</label>
+                <shortLabel>Fiscal Year</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>universityFiscalYear</summary>
+                <description>universityFiscalYear description...</description>
+			</attribute>
+
+            <attribute name="universityFiscalPeriodCode" forceUppercase="true">
+                <label>University Fiscal Period Code</label>
+                <shortLabel>Fiscal Period Code</shortLabel>
+
+                <maxLength>2</maxLength>
+
+                <validationPattern>
+                    <anyCharacter exactLength="2" />
+                </validationPattern>
+                <required>true</required>
+                <control>
+                    <select valuesFinderClass="org.kuali.kfs.lookup.keyvalues.FiscalPeriodValuesFinder" />
+                </control>
+            </attribute>
+-->            
+            <attribute name="referenceFinancialDocumentNumber" forceUppercase="true" >
+                <label>Reference Document Number</label>
+                <shortLabel>Reference Document Number</shortLabel>
+                 
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>referenceFinancialDocumentNumber</summary>
+                <description>referenceFinancialDocumentNumber description...</description>
+            </attribute>
+            <attributeReference name="customerPaymentMedium" sourceClassName="org.kuali.module.ar.bo.PaymentMedium" sourceAttributeName="customerPaymentMediumCode">
+                <label>Payment Medium Code</label>
+                <shortLabel>Medium code</shortLabel>
+                
+                <maxLength>2</maxLength>
+                
+                <required>true</required>
+
+                <control>
+                    <select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PaymentMediumValuesFinder" />
+                </control>
+            </attributeReference>
+        </attributes>
+        
+        
   
         <allowsCopy>false</allowsCopy>
         <allowsErrorCorrection>false</allowsErrorCorrection>

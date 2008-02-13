@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
@@ -14,13 +15,13 @@ import org.kuali.module.chart.bo.AccountingPeriod;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class CashControlDocument extends TransactionalDocumentBase {
+public class CashControlDocument extends TransactionalDocumentBase implements AmountTotaling {
 
 	private String referenceFinancialDocumentNumber;
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;
 	private String customerPaymentMediumCode;
-	private KualiDecimal cashControlTotalAmount;
+	private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;;
 
     private PaymentMedium customerPaymentMedium;
 	private AccountingPeriod universityFiscalPeriod;
@@ -213,10 +214,28 @@ public class CashControlDocument extends TransactionalDocumentBase {
     public void setCashControlDetails(List<CashControlDetail> cashControlDetails) {
         this.cashControlDetails = cashControlDetails;
     }
+    
+    /**
+     * This method adds a new cash control detail to the list
+     * @param cashControlDetail
+     */
+    public void addCashControlDetail(CashControlDetail cashControlDetail) {
+        // TODO
+        prepareCashControlDetail(cashControlDetail);
+        this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
+    }
+    
+    /**
+     * This is a helper method that automatically populates document specfic information into the
+     *  cash control detail deposit (CashControlDetail) instance.
+     */
+    private void prepareCashControlDetail(CashControlDetail cashControlDetail) {
+        cashControlDetail.setDocumentNumber(this.getDocumentNumber());
+    }
   
 	/**
-	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-	 */
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
 	protected LinkedHashMap toStringMapper() {
 	    LinkedHashMap m = new LinkedHashMap();	    
         m.put("documentNumber", this.documentNumber);
@@ -237,6 +256,13 @@ public class CashControlDocument extends TransactionalDocumentBase {
      */
     public void setCustomerPaymentMedium(PaymentMedium customerPaymentMedium) {
         this.customerPaymentMedium = customerPaymentMedium;
+    }
+
+    /**
+     * @see org.kuali.core.document.AmountTotaling#getTotalDollarAmount()
+     */
+    public KualiDecimal getTotalDollarAmount() {
+        return cashControlTotalAmount;
     }
 
 }

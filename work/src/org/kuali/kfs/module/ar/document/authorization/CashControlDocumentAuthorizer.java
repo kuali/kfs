@@ -34,29 +34,27 @@ public class CashControlDocumentAuthorizer extends TransactionalDocumentAuthoriz
      */
     @Override
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
+        
         DocumentActionFlags flags = super.getDocumentActionFlags(document, user);
-
         CashControlDocument ccDoc = (CashControlDocument) document;
-        KualiWorkflowDocument workflowDocument = document.getDocumentHeader().getWorkflowDocument();
-        ValidActionsVO validActions = workflowDocument.getRouteHeader().getValidActions();
 
         boolean atLeastOneAppDocProccessed = false;
-        
-        for(CashControlDetail cashControlDetail : ccDoc.getCashControlDetails())
-        {
+
+        for (CashControlDetail cashControlDetail : ccDoc.getCashControlDetails()) {
             PaymentApplicationDocument applicationDocument = cashControlDetail.getReferenceFinancialDocument();
-            if( applicationDocument.getDocumentHeader().getWorkflowDocument().stateIsProcessed())
-            {
+            KualiWorkflowDocument workflowDocument = applicationDocument.getDocumentHeader().getWorkflowDocument();
+            if (workflowDocument.stateIsProcessed()) {
                 atLeastOneAppDocProccessed = true;
                 break;
             }
         }
-        
+
         if (atLeastOneAppDocProccessed) {
             flags.setCanDisapprove(false);
         }
 
         return flags;
+        
     }
 
 }

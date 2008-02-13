@@ -16,16 +16,44 @@
 package org.kuali.module.ar.web.struts.form;
 
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
+import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 
 public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase {
     
+    private CashControlDetail newCashControlDetail;
+
+    /**
+     * Constructs a CashControlDocumentForm.java.
+     */
     public CashControlDocumentForm() {
         super();
         setDocument(new CashControlDocument());
-        
+        setNewCashControlDetail(new CashControlDetail());
     }
 
-        
+    /**
+     * This method...
+     * @return
+     */
+    public CashControlDocument getCashControlDocument() {
+        return (CashControlDocument) getDocument();
+    }
+
+    /**
+     * This method gets the new cash control detail
+     * @return cashControlDetail
+     */
+    public CashControlDetail getNewCashControlDetail() {
+        return newCashControlDetail;
+    }
+
+    /**
+     * This method sets the new cash control detail
+     * @param newCashControlDetail
+     */
+    public void setNewCashControlDetail(CashControlDetail newCashControlDetail) {
+        this.newCashControlDetail = newCashControlDetail;
+    }   
     
 }

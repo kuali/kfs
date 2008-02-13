@@ -7,6 +7,7 @@ import java.util.List;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.bo.PaymentMedium;
@@ -33,9 +34,12 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
 	 * Default constructor.
 	 */
 	public CashControlDocument() {
+        super();
+        accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+        customerPaymentMedium = new PaymentMedium();
+        universityFiscalPeriod = new AccountingPeriod();
         cashControlDetails = new ArrayList<CashControlDetail>();
-        
-	}
+    }
 
 	/**
 	 * Gets the documentNumber attribute.
@@ -220,9 +224,9 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
      * @param cashControlDetail
      */
     public void addCashControlDetail(CashControlDetail cashControlDetail) {
-        // TODO
         prepareCashControlDetail(cashControlDetail);
-        this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
+        this.cashControlTotalAmount = this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
+        cashControlDetails.add(cashControlDetail);
     }
     
     /**
@@ -263,6 +267,15 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
      */
     public KualiDecimal getTotalDollarAmount() {
         return cashControlTotalAmount;
+    }
+    
+    /**
+     * This method returns the advance deposit total amount as a currency formatted string.
+     * 
+     * @return String
+     */
+    public String getCurrencyFormattedTotalCashControlAmount() {
+        return (String) new CurrencyFormatter().format(cashControlTotalAmount);
     }
 
 }

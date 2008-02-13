@@ -35,6 +35,7 @@ are intended for use only by Kuali Foundation developers.
 	<target name="check-modularization" description="Checks over dependency issues within kuali code">
 		
 	  <verifydesign design="design.xml">
+	  	<echo>${is.local.build}</echo>
 	  	<property name="is.local.build" value="true" />
 	  	<ant target="clean" />
 	  	<ant target="make-source" />

@@ -155,9 +155,8 @@ public class BudgetConstructionHumanResourcesPayrollInterfaceDaoJdbc extends Bud
         /**
          *  we have to do this because imbedding a constant string in SQL assumes a string delimiter--that can vary with the DBMS 
          */
-        Integer requestFiscalYear = baseFiscalYear + 1;
         String orgSeparator = new String("-");
-        GregorianCalendar calendarJuly1 = new GregorianCalendar(requestFiscalYear, Calendar.JULY, 1);
+        GregorianCalendar calendarJuly1 = new GregorianCalendar(baseFiscalYear, Calendar.JULY, 1);
         Date julyFirst = new Date(calendarJuly1.getTimeInMillis());
         /**
          * first, delete everything for the base year--we will refresh it in case the position has changed

@@ -62,6 +62,7 @@
 	<bean id="camsUserService" class="org.kuali.module.cams.service.impl.CamsUserServiceImpl" parent="kualiModuleUserServiceBase">
 	</bean>
 
+
 <!-- ********* Begin of depreciation batch beans ********** -->
     <!-- bean id="camsAssetDepreciationStep" class="org.kuali.module.cams.batch.CamsAssetDepreciationStep" parent="step">
 		<property name="camsAssetDepreciationService">
@@ -83,11 +84,25 @@
         </property>
         <property name="camsDepreciableAssetsDao">
             <ref bean="camsDepreciableAssetsDao" />
+        </property>
+        <property name="camsReportService">
+            <ref bean="camsReportService" />
         </property>        
+		<property name="kualiConfigurationService">
+			<ref bean="kualiConfigurationService" />
+		</property>                
+		<property name="generalLedgerPendingEntryService">
+			<ref bean="generalLedgerPendingEntryService" />
+		</property>                		
     </bean>
     
 	<bean id="camsDepreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.CamsDepreciableAssetsDaoOjb" />    
+
 <!-- *********  End of depreciation batch beans ********** -->
+
+<!-- ********* Begin of report service beans ********** -->
+	<bean id="camsReportService" class="org.kuali.module.cams.service.impl.CamsReportServiceImpl"></bean>
+<!-- ********* end of report service beans ********** -->
 
 <!-- ********* Begin of pre-asset tagging batch beans ********** -->
 	<bean id="preAssetTaggingService" class="org.kuali.module.cams.service.impl.PreAssetTaggingServiceImpl">

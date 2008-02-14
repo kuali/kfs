@@ -1,6 +1,7 @@
 package org.kuali.module.cams.bo;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.bo.Options;
@@ -25,6 +26,7 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
     private ObjectCode accumulatedDepreciationFinancialObject;
 	private ObjectCode capitalizationFinancialObject;
 	private ObjectCode depreciationExpenseFinancialObject;
+	private List<ObjectCode> objectCode;
 	private Chart chartOfAccounts;
     private ObjSubTyp financialObjectSubType;
     
@@ -307,6 +309,14 @@ public class AssetObjectCode extends PersistableBusinessObjectBase {
         m.put("chartOfAccountsCode", this.chartOfAccountsCode);
         m.put("financialObjectSubTypeCode", this.financialObjectSubTypeCode);
         return m;
+    }
+
+    public List<ObjectCode> getObjectCode() {
+        return objectCode;
+    }
+
+    public void setObjectCode(List<ObjectCode> objectCode) {
+        this.objectCode = objectCode;
     }    
 
 }

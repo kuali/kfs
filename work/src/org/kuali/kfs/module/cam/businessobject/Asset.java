@@ -10,6 +10,7 @@ import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.bo.Building;
 import org.kuali.kfs.bo.Room;
 import org.kuali.module.chart.bo.Account;
@@ -100,7 +101,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private UniversalUser assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
-
+   
 
     // Non-persisted attributes:
     private KualiDecimal federalContributionAmount;
@@ -109,14 +110,14 @@ public class Asset extends PersistableBusinessObjectBase {
      * Default constructor.
      */
     public Asset() {
-
+        assetPayments = new TypedArrayList(AssetPayment.class);
     }
 
     /**
      * Gets the documentTypeCode attribute.
      * 
      * @return Returns the documentTypeCode
-     * 
+	 *
      */
     public String getDocumentTypeCode() {
         return documentTypeCode;
@@ -1097,7 +1098,7 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the governmentTagNumber attribute.
+     * Gets the governmentTagNumber attribute. 
      * 
      * @return Returns the governmentTagNumber.
      */
@@ -1115,7 +1116,7 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the nationalStockNumber attribute.
+     * Gets the nationalStockNumber attribute. 
      * 
      * @return Returns the nationalStockNumber.
      */

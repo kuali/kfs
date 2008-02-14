@@ -18,18 +18,14 @@ package org.kuali.module.effort.rules;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.core.bo.Note;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
-import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -40,7 +36,6 @@ import org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule;
 import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
-import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
@@ -49,7 +44,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
-    private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
 
     /**
      * Constructs a EffortCertificationDocumentRules.java.
@@ -87,7 +81,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddDetailLineRules() start");
 
-        this.applyDefaultvalues(document, detailLine);
+        // TODO: push up to presentation layer
+        EffortCertificationDocumentRuleUtil.applyDefaultvalues(detailLine);
 
         if (!this.checkDetailLineAttributes(detailLine)) {
             return false;
@@ -124,8 +119,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT, EffortKeyConstants.ERROR_NOT_COST_SHARE_SUB_ACCOUNT);
                 return false;
             }
-
-            this.updateSourceAccountInformation(detailLine);
+            
+            // TODO: push up to presentation layer
+            EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(detailLine);
         }
 
         return true;
@@ -160,7 +156,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         return true;
     }
 
-
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
@@ -192,8 +187,14 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
-
-        // TODO: if a change on one of accounts, provide a note
+        
+        if(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(effortCertificationDocument)) {
+            List<Note> notes = effortCertificationDocument.getBoNotes();
+            if(notes == null || notes.isEmpty()) {
+                GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
+                return false;
+            }
+        }
 
         if (EffortCertificationDocumentRuleUtil.isTotalPayrollAmountOverChanged(effortCertificationDocument, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE)) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE.toString());
@@ -209,16 +210,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
-     * 
-     * @param effortCertificationDocument the given document
-     * @return true if the given document is in the state of initiation; otherwise, false
+     * check if the attributes in the detail line are valid for the defintions in data dictionary and have valid references
+     * @param detailLine the given effort certification detail line
+     * @return true if the attributes in the detail line are valid for the defintions in data dictionary and have valid references; otherwise, false
      */
-    private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
-        return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
-    }
-
-
     private boolean checkDetailLineAttributes(EffortCertificationDetail detailLine) {
         LOG.debug("checkDetailLine() start");
 
@@ -248,54 +243,14 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         return comparableFields;
     }
-
+    
     /**
-     * update the information of the source attributes for the given detail line
+     * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 
-     * @param detailLine the given detail line
+     * @param effortCertificationDocument the given document
+     * @return true if the given document is in the state of initiation; otherwise, false
      */
-    private void updateSourceAccountInformation(EffortCertificationDetail detailLine) {
-        A21SubAccount a21SubAccount = detailLine.getSubAccount().getA21SubAccount();
-
-        if (a21SubAccount != null) {
-            detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
-            detailLine.setSourceAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
-            detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
-        }
-    }
-
-    /**
-     * reset the attribute with the blank value to the default values
-     * 
-     * @param detailLine the given detail line
-     */
-    private void applyDefaultvalues(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
-        if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
-            detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        }
-
-        if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
-            detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
-        }
-
-        if (StringUtils.isBlank(detailLine.getSourceChartOfAccountsCode())) {
-            detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
-        }
-
-        if (StringUtils.isBlank(detailLine.getSourceAccountNumber())) {
-            detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
-        }
-
-        if (ObjectUtils.isNull(detailLine.getEffortCertificationPayrollAmount())) {
-            detailLine.setEffortCertificationPayrollAmount(KualiDecimal.ZERO);
-        }
-
-        if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
-            detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
-        }
-
-        detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
-
-        // List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
+    private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
+        return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
     }
 }

@@ -20,6 +20,7 @@ import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_N
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.datadictionary.DataDictionary;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DictionaryValidationService;
@@ -30,9 +31,12 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rules.AccountingLineRuleUtil;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * Provides a set of facilities to determine whether the given Effort Certification Documents or Effort Certification
@@ -294,5 +298,55 @@ public class EffortCertificationDocumentRuleUtil {
      */
     public static boolean isPayrollAmountNonnegative(KualiDecimal payrollAmount) {
         return payrollAmount.isGreaterEqual(KualiDecimal.ZERO);
+    }
+    
+
+    /**
+     * update the information of the source attributes for the given detail line
+     * 
+     * @param detailLine the given detail line
+     */
+    public static void updateSourceAccountInformation(EffortCertificationDetail detailLine) {
+        A21SubAccount a21SubAccount = detailLine.getSubAccount().getA21SubAccount();
+
+        if (a21SubAccount != null) {
+            detailLine.setSourceChartOfAccountsCode(a21SubAccount.getCostShareChartOfAccountCode());
+            detailLine.setSourceAccountNumber(a21SubAccount.getCostShareSourceAccountNumber());
+            detailLine.setCostShareSourceSubAccountNumber(a21SubAccount.getCostShareSourceSubAccountNumber());
+        }
+    }
+
+    /**
+     * reset the attribute with the blank value to the default values
+     * 
+     * @param detailLine the given detail line
+     */
+    public static void applyDefaultvalues(EffortCertificationDetail detailLine) {
+        if (StringUtils.isBlank(detailLine.getSubAccountNumber())) {
+            detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+
+        if (StringUtils.isBlank(detailLine.getCostShareSourceSubAccountNumber())) {
+            detailLine.setCostShareSourceSubAccountNumber(KFSConstants.getDashSubAccountNumber());
+        }
+
+        if (StringUtils.isBlank(detailLine.getSourceChartOfAccountsCode())) {
+            detailLine.setSourceChartOfAccountsCode(EffortConstants.DASH_CHART_OF_ACCOUNTS_CODE);
+        }
+
+        if (StringUtils.isBlank(detailLine.getSourceAccountNumber())) {
+            detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
+        }
+
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationPayrollAmount())) {
+            detailLine.setEffortCertificationPayrollAmount(KualiDecimal.ZERO);
+        }
+
+        if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
+            detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
+        }
+
+        UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
+        detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
     }
 }

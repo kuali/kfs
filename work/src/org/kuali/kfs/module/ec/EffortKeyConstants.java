@@ -37,6 +37,7 @@ public class EffortKeyConstants {
     public static final String ERROR_REPORT_DOCUMENT_BUILD_NOT_EXIST = "error.effort.reportDocumentBuildNotExist";
     public static final String ERROR_REPORT_DOCUMENT_EXIST = "error.effort.reportDocumentExist";
     public static final String ERROR_REPORT_LINES_EXIST = "error.effort.reportLinesExist";
+    public static final String ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED = "error.effort.noteRequiredWhenEffortChanged";
     
     public static final String ERROR_REPORT_NUMBER_MISSING = "error.effort.reportNumberMissing";
     public static final String ERROR_UNDEFINED_UNIVERSITY_DATE = "error.effort.undefinedUnversityDate";        

@@ -22,31 +22,35 @@ import org.kuali.kfs.KFSPropertyConstants;
  */
 public class EffortPropertyConstants {
     public static final String ACCOUNT_ACCOUNT_TYPE_CODE = KFSPropertyConstants.ACCOUNT + "." + KFSPropertyConstants.ACCOUNT_TYPE_CODE;
+    
     public static final String EFFORT_CERTIFICATION_BUILD_NUMBER = "effortCertificationBuildNumber";
+    public static final String EFFORT_CERTIFICATION_CALCULATED_OVERALL_PERCENT = "effortCertificationCalculatedOverallPercent";
+    public static final String EFFORT_CERTIFICATION_DETAIL_LINE = "effortCertificationDetailLine";
+    public static final String EFFORT_CERTIFICATION_DETAIL_LINES = "effortCertificationDetailLines";
+    public static final String EFFORT_CERTIFICATION_DOCUMENT = "effortCertificationDocument";
+    public static final String EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT = "effortCertificationOriginalPayrollAmount";
+    public static final String EFFORT_CERTIFICATION_PAYROLL_AMOUNT = "effortCertificationPayrollAmount";
     public static final String EFFORT_CERTIFICATION_PERIOD_STATUS_CODE = "effortCertificationPeriodStatusCode";
     public static final String EFFORT_CERTIFICATION_REPORT_BEGIN_FISCAL_YEAR = "effortCertificationReportBeginFiscalYear";
     public static final String EFFORT_CERTIFICATION_REPORT_BEGIN_PERIOD_CODE = "effortCertificationReportBeginPeriodCode";
     public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION = "effortCertificationReportDefinition";
-    public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND = "active";
-    public static final String EFFORT_CERTIFICATION_REPORT_DEFINITION_UNIVERSITY_FISCAL_YEAR = "universityFiscalYear";
     public static final String EFFORT_CERTIFICATION_REPORT_END_FISCAL_YEAR = "effortCertificationReportEndFiscalYear";
     public static final String EFFORT_CERTIFICATION_REPORT_END_PERIOD_CODE = "effortCertificationReportEndPeriodCode";
     public static final String EFFORT_CERTIFICATION_REPORT_NUMBER = "effortCertificationReportNumber";
     public static final String EFFORT_CERTIFICATION_REPORT_PERIOD_STATUS_CODE = "effortCertificationReportPeriodStatusCode";
-    public static final String EFFORT_CERTIFICATION_REPORT_PERIOD_TITLE = "effortCertificationReportPeriodTitle";
+    public static final String EFFORT_CERTIFICATION_REPORT_PERIOD_TITLE = "effortCertificationReportPeriodTitle";    
     public static final String EFFORT_CERTIFICATION_REPORT_POSITIONS = "effortCertificationReportPositions";
     public static final String EFFORT_CERTIFICATION_REPORT_RETURN_DATE = "effortCertificationReportReturnDate";
-    public static final String EFFORT_CERTIFICATION_REPORT_TYPE = "effortCertificationReportType";
+    public static final String EFFORT_CERTIFICATION_REPORT_TYPE = "effortCertificationReportType";   
     public static final String EFFORT_CERTIFICATION_REPORT_TYPE_CODE = "effortCertificationReportTypeCode";
+    public static final String EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT = "effortCertificationUpdatedOverallPercent";
+
     public static final String EXPENSE_TRANSFER_FISCAL_PERIOD = "expenseTransferFiscalPeriod";
-
     public static final String EXPENSE_TRANSFER_FISCAL_PERIOD_CODE = "expenseTransferFiscalPeriodCode";
-
     public static final String EXPENSE_TRANSFER_FISCAL_YEAR = "expenseTransferFiscalYear";
+    
     public static final String FINANCIAL_DOCUMENT_POSTING_YEAR = "financialDocumentPostingYear";
     public static final String LABOR_OBJECT_FRINGE_OR_SALARY_CODE = KFSPropertyConstants.LABOR_OBJECT + "." + KFSPropertyConstants.FINANCIAL_OBJECT_FRINGE_OR_SALARY_CODE;
     public static final String SOURCE_ACCOUNT_NUMBER = "sourceAccountNumber";
     public static final String SOURCE_CHART_OF_ACCOUNTS_CODE = "sourceChartOfAccountsCode";
-    public static final String EFFORT_CERTIFICATION_PAYROLL_AMOUNT = "effortCertificationPayrollAmount";
-    public static final String EFFORT_CERTIFICATION_ORIGINAL_PAYROLL_AMOUNT = "effortCertificationOriginalPayrollAmount";
 }

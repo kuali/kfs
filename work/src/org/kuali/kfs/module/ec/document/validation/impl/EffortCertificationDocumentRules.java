@@ -16,7 +16,6 @@
 package org.kuali.module.effort.rules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -32,6 +31,8 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
+import org.kuali.module.effort.EffortKeyConstants;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.AddDetailLineRule;
@@ -46,9 +47,6 @@ import org.kuali.module.financial.service.UniversityDateService;
  */
 public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument>, AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
-
-    public final KualiDecimal LIMIT_OF_LINE_SALARY_CHANGE = new KualiDecimal(0.005);
-    public final KualiDecimal LIMIT_OF_TOTAL_SALARY_CHANGE = new KualiDecimal(0.009);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
     private UniversityDateService universityDateService = SpringContext.getBean(UniversityDateService.class);
@@ -73,7 +71,13 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return true;
         }
 
-        return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+        boolean valid = effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
+        if (!valid) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_SALARY_EXPENSE_TRANSFER_DOCUMENT_NOT_GENERATED);
+            return false;
+        }
+
+        return valid;
     }
 
     /**
@@ -90,22 +94,22 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINE, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
             return false;
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
             return false;
         }
 
         if (EffortCertificationDocumentRuleUtil.hasSameExistingLine(document, detailLine, this.getComparableFields())) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINE, EffortKeyConstants.ERROR_LINE_EXISTS);
             return false;
         }
 
         if (EffortCertificationDocumentRuleUtil.hasClosedAccount(detailLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, EffortKeyConstants.ERROR_ACCOUNT_CLOSED);
             return false;
         }
 
@@ -117,7 +121,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (EffortCertificationDocumentRuleUtil.hasA21SubAccount(detailLine)) {
             List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
             if (!EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes)) {
-                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+                GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT, EffortKeyConstants.ERROR_NOT_COST_SHARE_SUB_ACCOUNT);
                 return false;
             }
 
@@ -139,21 +143,19 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);
             return false;
         }
 
         if (!EffortCertificationDocumentRuleUtil.hasNonnegativePayrollAmount(detailLine)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_NEGATIVE_PAYROLL_AMOUNT);
             return false;
         }
 
-        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, LIMIT_OF_LINE_SALARY_CHANGE)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, EffortConstants.LIMIT_OF_LINE_SALARY_CHANGE)) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_PAYROLL_AMOUNT_OVERCHANGED);
             return false;
         }
-
-        this.updateObjectCode(detailLine);
 
         return true;
     }
@@ -193,13 +195,13 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         // TODO: if a change on one of accounts, provide a note
 
-        if (EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(effortCertificationDocument, LIMIT_OF_TOTAL_SALARY_CHANGE)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+        if (EffortCertificationDocumentRuleUtil.isTotalPayrollAmountOverChanged(effortCertificationDocument, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE)) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE.toString());
             return false;
         }
 
         if (EffortCertificationDocumentRuleUtil.isTotalEffortPercentageAs100(effortCertificationDocument)) {
-            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ACCOUNT, KFSKeyConstants.ERROR_ACCOUNT_EXPIRED);
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
@@ -294,60 +296,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
 
-        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
-    }
-
-    /**
-     * update the object code associated with the given detail line
-     * 
-     * @param detailLine the given detail line
-     */
-    private void updateObjectCode(EffortCertificationDetail detailLine) {
-        List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
-        boolean hasCostShareSubAccount = EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes);
-        boolean hasContractGrantAccount = EffortCertificationDocumentRuleUtil.hasContractGrantAccount(detailLine);
-
-        String currentObjectCode = detailLine.getFinancialObjectCode();
-        String alternativeObjectCode = this.getAlternativeObjectCode(currentObjectCode, hasContractGrantAccount && !hasCostShareSubAccount);
-        detailLine.setFinancialObjectCode(alternativeObjectCode);
-    }
-
-    /**
-     * find the alternative object code of the given object code
-     * 
-     * @param objectCode the given object code
-     * @param inversed indicate if the inversing is used
-     * @return the alternative object code of the given object code
-     */
-    private String getAlternativeObjectCode(String objectCode, boolean inversed) {
-        List<List<String>> objectCodeExchangeMap = this.getObjectCodeExchangeMap();
-
-        int sourceIndex = inversed ? 1 : 0;
-        int targetIndex = inversed ? 0 : 1;
-
-        if (objectCodeExchangeMap.get(sourceIndex).contains(objectCode)) {
-            int index = objectCodeExchangeMap.get(sourceIndex).indexOf(objectCode);
-            return objectCodeExchangeMap.get(targetIndex).get(index);
-
-        }
-
-        return objectCode;
-    }
-
-    /**
-     * get the object code exchange map. In each pair, one object code can be a substitute of another when a certain condition can
-     * be met.
-     * 
-     * @return get the object code exchange map
-     */
-    private List<List<String>> getObjectCodeExchangeMap() {
-        List<String> sourceObjectCodes = Arrays.asList("2000", "2400", "2280", "2480");
-        List<String> targetObjectCodes = Arrays.asList("2008", "2408", "2288", "2488");
-
-        List<List<String>> objectCodeExchangeMap = new ArrayList<List<String>>();
-        objectCodeExchangeMap.add(sourceObjectCodes);
-        objectCodeExchangeMap.add(targetObjectCodes);
-
-        return objectCodeExchangeMap;
+        // List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
     }
 }

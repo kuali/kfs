@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.core.JstlConstants;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSConstants.ChartApcParms;
 
@@ -85,4 +86,7 @@ public class EffortConstants extends JstlConstants {
         balanceTypeList.add(KFSConstants.BALANCE_TYPE_A21);
         return balanceTypeList;
     }
+    
+    public static final KualiDecimal LIMIT_OF_LINE_SALARY_CHANGE = new KualiDecimal(0.005);
+    public static final KualiDecimal LIMIT_OF_TOTAL_SALARY_CHANGE = new KualiDecimal(0.009);
 }

@@ -51,4 +51,15 @@ public class EffortKeyConstants {
     public static final String MESSAGE_NUM_EMPLOYEES_SELECTED = "message.effort.report.numOfEmployeesSelected";
     
     public static final String QUESTION_OVERLAPPING_REPORT_DEFINITION = "question.effort.effortCertificationReportDefinition.overlappingDefinitions";
+    
+    public static final String ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED = "error.effort.totalPayrollAmountOverchanged";
+    public static final String ERROR_PAYROLL_AMOUNT_OVERCHANGED = "error.effort.payrollAmountOverchanged";
+    public static final String ERROR_LINE_EXISTS = "error.effort.lineExists";
+    public static final String ERROR_A21_SUB_ACCOUNT_NOT_FOUND = "error.effort.a21SubAccountNotFound";
+    public static final String ERROR_NOT_COST_SHARE_SUB_ACCOUNT = "error.effort.notCostShareSubAccount";
+    public static final String ERROR_ACCOUNT_CLOSED = "error.effort.accountClosed";
+    public static final String ERROR_INVALID_EFFORT_PERCENT = "error.effort.invalidEffortPercent";
+    public static final String ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100 = "error.effort.totalEffortPercentageNot100";
+    public static final String ERROR_NEGATIVE_PAYROLL_AMOUNT = "error.effort.negativePayrollAmount";
+    public static final String ERROR_SALARY_EXPENSE_TRANSFER_DOCUMENT_NOT_GENERATED = "error.effort.salaryExpenseTransferDocumentNotGenerated";
 }

@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
+import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -33,7 +34,9 @@ import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rule.AddDetailLineRule;
 import org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule;
+import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 import org.kuali.module.financial.service.UniversityDateService;
@@ -41,7 +44,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
  */
-public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument> {
+public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument>, AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
     public final KualiDecimal LIMIT_OF_LINE_SALARY_CHANGE = new KualiDecimal(0.005);
@@ -58,24 +61,31 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     }
 
     /**
-     * @see org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule#processGenerateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
+     * This rule will generate salary expense transfer document. After the document is generated, it is hard to rollback. Thus, the
+     * rule should be the very last one to be invoked.
+     * 
+     * @see org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule#processGenerateSalaryExpenseTransferDocumentRules(org.kuali.module.effort.document.EffortCertificationDocument)
      */
-    public boolean processGenerateSalaryExpenseTransferDocument(EffortCertificationDocument effortCertificationDocument) {
+    public boolean processGenerateSalaryExpenseTransferDocumentRules(EffortCertificationDocument effortCertificationDocument) {
         LOG.info("processGenerateSalaryExpenseTransferDocument() start");
 
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
-            
+
         return effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
     }
 
-    public boolean processAddLineBusinessRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
-        LOG.info("processAddLineBusinessRules() start");
+    /**
+     * @see org.kuali.module.effort.rule.AddDetailLineRule#processAddDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument,
+     *      org.kuali.module.effort.bo.EffortCertificationDetail)
+     */
+    public boolean processAddDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
+        LOG.info("processAddDetailLineRules() start");
 
         this.applyDefaultvalues(document, detailLine);
-        
-        if(!this.checkDetailLineAttributes(detailLine)) {
+
+        if (!this.checkDetailLineAttributes(detailLine)) {
             return false;
         }
 
@@ -117,10 +127,14 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         return true;
     }
 
-    public boolean processCustomUpdateLineBusinessRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
+    /**
+     * @see org.kuali.module.effort.rule.UpdateDetailLineRule#processUpdateDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument,
+     *      org.kuali.module.effort.bo.EffortCertificationDetail)
+     */
+    public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddLineBusinessRules() start");
-        
-        if(!this.checkDetailLineAttributes(detailLine)) {
+
+        if (!this.checkDetailLineAttributes(detailLine)) {
             return false;
         }
 
@@ -144,6 +158,27 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         return true;
     }
 
+
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
+    @Override
+    public boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
+        LOG.info("processAddLineBusinessRules() start");
+
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) (approveEvent.getDocument());
+        if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
+            return true;
+        }
+
+        boolean valid = true;
+        for (EffortCertificationDetail detailLine : effortCertificationDocument.getEffortCertificationDetailLines()) {
+            valid &= this.processUpdateDetailLineRules(effortCertificationDocument, detailLine);
+        }
+
+        return valid;
+    }
+
     /**
      * @see org.kuali.core.rules.DocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
      */
@@ -151,7 +186,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processCustomRouteDocumentBusinessRules(Document document) {
         LOG.info("processAddLineBusinessRules() start");
 
-        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;               
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) document;
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
@@ -170,27 +205,28 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         return true;
     }
-    
+
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
+     * 
      * @param effortCertificationDocument the given document
      * @return true if the given document is in the state of initiation; otherwise, false
      */
     private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
         return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
     }
-    
-    
+
+
     private boolean checkDetailLineAttributes(EffortCertificationDetail detailLine) {
         LOG.debug("checkDetailLine() start");
 
         detailLine.refreshNonUpdateableReferences();
-        
+
         // check if the fields in the detail line are in the correct formats defined in the data dictionary
         boolean hasCorrectFormat = EffortCertificationDocumentRuleUtil.hasValidFormat(detailLine);
-        
+
         // if the formats of the fields are correct, check if there exist the references of a set of specified fields
-        if(hasCorrectFormat) {
+        if (hasCorrectFormat) {
             return EffortCertificationDocumentRuleUtil.hasValidReferences(detailLine);
         }
 
@@ -247,30 +283,31 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (StringUtils.isBlank(detailLine.getSourceAccountNumber())) {
             detailLine.setSourceAccountNumber(EffortConstants.DASH_ACCOUNT_NUMBER);
         }
-        
+
         if (ObjectUtils.isNull(detailLine.getEffortCertificationPayrollAmount())) {
             detailLine.setEffortCertificationPayrollAmount(KualiDecimal.ZERO);
         }
-        
+
         if (ObjectUtils.isNull(detailLine.getEffortCertificationOriginalPayrollAmount())) {
             detailLine.setEffortCertificationOriginalPayrollAmount(KualiDecimal.ZERO);
         }
-        
+
         detailLine.setFinancialDocumentPostingYear(universityDateService.getCurrentFiscalYear());
-        
-        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();        
+
+        List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailWithMaxPayrollAmount();
     }
-    
+
     /**
      * update the object code associated with the given detail line
+     * 
      * @param detailLine the given detail line
      */
     private void updateObjectCode(EffortCertificationDetail detailLine) {
         List<String> designatedCostShareSubAccountTypeCodes = EffortCertificationParameterFinder.getCostShareSubAccountTypeCode();
         boolean hasCostShareSubAccount = EffortCertificationDocumentRuleUtil.hasCostShareSubAccount(detailLine, designatedCostShareSubAccountTypeCodes);
         boolean hasContractGrantAccount = EffortCertificationDocumentRuleUtil.hasContractGrantAccount(detailLine);
-        
-        String currentObjectCode = detailLine.getFinancialObjectCode();           
+
+        String currentObjectCode = detailLine.getFinancialObjectCode();
         String alternativeObjectCode = this.getAlternativeObjectCode(currentObjectCode, hasContractGrantAccount && !hasCostShareSubAccount);
         detailLine.setFinancialObjectCode(alternativeObjectCode);
     }

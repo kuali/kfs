@@ -97,6 +97,8 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.util.List, java.util.List)
      */
     public void createSalaryExpenseTransferDocument(String documentDescription, String explanation, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
+        LOG.info("createSalaryExpenseTransferDocument() start");
+        
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) documentService.getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
@@ -109,8 +111,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
         documentHeader.setExplanation(explanation);
 
         documentService.blanketApproveDocument(document, KFSConstants.EMPTY_STRING, null);
-        
-        LOG.info("SET has been generated and its status is: " + document.getDocumentHeader().getWorkflowDocument().getStatusDisplayValue());
     }
 
     /**

@@ -22,7 +22,7 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;
 	private String customerPaymentMediumCode;
-	private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;;
+	private KualiDecimal cashControlTotalAmount = KualiDecimal.ZERO;
 
     private PaymentMedium customerPaymentMedium;
 	private AccountingPeriod universityFiscalPeriod;
@@ -30,7 +30,17 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
 
     private List<CashControlDetail> cashControlDetails;
     
-	/**
+    private boolean hasNegativeCashControlDetail = false;
+    
+	public boolean isHasNegativeCashControlDetail() {
+        return hasNegativeCashControlDetail;
+    }
+
+    public void setHasNegativeCashControlDetail(boolean hasNegativeCashControlDetail) {
+        this.hasNegativeCashControlDetail = hasNegativeCashControlDetail;
+    }
+
+    /**
 	 * Default constructor.
 	 */
 	public CashControlDocument() {
@@ -227,6 +237,14 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         prepareCashControlDetail(cashControlDetail);
         this.cashControlTotalAmount = this.cashControlTotalAmount.add(cashControlDetail.getFinancialDocumentLineAmount());
         cashControlDetails.add(cashControlDetail);
+    }
+    
+    /**
+     * This method removes a cash control detail from the list
+     * @param index
+     */
+    public void deleteCashControlDetail(int index) {
+       cashControlDetails.remove(index);
     }
     
     /**

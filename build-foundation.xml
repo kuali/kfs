@@ -25,6 +25,7 @@ are intended for use only by Kuali Foundation developers.
     <target name="init-property-files" />
     <target name="dist-local" />
     <target name="clean" />
+	<target name="make-source" />
 
 	<!-- include resource for ant-contrib tasks (design/verifydesign, etc) -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml"/>
@@ -38,6 +39,64 @@ are intended for use only by Kuali Foundation developers.
 	      </fileset>
 	    </path>
 	  </verifydesign>
+	</target>
+
+	<target name="make-javadoc" depends="init-properties">
+		
+	  <!-- delete potential previous temp directories -->
+	  <delete dir="${doc.directory}" failonerror="false" />
+	  <delete dir="temp" failonerror="false" />
+
+	  <!-- setup temporary and destination directories -->
+	  <mkdir dir="${doc.directory}" />
+	  <mkdir dir="temp/source/rice/core" />
+	  <mkdir dir="temp/source/rice/kew" />
+	  <mkdir dir="temp/source/rice/kns" />
+	  <mkdir dir="temp/source/rice/ksb" />
+	  <mkdir dir="temp/source/rice/shared" />
+	  <mkdir dir="temp/kfs" />
+	  <mkdir dir="temp/rice/core" />
+	  <mkdir dir="temp/rice/kew" />
+	  <mkdir dir="temp/rice/kns" />
+	  <mkdir dir="temp/rice/ksb" />
+	  <mkdir dir="temp/rice/shared" />
+
+	  <!-- setup temporary javadoc sources from within kuali_dependencies for rice docs -->
+	  <unzip src="../kuali_dependencies/rice-core-0.9.3-SNAPSHOT-sources.zip" dest="temp/source/rice/core" />
+	  <unzip src="../kuali_dependencies/rice-kew-0.9.3-SNAPSHOT-sources.zip" dest="temp/source/rice/kew" />
+	  <unzip src="../kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-sources.zip" dest="temp/source/rice/kns" />
+	  <unzip src="../kuali_dependencies/rice-ksb-0.9.3-SNAPSHOT-sources.zip" dest="temp/source/rice/ksb" />
+	  <unzip src="../kuali_dependencies/rice-shared-0.9.3-SNAPSHOT-sources.zip" dest="temp/source/rice/shared" />
+	  
+	  <!-- create javadoc targets for necessary docs -->
+	  <echo>${source.directory}</echo>
+	  <javadoc destdir="temp/kfs">
+	    <packageset dir="${source.directory}/org/kuali" defaultexcludes="yes" />
+	  </javadoc>
+	  <javadoc destdir="temp/rice/core">
+	    <packageset dir="temp/source/rice/core" defaultexcludes="yes" />
+	  </javadoc>
+	  <javadoc destdir="temp/rice/kew">
+	    <packageset dir="temp/source/rice/kew" defaultexcludes="yes" />
+	  </javadoc>
+	  <javadoc destdir="temp/rice/kns">
+	    <packageset dir="temp/source/rice/kns" defaultexcludes="yes" />
+	  </javadoc>
+	  <javadoc destdir="temp/rice/ksb">
+	    <packageset dir="temp/source/rice/ksb" defaultexcludes="yes" />
+	  </javadoc>
+	  <javadoc destdir="temp/rice/shared">
+	    <packageset dir="temp/source/rice/shared" defaultexcludes="yes" />
+	  </javadoc>
+
+	  <!-- clear javadoc source files -->
+	  <delete dir="temp/source" />
+	  
+	  <!-- create zip file from javadoc directories -->
+	  <zip basedir="temp" destfile="${doc.directory}/kuali-docs.zip" />
+	  
+	  <!-- clear temp directories -->
+	  <delete dir="temp" />
 	</target>
 
 	<target name="export-dataset">

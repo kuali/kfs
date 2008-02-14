@@ -15,15 +15,12 @@
  */
 package org.kuali.module.ar.rules;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
-import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
@@ -38,16 +35,23 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         
         CashControlDocument ccDocument = (CashControlDocument)document;
-        isValid = checkLineAmounts(ccDocument);
+        isValid &= checkReferenceDocument(ccDocument);
+        isValid &= checkUserOrgOptions(ccDocument);
         isValid &= checkPaymentMedium(ccDocument);
-        isValid &= checkOrgDocNumber(ccDocument);    
+        isValid &= checkOrgDocNumber(ccDocument);       
         
-        return isValid;
+        return true;
     }
     
     protected boolean processCustomRouteDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomRouteDocumentBusinessRules(document);
-            
+        CashControlDocument ccDocument = (CashControlDocument)document;
+        
+        isValid &= checkReferenceDocument(ccDocument);
+        isValid &= checkUserOrgOptions(ccDocument);
+        isValid &= checkPaymentMedium(ccDocument);
+        isValid &= checkOrgDocNumber(ccDocument); 
+        
         return isValid;
     }
     
@@ -55,34 +59,29 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
         boolean isValid = super.processCustomApproveDocumentBusinessRules(approveEvent);
         CashControlDocument ccDocument = (CashControlDocument)approveEvent.getDocument();
         
-        isValid = checkReferenceDocument(ccDocument);
+        isValid &= checkReferenceDocument(ccDocument);
+        isValid &= checkUserOrgOptions(ccDocument);
+        isValid &= checkPaymentMedium(ccDocument);
+        isValid &= checkOrgDocNumber(ccDocument);   
         
         return isValid;
     }
     
-    /* 
-    **  Line Amounts must be non zero and only 1 negative line amount is allowed.
-    **
-    */
-    private boolean checkLineAmounts(CashControlDocument document) {
+  
+    private boolean checkLineAmounts(CashControlDocument document, CashControlDetail detail) {
         boolean isValid = false;
-        
-        List<CashControlDetail> ccDetails = document.getCashControlDetails();
-        Iterator<CashControlDetail> it = ccDetails.iterator();
-        int count = 0;
-        while(it.hasNext()) {
-            CashControlDetail detail = it.next();
-            KualiDecimal lineAmount = detail.getFinancialDocumentLineAmount();
-            if (lineAmount.isZero()) {
-
-                GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
-                return false;
-            }
-            if (lineAmount.isNegative())
-                count++;
+        if (detail.getFinancialDocumentLineAmount().isZero()){
+            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
+            return false;
         }
-        if (count <= 1)
-            isValid = true;
+        else if (detail.getFinancialDocumentLineAmount().isNegative() && document.isHasNegativeCashControlDetail()) {
+            GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_INVALID_NEGATIVE_AMOUNT);
+            return false;
+        }
+        
+        if (detail.getFinancialDocumentLineAmount().isNegative()) {
+            document.setHasNegativeCashControlDetail(true);
+        }
         
         return isValid; 
     }
@@ -128,8 +127,16 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
         OrganizationOptionsService service = new OrganizationOptionsServiceImpl();
         
         if (null != service.getByPrimaryKey(chartCode, orgCode)) {
+            GlobalVariables.getErrorMap().putError(KFSPropertyConstants.ORGANIZATION_CODE, ArConstants.ERROR_ORGANIZATION_OPTIONS_MUST_BE_SET_FOR_USER_ORG);
             success = false;
         }
+        return success;
+    }
+    
+    public boolean processAddCashControlDetailBusinessRules(CashControlDocument document, CashControlDetail detail) {
+        boolean success = checkLineAmounts(document, detail);
+        
+        
         return success;
     }
 }

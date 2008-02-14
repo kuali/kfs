@@ -15,7 +15,24 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
+import org.kuali.core.web.struts.form.KualiDocumentFormBase;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.CashControlDetail;
+import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
+import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
+
+import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
     
@@ -23,4 +40,57 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         super();
     }
 
+    @Override
+    protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
+        super.createDocument(kualiDocumentFormBase);
+        CashControlDocumentForm form = (CashControlDocumentForm) kualiDocumentFormBase;
+        CashControlDocument document = form.getCashControlDocument();
+        
+        
+    }
+    
+    protected ActionForward addCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
+        CashControlDocument document = cashControlDocForm.getCashControlDocument();
+        
+        CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
+        newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
+                
+        //rules
+        boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, document, newCashControlDetail));
+        if (rulePassed) {
+            // add customer invoice detail
+            document.addCashControlDetail(newCashControlDetail);
+            // clear the used customer invoice detail
+            //set up the default values for customer invoice detail add line
+            cashControlDocForm.setNewCashControlDetail(new CashControlDetail());
+        }
+        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    protected ActionForward deleteCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
+        CashControlDocument document = cashControlDocForm.getCashControlDocument();
+        
+        int indexOfLineToDelete = getLineToDelete(request);
+        document.deleteCashControlDetail(indexOfLineToDelete);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    protected ActionForward generateRefDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
+        CashControlDocument document = cashControlDocForm.getCashControlDocument();
+        String paymentMediumCode = document.getCustomerPaymentMediumCode();
+        
+        //PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
+        //PaymentMedium medium = service.getPaymentMedium(paymentMediumCode);
+        
+        
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC); 
+    }
+    
 }

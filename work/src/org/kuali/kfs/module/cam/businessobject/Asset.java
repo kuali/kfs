@@ -100,8 +100,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private UniversalUser assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
-    private List<AssetPayment> assetPayment;
-
+   
 
     // Non-persisted attributes:
     private KualiDecimal federalContributionAmount;
@@ -1551,20 +1550,5 @@ public class Asset extends PersistableBusinessObjectBase {
         this.organizationTagNumber = organizationTagNumber;
     }
 
-    /**
-     * Gets the assetPayment attribute. 
-     * @return Returns the assetPayment.
-     */
-    public List<AssetPayment> getAssetPayment() {
-        return assetPayment;
-    }
-
-    /**
-     * Sets the assetPayment attribute value.
-     * @param assetPayment The assetPayment to set.
-     */
-    public void setAssetPayment(List<AssetPayment> assetPayment) {
-        this.assetPayment = assetPayment;
-    }
 
 }

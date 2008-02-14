@@ -117,7 +117,7 @@
 			-->
 			<maintainableSection title="Payment Iformation">
                 <maintainableItems>
-                    <maintainableCollection name="assetPayment" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Iformation">
+                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Iformation">
                         <maintainableField name="paymentSequenceNumber" readOnly="true"/>
                         <maintainableField name="chartOfAccountsCode"  />
    		            </maintainableCollection>

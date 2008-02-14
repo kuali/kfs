@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.ojb.broker.query.Criteria;
 import org.apache.ojb.broker.query.QueryFactory;
 import org.kuali.core.dao.ojb.PlatformAwareDaoBaseOjb;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.dao.EffortCertificationReportDefinitionDao;
@@ -46,12 +47,12 @@ public class EffortCertificationReportDefinitionDaoOjb extends PlatformAwareDaoB
     public List<EffortCertificationReportDefinition> getAllOtherActiveByType(EffortCertificationReportDefinition effortCertificationReportDefinition) {
         Criteria criteria = new Criteria();
         criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, effortCertificationReportDefinition.getEffortCertificationReportTypeCode());
-        criteria.addEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION_ACTIVE_IND, true);
+        criteria.addEqualTo(KFSPropertyConstants.ACTIVE, true);
         
         Criteria subCriteria = new Criteria();
         Criteria subCriteriaReportNumber = new Criteria();
         
-        subCriteria.addNotEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION_UNIVERSITY_FISCAL_YEAR, effortCertificationReportDefinition.getUniversityFiscalYear());
+        subCriteria.addNotEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, effortCertificationReportDefinition.getUniversityFiscalYear());
         subCriteriaReportNumber.addNotEqualTo(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, effortCertificationReportDefinition.getEffortCertificationReportNumber());
         
         subCriteria.addOrCriteria(subCriteriaReportNumber);

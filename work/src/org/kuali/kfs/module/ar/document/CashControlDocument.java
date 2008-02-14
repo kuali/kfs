@@ -1,5 +1,6 @@
 package org.kuali.module.ar.document;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -49,6 +50,19 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         customerPaymentMedium = new PaymentMedium();
         universityFiscalPeriod = new AccountingPeriod();
         cashControlDetails = new ArrayList<CashControlDetail>();
+        
+        //TODO remove these lines
+        this.getAccountsReceivableDocumentHeader().setProcessingChartOfAccountCode("UA");
+        this.setReferenceFinancialDocumentNumber("gfe6234");
+        
+        CashControlDetail detail = new CashControlDetail();
+        detail.setCustomerNumber("3476385");
+        detail.setReferenceFinancialDocumentNumber("6234762354");
+        detail.setDocumentNumber("7865765");
+        detail.setCustomerPaymentDate(new Date(System.currentTimeMillis()));
+        detail.setFinancialDocumentLineAmount(new KualiDecimal(10));
+        
+        addCashControlDetail(detail);
     }
 
 	/**

@@ -72,7 +72,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase imple
   
     private boolean checkLineAmounts(CashControlDocument document, CashControlDetail detail) {
        
-        boolean isValid = false;
+        boolean isValid = true;
         if (detail.getFinancialDocumentLineAmount().isZero()){
             GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
             return false;

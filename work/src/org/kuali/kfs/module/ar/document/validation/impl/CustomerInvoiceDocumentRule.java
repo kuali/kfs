@@ -23,6 +23,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.service.DictionaryValidationService;
+import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.DateUtils;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -31,6 +32,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
@@ -40,41 +42,60 @@ import org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule;
 public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase implements AddCustomerInvoiceDetailRule<AccountingDocument> {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CustomerInvoiceDocumentRule.class);
 
-    private CustomerInvoiceDocument document = null;
+    private CustomerInvoiceDocument customerInvoiceDocument = null;
 
+    /**
+     * This method has to be here because all subclasses of AccountingDocumentRulsBase must implement this method.
+     * 
+     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
+     */
     public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
         // TODO Auto-generated method stub
         return false;
     }
 
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
+     */
     @Override
     protected boolean processCustomApproveDocumentBusinessRules(ApproveDocumentEvent approveEvent) {
         boolean success = true;
-        document = (CustomerInvoiceDocument) approveEvent.getDocument();
-        success &= defaultExistenceChecks(document);
-        success &= super.processCustomApproveDocumentBusinessRules(approveEvent);
+        customerInvoiceDocument = (CustomerInvoiceDocument) approveEvent.getDocument();
+        success &= defaultExistenceChecks(customerInvoiceDocument);
+        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
 
+    /**
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomRouteDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomRouteDocumentBusinessRules(Document doc) {
         boolean success = true;
-        document = (CustomerInvoiceDocument) doc;
-        success &= defaultExistenceChecks(document);
-        success &= super.processCustomRouteDocumentBusinessRules(document);
+        customerInvoiceDocument = (CustomerInvoiceDocument) doc;
+        success &= defaultExistenceChecks(customerInvoiceDocument);
+        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
 
+    /**
+     * @see org.kuali.core.rules.DocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.Document)
+     */
     @Override
     protected boolean processCustomSaveDocumentBusinessRules(Document doc) {
         boolean success = true;
-        document = (CustomerInvoiceDocument) doc;
-        success &= defaultExistenceChecks(document);
-        success &= super.processCustomSaveDocumentBusinessRules(document);
+        customerInvoiceDocument = (CustomerInvoiceDocument) doc;
+        success &= defaultExistenceChecks(customerInvoiceDocument);
+        success &= validateCustomerInvoiceDetails(customerInvoiceDocument);
         return success;
     }
 
 
+    /**
+     * This method returns true if default existence checks for general customer invoice detail information is true
+     * @param doc
+     * @return
+     */
     private boolean defaultExistenceChecks(CustomerInvoiceDocument doc) {
         boolean success = true;
 
@@ -111,14 +132,14 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
 
     }
 
-    protected boolean isValidBillingChartAndOrganization(CustomerInvoiceDocument doc) {
+    protected boolean isValidBillingChartAndOrganization(CustomerInvoiceDocument customerInvoiceDocument) {
         boolean success = true;
 
         // billbychartofaccountcode is not empty and billedbyorgcode is not empty
-        doc.refreshReferenceObject("billByChartOfAccount");
-        if (doc.getBillByChartOfAccount() != null) {
-            doc.refreshReferenceObject("billedByOrganization");
-            if (doc.getBilledByOrganization() == null) {
+        customerInvoiceDocument.refreshReferenceObject("billByChartOfAccount");
+        if (customerInvoiceDocument.getBillByChartOfAccount() != null) {
+            customerInvoiceDocument.refreshReferenceObject("billedByOrganization");
+            if (customerInvoiceDocument.getBilledByOrganization() == null) {
                 // fail with bad org
                 success &= false;
             }
@@ -131,44 +152,59 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         return success;
     }
 
-    protected boolean validateInvoiceItemDetails(CustomerInvoiceDocument doc) {
-        // TODO: this will need to loop through each InvoiceDetail and verify that InvoiceItemCode for each is valid and exists
-        boolean success = true;
+    /**
+     * This method returns true if all customer invoice details are valid
+     * 
+     * @param customerInvoiceDocument
+     * @return
+     */
+    protected boolean validateCustomerInvoiceDetails(CustomerInvoiceDocument customerInvoiceDocument) {
+        boolean success = true; 
+        
+        for( CustomerInvoiceDetail customerInvoiceDetail : customerInvoiceDocument.getCustomerInvoiceDetails() ){
+            processAddCustomerInvoiceDetailBusinessRules( customerInvoiceDocument, customerInvoiceDetail );
+        }
+        
         return success;
     }
 
     /**
-     * 
-     * This method checks to make sure that the Invoice Detail is valid
+     * This method returns true if customer invoice detail (excluding accounting information) has no errors.
      * 
      * @return
      */
-    protected boolean validateInvoiceItemDetail(CustomerInvoiceDetail detail) {
+    protected boolean validateCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail) {
         boolean success = true;
-        if (detail.getInvoiceItemQuantity() == null) {
+        
+        if (customerInvoiceDetail.getInvoiceItemQuantity() == null) {
             // rule failure
+            
             success &= false;
         }
-        else if (detail.getInvoiceItemQuantity().compareTo(new BigDecimal(1)) < 0) {
+        else if (customerInvoiceDetail.getInvoiceItemQuantity().compareTo(new BigDecimal(1)) < 0) {
             // also fail
             success &= false;
         }
 
-        if (detail.getInvoiceItemUnitPrice() == null) {
+        if (customerInvoiceDetail.getInvoiceItemUnitPrice() == null) {
             // rule failure
             success &= false;
         }
-        else if (detail.getInvoiceItemUnitPrice().compareTo(new KualiDecimal(1)) < 0) {
+        else if (customerInvoiceDetail.getInvoiceItemUnitPrice().compareTo(new KualiDecimal(1)) < 0) {
             // rule failure
             success &= false;
         }
 
-        success &= isValidUnitOfMeasure(detail);
-        success &= isValidAccountNumber(detail);
+        success &= isValidUnitOfMeasure(customerInvoiceDetail);
         return success;
     }
 
 
+    /**
+     * This method validates that the unit of measure for a customer invoice detail line is a valid UOM.
+     * @param detail
+     * @return
+     */
     protected boolean isValidUnitOfMeasure(CustomerInvoiceDetail detail) {
         boolean success = true;
         // this most likely will be a parameter service call
@@ -178,32 +214,17 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
         return success;
     }
 
-    protected boolean isValidAccountNumber(CustomerInvoiceDetail detail) {
-        boolean success = true;
-        return success;
-    }
-
     /**
      * @see org.kuali.module.ar.rule.AddCustomerInvoiceDetailRule#processAddCustomerInvoiceBusinessRules(org.kuali.kfs.document.AccountingDocument, org.kuali.module.ar.bo.CustomerInvoiceDetail)
      */
-    public boolean processAddCustomerInvoiceBusinessRules(AccountingDocument financialDocument, CustomerInvoiceDetail customerInvoiceDetail) {
-        boolean isValid = validateCustomerInvoiceDetail(customerInvoiceDetail);
-
-        return isValid;
-    }
-    
-    /**
-     * This method returns true if customer invoice detail passes BO data dictionary rules
-     * 
-     * @param customerInvoiceDetail
-     * @return
-     */
-    private boolean validateCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail){
-        // validate the specific customer invoice coming in
-        SpringContext.getBean(DictionaryValidationService.class).validateBusinessObject(customerInvoiceDetail);
-
-        boolean isValid = GlobalVariables.getErrorMap().isEmpty();
+    public boolean processAddCustomerInvoiceDetailBusinessRules(AccountingDocument financialDocument, CustomerInvoiceDetail customerInvoiceDetail) {
         
+        //use existing accounting line rule validation to validate accounting information (in addition to doing data dictionary related validation).
+        boolean isValid = SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(ArConstants.NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX, financialDocument, customerInvoiceDetail));
+        
+        //validate the rest of the customer invoice detail
+        isValid &= validateCustomerInvoiceDetail(customerInvoiceDetail);
+
         return isValid;
     }
 }

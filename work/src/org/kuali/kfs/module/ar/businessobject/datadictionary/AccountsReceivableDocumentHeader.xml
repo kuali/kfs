@@ -54,7 +54,9 @@
 
         <attributes>
 
-			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber" />
+			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber">
+				<required>true</required>
+			</attributeReference>
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>
@@ -130,6 +132,19 @@
                 <summary>processingOrganizationCode</summary>
                 <description>processingOrganizationCode description...</description>
 			</attribute>
+			
+            <attribute name="customerName" forceUppercase="true">
+                <label>Customer Name</label>
+                <shortLabel>Customer Name</shortLabel>
+
+                <maxLength>45</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+
+                <control>
+                    <text size="45" />
+                </control>
+
+			</attribute>			
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

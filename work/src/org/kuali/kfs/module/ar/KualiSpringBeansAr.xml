@@ -66,6 +66,9 @@
 		<property name="dateTimeService">
 			<ref bean="dateTimeService" />
 		</property>		
+		<property name="universityDateService">
+			<ref bean="universityDateService" />
+		</property>			
 	</bean>	
 	
 </beans>

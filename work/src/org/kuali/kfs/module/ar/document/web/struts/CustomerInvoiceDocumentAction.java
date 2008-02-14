@@ -52,9 +52,16 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         
-
-        //set up the default values for customer invoice document
+        //set up the default values for customer invoice document (SHOULD PROBABLY MAKE THIS A SERVICE)
         customerInvoiceDocument.setupDefaultValues();
+        
+        //set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
+        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+        accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
+        accountsReceivableDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
+        customerInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         
         //set up the default values for customer invoice detail add line
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
@@ -77,14 +84,14 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
 
         CustomerInvoiceDetail newCustomerInvoiceDetail = customerInvoiceDocumentForm.getNewCustomerInvoiceDetail();
         newCustomerInvoiceDetail.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
+        newCustomerInvoiceDetail.setPostingYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
         
-        // check business rules for adding customer detail event
+        //Reusing accounting line validation from AddAccountingLineEvent 
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCustomerInvoiceDetailEvent(ArConstants.NEW_CUSTOMER_INVOICE_DETAIL_ERROR_PATH_PREFIX, customerInvoiceDocument, newCustomerInvoiceDetail));
         if (rulePassed) {
             // add customer invoice detail
             customerInvoiceDocument.addCustomerInvoiceDetail(newCustomerInvoiceDetail);
 
-            // clear the used customer invoice detail
             //set up the default values for customer invoice detail add line
             CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
             customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );

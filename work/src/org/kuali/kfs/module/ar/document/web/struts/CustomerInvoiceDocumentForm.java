@@ -15,17 +15,11 @@
  */
 package org.kuali.module.ar.web.struts.form;
 
-import java.sql.Date;
-import java.text.ParseException;
-import java.util.Calendar;
-
-import org.kuali.core.service.DateTimeService;
-import org.kuali.kfs.context.SpringContext;
+import org.kuali.core.web.format.CurrencyFormatter;
+import org.kuali.core.web.ui.KeyLabelPair;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
     
@@ -37,7 +31,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public CustomerInvoiceDocumentForm() {
         super();
         setDocument(new CustomerInvoiceDocument());
-        setNewCustomerInvoiceDetail(new CustomerInvoiceDetail());
     }
 
     public CustomerInvoiceDetail getNewCustomerInvoiceDetail() {
@@ -50,5 +43,15 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     
     public CustomerInvoiceDocument getCustomerInvoiceDocument( ) {
         return (CustomerInvoiceDocument)getDocument();
+    }
+    
+    /**
+     * By overriding this method, we can add the invoice total amount to the document header
+     * 
+     * @see org.kuali.core.web.struts.form.KualiForm#getAdditionalDocInfo1()
+     */
+    @Override
+    public KeyLabelPair getAdditionalDocInfo2() {
+        return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.invoiceTotalAmount", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getInvoiceTotalAmount()));
     }
 }

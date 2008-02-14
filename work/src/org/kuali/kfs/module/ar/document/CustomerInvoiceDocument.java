@@ -26,6 +26,8 @@ import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
  */
 public class CustomerInvoiceDocument extends AccountingDocumentBase {
 
+    protected Integer nextInvoiceItemNumber;
+    
 	private Integer universityFiscalYear;
 	private String universityFiscalPeriodCode;
 	private String invoiceHeaderText;
@@ -61,6 +63,7 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 */
 	public CustomerInvoiceDocument() {
 	    super();
+	    this.nextInvoiceItemNumber = new Integer(1);
         customerInvoiceDetails = new ArrayList<CustomerInvoiceDetail>();
         
 	}
@@ -671,7 +674,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	 * @param customerInvoiceDetail
 	 */
 	public void addCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail){
+	    customerInvoiceDetail.setInvoiceItemNumber(getNextInvoiceItemNumber());
 	    customerInvoiceDetails.add(customerInvoiceDetail);
+        this.nextInvoiceItemNumber = new Integer(this.getNextInvoiceItemNumber().intValue() + 1);	    
 	}
 	
 	
@@ -764,4 +769,24 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	public void setDefaultBilledByOrganizationCode(ChartUser currentUser){
 	    this.setBilledByOrganizationCode(currentUser.getOrganizationCode());
 	}
+
+    public Integer getNextInvoiceItemNumber() {
+        return nextInvoiceItemNumber;
+    }
+
+    public void setNextInvoiceItemNumber(Integer nextInvoiceItemNumber) {
+        this.nextInvoiceItemNumber = nextInvoiceItemNumber;
+    }
+    
+    /**
+     * Returns the total amount of all customer invoice detail amounts.
+     * @return
+     */
+    public KualiDecimal getInvoiceTotalAmount(){
+        KualiDecimal invoiceTotalAmount = new KualiDecimal(0);
+        for ( CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDetails() ){
+            invoiceTotalAmount = invoiceTotalAmount.add( customerInvoiceDetail.getAmount() );
+        }
+        return invoiceTotalAmount;
+    }
 }

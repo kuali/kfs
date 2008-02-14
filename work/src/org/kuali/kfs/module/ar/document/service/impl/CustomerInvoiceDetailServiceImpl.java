@@ -34,6 +34,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
     private OrganizationAccountingDefaultService organizationAccountingDefaultService;
     private DateTimeService dateTimeService;
+    private UniversityDateService universityDateService;
     
     /**
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddCustomerInvoiceDetail(java.lang.Integer, java.lang.String, java.lang.String)
@@ -62,7 +63,7 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
      * @see org.kuali.module.ar.service.CustomerInvoiceDetailService#getAddLineCustomerInvoiceDetailForCurrentUserAndYear()
      */
     public CustomerInvoiceDetail getAddLineCustomerInvoiceDetailForCurrentUserAndYear() {
-        Integer currentUniversityFiscalYear =  SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+        Integer currentUniversityFiscalYear =  universityDateService.getCurrentFiscalYear();
         ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
         return getAddLineCustomerInvoiceDetail(currentUniversityFiscalYear, currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
     }    
@@ -81,6 +82,14 @@ public class CustomerInvoiceDetailServiceImpl implements CustomerInvoiceDetailSe
 
     public void setDateTimeService(DateTimeService dateTimeService) {
         this.dateTimeService = dateTimeService;
+    }
+
+    public UniversityDateService getUniversityDateService() {
+        return universityDateService;
+    }
+
+    public void setUniversityDateService(UniversityDateService universityDateService) {
+        this.universityDateService = universityDateService;
     }
 
 

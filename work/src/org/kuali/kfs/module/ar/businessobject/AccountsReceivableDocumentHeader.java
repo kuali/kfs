@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
-import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
 
@@ -16,12 +16,12 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 
 	private String documentNumber;
 	private String customerNumber;
+	private String customerName;  //not persisted in the DB
 	private String processingChartOfAccountCode;
 	private String processingOrganizationCode;
 	private Date entryDate;
 	private String financialDocumentExplanationText;
 
-    private CashControlDocument cashControl;
 	private Customer customer;
 	private Chart processingChartOfAccount;
 	private Org processingOrganization;
@@ -159,27 +159,6 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 		this.financialDocumentExplanationText = financialDocumentExplanationText;
 	}
 
-
-	/**
-	 * Gets the cashControl attribute.
-	 * 
-	 * @return Returns the cashControl
-	 * 
-	 */
-	public CashControlDocument getCashControl() { 
-		return cashControl;
-	}
-
-	/**
-	 * Sets the cashControl attribute.
-	 * 
-	 * @param cashControl The cashControl to set.
-	 * @deprecated
-	 */
-	public void setCashControl(CashControlDocument cashControl) {
-		this.cashControl = cashControl;
-	}
-
 	/**
 	 * Gets the customer attribute.
 	 * 
@@ -266,4 +245,21 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
 	    return m;
     }
 
+    /**
+     * Used for displaying customer name on JSP
+     * @return
+     */
+    public String getCustomerName() {
+        
+        refreshReferenceObject("customer");
+        if(ObjectUtils.isNotNull(this.customer)){
+            return this.customer.getCustomerName();
+        } else {
+            return "";
+        }
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 }

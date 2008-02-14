@@ -62,7 +62,7 @@
                     </maintainableField>
 					-->
 					
-                    <maintainableField name="customerNumber" readOnly="true" required="true" />
+                    <maintainableField name="customerNumber" required="true" />
 					<maintainableField name="customerParentCompanyNumber" />		
 					<maintainableField name="customerName" />	
 

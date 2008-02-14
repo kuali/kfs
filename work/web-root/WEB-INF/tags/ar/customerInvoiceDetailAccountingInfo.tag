@@ -17,6 +17,7 @@
 
 <%@ attribute name="propertyName" required="true" description="The customer invoice detail" %>              
 <%@ attribute name="cssClass" required="true" description="The cssClass" %>
+<%@ attribute name="readOnly" required="true" description="If its readOnly mode" %>
               
 <c:set var="customerInvoiceDetailAttributes" value="${DataDictionary.CustomerInvoiceDetail.attributes}" />
 
@@ -52,10 +53,10 @@
         </table>    
             
         <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-            <div style="display: block;" id="tab-${tabKey}-div">
+            <div style="display: block;" id="tab-${tabKey}-div" class="testing">
         </c:if>
         <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
-            <div style="display: none;" id="tab-${tabKey}-div">
+            <div style="display: none;" id="tab-${tabKey}-div" class="testing">
         </c:if>
 
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >
@@ -70,14 +71,16 @@
         	</tr>
         	<tr>
 	            <td align=left class="${cssClass}">
-				<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode }" property="${propertyName}.chartOfAccountsCode"/>
-				&nbsp;
-				<kul:lookup 
-					boClassName="org.kuali.module.chart.bo.Chart" 
-					fieldConversions="chartOfAccountsCode:${propertyName}.chartOfAccountsCode" />
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.chartOfAccountsCode }" property="${propertyName}.chartOfAccountsCode" readOnly="${readOnly}"/>
+					<c:if test="${not readOnly}">
+						&nbsp;
+						<kul:lookup 
+							boClassName="org.kuali.module.chart.bo.Chart" 
+							fieldConversions="chartOfAccountsCode:${propertyName}.chartOfAccountsCode" />
+					</c:if>
 				</td>               
 				<td align=left class="${cssClass}">
-					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountNumber }" property="${propertyName}.accountNumber"/>
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountNumber }" property="${propertyName}.accountNumber" readOnly="${readOnly}"/>
 					&nbsp;
 					<kul:lookup 
 						boClassName="org.kuali.module.chart.bo.Account" 
@@ -85,36 +88,44 @@
 						lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode" />
 				</td>               
 				<td align=left class="${cssClass}">
-					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.subAccountNumber }" property="${propertyName}.subAccountNumber"/>
-					&nbsp;
-					<kul:lookup 
-						boClassName="org.kuali.module.chart.bo.SubAccount" 
-						fieldConversions="subAccountNumber:${propertyName}.subAccountNumber,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
-						lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.subAccountNumber }" property="${propertyName}.subAccountNumber" readOnly="${readOnly}"/>
+					<c:if test="${not readOnly}">
+						&nbsp;
+						<kul:lookup 
+							boClassName="org.kuali.module.chart.bo.SubAccount" 
+							fieldConversions="subAccountNumber:${propertyName}.subAccountNumber,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
+							lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
+					</c:if>
 				</td>               
 				<td align=left class="${cssClass}">
-					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.financialObjectCode }" property="${propertyName}.financialObjectCode"/>
-					&nbsp;
-					<kul:lookup 
-						boClassName="org.kuali.module.chart.bo.ObjectCode" 
-						fieldConversions="financialObjectCode:${propertyName}.financialObjectCode"
-						lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode" />
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.financialObjectCode }" property="${propertyName}.financialObjectCode" readOnly="${readOnly}"/>
+					<c:if test="${not readOnly}">
+						&nbsp;
+						<kul:lookup 
+							boClassName="org.kuali.module.chart.bo.ObjectCode" 
+							fieldConversions="financialObjectCode:${propertyName}.financialObjectCode"
+							lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode" />
+					</c:if>
 				</td>               
 				<td align=left class="${cssClass}">
-			  	    <kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.financialSubObjectCode }" property="${propertyName}.financialSubObjectCode"/>
-				    &nbsp;
-			        <kul:lookup
-			        	boClassName="org.kuali.module.chart.bo.SubObjCd" 
-			        	fieldConversions="financialSubObjectCode:${propertyName}.financialSubObjectCode,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
-			        	lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
+			  	    <kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.financialSubObjectCode }" property="${propertyName}.financialSubObjectCode" readOnly="${readOnly}"/>
+				    <c:if test="${not readOnly}">
+					    &nbsp;
+				        <kul:lookup
+				        	boClassName="org.kuali.module.chart.bo.SubObjCd" 
+				        	fieldConversions="financialSubObjectCode:${propertyName}.financialSubObjectCode,chartOfAccountsCode:${propertyName}.chartOfAccountsCode,accountNumber:${propertyName}.accountNumber"
+				        	lookupParameters="${propertyName}.chartOfAccountsCode:chartOfAccountsCode,${propertyName}.accountNumber:accountNumber" />
+			        </c:if>
 			    </td>               
 				<td align=left class="${cssClass}">
-			     	<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.projectCode }" property="${propertyName}.projectCode"/>
-					&nbsp;
-					<kul:lookup boClassName="org.kuali.module.chart.bo.ProjectCode" fieldConversions="code:${propertyName}.projectCode" />
+			     	<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.projectCode }" property="${propertyName}.projectCode" readOnly="${readOnly}"/>
+					<c:if test="${not readOnly}">
+						&nbsp;
+						<kul:lookup boClassName="org.kuali.module.chart.bo.ProjectCode" fieldConversions="code:${propertyName}.projectCode" />
+					</c:if>
 				</td>
 				<td align=left class="${cssClass}">
-					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.organizationReferenceId }" property="${propertyName}.organizationReferenceId"/>
+					<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.organizationReferenceId }" property="${propertyName}.organizationReferenceId" readOnly="${readOnly}"/>
 				</td> 
 			</tr> 
           </table>

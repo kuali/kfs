@@ -21,14 +21,14 @@
                         <field attributeName="organizationReferenceId" />
 						<field attributeName="accountsReceivableObjectCode" />
                         <field attributeName="accountsReceivableSubObjectCode" />
-						<field attributeName="financialDocumentOverrideCode" />
-                        <field attributeName="financialDocumentPostingYear" />
+						<field attributeName="overrideCode" />
+                        <field attributeName="postingYear" />
                         <field attributeName="invoiceItemQuantity" />
                         <field attributeName="invoiceItemCode" />
                         <field attributeName="invoiceItemUnitOfMeasureCode" />
                         <field attributeName="invoiceItemDescription" />
                         <field attributeName="invoiceItemUnitPrice" />
-                        <field attributeName="invoiceItemTotalAmount" />
+                        <field attributeName="amount" />
                         <field attributeName="invoiceItemServiceDate" />
                         <field attributeName="invoiceItemNumber" />
                     </inquiryFields>
@@ -52,8 +52,8 @@
                 <lookupField attributeName="accountNumber" required="false" />
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="documentNumber" required="false" />
-                <lookupField attributeName="financialDocumentOverrideCode" required="false" />
-                <lookupField attributeName="financialDocumentPostingYear" required="false" />
+                <lookupField attributeName="overrideCode" required="false" />
+                <lookupField attributeName="postingYear" required="false" />
                 <lookupField attributeName="financialObjectCode" required="false" />
                 <lookupField attributeName="financialSubObjectCode" required="false" />
 				<lookupField attributeName="accountsReceivableObjectCode" required="false" />
@@ -63,7 +63,7 @@
                 <lookupField attributeName="invoiceItemNumber" required="false" />
                 <lookupField attributeName="invoiceItemQuantity" required="false" />
                 <lookupField attributeName="invoiceItemServiceDate" required="false" />
-                <lookupField attributeName="invoiceItemTotalAmount" required="false" />
+                <lookupField attributeName="amount" required="false" />
                 <lookupField attributeName="invoiceItemUnitOfMeasureCode" required="false" />
                 <lookupField attributeName="invoiceItemUnitPrice" required="false" />
                 <lookupField attributeName="organizationReferenceId" required="false" />
@@ -77,8 +77,8 @@
                 <field attributeName="accountsReceivableSubObjectCode" />
                 <field attributeName="chartOfAccountsCode" />
                 <field attributeName="documentNumber" />
-                <field attributeName="financialDocumentOverrideCode" />
-                <field attributeName="financialDocumentPostingYear" />
+                <field attributeName="overrideCode" />
+                <field attributeName="postingYear" />
                 <field attributeName="financialObjectCode" />
                 <field attributeName="financialSubObjectCode" />
                 <field attributeName="invoiceItemCode" />
@@ -86,7 +86,7 @@
                 <field attributeName="invoiceItemNumber" />
                 <field attributeName="invoiceItemQuantity" />
                 <field attributeName="invoiceItemServiceDate" />
-                <field attributeName="invoiceItemTotalAmount" />
+                <field attributeName="amount" />
                 <field attributeName="invoiceItemUnitOfMeasureCode" />
                 <field attributeName="invoiceItemUnitPrice" />
                 <field attributeName="organizationReferenceId" />
@@ -155,7 +155,7 @@
                 <description>documentNumber description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentOverrideCode" forceUppercase="true">
+            <attribute name="overrideCode" forceUppercase="true">
                 <label>Financial Document Override Code</label>
                 <shortLabel>Override Code</shortLabel>
 
@@ -166,11 +166,11 @@
                     <text size="3" />
                 </control>
 
-                <summary>financialDocumentOverrideCode</summary>
-                <description>financialDocumentOverrideCode description...</description>
+                <summary>overrideCode</summary>
+                <description>overrideCode description...</description>
 			</attribute>
 
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
+            <attribute name="postingYear" forceUppercase="true">
                 <label>Financial Document Posting Year</label>
                 <shortLabel>Posting Year</shortLabel>
 
@@ -181,8 +181,8 @@
                     <text size="6" />
                 </control>
 
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
+                <summary>postingYear</summary>
+                <description>postingYear description...</description>
 			</attribute>
 
 
@@ -260,7 +260,7 @@
             </attributeReference>			
 
 
-            <attribute name="invoiceItemTotalAmount" forceUppercase="true">
+            <attribute name="amount" forceUppercase="true">
                 <label>Invoice Item Total Amount</label>
                 <shortLabel>Total Amount</shortLabel>
 
@@ -271,8 +271,8 @@
                     <text size="21" />
                 </control>
 
-                <summary>invoiceItemTotalAmount</summary>
-                <description>invoiceItemTotalAmount description...</description>
+                <summary>amount</summary>
+                <description>amount description...</description>
 			</attribute>
 
             <attribute name="invoiceItemUnitOfMeasureCode" forceUppercase="true">

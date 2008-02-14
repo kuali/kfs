@@ -370,6 +370,14 @@
                 </summary>
                 <description>Indicates if there is already an open invoice for this customer</description>
             </attribute>
+			
+			<attributeReference name="invoiceTotalAmount"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="totalDollarAmount">
+			    <label>Invoice Total Amount</label> 
+			    <shortLabel>Invoice Total Amount</shortLabel> 
+			</attributeReference> 			
+            
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>
   		

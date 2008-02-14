@@ -15,11 +15,14 @@
  */
 package org.kuali.module.cams.service;
 
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.cams.bo.Asset;
+
 
 /**
- * The interface defines  methods for Asset Document
+ * The interface defines methods for Asset Document
  */
 public interface AssetService {
-    
+
 
 }

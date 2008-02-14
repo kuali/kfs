@@ -100,7 +100,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private UniversalUser assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
-   
+
 
     // Non-persisted attributes:
     private KualiDecimal federalContributionAmount;
@@ -116,7 +116,7 @@ public class Asset extends PersistableBusinessObjectBase {
      * Gets the documentTypeCode attribute.
      * 
      * @return Returns the documentTypeCode
-	 *
+     * 
      */
     public String getDocumentTypeCode() {
         return documentTypeCode;
@@ -1097,7 +1097,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the governmentTagNumber attribute. 
+     * Gets the governmentTagNumber attribute.
+     * 
      * @return Returns the governmentTagNumber.
      */
     public String getGovernmentTagNumber() {
@@ -1106,6 +1107,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the governmentTagNumber attribute value.
+     * 
      * @param governmentTagNumber The governmentTagNumber to set.
      */
     public void setGovernmentTagNumber(String governmentTagNumber) {
@@ -1113,7 +1115,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the nationalStockNumber attribute. 
+     * Gets the nationalStockNumber attribute.
+     * 
      * @return Returns the nationalStockNumber.
      */
     public String getNationalStockNumber() {
@@ -1122,6 +1125,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the nationalStockNumber attribute value.
+     * 
      * @param nationalStockNumber The nationalStockNumber to set.
      */
     public void setNationalStockNumber(String nationalStockNumber) {

@@ -9,6 +9,7 @@ import java.util.List;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.service.UniversalUserService;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.Org;
@@ -47,8 +48,7 @@ public class Pretag extends PersistableBusinessObjectBase {
 	 * Default constructor.
 	 */
 	public Pretag() {
-        pretagDetails = new ArrayList<PretagDetail>();
-        
+        pretagDetails = new TypedArrayList(PretagDetail.class);
 	}
 
 	/**

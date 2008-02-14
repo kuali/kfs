@@ -15,19 +15,19 @@
  */
 package org.kuali.module.ar.rule;
 
-import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.module.ar.bo.CashControlDetail;
 
 /**
  * Rule invoked when a new customer invoice detail is added
  */
-public interface AddCashControlDetailRule<F extends AccountingDocument > extends CashControlDetailRule {
+public interface AddCashControlDetailRule<F extends TransactionalDocument > extends CashControlDetailRule {
     
     /**
      * @param check
      * @param financialDocument
      * @return true if the business rules pass
      */
-    public boolean processAddCashControlDetailBusinessRules(F financialDocument, CashControlDetail cashControlDetail);
+    public boolean processAddCashControlDetailBusinessRules(F transactionalDocument, CashControlDetail cashControlDetail);
 
 }

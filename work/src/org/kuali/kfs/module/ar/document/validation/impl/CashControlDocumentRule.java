@@ -16,6 +16,7 @@
 package org.kuali.module.ar.rules;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
@@ -24,12 +25,13 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.rule.AddCashControlDetailRule;
 import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.ar.service.impl.OrganizationOptionsServiceImpl;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
-public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
+public class CashControlDocumentRule extends TransactionalDocumentRuleBase implements AddCashControlDetailRule<CashControlDocument>{
 
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
@@ -69,6 +71,7 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
     
   
     private boolean checkLineAmounts(CashControlDocument document, CashControlDetail detail) {
+       
         boolean isValid = false;
         if (detail.getFinancialDocumentLineAmount().isZero()){
             GlobalVariables.getErrorMap().putError("financialDocumentLineAmount", KFSKeyConstants.ERROR_ZERO_AMOUNT);
@@ -133,10 +136,10 @@ public class CashControlDocumentRule extends TransactionalDocumentRuleBase {
         return success;
     }
     
-    public boolean processAddCashControlDetailBusinessRules(CashControlDocument document, CashControlDetail detail) {
-        boolean success = checkLineAmounts(document, detail);
-        
-        
+    
+    public boolean processAddCashControlDetailBusinessRules(CashControlDocument document, CashControlDetail cashControlDetail) {
+        boolean success = checkLineAmounts(document, cashControlDetail);
+               
         return success;
     }
 }

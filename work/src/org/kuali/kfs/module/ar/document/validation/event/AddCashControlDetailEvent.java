@@ -16,6 +16,7 @@
 package org.kuali.module.ar.rule.event;
 
 import org.kuali.core.document.Document;
+import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.rule.BusinessRule;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.ar.bo.CashControlDetail;
@@ -29,11 +30,11 @@ public final class AddCashControlDetailEvent extends CashControlDetailEventBase 
     }
 
     public Class getRuleInterfaceClass() {
-        return AddCustomerInvoiceDetailRule.class;
+        return AddCashControlDetailRule.class;
     }
 
     public boolean invokeRuleMethod(BusinessRule rule) {
-        return ((AddCashControlDetailRule) rule).processAddCashControlDetailBusinessRules((AccountingDocument) getDocument(), getCashControlDetail());
+        return ((AddCashControlDetailRule) rule).processAddCashControlDetailBusinessRules((TransactionalDocument) getDocument(), getCashControlDetail());
     }
 
 }

@@ -210,7 +210,7 @@
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="capitalAssetNumber" />
-    </collection-descriptor>
+    </collection-descriptor>	
    	<reference-descriptor name="assetRepresentative" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="representativeUniversalIdentifier" />
 	</reference-descriptor>	
@@ -275,11 +275,11 @@
 	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="financialObjectSubTypeCode" />
 	</reference-descriptor>
- 	<!-- collection-descriptor name="ObjectCodes" element-class-ref="org.kuali.module.chart.bo.ObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+ 	<collection-descriptor name="objectCode" element-class-ref="org.kuali.module.chart.bo.ObjectCode" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<inverse-foreignkey field-ref="universityFiscalYear" />
 		<inverse-foreignkey field-ref="chartOfAccountsCode" />
 		<inverse-foreignkey field-ref="financialObjectSubTypeCode"/>        
-    </collection-descriptor-->		
+    </collection-descriptor>		
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.CapitalAssetBuilderPendingAction" table="CB_PND_ACTION_T">
@@ -551,7 +551,7 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
-	
+		
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">

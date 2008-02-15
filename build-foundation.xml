@@ -31,13 +31,16 @@ are intended for use only by Kuali Foundation developers.
   <taskdef resource="net/sf/antcontrib/antlib.xml"/>
   
   <target name="check-modularization" depends="make-source">
-    <verifydesign design="design.xml">
+	<echo>blah</echo>
+  	<!--
+  	<verifydesign design="design.xml">
       <path>
 	<fileset dir="build/war/WEB-INF/classes/org/kuali/module">
 	  <include name="**/*.class" />
 	</fileset>
       </path>
     </verifydesign>
+    -->
   </target>
   
   <target name="make-javadoc-all" depends="init-properties">

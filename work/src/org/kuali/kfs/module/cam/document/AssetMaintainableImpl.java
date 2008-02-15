@@ -24,6 +24,7 @@ import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
@@ -39,10 +40,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
     @Override
     public void processAfterEdit(MaintenanceDocument document, Map<String,String[]> parameters) {
         Asset asset = (Asset) this.getBusinessObject();
-        String[] value = parameters.get(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE);
-        if (value != null){
-            asset.setDocumentTypeCode(value[0]);
-        }    
+        String[] value = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
+        asset.setDocumentTypeCode(value[0]);
         super.processAfterEdit(document, parameters);
      }
 
@@ -63,6 +62,8 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         
         for (Section section : coreSections) {
             if (StringUtils.isEmpty(asset.getDocumentTypeCode())) {
+                sections.add(section);
+            } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_EDIT)) {
                 sections.add(section);
             } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_RETIREMENT) &&
                     section.getSectionTitle().equalsIgnoreCase(CamsConstants.SectionTitles.ASSET_RETIREMENT)) {

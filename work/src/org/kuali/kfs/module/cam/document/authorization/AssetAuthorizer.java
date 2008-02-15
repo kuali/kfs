@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,63 +15,95 @@
  */
 package org.kuali.module.cams.document.authorization;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.document.authorization.DocumentActionFlags;
-import org.kuali.core.document.authorization.MaintenanceDocumentActionFlags;
 import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizations;
-import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase;
-import org.kuali.module.cams.bo.Asset;
-
+import org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer;
+import org.kuali.module.cams.CamsConstants;
 
 /**
- * Authorizer class for Asset maintenance document
+ * AssetAuthorizer delegates responsibility to specific action (document type) implementations since there are
+ * so many for Asset Maintenance Document.
  */
-public class AssetAuthorizer extends MaintenanceDocumentAuthorizerBase {
+public class AssetAuthorizer implements MaintenanceDocumentAuthorizer {
+    private static final Map<String,Class> FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION = new HashMap();
+    static {
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_TAG, AssetTagAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_SEPERATE, AssetSeperateAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_PAYMENT, AssetPaymentAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_EDIT, AssetEditAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_RETIREMENT, AssetRetireAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_TRANSFER, AssetTransferAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_LOAN, AssetLoanAuthorizer.class);
+        FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_MERGE, AssetMergeAuthorizer.class);
+    }
+    private MaintenanceDocumentAuthorizer realAuthorizer;
+    
+    /**
+     * Picks correct authorizer.
+     * @param document
+     */
+    private void initialize(Document document) {
+        try {
+            realAuthorizer = (MaintenanceDocumentAuthorizer)FINANCIAL_DOCUMENT_TYPE_TO_AUTHORIZER_IMPLEMENTATION.get(document.getDocumentHeader().getFinancialDocumentTypeCode()).newInstance();
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Caught exception while trying to initialize realMaintainable based on financialDocumentTypeCode: " + document.getDocumentHeader().getFinancialDocumentTypeCode(), e);
+        }
+    }
 
     /**
-     * By default, there are no restrictions for the fields in the superclass. This method is overridden here to makes all the
-     * fields in Asset Header readOnly if the Asset is not a parent. If the Asset is not a new Asset, if it is a parent, if
-     * Asset header and Asset type is not null and if the Asset type's changed allowed is set to N in the Asset type maintenance
-     * table, then we have to set the Asset type as readOnly field.
-     * 
-     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.MaintenanceDocumentAuthorizer#getFieldAuthorizations(org.kuali.core.document.MaintenanceDocument, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
     public MaintenanceDocumentAuthorizations getFieldAuthorizations(MaintenanceDocument document, UniversalUser user) {
-        MaintenanceDocumentAuthorizations auths = new MaintenanceDocumentAuthorizations();
-        return auths;
+        initialize(document);
+        return realAuthorizer.getFieldAuthorizations(document, user);
     }
 
     /**
-     * If the current user is a member of TAXNBR_ACCESSIBLE_GROUP then user is allowed to edit tax number.
-     * 
-     * @see org.kuali.core.document.MaintenanceDocumentAuthorizerBase#getEditMode(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.KualiUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#canCopy(java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
-    public Map getEditMode(Document document, UniversalUser user) {
-        Map editMode = super.getEditMode(document, user);
-        Asset asset = (Asset) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
-        
-        return editMode;
+    public boolean canCopy(String documentTypeName, UniversalUser user) {
+        // TODO we may have a problem with this - i don't think we'll know whether they can initiate based on workflow doc type name.  some folks will be able to maintain but not retire an asset.
+        // and, the document service calls these methods when creating the new doc - so, we can't make it pass in the request params - it doesn't have them.  ideas from jonathan?
+        // what is the issue with the maintainable initializeDocument method simply throwing an authorization exception in the case that a user just makes up a url - cause we're not going to draw the url for them on the 
+        // lookup result set, if they can't perform more detailed action - if that's fine, then we can just return true or make this class subclass MaintenanceDocumentAuthorizerBase and defer to it?
+        return true;
     }
 
     /**
-     * Disables blanket approve for Asset maintenance document
-     * 
-     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document,
-     *      org.kuali.core.bo.user.UniversalUser)
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#canInitiate(java.lang.String, org.kuali.core.bo.user.UniversalUser)
      */
-    @Override
+    public void canInitiate(String documentTypeName, UniversalUser user) {
+        // TODO see notes on canCopy - same apply here
+    }
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#canViewAttachment(java.lang.String, org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    public boolean canViewAttachment(String attachmentTypeName, Document document, UniversalUser user) {
+        initialize(document);
+        return realAuthorizer.canViewAttachment(attachmentTypeName, document, user);
+    }
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getDocumentActionFlags(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
     public DocumentActionFlags getDocumentActionFlags(Document document, UniversalUser user) {
-        MaintenanceDocumentActionFlags docActionFlags = new MaintenanceDocumentActionFlags(super.getDocumentActionFlags(document, user));
-        
-        return docActionFlags;
+        initialize(document);
+        return realAuthorizer.getDocumentActionFlags(document, user);
     }
-  
+
+    /**
+     * @see org.kuali.core.document.authorization.DocumentAuthorizer#getEditMode(org.kuali.core.document.Document, org.kuali.core.bo.user.UniversalUser)
+     */
+    public Map getEditMode(Document document, UniversalUser user) {
+        initialize(document);
+        return realAuthorizer.getEditMode(document, user);
+    }
 }

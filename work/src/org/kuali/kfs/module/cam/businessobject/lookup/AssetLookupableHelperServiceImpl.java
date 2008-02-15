@@ -46,23 +46,19 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_COPY_METHOD_TO_CALL));
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL);
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL);
-        actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL);
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
         actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL);
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL);
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_FABRICATION_METHOD_TO_CALL);
-        actions.append("&nbsp;&nbsp;");
-        actions.append(CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL);
+        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL));
         
         return actions.toString();
     }
@@ -80,20 +76,36 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         Properties parameters = new Properties();
         parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
         parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObject.getClass().getName());
-
+        
+        // document type code for asset maintenance document
+        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_ADDITION);
+        
         // Asset PK
         parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
+
+        // document type codes for the specific action been taken. These are not used for workflow
+        if (methodToCall.equals(KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_EDIT);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_TAG);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_SEPERATE);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_PAYMENT);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_RETIREMENT);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_TRANSFER);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_LOAN);
+        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL)) {
+            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_MERGE);
+        } else {
+            throw new RuntimeException("Unkown case methodToCall: " + methodToCall);
+        }
         
-        if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {
-            parameters.put(CamsPropertyConstants.Asset.DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_RETIREMENT);
-            
-            String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
-            url = "<a href=\"" + url + "\">" + CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL + "</a>";
-            return url;
-        }
-        else {
-            // Regular maintenance document functionality
-            return super.getMaintenanceUrl(businessObject, methodToCall);
-        }
+        String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
+        url = "<a href=\"" + url + "\">" + methodToCall + "</a>";
+        return url;
     }
 }

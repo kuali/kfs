@@ -29,13 +29,20 @@ public class CamsConstants {
     public static final String MAINTENANCE_RETIRE_METHOD_TO_CALL        = "retire";
     public static final String MAINTENANCE_TRANSFER_METHOD_TO_CALL      = "transfer";
     public static final String MAINTENANCE_LOAN_METHOD_TO_CALL          = "loan";
-    public static final String MAINTENANCE_FABRICATION_METHOD_TO_CALL   = "fabrication";
     public static final String MAINTENANCE_MERGE_METHOD_TO_CALL         = "merge";
 
     public static final String PRE_ASSET_TAGGING_FILE_TYPE_INDENTIFIER = "preAssetTaggingFileType";
 
     public static class DocumentTypes {
+        public static final String ASSET_ADDITION = "AA";
+        public static final String ASSET_EDIT = "CASM";
+        public static final String ASSET_TAG = "ATAG";
+        public static final String ASSET_SEPERATE = "ASEP";
+        public static final String ASSET_PAYMENT = "MPAY";
         public static final String ASSET_RETIREMENT = "AR";
+        public static final String ASSET_TRANSFER = "AT";
+        public static final String ASSET_LOAN = "ELR";
+        public static final String ASSET_MERGE = "AMRG";
     }
 
     public static class Parameters {
@@ -47,7 +54,7 @@ public class CamsConstants {
 
     // Following constants will be retired by KFSMI-324
     public static class SectionTitles {
-        public static final String ASSET_RETIREMENT = "Retire";
+        public static final String ASSET_RETIREMENT = "View Retirement Information";
     }    
 
     public static final String CAMS = "Capital Assets Management System";

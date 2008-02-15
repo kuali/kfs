@@ -34,7 +34,7 @@
 		<property file="${shared.external.build.properties}" />
 		<property file="build.properties" />
 	</target>
-
+	
 	<target name="init-properties" depends="init-property-files">
 		<tstamp><format property="project.cvs.tag" pattern="MM/dd/yyyy hh:mm aa" /></tstamp>
 		<condition property="context.docbase" value=' docBase="${basedir}${file.separator}work${file.separator}web-root"'><equals arg1="${is.local.build}" arg2="true" /></condition>
@@ -103,6 +103,14 @@
 			<include name="**/*.jasper" />
 			<include name="**/*.jrxml" />
 		</patternset>
+	</target>
+	
+	<target name="make-javadoc" depends="init-make-references">
+		<mkdir dir="${doc.directory}"/>
+		<javadoc destdir="${doc.directory}" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
+			<sourcepath><pathelement location="${source.directory}"/></sourcepath>
+			<classpath refid="compile.source.classpath"/>
+		</javadoc>
 	</target>
 
 	<target name="clean-project" depends="init-property-files,clean-help,clean-rice">

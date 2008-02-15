@@ -116,7 +116,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 data = this.calculateDepreciation(depreciableAssetsCollection);             
                 Map<Object,DepreciationTransaction> depreciationTransactions=this.generateDepreciationTransaction(data);
                 depreciableAssetsDao.updateAssetPayments(data);
-                //processGeneralLedgerPendingEntry(depreciationTransactions);                
+                processGeneralLedgerPendingEntry(depreciationTransactions);                
             } else {
                 throw new RuntimeException(NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND); 
             }
@@ -248,7 +248,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                         //LOG.info("***SL-2");
                     }
                 }
-                LOG.info("**** Accum Depreciation Amount:"+acummulatedDepreciationAmount);
+                //LOG.info("**** Accum Depreciation Amount:"+acummulatedDepreciationAmount);
                 d.setAccumulatedDepreciation(acummulatedDepreciationAmount);
 
                 d.setTransactionAmount(acummulatedDepreciationAmount.subtract(d.getAccumulatedPrimaryDepreciationAmount()));
@@ -270,7 +270,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                     d.setPlantCOA    (d.getCampusPlantChartCode());               
                 }
 
-                LOG.info("**** XXXXDepreciation:"+d.toString());            
+                //LOG.info("**** XXXXDepreciation:"+d.toString());            
                 assetsInDepreciation.add(d);
                 this.paymentsElibigleForDepreciationProcessed++;
             } // end for
@@ -386,7 +386,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 explicitEntry.setVersionNumber                    (new Long(1));
 
                 //explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
-                generalLedgerPendingEntryService.save(explicitEntry);
+                //generalLedgerPendingEntryService.save(explicitEntry);
             }
         }catch (Exception e) {
             throw new RuntimeException( ERROR_WHEN_UPDATING_GL_PENDING_ENTRY_TABLE+" :"+e.getMessage());

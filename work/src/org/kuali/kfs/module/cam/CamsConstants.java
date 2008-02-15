@@ -59,5 +59,5 @@ public class CamsConstants {
 
     public static final String CAMS = "Capital Assets Management System";
     
-    public static final String DEPRECIATION_REPORT_SUBTITLE = "Depreciation Report - Statistics";
+    public static final String DEPRECIATION_REPORT_SUBTITLE = "Asset Depreciation Report - Statistics";
 }

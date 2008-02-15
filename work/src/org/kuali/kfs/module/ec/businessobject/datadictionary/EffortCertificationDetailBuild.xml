@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.effort.bo.EffortCertificationDetailBuild">
 
         <inquiry>
-            <title>Effort Certification Detail Line Build Inquiry</title>
+            <title>Effort Certification Extract Line Build Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="effortCertificationBuildNumber" />
@@ -49,9 +49,9 @@
         </inquiry>
 
         <lookup>
-            <title>Effoft Certification Detail Build Lookup</title>
+            <title>Effoft Certification Extract Build Lookup</title>
 
-            <instructions>Look up an Effort Certification Detail Build</instructions>
+            <instructions>Look up an Effort Certification Extract Build</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>

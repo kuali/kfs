@@ -32,9 +32,14 @@
 		-->
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Detail Build Lookup"
+			<portal:portalLink displayTitle="true" title="Effort Build"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationDetailBuild&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>	
+		
+		<li>
+			<portal:portalLink displayTitle="true" title="Effort Certification Report Definition"
+				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
+		</li>
 		 
 		<li>
 			<portal:portalLink displayTitle="true" title="Report Type"
@@ -47,23 +52,24 @@
 		</li>
 		
 		<li>
-			<portal:portalLink displayTitle="true" title="Effort Certification Report Definition"
-				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportDefinition&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
-		</li>
-		
-		<li>
 			<portal:portalLink displayTitle="true" title="Report Earn Paygroup"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.EffortCertificationReportEarnPaygroup&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
+		
+	</ul>
+	
+	<strong>Reports</strong><br />
+	
+	<ul class="chan">		
 		
 		<li>
 			<portal:portalLink displayTitle="true" title="Outstanding Reports"
 				url="kr/lookup.do?methodToCall=start&businessObjectClassName=org.kuali.module.effort.bo.OutstandingReportsByOrganization&docFormKey=88888888&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" />
 		</li>
 		
-		<li>
+		<!-- 
 			<portal:portalLink displayTitle="true" title="Effort Certification Document" url="effortEffortCertification.do?methodToCall=docHandler&command=initiate&docTypeName=EffortCertificationDocument" />
-		</li>
+		</li>-->
 		
 	</ul>
 </div>

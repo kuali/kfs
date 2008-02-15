@@ -243,7 +243,8 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
      * @param index
      */
     public void deleteCashControlDetail(int index) {
-       cashControlDetails.remove(index);
+        CashControlDetail cashControlDetail = cashControlDetails.remove(index);
+        this.cashControlTotalAmount = this.cashControlTotalAmount.subtract(cashControlDetail.getFinancialDocumentLineAmount());
     }
     
     /**

@@ -118,23 +118,49 @@
 			<maintainableSection title="Payment Iformation">
                 <maintainableItems>
                     <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Iformation">
-                        <maintainableField name="paymentSequenceNumber" readOnly="true"/>
                         <maintainableField name="chartOfAccountsCode"  />
+                        <maintainableField name="accountNumber"  />
+                        <maintainableField name="subAccountNumber"  />
+                        <maintainableField name="financialObjectCode"  />
+                        <maintainableField name="projectCode"  />
+                        <maintainableField name="organizationReferenceId"  />
+                        <maintainableField name="documentNumber"  />
+                        <maintainableField name="financialDocumentTypeCode"  />
+                        <maintainableField name="purchaseOrderNumber"  />
+                        <maintainableField name="requisitionNumber"  />
+                        <maintainableField name="financialDocumentPostingDate"  />
+                        <maintainableField name="financialDocumentPostingYear"  />
+                        <maintainableField name="financialDocumentPostingPeriodCode"  />
+                        <maintainableField name="transferPaymentCode"  />
+                        <maintainableField name="accountChargeAmount"  />
+                        <maintainableField name="accumulatedPrimaryDepreciationAmount"  />
+                        <maintainableField name="previousYearPrimaryDepreciationAmount"  />
+                        <maintainableField name="period1Depreciation1Amount"  />
+                        <maintainableField name="period2Depreciation1Amount"  />
+                        <maintainableField name="period3Depreciation1Amount"  />
+                        <maintainableField name="period4Depreciation1Amount"  />
+                        <maintainableField name="period5Depreciation1Amount"  />
+                        <maintainableField name="period6Depreciation1Amount"  />
+                        <maintainableField name="period7Depreciation1Amount"  />
+                        <maintainableField name="period8Depreciation1Amount"  />
+                        <maintainableField name="period9Depreciation1Amount"  />
+                        <maintainableField name="period10Depreciation1Amount"  />
+                        <maintainableField name="period11Depreciation1Amount"  />
+                        <maintainableField name="period12Depreciation1Amount"  />
+                        
    		            </maintainableCollection>
 		        </maintainableItems>
 		    </maintainableSection>
 			
             <maintainableSection title="Asset Depreciation Information">
                 <maintainableItems>
-	                <subSectionHeader name="Primary" />
 					<maintainableField name="primaryDepreciationMethodCode" required="true" />
 					<maintainableField name="capitalAssetType.depreciableLifeLimit" />
 					<maintainableField name="salvageAmount" />
-					<subSectionHeader name="Secondary" />
-					<maintainableField name="secondaryDepreciationMethodCode" required="true" />
 			<!-- set to the same value as in primary? -->
 			<!-- 	<maintainableField name="capitalAssetType.depreciableLifeLimit" />
 					<maintainableField name="salvageAmount" />
+					<maintainableField name="secondaryDepreciationMethodCode" required="true" />
 			-->		
 				</maintainableItems>
 			</maintainableSection>

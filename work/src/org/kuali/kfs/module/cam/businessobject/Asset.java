@@ -1522,7 +1522,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetRepresentative attribute value.
-     * 
+     * @deprecated
      * @param assetRepresentative The assetRepresentative to set.
      */
     public void setAssetRepresentative(UniversalUser assetRepresentative) {

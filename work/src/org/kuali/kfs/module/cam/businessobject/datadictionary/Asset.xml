@@ -751,7 +751,7 @@
 			
 			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
 				<label>Condition Code</label>
-			</attributeReference>	
+			</attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -21,7 +21,7 @@
 	documentTypeName="EffortCertificationDocument" renderMultipart="true"
 	showTabButtons="true">
 	
-	<kul:hiddenDocumentFields />
+	<kul:hiddenDocumentFields isFinancialDocument="false" />
 		
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
 	<er:reportInformation />

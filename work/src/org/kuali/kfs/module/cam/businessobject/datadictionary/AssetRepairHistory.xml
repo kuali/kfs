@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetRepairHistory">
+ 
+        <inquiry>
+            <title>Asset Repair History Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="estimatedRepairDate" />
+                        <field attributeName="incidentDate" />
+                        <field attributeName="problemDescription" />
+                        <field attributeName="repairAmount" />
+                        <field attributeName="repairContactName" />
+                        <field attributeName="repairDate" />
+                        <field attributeName="repairNoteText" />
+                        <field attributeName="repairSolutionDescription" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Repair History Lookup</title>
+
+            <instructions>Look up an Asset Repair History</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                    <sortAttribute attributeName="incidentDate" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="estimatedRepairDate" required="false" />
+                <lookupField attributeName="incidentDate" required="false" />
+                <lookupField attributeName="problemDescription" required="false" />
+                <lookupField attributeName="repairAmount" required="false" />
+                <lookupField attributeName="repairContactName" required="false" />
+                <lookupField attributeName="repairDate" required="false" />
+                <lookupField attributeName="repairNoteText" required="false" />
+                <lookupField attributeName="repairSolutionDescription" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="estimatedRepairDate" />
+                <field attributeName="incidentDate" />
+                <field attributeName="problemDescription" />
+                <field attributeName="repairAmount" />
+                <field attributeName="repairContactName" />
+                <field attributeName="repairDate" />
+                <field attributeName="repairNoteText" />
+                <field attributeName="repairSolutionDescription" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="estimatedRepairDate" forceUppercase="true">
+                <label>Estimated Repair Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>estimatedRepairDate</summary>
+                <description>estimatedRepairDate description...</description>
+			</attribute>
+
+            <attribute name="incidentDate" forceUppercase="true">
+                <label>Incident Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>incidentDate</summary>
+                <description>incidentDate description...</description>
+			</attribute>
+
+            <attribute name="problemDescription" forceUppercase="true">
+                <label>Problem Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>problemDescription</summary>
+                <description>problemDescription description...</description>
+			</attribute>
+
+            <attribute name="repairAmount" forceUppercase="true">
+                <label>Repair Amount</label>
+                <shortLabel>Amount</shortLabel>
+
+                <maxLength>19</maxLength>
+                <validationPattern><floatingPoint /></validationPattern>
+
+                <control>
+                    <text size="21" />
+                </control>
+
+                <summary>repairAmount</summary>
+                <description>repairAmount description...</description>
+			</attribute>
+
+            <attribute name="repairContactName" forceUppercase="true">
+                <label>Repair Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>repairContactName</summary>
+                <description>repairContactName description...</description>
+			</attribute>
+
+            <attribute name="repairDate" forceUppercase="true">
+                <label>Repair Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>repairDate</summary>
+                <description>repairDate description...</description>
+			</attribute>
+
+            <attribute name="repairNoteText" forceUppercase="true">
+                <label>Repair Note Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>repairNoteText</summary>
+                <description>repairNoteText description...</description>
+			</attribute>
+
+            <attribute name="repairSolutionDescription" forceUppercase="true">
+                <label>Repair Solution Description</label>
+                <shortLabel>Description</shortLabel>
+
+                <maxLength>255</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+
+                <summary>repairSolutionDescription</summary>
+                <description>repairSolutionDescription description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

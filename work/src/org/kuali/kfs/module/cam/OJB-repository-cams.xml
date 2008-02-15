@@ -210,7 +210,7 @@
 	</reference-descriptor>
  	<collection-descriptor name="assetPayments" element-class-ref="org.kuali.module.cams.bo.AssetPayment" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
         <inverse-foreignkey field-ref="capitalAssetNumber" />
-    </collection-descriptor>	
+    </collection-descriptor>
    	<reference-descriptor name="assetRepresentative" class-ref="org.kuali.core.bo.user.UniversalUser" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="representativeUniversalIdentifier" />
 	</reference-descriptor>	
@@ -551,7 +551,7 @@
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />
 	</reference-descriptor>
-		
+	
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.PretagDetail" table="CM_PRTG_DTL_T">
@@ -747,6 +747,55 @@
 	</reference-descriptor>
 	<reference-descriptor name="componentCondition" class-ref="org.kuali.module.cams.bo.AssetCondition" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="componentConditionCode" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetWarranty" table="CM_AST_WRNTY_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="warrantyContactName" column="AST_WRNTY_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="warrantyPhoneNumber" column="AST_WRNTYPHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="warrantyBeginningDate" column="AST_WRNTY_BEG_DT" jdbc-type="DATE"/>
+	<field-descriptor name="warrantyEndingDate" column="AST_WRNTY_END_DT" jdbc-type="DATE"/>
+	<field-descriptor name="warrantyNumber" column="AST_WRNTY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="warrantyPurchaseOrderNumber" column="AST_WRNTY_PO_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="warrantyText" column="AST_WRNTY_TXT" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetRepairHistory" table="CM_AST_RPR_HIST_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="incidentDate" column="CPTLAST_INCIDNT_DT" jdbc-type="DATE" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="problemDescription" column="CPTLAST_PRBLM_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="repairContactName" column="CPTLAST_RPRCNTC_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="repairNoteText" column="CPTLAST_RPR_NT_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="estimatedRepairDate" column="CPTLAST_EST_RPR_DT" jdbc-type="DATE"/>
+	<field-descriptor name="repairDate" column="CPTLAST_RPR_DT" jdbc-type="DATE"/>
+	<field-descriptor name="repairAmount" column="CPTLAST_RPR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="repairSolutionDescription" column="AST_RPR_SOLN_DESC" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetDisposition" table="CM_AST_DISP_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="dispositionCode" column="CPTLAST_DISP_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="dispositionOriginationCode" column="AST_DISP_ORGN_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="originalCapitalAssetNumber" column="AST_ORIG_AST_NBR" jdbc-type="BIGINT"/>
+	<field-descriptor name="dispositionDate" column="CPTLAST_DISP_DT" jdbc-type="DATE"/>
+
+	<reference-descriptor name="asset" class-ref="org.kuali.module.cams.bo.Asset" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
 </descriptor-repository>

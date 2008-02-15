@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetWarranty">
+ 
+        <inquiry>
+            <title>Asset Warranty Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="warrantyBeginningDate" />
+                        <field attributeName="warrantyContactName" />
+                        <field attributeName="warrantyEndingDate" />
+                        <field attributeName="warrantyNumber" />
+                        <field attributeName="warrantyPhoneNumber" />
+                        <field attributeName="warrantyPurchaseOrderNumber" />
+                        <field attributeName="warrantyText" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Warranty Lookup</title>
+
+            <instructions>Look up an Asset Warranty</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="warrantyBeginningDate" required="false" />
+                <lookupField attributeName="warrantyContactName" required="false" />
+                <lookupField attributeName="warrantyEndingDate" required="false" />
+                <lookupField attributeName="warrantyNumber" required="false" />
+                <lookupField attributeName="warrantyPhoneNumber" required="false" />
+                <lookupField attributeName="warrantyPurchaseOrderNumber" required="false" />
+                <lookupField attributeName="warrantyText" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="warrantyBeginningDate" />
+                <field attributeName="warrantyContactName" />
+                <field attributeName="warrantyEndingDate" />
+                <field attributeName="warrantyNumber" />
+                <field attributeName="warrantyPhoneNumber" />
+                <field attributeName="warrantyPurchaseOrderNumber" />
+                <field attributeName="warrantyText" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+            <attribute name="warrantyBeginningDate" forceUppercase="true">
+                <label>Warranty Beginning Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>warrantyBeginningDate</summary>
+                <description>warrantyBeginningDate description...</description>
+			</attribute>
+
+            <attribute name="warrantyContactName" forceUppercase="true">
+                <label>Warranty Contact Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>warrantyContactName</summary>
+                <description>warrantyContactName description...</description>
+			</attribute>
+
+            <attribute name="warrantyEndingDate" forceUppercase="true">
+                <label>Warranty Ending Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>warrantyEndingDate</summary>
+                <description>warrantyEndingDate description...</description>
+			</attribute>
+
+            <attribute name="warrantyNumber" forceUppercase="true">
+                <label>Warranty Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>warrantyNumber</summary>
+                <description>warrantyNumber description...</description>
+			</attribute>
+
+            <attribute name="warrantyPhoneNumber" forceUppercase="true">
+                <label>Warranty Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>warrantyPhoneNumber</summary>
+                <description>warrantyPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="warrantyPurchaseOrderNumber" forceUppercase="true">
+                <label>Warranty Purchase Order Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>warrantyPurchaseOrderNumber</summary>
+                <description>warrantyPurchaseOrderNumber description...</description>
+			</attribute>
+
+            <attribute name="warrantyText" forceUppercase="true">
+                <label>Warranty Text</label>
+                <shortLabel>Text</shortLabel>
+
+                <maxLength>40</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="42" />
+                </control>
+
+                <summary>warrantyText</summary>
+                <description>warrantyText description...</description>
+			</attribute>
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

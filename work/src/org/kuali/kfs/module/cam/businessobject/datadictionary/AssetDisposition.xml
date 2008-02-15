@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.AssetDisposition">
+ 
+        <inquiry>
+            <title>Asset Disposition Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="capitalAssetNumber" />
+                        <field attributeName="dispositionCode" />
+                        <field attributeName="dispositionDate" />
+                        <field attributeName="dispositionOriginationCode" />
+                        <field attributeName="originalCapitalAssetNumber" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Asset Disposition Lookup</title>
+
+            <instructions>Look up an Asset Disposition</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="capitalAssetNumber" />
+                    <sortAttribute attributeName="dispositionCode" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="capitalAssetNumber" required="false" />
+                <lookupField attributeName="dispositionCode" required="false" />
+                <lookupField attributeName="dispositionDate" required="false" />
+                <lookupField attributeName="dispositionOriginationCode" required="false" />
+                <lookupField attributeName="originalCapitalAssetNumber" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="capitalAssetNumber" />
+                <field attributeName="dispositionCode" />
+                <field attributeName="dispositionDate" />
+                <field attributeName="dispositionOriginationCode" />
+                <field attributeName="originalCapitalAssetNumber" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="capitalAssetNumber" forceUppercase="true">
+                <label>Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>capitalAssetNumber</summary>
+                <description>capitalAssetNumber description...</description>
+			</attribute>
+
+            <attribute name="dispositionCode" forceUppercase="true">
+                <label>Disposition Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>dispositionCode</summary>
+                <description>dispositionCode description...</description>
+			</attribute>
+
+            <attribute name="dispositionDate" forceUppercase="true">
+                <label>Disposition Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>dispositionDate</summary>
+                <description>dispositionDate description...</description>
+			</attribute>
+
+            <attribute name="dispositionOriginationCode" forceUppercase="true">
+                <label>Disposition Origination Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>dispositionOriginationCode</summary>
+                <description>dispositionOriginationCode description...</description>
+			</attribute>
+
+            <attribute name="originalCapitalAssetNumber" forceUppercase="true">
+                <label>Original Capital Asset Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>originalCapitalAssetNumber</summary>
+                <description>originalCapitalAssetNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

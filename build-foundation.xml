@@ -31,8 +31,6 @@ are intended for use only by Kuali Foundation developers.
   <taskdef resource="net/sf/antcontrib/antlib.xml"/>
   
   <target name="check-modularization" depends="make-source">
-	<echo>blah</echo>
-  	<!--
   	<verifydesign design="design.xml">
       <path>
 	<fileset dir="build/war/WEB-INF/classes/org/kuali/module">
@@ -40,7 +38,6 @@ are intended for use only by Kuali Foundation developers.
 	</fileset>
       </path>
     </verifydesign>
-    -->
   </target>
   
   <target name="make-javadoc-all" depends="init-properties">

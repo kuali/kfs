@@ -144,6 +144,12 @@ public class GenesisServiceImpl implements GenesisService {
     // this step updates the budget from the payroll (CSF) and the GL once
     // genesis has run.
     public void bCUpdateStep(Integer BaseYear) {
+        /**
+         *  the calling order is important
+         *  for example, GL cannot be created without a document number, appointment funding needs the normal work months
+         *  from the budget construction position table
+         *  the calling order is constrained further if an institution implements referential integrity
+         */
         genesisDao.clearHangingBCLocks(BaseYear);
         genesisDao.ensureObjectClassRIForBudget(BaseYear);
         genesisDao.createNewBCDocumentsFromGLCSF(BaseYear, GLUpdatesAllowed(BaseYear), CSFUpdatesAllowed(BaseYear));
@@ -153,7 +159,9 @@ public class GenesisServiceImpl implements GenesisService {
         genesisDao.initialLoadToPBGL(BaseYear);
         boolean CSFOK = CSFUpdatesAllowed(BaseYear);
         boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
-        genesisDao.createNewBCPosition(BaseYear, PSSynchOK, CSFOK);
+        budgetConstructionHumanResourcesPayrollInterfaceService.refreshBudgetConstructionPosition(BaseYear,PSSynchOK,CSFOK);
+        LOG.warn(String.format("\n  intended incumbent"));
+        budgetConstructionHumanResourcesPayrollInterfaceService.refreshBudgetConstructionIntendedIncumbent(BaseYear,PSSynchOK,CSFOK);
         if (CSFOK) {
             genesisDao.buildAppointmentFundingAndBCSF(BaseYear);
         }
@@ -161,6 +169,12 @@ public class GenesisServiceImpl implements GenesisService {
     }
 
     public void genesisStep(Integer BaseYear) {
+        /**
+         *  the calling order is important
+         *  for example, GL cannot be created without a document number, appointment funding needs the normal work months
+         *  from the budget construction position table
+         *  the calling order is constrained further if an institution implements referential integrity
+         */
         LOG.warn(String.format("\nstarting Genesis:\n  flags"));
         genesisDao.setControlFlagsAtTheStartOfGenesis(BaseYear);
         LOG.warn(String.format("\n  clear database"));
@@ -176,7 +190,9 @@ public class GenesisServiceImpl implements GenesisService {
         LOG.warn(String.format("\n  new positions"));
         boolean CSFOK = CSFUpdatesAllowed(BaseYear);
         boolean PSSynchOK = BatchPositionSynchAllowed(BaseYear);
-        genesisDao.createNewBCPosition(BaseYear, PSSynchOK, CSFOK);
+        budgetConstructionHumanResourcesPayrollInterfaceService.refreshBudgetConstructionPosition(BaseYear,PSSynchOK,CSFOK);
+        LOG.warn(String.format("\n  intended incumbent"));
+        budgetConstructionHumanResourcesPayrollInterfaceService.refreshBudgetConstructionIntendedIncumbent(BaseYear,PSSynchOK,CSFOK);
         if (CSFOK) {
             LOG.warn("\n  appointment funding/BCSF");
             genesisDao.buildAppointmentFundingAndBCSF(BaseYear);

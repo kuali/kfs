@@ -117,7 +117,7 @@
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.effort.bo.EffortCertificationDocumentBuild" table="LD_A21_DTL_BLD_T">
-	<field-descriptor name="effortCertificationBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="A21_BLD_NBR_SEQ"/>
+	<field-descriptor name="effortCertificationBuildNumber" column="A21_LBR_BLD_NBR" jdbc-type="BIGINT" primarykey="true" index="true" autoincrement="true" sequence-name="A21_LBR_BLD_NBR_SEQ"/>
 	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
 	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
 	<field-descriptor name="effortCertificationReportNumber" column="A21_LBR_RPT_NBR" jdbc-type="VARCHAR" index="true"/>

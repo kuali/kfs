@@ -666,19 +666,26 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return
      */
     public boolean getFederalPassThrough() {
-        this.federalOrFederalPassThroughIndicator = false;
-
-        // TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
-        /*
-         * AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards()); List<String> federalAgencyCodeList =
-         * EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-         * 
-         * for (String federalAgencyCode : federalAgencyCodeList) { if (primaryAward.getAward() != null &&
-         * federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) { return true; } else if
-         * (primaryAward.getAward() != null && primaryAward.getAward().getFederalPassThroughIndicator()) { return true; } }
-         */
-
-        return this.federalOrFederalPassThroughIndicator;
+        
+        //TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
+        AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards());
+        List<String> federalAgencyCodeList = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
+        
+        for (String federalAgencyCode : federalAgencyCodeList) {
+            if (primaryAward != null &&
+                primaryAward.getAward() != null && 
+                federalAgencyCode != null &&
+                federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) {
+                return true;
+            } else if (primaryAward != null &&
+                       primaryAward.getAward() != null && 
+                       federalAgencyCode != null && 
+                       primaryAward.getAward().getFederalPassThroughIndicator()) {
+                return true;
+            }
+        }
+        
+        return false;
     }
 
     /**

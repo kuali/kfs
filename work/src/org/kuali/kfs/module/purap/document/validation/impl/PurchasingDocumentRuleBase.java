@@ -652,10 +652,10 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
  
     /**
      * Capital Asset validation: If the item has a quantity, and has an extended price greater than or equal to 
-     * the threshold for becoming a Capital Asset, the object codes on all the item's associated accounting lines 
-     * must be among a specific set of levels that are deemed acceptable for such items, if not of the Capital Asset 
-     * level itself.  Failure of this validation gives a warning both at the Requisition stage and at the Purchase Order 
-     * stage.
+     * the threshold for becoming a Capital Asset, and the  object code has one of a list of levels related to capital
+     * assets, and indicating the possiblity of the item being a capital asset, rather than an actual Capital Asset level, 
+     * a warning should be given that a Capital Asset level should be used. Failure of this validation gives a warning 
+     * both at the Requisition stage and at the Purchase Order stage.
      *  
      * @param itemQuantity          The quantity as a KualiDecimal
      * @param extendedPrice         The extended price as a KualiDecimal
@@ -679,7 +679,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
                     possiblyCapitalAssetObjectCodeLevels = SpringContext.getBean(ParameterService.class).getParameterValue(
                             ParameterConstants.PURCHASING_DOCUMENT.class, 
                             PurapParameterConstants.CapitalAsset.POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS);
-                    if (!StringUtils.contains(possiblyCapitalAssetObjectCodeLevels,objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
+                    if (StringUtils.contains(possiblyCapitalAssetObjectCodeLevels,objectCode.getFinancialObjectLevel().getFinancialObjectLevelCode())) {
                         valid &= false;
                     }
                 }
@@ -758,7 +758,7 @@ public class PurchasingDocumentRuleBase extends PurchasingAccountsPayableDocumen
         boolean found = false;
         for( CapitalAssetTransactionTypeRule relation : relevantRelations ) {
             if( StringUtils.equals(relation.getFinancialObjectSubTypeCode(),objectCode.getFinancialObjectSubTypeCode())) {
-                found &= true;
+                found = true;
                 break;
             }
         }

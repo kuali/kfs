@@ -69,7 +69,6 @@ public class PurchaseOrderDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
-        valid &= processItemValidation(purapDocument);
         valid &= processVendorStipulationValidation((PurchaseOrderDocument) purapDocument);
 
         return valid;

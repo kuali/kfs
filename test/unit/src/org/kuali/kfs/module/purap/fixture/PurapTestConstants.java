@@ -95,6 +95,12 @@ public class PurapTestConstants {
     }
     
     static class PurCams {
-        static final ObjectCode OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","5000");
+        static final KualiDecimal CAPITAL_AMOUNT = new KualiDecimal(6000);
+        static final KualiDecimal POSITIVE_AMOUNT = new KualiDecimal(16);
+        static final KualiDecimal ZERO_AMOUNT = new KualiDecimal(0);
+        static final KualiDecimal NEGATIVE_AMOUNT = new KualiDecimal(-16);
+        static final ObjectCode CAPITAL_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7017"); //Level should be set to "CAP"
+        static final ObjectCode POSSIBLE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7050"); //Level should be set to "S&E"
+        static final ObjectCode EXPENSE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","5010"); //Level should be set to "DEBT"
     }
 }

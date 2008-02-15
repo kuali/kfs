@@ -71,7 +71,9 @@
         </th>
         <td align=left valign=middle class="datacell">
             <kul:htmlControlAttribute attributeEntry="${itemsAttributes.addCapitalAssetNumber}" property="document.items[${ctr}].addCapitalAssetNumber" readOnly="${not (fullEntryMode or amendmentEntry)}"/>&nbsp;
-            <html:image property="methodToCall.addAsset.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton" />
+            <c:if test="${fullEntryMode or amendmentEntry}">
+            	<html:image property="methodToCall.addAsset.line${ctr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" alt="Insert an Asset" title="Add an Asset" styleClass="tinybutton"/>
+            </c:if>
         </td>
     </tr>
 
@@ -86,9 +88,9 @@
             <div align="right"><kul:htmlAttributeLabel attributeEntry="${camsAttributes.capitalAssetNumber}" /></div>
         </th>
         <td align=left valign=middle class="datacell">
-            <c:forEach items="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" var="capitalAsset" varStatus="assetCtr">
+            <c:forEach var="capitalAsset" items="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" varStatus="assetCtr">
                 ${capitalAsset.capitalAssetNumber}&nbsp;                
-                <html:image property="methodToCall.deleteAsset.line${ctr}.asset${assetCtr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" />
+                <html:image property="methodToCall.deleteAsset.line${ctr}.asset${assetCtr}" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" alt="Remove an Asset" title="Delete an Asset" styleClass="tinybutton" /><br/>
             </c:forEach>
             <html:hidden property="purchasingItemCapitalAssets" value="${KualiForm.document.items[ctr].purchasingItemCapitalAssets}" />
         </td>

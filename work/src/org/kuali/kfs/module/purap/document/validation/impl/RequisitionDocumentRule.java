@@ -63,7 +63,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     public boolean processValidation(PurchasingAccountsPayableDocument purapDocument) {
         boolean valid = super.processValidation(purapDocument);
         valid &= processAdditionalValidation((PurchasingDocument) purapDocument);
-        valid &= processItemValidation(purapDocument);
         return valid;
     }
 

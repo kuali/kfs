@@ -20,8 +20,10 @@ import java.sql.Date;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.module.chart.bo.ObjectCode;
+import org.kuali.module.purap.bo.CapitalAssetTransactionType;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.bo.RequisitionAccount;
 import org.kuali.module.purap.bo.RequisitionItem;
 import org.kuali.module.purap.document.PurchaseOrderDocument;
@@ -102,5 +104,12 @@ public class PurapTestConstants {
         static final ObjectCode CAPITAL_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7017"); //Level should be set to "CAP"
         static final ObjectCode POSSIBLE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","7050"); //Level should be set to "S&E"
         static final ObjectCode EXPENSE_OBJECT_CODE = new ObjectCode(new Integer("2008"),"BL","5010"); //Level should be set to "DEBT"
+        static final CapitalAssetTransactionType NONRECURRING_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new CapitalAssetTransactionType("MDEX");
+        static final CapitalAssetTransactionType NONRECURRING_NON_ASSET_NUMBER_REQUIRING_TRAN_TYPE = new CapitalAssetTransactionType("NEW");
+        static final CapitalAssetTransactionType RECURRING_TRAN_TYPE = new CapitalAssetTransactionType("LEAS");
+        static final RecurringPaymentType RECURRING_PAYMENT_TYPE = new RecurringPaymentType();
+        static final Long ASSET_NUMBER_1 = new Long("333221");
+        static final Long ASSET_NUMBER_2 = new Long("333222");
+        
     }
 }

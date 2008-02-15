@@ -19,6 +19,7 @@ import static org.kuali.test.fixtures.UserNameFixture.KHUNTLEY;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
@@ -26,6 +27,8 @@ import org.kuali.module.chart.bo.ObjLevel;
 import org.kuali.module.chart.bo.ObjSubTyp;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.purap.bo.CapitalAssetTransactionType;
+import org.kuali.module.purap.bo.PurchasingItemCapitalAsset;
+import org.kuali.module.purap.bo.RecurringPaymentType;
 import org.kuali.module.purap.document.PurchasingDocument;
 import org.kuali.module.purap.fixtures.DeliveryRequiredDateFixture;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
@@ -263,7 +266,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the null quantity.
      */
     public void testValidateLevelCapitalAssetIndication_NullQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTIY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
         KualiDecimal extendedPrice = fixture.getExtendedPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");      
@@ -276,7 +279,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the negative quantity.
      */
     public void testValidateLevelCapitalAssetIndication_NegativeQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NEGATIVE_QUANTIY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NEGATIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
         KualiDecimal extendedPrice = fixture.getExtendedPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");    
@@ -289,7 +292,7 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
      * the POSSIBLE_CAPITAL_ASSET_OBJECT_LEVELS parameter, due to the zero quantity.
      */
     public void testValidateLevelCapitalAssetIndication_ZeroQuantity() {
-        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ZERO_QUANTIY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ZERO_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
         KualiDecimal itemQuantity = fixture.getQuantity();
         KualiDecimal extendedPrice = fixture.getExtendedPrice();
         ObjectCode objectCode = getObjectCodeWithLevel(fixture, "S&E");     
@@ -366,5 +369,169 @@ public class PurchasingDocumentRuleTest extends PurapRuleTestBase {
         assertFalse(rules.validateObjectCodeVersusTransactionType(objectCode, tranType, false, "1"));
     }
     
+    // Tests of validateQuantityVersusObjectCode
     
+    @SuppressWarnings("deprecation")
+    public void testValidateQuantityVersusObjectCode_HappyPath() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        ObjectCode objectCode = fixture.getObjectCode();
+        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        objectCode.setFinancialObjectSubTypeCode("AM");  // Quantity-requiring subtype
+        financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
+        objectCode.setFinancialObjectSubType(financialObjectSubType);
+        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        tranType.setCapitalAssetTransactionTypeCode("NEW"); // Not a service-related tran type
+        KualiDecimal itemQuantity = fixture.getQuantity();
+        assertTrue(rules.validateQuantityVersusObjectCode(tranType, itemQuantity, objectCode, false, "1"));
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void testValidateQuantityVersusObjectCode_ZeroQuantity() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ZERO_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        ObjectCode objectCode = fixture.getObjectCode();
+        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        objectCode.setFinancialObjectSubTypeCode("AM");  // Quantity-requiring subtype
+        financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
+        objectCode.setFinancialObjectSubType(financialObjectSubType);
+        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        tranType.setCapitalAssetTransactionTypeCode("NEW"); // Not a service-related tran type
+        KualiDecimal itemQuantity = fixture.getQuantity();
+        assertFalse(rules.validateQuantityVersusObjectCode(tranType, itemQuantity, objectCode, false, "1"));
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void testValidateQuantityVersusObjectCode_NullQuantity() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        ObjectCode objectCode = fixture.getObjectCode();
+        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        objectCode.setFinancialObjectSubTypeCode("AM");  // Quantity-requiring subtype
+        financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
+        objectCode.setFinancialObjectSubType(financialObjectSubType);
+        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        tranType.setCapitalAssetTransactionTypeCode("NEW"); // Not a service-related tran type
+        KualiDecimal itemQuantity = fixture.getQuantity();
+        assertFalse(rules.validateQuantityVersusObjectCode(tranType, itemQuantity, objectCode, false, "1"));
+    }
+    
+    @SuppressWarnings("deprecation")
+    public void testValidateQuantityVersusObjectCode_ServiceRelatedTranType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.POSITIVE_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        ObjectCode objectCode = fixture.getObjectCode();
+        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        objectCode.setFinancialObjectSubTypeCode("AM");  // Quantity-requiring subtype
+        financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
+        objectCode.setFinancialObjectSubType(financialObjectSubType);
+        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        tranType.setCapitalAssetTransactionTypeCode("LEAS"); // Service-related tran type
+        KualiDecimal itemQuantity = fixture.getQuantity();
+        assertTrue(rules.validateQuantityVersusObjectCode(tranType, itemQuantity, objectCode, false, "1"));
+    }      
+    
+    @SuppressWarnings("deprecation")
+    public void testValidateQuantityVersusObjectCode_NonQuantityRequiringSubtype() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NULL_QUANTITY_CAPITAL_PRICE_POSSIBLE_OBJECT_CODE;
+        ObjectCode objectCode = fixture.getObjectCode();
+        ObjSubTyp financialObjectSubType = new ObjSubTyp();
+        objectCode.setFinancialObjectSubTypeCode("CA");  // Non-quantity-requiring subtype
+        financialObjectSubType.setFinancialObjectSubTypeName("Arts and Museums");
+        objectCode.setFinancialObjectSubType(financialObjectSubType);
+        CapitalAssetTransactionType tranType = new CapitalAssetTransactionType();
+        tranType.setCapitalAssetTransactionTypeCode("NEW"); // Not a service-related tran type
+        KualiDecimal itemQuantity = fixture.getQuantity();
+        assertTrue(rules.validateQuantityVersusObjectCode(tranType, itemQuantity, objectCode, false, "1"));
+    }   
+    
+    // Tests of validateCapitalAssetTransactionTypeVersusRecurrence
+    
+    public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
+        assertFalse(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+    }
+    
+    public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NonRecurringTranTypeAndNoRecurringPaymentType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_NONRECURRING_TRAN_TYPE;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
+        assertTrue(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+    }
+    
+    public void testValidateCapitalAssetTransactionTypeVersusRecurrence_NoTranType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_NO_TRAN_TYPE;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
+        assertFalse(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+    }
+    
+    public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.RECURRING_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
+        assertTrue(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+    }
+    
+    public void testValidateCapitalAssetTransactionTypeVersusRecurrence_RecurringTranTypeAndNoRecurringPaymentType() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NO_PAYMENT_TYPE_RECURRING_TRAN_TYPE;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        RecurringPaymentType recurringPaymentType = fixture.getRecurringPaymentType();
+        assertFalse(rules.validateCapitalAssetTransactionTypeVersusRecurrence(tranType, recurringPaymentType, false, "1"));
+    }   
+    
+    // Tests of validateCapitalAssetNumberRequirements
+    
+    /**
+     * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given, and one asset
+     * number has been added, the rule passes.
+     */
+    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeOneAsset() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
+    }
+    
+    /**
+     * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given and no asset
+     * numbers have been added, the rule fails.
+     */
+    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeNoAssets() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        assertFalse(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
+    }
+    
+    /**
+     * Tests that, if an asset-number-requiring Capital Asset Transaction Type is given and more than
+     * one asset number has been added, the rule passes.
+     */
+    public void testValidateCapitalAssetNumberRequirements_AssetNumberRequiringTranTypeTwoAssets() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.ASSET_NUMBER_REQUIRING_TRAN_TYPE_TWO_ASSETS;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
+    }
+    
+    /**
+     * Tests that, if a Capital Asset Transaction Type is added which does not require asset numbers,
+     * and there is no asset number added, the rule will pass anyway.
+     */
+    public void testValidateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeNoAssets() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_NO_ASSETS;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
+    }
+    
+    /**
+     * Tests that, if a Capital Asset Transaction Type is added which does not require asset numbers,
+     * and there is an asset number added, the rule will pass.
+     */
+    public void testValidateCapitalAssetNumberRequirements_NonAssetNumberRequiringTranTypeOneAsset() {
+        PurchasingCapitalAssetFixture fixture = PurchasingCapitalAssetFixture.NONASSET_NUMBER_REQUIRING_TRAN_TYPE_ONE_ASSET;
+        CapitalAssetTransactionType tranType = fixture.getCapitalAssetTransactionType();
+        List<PurchasingItemCapitalAsset> assets = fixture.getAssets();
+        assertTrue(rules.validateCapitalAssetNumberRequirements(tranType, assets, false, "1"));
+    }    
 }

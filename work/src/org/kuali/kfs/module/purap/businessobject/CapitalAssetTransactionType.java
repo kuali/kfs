@@ -36,6 +36,14 @@ public class CapitalAssetTransactionType extends PersistableBusinessObjectBase {
     public CapitalAssetTransactionType() {
 
     }
+    
+    /**
+     * Constructs a CapitalAssetTransactionType.java.
+     * @param capitalAssetTransactionTypeCode
+     */
+    public CapitalAssetTransactionType(String capitalAssetTransactionTypeCode) {
+        this.capitalAssetTransactionTypeCode = capitalAssetTransactionTypeCode;
+    }
 
     public String getCapitalAssetTransactionTypeCode() {
         return capitalAssetTransactionTypeCode;

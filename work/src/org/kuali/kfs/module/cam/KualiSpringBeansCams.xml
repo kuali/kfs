@@ -49,7 +49,7 @@
 		</property>
 		<!--  property name="jobNames">
 			<list>
-				<value>camsAssetDepreciationJob</value>
+				<value>assetDepreciationJob</value>
 			</list>
 		</property-->		
 		<!--  property name="jobNames">
@@ -64,26 +64,26 @@
 
 
 <!-- ********* Begin of depreciation batch beans ********** -->
-    <!-- bean id="camsAssetDepreciationStep" class="org.kuali.module.cams.batch.CamsAssetDepreciationStep" parent="step">
-		<property name="camsAssetDepreciationService">
-			<ref bean="camsAssetDepreciationService" />
+    <!-- bean id="assetDepreciationStep" class="org.kuali.module.cams.batch.AssetDepreciationStep" parent="step">
+		<property name="assetDepreciationService">
+			<ref bean="assetDepreciationService" />
 		</property>
 	</bean-->
 
 	<!-- bean id="camsAssetDepreciationJob" parent="unscheduledJobDescriptor">
 		<property name="steps">
 			<list>
-				<ref bean="camsAssetDepreciationStep"/>
+				<ref bean="assetDepreciationStep"/>
 			</list>
 		</property>
 	</bean-->
 
-	<bean id="camsAssetDepreciationService" class="org.kuali.module.cams.service.impl.CamsAssetDepreciationServiceImpl">											       
+	<bean id="assetDepreciationService" class="org.kuali.module.cams.service.impl.AssetDepreciationServiceImpl">											       
         <property name="parameterService">
             <ref bean="parameterService" />
         </property>
-        <property name="camsDepreciableAssetsDao">
-            <ref bean="camsDepreciableAssetsDao" />
+        <property name="depreciableAssetsDao">
+            <ref bean="depreciableAssetsDao" />
         </property>
         <property name="camsReportService">
             <ref bean="camsReportService" />
@@ -96,12 +96,12 @@
 		</property>                		
     </bean>
     
-	<bean id="camsDepreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.CamsDepreciableAssetsDaoOjb" />    
+	<bean id="depreciableAssetsDao" parent="platformAwareDao" class="org.kuali.module.cams.dao.ojb.DepreciableAssetsDaoOjb" />    
 
 <!-- *********  End of depreciation batch beans ********** -->
 
 <!-- ********* Begin of report service beans ********** -->
-	<bean id="camsReportService" class="org.kuali.module.cams.service.impl.CamsReportServiceImpl"></bean>
+	<bean id="camsReportService" class="org.kuali.module.cams.service.impl.ReportServiceImpl"></bean>
 <!-- ********* end of report service beans ********** -->
 
 <!-- ********* Begin of pre-asset tagging batch beans ********** -->

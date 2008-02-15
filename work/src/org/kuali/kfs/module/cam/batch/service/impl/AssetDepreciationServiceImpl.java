@@ -35,6 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.service.KualiConfigurationService;
@@ -70,10 +71,10 @@ import sun.util.calendar.BaseCalendar.Date;
 @Transactional
 public class AssetDepreciationServiceImpl implements AssetDepreciationService {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetDepreciationServiceImpl.class);
-    private ParameterService parameterService;
-    private ReportService    camsReportService;
-    private DepreciableAssetsDao camsDepreciableAssetsDao;    
-    private KualiConfigurationService kualiConfigurationService;
+    private ParameterService            parameterService;
+    private ReportService               reportService;
+    private DepreciableAssetsDao        depreciableAssetsDao;    
+    private KualiConfigurationService   kualiConfigurationService;
     private GeneralLedgerPendingEntryService generalLedgerPendingEntryService;
     private Integer fiscalYear;
     private Integer fiscalMonth;
@@ -105,17 +106,16 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             LOG.info("*****Year:"+this.fiscalYear);
             LOG.info("*****month:"+this.fiscalMonth);
 
+            depreciableAssetsDao.initDepreciation(this.fiscalYear,this.fiscalMonth);
 
-            camsDepreciableAssetsDao.initDepreciation(this.fiscalYear,this.fiscalMonth);
-
-            Collection<DepreciableAssets> depreciableAssetsCollection = camsDepreciableAssetsDao.getListOfDepreciableAssets();
+            Collection<DepreciableAssets> depreciableAssetsCollection = depreciableAssetsDao.getListOfDepreciableAssets();
 
             List<DepreciableAssets> data = new ArrayList<DepreciableAssets>();
 
             if (depreciableAssetsCollection != null && !depreciableAssetsCollection.isEmpty()) {
                 data = this.calculateDepreciation(depreciableAssetsCollection);             
                 Map<Object,DepreciationTransaction> depreciationTransactions=this.generateDepreciationTransaction(data);
-                camsDepreciableAssetsDao.updateAssetPayments(data);
+                depreciableAssetsDao.updateAssetPayments(data);
                 //processGeneralLedgerPendingEntry(depreciationTransactions);                
             } else {
                 throw new RuntimeException(NO_ELIGIBLE_FOR_DEPRECIATION_ASSETS_FOUND); 
@@ -127,14 +127,13 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
             throw new RuntimeException(errorMsg);             
         } finally {
             if (!error)
-                camsDepreciableAssetsDao.checkSum(false);
+                depreciableAssetsDao.checkSum(false);
             
-            this.reportLog.addAll(camsDepreciableAssetsDao.getReportLine());
-            camsReportService.generateDepreciationReport(reportLog,errorMsg);       
+            this.reportLog.addAll(depreciableAssetsDao.getReportLine());
+            reportService.generateDepreciationReport(reportLog,errorMsg);       
         }
         // After the process is complete, we need to run and get the second section of the report. 
     }    
-
 
     /**
      * 
@@ -376,7 +375,7 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
                 explicitEntry.setFinancialBalanceTypeCode         (BALANCE_TYPE_ACTUAL); // this is the default that most documents use        
                 explicitEntry.setFinancialObjectTypeCode          (t.getFinancialObjectTypeCode());
                 explicitEntry.setUniversityFiscalYear             (this.fiscalYear);
-                explicitEntry.setUniversityFiscalPeriodCode       (this.fiscalMonth.toString()); 
+                explicitEntry.setUniversityFiscalPeriodCode       (StringUtils.leftPad(this.fiscalMonth.toString().trim(),2,"0")); 
                 explicitEntry.setTransactionLedgerEntryDescription(t.getTransactionLedgerEntryDescription());
                 explicitEntry.setTransactionLedgerEntryAmount     (t.getTransactionAmount());
                 explicitEntry.setTransactionDebitCreditCode       (t.getTransactionType());
@@ -399,12 +398,12 @@ public class AssetDepreciationServiceImpl implements AssetDepreciationService {
         this.parameterService = parameterService;
     }
 
-    public void setCamsDepreciableAssetsDao(DepreciableAssetsDao camsDepreciableAssetsDao) {
-        this.camsDepreciableAssetsDao = camsDepreciableAssetsDao;
+    public void setDepreciableAssetsDao(DepreciableAssetsDao depreciableAssetsDao) {
+        this.depreciableAssetsDao = depreciableAssetsDao;
     }
 
-    public void setCamsReportService(ReportService camsReportService) {
-        this.camsReportService = camsReportService;
+    public void setCamsReportService(ReportService reportService) {
+        this.reportService = reportService;
     }
     public void setKualiConfigurationService(KualiConfigurationService kcs) {
         kualiConfigurationService = kcs;

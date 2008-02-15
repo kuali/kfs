@@ -19,6 +19,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
@@ -44,6 +45,8 @@ public class AssetDepreciationServiceTest extends KualiTestBase {
         camsAssetDepreciationService      = SpringContext.getBean(AssetDepreciationService.class);
     }
 
+    
+    
     public void testRunDepreciation() {
         camsAssetDepreciationService.runDepreciation();
         assertEquals(1, 1);

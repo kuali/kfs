@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+
 import org.apache.commons.beanutils.MethodUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.ArrayUtils;
@@ -172,8 +173,8 @@ public class DepreciableAssetsDaoOjb extends PlatformAwareDaoBaseOjb implements 
         criteriaB.addOrCriteria(criteriaD);                
 
         criteriaC = new Criteria();
-        criteriaC.addEqualTo    ("asset."+CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_YEAR,fiscalYear);
-        criteriaC.addGreaterThan("asset."+CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_MONTH,fiscalMonth);
+        criteriaC.addEqualTo    ("asset."+CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_YEAR,this.fiscalYear);
+        criteriaC.addGreaterThan("asset."+CamsPropertyConstants.Asset.ASSET_RETIREMENT_FISCAL_MONTH,this.fiscalMonth);
 
         criteriaB.addOrCriteria(criteriaC);
         criteria.addAndCriteria(criteriaB);

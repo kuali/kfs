@@ -22,6 +22,7 @@ import org.kuali.module.ar.document.CashControlDocument;
 public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase {
     
     private CashControlDetail newCashControlDetail;
+    private String processingChartOfAccCodeAndOrgCode;
 
     /**
      * Constructs a CashControlDocumentForm.java.
@@ -30,6 +31,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
         super();
         setDocument(new CashControlDocument());
         setNewCashControlDetail(new CashControlDetail());
+        
     }
 
     /**
@@ -54,6 +56,14 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
      */
     public void setNewCashControlDetail(CashControlDetail newCashControlDetail) {
         this.newCashControlDetail = newCashControlDetail;
+    }
+
+    public String getProcessingChartOfAccCodeAndOrgCode() {
+        return this.getCashControlDocument().getAccountsReceivableDocumentHeader().getProcessingChartOfAccCodeAndOrgCode();
+    }
+
+    public void setProcessingChartOfAccCodeAndOrgCode(String processingChartOfAccCodeAndOrgCode) {
+        this.processingChartOfAccCodeAndOrgCode = processingChartOfAccCodeAndOrgCode;
     }   
     
 }

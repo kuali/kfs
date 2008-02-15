@@ -259,7 +259,23 @@ public class AccountsReceivableDocumentHeader extends PersistableBusinessObjectB
         }
     }
 
+    /**
+     * Sets the customer name attribute value
+     * @param customerName
+     */
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
+    
+    /**
+     * Get a string reprezentation for processing organization
+     * @return
+     */
+    public String getProcessingChartOfAccCodeAndOrgCode()
+    {
+        String returnVal = getProcessingChartOfAccountCode() + "/" +getProcessingOrganizationCode();
+        
+        return returnVal;
+    }
+ 
 }

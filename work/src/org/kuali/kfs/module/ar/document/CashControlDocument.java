@@ -1,6 +1,5 @@
 package org.kuali.module.ar.document;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -50,19 +49,6 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
         customerPaymentMedium = new PaymentMedium();
         universityFiscalPeriod = new AccountingPeriod();
         cashControlDetails = new ArrayList<CashControlDetail>();
-        
-        //TODO remove these lines
-        this.getAccountsReceivableDocumentHeader().setProcessingChartOfAccountCode("UA");
-        this.setReferenceFinancialDocumentNumber("gfe6234");
-        
-        CashControlDetail detail = new CashControlDetail();
-        detail.setCustomerNumber("3476385");
-        detail.setReferenceFinancialDocumentNumber("6234762354");
-        detail.setDocumentNumber("7865765");
-        detail.setCustomerPaymentDate(new Date(System.currentTimeMillis()));
-        detail.setFinancialDocumentLineAmount(new KualiDecimal(10));
-        
-        addCashControlDetail(detail);
     }
 
 	/**
@@ -221,7 +207,6 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     /**
      * Sets the accountsReceivableDocumentHeader attribute value.
      * @param accountsReceivableDocumentHeader The accountsReceivableDocumentHeader to set.
-     * @deprecated
      */
     public void setAccountsReceivableDocumentHeader(AccountsReceivableDocumentHeader accountsReceivableDocumentHeader) {
         this.accountsReceivableDocumentHeader = accountsReceivableDocumentHeader;
@@ -309,5 +294,20 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
     public String getCurrencyFormattedTotalCashControlAmount() {
         return (String) new CurrencyFormatter().format(cashControlTotalAmount);
     }
+    
+    /**
+     * Retrieves a specific cash control detail from the list, by array index
+     * 
+     * @param index the index of the cash control details to retrieve the cash control detail from
+     * @return a CashControlDetail
+     */
+    public CashControlDetail getCashControlDetail(int index) {
+        if (index >= cashControlDetails.size()) {
+            for (int i = cashControlDetails.size(); i <= index; i++) {
+                cashControlDetails.add(new CashControlDetail());
+            }
+        }
+        return cashControlDetails.get(index);
+    }   
 
 }

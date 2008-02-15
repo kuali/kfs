@@ -263,6 +263,9 @@
 	<reference-descriptor name="referenceFinancialDocument" class-ref="org.kuali.module.ar.document.PaymentApplicationDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="referenceFinancialDocumentNumber" />
 	</reference-descriptor>
+	<reference-descriptor name="cashControlDocument" class-ref="org.kuali.module.ar.document.CashControlDocument" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 	<reference-descriptor name="customer" class-ref="org.kuali.module.ar.bo.Customer" auto-retrieve="true" auto-update="none" auto-delete="none">
 		<foreignkey field-ref="customerNumber" />
 	</reference-descriptor>

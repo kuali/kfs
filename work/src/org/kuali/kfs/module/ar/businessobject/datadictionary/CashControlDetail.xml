@@ -60,7 +60,7 @@
 
             <attribute name="customerNumber" forceUppercase="true">
                 <label>Customer Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Customer #</shortLabel>
 
                 <maxLength>9</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -73,20 +73,10 @@
                 <description>customerNumber description...</description>
 			</attribute>
 
-            <attribute name="customerPaymentDate" forceUppercase="true">
+            <attributeReference name="customerPaymentDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Customer Payment Date</label>
                 <shortLabel>Date</shortLabel>
-
-                <maxLength>7</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="9" />
-                </control>
-
-                <summary>customerPaymentDate</summary>
-                <description>customerPaymentDate description...</description>
-			</attribute>
+            </attributeReference>
 
             <attribute name="customerPaymentDescription" forceUppercase="true">
                 <label>Customer Payment Description</label>
@@ -105,7 +95,7 @@
 
             <attribute name="customerPaymentMediumIdentifier" forceUppercase="true">
                 <label>Customer Payment Medium Identifier</label>
-                <shortLabel>Identifier</shortLabel>
+                <shortLabel>Medium ID</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -118,35 +108,16 @@
                 <description>customerPaymentMediumIdentifier description...</description>
 			</attribute>
 
-            <attribute name="documentNumber" forceUppercase="true">
+            <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber">
                 <label>Document Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="16" />
-                </control>
-
-                <summary>documentNumber</summary>
-                <description>documentNumber description...</description>
-			</attribute>
-
-            <attribute name="financialDocumentLineAmount" forceUppercase="true">
-                <label>Financial Document Line Amount</label>
+                <shortLabel>Application Doc #</shortLabel>
+            </attributeReference>
+			
+            <attributeReference name="financialDocumentLineAmount" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Line Amount</label>
                 <shortLabel>Amount</shortLabel>
-
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
-
-                <control>
-                    <text size="21" />
-                </control>
-
-                <summary>financialDocumentLineAmount</summary>
-                <description>financialDocumentLineAmount description...</description>
-			</attribute>
+                <required>true</required>
+            </attributeReference>
 
             <attribute name="referenceFinancialDocumentNumber" forceUppercase="true">
                 <label>Reference Financial Document Number</label>

@@ -27,18 +27,17 @@ import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.ar.ArConstants;
+import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
+import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
-    
-    public CashControlDocumentAction() {
-        super();
-    }
 
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -46,10 +45,17 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocumentForm form = (CashControlDocumentForm) kualiDocumentFormBase;
         CashControlDocument document = form.getCashControlDocument();
         
-        
+
+        //set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
+        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+        accountsReceivableDocumentHeader.setDocumentNumber(document.getDocumentNumber());
+        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
+        accountsReceivableDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
+        document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
     }
     
-    protected ActionForward addCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward addCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument document = cashControlDocForm.getCashControlDocument();
         
@@ -70,7 +76,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    protected ActionForward deleteCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward deleteCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument document = cashControlDocForm.getCashControlDocument();
         
@@ -80,7 +86,7 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
-    protected ActionForward generateRefDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ActionForward generateRefDoc(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
         CashControlDocument document = cashControlDocForm.getCashControlDocument();
         String paymentMediumCode = document.getCustomerPaymentMediumCode();

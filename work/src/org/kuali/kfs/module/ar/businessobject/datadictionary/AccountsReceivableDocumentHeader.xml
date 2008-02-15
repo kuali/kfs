@@ -144,7 +144,18 @@
                     <text size="45" />
                 </control>
 
-			</attribute>			
+			</attribute>	
+			
+			<attribute name="processingChartOfAccCodeAndOrgCode" forceUppercase="true">
+                <label>Processing Org</label>
+                <shortLabel>Processing Org</shortLabel>
+
+                <maxLength>11</maxLength>
+
+                <control>
+                    <text size="11" />
+                </control>
+            </attribute>		
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

@@ -31,6 +31,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.KualiDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.SequenceAccessorService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
@@ -40,7 +41,9 @@ import org.kuali.core.workflow.service.KualiWorkflowInfo;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
+import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.purap.PurapConstants;
+import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapWorkflowConstants;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
 import org.kuali.module.purap.PurapConstants.PurchaseOrderStatuses;
@@ -50,7 +53,9 @@ import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.PurchaseOrderDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoView;
 import org.kuali.module.purap.bo.ItemType;
+import org.kuali.module.purap.bo.PaymentRequestItem;
 import org.kuali.module.purap.bo.PaymentRequestView;
+import org.kuali.module.purap.bo.PurApAccountingLine;
 import org.kuali.module.purap.bo.PurApItem;
 import org.kuali.module.purap.bo.PurchaseOrderAccount;
 import org.kuali.module.purap.bo.PurchaseOrderItem;
@@ -156,6 +161,84 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         return SpringContext.getBean(ConciseXmlDocumentConversionService.class).getDocumentForSerialization(this);
     }
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle() {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(PaymentRequestDocument.class, PurapParameterConstants.PURAP_OVERRIDE_PO_DOC_TITLE)) {
+            return getCustomDocumentTitle();
+        }
+        return super.getDocumentTitle();
+    }
+
+    /**
+     * Returns a custom document title based on the workflow document title. 
+     * Depending on what route level the document is currently in, various info may be added to the documents title.
+     * 
+     * @return - Customized document title text dependent upon route level.
+     */
+    private String getCustomDocumentTitle() {
+        try {
+            String poNumber = getPurapDocumentIdentifier().toString();
+            String cmCode = getContractManagerCode().toString();
+            String vendorName = getVendorName();
+            String totalAmount = getTotalDollarAmount().toString();
+            PurApAccountingLine accountingLine = getFirstAccount();
+            String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
+            String chartCode = getChartOfAccountsCode();
+            String orgCode = getOrganizationCode();
+            String deliveryCampus = getDeliveryCampus() != null ? getDeliveryCampus().getCampusShortName() : "";
+            String documentTitle = "";
+         
+            String[] nodeNames = getDocumentHeader().getWorkflowDocument().getNodeNames();
+            String routeLevel = "";
+            if (nodeNames.length == 1)
+                routeLevel = nodeNames[0];
+            
+            if (getStatusCode().equals(PurchaseOrderStatuses.OPEN)) {
+                documentTitle = super.getDocumentTitle();
+            }
+            else if (routeLevel.equals(NodeDetailEnum.BUDGET_OFFICE_REVIEW.getName()) || routeLevel.equals(NodeDetailEnum.CONTRACTS_AND_GRANTS_REVIEW.getName())) {
+                // Budget & C&G approval levels
+                documentTitle = "PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
+            }
+            else if (routeLevel.equals(NodeDetailEnum.VENDOR_TAX_REVIEW.getName())) {
+                // Tax approval level
+                documentTitle = "Vendor: " + vendorName + " PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
+            }
+            else 
+                documentTitle += "PO: " + poNumber + " Contract Manager: " + cmCode + " Vendor: " + vendorName + " Amount: " + totalAmount;
+                        
+            return documentTitle;
+        }
+        catch (WorkflowException e) {
+            LOG.error("Error updating Purchase Order document: " + e.getMessage());
+            throw new RuntimeException("Error updating Purchase Order document: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Returns the first PO item's first accounting line (assuming the item list is sequentially ordered).
+     * 
+     * @return - The first accounting line of the first PO item.
+     */
+    private PurApAccountingLine getFirstAccount() {
+        // loop through items, and pick the first item with non-empty accouting lines
+        if (getItems() != null && !getItems().isEmpty()) {
+            for (Iterator iter = getItems().iterator(); iter.hasNext();) {
+                PurchaseOrderItem item = (PurchaseOrderItem)iter.next();
+                if (item.isConsideredEntered() && item.getSourceAccountingLines() != null && !item.getSourceAccountingLines().isEmpty()) {
+                    // accounting lines are not empty so pick the first account
+                    PurApAccountingLine accountingLine = item.getSourceAccountingLine(0);
+                    accountingLine.refreshNonUpdateableReferences();
+                    return accountingLine;
+                }
+            }
+        }
+        return null;
+    }
+    
     public ContractManager getContractManager() {
         return contractManager;
     }

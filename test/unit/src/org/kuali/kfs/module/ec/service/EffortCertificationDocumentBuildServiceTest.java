@@ -128,6 +128,15 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         reportDefinition = this.buildReportDefinition("");
         this.assertDocumentEquals(testTarget, false);
     }
+    
+    /**
+     * test if the detail lines can be consolidated when their sub account type codes are not 'CS' (cost shared)
+     */
+    public void testGenerateDocumentBuild_NonCostShareSubAccountConsolidation() throws Exception {
+        String testTarget = "generateDocumentBuild.nonCostShareSubAccountConsolidation.";
+        reportDefinition = this.buildReportDefinition("");
+        this.assertDocumentEquals(testTarget, false);
+    }
 
     /**
      * compare the resulting detail line with the expected

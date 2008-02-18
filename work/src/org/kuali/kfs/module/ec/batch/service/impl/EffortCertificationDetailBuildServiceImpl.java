@@ -23,6 +23,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.service.LaborModuleService;
+import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
@@ -84,7 +85,8 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         List<String> expenseSubAccountTypeCodes = parameters.get(SystemParameters.EXPENSE_SUB_ACCOUNT_TYPE_CODE);
         List<String> costShareSubAccountTypeCodes = parameters.get(SystemParameters.COST_SHARE_SUB_ACCOUNT_TYPE_CODE);
 
-        String subAccountTypeCode = getSubAccountTypeCode(ledgerBalance);
+        A21SubAccount A21SubAccount = this.getA21SubAccount(ledgerBalance);
+        String subAccountTypeCode = A21SubAccount == null ? null : A21SubAccount.getSubAccountTypeCode();
 
         if (subAccountTypeCode == null || expenseSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(KFSConstants.getDashSubAccountNumber());
@@ -94,9 +96,9 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         }
         else if (costShareSubAccountTypeCodes.contains(subAccountTypeCode)) {
             detailLine.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
-            detailLine.setSourceChartOfAccountsCode(ledgerBalance.getChartOfAccountsCode());
-            detailLine.setSourceAccountNumber(ledgerBalance.getAccountNumber());
-            detailLine.setCostShareSourceSubAccountNumber(ledgerBalance.getSubAccountNumber());
+            detailLine.setSourceChartOfAccountsCode(A21SubAccount.getCostShareChartOfAccountCode());
+            detailLine.setSourceAccountNumber(A21SubAccount.getCostShareSourceAccountNumber());
+            detailLine.setCostShareSourceSubAccountNumber(A21SubAccount.getCostShareSourceSubAccountNumber());
         }
         else {
             detailLine.setSubAccountNumber(ledgerBalance.getSubAccountNumber());
@@ -105,22 +107,22 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
             detailLine.setCostShareSourceSubAccountNumber(null);
         }
     }
-
+    
     /**
-     * get the sub account type code of the given ledger balance
+     * get the A21 sub account associated with the given ledger balance
      * 
      * @param ledgerBalance the given ledger balance
-     * @return the sub account type code of the given ledger balance; return null if the code is not found
+     * @return the A21 sub account associated with the given ledger balance; return null if not found
      */
-    private String getSubAccountTypeCode(LaborLedgerBalance ledgerBalance) {
-        String subAccountTypeCode = null;
+    private A21SubAccount getA21SubAccount(LaborLedgerBalance ledgerBalance) {
+        A21SubAccount a21SubAccount = null;
         try {
-            subAccountTypeCode = ledgerBalance.getSubAccount().getA21SubAccount().getSubAccountTypeCode();
+            a21SubAccount = ledgerBalance.getSubAccount().getA21SubAccount();
         }
         catch (NullPointerException npe) {
             LOG.debug(npe);
         }
-        return subAccountTypeCode;
+        return a21SubAccount;
     }
 
     /**

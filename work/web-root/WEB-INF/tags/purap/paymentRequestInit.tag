@@ -21,13 +21,13 @@
 <%@ attribute name="displayPaymentRequestInitFields" required="false"
               description="Boolean to indicate if PO specific fields should be displayed" %>
 
-<kul:tabTop tabTitle="Payment Request Init" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INIT_TAB_ERRORS}">
+<kul:tabTop tabTitle="Payment Request Initiation" defaultOpen="true" tabErrorKey="${PurapConstants.PAYMENT_REQUEST_INIT_TAB_ERRORS}">
 	
 	
 
     <div class="tab-container" align=center>
         <div class="h2-container">
-            <h2>Payment Request Init</h2>
+            <h2>Payment Request Initiation</h2>
         </div>
 
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Payment Request Init Section">

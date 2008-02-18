@@ -18,11 +18,11 @@
 <%@ attribute name="documentAttributes" required="true" type="java.util.Map"
               description="The DataDictionary entry containing attributes for this row's fields." %>
               
-<kul:tabTop tabTitle="Credit Memo Init" defaultOpen="true" tabErrorKey="*">
+<kul:tabTop tabTitle="Credit Memo Initiation" defaultOpen="true" tabErrorKey="*">
 
     <div class="tab-container" align=center>
         <div class="h2-container">
-            <h2>Credit Memo Init</h2>
+            <h2>Credit Memo Initiation</h2>
         </div>
         
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Credit Memo Init Section" >

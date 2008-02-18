@@ -35,7 +35,7 @@
         <documentTypeName>PurchaseOrderTransmissionMethodMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMTM</documentTypeCode>
 
-        <label>Purchase Order Transmission Method</label>
+        <label>Method of PO Transmission</label>
         <help parameterNamespace="KFS-PA" parameterDetailType="PurchaseOrderTransmissionMethod" parameterName="PURCHASE_ORDER_TRANSMISSION_METHOD" />
 
         <lockingKeys>
@@ -43,7 +43,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit PO Transmission Method">
+            <maintainableSection title="Edit Method of PO Transmission">
                 <maintainableItems>
                     <maintainableField name="purchaseOrderTransmissionMethodCode" required="true" />
                     <maintainableField name="purchaseOrderTransmissionMethodDescription" required="true" />

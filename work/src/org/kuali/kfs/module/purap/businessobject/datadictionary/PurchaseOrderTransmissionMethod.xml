@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.purap.bo.PurchaseOrderTransmissionMethod">
 
         <inquiry>
-            <title>Purchase Order Transmission Method Inquiry</title>
+            <title>Method of PO Transmission Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderTransmissionMethodCode" />

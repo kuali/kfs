@@ -68,7 +68,7 @@
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/jasperreports-2.0.4.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-core-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kew-0.9.3-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar" sourcepath="C:/Java/projects/kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-sources.zip"/>
+	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-kns-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-ksb-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="work/web-root/WEB-INF/lib/rice-shared-0.9.3-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="work/web-root/WEB-INF/classes"/>

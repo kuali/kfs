@@ -666,11 +666,12 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         else {
 
             // get the needed params from the form and environment
-            String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
+            String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+            String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
             Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
             String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
             
-            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, flds[0], flds[1]);
+            SpringContext.getBean(BudgetPushPullService.class).pullupSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
             
             //TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
             //     build process should return number of accounts in list, if non-zero call display
@@ -725,11 +726,12 @@ public class OrganizationSelectionTreeAction extends KualiAction {
         else {
 
             // get the needed params from the form and environment
-            String[] flds = organizationSelectionTreeForm.getCurrentPointOfViewKeyCode().split("[-]");
+            String pointOfViewCharOfAccountsCode = organizationSelectionTreeForm.getPointOfViewOrg().getChartOfAccountsCode();
+            String pointOfViewOrganizationCode = organizationSelectionTreeForm.getPointOfViewOrg().getOrganizationCode();
             Integer bcFiscalYear = organizationSelectionTreeForm.getUniversityFiscalYear();
             String personUniversalIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
             
-            SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, flds[0], flds[1]);
+            SpringContext.getBean(BudgetPushPullService.class).pushdownSelectedOrganizationDocuments(personUniversalIdentifier, bcFiscalYear, pointOfViewCharOfAccountsCode, pointOfViewOrganizationCode);
             
             //TODO add call to build Budgeted Account list of Documents set at level that is less than the user's point of view
             //     build process should return number of accounts in list, if non-zero call display

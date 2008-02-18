@@ -27,19 +27,19 @@
     	<tbody>
         	<tr>
             	<th width="35%"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['employee.personName']}"/></div></th>
-                <td width="65%"><a href="#"><c:out value="${documentObject.employee.personName}" /></a></td>
+                <td width="65%"><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes['employee.personName']}" property="document.employee.personName" readOnly="true"/></a></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes.effortCertificationReportNumber}"/></div></th>
-                <td><a href="#"><c:out value="${documentObject.effortCertificationReportNumber}" /></a></td>
+                <td><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes.effortCertificationReportNumber}" property="document.effortCertificationReportNumber" readOnly="true"/></a></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}"/></div></th>
-                <td><a href="#"><c:out value="${documentObject.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear}" /></a></td>
+                <td><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear']}" property="document.effortCertificationReportDefinition.reportBeginFiscalYear.universityFiscalYear" readOnly="true"/></a></td>
             </tr>
             <tr>
                 <th scope="row"><div align="right"><kul:htmlAttributeLabel attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}"/></div></th>
-                <td><a href="#"><c:out value="${documentObject.effortCertificationReportDefinition.reportEndFiscalYear.universityFiscalYear}" /></a></td>
+                <td><a href="#"><kul:htmlControlAttribute attributeEntry="${erAttributes['effortCertificationReportDefinition.effortCertificationReportEndFiscalYear']}" property="document.effortCertificationReportDefinition.reportEndFiscalYear.universityFiscalYear" readOnly="true"/></a></td>
             </tr>
         </tbody>
      </table>

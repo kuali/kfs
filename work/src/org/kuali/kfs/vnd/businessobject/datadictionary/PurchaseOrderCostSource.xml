@@ -21,7 +21,7 @@
     <businessObject businessObjectClass="org.kuali.module.vendor.bo.PurchaseOrderCostSource">
 
         <inquiry>
-            <title>Purchase Order Cost Source Inquiry</title>
+            <title>Cost Source Inquiry</title>
 
             <inquirySections><inquirySection title="Header Text"><inquiryFields>
                 <field attributeName="purchaseOrderCostSourceCode" />
@@ -31,9 +31,9 @@
         </inquiry>
 
         <lookup>
-            <title>Purchase Order Cost Source Lookup</title>
+            <title>Cost Source Lookup</title>
 
-            <instructions>Lookup an Purchase Order Cost Source</instructions>
+            <instructions>Lookup a Cost Source</instructions>
 
             <defaultSort sortAscending="true">
                 <sortAttributes>
@@ -72,7 +72,7 @@
 			</attribute>
 
             <attribute name="purchaseOrderCostSourceDescription" forceUppercase="true">
-                <label>Purchase Order Cost Source Description</label>
+                <label>Cost Source Description</label>
                 <shortLabel>Description</shortLabel>
 
                 <maxLength>45</maxLength>
@@ -89,6 +89,6 @@
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-        <objectLabel>Purchase Order Cost Source</objectLabel>
+        <objectLabel>Cost Source</objectLabel>
     </businessObject>
 </dictionaryEntry>

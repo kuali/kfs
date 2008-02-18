@@ -79,7 +79,10 @@ public class Asset extends PersistableBusinessObjectBase {
     private Date capitalAssetInServiceDate;
     private String governmentTagNumber;
     private String nationalStockNumber;
-
+    private String landCountyName;
+    private Integer landAcreageSize;
+    private String landParcelNumber;
+    
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -1131,6 +1134,54 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public void setNationalStockNumber(String nationalStockNumber) {
         this.nationalStockNumber = nationalStockNumber;
+    }
+
+    /**
+     * Gets the landAcreageSize attribute. 
+     * @return Returns the landAcreageSize.
+     */
+    public Integer getLandAcreageSize() {
+        return landAcreageSize;
+    }
+
+    /**
+     * Sets the landAcreageSize attribute value.
+     * @param landAcreageSize The landAcreageSize to set.
+     */
+    public void setLandAcreageSize(Integer landAcreageSize) {
+        this.landAcreageSize = landAcreageSize;
+    }
+
+    /**
+     * Gets the landCountyName attribute. 
+     * @return Returns the landCountyName.
+     */
+    public String getLandCountyName() {
+        return landCountyName;
+    }
+
+    /**
+     * Sets the landCountyName attribute value.
+     * @param landCountyName The landCountyName to set.
+     */
+    public void setLandCountyName(String landCountyName) {
+        this.landCountyName = landCountyName;
+    }
+
+    /**
+     * Gets the landParcelNumber attribute. 
+     * @return Returns the landParcelNumber.
+     */
+    public String getLandParcelNumber() {
+        return landParcelNumber;
+    }
+
+    /**
+     * Sets the landParcelNumber attribute value.
+     * @param landParcelNumber The landParcelNumber to set.
+     */
+    public void setLandParcelNumber(String landParcelNumber) {
+        this.landParcelNumber = landParcelNumber;
     }
 
     /**

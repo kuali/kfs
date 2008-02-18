@@ -148,6 +148,9 @@
 	<field-descriptor name="capitalAssetInServiceDate" column="CPTL_AST_IN_SRVC_DT" jdbc-type="DATE"/>
 	<field-descriptor name="governmentTagNumber" column="CPTL_AST_GOV_TAG_NBR" jdbc-type="VARCHAR"/>
 	<field-descriptor name="nationalStockNumber" column="CPTL_AST_NTL_STOCK_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="landCountyName" column="CPTL_AST_LAND_CNTY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="landAcreageSize" column="CPTL_AST_LAND_ACRG_SZ" jdbc-type="INTEGER"/>
+	<field-descriptor name="landParcelNumber" column="CPTL_AST_LAND_PRCL_NBR" jdbc-type="VARCHAR"/>
 
 	<reference-descriptor name="capitalAssetType" class-ref="org.kuali.module.cams.bo.AssetType" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetTypeCode" />

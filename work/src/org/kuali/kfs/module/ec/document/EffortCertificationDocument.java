@@ -363,7 +363,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortFederalTotal += detailLine.getEffortCertificationUpdatedOverallPercent();
             }
         }
@@ -376,7 +376,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOrigFederalTotal += detailLine.getEffortCertificationCalculatedOverallPercent();
             }
         }
@@ -389,7 +389,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
@@ -402,7 +402,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
@@ -415,7 +415,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
@@ -428,7 +428,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
@@ -441,7 +441,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOrigOtherTotal += detailLine.getEffortCertificationCalculatedOverallPercent();
             }
         }
@@ -454,7 +454,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOtherTotal += detailLine.getEffortCertificationUpdatedOverallPercent();
             }
         }
@@ -467,7 +467,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryFederalTotal = salaryFederalTotal.add(detailLine.getEffortCertificationPayrollAmount());
             } 
         }
@@ -480,7 +480,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (detailLine.getFederalPassThrough()) {
+            if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOrigFederalTotal = salaryOrigFederalTotal.add(detailLine.getEffortCertificationOriginalPayrollAmount());
             }
         }
@@ -493,7 +493,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOrigOtherTotal = salaryOrigOtherTotal.add(detailLine.getEffortCertificationOriginalPayrollAmount());
             }
         }
@@ -506,7 +506,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
         
         for (EffortCertificationDetail detailLine : detailLineList) {
-            if (!detailLine.getFederalPassThrough()) {
+            if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOtherTotal = salaryOtherTotal.add(detailLine.getEffortCertificationPayrollAmount());
             }
             

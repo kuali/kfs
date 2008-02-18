@@ -661,49 +661,5 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         return new KualiDecimal(0);
     }
 
-    /**
-     * 
-     * @return
-     */
-    public boolean getFederalPassThrough() {
-        
-        //TODO: should the member variable(federalOrFederalPassThroughIndicator) be used or the logic below?
-        AwardAccount primaryAward = getPrimaryAward(this.getAccount().getAwards());
-        List<String> federalAgencyCodeList = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-        
-        for (String federalAgencyCode : federalAgencyCodeList) {
-            if (primaryAward != null &&
-                primaryAward.getAward() != null && 
-                federalAgencyCode != null &&
-                federalAgencyCode.equalsIgnoreCase(primaryAward.getAward().getAgencyNumber())) {
-                return true;
-            } else if (primaryAward != null &&
-                       primaryAward.getAward() != null && 
-                       federalAgencyCode != null && 
-                       primaryAward.getAward().getFederalPassThroughIndicator()) {
-                return true;
-            }
-        }
-        
-        return false;
-    }
-
-    /**
-     * 
-     * @param awardList
-     * @return
-     */
-    private AwardAccount getPrimaryAward(List<AwardAccount> awardList) {
-        AwardAccount primaryAward = null;
-        long highestProposal = 0;
-
-        for (AwardAccount award : awardList) {
-            if (award.getProposalNumber() > highestProposal) {
-                highestProposal = award.getProposalNumber();
-                primaryAward = award;
-            }
-        }
-
-        return primaryAward;
-    }
+    
 }

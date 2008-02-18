@@ -35,7 +35,7 @@
         <documentTypeName>PurchaseOrderCostSourceMaintenanceDocument</documentTypeName>
         <documentTypeCode>PMCS</documentTypeCode>
 
-        <label>Purchase Order Cost Source</label>
+        <label>Cost Source</label>
         <help parameterNamespace="KFS-VN" parameterDetailType="PurchaseOrderCostSource" parameterName="PURCHASE_ORDER_COST_SOURCE" />
 
         <lockingKeys>
@@ -43,7 +43,7 @@
         </lockingKeys>
 
         <maintainableSections>
-            <maintainableSection title="Edit Purchase Order Cost Source">
+            <maintainableSection title="Edit Cost Source">
                 <maintainableItems>
                     <maintainableField name="purchaseOrderCostSourceCode" required="true" />
                     <maintainableField name="purchaseOrderCostSourceDescription" required="true" />

@@ -35,6 +35,8 @@ public class BCConstants extends JstlConstants {
     public static final String ORG_SEL_TREE_REFRESH_CALLER = "BudgetConstruction";
     public static final String ORG_SEL_TREE_ACTION = "budgetOrganizationSelectionTree.do";
     public static final String ORG_SEL_TREE_METHOD = "loadExpansionScreen";
+    public static final String ORG_TEMP_LIST_LOOKUP = "budgetTempListLookup.do";
+    public static final String ORG_REPORT_SELECTION_ACTION = "budgetOrganizationReportSelection.do";
 
     public enum OrgSelOpMode {
         PULLUP, PUSHDOWN, REPORTS, SALSET, ACCOUNT
@@ -94,6 +96,12 @@ public class BCConstants extends JstlConstants {
     public static final String FINANCIAL_OBJECT_TYPE_CODE_EXP = "EX";
     public static final String APPOINTMENT_FUNDING_DURATION_DEFAULT = "NONE";
     
+    public final static String SELECTION_SUB_TREE_ORGS = "selectionSubTreeOrgs";
+    public final static String SHOW_INITIAL_RESULTS = "showInitialResults";
+    public final static String CURRENT_POINT_OF_VIEW_KEYCODE = "currentPointOfViewKeyCode";
+    
+    
+    
     /*
      * fund groups and subfund groups that are NOT loaded to the GL from budget construction  
      * (these are the constants used, not the ones in KFSConstants/BudgetConstructionConstants
@@ -149,7 +157,12 @@ public class BCConstants extends JstlConstants {
         //selection screen
         public final static String SELECTION_OPMODE_TITLE = "Sub-Fund List Selection";
         public final static String SESSION_NAME_SELECTED_ORGS = "selectedOrgs";
-        public final static String ORG_ACCT_SUM_CONSOLIDATION_BUTTON_NAME = "accSumConsolidation";
+        public final static String REPORT_MODE = "reportMode";
+        public final static String BUILD_CONTROL_LIST = "buildControlList";
+        public final static String REPORT_CONSOLIDATION = "reportConsolidation";
+        
+        
+        
         //report file name
         public final static String FILE_NAME_ORG_ACCOUNT_SUMMARY = "BudgetOrgAccountSummary";
         public final static String FILE_EXTENSION_PDF = ".pdf";
@@ -157,6 +170,17 @@ public class BCConstants extends JstlConstants {
         public final static String FILE_EXTENSION_JASPER_XML = ".jrxml";
         public static final String FILE_LOCATION_JASPER = "/java/projects/kuali_project/work/src/org/kuali/module/budget/report/";
         public static final String JASPER_FILE_NAME = "BudgetOrgAccountSummary";
+        
+        //report type
+        public static final String ACCOUNT_SUMMARY_REPORT = "accountSummaryReport";
+        public static final String ACCOUNT_OBJECT_DETAIL_REPORT = "accountObjectDetailReport";
+        public static final String MONTH_OBJECT_SUMMARY_REPORT = "monthObjectSummaryReport"; 
+        
+        
+        public static final List<String> reportModeOnlySubfundCodeSelectionMapping = new ArrayList();
+        static {
+            reportModeOnlySubfundCodeSelectionMapping.add(ACCOUNT_SUMMARY_REPORT);
+        }
     }
    
 }

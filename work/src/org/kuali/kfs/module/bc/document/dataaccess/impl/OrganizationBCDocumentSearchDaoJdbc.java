@@ -27,6 +27,8 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
     
     private static String[] buildAccountSelectPullListTemplates = new String[1];
     
+    private static String[] buildBudgetedAccountsAbovePointsOfView = new String[1];
+    
     @RawSQL
     public OrganizationBCDocumentSearchDaoJdbc() {
         
@@ -72,7 +74,49 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
         sqlText.append("  AND head.org_level_cd = 0 \n");
         sqlText.append("  AND fphd.fdoc_nbr = head.fdoc_nbr\n");
         buildAccountSelectPullListTemplates[0] = sqlText.toString();
-
+        sqlText.delete(0, sqlText.length());
+                
+        sqlText.append("INSERT INTO LD_BCN_ACCTSEL_T \n");
+        sqlText.append(" (PERSON_UNVL_ID, UNIV_FISCAL_YR, FIN_COA_CD, ACCOUNT_NBR, SUB_ACCT_NBR, FDOC_NBR, \n");
+        sqlText.append(" ORG_LEVEL_CD, ORG_FIN_COA_CD, ORG_CD, FDOC_STATUS_CD, FDOC_CREATE_DT) \n");
+        sqlText.append("SELECT  ?, \n");
+        sqlText.append(" head.univ_fiscal_yr, \n");
+        sqlText.append(" head.fin_coa_cd, \n");
+        sqlText.append(" head.account_nbr, \n");
+        sqlText.append(" head.sub_acct_nbr, \n");
+        sqlText.append(" head.fdoc_nbr, \n");
+        sqlText.append(" head.org_level_cd, \n");
+        sqlText.append(" ah.org_fin_coa_cd, \n");
+        sqlText.append(" ah.org_cd, \n");
+        sqlText.append(" fphd.fdoc_status_cd, \n");
+        sqlText.append(" fphd.TEMP_DOC_FNL_DT \n");
+        sqlText.append("FROM ld_bcn_pullup_t pull, \n");
+        sqlText.append(" LD_BCNSTR_HDR_T head, \n");
+        sqlText.append(" fp_doc_header_t fphd, \n");
+        sqlText.append(" LD_BCN_ACCT_ORG_HIER_T sh, \n");
+        sqlText.append(" LD_BCN_ACCT_ORG_HIER_T ph, \n");
+        sqlText.append(" LD_BCN_ACCT_ORG_HIER_T ah \n");
+        sqlText.append("WHERE pull.pull_flag > 0 \n");
+        sqlText.append(" AND pull.person_unvl_id = ? \n");
+        sqlText.append(" AND sh.org_fin_coa_cd = pull.fin_coa_cd  \n");
+        sqlText.append(" AND sh.org_cd = pull.org_cd \n");
+        sqlText.append(" AND sh.univ_fiscal_yr = ?  \n");
+        sqlText.append(" AND ph.univ_fiscal_yr = sh.univ_fiscal_yr  \n");
+        sqlText.append(" AND ph.fin_coa_cd = sh.fin_coa_cd  \n");
+        sqlText.append(" AND ph.account_nbr = sh.account_nbr \n");
+        sqlText.append(" AND ph.org_fin_coa_cd = ? \n");
+        sqlText.append(" AND ph.org_cd = ? \n");
+        sqlText.append(" AND head.univ_fiscal_yr = ph.univ_fiscal_yr \n");
+        sqlText.append(" AND head.fin_coa_cd = ph.fin_coa_cd \n");
+        sqlText.append(" AND head.account_nbr = ph.account_nbr \n");
+        sqlText.append(" AND head.org_level_cd > ph.org_level_cd \n");
+        sqlText.append(" AND fphd.fdoc_nbr = head.fdoc_nbr \n");
+        sqlText.append(" AND ah.univ_fiscal_yr = head.univ_fiscal_yr \n");
+        sqlText.append(" AND ah.fin_coa_cd = head.fin_coa_cd \n");
+        sqlText.append(" AND ah.account_nbr = head.account_nbr \n");
+        sqlText.append(" AND ah.org_level_cd = head.org_level_cd \n");
+        buildBudgetedAccountsAbovePointsOfView[0] = sqlText.toString();
+            
     }
 
     /**
@@ -86,6 +130,16 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
 
         getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
     }
+    
+    @RawSQL
+    public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {
+
+        LOG.debug("buildBudgetedAccountsAbovePointsOfView() started");
+
+        getSimpleJdbcTemplate().update(buildBudgetedAccountsAbovePointsOfView[0], personUserIdentifier, personUserIdentifier, universityFiscalYear, chartOfAccountsCode, organizationCode);
+    }
+
+    
 
     /**
      * @see org.kuali.module.budget.dao.OrganizationBCDocumentSearchDao#cleanAccountSelectPullList(java.lang.String)

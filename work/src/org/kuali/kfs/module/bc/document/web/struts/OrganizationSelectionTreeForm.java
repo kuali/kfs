@@ -56,8 +56,12 @@ public class OrganizationSelectionTreeForm extends KualiForm {
 
     // holds the BC fiscal year that is currently active
     private Integer universityFiscalYear;
-    private String accSumConsolidation;
+    private boolean accountSummaryConsolidation;
+    private boolean accountObjectDetailConsolidation;
+    private boolean monthObjectSummaryConsolidation = true; 
     
+    private String reportMode;    
+    private boolean performBuildPointOfViewFlag;
     
 
     /**
@@ -69,6 +73,7 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         this.setSelectionSubTreeOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         this.setPreviousBranchOrgs(new TypedArrayList(BudgetConstructionPullup.class));
         this.setPullFlagKeyLabels(new TypedArrayList(KeyLabelPair.class));
+        this.setPerformBuildPointOfViewFlag(false);
 
     }
 
@@ -379,12 +384,44 @@ public class OrganizationSelectionTreeForm extends KualiForm {
         this.universityFiscalYear = universityFiscalYear;
     }
 
-    public String getAccSumConsolidation() {
-        return accSumConsolidation;
+    public boolean isAccountSummaryConsolidation() {
+        return accountSummaryConsolidation;
     }
 
-    public void setAccSumConsolidation(String accSumConsolidation) {
-        this.accSumConsolidation = accSumConsolidation;
+    public void setAccountSummaryConsolidation(boolean accountSummaryConsolidation) {
+        this.accountSummaryConsolidation = accountSummaryConsolidation;
+    }
+
+    public String getReportMode() {
+        return reportMode;
+    }
+
+    public void setReportMode(String reportMode) {
+        this.reportMode = reportMode;
+    }
+
+    public boolean isPerformBuildPointOfViewFlag() {
+        return performBuildPointOfViewFlag;
+    }
+
+    public void setPerformBuildPointOfViewFlag(boolean performBuildPointOfViewFlag) {
+        this.performBuildPointOfViewFlag = performBuildPointOfViewFlag;
+    }
+
+    public boolean isAccountObjectDetailConsolidation() {
+        return accountObjectDetailConsolidation;
+    }
+
+    public void setAccountObjectDetailConsolidation(boolean accountObjectDetailConsolidation) {
+        this.accountObjectDetailConsolidation = accountObjectDetailConsolidation;
+    }
+
+    public boolean isMonthObjectSummaryConsolidation() {
+        return monthObjectSummaryConsolidation;
+    }
+
+    public void setMonthObjectSummaryConsolidation(boolean monthObjectSummaryConsolidation) {
+        this.monthObjectSummaryConsolidation = monthObjectSummaryConsolidation;
     }
 
 

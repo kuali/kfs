@@ -46,39 +46,55 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
-        
+
         QueryByCriteria qbc = QueryFactory.newQuery(BudgetConstructionOrganizationReports.class, criteria);
-        //String groupBy = "subFundGroupCode";
-        
-        /*qbc.addOrderByAscending("organizationChartOfAccountsCode");
-        qbc.addOrderByAscending("organizationCode");
-        qbc.addOrderByAscending("chartOfAccountsCode");
-        qbc.addOrderByAscending("fundGroupCode");
-        */
-        //qbc.addOrderByAscending("subFundGroupCode");
-        //qbc.addGroupBy(groupBy);
-        /*qbc.addOrderByAscending("accountNumber");
-        qbc.addOrderByAscending("subAccountNumber");
-        qbc.addOrderByAscending("incomeExpenseCode");
-        */
-        
-        //Changed from (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getCollectionByQuery(qbc); 
-        //Since using primaryId, getObject should be better than collection. 
+        // String groupBy = "subFundGroupCode";
+
+        /*
+         * qbc.addOrderByAscending("organizationChartOfAccountsCode"); qbc.addOrderByAscending("organizationCode");
+         * qbc.addOrderByAscending("chartOfAccountsCode"); qbc.addOrderByAscending("fundGroupCode");
+         */
+        // qbc.addOrderByAscending("subFundGroupCode");
+        // qbc.addGroupBy(groupBy);
+        /*
+         * qbc.addOrderByAscending("accountNumber"); qbc.addOrderByAscending("subAccountNumber");
+         * qbc.addOrderByAscending("incomeExpenseCode");
+         */
+
+        // Changed from (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
+        // Since using primaryId, getObject should be better than collection.
         return (BudgetConstructionOrganizationReports) getPersistenceBrokerTemplate().getObjectByQuery(qbc);
     }
-    
-    public Collection getBySearchCriteria(Class cls, Map searchCriteria){
-        
+
+    public Collection getBySearchCriteria(Class cls, Map searchCriteria) {
+
         Criteria criteria = new Criteria();
         for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
             String element = (String) iter.next();
             criteria.addEqualTo(element, searchCriteria.get(element));
         }
-        
+
         QueryByCriteria qbc = QueryFactory.newQuery(cls, criteria);
-        
+
         return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
-        
+
+    }
+
+
+    public Collection getBySearchCriteriaByList(Class cls, Map searchCriteria, List<String> list) {
+
+        Criteria criteria = new Criteria();
+        for (Iterator iter = searchCriteria.keySet().iterator(); iter.hasNext();) {
+            String element = (String) iter.next();
+            criteria.addEqualTo(element, searchCriteria.get(element));
+        }
+
+        QueryByCriteria qbc = QueryFactory.newQuery(cls, criteria);
+
+        for (String orderAttribute : list) {
+            qbc.addOrderByAscending(orderAttribute);
+        }
+        return getPersistenceBrokerTemplate().getCollectionByQuery(qbc);
     }
 
     /**
@@ -124,7 +140,7 @@ public class BudgetConstructionOrganizationReportsDaoOjb extends PlatformAwareDa
         Criteria criteria = new Criteria();
         criteria.addEqualTo("chartOfAccountsCode", chartOfAccountsCode);
         criteria.addEqualTo("organizationCode", organizationCode);
-        
+
         criteria.addExists(childExistsQuery);
 
         String[] queryAttr = { KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE };

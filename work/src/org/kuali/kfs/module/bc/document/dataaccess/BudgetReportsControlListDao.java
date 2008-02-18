@@ -16,12 +16,12 @@
 package org.kuali.module.budget.dao;
 
 /**
- * This is the data access object for Budget Construction Organization Report.
+ * data access object for Budget Construction Organization Report.
  */
 public interface BudgetReportsControlListDao {
 
     /**
-     *  cleans control list table.
+     * cleans control list table.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -30,7 +30,7 @@ public interface BudgetReportsControlListDao {
     public void cleanReportsControlList(String personUserIdentifier);
 
     /**
-     *  cleans control list table 01.
+     * cleans control list table 01.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -39,7 +39,7 @@ public interface BudgetReportsControlListDao {
     public void cleanReportsControlListPart1(String personUserIdentifier);
 
     /**
-     *  cleans control list table 01.
+     * cleans control list table 01.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -48,7 +48,7 @@ public interface BudgetReportsControlListDao {
     public void cleanReportsControlListPart2(String personUserIdentifier);
 
     /**
-     *  updates control list table 01.
+     * updates control list table 01.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -58,7 +58,7 @@ public interface BudgetReportsControlListDao {
     public void updateReportsControlListpart1(String idForSession, String personUserIdentifier, Integer universityFiscalYear);
 
     /**
-     *  updates control list table 02.
+     * updates control list table 02.
      * 
      * @param idForSession
      * @param personUserIdentifier
@@ -68,7 +68,7 @@ public interface BudgetReportsControlListDao {
     public void updateReportsControlListpart2(String idForSession, String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
 
     /**
-     *  updates control list table disp1.
+     * updates control list table disp1.
      * 
      * @param idForSession
      * @return
@@ -76,7 +76,7 @@ public interface BudgetReportsControlListDao {
     public void updateReportsControlListDisp1(String idForSession);
 
     /**
-     *  changes flags in ld_bcn_pullup_t with Organization and Chart code.
+     * changes flags in ld_bcn_pullup_t with Organization and Chart code.
      * 
      * @param personUserIdentifier
      * @param budgetConstructionPullup
@@ -85,7 +85,7 @@ public interface BudgetReportsControlListDao {
     public void changeFlagOrganizationAndChartOfAccountCodeSelection(String personUserIdentifier, String chartOfAccountsCode, String organizationCode);
 
     /**
-     *  updates sub-fund group list
+     * updates sub-fund group list
      * 
      * @param personUserIdentifier
      * @return
@@ -93,7 +93,7 @@ public interface BudgetReportsControlListDao {
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier);
 
     /**
-     *  cleans sub-fund group list.
+     * cleans sub-fund group list.
      * 
      * @param personUserIdentifier
      * @return
@@ -101,31 +101,7 @@ public interface BudgetReportsControlListDao {
     public void cleanReportsSubFundGroupSelectList(String personUserIdentifier);
 
     /**
-     *  cleans acount summary table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void cleanReportsAccountSummaryTable(String personUserIdentifier);
-
-    /**
-     *  updates acount summary table.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void updateRepotsAccountSummaryTable(String personUserIdentifier);
-
-    /**
-     *  updates acount summary table when users choose consolidation.
-     * 
-     * @param personUserIdentifier
-     * @return
-     */
-    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier);
-
-    /**
-     *  updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
+     * updates flags in LD_BCN_SUBFUND_PICK_T with selected sub-fund group code.
      * 
      * @param personUserIdentifier
      * @param selectedSubfundGroupCodeList

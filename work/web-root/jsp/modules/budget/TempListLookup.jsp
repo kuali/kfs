@@ -48,6 +48,11 @@
 	<html-el:hidden name="KualiForm" property="readOnlyFields" />
 	<html-el:hidden name="KualiForm" property="referencesToRefresh" />
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
+	<html-el:hidden name="KualiForm" property="reportMode" />
+	<html-el:hidden name="KualiForm" property="currentPointOfViewKeyCode" />
+	<html-el:hidden name="KualiForm" property="buildControlList" />
+	<html-el:hidden name="KualiForm" property="reportConsolidation" />
+	consolidation
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />
@@ -83,7 +88,14 @@
 					</c:if>
                 --> 					
 				<tr align=center>
-					<td height="30" colspan=2 class="infoline"><html:image
+					<td height="30" colspan=2 class="infoline">
+					<c:if test="${KualiForm.reportMode != null}">
+					<html:image
+						property="methodToCall.submitReport" value="submit"
+						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="tinybutton"
+						alt="submit" title="submit" border="0" />
+					</c:if>
+					<html:image
 						property="methodToCall.search" value="search"
 						src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" styleClass="tinybutton"
 						alt="search" title="search" border="0" /> <html:image

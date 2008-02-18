@@ -26,7 +26,10 @@
 	<html-el:hidden name="KualiForm" property="backLocation" />
 	<html-el:hidden name="KualiForm" property="returnAnchor" />
 	<html-el:hidden name="KualiForm" property="docFormKey" />
-	<html-el:hidden name="KualiForm" property="accSumConsolidation" />
+	<html-el:hidden name="KualiForm" property="reportMode" />
+	<html-el:hidden name="KualiForm" property="buildControlList" />
+	<html-el:hidden name="KualiForm" property="reportConsolidation" />
+	<html-el:hidden name="KualiForm" property="refreshListFlag" />
 
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
@@ -47,7 +50,7 @@
 	    </tr>
 	  
 		<c:forEach var="subfund" items="${KualiForm.bcSubfundList}">
-			<tr align="center">
+           	<tr align="center">
 				<td class="grid" valign="center">
 					<%-- <center><html:multibox property="selectedSubfundGroupCode" value="${subfund.subFundGroupCode}"/></center> --%>
 					<center>
@@ -55,11 +58,15 @@
 					</center>
 				</td>
 				<td class="grid" valign="center">
-					<center><c:out value="${subfund.subFundGroupCode}" /></center>
+					<center>
+						<c:out value="${subfund.subFundGroupCode}" />
+					</center>
 				</td>				
 				<td class="grid" valign="center">
 					<center><c:out value="${subfund.subFundGroup.subFundGroupDescription}" /></center>
 				</td>				
+
+				
 					
 			</tr>
 		</c:forEach>

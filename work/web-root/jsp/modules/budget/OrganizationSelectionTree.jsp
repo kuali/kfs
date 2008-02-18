@@ -31,6 +31,7 @@
 	<html-el:hidden name="KualiForm" property="returnFormKey" />
 	<html-el:hidden name="KualiForm" property="operatingMode" />
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
+	<html-el:hidden name="KualiForm" property="performBuildPointOfViewFlag" />
 	
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
@@ -319,9 +320,10 @@
                         <td class="grid" valign="center" rowspan="1" colspan="1">
                         <div align="center">
                             <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" />
+							<html:hidden property="reportMode" value="accountSummaryReport" />
                         </div>
                         <div align="center">
-                            <html:checkbox property="accSumConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
+                            <html:checkbox property="accountSummaryConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
                         </div>
                         
                         </td>
@@ -350,6 +352,10 @@
                         <td class="grid" valign="center" rowspan="1" colspan="1">
                         <div align="center">
                             <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Account Object Detail" alt="Account Object Detail" styleClass="tinybutton" />
+                            <html:hidden property="reportMode" value="accountObjectDetailReport" />
+                        </div>
+                        <div align="center">
+                            <html:checkbox property="accountObjectDetailConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
                         </div>
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
@@ -365,6 +371,10 @@
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
                             <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Monthy Object Sum" alt="Monthly Object Sum" styleClass="tinybutton" />
+                            <html:hidden property="reportMode" value="monthObjectSummaryReport" />
+                        </div>
+                        <div align="center">
+                            <html:checkbox property="monthObjectSummaryConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
                         </div>
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">

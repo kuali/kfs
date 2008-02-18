@@ -15,28 +15,31 @@
  */
 package org.kuali.module.budget.dao;
 
-/**
- * This class...
- */
-public interface OrganizationBCDocumentSearchDao {
+public interface BudgetConstructionAccountSummaryReportDao {
 
     /**
-     * This method populates BudgetConstructionAccountSelect with rows associated with a set of selected organizations in the
-     * Organization Tree for the user and where Budget Documents exist.
+     *  cleans acount summary table.
      * 
      * @param personUserIdentifier
-     * @param universityFiscalYear
+     * @return
      */
-    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear);
-    
-    
-    public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
-    
-    
+    public void cleanReportsAccountSummaryTable(String personUserIdentifier);
+
     /**
-     * This method depopulates BudgetConstructionAccountSelect rows associated with the user.
+     *  updates acount summary table.
      * 
      * @param personUserIdentifier
+     * @return
      */
-    public void cleanAccountSelectPullList(String personUserIdentifier);
+    public void updateReportsAccountSummaryTable(String personUserIdentifier);
+
+    /**
+     *  updates acount summary table when users choose consolidation.
+     * 
+     * @param personUserIdentifier
+     * @return
+     */
+    public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+
+
 }

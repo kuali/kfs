@@ -51,7 +51,10 @@ public class BudgetConstructionOrganizationReportsServiceImpl implements BudgetC
         return budgetConstructionOrganizationReportsDao.getBySearchCriteria(cls, searchCriteria);
     }
   
-
+    public Collection getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList) {
+        return budgetConstructionOrganizationReportsDao.getBySearchCriteriaByList(cls, searchCriteria, orderList);
+    }
+ 
     /**
      * @see org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService#getActiveChildOrgs(java.lang.String,
      *      java.lang.String)

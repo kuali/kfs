@@ -32,6 +32,8 @@ public interface OrganizationBCDocumentSearchService {
      */
     public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear);
 
+    public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);
+    
     /**
      * This method depopulates BudgetConstructionAccountSelect rows associated with the user.
      * 

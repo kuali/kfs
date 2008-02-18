@@ -31,20 +31,14 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     BudgetReportsControlListDao budgetReportsControlListDao;
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsControlList(java.lang.String,
-     *      java.lang.String)
-     */
-    public void cleanReportsControlList(String idForSession, String personUserIdentifier) {
-        budgetReportsControlListDao.cleanReportsControlList(personUserIdentifier);
-        budgetReportsControlListDao.cleanReportsControlListPart1(idForSession);
-        budgetReportsControlListDao.cleanReportsControlListPart2(idForSession);
-    }
-
-    /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsControlList(java.lang.String,
      *      java.lang.String, java.lang.Integer, java.util.List)
      */
     public void updateReportsControlList(String idForSession, String personUserIdentifier, Integer universityFiscalYear, List<BudgetConstructionPullup> budgetConstructionPullup) {
+        budgetReportsControlListDao.cleanReportsControlList(personUserIdentifier);
+        budgetReportsControlListDao.cleanReportsControlListPart1(idForSession);
+        budgetReportsControlListDao.cleanReportsControlListPart2(idForSession);
+
         budgetReportsControlListDao.updateReportsControlListpart1(idForSession, personUserIdentifier, universityFiscalYear);
         for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
             budgetReportsControlListDao.updateReportsControlListpart2(idForSession, personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
@@ -54,16 +48,10 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
     }
 
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsSubFundGroupSelectList(java.lang.String)
-     */
-    public void cleanReportsSubFundGroupSelectList(String personUserIdentifier) {
-        budgetReportsControlListDao.cleanReportsSubFundGroupSelectList(personUserIdentifier);
-    }
-
-    /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSubFundGroupSelectList(java.lang.String)
      */
     public void updateReportsSubFundGroupSelectList(String personUserIdentifier) {
+        budgetReportsControlListDao.cleanReportsSubFundGroupSelectList(personUserIdentifier);
         budgetReportsControlListDao.updateReportsSubFundGroupSelectList(personUserIdentifier);
     }
 
@@ -75,27 +63,6 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
         for (BudgetConstructionPullup bcp : budgetConstructionPullup) {
             budgetReportsControlListDao.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, bcp.getChartOfAccountsCode(), bcp.getOrganizationCode());
         }
-    }
-
-    /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#cleanReportsAccountSummaryTable(java.lang.String)
-     */
-    public void cleanReportsAccountSummaryTable(String personUserIdentifier) {
-        budgetReportsControlListDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-    }
-
-    /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
-     */
-    public void updateRepotsAccountSummaryTable(String personUserIdentifier) {
-        budgetReportsControlListDao.updateRepotsAccountSummaryTable(personUserIdentifier);
-    }
-
-    /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
-     */
-    public void updateRepotsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
-        budgetReportsControlListDao.updateRepotsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
 
     /**

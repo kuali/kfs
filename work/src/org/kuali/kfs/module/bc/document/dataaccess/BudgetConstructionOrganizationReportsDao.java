@@ -27,6 +27,8 @@ public interface BudgetConstructionOrganizationReportsDao {
 
     public Collection getBySearchCriteria(Class cls, Map searchCriteria);
     
+    public Collection getBySearchCriteriaByList(Class cls, Map searchCriteria, List<String> orderList);
+    
     /**
      * This method returns active organizations that report to the passed in organization.
      * 

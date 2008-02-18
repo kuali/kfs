@@ -39,6 +39,8 @@ public interface BudgetConstructionOrganizationReportsService {
 
     public Collection getBySearchCriteria(Class cls, Map searchCriteria);
     
+    public Collection getBySearchCriteriaOrderByList(Class cls, Map searchCriteria, List<String> orderList);
+    
     /**
      * This method returns a list of child BC organization reports objects for the passed in org.
      * 

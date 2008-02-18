@@ -24,9 +24,13 @@ public class TempListLookupForm extends LookupForm {
     // holds the BC fiscal year that is currently active
     private Integer universityFiscalYear;
     private String personUniversalIdentifier;
-
+    private String reportMode;
+    private String currentPointOfViewKeyCode;
+    private boolean buildControlList;
+    private boolean reportConsolidation;
     // controls automatic initial display of results
     private boolean showInitialResults;
+    
 
     /**
      * Gets the universityFiscalYear attribute.
@@ -80,6 +84,38 @@ public class TempListLookupForm extends LookupForm {
      */
     public void setShowInitialResults(boolean showInitialResults) {
         this.showInitialResults = showInitialResults;
+    }
+
+    public String getReportMode() {
+        return reportMode;
+    }
+
+    public void setReportMode(String reportMode) {
+        this.reportMode = reportMode;
+    }
+
+    public String getCurrentPointOfViewKeyCode() {
+        return currentPointOfViewKeyCode;
+    }
+
+    public void setCurrentPointOfViewKeyCode(String currentPointOfViewKeyCode) {
+        this.currentPointOfViewKeyCode = currentPointOfViewKeyCode;
+    }
+
+    public boolean isBuildControlList() {
+        return buildControlList;
+    }
+
+    public void setBuildControlList(boolean buildControlList) {
+        this.buildControlList = buildControlList;
+    }
+
+    public boolean isReportConsolidation() {
+        return reportConsolidation;
+    }
+
+    public void setReportConsolidation(boolean reportConsolidation) {
+        this.reportConsolidation = reportConsolidation;
     }
 
 

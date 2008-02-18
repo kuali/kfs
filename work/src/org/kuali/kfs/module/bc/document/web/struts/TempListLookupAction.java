@@ -17,22 +17,31 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Properties;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.lookup.Lookupable;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.action.KualiLookupAction;
 import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.module.budget.BCConstants;
+import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
+import org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect;
+import org.kuali.module.budget.bo.BudgetConstructionPositionSelect;
 import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.OrganizationSalarySettingSearchService;
 import org.kuali.module.budget.web.struts.form.TempListLookupForm;
@@ -54,23 +63,29 @@ public class TempListLookupAction extends KualiLookupAction {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
         // TODO use switch here
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")) {
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionIntendedIncumbentSelect.class.getName())) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")) {
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionPositionSelect.class.getName())) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).buildPositionSelect(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
         // TODO may need to pass another parameter for building variations of AccountSelect
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")) {
-            SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
-            GlobalVariables.getMessageList().add("message.budget.accountList");
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionAccountSelect.class.getName())) {
+            
+            // ORG Report mode
+            if (tempListLookupForm.getReportMode() != null) {
+                String[] flds = tempListLookupForm.getCurrentPointOfViewKeyCode().split("[-]");
+                SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear(), flds[0], flds[1]);
+            } else {
+                SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+                GlobalVariables.getMessageList().add("message.budget.accountList");    
+            }
         }
 
         forward = super.start(mapping, form, request, response);
         if (tempListLookupForm.isShowInitialResults()) {
             forward = search(mapping, form, request, response);
         }
-
         return forward;
     }
 
@@ -112,17 +127,44 @@ public class TempListLookupAction extends KualiLookupAction {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
 
         // TODO use switch here
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionIntendedIncumbentSelect")) {
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionIntendedIncumbentSelect.class.getName())) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanIntendedIncumbentSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionPositionSelect")) {
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionPositionSelect.class.getName())) {
             SpringContext.getBean(OrganizationSalarySettingSearchService.class).cleanPositionSelect(tempListLookupForm.getPersonUniversalIdentifier());
         }
-        if (tempListLookupForm.getBusinessObjectClassName().equals("org.kuali.module.budget.bo.BudgetConstructionAccountSelect")) {
+        if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionAccountSelect.class.getName())) {
             SpringContext.getBean(OrganizationBCDocumentSearchService.class).cleanAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
         }
 
         return super.cancel(mapping, form, request, response);
     }
-
+    
+    public ActionForward submitReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
+        
+        String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
+        String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+        // build out base path for return location, using config service
+        String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
+        
+        // now add required parameters
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DOC_FORM_KEY, tempListLookupForm.getFormKey());
+        parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + BCConstants.ORG_SEL_TREE_ACTION);
+        parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");
+        if (tempListLookupForm.isReportConsolidation()) {
+            parameters.put(BCConstants.Report.REPORT_CONSOLIDATION, "true");
+        }
+        parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
+        parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
+        parameters.put(BCConstants.Report.REPORT_MODE, tempListLookupForm.getReportMode());
+        if (tempListLookupForm.isBuildControlList()){
+            parameters.put(BCConstants.Report.BUILD_CONTROL_LIST, "true");
+        }
+        
+        String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_REPORT_SELECTION_ACTION, parameters);
+        return new ActionForward(lookupUrl, true);
+    }
 }

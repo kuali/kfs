@@ -23,13 +23,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.Guid;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
-import org.kuali.module.budget.bo.BudgetConstructionAccountSelect;
+import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
+import org.kuali.module.budget.service.BudgetReportsControlListService;
 
 /**
  * Struts Action Form for the Organization Report Selection Screen.
@@ -43,8 +45,11 @@ public class OrganizationReportSelectionForm extends KualiForm {
     private String backLocation;
     private String returnAnchor;
     private String docFormKey;
-    private String operatingMode;
-    private String accSumConsolidation;
+    private String reportMode;
+    private boolean buildControlList;
+    private boolean reportConsolidation;
+    private boolean refreshListFlag;
+
 
     /**
      * Constructs a OrganizationReportSelectionForm.java
@@ -60,10 +65,24 @@ public class OrganizationReportSelectionForm extends KualiForm {
     @Override
     public void populate(HttpServletRequest request) {
         super.populate(request);
-        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-        Map searchCriteria = new HashMap();
-        searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-        bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
+        if (BCConstants.Report.reportModeOnlySubfundCodeSelectionMapping.contains(reportMode)) {
+                String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+                if (buildControlList) {
+                    // change flag
+                    BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
+                    String idForSession = (new Guid()).toString();
+                    List<BudgetConstructionPullup> selectedOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
+                    budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
+                    budgetReportsControlListService.updateReportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectedOrgs);
+                    budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
+                    buildControlList = false;
+                }
+                Map searchCriteria = new HashMap();
+                searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+                bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
+
+                refreshListFlag = true;
+        }
     }
 
     /**
@@ -156,23 +175,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
         this.backLocation = backLocation;
     }
 
-    /**
-     * Gets the operatingMode
-     * 
-     * @return Returns the operatingMode
-     */
-    public String getOperatingMode() {
-        return operatingMode;
-    }
-
-    /**
-     * Sets the operatingMode
-     * 
-     * @param operatingMode The operatingMode to set.
-     */
-    public void setOperatingMode(String operatingMode) {
-        this.operatingMode = operatingMode;
-    }
 
     /**
      * Gets the returnAnchor
@@ -210,21 +212,37 @@ public class OrganizationReportSelectionForm extends KualiForm {
         this.docFormKey = docFormKey;
     }
 
-    /**
-     * Gets the accSumConsolidation
-     * 
-     * @return Returns the accSumConsolidation
-     */
-    public String getAccSumConsolidation() {
-        return accSumConsolidation;
+    public boolean isBuildControlList() {
+        return buildControlList;
     }
 
-    /**
-     * Sets the accSumConsolidation
-     * 
-     * @param accSumConsolidation The accSumConsolidation to set.
-     */
-    public void setAccSumConsolidation(String accSumConsolidation) {
-        this.accSumConsolidation = accSumConsolidation;
+    public void setBuildControlList(boolean buildControlList) {
+        this.buildControlList = buildControlList;
     }
+
+    public boolean isReportConsolidation() {
+        return reportConsolidation;
+    }
+
+    public void setReportConsolidation(boolean reportConsolidation) {
+        this.reportConsolidation = reportConsolidation;
+    }
+
+    public String getReportMode() {
+        return reportMode;
+    }
+
+    public void setReportMode(String reportMode) {
+        this.reportMode = reportMode;
+    }
+
+    public boolean isRefreshListFlag() {
+        return refreshListFlag;
+    }
+
+    public void setRefreshListFlag(boolean refreshListFlag) {
+        this.refreshListFlag = refreshListFlag;
+    }
+
+
 }

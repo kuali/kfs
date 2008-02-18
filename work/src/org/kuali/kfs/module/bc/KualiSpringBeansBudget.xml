@@ -245,7 +245,20 @@
 		<property name="budgetConstructionOrganizationReportsService">
 			<ref bean="budgetConstructionOrganizationReportsService" />
 		</property>
+		<property name="budgetConstructionAccountSummaryReportService">
+			<ref bean="budgetConstructionAccountSummaryReportService" />
+		</property>
 	</bean>
+	
+	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">
+	<property name="budgetConstructionAccountSummaryReportDao">
+		<ref bean="budgetConstructionAccountSummaryReportDao" />
+	</property>
+	</bean>
+	
+	<bean id="budgetConstructionAccountSummaryReportDao" parent="bcBudgetConstructionDaoBase" class="org.kuali.module.budget.dao.jdbc.BudgetConstructionAccountSummaryReportDaoJdbc">
+	</bean>
+
 	
 
 	<bean id="budgetConstructionOrganizationReportsDao" parent="platformAwareDao" class="org.kuali.module.budget.dao.ojb.BudgetConstructionOrganizationReportsDaoOjb" />

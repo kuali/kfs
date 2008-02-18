@@ -30,6 +30,7 @@ import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
@@ -63,11 +64,11 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         properties = generator.getProperties();
         message = generator.getMessage();
 
-        deliminator = properties.getProperty("deliminator");
+        deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
 
-        balanceFieldNames = properties.getProperty("balanceFieldNames");
-        detailFieldNames = properties.getProperty("detailFieldNames");
-        postingYear = Integer.valueOf(properties.getProperty("postingYear"));
+        balanceFieldNames = properties.getProperty(EffortTestDataPropertyConstants.BALANCE_FIELD_NAMES);
+        detailFieldNames = properties.getProperty(EffortTestDataPropertyConstants.DETAIL_FIELD_NAMES);
+        postingYear = Integer.valueOf(properties.getProperty(EffortTestDataPropertyConstants.POSTING_YEAR));
     }
 
     @Override
@@ -81,7 +82,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
 
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
-        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }
 
     /**
@@ -144,7 +145,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
         EffortCertificationDetailBuild detailBuild = effortCertificationDetailBuildService.generateDetailBuild(postingYear, ledgerBalance, reportDefinition, systemParameters);
         System.out.printf("FringeBenefitAmount = %s; PayrollAmount = %s.\n", detailBuild.getFringeBenefitAmount(), detailBuild.getEffortCertificationPayrollAmount());
 
-        EffortCertificationDetailBuild expectedDetailBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetail", detailFieldNames, deliminator);
+        EffortCertificationDetailBuild expectedDetailBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator);
 
         String errorMessage = message.getProperty("error.detailBuildService.unexpectedDetailLineGenerated");
         assertTrue(errorMessage, ObjectUtil.compareObject(detailBuild, expectedDetailBuild, keyFields));
@@ -157,7 +158,7 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      * @return a ledger balance
      */
     private LaborLedgerBalance buildLedgerBalance(String testTarget) {
-        LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
+        LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator);
         businessObjectService.save(ledgerBalance);
         persistenceService.retrieveNonKeyFields(ledgerBalance);
 
@@ -189,8 +190,8 @@ public class EffortCertificationDetailBuildServiceTest extends KualiTestBase {
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
-        String reprtDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
-        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
+        String reprtDefinitionFieldNames = properties.getProperty(EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_NAMES);
+        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_VALUES, reprtDefinitionFieldNames, deliminator);
 
         return reportDefinition;
     }

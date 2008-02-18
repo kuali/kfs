@@ -31,6 +31,7 @@ import org.kuali.module.effort.EffortConstants.SystemParameters;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
@@ -64,13 +65,13 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         properties = generator.getProperties();
         message = generator.getMessage();
 
-        deliminator = properties.getProperty("deliminator");
+        deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
 
-        balanceFieldNames = properties.getProperty("balanceFieldNames");
-        detailFieldNames = properties.getProperty("detailFieldNames");
-        documentFieldNames = properties.getProperty("documentFieldNames");
+        balanceFieldNames = properties.getProperty(EffortTestDataPropertyConstants.BALANCE_FIELD_NAMES);
+        detailFieldNames = properties.getProperty(EffortTestDataPropertyConstants.DETAIL_FIELD_NAMES);
+        documentFieldNames = properties.getProperty(EffortTestDataPropertyConstants.DOCUMENT_FIELD_NAMES);
 
-        postingYear = Integer.valueOf(properties.getProperty("postingYear"));
+        postingYear = Integer.valueOf(properties.getProperty(EffortTestDataPropertyConstants.POSTING_YEAR));
     }
 
     @Override
@@ -84,7 +85,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
 
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
-        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }
 
     /**
@@ -128,7 +129,7 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         reportDefinition = this.buildReportDefinition("");
         this.assertDocumentEquals(testTarget, false);
     }
-    
+
     /**
      * test if the detail lines can be consolidated when their sub account type codes are not 'CS' (cost shared)
      */
@@ -157,9 +158,9 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
         }
         List<EffortCertificationDetailBuild> detailBuild = documentBuild.getEffortCertificationDetailLinesBuild();
 
-        EffortCertificationDocumentBuild expectedDocumentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator);
-        int numberOfExpectedDetails = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDetails"));
-        List<EffortCertificationDetailBuild> expectedDetailsBuild = TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + "expectedDetail", detailFieldNames, deliminator, numberOfExpectedDetails);
+        EffortCertificationDocumentBuild expectedDocumentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DOCUMENT, documentFieldNames, deliminator);
+        int numberOfExpectedDetails = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_DETAILS));
+        List<EffortCertificationDetailBuild> expectedDetailsBuild = TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DETAIL, detailFieldNames, deliminator, numberOfExpectedDetails);
 
         String errorMessage = message.getProperty("error.documentBuildService.unexpectedDocumentGenerated");
         assertTrue(errorMessage, ObjectUtil.compareObject(documentBuild, expectedDocumentBuild, documentKeyFields));
@@ -187,8 +188,8 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
 
         List<EffortCertificationDocumentBuild> documentBuildList = effortCertificationDocumentBuildService.generateDocumentBuildList(postingYear, reportDefinition, ledgerBalances, systemParameters);
 
-        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
-        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + "expectedDocument", documentFieldNames, deliminator, numberOfExpectedDocuments);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_DOCUMENTS));
+        List<EffortCertificationDocumentBuild> expectedDocumentBuildList = TestDataPreparator.buildExpectedValueList(EffortCertificationDocumentBuild.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DOCUMENT, documentFieldNames, deliminator, numberOfExpectedDocuments);
 
         String errorMessage = message.getProperty("error.documentBuildService.unexpectedDocumentGenerated");
         assertEquals(errorMessage, expectedDocumentBuildList.size(), documentBuildList.size());
@@ -220,9 +221,9 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
      * @return a list of ledger balances
      */
     private List<LaborLedgerBalance> buildLedgerBalances(String testTarget) {
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DATA));
 
-        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfTestData);
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator, numberOfTestData);
         businessObjectService.save(ledgerBalances);
         for (LaborLedgerBalance balance : ledgerBalances) {
             persistenceService.retrieveNonKeyFields(balance);
@@ -256,8 +257,8 @@ public class EffortCertificationDocumentBuildServiceTest extends KualiTestBase {
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
-        String reprtDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
-        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
+        String reprtDefinitionFieldNames = properties.getProperty(EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_NAMES);
+        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_VALUES, reprtDefinitionFieldNames, deliminator);
 
         return reportDefinition;
     }

@@ -35,6 +35,7 @@ import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
@@ -66,14 +67,14 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         properties = generator.getProperties();
         message = generator.getMessage();
 
-        deliminator = properties.getProperty("deliminator");
+        deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
 
-        balanceFieldNames = properties.getProperty("balanceFieldNames");
-        entryFieldNames = properties.getProperty("entryFieldNames");
+        balanceFieldNames = properties.getProperty(EffortTestDataPropertyConstants.BALANCE_FIELD_NAMES);
+        entryFieldNames = properties.getProperty(EffortTestDataPropertyConstants.ENTRY_FIELD_NAMES);
 
-        detailFieldNames = properties.getProperty("detailFieldNames");
-        documentFieldNames = properties.getProperty("documentFieldNames");
-        reportDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
+        detailFieldNames = properties.getProperty(EffortTestDataPropertyConstants.DETAIL_FIELD_NAMES);
+        documentFieldNames = properties.getProperty(EffortTestDataPropertyConstants.DOCUMENT_FIELD_NAMES);
+        reportDefinitionFieldNames = properties.getProperty(EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_NAMES);
     }
 
     @Override
@@ -95,11 +96,11 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
      */
     public void testCreateEffortCertificationDocument() throws Exception {
         String testTarget = "createEffortCertificationDocument.";
-        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
-        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FISCAL_YEAR)));
+        String reportNumber = properties.getProperty(testTarget + EffortTestDataPropertyConstants.REPORT_NUMBER);
 
-        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, "documentCleanup", documentFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocumentBuild.class, properties, "documentCleanup", documentFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocumentBuild.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
@@ -110,10 +111,10 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
         assertTrue(isCreated);
 
-        List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, "documentCleanup", documentFieldNames, deliminator);
+        List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
-        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + "numOfExpectedDocuments"));
-        List<EffortCertificationDocument> expectedDocuments = TestDataPreparator.buildExpectedValueList(EffortCertificationDocument.class, properties, testTarget + "expectedDocuments", documentFieldNames, deliminator, numberOfExpectedDocuments);
+        int numberOfExpectedDocuments = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_EXPECTED_DOCUMENTS));
+        List<EffortCertificationDocument> expectedDocuments = TestDataPreparator.buildExpectedValueList(EffortCertificationDocument.class, properties, testTarget + EffortTestDataPropertyConstants.EXPECTED_DOCUMENT, documentFieldNames, deliminator, numberOfExpectedDocuments);
 
         assertEquals(numberOfExpectedDocuments, documentList.size());
 
@@ -133,13 +134,13 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
      */
     public void testGenerateSalaryExpenseTransferDocument() throws Exception {
         String testTarget = "generateSalaryExpenseTransferDocument.";
-        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + "fiscalYear")));
-        String reportNumber = properties.getProperty(testTarget + "reportNumber");
+        Integer fiscalYear = Integer.valueOf(StringUtils.trim(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FISCAL_YEAR)));
+        String reportNumber = properties.getProperty(testTarget + EffortTestDataPropertyConstants.REPORT_NUMBER);
 
         this.loadLaborTestData(testTarget);
 
-        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, "documentCleanup", documentFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocumentBuild.class, properties, "documentCleanup", documentFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithReference(EffortCertificationDocumentBuild.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
         EffortCertificationReportDefinition reportDefinition = this.buildReportDefinition("");
         reportDefinition = TestDataPreparator.persistDataObject(reportDefinition);
@@ -150,7 +151,7 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
         assertTrue(isCreated);
 
-        List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, "documentCleanup", documentFieldNames, deliminator);
+        List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
         for (EffortCertificationDocument document : documentList) {
             document.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
@@ -167,19 +168,19 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
      * @return a report defintion object
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
-        return TestDataPreparator.buildTestDataObject(EffortCertificationReportDefinition.class, properties, testTarget + "reportDefinitionFieldValues", reportDefinitionFieldNames, deliminator);
+        return TestDataPreparator.buildTestDataObject(EffortCertificationReportDefinition.class, properties, testTarget + EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_VALUES, reportDefinitionFieldNames, deliminator);
     }
 
     private EffortCertificationDocumentBuild buildDocumentBuild(String testTarget) {
-        EffortCertificationDocumentBuild documentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + "documentBuild", documentFieldNames, deliminator);
+        EffortCertificationDocumentBuild documentBuild = TestDataPreparator.buildTestDataObject(EffortCertificationDocumentBuild.class, properties, testTarget + EffortTestDataPropertyConstants.DOCUMENT_BUILD, documentFieldNames, deliminator);
         List<EffortCertificationDetailBuild> detailBuild = this.buildDetailLineBuild(testTarget);
         documentBuild.setEffortCertificationDetailLinesBuild(detailBuild);
         return documentBuild;
     }
 
     private List<EffortCertificationDetailBuild> buildDetailLineBuild(String testTarget) {
-        int numberOfDetailBuild = Integer.valueOf(properties.getProperty(testTarget + "numOfDetailBuild"));
-        return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + "detailBuild", detailFieldNames, deliminator, numberOfDetailBuild);
+        int numberOfDetailBuild = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAIL_BUILD));
+        return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.DETAIL_BUILD, detailFieldNames, deliminator, numberOfDetailBuild);
     }
 
     /**
@@ -188,15 +189,15 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
      * @param testTarget the target test case
      */
     private void loadLaborTestData(String testTarget) throws Exception {
-        TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + "dataCleanup", entryFieldNames, deliminator);
-        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, testTarget + "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerEntryClass, properties, testTarget + EffortTestDataPropertyConstants.DATA_CLEANUP, entryFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
 
-        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + "numOfEntries"));
-        List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, testTarget + "inputEntry", entryFieldNames, deliminator, numberOfEntries);
+        int numberOfEntries = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_ENTRIES));
+        List<LaborLedgerEntry> ledgerEntries = TestDataPreparator.buildTestDataList(ledgerEntryClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_ENTRY, entryFieldNames, deliminator, numberOfEntries);
         TestDataPreparator.persistDataObject(ledgerEntries);
 
-        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + "numOfBalances"));
-        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfBalances);
+        int numberOfBalances = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_BALANCES));
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator, numberOfBalances);
         TestDataPreparator.persistDataObject(ledgerBalances);
     }
 }

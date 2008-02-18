@@ -697,8 +697,6 @@
 			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 			
-			<attributeReference name="assetPayments.chartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="chartOfAccountsCode" />
-			
 			<attributeReference name="capitalAssetType.depreciableLifeLimit" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="depreciableLifeLimit" />
 			
 			<attributeReference name="assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >

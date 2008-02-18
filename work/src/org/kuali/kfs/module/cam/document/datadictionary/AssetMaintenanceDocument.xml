@@ -107,17 +107,10 @@
                 	<maintainableField name="estimatedSellingPrice" />
                  </maintainableItems>
             </maintainableSection>
-           
-           <!--  need more work on payment collection
-			<maintainableSection title="View Payments">
-				<maintainableItems>
-					<maintainableField name="assetPayments.chartOfAccountsCode" />				
-				</maintainableItems>
-			</maintainableSection>
-			-->
-			<maintainableSection title="Payment Iformation">
+
+			<maintainableSection title="Payment Information">
                 <maintainableItems>
-                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Iformation">
+                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Information">
                         <maintainableField name="chartOfAccountsCode"  />
                         <maintainableField name="accountNumber"  />
                         <maintainableField name="subAccountNumber"  />
@@ -147,7 +140,6 @@
                         <maintainableField name="period10Depreciation1Amount"  />
                         <maintainableField name="period11Depreciation1Amount"  />
                         <maintainableField name="period12Depreciation1Amount"  />
-                        
    		            </maintainableCollection>
 		        </maintainableItems>
 		    </maintainableSection>

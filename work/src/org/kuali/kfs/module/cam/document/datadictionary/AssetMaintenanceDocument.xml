@@ -113,9 +113,9 @@
                     <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Information">
                         <maintainableField name="chartOfAccountsCode"  />
                         <maintainableField name="accountNumber"  />
-                        <maintainableField name="subAccountNumber"  />
+                   <!--       <maintainableField name="subAccountNumber"  /> -->
                         <maintainableField name="financialObjectCode"  />
-                        <maintainableField name="projectCode"  />
+                   <!--      <maintainableField name="projectCode"  /> -->
                         <maintainableField name="organizationReferenceId"  />
                         <maintainableField name="documentNumber"  />
                         <maintainableField name="financialDocumentTypeCode"  />

@@ -1822,18 +1822,38 @@ public class Account extends PersistableBusinessObjectBase implements AccountInt
      *         false
      */
     public boolean isAwardedByFederalAcency(List<String> federalAgencyTypeCodes) {
-        List<AwardAccount> awardAccountList = this.getAwards();
-        for (AwardAccount awardAccount : awardAccountList) {
-            String agencyTypeCode = awardAccount.getAward().getAgency().getAgencyTypeCode();
-            if (federalAgencyTypeCodes.contains(agencyTypeCode)) {
-                return true;
-            }
+        AwardAccount primaryAward = this.getPrimaryAwardAccount(this);
+        if (primaryAward == null) {
+            return false;
+        }
 
-            if (awardAccount.getAward().getFederalPassThroughIndicator()) {
-                return true;
-            }
+        String agencyTypeCode = primaryAward.getAward().getAgency().getAgencyTypeCode();
+        if (federalAgencyTypeCodes.contains(agencyTypeCode) || primaryAward.getAward().getFederalPassThroughIndicator()) {
+            return true;
         }
 
         return false;
+    }
+
+    /**
+     * get the primary award account for the given account
+     * 
+     * @param account the given account
+     * @return the primary award account for the given account
+     */
+    private AwardAccount getPrimaryAwardAccount(Account account) {
+        AwardAccount primaryAwardAccount = null;
+        long highestProposalNumber = 0;
+
+        for (AwardAccount awardAccount : account.getAwards()) {
+            Long proposalNumber = awardAccount.getProposalNumber();
+
+            if (proposalNumber >= highestProposalNumber) {
+                highestProposalNumber = proposalNumber;
+                primaryAwardAccount = awardAccount;
+            }
+        }
+
+        return primaryAwardAccount;
     }
 }

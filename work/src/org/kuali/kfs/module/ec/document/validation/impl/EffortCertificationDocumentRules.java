@@ -61,10 +61,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     public boolean processGenerateSalaryExpenseTransferDocumentRules(EffortCertificationDocument effortCertificationDocument) {
         LOG.info("processGenerateSalaryExpenseTransferDocument() start");
 
-        if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
-            return true;
-        }
-
         boolean valid = effortCertificationDocumentService.generateSalaryExpenseTransferDocument(effortCertificationDocument);
         if (!valid) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_SALARY_EXPENSE_TRANSFER_DOCUMENT_NOT_GENERATED);
@@ -133,10 +129,6 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     public boolean processUpdateDetailLineRules(EffortCertificationDocument document, EffortCertificationDetail detailLine) {
         LOG.info("processAddLineBusinessRules() start");
-
-        if (!this.checkDetailLineAttributes(detailLine)) {
-            return false;
-        }
 
         if (!EffortCertificationDocumentRuleUtil.hasValidEffortPercent(detailLine)) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_UPDATED_OVERALL_PERCENT, EffortKeyConstants.ERROR_INVALID_EFFORT_PERCENT);

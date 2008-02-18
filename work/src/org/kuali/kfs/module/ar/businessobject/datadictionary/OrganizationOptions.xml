@@ -4,10 +4,10 @@
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
     <businessObject businessObjectClass="org.kuali.module.ar.bo.OrganizationOptions">
- 
+
         <inquiry>
             <title>Organization Options Inquiry</title>
-             
+
             <inquirySections>
                 <inquirySection title="Header Text">
                     <inquiryFields>
@@ -32,7 +32,7 @@
                         <field attributeName="universityName" />
                     </inquiryFields>
                 </inquirySection>
-            </inquirySections>  
+            </inquirySections>
         </inquiry>
 
         <lookup>
@@ -51,28 +51,15 @@
                 <lookupField attributeName="chartOfAccountsCode" required="false" />
                 <lookupField attributeName="organizationCode" required="false" />
                 <lookupField attributeName="processingChartOfAccountCode" required="false" />
-                <lookupField attributeName="processingOrganizationCode" required="false" />                
-                <lookupField attributeName="organization800PhoneNumber" required="false" />
-                <lookupField attributeName="organizationCheckPayableToName" required="false" />
-                <lookupField attributeName="organizationFaxNumber" required="false" />
-                <lookupField attributeName="organizationMessageText" required="false" />
-                <lookupField attributeName="organizationPaymentTermsText" required="false" />
-                <lookupField attributeName="organizationPhoneNumber" required="false" />
-                <lookupField attributeName="organizationRemitToAddressName" required="false" />
-                <lookupField attributeName="organizationRemitToCityName" required="false" />
-                <lookupField attributeName="organizationRemitToLine1StreetAddress" required="false" />
-                <lookupField attributeName="organizationRemitToLine2StreetAddress" required="false" />
-                <lookupField attributeName="organizationRemitToStateCode" required="false" />
-                <lookupField attributeName="organizationRemitToZipCode" required="false" />
-                <lookupField attributeName="printInvoiceIndicator" required="false" />
-                <lookupField attributeName="universityName" required="false" />
+                <lookupField attributeName="processingOrganizationCode" required="false" />
+
             </lookupFields>
 
             <resultFields>
                 <field attributeName="chartOfAccountsCode" />
-                <field attributeName="organizationCode" />                
+                <field attributeName="organizationCode" />
                 <field attributeName="processingChartOfAccountCode" />
-                <field attributeName="processingOrganizationCode" />                
+                <field attributeName="processingOrganizationCode" />
                 <field attributeName="organization800PhoneNumber" />
                 <field attributeName="organizationCheckPayableToName" />
                 <field attributeName="organizationFaxNumber" />
@@ -95,14 +82,14 @@
 
            <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
            </attributeReference>
-           
+
 			<attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
-           </attributeReference>  
-           
-           <attributeReference name="processingChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-				<label>Processing Chart of Account Code</label>
            </attributeReference>
-           
+
+           <attributeReference name="processingChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
+				<label>Processing Chart Code</label>
+           </attributeReference>
+
            	<attributeReference name="processingOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
            		<label>Processing Organization Code</label>
            </attributeReference>
@@ -114,7 +101,7 @@
                 <maxLength>13</maxLength>
                 <validationPattern><numeric  /></validationPattern>
 				<required>false</required>
-				
+
                 <control>
                     <text size="15" />
                 </control>
@@ -126,11 +113,11 @@
             <attribute name="organizationCheckPayableToName" forceUppercase="true">
                 <label>Organization Check Payable To Name</label>
                 <shortLabel>Name</shortLabel>
-                
+
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>false</required>
-                
+
                 <control>
                     <text size="42" />
                 </control>
@@ -142,7 +129,7 @@
             <attribute name="organizationFaxNumber" forceUppercase="true">
                 <label>Organization Fax Number</label>
                 <shortLabel>Number</shortLabel>
-                
+
 
                 <maxLength>13</maxLength>
                 <validationPattern><numeric  /></validationPattern>
@@ -159,7 +146,7 @@
             <attribute name="organizationMessageText" forceUppercase="true">
                 <label>Organization Message Text</label>
                 <shortLabel>Text</shortLabel>
-               
+
                 <maxLength>80</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
                 <required>false</required>
@@ -175,7 +162,7 @@
             <attribute name="organizationPaymentTermsText" forceUppercase="true">
                 <label>Organization Payment Terms Text</label>
                 <shortLabel>Text</shortLabel>
-                
+
 
                 <maxLength>40</maxLength>
                 <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
@@ -268,7 +255,7 @@
                 <summary>organizationRemitToLine2StreetAddress</summary>
                 <description>organizationRemitToLine2StreetAddress description...</description>
 			</attribute>
-			
+
 			<attributeReference name="organizationRemitToStateCode" sourceClassName="org.kuali.kfs.bo.State" sourceAttributeName="postalStateCode">
            </attributeReference>
 

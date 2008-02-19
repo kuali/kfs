@@ -56,7 +56,7 @@ import org.kuali.module.chart.bo.SubFundGroup;
 public class GeneralLedgerBudgetLoadDaoOjb extends PlatformAwareDaoBaseOjb implements GeneralLedgerBudgetLoadDao {
 
     /*  turn on the logger for the persistence broker */
-    private static Logger LOG = org.apache.log4j.Logger.getLogger(GenesisDaoOjb.class);
+    private static Logger LOG = org.apache.log4j.Logger.getLogger(GeneralLedgerBudgetLoadDaoOjb.class);
 
     private DateTimeService dateTimeService;
     private HomeOriginationService homeOriginationService;

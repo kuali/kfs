@@ -24,6 +24,7 @@ public class VendorPropertyConstants {
 
     public static final String VENDOR_HEADER_PREFIX = "vendorHeader.";
     public static final String VENDOR_NUMBER = "vendorNumber";
+    public static final String VENDOR_PARENT_INDICATOR = "vendorParentIndicator";
     public static final String VENDOR_FAX_NUMBER = "vendorFaxNumber";
     public static final String VENDOR_ADDRESS = "vendorAddresses";
     public static final String VENDOR_DEFAULT_ADDRESS = "vendorDefaultAddresses";

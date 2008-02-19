@@ -48,7 +48,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
     private String reportMode;
     private boolean buildControlList;
     private boolean reportConsolidation;
-    private boolean refreshListFlag;
+    private boolean refreshSubFundList;
 
 
     /**
@@ -66,7 +66,8 @@ public class OrganizationReportSelectionForm extends KualiForm {
     public void populate(HttpServletRequest request) {
         super.populate(request);
         if (BCConstants.Report.reportModeOnlySubfundCodeSelectionMapping.contains(reportMode)) {
-                String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            if (!refreshSubFundList) {
                 if (buildControlList) {
                     // change flag
                     BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
@@ -81,7 +82,8 @@ public class OrganizationReportSelectionForm extends KualiForm {
                 searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
                 bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
 
-                refreshListFlag = true;
+                refreshSubFundList = true;
+            }
         }
     }
 
@@ -237,11 +239,11 @@ public class OrganizationReportSelectionForm extends KualiForm {
     }
 
     public boolean isRefreshListFlag() {
-        return refreshListFlag;
+        return refreshSubFundList;
     }
 
-    public void setRefreshListFlag(boolean refreshListFlag) {
-        this.refreshListFlag = refreshListFlag;
+    public void setRefreshListFlag(boolean refreshSubFundList) {
+        this.refreshSubFundList = refreshSubFundList;
     }
 
 

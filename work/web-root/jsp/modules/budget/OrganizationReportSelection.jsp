@@ -14,8 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-
-<script language="JavaScript" type="text/javascript" src="scripts/budget/organizationSelectionTree.js"></script>
+<c:set var="subFundList" value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />	
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetOrganizationReportSelection" renderMultipart="true"
@@ -48,22 +47,32 @@
 		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupCode.name}"/> <br> </th>
 		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupDescription.name}"/> <br> </th>
 	    </tr>
-	  
-		<c:forEach var="subfund" items="${KualiForm.bcSubfundList}">
-           	<tr align="center">
+
+		<c:forEach items="${KualiForm.bcSubfundList}" var="item" varStatus="status">
+		    <tr align="center">
 				<td class="grid" valign="center">
-					<%-- <center><html:multibox property="selectedSubfundGroupCode" value="${subfund.subFundGroupCode}"/></center> --%>
+					<%-- <center><html:multibox property="bcSubfundList[${status.index}].subFundGroupCode" value="${subFundList.subFundGroupCode}"/></center> --%>
 					<center>
 						<input type="checkbox" name="${subfund.subFundGroupCode}" value="${subfund.subFundGroupCode}" <c:if test="${subfund.reportFlag eq 1}"> checked="checked" </c:if> />
 					</center>
 				</td>
 				<td class="grid" valign="center">
-					<center>
-						<c:out value="${subfund.subFundGroupCode}" />
-					</center>
+				<center>
+					<kul:htmlControlAttribute 
+					property="bcSubfundList[${status.index}].subFundGroupCode"
+		            attributeEntry="${subFundList.subFundGroupCode}"
+        	        readOnly="true"/>
+       	        <html:hidden write="false" property="bcSubfundList[${status.index}].subFundGroupCode" />
+            	<center>
 				</td>				
 				<td class="grid" valign="center">
-					<center><c:out value="${subfund.subFundGroup.subFundGroupDescription}" /></center>
+				<center>
+					<kul:htmlControlAttribute 
+					property="bcSubfundList[${status.index}].subFundGroup.subFundGroupDescription"
+		            attributeEntry="${subFundList.subFundGroup.subFundGroupDescription}"
+	                readOnly="true"/>
+                <html:hidden write="false" property="bcSubfundList[${status.index}].subFundGroup.subFundGroupDescription" />
+				</center>
 				</td>				
 
 				

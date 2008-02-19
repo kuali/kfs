@@ -22,11 +22,12 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.Pretag</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
-<!-- 
+ 
         <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
-        <preRulesCheckClass>org.kuali.module.cams.rules.PretagPreRules</preRulesCheckClass>
--->
+       <preRulesCheckClass>org.kuali.module.cams.rules.PretagPreRules</preRulesCheckClass>
+<!-- 
         <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
+-->
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -83,17 +84,14 @@
 
             <maintainableSection title="Edit List of Pre Asset Tagging Details">
                 <maintainableItems>
-<!-- 
-                    <maintainableCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="pretagDetails" summaryTitle="Detail">
--->
                     <maintainableCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail" summaryTitle="Detail">
                         <maintainableField name="purchaseOrderNumber" readOnlyAfterAdd="true" />
                         <maintainableField name="lineItemNumber" readOnlyAfterAdd="true" />
                         <maintainableField name="campusTagNumber" required="true" readOnlyAfterAdd="true" />
                         <maintainableField name="serialNumber" />
                         <maintainableField name="organizationTagNumber" />
-                       <maintainableField name="governmentTagNumber" />
-                       <maintainableField name="nationalStockNumber" />
+                        <maintainableField name="governmentTagNumber" />
+                        <maintainableField name="nationalStockNumber" />
                         <maintainableField name="campusCode" required="true"/>
                         <maintainableField name="buildingCode" required="true"/>
                         <maintainableField name="buildingRoomNumber" required="true"/>
@@ -103,12 +101,8 @@
 						</maintainableField>
                         <maintainableField name="versionNumber" />
                         <summaryFields>
-                            <summaryField name="purchaseOrderNumber" />
-                            <summaryField name="lineItemNumber" />
                             <summaryField name="campusTagNumber" />
-                            <summaryField name="campusCode" />
-                            <summaryField name="buildingRoomNumber" />
-                            <summaryField name="buildingSubRoomNumber" />
+                            <summaryField name="serialNumber" />
                         </summaryFields>
                         
                         <duplicateIdentificationFields>

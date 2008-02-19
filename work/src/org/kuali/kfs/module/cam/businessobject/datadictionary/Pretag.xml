@@ -21,13 +21,34 @@
                         <field attributeName="organizationCode" />
                         <field attributeName="organizationDescription" />
                         <field attributeName="organizationInventoryName" />
-                        <!--  <field attributeName="representativeUniversalIdentifier" /> -->
 	                    <field attributeName="personUniversal.personName" />
                         <field attributeName="organizationText" />
                         <field attributeName="chartOfAccountsCode" />
                         <field attributeName="pretagCreateDate" />
                     </inquiryFields>
                 </inquirySection>
+                
+                <inquirySection title="Pretag Details">
+                    <inquiryFields>
+                        <inquiryCollection name="pretagDetails" businessObjectClass="org.kuali.module.cams.bo.PretagDetail"  summaryTitle="Pretag Detail" >
+                        	<field attributeName="campusTagNumber" />
+                        	<field attributeName="serialNumber" />
+                        	<field attributeName="organizationTagNumber" />
+                        	<field attributeName="governmentTagNumber" />
+                        	<field attributeName="nationalStockNumber" />
+                        	<field attributeName="campusCode" />
+                        	<field attributeName="buildingCode" />
+                        	<field attributeName="buildingRoomNumber" />
+                        	<field attributeName="buildingSubRoomNumber" />
+                        	<field attributeName="pretagTagCreateDate" />
+                        	<inquirySummaryFields>
+                                <inquirySummaryField attributeName="campusTagNumber" />
+                                <inquirySummaryField attributeName="serialNumber" />
+                            </inquirySummaryFields>
+                        </inquiryCollection>
+                    </inquiryFields>
+                </inquirySection>                           
+                
             </inquirySections>  
         </inquiry>
 
@@ -47,43 +68,33 @@
                 <lookupField attributeName="purchaseOrderNumber" required="false" />
                 <lookupField attributeName="lineItemNumber" required="false" />
                 <lookupField attributeName="quantityInvoiced" required="false" />
-                <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                <lookupField attributeName="manufacturerName" required="false" />
-                <lookupField attributeName="manufacturerModelNumber" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
-                <lookupField attributeName="organizationCode" required="false" />
-                <lookupField attributeName="organizationDescription" required="false" />
-                <lookupField attributeName="organizationInventoryName" required="false" />
-<!--                 <lookupField attributeName="representativeUniversalIdentifier" required="false" />  -->
-                <lookupField attributeName="personUniversal.personUserIdentifier" required="false" />
-                <lookupField attributeName="organizationText" required="false" />
+                <lookupField attributeName="pretagDetails.campusTagNumber" required="false" />
+                <lookupField attributeName="pretagDetails.serialNumber" required="false" />
                 <lookupField attributeName="assetTopsDescription" required="false" />
-                <lookupField attributeName="chartOfAccountsCode" required="false" />
-                <lookupField attributeName="pretagCreateDate" required="false" />
             </lookupFields>
 
             <resultFields>
                 <field attributeName="purchaseOrderNumber" />
                 <field attributeName="lineItemNumber" />
                 <field attributeName="quantityInvoiced" />
-                <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="manufacturerName" />
-                <field attributeName="manufacturerModelNumber" />
-                <field attributeName="vendorName" />
-                <field attributeName="organizationCode" />
-                <field attributeName="organizationDescription" />
-                <field attributeName="organizationInventoryName" />
-<!--                 <field attributeName="representativeUniversalIdentifier" /> -->
-	            <field attributeName="personUniversal.personUserIdentifier" />
-                <field attributeName="organizationText" />
+                <field attributeName="pretagDetails"/>
+<!--            
+				<field attributeName="pretagDetails.serialNumber" />
+                <field attributeName="pretagDetails.campusTagNumber"/>
+-->
                 <field attributeName="assetTopsDescription" />
-                <field attributeName="chartOfAccountsCode" />
-                <field attributeName="pretagCreateDate" />
             </resultFields>
         </lookup>
 
         <attributes>
-            <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" />
+            <attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" >
+            	<label>Captial Asset Type Code</label>
+                <shortLabel>Asset Type Code</shortLabel>
+                <required>true</required>
+            	<control>
+            		<select valuesFinderClass="org.kuali.module.cams.lookup.keyvalues.AssetTypeValuesFinder" />
+            	</control>
+            </attributeReference>
 
             <attributeReference name="organizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <label>Organization Code</label>
@@ -233,37 +244,7 @@
                 <summary>organizationText</summary>
                 <description>organizationText description...</description>
 			</attribute>
-<!--
-            <attribute name="pretagCreateDate" >
-                <label>Pretag Create Date</label>
-                <shortLabel>Date</shortLabel>
 
-                <maxLength>10</maxLength>
-                <validationPattern><date /></validationPattern>
-
-                <control>
-                    <text size="10" />
-                </control>
-
-                <summary>pretagCreateDate</summary>
-                <description>pretagCreateDate description...</description>
-			</attribute>
- 
-            <attribute name="purchaseOrderNumber" forceUppercase="true">
-                <label>Purchase Order Number</label>
-                <shortLabel>Number</shortLabel>
-
-                <maxLength>9</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-
-                <control>
-                    <text size="11" />
-                </control>
-
-                <summary>purchaseOrderNumber</summary>
-                <description>purchaseOrderNumber description...</description>
-			</attribute>
--->
             <attribute name="quantityInvoiced" >
                 <label>Quantity Invoiced</label>
                 <shortLabel>Invoiced</shortLabel>
@@ -293,11 +274,22 @@
                 <summary>vendorName</summary>
                 <description>vendorName description...</description>
 			</attribute>
+			 			
+            <attributeReference name="pretagDetails.campusTagNumber" sourceClassName="org.kuali.module.cams.bo.PretagDetail" sourceAttributeName="campusTagNumber"/>
+            <attributeReference name="pretagDetails.serialNumber" sourceClassName="org.kuali.module.cams.bo.PretagDetail" sourceAttributeName="serialNumber"/>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>
-        
+ 
+        <collections>
+            <collection name="pretagDetails">
+                <label>Pretag Details</label>
+                <shortLabel>Details</shortLabel>
+                <elementLabel>Details</elementLabel>
+             </collection>
+        </collections> 
+           
         <relationships>
             <relationship objectAttributeName="personUniversal" >
                 <primitiveAttribute sourceName="representativeUniversalIdentifier" targetName="personUniversalIdentifier" />

@@ -74,9 +74,19 @@
 
         <attributes>
 
-            <attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="purchaseOrderNumber" />
+            <attributeReference name="purchaseOrderNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="purchaseOrderNumber" >
+                 <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+            </attributeReference>
             
-            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="lineItemNumber" />
+            <attributeReference name="lineItemNumber" sourceClassName="org.kuali.module.cams.bo.Pretag" sourceAttributeName="lineItemNumber" >
+                <required>true</required>
+                <control>
+                    <hidden />
+                </control>
+             </attributeReference>
  
             <attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode">
                 <control>
@@ -200,6 +210,7 @@
                 <description>serialNumber description...</description>
 			</attribute>
 
+            <attributeReference name="newCollectionRecord" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="newCollectionRecord" />
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 
         </attributes>

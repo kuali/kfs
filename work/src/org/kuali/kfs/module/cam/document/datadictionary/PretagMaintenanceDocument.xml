@@ -32,7 +32,7 @@
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>CM_ADMINISTRATORS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>

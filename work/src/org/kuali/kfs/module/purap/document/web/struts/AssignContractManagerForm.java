@@ -15,8 +15,13 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.kuali.core.web.struts.form.KualiTransactionalDocumentFormBase;
 import org.kuali.module.purap.document.AssignContractManagerDocument;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * Struts Action Form for Contract Manager Assignment Document.
@@ -31,4 +36,27 @@ public class AssignContractManagerForm extends KualiTransactionalDocumentFormBas
         setDocument(new AssignContractManagerDocument());
     }
 
+    /**
+     * Overrides the method in KualiDocumentFormBase to provide only FYI and ACK.
+     * 
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
+     */
+    @Override
+    public Map getAdHocActionRequestCodes() {
+        Map adHocActionRequestCodes = new HashMap();
+        if (getWorkflowDocument() != null) {
+            if (getWorkflowDocument().isFYIRequested()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+            else if (getWorkflowDocument().isAcknowledgeRequested()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+            else if (getWorkflowDocument().isApprovalRequested() || getWorkflowDocument().isCompletionRequested() || getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+        }
+        return adHocActionRequestCodes;
+    }
 }

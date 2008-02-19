@@ -15,7 +15,9 @@
  */
 package org.kuali.module.purap.web.struts.form;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiConfigurationService;
@@ -30,6 +32,8 @@ import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.document.CreditMemoDocument;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PurapService;
+
+import edu.iu.uis.eden.EdenConstants;
 
 /**
  * Struts Action Form for Credit Memo document.
@@ -142,4 +146,27 @@ public class CreditMemoForm extends AccountsPayableFormBase {
         return extraButtons;
     }
 
+    /**
+     * Overrides the method in KualiDocumentFormBase to provide only FYI and ACK.
+     * 
+     * @see org.kuali.core.web.struts.form.KualiDocumentFormBase#getAdHocActionRequestCodes()
+     */
+    @Override
+    public Map getAdHocActionRequestCodes() {
+        Map adHocActionRequestCodes = new HashMap();
+        if (getWorkflowDocument() != null) {
+            if (getWorkflowDocument().isFYIRequested()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+            else if (getWorkflowDocument().isAcknowledgeRequested()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+            else if (getWorkflowDocument().isApprovalRequested() || getWorkflowDocument().isCompletionRequested() || getWorkflowDocument().stateIsInitiated() || getWorkflowDocument().stateIsSaved()) {
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ, EdenConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
+                adHocActionRequestCodes.put(EdenConstants.ACTION_REQUEST_FYI_REQ, EdenConstants.ACTION_REQUEST_FYI_REQ_LABEL);
+            }
+        }
+        return adHocActionRequestCodes;
+    }
 }

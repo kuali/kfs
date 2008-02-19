@@ -78,8 +78,9 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
                 editMode = AuthorizationConstants.EditMode.FULL_ENTRY;
             }
         }
-        editModeMap.put(editMode, "TRUE");
-
+        if (!editMode.equals(AuthorizationConstants.EditMode.FULL_ENTRY) || (! workflowDocument.isAdHocRequested())) {
+            editModeMap.put(editMode, "TRUE");
+        }
         CreditMemoDocument creditMemoDocument = (CreditMemoDocument) document;
         if (StringUtils.equals(creditMemoDocument.getStatusCode(), PurapConstants.CreditMemoStatuses.INITIATE)) {
             editModeMap.put(PurapAuthorizationConstants.CreditMemoEditMode.DISPLAY_INIT_TAB, "TRUE");
@@ -93,7 +94,7 @@ public class CreditMemoDocumentAuthorizer extends AccountingDocumentAuthorizerBa
         }
 
         String apGroup = SpringContext.getBean(ParameterService.class).getParameterValue(ParameterConstants.PURCHASING_DOCUMENT.class, PurapParameterConstants.Workgroups.WORKGROUP_ACCOUNTS_PAYABLE);
-        if (user.isMember(apGroup) && (creditMemoDocument.getExtractedDate() == null)) {
+        if (user.isMember(apGroup) && (creditMemoDocument.getExtractedDate() == null) && (! workflowDocument.isAdHocRequested())) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
 

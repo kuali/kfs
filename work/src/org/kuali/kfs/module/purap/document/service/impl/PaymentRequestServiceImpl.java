@@ -41,6 +41,7 @@ import org.kuali.core.service.NoteService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -767,7 +768,7 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is an approver of the document, The user is a member of the Accounts Payable group
          */
-        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()))) {
+        if (document.isHoldIndicator() == false && document.getPaymentRequestedCancelIndicator() == false && ((document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) || (user.isMember(accountsPayableGroup) && document.getExtractedDate() == null)) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_HOLD.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
 
             canHold = true;
         }
@@ -862,12 +863,16 @@ public class PaymentRequestServiceImpl implements PaymentRequestService {
         /*
          * The user is an approver of the document,
          */
-        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedDate() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()))) {
+        if (document.getPaymentRequestedCancelIndicator() == false && document.isHoldIndicator() == false && document.getExtractedDate() == null && (document.getDocumentHeader().hasWorkflowDocument() && (document.getDocumentHeader().getWorkflowDocument().stateIsEnroute() && document.getDocumentHeader().getWorkflowDocument().isApprovalRequested())) && (!PurapConstants.PaymentRequestStatuses.STATUSES_DISALLOWING_REQUEST_CANCEL.contains(document.getStatusCode()) || isBeingAdHocRouted(document))) {
             return true;
         }
         return false;
     }
 
+    private boolean isBeingAdHocRouted(PaymentRequestDocument document) {
+        return document.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+    }
+    
     /**
      * This method determines if a user has permission to remove a request for cancel on a payment request document.
      * 

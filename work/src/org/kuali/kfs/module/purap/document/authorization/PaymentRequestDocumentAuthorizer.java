@@ -108,17 +108,22 @@ public class PaymentRequestDocumentAuthorizer extends AccountingDocumentAuthoriz
                     }
                 }
             }
+            //This is for ad hoc approval
+            if (preqDocAuth.isAdHocRequested()) {
+                editMode = AuthorizationConstants.EditMode.VIEW_ONLY;
+            }
         }
 
         editModeMap.put(editMode, "TRUE");
 
+        
         // always show amount after full entry
         if (fullDocumentEntryCompleted) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.SHOW_AMOUNT_ONLY, "TRUE");
         }
 
         // make sure ap user can edit certain fields
-        if (preqDocAuth.canEditPreExtractFields()) {
+        if (preqDocAuth.canEditPreExtractFields() && ! preqDocAuth.isAdHocRequested()) {
             editModeMap.put(PurapAuthorizationConstants.PaymentRequestEditMode.EDIT_PRE_EXTRACT, "TRUE");
         }
 

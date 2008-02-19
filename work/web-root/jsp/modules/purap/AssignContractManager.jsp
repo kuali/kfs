@@ -28,6 +28,8 @@
 
 	<kul:notes />
 
+    <kul:adHocRecipients />
+	
 	<kul:routeLog />
 
 	<kul:panelFooter />

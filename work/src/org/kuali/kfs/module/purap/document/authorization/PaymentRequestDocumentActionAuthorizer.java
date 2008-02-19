@@ -40,12 +40,14 @@ public class PaymentRequestDocumentActionAuthorizer {
     private boolean canHold;
     private boolean canRequestCancel;
     private boolean fullEntryCompleted;
-
+    private boolean adHocRequested;
+    
     private boolean apUser;
     private boolean apSupervisor;
     private boolean fiscalOfficerDelegateUser;
     private boolean approver;
 
+    
     /**
      * Constructs a PaymentRequestDocumentActionAuthorizer.
      * 
@@ -61,7 +63,8 @@ public class PaymentRequestDocumentActionAuthorizer {
         this.holdIndicator = preq.isHoldIndicator();
         this.extracted = (preq.getExtractedDate() == null ? false : true);
         this.fullEntryCompleted = SpringContext.getBean(PurapService.class).isFullDocumentEntryCompleted(preq);
-
+        this.adHocRequested = preq.getDocumentHeader().getWorkflowDocument().isAdHocRequested();
+        
         // special indicators
         if (SpringContext.getBean(PaymentRequestService.class).canHoldPaymentRequest(preq, user)) {
             canHold = true;
@@ -95,6 +98,7 @@ public class PaymentRequestDocumentActionAuthorizer {
         if (PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) && isApprover()) {
             this.fiscalOfficerDelegateUser = true;
         }
+        
     }
 
     private String getDocStatus() {
@@ -182,10 +186,9 @@ public class PaymentRequestDocumentActionAuthorizer {
     public boolean canApprove() {
         boolean hasPermission = false;
 
-        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus())) && (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false)) {
+        if ((PaymentRequestStatuses.AWAITING_ACCOUNTS_PAYABLE_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_FISCAL_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_SUB_ACCT_MGR_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_ORG_REVIEW.equals(getDocStatus()) || PaymentRequestStatuses.AWAITING_TAX_REVIEW.equals(getDocStatus()) || isAdHocRequested()) && (isApprover() && isRequestCancelIndicator() == false && isHoldIndicator() == false)) {
             hasPermission = true;
         }
-
         return hasPermission;
     }
 
@@ -306,4 +309,13 @@ public class PaymentRequestDocumentActionAuthorizer {
         boolean hasPermission = true;
         return hasPermission;
     }
+
+    public boolean isAdHocRequested() {
+        return adHocRequested;
+    }
+
+    public void setAdHocRequested(boolean adHocRequested) {
+        this.adHocRequested = adHocRequested;
+    }
+    
 }

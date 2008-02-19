@@ -15,9 +15,11 @@
  */
 package org.kuali.module.vendor.document.authorization;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.authorization.AuthorizationConstants;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
@@ -61,6 +63,10 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         VendorHeader vendorHeader = vendor.getVendorHeader();
         VendorHeader oldVendorHeader = oldVendor.getVendorHeader();
 
+        if (vendor.isVendorParentIndicator()) {
+            //Vendor Parent Indicator should be readOnly if the vendor is a parent.
+            auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_PARENT_INDICATOR);
+        }
         // If the vendor is not a parent, there are certain fields that should be readOnly
         if (!vendor.isVendorParentIndicator()) {
             // All the fields in VendorHeader should be readOnly if the vendor is not a parent.
@@ -76,6 +82,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_W8_BEN_RECEIVED_INDICATOR);
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_DEBARRED_INDICATOR);
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_FOREIGN_INDICATOR);
+            
             // Supplier Diversities drop down menu is readOnly if the vendor is not a parent.
             List<VendorSupplierDiversity> supplierDivs = vendor.getVendorHeader().getVendorSupplierDiversities();
             if (ObjectUtils.isNotNull(supplierDivs)) {
@@ -92,6 +99,7 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
         else if (ObjectUtils.isNotNull(vendor.getVendorHeaderGeneratedIdentifier()) && ObjectUtils.isNotNull(vendorHeader) && ObjectUtils.isNotNull(oldVendorHeader.getVendorType()) && !oldVendorHeader.getVendorType().isVendorTypeChangeAllowedIndicator()) {
             auths.addReadonlyAuthField(VendorPropertyConstants.VENDOR_TYPE_CODE);
         }
+
         setVendorContractFieldsAuthorization(vendor, auths, user);
 
         return auths;
@@ -105,7 +113,13 @@ public class VendorDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase 
      */
     @Override
     public Map getEditMode(Document document, UniversalUser user) {
-        Map editMode = super.getEditMode(document, user);
+        Map editMode = new HashMap();
+        if (!document.getDocumentHeader().getWorkflowDocument().isAdHocRequested()) {
+            editMode = super.getEditMode(document, user);
+        }
+        else {
+            editMode.put(AuthorizationConstants.EditMode.VIEW_ONLY, "TRUE");
+        }
         VendorDetail vendor = (VendorDetail) ((MaintenanceDocument) document).getNewMaintainableObject().getBusinessObject();
         String taxNbrAccessibleWorkgroup = SpringContext.getBean(ParameterService.class).getParameterValue(VendorDetail.class, VendorConstants.Workgroups.WORKGROUP_TAXNBR_ACCESSIBLE);
 

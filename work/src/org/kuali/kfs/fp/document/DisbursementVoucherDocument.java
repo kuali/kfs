@@ -115,8 +115,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
-    
-    private final static String DISBURSEMENT_VOUCHER_GL_PENDING_ENTRY_BEAN_ID = "disbursementVoucherGeneralLedgerPostingHelper";
 
     /**
      * Default no-arg constructor.
@@ -1020,16 +1018,6 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
         }
 
         return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine)postable);
-    }
-
-
-    /**
-     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
-     */
-    @Override
-    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
-        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
-        return glPostingHelpers.get(DisbursementVoucherDocument.DISBURSEMENT_VOUCHER_GL_PENDING_ENTRY_BEAN_ID);
     }
     
     /**

@@ -170,6 +170,18 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
     }
 
     /**
+     * Determines the indicator text that will appear in the workflow document title
+     * 
+     * @return - Text of hold
+     */
+    private String getTitleIndicator() {
+        if (isHoldIndicator()) {
+            return PurapConstants.PaymentRequestIndicatorText.HOLD;
+        }
+        else return "";
+    }
+    
+    /**
      * @see org.kuali.core.document.DocumentBase#handleRouteStatusChange()
      */
     @Override
@@ -227,6 +239,32 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return true;
     }
 
+    /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentTitle()
+     */
+    @Override
+    public String getDocumentTitle() {
+        if (SpringContext.getBean(ParameterService.class).getIndicatorParameter(CreditMemoDocument.class, PurapParameterConstants.PURAP_OVERRIDE_CM_DOC_TITLE)) {
+            return getCustomDocumentTitle();
+        }
+        return super.getDocumentTitle();
+    }
+
+    /**
+     * Returns a custom document title based on the workflow document title. 
+     * Depending on the document status, the PO, vendor, amount, etc may be added to the documents title.
+     * 
+     * @return - Customized document title text dependent upon route level.
+     */
+    private String getCustomDocumentTitle() {
+        // set the workflow document title
+        String poNumber = getPurchaseOrderIdentifier().toString();
+        String vendorName = StringUtils.trimToEmpty(getVendorName());
+        String indicator = getTitleIndicator();
+        String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" ").append(indicator).toString();
+        return documentTitle;
+    }
+    
     /**
      * @see org.kuali.module.purap.document.AccountsPayableDocumentBase#getNodeDetailEnum(java.lang.String)
      */

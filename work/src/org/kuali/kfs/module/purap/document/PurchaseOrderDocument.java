@@ -182,7 +182,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
         try {
             String poNumber = getPurapDocumentIdentifier().toString();
             String cmCode = getContractManagerCode().toString();
-            String vendorName = getVendorName();
+            String vendorName = StringUtils.trimToEmpty(getVendorName());
             String totalAmount = getTotalDollarAmount().toString();
             PurApAccountingLine accountingLine = getFirstAccount();
             String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";

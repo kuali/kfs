@@ -24,9 +24,10 @@ public class PurapParameterConstants implements ParameterKeyConstants {
 
     // PARAMETER NAMES
     public static final String PURAP_OVERRIDE_ASSIGN_CONTRACT_MGR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String PURAP_OVERRIDE_CM_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
+    public static final String PURAP_OVERRIDE_PO_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_PREQ_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_REQ_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
-    public static final String PURAP_OVERRIDE_PO_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_OVERRIDE_VENDOR_DOC_TITLE = "OVERRIDE_DOCUMENT_TITLE_IND";
     public static final String PURAP_DEFAULT_NEGATIVE_PAYMENT_REQUEST_APPROVAL_LIMIT = "DEFAULT_POS_APRVL_LMT";
     public static final String PURAP_PDP_EPIC_ORG_CODE = "PRE_DISBURSEMENT_EXTRACT_ORGANIZATION";
@@ -44,8 +45,8 @@ public class PurapParameterConstants implements ParameterKeyConstants {
     public static final String PHONE_NUMBER_FORMATS_PARM_NM = "GENERIC_PHONE_NUMBER_FORMATS";
     public static final String DEFAULT_PHONE_NUMBER_DIGITS_PARM_NM = "GENERIC_DEFAULT_PHONE_NUMBER_LENGTH";
     
-    public static final String DEFAULT_ABOVE_QUANTITY_ITEM_TYPE_CODE = "DEFAULT_ABOVE_QUANTITY_ITEM_TYPE_CODE";
-    public static final String DEFAULT_ABOVE_NONQUANTITY_ITEM_TYPE_CODE = "DEFAULT_ABOVE_NONQUANTITY_ITEM_TYPE_CODE";
+    public static final String DEFAULT_QUANTITY_ITEM_TYPE = "DEFAULT_QUANTITY_ITEM_TYPE";
+    public static final String DEFAULT_NON_QUANTITY_ITEM_TYPE = "DEFAULT_NON_QUANTITY_ITEM_TYPE";
     
     public static class CapitalAsset {
         public static final String CAPITAL_ASSET_OBJECT_LEVELS = "CAPITAL_ASSET_OBJECT_LEVELS";

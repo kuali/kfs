@@ -16,11 +16,10 @@
 package org.kuali.module.purap.util;
 
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_FILE_FORMAT;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
-import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_UOM_CODE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_INVALID_NUMERIC_VALUE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_LINE;
 import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_ITEM_PROPERTY;
+import static org.kuali.module.purap.PurapKeyConstants.ERROR_ITEMPARSER_WRONG_PROPERTY_NUMBER;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_CATALOG_NUMBER;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_DESCRIPTION;
 import static org.kuali.module.purap.PurapPropertyConstants.ITEM_QUANTITY;
@@ -40,15 +39,15 @@ import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts.upload.FormFile;
-import org.kuali.core.document.Document;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.service.DataDictionaryService;
+import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.FormatException;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.service.ParameterService;
+import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.bo.PurApItem;
@@ -227,20 +226,14 @@ public class ItemParserBase implements ItemParser {
      */
     private void populateExtraAttributes( PurApItem item, String documentNumber ) {     
         if (item.getItemQuantity() != null) {
-            /*
-            String paramName = PurapParameterConstants.DEFAULT_ABOVE_QUANTITY_ITEM_TYPE_CODE;
-            String itemTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Document.class, paramName);            
+            String paramName = PurapParameterConstants.DEFAULT_QUANTITY_ITEM_TYPE;
+            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);            
             item.setItemTypeCode(itemTypeCode);
-            */
-            item.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_ITEM_CODE);
         }
         else {
-            /*
-            String paramName = PurapParameterConstants.DEFAULT_ABOVE_NONQUANTITY_ITEM_TYPE_CODE;
-            String itemTypeCode = SpringContext.getBean(ParameterService.class).getParameterValue(Document.class, paramName);
+            String paramName = PurapParameterConstants.DEFAULT_NON_QUANTITY_ITEM_TYPE;
+            String itemTypeCode = SpringContext.getBean(KualiConfigurationService.class).getParameterValue("KFS-PA", "Document", paramName);
             item.setItemTypeCode(itemTypeCode);
-            */
-            item.setItemTypeCode(PurapConstants.ItemTypeCodes.ITEM_TYPE_SERVICE_CODE);
         }
         if (item instanceof RequisitionItem)
             ((RequisitionItem)item).setItemRestrictedIndicator(false);

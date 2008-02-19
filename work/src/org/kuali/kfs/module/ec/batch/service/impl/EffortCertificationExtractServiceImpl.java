@@ -37,6 +37,7 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.MessageBuilder;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
@@ -473,7 +474,7 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     // add an error entry into error map
     private void reportEmployeeWithoutValidBalances(List<LedgerBalanceWithMessage> ledgerBalancesWithMessage, Message message, String emplid) {
         Class<? extends LaborLedgerBalance> clazz = laborModuleService.getLaborLedgerBalanceClass();
-        LaborLedgerBalance ledgerBalance = laborModuleService.createLaborBusinessObject(clazz);
+        LaborLedgerBalance ledgerBalance = ObjectUtil.createObject(clazz);
         ledgerBalance.setEmplid(emplid);
         this.reportInvalidLedgerBalance(ledgerBalancesWithMessage, ledgerBalance, message);
     }

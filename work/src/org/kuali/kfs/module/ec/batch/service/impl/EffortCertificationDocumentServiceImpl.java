@@ -27,6 +27,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.MessageBuilder;
+import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
@@ -169,7 +170,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
      * @param detailLine the given detail line that is used to generate an accounting line
      */
     private void addAccountingLineIntoList(List<LaborLedgerExpenseTransferAccountingLine> accountingLineList, Class<? extends LaborLedgerExpenseTransferAccountingLine> clazz, EffortCertificationDocument effortCertificationDocument, EffortCertificationDetail detailLine) {
-        LaborLedgerExpenseTransferAccountingLine accountingLine = laborModuleService.createLaborBusinessObject(clazz);
+        LaborLedgerExpenseTransferAccountingLine accountingLine = ObjectUtil.createObject(clazz);
         accountingLine.setSequenceNumber(accountingLineList.size() + 1);
 
         this.populateAccountingLine(effortCertificationDocument, detailLine, accountingLine);

@@ -43,6 +43,30 @@ import org.kuali.core.util.KualiDecimal;
  */
 public class ObjectUtil {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ObjectUtil.class);
+    
+    /**
+     * create an object of the specified type
+     * 
+     * @param clazz the specified type of the object
+     * @return an object of the specified type
+     */
+    public static <T> T createObject(Class<T> clazz) {
+        T object = null;
+
+        try {
+            object = clazz.newInstance();
+        }
+        catch (InstantiationException ie) {
+            LOG.error(ie);
+            throw new RuntimeException(ie);
+        }
+        catch (IllegalAccessException iae) {
+            LOG.error(iae);
+            throw new RuntimeException(iae);
+        }
+
+        return object;
+    }
 
     /**
      * Populate the given fields of the target object with the corresponding field values of source object

@@ -62,27 +62,6 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     private Class<? extends LaborLedgerPositionObjectGroup> laborLedgerPositionObjectGroupClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferSourceAccountingLineClass;
     private Class<? extends LaborLedgerExpenseTransferAccountingLine> expenseTransferTargetAccountingLineClass;
-    
-    /**
-     * @see org.kuali.kfs.service.LaborModuleService#createLaborBusinessObject(java.lang.Class)
-     */
-    public <T> T createLaborBusinessObject(Class<T> clazz) {
-        T businessObject = null;
-
-        try {
-            businessObject = clazz.newInstance();
-        }
-        catch (InstantiationException ie) {
-            LOG.error(ie);
-            throw new RuntimeException(ie);
-        }
-        catch (IllegalAccessException iae) {
-            LOG.error(iae);
-            throw new RuntimeException(iae);
-        }
-
-        return businessObject;
-    }
 
     /**
      * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(org.kuali.kfs.bo.LaborLedgerObject,

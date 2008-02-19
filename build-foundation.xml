@@ -56,12 +56,21 @@ are intended for use only by Kuali Foundation developers.
     <mkdir dir="temp/rice/shared" />
     
     <!-- extract rice javadocs to directories for single extraction unzip on target server-->
+  	<!--
     <unzip src="../kuali_dependencies/rice-core-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/core" />
     <unzip src="../kuali_dependencies/rice-kew-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/kew" />
     <unzip src="../kuali_dependencies/rice-kns-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/kns" />
     <unzip src="../kuali_dependencies/rice-ksb-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/ksb" />
     <unzip src="../kuali_dependencies/rice-shared-0.9.3-SNAPSHOT-javadoc.zip" dest="temp/rice/shared" />
-    
+    -->
+  	
+  	<!-- create javadocs from rice project -->
+  	<javadoc destdir="temp/rice/core" packagenames="org.*" sourcepath="${rice.project.directory}/core/src/main/java" />
+  	<javadoc destdir="temp/rice/kew" packagenames="org.*" sourcepath="${rice.project.directory}/kew/src/main/java" />
+  	<javadoc destdir="temp/rice/kns" packagenames="org.*" sourcepath="${rice.project.directory}/kns/src/main/java" />
+  	<javadoc destdir="temp/rice/ksb" packagenames="org.*" sourcepath="${rice.project.directory}/ksb/src/main/java" />
+  	<javadoc destdir="temp/rice/shared" packagenames="org.*" sourcepath="${rice.project.directory}/shared/src/main/java" />
+ 	
     <!-- create javadoc target for kfs docs -->
     <javadoc destdir="temp/kfs" packagenames="org.*" locale="en" useexternalfile="yes" maxmemory="512M">
       <sourcepath><pathelement location="${source.directory}"/></sourcepath>

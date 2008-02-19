@@ -23,6 +23,7 @@ import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -140,8 +141,9 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             return false;
         }
 
-        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, EffortConstants.LIMIT_OF_LINE_SALARY_CHANGE)) {
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_PAYROLL_AMOUNT_OVERCHANGED);
+        KualiDecimal originalTotalAmount = document.getTotalOriginalPayrollAmount();
+        if (!EffortCertificationDocumentRuleUtil.isPayrollAmountOverChanged(detailLine, originalTotalAmount, EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_PAYROLL_AMOUNT, EffortKeyConstants.ERROR_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.PERCENT_LIMIT_OF_LINE_SALARY_CHANGE)).toString());
             return false;
         }
 
@@ -188,8 +190,8 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
             }
         }
 
-        if (EffortCertificationDocumentRuleUtil.isTotalPayrollAmountOverChanged(effortCertificationDocument, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE)) {
-            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, EffortConstants.LIMIT_OF_TOTAL_SALARY_CHANGE.toString());
+        if (EffortCertificationDocumentRuleUtil.isTotalPayrollAmountOverChanged(effortCertificationDocument, EffortConstants.AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE)) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_PAYROLL_AMOUNT_OVERCHANGED, (Double.valueOf(EffortConstants.AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE)).toString());
             return false;
         }
 

@@ -17,8 +17,10 @@ package org.kuali.module.effort.testdata;
 
 public class EffortTestDataPropertyConstants {
     public static final String BALANCE_FIELD_NAMES = "balanceFieldNames";
+    public static final String COST_SHARE_SUB_ACCOUNT_TYPE_CODES = "costShareSubAccountTypeCodes";
     public static final String DATA_CLEANUP = "dataCleanup";
     public static final String DELIMINATOR = "deliminator";
+    public static final String DETAIL = "detail";
     public static final String DETAIL_BUILD = "detailBuild";
     public static final String DETAIL_FIELD_NAMES = "detailFieldNames";
     public static final String DOCUMENT = "document";
@@ -33,11 +35,17 @@ public class EffortTestDataPropertyConstants {
     public static final String FISCAL_YEAR = "fiscalYear";
     public static final String INPUT_BALANCE = "inputBalance";
     public static final String INPUT_ENTRY = "inputEntry";
+    public static final String LIMIT_OF_LINE_PAYROLL_AMOUNT_CHANGE = "limitOfLinePayrollAmountChange";
+    public static final String LIMIT_OF_TOTAL_PAYROLL_AMOUNT_CHANGE = "limitOfTotalPayrollAmountChange";
+    public static final String NEW_DETAIL = "newDetail";
     public static final String NUM_OF_BALANCES = "numOfBalances";
     public static final String NUM_OF_DATA = "numOfData";
     public static final String NUM_OF_DETAIL_BUILD = "numOfDetailBuild";
+    public static final String NUM_OF_DETAILS = "numOfDetails";
     public static final String NUM_OF_ENTRIES = "numOfEntries";
     public static final String NUM_OF_EXPECTED_DETAILS = "numOfExpectedDetails";
+    public static final String NUM_OF_EXPECTED_DETAILS_WITH_A21_SUB_ACCOUNT = "numOfExpectedDetailsWithA21SubAccount";
+    public static final String NUM_OF_EXPECTED_DETAILS_WITHOUT_A21_SUB_ACCOUNT = "numOfExpectedDetailsWithoutA21SubAccount";
     public static final String NUM_OF_EXPECTED_DOCUMENTS = "numOfExpectedDocuments";
     public static final String POSTING_YEAR = "postingYear";
     public static final String REPORT_DEFINITION_FIELD_NAMES = "reportDefinitionFieldNames";

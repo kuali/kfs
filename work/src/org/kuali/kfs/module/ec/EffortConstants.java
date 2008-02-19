@@ -87,6 +87,6 @@ public class EffortConstants extends JstlConstants {
         return balanceTypeList;
     }
     
-    public static final KualiDecimal LIMIT_OF_LINE_SALARY_CHANGE = new KualiDecimal(0.005);
-    public static final KualiDecimal LIMIT_OF_TOTAL_SALARY_CHANGE = new KualiDecimal(0.009);
+    public static final double PERCENT_LIMIT_OF_LINE_SALARY_CHANGE = 0.005;
+    public static final double AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE = 0.009;
 }

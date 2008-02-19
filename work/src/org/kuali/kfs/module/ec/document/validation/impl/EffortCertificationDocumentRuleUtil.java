@@ -18,6 +18,7 @@ package org.kuali.module.effort.rules;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT;
 import static org.kuali.kfs.bo.AccountingLineOverride.CODE.EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +29,7 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.util.ObjectUtil;
@@ -39,10 +41,12 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.financial.service.UniversityDateService;
 
 /**
- * Provides a set of facilities to determine whether the given Effort Certification Documents or Effort Certification
- * Detail meet the specified requirements.
+ * Provides a set of facilities to determine whether the given Effort Certification Documents or Effort Certification Detail meet
+ * the specified requirements.
  */
 public class EffortCertificationDocumentRuleUtil {
+    
+    public static KualiDecimal ONE_HUNDRED = new KualiDecimal(100);
 
     /**
      * reset the attribute with the blank value to the default values
@@ -87,16 +91,12 @@ public class EffortCertificationDocumentRuleUtil {
     public static boolean canExpiredAccountBeUsed(EffortCertificationDetail detailLine) {
         Account account = detailLine.getAccount();
 
+        boolean canExpiredAccountUsed = true;
         if (account != null && account.isExpired()) {
             String overrideCode = detailLine.getOverrideCode();
-            boolean canExpiredAccountUsed = EXPIRED_ACCOUNT.equals(overrideCode);
-            canExpiredAccountUsed = canExpiredAccountUsed || EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED.equals(overrideCode);
-
-            if (!canExpiredAccountUsed) {
-                return false;
-            }
+            canExpiredAccountUsed = Arrays.asList(EXPIRED_ACCOUNT, EXPIRED_ACCOUNT_AND_NON_FRINGE_ACCOUNT_USED).contains(overrideCode);
         }
-        return true;
+        return canExpiredAccountUsed;
     }
 
     /**
@@ -133,7 +133,7 @@ public class EffortCertificationDocumentRuleUtil {
     public static boolean hasContractGrantAccount(EffortCertificationDetail detailLine) {
         return detailLine.getAccount().isForContractsAndGrants();
     }
-    
+
     /**
      * determine if the given detail line is associated with a sub account whose type code is in the given list
      * 
@@ -149,7 +149,7 @@ public class EffortCertificationDocumentRuleUtil {
         String costShareSubAccountTypeCode = detailLine.getSubAccount().getA21SubAccount().getSubAccountTypeCode();
         return designatedCostShareSubAccountTypeCodes.contains(costShareSubAccountTypeCode);
     }
-    
+
     /**
      * determine if the payroll amount of the given detail line is not negative
      * 
@@ -273,12 +273,12 @@ public class EffortCertificationDocumentRuleUtil {
      * @param limitOfLinePayrollAmountChange the specified upper bound limit
      * @return true if the change on the payroll amount of the given detail line exceeds the specified limit; otherwise, false
      */
-    public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal limitOfLinePayrollAmountChange) {
+    public static boolean isPayrollAmountOverChanged(EffortCertificationDetail detailLine, KualiDecimal originalTotalAmount, double limitOfLinePayrollAmountChange) {
         KualiDecimal payrollAmount = detailLine.getEffortCertificationPayrollAmount();
         KualiDecimal originalPayrollAmount = detailLine.getEffortCertificationOriginalPayrollAmount();
-        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).abs();
+        KualiDecimal difference = originalPayrollAmount.subtract(payrollAmount).multiply(ONE_HUNDRED).abs();
 
-        return difference.divide(originalPayrollAmount).isGreaterThan(limitOfLinePayrollAmountChange);
+        return difference.divide(originalTotalAmount).doubleValue() > limitOfLinePayrollAmountChange * ONE_HUNDRED.intValue();
     }
 
     /**
@@ -288,11 +288,12 @@ public class EffortCertificationDocumentRuleUtil {
      * @param limitOfLinePayrollAmountChange the specified upper bound limit
      * @return true if the change on the payroll amount of any detail line exceeds the specified limit; otherwise, false
      */
-    public static boolean isPayrollAmountOverChanged(EffortCertificationDocument document, KualiDecimal limitOfLinePayrollAmountChange) {
+    public static boolean isPayrollAmountOverChanged(EffortCertificationDocument document, double limitOfLinePayrollAmountChange) {
         List<EffortCertificationDetail> detailLines = document.getEffortCertificationDetailLines();
+        KualiDecimal originalTotalAmount = document.getTotalOriginalPayrollAmount();
 
         for (EffortCertificationDetail line : detailLines) {
-            if (isPayrollAmountOverChanged(line, limitOfLinePayrollAmountChange)) {
+            if (isPayrollAmountOverChanged(line, originalTotalAmount, limitOfLinePayrollAmountChange)) {
                 return true;
             }
         }
@@ -317,14 +318,14 @@ public class EffortCertificationDocumentRuleUtil {
      * @param limitOfTotalPayrollAmountChange the specified upper bound limit
      * @return true if the change on the total payroll amount exceeds the specified limit; otherwise, false
      */
-    public static boolean isTotalPayrollAmountOverChanged(EffortCertificationDocument document, KualiDecimal limitOfTotalPayrollAmountChange) {
+    public static boolean isTotalPayrollAmountOverChanged(EffortCertificationDocument document, double limitOfTotalPayrollAmountChange) {
         KualiDecimal totalPayrollAmount = document.getTotalPayrollAmount();
         KualiDecimal totalOriginalPayrollAmount = document.getTotalOriginalPayrollAmount();
         KualiDecimal difference = totalOriginalPayrollAmount.subtract(totalPayrollAmount).abs();
 
-        return difference.divide(totalOriginalPayrollAmount).isGreaterThan(limitOfTotalPayrollAmountChange);
+        return difference.doubleValue() > limitOfTotalPayrollAmountChange;
     }
-    
+
     /**
      * determine if the given percent is between 0 and 100.
      * 

@@ -155,5 +155,7 @@
             <ref bean="assetLookupableHelperService" />
         </property>
     </bean>
+    
+    <bean id="depreciationCalculatorService" class="org.kuali.module.cams.service.impl.DepreciationCalculatorServiceImpl" />
 
 </beans>

@@ -82,7 +82,6 @@ public class Asset extends PersistableBusinessObjectBase {
     private String landCountyName;
     private Integer landAcreageSize;
     private String landParcelNumber;
-    
     private AssetType capitalAssetType;
     private Account organizationOwnerAccount;
     private Chart organizationOwnerChartOfAccounts;
@@ -104,10 +103,64 @@ public class Asset extends PersistableBusinessObjectBase {
     private UniversalUser assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
-   
 
     // Non-persisted attributes:
     private KualiDecimal federalContributionAmount;
+    // calculated depreciation amounts
+    private KualiDecimal accumulatedDepreciation;
+    private KualiDecimal baseAmount;
+    private KualiDecimal bookValue;
+    private KualiDecimal prevYearDepreciation;
+    private KualiDecimal yearToDateDepreciation;
+    private KualiDecimal currentMonthDepreciation;
+
+    public KualiDecimal getCurrentMonthDepreciation() {
+        return currentMonthDepreciation;
+    }
+
+    public void setCurrentMonthDepreciation(KualiDecimal currentMonthDepreciation) {
+        this.currentMonthDepreciation = currentMonthDepreciation;
+    }
+
+    public KualiDecimal getAccumulatedDepreciation() {
+        return accumulatedDepreciation;
+    }
+
+    public void setAccumulatedDepreciation(KualiDecimal accumulatedDepreciation) {
+        this.accumulatedDepreciation = accumulatedDepreciation;
+    }
+
+    public KualiDecimal getBaseAmount() {
+        return baseAmount;
+    }
+
+    public void setBaseAmount(KualiDecimal baseAmount) {
+        this.baseAmount = baseAmount;
+    }
+
+    public KualiDecimal getBookValue() {
+        return bookValue;
+    }
+
+    public void setBookValue(KualiDecimal bookValue) {
+        this.bookValue = bookValue;
+    }
+
+    public KualiDecimal getPrevYearDepreciation() {
+        return prevYearDepreciation;
+    }
+
+    public void setPrevYearDepreciation(KualiDecimal prevYearDepreciation) {
+        this.prevYearDepreciation = prevYearDepreciation;
+    }
+
+    public KualiDecimal getYearToDateDepreciation() {
+        return yearToDateDepreciation;
+    }
+
+    public void setYearToDateDepreciation(KualiDecimal yearToDateDepreciation) {
+        this.yearToDateDepreciation = yearToDateDepreciation;
+    }
 
     /**
      * Default constructor.
@@ -120,7 +173,7 @@ public class Asset extends PersistableBusinessObjectBase {
      * Gets the documentTypeCode attribute.
      * 
      * @return Returns the documentTypeCode
-	 *
+     * 
      */
     public String getDocumentTypeCode() {
         return documentTypeCode;
@@ -1101,7 +1154,7 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the governmentTagNumber attribute. 
+     * Gets the governmentTagNumber attribute.
      * 
      * @return Returns the governmentTagNumber.
      */
@@ -1119,7 +1172,7 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the nationalStockNumber attribute. 
+     * Gets the nationalStockNumber attribute.
      * 
      * @return Returns the nationalStockNumber.
      */
@@ -1137,7 +1190,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the landAcreageSize attribute. 
+     * Gets the landAcreageSize attribute.
+     * 
      * @return Returns the landAcreageSize.
      */
     public Integer getLandAcreageSize() {
@@ -1146,6 +1200,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landAcreageSize attribute value.
+     * 
      * @param landAcreageSize The landAcreageSize to set.
      */
     public void setLandAcreageSize(Integer landAcreageSize) {
@@ -1153,7 +1208,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the landCountyName attribute. 
+     * Gets the landCountyName attribute.
+     * 
      * @return Returns the landCountyName.
      */
     public String getLandCountyName() {
@@ -1162,6 +1218,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landCountyName attribute value.
+     * 
      * @param landCountyName The landCountyName to set.
      */
     public void setLandCountyName(String landCountyName) {
@@ -1169,7 +1226,8 @@ public class Asset extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the landParcelNumber attribute. 
+     * Gets the landParcelNumber attribute.
+     * 
      * @return Returns the landParcelNumber.
      */
     public String getLandParcelNumber() {
@@ -1178,6 +1236,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the landParcelNumber attribute value.
+     * 
      * @param landParcelNumber The landParcelNumber to set.
      */
     public void setLandParcelNumber(String landParcelNumber) {
@@ -1573,6 +1632,7 @@ public class Asset extends PersistableBusinessObjectBase {
 
     /**
      * Sets the assetRepresentative attribute value.
+     * 
      * @deprecated
      * @param assetRepresentative The assetRepresentative to set.
      */

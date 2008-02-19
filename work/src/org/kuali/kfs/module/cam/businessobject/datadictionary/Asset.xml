@@ -3,753 +3,1096 @@
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../dataDictionary-1_0.dtd">
 <dictionaryEntry>
-    <businessObject businessObjectClass="org.kuali.module.cams.bo.Asset">
- 
-        <inquiry>
-            <title>Asset Inquiry</title>
-             
-            <inquirySections>
-                <inquirySection title="Header Text">
-                    <inquiryFields>
-                        <field attributeName="acquisitionTypeCode" />
-                        <field attributeName="agencyNumber" />
-                        <field attributeName="buildingCode" />
-                        <field attributeName="buildingRoomNumber" />
-                        <field attributeName="buildingSubRoomNumber" />
-                        <field attributeName="campusCode" />
-                        <field attributeName="campusPoliceDepartmentCaseNumber" />
-                        <field attributeName="campusTagNumber" />
-                        <field attributeName="capitalAssetDescription" />
-                        <field attributeName="capitalAssetNumber" />
-                        <field attributeName="capitalAssetTypeCode" />
-                        <field attributeName="cashReceiptFinancialDocumentNumber" />
-                        <field attributeName="conditionCode" />
-                        <field attributeName="createDate" />
-                        <field attributeName="estimatedFabricationCompletionDate" />
-                        <field attributeName="estimatedSellingPrice" />
-                        <field attributeName="expectedReturnDate" />
-                        <field attributeName="fabricationEstimatedTotalAmount" />
-                        <field attributeName="financialDocumentPostingPeriodCode" />
-                        <field attributeName="financialDocumentPostingYear" />
-                        <field attributeName="insuranceChargeAccountNumber" />
-                        <field attributeName="insuranceChartOfAccountsCode" />
-                         <field attributeName="inventoryScannedCode" />
-                        <field attributeName="inventoryStatusCode" />
-                        <field attributeName="lastInventoryDate" />
-                        <field attributeName="loanDate" />
-                        <field attributeName="loanReturnDate" />
-                        <field attributeName="manufacturerModelNumber" />
-                        <field attributeName="manufacturerName" />
-                        <field attributeName="oldTagNumber" />
-                        <field attributeName="organizationInventoryName" />
-                        <field attributeName="organizationOwnerAccountNumber" />
-                        <field attributeName="organizationOwnerChartOfAccountsCode" />
-                        <field attributeName="primaryDepreciationMethodCode" />
-                        <field attributeName="receiveDate" />
-                        <field attributeName="replacementAmount" />
-                        <field attributeName="representativeUniversalIdentifier" />
-                        <field attributeName="retirementAccountNumber" />
-                        <field attributeName="retirementChartOfAccountsCode" />
-                        <field attributeName="retirementFiscalYear" />
-                        <field attributeName="retirementPeriodCode" />
-                        <field attributeName="retirementReasonCode" />
-                        <field attributeName="salePrice" />
-                        <field attributeName="salvageAmount" />
-                        <field attributeName="secondaryDepreciationMethodCode" />
-                        <field attributeName="serialNumber" />
-                        <field attributeName="signatureCode" />
-                        <field attributeName="totalCostAmount" />
-                        <field attributeName="transferOfFundsFinancialDocumentNumber" />
-                        <field attributeName="vendorName" />
-                    </inquiryFields>
-                </inquirySection>
-            </inquirySections>  
-        </inquiry>
+	<businessObject
+		businessObjectClass="org.kuali.module.cams.bo.Asset">
 
-        <lookup>
-            <lookupableID>assetLookupable</lookupableID>
-            <title>Asset Lookup</title>
+		<inquiry>
+			<title>Asset Inquiry</title>
 
-            <menubar>
-                <![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
-            </menubar>
+			<inquirySections>
+				<inquirySection title="Header Text">
+					<inquiryFields>
+						<field attributeName="acquisitionTypeCode" />
+						<field attributeName="agencyNumber" />
+						<field attributeName="buildingCode" />
+						<field attributeName="buildingRoomNumber" />
+						<field attributeName="buildingSubRoomNumber" />
+						<field attributeName="campusCode" />
+						<field
+							attributeName="campusPoliceDepartmentCaseNumber" />
+						<field attributeName="campusTagNumber" />
+						<field attributeName="capitalAssetDescription" />
+						<field attributeName="capitalAssetNumber" />
+						<field attributeName="capitalAssetTypeCode" />
+						<field
+							attributeName="cashReceiptFinancialDocumentNumber" />
+						<field attributeName="conditionCode" />
+						<field attributeName="createDate" />
+						<field
+							attributeName="estimatedFabricationCompletionDate" />
+						<field attributeName="estimatedSellingPrice" />
+						<field attributeName="expectedReturnDate" />
+						<field
+							attributeName="fabricationEstimatedTotalAmount" />
+						<field
+							attributeName="financialDocumentPostingPeriodCode" />
+						<field
+							attributeName="financialDocumentPostingYear" />
+						<field
+							attributeName="insuranceChargeAccountNumber" />
+						<field
+							attributeName="insuranceChartOfAccountsCode" />
+						<field attributeName="inventoryScannedCode" />
+						<field attributeName="inventoryStatusCode" />
+						<field attributeName="lastInventoryDate" />
+						<field attributeName="loanDate" />
+						<field attributeName="loanReturnDate" />
+						<field attributeName="manufacturerModelNumber" />
+						<field attributeName="manufacturerName" />
+						<field attributeName="oldTagNumber" />
+						<field
+							attributeName="organizationInventoryName" />
+						<field
+							attributeName="organizationOwnerAccountNumber" />
+						<field
+							attributeName="organizationOwnerChartOfAccountsCode" />
+						<field
+							attributeName="primaryDepreciationMethodCode" />
+						<field attributeName="receiveDate" />
+						<field attributeName="replacementAmount" />
+						<field
+							attributeName="representativeUniversalIdentifier" />
+						<field attributeName="retirementAccountNumber" />
+						<field
+							attributeName="retirementChartOfAccountsCode" />
+						<field attributeName="retirementFiscalYear" />
+						<field attributeName="retirementPeriodCode" />
+						<field attributeName="retirementReasonCode" />
+						<field attributeName="salePrice" />
+						<field attributeName="salvageAmount" />
+						<field
+							attributeName="secondaryDepreciationMethodCode" />
+						<field attributeName="serialNumber" />
+						<field attributeName="signatureCode" />
+						<field attributeName="totalCostAmount" />
+						<field
+							attributeName="transferOfFundsFinancialDocumentNumber" />
+						<field attributeName="vendorName" />
+					</inquiryFields>
+				</inquirySection>
+			</inquirySections>
+		</inquiry>
 
-            <instructions>Look up an Asset</instructions>
+		<lookup>
+			<lookupableID>assetLookupable</lookupableID>
+			<title>Asset Lookup</title>
 
-            <defaultSort sortAscending="true">
-                <sortAttributes>
-                    <sortAttribute attributeName="capitalAssetNumber" />
-                </sortAttributes>
-            </defaultSort>
+			<menubar>
+				<![CDATA[<a href="maintenance.do?methodToCall=start&businessObjectClassName=org.kuali.module.cams.bo.AssetGlobal"><img src="${kr.externalizable.images.url}tinybutton-createnewglobal.gif" alt="create new global" width="98" height="15"/></a>]]>
+			</menubar>
 
-            <lookupFields>
-	            <lookupField attributeName="campusTagNumber" required="false" />
-	            <lookupField attributeName="capitalAssetNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
-	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
-	            <lookupField attributeName="agencyNumber" required="false" />
-	            <lookupField attributeName="inventoryStatusCode" required="false" />
-	            <lookupField attributeName="conditionCode" required="false" />
-                <lookupField attributeName="capitalAssetTypeCode" required="false" />
-                <lookupField attributeName="capitalAssetDescription" required="false" />
-                <lookupField attributeName="representativeUniversalIdentifier" required="false" />
-                <lookupField attributeName="organizationInventoryName" required="false" />
-                <lookupField attributeName="campusCode" required="false" />
-                <lookupField attributeName="buildingCode" required="false" />
-                <lookupField attributeName="buildingRoomNumber" required="false" />
-                <lookupField attributeName="vendorName" required="false" />
-                <lookupField attributeName="manufacturerName" required="false" />
-                <lookupField attributeName="manufacturerModelNumber" required="false" />
-                <lookupField attributeName="serialNumber" required="false" />
-                <lookupField attributeName="createDate" required="false" />
-                <lookupField attributeName="oldTagNumber" required="false" />
-                <lookupField attributeName="assetOrganization.organizationTagNumber" required="false" noLookup="true" />
-                <lookupField attributeName="totalCostAmount" required="false" />
-                                
-            </lookupFields>
+			<instructions>Look up an Asset</instructions>
 
-            <resultFields>
-                <field attributeName="capitalAssetNumber" />
-                <field attributeName="campusTagNumber" />
-                <field attributeName="organizationOwnerAccount.organizationCode" />
-                <field attributeName="buildingCode" />
-                
-                <!-- need double check inventoryStatusCode or inventoryStatus.inventoryStatusName?? -->
-                <field attributeName="inventoryStatusCode" />
-                
-                <field attributeName="capitalAssetDescription" />
-                <field attributeName="capitalAssetTypeCode" />
-                <field attributeName="createDate" />
-                <field attributeName="agencyNumber" />
-            </resultFields>
-        </lookup>
+			<defaultSort sortAscending="true">
+				<sortAttributes>
+					<sortAttribute attributeName="capitalAssetNumber" />
+				</sortAttributes>
+			</defaultSort>
 
-        <attributes>
+			<lookupFields>
+				<lookupField attributeName="campusTagNumber"
+					required="false" />
+				<lookupField attributeName="capitalAssetNumber"
+					required="false" />
+				<lookupField
+					attributeName="organizationOwnerChartOfAccountsCode"
+					required="false" />
+				<lookupField
+					attributeName="organizationOwnerAccountNumber" required="false" />
+				<lookupField
+					attributeName="organizationOwnerAccount.organizationCode"
+					required="false" />
+				<lookupField attributeName="agencyNumber"
+					required="false" />
+				<lookupField attributeName="inventoryStatusCode"
+					required="false" />
+				<lookupField attributeName="conditionCode"
+					required="false" />
+				<lookupField attributeName="capitalAssetTypeCode"
+					required="false" />
+				<lookupField attributeName="capitalAssetDescription"
+					required="false" />
+				<lookupField
+					attributeName="representativeUniversalIdentifier" required="false" />
+				<lookupField attributeName="organizationInventoryName"
+					required="false" />
+				<lookupField attributeName="campusCode"
+					required="false" />
+				<lookupField attributeName="buildingCode"
+					required="false" />
+				<lookupField attributeName="buildingRoomNumber"
+					required="false" />
+				<lookupField attributeName="vendorName"
+					required="false" />
+				<lookupField attributeName="manufacturerName"
+					required="false" />
+				<lookupField attributeName="manufacturerModelNumber"
+					required="false" />
+				<lookupField attributeName="serialNumber"
+					required="false" />
+				<lookupField attributeName="createDate"
+					required="false" />
+				<lookupField attributeName="oldTagNumber"
+					required="false" />
+				<lookupField
+					attributeName="assetOrganization.organizationTagNumber"
+					required="false" noLookup="true" />
+				<lookupField attributeName="totalCostAmount"
+					required="false" />
 
-            <attribute name="acquisitionTypeCode" forceUppercase="true">
-                <label>Acquisition Type Code</label>
-                <shortLabel>Code</shortLabel>
+			</lookupFields>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+			<resultFields>
+				<field attributeName="capitalAssetNumber" />
+				<field attributeName="campusTagNumber" />
+				<field
+					attributeName="organizationOwnerAccount.organizationCode" />
+				<field attributeName="buildingCode" />
 
-                <control>
-                    <text size="3" />
-                </control>
+				<!-- need double check inventoryStatusCode or inventoryStatus.inventoryStatusName?? -->
+				<field attributeName="inventoryStatusCode" />
 
-                <summary>acquisitionTypeCode</summary>
-                <description>acquisitionTypeCode description...</description>
+				<field attributeName="capitalAssetDescription" />
+				<field attributeName="capitalAssetTypeCode" />
+				<field attributeName="createDate" />
+				<field attributeName="agencyNumber" />
+			</resultFields>
+		</lookup>
+
+		<attributes>
+
+			<attribute name="acquisitionTypeCode"
+				forceUppercase="true">
+				<label>Acquisition Type Code</label>
+				<shortLabel>Code</shortLabel>
+
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+
+				<control>
+					<text size="3" />
+				</control>
+
+				<summary>acquisitionTypeCode</summary>
+				<description>
+					acquisitionTypeCode description...
+				</description>
 			</attribute>
 
-            <attribute name="agencyNumber" forceUppercase="true">
-                <label>Owner</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="agencyNumber" forceUppercase="true">
+				<label>Owner</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>5</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>5</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="7" />
-                </control>
+				<control>
+					<text size="7" />
+				</control>
 
-                <summary>agencyNumber</summary>
-                <description>agencyNumber description...</description>
+				<summary>agencyNumber</summary>
+				<description>agencyNumber description...</description>
 			</attribute>
 
-            <attribute name="buildingSubRoomNumber" forceUppercase="true">
-                <label>Building Sub Room Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="buildingSubRoomNumber"
+				forceUppercase="true">
+				<label>Building Sub Room Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>2</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+				<control>
+					<text size="4" />
+				</control>
 
-                <summary>buildingSubRoomNumber</summary>
-                <description>buildingSubRoomNumber description...</description>
+				<summary>buildingSubRoomNumber</summary>
+				<description>
+					buildingSubRoomNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="campusPoliceDepartmentCaseNumber" forceUppercase="true">
-                <label>Campus Police Department Case Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="campusPoliceDepartmentCaseNumber"
+				forceUppercase="true">
+				<label>Campus Police Department Case Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>14</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="16" />
-                </control>
+				<control>
+					<text size="16" />
+				</control>
 
-                <summary>campusPoliceDepartmentCaseNumber</summary>
-                <description>campusPoliceDepartmentCaseNumber description...</description>
+				<summary>campusPoliceDepartmentCaseNumber</summary>
+				<description>
+					campusPoliceDepartmentCaseNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="campusTagNumber" forceUppercase="true">
-                <label>Tag Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="campusTagNumber" forceUppercase="true">
+				<label>Tag Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>8</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="10" />
-                </control>
+				<control>
+					<text size="10" />
+				</control>
 
-                <summary>campusTagNumber</summary>
-                <description>campusTagNumber description...</description>
+				<summary>campusTagNumber</summary>
+				<description>
+					campusTagNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="capitalAssetDescription" forceUppercase="true">
-                <label>Asset Description</label>
-                <shortLabel>Description</shortLabel>
+			<attribute name="capitalAssetDescription"
+				forceUppercase="true">
+				<label>Asset Description</label>
+				<shortLabel>Description</shortLabel>
 
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+				<maxLength>2000</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
 
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
+				<control>
+					<textarea rows="5" cols="80" />
+				</control>
 
-                <summary>capitalAssetDescription</summary>
-                <description>capitalAssetDescription description...</description>
+				<summary>capitalAssetDescription</summary>
+				<description>
+					capitalAssetDescription description...
+				</description>
 			</attribute>
 
-            <attribute name="capitalAssetNumber" forceUppercase="true">
-                <label>Asset Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="capitalAssetNumber"
+				forceUppercase="true">
+				<label>Asset Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>12</maxLength>
-                <validationPattern><numeric /></validationPattern>
+				<maxLength>12</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
 
-                <control>
-                    <text size="14" />
-                </control>
+				<control>
+					<text size="14" />
+				</control>
 
-                <summary>capitalAssetNumber</summary>
-                <description>capitalAssetNumber description...</description>
+				<summary>capitalAssetNumber</summary>
+				<description>
+					capitalAssetNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="cashReceiptFinancialDocumentNumber" forceUppercase="true">
-                <label>Cash Receipt Financial Document Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="cashReceiptFinancialDocumentNumber"
+				forceUppercase="true">
+				<label>Cash Receipt Financial Document Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>14</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="16" />
-                </control>
+				<control>
+					<text size="16" />
+				</control>
 
-                <summary>cashReceiptFinancialDocumentNumber</summary>
-                <description>cashReceiptFinancialDocumentNumber description...</description>
+				<summary>cashReceiptFinancialDocumentNumber</summary>
+				<description>
+					cashReceiptFinancialDocumentNumber description...
+				</description>
 			</attribute>
 
-            <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Create Date</label>
-                <shortLabel>Create Date</shortLabel>
+			<attributeReference name="createDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Create Date</label>
+				<shortLabel>Create Date</shortLabel>
 
-            </attributeReference>
+			</attributeReference>
 
-            <attributeReference name="estimatedFabricationCompletionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Estimated Fabrication Completion Date</label>
-                <shortLabel>Estimated Fabrication Completion Date</shortLabel>
+			<attributeReference
+				name="estimatedFabricationCompletionDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Estimated Fabrication Completion Date</label>
+				<shortLabel>
+					Estimated Fabrication Completion Date
+				</shortLabel>
 
-            </attributeReference>
+			</attributeReference>
 
-            <attribute name="estimatedSellingPrice" forceUppercase="true">
-                <label>Estimated Selling Price</label>
-                <shortLabel>Price</shortLabel>
+			<attribute name="estimatedSellingPrice"
+				forceUppercase="true">
+				<label>Estimated Selling Price</label>
+				<shortLabel>Price</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<control>
+					<text size="21" />
+				</control>
 
-                <summary>estimatedSellingPrice</summary>
-                <description>estimatedSellingPrice description...</description>
+				<summary>estimatedSellingPrice</summary>
+				<description>
+					estimatedSellingPrice description...
+				</description>
 			</attribute>
 
-            <attributeReference name="expectedReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Expected Return Date</label>
-                <shortLabel>Expected Return Date</shortLabel>
+			<attributeReference name="expectedReturnDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Expected Return Date</label>
+				<shortLabel>Expected Return Date</shortLabel>
 
-            </attributeReference>
+			</attributeReference>
 
-            <attribute name="fabricationEstimatedTotalAmount" forceUppercase="true">
-                <label>Fabrication Estimated Total Amount</label>
-                <shortLabel>Amount</shortLabel>
+			<attribute name="fabricationEstimatedTotalAmount"
+				forceUppercase="true">
+				<label>Fabrication Estimated Total Amount</label>
+				<shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<control>
+					<text size="21" />
+				</control>
 
-                <summary>fabricationEstimatedTotalAmount</summary>
-                <description>fabricationEstimatedTotalAmount description...</description>
+				<summary>fabricationEstimatedTotalAmount</summary>
+				<description>
+					fabricationEstimatedTotalAmount description...
+				</description>
 			</attribute>
 
-            <attribute name="financialDocumentPostingPeriodCode" forceUppercase="true">
-                <label>Financial Document Posting Period Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="financialDocumentPostingPeriodCode"
+				forceUppercase="true">
+				<label>Financial Document Posting Period Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>2</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+				<control>
+					<text size="4" />
+				</control>
 
-                <summary>financialDocumentPostingPeriodCode</summary>
-                <description>financialDocumentPostingPeriodCode description...</description>
+				<summary>financialDocumentPostingPeriodCode</summary>
+				<description>
+					financialDocumentPostingPeriodCode description...
+				</description>
 			</attribute>
 
-            <attribute name="financialDocumentPostingYear" forceUppercase="true">
-                <label>Financial Document Posting Year</label>
-                <shortLabel>Year</shortLabel>
+			<attribute name="financialDocumentPostingYear"
+				forceUppercase="true">
+				<label>Financial Document Posting Year</label>
+				<shortLabel>Year</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
+				<maxLength>4</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+				<control>
+					<text size="6" />
+				</control>
 
-                <summary>financialDocumentPostingYear</summary>
-                <description>financialDocumentPostingYear description...</description>
+				<summary>financialDocumentPostingYear</summary>
+				<description>
+					financialDocumentPostingYear description...
+				</description>
 			</attribute>
 
-            <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
-                <label>Insurance Charge Account Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="insuranceChargeAccountNumber"
+				forceUppercase="true">
+				<label>Insurance Charge Account Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>7</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="9" />
-                </control>
+				<control>
+					<text size="9" />
+				</control>
 
-                <summary>insuranceChargeAccountNumber</summary>
-                <description>insuranceChargeAccountNumber description...</description>
+				<summary>insuranceChargeAccountNumber</summary>
+				<description>
+					insuranceChargeAccountNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">
-                <label>Insurance Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="insuranceChartOfAccountsCode"
+				forceUppercase="true">
+				<label>Insurance Chart Of Accounts Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>2</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+				<control>
+					<text size="4" />
+				</control>
 
-                <summary>insuranceChartOfAccountsCode</summary>
-                <description>insuranceChartOfAccountsCode description...</description>
+				<summary>insuranceChartOfAccountsCode</summary>
+				<description>
+					insuranceChartOfAccountsCode description...
+				</description>
 			</attribute>
 
-            <attribute name="inventoryScannedCode" forceUppercase="true">
-                <label>Inventory Scanned Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="inventoryScannedCode"
+				forceUppercase="true">
+				<label>Inventory Scanned Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
+				<control>
+					<text size="3" />
+				</control>
 
-                <summary>inventoryScannedCode</summary>
-                <description>inventoryScannedCode description...</description>
+				<summary>inventoryScannedCode</summary>
+				<description>
+					inventoryScannedCode description...
+				</description>
 			</attribute>
 
-            <attribute name="inventoryStatusCode" forceUppercase="true">
-                <label>Inventory Status Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="inventoryStatusCode"
+				forceUppercase="true">
+				<label>Inventory Status Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
+				<control>
+					<text size="3" />
+				</control>
 
-                <summary>inventoryStatusCode</summary>
-                <description>inventoryStatusCode description...</description>
+				<summary>inventoryStatusCode</summary>
+				<description>
+					inventoryStatusCode description...
+				</description>
 			</attribute>
 
-            <attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Last Inventory Date</label>
-                <shortLabel>Last Inventory Date</shortLabel>
+			<attributeReference name="lastInventoryDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Last Inventory Date</label>
+				<shortLabel>Last Inventory Date</shortLabel>
 
-            </attributeReference>
+			</attributeReference>
 
-            <attributeReference name="loanDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Loan Date</label>
-                <shortLabel>Loan Date</shortLabel>
+			<attributeReference name="loanDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Loan Date</label>
+				<shortLabel>Loan Date</shortLabel>
 
-            </attributeReference>
-           
-            <attributeReference name="loanReturnDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Loan Return Date</label>
-                <shortLabel>Loan Return Date</shortLabel>
+			</attributeReference>
 
-            </attributeReference>
+			<attributeReference name="loanReturnDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Loan Return Date</label>
+				<shortLabel>Loan Return Date</shortLabel>
 
-            <attribute name="manufacturerModelNumber" forceUppercase="true">
-                <label>Manufacturer Model Number</label>
-                <shortLabel>Number</shortLabel>
+			</attributeReference>
 
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+			<attribute name="manufacturerModelNumber"
+				forceUppercase="true">
+				<label>Manufacturer Model Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <control>
-                    <text size="27" />
-                </control>
+				<maxLength>25</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <summary>manufacturerModelNumber</summary>
-                <description>manufacturerModelNumber description...</description>
+				<control>
+					<text size="27" />
+				</control>
+
+				<summary>manufacturerModelNumber</summary>
+				<description>
+					manufacturerModelNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="manufacturerName" forceUppercase="true">
-                <label>Manufacturer</label>
-                <shortLabel>Name</shortLabel>
+			<attribute name="manufacturerName" forceUppercase="true">
+				<label>Manufacturer</label>
+				<shortLabel>Name</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+				<maxLength>40</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
 
-                <control>
-                    <text size="42" />
-                </control>
+				<control>
+					<text size="42" />
+				</control>
 
-                <summary>manufacturerName</summary>
-                <description>manufacturerName description...</description>
+				<summary>manufacturerName</summary>
+				<description>
+					manufacturerName description...
+				</description>
 			</attribute>
 
-            <attribute name="oldTagNumber" forceUppercase="true">
-                <label>Old Tag Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="oldTagNumber" forceUppercase="true">
+				<label>Old Tag Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>8</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>8</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="10" />
-                </control>
+				<control>
+					<text size="10" />
+				</control>
 
-                <summary>oldTagNumber</summary>
-                <description>oldTagNumber description...</description>
+				<summary>oldTagNumber</summary>
+				<description>oldTagNumber description...</description>
 			</attribute>
 
-            <attribute name="organizationInventoryName" forceUppercase="true">
-                <label>Organization Inventory Name</label>
-                <shortLabel>Name</shortLabel>
+			<attribute name="organizationInventoryName"
+				forceUppercase="true">
+				<label>Organization Inventory Name</label>
+				<shortLabel>Name</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+				<maxLength>40</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
 
-                <control>
-                    <text size="42" />
-                </control>
+				<control>
+					<text size="42" />
+				</control>
 
-                <summary>organizationInventoryName</summary>
-                <description>organizationInventoryName description...</description>
+				<summary>organizationInventoryName</summary>
+				<description>
+					organizationInventoryName description...
+				</description>
 			</attribute>
 
-            <attribute name="primaryDepreciationMethodCode" forceUppercase="true">
-                <label>Primary Depreciation Method Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="primaryDepreciationMethodCode"
+				forceUppercase="true">
+				<label>Primary Depreciation Method Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>3</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="5" />
-                </control>
+				<control>
+					<select
+						valuesFinderClass="org.kuali.core.lookup.keyvalues.PersistableBusinessObjectValuesFinder"
+						businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationMethod"
+						keyAttribute="depreciationMethodCode"
+						labelAttribute="depreciationMethodName" includeKeyInLabel="true" />
+				</control>
 
-                <summary>primaryDepreciationMethodCode</summary>
-                <description>primaryDepreciationMethodCode description...</description>
+				<summary>primaryDepreciationMethodCode</summary>
+				<description>
+					primaryDepreciationMethodCode description...
+				</description>
 			</attribute>
 
-            <attributeReference name="receiveDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
-                <label>Receive Date</label>
-                <shortLabel>Receive Date</shortLabel>
+			<attributeReference name="receiveDate"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="genericDate">
+				<label>Receive Date</label>
+				<shortLabel>Receive Date</shortLabel>
 
-            </attributeReference>
-            
-            <attribute name="replacementAmount" forceUppercase="true">
-                <label>Replacement Amount</label>
-                <shortLabel>Amount</shortLabel>
+			</attributeReference>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+			<attribute name="replacementAmount" forceUppercase="true">
+				<label>Replacement Amount</label>
+				<shortLabel>Amount</shortLabel>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <summary>replacementAmount</summary>
-                <description>replacementAmount description...</description>
+				<control>
+					<text size="21" />
+				</control>
+
+				<summary>replacementAmount</summary>
+				<description>
+					replacementAmount description...
+				</description>
 			</attribute>
 
-            <attribute name="retirementAccountNumber" forceUppercase="true">
-                <label>Retirement Account Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="retirementAccountNumber"
+				forceUppercase="true">
+				<label>Retirement Account Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>7</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="9" />
-                </control>
+				<control>
+					<text size="9" />
+				</control>
 
-                <summary>retirementAccountNumber</summary>
-                <description>retirementAccountNumber description...</description>
+				<summary>retirementAccountNumber</summary>
+				<description>
+					retirementAccountNumber description...
+				</description>
 			</attribute>
 
-            <attribute name="retirementChartOfAccountsCode" forceUppercase="true">
-                <label>Retirement Chart Of Accounts Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="retirementChartOfAccountsCode"
+				forceUppercase="true">
+				<label>Retirement Chart Of Accounts Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>2</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+				<control>
+					<text size="4" />
+				</control>
 
-                <summary>retirementChartOfAccountsCode</summary>
-                <description>retirementChartOfAccountsCode description...</description>
+				<summary>retirementChartOfAccountsCode</summary>
+				<description>
+					retirementChartOfAccountsCode description...
+				</description>
 			</attribute>
 
-            <attribute name="retirementFiscalYear" forceUppercase="true">
-                <label>Retirement Fiscal Year</label>
-                <shortLabel>Year</shortLabel>
+			<attribute name="retirementFiscalYear"
+				forceUppercase="true">
+				<label>Retirement Fiscal Year</label>
+				<shortLabel>Year</shortLabel>
 
-                <maxLength>4</maxLength>
-                <validationPattern><numeric /></validationPattern>
+				<maxLength>4</maxLength>
+				<validationPattern>
+					<numeric />
+				</validationPattern>
 
-                <control>
-                    <text size="6" />
-                </control>
+				<control>
+					<text size="6" />
+				</control>
 
-                <summary>retirementFiscalYear</summary>
-                <description>retirementFiscalYear description...</description>
+				<summary>retirementFiscalYear</summary>
+				<description>
+					retirementFiscalYear description...
+				</description>
 			</attribute>
 
-            <attribute name="retirementPeriodCode" forceUppercase="true">
-                <label>Retirement Period Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="retirementPeriodCode"
+				forceUppercase="true">
+				<label>Retirement Period Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>2</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="4" />
-                </control>
+				<control>
+					<text size="4" />
+				</control>
 
-                <summary>retirementPeriodCode</summary>
-                <description>retirementPeriodCode description...</description>
+				<summary>retirementPeriodCode</summary>
+				<description>
+					retirementPeriodCode description...
+				</description>
 			</attribute>
 
-            <attribute name="retirementReasonCode" forceUppercase="true">
-                <label>Retirement Reason Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="retirementReasonCode"
+				forceUppercase="true">
+				<label>Retirement Reason Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
+				<control>
+					<text size="3" />
+				</control>
 
-                <summary>retirementReasonCode</summary>
-                <description>retirementReasonCode description...</description>
+				<summary>retirementReasonCode</summary>
+				<description>
+					retirementReasonCode description...
+				</description>
 			</attribute>
 
-            <attribute name="salePrice" forceUppercase="true">
-                <label>Sale Price</label>
-                <shortLabel>Price</shortLabel>
+			<attribute name="salePrice" forceUppercase="true">
+				<label>Sale Price</label>
+				<shortLabel>Price</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<control>
+					<text size="21" />
+				</control>
 
-                <summary>salePrice</summary>
-                <description>salePrice description...</description>
+				<summary>salePrice</summary>
+				<description>salePrice description...</description>
 			</attribute>
 
-            <attribute name="salvageAmount" forceUppercase="true">
-                <label>Salvage Amount</label>
-                <shortLabel>Amount</shortLabel>
+			<attribute name="salvageAmount" forceUppercase="true">
+				<label>Salvage Amount</label>
+				<shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<control>
+					<text size="21" />
+				</control>
 
-                <summary>salvageAmount</summary>
-                <description>salvageAmount description...</description>
+				<summary>salvageAmount</summary>
+				<description>salvageAmount description...</description>
 			</attribute>
 
-            <attribute name="secondaryDepreciationMethodCode" forceUppercase="true">
-                <label>Secondary Depreciation Method Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="secondaryDepreciationMethodCode"
+				forceUppercase="true">
+				<label>Secondary Depreciation Method Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>3</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>3</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="5" />
-                </control>
+				<control>
+					<text size="5" />
+				</control>
 
-                <summary>secondaryDepreciationMethodCode</summary>
-                <description>secondaryDepreciationMethodCode description...</description>
+				<summary>secondaryDepreciationMethodCode</summary>
+				<description>
+					secondaryDepreciationMethodCode description...
+				</description>
 			</attribute>
 
-            <attribute name="serialNumber" forceUppercase="true">
-                <label>Serial Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="serialNumber" forceUppercase="true">
+				<label>Serial Number</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>25</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>25</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="27" />
-                </control>
+				<control>
+					<text size="27" />
+				</control>
 
-                <summary>serialNumber</summary>
-                <description>serialNumber description...</description>
+				<summary>serialNumber</summary>
+				<description>serialNumber description...</description>
 			</attribute>
 
-            <attribute name="signatureCode" forceUppercase="true">
-                <label>Signature Code</label>
-                <shortLabel>Code</shortLabel>
+			<attribute name="signatureCode" forceUppercase="true">
+				<label>Signature Code</label>
+				<shortLabel>Code</shortLabel>
 
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>1</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="3" />
-                </control>
+				<control>
+					<text size="3" />
+				</control>
 
-                <summary>signatureCode</summary>
-                <description>signatureCode description...</description>
+				<summary>signatureCode</summary>
+				<description>signatureCode description...</description>
 			</attribute>
 
-            <attribute name="totalCostAmount" forceUppercase="true">
-                <label>Total Cost Amount</label>
-                <shortLabel>Amount</shortLabel>
+			<attribute name="totalCostAmount" forceUppercase="true">
+				<label>Total Cost Amount</label>
+				<shortLabel>Amount</shortLabel>
 
-                <maxLength>19</maxLength>
-                <validationPattern><floatingPoint /></validationPattern>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<floatingPoint />
+				</validationPattern>
 
-                <control>
-                    <text size="21" />
-                </control>
+				<control>
+					<text size="21" />
+				</control>
 
-                <summary>totalCostAmount</summary>
-                <description>totalCostAmount description...</description>
+				<summary>totalCostAmount</summary>
+				<description>
+					totalCostAmount description...
+				</description>
 			</attribute>
 
-            <attribute name="transferOfFundsFinancialDocumentNumber" forceUppercase="true">
-                <label>Transfer Of Funds Financial Document Number</label>
-                <shortLabel>Number</shortLabel>
+			<attribute name="transferOfFundsFinancialDocumentNumber"
+				forceUppercase="true">
+				<label>
+					Transfer Of Funds Financial Document Number
+				</label>
+				<shortLabel>Number</shortLabel>
 
-                <maxLength>14</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+				<maxLength>14</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
 
-                <control>
-                    <text size="16" />
-                </control>
+				<control>
+					<text size="16" />
+				</control>
 
-                <summary>transferOfFundsFinancialDocumentNumber</summary>
-                <description>transferOfFundsFinancialDocumentNumber description...</description>
+				<summary>
+					transferOfFundsFinancialDocumentNumber
+				</summary>
+				<description>
+					transferOfFundsFinancialDocumentNumber
+					description...
+				</description>
 			</attribute>
 
-            <attribute name="vendorName" forceUppercase="true">
-                <label>Vendor Name</label>
-                <shortLabel>Name</shortLabel>
+			<attribute name="vendorName" forceUppercase="true">
+				<label>Vendor Name</label>
+				<shortLabel>Name</shortLabel>
 
-                <maxLength>40</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+				<maxLength>40</maxLength>
+				<validationPattern>
+					<anyCharacter allowWhitespace="true" />
+				</validationPattern>
 
-                <control>
-                    <text size="42" />
-                </control>
+				<control>
+					<text size="42" />
+				</control>
 
-                <summary>vendorName</summary>
-                <description>vendorName description...</description>
+				<summary>vendorName</summary>
+				<description>vendorName description...</description>
 			</attribute>
-			
-			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-			
-			<attributeReference name="capitalAssetType.depreciableLifeLimit" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="depreciableLifeLimit" />
-			
-			<attributeReference name="assetRepresentative.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
+
+			<attributeReference name="active"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="activeIndicator" />
+			<attributeReference name="versionNumber"
+				sourceClassName="org.kuali.core.bo.AttributeReferenceDummy"
+				sourceAttributeName="versionNumber" />
+
+			<attributeReference
+				name="capitalAssetType.depreciableLifeLimit"
+				sourceClassName="org.kuali.module.cams.bo.AssetType"
+				sourceAttributeName="depreciableLifeLimit" />
+
+			<attributeReference name="assetRepresentative.personName"
+				sourceClassName="org.kuali.core.bo.user.UniversalUser"
+				sourceAttributeName="personName">
 				<label>Asset Representative</label>
 			</attributeReference>
-			
-			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="accountNumber" >
+
+			<attributeReference name="organizationOwnerAccountNumber"
+				sourceClassName="org.kuali.module.chart.bo.Account"
+				sourceAttributeName="accountNumber">
 				<label>Organization Owner Account Number</label>
 			</attributeReference>
-			
-			<attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="chartOfAccountsCode" >
+
+			<attributeReference
+				name="organizationOwnerChartOfAccountsCode"
+				sourceClassName="org.kuali.module.chart.bo.Account"
+				sourceAttributeName="chartOfAccountsCode">
 				<label>Organization Owner Chart Of Accounts Code</label>
 			</attributeReference>
-			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
+
+			<attributeReference
+				name="organizationOwnerAccount.organizationCode"
+				sourceClassName="org.kuali.module.chart.bo.Account"
+				sourceAttributeName="organizationCode">
 				<label>Organization Owner Organization Code</label>
 			</attributeReference>
-			
-			<attributeReference name="capitalAssetTypeCode" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="capitalAssetTypeCode" >
+
+			<attributeReference name="capitalAssetTypeCode"
+				sourceClassName="org.kuali.module.cams.bo.AssetType"
+				sourceAttributeName="capitalAssetTypeCode">
 				<label>Asset Type Code</label>
 			</attributeReference>
-			
-			<attributeReference name="representativeUniversalIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUniversalIdentifier" >
+
+			<attributeReference name="representativeUniversalIdentifier"
+				sourceClassName="org.kuali.core.bo.user.UniversalUser"
+				sourceAttributeName="personUniversalIdentifier">
 				<label>Asset Representative User ID</label>
 			</attributeReference>
-			
-			<attributeReference name="campusCode" sourceClassName="org.kuali.core.bo.Campus" sourceAttributeName="campusCode" >
+
+			<attributeReference name="campusCode"
+				sourceClassName="org.kuali.core.bo.Campus"
+				sourceAttributeName="campusCode">
 				<label>Campus</label>
 			</attributeReference>
-			
-			<attributeReference name="buildingCode" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingCode" >
+
+			<attributeReference name="buildingCode"
+				sourceClassName="org.kuali.kfs.bo.Room"
+				sourceAttributeName="buildingCode">
 				<label>Building Code</label>
 			</attributeReference>
-			
-			<attributeReference name="buildingRoomNumber" sourceClassName="org.kuali.kfs.bo.Room" sourceAttributeName="buildingRoomNumber" >
+
+			<attributeReference name="buildingRoomNumber"
+				sourceClassName="org.kuali.kfs.bo.Room"
+				sourceAttributeName="buildingRoomNumber">
 				<label>Building Room Number</label>
 			</attributeReference>
-			
-			<attributeReference name="assetOrganization.organizationTagNumber" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationTagNumber" >
+
+			<attributeReference
+				name="assetOrganization.organizationTagNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetOrganization"
+				sourceAttributeName="organizationTagNumber">
 				<label>Org Tag Number</label>
 			</attributeReference>
-			
-			<attributeReference name="assetOrganization.organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText" >
+
+			<attributeReference
+				name="assetOrganization.organizationText"
+				sourceClassName="org.kuali.module.cams.bo.AssetOrganization"
+				sourceAttributeName="organizationText">
 				<label>Organization Text</label>
-			</attributeReference>		
-			
-			<attributeReference name="assetOrganization.organizationAssetTypeIdentifier" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationAssetTypeIdentifier" >
+			</attributeReference>
+
+			<attributeReference
+				name="assetOrganization.organizationAssetTypeIdentifier"
+				sourceClassName="org.kuali.module.cams.bo.AssetOrganization"
+				sourceAttributeName="organizationAssetTypeIdentifier">
 				<label>Org Asset Type</label>
-			</attributeReference>		
-			
-			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
+			</attributeReference>
+
+			<attributeReference name="conditionCode"
+				sourceClassName="org.kuali.module.cams.bo.AssetCondition"
+				sourceAttributeName="assetConditionCode">
 				<label>Condition Code</label>
 			</attributeReference>
-        </attributes>
-    </businessObject>
+			<attribute name="accumulatedDepreciation"
+				forceUppercase="false">
+				<label>Accumulated Depreciation</label>
+				<shortLabel>Accumulated</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Accumulated Depreciation</summary>
+				<description>
+					Accumulated Depreciation Amount
+				</description>
+			</attribute>
+			<attribute name="baseAmount" forceUppercase="false">
+				<label>Base Amount</label>
+				<shortLabel>Base</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Base Amount</summary>
+				<description>Base Amount</description>
+			</attribute>
+			<attribute name="bookValue" forceUppercase="false">
+				<label>Book Value</label>
+				<shortLabel>Book Value</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Book Value</summary>
+				<description>Book Value</description>
+			</attribute>
+			<attribute name="prevYearDepreciation"
+				forceUppercase="false">
+				<label>Previous Year Depreciation</label>
+				<shortLabel>Previous Year</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Previous Year Depreciation</summary>
+				<description>Previous Year Depreciation</description>
+			</attribute>
+			<attribute name="yearToDateDepreciation"
+				forceUppercase="false">
+				<label>Year To Date Depreciation</label>
+				<shortLabel>Year To Date Depreciation</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Year To Date Depreciation</summary>
+				<description>Year To Date Depreciation</description>
+			</attribute>
+			<attribute name="currentMonthDepreciation"
+				forceUppercase="false">
+				<label>Current Month Depreciation</label>
+				<shortLabel>Current Month Depreciation</shortLabel>
+				<maxLength>19</maxLength>
+				<validationPattern>
+					<anyCharacter />
+				</validationPattern>
+				<control>
+					<text size="19" />
+				</control>
+				<summary>Current Month Depreciation</summary>
+				<description>Current Month Depreciation</description>
+			</attribute>
+
+		</attributes>
+	</businessObject>
 </dictionaryEntry>

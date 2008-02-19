@@ -25,9 +25,11 @@ import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
 import org.kuali.core.web.ui.Section;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.CamsConstants;
 import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
+import org.kuali.module.cams.service.DepreciationCalculatorService;
 
 /**
  * Methods for the Asset maintenance document UI.
@@ -38,16 +40,27 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
      * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit(java.util.Map)
      */
     @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String,String[]> parameters) {
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
         Asset asset = (Asset) this.getBusinessObject();
         String[] value = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
         asset.setDocumentTypeCode(value[0]);
+        calculateDepreciationValues(asset);
         super.processAfterEdit(document, parameters);
-     }
+    }
+
+    private void calculateDepreciationValues(Asset asset) {
+        DepreciationCalculatorService calculatorService = SpringContext.getBean(DepreciationCalculatorService.class);
+        asset.setAccumulatedDepreciation(calculatorService.calculatePrimaryAccumulatedDepreciation(asset));
+        asset.setBaseAmount(calculatorService.calculatePrimaryBaseAmount(asset));
+        asset.setBookValue(calculatorService.calculatePrimaryBookValue(asset));
+        asset.setPrevYearDepreciation(calculatorService.calculatePrimaryPrevYearDepreciation(asset));
+        asset.setYearToDateDepreciation(calculatorService.calculatePrimaryYTDDepreciation(asset));
+        asset.setCurrentMonthDepreciation(calculatorService.calculatePrimaryCurrentMonthDepreciation(asset));
+    }
 
     /**
-     * Allows customizing the maintenance document interface to hide / show based on priviledge and document
-     * type code (@see AssetLookupableHelperServiceImpl).
+     * Allows customizing the maintenance document interface to hide / show based on priviledge and document type code (@see
+     * AssetLookupableHelperServiceImpl).
      * 
      * @param oldMaintainable
      * @return
@@ -59,14 +72,15 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
 
         // Add all the kuali core sections
         List<Section> coreSections = getCoreSections(oldMaintainable);
-        
+
         for (Section section : coreSections) {
             if (StringUtils.isEmpty(asset.getDocumentTypeCode())) {
                 sections.add(section);
-            } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_EDIT)) {
+            }
+            else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_EDIT)) {
                 sections.add(section);
-            } else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_RETIREMENT) &&
-                    section.getSectionTitle().equalsIgnoreCase(CamsConstants.SectionTitles.ASSET_RETIREMENT)) {
+            }
+            else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_RETIREMENT) && section.getSectionTitle().equalsIgnoreCase(CamsConstants.SectionTitles.ASSET_RETIREMENT)) {
                 sections.add(section);
             }
         }

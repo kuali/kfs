@@ -1,206 +1,267 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright 2006-2007 The Kuali Foundation.
- 
- Licensed under the Educational Community License, Version 1.0 (the "License")" />
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
- 
- http://www.opensource.org/licenses/ecl1.php
- 
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+	Copyright 2006-2007 The Kuali Foundation.
+	
+	Licensed under the Educational Community License, Version 1.0 (the "License")" />
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+	http://www.opensource.org/licenses/ecl1.php
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
 -->
 <!DOCTYPE dictionaryEntry PUBLIC
     "-//Kuali Project//DTD Data Dictionary 1.0//EN"
     "../../../../core/datadictionary/dataDictionary-1_0.dtd">
 
 <dictionaryEntry>
-    <maintenanceDocument>
-        <businessObjectClass>org.kuali.module.cams.bo.Asset</businessObjectClass>
-        <maintainableClass>org.kuali.module.cams.maintenance.AssetMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
-        <authorizations>
-            <authorization action="initiate">
-                <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
-                </workgroups>
-            </authorization>
-        </authorizations>
+	<maintenanceDocument>
+		<businessObjectClass>
+			org.kuali.module.cams.bo.Asset
+		</businessObjectClass>
+		<maintainableClass>
+			org.kuali.module.cams.maintenance.AssetMaintainableImpl
+		</maintainableClass>
+		<businessRulesClass>
+			org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase
+		</businessRulesClass>
+		<documentAuthorizerClass>
+			org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase
+		</documentAuthorizerClass>
+		<authorizations>
+			<authorization action="initiate">
+				<workgroups>
+					<workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+				</workgroups>
+			</authorization>
+		</authorizations>
 
-        <documentTypeName>AssetMaintenanceDocument</documentTypeName>
-        <documentTypeCode>AA</documentTypeCode>
+		<documentTypeName>AssetMaintenanceDocument</documentTypeName>
+		<documentTypeCode>AA</documentTypeCode>
 
-        <label>Asset</label>
+		<label>Asset</label>
 
-        <summary>Asset maintenance document</summary>
-        <description>Document used to create or update Asset objects</description>
+		<summary>Asset maintenance document</summary>
+		<description>
+			Document used to create or update Asset objects
+		</description>
 
-        <lockingKeys>
-            <field attributeName="capitalAssetNumber" />
-        </lockingKeys>
-        
-        <allowsNewOrCopy>false</allowsNewOrCopy>
-        
-        <maintainableSections>
-            <maintainableSection title="Asset Detail Information">
-                <maintainableItems> 
-                	<subSectionHeader name="Asset Detail Info" />
-                	
-                    <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
-                    <maintainableField name="capitalAssetNumber"  />
-                    <maintainableField name="organizationOwnerChartOfAccountsCode" />
-                    <maintainableField name="organizationOwnerAccountNumber" />
-                    <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
-                    <maintainableField name="agencyNumber" />
-                    <maintainableField name="acquisitionTypeCode" />
-                    <maintainableField name="inventoryStatusCode" required="true"/>
-                    <maintainableField name="conditionCode" required="true" />
-                    <maintainableField name="capitalAssetDescription" required="true" />
-                    <maintainableField name="capitalAssetTypeCode" required="true" />
-                    <maintainableField name="vendorName" />
-                    <maintainableField name="manufacturerName" required="true" />
-                    <maintainableField name="manufacturerModelNumber" />
+		<lockingKeys>
+			<field attributeName="capitalAssetNumber" />
+		</lockingKeys>
+
+		<allowsNewOrCopy>false</allowsNewOrCopy>
+
+		<maintainableSections>
+			<maintainableSection title="Asset Detail Information">
+				<maintainableItems>
+					<subSectionHeader name="Asset Detail Info" />
+
+					<!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
+					<maintainableField name="capitalAssetNumber" />
+					<maintainableField
+						name="organizationOwnerChartOfAccountsCode" />
+					<maintainableField
+						name="organizationOwnerAccountNumber" />
+					<maintainableField
+						name="organizationOwnerAccount.organizationCode" readOnly="true" />
+					<maintainableField name="agencyNumber" />
+					<maintainableField name="acquisitionTypeCode" />
+					<maintainableField name="inventoryStatusCode"
+						required="true" />
+					<maintainableField name="conditionCode"
+						required="true" />
+					<maintainableField name="capitalAssetDescription"
+						required="true" />
+					<maintainableField name="capitalAssetTypeCode"
+						required="true" />
+					<maintainableField name="vendorName" />
+					<maintainableField name="manufacturerName"
+						required="true" />
+					<maintainableField name="manufacturerModelNumber" />
 					<maintainableField name="serialNumber" />
-                    <maintainableField name="campusTagNumber" />
-                    <maintainableField name="oldTagNumber" />
-                    <maintainableField name="lastInventoryDate" />
-                    <maintainableField name="createDate" />
-                    <maintainableField name="financialDocumentPostingYear" />
-                    <maintainableField name="financialDocumentPostingPeriodCode" />
-                    <!-- wait setting in asset DD-->
-                    <!-- 
-                    <maintainableField name="capitalAssetInServiceDate" />
-                    -->
-                    <maintainableField name="totalCostAmount" />
+					<maintainableField name="campusTagNumber" />
+					<maintainableField name="oldTagNumber" />
+					<maintainableField name="lastInventoryDate" />
+					<maintainableField name="createDate" />
+					<maintainableField
+						name="financialDocumentPostingYear" />
+					<maintainableField
+						name="financialDocumentPostingPeriodCode" />
+					<!-- wait setting in asset DD-->
+					<!-- 
+						<maintainableField name="capitalAssetInServiceDate" />
+					-->
+					<maintainableField name="totalCostAmount" />
 					<maintainableField name="active">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
-                    <maintainableField name="versionNumber" />
-					
-					<subSectionHeader name="Asset Location - On Campus" />
-					<maintainableField name="campusCode" required="true" />
-					<maintainableField name="buildingCode" required="true" />
-					<maintainableField name="buildingRoomNumber" required="true" />
-					<maintainableField name="buildingSubRoomNumber" />
-					
-					<!--  subSectionHeader name="Location - Off Campus - Where to get the ifo for this From? Name, Address, City, State, Zip?" /-->
-					
-					
-					</maintainableItems>
-            </maintainableSection>
-            
-            <maintainableSection title="Organization Information">
-                <maintainableItems>
-                	<!-- Organization Tag, Asset Representative, Org Asset Type, Organization Text, Receive Date -->
-                	<maintainableField name="organizationInventoryName" />
-                	<maintainableField name="assetRepresentative.personName" />
-                	<maintainableField name="assetOrganization.organizationText" />
-                	<maintainableField name="assetOrganization.organizationTagNumber" />
-                	<maintainableField name="assetOrganization.organizationAssetTypeIdentifier" />
-                	<maintainableField name="receiveDate" />
-                	<maintainableField name="replacementAmount" />
-                	<maintainableField name="estimatedSellingPrice" />
-                 </maintainableItems>
-            </maintainableSection>
+						<defaultValue>true</defaultValue>
+					</maintainableField>
+					<maintainableField name="versionNumber" />
 
-			<maintainableSection title="Payment Information">
-                <maintainableItems>
-                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Information">
-                        <maintainableField name="chartOfAccountsCode"  />
-                        <maintainableField name="accountNumber"  />
-                   <!--       <maintainableField name="subAccountNumber"  /> -->
-                        <maintainableField name="financialObjectCode"  />
-                   <!--      <maintainableField name="projectCode"  /> -->
-                        <maintainableField name="organizationReferenceId"  />
-                        <maintainableField name="documentNumber"  />
-                        <maintainableField name="financialDocumentTypeCode"  />
-                        <maintainableField name="purchaseOrderNumber"  />
-                        <maintainableField name="requisitionNumber"  />
-                        <maintainableField name="financialDocumentPostingDate"  />
-                        <maintainableField name="financialDocumentPostingYear"  />
-                        <maintainableField name="financialDocumentPostingPeriodCode"  />
-                        <maintainableField name="transferPaymentCode"  />
-                        <maintainableField name="accountChargeAmount"  />
-                        <maintainableField name="accumulatedPrimaryDepreciationAmount"  />
-                        <maintainableField name="previousYearPrimaryDepreciationAmount"  />
-                        <maintainableField name="period1Depreciation1Amount"  />
-                        <maintainableField name="period2Depreciation1Amount"  />
-                        <maintainableField name="period3Depreciation1Amount"  />
-                        <maintainableField name="period4Depreciation1Amount"  />
-                        <maintainableField name="period5Depreciation1Amount"  />
-                        <maintainableField name="period6Depreciation1Amount"  />
-                        <maintainableField name="period7Depreciation1Amount"  />
-                        <maintainableField name="period8Depreciation1Amount"  />
-                        <maintainableField name="period9Depreciation1Amount"  />
-                        <maintainableField name="period10Depreciation1Amount"  />
-                        <maintainableField name="period11Depreciation1Amount"  />
-                        <maintainableField name="period12Depreciation1Amount"  />
-   		            </maintainableCollection>
-		        </maintainableItems>
-		    </maintainableSection>
-			
-            <maintainableSection title="Asset Depreciation Information">
-                <maintainableItems>
-					<maintainableField name="primaryDepreciationMethodCode" required="true" />
-					<maintainableField name="capitalAssetType.depreciableLifeLimit" />
-					<maintainableField name="salvageAmount" />
-			<!-- set to the same value as in primary? -->
-			<!-- 	<maintainableField name="capitalAssetType.depreciableLifeLimit" />
-					<maintainableField name="salvageAmount" />
-					<maintainableField name="secondaryDepreciationMethodCode" required="true" />
-			-->		
+					<subSectionHeader name="Asset Location - On Campus" />
+					<maintainableField name="campusCode"
+						required="true" />
+					<maintainableField name="buildingCode"
+						required="true" />
+					<maintainableField name="buildingRoomNumber"
+						required="true" />
+					<maintainableField name="buildingSubRoomNumber" />
+
+					<!--  subSectionHeader name="Location - Off Campus - Where to get the ifo for this From? Name, Address, City, State, Zip?" /-->
+
+
 				</maintainableItems>
 			</maintainableSection>
-          
-          <!-- need more work -->
-          <!--   
-            <maintainableSection title="View Asset History">
-            	<maintainableItems>
-                	<subSectionHeader name="View Related Documents" />
-                	<subSectionHeader name="View Merge History" />
-                	<subSectionHeader name="View Separate History" />
-                	<subSectionHeader name="View Retirement Information" />
-                	<subSectionHeader name="View Equipment Loan Information " />
-            	</maintainableItems>
-            </maintainableSection>
-           --> 
-            <maintainableSection title="View Retirement Information">
-                <maintainableItems>
+
+			<maintainableSection title="Organization Information">
+				<maintainableItems>
+					<!-- Organization Tag, Asset Representative, Org Asset Type, Organization Text, Receive Date -->
+					<maintainableField name="organizationInventoryName" />
+					<maintainableField
+						name="assetRepresentative.personName" />
+					<maintainableField
+						name="assetOrganization.organizationText" />
+					<maintainableField
+						name="assetOrganization.organizationTagNumber" />
+					<maintainableField
+						name="assetOrganization.organizationAssetTypeIdentifier" />
+					<maintainableField name="receiveDate" />
+					<maintainableField name="replacementAmount" />
+					<maintainableField name="estimatedSellingPrice" />
+				</maintainableItems>
+			</maintainableSection>
+
+			<maintainableSection title="Payment Information">
+				<maintainableItems>
+					<maintainableCollection name="assetPayments"
+						businessObjectClass="org.kuali.module.cams.bo.AssetPayment"
+						summaryTitle="Payment Information">
+						<maintainableField name="chartOfAccountsCode" />
+						<maintainableField name="accountNumber" />
+						<!--       <maintainableField name="subAccountNumber"  /> -->
+						<maintainableField name="financialObjectCode" />
+						<!--      <maintainableField name="projectCode"  /> -->
+						<maintainableField
+							name="organizationReferenceId" />
+						<maintainableField name="documentNumber" />
+						<maintainableField
+							name="financialDocumentTypeCode" />
+						<maintainableField name="purchaseOrderNumber" />
+						<maintainableField name="requisitionNumber" />
+						<maintainableField
+							name="financialDocumentPostingDate" />
+						<maintainableField
+							name="financialDocumentPostingYear" />
+						<maintainableField
+							name="financialDocumentPostingPeriodCode" />
+						<maintainableField name="transferPaymentCode" />
+						<maintainableField name="accountChargeAmount" />
+						<maintainableField
+							name="accumulatedPrimaryDepreciationAmount" />
+						<maintainableField
+							name="previousYearPrimaryDepreciationAmount" />
+						<maintainableField
+							name="period1Depreciation1Amount" />
+						<maintainableField
+							name="period2Depreciation1Amount" />
+						<maintainableField
+							name="period3Depreciation1Amount" />
+						<maintainableField
+							name="period4Depreciation1Amount" />
+						<maintainableField
+							name="period5Depreciation1Amount" />
+						<maintainableField
+							name="period6Depreciation1Amount" />
+						<maintainableField
+							name="period7Depreciation1Amount" />
+						<maintainableField
+							name="period8Depreciation1Amount" />
+						<maintainableField
+							name="period9Depreciation1Amount" />
+						<maintainableField
+							name="period10Depreciation1Amount" />
+						<maintainableField
+							name="period11Depreciation1Amount" />
+						<maintainableField
+							name="period12Depreciation1Amount" />
+					</maintainableCollection>
+				</maintainableItems>
+			</maintainableSection>
+
+			<maintainableSection
+				title="Asset Depreciation Information">
+				<maintainableItems>
+					<maintainableField
+						name="primaryDepreciationMethodCode" required="true" />
+					<maintainableField
+						name="capitalAssetType.depreciableLifeLimit" readOnly="true" />
+					<maintainableField name="baseAmount"
+						readOnly="true" />
+					<maintainableField name="salvageAmount" />
+					<maintainableField name="accumulatedDepreciation"
+						readOnly="true" />
+					<maintainableField name="bookValue" readOnly="true" />
+					<maintainableField name="yearToDateDepreciation"
+						readOnly="true" />
+					<maintainableField name="currentMonthDepreciation"
+						readOnly="true" />
+					<maintainableField name="prevYearDepreciation"
+						readOnly="true" />
+				</maintainableItems>
+			</maintainableSection>
+
+			<!-- need more work -->
+			<!--   
+				<maintainableSection title="View Asset History">
+				<maintainableItems>
+				<subSectionHeader name="View Related Documents" />
+				<subSectionHeader name="View Merge History" />
+				<subSectionHeader name="View Separate History" />
+				<subSectionHeader name="View Retirement Information" />
+				<subSectionHeader name="View Equipment Loan Information " />
+				</maintainableItems>
+				</maintainableSection>
+			-->
+			<maintainableSection title="View Retirement Information">
+				<maintainableItems>
 					<maintainableField name="retirementReasonCode" />
 					<maintainableField name="salePrice" />
 					<maintainableField name="estimatedSellingPrice" />
-					<maintainableField name="cashReceiptFinancialDocumentNumber" />
-					<maintainableField name="retirementChartOfAccountsCode" />
+					<maintainableField
+						name="cashReceiptFinancialDocumentNumber" />
+					<maintainableField
+						name="retirementChartOfAccountsCode" />
 					<maintainableField name="retirementAccountNumber" />
-					<maintainableField name="campusPoliceDepartmentCaseNumber" />
+					<maintainableField
+						name="campusPoliceDepartmentCaseNumber" />
 				</maintainableItems>
 			</maintainableSection>
-            
-            <maintainableSection title="View Equipment Loan Information   ">
-              	
-              	<maintainableItems>
-            		<maintainableField name="loanDate" />	
+
+			<maintainableSection
+				title="View Equipment Loan Information   ">
+
+				<maintainableItems>
+					<maintainableField name="loanDate" />
 					<maintainableField name="expectedReturnDate" />
 					<maintainableField name="loanReturnDate" />
-					
-                </maintainableItems>
-            </maintainableSection>
-            
-            <!-- need more work -->
-          <!--   
-            <maintainableSection title="Warranty and Repair History ">
-            	<maintainableItems>
-                	<subSectionHeader name="Warranty" />
-                	<subSectionHeader name="Repair History" />
-                	<subSectionHeader name="Component" />
-            	</maintainableItems>
-            </maintainableSection>
-           --> 
-        </maintainableSections>
-    </maintenanceDocument>
+
+				</maintainableItems>
+			</maintainableSection>
+
+			<!-- need more work -->
+			<!--   
+				<maintainableSection title="Warranty and Repair History ">
+				<maintainableItems>
+				<subSectionHeader name="Warranty" />
+				<subSectionHeader name="Repair History" />
+				<subSectionHeader name="Component" />
+				</maintainableItems>
+				</maintainableSection>
+			-->
+		</maintainableSections>
+	</maintenanceDocument>
 </dictionaryEntry>

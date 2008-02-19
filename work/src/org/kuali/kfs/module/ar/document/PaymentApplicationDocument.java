@@ -15,6 +15,7 @@
  */
 package org.kuali.module.ar.document;
 
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.AccountingDocumentBase;
 
 public class PaymentApplicationDocument  extends AccountingDocumentBase {
@@ -23,4 +24,13 @@ public class PaymentApplicationDocument  extends AccountingDocumentBase {
         super();
     }
 
+    /**
+     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        // TODO Auto-generated method stub
+        return false;
+    }
 }

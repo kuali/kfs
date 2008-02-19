@@ -27,8 +27,6 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSKeyConstants.CashReceipt;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
-import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
 import org.kuali.module.financial.bo.AdvanceDepositDetail;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.document.CashReceiptFamilyBase;
@@ -36,7 +34,7 @@ import org.kuali.module.financial.document.CashReceiptFamilyBase;
 /**
  * Business rules applicable to Advance Deposit documents.
  */
-public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
+public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule {
     /**
      * For Advance Deposit documents, the document is balanced if the sum total of advance deposits equals the sum total of the
      * accounting lines.
@@ -140,40 +138,5 @@ public class AdvanceDepositDocumentRule extends CashReceiptFamilyRule implements
 
         GlobalVariables.getErrorMap().removeFromErrorPath(KFSConstants.DOCUMENT_PROPERTY_NAME);
         return isValid;
-    }
-
-    /**
-     * Generates bank offset GLPEs for deposits, if enabled.
-     * 
-     * @param financialDocument submitted financial document
-     * @param sequenceHelper helper class which will allows us to increment a reference without using an Integer
-     * @return true if there are no issues creating GLPE's
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        boolean success = true;
-        final AdvanceDepositDocument advanceDepositDocument = ((AdvanceDepositDocument) financialDocument);
-        if (advanceDepositDocument.isBankCashOffsetEnabled()) {
-            int displayedDepositNumber = 1;
-            for (AdvanceDepositDetail detail : advanceDepositDocument.getAdvanceDeposits()) {
-                detail.refreshReferenceObject(KFSPropertyConstants.FINANCIAL_DOCUMENT_BANK_ACCOUNT);
-
-                GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
-                if (!AccountingDocumentRuleUtil.populateBankOffsetGeneralLedgerPendingEntry(detail.getFinancialDocumentBankAccount(), detail.getFinancialDocumentAdvanceDepositAmount(), advanceDepositDocument, advanceDepositDocument.getPostingYear(), sequenceHelper, bankOffsetEntry, KFSConstants.ADVANCE_DEPOSITS_LINE_ERRORS)) {
-                    success = false;
-                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
-                    // all.
-                }
-                bankOffsetEntry.setTransactionLedgerEntryDescription(AccountingDocumentRuleUtil.formatProperty(KFSKeyConstants.AdvanceDeposit.DESCRIPTION_GLPE_BANK_OFFSET, displayedDepositNumber++));
-                advanceDepositDocument.getGeneralLedgerPendingEntries().add(bankOffsetEntry);
-                sequenceHelper.increment();
-
-                GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
-                success &= populateOffsetGeneralLedgerPendingEntry(advanceDepositDocument.getPostingYear(), bankOffsetEntry, sequenceHelper, offsetEntry);
-                advanceDepositDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
-                sequenceHelper.increment();
-            }
-        }
-        return success;
     }
 }

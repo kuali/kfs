@@ -32,6 +32,10 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
 import org.kuali.kfs.service.ParameterService;
@@ -40,6 +44,7 @@ import org.kuali.module.purap.PurapParameterConstants;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapConstants.CREDIT_MEMO_TYPE_LABELS;
 import org.kuali.module.purap.PurapConstants.CreditMemoStatuses;
+import org.kuali.module.purap.PurapConstants.PurapDocTypeCodes;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.PurapWorkflowConstants.CreditMemoDocument.NodeDetailEnum;
 import org.kuali.module.purap.bo.CreditMemoItem;
@@ -49,6 +54,7 @@ import org.kuali.module.purap.service.AccountsPayableService;
 import org.kuali.module.purap.service.CreditMemoCreateService;
 import org.kuali.module.purap.service.CreditMemoService;
 import org.kuali.module.purap.service.PaymentRequestService;
+import org.kuali.module.purap.service.PurapGeneralLedgerService;
 import org.kuali.module.purap.service.PurapService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -538,4 +544,18 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         return SpringContext.getBean(CreditMemoService.class);
     }
 
+    /**
+     * Forces GL entries to be approved before document final approval.
+     * 
+     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        
+        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry, getPurchaseOrderIdentifier(), getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, isGenerateEncumbranceEntries());
+
+        // CMs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
+        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
+    }
 }

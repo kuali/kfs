@@ -24,11 +24,6 @@ import org.kuali.module.ar.document.PaymentApplicationDocument;
 
 public class PaymentApplicationDocumentRule extends AccountingDocumentRuleBase {
     
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-    
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);
         

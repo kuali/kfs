@@ -421,4 +421,8 @@
 	</bean>
 
 	<bean id="purApOjbCollectionHelper" class="org.kuali.module.purap.util.PurApOjbCollectionHelper" />
+	
+	<bean id="purchasingAccountsPayableGeneralLedgerPostingHelper" class="org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl" />
+	
+	<bean id="requisitionGeneralLedgerPostingHelper" class="org.kuali.module.purap.service.impl.RequisitionGeneralLedgerPostingHelperImpl" />
 </beans>

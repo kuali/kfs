@@ -721,23 +721,6 @@ public class PaymentRequestDocumentRule extends AccountsPayableDocumentRuleBase 
         }
         return valid;
     }
-    
-    /**
-     * Forces general ledger entries to be approved, does not wait for payment request document final approval.
-     * 
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-
-        PaymentRequestDocument preq = (PaymentRequestDocument) accountingDocument;
-
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(preq, accountingLine, explicitEntry, preq.getPurchaseOrderIdentifier(), preq.getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.PAYMENT_REQUEST_DOCUMENT, preq.isGenerateEncumbranceEntries());
-
-        // PREQs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
-        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-    }
 
     /**
      * Returns true if full document entry is completed and bypasses any further validation, otherwise proceeds as normal.

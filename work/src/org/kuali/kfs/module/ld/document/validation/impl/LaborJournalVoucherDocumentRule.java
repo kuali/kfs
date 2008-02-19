@@ -33,7 +33,9 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.rules.JournalVoucherDocumentRule;
 import org.kuali.module.labor.LaborConstants;
@@ -50,6 +52,7 @@ import org.kuali.kfs.util.ObjectUtil;
  */
 public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule implements GenerateLaborLedgerPendingEntriesRule<LaborLedgerPostingDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(LaborJournalVoucherDocumentRule.class);
+    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
 
     /**
      * @see org.kuali.module.financial.rules.JournalVoucherDocumentRule#processCustomUpdateAccountingLineBusinessRules(org.kuali.kfs.document.AccountingDocument,
@@ -114,7 +117,8 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
         boolean encumbranceValid = true;
 
         BalanceTyp balanceType = accountingLine.getBalanceTyp();
-        if (!AccountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        if (!accountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             encumbranceValid = false;
         }
         else if (balanceType.isFinBalanceTypeEncumIndicator() && KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD.equals(accountingLine.getEncumbranceUpdateCode())) {
@@ -122,21 +126,6 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
         }
 
         return encumbranceValid;
-    }
-
-    /**
-     * Processes the G.L. pending entries
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param sequenceHelper
-     * @return boolean
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    @Override
-    public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        return true;
     }
 
     /**
@@ -156,10 +145,12 @@ public class LaborJournalVoucherDocumentRule extends JournalVoucherDocumentRule 
 
             // populate the explicit entry
             ObjectUtil.buildObject(pendingLedgerEntry, accountingLine);
-            populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
+            Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+            GeneralLedgerPostingHelper helper = glPostingHelpers.get(LaborJournalVoucherDocumentRule.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+            helper.populateExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, sequenceHelper, pendingLedgerEntry);
 
             // apply the labor JV specific information
-            customizeExplicitGeneralLedgerPendingEntry(laborJournalVoucherDocument, accountingLine, pendingLedgerEntry);
+            laborJournalVoucherDocument.customizeExplicitGeneralLedgerPendingEntry(accountingLine, pendingLedgerEntry);
             pendingLedgerEntry.setFinancialDocumentTypeCode(laborJournalVoucherDocument.getOffsetTypeCode());
 
             if (StringUtils.isBlank(((LaborJournalVoucherDetail) accountingLine).getEmplid())) {

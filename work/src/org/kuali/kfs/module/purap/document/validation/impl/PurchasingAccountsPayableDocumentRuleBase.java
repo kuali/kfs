@@ -294,20 +294,6 @@ public class PurchasingAccountsPayableDocumentRuleBase extends PurapAccountingDo
     }
 
     /**
-     * Determines whether the account is debit. It always returns false.
-     * 
-     * @param financialDocument The document containing the account to be validated.
-     * @param accountingLine The account to be validated.
-     * @return boolean false.
-     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-
-        return false;
-    }
-
-    /**
      * Overrides the method in AccountingDocumentRuleBase to always return true.
      * 
      * @param document The document to be validated.

@@ -177,26 +177,6 @@ public class RequisitionDocumentRule extends PurchasingDocumentRuleBase {
     }
 
     /**
-     * Overrides the method in GeneralLedgerPostingDocumentRuleBase class in order to do nothing and return true, because
-     * Requisition doesn't generate GL entries.
-     * 
-     * @param universityFiscalYear
-     * @param explicitEntry
-     * @param sequenceHelper
-     * @param offsetEntry
-     * @return boolean true
-     * @see org.kuali.kfs.rules.GeneralLedgerPostingDocumentRuleBase#populateOffsetGeneralLedgerPendingEntry(java.lang.Integer,
-     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper,
-     *      org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected boolean populateOffsetGeneralLedgerPendingEntry(Integer universityFiscalYear, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry offsetEntry) {
-        // Requisition doesn't generate GL entries
-
-        return true;
-    }
-
-    /**
      * Overrides the method in PurchasingDocumentRuleBase to return false if the account is closed.
      * 
      * @param financialDocument the requisition document to be validated

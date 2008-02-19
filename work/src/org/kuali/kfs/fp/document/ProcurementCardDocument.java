@@ -26,10 +26,13 @@ import org.kuali.core.document.Document;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.bo.ProcurementCardHolder;
 import org.kuali.module.financial.bo.ProcurementCardSourceAccountingLine;
 import org.kuali.module.financial.bo.ProcurementCardTargetAccountingLine;
@@ -224,5 +227,22 @@ public class ProcurementCardDocument extends AccountingDocumentBase implements A
         }
     }
 
-
+    /**
+     * On procurement card documents, positive source amounts are credits, negative source amounts are debits.
+     * 
+     * @param transactionalDocument The document the accounting line being checked is located in.
+     * @param accountingLine The accounting line being analyzed.
+     * @return True if the accounting line given is a debit accounting line, false otherwise.
+     * @throws Throws an IllegalStateException if one of the following rules are violated: the accounting line amount
+     *         is zero or the accounting line is not an expense or income accounting line.
+     * 
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+        // disallow error correction
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
+        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
+    }
 }

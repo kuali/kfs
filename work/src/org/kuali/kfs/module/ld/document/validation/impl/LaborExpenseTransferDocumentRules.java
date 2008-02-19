@@ -631,17 +631,6 @@ public class LaborExpenseTransferDocumentRules extends AccountingDocumentRuleBas
     }
 
     /**
-     * Overriding hook into generate general ledger pending entries, so no GL pending entries are created.
-     * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    @Override
-    public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        return true;
-    }
-
-    /**
      * This method is the starting point for creating labor ledger pending entries. The logic used to create the LLPEs resides in
      * this method.
      * 

@@ -22,7 +22,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.AccountingPeriodService;
@@ -166,7 +166,8 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
             balanceType = SpringContext.getBean(BalanceTypService.class).getBalanceTypByCode(btStr);
         }
         assertGlobalErrorMapEmpty();
-        boolean result = AccountingDocumentRuleUtil.isValidBalanceType(balanceType, "code");
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        boolean result = accountingDocumentRuleUtil.isValidBalanceType(balanceType, "code");
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -211,7 +212,8 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      */
     protected void testIsValidOpenAccountingPeriod(AccountingPeriod period, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, KFSPropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        boolean result = accountingDocumentRuleUtil.isValidOpenAccountingPeriod(period, JournalVoucherDocument.class, KFSPropertyConstants.ACCOUNTING_PERIOD, DOES_NOT_MATTER);
         if (expected) {
             assertGlobalErrorMapEmpty();
         }
@@ -258,7 +260,8 @@ public class TransactionalDocumentRuleUtilTest extends KualiTestBase {
      */
     protected void testIsValidReversalDate(java.sql.Date reversalDate, boolean expected) {
         assertGlobalErrorMapEmpty();
-        boolean result = AccountingDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        boolean result = accountingDocumentRuleUtil.isValidReversalDate(reversalDate, getErrorPropertyName());
         if (expected) {
             assertGlobalErrorMapEmpty();
         }

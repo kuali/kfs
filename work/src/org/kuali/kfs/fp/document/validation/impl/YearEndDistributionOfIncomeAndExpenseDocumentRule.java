@@ -18,6 +18,7 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.DistributionOfIncomeAndExpenseDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
@@ -26,25 +27,6 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
  * Business rules applicable to <code>YearEndDistributionOfIncomeAndExpenseDocument</code>
  */
 public class YearEndDistributionOfIncomeAndExpenseDocumentRule extends DistributionOfIncomeAndExpenseDocumentRule {
-
-    /**
-     * This method calls the super class's overridden method to perform the general customization actions, then calls the 
-     * YearEndDocumentUtil matching method to perform year end specific customization activities.
-     * 
-     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
-     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
-     * @param explicitEntry The explicit general ledger pending entry to be customized.
-     * 
-     * @see org.kuali.module.financial.rules.DistributeOfIncomeAndExpenseDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-    }
 
     /**
      * Overriding to return the corresponding parent class DistributionOfIncomeAndExpenseDocument.

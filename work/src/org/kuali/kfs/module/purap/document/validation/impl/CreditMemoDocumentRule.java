@@ -541,23 +541,6 @@ public class CreditMemoDocumentRule extends AccountsPayableDocumentRuleBase {
     }
 
     /**
-     * Forces GL entries to be approved before document final approval.
-     * 
-     * @see org.kuali.module.purap.rules.PurapAccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-
-        CreditMemoDocument cm = (CreditMemoDocument) accountingDocument;
-
-        SpringContext.getBean(PurapGeneralLedgerService.class).customizeGeneralLedgerPendingEntry(cm, accountingLine, explicitEntry, cm.getPurchaseOrderIdentifier(), cm.getDebitCreditCodeForGLEntries(), PurapDocTypeCodes.CREDIT_MEMO_DOCUMENT, cm.isGenerateEncumbranceEntries());
-
-        // CMs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
-        explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-    }
-
-    /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#checkAccountingLineAccountAccessibility(org.kuali.kfs.document.AccountingDocument,
      *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.rules.AccountingDocumentRuleBase.AccountingLineAction)
      */

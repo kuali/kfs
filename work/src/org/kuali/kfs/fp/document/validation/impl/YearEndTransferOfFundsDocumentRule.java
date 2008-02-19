@@ -17,6 +17,7 @@ package org.kuali.module.financial.rules;
 
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.module.financial.document.TransferOfFundsDocument;
 import org.kuali.module.financial.document.YearEndDocumentUtil;
@@ -27,47 +28,6 @@ import org.kuali.module.financial.document.YearEndDocumentUtil;
  * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule
  */
 public class YearEndTransferOfFundsDocumentRule extends TransferOfFundsDocumentRule {
-
-    /**
-     * This method calls the super class's overridden method to perform the general customization actions, then calls the 
-     * YearEndDocumentUtil matching method to perform year end specific customization activities.
-     * 
-     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
-     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
-     * @param explicitEntry The explicit general ledger pending entry to be customized.
-     * 
-     * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        super.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-    }
-
-    /**
-     * This method calls the super class's overridden method to perform the general customization actions, then calls the
-     * YearEndDocumentUtil matching method to perform year end specific customization activities.
-     * 
-     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
-     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
-     * @param explicitEntry The explicit general ledger pending entry the offset entry is generated for.
-     * @param offsetEntry The offset general ledger pending entry being customized.
-     * @return True if the customization does not encounter any errors, false otherwise.
-     * 
-     * @see org.kuali.module.financial.rules.TransferOfFundsDocumentRule#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
-     *      org.kuali.kfs.bo.AccountingLine, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
-     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        boolean success = super.customizeOffsetGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry, offsetEntry);
-        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-        return success;
-    }
 
     /**
      * Overriding to return corresponding parent class TransferOfFunds.

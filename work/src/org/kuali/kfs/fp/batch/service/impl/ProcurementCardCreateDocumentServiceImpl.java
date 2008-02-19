@@ -45,8 +45,9 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.rule.event.DocumentSystemSaveEvent;
-import org.kuali.kfs.rules.AccountingLineRuleUtil;
+import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.batch.pcard.ProcurementCardAutoApproveDocumentsStep;
 import org.kuali.module.financial.batch.pcard.ProcurementCardCreateDocumentsStep;
@@ -77,6 +78,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
     private DataDictionaryService dataDictionaryService;
     private DateTimeService dateTimeService;
     private WorkflowDocumentService workflowDocumentService;
+    private AccountingLineRuleHelperService accountingLineRuleUtil;
 
 
     /**
@@ -501,7 +503,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
 
         targetLine.refresh();
 
-        if (!AccountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (!accountingLineRuleUtil.isValidObjectCode(targetLine.getObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Object Code " + targetLine.getFinancialObjectCode() + " is invalid; using default Object Code.";
             LOG.info(tempErrorText);
             errorText += " " + tempErrorText;
@@ -509,7 +511,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setFinancialObjectCode(getDefaultObjectCode());
         }
 
-        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !AccountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getSubAccountNumber()) && !accountingLineRuleUtil.isValidSubAccount(targetLine.getSubAccount(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Sub Account " + targetLine.getSubAccountNumber() + " is invalid; Setting Sub Account to blank.";
             LOG.info(tempErrorText);
             errorText += " " + tempErrorText;
@@ -520,7 +522,7 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
         // refresh again since further checks depend on the above attributes (which could have changed)
         targetLine.refresh();
 
-        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !AccountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getFinancialSubObjectCode()) && !accountingLineRuleUtil.isValidSubObjectCode(targetLine.getSubObjectCode(), dataDictionaryService.getDataDictionary())) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " Object Code " + targetLine.getFinancialObjectCode() + " Sub Object Code " + targetLine.getFinancialSubObjectCode() + " is invalid; setting Sub Object to blank.";
             LOG.info(tempErrorText);
             errorText += " " + tempErrorText;
@@ -528,14 +530,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
             targetLine.setFinancialSubObjectCode("");
         }
 
-        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !AccountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
+        if (StringUtils.isNotBlank(targetLine.getProjectCode()) && !accountingLineRuleUtil.isValidProjectCode(targetLine.getProject(), dataDictionaryService.getDataDictionary())) {
             LOG.info("Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.");
             errorText += " Project Code " + targetLine.getProjectCode() + " is invalid; setting to blank.";
 
             targetLine.setProjectCode("");
         }
 
-        if (!AccountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
+        if (!accountingLineRuleUtil.isValidAccount(targetLine.getAccount(), dataDictionaryService.getDataDictionary()) || targetLine.getAccount().isExpired()) {
             String tempErrorText = "Chart " + targetLine.getChartOfAccountsCode() + " Account " + targetLine.getAccountNumber() + " is invalid; using error account.";
             LOG.info(tempErrorText);
             errorText += " " + tempErrorText;
@@ -696,6 +698,14 @@ public class ProcurementCardCreateDocumentServiceImpl implements ProcurementCard
      */
     public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
         this.workflowDocumentService = workflowDocumentService;
+    }
+
+    /**
+     * Sets the accountingLineRuleUtil attribute value.
+     * @param accountingLineRuleUtil The accountingLineRuleUtil to set.
+     */
+    public void setAccountingLineRuleUtil(AccountingLineRuleHelperService accountingLineRuleUtil) {
+        this.accountingLineRuleUtil = accountingLineRuleUtil;
     }
 
 }

@@ -45,16 +45,6 @@ public class CustomerInvoiceDocumentRule extends AccountingDocumentRuleBase impl
     private CustomerInvoiceDocument customerInvoiceDocument = null;
 
     /**
-     * This method has to be here because all subclasses of AccountingDocumentRulsBase must implement this method.
-     * 
-     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument, org.kuali.kfs.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    /**
      * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#processCustomApproveDocumentBusinessRules(org.kuali.core.rule.event.ApproveDocumentEvent)
      */
     @Override

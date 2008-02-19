@@ -20,10 +20,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.GeneralLedgerPostingDocument;
+import org.kuali.kfs.document.GeneralLedgerPoster;
 import org.kuali.module.chart.bo.Account;
+import org.kuali.module.financial.bo.BankAccount;
 import org.kuali.module.gl.bo.Balance;
 import org.kuali.module.gl.bo.Encumbrance;
 
@@ -104,7 +108,7 @@ public interface GeneralLedgerPendingEntryService {
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPostingDocument document);
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPoster document);
 
     /**
      * The fiscal year and period is null in quite a few glpe's. This will put in a sensible default.

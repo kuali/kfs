@@ -57,10 +57,11 @@ import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.ObjectType;
@@ -156,111 +157,28 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     @Override
     public boolean processCustomSaveDocumentBusinessRules(Document document) {
         JournalVoucherDocument jvDoc = (JournalVoucherDocument) document;
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
 
         boolean valid = true;
 
         // check the selected balance type
         jvDoc.refreshReferenceObject(BALANCE_TYPE);
         BalanceTyp balanceType = jvDoc.getBalanceType();
-        valid &= AccountingDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE);
+        valid &= accountingDocumentRuleUtil.isValidBalanceType(balanceType, JournalVoucherDocument.class, BALANCE_TYPE_CODE, DOCUMENT_ERROR_PREFIX + BALANCE_TYPE_CODE);
 
         // check the selected accounting period
         jvDoc.refreshReferenceObject(ACCOUNTING_PERIOD);
         AccountingPeriod accountingPeriod = jvDoc.getAccountingPeriod();
         // KFSPropertyConstants.SELECTED_ACCOUNTING_PERIOD is on JournalVoucherForm, not JournalVoucherDocument
-        valid &= AccountingDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class, ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD);
+        valid &= accountingDocumentRuleUtil.isValidOpenAccountingPeriod(accountingPeriod, JournalVoucherDocument.class, ACCOUNTING_PERIOD, DOCUMENT_ERROR_PREFIX + SELECTED_ACCOUNTING_PERIOD);
 
         // check the chosen reversal date, only if they entered a value
         if (null != jvDoc.getReversalDate()) {
             java.sql.Date reversalDate = jvDoc.getReversalDate();
-            valid &= AccountingDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
+            valid &= accountingDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
         }
 
         return valid;
-    }
-
-    /**
-     * 
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#getGeneralLedgerPendingEntryAmountForAccountingLine(org.kuali.kfs.bo.AccountingLine)
-     */
-    @Override
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
-        KualiDecimal returnKualiDecimal;
-
-        String budgetCodes = SpringContext.getBean(OptionsService.class).getOptions(accountingLine.getPostingYear()).getBudgetCheckingBalanceTypeCd();
-        if (budgetCodes.contains(accountingLine.getBalanceTypeCode())) {
-            returnKualiDecimal = accountingLine.getAmount();
-        }
-        else {
-            returnKualiDecimal = accountingLine.getAmount().abs();
-        }
-        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
-        return returnKualiDecimal;
-    }
-
-    /**
-     * This method sets attributes on the explicitly general ledger pending entry specific to JournalVoucher documents.
-     * This includes setting the accounting period code and year (as selected by the user, the object type code,
-     * the balance type code, the debit/credit code, the encumbrance update code and the reversal date.
-     * 
-     * @param financialDocument The document which contains the general ledger pending entry being modified.
-     * @param accountingLine The accounting line the explicit entry was generated from.
-     * @param explicitEntry The explicit entry being updated.
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        JournalVoucherDocument jvDoc = (JournalVoucherDocument) financialDocument;
-
-        // set the appropriate accounting period values according to the values chosen by the user
-        explicitEntry.setUniversityFiscalPeriodCode(jvDoc.getPostingPeriodCode());
-        explicitEntry.setUniversityFiscalYear(jvDoc.getPostingYear());
-
-        // set the object type code directly from what was entered in the interface
-        explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectTypeCode());
-
-        // set the balance type code directly from what was entered in the interface
-        explicitEntry.setFinancialBalanceTypeCode(accountingLine.getBalanceTypeCode());
-
-        // set the debit/credit code appropriately
-        jvDoc.refreshReferenceObject(BALANCE_TYPE);
-        if (jvDoc.getBalanceType().isFinancialOffsetGenerationIndicator()) {
-            explicitEntry.setTransactionDebitCreditCode(getEntryValue(accountingLine.getDebitCreditCode(), BLANK_SPACE));
-        }
-        else {
-            explicitEntry.setTransactionDebitCreditCode(BLANK_SPACE);
-        }
-
-        // set the encumbrance update code
-        explicitEntry.setTransactionEncumbranceUpdateCode(getEntryValue(accountingLine.getEncumbranceUpdateCode(), BLANK_SPACE));
-
-        // set the reversal date to what what specified at the document level
-        if (jvDoc.getReversalDate() != null) {
-            explicitEntry.setFinancialDocumentReversalDate(jvDoc.getReversalDate());
-        }
-    }
-
-    /**
-     * A Journal Voucher document doesn't generate an offset entry at all, so this method overrides to do nothing more than return
-     * true. This will be called by the parent's processGeneralLedgerPendingEntries method.
-     * 
-     * @param financialDocument The document the offset will be stored within.
-     * @param sequenceHelper The sequence object to be modified.
-     * @param accountingLineToCopy The accounting line the offset is generated for.
-     * @param explicitEntry The explicit entry the offset will be generated for.
-     * @param offsetEntry The offset entry to be processed.
-     * @return This method always returns true.
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#processOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper, org.kuali.core.bo.AccountingLine,
-     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    @Override
-    protected boolean processOffsetGeneralLedgerPendingEntry(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLineCopy, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        sequenceHelper.decrement(); // the parent already increments; assuming that all documents have offset entries
-        return true;
     }
 
     // Overridden Helper Methods
@@ -433,7 +351,8 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
     protected boolean isExternalEncumbranceSpecificBusinessRulesValid(AccountingLine accountingLine) {
         // make sure that the line contains a proper balance type like it should
         BalanceTyp balanceType = accountingLine.getBalanceTyp();
-        if (!AccountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        if (!accountingDocumentRuleUtil.isValidBalanceType(balanceType, GENERIC_CODE_PROPERTY_NAME)) {
             return false;
         }
         else if (BALANCE_TYPE_EXTERNAL_ENCUMBRANCE.equals(balanceType.getCode())) {
@@ -495,35 +414,6 @@ public class JournalVoucherDocumentRule extends AccountingDocumentRuleBase {
             return false;
         }
 
-    }
-
-    /**
-     * The following are credits (return false)
-     * <ol>
-     * <li> (debitCreditCode isNotBlank) && debitCreditCode != 'D'
-     * </ol>
-     * 
-     * The following are debits (return true)
-     * <ol>
-     * <li> debitCreditCode == 'D'
-     * <li> debitCreditCode isBlank
-     * </ol>
-     * 
-     * @param financialDocument The document which contains the accounting line being analyzed.
-     * @param accountingLine The accounting line which will be analyzed to determine if it is a debit line.
-     * @return True if the accounting line provided is a debit accounting line, false otherwise.
-     * @throws IllegalStateException Thrown by method IsDebitUtiles.isDebitCode()
-     * 
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitCode(String)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) throws IllegalStateException {
-        String debitCreditCode = accountingLine.getDebitCreditCode();
-
-        boolean isDebit = StringUtils.isBlank(debitCreditCode) || IsDebitUtils.isDebitCode(debitCreditCode);
-
-        return isDebit;
     }
 
     // /**

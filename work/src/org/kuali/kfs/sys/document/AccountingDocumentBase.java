@@ -24,12 +24,15 @@ import java.util.Map;
 import org.kuali.core.document.TransactionalDocument;
 import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
@@ -41,19 +44,22 @@ import org.kuali.kfs.rule.event.ReviewAccountingLineEvent;
 import org.kuali.kfs.rule.event.UpdateAccountingLineEvent;
 import org.kuali.kfs.service.AccountingLineService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 /**
  * Base implementation class for financial edocs.
  */
-public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument {
+public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumentBase implements AccountingDocument, GeneralLedgerPoster {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentBase.class);
 
     protected Integer nextSourceLineNumber;
     protected Integer nextTargetLineNumber;
     protected List sourceAccountingLines;
     protected List targetAccountingLines;
+    
+    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
 
     /**
      * Default constructor.
@@ -291,6 +297,29 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
     public String getTargetAccountingLineEntryName() {
         return this.getTargetAccountingLineClass().getName();
     }
+    
+    public List<GeneralLedgerPostable> getGeneralLedgerPostables() {
+        List<GeneralLedgerPostable> accountingLines = new ArrayList<GeneralLedgerPostable>();
+        if (getSourceAccountingLines() != null) {
+            Iterator iter = getSourceAccountingLines().iterator();
+            while (iter.hasNext()) {
+                accountingLines.add((GeneralLedgerPostable)iter.next());
+            }
+        }
+        if (getTargetAccountingLines() != null) {
+            Iterator iter = getTargetAccountingLines().iterator();
+            while (iter.hasNext()) {
+                accountingLines.add((GeneralLedgerPostable)iter.next());
+            }
+        }
+        return accountingLines;
+    }
+    
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {}
+    
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        return true;
+    }
 
     /**
      * @see org.kuali.kfs.document.GeneralLedgerPostingDocumentBase#toCopy()
@@ -521,4 +550,25 @@ public abstract class AccountingDocumentBase extends GeneralLedgerPostingDocumen
 
         return lineMap;
     }
+
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     */
+    public abstract boolean isDebit(GeneralLedgerPostable postable);
+
+    /**
+     * Most accounting documents don't need to generate document level GLPE's, so don't do anything in the default implementation
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {}
+
+    /**
+     * Returns an instance of org.kuali.kfs.service.impl.GenericGeneralLedgerPostingHelperImpl; this will suffice for most accounting documents 
+     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     */
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(AccountingDocumentBase.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
+    }
+    
 }

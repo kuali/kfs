@@ -28,7 +28,7 @@ import org.kuali.kfs.bo.TargetAccountingLine;
  * place to facilitate the CashManagementDocument which is a Financial Transaction module document, but doesn't have accounting
  * lines.
  */
-public interface AccountingDocument extends GeneralLedgerPostingDocument {
+public interface AccountingDocument extends GeneralLedgerPostingDocument, GeneralLedgerPoster {
     /**
      * This method is used to return the title that a transactional document should give to it's source accounting line section.
      * 

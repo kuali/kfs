@@ -16,19 +16,34 @@
 
 package org.kuali.module.financial.document;
 
+import static org.kuali.core.util.AssertionUtils.assertThat;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.core.service.DateTimeService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
+import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.KFSConstants.DepositConstants;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.document.GeneralLedgerPostingDocumentBase;
+import org.kuali.kfs.document.GeneralLedgerPoster;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.module.financial.bo.CashDrawer;
 import org.kuali.module.financial.bo.CashieringItemInProcess;
 import org.kuali.module.financial.bo.CashieringTransaction;
@@ -36,11 +51,12 @@ import org.kuali.module.financial.bo.Check;
 import org.kuali.module.financial.bo.Deposit;
 import org.kuali.module.financial.service.CashDrawerService;
 import org.kuali.module.financial.service.CashManagementService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 /**
  * This class represents the CashManagementDocument.
  */
-public class CashManagementDocument extends AccountingDocumentBase {
+public class CashManagementDocument extends GeneralLedgerPostingDocumentBase implements GeneralLedgerPoster {
     private static final long serialVersionUID = 7475843770851900297L;
     private static Logger LOG = Logger.getLogger(CashManagementDocument.class);
 
@@ -53,6 +69,8 @@ public class CashManagementDocument extends AccountingDocumentBase {
 
     private transient CashieringTransaction currentTransaction;
     private CashDrawer cashDrawer;
+    
+    private final static String GENERAL_LEDGER_POSTING_HELPER_BEAN_ID = "kfsGenericGeneralLedgerPostingHelper";
 
     /**
      * Default constructor.
@@ -366,6 +384,147 @@ public class CashManagementDocument extends AccountingDocumentBase {
             }
             currentTransaction.setNextCheckSequenceId(SpringContext.getBean(CashManagementService.class).selectNextAvailableCheckLineNumber(this.documentNumber));
         }
+    }
+
+
+    /**
+     * Does nothing, as there aren't any accounting lines on this doc, so no GeneralLedgerPostable create GLPEs
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPostable, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {}
+
+
+    /**
+     * Does nothing save return true, as this document has no GLPEs created from a source of GeneralLedgerPostables
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#customizeOffsetGeneralLedgerPendingEntry(org.kuali.kfs.bo.GeneralLedgerPostable, org.kuali.kfs.bo.GeneralLedgerPendingEntry, org.kuali.kfs.bo.GeneralLedgerPendingEntry)
+     */
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        return true;
+    }
+
+
+    /**
+     * Returns an empty list as this document has no GeneralLedgerPostables
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#getGeneralLedgerPostables()
+     */
+    public List<GeneralLedgerPostable> getGeneralLedgerPostables() {
+        return new ArrayList<GeneralLedgerPostable>();
+    }
+
+
+    /**
+     * Always returns true, as there are no GeneralLedgerPostables to create GLPEs
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        return true;
+    }
+
+
+    /**
+     * Generates bank offset GLPEs for deposits, if enabled.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param sequenceHelper helper class to keep track of sequence of general ledger pending entries
+     * @see org.kuali.kfs.document.GeneralLedgerPostingHelper#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        boolean success = true;
+        if (isBankCashOffsetEnabled()) {
+            GeneralLedgerPostingHelper glPostingHelper = getGeneralLedgerPostingHelper();
+            Integer universityFiscalYear = getUniversityFiscalYear();
+            int interimDepositNumber = 1;
+            for (Iterator iterator = getDeposits().iterator(); iterator.hasNext();) {
+                // todo: getDeposits() should return List<Deposit> not List
+                Deposit deposit = (Deposit) iterator.next();
+                deposit.refreshReferenceObject(KFSPropertyConstants.BANK_ACCOUNT);
+
+                GeneralLedgerPendingEntry bankOffsetEntry = new GeneralLedgerPendingEntry();
+                if (!glPostingHelper.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), deposit.getDepositAmount(), this, universityFiscalYear, sequenceHelper, bankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                    success = false;
+                    LOG.warn("Skipping ledger entries for depost " + deposit.getDepositTicketNumber() + ".");
+                    continue; // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at
+                    // all.
+                }
+                bankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
+                getGeneralLedgerPendingEntries().add(bankOffsetEntry);
+                sequenceHelper.increment();
+
+                GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(bankOffsetEntry);
+                success &= glPostingHelper.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, bankOffsetEntry, sequenceHelper, offsetEntry);
+                getGeneralLedgerPendingEntries().add(offsetEntry);
+                sequenceHelper.increment();
+                /*
+                 * Only the final deposit will have non-null currency and coin. If this is the final deposit, generate the ledger
+                 * entries for currency and coin.
+                 */
+                if (deposit.getDepositTypeCode().equals(KFSConstants.DocumentStatusCodes.CashReceipt.FINAL)) {
+                    KualiDecimal totalCoinCurrencyAmount = deposit.getDepositedCurrency().getTotalAmount().add(deposit.getDepositedCoin().getTotalAmount());
+                    GeneralLedgerPendingEntry coinCurrencyBankOffsetEntry = new GeneralLedgerPendingEntry();
+                    if (!glPostingHelper.populateBankOffsetGeneralLedgerPendingEntry(deposit.getBankAccount(), totalCoinCurrencyAmount, this, universityFiscalYear, sequenceHelper, coinCurrencyBankOffsetEntry, KFSConstants.CASH_MANAGEMENT_DEPOSIT_ERRORS)) {
+                        success = false;
+                        // An unsuccessfully populated bank offset entry may contain invalid relations, so don't add it at all.
+                        LOG.warn("Skipping ledger entries for coin and currency.");
+                        continue;
+                    }
+
+                    coinCurrencyBankOffsetEntry.setTransactionLedgerEntryDescription(createDescription(deposit, interimDepositNumber++));
+                    getGeneralLedgerPendingEntries().add(coinCurrencyBankOffsetEntry);
+                    sequenceHelper.increment();
+
+                    GeneralLedgerPendingEntry coinCurrnecyOffsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(coinCurrencyBankOffsetEntry);
+                    success &= glPostingHelper.populateOffsetGeneralLedgerPendingEntry(universityFiscalYear, coinCurrencyBankOffsetEntry, sequenceHelper, coinCurrnecyOffsetEntry);
+                    getGeneralLedgerPendingEntries().add(coinCurrnecyOffsetEntry);
+                    sequenceHelper.increment();
+
+                }
+
+            }
+
+        }
+    }
+    
+    /**
+     * Create description for deposit
+     * 
+     * @param deposit deposit from cash management document
+     * @param interimDepositNumber
+     * @return the description for the given deposit's GLPE bank offset
+     */
+    private static String createDescription(Deposit deposit, int interimDepositNumber) {
+        String descriptionKey;
+        if (KFSConstants.DepositConstants.DEPOSIT_TYPE_FINAL.equals(deposit.getDepositTypeCode())) {
+            descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_FINAL;
+        }
+        else {
+            assertThat(KFSConstants.DepositConstants.DEPOSIT_TYPE_INTERIM.equals(deposit.getDepositTypeCode()), deposit.getDepositTypeCode());
+            descriptionKey = KFSKeyConstants.CashManagement.DESCRIPTION_GLPE_BANK_OFFSET_INTERIM;
+        }
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        return accountingDocumentRuleUtil.formatProperty(descriptionKey, interimDepositNumber);
+    }
+
+    /**
+     * Gets the fiscal year for the GLPEs generated by this document. This works the same way as in TransactionalDocumentBase. The
+     * property is down in TransactionalDocument because no FinancialDocument (currently only CashManagementDocument) allows the
+     * user to override it. So, that logic is duplicated here. A comment in TransactionalDocumentBase says that this implementation
+     * is a hack right now because it's intended to be set by the
+     * <code>{@link org.kuali.module.chart.service.AccountingPeriodService}</code>, which suggests to me that pulling that
+     * property up to FinancialDocument is preferable to duplicating this logic here.
+     * 
+     * @return the fiscal year for the GLPEs generated by this document
+     */
+    private Integer getUniversityFiscalYear() {
+        return SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear();
+    }
+
+
+    /**
+     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     */
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(CashManagementDocument.GENERAL_LEDGER_POSTING_HELPER_BEAN_ID);
     }
 
 }

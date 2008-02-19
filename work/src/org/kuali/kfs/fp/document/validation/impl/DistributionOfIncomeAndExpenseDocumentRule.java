@@ -26,21 +26,6 @@ import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 public class DistributionOfIncomeAndExpenseDocumentRule extends AccountingDocumentRuleBase implements DistributionOfIncomeAndExpenseDocumentRuleConstants {
 
     /**
-     * Return true if account line is debit
-     * 
-     * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line from accounting document
-     * @return true is account line is debit
-     * 
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, financialDocument, accountingLine);
-    }
-
-    /**
      * The DI allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
      * it. The balancing rules take care of validation of amounts.
      * 

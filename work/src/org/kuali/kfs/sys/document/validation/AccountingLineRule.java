@@ -87,22 +87,4 @@ public interface AccountingLineRule<F extends AccountingDocument> extends Busine
      * @return boolean
      */
     public boolean isFundGroupAllowed(Class documentClass, AccountingLine accountingLine);
-
-    /**
-     * This method determines if the passed in accounting line is a debit or not.
-     * 
-     * @param financialDocument
-     * @param accountingLine
-     * @return boolean
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine);
-
-    /**
-     * This method determines if the passed in accounting line is a credit or not.
-     * 
-     * @param accountingLine
-     * @param financialDocument TODO
-     * @return boolean
-     */
-    public boolean isCredit(AccountingLine accountingLine, F financialDocument);
 }

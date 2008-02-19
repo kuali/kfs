@@ -24,9 +24,13 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.AccountingLineParserBase;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.bo.InternalBillingItem;
 
 
@@ -154,5 +158,21 @@ public class InternalBillingDocument extends AccountingDocumentBase implements C
     @Override
     public AccountingLineParser getAccountingLineParser() {
         return new AccountingLineParserBase();
+    }
+    
+    /**
+     * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
+     * 
+     * @param transactionalDocument The document containing the accounting line being analyzed.
+     * @param accountingLine The accounting line being reviewed to determine if it is a debit line or not.
+     * @return True if the accounting line is a debit accounting line, false otherwise.
+     * 
+     * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        return isDebitUtils.isDebitConsideringSection(this, (AccountingLine)postable);
     }
 }

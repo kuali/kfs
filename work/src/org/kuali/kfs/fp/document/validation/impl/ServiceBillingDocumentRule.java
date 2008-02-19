@@ -90,43 +90,4 @@ public class ServiceBillingDocumentRule extends InternalBillingDocumentRule {
         }
         return true;
     }
-
-    /**
-     * This method sets extra accounting line fields in explicit general ledger pending entries. Internal billing transactions 
-     * don't have this field.
-     * 
-     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
-     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
-     * @param explicitEntry The explicit general ledger pending entry to be customized.
-     * 
-     * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        String description = accountingLine.getFinancialDocumentLineDescription();
-        if (StringUtils.isNotBlank(description)) {
-            explicitEntry.setTransactionLedgerEntryDescription(description);
-        }
-    }
-
-    /**
-     * This method further restricts the valid accounting line types exclusively to those with income or expense 
-     * object type codes only.  This is done by calling isIncome() and isExpense() passing the accounting line.  
-     * 
-     * @param financialDocument The document used to determine if the accounting line is a debit line.
-     * @param accountingLine The accounting line to be analyzed.
-     * @return True if the accounting line passed in is an expense or income accounting line and meets the rules defined
-     * by super.isDebit() method.
-     * 
-     * @see org.kuali.module.financial.rules.InternalBillingDocumentRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    @Override
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        if (!isIncome(accountingLine) && !isExpense(accountingLine)) {
-            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-        }
-
-        return super.isDebit(financialDocument, accountingLine);
-    }
 }

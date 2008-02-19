@@ -41,6 +41,7 @@ import org.kuali.core.workflow.service.WorkflowDocumentService;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ConciseXmlDocumentConversionService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.service.UniversityDateService;
 import org.kuali.module.purap.PurapConstants;
@@ -85,6 +86,8 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
     private KualiDecimal organizationAutomaticPurchaseOrderLimit;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
+    
+    private final static String REQUESITION_GL_POSTING_HELPER_BEAN_ID = "requisitionGeneralLedgerPostingHelper";
     
     /**
      * Default constructor.
@@ -564,5 +567,14 @@ public class RequisitionDocument extends PurchasingDocumentBase implements Copya
      * @deprecated
      */
     public void setStatusDescription(String statusDescription) {
+    }
+    
+    /**
+     * Returns an instance of org.kuali.module.purap.service.impl.RequistionGeneralLedgerPostingHelperImpl, which will not generate GL pending entries for this document 
+     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     */
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(RequisitionDocument.REQUESITION_GL_POSTING_HELPER_BEAN_ID);
     }
 }

@@ -290,24 +290,6 @@ public class ProcurementCardDocumentRule extends AccountingDocumentRuleBase {
     }
 
     /**
-     * On procurement card documents, positive source amounts are credits, negative source amounts are debits.
-     * 
-     * @param transactionalDocument The document the accounting line being checked is located in.
-     * @param accountingLine The accounting line being analyzed.
-     * @return True if the accounting line given is a debit accounting line, false otherwise.
-     * @throws Throws an IllegalStateException if one of the following rules are violated: the accounting line amount
-     *         is zero or the accounting line is not an expense or income accounting line.
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#isDebit(FinancialDocument, org.kuali.core.bo.AccountingLine)
-     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-        // disallow error correction
-        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, transactionalDocument);
-        return IsDebitUtils.isDebitConsideringSection(this, transactionalDocument, accountingLine);
-    }
-
-    /**
      * This method determines if an account associated with the given accounting line is accessible (ie. editable).  
      * 
      * This method performs an additional check by looking at the status of the document passed in if the 

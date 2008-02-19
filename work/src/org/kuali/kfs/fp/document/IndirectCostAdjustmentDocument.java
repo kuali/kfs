@@ -20,11 +20,14 @@ import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.financial.bo.IndirectCostAdjustmentDocumentAccountingLineParser;
 import org.kuali.module.financial.rules.IndirectCostAdjustmentDocumentRuleConstants;
@@ -100,5 +103,38 @@ public class IndirectCostAdjustmentDocument extends AccountingDocumentBase imple
     @Override
     public AccountingLineParser getAccountingLineParser() {
         return new IndirectCostAdjustmentDocumentAccountingLineParser();
+    }
+    
+    /**
+     * Same logic as <code>IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)</code>
+     * but has the following accounting line restrictions: 
+     * 
+     * for grant lines(source):
+     * <ol>
+     * <li>only allow expense object type codes
+     * </ol>
+     * for receipt lines(target):
+     * <ol>
+     * <li>only allow income object type codes
+     * </ol>
+     * 
+     * @param transactionDocument The document associated with the accounting line being reviewed to determine if it's a debit.
+     * @param accountingLine The accounting line being reviewed to determine if it's a debit line.
+     * @return True if the accounting line is a debit.  See IsDebitUtils.isDebitConsideringType().
+     * @throws IllegalStateException Thrown if the accounting line given is a source accounting line representing an expense
+     * or is a target accounting line representing an income.
+     * 
+     * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+        AccountingLine accountingLine = (AccountingLine)postable;
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        if (!(accountingLine.isSourceAccountingLine() && isDebitUtils.isExpense(accountingLine)) && !(accountingLine.isTargetAccountingLine() && isDebitUtils.isIncome(accountingLine))) {
+            throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
+        }
+
+        return isDebitUtils.isDebitConsideringType(this, accountingLine);
     }
 }

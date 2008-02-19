@@ -17,8 +17,6 @@ package org.kuali.kfs.rules;
 
 import static org.kuali.kfs.KFSConstants.ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.AMOUNT_PROPERTY_NAME;
-import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
-import static org.kuali.kfs.KFSConstants.BLANK_SPACE;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERRORS;
 import static org.kuali.kfs.KFSConstants.SOURCE_ACCOUNTING_LINE_ERROR_PATTERN;
 import static org.kuali.kfs.KFSConstants.TARGET_ACCOUNTING_LINE_ERRORS;
@@ -49,7 +47,6 @@ import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATIO
 import static org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.APPLICATION_PARAMETER.RESTRICTED_SUB_FUND_GROUP_CODES;
 
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -64,16 +61,12 @@ import org.kuali.core.exceptions.ValidationException;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rule.event.BlanketApproveDocumentEvent;
 import org.kuali.core.service.DataDictionaryService;
-import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.DictionaryValidationService;
 import org.kuali.core.service.DocumentService;
-import org.kuali.core.service.DocumentTypeService;
 import org.kuali.core.util.ErrorMessage;
 import org.kuali.core.util.ExceptionUtils;
-import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.KFSConstants;
@@ -86,19 +79,15 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AddAccountingLineRule;
 import org.kuali.kfs.rule.DeleteAccountingLineRule;
-import org.kuali.kfs.rule.GenerateGeneralLedgerPendingEntriesRule;
 import org.kuali.kfs.rule.ReviewAccountingLineRule;
 import org.kuali.kfs.rule.SufficientFundsCheckingPreparationRule;
 import org.kuali.kfs.rule.UpdateAccountingLineRule;
+import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
-import org.kuali.kfs.service.HomeOriginationService;
-import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterEvaluator;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.kfs.service.impl.ParameterConstants;
 import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.bo.ObjectCode;
-import org.kuali.module.gl.service.SufficientFundsService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -106,7 +95,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This class contains all of the business rules that are common to all of the Financial Transaction Processing documents. Any
  * document specific business rules are contained within the specific child class that extends off of this one.
  */
-public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, GenerateGeneralLedgerPendingEntriesRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
+public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDocumentRuleBase implements AddAccountingLineRule<AccountingDocument>, DeleteAccountingLineRule<AccountingDocument>, UpdateAccountingLineRule<AccountingDocument>, ReviewAccountingLineRule<AccountingDocument>, SufficientFundsCheckingPreparationRule, AccountingDocumentRuleBaseConstants {
     protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AccountingDocumentRuleBase.class);
     private ParameterService parameterService;
 
@@ -572,7 +561,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
             // Perform the standard accounting line rule checking - checks activity
             // of each attribute in addition to existence
-            valid &= AccountingLineRuleUtil.validateAccountingLine(accountingLine, SpringContext.getBean(DataDictionaryService.class));
+            valid &= SpringContext.getBean(AccountingLineRuleHelperService.class).validateAccountingLine(accountingLine);
 
             if (valid) { // the following checks assume existence, so if the above method failed, we don't want to call these
                 Class documentClass = getAccountingLineDocumentClass(financialDocument);
@@ -623,116 +612,7 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
         return financialDocument.getClass();
     }
 
-    /**
-     * Perform business rules common to all transactional documents when generating general ledger pending entries.
-     * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerPendingEntriesRule#processGenerateGeneralLedgerPendingEntries(org.kuali.core.document.AccountingDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    public boolean processGenerateGeneralLedgerPendingEntries(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - start");
-
-        // handle the explicit entry
-        // create a reference to the explicitEntry to be populated, so we can pass to the offset method later
-        boolean success = true;
-        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry();
-        success &= processExplicitGeneralLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, explicitEntry);
-
-        // increment the sequence counter
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        success &= processOffsetGeneralLedgerPendingEntry(accountingDocument, sequenceHelper, accountingLine, explicitEntry, offsetEntry);
-
-        // handle the situation where the document is an error correction or is corrected
-        handleDocumentErrorCorrection(accountingDocument, accountingLine);
-
-        LOG.debug("processGenerateGeneralLedgerPendingEntries(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper) - end");
-        return success;
-    }
-
     // Transactional Document Specific Rule Implementations
-    /**
-     * This method processes all necessary information to build an explicit general ledger entry, and then adds that to the
-     * document.
-     * 
-     * @param accountingDocument
-     * @param sequenceHelper
-     * @param accountingLine
-     * @param explicitEntry
-     * @return boolean True if the explicit entry generation was successful, false otherwise.
-     */
-    protected boolean processExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - start");
-
-        // populate the explicit entry
-        populateExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, sequenceHelper, explicitEntry);
-
-        // hook for children documents to implement document specific GLPE field mappings
-        customizeExplicitGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry);
-
-        // add the new explicit entry to the document now
-        accountingDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
-
-        LOG.debug("processExplicitGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry) - end");
-        return true;
-    }
-
-    /**
-     * This method processes an accounting line's information to build an offset entry, and then adds that to the document.
-     * 
-     * @param accountingDocument
-     * @param sequenceHelper
-     * @param accountingLine
-     * @param explicitEntry
-     * @param offsetEntry
-     * @return boolean True if the offset generation is successful.
-     */
-    protected boolean processOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        LOG.debug("processOffsetGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - start");
-
-        boolean success = true;
-        // populate the offset entry
-        success &= populateOffsetGeneralLedgerPendingEntry(accountingDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-
-        // hook for children documents to implement document specific field mappings for the GLPE
-        success &= customizeOffsetGeneralLedgerPendingEntry(accountingDocument, accountingLine, explicitEntry, offsetEntry);
-
-        // add the new offset entry to the document now
-        accountingDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
-
-        LOG.debug("processOffsetGeneralLedgerPendingEntry(AccountingDocument, GeneralLedgerPendingEntrySequenceHelper, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - end");
-        return success;
-    }
-
-    /**
-     * This method can be overridden to set attributes on the explicit entry in a way specific to a particular document. By default
-     * the explicit entry is returned without modification.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-    }
-
-    /**
-     * This method can be overridden to set attributes on the offset entry in a way specific to a particular document. By default
-     * the offset entry is not modified.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param explicitEntry
-     * @param offsetEntry
-     * @return whether the offset generation is successful
-     */
-    protected boolean customizeOffsetGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
-        LOG.debug("customizeOffsetGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - start");
-
-        LOG.debug("customizeOffsetGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntry, GeneralLedgerPendingEntry) - end");
-        return true;
-    }
 
     /**
      * Checks accounting line totals for approval to make sure that they have not changed.
@@ -1015,209 +895,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
     }
 
     // Other Helper Methods
-    /**
-     * This populates an empty GeneralLedgerPendingEntry explicitEntry object instance with default values.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     * @param sequenceHelper
-     * @param explicitEntry
-     */
-    protected void populateExplicitGeneralLedgerPendingEntry(AccountingDocument accountingDocument, AccountingLine accountingLine, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, GeneralLedgerPendingEntry explicitEntry) {
-        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - start");
-
-        explicitEntry.setFinancialDocumentTypeCode(SpringContext.getBean(DocumentTypeService.class).getDocumentTypeCodeByClass(accountingDocument.getClass()));
-        explicitEntry.setVersionNumber(new Long(1));
-        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        Timestamp transactionTimestamp = new Timestamp(SpringContext.getBean(DateTimeService.class).getCurrentDate().getTime());
-        explicitEntry.setTransactionDate(new java.sql.Date(transactionTimestamp.getTime()));
-        explicitEntry.setTransactionEntryProcessedTs(new java.sql.Date(transactionTimestamp.getTime()));
-        explicitEntry.setAccountNumber(accountingLine.getAccountNumber());
-        if (accountingLine.getAccount().getAccountSufficientFundsCode() == null) {
-            accountingLine.getAccount().setAccountSufficientFundsCode(KFSConstants.SF_TYPE_NO_CHECKING);
-        }
-        explicitEntry.setAcctSufficientFundsFinObjCd(SpringContext.getBean(SufficientFundsService.class).getSufficientFundsObjectCode(accountingLine.getObjectCode(), accountingLine.getAccount().getAccountSufficientFundsCode()));
-        explicitEntry.setFinancialDocumentApprovedCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.NO);
-        explicitEntry.setTransactionEncumbranceUpdateCode(BLANK_SPACE);
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL); // this is the default that most documents use
-        explicitEntry.setChartOfAccountsCode(accountingLine.getChartOfAccountsCode());
-        explicitEntry.setTransactionDebitCreditCode(isDebit(accountingDocument, accountingLine) ? KFSConstants.GL_DEBIT_CODE : KFSConstants.GL_CREDIT_CODE);
-        explicitEntry.setFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
-        explicitEntry.setDocumentNumber(accountingLine.getDocumentNumber());
-        explicitEntry.setFinancialObjectCode(accountingLine.getFinancialObjectCode());
-        ObjectCode objectCode = accountingLine.getObjectCode();
-        if (ObjectUtils.isNull(objectCode)) {
-            accountingLine.refreshReferenceObject("objectCode");
-        }
-        explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectCode().getFinancialObjectTypeCode());
-        explicitEntry.setOrganizationDocumentNumber(accountingDocument.getDocumentHeader().getOrganizationDocumentNumber());
-        explicitEntry.setOrganizationReferenceId(accountingLine.getOrganizationReferenceId());
-        explicitEntry.setProjectCode(getEntryValue(accountingLine.getProjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode()));
-        explicitEntry.setReferenceFinancialDocumentNumber(getEntryValue(accountingLine.getReferenceNumber(), BLANK_SPACE));
-        explicitEntry.setReferenceFinancialDocumentTypeCode(getEntryValue(accountingLine.getReferenceTypeCode(), BLANK_SPACE));
-        explicitEntry.setReferenceFinancialSystemOriginationCode(getEntryValue(accountingLine.getReferenceOriginCode(), BLANK_SPACE));
-        explicitEntry.setSubAccountNumber(getEntryValue(accountingLine.getSubAccountNumber(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber()));
-        explicitEntry.setFinancialSubObjectCode(getEntryValue(accountingLine.getFinancialSubObjectCode(), GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode()));
-        explicitEntry.setTransactionEntryOffsetIndicator(false);
-        explicitEntry.setTransactionLedgerEntryAmount(getGeneralLedgerPendingEntryAmountForAccountingLine(accountingLine));
-        explicitEntry.setTransactionLedgerEntryDescription(getEntryValue(accountingLine.getFinancialDocumentLineDescription(), accountingDocument.getDocumentHeader().getFinancialDocumentDescription()));
-        explicitEntry.setUniversityFiscalPeriodCode(null); // null here, is assigned during batch or in specific document rule
-        // classes
-        explicitEntry.setUniversityFiscalYear(accountingDocument.getPostingYear());
-        // TODO wait for core budget year data structures to be put in place
-        // explicitEntry.setBudgetYear(accountingLine.getBudgetYear());
-        // explicitEntry.setBudgetYearFundingSourceCode(budgetYearFundingSourceCode);
-
-        LOG.debug("populateExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntrySequenceHelper, GeneralLedgerPendingEntry) - end");
-    }
-
-    /**
-     * This is responsible for properly negating the sign on an accounting line's amount when its associated document is an error
-     * correction.
-     * 
-     * @param accountingDocument
-     * @param accountingLine
-     */
-    private final void handleDocumentErrorCorrection(AccountingDocument accountingDocument, AccountingLine accountingLine) {
-        LOG.debug("handleDocumentErrorCorrection(AccountingDocument, AccountingLine) - start");
-
-        // If the document corrects another document, make sure the accounting line has the correct sign.
-        if ((null == accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isNegative()) || (null != accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber() && accountingLine.getAmount().isPositive())) {
-            accountingLine.setAmount(accountingLine.getAmount().multiply(new KualiDecimal(1)));
-        }
-
-        LOG.debug("handleDocumentErrorCorrection(AccountingDocument, AccountingLine) - end");
-    }
-
-    /**
-     * Determines whether an accounting line is an asset line.
-     * 
-     * @param accountingLine
-     * @return boolean True if a line is an asset line.
-     */
-    public final boolean isAsset(AccountingLine accountingLine) {
-        LOG.debug("isAsset(AccountingLine) - start");
-
-        boolean returnboolean = isAssetTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
-        LOG.debug("isAsset(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Determines whether an accounting line is a liability line.
-     * 
-     * @param accountingLine
-     * @return boolean True if the line is a liability line.
-     */
-    public final boolean isLiability(AccountingLine accountingLine) {
-        LOG.debug("isLiability(AccountingLine) - start");
-
-        boolean returnboolean = isLiabilityTypeCode(AccountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
-        LOG.debug("isLiability(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Determines whether an accounting line is an income line or not. This goes agains the configurable object type code list in
-     * the ApplicationParameter mechanism. This list can be configured externally.
-     * 
-     * @param accountingLine
-     * @return boolean True if the line is an income line.
-     */
-    public final boolean isIncome(AccountingLine accountingLine) {
-        LOG.debug("isIncome(AccountingLine) - start");
-
-        boolean returnboolean = AccountingDocumentRuleUtil.isIncome(accountingLine);
-        LOG.debug("isIncome(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Check object code type to determine whether the accounting line is expense.
-     * 
-     * @param accountingLine
-     * @return boolean True if the line is an expense line.
-     */
-    public boolean isExpense(AccountingLine accountingLine) {
-        LOG.debug("isExpense(AccountingLine) - start");
-
-        boolean returnboolean = AccountingDocumentRuleUtil.isExpense(accountingLine);
-        LOG.debug("isExpense(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Determines whether an accounting line is an expense or asset.
-     * 
-     * @param line
-     * @return boolean True if it's an expense or asset.
-     */
-    public final boolean isExpenseOrAsset(AccountingLine line) {
-        LOG.debug("isExpenseOrAsset(AccountingLine) - start");
-
-        boolean returnboolean = isAsset(line) || isExpense(line);
-        LOG.debug("isExpenseOrAsset(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Determines whether an accounting line is an income or liability line.
-     * 
-     * @param line
-     * @return boolean True if the line is an income or liability line.
-     */
-    public final boolean isIncomeOrLiability(AccountingLine line) {
-        LOG.debug("isIncomeOrLiability(AccountingLine) - start");
-
-        boolean returnboolean = isLiability(line) || isIncome(line);
-        LOG.debug("isIncomeOrLiability(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Check object code type to determine whether the accounting line is revenue.
-     * 
-     * @param line
-     * @return boolean True if the line is a revenue line.
-     */
-    public final boolean isRevenue(AccountingLine line) {
-        LOG.debug("isRevenue(AccountingLine) - start");
-
-        boolean returnboolean = !isExpense(line);
-        LOG.debug("isRevenue(AccountingLine) - end");
-        return returnboolean;
-    }
-
-    /**
-     * GLPE amounts are ALWAYS positive, so just take the absolute value of the accounting line's amount.
-     * 
-     * @param accountingLine
-     * @return KualiDecimal The amount that will be used to populate the GLPE.
-     */
-    protected KualiDecimal getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine accountingLine) {
-        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - start");
-
-        KualiDecimal returnKualiDecimal = accountingLine.getAmount().abs();
-        LOG.debug("getGeneralLedgerPendingEntryAmountForAccountingLine(AccountingLine) - end");
-        return returnKualiDecimal;
-    }
-
-
-    /**
-     * Determines whether an accounting line represents a credit line.
-     * 
-     * @param accountingLine
-     * @param financialDocument
-     * @return boolean True if the line is a credit line.
-     * @throws IllegalStateException
-     */
-    public boolean isCredit(AccountingLine accountingLine, AccountingDocument financialDocument) throws IllegalStateException {
-        LOG.debug("isCredit(AccountingLine, AccountingDocument) - start");
-
-        boolean returnboolean = !isDebit(financialDocument, accountingLine);
-        LOG.debug("isCredit(AccountingLine, AccountingDocument) - end");
-        return returnboolean;
-    }
 
     /**
      * This method checks to see if the object code for the passed in accounting line exists in the list of restricted object codes.
@@ -1322,34 +999,6 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
      */
     public boolean isObjectConsolidationAllowed(Class documentClass, AccountingLine accountingLine) {
         return isAccountingLineValueAllowed(documentClass, accountingLine, RESTRICTED_OBJECT_CONSOLIDATIONS, "objectCode.financialObjectLevel.financialConsolidationObjectCode", KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
-    }
-
-    /**
-     * Determines whether the <code>objectTypeCode</code> is an asset.
-     * 
-     * @param objectTypeCode
-     * @return Is she asset or something completely different?
-     */
-    public final boolean isAssetTypeCode(String objectTypeCode) {
-        LOG.debug("isAssetTypeCode(String) - start");
-
-        boolean returnboolean = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinancialObjectTypeAssetsCd().equals(objectTypeCode);
-        LOG.debug("isAssetTypeCode(String) - end");
-        return returnboolean;
-    }
-
-    /**
-     * Determines whether the <code>objectTypeCode</code> is a liability.
-     * 
-     * @param objectTypeCode
-     * @return Is she liability or something completely different?
-     */
-    public final boolean isLiabilityTypeCode(String objectTypeCode) {
-        LOG.debug("isLiabilityTypeCode(String) - start");
-
-        boolean returnboolean = SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjectTypeLiabilitiesCode().equals(objectTypeCode);
-        LOG.debug("isLiabilityTypeCode(String) - end");
-        return returnboolean;
     }
 
     /**
@@ -1548,13 +1197,14 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         // iterate over each accounting line and if it has an account with a
         // fund group that should be balanced, then add that lines amount to the bucket
+        GeneralLedgerPendingEntryService glpeService = SpringContext.getBean(GeneralLedgerPendingEntryService.class);
         for (Iterator i = lines.iterator(); i.hasNext();) {
             AccountingLine line = (AccountingLine) i.next();
             String fundGroupCode = line.getAccount().getSubFundGroup().getFundGroupCode();
 
             ParameterEvaluator evaluator = getParameterService().getParameterEvaluator(componentClass, parameterName, fundGroupCode);
             if (evaluator.evaluationSucceeds()) {
-                KualiDecimal glpeLineAmount = getGeneralLedgerPendingEntryAmountForAccountingLine(line);
+                KualiDecimal glpeLineAmount = tranDoc.getGeneralLedgerPostingHelper().getGeneralLedgerPendingEntryAmountForGeneralLedgerPostable(line);
                 if (line.isSourceAccountingLine()) {
                     sourceLinesTotal = sourceLinesTotal.add(glpeLineAmount);
                 }
@@ -1613,301 +1263,5 @@ public abstract class AccountingDocumentRuleBase extends GeneralLedgerPostingDoc
 
         LOG.debug("buildFundGroupCodeBalancingErrorMessage(String[]) - end");
         return balancingFundGroups;
-    }
-
-    /**
-     * Convience method for determine if a document is an error correction document.
-     * 
-     * @param accountingDocument
-     * @return true if document is an error correct
-     */
-    protected boolean isErrorCorrection(AccountingDocument accountingDocument) {
-        LOG.debug("isErrorCorrection(AccountingDocument) - start");
-
-        boolean isErrorCorrection = false;
-
-        String correctsDocumentId = accountingDocument.getDocumentHeader().getFinancialDocumentInErrorNumber();
-        if (StringUtils.isNotBlank(correctsDocumentId)) {
-            isErrorCorrection = true;
-        }
-
-        LOG.debug("isErrorCorrection(AccountingDocument) - end");
-        return isErrorCorrection;
-    }
-
-    /**
-     * util class that contains common algorithms for determining debit amounts
-     */
-    public static class IsDebitUtils {
-        public static final String isDebitCalculationIllegalStateExceptionMessage = "an invalid debit/credit check state was detected";
-        public static final String isErrorCorrectionIllegalStateExceptionMessage = "invalid (error correction) document not allowed";
-        public static final String isInvalidLineTypeIllegalArgumentExceptionMessage = "invalid accounting line type";
-
-        /**
-         * @param debitCreditCode
-         * @return true if debitCreditCode equals the the debit constant
-         */
-        public static boolean isDebitCode(String debitCreditCode) {
-            LOG.debug("isDebitCode(String) - start");
-
-            boolean returnboolean = StringUtils.equals(KFSConstants.GL_DEBIT_CODE, debitCreditCode);
-            LOG.debug("isDebitCode(String) - end");
-            return returnboolean;
-        }
-
-        /**
-         * <ol>
-         * <li>object type is included in determining if a line is debit or credit.
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> (isIncome || isLiability) && (lineAmount > 0)
-         * <li> (isExpense || isAsset) && (lineAmount < 0)
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> (isIncome || isLiability) && (lineAmount < 0)
-         * <li> (isExpense || isAsset) && (lineAmount > 0)
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> document isErrorCorrection
-         * <li> lineAmount == 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         */
-        public static boolean isDebitConsideringType(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-            LOG.debug("isDebitConsideringType(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
-
-            KualiDecimal amount = accountingLine.getAmount();
-            // zero amounts are not allowed
-            if (amount.isZero()) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-            }
-            boolean isDebit = false;
-            boolean isPositiveAmount = accountingLine.getAmount().isPositive();
-
-            // income/liability
-            if (rule.isIncomeOrLiability(accountingLine)) {
-                isDebit = !isPositiveAmount;
-            }
-            // expense/asset
-            else {
-                if (rule.isExpenseOrAsset(accountingLine)) {
-                    isDebit = isPositiveAmount;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-            }
-
-            LOG.debug("isDebitConsideringType(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
-            return isDebit;
-        }
-
-        /**
-         * <ol>
-         * <li>object type is not included in determining if a line is debit or credit.
-         * <li>accounting line section (source/target) is not included in determining if a line is debit or credit.
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> none
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> (isIncome || isLiability || isExpense || isAsset) && (lineAmount > 0)
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> lineAmount <= 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         */
-        public static boolean isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-            LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
-
-            boolean isDebit = false;
-            KualiDecimal amount = accountingLine.getAmount();
-            boolean isPositiveAmount = amount.isPositive();
-            // isDebit if income/liability/expense/asset and line amount is positive
-            if (isPositiveAmount && (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine))) {
-                isDebit = true;
-            }
-            else {
-                // non error correction
-                if (!rule.isErrorCorrection(accountingDocument)) {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-
-                }
-                // error correction
-                else {
-                    isDebit = false;
-                }
-            }
-
-            LOG.debug("isDebitConsideringNothingPositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
-            return isDebit;
-        }
-
-        /**
-         * <ol>
-         * <li>accounting line section (source/target) type is included in determining if a line is debit or credit.
-         * <li> zero line amounts are never allowed
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)
-         * <li> isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> isSourceLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount < 0)
-         * <li> isTargetLine && (isIncome || isExpense || isAsset || isLiability) && (lineAmount > 0)
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> lineAmount == 0
-         * <li> ! (isIncome || isLiability || isExpense || isAsset)
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         */
-        public static boolean isDebitConsideringSection(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-            LOG.debug("isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
-
-            KualiDecimal amount = accountingLine.getAmount();
-            // zero amounts are not allowed
-            if (amount.isZero()) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-            }
-            boolean isDebit = false;
-            boolean isPositiveAmount = accountingLine.getAmount().isPositive();
-            // source line
-            if (accountingLine.isSourceAccountingLine()) {
-                // income/liability/expense/asset
-                if (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine)) {
-                    isDebit = !isPositiveAmount;
-                }
-                else {
-                    throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                }
-            }
-            // target line
-            else {
-                if (accountingLine.isTargetAccountingLine()) {
-                    if (rule.isIncomeOrLiability(accountingLine) || rule.isExpenseOrAsset(accountingLine)) {
-                        isDebit = isPositiveAmount;
-                    }
-                    else {
-                        throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-                    }
-                }
-                else {
-                    throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                }
-            }
-
-            LOG.debug("isDebitConsideringSection(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
-            return isDebit;
-        }
-
-        /**
-         * <ol>
-         * <li>accounting line section (source/target) and object type is included in determining if a line is debit or credit.
-         * <li> negative line amounts are <b>Only</b> allowed during error correction
-         * </ol>
-         * the following are credits (return false)
-         * <ol>
-         * <li> isSourceLine && (isExpense || isAsset) && (lineAmount > 0)
-         * <li> isTargetLine && (isIncome || isLiability) && (lineAmount > 0)
-         * <li> isErrorCorrection && isSourceLine && (isIncome || isLiability) && (lineAmount < 0)
-         * <li> isErrorCorrection && isTargetLine && (isExpense || isAsset) && (lineAmount < 0)
-         * </ol>
-         * the following are debits (return true)
-         * <ol>
-         * <li> isSourceLine && (isIncome || isLiability) && (lineAmount > 0)
-         * <li> isTargetLine && (isExpense || isAsset) && (lineAmount > 0)
-         * <li> isErrorCorrection && (isExpense || isAsset) && (lineAmount < 0)
-         * <li> isErrorCorrection && (isIncome || isLiability) && (lineAmount < 0)
-         * </ol>
-         * the following are invalid ( throws an <code>IllegalStateException</code>)
-         * <ol>
-         * <li> !isErrorCorrection && !(lineAmount > 0)
-         * </ol>
-         * 
-         * @param rule
-         * @param accountingDocument
-         * @param accountingLine
-         * @return boolean
-         */
-        public static boolean isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument, AccountingLine accountingLine) {
-            LOG.debug("isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - start");
-
-            boolean isDebit = false;
-            KualiDecimal amount = accountingLine.getAmount();
-            boolean isPositiveAmount = amount.isPositive();
-            // non error correction - only allow amount >0
-            if (!isPositiveAmount && !rule.isErrorCorrection(accountingDocument)) {
-                throw new IllegalStateException(isDebitCalculationIllegalStateExceptionMessage);
-            }
-            // source line
-            if (accountingLine.isSourceAccountingLine()) {
-                // could write below block in one line using == as XNOR operator, but that's confusing to read:
-                // isDebit = (rule.isIncomeOrLiability(accountingLine) == isPositiveAmount);
-                if (isPositiveAmount) {
-                    isDebit = rule.isIncomeOrLiability(accountingLine);
-                }
-                else {
-                    isDebit = rule.isExpenseOrAsset(accountingLine);
-                }
-            }
-            // target line
-            else {
-                if (accountingLine.isTargetAccountingLine()) {
-                    if (isPositiveAmount) {
-                        isDebit = rule.isExpenseOrAsset(accountingLine);
-                    }
-                    else {
-                        isDebit = rule.isIncomeOrLiability(accountingLine);
-                    }
-                }
-                else {
-                    throw new IllegalArgumentException(isInvalidLineTypeIllegalArgumentExceptionMessage);
-                }
-            }
-
-            LOG.debug("isDebitConsideringSectionAndTypePositiveOnly(AccountingDocumentRuleBase, AccountingDocument, AccountingLine) - end");
-            return isDebit;
-        }
-
-        /**
-         * throws an <code>IllegalStateException</code> if the document is an error correction. otherwise does nothing
-         * 
-         * @param rule
-         * @param accountingDocument
-         */
-        public static void disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase rule, AccountingDocument accountingDocument) {
-            LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - start");
-
-            if (rule.isErrorCorrection(accountingDocument)) {
-                throw new IllegalStateException(isErrorCorrectionIllegalStateExceptionMessage);
-            }
-
-            LOG.debug("disallowErrorCorrectionDocumentCheck(AccountingDocumentRuleBase, AccountingDocument) - end");
-        }
     }
 }

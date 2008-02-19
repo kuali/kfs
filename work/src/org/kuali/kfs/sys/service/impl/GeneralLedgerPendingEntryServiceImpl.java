@@ -21,24 +21,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.KualiDecimal;
-import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.dao.GeneralLedgerPendingEntryDao;
-import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.document.GeneralLedgerPostingDocument;
-import org.kuali.kfs.rule.event.GenerateGeneralLedgerDocumentPendingEntriesEvent;
-import org.kuali.kfs.rule.event.GenerateGeneralLedgerPendingEntriesEvent;
+import org.kuali.kfs.document.GeneralLedgerPoster;
 import org.kuali.kfs.service.GeneralLedgerPendingEntryService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
-import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.chart.service.BalanceTypService;
 import org.kuali.module.chart.service.ChartService;
 import org.kuali.module.chart.service.ObjectTypeService;
@@ -187,59 +185,25 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
      * @param document - document whose pending entries need generated
      * @return whether the business rules succeeded
      */
-    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPostingDocument document) {
+    public boolean generateGeneralLedgerPendingEntries(GeneralLedgerPoster poster) {
         boolean success = true;
 
         // we must clear them first before creating new ones
-        document.getGeneralLedgerPendingEntries().clear();
+        poster.clearAnyGeneralLedgerPendingEntries();
 
-        LOG.info("deleting existing gl pending ledger entries for document " + document.getDocumentNumber());
-        delete(document.getDocumentNumber());
+        LOG.info("deleting existing gl pending ledger entries for document " + poster.getDocumentHeader().getDocumentNumber());
+        delete(poster.getDocumentHeader().getDocumentNumber());
 
-        LOG.info("generating gl pending ledger entries for document " + document.getDocumentNumber());
+        LOG.info("generating gl pending ledger entries for document " + poster.getDocumentHeader().getDocumentNumber());
         GeneralLedgerPendingEntrySequenceHelper sequenceHelper = new GeneralLedgerPendingEntrySequenceHelper();
-        if (document instanceof AccountingDocument) {
-            AccountingDocument transactionalDocument = (AccountingDocument) document;
-            List sourceAccountingLines = transactionalDocument.getSourceAccountingLines();
-            if (sourceAccountingLines != null) {
-                for (Iterator iter = sourceAccountingLines.iterator(); iter.hasNext();) {
-                    success &= processGeneralLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
-                }
-            }
-
-            List targetAccountingLines = transactionalDocument.getTargetAccountingLines();
-            if (targetAccountingLines != null) {
-                for (Iterator iter = targetAccountingLines.iterator(); iter.hasNext();) {
-                    success &= processGeneralLedgerPendingEntryForAccountingLine(transactionalDocument, sequenceHelper, iter);
-                }
-            }
+        GeneralLedgerPostingHelper postingHelper = poster.getGeneralLedgerPostingHelper();
+        for (GeneralLedgerPostable postable: poster.getGeneralLedgerPostables()) {
+            success &= postingHelper.processGenerateGeneralLedgerPendingEntries(poster, postable, sequenceHelper);
+            sequenceHelper.increment();
         }
-
+        
         // doc specific pending entries generation
-        GenerateGeneralLedgerDocumentPendingEntriesEvent event = new GenerateGeneralLedgerDocumentPendingEntriesEvent(document, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
-        return success;
-    }
-
-    /**
-     * This method handles generically taking an accounting line, doing a deep copy on it so that we have a new instance without
-     * reference to the original (won't affect the tran doc's acct lines), performing a retrieveNonKeyFields on the line to make
-     * sure it's populated properly, and then calling the rule framework driven GLPE generation code.
-     * 
-     * @param document
-     * @param sequenceHelper
-     * @param iter
-     * @return whether the business rules succeeded
-     */
-    private boolean processGeneralLedgerPendingEntryForAccountingLine(AccountingDocument document, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, Iterator iter) {
-        LOG.debug("processGeneralLedgerPendingEntryForAccountingLine() started");
-        boolean success = true;
-
-        AccountingLine accountingLine = (AccountingLine) iter.next();
-
-        GenerateGeneralLedgerPendingEntriesEvent event = new GenerateGeneralLedgerPendingEntriesEvent(document, accountingLine, sequenceHelper);
-        success &= kualiRuleService.applyRules(event);
-        sequenceHelper.increment(); // increment for the next line
+        poster.processGenerateDocumentGeneralLedgerPendingEntries(sequenceHelper);
         return success;
     }
 
@@ -362,6 +326,27 @@ public class GeneralLedgerPendingEntryServiceImpl implements GeneralLedgerPendin
         LOG.debug("findPendingEntries() started");
 
         return generalLedgerPendingEntryDao.findPendingEntries(fieldValues, isApproved);
+    }
+    
+    /**
+     * A helper method that checks the intended target value for null and empty strings. If the intended target value is not null or
+     * an empty string, it returns that value, ohterwise, it returns a backup value.
+     * 
+     * @param targetValue
+     * @param backupValue
+     * @return String
+     */
+    protected final String getEntryValue(String targetValue, String backupValue) {
+        LOG.debug("getEntryValue(String, String) - start");
+
+        if (StringUtils.isNotBlank(targetValue)) {
+            LOG.debug("getEntryValue(String, String) - end");
+            return targetValue;
+        }
+        else {
+            LOG.debug("getEntryValue(String, String) - end");
+            return backupValue;
+        }
     }
 
     public void setBalanceTypeService(BalanceTypService balanceTypeService) {

@@ -526,6 +526,10 @@
     <field-descriptor name="referenceFinancialDocumentNumber" column="FDOC_REF_NBR" jdbc-type="VARCHAR" />
     <field-descriptor name="financialDocumentPostingYear" column="FDOC_POST_YR" jdbc-type="INTEGER" index="true" />
     <field-descriptor name="financialDocumentPostingPeriodCode" column="FDOC_POST_PRD_CD" jdbc-type="VARCHAR" index="true" />
+    
+    <reference-descriptor name="generatingDocment" class-ref="org.kuali.module.financial.document.AdvanceDepositDocument" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+    	<foreignkey field-ref="documentNumber" />
+    </reference-descriptor>
 </class-descriptor>
 
 </descriptor-repository>

@@ -72,21 +72,6 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
     }
 
     /**
-     * Returns true if accounting line is debit
-     * 
-     * @param transactionalDocument submitted accounting document
-     * @param accountingLine accounting line in account document
-     *  
-     * 
-     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
-        return IsDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, transactionalDocument, accountingLine);
-    }
-
-    /**
      * The GEC allows one sided documents for correcting - so if one side is empty, the other side must have at least two lines in
      * it. The balancing rules take care of validation of amounts.
      * 
@@ -141,54 +126,6 @@ public class GeneralErrorCorrectionDocumentRule extends AccountingDocumentRuleBa
         }
 
         return retval;
-    }
-
-    /**
-     * Customizes a GLPE by setting financial document number, financial system origination code and document type code to null
-     * 
-     *  @param transactionalDocument submitted accounting document
-     *  @param accountingLine accounting line in document 
-     *  @param explicitEntry general ledger pending entry
-     *  
-     * 
-     * @see FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(FinancialDocument, AccountingLine,
-     *      GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument transactionalDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setTransactionLedgerEntryDescription(buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(transactionalDocument, accountingLine));
-
-        // Clearing fields that are already handled by the parent algorithm - we don't actually want
-        // these to copy over from the accounting lines b/c they don't belong in the GLPEs
-        // if the aren't nulled, then GECs fail to post
-        explicitEntry.setReferenceFinancialDocumentNumber(null);
-        explicitEntry.setReferenceFinancialSystemOriginationCode(null);
-        explicitEntry.setReferenceFinancialDocumentTypeCode(null);
-    }
-
-    /**
-     * Builds an appropriately formatted string to be used for the <code>transactionLedgerEntryDescription</code>. It is built
-     * using information from the <code>{@link AccountingLine}</code>. Format is "01-12345: blah blah blah".
-     * 
-     * @param line accounting line
-     * @param transactionalDocument submitted accounting document 
-     * @return String formatted string to be used for transaction ledger entry description
-     */
-    private String buildTransactionLedgerEntryDescriptionUsingRefOriginAndRefDocNumber(AccountingDocument transactionalDocument, AccountingLine line) {
-        String description = "";
-        description = line.getReferenceOriginCode() + "-" + line.getReferenceNumber();
-
-        if (StringUtils.isNotBlank(line.getFinancialDocumentLineDescription())) {
-            description += ": " + line.getFinancialDocumentLineDescription();
-        }
-        else {
-            description += ": " + transactionalDocument.getDocumentHeader().getFinancialDocumentDescription();
-        }
-
-        if (description.length() > GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH) {
-            description = description.substring(0, GENERAL_LEDGER_PENDING_ENTRY_CODE.GLPE_DESCRIPTION_MAX_LENGTH - 3) + "...";
-        }
-
-        return description;
     }
 
     /**

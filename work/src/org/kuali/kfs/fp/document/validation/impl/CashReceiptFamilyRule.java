@@ -157,41 +157,6 @@ public class CashReceiptFamilyRule extends AccountingDocumentRuleBase implements
     }
 
     /**
-     * Overrides to set the entry's description to the description from the accounting line, if a value exists.
-     * 
-     * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line in accounting document
-     * @param explicitEntry general ledger pending entry
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        String accountingLineDescription = accountingLine.getFinancialDocumentLineDescription();
-        if (StringUtils.isNotBlank(accountingLineDescription)) {
-            explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
-        }
-    }
-
-    /**
-     * Returns true if accounting line is debit
-     * 
-     * @param financialDocument
-     * @param accountingLine
-     * @param true if accountline line 
-     * 
-     * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // error corrections are not allowed
-        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, financialDocument);
-        return IsDebitUtils.isDebitConsideringType(this, financialDocument, accountingLine);
-    }
-
-
-    /**
      * Return true if source total is non-zero
      * 
      * @param crdoc cash receipt family base document

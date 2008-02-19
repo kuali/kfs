@@ -23,16 +23,24 @@ import static org.kuali.kfs.KFSPropertyConstants.BALANCE_TYPE;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.DebitDeterminerService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.module.chart.bo.codes.BalanceTyp;
 import org.kuali.module.financial.bo.JournalVoucherAccountingLineParser;
 import org.kuali.module.financial.bo.VoucherSourceAccountingLine;
@@ -53,6 +61,8 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
     private String balanceTypeCode; // balanceType key
     private BalanceTyp balanceType;
     private java.sql.Date reversalDate;
+    
+    private final static String JOURNAL_VOUCHER_GL_POSTING_HELPER_BEAN_ID = "journalVoucherGeneralLedgerPostingHelper";
 
     /**
      * Constructs a JournalVoucherDocument instance.
@@ -279,4 +289,89 @@ public class JournalVoucherDocument extends AccountingDocumentBase implements Vo
             }
         }
     }
+    
+    /**
+     * The following are credits (return false)
+     * <ol>
+     * <li> (debitCreditCode isNotBlank) && debitCreditCode != 'D'
+     * </ol>
+     * 
+     * The following are debits (return true)
+     * <ol>
+     * <li> debitCreditCode == 'D'
+     * <li> debitCreditCode isBlank
+     * </ol>
+     * 
+     * @param financialDocument The document which contains the accounting line being analyzed.
+     * @param accountingLine The accounting line which will be analyzed to determine if it is a debit line.
+     * @return True if the accounting line provided is a debit accounting line, false otherwise.
+     * @throws IllegalStateException Thrown by method IsDebitUtiles.isDebitCode()
+     * 
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils#isDebitCode(String)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) throws IllegalStateException {
+        AccountingLine accountingLine = (AccountingLine)postable;
+        String debitCreditCode = accountingLine.getDebitCreditCode();
+
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        boolean isDebit = StringUtils.isBlank(debitCreditCode) || isDebitUtils.isDebitCode(debitCreditCode);
+
+        return isDebit;
+    }
+    
+    /**
+     * This method sets attributes on the explicitly general ledger pending entry specific to JournalVoucher documents.
+     * This includes setting the accounting period code and year (as selected by the user, the object type code,
+     * the balance type code, the debit/credit code, the encumbrance update code and the reversal date.
+     * 
+     * @param financialDocument The document which contains the general ledger pending entry being modified.
+     * @param accountingLine The accounting line the explicit entry was generated from.
+     * @param explicitEntry The explicit entry being updated.
+     * 
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+        AccountingLine accountingLine = (AccountingLine)postable;
+
+        // set the appropriate accounting period values according to the values chosen by the user
+        explicitEntry.setUniversityFiscalPeriodCode(getPostingPeriodCode());
+        explicitEntry.setUniversityFiscalYear(getPostingYear());
+
+        // set the object type code directly from what was entered in the interface
+        explicitEntry.setFinancialObjectTypeCode(accountingLine.getObjectTypeCode());
+
+        // set the balance type code directly from what was entered in the interface
+        explicitEntry.setFinancialBalanceTypeCode(accountingLine.getBalanceTypeCode());
+
+        // set the debit/credit code appropriately
+        refreshReferenceObject(BALANCE_TYPE);
+        if (getBalanceType().isFinancialOffsetGenerationIndicator()) {
+            explicitEntry.setTransactionDebitCreditCode(StringUtils.isNotBlank(accountingLine.getDebitCreditCode()) ? accountingLine.getDebitCreditCode() : KFSConstants.BLANK_SPACE);
+        }
+        else {
+            explicitEntry.setTransactionDebitCreditCode(KFSConstants.BLANK_SPACE);
+        }
+
+        // set the encumbrance update code
+        explicitEntry.setTransactionEncumbranceUpdateCode(StringUtils.isNotBlank(accountingLine.getEncumbranceUpdateCode()) ? accountingLine.getEncumbranceUpdateCode() : KFSConstants.BLANK_SPACE);
+
+        // set the reversal date to what what specified at the document level
+        if (getReversalDate() != null) {
+            explicitEntry.setFinancialDocumentReversalDate(getReversalDate());
+        }
+    }
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     */
+    @Override
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(JournalVoucherDocument.JOURNAL_VOUCHER_GL_POSTING_HELPER_BEAN_ID);
+    }
+    
 }

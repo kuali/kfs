@@ -20,6 +20,8 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
 
 /**
  * This class is used to represent an electronic payment claim.
@@ -31,13 +33,12 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
     private String referenceFinancialDocumentNumber;
     private Integer financialDocumentPostingYear;
     private String financialDocumentPostingPeriodCode;
+    private AdvanceDepositDocument generatingDocument;
 
     /**
-     * Default constructor.
+     * Default constructor.  It constructs.
      */
-    public ElectronicPaymentClaim() {
-
-    }
+    public ElectronicPaymentClaim() {}
 
     /**
      * Gets the documentNumber attribute.
@@ -133,6 +134,46 @@ public class ElectronicPaymentClaim extends PersistableBusinessObjectBase {
         this.financialDocumentPostingPeriodCode = financialDocumentPostingPeriodCode;
     }
 
+    /**
+     * Gets the generatingDocument attribute. 
+     * @return Returns the generatingDocument.
+     */
+    public AdvanceDepositDocument getGeneratingDocument() {
+        return generatingDocument;
+    }
+
+    /**
+     * Sets the generatingDocument attribute value.
+     * @param generatingDocument The generatingDocument to set.
+     * @deprecated
+     */
+    public void setGeneratingDocument(AdvanceDepositDocument generatingDocument) {
+        this.generatingDocument = generatingDocument;
+    }
+    
+    /**
+     * Returns the accounting line on the generating Advance Deposit document for the transaction which generated this record
+     * @return the accounting line that describes the transaction responsible for the creation of this record
+     */
+    public SourceAccountingLine getGeneratingAccountingLine() {
+        AdvanceDepositDocument generatingDocument = getGeneratingDocument();
+        if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
+            return generatingDocument.getSourceAccountingLine(financialDocumentLineNumber);
+        }
+        return null;
+    }
+    
+    /**
+     * Returns the AdvanceDepositDetail on the generating Advance Deposit document for the transaction which generated this record
+     * @return the advance deposit detail that describes the transaction responsible for the creation of this record
+     */
+    public AdvanceDepositDetail getGeneratingAdvanceDepositDetail() {
+        AdvanceDepositDocument generatingDocument = getGeneratingDocument();
+        if (generatingDocument != null && generatingDocument.getSourceAccountingLines() != null) {
+            return generatingDocument.getAdvanceDepositDetail(financialDocumentLineNumber);
+        }
+        return null;
+    }
 
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()

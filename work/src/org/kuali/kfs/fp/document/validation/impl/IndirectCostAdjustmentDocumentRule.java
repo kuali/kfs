@@ -50,38 +50,6 @@ public class IndirectCostAdjustmentDocumentRule extends AccountingDocumentRuleBa
     }
 
     /**
-     * Same logic as <code>IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)</code>
-     * but has the following accounting line restrictions: 
-     * 
-     * for grant lines(source):
-     * <ol>
-     * <li>only allow expense object type codes
-     * </ol>
-     * for receipt lines(target):
-     * <ol>
-     * <li>only allow income object type codes
-     * </ol>
-     * 
-     * @param transactionDocument The document associated with the accounting line being reviewed to determine if it's a debit.
-     * @param accountingLine The accounting line being reviewed to determine if it's a debit line.
-     * @return True if the accounting line is a debit.  See IsDebitUtils.isDebitConsideringType().
-     * @throws IllegalStateException Thrown if the accounting line given is a source accounting line representing an expense
-     * or is a target accounting line representing an income.
-     * 
-     * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) throws IllegalStateException {
-
-        if (!(accountingLine.isSourceAccountingLine() && isExpense(accountingLine)) && !(accountingLine.isTargetAccountingLine() && isIncome(accountingLine))) {
-            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-        }
-
-        return IsDebitUtils.isDebitConsideringType(this, transactionalDocument, accountingLine);
-    }
-
-    /**
      * This method is overridden to modify the order of the business rule checks performed when adding an accounting
      * line, to influence the order of any corresponding error messages.  This is accomplished by calling a custom 
      * accounting line rule method prior to calling the general rule checks in the parent.

@@ -46,7 +46,6 @@ import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
-import org.kuali.kfs.rule.GenerateGeneralLedgerDocumentPendingEntriesRule;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
 import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterEvaluator;
@@ -68,7 +67,7 @@ import org.kuali.module.financial.service.UniversityDateService;
 /**
  * Business rule(s) applicable to Disbursement Voucher documents.
  */
-public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase implements DisbursementVoucherRuleConstants, GenerateGeneralLedgerDocumentPendingEntriesRule<AccountingDocument> {
+public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase implements DisbursementVoucherRuleConstants {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(DisbursementVoucherDocumentRule.class);
     private static final String DV_PAYMENT_REASON_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYMENT_REASON_CODE;
     private static final String DV_PAYEE_ID_NUMBER_PROPERTY_PATH = KFSPropertyConstants.DV_PAYEE_DETAIL + "." + KFSPropertyConstants.DISB_VCHR_PAYEE_ID_NUMBER;
@@ -386,161 +385,6 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     public boolean isTravelPrepaidPaymentReason(DisbursementVoucherDocument disbursementVoucherDocument) {
         ParameterEvaluator travelNonEmplPaymentReasonEvaluator = getParameterService().getParameterEvaluator(DisbursementVoucherDocument.class, DisbursementVoucherRuleConstants.PREPAID_TRAVEL_PAY_REASONS_PARM_NM, disbursementVoucherDocument.getDvPayeeDetail().getDisbVchrPaymentReasonCode());
         return travelNonEmplPaymentReasonEvaluator.evaluationSucceeds();
-    }
-
-    /**
-     * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
-     * 
-     * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line in submitted accounting document 
-     * @param explicitEntry explicit GLPE 
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
-
-        /* change document type based on payment method to pick up different offsets */
-        if (PAYMENT_METHOD_CHECK.equals(dvDocument.getDisbVchrPaymentMethodCode())) {
-            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + DOCUMENT_TYPE_CHECKACH);
-            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_CHECKACH);
-        }
-        else {
-            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + DOCUMENT_TYPE_CHECKACH);
-            explicitEntry.setFinancialDocumentTypeCode(DOCUMENT_TYPE_WTFD);
-        }
-    }
-
-    /**
-     * Return true if GLPE's are generated successfully (i.e. there are either 0 GLPE's or 1 GLPE in dibursement voucher document)
-     * 
-     * @param financialDocument submitted financial document
-     * @param sequenceHelper helper class to keep track of GLPE sequence
-     * @return true if GLPE's are generated successfully
-     * 
-     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
-     */
-    public boolean processGenerateDocumentGeneralLedgerPendingEntries(AccountingDocument financialDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
-        DisbursementVoucherDocument dvDocument = (DisbursementVoucherDocument) financialDocument;
-        if (dvDocument.getGeneralLedgerPendingEntries() == null || dvDocument.getGeneralLedgerPendingEntries().size() < 2) {
-            LOG.warn("No gl entries for accounting lines.");
-            return true;
-            // throw new RuntimeException("No gl entries for accounting lines.");
-        }
-
-        /*
-         * only generate additional charge entries for payment method wire charge, and if the fee has not been waived
-         */
-        if (PAYMENT_METHOD_WIRE.equals(dvDocument.getDisbVchrPaymentMethodCode()) && !dvDocument.getDvWireTransfer().isDisbursementVoucherWireTransferFeeWaiverIndicator()) {
-            LOG.debug("generating wire charge gl pending entries.");
-
-            // retrieve wire charge
-            WireCharge wireCharge = retrieveWireCharge();
-
-            // generate debits
-            GeneralLedgerPendingEntry chargeEntry = processWireChargeDebitEntries(dvDocument, sequenceHelper, wireCharge);
-
-            // generate credits
-            processWireChargeCreditEntries(dvDocument, sequenceHelper, wireCharge, chargeEntry);
-        }
-
-        return true;
-    }
-
-    /**
-     * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
-     * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
-     * 
-     * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence 
-     * @param wireCharge wireCharge object from current fiscal year
-     * @return GeneralLedgerPendingEntry generated wire charge debit
-     */
-    private GeneralLedgerPendingEntry processWireChargeDebitEntries(DisbursementVoucherDocument dvDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
-
-        // increment the sequence counter
-        sequenceHelper.increment();
-
-        // grab the explicit entry for the first accounting line and adjust for wire charge entry
-        GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(dvDocument.getGeneralLedgerPendingEntry(0));
-        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        explicitEntry.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
-        explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
-
-        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(dvDocument.getDvWireTransfer().getDisbVchrBankCountryCode())) {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
-        }
-        else {
-            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
-        }
-
-        explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
-
-        dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
-
-        // create offset
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        populateOffsetGeneralLedgerPendingEntry(dvDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-
-        dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
-
-        return explicitEntry;
-    }
-
-    /**
-     * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
-     * is used for the entry.
-     * 
-     * @param dvDocument submitted disbursement voucher document
-     * @param sequenceHelper helper class to keep track of GLPE sequence 
-     * @param chargeEntry GLPE charge
-     * @param wireCharge wireCharge object from current fiscal year
-     *  
-     */
-    private void processWireChargeCreditEntries(DisbursementVoucherDocument dvDocument, GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
-
-        // increment the sequence counter
-        sequenceHelper.increment();
-
-        // copy the charge entry and adjust for credit
-        GeneralLedgerPendingEntry explicitEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(chargeEntry);
-        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
-        explicitEntry.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
-        explicitEntry.setAccountNumber(wireCharge.getAccountNumber());
-        explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-
-        // retrieve object type
-        ObjectCode objectCode = new ObjectCode();
-        objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
-        objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
-        objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
-        objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).retrieve(objectCode);
-
-        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
-        explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
-
-        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
-        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
-        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
-
-        explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
-
-        dvDocument.getGeneralLedgerPendingEntries().add(explicitEntry);
-
-        // create offset
-        sequenceHelper.increment();
-
-        // handle the offset entry
-        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
-        populateOffsetGeneralLedgerPendingEntry(dvDocument.getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
-
-        dvDocument.getGeneralLedgerPendingEntries().add(offsetEntry);
     }
 
 
@@ -1391,24 +1235,6 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
     }
 
     /**
-     * Retrieves the wire transfer information for the current fiscal year.
-     * 
-     * @return <code>WireCharge</code>
-     */
-    private WireCharge retrieveWireCharge() {
-        WireCharge wireCharge = new WireCharge();
-        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
-
-        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
-        if (wireCharge == null) {
-            LOG.error("Wire charge information not found for current fiscal year.");
-            throw new RuntimeException("Wire charge information not found for current fiscal year.");
-        }
-
-        return wireCharge;
-    }
-
-    /**
      * Retrieves the Company object from the company name.
      * 
      * @param companyCode company code
@@ -1509,31 +1335,6 @@ public class DisbursementVoucherDocumentRule extends AccountingDocumentRuleBase 
 
         return !(workflowDocument.stateIsCanceled() || workflowDocument.stateIsInitiated() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsException() || workflowDocument.stateIsDisapproved() || workflowDocument.stateIsSaved());
 
-    }
-
-    /**
-     * Rerturns true if accounting line debit
-     * 
-     * @param financialDocument submitted accounting document
-     * @param accountingLine accounting line in accounting document
-     * @return true if document is debit
-     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // disallow error corrections
-        IsDebitUtils.disallowErrorCorrectionDocumentCheck(this, financialDocument);
-        if (financialDocument instanceof DisbursementVoucherDocument) {
-            // special case - dv NRA tax accounts can be negative, and are debits if positive
-            DisbursementVoucherDocument dvDoc = (DisbursementVoucherDocument) financialDocument;
-
-            if (dvDoc.getDvNonResidentAlienTax() != null && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && dvDoc.getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(accountingLine.getSequenceNumber().toString())) {
-                return accountingLine.getAmount().isPositive();
-            }
-        }
-
-        return IsDebitUtils.isDebitConsideringNothingPositiveOnly(this, financialDocument, accountingLine);
     }
 
 }

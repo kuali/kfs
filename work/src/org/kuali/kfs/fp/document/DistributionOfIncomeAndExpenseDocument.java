@@ -20,8 +20,11 @@ import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
-
+import org.kuali.kfs.service.DebitDeterminerService;
 
 /**
  * The Distribution of Income and Expense (DI) document is used to distribute income or expense, or assets and liabilities. Amounts
@@ -52,4 +55,19 @@ public class DistributionOfIncomeAndExpenseDocument extends AccountingDocumentBa
         return KFSConstants.TO;
     }
 
+    /**
+     * Return true if account line is debit
+     * 
+     * @param financialDocument submitted accounting document
+     * @param accountingLine accounting line from accounting document
+     * @return true is account line is debit
+     * 
+     * @see IsDebitUtils#isDebitConsideringSectionAndTypePositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        return isDebitUtils.isDebitConsideringSectionAndTypePositiveOnly(this, (AccountingLine)postable);
+    }
 }

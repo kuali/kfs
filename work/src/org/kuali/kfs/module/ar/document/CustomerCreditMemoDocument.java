@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.NonAppliedHolding;
@@ -554,6 +555,17 @@ public class CustomerCreditMemoDocument extends AccountingDocumentBase {
             m.put("financialDocumentLineNumber", this.financialDocumentLineNumber.toString());
         }
         return m;
+    }
+    
+
+    /**
+     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        // TODO Auto-generated method stub
+        return false;
     }
     
 }

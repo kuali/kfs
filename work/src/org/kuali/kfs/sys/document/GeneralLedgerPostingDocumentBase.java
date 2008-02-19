@@ -182,4 +182,19 @@ public class GeneralLedgerPostingDocumentBase extends LedgerPostingDocumentBase 
             }
         }
     }
+    
+    /**
+     * Adds a GeneralLedgerPendingEntry to this document's list of pending entries
+     * @param pendingEntry a pending entry to add
+     */
+    public void addPendingEntry(GeneralLedgerPendingEntry pendingEntry) {
+        generalLedgerPendingEntries.add(pendingEntry);
+    }
+    
+    /**
+     * This resets this document's list of general ledger pending etnries, though it does not delete those entries (however, the GeneralLedgerPendingEntryService will in most cases when this method is called).
+     */
+    public void clearAnyGeneralLedgerPendingEntries() {
+        generalLedgerPendingEntries = new ArrayList<GeneralLedgerPendingEntry>();
+    }
 }

@@ -37,21 +37,6 @@ import org.kuali.module.financial.document.InternalBillingDocument;
 public class InternalBillingDocumentRule extends AccountingDocumentRuleBase {
 
     /**
-     * This method determines if an accounting line is a debit accounting line by calling IsDebitUtils.isDebitConsideringSection().
-     * 
-     * @param transactionalDocument The document containing the accounting line being analyzed.
-     * @param accountingLine The accounting line being reviewed to determine if it is a debit line or not.
-     * @return True if the accounting line is a debit accounting line, false otherwise.
-     * 
-     * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument transactionalDocument, AccountingLine accountingLine) {
-        return IsDebitUtils.isDebitConsideringSection(this, transactionalDocument, accountingLine);
-    }
-
-    /**
      * Overrides to only disallow zero, allowing negative amounts.  
      * 
      * @param document The document which contains the accounting line being validated.

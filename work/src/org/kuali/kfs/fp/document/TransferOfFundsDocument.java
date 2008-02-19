@@ -15,11 +15,22 @@
  */
 package org.kuali.module.financial.document;
 
+import static org.kuali.kfs.KFSConstants.BALANCE_TYPE_ACTUAL;
+
 import org.kuali.core.document.AmountTotaling;
 import org.kuali.core.document.Copyable;
 import org.kuali.core.document.Correctable;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
+import org.kuali.kfs.bo.Options;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
+import org.kuali.kfs.service.DebitDeterminerService;
+import org.kuali.kfs.service.OptionsService;
 
 /**
  * The Transfer of Funds (TF) document is used to transfer funds (cash) between accounts. There are two kinds of transfer
@@ -55,5 +66,92 @@ public class TransferOfFundsDocument extends AccountingDocumentBase implements C
      */
     public String getTargetAccountingLinesSectionTitle() {
         return KFSConstants.TO;
+    }
+    
+    /**
+     * Set attributes of an offset pending entry according to rules specific to TransferOfFundsDocument.  The current rules
+     * require setting the balance type code to 'actual'.
+     * 
+     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry the offset entry is generated for.
+     * @param offsetEntry The offset general ledger pending entry being customized.
+     * @return This method always returns true.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeOffsetGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry,
+     *      org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public boolean customizeOffsetGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry, GeneralLedgerPendingEntry offsetEntry) {
+        offsetEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
+        return true;
+    }
+
+    /**
+     * Set attributes of an explicit pending entry according to rules specific to TransferOfFundsDocument.
+     * 
+     * @param financialDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
+     * 
+     * @see org.kuali.kfs.rules.AccountingDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable generalLedgerPostable, GeneralLedgerPendingEntry explicitEntry) {
+        AccountingLine accountingLine = (AccountingLine)generalLedgerPostable;
+        Options options = SpringContext.getBean(OptionsService.class).getCurrentYearOptions();
+
+        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_ACTUAL);
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        if (isDebitUtils.isExpense(accountingLine)) {
+            explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferExpenseCd());
+        }
+        else {
+            if (isDebitUtils.isIncome(accountingLine)) {
+                explicitEntry.setFinancialObjectTypeCode(options.getFinancialObjectTypeTransferIncomeCd());
+            }
+            else {
+                AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+                explicitEntry.setFinancialObjectTypeCode(accountingDocumentRuleUtil.getObjectCodeTypeCodeWithoutSideEffects(accountingLine));
+            }
+        }
+    }
+
+    /**
+     * Adds the following restrictions in addition to those provided by <code>IsDebitUtils.isDebitConsideringNothingPositiveOnly</code>
+     * <ol>
+     * <li> Only allow income or expense object type codes
+     * <li> Target lines have the opposite debit/credit codes as the source lines
+     * </ol>
+     * 
+     * @param financialDocument The document used to determine if the accounting line is a debit line.
+     * @param accountingLine The accounting line to be analyzed.
+     * @return True if the accounting line provided is a debit line, false otherwise.
+     * 
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        AccountingLine accountingLine = (AccountingLine)postable;
+        // only allow income or expense
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        if (!isDebitUtils.isIncome(accountingLine) && !isDebitUtils.isExpense(accountingLine)) {
+            throw new IllegalStateException(isDebitUtils.getDebitCalculationIllegalStateExceptionMessage());
+        }
+        boolean isDebit = false;
+        if (accountingLine.isSourceAccountingLine()) {
+            isDebit = isDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingLine);
+        }
+        else if (accountingLine.isTargetAccountingLine()) {
+            isDebit = !isDebitUtils.isDebitConsideringNothingPositiveOnly(this, accountingLine);
+        }
+        else {
+            throw new IllegalStateException(isDebitUtils.getInvalidLineTypeIllegalArgumentExceptionMessage());
+        }
+
+        return isDebit;
     }
 }

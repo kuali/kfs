@@ -38,9 +38,11 @@ import org.kuali.core.util.ObjectUtils;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.kfs.bo.Country;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
 import org.kuali.module.purap.PurapPropertyConstants;
 import org.kuali.module.purap.PurapWorkflowConstants.NodeDetails;
 import org.kuali.module.purap.bo.CreditMemoView;
@@ -108,6 +110,8 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
 
     // workaround for purapOjbCollectionHelper - remove when merged into rice
     public boolean allowDeleteAwareCollection = false;
+    
+    private final static String PURCHASING_ACCOUNTS_PAYABLE_GL_POSTING_HELPER_BEAN_ID = "purchasingAccountsPayableGeneralLedgerPostingHelper";
 
     /**
      * Default constructor to be overiden.
@@ -852,4 +856,26 @@ public abstract class PurchasingAccountsPayableDocumentBase extends AccountingDo
         }
     }
     
+    /**
+     * Determines whether the account is debit. It always returns false.
+     * 
+     * @param financialDocument The document containing the account to be validated.
+     * @param accountingLine The account to be validated.
+     * @return boolean false.
+     * @see org.kuali.kfs.rule.AccountingLineRule#isDebit(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.kfs.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+
+        return false;
+    }
+    
+    /**
+     * Returns an instance of org.kuali.module.purap.service.impl.PurchasingAccountsPayableGeneralLedgerPostingHelperImpl; this will suffice for most purap documents 
+     * @see org.kuali.kfs.document.GeneralLedgerPoster#getGeneralLedgerPostingHelper()
+     */
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(PurchasingAccountsPayableDocumentBase.PURCHASING_ACCOUNTS_PAYABLE_GL_POSTING_HELPER_BEAN_ID);
+    }
 }

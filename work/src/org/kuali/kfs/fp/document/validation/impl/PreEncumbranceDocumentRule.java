@@ -34,7 +34,7 @@ import org.kuali.kfs.bo.TargetAccountingLine;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rules.AccountingDocumentRuleBase;
-import org.kuali.kfs.rules.AccountingDocumentRuleUtil;
+import org.kuali.kfs.service.AccountingDocumentRuleHelperService;
 import org.kuali.kfs.service.HomeOriginationService;
 import org.kuali.module.financial.document.PreEncumbranceDocument;
 
@@ -143,7 +143,8 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
      */
     private boolean isReversalDateValidForRouting(PreEncumbranceDocument preEncumbranceDocument) {
         java.sql.Date reversalDate = preEncumbranceDocument.getReversalDate();
-        return AccountingDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
+        AccountingDocumentRuleHelperService accountingDocumentRuleUtil = SpringContext.getBean(AccountingDocumentRuleHelperService.class);
+        return accountingDocumentRuleUtil.isValidReversalDate(reversalDate, DOCUMENT_ERROR_PREFIX + REVERSAL_DATE);
     }
 
     /**
@@ -176,61 +177,5 @@ public class PreEncumbranceDocumentRule extends AccountingDocumentRuleBase {
     @Override
     protected boolean isDocumentBalanceValid(AccountingDocument financialDocument) {
         return true;
-    }
-
-    /**
-     * This method contains PreEncumbrance document specific general ledger pending entry explicit entry 
-     * attribute assignments.  These attributes include financial balance type code, reversal date and 
-     * transaction encumbrance update code.
-     * 
-     * @param financialDocument The document which contains the explicit entry.
-     * @param accountingLine The accounting line the explicit entry is generated from.
-     * @param explicitEntry The explicit entry being updated.
-     * 
-     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
-     */
-    protected void customizeExplicitGeneralLedgerPendingEntry(AccountingDocument financialDocument, AccountingLine accountingLine, GeneralLedgerPendingEntry explicitEntry) {
-        explicitEntry.setFinancialBalanceTypeCode(BALANCE_TYPE_PRE_ENCUMBRANCE);
-
-        // set the reversal date to what was chosen by the user in the interface
-        PreEncumbranceDocument peDoc = (PreEncumbranceDocument) financialDocument;
-        if (peDoc.getReversalDate() != null) {
-            explicitEntry.setFinancialDocumentReversalDate(peDoc.getReversalDate());
-        }
-        explicitEntry.setTransactionEntryProcessedTs(null);
-        if (accountingLine.isSourceAccountingLine()) {
-            explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_DOCUMENT_CD);
-        }
-        else {
-            assertThat(accountingLine.isTargetAccountingLine(), accountingLine);
-            explicitEntry.setTransactionEncumbranceUpdateCode(KFSConstants.ENCUMB_UPDT_REFERENCE_DOCUMENT_CD);
-            explicitEntry.setReferenceFinancialSystemOriginationCode(SpringContext.getBean(HomeOriginationService.class).getHomeOrigination().getFinSystemHomeOriginationCode());
-            explicitEntry.setReferenceFinancialDocumentNumber(accountingLine.getReferenceNumber());
-            explicitEntry.setReferenceFinancialDocumentTypeCode(explicitEntry.getFinancialDocumentTypeCode()); // "PE"
-        }
-    }
-
-    /**
-     * This method limits valid debits to only expense object type codes.  Additionally, an 
-     * IllegalStateException will be thrown if the accounting line passed in is not an expense, 
-     * is an error correction with a positive dollar amount or is not an error correction and 
-     * has a negative amount. 
-     * 
-     * @param transactionalDocument The document the accounting line being checked is located in.
-     * @param accountingLine The accounting line being analyzed.
-     * @return True if the accounting line given is a debit accounting line, false otherwise.
-     * 
-     * @see IsDebitUtils#isDebitConsideringSection(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
-     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
-     *      org.kuali.core.bo.AccountingLine)
-     */
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // if not expense, or positive amount on an error-correction, or negative amount on a non-error-correction, throw exception
-        if (!isExpense(accountingLine) || (isErrorCorrection(financialDocument) == accountingLine.getAmount().isPositive())) {
-            throw new IllegalStateException(IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage);
-        }
-
-        return !IsDebitUtils.isDebitConsideringSection(this, financialDocument, accountingLine);
     }
 }

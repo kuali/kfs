@@ -38,7 +38,7 @@ import org.kuali.kfs.bo.AccountingLineOverride;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rules.AccountingLineRuleUtil;
+import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.test.ConfigureContext;
@@ -50,17 +50,18 @@ import org.kuali.test.ConfigureContext;
 public class AccountingLineRuleUtilTest extends KualiTestBase {
 
     public void testLabelsAreInDataDictionary() {
-        assertNotNull(AccountingLineRuleUtil.getChartLabel());
-        assertNotNull(AccountingLineRuleUtil.getAccountLabel());
-        assertNotNull(AccountingLineRuleUtil.getSubAccountLabel());
-        assertNotNull(AccountingLineRuleUtil.getObjectCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getSubObjectCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getProjectCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getObjectTypeCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getObjectSubTypeCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getOrganizationCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getFundGroupCodeLabel());
-        assertNotNull(AccountingLineRuleUtil.getSubFundGroupCodeLabel());
+        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
+        assertNotNull(accountingLineRuleUtil.getChartLabel());
+        assertNotNull(accountingLineRuleUtil.getAccountLabel());
+        assertNotNull(accountingLineRuleUtil.getSubAccountLabel());
+        assertNotNull(accountingLineRuleUtil.getObjectCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getSubObjectCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getProjectCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getObjectTypeCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getObjectSubTypeCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getOrganizationCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getFundGroupCodeLabel());
+        assertNotNull(accountingLineRuleUtil.getSubFundGroupCodeLabel());
     }
 
     public void testIsValidAccount_valid() {
@@ -77,7 +78,8 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
 
     private void testIsValidAccount(Account account, String expectedErrorKey) {
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.isValidAccount(account, SpringContext.getBean(DataDictionaryService.class).getDataDictionary());
+        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
+        boolean actual = accountingLineRuleUtil.isValidAccount(account, SpringContext.getBean(DataDictionaryService.class).getDataDictionary());
         assertEquals("isValidAccount result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();
@@ -161,7 +163,8 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
         line.setAccount(account);
 
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
+        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
+        boolean actual = accountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
         assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();
@@ -178,7 +181,8 @@ public class AccountingLineRuleUtilTest extends KualiTestBase {
         line.setObjectCode(objectCode);
 
         assertGlobalErrorMapEmpty();
-        boolean actual = AccountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
+        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
+        boolean actual = accountingLineRuleUtil.hasRequiredOverrides(line, overrideCode);
         assertEquals("hasRequiredOverrides result", expectedErrorKey == null, actual);
         if (expectedErrorKey == null) {
             assertGlobalErrorMapEmpty();

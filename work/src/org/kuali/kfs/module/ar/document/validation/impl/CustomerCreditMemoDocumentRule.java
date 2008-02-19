@@ -26,12 +26,6 @@ import org.kuali.module.ar.document.CustomerCreditMemoDocument;
  * This class holds the business rules for the AR Credit Memo Document
  */
 public class CustomerCreditMemoDocumentRule extends AccountingDocumentRuleBase {
-
-    public boolean isDebit(AccountingDocument financialDocument, AccountingLine accountingLine) {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
   
     protected boolean processCustomSaveDocumentBusinessRules(Document document) {
         boolean isValid = super.processCustomSaveDocumentBusinessRules(document);

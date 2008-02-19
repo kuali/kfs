@@ -307,4 +307,19 @@
 
     <bean id="kualiInquirable" class="org.kuali.kfs.inquiry.KfsInquirableImpl" singleton="false" />
     
+    <bean id="kfsGenericGeneralLedgerPostingHelper" class="org.kuali.kfs.service.impl.GenericGeneralLedgerPostingHelperImpl" />
+    
+    <bean id="accountingDocumentRuleHelperService" class="org.kuali.kfs.service.impl.AccountingDocumentRuleHelperServiceImpl">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    	<property name="objectTypeService"><ref bean="objectTypeService" /></property>
+    </bean>
+    
+    <bean id="debitDeterminerService" class="org.kuali.kfs.service.impl.DebitDeterminerServiceImpl">
+    	<property name="optionsService"><ref bean="optionsService" /></property>
+    	<property name="accountingDocumentRuleUtils"><ref bean="accountingDocumentRuleHelperService" /></property>
+    </bean>
+    
+    <bean id="accountingLineRuleHelperService" class="org.kuali.kfs.service.impl.AccountingLineRuleHelperServiceImpl">
+    	<property name="dataDictionaryService"><ref bean="dataDictionaryService" /></property>
+    </bean>
 </beans>

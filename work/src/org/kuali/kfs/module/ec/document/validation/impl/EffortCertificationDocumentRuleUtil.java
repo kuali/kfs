@@ -29,7 +29,7 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rules.AccountingLineRuleUtil;
+import org.kuali.kfs.service.AccountingLineRuleHelperService;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.chart.bo.A21SubAccount;
 import org.kuali.module.chart.bo.Account;
@@ -216,9 +216,10 @@ public class EffortCertificationDocumentRuleUtil {
         DataDictionary dataDictionary = SpringContext.getBean(DataDictionaryService.class).getDataDictionary();
 
         boolean hasValidReference = true;
-        hasValidReference &= AccountingLineRuleUtil.isValidAccount(detailLine.getAccount(), dataDictionary);
-        hasValidReference &= AccountingLineRuleUtil.isValidChart(detailLine.getChartOfAccounts(), dataDictionary);
-        hasValidReference &= AccountingLineRuleUtil.isValidSubAccount(detailLine.getSubAccount(), dataDictionary);
+        AccountingLineRuleHelperService accountingLineRuleUtil = SpringContext.getBean(AccountingLineRuleHelperService.class);
+        hasValidReference &= accountingLineRuleUtil.isValidAccount(detailLine.getAccount(), dataDictionary);
+        hasValidReference &= accountingLineRuleUtil.isValidChart(detailLine.getChartOfAccounts(), dataDictionary);
+        hasValidReference &= accountingLineRuleUtil.isValidSubAccount(detailLine.getSubAccount(), dataDictionary);
 
         return hasValidReference;
     }

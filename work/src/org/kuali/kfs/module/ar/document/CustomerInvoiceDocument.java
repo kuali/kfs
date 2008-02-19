@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.kuali.core.service.DateTimeService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
@@ -788,5 +789,15 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
             invoiceTotalAmount = invoiceTotalAmount.add( customerInvoiceDetail.getAmount() );
         }
         return invoiceTotalAmount;
+    }
+    
+    /**
+     * Determines if the given AccountingLine (as a GeneralLedgerPostable) is a credit or a debit, in terms of GLPE generation
+     * @see org.kuali.kfs.document.AccountingDocumentBase#isDebit(org.kuali.kfs.bo.GeneralLedgerPostable)
+     */
+    @Override
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        // TODO Auto-generated method stub
+        return false;
     }
 }

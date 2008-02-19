@@ -36,4 +36,6 @@ public class BudgetAdjustmentDocumentRuleConstants {
     public static final String MONTH_10_PERIOD_CODE = "10";
     public static final String MONTH_11_PERIOD_CODE = "11";
     public static final String MONTH_12_PERIOD_CODE = "12";
+    
+    public static final String INCOME_STREAM_CHART_ACCOUNT_DELIMITER = "|";
 }

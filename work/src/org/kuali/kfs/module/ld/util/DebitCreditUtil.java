@@ -17,7 +17,8 @@ package org.kuali.module.labor.util;
 
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
 
 /**
@@ -102,7 +103,8 @@ public class DebitCreditUtil {
             }
         }
         else {
-            throw new IllegalStateException(IsDebitUtils.isInvalidLineTypeIllegalArgumentExceptionMessage);
+            DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+            throw new IllegalStateException(isDebitUtils.getInvalidLineTypeIllegalArgumentExceptionMessage());
         }
 
         return debitCreditCode;

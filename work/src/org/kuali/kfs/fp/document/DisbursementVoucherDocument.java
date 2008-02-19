@@ -16,6 +16,9 @@
 
 package org.kuali.module.financial.document;
 
+import static org.kuali.kfs.KFSConstants.GL_CREDIT_CODE;
+import static org.kuali.kfs.KFSConstants.GL_DEBIT_CODE;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.AmountTotaling;
@@ -33,17 +37,26 @@ import org.kuali.core.service.DateTimeService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSKeyConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineParser;
 import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
+import org.kuali.kfs.rules.AccountingDocumentRuleBaseConstants.GENERAL_LEDGER_PENDING_ENTRY_CODE;
+import org.kuali.kfs.service.DebitDeterminerService;
+import org.kuali.kfs.service.GeneralLedgerPostingHelper;
+import org.kuali.kfs.service.OptionsService;
 import org.kuali.kfs.service.ParameterService;
 import org.kuali.module.chart.bo.ChartUser;
+import org.kuali.module.chart.bo.ObjectCode;
 import org.kuali.module.chart.service.ObjectTypeService;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.bo.DisbursementVoucherDocumentationLocation;
@@ -54,12 +67,14 @@ import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceDetail;
 import org.kuali.module.financial.bo.DisbursementVoucherPreConferenceRegistrant;
 import org.kuali.module.financial.bo.DisbursementVoucherWireTransfer;
 import org.kuali.module.financial.bo.Payee;
+import org.kuali.module.financial.bo.WireCharge;
 import org.kuali.module.financial.lookup.keyvalues.DisbursementVoucherDocumentationLocationValuesFinder;
 import org.kuali.module.financial.lookup.keyvalues.PaymentMethodValuesFinder;
 import org.kuali.module.financial.rules.DisbursementVoucherDocumentRule;
 import org.kuali.module.financial.rules.DisbursementVoucherRuleConstants;
 import org.kuali.module.financial.service.DisbursementVoucherTaxService;
 import org.kuali.module.financial.service.FlexibleOffsetAccountService;
+import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -67,7 +82,7 @@ import edu.iu.uis.eden.exception.WorkflowException;
  * This is the business object that represents the DisbursementVoucher document in Kuali.
  */
 public class DisbursementVoucherDocument extends AccountingDocumentBase implements Copyable, AmountTotaling {
-    public final static String DISBURSEMENT_VOUCHER_DOCUMENT_TYPE = "DV";
+    private static Logger LOG = Logger.getLogger(DisbursementVoucherDocument.class);
     
     private Integer finDocNextRegistrantLineNbr;
     private String disbVchrContactPersonName;
@@ -100,6 +115,8 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     private DisbursementVoucherPayeeDetail dvPayeeDetail;
     private DisbursementVoucherPreConferenceDetail dvPreConferenceDetail;
     private DisbursementVoucherWireTransfer dvWireTransfer;
+    
+    private final static String DISBURSEMENT_VOUCHER_GL_PENDING_ENTRY_BEAN_ID = "disbursementVoucherGeneralLedgerPostingHelper";
 
     /**
      * Default no-arg constructor.
@@ -981,5 +998,208 @@ public class DisbursementVoucherDocument extends AccountingDocumentBase implemen
     @Override
     public KualiDecimal getTotalDollarAmount() {
         return this.getDisbVchrCheckTotalAmount();
+    }
+    
+    /**
+     * Rerturns true if accounting line debit
+     * 
+     * @param financialDocument submitted accounting document
+     * @param accountingLine accounting line in accounting document
+     * @return true if document is debit
+     * @see IsDebitUtils#isDebitConsideringNothingPositiveOnly(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        // disallow error corrections
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
+
+        if (getDvNonResidentAlienTax() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText() != null && getDvNonResidentAlienTax().getFinancialDocumentAccountingLineText().contains(((AccountingLine)postable).getSequenceNumber().toString())) {
+            return postable.getAmount().isPositive();
+        }
+
+        return isDebitUtils.isDebitConsideringNothingPositiveOnly(this, (AccountingLine)postable);
+    }
+
+
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getGeneralLedgerPostingHelper()
+     */
+    @Override
+    public GeneralLedgerPostingHelper getGeneralLedgerPostingHelper() {
+        Map<String, GeneralLedgerPostingHelper> glPostingHelpers = SpringContext.getBeansOfType(GeneralLedgerPostingHelper.class);
+        return glPostingHelpers.get(DisbursementVoucherDocument.DISBURSEMENT_VOUCHER_GL_PENDING_ENTRY_BEAN_ID);
+    }
+    
+    /**
+     * Override to change the doc type based on payment method. This is needed to pick up different offset definitions.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param accountingLine accounting line in submitted accounting document 
+     * @param explicitEntry explicit GLPE 
+     * 
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable accountingLine, GeneralLedgerPendingEntry explicitEntry) {
+
+        /* change document type based on payment method to pick up different offsets */
+        if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_CHECK.equals(getDisbVchrPaymentMethodCode())) {
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
+            explicitEntry.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
+        }
+        else {
+            LOG.debug("changing doc type on pending entry " + explicitEntry.getTransactionLedgerEntrySequenceNumber() + " to " + DisbursementVoucherRuleConstants.DOCUMENT_TYPE_CHECKACH);
+            explicitEntry.setFinancialDocumentTypeCode(DisbursementVoucherRuleConstants.DOCUMENT_TYPE_WTFD);
+        }
+    }
+
+    /**
+     * Return true if GLPE's are generated successfully (i.e. there are either 0 GLPE's or 1 GLPE in dibursement voucher document)
+     * 
+     * @param financialDocument submitted financial document
+     * @param sequenceHelper helper class to keep track of GLPE sequence
+     * @return true if GLPE's are generated successfully
+     * 
+     * @see org.kuali.core.rule.GenerateGeneralLedgerDocumentPendingEntriesRule#processGenerateDocumentGeneralLedgerPendingEntries(org.kuali.core.document.FinancialDocument,org.kuali.core.util.GeneralLedgerPendingEntrySequenceHelper)
+     */
+    @Override
+    public void processGenerateDocumentGeneralLedgerPendingEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper) {
+        if (getGeneralLedgerPendingEntries() == null || getGeneralLedgerPendingEntries().size() < 2) {
+            LOG.warn("No gl entries for accounting lines.");
+            // throw new RuntimeException("No gl entries for accounting lines.");
+        }
+
+        /*
+         * only generate additional charge entries for payment method wire charge, and if the fee has not been waived
+         */
+        if (DisbursementVoucherRuleConstants.PAYMENT_METHOD_WIRE.equals(getDisbVchrPaymentMethodCode()) && !getDvWireTransfer().isDisbursementVoucherWireTransferFeeWaiverIndicator()) {
+            LOG.debug("generating wire charge gl pending entries.");
+
+            // retrieve wire charge
+            WireCharge wireCharge = retrieveWireCharge();
+
+            // generate debits
+            GeneralLedgerPendingEntry chargeEntry = processWireChargeDebitEntries(sequenceHelper, wireCharge);
+
+            // generate credits
+            processWireChargeCreditEntries(sequenceHelper, wireCharge, chargeEntry);
+        }
+
+    }
+
+    /**
+     * Builds an explicit and offset for the wire charge debit. The account associated with the first accounting is used for the
+     * debit. The explicit and offset entries for the first accounting line and copied and customized for the wire charge.
+     * 
+     * @param dvDocument submitted disbursement voucher document
+     * @param sequenceHelper helper class to keep track of GLPE sequence 
+     * @param wireCharge wireCharge object from current fiscal year
+     * @return GeneralLedgerPendingEntry generated wire charge debit
+     */
+    private GeneralLedgerPendingEntry processWireChargeDebitEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge) {
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // grab the explicit entry for the first accounting line and adjust for wire charge entry
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(getGeneralLedgerPendingEntry(0));
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setFinancialObjectCode(wireCharge.getExpenseFinancialObjectCode());
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
+        explicitEntry.setFinancialObjectTypeCode(SpringContext.getBean(OptionsService.class).getCurrentYearOptions().getFinObjTypeExpenditureexpCd());
+        explicitEntry.setTransactionDebitCreditCode(GL_DEBIT_CODE);
+
+        if (KFSConstants.COUNTRY_CODE_UNITED_STATES.equals(getDvWireTransfer().getDisbVchrBankCountryCode())) {
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getDomesticChargeAmt());
+        }
+        else {
+            explicitEntry.setTransactionLedgerEntryAmount(wireCharge.getForeignChargeAmt());
+        }
+
+        explicitEntry.setTransactionLedgerEntryDescription("Automatic debit for wire transfer fee");
+
+        getGeneralLedgerPendingEntries().add(explicitEntry);
+
+        // create offset
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = (GeneralLedgerPendingEntry) ObjectUtils.deepCopy(explicitEntry);
+        getGeneralLedgerPostingHelper().populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+
+        getGeneralLedgerPendingEntries().add(offsetEntry);
+
+        return explicitEntry;
+    }
+
+    /**
+     * Builds an explicit and offset for the wire charge credit. The account and income object code found in the wire charge table
+     * is used for the entry.
+     * 
+     * @param dvDocument submitted disbursement voucher document
+     * @param sequenceHelper helper class to keep track of GLPE sequence 
+     * @param chargeEntry GLPE charge
+     * @param wireCharge wireCharge object from current fiscal year
+     *  
+     */
+    private void processWireChargeCreditEntries(GeneralLedgerPendingEntrySequenceHelper sequenceHelper, WireCharge wireCharge, GeneralLedgerPendingEntry chargeEntry) {
+
+        // increment the sequence counter
+        sequenceHelper.increment();
+
+        // copy the charge entry and adjust for credit
+        GeneralLedgerPendingEntry explicitEntry = new GeneralLedgerPendingEntry(chargeEntry);
+        explicitEntry.setTransactionLedgerEntrySequenceNumber(new Integer(sequenceHelper.getSequenceCounter()));
+        explicitEntry.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
+        explicitEntry.setAccountNumber(wireCharge.getAccountNumber());
+        explicitEntry.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
+
+        // retrieve object type
+        ObjectCode objectCode = new ObjectCode();
+        objectCode.setUniversityFiscalYear(explicitEntry.getUniversityFiscalYear());
+        objectCode.setChartOfAccountsCode(wireCharge.getChartOfAccountsCode());
+        objectCode.setFinancialObjectCode(wireCharge.getIncomeFinancialObjectCode());
+        objectCode = (ObjectCode) SpringContext.getBean(BusinessObjectService.class).retrieve(objectCode);
+
+        explicitEntry.setFinancialObjectTypeCode(objectCode.getFinancialObjectTypeCode());
+        explicitEntry.setTransactionDebitCreditCode(GL_CREDIT_CODE);
+
+        explicitEntry.setFinancialSubObjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankFinancialSubObjectCode());
+        explicitEntry.setSubAccountNumber(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankSubAccountNumber());
+        explicitEntry.setProjectCode(GENERAL_LEDGER_PENDING_ENTRY_CODE.getBlankProjectCode());
+
+        explicitEntry.setTransactionLedgerEntryDescription("Automatic credit for wire transfer fee");
+
+        addPendingEntry(explicitEntry);
+
+        // create offset
+        sequenceHelper.increment();
+
+        // handle the offset entry
+        GeneralLedgerPendingEntry offsetEntry = new GeneralLedgerPendingEntry(explicitEntry);
+        getGeneralLedgerPostingHelper().populateOffsetGeneralLedgerPendingEntry(getPostingYear(), explicitEntry, sequenceHelper, offsetEntry);
+
+        addPendingEntry(offsetEntry);
+    }
+    
+    /**
+     * Retrieves the wire transfer information for the current fiscal year.
+     * 
+     * @return <code>WireCharge</code>
+     */
+    private WireCharge retrieveWireCharge() {
+        WireCharge wireCharge = new WireCharge();
+        wireCharge.setUniversityFiscalYear(SpringContext.getBean(UniversityDateService.class).getCurrentFiscalYear());
+
+        wireCharge = (WireCharge) SpringContext.getBean(BusinessObjectService.class).retrieve(wireCharge);
+        if (wireCharge == null) {
+            LOG.error("Wire charge information not found for current fiscal year.");
+            throw new RuntimeException("Wire charge information not found for current fiscal year.");
+        }
+
+        return wireCharge;
     }
 }

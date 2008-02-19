@@ -17,6 +17,9 @@
 package org.kuali.module.financial.document;
 
 import org.kuali.core.document.AmountTotaling;
+import org.kuali.kfs.bo.AccountingLine;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 
 /**
  * This is the business object that represents the <code>{@link YearEndDocument}</code> version of
@@ -33,5 +36,24 @@ public class YearEndGeneralErrorCorrectionDocument extends GeneralErrorCorrectio
      */
     public YearEndGeneralErrorCorrectionDocument() {
         super();
+    }
+    
+    /**
+     * Set attributes of an explicit pending entry according to rules specific to GeneralErrorCorrectionDocument.<br/> <br/> Uses
+     * <code>{@link YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(AccountingDocument, AccountingLine, GeneralLedgerPendingEntry)}</code>
+     * 
+     * @param accountingDocument The accounting document containing the general ledger pending entries being customized.
+     * @param accountingLine The accounting line the explicit general ledger pending entry was generated from.
+     * @param explicitEntry The explicit general ledger pending entry to be customized.
+     * 
+     * @see org.kuali.module.financial.rules.GeneralErrorCorrectionDocumentRule#customizeExplicitGeneralLedgerPendingEntry(org.kuali.kfs.document.AccountingDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     * @see YearEndDocumentUtil#customizeExplicitGeneralLedgerPendingEntry(TransactionalDocument, AccountingLine,
+     *      GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+        super.customizeExplicitGeneralLedgerPendingEntry(postable, explicitEntry);
+        YearEndDocumentUtil.customizeExplicitGeneralLedgerPendingEntry(this, (AccountingLine)postable, explicitEntry);
     }
 }

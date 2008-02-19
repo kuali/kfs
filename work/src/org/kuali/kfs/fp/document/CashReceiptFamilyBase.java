@@ -18,14 +18,20 @@ package org.kuali.module.financial.document;
 import java.sql.Timestamp;
 import java.util.Iterator;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.KualiRuleService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.AccountingLineBase;
 import org.kuali.kfs.bo.AccountingLineParser;
+import org.kuali.kfs.bo.GeneralLedgerPendingEntry;
+import org.kuali.kfs.bo.GeneralLedgerPostable;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.kfs.rule.AccountingLineRule;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.bo.BasicFormatWithLineDescriptionAccountingLineParser;
 import org.kuali.module.financial.rules.CashReceiptFamilyRule;
 
@@ -110,10 +116,10 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
             try {
                 KualiDecimal amount = al.getAmount().abs();
                 if (amount != null && amount.isNonZero()) {
-                    if (crFamilyRule.isDebit(this, al)) {
+                    if (isDebit(al)) {
                         total = total.subtract(amount);
                     }
-                    else if (crFamilyRule.isCredit(al, this)) {
+                    else if (!isDebit(al)) { // in this context, if it's not a debit, it's a credit
                         total = total.add(amount);
                     }
                     else {
@@ -168,5 +174,41 @@ abstract public class CashReceiptFamilyBase extends AccountingDocumentBase {
     @Override
     public AccountingLineParser getAccountingLineParser() {
         return new BasicFormatWithLineDescriptionAccountingLineParser();
+    }
+    
+    /**
+     * Returns true if accounting line is debit
+     * 
+     * @param financialDocument
+     * @param accountingLine
+     * @param true if accountline line 
+     * 
+     * @see IsDebitUtils#isDebitConsideringType(FinancialDocumentRuleBase, FinancialDocument, AccountingLine)
+     * @see org.kuali.core.rule.AccountingLineRule#isDebit(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine)
+     */
+    public boolean isDebit(GeneralLedgerPostable postable) {
+        // error corrections are not allowed
+        DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+        isDebitUtils.disallowErrorCorrectionDocumentCheck(this);
+        return isDebitUtils.isDebitConsideringType(this, (AccountingLine)postable);
+    }
+    
+    /**
+     * Overrides to set the entry's description to the description from the accounting line, if a value exists.
+     * 
+     * @param financialDocument submitted accounting document
+     * @param accountingLine accounting line in accounting document
+     * @param explicitEntry general ledger pending entry
+     * 
+     * @see org.kuali.module.financial.rules.FinancialDocumentRuleBase#customizeExplicitGeneralLedgerPendingEntry(org.kuali.core.document.FinancialDocument,
+     *      org.kuali.core.bo.AccountingLine, org.kuali.module.gl.bo.GeneralLedgerPendingEntry)
+     */
+    @Override
+    public void customizeExplicitGeneralLedgerPendingEntry(GeneralLedgerPostable postable, GeneralLedgerPendingEntry explicitEntry) {
+        String accountingLineDescription = postable.getFinancialDocumentLineDescription();
+        if (StringUtils.isNotBlank(accountingLineDescription)) {
+            explicitEntry.setTransactionLedgerEntryDescription(accountingLineDescription);
+        }
     }
 }

@@ -26,9 +26,10 @@ import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.AccountingLine;
 import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.bo.TargetAccountingLine;
+import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.rule.AccountingLineRule;
-import org.kuali.kfs.rules.AccountingDocumentRuleBase.IsDebitUtils;
+import org.kuali.kfs.service.DebitDeterminerService;
 import org.kuali.module.financial.document.AdvanceDepositDocument;
 import org.kuali.module.financial.document.CashReceiptDocument;
 import org.kuali.module.financial.document.CreditCardReceiptDocument;
@@ -203,7 +204,7 @@ public class IsDebitTestUtils {
         String documentTypeName = documentTypeService.getDocumentTypeNameByClass(financialDocument.getClass());
         AccountingLineRule rule = (AccountingLineRule) dataDicitionaryService.getDataDictionary().getDocumentEntry(documentTypeName).getBusinessRulesClass().newInstance();
 
-        return rule.isDebit(financialDocument, accountingLine);
+        return financialDocument.isDebit(accountingLine);
     }
 
 
@@ -223,7 +224,8 @@ public class IsDebitTestUtils {
 
         }
         catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isDebitCalculationIllegalStateExceptionMessage.equals(e.getMessage());
+            DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+            failedAsExpected = isDebitUtils.getDebitCalculationIllegalStateExceptionMessage().equals(e.getMessage());
         }
 
         return failedAsExpected;
@@ -245,7 +247,8 @@ public class IsDebitTestUtils {
 
         }
         catch (IllegalStateException e) {
-            failedAsExpected = IsDebitUtils.isErrorCorrectionIllegalStateExceptionMessage.equals(e.getMessage());
+            DebitDeterminerService isDebitUtils = SpringContext.getBean(DebitDeterminerService.class);
+            failedAsExpected = isDebitUtils.getErrorCorrectionIllegalStateExceptionMessage().equals(e.getMessage());
         }
 
         return failedAsExpected;

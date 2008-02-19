@@ -192,6 +192,9 @@
 		<property name="workflowDocumentService">
 			<ref bean="workflowDocumentService" />
 		</property>
+		<property name="accountingLineRuleUtil">
+			<ref bean="accountingLineRuleHelperService" />
+		</property>
 	</bean>
 
 	<bean id="procurementCardLoadTransactionsService" class="org.kuali.module.financial.service.impl.ProcurementCardLoadTransactionsServiceImpl">
@@ -383,4 +386,10 @@
 	<bean id="cashManagementDao" class="org.kuali.module.financial.dao.ojb.CashManagementDaoOjb" parent="platformAwareDao" />
 
 	<bean id="disbursementVoucherDao" class="org.kuali.module.financial.dao.ojb.DisbursementVoucherDaoOjb" parent="platformAwareDao" />
+	
+	<bean id="auxiliaryVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.AuxiliaryVoucherGeneralLedgerPostingHelperImpl" />
+	
+	<bean id="budgetAdjustmentGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.BudgetAdjustmentGeneralLedgerPostingHelperImpl" />
+	
+	<bean id="journalVoucherGeneralLedgerPostingHelper" class="org.kuali.module.financial.service.impl.JournalVoucherGeneralLedgerPostingHelperImpl" />
 </beans>

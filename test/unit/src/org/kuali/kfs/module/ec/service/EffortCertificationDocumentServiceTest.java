@@ -179,7 +179,7 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
     }
 
     private List<EffortCertificationDetailBuild> buildDetailLineBuild(String testTarget) {
-        int numberOfDetailBuild = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAIL_BUILD));
+        int numberOfDetailBuild = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DETAIL_BUILDS));
         return TestDataPreparator.buildTestDataList(EffortCertificationDetailBuild.class, properties, testTarget + EffortTestDataPropertyConstants.DETAIL_BUILD, detailFieldNames, deliminator, numberOfDetailBuild);
     }
 

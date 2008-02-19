@@ -32,7 +32,9 @@ public class EffortTestDataPropertyConstants {
     public static final String ENTRY_FIELD_NAMES = "entryFieldNames";
     public static final String EXPECTED_DETAIL = "expectedDetail";
     public static final String EXPECTED_DOCUMENT = "expectedDocument";
+    public static final String FEDERAL_AGENCY_TYPE_CODES = "federalAgencyTypeCodes";
     public static final String FISCAL_YEAR = "fiscalYear";
+    public static final String FUND_GROUPS = "fundGroups";
     public static final String INPUT_BALANCE = "inputBalance";
     public static final String INPUT_ENTRY = "inputEntry";
     public static final String LIMIT_OF_LINE_PAYROLL_AMOUNT_CHANGE = "limitOfLinePayrollAmountChange";
@@ -40,7 +42,7 @@ public class EffortTestDataPropertyConstants {
     public static final String NEW_DETAIL = "newDetail";
     public static final String NUM_OF_BALANCES = "numOfBalances";
     public static final String NUM_OF_DATA = "numOfData";
-    public static final String NUM_OF_DETAIL_BUILD = "numOfDetailBuild";
+    public static final String NUM_OF_DETAIL_BUILDS = "numOfDetailBuilds";
     public static final String NUM_OF_DETAILS = "numOfDetails";
     public static final String NUM_OF_ENTRIES = "numOfEntries";
     public static final String NUM_OF_EXPECTED_DETAILS = "numOfExpectedDetails";
@@ -51,4 +53,5 @@ public class EffortTestDataPropertyConstants {
     public static final String REPORT_DEFINITION_FIELD_NAMES = "reportDefinitionFieldNames";
     public static final String REPORT_DEFINITION_FIELD_VALUES = "reportDefinitionFieldValues";
     public static final String REPORT_NUMBER = "reportNumber";
+    public static final String SUB_FUND_GROUPS = "subFundGroups";
 }

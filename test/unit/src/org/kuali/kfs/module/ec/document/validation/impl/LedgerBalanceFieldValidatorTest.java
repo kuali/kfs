@@ -15,12 +15,9 @@
  */
 package org.kuali.module.effort.rules;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.PersistenceService;
 import org.kuali.kfs.bo.LaborLedgerBalance;
@@ -30,6 +27,7 @@ import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.Message;
 import org.kuali.kfs.util.ObjectUtil;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.testdata.EffortTestDataPropertyConstants;
 import org.kuali.module.gl.web.TestDataGenerator;
 import org.kuali.test.ConfigureContext;
 import org.kuali.test.util.TestDataPreparator;
@@ -45,7 +43,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     private BusinessObjectService businessObjectService;
     private PersistenceService persistenceService;
     private LaborModuleService laborModuleService;
-    
+
     private Class<? extends LaborLedgerBalance> ledgerBalanceClass;
 
     /**
@@ -60,9 +58,8 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         properties = generator.getProperties();
         message = generator.getMessage();
 
-        deliminator = properties.getProperty("deliminator");
-
-        balanceFieldNames = properties.getProperty("balanceFieldNames");
+        deliminator = properties.getProperty(EffortTestDataPropertyConstants.DELIMINATOR);
+        balanceFieldNames = properties.getProperty(EffortTestDataPropertyConstants.BALANCE_FIELD_NAMES);
     }
 
     @Override
@@ -72,10 +69,10 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
         businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         persistenceService = SpringContext.getBean(PersistenceService.class);
         laborModuleService = SpringContext.getBean(LaborModuleService.class);
-        
+
         ledgerBalanceClass = laborModuleService.getLaborLedgerBalanceClass();
 
-        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, "dataCleanup", balanceFieldNames, deliminator);
+        TestDataPreparator.doCleanUpWithoutReference(ledgerBalanceClass, properties, EffortTestDataPropertyConstants.DATA_CLEANUP, balanceFieldNames, deliminator);
     }
 
     public void testHasValidAccount_valid() throws Exception {
@@ -101,7 +98,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testIsInFundGroups_Contain() throws Exception {
         String testTarget = "isInFundGroups.contain.";
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.isInFundGroups(ledgerBalance, fundGroupCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.isInFundGroups.contain");
@@ -111,7 +108,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testIsInFundGroups_NotContain() throws Exception {
         String testTarget = "isInFundGroups.notContain.";
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.isInFundGroups(ledgerBalance, fundGroupCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.isInFundGroups.notContain");
@@ -121,7 +118,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testIsInSubFundGroups_Contain() throws Exception {
         String testTarget = "isInSubFundGroups.contain.";
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.SUB_FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.isInSubFundGroups(ledgerBalance, fundGroupCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.isInSubFundGroups.contain");
@@ -131,7 +128,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testIsInSubFundGroups_NotContain() throws Exception {
         String testTarget = "isInSubFundGroups.notContain.";
         LaborLedgerBalance ledgerBalance = this.buildLedgerBalance(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.SUB_FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.isInSubFundGroups(ledgerBalance, fundGroupCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.isInSubFundGroups.notContain");
@@ -191,7 +188,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasGrantAccount_ByFundGroup_Contain() throws Exception {
         String testTarget = "hasGrantAccount.byFundGroup.contain.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.byFundGroup.contain");
@@ -201,7 +198,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasGrantAccount_ByFundGroup_NotContain() throws Exception {
         String testTarget = "hasGrantAccount.byFundGroup.notContain.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "fundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.byFundGroup.notContain");
@@ -211,7 +208,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasGrantAccount_BySubFundGroup_Contain() throws Exception {
         String testTarget = "hasGrantAccount.bySubFundGroup.contain.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.SUB_FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.bySubFundGroup.contain");
@@ -221,7 +218,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasGrantAccount_BySubFundGroup_NotContain() throws Exception {
         String testTarget = "hasGrantAccount.bySubFundGroup.notContain.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + "subFundGroups"), deliminator);
+        List<String> fundGroupCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.SUB_FUND_GROUPS), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasGrantAccount(ledgerBalances);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasGrantAccount.bySubFundGroup.notContain");
@@ -249,7 +246,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasFederalFunds_FederalFunds() throws Exception {
         String testTarget = "hasFederalFunds.federalFunds.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + "federalAgencyTypeCodes"), deliminator);
+        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FEDERAL_AGENCY_TYPE_CODES), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasFederalFunds.federalFunds");
@@ -259,7 +256,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasFederalFunds_PassThrough() throws Exception {
         String testTarget = "hasFederalFunds.passThrough.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + "federalAgencyTypeCodes"), deliminator);
+        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FEDERAL_AGENCY_TYPE_CODES), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasFederalFunds.passThrough");
@@ -269,7 +266,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
     public void testHasFederalFunds_NoFederalFunds() throws Exception {
         String testTarget = "hasFederalFunds.noFederalFunds.";
         List<LaborLedgerBalance> ledgerBalances = this.buildLedgerBalances(testTarget);
-        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + "federalAgencyTypeCodes"), deliminator);
+        List<String> federalAgencyTypeCodes = ObjectUtil.split(properties.getProperty(testTarget + EffortTestDataPropertyConstants.FEDERAL_AGENCY_TYPE_CODES), deliminator);
 
         Message validationMessage = LedgerBalanceFieldValidator.hasFederalFunds(ledgerBalances, federalAgencyTypeCodes);
         String errorMessage = message.getProperty("error.ledgerBalanceFieldValidator.hasFederalFunds.noFederalFunds");
@@ -283,7 +280,7 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
      * @return a ledger balance
      */
     private LaborLedgerBalance buildLedgerBalance(String testTarget) {
-        LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator);
+        LaborLedgerBalance ledgerBalance = TestDataPreparator.buildTestDataObject(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator);
         businessObjectService.save(ledgerBalance);
         persistenceService.retrieveNonKeyFields(ledgerBalance);
 
@@ -297,9 +294,9 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
      * @return a list of ledger balances
      */
     private List<LaborLedgerBalance> buildLedgerBalances(String testTarget) {
-        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + "numOfData"));
+        int numberOfTestData = Integer.valueOf(properties.getProperty(testTarget + EffortTestDataPropertyConstants.NUM_OF_DATA));
 
-        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + "inputBalance", balanceFieldNames, deliminator, numberOfTestData);
+        List<LaborLedgerBalance> ledgerBalances = TestDataPreparator.buildTestDataList(ledgerBalanceClass, properties, testTarget + EffortTestDataPropertyConstants.INPUT_BALANCE, balanceFieldNames, deliminator, numberOfTestData);
         businessObjectService.save(ledgerBalances);
         for (LaborLedgerBalance balance : ledgerBalances) {
             persistenceService.retrieveNonKeyFields(balance);
@@ -316,8 +313,8 @@ public class LedgerBalanceFieldValidatorTest extends KualiTestBase {
      */
     private EffortCertificationReportDefinition buildReportDefinition(String testTarget) {
         EffortCertificationReportDefinition reportDefinition = new EffortCertificationReportDefinition();
-        String reprtDefinitionFieldNames = properties.getProperty("reportDefinitionFieldNames");
-        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + "reportDefinitionFieldValues", reprtDefinitionFieldNames, deliminator);
+        String reprtDefinitionFieldNames = properties.getProperty(EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_NAMES);
+        ObjectUtil.populateBusinessObject(reportDefinition, properties, testTarget + EffortTestDataPropertyConstants.REPORT_DEFINITION_FIELD_VALUES, reprtDefinitionFieldNames, deliminator);
 
         return reportDefinition;
     }

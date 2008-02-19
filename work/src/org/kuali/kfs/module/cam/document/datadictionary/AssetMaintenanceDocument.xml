@@ -52,10 +52,10 @@
                 	<subSectionHeader name="Asset Detail Info" />
                 	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
-                    <!--  maintainableField name="capitalAssetNumber" required="true" / -->
+                    <maintainableField name="capitalAssetNumber"  />
                     <maintainableField name="organizationOwnerChartOfAccountsCode" />
                     <maintainableField name="organizationOwnerAccountNumber" />
-                    <maintainableField name="organizationOwnerAccount.organizationCode" />
+                    <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
                     <maintainableField name="agencyNumber" />
                     <maintainableField name="acquisitionTypeCode" />
                     <maintainableField name="inventoryStatusCode" required="true"/>

@@ -87,7 +87,7 @@
 	            <lookupField attributeName="capitalAssetNumber" required="false" />
 	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
 	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" />
+	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
 	            <lookupField attributeName="agencyNumber" required="false" />
 	            <lookupField attributeName="inventoryStatusCode" required="false" />
 	            <lookupField attributeName="conditionCode" required="false" />
@@ -711,7 +711,7 @@
 				<label>Organization Owner Chart Of Accounts Code</label>
 			</attributeReference>
 			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode" >
+			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
 				<label>Organization Owner Organization Code</label>
 			</attributeReference>
 			

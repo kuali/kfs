@@ -221,6 +221,20 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
     }
 
     /**
+     * Gets the EffortCertificationDetail at index
+     * 
+     * @param index
+     * @return Returns the EffortCertificationDetail line
+     */
+    public EffortCertificationDetail getEffortCertificationDetailLine(int index) {
+        while (getEffortCertificationDetailLines().size() <= index) {
+            getEffortCertificationDetailLines().add(new EffortCertificationDetail());
+        }
+        
+        return (EffortCertificationDetail) getEffortCertificationDetailLines().get(index);
+    }
+    
+    /**
      * Sets the effortCertificationDetailLines attribute value.
      * 
      * @param effortCertificationDetailLines The effortCertificationDetailLines to set.

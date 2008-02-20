@@ -21,6 +21,12 @@
 	documentTypeName="EffortCertificationDocument" renderMultipart="true"
 	showTabButtons="true">
 	
+	<html:hidden property="document.documentNumber" />
+	<html:hidden property="document.effortCertificationReportNumber" />
+    <html:hidden property="document.effortCertificationDocumentCode" />
+    <html:hidden property="document.universityFiscalYear" />
+    <html:hidden property="document.emplid" />
+		 		
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 		
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />

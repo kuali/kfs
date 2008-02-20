@@ -54,9 +54,7 @@
 
         <attributes>
 
-			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber">
-				<required>true</required>
-			</attributeReference>
+			<attributeReference name="customerNumber" sourceClassName="org.kuali.module.ar.bo.Customer" sourceAttributeName="customerNumber"/>
 
             <attribute name="documentNumber" forceUppercase="true">
                 <label>Document Number</label>

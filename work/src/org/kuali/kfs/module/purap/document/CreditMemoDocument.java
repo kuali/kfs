@@ -266,8 +266,9 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
         // set the workflow document title
         String poNumber = getPurchaseOrderIdentifier().toString();
         String vendorName = StringUtils.trimToEmpty(getVendorName());
+        String cmAmount = getGrandTotal().toString();
         String indicator = getTitleIndicator();
-        String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" ").append(indicator).toString();
+        String documentTitle = new StringBuffer("PO: ").append(poNumber).append(" Vendor: ").append(vendorName).append(" Amount: ").append(cmAmount).append(" ").append(indicator).toString();
         return documentTitle;
     }
     
@@ -557,5 +558,5 @@ public class CreditMemoDocument extends AccountsPayableDocumentBase {
 
         // CMs do not wait for document final approval to post GL entries; here we are forcing them to be APPROVED
         explicitEntry.setFinancialDocumentApprovedCode(KFSConstants.PENDING_ENTRY_APPROVED_STATUS_CODE.APPROVED);
-    }
+}
 }

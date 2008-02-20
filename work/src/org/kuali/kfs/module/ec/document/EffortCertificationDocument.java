@@ -26,6 +26,7 @@ import org.kuali.core.bo.user.UniversalUser;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
@@ -60,7 +61,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
      * Default constructor.
      */
     public EffortCertificationDocument() {
-        effortCertificationDetailLines = new ArrayList<EffortCertificationDetail>();
+        effortCertificationDetailLines = new TypedArrayList(EffortCertificationDetail.class);
     }
 
     /**
@@ -219,21 +220,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
     public List<EffortCertificationDetail> getEffortCertificationDetailLines() {
         return effortCertificationDetailLines;
     }
-
-    /**
-     * Gets the EffortCertificationDetail at index
-     * 
-     * @param index
-     * @return Returns the EffortCertificationDetail line
-     */
-    public EffortCertificationDetail getEffortCertificationDetailLine(int index) {
-        while (getEffortCertificationDetailLines().size() <= index) {
-            getEffortCertificationDetailLines().add(new EffortCertificationDetail());
-        }
         
-        return (EffortCertificationDetail) getEffortCertificationDetailLines().get(index);
-    }
-    
     /**
      * Sets the effortCertificationDetailLines attribute value.
      * 

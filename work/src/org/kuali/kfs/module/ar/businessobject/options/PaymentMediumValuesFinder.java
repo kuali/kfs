@@ -37,7 +37,7 @@ public class PaymentMediumValuesFinder extends KeyValuesBase {
     public List<KeyLabelPair> getKeyValues() {
         List<PaymentMedium> boList = (List) SpringContext.getBean(KeyValuesService.class).findAll(PaymentMedium.class);
         List<KeyLabelPair> keyValues = new ArrayList();
-        keyValues.add(new KeyLabelPair("", "select"));
+        keyValues.add(new KeyLabelPair("", ""));
         for (PaymentMedium element : boList) {
             keyValues.add(new KeyLabelPair(element.getCustomerPaymentMediumCode(), element.getCustomerPaymentMediumDescription()));
         }

@@ -64,6 +64,7 @@ public class CashControlDocumentForm extends KualiTransactionalDocumentFormBase 
 
     public void setProcessingChartOfAccCodeAndOrgCode(String processingChartOfAccCodeAndOrgCode) {
         this.processingChartOfAccCodeAndOrgCode = processingChartOfAccCodeAndOrgCode;
-    }   
+    }
+  
     
 }

@@ -86,18 +86,23 @@
                 <summary>referenceFinancialDocumentNumber</summary>
                 <description>referenceFinancialDocumentNumber description...</description>
             </attribute>
-            <attributeReference name="customerPaymentMedium" sourceClassName="org.kuali.module.ar.bo.PaymentMedium" sourceAttributeName="customerPaymentMediumCode">
+            
+           <attribute name="customerPaymentMediumCode" forceUppercase="true" >
                 <label>Payment Medium Code</label>
-                <shortLabel>Medium code</shortLabel>
-                
-                <maxLength>2</maxLength>
+                <shortLabel>Medium Code</shortLabel>
+                 
+               <maxLength>2</maxLength>
                 
                 <required>true</required>
 
                 <control>
                     <select valuesFinderClass="org.kuali.module.ar.lookup.keyvalues.PaymentMediumValuesFinder" />
                 </control>
-            </attributeReference>
+
+                <summary>customerPaymentMediumCode</summary>
+                <description>customerPaymentMediumCode description...</description>
+            </attribute>
+            
         </attributes>
         
         

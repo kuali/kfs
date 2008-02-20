@@ -309,6 +309,6 @@ public class CashControlDocument extends TransactionalDocumentBase implements Am
             }
         }
         return cashControlDetails.get(index);
-    }   
+    }
 
 }

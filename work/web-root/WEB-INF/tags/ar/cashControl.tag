@@ -21,10 +21,13 @@
 
 <c:set var="arDocHeaderAttributes"
 	value="${DataDictionary.AccountsReceivableDocumentHeader.attributes}" />
-	
-<html:hidden property="document.accountsReceivableDocumentHeader.documentNumber" />
-<html:hidden property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
-<html:hidden property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
+
+<html:hidden
+	property="document.accountsReceivableDocumentHeader.documentNumber" />
+<html:hidden
+	property="document.accountsReceivableDocumentHeader.processingChartOfAccountCode" />
+<html:hidden
+	property="document.accountsReceivableDocumentHeader.processingOrganizationCode" />
 <kul:tab tabTitle="General Info" defaultOpen="true"
 	tabErrorKey="${KFSConstants.CASH_CONTROL_DOCUMENT_ERRORS}">
 	<div class="tab-container" align=center>
@@ -45,8 +48,7 @@
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
 						attributeEntry="${arDocHeaderAttributes.processingChartOfAccCodeAndOrgCode}"
-						property="processingChartOfAccCodeAndOrgCode"
-						readOnly="true" />
+						property="processingChartOfAccCodeAndOrgCode" readOnly="true" />
 				</td>
 			</tr>
 
@@ -67,15 +69,28 @@
 
 			<tr>
 				<kul:htmlAttributeHeaderCell
-					attributeEntry="${documentAttributes.customerPaymentMedium}"
+					attributeEntry="${documentAttributes.customerPaymentMediumCode}"
 					horizontal="true" forceRequired="true" />
 
 				<td class="datacell-nowrap">
 					<kul:htmlControlAttribute
-						attributeEntry="${documentAttributes.customerPaymentMedium}"
+						attributeEntry="${documentAttributes.customerPaymentMediumCode}"
 						property="document.customerPaymentMediumCode" />
 				</td>
 			</tr>
+
+			<c:if test="${not readOnly}">
+				<tr>
+					<td class="${cssClass}" colspan="2">
+						<div align="center">
+							<html:image property="methodToCall.generateRefDoc"
+								src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif"
+								alt="Generate Reference Document"
+								title="Generate Reference Document" styleClass="tinybutton" />
+						</div>
+					</td>
+				</tr>
+			</c:if>
 
 		</table>
 	</div>

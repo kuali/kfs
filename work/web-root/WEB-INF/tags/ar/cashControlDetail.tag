@@ -14,48 +14,84 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-              
-<%@ attribute name="cashControlDetailAttributes" required="true" type="java.util.Map"
-              description="The DataDictionary entry containing attributes for cash control detail fields." %>              
-              
-<%@ attribute name="readOnly" required="true" description="determines whether the check  will be displayed readonly" %>
-<%@ attribute name="rowHeading" required="true" %>
-<%@ attribute name="propertyName" required="true" description="name of form property containing the customer invoice document" %>
-<%@ attribute name="actionMethod" required="true" description="methodToCall value for actionImage" %>
-<%@ attribute name="actionImage" required="true" description="path to image to be displayed in Action column" %>
-<%@ attribute name="actionAlt" required="true" description="alt value for actionImage" %>
-<%@ attribute name="cssClass" required="true" %>
+
+<%@ attribute name="cashControlDetailAttributes" required="true"
+	type="java.util.Map"
+	description="The DataDictionary entry containing attributes for cash control detail fields."%>
+
+<%@ attribute name="readOnly" required="true"
+	description="determines whether the check  will be displayed readonly"%>
+<%@ attribute name="rowHeading" required="true"%>
+<%@ attribute name="propertyName" required="true"
+	description="name of form property containing the customer invoice document"%>
+<%@ attribute name="actionMethod" required="true"
+	description="methodToCall value for actionImage"%>
+<%@ attribute name="actionImage" required="true"
+	description="path to image to be displayed in Action column"%>
+<%@ attribute name="actionAlt" required="true"
+	description="alt value for actionImage"%>
+<%@ attribute name="cssClass" required="true"%>
 
 <tr>
-    <kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row">
-        <%-- Outside this th, these hidden fields would be invalid HTML. --%>
-        <html:hidden property="${propertyName}.documentNumber" />
-        <html:hidden property="${propertyName}.versionNumber" />
-        <html:hidden property="${propertyName}.objectId" />
-    </kul:htmlAttributeHeaderCell>
+	<kul:htmlAttributeHeaderCell literalLabel="${rowHeading}:" scope="row" rowspan="2">
+		<%-- Outside this th, these hidden fields would be invalid HTML. --%>
+		<html:hidden property="${propertyName}.documentNumber" />
+		<html:hidden property="${propertyName}.versionNumber" />
+		<html:hidden property="${propertyName}.objectId" />
+	</kul:htmlAttributeHeaderCell>
 
 	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber }" property="${propertyName}.referenceFinancialDocumentNumber" readOnly="true"/>
+		<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.referenceFinancialDocumentNumber}"
+			property="${propertyName}.referenceFinancialDocumentNumber"
+			readOnly="true" />
+	</td>
+	
+	<td align=left class="${cssClass}">
+	<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.status}"
+			property="${propertyName}.status"
+			readOnly="true" />
+		
 	</td>
 	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${cashControlDetailAttributes.customerNumber }" property="${propertyName}.customerNumber"/>
+		<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.customerNumber}"
+			property="${propertyName}.customerNumber" />
 		&nbsp;
-		<kul:lookup boClassName="org.kuali.module.ar.bo.Customer" fieldConversions="customer:${propertyName}.customerNumber" />
+		<kul:lookup boClassName="org.kuali.module.ar.bo.Customer"
+			fieldConversions="customer:${propertyName}.customerNumber" />
 	</td>
 	<td align=left class="${cssClass}">
-    	<kul:htmlControlAttribute attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier }" property="${propertyName}.customerPaymentMediumIdentifier"/>
-	</td> 
+		<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}"
+			property="${propertyName}.customerPaymentMediumIdentifier" />
+	</td>
 	<td align=left class="${cssClass}">
-		<kul:dateInput attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" property="${propertyName}.customerPaymentDate"/>
-	</td>               
+		<kul:dateInput
+			attributeEntry="${cashControlDetailAttributes.customerPaymentDate}"
+			property="${propertyName}.customerPaymentDate" />
+	</td>
 	<td align=left class="${cssClass}">
-		<kul:htmlControlAttribute attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }" property="${propertyName}.financialDocumentLineAmount"/>
+		<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.financialDocumentLineAmount }"
+			property="${propertyName}.financialDocumentLineAmount" />
 	</td>
 	<c:if test="${not readOnly}">
-        <td class="${cssClass}">
-        	<div align="center">
-        		<html:image property="methodToCall.${actionMethod}" src="${actionImage}" alt="${actionAlt}" title="${actionAlt}" styleClass="tinybutton"/>
-        	</div>
-        </td>
-    </c:if>
+		<td class="${cssClass}" rowspan="2">
+			<div align="center">
+				<html:image property="methodToCall.${actionMethod}"
+					src="${actionImage}" alt="${actionAlt}" title="${actionAlt}"
+					styleClass="tinybutton" />
+			</div>
+		</td>
+	</c:if>
+</tr>
+<tr>
+<kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}" />
+<td colspan="5" class="${cssClass}">
+<kul:htmlControlAttribute
+			attributeEntry="${cashControlDetailAttributes.customerPaymentDescription}"
+			property="${propertyName}.customerPaymentDescription" />
+</td>
 </tr>

@@ -15,6 +15,8 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
+import java.util.Iterator;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -22,6 +24,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
@@ -34,10 +37,33 @@ import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.financial.bo.AdvanceDepositDetail;
+import org.kuali.module.financial.document.AdvanceDepositDocument;
+import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
 public class CashControlDocumentAction extends KualiTransactionalDocumentActionBase {
+    
+    /**
+     * Adds handling for cash control detail amount updates.
+     * 
+     * @see org.apache.struts.action.Action#execute(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm,
+     *      javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        CashControlDocumentForm ccForm = (CashControlDocumentForm) form;
+
+        if (ccForm.hasDocumentId()) {
+            CashControlDocument ccDoc = ccForm.getCashControlDocument();
+
+            ccDoc.setCashControlTotalAmount(calculateCashControlTotal(ccDoc)); // recalc b/c changes to the amounts could
+            // have happened
+        }
+
+        // proceed as usual
+        return super.execute(mapping, form, request, response);
+    }
 
     @Override
     protected void createDocument(KualiDocumentFormBase kualiDocumentFormBase) throws WorkflowException {
@@ -65,6 +91,10 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         //rules
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, document, newCashControlDetail));
         if (rulePassed) {
+            //TODO delete these lines
+            newCashControlDetail.setReferenceFinancialDocumentNumber("53454545");
+//            newCashControlDetail.getReferenceFinancialDocument().getDocumentHeader().getWorkflowDocument().get
+            
             // add customer invoice detail
             document.addCashControlDetail(newCashControlDetail);
             // clear the used customer invoice detail
@@ -91,12 +121,29 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         CashControlDocument document = cashControlDocForm.getCashControlDocument();
         String paymentMediumCode = document.getCustomerPaymentMediumCode();
         
+//      TODO delete these lines
+        document.setReferenceFinancialDocumentNumber("846584546748");
+        
         //PaymentMediumService service = SpringContext.getBean(PaymentMediumService.class);
         //PaymentMedium medium = service.getPaymentMedium(paymentMediumCode);
         
         
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC); 
+    }
+    
+    /**
+     * Recalculates the cash control total since user could have changed it during their update.
+     * 
+     * @param cashControlDocument
+     */
+    private KualiDecimal calculateCashControlTotal(CashControlDocument cashControlDocument) {
+        KualiDecimal total = KualiDecimal.ZERO;
+        for(CashControlDetail cashControlDetail : cashControlDocument.getCashControlDetails()) {
+           
+            total = total.add(cashControlDetail.getFinancialDocumentLineAmount());
+        }
+        return total;
     }
     
 }

@@ -1143,4 +1143,5 @@ public class KFSPropertyConstants {
     public static final String WORKGROUP_NAME = "workgroupName";   
     public static final String XML_DOCUMENT_CONTENTS = "xmlDocumentContents";
     public static final String ZIP_CODE = "zipCode";
+    public static final String CASH_CONTROL_DETAIL = "cashControlDetail";
 }

@@ -23,15 +23,16 @@
               
 <%@ attribute name="readOnly" required="true" description="If document is in read only mode" %>              
               
-<kul:tab tabTitle="Cash Control Details" defaultOpen="true" tabErrorKey="${KFSConstants.CUSTOMER_INVOICE_DETAIL_ERRORS}">
+<kul:tab tabTitle="Cash Control Details" defaultOpen="true" tabErrorKey="${KFSConstants.CASH_CONTROL_DETAILS_ERRORS}">
     <div class="tab-container" align=center>		
         <table cellpadding="0" cellspacing="0" class="datatable" summary="Cash control Details">
             <tr>
-                <td colspan="7" class="subhead">Cash Control Details</td>
+                <td colspan="8" class="subhead">Cash Control Details</td>
             </tr>
 			<tr>
 			    <kul:htmlAttributeHeaderCell literalLabel="&nbsp;"/>
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.documentNumber}" />
+			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.status}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerNumber}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentMediumIdentifier}" />
 			    <kul:htmlAttributeHeaderCell attributeEntry="${cashControlDetailAttributes.customerPaymentDate}" />
@@ -46,7 +47,7 @@
 				<ar:cashControlDetail propertyName="document.cashControlDetail[${ctr}]" cashControlDetailAttributes="${cashControlDetailAttributes}" readOnly="${readOnly}" rowHeading="${ctr+1}" cssClass="datacell" actionMethod="deleteCashControlDetail.line${ctr}" actionAlt="Delete Cash Control Detail" actionImage="${ConfigProperties.kr.externalizable.images.url}tinybutton-delete1.gif" />
 	        </logic:iterate> 
 	        <tr>
-	 		   <td class="total-line" colspan="5">&nbsp;</td>
+	 		   <td class="total-line" colspan="6">&nbsp;</td>
 	  		   <td class="total-line" ><strong>Total: ${KualiForm.document.currencyFormattedTotalCashControlAmount}</strong><html:hidden write="false" property="document.cashControlTotalAmount" /></td>
                <c:if test="${!readOnly}">
                    <td class="total-line">&nbsp;</td>

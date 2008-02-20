@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.workflow.service.KualiWorkflowDocument;
 import org.kuali.module.ar.document.CashControlDocument;
 import org.kuali.module.ar.document.PaymentApplicationDocument;
 
@@ -33,7 +34,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	public CashControlDetail() {
         financialDocumentLineAmount = new KualiDecimal(0);
         referenceFinancialDocument = new PaymentApplicationDocument();
-        customer = new Customer();
+//        customer = new Customer();
         nonAppliedHolding = new NonAppliedHolding();
 	}
 
@@ -257,5 +258,18 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 
     public void setCashControlDocument(CashControlDocument cashControlDocument) {
         this.cashControlDocument = cashControlDocument;
+    }
+    
+    public String getStatus() {
+        String retVal = "";
+        if (referenceFinancialDocument != null) {
+            KualiWorkflowDocument doc = referenceFinancialDocument.getDocumentHeader().getWorkflowDocument();
+            retVal = doc.getStatusDisplayValue();
+        }
+        return retVal;
+    }
+    public void setStatus(String status)
+    {
+        
     }
 }

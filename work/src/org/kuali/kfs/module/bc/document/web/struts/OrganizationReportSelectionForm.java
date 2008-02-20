@@ -38,7 +38,7 @@ import org.kuali.module.budget.service.BudgetReportsControlListService;
  */
 public class OrganizationReportSelectionForm extends KualiForm {
 
-    private List<BudgetConstructionSubFundPick> bcSubfundList = new ArrayList();
+    private List<BudgetConstructionSubFundPick> bcSubFunds = new ArrayList();
     private List<String> selectedSubfundGroupCode = new ArrayList();
     private String operatingModeTitle;
     private Integer universityFiscalYear;
@@ -80,7 +80,7 @@ public class OrganizationReportSelectionForm extends KualiForm {
                 }
                 Map searchCriteria = new HashMap();
                 searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-                bcSubfundList = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
+                bcSubFunds = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
 
                 refreshSubFundList = true;
             }
@@ -92,8 +92,8 @@ public class OrganizationReportSelectionForm extends KualiForm {
      * 
      * @return Returns the bcSubfundList
      */
-    public List<BudgetConstructionSubFundPick> getBcSubfundList() {
-        return bcSubfundList;
+    public List<BudgetConstructionSubFundPick> getBcSubFunds() {
+        return bcSubFunds;
     }
 
     /**
@@ -101,9 +101,20 @@ public class OrganizationReportSelectionForm extends KualiForm {
      * 
      * @param bcSubfundList The bcSubfundList to set.
      */
-    public void setBcSubfundList(List<BudgetConstructionSubFundPick> bcSubfundList) {
-        this.bcSubfundList = bcSubfundList;
+    public void setBcSubFunds(List<BudgetConstructionSubFundPick> bcSubFunds) {
+        this.bcSubFunds = bcSubFunds;
     }
+    
+    public BudgetConstructionSubFundPick getBcSubFund(int index) {
+        while (getBcSubFunds().size() <= index) {
+            getBcSubFunds().add(new BudgetConstructionSubFundPick());
+        }
+
+        return (BudgetConstructionSubFundPick) getBcSubFunds().get(index);
+    }
+
+    
+    
 
     /**
      * Gets the selectedSubfundGroupCode

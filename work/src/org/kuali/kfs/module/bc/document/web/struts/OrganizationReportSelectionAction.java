@@ -109,7 +109,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
      */
     public ActionForward selectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
-        for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubfundList()) {
+        for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubFunds()) {
             bcsfp.setReportFlag(new Integer(1));
         }
 
@@ -118,7 +118,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
     
     public List<String> selectedSubFundCodeList(OrganizationReportSelectionForm organizationReportSelectionForm, HttpServletRequest request){
         List<String> returnList = new ArrayList();
-        for (BudgetConstructionSubFundPick bcSubFundPick: organizationReportSelectionForm.getBcSubfundList()){
+        for (BudgetConstructionSubFundPick bcSubFundPick: organizationReportSelectionForm.getBcSubFunds()){
             if (request.getParameter(bcSubFundPick.getSubFundGroupCode()) != null) {
                 returnList.add(request.getParameter(bcSubFundPick.getSubFundGroupCode()));
             }
@@ -139,7 +139,7 @@ public class OrganizationReportSelectionAction extends KualiAction {
      */
     public ActionForward unSelectAllSubFundGroup(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         OrganizationReportSelectionForm subfundListSelectionForm = (OrganizationReportSelectionForm) form;
-        for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubfundList()) {
+        for (BudgetConstructionSubFundPick bcsfp : subfundListSelectionForm.getBcSubFunds()) {
             bcsfp.setReportFlag(new Integer(0));
         }
 

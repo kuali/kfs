@@ -14,7 +14,7 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<c:set var="subFundList" value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />	
+<c:set var="subFundAttribute" value="${DataDictionary.BudgetConstructionSubFundPick.attributes}" />	
 
 <kul:page showDocumentInfo="false"
 	htmlFormAction="budgetOrganizationReportSelection" renderMultipart="true"
@@ -48,37 +48,35 @@
 		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupDescription.name}"/> <br> </th>
 	    </tr>
 
-		<c:forEach items="${KualiForm.bcSubfundList}" var="item" varStatus="status">
+		<logic:iterate name="KualiForm" id="bcSubFund" property="bcSubFunds" indexId="ctr">
 		    <tr align="center">
 				<td class="grid" valign="center">
-					<%-- <center><html:multibox property="bcSubfundList[${status.index}].subFundGroupCode" value="${subFundList.subFundGroupCode}"/></center> --%>
+					<%-- <center><html:multibox property="bcSubfunds[${status.index}].subFundGroupCode" value="${subFunds.subFundGroupCode}"/></center> --%>
 					<center>
-						<input type="checkbox" name="${subfund.subFundGroupCode}" value="${subfund.subFundGroupCode}" <c:if test="${subfund.reportFlag eq 1}"> checked="checked" </c:if> />
+						<input type="checkbox" name="${subFund.subFundGroupCode}" value="${subFund.subFundGroupCode}" <c:if test="${subFund.reportFlag eq 1}"> checked="checked" </c:if> />
 					</center>
 				</td>
 				<td class="grid" valign="center">
 				<center>
 					<kul:htmlControlAttribute 
-					property="bcSubfundList[${status.index}].subFundGroupCode"
-		            attributeEntry="${subFundList.subFundGroupCode}"
+					property="bcSubFunds[${ctr}].subFundGroupCode"
+		            attributeEntry="${subFundAttribute.subFundGroupCode}"
         	        readOnly="true"/>
-       	        <html:hidden write="false" property="bcSubfundList[${status.index}].subFundGroupCode" />
             	<center>
 				</td>				
 				<td class="grid" valign="center">
 				<center>
 					<kul:htmlControlAttribute 
-					property="bcSubfundList[${status.index}].subFundGroup.subFundGroupDescription"
-		            attributeEntry="${subFundList.subFundGroup.subFundGroupDescription}"
+					property="bcSubFunds[${ctr}].subFundGroup.subFundGroupDescription"
+		            attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}"
 	                readOnly="true"/>
-                <html:hidden write="false" property="bcSubfundList[${status.index}].subFundGroup.subFundGroupDescription" />
-				</center>
+ 				</center>
 				</td>				
 
 				
 					
 			</tr>
-		</c:forEach>
+		</logic:iterate>
 		</tr>
         </table>
 

@@ -33,9 +33,11 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 */
 	public CashControlDetail() {
         financialDocumentLineAmount = new KualiDecimal(0);
-        referenceFinancialDocument = new PaymentApplicationDocument();
+
+//        referenceFinancialDocument = new PaymentApplicationDocument();
 //        customer = new Customer();
-        nonAppliedHolding = new NonAppliedHolding();
+     //   nonAppliedHolding = new NonAppliedHolding();
+
 	}
 
 	/**
@@ -199,7 +201,7 @@ public class CashControlDetail extends PersistableBusinessObjectBase {
 	 * Sets the referenceFinancialDocument attribute.
 	 * 
 	 * @param referenceFinancialDocument The referenceFinancialDocument to set.
-	 * @deprecated
+	 * 
 	 */
 	public void setReferenceFinancialDocument(PaymentApplicationDocument referenceFinancialDocument) {
 		this.referenceFinancialDocument = referenceFinancialDocument;

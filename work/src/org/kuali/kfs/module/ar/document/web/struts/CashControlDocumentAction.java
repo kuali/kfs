@@ -15,8 +15,6 @@
  */
 package org.kuali.module.ar.web.struts.action;
 
-import java.util.Iterator;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,13 +31,12 @@ import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CashControlDetail;
 import org.kuali.module.ar.document.CashControlDocument;
+import org.kuali.module.ar.document.PaymentApplicationDocument;
 import org.kuali.module.ar.rule.event.AddCashControlDetailEvent;
 import org.kuali.module.ar.web.struts.form.CashControlDocumentForm;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
-import org.kuali.module.financial.bo.AdvanceDepositDetail;
-import org.kuali.module.financial.document.AdvanceDepositDocument;
-import org.kuali.module.financial.web.struts.form.AdvanceDepositForm;
+import org.kuali.rice.KNSServiceLocator;
 
 import edu.iu.uis.eden.exception.WorkflowException;
 
@@ -79,7 +76,8 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
         accountsReceivableDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
         document.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
-    }
+        
+    }        
     
     public ActionForward addCashControlDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CashControlDocumentForm cashControlDocForm = (CashControlDocumentForm) form;
@@ -87,14 +85,16 @@ public class CashControlDocumentAction extends KualiTransactionalDocumentActionB
         
         CashControlDetail newCashControlDetail = cashControlDocForm.getNewCashControlDetail();
         newCashControlDetail.setDocumentNumber(document.getDocumentNumber());
-                
+     
+        
         //rules
         boolean rulePassed = SpringContext.getBean(KualiRuleService.class).applyRules(new AddCashControlDetailEvent(ArConstants.NEW_CASH_CONTROL_DETAIL_ERROR_PATH_PREFIX, document, newCashControlDetail));
         if (rulePassed) {
-            //TODO delete these lines
-            newCashControlDetail.setReferenceFinancialDocumentNumber("53454545");
-//            newCashControlDetail.getReferenceFinancialDocument().getDocumentHeader().getWorkflowDocument().get
-            
+
+            PaymentApplicationDocument doc = (PaymentApplicationDocument)KNSServiceLocator.getDocumentService().getNewDocument("PaymentApplicationDocument");
+            newCashControlDetail.setReferenceFinancialDocument(doc);
+            newCashControlDetail.setReferenceFinancialDocumentNumber(doc.getDocumentNumber());
+
             // add customer invoice detail
             document.addCashControlDetail(newCashControlDetail);
             // clear the used customer invoice detail

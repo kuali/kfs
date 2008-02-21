@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../dataDictionary-1_0.dtd">
+<dictionaryEntry>
+    <businessObject businessObjectClass="org.kuali.module.cams.bo.EquipmentLoanOrReturn">
+ 
+        <inquiry>
+            <title>Equipment Loan Or Return Inquiry</title>
+             
+            <inquirySections>
+                <inquirySection title="Header Text">
+                    <inquiryFields>
+                        <field attributeName="borrowerAddress" />
+                        <field attributeName="borrowerCityName" />
+                        <field attributeName="borrowerCountryCode" />
+                        <field attributeName="borrowerPhoneNumber" />
+                        <field attributeName="borrowerStateCode" />
+                        <field attributeName="borrowerStorageAddress" />
+                        <field attributeName="borrowerStorageCityName" />
+                        <field attributeName="borrowerStorageCountryCode" />
+                        <field attributeName="borrowerStoragePhoneNumber" />
+                        <field attributeName="borrowerStorageStateCode" />
+                        <field attributeName="borrowerStorageZipCode" />
+                        <field attributeName="borrowerUniversalIdentifier" />
+                        <field attributeName="borrowerZipCode" />
+                        <field attributeName="campusTagNumber" />
+                        <field attributeName="documentNumber" />
+                        <field attributeName="expectedReturnDate" />
+                        <field attributeName="insuranceChargeAccountNumber" />
+                        <field attributeName="insuranceChartOfAccountsCode" />
+                        <field attributeName="insuranceCode" />
+                        <field attributeName="loanDate" />
+                        <field attributeName="loanReturnDate" />
+                        <field attributeName="organizationTagNumber" />
+                        <field attributeName="signatureCode" />
+                    </inquiryFields>
+                </inquirySection>
+            </inquirySections>  
+        </inquiry>
+
+        <lookup>
+            <title>Equipment Loan Or Return Lookup</title>
+
+            <instructions>Look up an Equipment Loan Or Return</instructions>
+
+            <defaultSort sortAscending="true">
+                <sortAttributes>
+                    <sortAttribute attributeName="documentNumber" />
+                </sortAttributes>
+            </defaultSort>
+
+            <lookupFields>
+                <lookupField attributeName="borrowerAddress" required="false" />
+                <lookupField attributeName="borrowerCityName" required="false" />
+                <lookupField attributeName="borrowerCountryCode" required="false" />
+                <lookupField attributeName="borrowerPhoneNumber" required="false" />
+                <lookupField attributeName="borrowerStateCode" required="false" />
+                <lookupField attributeName="borrowerStorageAddress" required="false" />
+                <lookupField attributeName="borrowerStorageCityName" required="false" />
+                <lookupField attributeName="borrowerStorageCountryCode" required="false" />
+                <lookupField attributeName="borrowerStoragePhoneNumber" required="false" />
+                <lookupField attributeName="borrowerStorageStateCode" required="false" />
+                <lookupField attributeName="borrowerStorageZipCode" required="false" />
+                <lookupField attributeName="borrowerUniversalIdentifier" required="false" />
+                <lookupField attributeName="borrowerZipCode" required="false" />
+                <lookupField attributeName="campusTagNumber" required="false" />
+                <lookupField attributeName="documentNumber" required="false" />
+                <lookupField attributeName="expectedReturnDate" required="false" />
+                <lookupField attributeName="insuranceChargeAccountNumber" required="false" />
+                <lookupField attributeName="insuranceChartOfAccountsCode" required="false" />
+                <lookupField attributeName="insuranceCode" required="false" />
+                <lookupField attributeName="loanDate" required="false" />
+                <lookupField attributeName="loanReturnDate" required="false" />
+                <lookupField attributeName="organizationTagNumber" required="false" />
+                <lookupField attributeName="signatureCode" required="false" />
+            </lookupFields>
+
+            <resultFields>
+                <field attributeName="borrowerAddress" />
+                <field attributeName="borrowerCityName" />
+                <field attributeName="borrowerCountryCode" />
+                <field attributeName="borrowerPhoneNumber" />
+                <field attributeName="borrowerStateCode" />
+                <field attributeName="borrowerStorageAddress" />
+                <field attributeName="borrowerStorageCityName" />
+                <field attributeName="borrowerStorageCountryCode" />
+                <field attributeName="borrowerStoragePhoneNumber" />
+                <field attributeName="borrowerStorageStateCode" />
+                <field attributeName="borrowerStorageZipCode" />
+                <field attributeName="borrowerUniversalIdentifier" />
+                <field attributeName="borrowerZipCode" />
+                <field attributeName="campusTagNumber" />
+                <field attributeName="documentNumber" />
+                <field attributeName="expectedReturnDate" />
+                <field attributeName="insuranceChargeAccountNumber" />
+                <field attributeName="insuranceChartOfAccountsCode" />
+                <field attributeName="insuranceCode" />
+                <field attributeName="loanDate" />
+                <field attributeName="loanReturnDate" />
+                <field attributeName="organizationTagNumber" />
+                <field attributeName="signatureCode" />
+            </resultFields>
+        </lookup>
+
+        <attributes>
+
+            <attribute name="borrowerAddress" forceUppercase="true">
+                <label>Borrower Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>borrowerAddress</summary>
+                <description>borrowerAddress description...</description>
+			</attribute>
+
+            <attribute name="borrowerCityName" forceUppercase="true">
+                <label>Borrower City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>borrowerCityName</summary>
+                <description>borrowerCityName description...</description>
+			</attribute>
+
+            <attribute name="borrowerCountryCode" forceUppercase="true">
+                <label>Borrower Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>borrowerCountryCode</summary>
+                <description>borrowerCountryCode description...</description>
+			</attribute>
+
+            <attribute name="borrowerPhoneNumber" forceUppercase="true">
+                <label>Borrower Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>borrowerPhoneNumber</summary>
+                <description>borrowerPhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="borrowerStateCode" forceUppercase="true">
+                <label>Borrower State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>borrowerStateCode</summary>
+                <description>borrowerStateCode description...</description>
+			</attribute>
+
+            <attribute name="borrowerStorageAddress" forceUppercase="true">
+                <label>Borrower Storage Address</label>
+                <shortLabel>Address</shortLabel>
+
+                <maxLength>30</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="32" />
+                </control>
+
+                <summary>borrowerStorageAddress</summary>
+                <description>borrowerStorageAddress description...</description>
+			</attribute>
+
+            <attribute name="borrowerStorageCityName" forceUppercase="true">
+                <label>Borrower Storage City Name</label>
+                <shortLabel>Name</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>borrowerStorageCityName</summary>
+                <description>borrowerStorageCityName description...</description>
+			</attribute>
+
+            <attribute name="borrowerStorageCountryCode" forceUppercase="true">
+                <label>Borrower Storage Country Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>borrowerStorageCountryCode</summary>
+                <description>borrowerStorageCountryCode description...</description>
+			</attribute>
+
+            <attribute name="borrowerStoragePhoneNumber" forceUppercase="true">
+                <label>Borrower Storage Phone Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>13</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="15" />
+                </control>
+
+                <summary>borrowerStoragePhoneNumber</summary>
+                <description>borrowerStoragePhoneNumber description...</description>
+			</attribute>
+
+            <attribute name="borrowerStorageStateCode" forceUppercase="true">
+                <label>Borrower Storage State Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>borrowerStorageStateCode</summary>
+                <description>borrowerStorageStateCode description...</description>
+			</attribute>
+
+            <attribute name="borrowerStorageZipCode" forceUppercase="true">
+                <label>Borrower Storage Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>borrowerStorageZipCode</summary>
+                <description>borrowerStorageZipCode description...</description>
+			</attribute>
+
+            <attribute name="borrowerUniversalIdentifier" forceUppercase="true">
+                <label>Borrower Universal Identifier</label>
+                <shortLabel>Identifier</shortLabel>
+
+                <maxLength>10</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="12" />
+                </control>
+
+                <summary>borrowerUniversalIdentifier</summary>
+                <description>borrowerUniversalIdentifier description...</description>
+			</attribute>
+
+            <attribute name="borrowerZipCode" forceUppercase="true">
+                <label>Borrower Zip Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>9</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="11" />
+                </control>
+
+                <summary>borrowerZipCode</summary>
+                <description>borrowerZipCode description...</description>
+			</attribute>
+
+            <attribute name="campusTagNumber" forceUppercase="true">
+                <label>Campus Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>campusTagNumber</summary>
+                <description>campusTagNumber description...</description>
+			</attribute>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="expectedReturnDate" forceUppercase="true">
+                <label>Expected Return Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>expectedReturnDate</summary>
+                <description>expectedReturnDate description...</description>
+			</attribute>
+
+            <attribute name="insuranceChargeAccountNumber" forceUppercase="true">
+                <label>Insurance Charge Account Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>insuranceChargeAccountNumber</summary>
+                <description>insuranceChargeAccountNumber description...</description>
+			</attribute>
+
+            <attribute name="insuranceChartOfAccountsCode" forceUppercase="true">
+                <label>Insurance Chart Of Accounts Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="4" />
+                </control>
+
+                <summary>insuranceChartOfAccountsCode</summary>
+                <description>insuranceChartOfAccountsCode description...</description>
+			</attribute>
+
+            <attribute name="insuranceCode" forceUppercase="true">
+                <label>Insurance Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>4</maxLength>
+                <validationPattern><numeric /></validationPattern>
+
+                <control>
+                    <text size="6" />
+                </control>
+
+                <summary>insuranceCode</summary>
+                <description>insuranceCode description...</description>
+			</attribute>
+
+            <attribute name="loanDate" forceUppercase="true">
+                <label>Loan Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>loanDate</summary>
+                <description>loanDate description...</description>
+			</attribute>
+
+            <attribute name="loanReturnDate" forceUppercase="true">
+                <label>Loan Return Date</label>
+                <shortLabel>Date</shortLabel>
+
+                <maxLength>7</maxLength>
+                <validationPattern><date /></validationPattern>
+
+                <control>
+                    <text size="9" />
+                </control>
+
+                <summary>loanReturnDate</summary>
+                <description>loanReturnDate description...</description>
+			</attribute>
+
+            <attribute name="organizationTagNumber" forceUppercase="true">
+                <label>Organization Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+
+                <summary>organizationTagNumber</summary>
+                <description>organizationTagNumber description...</description>
+			</attribute>
+
+            <attribute name="signatureCode" forceUppercase="true">
+                <label>Signature Code</label>
+                <shortLabel>Code</shortLabel>
+
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="3" />
+                </control>
+
+                <summary>signatureCode</summary>
+                <description>signatureCode description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </businessObject>
+</dictionaryEntry>

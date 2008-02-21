@@ -812,4 +812,143 @@
 		<foreignkey field-ref="financialObjectSubTypeCode" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetHeader" table="CM_CPTLAST_HDR_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT"/>
+	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="agencyNumber" column="CG_AGENCY_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="nextCapitalAssetPaymentLineNumber" column="NXT_AST_PMT_LN_NBR" jdbc-type="INTEGER"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="organizationOwnerAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetTransferDocument" table="CM_AST_TRNFR_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="representativeUniversalIdentifier" column="AST_REP_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="campusCode" column="CAMPUS_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingCode" column="BLDG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingRoomNumber" column="BLDG_ROOM_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="buildingSubRoomNumber" column="BLDG_SUB_ROOM_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerChartOfAccountsCode" column="ORG_OWNER_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationOwnerAccountNumber" column="ORG_OWNER_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationText" column="ORG_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationInventoryName" column="ORG_INVN_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="transferOfFundsFinancialDocumentNumber" column="TRNFR_FND_FDOC_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationCode" column="ORG_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusAddress" column="AST_OFFCMP_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusCityName" column="AST_OFFCMP_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusStateCode" column="AST_OFFCMP_ST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="offCampusZipCode" column="AST_OFFCMP_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="interdepartmentalSalesIndicator" column="AST_INTRDPTSALE_CD" jdbc-type="CHAR" conversion="org.kuali.core.util.OjbCharBooleanConversion"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="campus" class-ref="org.kuali.core.bo.Campus" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="campusCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="organizationOwnerAccountNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="organizationOwnerChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="organization" class-ref="org.kuali.module.chart.bo.Org" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="organizationOwnerChartOfAccountsCode" />
+		<foreignkey field-ref="organizationCode" />
+	</reference-descriptor>
+	<reference-descriptor name="transferOfFundsFinancialDocument" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="transferOfFundsFinancialDocumentNumber" />
+	</reference-descriptor>
+    <reference-descriptor name="offCampusState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="offCampusStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="building" class-ref="org.kuali.kfs.bo.Building" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+    </reference-descriptor>
+    <reference-descriptor name="buildingRoom" class-ref="org.kuali.kfs.bo.Room" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="campusCode" />
+        <foreignkey field-ref="buildingCode" />
+        <foreignkey field-ref="buildingRoomNumber" />
+    </reference-descriptor>
+</class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.EquipmentLoanOrReturn" table="CM_EQPLNRTRN_DOC_T">
+	<field-descriptor name="documentNumber" column="FDOC_NBR" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="campusTagNumber" column="CPTLAST_IU_TAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="organizationTagNumber" column="CPTLAST_ORGTAG_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="insuranceChartOfAccountsCode" column="AST_INS_COA_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="insuranceChargeAccountNumber" column="AST_INS_ACCT_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="loanDate" column="CPTLAST_LOAN_DT" jdbc-type="DATE"/>
+	<field-descriptor name="expectedReturnDate" column="AST_EXPCTRETURN_DT" jdbc-type="DATE"/>
+	<field-descriptor name="loanReturnDate" column="CPTLAST_LN_RTRN_DT" jdbc-type="DATE"/>
+	<field-descriptor name="borrowerUniversalIdentifier" column="AST_BORWR_UNVL_ID" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerAddress" column="AST_BORWR_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerCityName" column="AST_BORWR_CITY_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStateCode" column="AST_BORWR_STATE_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerZipCode" column="AST_BORWR_ZIP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerCountryCode" column="AST_BORWR_CNTRY_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerPhoneNumber" column="AST_BORWR_PHN_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStorageAddress" column="AST_BORWRSTRG_ADDR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStorageCityName" column="AST_BORWRSTRGCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStorageStateCode" column="AST_BORWRSTRGST_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStorageZipCode" column="AST_BORWRSTRGZP_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStorageCountryCode" column="AST_BORWRSTRCNT_CD" jdbc-type="VARCHAR"/>
+	<field-descriptor name="borrowerStoragePhoneNumber" column="AST_BORWRSTRPH_NBR" jdbc-type="VARCHAR"/>
+	<field-descriptor name="insuranceCode" column="CPTLAST_INS_CD" jdbc-type="INTEGER"/>
+	<field-descriptor name="signatureCode" column="AST_SIG_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="documentHeader" class-ref="org.kuali.core.bo.DocumentHeader" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="documentNumber" />
+	</reference-descriptor>
+	<reference-descriptor name="insuranceChartOfAccounts" class-ref="org.kuali.module.chart.bo.Chart" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="insuranceChartOfAccountsCode" />
+	</reference-descriptor>
+	<reference-descriptor name="insuranceChargeAccount" class-ref="org.kuali.module.chart.bo.Account" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="insuranceChartOfAccountsCode" />
+		<foreignkey field-ref="insuranceChargeAccountNumber" />
+	</reference-descriptor>
+    <reference-descriptor name="borrowerState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="borrowerStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="borrowerStorageState" class-ref="org.kuali.kfs.bo.State" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="borrowerStorageStateCode" />
+    </reference-descriptor>
+    <reference-descriptor name="borrowerCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="borrowerCountryCode" />
+    </reference-descriptor>
+    <reference-descriptor name="borrowerStorageCountry" class-ref="org.kuali.kfs.bo.Country" auto-retrieve="true" auto-update="none" auto-delete="none">
+        <foreignkey field-ref="borrowerStorageCountryCode" />
+    </reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

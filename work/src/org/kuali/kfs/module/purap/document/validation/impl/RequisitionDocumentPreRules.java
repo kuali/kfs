@@ -108,11 +108,14 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
                 }
             }
             if (!proceed || ((ObjectUtils.isNotNull(question)) && (question.equals(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS)))) {
-                proceed &= askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
+                proceed = askOrAnalyzeYesNoQuestion(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS, questionText);
             }
             // Set a marker to record that this method has been used.
             event.setQuestionContext(PurapConstants.FIX_CAPITAL_ASSET_WARNINGS);
             event.setActionForwardName(KFSConstants.MAPPING_BASIC);
+            if (!proceed) {
+                GlobalVariables.getMessageList().clear();
+            }
         }
         return proceed;
     }
@@ -129,42 +132,4 @@ public class RequisitionDocumentPreRules extends PreRulesContinuationBase {
         return !ruleBase.validateItemCapitalAssetWithWarnings(item, recurringPaymentType, identifierString);        
     }
     
-    /**
-     * HACK ALERT.  By rights, I shouldn't have to override this, but it doesn't work otherwise.  Most of this
-     * is just copied from the superclass.  See discussion in KULPURAP-1961.
-     * 
-     * @see org.kuali.core.rules.PreRulesContinuationBase#askOrAnalyzeYesNoQuestion(java.lang.String, java.lang.String)
-     */
-    @Override
-    public boolean askOrAnalyzeYesNoQuestion(String id, String text) {
-
-        ContextSession session = new ContextSession(event.getQuestionContext(), event);
-        
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Entering askOrAnalyzeYesNoQuestion(" + id + "," + text + ")");
-        }
-
-        String cached = (String) session.getAttribute(id);
-        if (cached != null) {
-            LOG.debug("returning cached value: " + id + "=" + cached);
-            return new Boolean(cached).booleanValue();
-        }
-
-        if (id.equals(question)) {
-            session.setAttribute(id, Boolean.toString(!ConfirmationQuestion.NO.equals(buttonClicked)));
-            return !ConfirmationQuestion.NO.equals(buttonClicked);
-        }
-        else if (!session.hasAsked(id)) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Forcing question to be asked: " + id);
-            }
-            session.askQuestion(id, text);
-        }
-
-        LOG.debug("Throwing Exception to force return to Action");
-        //throw new IsAskingException();
-        return true;
-    }
-
-
 }

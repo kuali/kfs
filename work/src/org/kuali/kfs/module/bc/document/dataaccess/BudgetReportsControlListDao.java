@@ -15,6 +15,10 @@
  */
 package org.kuali.module.budget.dao;
 
+import java.util.List;
+
+import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
+
 /**
  * data access object for Budget Construction Organization Report.
  */
@@ -107,6 +111,6 @@ public interface BudgetReportsControlListDao {
      * @param selectedSubfundGroupCodeList
      * @return
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode);
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList);
 
 }

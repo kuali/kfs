@@ -18,6 +18,7 @@ package org.kuali.module.budget.service.impl;
 import java.util.List;
 
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,12 +70,8 @@ public class BudgetReportsControlListServiceImpl implements BudgetReportsControl
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateReportsSelectedSubFundGroupFlags(java.lang.String,
      *      java.util.List)
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList) {
-
-        for (String subfundCode : selectedSubfundGroupCodeList) {
-            budgetReportsControlListDao.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundCode);
-        }
-
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList) {
+            budgetReportsControlListDao.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, subfundGroupCodeList);
     }
 
     /**

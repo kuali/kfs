@@ -18,6 +18,7 @@ package org.kuali.module.budget.service;
 import java.util.List;
 
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
+import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 
 
 /**
@@ -57,5 +58,5 @@ public interface BudgetReportsControlListService {
      * @param selectedSubfundGroupCodeList
      * @return
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<String> selectedSubfundGroupCodeList);
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList);
 }

@@ -18,6 +18,7 @@ package org.kuali.module.budget.dao.jdbc;
 import java.util.List;
 
 import org.kuali.core.dbplatform.RawSQL;
+import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.dao.BudgetReportsControlListDao;
 
 /**
@@ -29,7 +30,7 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
     private static String[] updateReportsControlList = new String[3];
     private static String changeFlagOrganizationAndChartOfAccountCodeSelection = new String();
     private static String updateReportsSubFundGroupSelectList = new String();
-    private static String updateReportsSelectedSubFundGroupFlags = new String();
+    private static String[] updateReportsSelectedSubFundGroupFlags = new String[2];
 
     @RawSQL
     public BudgetReportsControlListDaoJdbc() {
@@ -117,13 +118,23 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
         updateReportsSubFundGroupSelectList = sqlText.toString();
         sqlText.delete(0, sqlText.length());
 
-        // change flag in UPDATE LD_BCN_SUBFUND_PICK_T
+        // change flag in UPDATE LD_BCN_SUBFUND_PICK_T as 0 for unselected subFundPick 
+        sqlText.append("UPDATE LD_BCN_SUBFUND_PICK_T \n");
+        sqlText.append("SET report_flag = 0 \n");
+        sqlText.append("WHERE person_unvl_id = ? \n");
+        sqlText.append("  AND sub_fund_grp_cd = ? \n");
+
+        updateReportsSelectedSubFundGroupFlags[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+        
+        // change flag in UPDATE LD_BCN_SUBFUND_PICK_T as 1 for unselected subFundPick 
         sqlText.append("UPDATE LD_BCN_SUBFUND_PICK_T \n");
         sqlText.append("SET report_flag = 1 \n");
         sqlText.append("WHERE person_unvl_id = ? \n");
         sqlText.append("  AND sub_fund_grp_cd = ? \n");
-
-        updateReportsSelectedSubFundGroupFlags = sqlText.toString();
+        
+        updateReportsSelectedSubFundGroupFlags[1] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
     }
 
     /**
@@ -168,8 +179,15 @@ public class BudgetReportsControlListDaoJdbc extends BudgetConstructionDaoJdbcBa
      * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateReportsSelectedSubFundGroupFlags(java.lang.String,
      *      java.lang.String)
      */
-    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, String subfundGroupCode) {
-        getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags, personUserIdentifier, subfundGroupCode);
+    public void updateReportsSelectedSubFundGroupFlags(String personUserIdentifier, List<BudgetConstructionSubFundPick> subfundGroupCodeList) {
+        // set the flag 1 or 0 based on user's selection
+        for (BudgetConstructionSubFundPick bcSubFundPick: subfundGroupCodeList){
+            if (bcSubFundPick.getReportFlag() == null || bcSubFundPick.getReportFlag().equals(new Integer(0))){
+                getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags[0], personUserIdentifier, bcSubFundPick.getSubFundGroupCode());
+            } else {
+                getSimpleJdbcTemplate().update(updateReportsSelectedSubFundGroupFlags[1], personUserIdentifier, bcSubFundPick.getSubFundGroupCode());
+            }
+        }
     }
 
 

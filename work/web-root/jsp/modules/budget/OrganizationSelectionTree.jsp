@@ -34,7 +34,6 @@
 	<html-el:hidden name="KualiForm" property="performBuildPointOfViewFlag" />
 	
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
-    <kul:messages/>
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
         <tr>

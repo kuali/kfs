@@ -61,8 +61,9 @@ public class OrganizationReportSelectionAction extends KualiAction {
         OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
         if (BCConstants.Report.reportModeOnlySubfundCodeSelectionMapping.contains(organizationReportSelectionForm.getReportMode())) {
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+        organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
             if (organizationReportSelectionForm.isBuildControlList()) {
-                organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
+                
                 // change flag
                 BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
                 String idForSession = (new Guid()).toString();

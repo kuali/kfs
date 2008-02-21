@@ -10,37 +10,100 @@ import org.kuali.core.bo.PersistableBusinessObject;
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.module.chart.bo.Account;
+import org.kuali.module.chart.bo.Chart;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
 public class AssetGlobal extends PersistableBusinessObjectBase implements GlobalBusinessObject {
 
+    /* misc. */
     private String documentNumber;
+    private String needMoreInfo; // testing only
+    
+    /* document overview (AssetGlobal / CM_MULT_AST_DOC_T) */
     private String capitalAssetDescription;
     private String capitalAssetTypeCode;
     private String conditionCode;
-
-    private AssetType capitalAssetType;
-    private AssetCondition condition;
     
+    /* asset detail infomation (Asset / CM_CPTLAST_T) */
+    private String organizationOwnerChartOfAccountsCode;
+    private String organizationOwnerAccountNumber;
+    private String agencyNumber;
+    private String acquisitionTypeCode;
+    private String inventoryStatusCode;
+  
+    
+    /* location - on/off campus */
+    /* collection (AssetGlobalDetail / CM_MULT_AST_DTL_T) */
     private List<AssetGlobalDetail> assetGlobalDetails;
-    
-    public List<AssetGlobalDetail> getAssetGlobalDetails() {
-        return assetGlobalDetails;
-    }
+    /* on campus
+    private String campusCode;
+    private String buildingCode;
+    private String buildingRoomNumber;
+    private String buildingSubRoomNumber;   
+    // off campus
+    private String offCampusName;
+    private String offCampusAddress;
+    private String offCampusCityName;
+    private String offCampusStateCode;
+    private String offCampusZipCode;
+    private String offCampusCountryCode; */
 
-    public void setAssetGlobalDetails(List<AssetGlobalDetail> assetGlobalDetails) {
-        this.assetGlobalDetails = assetGlobalDetails;
-    }
+    /* land information */
+    private String landCountyName;
+    private String landAcreageSize;
+    private String landParcelNumber;
+
+    /* lookup */
+    private Chart organizationOwnerChartOfAccountsCodeObject;
+    private Account organizationOwnerAccountNumberObject;
+    private Asset asset;
+    private Asset agencyNumberObject;
+    private Asset acquisitionTypeCodeObject;
     
     /**
      * Default constructor.
      */
     public AssetGlobal() {
         assetGlobalDetails = new TypedArrayList(AssetGlobalDetail.class);
-    }
+    }   
     
+    /**
+     * Gets the needMoreInfo attribute. 
+     * @return Returns the needMoreInfo.
+     */
+    public String getNeedMoreInfo() {
+        return needMoreInfo;
+    }
+
+    /**
+     * Sets the needMoreInfo attribute value.
+     * @param needMoreInfo The needMoreInfo to set.
+     */
+    public void setNeedMoreInfo(String needMoreInfo) {
+        this.needMoreInfo = needMoreInfo;
+    }    
+    
+    /**
+     * Gets the assetGlobalDetails attribute.
+     * 
+     * @return Returns the assetGlobalDetails.
+     */
+    public List<AssetGlobalDetail> getAssetGlobalDetails() {
+        return assetGlobalDetails;
+    }
+
+    /**
+     * Sets the assetGlobalDetails attribute value.
+     *
+     * @param assetGlobalDetails The assetGlobalDetails to set.
+     */
+    public void setAssetGlobalDetails(List<AssetGlobalDetail> assetGlobalDetails) {
+        this.assetGlobalDetails = assetGlobalDetails;
+    }
+
     /**
      * Gets the documentNumber attribute.
      * 
@@ -121,43 +184,6 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
     public void setConditionCode(String conditionCode) {
         this.conditionCode = conditionCode;
     }
-    
-    /**
-     * Gets the capitalAssetType attribute.
-     * 
-     * @return Returns the capitalAssetType
-     * 
-     */
-    public AssetType getCapitalAssetType() { 
-        return capitalAssetType;
-    }
-
-    /**
-     * Sets the capitalAssetType attribute.
-     * 
-     * @param capitalAssetType The capitalAssetType to set.
-     * @deprecated
-     */
-    public void setCapitalAssetType(AssetType capitalAssetType) {
-        this.capitalAssetType = capitalAssetType;
-    }
-    
-    /**
-     * Gets the condition attribute. 
-     * @return Returns the condition.
-     */
-    public AssetCondition getCondition() {
-        return condition;
-    }
-
-    /**
-     * Sets the condition attribute value.
-     * @param condition The condition to set.
-     * @deprecated
-     */
-    public void setCondition(AssetCondition condition) {
-        this.condition = condition;
-    }
 
     /**
      * @see org.kuali.core.document.GlobalBusinessObject#getGlobalChangesToDelete()
@@ -214,4 +240,197 @@ public class AssetGlobal extends PersistableBusinessObjectBase implements Global
         m.put(KFSPropertyConstants.DOCUMENT_NUMBER, this.documentNumber);
         return m;
     }
+
+    /**
+     * Gets the acquisitionTypeCode attribute. 
+     * @return Returns the acquisitionTypeCode.
+     */
+    public String getAcquisitionTypeCode() {
+        return acquisitionTypeCode;
+    }
+
+    /**
+     * Sets the acquisitionTypeCode attribute value.
+     * @param acquisitionTypeCode The acquisitionTypeCode to set.
+     */
+    public void setAcquisitionTypeCode(String acquisitionTypeCode) {
+        this.acquisitionTypeCode = acquisitionTypeCode;
+    }
+
+    /**
+     * Gets the agencyNumber attribute. 
+     * @return Returns the agencyNumber.
+     */
+    public String getAgencyNumber() {
+        return agencyNumber;
+    }
+
+    /**
+     * Sets the agencyNumber attribute value.
+     * @param agencyNumber The agencyNumber to set.
+     */
+    public void setAgencyNumber(String agencyNumber) {
+        this.agencyNumber = agencyNumber;
+    }
+
+    /**
+     * Gets the inventoryStatusCode attribute. 
+     * @return Returns the inventoryStatusCode.
+     */
+    public String getInventoryStatusCode() {
+        return inventoryStatusCode;
+    }
+
+    /**
+     * Sets the inventoryStatusCode attribute value.
+     * @param inventoryStatusCode The inventoryStatusCode to set.
+     */
+    public void setInventoryStatusCode(String inventoryStatusCode) {
+        this.inventoryStatusCode = inventoryStatusCode;
+    }
+
+    /**
+     * Gets the landAcreageSize attribute. 
+     * @return Returns the landAcreageSize.
+     */
+    public String getLandAcreageSize() {
+        return landAcreageSize;
+    }
+
+    /**
+     * Sets the landAcreageSize attribute value.
+     * @param landAcreageSize The landAcreageSize to set.
+     */
+    public void setLandAcreageSize(String landAcreageSize) {
+        this.landAcreageSize = landAcreageSize;
+    }
+
+    /**
+     * Gets the landCountyName attribute. 
+     * @return Returns the landCountyName.
+     */
+    public String getLandCountyName() {
+        return landCountyName;
+    }
+
+    /**
+     * Sets the landCountyName attribute value.
+     * @param landCountyName The landCountyName to set.
+     */
+    public void setLandCountyName(String landCountyName) {
+        this.landCountyName = landCountyName;
+    }
+
+    /**
+     * Gets the landParcelNumber attribute. 
+     * @return Returns the landParcelNumber.
+     */
+    public String getLandParcelNumber() {
+        return landParcelNumber;
+    }
+
+    /**
+     * Sets the landParcelNumber attribute value.
+     * @param landParcelNumber The landParcelNumber to set.
+     */
+    public void setLandParcelNumber(String landParcelNumber) {
+        this.landParcelNumber = landParcelNumber;
+    }
+
+    /**
+     * Gets the organizationOwnerAccountNumber attribute. 
+     * @return Returns the organizationOwnerAccountNumber.
+     */
+    public String getOrganizationOwnerAccountNumber() {
+        return organizationOwnerAccountNumber;
+    }
+
+    /**
+     * Sets the organizationOwnerAccountNumber attribute value.
+     * @param organizationOwnerAccountNumber The organizationOwnerAccountNumber to set.
+     */
+    public void setOrganizationOwnerAccountNumber(String organizationOwnerAccountNumber) {
+        this.organizationOwnerAccountNumber = organizationOwnerAccountNumber;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccountsCode attribute. 
+     * @return Returns the organizationOwnerChartOfAccountsCode.
+     */
+    public String getOrganizationOwnerChartOfAccountsCode() {
+        return organizationOwnerChartOfAccountsCode;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccountsCode attribute value.
+     * @param organizationOwnerChartOfAccountsCode The organizationOwnerChartOfAccountsCode to set.
+     */
+    public void setOrganizationOwnerChartOfAccountsCode(String organizationOwnerChartOfAccountsCode) {
+        this.organizationOwnerChartOfAccountsCode = organizationOwnerChartOfAccountsCode;
+    }
+
+    /**
+     * Gets the acquisitionTypeCodeObject attribute. 
+     * @return Returns the acquisitionTypeCodeObject.
+     */
+    public Asset getAcquisitionTypeCodeObject() {
+        return acquisitionTypeCodeObject;
+    }
+
+    /**
+     * Sets the acquisitionTypeCodeObject attribute value.
+     * @param acquisitionTypeCodeObject The acquisitionTypeCodeObject to set.
+     */
+    public void setAcquisitionTypeCodeObject(Asset acquisitionTypeCodeObject) {
+        this.acquisitionTypeCodeObject = acquisitionTypeCodeObject;
+    }
+
+    /**
+     * Gets the agencyNumberObject attribute. 
+     * @return Returns the agencyNumberObject.
+     */
+    public Asset getAgencyNumberObject() {
+        return agencyNumberObject;
+    }
+
+    /**
+     * Sets the agencyNumberObject attribute value.
+     * @param agencyNumberObject The agencyNumberObject to set.
+     */
+    public void setAgencyNumberObject(Asset agencyNumberObject) {
+        this.agencyNumberObject = agencyNumberObject;
+    }
+
+    /**
+     * Gets the organizationOwnerAccountNumberObject attribute. 
+     * @return Returns the organizationOwnerAccountNumberObject.
+     */
+    public Account getOrganizationOwnerAccountNumberObject() {
+        return organizationOwnerAccountNumberObject;
+    }
+
+    /**
+     * Sets the organizationOwnerAccountNumberObject attribute value.
+     * @param organizationOwnerAccountNumberObject The organizationOwnerAccountNumberObject to set.
+     */
+    public void setOrganizationOwnerAccountNumberObject(Account organizationOwnerAccountNumberObject) {
+        this.organizationOwnerAccountNumberObject = organizationOwnerAccountNumberObject;
+    }
+
+    /**
+     * Gets the organizationOwnerChartOfAccountsCodeObject attribute. 
+     * @return Returns the organizationOwnerChartOfAccountsCodeObject.
+     */
+    public Chart getOrganizationOwnerChartOfAccountsCodeObject() {
+        return organizationOwnerChartOfAccountsCodeObject;
+    }
+
+    /**
+     * Sets the organizationOwnerChartOfAccountsCodeObject attribute value.
+     * @param organizationOwnerChartOfAccountsCodeObject The organizationOwnerChartOfAccountsCodeObject to set.
+     */
+    public void setOrganizationOwnerChartOfAccountsCodeObject(Chart organizationOwnerChartOfAccountsCodeObject) {
+        this.organizationOwnerChartOfAccountsCodeObject = organizationOwnerChartOfAccountsCodeObject;
+    }
+
 }

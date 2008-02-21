@@ -22,14 +22,13 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.AssetGlobal</businessObjectClass>
         <maintainableClass>org.kuali.module.cams.maintenance.AssetGlobalMaintainableImpl</maintainableClass>
-
         <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
 
         <authorizations>
             <authorization action="initiate">
                 <workgroups>
-                    <workgroup>KUALI_ROLE_MAINTENANCE</workgroup>
+                    <workgroup>CM_ADMINISTRATORS</workgroup>
                 </workgroups>
             </authorization>
         </authorizations>
@@ -46,6 +45,14 @@
             <field attributeName="documentNumber" />
         </lockingKeys>
  
+         <defaultExistenceChecks>
+            <reference attributeName="organizationOwnerChartOfAccountsCodeObject" attributeToHighlightOnFail="organizationOwnerChartOfAccountsCode" />
+            <reference attributeName="organizationOwnerAccountNumberObject" attributeToHighlightOnFail="organizationOwnerAccountNumber" />
+            <!-- <reference attributeName="organizationOwnerAccountObject" attributeToHighlightOnFail="organizationOwnerAccount" /> -->
+            <reference attributeName="agencyNumberObject" attributeToHighlightOnFail="agencyNumber" />
+            <reference attributeName="acquisitionTypeCodeObject" attributeToHighlightOnFail="acquisitionTypeCode" />
+        </defaultExistenceChecks>
+ 
         <maintainableSections>
             <maintainableSection title="Global Asset Maintenance">
                 <maintainableItems>
@@ -56,28 +63,52 @@
                 </maintainableItems>
             </maintainableSection>
 
-            <maintainableSection title="Edit Multiple Location">
+            <maintainableSection title="Asset Detail Information">
+                <maintainableItems>
+					<maintainableField name="organizationOwnerChartOfAccountsCode" required="true" />
+					<maintainableField name="organizationOwnerAccountNumber" required="true" />
+					<maintainableField name="needMoreInfo" readOnly="true"/> <!-- organizationOwnerAccount.organizationCode -->
+					<maintainableField name="agencyNumber" />
+					<maintainableField name="acquisitionTypeCode" required="true" />
+					<maintainableField name="inventoryStatusCode" required="true" />
+					
+					
+					
+				</maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Asset Location">
                 <maintainableItems>
                     <maintainableCollection name="assetGlobalDetails" businessObjectClass="org.kuali.module.cams.bo.AssetGlobalDetail" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="assetGlobalDetails" summaryTitle="Location">
+						<!-- <subSectionHeader name="On Campus" /> -->
 						<maintainableField name="capitalAssetNumber" readOnly="true"/>
-                        <maintainableField name="campusCode" />
-                        <maintainableField name="buildingCode" />
-                        <maintainableField name="buildingRoomNumber" />
+                        <maintainableField name="campusCode" required="true" />
+                        <maintainableField name="buildingCode" required="true" />
+                        <maintainableField name="buildingRoomNumber" required="true" />
                         <maintainableField name="buildingSubRoomNumber" />
-
-                        <maintainableField name="offCampusAddress" />
-                        <maintainableField name="offCampusCityName" />
-                        <maintainableField name="offCampusStateCode" />
-                        <maintainableField name="offCampusZipCode" />
-
-						<maintainableField name="versionNumber" />
-                        <maintainableField name="locationQuantity" />
+						<!-- <subSectionHeader name="Off Campus" /> -->
+						<maintainableField name="offCampusName" required="true" />
+                        <maintainableField name="offCampusAddress" required="true" />
+                        <maintainableField name="offCampusCityName" required="true" />
+                        <maintainableField name="offCampusStateCode" required="true" />
+                        <maintainableField name="offCampusZipCode" required="true" />
+                        <maintainableField name="offCampusCountryCode" />
+                        <maintainableField name="locationQuantity" required="true" />
                         <!-- <maintainableField name="newCollectionRecord" /> -->
                         <summaryFields>
+                        	<summaryField name="campusCode" />
                             <summaryField name="capitalAssetNumber" />
                         </summaryFields>
                     </maintainableCollection>
                 </maintainableItems>
+            </maintainableSection>
+
+            <maintainableSection title="Land Information">
+                <maintainableItems>
+				    <maintainableField name="landCountyName" />
+				    <maintainableField name="landAcreageSize" />
+				    <maintainableField name="landParcelNumber" />
+				</maintainableItems>
             </maintainableSection>
 
         </maintainableSections>

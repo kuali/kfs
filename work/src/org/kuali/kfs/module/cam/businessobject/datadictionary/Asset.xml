@@ -87,7 +87,7 @@
 	            <lookupField attributeName="capitalAssetNumber" required="false" />
 	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
 	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
+	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" />
 	            <lookupField attributeName="agencyNumber" required="false" />
 	            <lookupField attributeName="inventoryStatusCode" required="false" />
 	            <lookupField attributeName="conditionCode" required="false" />
@@ -476,7 +476,7 @@
 						businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationMethod"
 						keyAttribute="depreciationMethodCode"
 						labelAttribute="depreciationMethodName" includeKeyInLabel="true" />
-				</control>
+                </control>
 
                 <summary>primaryDepreciationMethodCode</summary>
                 <description>primaryDepreciationMethodCode description...</description>
@@ -715,7 +715,7 @@
 				<label>Organization Owner Chart Of Accounts Code</label>
 			</attributeReference>
 			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
+			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode" >
 				<label>Organization Owner Organization Code</label>
 			</attributeReference>
 			
@@ -755,8 +755,44 @@
 				<label>Condition Code</label>
 			</attributeReference>
 			
-			<attribute name="accumulatedDepreciation"
-				forceUppercase="false">
+			<!-- ## for use with AssetGlobal ## -->
+			<attribute name="landCountyName" forceUppercase="true">
+				<label>Land Country</label>
+				<shortLabel>landCountyName</shortLabel>
+				<maxLength>4</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>
+                    <text size="4" />
+                </control>
+                <summary>landCountyName</summary>
+                <description>Land country name.</description>
+			</attribute>
+			
+			<attribute name="landAcreageSize">
+				<label>Land Acreage</label>
+				<shortLabel>landAcreageSize</shortLabel>
+				<maxLength>10</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>landAcreageSize</summary>
+                <description>Land acreage size.</description>
+			</attribute>
+            
+            <attribute name="landParcelNumber">
+				<label>Land Parcel Number</label>
+				<shortLabel>landParcelNumber</shortLabel>
+				<maxLength>10</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>landParcelNumber</summary>
+                <description>Land parcel number.</description>
+			</attribute>
+
+			<attribute name="accumulatedDepreciation" forceUppercase="false">
 				<label>Accumulated Depreciation</label>
 				<shortLabel>Accumulated</shortLabel>
 				<maxLength>19</maxLength>

@@ -16,10 +16,12 @@
 package org.kuali.module.cams.maintenance;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.kuali.core.document.MaintenanceLock;
 import org.kuali.core.maintenance.KualiGlobalMaintainableImpl;
+import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.bo.AssetGlobal;
@@ -39,40 +41,31 @@ public class AssetGlobalMaintainableImpl extends KualiGlobalMaintainableImpl {
      */
     @Override
     public void addNewLineToCollection(String collectionName) {
-        
-        LOG.info("LEO collectionName = " + collectionName);
-        
         AssetGlobalDetail addAssetLine = (AssetGlobalDetail) newCollectionLines.get(collectionName);
         
-        LOG.info("LEO locQuantity = " + addAssetLine.getLocationQuantity());
         if (addAssetLine.getLocationQuantity() >= 1) {
-            
-            for (int i = 0; i < addAssetLine.getLocationQuantity(); i++) {
-              
-                LOG.info("LEO getBuildingCode = " + addAssetLine.getBuildingCode());
-                addAssetLine.setCampusCode(addAssetLine.getBuildingCode());
-                
-                LOG.info("LEO getBuildingRoomNumber = " + addAssetLine.getBuildingRoomNumber());
-                addAssetLine.setBuildingRoomNumber(addAssetLine.getBuildingRoomNumber());
+            for (int i = 1; i < addAssetLine.getLocationQuantity(); i++) {
+                AssetGlobalDetail assetGlobalDetail = new AssetGlobalDetail();
 
-                LOG.info("LEO getBuildingSubRoomNumber = " + addAssetLine.getBuildingSubRoomNumber());
-                addAssetLine.setBuildingSubRoomNumber(addAssetLine.getBuildingSubRoomNumber());
+                assetGlobalDetail.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());              
+                assetGlobalDetail.setCampusCode(addAssetLine.getCampusCode());
+                assetGlobalDetail.setBuildingCode(addAssetLine.getBuildingCode());
+                assetGlobalDetail.setBuildingRoomNumber(addAssetLine.getBuildingRoomNumber());
+                assetGlobalDetail.setBuildingSubRoomNumber(addAssetLine.getBuildingSubRoomNumber());
+                assetGlobalDetail.setOffCampusName(addAssetLine.getOffCampusName());
+                assetGlobalDetail.setOffCampusAddress(addAssetLine.getOffCampusAddress());
+                assetGlobalDetail.setOffCampusCityName(addAssetLine.getOffCampusCityName());
+                assetGlobalDetail.setOffCampusStateCode(addAssetLine.getOffCampusStateCode());
+                assetGlobalDetail.setOffCampusZipCode(addAssetLine.getOffCampusZipCode());
+                assetGlobalDetail.setOffCampusCountryCode(addAssetLine.getOffCampusCountryCode());
                 
-                // get asset number
-                Long assetNumber = NextAssetNumberFinder.getLongValue();
-                LOG.info("LEO assetNumber = " + assetNumber);
-                addAssetLine.setCapitalAssetNumber(assetNumber);
-              
-                // add new data to collection
-                super.addNewLineToCollection(collectionName);
+                assetGlobalDetail.setNewCollectionRecord(true);
+                Collection maintCollection = (Collection) ObjectUtils.getPropertyValue(getBusinessObject(), collectionName);
+                maintCollection.add(assetGlobalDetail);
             }
         }
-        
-        //Long assetNumber = NextAssetNumberFinder.getLongValue();
-        //LOG.info("LEO assetNumber = " + assetNumber);
-        //addAssetLine.setCapitalAssetNumber(assetNumber);
-        
-        //super.addNewLineToCollection(collectionName);
+        addAssetLine.setCapitalAssetNumber(NextAssetNumberFinder.getLongValue());
+        super.addNewLineToCollection(collectionName);
     }
 
     /**

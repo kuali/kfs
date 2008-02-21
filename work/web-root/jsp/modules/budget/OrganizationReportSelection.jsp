@@ -53,7 +53,7 @@
 				<td class="grid" valign="center">
 					<%-- <center><html:multibox property="bcSubfunds[${status.index}].subFundGroupCode" value="${subFunds.subFundGroupCode}"/></center> --%>
 					<center>
-						<input type="checkbox" name="${subFund.subFundGroupCode}" value="${subFund.subFundGroupCode}" <c:if test="${subFund.reportFlag eq 1}"> checked="checked" </c:if> />
+						<input type="checkbox" name="${bcSubFunds.subFundGroupCode}" value="${bcSubFunds.subFundGroupCode}" <c:if test="${subFund.reportFlag eq 1}"> checked="checked" </c:if> />
 					</center>
 				</td>
 				<td class="grid" valign="center">

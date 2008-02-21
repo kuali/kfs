@@ -21,7 +21,8 @@ package org.kuali.module.cams;
  */
 public class CamsKeyConstants {
 
-    public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.Number";
+    public static final String ERROR_PRE_TAG_NUMBER = "error.invalid.pre.tag.number";
+    public static final String ERROR_PRE_TAG_DETAIL_EXCESS = "error.pre.tag.detail.excess";
     
     public static final String MESSAGE_BATCH_UPLOAD_TITLE_PRE_ASSET_TAGGING = "message.batchUpload.title.pre.asset.tagging";
 }

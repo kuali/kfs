@@ -22,12 +22,7 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.Pretag</businessObjectClass>
         <maintainableClass>org.kuali.core.maintenance.KualiMaintainableImpl</maintainableClass>
- 
-        <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
-       <preRulesCheckClass>org.kuali.module.cams.rules.PretagPreRules</preRulesCheckClass>
-<!-- 
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
--->
+         <businessRulesClass>org.kuali.module.cams.rules.PretagRule</businessRulesClass>
         <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
@@ -74,7 +69,7 @@
                     <maintainableField name="personUniversal.personName" required="false" readOnly="true" />
                     <maintainableField name="organizationText" required="true" />
                     <maintainableField name="assetTopsDescription" required="true" />
-                    <maintainableField name="chartOfAccountsCode" required="false" />
+                    <maintainableField name="chartOfAccountsCode" required="true" />
                     <maintainableField name="pretagCreateDate" required="false" >
   						<defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.CurrentDateMMDDYYYYFinder</defaultValueFinderClass>
 					</maintainableField>

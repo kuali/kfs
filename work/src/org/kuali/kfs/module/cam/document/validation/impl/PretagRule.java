@@ -16,6 +16,7 @@
 package org.kuali.module.cams.rules;
 
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,11 +54,34 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
 
         detail.setPurchaseOrderNumber(pretag.getPurchaseOrderNumber());
         detail.setLineItemNumber(pretag.getLineItemNumber());
-        success = checkCampusTagNumber(detail);
- 
+        
+        success &= checkTotalDetailCount(pretag);
+        success &= checkCampusTagNumber(detail);
+         
         return success;
     }
+    /**
+     * This method ensures that each {@link pretagDetail} tag number does not exist in Asset table
+     * 
+     * @param dtl
+     * @return true if the detail tag doesn't exist in Asset
+     */
+    public boolean checkTotalDetailCount(Pretag pretag) {
+        boolean success = true;
 
+        BigDecimal totalNumerOfDetails = new BigDecimal(pretag.getPretagDetails().size());
+        if (pretag.getQuantityInvoiced() == null){
+            putFieldError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, "0");
+            success &= false;
+        } else {
+            if (pretag.getQuantityInvoiced().compareTo(totalNumerOfDetails) == 0) {
+                putFieldError("campusTagNumber", CamsKeyConstants.ERROR_PRE_TAG_DETAIL_EXCESS, pretag.getPretagDetails().size() + "");
+                success &= false;
+            }
+        }
+        return success;
+    }
+//    intValue
     /**
      * This method ensures that each {@link pretagDetail} tag number does not exist in Asset table
      * 
@@ -66,7 +90,7 @@ public class PretagRule extends MaintenanceDocumentRuleBase {
      */
     public boolean checkCampusTagNumber(PretagDetail dtl) {
         boolean success = true;
-        int originalErrorCount = GlobalVariables.getErrorMap().getErrorCount();
+
         getDictionaryValidationService().validateBusinessObject(dtl);
         if (StringUtils.isNotBlank(dtl.getCampusTagNumber())) {
             Map tagMap = new HashMap();

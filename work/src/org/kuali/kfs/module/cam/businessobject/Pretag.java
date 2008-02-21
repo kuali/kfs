@@ -41,6 +41,9 @@ public class Pretag extends PersistableBusinessObjectBase {
     private AssetType capitalAssetType;
     private UniversalUser personUniversal;
     
+    private List<String> campusTagNumbers;
+    private List<String> serialNumbers;
+    
     private List<PretagDetail> pretagDetails;
     
   
@@ -473,6 +476,52 @@ public class Pretag extends PersistableBusinessObjectBase {
             m.put("lineItemNumber", this.lineItemNumber.toString());
         }
 	    return m;
+    }
+
+    /**
+     * Gets the campusTagNumbers attribute. 
+     * @return Returns the campusTagNumbers.
+     */
+    public List<String> getCampusTagNumbers() {
+        List<String> campusTagNumbers = new ArrayList<String>();
+        if (pretagDetails != null) {
+            for (PretagDetail pretagDetail: pretagDetails) {
+                campusTagNumbers.add(pretagDetail.getCampusTagNumber());
+            }
+        }
+        return campusTagNumbers;
+    }
+
+    /**
+     * Sets the campusTagNumbers attribute value.
+     * @param campusTagNumbers The campusTagNumbers to set.
+     * @deprecated
+     */
+    public void setCampusTagNumbers(List<String> campusTagNumbers) {
+        this.campusTagNumbers = campusTagNumbers;
+    }
+
+    /**
+     * Gets the serialNumbers attribute. 
+     * @return Returns the serialNumbers.
+     */
+    public List<String> getSerialNumbers() {
+        List<String> serialNumbers = new ArrayList<String>();
+        if (pretagDetails != null) {
+            for (PretagDetail pretagDetail: pretagDetails) {
+                serialNumbers.add(pretagDetail.getSerialNumber());
+            }
+        }
+        return serialNumbers;
+    }
+
+    /**
+     * Sets the serialNumbers attribute value.
+     * @param serialNumbers The serialNumbers to set.
+     * @deprecated
+     */
+    public void setSerialNumbers(List<String> serialNumbers) {
+        this.serialNumbers = serialNumbers;
     }
 
 }

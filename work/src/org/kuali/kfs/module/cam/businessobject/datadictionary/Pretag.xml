@@ -23,6 +23,7 @@
                         <field attributeName="organizationInventoryName" />
 	                    <field attributeName="personUniversal.personName" />
                         <field attributeName="organizationText" />
+                        <field attributeName="assetTopsDescription" />
                         <field attributeName="chartOfAccountsCode" />
                         <field attributeName="pretagCreateDate" />
                     </inquiryFields>
@@ -77,11 +78,8 @@
                 <field attributeName="purchaseOrderNumber" />
                 <field attributeName="lineItemNumber" />
                 <field attributeName="quantityInvoiced" />
-                <field attributeName="pretagDetails"/>
-<!--            
-				<field attributeName="pretagDetails.serialNumber" />
-                <field attributeName="pretagDetails.campusTagNumber"/>
--->
+                <field attributeName="campusTagNumbers"/>
+                <field attributeName="serialNumbers"/>
                 <field attributeName="assetTopsDescription" />
             </resultFields>
         </lookup>
@@ -123,7 +121,7 @@
             <attributeReference name="chartOfAccountsCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
                 <label>Chart of Accounts Code</label>
                 <shortLabel>Fiscal Chart</shortLabel>
-                <required>false</required>
+                <required>true</required>
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
@@ -220,7 +218,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
 
                 <control>
                     <text size="42" />
@@ -265,7 +263,7 @@
                 <shortLabel>Name</shortLabel>
 
                 <maxLength>40</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
+                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
 
                 <control>
                     <text size="42" />
@@ -274,7 +272,36 @@
                 <summary>vendorName</summary>
                 <description>vendorName description...</description>
 			</attribute>
+			
+            <attribute name="campusTagNumbers" >
+                <label>Campus Tag Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>8</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="10" />
+                </control>
+                <summary>campusTagNumber</summary>
+                <description>campusTagNumber description...</description>
+			</attribute>
 			 			
+            <attribute name="serialNumbers" >
+                <label>Serial Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>serialNumber</summary>
+                <description>serialNumber description...</description>
+			</attribute>
+
             <attributeReference name="pretagDetails.campusTagNumber" sourceClassName="org.kuali.module.cams.bo.PretagDetail" sourceAttributeName="campusTagNumber"/>
             <attributeReference name="pretagDetails.serialNumber" sourceClassName="org.kuali.module.cams.bo.PretagDetail" sourceAttributeName="serialNumber"/>
 

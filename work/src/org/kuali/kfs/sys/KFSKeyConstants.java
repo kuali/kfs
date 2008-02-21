@@ -742,6 +742,11 @@ public class KFSKeyConstants {
         public static final String DESCRIPTION_GLPE_BANK_OFFSET = "description.glpe.bankOffset.advanceDeposit";
     }
 
+    public static final class budget{
+        public static final String MSG_REPORT_ACCOUNT_LIST = "message.budget.report.accountList";
+        public static final String MSG_ACCOUNT_LIST = "message.budget.accountList";
+    }
+    
     public static final class Check {
         public static final String ERROR_CHECK_DELETERULE = "error.check.deleteRule";
     }

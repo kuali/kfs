@@ -36,6 +36,7 @@ import org.kuali.core.web.struts.form.LookupForm;
 import org.kuali.core.web.ui.Field;
 import org.kuali.core.web.ui.Row;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSKeyConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
@@ -76,9 +77,10 @@ public class TempListLookupAction extends KualiLookupAction {
             if (tempListLookupForm.getReportMode() != null) {
                 String[] flds = tempListLookupForm.getCurrentPointOfViewKeyCode().split("[-]");
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear(), flds[0], flds[1]);
+                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);   
             } else {
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
-                GlobalVariables.getMessageList().add("message.budget.accountList");    
+                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_ACCOUNT_LIST);    
             }
         }
 
@@ -145,12 +147,13 @@ public class TempListLookupAction extends KualiLookupAction {
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
         
         String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+        //String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
         // build out base path for return location, using config service
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
         
         // now add required parameters
         Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "start");
         parameters.put(KFSConstants.DOC_FORM_KEY, tempListLookupForm.getFormKey());
         parameters.put(KFSConstants.BACK_LOCATION, basePath + "/" + BCConstants.ORG_SEL_TREE_ACTION);
         parameters.put(KFSConstants.HIDE_LOOKUP_RETURN_LINK, "true");

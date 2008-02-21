@@ -31,23 +31,21 @@
 	<html-el:hidden name="KualiForm" property="refreshListFlag" />
 	<html-el:hidden name="KualiForm" property="operatingModeTitle" />
 	
-
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
     <html:hidden property="operatingModeTitle" value="${KualiForm.operatingModeTitle}" />
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
         <tr>
             <th class="grid" colspan="6" align="left">
-				<br>${KualiForm.operatingModeTitle}
-				<br>
-				<br>
-  		    </th>
+				<br> ${KualiForm.operatingModeTitle} <br> <br>
+			</th>
         </tr>
 	    <tr>
-            <%--point of view header --%>
-            <th class="grid" > Select <br> </th>
-		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupCode.name}"/> <br> </th>
-		    <th class="grid" > <c:out value="${DataDictionary.SubFundGroup.attributes.subFundGroupDescription.name}"/> <br> </th>
+            <th class="grid"> <br> Select <br> <br> </th>
+		    <th class="grid"> <br>	    
+		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute.subFundGroupCode}" useShortLabel="false" /> <br> <br> </th>
+		    <th class="grid" > <br>
+		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}" useShortLabel="false" /> <br> <br> </th>
 	    </tr>
 
 		<logic:iterate name="KualiForm" id="bcSubFund" property="bcSubFunds" indexId="ctr">
@@ -55,24 +53,23 @@
 				<td class="grid" valign="center">
 					<center>
 		            <html:checkbox property="bcSubFunds[${ctr}].reportFlag" value="1" />
-					<%-- <input type="checkbox" name="eachSubFundCode" value="eachSubFundCode" <c:if test="${eachSubFundCode eq 1}"> checked="checked" </c:if> /> --%>
 					</center>
 				</td>
 				<td class="grid" valign="center">
-				<center>
-					<kul:htmlControlAttribute 
-					property="bcSubFunds[${ctr}].subFundGroupCode"
-		            attributeEntry="${subFundAttribute.subFundGroupCode}"
-        	        readOnly="true"/>
-            	<center>
+					<center>
+						<kul:htmlControlAttribute 
+						property="bcSubFunds[${ctr}].subFundGroupCode"
+			            attributeEntry="${subFundAttribute.subFundGroupCode}"
+        		        readOnly="true"/>
+            		<center>
 				</td>				
 				<td class="grid" valign="center">
-				<center>
-					<kul:htmlControlAttribute 
-					property="bcSubFunds[${ctr}].subFundGroup.subFundGroupDescription"
-		            attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}"
-	                readOnly="true"/>
- 				</center>
+					<center>
+						<kul:htmlControlAttribute 
+						property="bcSubFunds[${ctr}].subFundGroup.subFundGroupDescription"
+			            attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}"
+	        	        readOnly="true"/>
+ 					</center>
 				</td>				
 			</tr>
 		</logic:iterate>

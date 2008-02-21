@@ -56,11 +56,19 @@
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
             <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
-			<attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" />
+			<attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
+				<label>Employee Name</label>
+			</attributeReference>
             <attributeReference name="employee.personUserIdentifier" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personUserIdentifier" />
-            <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber" />
-			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportBeginFiscalYear" />
-			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportEndFiscalYear" />
+            <attributeReference name="effortCertificationReportNumber" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportNumber"  >
+				<label>Report Number</label>
+			</attributeReference>
+			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportBeginFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportBeginFiscalYear"  >
+				<label>Report Start Date:</label>
+			</attributeReference>
+			<attributeReference name="effortCertificationReportDefinition.effortCertificationReportEndFiscalYear" sourceClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition" sourceAttributeName="effortCertificationReportEndFiscalYear"  >
+				<label>Report End Date:</label>
+			</attributeReference>
 			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
         </attributes>       
 

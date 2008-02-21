@@ -15,37 +15,33 @@
  */
 package org.kuali.kfs.inquiry;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.inquiry.KualiInquirableImpl;
 import org.kuali.core.util.ObjectUtils;
 import org.kuali.kfs.KFSConstants;
 
+/**
+ * Base KFS Inquirable Implementation
+ */
 public class KfsInquirableImpl extends KualiInquirableImpl {
 
     /**
-     * Helper method to build an inquiry url for a result field.
+     * Helper method to build an inquiry url for a result field. Special implementation to not build
+     * an inquiry link if the value is all dashes.
      * 
      * @param bo the business object instance to build the urls for
      * @param propertyName the property which links to an inquirable
      * @return String url to inquiry
      */
     public String getInquiryUrl(BusinessObject businessObject, String attributeName, boolean forceInquiry) {
-
-        // If the field is subAccountNumber, financialSubObjectCode or projectCode and the value is dashes, don't give a url
-        if ("subAccountNumber".equals(attributeName) || "financialSubObjectCode".equals(attributeName) || "projectCode".equals(attributeName)) {
-            Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
-            String fieldValue = objFieldValue == null ? "" : objFieldValue.toString();
-
-            if ("subAccountNumber".equals(attributeName) && fieldValue.equals(KFSConstants.getDashSubAccountNumber())) {
-                return "";
-            }
-            if ("financialSubObjectCode".equals(attributeName) && fieldValue.equals(KFSConstants.getDashFinancialSubObjectCode())) {
-                return "";
-            }
-            if ("projectCode".equals(attributeName) && fieldValue.equals(KFSConstants.getDashProjectCode())) {
-                return "";
-            }
+        Object objFieldValue = ObjectUtils.getPropertyValue(businessObject, attributeName);
+        String fieldValue = objFieldValue == null ? "" : objFieldValue.toString();
+        
+        if (StringUtils.containsOnly(fieldValue, "-")) {
+            return "";
         }
+
         return super.getInquiryUrl(businessObject, attributeName, forceInquiry);
     }
 

@@ -15,75 +15,66 @@
  */
 package org.kuali.module.cams.rules;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.kuali.core.document.Document;
 import org.kuali.core.document.MaintenanceDocument;
-import org.kuali.core.maintenance.rules.MaintenanceDocumentRule;
 import org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.core.rule.event.ApproveDocumentEvent;
-import org.kuali.module.cams.CamsConstants;
+import org.kuali.module.cams.bo.Asset;
 
 /**
- * AssetRule delegates responsibility to specific action (document type) implementations since there are
- * so many for Asset Maintenance Document.
+ * AssetRule for Asset edit.
  */
-public class AssetRule extends MaintenanceDocumentRuleBase implements MaintenanceDocumentRule {
-    private static final Map<String,Class> FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION = new HashMap();
-    static {
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_TAG, AssetTagRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_SEPERATE, AssetSeperateRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_PAYMENT, AssetPaymentRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_EDIT, AssetEditRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_RETIREMENT, AssetRetireRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_TRANSFER, AssetTransferRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_LOAN, AssetLoanRule.class);
-        FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.put(CamsConstants.DocumentTypes.ASSET_MERGE, AssetMergeRule.class);
-    }
-    private MaintenanceDocumentRule realRule;
+public class AssetRule extends MaintenanceDocumentRuleBase {
+    protected static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AssetRule.class);
 
-    /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupBaseConvenienceObjects(org.kuali.core.document.MaintenanceDocument)
-     */
-    public void setupBaseConvenienceObjects(MaintenanceDocument document) {
-        try {
-            realRule = (MaintenanceDocumentRule)FINANCIAL_DOCUMENT_TYPE_TO_RULE_IMPLEMENTATION.get(document.getDocumentHeader().getFinancialDocumentTypeCode()).newInstance();
-        }
-        catch (Exception e) {
-            throw new RuntimeException("Caught exception while trying to initialize realMaintainable based on financialDocumentTypeCode: " + document.getDocumentHeader().getFinancialDocumentTypeCode(), e);
-        }
-    }
-    
-    
-    // EVERYTHING BELOW IS SIMPLY DEFERRINGTO THE REAL MAINTENANCE DOCUMENT RULE
-    
+    private Asset newAsset;
+    private Asset copyAsset;
     
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#processApproveDocument(org.kuali.core.rule.event.ApproveDocumentEvent)
+     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase#processCustomSaveDocumentBusinessRules(org.kuali.core.document.MaintenanceDocument)
      */
-    public boolean processApproveDocument(ApproveDocumentEvent approveEvent) {
-        return realRule.processApproveDocument(approveEvent);
+    @Override
+    protected boolean processCustomSaveDocumentBusinessRules(MaintenanceDocument document) {
+        boolean valid = processValidation(document);
+        return valid & super.processCustomSaveDocumentBusinessRules(document);
     }
 
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#processRouteDocument(org.kuali.core.document.Document)
+     * Validates Asset 
+     * 
+     * @param document MaintenanceDocument instance
+     * @return boolean false or true
      */
-    public boolean processRouteDocument(Document document) {
-        return realRule.processRouteDocument(document);
+    private boolean processValidation(MaintenanceDocument document) {
+        boolean valid = true;
+       
+        valid &= processAssetValidation(document);
+        
+        return valid;
     }
-
+   
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#processSaveDocument(org.kuali.core.document.Document)
+     * Validates Asset document.
+     * 
+     * @param document MaintenanceDocument instance
+     * @return boolean false or true
      */
-    public boolean processSaveDocument(Document document) {
-        return realRule.processSaveDocument(document);
+    boolean processAssetValidation(MaintenanceDocument document) {
+        boolean valid = true;
+        Asset asset = (Asset) document.getNewMaintainableObject().getBusinessObject();
+        valid &= validateCampusLocation(asset);
+     
+       
+        return valid;
     }
-
+    
     /**
-     * @see org.kuali.core.maintenance.rules.MaintenanceDocumentRule#setupConvenienceObjects()
+     * Validates Asset On Campus loaction information
+     * 
+     * @param asset the Asset object to be validated
+     * @return boolean false if the on campus location information is invalid 
      */
-    public void setupConvenienceObjects() {
-        realRule.setupConvenienceObjects();
+    private boolean validateCampusLocation(Asset asset) {
+        boolean valid = true; 
+        //TODO: Amanda add the validation code here by using service methods.
+        return valid;
     }
 }

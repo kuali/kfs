@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation.
+ * Copyright 2008 The Kuali Foundation.
  * 
  * Licensed under the Educational Community License, Version 1.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,37 +15,27 @@
  */
 package org.kuali.module.cams.maintenance;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
-import org.kuali.core.web.ui.Section;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.DepreciationCalculatorService;
 
 /**
- * Methods for the Asset maintenance document UI.
+ * AssetMaintainable for Asset edit.
  */
-public class AssetMaintainableImpl extends KualiMaintainableImpl {
+public class AssetMaintainableImpl extends KualiMaintainableImpl implements Maintainable {
 
     /**
-     * @see org.kuali.core.maintenance.KualiMaintainableImpl#processAfterEdit(java.util.Map)
+     * @see org.kuali.core.maintenance.Maintainable#processAfterEdit(org.kuali.core.document.MaintenanceDocument, java.util.Map)
      */
-    @Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> parameters) {
+    public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         Asset asset = (Asset) this.getBusinessObject();
-        String[] value = parameters.get(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE);
-        asset.setDocumentTypeCode(value[0]);
+        
         calculateDepreciationValues(asset);
-        super.processAfterEdit(document, parameters);
     }
 
     private void calculateDepreciationValues(Asset asset) {
@@ -56,35 +46,5 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl {
         asset.setPrevYearDepreciation(calculatorService.calculatePrimaryPrevYearDepreciation(asset));
         asset.setYearToDateDepreciation(calculatorService.calculatePrimaryYTDDepreciation(asset));
         asset.setCurrentMonthDepreciation(calculatorService.calculatePrimaryCurrentMonthDepreciation(asset));
-    }
-
-    /**
-     * Allows customizing the maintenance document interface to hide / show based on priviledge and document type code (@see
-     * AssetLookupableHelperServiceImpl).
-     * 
-     * @param oldMaintainable
-     * @return
-     */
-    @Override
-    public List getSections(Maintainable oldMaintainable) {
-        Asset asset = (Asset) this.getBusinessObject();
-        List<Section> sections = new ArrayList<Section>();
-
-        // Add all the kuali core sections
-        List<Section> coreSections = getCoreSections(oldMaintainable);
-
-        for (Section section : coreSections) {
-            if (StringUtils.isEmpty(asset.getDocumentTypeCode())) {
-                sections.add(section);
-            }
-            else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_EDIT)) {
-                sections.add(section);
-            }
-            else if (asset.getDocumentTypeCode().equals(CamsConstants.DocumentTypes.ASSET_RETIREMENT) && section.getSectionTitle().equalsIgnoreCase(CamsConstants.SectionTitles.ASSET_RETIREMENT)) {
-                sections.add(section);
-            }
-        }
-
-        return sections;
     }
 }

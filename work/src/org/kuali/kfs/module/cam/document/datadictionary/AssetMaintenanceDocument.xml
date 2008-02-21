@@ -22,8 +22,8 @@
     <maintenanceDocument>
         <businessObjectClass>org.kuali.module.cams.bo.Asset</businessObjectClass>
         <maintainableClass>org.kuali.module.cams.maintenance.AssetMaintainableImpl</maintainableClass>
-        <businessRulesClass>org.kuali.core.maintenance.rules.MaintenanceDocumentRuleBase</businessRulesClass>
-        <documentAuthorizerClass>org.kuali.core.document.authorization.MaintenanceDocumentAuthorizerBase</documentAuthorizerClass>
+        <businessRulesClass>org.kuali.module.cams.rules.AssetRule</businessRulesClass>
+        <documentAuthorizerClass>org.kuali.module.cams.document.authorization.AssetAuthorizer</documentAuthorizerClass>
         <authorizations>
             <authorization action="initiate">
                 <workgroups>

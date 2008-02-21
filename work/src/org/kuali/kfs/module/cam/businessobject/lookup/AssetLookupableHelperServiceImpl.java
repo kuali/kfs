@@ -15,17 +15,10 @@
  */
 package org.kuali.module.cams.lookup;
 
-import java.util.Properties;
-
-import org.kuali.RiceConstants;
 import org.kuali.core.bo.BusinessObject;
 import org.kuali.core.lookup.KualiLookupableHelperServiceImpl;
-import org.kuali.core.util.UrlFactory;
 import org.kuali.kfs.KFSConstants;
-import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.module.cams.CamsConstants;
-import org.kuali.module.cams.CamsPropertyConstants;
-import org.kuali.module.cams.bo.Asset;
 
 /**
  * This class overrids the base getActionUrls method
@@ -46,66 +39,18 @@ public class AssetLookupableHelperServiceImpl extends KualiLookupableHelperServi
         
         actions.append(getMaintenanceUrl(bo, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL));
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.LOAN);
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.MERGE);
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.PAYMENT);
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.RETIRE);
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.SEPARATE);
         actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL));
-        actions.append("&nbsp;&nbsp;");
-        actions.append(getMaintenanceUrl(bo, CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL));
+        actions.append(CamsConstants.AssetActions.TRANSFER);
         
         return actions.toString();
-    }
-    
-    /**
-     * Custom maintenance Urls. In addition to edit CAMs has a lot of urls that are essentially an edit, pass different
-     * doc types and hence hide certain sections. The different doc types are also important for possible posts to the GL.
-     * 
-     * @see org.kuali.core.lookup.AbstractLookupableHelperServiceImpl#getMaintenanceUrl(org.kuali.core.bo.BusinessObject, java.lang.String)
-     */
-    @Override
-    public String getMaintenanceUrl(BusinessObject businessObject, String methodToCall) {
-        Asset asset = (Asset) businessObject;
-        
-        Properties parameters = new Properties();
-        parameters.put(RiceConstants.DISPATCH_REQUEST_PARAMETER, KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL);
-        parameters.put(RiceConstants.BUSINESS_OBJECT_CLASS_ATTRIBUTE, businessObject.getClass().getName());
-        
-        // document type code for asset maintenance document
-        parameters.put(KFSPropertyConstants.DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_ADDITION);
-        
-        // Asset PK
-        parameters.put(CamsPropertyConstants.Asset.CAPITAL_ASSET_NUMBER, asset.getCapitalAssetNumber().toString());
-
-        // document type codes for the specific action been taken. These are not used for workflow
-        if (methodToCall.equals(KFSConstants.MAINTENANCE_EDIT_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_EDIT);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_TAG_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_TAG);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_SEPERATE_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_SEPERATE);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_PAYMENT_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_PAYMENT);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_RETIRE_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_RETIREMENT);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_TRANSFER_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_TRANSFER);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_LOAN_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_LOAN);
-        } else if (methodToCall.equals(CamsConstants.MAINTENANCE_MERGE_METHOD_TO_CALL)) {
-            parameters.put(KFSPropertyConstants.FINANCIAL_DOCUMENT_TYPE_CODE, CamsConstants.DocumentTypes.ASSET_MERGE);
-        } else {
-            throw new RuntimeException("Unkown case methodToCall: " + methodToCall);
-        }
-        
-        String url = UrlFactory.parameterizeUrl(RiceConstants.MAINTENANCE_ACTION, parameters);
-        url = "<a href=\"" + url + "\">" + methodToCall + "</a>";
-        return url;
     }
 }

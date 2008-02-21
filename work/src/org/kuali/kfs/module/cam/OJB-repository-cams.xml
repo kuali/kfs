@@ -801,4 +801,15 @@
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.AssetDepreciationConvention" table="CM_AST_DEPR_T">
+	<field-descriptor name="financialObjectSubTypeCode" column="FIN_OBJ_SUB_TYPE_CD" jdbc-type="VARCHAR" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="depreciationConventionCode" column="CPTL_AST_DEPR_CD" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="financialObjectSubType" class-ref="org.kuali.module.chart.bo.ObjSubTyp" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
+		<foreignkey field-ref="financialObjectSubTypeCode" />
+	</reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

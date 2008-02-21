@@ -28,9 +28,13 @@
                     <inquiryFields>
                         <field attributeName="organizationOwnerChartOfAccountsCode" />
                         <field attributeName="organizationOwnerAccountNumber" />
+                        <!-- org. owner -->
                         <field attributeName="agencyNumber" />
                         <field attributeName="acquisitionTypeCode" />
                         <field attributeName="inventoryStatusCode" />
+                        <field attributeName="conditionCode" />
+                        <field attributeName="capitalAssetTypeCode" />
+                        <!-- asset rep -->
                     </inquiryFields>
                 </inquirySection>
             </inquirySections>  
@@ -53,8 +57,6 @@
             </defaultSort>
             
             <lookupFields>
-                <!-- <lookupField attributeName="assetOrganization.organizationTagNumber" required="false" noLookup="true" /> -->
-                <!-- <defaultValueFinderClass>org.kuali.kfs.lookup.valuefinder.FiscalYearFinder</defaultValueFinderClass> -->
                 <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false"/>
                 <lookupField attributeName="organizationOwnerAccountNumber" required="false"/>
                 <lookupField attributeName="agencyNumber" required="false"/>
@@ -65,67 +67,32 @@
             <resultFields>
                 <field attributeName="organizationOwnerChartOfAccountsCode" />
                 <field attributeName="organizationOwnerAccountNumber" />
+                <!-- asset rep -->
+                <field attributeName="leoOrganizationOwner" />
                 <field attributeName="agencyNumber" />
                 <field attributeName="acquisitionTypeCode" />
                 <field attributeName="inventoryStatusCode" />
+                <field attributeName="conditionCode" />
+                <field attributeName="capitalAssetDescription" />
+                <field attributeName="capitalAssetTypeCode" />
+                <field attributeName="vendorName" />
+				<field attributeName="manufacturerName" />
+				<field attributeName="manufacturerModelNumber" />
+				<!-- asset rep -->
+				<field attributeName="leoAssetRepresentitive" />
+				<field attributeName="organizationText" />
+				<field attributeName="lastInventoryDate" />
+				<field attributeName="createDate" />
+				<field attributeName="financialDocumentPostingYear" />
+				<field attributeName="financialDocumentPostingPeriodCode" />
+				<field attributeName="capitalAssetInServiceDate" />
+				<!-- deprec. date -->
+				<field attributeName="leoDeprecationDate" />
             </resultFields>
         </lookup>
 
         <attributes>
-<!--  ### temp holder - remove from BO when finished ### -->
-            <attribute name="needMoreInfo">
-                <label>Need More Info</label>
-                <shortLabel>Need More Info</shortLabel>
-                <maxLength>2</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <text size="2" />
-                </control>
-                <summary>needMoreInfo</summary>
-                <description>This is a temp holder used for testing....</description>
-			</attribute>
-
-<!--  ### Global Asset Maintenance ### -->        
-            <attribute name="capitalAssetDescription" forceUppercase="true">
-                <label>Capital Asset Description</label>
-                <shortLabel>Description</shortLabel>
-                <maxLength>2000</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
-                <control>
-                    <textarea rows="5" cols="80"/>
-                </control>
-                <summary>capitalAssetDescription</summary>
-                <description>capitalAssetDescription description...</description>
-			</attribute>
-			
-            <attribute name="capitalAssetTypeCode" forceUppercase="true">
-                <label>Capital Asset Type Code</label>
-                <shortLabel>Code</shortLabel>
-                <maxLength>7</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="9" />
-                </control>
-                <summary>capitalAssetTypeCode</summary>
-                <description>capitalAssetTypeCode description...</description>
-			</attribute>
-			
-            <attribute name="conditionCode" forceUppercase="true">
-                <label>Condition Code</label>
-                <shortLabel>Code</shortLabel>
-                <maxLength>1</maxLength>
-                <validationPattern><anyCharacter /></validationPattern>
-                <control>
-                    <text size="3" />
-                </control>
-                <summary>conditionCode</summary>
-                <description>conditionCode description...</description>
-			</attribute>
-			
-            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
-            
 <!--  ### Asset Detail Information ### -->
-			<!-- <attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.cams.bo.Account" sourceAttributeName="organizationOwnerAccount" /> -->
             <attributeReference name="organizationOwnerChartOfAccountsCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerChartOfAccountsCode">
             	<label>Owner Chart</label>
 			</attributeReference>
@@ -133,6 +100,19 @@
 			<attributeReference name="organizationOwnerAccountNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="organizationOwnerAccountNumber">
 				<label>Owner Account Number</label>
 			</attributeReference>
+			
+			<!-- org. owner -->
+			<attribute name="leoOrganizationOwner" forceUppercase="true">
+                <label>Organization Owner</label>
+                <shortLabel>Need More Info</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>leoOrganizationOwner</summary>
+                <description>leoOrganizationOwner....</description>
+			</attribute>
 			
 			<attributeReference name="agencyNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="agencyNumber">
 				<label>Owner</label>
@@ -146,44 +126,120 @@
 				<label>Acquistion Status</label>
 			</attributeReference>
 
-<!--  ### Land Information ###
-            <attributeReference name="landCountyName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landCountyName">
-				<label>Land Country</label>
-				<shortLabel>landCountyName</shortLabel>
-				<maxLength>4</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
+            <attribute name="conditionCode" forceUppercase="true">
+                <label>Condition Code</label>
+                <shortLabel>Condition Code</shortLabel>
+                <maxLength>1</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
                 <control>
-                    <text size="4" />
+                    <text size="3" />
                 </control>
-                <summary>landCountyName</summary>
-                <description>Land country name.</description>
+                <summary>conditionCode</summary>
+                <description>conditionCode description...</description>
+			</attribute>
+			
+            <attribute name="capitalAssetDescription" forceUppercase="true">
+                <label>Description</label>
+                <shortLabel>Description</shortLabel>
+                <maxLength>2000</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <textarea rows="5" cols="80"/>
+                </control>
+                <summary>capitalAssetDescription</summary>
+                <description>capitalAssetDescription description...</description>
+			</attribute>
+			
+            <attribute name="capitalAssetTypeCode" forceUppercase="true">
+                <label>Asset Type</label>
+                <shortLabel>Asset Type</shortLabel>
+                <maxLength>7</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+                <control>
+                    <text size="9" />
+                </control>
+                <summary>AssetType</summary>
+                <description>capitalAssetTypeCode description...</description>
+			</attribute>
+			
+			<attributeReference name="vendorName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="vendorName">
+				<label>Vendor</label>
 			</attributeReference>
 			
-            <attributeReference name="landAcreageSize" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landAcreageSize">
-				<label>Land Acreage</label>
-				<shortLabel>landAcreageSize</shortLabel>
-				<maxLength>10</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>landAcreageSize</summary>
-                <description>Land acreage size.</description>
+			<attributeReference name="manufacturerName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerName">
+				<label>Manufacturer</label>
 			</attributeReference>
-            
-            <attributeReference name="landParcelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landParcelNumber">
-				<label>Land Parcel Number</label>
-				<shortLabel>landParcelNumber</shortLabel>
-				<maxLength>10</maxLength>
-                <validationPattern><anyCharacter allowWhitespace="true" /></validationPattern>
-                <control>
-                    <text size="10" />
-                </control>
-                <summary>landParcelNumber</summary>
-                <description>Land parcel number.</description>
-			</attributeReference>
--->
 			
+			<attributeReference name="manufacturerModelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="manufacturerModelNumber">
+				<label>Model Number</label>
+			</attributeReference>
+			
+			<attributeReference name="organizationText" sourceClassName="org.kuali.module.cams.bo.AssetOrganization" sourceAttributeName="organizationText">
+				<label>Organization Text</label>
+			</attributeReference>
+			
+			<!-- asset rep -->
+			<attribute name="leoAssetRepresentitive" forceUppercase="true">
+                <label>Asset Representitive</label>
+                <shortLabel>Need More Info</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>leoAssetRepresentitive</summary>
+                <description>leoAssetRepresentitive....</description>
+			</attribute>
+			
+			<attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+				<label>Last Inventory Date</label>
+			</attributeReference>
+			
+			<attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+				<label>Create Date</label>
+			</attributeReference>
+			
+			<attributeReference name="financialDocumentPostingYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+				<label>Fiscal Year</label>
+			</attributeReference>
+			
+			<attributeReference name="financialDocumentPostingPeriodCode" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="financialDocumentPostingPeriodCode">
+				<label>Period</label>
+			</attributeReference>
+			
+			<attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+				<label>In-service Date</label>
+			</attributeReference>
+			
+			<!-- deprec. date -->
+			<attribute name="leoDeprecationDate" forceUppercase="true">
+                <label>Deprecation Date</label>
+                <shortLabel>Need More Info</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>leoDeprecationDate</summary>
+                <description>leoDeprecationDate....</description>
+			</attribute>
+
+<!--  ### Unique Asset Information ### -->
+
+			<!-- deprec. date -->
+			<attribute name="leoAssetsToCreate" forceUppercase="true">
+                <label>Number of Assets to Create</label>
+                <shortLabel>Need More Info</shortLabel>
+                <maxLength>2</maxLength>
+                <validationPattern><anyCharacter allowWhitespace="true"/></validationPattern>
+                <control>
+                    <text size="2" />
+                </control>
+                <summary>leoAssetsToCreate</summary>
+                <description>leoAssetsToCreate....</description>
+			</attribute>
+
+<!--  ### Land Information ### -->
 			<attributeReference name="landCountyName" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landCountyName">
 				<label>Land Country</label>
 			</attributeReference>
@@ -195,6 +251,8 @@
 			<attributeReference name="landParcelNumber" sourceClassName="org.kuali.module.cams.bo.Asset" sourceAttributeName="landParcelNumber">
 				<label>Land Parcel Number</label>
 			</attributeReference>
+			
+			<attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 			
         </attributes>
         

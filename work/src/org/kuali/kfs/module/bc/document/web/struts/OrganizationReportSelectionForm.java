@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.Guid;
+import org.kuali.core.util.TypedArrayList;
 import org.kuali.core.web.struts.form.KualiForm;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
@@ -38,8 +39,7 @@ import org.kuali.module.budget.service.BudgetReportsControlListService;
  */
 public class OrganizationReportSelectionForm extends KualiForm {
 
-    private List<BudgetConstructionSubFundPick> bcSubFunds = new ArrayList();
-    private List<String> selectedSubfundGroupCode = new ArrayList();
+    private List<BudgetConstructionSubFundPick> bcSubFunds = new TypedArrayList(BudgetConstructionSubFundPick.class);
     private String operatingModeTitle;
     private Integer universityFiscalYear;
     private String backLocation;
@@ -56,35 +56,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
      */
     public OrganizationReportSelectionForm() {
         super();
-        setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
-    }
-
-    /**
-     * @see org.kuali.core.web.struts.form.KualiForm#populate(javax.servlet.http.HttpServletRequest)
-     */
-    @Override
-    public void populate(HttpServletRequest request) {
-        super.populate(request);
-        if (BCConstants.Report.reportModeOnlySubfundCodeSelectionMapping.contains(reportMode)) {
-            String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
-            if (!refreshSubFundList) {
-                if (buildControlList) {
-                    // change flag
-                    BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
-                    String idForSession = (new Guid()).toString();
-                    List<BudgetConstructionPullup> selectedOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
-                    budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
-                    budgetReportsControlListService.updateReportsControlList(idForSession, personUserIdentifier, universityFiscalYear, selectedOrgs);
-                    budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
-                    buildControlList = false;
-                }
-                Map searchCriteria = new HashMap();
-                searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
-                bcSubFunds = (List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria);
-
-                refreshSubFundList = true;
-            }
-        }
     }
 
     /**
@@ -111,27 +82,6 @@ public class OrganizationReportSelectionForm extends KualiForm {
         }
 
         return (BudgetConstructionSubFundPick) getBcSubFunds().get(index);
-    }
-
-    
-    
-
-    /**
-     * Gets the selectedSubfundGroupCode
-     * 
-     * @return Returns the selectedSubfundGroupCode
-     */
-    public List<String> getSelectedSubfundGroupCode() {
-        return selectedSubfundGroupCode;
-    }
-
-    /**
-     * Sets the selectedSubfundGroupCode
-     * 
-     * @param selectedSubfundGroupCode The selectedSubfundGroupCode to set.
-     */
-    public void setSelectedSubfundGroupCode(List<String> selectedSubfundGroupCode) {
-        this.selectedSubfundGroupCode = selectedSubfundGroupCode;
     }
 
     /**

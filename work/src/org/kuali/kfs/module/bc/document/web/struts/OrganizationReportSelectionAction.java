@@ -17,8 +17,10 @@ package org.kuali.module.budget.web.struts.action;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,15 +29,18 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.util.GlobalVariables;
+import org.kuali.core.util.Guid;
 import org.kuali.core.util.WebUtils;
 import org.kuali.core.web.struts.action.KualiAction;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.budget.BCConstants;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.bo.BudgetConstructionSubFundPick;
 import org.kuali.module.budget.service.BudgetConstructionAccountSummaryReportService;
 import org.kuali.module.budget.service.BudgetConstructionOrganizationJasperReportsService;
+import org.kuali.module.budget.service.BudgetConstructionOrganizationReportsService;
 import org.kuali.module.budget.service.BudgetReportsControlListService;
 import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
 
@@ -45,11 +50,37 @@ import org.kuali.module.budget.web.struts.form.OrganizationReportSelectionForm;
 public class OrganizationReportSelectionAction extends KualiAction {
 
     public ActionForward returnToCaller(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        OrganizationReportSelectionForm subFundListSelectionForm = (OrganizationReportSelectionForm) form;
-        String backUrl = subFundListSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + subFundListSelectionForm.getDocFormKey();
+        OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
+        String backUrl = organizationReportSelectionForm.getBackLocation() + "?methodToCall=refresh&docFormKey=" + organizationReportSelectionForm.getDocFormKey();
         return new ActionForward(backUrl, true);
     }
 
+    
+    public ActionForward start(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    
+        OrganizationReportSelectionForm organizationReportSelectionForm = (OrganizationReportSelectionForm) form;
+        if (BCConstants.Report.reportModeOnlySubfundCodeSelectionMapping.contains(organizationReportSelectionForm.getReportMode())) {
+        String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
+            if (organizationReportSelectionForm.isBuildControlList()) {
+                organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
+                // change flag
+                BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
+                String idForSession = (new Guid()).toString();
+                List<BudgetConstructionPullup> selectedOrgs = (List<BudgetConstructionPullup>) GlobalVariables.getUserSession().retrieveObject(BCConstants.Report.SESSION_NAME_SELECTED_ORGS);
+                budgetReportsControlListService.changeFlagOrganizationAndChartOfAccountCodeSelection(personUserIdentifier, selectedOrgs);
+                budgetReportsControlListService.updateReportsControlList(idForSession, personUserIdentifier, organizationReportSelectionForm.getUniversityFiscalYear(), selectedOrgs);
+                budgetReportsControlListService.updateReportsSubFundGroupSelectList(personUserIdentifier);
+                organizationReportSelectionForm.setBuildControlList(false);
+            }
+            Map searchCriteria = new HashMap();
+            searchCriteria.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, personUserIdentifier);
+            organizationReportSelectionForm.setBcSubFunds((List) SpringContext.getBean(BudgetConstructionOrganizationReportsService.class).getBySearchCriteria(BudgetConstructionSubFundPick.class, searchCriteria));
+        }
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    
     /**
      * submits user's selection and generate report.
      * 
@@ -65,15 +96,13 @@ public class OrganizationReportSelectionAction extends KualiAction {
         organizationReportSelectionForm.setOperatingModeTitle(BCConstants.Report.SELECTION_OPMODE_TITLE);
         String personUserIdentifier = GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier();
         
-        
-        
         String fileName = "";
         if (organizationReportSelectionForm.getReportMode().equals(BCConstants.Report.ACCOUNT_SUMMARY_REPORT)){
-            // get selected sub-fund group code
-            organizationReportSelectionForm.setSelectedSubfundGroupCode(selectedSubFundCodeList(organizationReportSelectionForm, request));
-            // update flags with selected sub-fund group code
             BudgetReportsControlListService budgetReportsControlListService = SpringContext.getBean(BudgetReportsControlListService.class);
-            budgetReportsControlListService.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, organizationReportSelectionForm.getSelectedSubfundGroupCode());
+            
+            //update flags with selected sub-fund group code 
+            budgetReportsControlListService.updateReportsSelectedSubFundGroupFlags(personUserIdentifier, organizationReportSelectionForm.getBcSubFunds());
+            
             // generate report and returned fileName and system will create a PDF file with the file name. 
             performAccountSummaryReport(organizationReportSelectionForm, personUserIdentifier, request);
             fileName = BCConstants.Report.FILE_NAME_ORG_ACCOUNT_SUMMARY + BCConstants.Report.FILE_EXTENSION_PDF;
@@ -114,17 +143,6 @@ public class OrganizationReportSelectionAction extends KualiAction {
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
-    
-    public List<String> selectedSubFundCodeList(OrganizationReportSelectionForm organizationReportSelectionForm, HttpServletRequest request){
-        List<String> returnList = new ArrayList();
-        for (BudgetConstructionSubFundPick bcSubFundPick: organizationReportSelectionForm.getBcSubFunds()){
-            if (request.getParameter(bcSubFundPick.getSubFundGroupCode()) != null) {
-                returnList.add(request.getParameter(bcSubFundPick.getSubFundGroupCode()));
-            }
-        }
-        
-        return returnList;
     }
 
     /**

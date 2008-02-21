@@ -29,6 +29,8 @@
 	<html-el:hidden name="KualiForm" property="buildControlList" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
 	<html-el:hidden name="KualiForm" property="refreshListFlag" />
+	<html-el:hidden name="KualiForm" property="operatingModeTitle" />
+	
 
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
     <kul:messages/>
@@ -51,9 +53,9 @@
 		<logic:iterate name="KualiForm" id="bcSubFund" property="bcSubFunds" indexId="ctr">
 		    <tr align="center">
 				<td class="grid" valign="center">
-					<%-- <center><html:multibox property="bcSubfunds[${status.index}].subFundGroupCode" value="${subFunds.subFundGroupCode}"/></center> --%>
 					<center>
-						<input type="checkbox" name="${bcSubFunds.subFundGroupCode}" value="${bcSubFunds.subFundGroupCode}" <c:if test="${subFund.reportFlag eq 1}"> checked="checked" </c:if> />
+		            <html:checkbox property="bcSubFunds[${ctr}].reportFlag" value="1" />
+					<%-- <input type="checkbox" name="eachSubFundCode" value="eachSubFundCode" <c:if test="${eachSubFundCode eq 1}"> checked="checked" </c:if> /> --%>
 					</center>
 				</td>
 				<td class="grid" valign="center">
@@ -72,9 +74,6 @@
 	                readOnly="true"/>
  				</center>
 				</td>				
-
-				
-					
 			</tr>
 		</logic:iterate>
 		</tr>

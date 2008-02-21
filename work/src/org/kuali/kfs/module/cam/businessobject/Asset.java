@@ -102,6 +102,7 @@ public class Asset extends PersistableBusinessObjectBase {
     private String organizationTagNumber;
 
     // Non-persisted attributes:
+    private KualiDecimal paymentTotalCost;
     private KualiDecimal federalContributionAmount;
     // calculated depreciation amounts
     private KualiDecimal accumulatedDepreciation;
@@ -1641,6 +1642,24 @@ public class Asset extends PersistableBusinessObjectBase {
 
     public void setOrganizationTagNumber(String organizationTagNumber) {
         this.organizationTagNumber = organizationTagNumber;
+    }
+
+    /**
+     * Gets the paymentTotalCost attribute.
+     * 
+     * @return Returns the paymentTotalCost.
+     */
+    public KualiDecimal getPaymentTotalCost() {
+        return paymentTotalCost;
+    }
+
+    /**
+     * Sets the paymentTotalCost attribute value
+     * 
+     * @param paymentTotalCost The paymentTotalCost to set.
+     */
+    public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
+        this.paymentTotalCost = paymentTotalCost;
     }
 
 

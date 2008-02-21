@@ -102,9 +102,12 @@
                 <lookupField attributeName="manufacturerName" required="false" />
                 <lookupField attributeName="manufacturerModelNumber" required="false" />
                 <lookupField attributeName="serialNumber" required="false" />
+                <lookupField attributeName="nationalStockNumber" required="false" />
+                <lookupField attributeName="capitalAssetInServiceDate" required="false" />
                 <lookupField attributeName="createDate" required="false" />
                 <lookupField attributeName="oldTagNumber" required="false" />
                 <lookupField attributeName="assetOrganization.organizationTagNumber" required="false" noLookup="true" />
+                <lookupField attributeName="governmentTagNumber" required="false" />
                 <lookupField attributeName="totalCostAmount" required="false" />
                                 
             </lookupFields>
@@ -250,7 +253,11 @@
             <attributeReference name="createDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>Create Date</label>
                 <shortLabel>Create Date</shortLabel>
-
+            </attributeReference>
+            
+            <attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
+                <label>In Service Date</label>
+                <shortLabel>In Service Date</shortLabel>
             </attributeReference>
 
             <attributeReference name="estimatedFabricationCompletionDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -371,7 +378,7 @@
 			</attribute>
 
             <attribute name="inventoryStatusCode" forceUppercase="true">
-                <label>Inventory Status Code</label>
+                <label>Asset Status</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>1</maxLength>
@@ -383,6 +390,36 @@
 
                 <summary>inventoryStatusCode</summary>
                 <description>inventoryStatusCode description...</description>
+			</attribute>
+			
+            <attribute name="nationalStockNumber" forceUppercase="true">
+                <label>National Stock Number</label>
+                <shortLabel>NationalStockNumber</shortLabel>
+
+                <maxLength>25</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="27" />
+                </control>
+
+                <summary>nationalStockNumber</summary>
+                <description>nationalStockNumber description...</description>
+			</attribute>
+			
+			<attribute name="governmentTagNumber" forceUppercase="true">
+                <label>Government Tag Number</label>
+                <shortLabel>GovernmentTagNumber</shortLabel>
+
+                <maxLength>12</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="14" />
+                </control>
+
+                <summary>governmentTagNumber</summary>
+                <description>governmentTagNumber description...</description>
 			</attribute>
 
             <attributeReference name="lastInventoryDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
@@ -698,7 +735,7 @@
                 <description>vendorName description...</description>
 			</attribute>
 			
-			<attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/>
+		<!-- <attributeReference name="active" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="activeIndicator"/> -->
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 			
 			<attributeReference name="capitalAssetType.depreciableLifeLimit" sourceClassName="org.kuali.module.cams.bo.AssetType" sourceAttributeName="depreciableLifeLimit" />
@@ -752,7 +789,7 @@
 			</attributeReference>		
 			
 			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
-				<label>Condition Code</label>
+				<label>Asset Condition</label>
 			</attributeReference>
 			
 			<!-- ## for use with AssetGlobal ## -->
@@ -875,6 +912,11 @@
 				<summary>Current Month Depreciation</summary>
 				<description>Current Month Depreciation</description>
 			</attribute>
+
+            <attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+                <label>Display Total Cost</label>
+                <shortLabel>Total Cost</shortLabel>
+            </attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

@@ -20,9 +20,11 @@ import java.util.Map;
 import org.kuali.core.document.MaintenanceDocument;
 import org.kuali.core.maintenance.KualiMaintainableImpl;
 import org.kuali.core.maintenance.Maintainable;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.cams.bo.Asset;
 import org.kuali.module.cams.service.DepreciationCalculatorService;
+import org.kuali.module.cams.service.PaymentCalculatorService;
 
 /**
  * AssetMaintainable for Asset edit.
@@ -34,8 +36,14 @@ public class AssetMaintainableImpl extends KualiMaintainableImpl implements Main
      */
     public void processAfterEdit(MaintenanceDocument document, Map parameters) {
         Asset asset = (Asset) this.getBusinessObject();
-        
+        calculatePaymentValues(asset);
         calculateDepreciationValues(asset);
+        super.processAfterEdit(document, parameters);
+    }
+   private void calculatePaymentValues(Asset asset) {
+        PaymentCalculatorService calculatorService = SpringContext.getBean(PaymentCalculatorService.class);
+        
+        asset.setPaymentTotalCost(calculatorService.calculatePaymentTotalCost(asset));
     }
 
     private void calculateDepreciationValues(Asset asset) {

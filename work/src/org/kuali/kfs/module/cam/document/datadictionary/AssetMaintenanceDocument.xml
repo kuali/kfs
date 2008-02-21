@@ -52,12 +52,12 @@
                 	<subSectionHeader name="Asset Detail Info" />
                 	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
-                    <maintainableField name="capitalAssetNumber"  />
-                    <maintainableField name="organizationOwnerChartOfAccountsCode" />
+					<maintainableField name="capitalAssetNumber"  />
+                    <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
                     <maintainableField name="organizationOwnerAccountNumber" />
                     <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
                     <maintainableField name="agencyNumber" />
-                    <maintainableField name="acquisitionTypeCode" />
+                    <maintainableField name="acquisitionTypeCode" readOnly="true"/>
                     <maintainableField name="inventoryStatusCode" required="true"/>
                     <maintainableField name="conditionCode" required="true" />
                     <maintainableField name="capitalAssetDescription" required="true" />
@@ -68,18 +68,14 @@
 					<maintainableField name="serialNumber" />
                     <maintainableField name="campusTagNumber" />
                     <maintainableField name="oldTagNumber" />
-                    <maintainableField name="lastInventoryDate" />
-                    <maintainableField name="createDate" />
-                    <maintainableField name="financialDocumentPostingYear" />
-                    <maintainableField name="financialDocumentPostingPeriodCode" />
-                    <!-- wait setting in asset DD-->
-                    <!-- 
+                    <maintainableField name="governmentTagNumber" />
+                    <maintainableField name="nationalStockNumber" />
+                    <maintainableField name="lastInventoryDate" readOnly="true" />
+                    <maintainableField name="createDate" readOnly="true" />
+                    <maintainableField name="financialDocumentPostingYear" readOnly="true" />
+                    <maintainableField name="financialDocumentPostingPeriodCode" readOnly="true" />
                     <maintainableField name="capitalAssetInServiceDate" />
-                    -->
-                    <maintainableField name="totalCostAmount" />
-					<maintainableField name="active">
-                        <defaultValue>true</defaultValue>
-                    </maintainableField>
+                    <maintainableField name="totalCostAmount" readOnly="true" />
                     <maintainableField name="versionNumber" />
 					
 					<subSectionHeader name="Asset Location - On Campus" />
@@ -110,40 +106,41 @@
 
 			<maintainableSection title="Payment Information">
                 <maintainableItems>
-                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" summaryTitle="Payment Information">
-                        <maintainableField name="chartOfAccountsCode"  />
-                        <maintainableField name="accountNumber"  />
-                   <!--       <maintainableField name="subAccountNumber"  /> -->
-                        <maintainableField name="financialObjectCode"  />
-                   <!--      <maintainableField name="projectCode"  /> -->
-                        <maintainableField name="organizationReferenceId"  />
-                        <maintainableField name="documentNumber"  />
-                        <maintainableField name="financialDocumentTypeCode"  />
-                        <maintainableField name="purchaseOrderNumber"  />
-                        <maintainableField name="requisitionNumber"  />
-                        <maintainableField name="financialDocumentPostingDate"  />
-                        <maintainableField name="financialDocumentPostingYear"  />
-                        <maintainableField name="financialDocumentPostingPeriodCode"  />
-                        <maintainableField name="transferPaymentCode"  />
-                        <maintainableField name="accountChargeAmount"  />
-                        <maintainableField name="accumulatedPrimaryDepreciationAmount"  />
-                        <maintainableField name="previousYearPrimaryDepreciationAmount"  />
-                        <maintainableField name="period1Depreciation1Amount"  />
-                        <maintainableField name="period2Depreciation1Amount"  />
-                        <maintainableField name="period3Depreciation1Amount"  />
-                        <maintainableField name="period4Depreciation1Amount"  />
-                        <maintainableField name="period5Depreciation1Amount"  />
-                        <maintainableField name="period6Depreciation1Amount"  />
-                        <maintainableField name="period7Depreciation1Amount"  />
-                        <maintainableField name="period8Depreciation1Amount"  />
-                        <maintainableField name="period9Depreciation1Amount"  />
-                        <maintainableField name="period10Depreciation1Amount"  />
-                        <maintainableField name="period11Depreciation1Amount"  />
-                        <maintainableField name="period12Depreciation1Amount"  />
+                    <maintainableCollection name="assetPayments" businessObjectClass="org.kuali.module.cams.bo.AssetPayment" sourceAttributeName="assetPayments" includeAddLine="false" summaryTitle="Payment Information">
+                        <maintainableField name="chartOfAccountsCode" readOnly="true" />
+                        <maintainableField name="accountNumber" readOnly="true" />
+                        <maintainableField name="subAccountNumber" readOnly="true" />
+                        <maintainableField name="financialObjectCode" readOnly="true" />
+                         <maintainableField name="projectCode" readOnly="true" /> 
+                        <maintainableField name="organizationReferenceId" readOnly="true" />
+                        <maintainableField name="documentNumber" readOnly="true" />
+                        <maintainableField name="financialDocumentTypeCode" readOnly="true" />
+                        <maintainableField name="purchaseOrderNumber" readOnly="true" />
+                        <maintainableField name="requisitionNumber" readOnly="true" />
+                        <maintainableField name="financialDocumentPostingDate" readOnly="true" />
+                        <maintainableField name="financialDocumentPostingYear" readOnly="true" />
+                        <maintainableField name="financialDocumentPostingPeriodCode" readOnly="true" />
+                        <maintainableField name="transferPaymentCode" readOnly="true" />
+                        <maintainableField name="accountChargeAmount" readOnly="true" />
+                        <maintainableField name="accumulatedPrimaryDepreciationAmount" readOnly="true" />
+                        <maintainableField name="previousYearPrimaryDepreciationAmount" readOnly="true" />
+                        <maintainableField name="period1Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period2Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period3Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period4Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period5Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period6Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period7Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period8Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period9Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period10Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period11Depreciation1Amount" readOnly="true" />
+                        <maintainableField name="period12Depreciation1Amount" readOnly="true" />
    		            </maintainableCollection>
+                        <maintainableField name="paymentTotalCost" readOnly="true" />
 		        </maintainableItems>
 		    </maintainableSection>
-			
+		
             <maintainableSection title="Asset Depreciation Information">
 				 <maintainableItems>
 					<maintainableField name="primaryDepreciationMethodCode" required="true" />
@@ -172,13 +169,13 @@
            --> 
             <maintainableSection title="View Retirement Information">
                 <maintainableItems>
-					<maintainableField name="retirementReasonCode" />
-					<maintainableField name="salePrice" />
-					<maintainableField name="estimatedSellingPrice" />
-					<maintainableField name="cashReceiptFinancialDocumentNumber" />
-					<maintainableField name="retirementChartOfAccountsCode" />
-					<maintainableField name="retirementAccountNumber" />
-					<maintainableField name="campusPoliceDepartmentCaseNumber" />
+					<maintainableField name="retirementReasonCode" readOnly="true" />
+					<maintainableField name="salePrice" readOnly="true" />
+					<maintainableField name="estimatedSellingPrice" readOnly="true" />
+					<maintainableField name="cashReceiptFinancialDocumentNumber" readOnly="true" />
+					<maintainableField name="retirementChartOfAccountsCode" readOnly="true" />
+					<maintainableField name="retirementAccountNumber" readOnly="true" />
+					<maintainableField name="campusPoliceDepartmentCaseNumber" readOnly="true" />
 				</maintainableItems>
 			</maintainableSection>
             

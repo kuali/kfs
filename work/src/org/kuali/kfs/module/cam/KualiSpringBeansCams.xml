@@ -157,5 +157,6 @@
     </bean>
     
     <bean id="depreciationCalculatorService" class="org.kuali.module.cams.service.impl.DepreciationCalculatorServiceImpl" />
+    <bean id="paymentCalculatorService" class="org.kuali.module.cams.service.impl.PaymentCalculatorServiceImpl" />
 
 </beans>

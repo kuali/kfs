@@ -52,7 +52,6 @@
 	<html-el:hidden name="KualiForm" property="currentPointOfViewKeyCode" />
 	<html-el:hidden name="KualiForm" property="buildControlList" />
 	<html-el:hidden name="KualiForm" property="reportConsolidation" />
-	consolidation
 
 	<c:forEach items="${KualiForm.extraButtons}" varStatus="status">
 		<html-el:hidden name="KualiForm" property="extraButtons[${status.index}].extraButtonSource" />

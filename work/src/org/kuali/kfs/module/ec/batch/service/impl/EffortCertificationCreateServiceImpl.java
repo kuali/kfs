@@ -83,7 +83,7 @@ public class EffortCertificationCreateServiceImpl implements EffortCertification
 
         Collection<EffortCertificationDocumentBuild> documentsBuild = businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
         for (EffortCertificationDocumentBuild documentBuild : documentsBuild) {          
-            boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
+            boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
             
             if(isCreated) {
                 businessObjectService.delete(documentBuild);

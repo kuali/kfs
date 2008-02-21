@@ -16,11 +16,8 @@
 package org.kuali.module.effort.service;
 
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
-import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 
@@ -46,8 +43,8 @@ public interface EffortCertificationExtractService {
     public void extract(Integer fiscalYear, String reportNumber);
 
     /**
-     * extract Labor Ledger records of the given employee for the given report definition, and create effort
-     * certification document build.
+     * extract Labor Ledger records of the given employee for the given report definition, and create effort certification document
+     * build.
      * 
      * @param emplid the given employee id
      * @param effortCertificationReportDefiniton the given report definition
@@ -55,7 +52,7 @@ public interface EffortCertificationExtractService {
      * @return an effort certification document build generated for the given employee
      */
     public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition effortCertificationReportDefiniton);
-    
+
     /**
      * find the employees who were paid based on a set of specified pay type within the given report periods. Here, a pay type can
      * be determined by earn code and pay group. The employees are eligible for effort certification.
@@ -64,10 +61,10 @@ public interface EffortCertificationExtractService {
      * @return the employees who were paid based on a set of specified pay type within the given report periods
      */
     public List<String> findEmployeesEligibleForEffortCertification(EffortCertificationReportDefinition reportDefinition);
-    
+
     /**
-     * determine whether the given employee is eligible for effort certification within the given report periods. Here, a pay type can
-     * be determined by earn code and pay group.
+     * determine whether the given employee is eligible for effort certification within the given report periods. Here, a pay type
+     * can be determined by earn code and pay group.
      * 
      * @param emplid the given employee id
      * @param reportDefinition the specified report definition

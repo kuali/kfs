@@ -75,6 +75,15 @@ public interface EffortCertificationReportDefinitionService {
      * @return true if the given report definition has been used; otherwise, false
      */
     public boolean hasBeenUsedForEffortCertificationGeneration(EffortCertificationReportDefinition reportDefinition);
+    
+    /**
+     * determine whether the given report definition has been used to generate effort certification documents for the given employee
+     * 
+     * @param emplid the given employee id
+     * @param reportDefinition the given report definition
+     * @return true if the given report definition has been used for the employee; otherwise, false
+     */
+    public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReportDefinition reportDefinition);
 
     /**
      * determine whether there is any pending/temporary effort certification waiting for the given report definition

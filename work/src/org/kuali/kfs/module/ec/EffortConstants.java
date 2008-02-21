@@ -31,8 +31,6 @@ public class EffortConstants extends JstlConstants {
      * hold contants used by extract process
      */
     public class ExtractProcess{       
-        public static final String DEFAULT_DOCUMENT_CODE = "N";
-        
         public static final String EXPENSE_OBJECT_TYPE = "EXPENSE_OBJECT_TYPE";
         // the following constants used as the key of the statistics entries for the working progress report
         public static final String NUM_BALANCES_READ = "numOfBalancesRead";
@@ -89,4 +87,7 @@ public class EffortConstants extends JstlConstants {
     
     public static final double PERCENT_LIMIT_OF_LINE_SALARY_CHANGE = 0.005;
     public static final double AMOUNT_LIMIT_OF_TOTAL_SALARY_CHANGE = 0.009;
+    
+    public static final String DEFAULT_DOCUMENT_CODE_N = "N";
+    public static final String DEFAULT_DOCUMENT_CODE_Y = "Y";
 }

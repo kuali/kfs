@@ -108,7 +108,7 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
+        boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
         assertTrue(isCreated);
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
@@ -148,7 +148,7 @@ public class EffortCertificationDocumentServiceTest extends KualiTestBase {
         EffortCertificationDocumentBuild documentBuild = this.buildDocumentBuild(testTarget);
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
-        boolean isCreated = effortCertificationDocumentService.createEffortCertificationDocument(documentBuild);
+        boolean isCreated = effortCertificationDocumentService.createAndRouteEffortCertificationDocument(documentBuild);
         assertTrue(isCreated);
 
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);

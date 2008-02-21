@@ -33,6 +33,7 @@ import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.AddDetailLineRule;
@@ -54,7 +55,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService = SpringContext.getBean(EffortCertificationReportDefinitionService.class);
     private EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
     private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);;
-    
+
     /**
      * Constructs a EffortCertificationDocumentRules.java.
      */
@@ -125,7 +126,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
                 GlobalVariables.getErrorMap().putError(KFSPropertyConstants.SUB_ACCOUNT, EffortKeyConstants.ERROR_NOT_COST_SHARE_SUB_ACCOUNT);
                 return false;
             }
-            
+
             // TODO: push up to presentation layer
             EffortCertificationDocumentRuleUtil.updateSourceAccountInformation(detailLine);
         }
@@ -190,10 +191,10 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         if (this.bypassBusinessRuleIfInitiation(effortCertificationDocument)) {
             return true;
         }
-        
-        if(EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(effortCertificationDocument)) {
+
+        if (EffortCertificationDocumentRuleUtil.isPayrollAmountChanged(effortCertificationDocument)) {
             List<Note> notes = effortCertificationDocument.getBoNotes();
-            if(notes == null || notes.isEmpty()) {
+            if (notes == null || notes.isEmpty()) {
                 GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_NOTE_REQUIRED_WHEN_EFFORT_CHANGED);
                 return false;
             }
@@ -215,55 +216,57 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
     /**
      * @see org.kuali.module.effort.rule.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument)
      */
-    public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {        
+    public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
         boolean isValid = true;
-        
+
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
-        
-        if(reportDefinition == null) {
+
+        if (reportDefinition == null) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
 
-        if(!reportDefinition.isActive()) {
+        if (!reportDefinition.isActive()) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
-        
+
         isValid = StringUtils.equals(EffortConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
-        if(!isValid) {
+        if (!isValid) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
-        
+
         isValid = !effortCertificationReportDefinitionService.existsPendingEffortCertification(reportDefinition);
-        if(!isValid) {
+        if (!isValid) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
-        
+
         isValid = effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(reportDefinition);
-        if(!isValid) {
+        if (!isValid) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
-        
+
         isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(effortCertificationDocument.getEmplid(), reportDefinition);
-        if(!isValid) {
+        if (!isValid) {
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
-            return false;            
+            return false;
         }
-        
-        //TODO: cannot have any pending salary expense transfer document
-               
-        return isValid;
+
+        // TODO: cannot have any pending salary expense transfer document
+
+        return this.populateEffortCertificationDocument(effortCertificationDocument);
     }
-    
+
     /**
      * check if the attributes in the detail line are valid for the defintions in data dictionary and have valid references
+     * 
      * @param detailLine the given effort certification detail line
-     * @return true if the attributes in the detail line are valid for the defintions in data dictionary and have valid references; otherwise, false
+     * @return true if the attributes in the detail line are valid for the defintions in data dictionary and have valid references;
+     *         otherwise, false
      */
     private boolean checkDetailLineAttributes(EffortCertificationDetail detailLine) {
         LOG.debug("checkDetailLine() start");
@@ -294,7 +297,7 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
 
         return comparableFields;
     }
-    
+
     /**
      * determine if the business rule needs to be bypassed. If the given document is in the state of initiation, bypass
      * 
@@ -303,5 +306,30 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      */
     private boolean bypassBusinessRuleIfInitiation(EffortCertificationDocument effortCertificationDocument) {
         return effortCertificationDocument.getDocumentHeader().getWorkflowDocument().stateIsInitiated();
+    }
+
+    /**
+     * determine if the given document can be populated. If so, populate it and return true
+     * 
+     * @param effortCertificationDocument the given document
+     * @return true if the given document can be populated; otherwise, return false and the document is not changed 
+     */
+    private boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument) {
+        String emplid = effortCertificationDocument.getEmplid();
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
+        EffortCertificationDocumentBuild documentBuild = effortCertificationExtractService.extract(emplid, reportDefinition);
+
+        if (documentBuild == null) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;
+        }
+        
+        boolean success = effortCertificationDocumentService.populateEffortCertificationDocument(effortCertificationDocument, documentBuild);        
+
+        if(effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(emplid, reportDefinition)) {
+            effortCertificationDocument.setEffortCertificationDocumentCode(EffortConstants.DEFAULT_DOCUMENT_CODE_Y);
+        }
+
+        return success;
     }
 }

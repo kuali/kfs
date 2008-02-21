@@ -24,20 +24,30 @@ import org.kuali.module.effort.document.EffortCertificationDocument;
  * @see org.kuali.module.effort.document.EffortCertificationDocument
  */
 public interface EffortCertificationDocumentService {
-    
+
     /**
      * process the approved effort certification document
      * 
      * @param effortCertificationDocument the approved effort certification document
      */
     public void processApprovedEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument);
-    
+
     /**
-     * create an effort certification document from the given document build record
+     * create an effort certification document from the given document build record, and route it for approval
      * 
      * @param documentBuild the given effort certification document build
      */
-    public boolean createEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild);
+    public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild);
+
+    /**
+     * populate the given effort certification document with the given effort certification document build
+     * 
+     * @param effortCertificationDocument the given effort certification document
+     * @param effortCertificationDocumentBuild the given effort certification document build
+     * 
+     * @return true if the given document has been populated sucessfully; otherwise, false
+     */
+    public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild);
 
     /**
      * generate salary expense transfer document from the given effort certification document

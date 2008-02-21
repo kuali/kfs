@@ -123,10 +123,11 @@ public class EffortCertificationExtractServiceImpl implements EffortCertificatio
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract(java.lang.String, org.kuali.module.effort.bo.EffortCertificationReportDefinition)
+     * @see org.kuali.module.effort.service.EffortCertificationExtractService#extract(java.lang.String,
+     *      org.kuali.module.effort.bo.EffortCertificationReportDefinition)
      */
     @Logged
-    public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {       
+    public EffortCertificationDocumentBuild extract(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, List<String>> parameters = this.getSystemParameters();
         parameters.put(ExtractProcess.EXPENSE_OBJECT_TYPE, getExpenseObjectTypeCodes(reportDefinition.getUniversityFiscalYear()));
 

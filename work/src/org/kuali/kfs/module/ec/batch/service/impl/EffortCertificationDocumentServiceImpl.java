@@ -67,20 +67,13 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
     }
 
     /**
-     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#createEffortCertificationDocument(org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#createAndRouteEffortCertificationDocument(org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
      */
     @Logged
-    public boolean createEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
+    public boolean createAndRouteEffortCertificationDocument(EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortCertificationDocument.class);
-
             this.populateEffortCertificationDocument(effortCertificationDocument, effortCertificationDocumentBuild);
-
-            // populate the document header of the document
-            DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
-            documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
-            documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
-
             documentService.routeDocument(effortCertificationDocument, KFSConstants.EMPTY_STRING, null);
         }
         catch (WorkflowException we) {
@@ -90,6 +83,32 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
         return true;
     }
+    
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentService#populateEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument, org.kuali.module.effort.bo.EffortCertificationDocumentBuild)
+     */
+    @Logged
+    public boolean populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
+        // populate the fields of the docuemnt
+        effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
+        effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
+        effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
+        effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
+
+        // populcate the detail line of the document
+        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
+        for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
+            detailLines.add(new EffortCertificationDetail(detailLineBuild));
+        }
+        
+        // populate the document header of the document
+        DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
+        documentHeader.setFinancialDocumentDescription(effortCertificationDocumentBuild.getEmplid());
+        documentHeader.setFinancialDocumentTotalAmount(EffortCertificationDocument.getDocumentTotalAmount(effortCertificationDocument));
+        
+        return true;
+    }    
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#generateSalaryExpenseTransferDocument(org.kuali.module.effort.document.EffortCertificationDocument)
@@ -114,27 +133,6 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             throw new RuntimeException(we);
         }
         return true;
-    }
-    
-    /**
-     * populate the given effort certification document with the given effort certification document build 
-     * 
-     * @param effortCertificationDocument the given effort certification document
-     * @param effortCertificationDocumentBuild the given effort certification document build
-     */
-    private void populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
-        // populate the fields of the docuemnt
-        effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
-        effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
-        effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
-        effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
-
-        // populcate the detail line of the document
-        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-        List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
-        for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
-            detailLines.add(new EffortCertificationDetail(detailLineBuild));
-        }
     }
 
     /**

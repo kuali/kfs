@@ -21,10 +21,25 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.kuali.core.rule.BusinessRule;
+import org.kuali.core.rule.event.KualiDocumentEvent;
+import org.kuali.core.rule.event.KualiDocumentEventBase;
+import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
+import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
+import org.kuali.module.effort.service.EffortCertificationDocumentService;
+import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
+import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
+import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
+import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 /**
  * This class handles Actions for EffortCertification.
@@ -63,6 +78,26 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }*/
+        
+    /**
+     * load the detail lines with the given information 
+     */
+    public ActionForward loadDetailLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EffortCertificationForm effortCertificationForm = (EffortCertificationForm) form;
+        EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) effortCertificationForm.getDocument();
+        
+        boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));   
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }  
     
-    
+    /**
+     * execute the rules associated with the given event
+     * 
+     * @param event the event that just occured
+     * @return true if the rules associated with the given event pass; otherwise, false
+     */
+    private boolean invokeRules(KualiDocumentEvent event) {
+        return SpringContext.getBean(KualiRuleService.class).applyRules(event);
+    }
 }

@@ -16,12 +16,13 @@
 package org.kuali.module.effort.service.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.core.bo.PersistableBusinessObject;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.module.effort.EffortConstants;
@@ -32,7 +33,6 @@ import org.kuali.module.effort.service.EffortCertificationDetailBuildService;
 import org.kuali.module.effort.service.EffortCertificationDocumentBuildService;
 import org.kuali.module.effort.util.LedgerBalanceConsolidationHelper;
 import org.kuali.module.effort.util.PayrollAmountHolder;
-import org.kuali.module.financial.service.UniversityDateService;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -40,7 +40,18 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 public class EffortCertificationDocumentBuildServiceImpl implements EffortCertificationDocumentBuildService {
+    private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentBuildServiceImpl.class);
+
     private EffortCertificationDetailBuildService effortCertificationDetailBuildService;
+    private BusinessObjectService businessObjectService;
+
+    /**
+     * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#removeExistingDocumentBuild(java.util.Map)
+     */
+    public void removeExistingDocumentBuild(Map<String, String> fieldValues) {
+        List<PersistableBusinessObject> documents = (List<PersistableBusinessObject>) businessObjectService.findMatching(EffortCertificationDocumentBuild.class, fieldValues);
+        businessObjectService.delete(documents);
+    }
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentBuildService#generateDocumentBuild(org.kuali.module.effort.bo.EffortCertificationReportDefinition,
@@ -83,7 +94,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
 
             detailLine.setEffortCertificationCalculatedOverallPercent(payrollAmountHolder.getPayrollPercent());
             detailLine.setEffortCertificationUpdatedOverallPercent(payrollAmountHolder.getPayrollPercent());
-            
+
             this.updateDetailLineList(detailLineList, detailLine);
         }
 
@@ -152,7 +163,7 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
         payrollAmountHolder.setAccumulatedPercent(accumulatedPercent + quotientTwo);
         payrollAmountHolder.setPayrollPercent(quotientOne + quotientTwo);
     }
-    
+
     /**
      * update the given detail line if the given detail line is in the list; otherwise, add the given line into the list
      * 
@@ -161,21 +172,21 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      */
     private void updateDetailLineList(List<EffortCertificationDetailBuild> detailLineList, EffortCertificationDetailBuild detailLine) {
         int index = detailLineList.indexOf(detailLine);
-        if(index >= 0) {
+        if (index >= 0) {
             EffortCertificationDetailBuild existingDetailLine = detailLineList.get(index);
-            
+
             int calculatedOverallPercent = existingDetailLine.getEffortCertificationCalculatedOverallPercent() + detailLine.getEffortCertificationCalculatedOverallPercent();
             existingDetailLine.setEffortCertificationCalculatedOverallPercent(calculatedOverallPercent);
-            
+
             int updatedOverallPercent = existingDetailLine.getEffortCertificationUpdatedOverallPercent() + detailLine.getEffortCertificationUpdatedOverallPercent();
             existingDetailLine.setEffortCertificationUpdatedOverallPercent(updatedOverallPercent);
-            
+
             KualiDecimal originalPayrollAmount = existingDetailLine.getEffortCertificationOriginalPayrollAmount().add(detailLine.getEffortCertificationOriginalPayrollAmount());
             existingDetailLine.setEffortCertificationOriginalPayrollAmount(originalPayrollAmount);
-            
+
             KualiDecimal payrollAmount = existingDetailLine.getEffortCertificationPayrollAmount().add(detailLine.getEffortCertificationPayrollAmount());
             existingDetailLine.setEffortCertificationPayrollAmount(payrollAmount);
-            
+
         }
         else {
             detailLineList.add(detailLine);
@@ -189,5 +200,14 @@ public class EffortCertificationDocumentBuildServiceImpl implements EffortCertif
      */
     public void setEffortCertificationDetailBuildService(EffortCertificationDetailBuildService effortCertificationDetailBuildService) {
         this.effortCertificationDetailBuildService = effortCertificationDetailBuildService;
+    }
+
+    /**
+     * Sets the businessObjectService attribute value.
+     * 
+     * @param businessObjectService The businessObjectService to set.
+     */
+    public void setBusinessObjectService(BusinessObjectService businessObjectService) {
+        this.businessObjectService = businessObjectService;
     }
 }

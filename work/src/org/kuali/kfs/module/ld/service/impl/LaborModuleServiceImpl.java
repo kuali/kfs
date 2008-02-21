@@ -77,7 +77,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public void createSalaryExpenseTransferDocument(String documentDescription, String explanation, List<LaborLedgerExpenseTransferAccountingLine> sourceAccountingLines, List<LaborLedgerExpenseTransferAccountingLine> targetAccountingLines) throws WorkflowException {
         LOG.info("createSalaryExpenseTransferDocument() start");
-        
+
         SalaryExpenseTransferDocument document = (SalaryExpenseTransferDocument) documentService.getNewDocument(SalaryExpenseTransferDocument.class);
 
         document.setEmplid(sourceAccountingLines.get(0).getEmplid());
@@ -98,6 +98,15 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
         return laborLedgerEntryService.findEmployeesWithPayType(payPeriods, balanceTypes, earnCodePayGroupMap);
+    }
+
+    /**
+     * @see org.kuali.kfs.service.LaborModuleService#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List,
+     *      java.util.Map)
+     */
+    public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        // TODO Auto-generated method stub
+        return false;
     }
 
     /**

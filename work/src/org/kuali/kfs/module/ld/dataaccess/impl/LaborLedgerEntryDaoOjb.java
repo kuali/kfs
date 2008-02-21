@@ -97,50 +97,80 @@ public class LaborLedgerEntryDaoOjb extends PlatformAwareDaoBaseOjb implements L
      * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#findEmployeesWithPayType(java.util.Map, java.util.List, java.util.List)
      */
     public List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
-        Criteria criteria = new Criteria();
-        
-        Criteria criteriaForPayPeriods = new Criteria();
-        for(Integer fiscalYear : payPeriods.keySet()) {
-            Criteria criteriaForFiscalYear = new Criteria();
-            
-            criteriaForFiscalYear.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
-            criteriaForFiscalYear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, payPeriods.get(fiscalYear));
-            
-            criteriaForPayPeriods.addOrCriteria(criteriaForFiscalYear);
-        }
-        
-        Criteria criteriaForBalanceTypes = new Criteria();
-        criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypes);
-        
-        Criteria criteriaForEarnCodePayGroup = new Criteria();
-        for(String payGroup : earnCodePayGroupMap.keySet()) {
-            Criteria criteriaForEarnPay = new Criteria();
-            
-            criteriaForEarnPay.addEqualTo(KFSPropertyConstants.PAY_GROUP, payGroup); 
-            criteriaForEarnPay.addIn(KFSPropertyConstants.EARN_CODE, earnCodePayGroupMap.get(payGroup)); 
-            
-            criteriaForEarnCodePayGroup.addOrCriteria(criteriaForEarnPay);
-        }
-        
-        criteria.addAndCriteria(criteriaForPayPeriods);
-        criteria.addAndCriteria(criteriaForBalanceTypes);
-        criteria.addAndCriteria(criteriaForEarnCodePayGroup);
-        
+        Criteria criteria = this.buildPayTypeCriteria(payPeriods, balanceTypes, earnCodePayGroupMap);
+
         ReportQueryByCriteria query = QueryFactory.newReportQuery(this.getEntryClass(), criteria);
-        query.setAttributes(new String[] {KFSPropertyConstants.EMPLID});
+        query.setAttributes(new String[] { KFSPropertyConstants.EMPLID });
         query.setDistinct(true);
-        
+
         Iterator<Object[]> employees = getPersistenceBrokerTemplate().getReportQueryIteratorByQuery(query);
         List<String> employeeList = new ArrayList<String>();
-        
-        while(employees != null && employees.hasNext()) {
+
+        while (employees != null && employees.hasNext()) {
             Object[] emplid = employees.next();
             employeeList.add(emplid == null ? "" : emplid[0].toString());
         }
-        
+
         return employeeList;
     }
+
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#getLedgerEntriesForEmployeeWithPayType(java.lang.String, java.util.Map,
+     *      java.util.List, java.util.Map)
+     */
+    public Collection<LedgerEntry> getLedgerEntriesForEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        Criteria criteria = this.buildPayTypeCriteria(payPeriods, balanceTypes, earnCodePayGroupMap);
+        criteria.addEqualTo(KFSPropertyConstants.EMPLID, emplid);
+
+        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        return getPersistenceBrokerTemplate().getCollectionByQuery(query);
+    }
     
+    /**
+     * @see org.kuali.module.labor.dao.LaborLedgerEntryDao#isEmployeeWithPayType(java.lang.String, java.util.Map, java.util.List, java.util.Map)
+     */
+    public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        Criteria criteria = this.buildPayTypeCriteria(payPeriods, balanceTypes, earnCodePayGroupMap);
+        criteria.addEqualTo(KFSPropertyConstants.EMPLID, emplid);
+
+        QueryByCriteria query = QueryFactory.newQuery(this.getEntryClass(), criteria);
+        return getPersistenceBrokerTemplate().getCount(query) > 0;
+    }
+
+    // build the pay type criteria
+    private Criteria buildPayTypeCriteria(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
+        Criteria criteria = new Criteria();
+
+        Criteria criteriaForPayPeriods = new Criteria();
+        for (Integer fiscalYear : payPeriods.keySet()) {
+            Criteria criteriaForFiscalYear = new Criteria();
+
+            criteriaForFiscalYear.addEqualTo(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, fiscalYear);
+            criteriaForFiscalYear.addIn(KFSPropertyConstants.UNIVERSITY_FISCAL_PERIOD_CODE, payPeriods.get(fiscalYear));
+
+            criteriaForPayPeriods.addOrCriteria(criteriaForFiscalYear);
+        }
+
+        Criteria criteriaForBalanceTypes = new Criteria();
+        criteriaForBalanceTypes.addIn(KFSPropertyConstants.FINANCIAL_BALANCE_TYPE_CODE, balanceTypes);
+
+        Criteria criteriaForEarnCodePayGroup = new Criteria();
+        for (String payGroup : earnCodePayGroupMap.keySet()) {
+            Criteria criteriaForEarnPay = new Criteria();
+
+            criteriaForEarnPay.addEqualTo(KFSPropertyConstants.PAY_GROUP, payGroup);
+            criteriaForEarnPay.addIn(KFSPropertyConstants.EARN_CODE, earnCodePayGroupMap.get(payGroup));
+
+            criteriaForEarnCodePayGroup.addOrCriteria(criteriaForEarnPay);
+        }
+
+        criteria.addAndCriteria(criteriaForPayPeriods);
+        criteria.addAndCriteria(criteriaForBalanceTypes);
+        criteria.addAndCriteria(criteriaForEarnCodePayGroup);
+
+        return criteria;
+    }
+
     /**
      * @return the Class type of the business object accessed and managed
      */

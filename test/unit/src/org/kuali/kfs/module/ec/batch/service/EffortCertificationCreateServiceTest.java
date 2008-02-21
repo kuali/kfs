@@ -17,7 +17,10 @@ package org.kuali.module.effort.service;
 
 import static org.kuali.test.fixtures.UserNameFixture.KULUSER;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,6 +31,7 @@ import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.util.ObjectUtil;
+import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetailBuild;
 import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
@@ -327,7 +331,7 @@ public class EffortCertificationCreateServiceTest extends KualiTestBase {
         documentBuild = TestDataPreparator.persistDataObject(documentBuild);
 
         effortCertificationCreateService.create(fiscalYear, reportNumber);
-
+              
         List<EffortCertificationDocument> documentList = TestDataPreparator.findMatching(EffortCertificationDocument.class, properties, EffortTestDataPropertyConstants.DOCUMENT_CLEANUP, documentFieldNames, deliminator);
 
         for (EffortCertificationDocument document : documentList) {

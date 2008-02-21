@@ -26,6 +26,13 @@ import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
  * Provide the facility used to generate documents (build) from the labor ledger balances
  */
 public interface EffortCertificationDocumentBuildService {
+    
+    /**
+     * clear up documents and detail lines (build) with the fiscal year and report number of the given field values
+     * 
+     * @param fieldValues the map containing fiscalYear and report number
+     */
+    public void removeExistingDocumentBuild(Map<String, String> fieldValues);
 
     /**
      * generate documents(build) for effort certification from the given collection of labor ledger balance

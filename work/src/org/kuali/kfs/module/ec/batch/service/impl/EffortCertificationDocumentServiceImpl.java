@@ -17,13 +17,18 @@ package org.kuali.module.effort.service.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.core.bo.DocumentHeader;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.LaborLedgerExpenseTransferAccountingLine;
 import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.kfs.util.MessageBuilder;
@@ -48,6 +53,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
 
     private LaborModuleService laborModuleService;
     private DocumentService documentService;
+    private BusinessObjectService businessObjectService;
 
     /**
      * @see org.kuali.module.effort.service.EffortCertificationDocumentService#processApprovedEffortCertificationDocument(org.kuali.module.effort.document.EffortCertificationDocument)
@@ -68,18 +74,7 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
         try {
             EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) documentService.getNewDocument(EffortCertificationDocument.class);
 
-            // populate the fields of the docuemnt
-            effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
-            effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
-            effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
-            effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
-
-            // populcate the detail line of the document
-            List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
-            List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
-            for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
-                detailLines.add(new EffortCertificationDetail(detailLineBuild));
-            }
+            this.populateEffortCertificationDocument(effortCertificationDocument, effortCertificationDocumentBuild);
 
             // populate the document header of the document
             DocumentHeader documentHeader = effortCertificationDocument.getDocumentHeader();
@@ -119,6 +114,27 @@ public class EffortCertificationDocumentServiceImpl implements EffortCertificati
             throw new RuntimeException(we);
         }
         return true;
+    }
+    
+    /**
+     * populate the given effort certification document with the given effort certification document build 
+     * 
+     * @param effortCertificationDocument the given effort certification document
+     * @param effortCertificationDocumentBuild the given effort certification document build
+     */
+    private void populateEffortCertificationDocument(EffortCertificationDocument effortCertificationDocument, EffortCertificationDocumentBuild effortCertificationDocumentBuild) {
+        // populate the fields of the docuemnt
+        effortCertificationDocument.setUniversityFiscalYear(effortCertificationDocumentBuild.getUniversityFiscalYear());
+        effortCertificationDocument.setEmplid(effortCertificationDocumentBuild.getEmplid());
+        effortCertificationDocument.setEffortCertificationReportNumber(effortCertificationDocumentBuild.getEffortCertificationReportNumber());
+        effortCertificationDocument.setEffortCertificationDocumentCode(effortCertificationDocumentBuild.getEffortCertificationDocumentCode());
+
+        // populcate the detail line of the document
+        List<EffortCertificationDetail> detailLines = effortCertificationDocument.getEffortCertificationDetailLines();
+        List<EffortCertificationDetailBuild> detailLinesBuild = effortCertificationDocumentBuild.getEffortCertificationDetailLinesBuild();
+        for (EffortCertificationDetailBuild detailLineBuild : detailLinesBuild) {
+            detailLines.add(new EffortCertificationDetail(detailLineBuild));
+        }
     }
 
     /**

@@ -61,4 +61,17 @@ public interface LaborLedgerEntryService {
      * @return the employees who were paid based on a set of specified pay type within the given report periods
      */
     List<String> findEmployeesWithPayType(Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
+    
+    /**
+     * determine whether the given employee was paid based on a set of specified pay type within the given report periods. Here, a pay type can
+     * be determined by earn code and pay group.
+     * 
+     * @param emplid the given employee id
+     * @param payPeriods the given pay periods
+     * @param balanceTypes the specified balance type codes
+     * @param earnCodePayGroupMap the combination of earn codes and pay groups, where pay group is the key and earn code set is the
+     *        value
+     * @return true if the given employee was paid based on a set of specified pay type within the given report periods; otherwise, false
+     */
+    boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap);
 }

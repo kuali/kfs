@@ -18,10 +18,12 @@ package org.kuali.module.effort.rules;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Note;
 import org.kuali.core.document.Document;
 import org.kuali.core.rule.event.ApproveDocumentEvent;
 import org.kuali.core.rules.TransactionalDocumentRuleBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.KualiDecimal;
 import org.kuali.kfs.KFSKeyConstants;
@@ -31,21 +33,28 @@ import org.kuali.module.effort.EffortConstants;
 import org.kuali.module.effort.EffortKeyConstants;
 import org.kuali.module.effort.EffortPropertyConstants;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 import org.kuali.module.effort.rule.AddDetailLineRule;
 import org.kuali.module.effort.rule.GenerateSalaryExpenseTransferDocumentRule;
+import org.kuali.module.effort.rule.LoadDetailLineRule;
 import org.kuali.module.effort.rule.UpdateDetailLineRule;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
+import org.kuali.module.effort.service.EffortCertificationExtractService;
+import org.kuali.module.effort.service.EffortCertificationReportDefinitionService;
 import org.kuali.module.effort.util.EffortCertificationParameterFinder;
 
 /**
  * To define the rules that may be applied to the effort certification document, a transactional document
  */
-public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument>, AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail> {
+public class EffortCertificationDocumentRules extends TransactionalDocumentRuleBase implements GenerateSalaryExpenseTransferDocumentRule<EffortCertificationDocument>, AddDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, UpdateDetailLineRule<EffortCertificationDocument, EffortCertificationDetail>, LoadDetailLineRule<EffortCertificationDocument> {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocumentRules.class);
 
     private EffortCertificationDocumentService effortCertificationDocumentService = SpringContext.getBean(EffortCertificationDocumentService.class);
-
+    private EffortCertificationReportDefinitionService effortCertificationReportDefinitionService = SpringContext.getBean(EffortCertificationReportDefinitionService.class);
+    private EffortCertificationExtractService effortCertificationExtractService = SpringContext.getBean(EffortCertificationExtractService.class);
+    private BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);;
+    
     /**
      * Constructs a EffortCertificationDocumentRules.java.
      */
@@ -203,6 +212,54 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
         return true;
     }
 
+    /**
+     * @see org.kuali.module.effort.rule.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument)
+     */
+    public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {        
+        boolean isValid = true;
+        
+        effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
+        EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
+        
+        if(reportDefinition == null) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+
+        if(!reportDefinition.isActive()) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+        
+        isValid = StringUtils.equals(EffortConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
+        if(!isValid) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+        
+        isValid = !effortCertificationReportDefinitionService.existsPendingEffortCertification(reportDefinition);
+        if(!isValid) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+        
+        isValid = effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(reportDefinition);
+        if(!isValid) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+        
+        isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(effortCertificationDocument.getEmplid(), reportDefinition);
+        if(!isValid) {
+            GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
+            return false;            
+        }
+        
+        //TODO: cannot have any pending salary expense transfer document
+               
+        return isValid;
+    }
+    
     /**
      * check if the attributes in the detail line are valid for the defintions in data dictionary and have valid references
      * @param detailLine the given effort certification detail line

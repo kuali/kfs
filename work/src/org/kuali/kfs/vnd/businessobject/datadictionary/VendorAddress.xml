@@ -91,7 +91,7 @@
 
         <attributes>
 
-            <attribute name="vendorAddressEmailAddress" forceUppercase="true">
+            <attribute name="vendorAddressEmailAddress" forceUppercase="false">
                 <label>Email Address</label>
                 <shortLabel>Email Address</shortLabel>
 

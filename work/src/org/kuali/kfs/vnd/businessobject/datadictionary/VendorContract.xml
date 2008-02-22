@@ -81,7 +81,7 @@
 
         <attributes>
 
-            <attribute name="vendorContractName" forceUppercase="true">
+            <attribute name="vendorContractName" forceUppercase="false">
                 <label>Contract Name</label>
                 <shortLabel>Contract Name</shortLabel>
 

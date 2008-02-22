@@ -22,7 +22,7 @@
 
         <attributes>
 
-            <attribute name="vendorAliasName" forceUppercase="true">
+            <attribute name="vendorAliasName" forceUppercase="false">
                 <label>Search Alias Name</label>
                 <shortLabel>Search Alias</shortLabel>
 

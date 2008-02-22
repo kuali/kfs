@@ -51,7 +51,7 @@
             </resultFields>
         </lookup>	
         <attributes>
-            <attribute name="vendorCustomerNumber" forceUppercase="true">
+            <attribute name="vendorCustomerNumber" forceUppercase="false">
                 <label>Customer Number</label>
                 <shortLabel>Customer #</shortLabel>
 

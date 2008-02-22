@@ -319,7 +319,7 @@
 				</control>
 			</attribute>
 
-            <attribute name="vendorDunsNumber" forceUppercase="true">
+            <attribute name="vendorDunsNumber" forceUppercase="false">
                 <label>DUNS Number</label>
                 <shortLabel>DUNS Num.</shortLabel>
 
@@ -332,7 +332,7 @@
 
 			</attribute>
 
-            <attribute name="vendorName" forceUppercase="true">
+            <attribute name="vendorName" forceUppercase="false">
                 <label>Vendor Name</label>
                 <shortLabel>Vendor Name</shortLabel>
 
@@ -360,7 +360,7 @@
 
 			</attribute -->
 
-            <attribute name="vendorLastName" forceUppercase="true">
+            <attribute name="vendorLastName" forceUppercase="false">
                 <label>Vendor Last Name</label>
                 <shortLabel>Vendor Last Name</shortLabel>
 
@@ -373,7 +373,7 @@
 
 			</attribute>
 			
-            <attribute name="vendorFirstName" forceUppercase="true">
+            <attribute name="vendorFirstName" forceUppercase="false">
                 <label>Vendor First Name</label>
                 <shortLabel>Vendor First Name</shortLabel>
 

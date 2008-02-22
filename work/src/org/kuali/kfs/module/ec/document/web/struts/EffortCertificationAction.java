@@ -97,11 +97,12 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
         int lineToDeleteIndex = Integer.parseInt(StringUtils.substringBetween(temp, "delete.", ".x"));
+        
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
-        detailLines.remove(lineToDeleteIndex);
         
+        detailLines.remove(lineToDeleteIndex);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -141,24 +142,37 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
     public ActionForward revert(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
         int lineToRevertIndex = Integer.parseInt(StringUtils.substringBetween(temp, "revert.", ".x"));
+        
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        
         HashMap primaryKeys = new HashMap();
-        primaryKeys.put("FDOC_NBR", lineToRevert.getDocumentNumber());
-        primaryKeys.put("FIN_COA_CD", lineToRevert.getChartOfAccountsCode());
-        primaryKeys.put("ACCOUNT_NBR", lineToRevert.getAccountNumber());
-        primaryKeys.put("SUB_ACCT_NBR", lineToRevert.getSubAccountNumber());
-        primaryKeys.put("POSITION_NBR", lineToRevert.getPositionNumber());
-        primaryKeys.put("FIN_OBJECT_CD", lineToRevert.getFinancialObjectCode());
-        primaryKeys.put("SOURCE_FIN_COA_CD", lineToRevert.getSourceChartOfAccountsCode());
-        primaryKeys.put("SOURCE_ACCT_NBR", lineToRevert.getSubAccountNumber());
+        primaryKeys.put("documentNumber", lineToRevert.getDocumentNumber());
+        primaryKeys.put("chartOfAccountsCode", lineToRevert.getChartOfAccountsCode());
+        primaryKeys.put("accountNumber", lineToRevert.getAccountNumber());
+        /*primaryKeys.put("subAccountNumber", lineToRevert.getSubAccountNumber());*/
+        primaryKeys.put("positionNumber", lineToRevert.getPositionNumber());
+        primaryKeys.put("financialObjectCode", lineToRevert.getFinancialObjectCode());
+        /*primaryKeys.put("sourceChartOfAccountsCode", lineToRevert.getSourceChartOfAccountsCode());
+        primaryKeys.put("sourceAccountNumber", lineToRevert.getSubAccountNumber());*/
+        
         EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.findByPrimaryKey(EffortCertificationDetail.class, primaryKeys);
         
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
+        
+        System.out.println("revertedLine null ?" + (revertedLine == null));
+        System.out.println("lineToRevert.documentNumber = " + lineToRevert.getDocumentNumber());
+        System.out.println("lineToRevert.chartOfAccountsCode = " + lineToRevert.getChartOfAccountsCode());
+        System.out.println("lineToRevert.accountNumber = " + lineToRevert.getAccountNumber());
+        System.out.println("lineToRevert.subAccountNumber = " + lineToRevert.getSubAccountNumber());
+        System.out.println("lineToRevert.positionNumber = " + lineToRevert.getPositionNumber());
+        System.out.println("lineToRevert.financialObjectCode = " + lineToRevert.getFinancialObjectCode());
+        System.out.println("lineToRevert.sourceChartOfAccountsCode = " + lineToRevert.getSourceChartOfAccountsCode());
+        System.out.println("lineToRevert.sourceAccountNumber = " + lineToRevert.getSubAccountNumber());
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }

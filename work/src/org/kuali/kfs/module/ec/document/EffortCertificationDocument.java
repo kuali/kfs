@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.core.bo.user.UniversalUser;
+import org.kuali.core.document.Document;
 import org.kuali.core.document.TransactionalDocumentBase;
 import org.kuali.core.service.UniversalUserService;
 import org.kuali.core.util.KualiDecimal;
@@ -37,7 +38,7 @@ import org.kuali.module.effort.service.EffortCertificationDocumentService;
 /**
  * Effort Certification Document Class.
  */
-public class EffortCertificationDocument extends TransactionalDocumentBase  {
+public class EffortCertificationDocument extends TransactionalDocumentBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(EffortCertificationDocument.class);
 
     private String documentNumber;
@@ -54,6 +55,9 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
     private EffortCertificationReportDefinition effortCertificationReportDefinition;
     private UniversalUser employee;
     private Options options;
+
+    // boolean to indicate to workflow the distribution of effort has changed and special routing should occur
+    private boolean effortDistributionChanged;
 
     private List<EffortCertificationDetail> effortCertificationDetailLines;
 
@@ -220,7 +224,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
     public List<EffortCertificationDetail> getEffortCertificationDetailLines() {
         return effortCertificationDetailLines;
     }
-        
+
     /**
      * Sets the effortCertificationDetailLines attribute value.
      * 
@@ -229,6 +233,25 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
     @Deprecated
     public void setEffortCertificationDetailLines(List<EffortCertificationDetail> effortCertificationDetailLines) {
         this.effortCertificationDetailLines = effortCertificationDetailLines;
+    }
+
+
+    /**
+     * Gets the effortDistributionChanged attribute.
+     * 
+     * @return Returns the effortDistributionChanged.
+     */
+    public boolean isEffortDistributionChanged() {
+        return effortDistributionChanged;
+    }
+
+    /**
+     * Sets the effortDistributionChanged attribute value.
+     * 
+     * @param effortDistributionChanged The effortDistributionChanged to set.
+     */
+    public void setEffortDistributionChanged(boolean effortDistributionChanged) {
+        this.effortDistributionChanged = effortDistributionChanged;
     }
 
     /**
@@ -339,7 +362,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
         KualiDecimal maxAmount = null;
         for (EffortCertificationDetail line : this.getEffortCertificationDetailLines()) {
             KualiDecimal currentAmount = line.getEffortCertificationPayrollAmount();
-            
+
             if (maxAmount == null) {
                 maxAmount = currentAmount;
                 detailLines.add(line);
@@ -347,196 +370,233 @@ public class EffortCertificationDocument extends TransactionalDocumentBase  {
             }
 
             if (maxAmount.isLessThan(currentAmount)) {
-                detailLines.removeAll(detailLines);                
+                detailLines.removeAll(detailLines);
                 maxAmount = currentAmount;
                 detailLines.add(line);
             }
-            else if(maxAmount.equals(currentAmount)){
+            else if (maxAmount.equals(currentAmount)) {
                 detailLines.add(line);
             }
         }
 
         return detailLines;
     }
-    
+
     public Integer getEffortFederalTotal() {
         Integer effortFederalTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortFederalTotal += detailLine.getEffortCertificationUpdatedOverallPercent();
             }
         }
-        
+
         return effortFederalTotal;
     }
 
     public Integer getEffortOrigFederalTotal() {
         Integer effortOrigFederalTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOrigFederalTotal += detailLine.getEffortCertificationCalculatedOverallPercent();
             }
         }
-        
+
         return effortOrigFederalTotal;
     }
-    
+
     public KualiDecimal getTotalOriginalBenefitFederalAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
-        
+
         return totalBenAmount;
     }
-    
+
     public KualiDecimal getTotalOriginalBenefitOtherAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
-        
+
         return totalBenAmount;
     }
-    
+
     public KualiDecimal getTotalUpdatedBenefitFederalAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
-        
+
         return totalBenAmount;
     }
-    
+
     public KualiDecimal getTotalUpdatedBenefitOtherAmount() {
         KualiDecimal totalBenAmount = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
             }
         }
-        
+
         return totalBenAmount;
     }
-    
+
     public Integer getEffortOrigOtherTotal() {
         Integer effortOrigOtherTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOrigOtherTotal += detailLine.getEffortCertificationCalculatedOverallPercent();
             }
         }
-        
+
         return effortOrigOtherTotal;
     }
 
     public Integer getEffortOtherTotal() {
         Integer effortOtherTotal = 0;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 effortOtherTotal += detailLine.getEffortCertificationUpdatedOverallPercent();
             }
         }
-        
+
         return effortOtherTotal;
     }
 
     public KualiDecimal getSalaryFederalTotal() {
         KualiDecimal salaryFederalTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryFederalTotal = salaryFederalTotal.add(detailLine.getEffortCertificationPayrollAmount());
-            } 
+            }
         }
-        
+
         return salaryFederalTotal;
     }
 
     public KualiDecimal getSalaryOrigFederalTotal() {
         KualiDecimal salaryOrigFederalTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOrigFederalTotal = salaryOrigFederalTotal.add(detailLine.getEffortCertificationOriginalPayrollAmount());
             }
         }
-        
+
         return salaryOrigFederalTotal;
     }
 
     public KualiDecimal getSalaryOrigOtherTotal() {
         KualiDecimal salaryOrigOtherTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOrigOtherTotal = salaryOrigOtherTotal.add(detailLine.getEffortCertificationOriginalPayrollAmount());
             }
         }
-        
+
         return salaryOrigOtherTotal;
     }
 
     public KualiDecimal getSalaryOtherTotal() {
         KualiDecimal salaryOtherTotal = KualiDecimal.ZERO;
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
                 salaryOtherTotal = salaryOtherTotal.add(detailLine.getEffortCertificationPayrollAmount());
             }
-            
+
         }
-        
+
         return salaryOtherTotal;
     }
-    
+
     public KualiDecimal getTotalOriginalBenefitAmount() {
         KualiDecimal fBenTotal = KualiDecimal.ZERO;
-        
+
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
             fBenTotal = fBenTotal.add(detailLine.getEffortCertificationOriginalBenefitAmount());
         }
-        
+
         return fBenTotal;
     }
-    
+
     public KualiDecimal getTotalUpdatedBenefitAmount() {
         KualiDecimal fBenTotal = KualiDecimal.ZERO;
-        
+
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
-        
+
         for (EffortCertificationDetail detailLine : detailLineList) {
-            fBenTotal = fBenTotal.add(detailLine.getEffortCertificationUpdatedBenefiteAmount());
+            fBenTotal = fBenTotal.add(detailLine.getEffortCertificationUpdatedBenefitAmount());
         }
-        
+
         return fBenTotal;
     }
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#processAfterRetrieve()
+     */
+    @Override
+    public void processAfterRetrieve() {
+        super.processAfterRetrieve();
+        
+        // capture each line's salary amount before route level modification for later rule validation
+        for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
+            detailLine.setPersistedPayrollAmount(new KualiDecimal(detailLine.getEffortCertificationPayrollAmount().bigDecimalValue()));
+        }
+    }   
+
+    /**
+     * @see org.kuali.core.document.DocumentBase#getDocumentRepresentationForSerialization()
+     */
+    @Override
+    protected Document getDocumentRepresentationForSerialization() {
+        setEffortDistributionChangedIndicator();
+
+        return super.getDocumentRepresentationForSerialization();
+    }
+
+    /**
+     * Checks if the effort has changed for any of the detail lines and sets the effortDistributionChanged boolean for routing.
+     */
+    private void setEffortDistributionChangedIndicator() {
+        effortDistributionChanged = false;
+        
+        for (EffortCertificationDetail detail : this.getEffortCertificationDetailLines()) {
+            if (!detail.getEffortCertificationCalculatedOverallPercent().equals(detail.getEffortCertificationUpdatedOverallPercent())) {
+                effortDistributionChanged = true;
+            }
+        }
+    }
+
 }

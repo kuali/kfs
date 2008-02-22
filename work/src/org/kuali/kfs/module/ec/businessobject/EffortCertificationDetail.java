@@ -60,6 +60,8 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private boolean editable; // to indicate if this detail line can be changed or deleted
     private boolean federalOrFederalPassThroughIndicator; // to indicate if this line is associated with a federal or federal pass
     // through account.
+    private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
+                                                    // been updated at the route level
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -623,6 +625,39 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         this.originalFringeBenefitAmount = originalFringeBenefitAmount;
     }
 
+
+    /**
+     * Gets the persistedPayrollAmount attribute.
+     * 
+     * @return Returns the persistedPayrollAmount.
+     */
+    public KualiDecimal getPersistedPayrollAmount() {
+        return persistedPayrollAmount;
+    }
+
+    /**
+     * Sets the persistedPayrollAmount attribute value.
+     * 
+     * @param persistedPayrollAmount The persistedPayrollAmount to set.
+     */
+    public void setPersistedPayrollAmount(KualiDecimal persistedPayrollAmount) {
+        this.persistedPayrollAmount = persistedPayrollAmount;
+    }
+    
+    /**
+     * @return calculated benefits on original payroll amount
+     */
+    public KualiDecimal getEffortCertificationOriginalBenefitAmount() {
+        return new KualiDecimal(0);
+    }
+
+    /**
+     * @return calculated benefits on updated payroll amount
+     */
+    public KualiDecimal getEffortCertificationUpdatedBenefitAmount() {
+        return new KualiDecimal(0);
+    }
+
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
@@ -643,23 +678,4 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
         return map;
     }
 
-    /**
-     * 
-     * @return
-     */
-    public KualiDecimal getEffortCertificationOriginalBenefitAmount() {
-        // TODO: stub method
-        return new KualiDecimal(0);
-    }
-
-    /**
-     * 
-     * @return
-     */
-    public KualiDecimal getEffortCertificationUpdatedBenefiteAmount() {
-        // TODO: stub method
-        return new KualiDecimal(0);
-    }
-
-    
 }

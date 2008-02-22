@@ -20,7 +20,7 @@ import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
 
 /**
- * This class is the action form for Internal Billing.
+ * Action form for Effort Certification Document.
  */
 public class EffortCertificationForm extends KualiTransactionalDocumentFormBase {
     private EffortCertificationDetail newDetailLine;
@@ -29,16 +29,16 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
         super();
         setDocument(new EffortCertificationDocument());
     }
-
+    
     /**
-     * 
-     * @return
+     * @return new detail line
      */
     public EffortCertificationDetail getNewDetailLine() {
         return newDetailLine;
     }
     
     /**
+     * Sets the new detail line
      * @param newDetailLine
      */
     public void setNewDetailLine(EffortCertificationDetail newDetailLine) {

@@ -35,6 +35,7 @@ import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
+import org.kuali.module.effort.rule.event.AddDetailLineEvent;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
 
 /**
@@ -60,17 +61,26 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
      */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        
+        // make into helper method
         int lineToRecalculateIndex = Integer.parseInt(StringUtils.substringBetween(temp, "recalculate.", ".x"));
+        
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        
+        // index number from loop index which could be different from line index in collection because of federal check
         EffortCertificationDetail lineToRecalculate = detailLines.get(lineToRecalculateIndex);
 
+        // make EffortCertificationDocumentBuildServiceImpl.calculatePayrollPercent method public and call to get updated effort
         lineToRecalculate.setEffortCertificationPayrollAmount(lineToRecalculate.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent() * 100)));
+       
+        // don't have to remove and add again (change will be reflected in collection object)
         detailLines.remove(lineToRecalculateIndex);
         detailLines.add(lineToRecalculateIndex, lineToRecalculate);
         //effortDocument.setEffortCertificationDetailLines(detailLines);
         
+        // use LOG.debug
         System.out.println("new value calculation = " + lineToRecalculate.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent() * 100)));
         System.out.println("lineToRecalculate.getEffortCertificationPayrollAmount = " + lineToRecalculate.getEffortCertificationPayrollAmount());
         System.out.println("lineToRecalculate.getEffortCertificationCalculatedOverallPercent() = " + lineToRecalculate.getEffortCertificationCalculatedOverallPercent());
@@ -80,6 +90,20 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
     }
     
     public ActionForward add(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        EffortCertificationForm effortForm = (EffortCertificationForm) form;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
+        EffortCertificationDetail newDetailLine = effortForm.getNewDetailLine();
+        
+        // check business rules
+        boolean isValid = this.invokeRules(new AddDetailLineEvent("", "newDetailLine", effortDocument, effortForm.getNewDetailLine()));
+        
+        if (isValid) {
+        // add default object code and position number
+          //  newDetailLine.setFinancialObjectCode(effortDocument.getDefaultObjectCode());
+            //  newDetailLine.setFinancialObjectCode(effortDocument.getPositionNumber());
+            
+        // finally add line
+        }
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -95,14 +119,15 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
      * @throws Exception
      */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // helper method
         String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
         int lineToDeleteIndex = Integer.parseInt(StringUtils.substringBetween(temp, "delete.", ".x"));
-        
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
         
         detailLines.remove(lineToDeleteIndex);
+        
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
@@ -140,40 +165,35 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
      * @throws Exception
      */
     public ActionForward revert(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        // helper metthod super.getSelectedLine(request)
         String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
         int lineToRevertIndex = Integer.parseInt(StringUtils.substringBetween(temp, "revert.", ".x"));
         
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
         List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+       
+        // might be incorrect
         EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
         BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
         
+        // just do EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.retrieve(lineToRevert);
         HashMap primaryKeys = new HashMap();
-        primaryKeys.put("documentNumber", lineToRevert.getDocumentNumber());
-        primaryKeys.put("chartOfAccountsCode", lineToRevert.getChartOfAccountsCode());
-        primaryKeys.put("accountNumber", lineToRevert.getAccountNumber());
-        /*primaryKeys.put("subAccountNumber", lineToRevert.getSubAccountNumber());*/
-        primaryKeys.put("positionNumber", lineToRevert.getPositionNumber());
-        primaryKeys.put("financialObjectCode", lineToRevert.getFinancialObjectCode());
-        /*primaryKeys.put("sourceChartOfAccountsCode", lineToRevert.getSourceChartOfAccountsCode());
-        primaryKeys.put("sourceAccountNumber", lineToRevert.getSubAccountNumber());*/
-        
+        primaryKeys.put("FDOC_NBR", lineToRevert.getDocumentNumber());
+        primaryKeys.put("FIN_COA_CD", lineToRevert.getChartOfAccountsCode());
+        primaryKeys.put("ACCOUNT_NBR", lineToRevert.getAccountNumber());
+        primaryKeys.put("SUB_ACCT_NBR", lineToRevert.getSubAccountNumber());
+        primaryKeys.put("POSITION_NBR", lineToRevert.getPositionNumber());
+        primaryKeys.put("FIN_OBJECT_CD", lineToRevert.getFinancialObjectCode());
+        primaryKeys.put("SOURCE_FIN_COA_CD", lineToRevert.getSourceChartOfAccountsCode());
+        primaryKeys.put("SOURCE_ACCT_NBR", lineToRevert.getSubAccountNumber());
         EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.findByPrimaryKey(EffortCertificationDetail.class, primaryKeys);
         
         detailLines.remove(lineToRevertIndex);
         detailLines.add(lineToRevertIndex, revertedLine);
         
-        System.out.println("revertedLine null ?" + (revertedLine == null));
-        System.out.println("lineToRevert.documentNumber = " + lineToRevert.getDocumentNumber());
-        System.out.println("lineToRevert.chartOfAccountsCode = " + lineToRevert.getChartOfAccountsCode());
-        System.out.println("lineToRevert.accountNumber = " + lineToRevert.getAccountNumber());
-        System.out.println("lineToRevert.subAccountNumber = " + lineToRevert.getSubAccountNumber());
-        System.out.println("lineToRevert.positionNumber = " + lineToRevert.getPositionNumber());
-        System.out.println("lineToRevert.financialObjectCode = " + lineToRevert.getFinancialObjectCode());
-        System.out.println("lineToRevert.sourceChartOfAccountsCode = " + lineToRevert.getSourceChartOfAccountsCode());
-        System.out.println("lineToRevert.sourceAccountNumber = " + lineToRevert.getSubAccountNumber());
-        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
+    
+
 }

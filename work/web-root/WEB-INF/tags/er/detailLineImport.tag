@@ -86,7 +86,7 @@
 		<td height="30" class="infoline">&nbsp;</td>
         <td height="30" class="infoline">
 			<input type="image" tabindex="${tabindex}" name="methodToCall.loadDetailLine"
-			   src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_search.gif" 
+			   src="${ConfigProperties.externalizable.images.url}tinybutton-load.gif" 
 			   alt="Import Detail Lines" title="Import Detail Lines" border="0" class="tinybutton" valign="middle"/>
         </td>
 	</tr>	

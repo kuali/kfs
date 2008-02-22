@@ -173,7 +173,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     public boolean hasBeenUsedForEffortCertificationGeneration(EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
-        fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, reportDefinition.getEffortCertificationReportTypeCode());
+        fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());
 
         return businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues) > 0;
     }
@@ -184,7 +184,7 @@ public class EffortCertificationReportDefinitionServiceImpl implements EffortCer
     public boolean hasBeenUsedForEffortCertificationGeneration(String emplid, EffortCertificationReportDefinition reportDefinition) {
         Map<String, Object> fieldValues = new HashMap<String, Object>();
         fieldValues.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, reportDefinition.getUniversityFiscalYear());
-        fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_TYPE_CODE, reportDefinition.getEffortCertificationReportTypeCode());
+        fieldValues.put(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_NUMBER, reportDefinition.getEffortCertificationReportNumber());
         fieldValues.put(KFSPropertyConstants.EMPLID, emplid);
 
         return businessObjectService.countMatching(EffortCertificationDocument.class, fieldValues) > 0;

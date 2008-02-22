@@ -217,41 +217,49 @@ public class EffortCertificationDocumentRules extends TransactionalDocumentRuleB
      * @see org.kuali.module.effort.rule.LoadDetailLineRule#processLoadDetailLineRules(org.kuali.module.effort.document.EffortCertificationDocument)
      */
     public boolean processLoadDetailLineRules(EffortCertificationDocument effortCertificationDocument) {
+        LOG.info("processLoadDetailLineRules() start");
+        
         boolean isValid = true;
 
         effortCertificationDocument.refreshReferenceObject(EffortPropertyConstants.EFFORT_CERTIFICATION_REPORT_DEFINITION);
         EffortCertificationReportDefinition reportDefinition = effortCertificationDocument.getEffortCertificationReportDefinition();
 
         if (reportDefinition == null) {
+            LOG.info("===>reportDefinition == null");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
         if (!reportDefinition.isActive()) {
+            LOG.info("===>!reportDefinition.isActive()");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
         isValid = StringUtils.equals(EffortConstants.PeriodStatusCodes.OPEN, reportDefinition.getEffortCertificationReportPeriodStatusCode());
         if (!isValid) {
+            LOG.info("====>EffortConstants.PeriodStatusCodes.OPEN");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
         isValid = !effortCertificationReportDefinitionService.existsPendingEffortCertification(reportDefinition);
         if (!isValid) {
+            LOG.info("====>existsPendingEffortCertification");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
         isValid = effortCertificationReportDefinitionService.hasBeenUsedForEffortCertificationGeneration(reportDefinition);
         if (!isValid) {
+            LOG.info("====>hasBeenUsedForEffortCertificationGeneration");
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }
 
         isValid = effortCertificationExtractService.isEmployeeEligibleForEffortCertification(effortCertificationDocument.getEmplid(), reportDefinition);
         if (!isValid) {
+            LOG.info("====>isEmployeeEligibleForEffortCertification" + effortCertificationDocument.getEmplid());
             GlobalVariables.getErrorMap().putError(EffortPropertyConstants.EFFORT_CERTIFICATION_DETAIL_LINES, EffortKeyConstants.ERROR_TOTAL_EFFORT_PERCENTAGE_NOT_100);
             return false;
         }

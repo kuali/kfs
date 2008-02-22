@@ -55,7 +55,9 @@
 			
             <attributeReference name="emplid" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personPayrollIdentifier"/>
             <attributeReference name="documentNumber" sourceClassName="org.kuali.core.bo.DocumentHeader" sourceAttributeName="documentNumber"/>
-            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear"/>
+            <attributeReference name="universityFiscalYear" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericFiscalYear">
+            	<label>Fiscal Year</label>
+            </attributeReference>
 			<attributeReference name="employee.personName" sourceClassName="org.kuali.core.bo.user.UniversalUser" sourceAttributeName="personName" >
 				<label>Employee Name</label>
 			</attributeReference>

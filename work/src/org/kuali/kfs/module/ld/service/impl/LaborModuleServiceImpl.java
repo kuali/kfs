@@ -24,6 +24,7 @@ import java.util.Set;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.service.DocumentService;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.core.util.spring.Logged;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.bo.LaborLedgerBalance;
 import org.kuali.kfs.bo.LaborLedgerEntry;
@@ -105,8 +106,7 @@ public class LaborModuleServiceImpl implements LaborModuleService {
      *      java.util.Map)
      */
     public boolean isEmployeeWithPayType(String emplid, Map<Integer, Set<String>> payPeriods, List<String> balanceTypes, Map<String, Set<String>> earnCodePayGroupMap) {
-        // TODO Auto-generated method stub
-        return false;
+        return laborLedgerEntryService.isEmployeeWithPayType(emplid, payPeriods, balanceTypes, earnCodePayGroupMap);
     }
 
     /**

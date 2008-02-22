@@ -220,6 +220,12 @@
 	<reference-descriptor name="assetOrganization" class-ref="org.kuali.module.cams.bo.AssetOrganization" auto-retrieve="true" auto-update="none" auto-delete="none" proxy="true">
 		<foreignkey field-ref="capitalAssetNumber" />
 	</reference-descriptor>	
+	<reference-descriptor name="assetWarranty" class-ref="org.kuali.module.cams.bo.AssetWarranty" auto-retrieve="true" auto-update="object" auto-delete="true" proxy="true">
+		<foreignkey field-ref="capitalAssetNumber" />
+	</reference-descriptor>
+	<collection-descriptor name="assetRepairHistory" element-class-ref="org.kuali.module.cams.bo.AssetRepairHistory" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-delete="object" auto-update="object" proxy="true">
+		<inverse-foreignkey field-ref="capitalAssetNumber" />
+	</collection-descriptor>
 </class-descriptor>
 
 <class-descriptor class="org.kuali.module.cams.bo.AssetGlobal" table="CM_MULT_AST_DOC_T">

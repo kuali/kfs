@@ -100,7 +100,8 @@ public class Asset extends PersistableBusinessObjectBase {
     private UniversalUser assetRepresentative;
     private AssetOrganization assetOrganization;
     private String organizationTagNumber;
-
+    private List<AssetRepairHistory> assetRepairHistory;
+    private AssetWarranty assetWarranty;
     // Non-persisted attributes:
     private KualiDecimal paymentTotalCost;
     private KualiDecimal federalContributionAmount;
@@ -165,7 +166,9 @@ public class Asset extends PersistableBusinessObjectBase {
      */
     public Asset() {
         assetPayments = new TypedArrayList(AssetPayment.class);
+        this.assetRepairHistory = new TypedArrayList(AssetRepairHistory.class);
     }
+
 
     /**
      * Gets the capitalAssetNumber attribute.
@@ -1547,8 +1550,8 @@ public class Asset extends PersistableBusinessObjectBase {
     /**
      * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
      */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();
+    protected LinkedHashMap<String, String> toStringMapper() {
+        LinkedHashMap<String, String> m = new LinkedHashMap<String, String>();
         if (this.capitalAssetNumber != null) {
             m.put("capitalAssetNumber", this.capitalAssetNumber.toString());
         }
@@ -1644,6 +1647,22 @@ public class Asset extends PersistableBusinessObjectBase {
         this.organizationTagNumber = organizationTagNumber;
     }
 
+    public List<AssetRepairHistory> getAssetRepairHistory() {
+        return assetRepairHistory;
+    }
+
+    public void setAssetRepairHistory(List<AssetRepairHistory> assetRepairHistory) {
+        this.assetRepairHistory = assetRepairHistory;
+    }
+
+    public AssetWarranty getAssetWarranty() {
+        return assetWarranty;
+    }
+
+    public void setAssetWarranty(AssetWarranty assetWarranty) {
+        this.assetWarranty = assetWarranty;
+    }
+
     /**
      * Gets the paymentTotalCost attribute.
      * 
@@ -1661,6 +1680,5 @@ public class Asset extends PersistableBusinessObjectBase {
     public void setPaymentTotalCost(KualiDecimal paymentTotalCost) {
         this.paymentTotalCost = paymentTotalCost;
     }
-
 
 }

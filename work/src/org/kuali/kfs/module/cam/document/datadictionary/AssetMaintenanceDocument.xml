@@ -52,7 +52,7 @@
                 	<subSectionHeader name="Asset Detail Info" />
                 	
                     <!-- where to get these information? Owner, Org, Federal Contribution,  Aquisition Type -->
-					<maintainableField name="capitalAssetNumber"  />
+                    <maintainableField name="capitalAssetNumber"  />
                     <maintainableField name="organizationOwnerChartOfAccountsCode" readOnly="true" />
                     <maintainableField name="organizationOwnerAccountNumber" />
                     <maintainableField name="organizationOwnerAccount.organizationCode" readOnly="true" />
@@ -140,7 +140,7 @@
                         <maintainableField name="paymentTotalCost" readOnly="true" />
 		        </maintainableItems>
 		    </maintainableSection>
-		
+			
             <maintainableSection title="Asset Depreciation Information">
 				 <maintainableItems>
 					<maintainableField name="primaryDepreciationMethodCode" required="true" />
@@ -166,39 +166,82 @@
                 	<subSectionHeader name="View Equipment Loan Information " />
             	</maintainableItems>
             </maintainableSection>
-           --> 
-            <maintainableSection title="View Retirement Information">
-                <maintainableItems>
-					<maintainableField name="retirementReasonCode" readOnly="true" />
-					<maintainableField name="salePrice" readOnly="true" />
-					<maintainableField name="estimatedSellingPrice" readOnly="true" />
-					<maintainableField name="cashReceiptFinancialDocumentNumber" readOnly="true" />
-					<maintainableField name="retirementChartOfAccountsCode" readOnly="true" />
-					<maintainableField name="retirementAccountNumber" readOnly="true" />
-					<maintainableField name="campusPoliceDepartmentCaseNumber" readOnly="true" />
-				</maintainableItems>
-			</maintainableSection>
-            
-            <maintainableSection title="View Equipment Loan Information   ">
+           -->
+          <maintainableSection title="View Retirement Information">
+          	<maintainableItems>
+          		<maintainableField name="retirementReasonCode"
+          			readOnly="true" />
+          		<subSectionHeader name="Sale" />
+          		<maintainableField name="salePrice" readOnly="true" />
+          		<maintainableField name="estimatedSellingPrice"
+          			readOnly="true" />
+          		<maintainableField
+          			name="cashReceiptFinancialDocumentNumber" readOnly="true" />
+          		<maintainableField
+          			name="retirementChartOfAccountsCode" readOnly="true" />
+          		<maintainableField name="retirementAccountNumber"
+          			readOnly="true" />
+          		<subSectionHeader name="Stolen" />
+          		<maintainableField
+          			name="campusPoliceDepartmentCaseNumber" readOnly="true" />
+          	</maintainableItems>
+          </maintainableSection>
+
+          <maintainableSection title="View Equipment Loan Information   ">
               	
               	<maintainableItems>
             		<maintainableField name="loanDate" />	
 					<maintainableField name="expectedReturnDate" />
 					<maintainableField name="loanReturnDate" />
-					
                 </maintainableItems>
             </maintainableSection>
-            
-            <!-- need more work -->
-          <!--   
-            <maintainableSection title="Warranty and Repair History ">
-            	<maintainableItems>
-                	<subSectionHeader name="Warranty" />
-                	<subSectionHeader name="Repair History" />
-                	<subSectionHeader name="Component" />
-            	</maintainableItems>
-            </maintainableSection>
-           --> 
+
+          <maintainableSection title="Warranty ">
+          	<maintainableItems>
+          		<maintainableField name="assetWarranty.warrantyNumber" />
+          		<maintainableField
+          			name="assetWarranty.warrantyContactName" />
+          		<maintainableField
+          			name="assetWarranty.warrantyPhoneNumber" />
+          		<maintainableField
+          			name="assetWarranty.warrantyPurchaseOrderNumber" />
+          		<maintainableField
+          			name="assetWarranty.warrantyBeginningDate" />
+          		<maintainableField
+          			name="assetWarranty.warrantyEndingDate" />
+          		<maintainableField name="assetWarranty.warrantyText" />
+          		<maintainableField name="assetWarranty.versionNumber" />
+          	</maintainableItems>
+          </maintainableSection>
+          <maintainableSection title="Repair History ">
+          	<maintainableItems>
+          		<maintainableCollection name="assetRepairHistory"
+          			businessObjectClass="org.kuali.module.cams.bo.AssetRepairHistory"
+          			sourceClassName="org.kuali.module.cams.bo.Asset"
+          			sourceAttributeName="assetRepairHistory">
+          			<maintainableField name="incidentDate"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="problemDescription"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="repairContactName"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="estimatedRepairDate"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="repairDate"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="repairAmount"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField
+          				name="repairSolutionDescription"
+          				readOnlyAfterAdd="true">
+          			</maintainableField>
+          			<maintainableField name="repairNoteText"
+          				readOnlyAfterAdd="true" />
+          			<maintainableField name="versionNumber" />
+          			<maintainableField name="newCollectionRecord" />
+          		</maintainableCollection>
+          	</maintainableItems>
+          </maintainableSection>
         </maintainableSections>
     </maintenanceDocument>
 </dictionaryEntry>

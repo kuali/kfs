@@ -87,7 +87,7 @@
 	            <lookupField attributeName="capitalAssetNumber" required="false" />
 	            <lookupField attributeName="organizationOwnerChartOfAccountsCode" required="false" />
 	            <lookupField attributeName="organizationOwnerAccountNumber" required="false" />
-	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" />
+	            <lookupField attributeName="organizationOwnerAccount.organizationCode" required="false" /> 
 	            <lookupField attributeName="agencyNumber" required="false" />
 	            <lookupField attributeName="inventoryStatusCode" required="false" />
 	            <lookupField attributeName="conditionCode" required="false" />
@@ -254,7 +254,7 @@
                 <label>Create Date</label>
                 <shortLabel>Create Date</shortLabel>
             </attributeReference>
-            
+
             <attributeReference name="capitalAssetInServiceDate" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericDate">
                 <label>In Service Date</label>
                 <shortLabel>In Service Date</shortLabel>
@@ -501,7 +501,7 @@
 			</attribute>
 
             <attribute name="primaryDepreciationMethodCode" forceUppercase="true">
-                <label>Primary Depreciation Method Code</label>
+                <label>Depreciation Method Code</label>
                 <shortLabel>Code</shortLabel>
 
                 <maxLength>3</maxLength>
@@ -513,7 +513,7 @@
 						businessObjectClass="org.kuali.module.cams.bo.AssetDepreciationMethod"
 						keyAttribute="depreciationMethodCode"
 						labelAttribute="depreciationMethodName" includeKeyInLabel="true" />
-                </control>
+				</control>
 
                 <summary>primaryDepreciationMethodCode</summary>
                 <description>primaryDepreciationMethodCode description...</description>
@@ -752,7 +752,7 @@
 				<label>Organization Owner Chart Of Accounts Code</label>
 			</attributeReference>
 			
-			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode" >
+			<attributeReference name="organizationOwnerAccount.organizationCode" sourceClassName="org.kuali.module.chart.bo.Account" sourceAttributeName="organizationCode">
 				<label>Organization Owner Organization Code</label>
 			</attributeReference>
 			
@@ -791,7 +791,6 @@
 			<attributeReference name="conditionCode" sourceClassName="org.kuali.module.cams.bo.AssetCondition" sourceAttributeName="assetConditionCode" >
 				<label>Asset Condition</label>
 			</attributeReference>
-			
 			<!-- ## for use with AssetGlobal ## -->
 			<attribute name="landCountyName" forceUppercase="true">
 				<label>Land Country</label>
@@ -828,8 +827,9 @@
                 <summary>landParcelNumber</summary>
                 <description>Land parcel number.</description>
 			</attribute>
-
-			<attribute name="accumulatedDepreciation" forceUppercase="false">
+			
+			<attribute name="accumulatedDepreciation"
+				forceUppercase="false">
 				<label>Accumulated Depreciation</label>
 				<shortLabel>Accumulated</shortLabel>
 				<maxLength>19</maxLength>
@@ -912,11 +912,38 @@
 				<summary>Current Month Depreciation</summary>
 				<description>Current Month Depreciation</description>
 			</attribute>
-
-            <attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
+			<attributeReference name="paymentTotalCost" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="genericAmount">
                 <label>Display Total Cost</label>
                 <shortLabel>Total Cost</shortLabel>
             </attributeReference>
+			<attributeReference name="assetWarranty.warrantyNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyNumber">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyContactName"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyContactName">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyPhoneNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyPhoneNumber">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyPurchaseOrderNumber"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyPurchaseOrderNumber">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyBeginningDate"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyBeginningDate">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyEndingDate"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyEndingDate">
+			</attributeReference>
+			<attributeReference name="assetWarranty.warrantyText"
+				sourceClassName="org.kuali.module.cams.bo.AssetWarranty"
+				sourceAttributeName="warrantyText">
+			</attributeReference>
         </attributes>
     </businessObject>
 </dictionaryEntry>

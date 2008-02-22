@@ -53,10 +53,10 @@
         </table>    
             
         <c:if test="${isOpen == 'true' || isOpen == 'TRUE'}">
-            <div style="display: block;" id="tab-${tabKey}-div" class="testing">
+            <div style="display: block;" id="tab-${tabKey}-div" class="accountingInfo">
         </c:if>
         <c:if test="${isOpen != 'true' && isOpen != 'TRUE'}" >
-            <div style="display: none;" id="tab-${tabKey}-div" class="testing">
+            <div style="display: none;" id="tab-${tabKey}-div" class="accountingInfo">
         </c:if>
 
         <table style="width: 100%;" cellpadding="0" cellspacing="0" class="datatable" >

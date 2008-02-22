@@ -15,11 +15,16 @@
  */
 package org.kuali.module.ar.web.struts.form;
 
+import org.kuali.core.exceptions.InfrastructureException;
 import org.kuali.core.web.format.CurrencyFormatter;
 import org.kuali.core.web.ui.KeyLabelPair;
+import org.kuali.kfs.bo.SourceAccountingLine;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.AccountingDocument;
 import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
+import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 
 public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase {
     
@@ -31,14 +36,6 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public CustomerInvoiceDocumentForm() {
         super();
         setDocument(new CustomerInvoiceDocument());
-    }
-
-    public CustomerInvoiceDetail getNewCustomerInvoiceDetail() {
-        return newCustomerInvoiceDetail;
-    }
-
-    public void setNewCustomerInvoiceDetail(CustomerInvoiceDetail newCustomerInvoiceDetail) {
-        this.newCustomerInvoiceDetail = newCustomerInvoiceDetail;
     }
     
     public CustomerInvoiceDocument getCustomerInvoiceDocument( ) {
@@ -54,4 +51,25 @@ public class CustomerInvoiceDocumentForm extends KualiAccountingDocumentFormBase
     public KeyLabelPair getAdditionalDocInfo2() {
         return new KeyLabelPair("DataDictionary.CustomerInvoiceDocument.attributes.invoiceTotalAmount", (String)new CurrencyFormatter().format(getCustomerInvoiceDocument().getInvoiceTotalAmount()));
     }
+    
+    
+    /**
+     * Reused to create new source accounting line (i.e customer invoice detail line) with defaulted values.
+     * 
+     * @see org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase#createNewSourceAccountingLine(org.kuali.kfs.document.AccountingDocument)
+     */
+    @Override
+    protected SourceAccountingLine createNewSourceAccountingLine(AccountingDocument financialDocument) {
+        if (financialDocument == null) {
+            throw new IllegalArgumentException("invalid (null) document");
+        }
+        try {
+
+            CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
+            return (SourceAccountingLine) customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear();
+        }
+        catch (Exception e) {
+            throw new InfrastructureException("unable to create a new source accounting line", e);
+        }
+    }    
 }

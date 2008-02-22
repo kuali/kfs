@@ -5,6 +5,7 @@ import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,11 +17,14 @@ import org.kuali.kfs.document.AccountingDocumentBase;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.bo.CustomerProcessingType;
+import org.kuali.module.ar.bo.OrganizationOptions;
+import org.kuali.module.ar.service.OrganizationOptionsService;
 import org.kuali.module.chart.bo.AccountingPeriod;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ChartUser;
 import org.kuali.module.chart.bo.Org;
 import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
+import org.kuali.module.financial.bo.BudgetAdjustmentSourceAccountingLine;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
@@ -56,8 +60,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	private Chart billByChartOfAccount;
 	private Org billedByOrganization;
 	private CustomerProcessingType customerSpecialProcessing;
-
-    private List<CustomerInvoiceDetail> customerInvoiceDetails;
     
 	/**
 	 * Default constructor.
@@ -65,8 +67,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	public CustomerInvoiceDocument() {
 	    super();
 	    this.nextInvoiceItemNumber = new Integer(1);
-        customerInvoiceDetails = new ArrayList<CustomerInvoiceDetail>();
-        
 	}
 
 	/**
@@ -629,22 +629,6 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	public void setCustomerSpecialProcessing(CustomerProcessingType customerSpecialProcessing) {
 		this.customerSpecialProcessing = customerSpecialProcessing;
 	}
-
-    /**
-     * Gets the customerInvoiceDetails attribute. 
-     * @return Returns the customerInvoiceDetails.
-     */
-    public List<CustomerInvoiceDetail> getCustomerInvoiceDetails() {
-        return customerInvoiceDetails;
-    }
-
-    /**
-     * Sets the customerInvoiceDetails attribute value.
-     * @param customerInvoiceDetails The customerInvoiceDetails to set.
-     */
-    public void setCustomerInvoiceDetails(List<CustomerInvoiceDetail> customerInvoiceDetails) {
-        this.customerInvoiceDetails = customerInvoiceDetails;
-    }    
     
 	/**
 	 * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
@@ -655,76 +639,38 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
 	    return m;
     }
 	
-    /**
-     * Retrieves a specific customer invoice detail from the list, by array index
-     * 
-     * @param index the index of the checks array to retrieve the check from
-     * @return a Check
-     */
-    public CustomerInvoiceDetail getCustomerInvoiceDetail(int index) {
-        if (index >= customerInvoiceDetails.size()) {
-            for (int i = customerInvoiceDetails.size(); i <= index; i++) {
-                customerInvoiceDetails.add(new CustomerInvoiceDetail());
-            }
-        }
-        return customerInvoiceDetails.get(index);
-    }	
-	
 	/**
-	 * This method adds the passed in customer invoice detail to the collection of customer invoice details
-	 * @param customerInvoiceDetail
-	 */
-	public void addCustomerInvoiceDetail(CustomerInvoiceDetail customerInvoiceDetail){
-	    customerInvoiceDetail.setInvoiceItemNumber(getNextInvoiceItemNumber());
-	    customerInvoiceDetails.add(customerInvoiceDetail);
-        this.nextInvoiceItemNumber = new Integer(this.getNextInvoiceItemNumber().intValue() + 1);	    
-	}
-	
-	
-	/**
-	 * This method removes the customer invoice detail and the specified index
-	 * @param index
-	 */
-	public void deleteCustomerInvoiceDetail(int index){
-	    customerInvoiceDetails.remove(index);
-	}
-	
-	/**
-	 * This method sets the default values for an invoice
+	 * This method sets the default values for an customer invoice
 	 */
 	public void setupDefaultValues(){
 	    ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
+	    
         if(currentUser != null) {
             setDefaultBillByChartOfAccountsCode(currentUser);
             setDefaultBilledByOrganizationCode(currentUser);
+            setInvoiceTermsText(currentUser);
         }
+        setWriteoffIndicator(true);
+        setPrintInvoiceIndicator(true);
         
         DateTimeService dateTimeService = SpringContext.getBean(DateTimeService.class);
         setDefaultInvoiceDueDate(dateTimeService);
         setDefaultBillingDate(dateTimeService);
         
-        //Write-off Indicator = 'Y'
-        setWriteoffIndicator(true);
-        
-        //Print Invoice Indicator = "Y"
-        setPrintInvoiceIndicator(true);
-        
-        //Processing Chart = Processing Chart retrieved from Billing Org options
-        //convert this into some kind of service maybe?
-        //this.getAccountsReceivablethisHeader().setProcessingChartOfAccountCode(processingChartOfAccountCode);
-        
-        //Processing Org = Processing Org retrieved from Billing Org Options
-        //this.getAccountsReceivablethisHeader().setProcessingOrganizationCode(processingOrganizationCode);
         
         //Print Invoice Detail = Print Invoice Detail retrieved from Billing Org Options
         //can't find this one
-        
-        //Payment Terms Text = Payment Terms Text retrieved from Billing Org Options
-        //this.setInvoiceTermsText(invoiceTermsText);
-        
-        //Set AR this header
-        this.setAccountsReceivableDocumentHeader(new AccountsReceivableDocumentHeader());
-        this.getAccountsReceivableDocumentHeader().setDocumentNumber(this.getDocumentNumber());	    
+	}
+	
+	/**
+	 * This method sets the invoice terms text from whatever is currently set in organization options
+	 */
+	public void setInvoiceTermsText(ChartUser currentUser){
+        OrganizationOptionsService organizationOptionsService = SpringContext.getBean(OrganizationOptionsService.class);
+        OrganizationOptions orgOptions = organizationOptionsService.getByPrimaryKey(currentUser.getChartOfAccountsCode(), currentUser.getOrganizationCode());
+        if( orgOptions != null ){
+            setInvoiceTermsText(orgOptions.getOrganizationPaymentTermsText());
+        }
 	}
 	
 	/**
@@ -785,7 +731,9 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
      */
     public KualiDecimal getInvoiceTotalAmount(){
         KualiDecimal invoiceTotalAmount = new KualiDecimal(0);
-        for ( CustomerInvoiceDetail customerInvoiceDetail : getCustomerInvoiceDetails() ){
+        CustomerInvoiceDetail customerInvoiceDetail;
+        for ( Iterator iter = getSourceAccountingLines().iterator(); iter.hasNext();  ){
+            customerInvoiceDetail = (CustomerInvoiceDetail)iter.next();
             invoiceTotalAmount = invoiceTotalAmount.add( customerInvoiceDetail.getAmount() );
         }
         return invoiceTotalAmount;
@@ -799,5 +747,13 @@ public class CustomerInvoiceDocument extends AccountingDocumentBase {
     public boolean isDebit(GeneralLedgerPostable postable) {
         // TODO Auto-generated method stub
         return false;
+    }
+    
+    /**
+     * @see org.kuali.kfs.document.AccountingDocumentBase#getSourceAccountingLineClass()
+     */
+    @Override
+    public Class getSourceAccountingLineClass() {
+        return CustomerInvoiceDetail.class;
     }
 }

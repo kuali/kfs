@@ -73,7 +73,7 @@
 		<kul:htmlControlAttribute attributeEntry="${customerInvoiceDetailAttributes.accountsReceivableSubObjectCode }" property="${propertyName}.accountsReceivableSubObjectCode" readOnly="${readOnly}"/>
 		<c:if test="${not readOnly}">
 			&nbsp;
-			<kul:lookup boClassName="org.kuali.module.chart.bo.SubObjCd" fieldConversions="financialSubObjectCode:${propertyName}.accountsReceivableSubObjectCode"/>
+			<kul:lookup boClassName="org.kuali.module.chart.bo.SubObjCd" fieldConversions="financialSubObjectCode:${propertyName}.accountsReceivableSubObjectCode" lookupParameters="${propertyName}.accountsReceivableObjectCode:financialObjectCode"/>
 		</c:if>		
 	</td>
 	<c:if test="${not readOnly}">

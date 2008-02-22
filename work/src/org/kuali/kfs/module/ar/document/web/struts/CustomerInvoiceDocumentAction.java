@@ -22,19 +22,23 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 import org.kuali.core.service.KualiRuleService;
+import org.kuali.core.service.PersistenceService;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.kfs.KFSConstants;
+import org.kuali.kfs.bo.SourceAccountingLine;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.document.AccountingDocument;
+import org.kuali.kfs.rule.event.AddAccountingLineEvent;
 import org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase;
+import org.kuali.kfs.web.struts.form.KualiAccountingDocumentFormBase;
 import org.kuali.module.ar.ArConstants;
 import org.kuali.module.ar.bo.AccountsReceivableDocumentHeader;
 import org.kuali.module.ar.bo.CustomerInvoiceDetail;
 import org.kuali.module.ar.document.CustomerInvoiceDocument;
 import org.kuali.module.ar.rule.event.AddCustomerInvoiceDetailEvent;
+import org.kuali.module.ar.service.AccountsReceivableDocumentHeaderService;
 import org.kuali.module.ar.service.CustomerInvoiceDetailService;
 import org.kuali.module.ar.web.struts.form.CustomerInvoiceDocumentForm;
-import org.kuali.module.chart.bo.ChartUser;
-import org.kuali.module.chart.lookup.valuefinder.ValueFinderUtil;
 import org.kuali.module.financial.service.UniversityDateService;
 
 import edu.iu.uis.eden.exception.WorkflowException;
@@ -52,20 +56,18 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) kualiDocumentFormBase;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
         
-        //set up the default values for customer invoice document (SHOULD PROBABLY MAKE THIS A SERVICE)
+        //set up the default values for customer invoice document
         customerInvoiceDocument.setupDefaultValues();
         
-        //set up the default values for the AR DOC Header (SHOULD PROBABLY MAKE THIS A SERVICE)
-        ChartUser currentUser = ValueFinderUtil.getCurrentChartUser();
-        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = new AccountsReceivableDocumentHeader();
+        //set up the default values for the AR DOC Header
+        AccountsReceivableDocumentHeaderService accountsReceivableDocumentHeaderService = SpringContext.getBean(AccountsReceivableDocumentHeaderService.class);
+        AccountsReceivableDocumentHeader accountsReceivableDocumentHeader = accountsReceivableDocumentHeaderService.getNewAccountsReceivableDocumentHeaderForCurrentUser();
         accountsReceivableDocumentHeader.setDocumentNumber(customerInvoiceDocument.getDocumentNumber());
-        accountsReceivableDocumentHeader.setProcessingChartOfAccountCode(currentUser.getChartOfAccountsCode());
-        accountsReceivableDocumentHeader.setProcessingOrganizationCode(currentUser.getOrganizationCode());
         customerInvoiceDocument.setAccountsReceivableDocumentHeader(accountsReceivableDocumentHeader);
         
         //set up the default values for customer invoice detail add line
         CustomerInvoiceDetailService customerInvoiceDetailService = SpringContext.getBean(CustomerInvoiceDetailService.class);
-        customerInvoiceDocumentForm.setNewCustomerInvoiceDetail(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
+        customerInvoiceDocumentForm.setNewSourceLine(customerInvoiceDetailService.getAddLineCustomerInvoiceDetailForCurrentUserAndYear() );
     }
     
     /**
@@ -78,6 +80,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return ActionForward
      * @throws Exception
      */
+    /*
     public ActionForward addCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
@@ -98,7 +101,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         }
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
+    }*/
     
     /**
      * Deletes the selected customer invoice detail line from the document
@@ -110,6 +113,7 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
      * @return ActionForward
      * @throws Exception
      */
+    /*
     public ActionForward deleteCustomerInvoiceDetail(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
         CustomerInvoiceDocumentForm customerInvoiceDocumentForm = (CustomerInvoiceDocumentForm) form;
         CustomerInvoiceDocument customerInvoiceDocument = customerInvoiceDocumentForm.getCustomerInvoiceDocument();
@@ -119,5 +123,34 @@ public class CustomerInvoiceDocumentAction extends KualiAccountingDocumentAction
         customerInvoiceDocument.deleteCustomerInvoiceDetail(indexOfLineToDelete);
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }
+    }*/ 
+    
+
+    /**
+     * Removed salesTax checking.  Need to verify if this check has be moved out later of the KualiAccountingDocumentActionBase class. If
+     * so just use the parent class' insertSourceLine method.
+     * 
+     * @see org.kuali.kfs.web.struts.action.KualiAccountingDocumentActionBase#insertSourceLine(org.apache.struts.action.ActionMapping, org.apache.struts.action.ActionForm, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+     */
+    @Override
+    public ActionForward insertSourceLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        KualiAccountingDocumentFormBase financialDocumentForm = (KualiAccountingDocumentFormBase) form;
+
+        SourceAccountingLine line = financialDocumentForm.getNewSourceLine();
+        boolean rulePassed = true;
+        // check any business rules
+        rulePassed &= SpringContext.getBean(KualiRuleService.class).applyRules(new AddAccountingLineEvent(KFSConstants.NEW_SOURCE_ACCT_LINE_PROPERTY_NAME, financialDocumentForm.getDocument(), line));
+
+        if (rulePassed) {
+            // add accountingLine
+            SpringContext.getBean(PersistenceService.class).refreshAllNonUpdatingReferences(line);
+            insertAccountingLine(true, financialDocumentForm, line);
+
+            // clear the used newTargetLine
+            financialDocumentForm.setNewSourceLine(null);
+            
+        }
+
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }    
 }

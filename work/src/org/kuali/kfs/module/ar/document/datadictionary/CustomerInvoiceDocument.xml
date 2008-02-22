@@ -131,12 +131,12 @@
                 <label>Terms</label>
                 <shortLabel>Terms</shortLabel>
 
-                <maxLength>10</maxLength>
+                <maxLength>40</maxLength>
 
                 <required>false</required>
 
                 <control>
-                    <text size="11" />
+                    <text size="40" />
                 </control>
 
                 <summary>
@@ -270,15 +270,15 @@
                 <description>The date that this P.O. for this invoice was created</description>
             </attributeReference>
 			<attributeReference name="billByChartOfAccountCode" sourceClassName="org.kuali.module.chart.bo.Chart" sourceAttributeName="chartOfAccountsCode">
-                <label>Billing Chart of Accounts Code</label>
-                <shortLabel>Billing Chart Code</shortLabel>
+                <label>Billed By Chart of Accounts Code</label>
+                <shortLabel>Billed By Chart</shortLabel>
                 <control>
                     <select valuesFinderClass="org.kuali.module.chart.lookup.keyvalues.ChartValuesFinder" />
                 </control>
             </attributeReference>
 			<attributeReference name="billedByOrganizationCode" sourceClassName="org.kuali.module.chart.bo.Org" sourceAttributeName="organizationCode">
                 <label>Billed By Organization Object Code</label>
-                <shortLabel>OrgObjCode</shortLabel>
+                <shortLabel>Billed By Org Code</shortLabel>
                 <maxLength>4</maxLength>
                 <control>
                     <text size="4" />

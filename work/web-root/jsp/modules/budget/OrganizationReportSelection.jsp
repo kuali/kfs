@@ -45,7 +45,7 @@
 		    <th class="grid"> <br>	    
 		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute.subFundGroupCode}" useShortLabel="false" /> <br> <br> </th>
 		    <th class="grid" > <br>
-		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute.subFundGroup.subFundGroupDescription}" useShortLabel="false" /> <br> <br> </th>
+		    <kul:htmlAttributeLabel  attributeEntry="${subFundAttribute['subFundGroup.subFundGroupDescription']}" useShortLabel="false" /> <br> <br> </th>
 	    </tr>
 
 		<logic:iterate name="KualiForm" id="bcSubFund" property="bcSubFunds" indexId="ctr">
@@ -79,7 +79,7 @@
     <div id="globalbuttons" class="globalbuttons">
     	<html:image property="methodToCall.selectAllSubFundGroup" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_selectall.gif"  title="Select" alt="Select All Sub-Fund Group" styleClass="smallbutton" />
 		<html:image property="methodToCall.unSelectAllSubFundGroup" src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_unselall.gif"  title="Unselect" alt="Unselect All Sub-Fund Group" styleClass="smallbutton" />
-		<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.submit" title="submit" alt="submit" onclick="excludeSubmitRestriction=true" />
+		<html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_submit.gif" styleClass="globalbuttons" property="methodToCall.perform${KualiForm.reportMode}" title="perform${KualiForm.reportMode}" alt="submit" onclick="excludeSubmitRestriction=true" />
         <html:image src="${ConfigProperties.kr.externalizable.images.url}buttonsmall_close.gif" styleClass="globalbuttons" property="methodToCall.returnToCaller" title="close" alt="close"/>
     </div>
 

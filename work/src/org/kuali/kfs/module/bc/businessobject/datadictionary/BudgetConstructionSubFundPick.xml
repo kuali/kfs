@@ -101,6 +101,11 @@
                 <summary>subFundGroupCode</summary>
                 <description>subFundGroupCode description...</description>
 			</attribute>
+			
+			
+			<attributeReference name="subFundGroup.subFundGroupDescription" sourceClassName="org.kuali.module.chart.bo.SubFundGroup" sourceAttributeName="subFundGroupDescription">
+			<required>false</required>
+			</attributeReference>
 
             <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
 

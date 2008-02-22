@@ -172,7 +172,7 @@ public class BCConstants extends JstlConstants {
         public static final String JASPER_FILE_NAME = "BudgetOrgAccountSummary";
         
         //report type
-        public static final String ACCOUNT_SUMMARY_REPORT = "accountSummaryReport";
+        public static final String ACCOUNT_SUMMARY_REPORT = "AccountSummaryReport";
         public static final String ACCOUNT_OBJECT_DETAIL_REPORT = "accountObjectDetailReport";
         public static final String MONTH_OBJECT_SUMMARY_REPORT = "monthObjectSummaryReport"; 
         

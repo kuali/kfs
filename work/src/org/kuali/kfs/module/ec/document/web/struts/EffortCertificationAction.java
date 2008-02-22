@@ -15,31 +15,27 @@
  */
 package org.kuali.module.effort.web.struts.action;
 
+import java.util.HashMap;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.kuali.core.rule.BusinessRule;
+import org.kuali.RiceConstants;
 import org.kuali.core.rule.event.KualiDocumentEvent;
-import org.kuali.core.rule.event.KualiDocumentEventBase;
+import org.kuali.core.service.BusinessObjectService;
 import org.kuali.core.service.KualiRuleService;
-import org.kuali.core.service.PersistenceService;
+import org.kuali.core.util.KualiDecimal;
 import org.kuali.core.web.struts.action.KualiTransactionalDocumentActionBase;
 import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.context.SpringContext;
-import org.kuali.kfs.rule.event.AddAccountingLineEvent;
-import org.kuali.module.effort.bo.EffortCertificationDocumentBuild;
-import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.document.EffortCertificationDocument;
-import org.kuali.module.effort.rule.event.LoadDetailLineEvent;
-import org.kuali.module.effort.service.EffortCertificationDocumentService;
-import org.kuali.module.effort.service.EffortCertificationExtractService;
 import org.kuali.module.effort.web.struts.form.EffortCertificationForm;
-import org.kuali.module.labor.bo.ExpenseTransferAccountingLine;
-import org.kuali.module.labor.document.LaborExpenseTransferDocumentBase;
-import org.kuali.module.labor.web.struts.form.ExpenseTransferDocumentFormBase;
 
 /**
  * This class handles Actions for EffortCertification.
@@ -51,12 +47,35 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
         
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-        
+    
+    /**
+     * Recalculates the detail line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward recalculate(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        int lineToRecalculateIndex = Integer.parseInt(StringUtils.substringBetween(temp, "recalculate.", ".x"));
         EffortCertificationForm effortForm = (EffortCertificationForm) form;
-        EffortCertificationDocument document = (EffortCertificationDocument) effortForm.getDocument();
-        //document.getEffortCertificationDetailLines().get();
-        //EffortCertificationDetail document.g
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
+        List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        EffortCertificationDetail lineToRecalculate = detailLines.get(lineToRecalculateIndex);
+
+        lineToRecalculate.setEffortCertificationPayrollAmount(lineToRecalculate.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent() * 100)));
+        detailLines.remove(lineToRecalculateIndex);
+        detailLines.add(lineToRecalculateIndex, lineToRecalculate);
+        //effortDocument.setEffortCertificationDetailLines(detailLines);
+        
+        System.out.println("new value calculation = " + lineToRecalculate.getEffortCertificationOriginalPayrollAmount().multiply(new KualiDecimal(lineToRecalculate.getEffortCertificationUpdatedOverallPercent() * 100)));
+        System.out.println("lineToRecalculate.getEffortCertificationPayrollAmount = " + lineToRecalculate.getEffortCertificationPayrollAmount());
+        System.out.println("lineToRecalculate.getEffortCertificationCalculatedOverallPercent() = " + lineToRecalculate.getEffortCertificationCalculatedOverallPercent());
+        System.out.println("lineToRecalculate.getEffortCertificationUpdatedOverallPercent() = " + lineToRecalculate.getEffortCertificationUpdatedOverallPercent());
+        
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
@@ -65,20 +84,28 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
     
+    /**
+     * Deletes detail line
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
     public ActionForward delete(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        int lineToDeleteIndex = Integer.parseInt(StringUtils.substringBetween(temp, "delete.", ".x"));
+        EffortCertificationForm effortForm = (EffortCertificationForm) form;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
+        List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        detailLines.remove(lineToDeleteIndex);
         
+
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
-
-    /*@Override
-    public ActionForward docHandler(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        // TODO Auto-generated method stub
-        super.docHandler(mapping, form, request, response);
-        
-        
-        return mapping.findForward(KFSConstants.MAPPING_BASIC);
-    }*/
-        
+ 
     /**
      * load the detail lines with the given information 
      */
@@ -86,7 +113,7 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
         EffortCertificationForm effortCertificationForm = (EffortCertificationForm) form;
         EffortCertificationDocument effortCertificationDocument = (EffortCertificationDocument) effortCertificationForm.getDocument();
         
-        boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));   
+        //boolean isRulePassed = this.invokeRules(new LoadDetailLineEvent("", "", effortCertificationDocument));   
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }  
@@ -99,5 +126,40 @@ public class EffortCertificationAction extends KualiTransactionalDocumentActionB
      */
     private boolean invokeRules(KualiDocumentEvent event) {
         return SpringContext.getBean(KualiRuleService.class).applyRules(event);
+    }
+    
+    /**
+     * Reverts the detail line to the original values
+     * 
+     * @param mapping
+     * @param form
+     * @param request
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    public ActionForward revert(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String temp = (String) request.getAttribute(RiceConstants.METHOD_TO_CALL_ATTRIBUTE);
+        int lineToRevertIndex = Integer.parseInt(StringUtils.substringBetween(temp, "revert.", ".x"));
+        EffortCertificationForm effortForm = (EffortCertificationForm) form;
+        EffortCertificationDocument effortDocument = (EffortCertificationDocument) effortForm.getDocument();
+        List<EffortCertificationDetail> detailLines = effortDocument.getEffortCertificationDetailLines();
+        EffortCertificationDetail lineToRevert = detailLines.get(lineToRevertIndex);
+        BusinessObjectService businessObjectService = SpringContext.getBean(BusinessObjectService.class);
+        HashMap primaryKeys = new HashMap();
+        primaryKeys.put("FDOC_NBR", lineToRevert.getDocumentNumber());
+        primaryKeys.put("FIN_COA_CD", lineToRevert.getChartOfAccountsCode());
+        primaryKeys.put("ACCOUNT_NBR", lineToRevert.getAccountNumber());
+        primaryKeys.put("SUB_ACCT_NBR", lineToRevert.getSubAccountNumber());
+        primaryKeys.put("POSITION_NBR", lineToRevert.getPositionNumber());
+        primaryKeys.put("FIN_OBJECT_CD", lineToRevert.getFinancialObjectCode());
+        primaryKeys.put("SOURCE_FIN_COA_CD", lineToRevert.getSourceChartOfAccountsCode());
+        primaryKeys.put("SOURCE_ACCT_NBR", lineToRevert.getSubAccountNumber());
+        EffortCertificationDetail revertedLine = (EffortCertificationDetail) businessObjectService.findByPrimaryKey(EffortCertificationDetail.class, primaryKeys);
+        
+        detailLines.remove(lineToRevertIndex);
+        detailLines.add(lineToRevertIndex, revertedLine);
+        
+        return mapping.findForward(KFSConstants.MAPPING_BASIC);
     }
 }

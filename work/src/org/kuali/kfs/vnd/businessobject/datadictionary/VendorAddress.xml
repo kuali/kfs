@@ -119,7 +119,7 @@
 
 			</attribute>
 
-            <attribute name="vendorBusinessToBusinessUrlAddress" forceUppercase="true">
+            <attribute name="vendorBusinessToBusinessUrlAddress" forceUppercase="false">
                 <label>URL</label>
                 <shortLabel>URL</shortLabel>
 

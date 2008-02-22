@@ -102,7 +102,7 @@
 
 			</attributeReference>
 
-            <attribute name="vendorPhoneExtensionNumber" forceUppercase="true">
+            <attribute name="vendorPhoneExtensionNumber" forceUppercase="false">
                 <label>Extension</label>
                 <shortLabel>Extension</shortLabel>
 

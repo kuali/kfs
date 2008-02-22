@@ -32,6 +32,9 @@ public class TestModularization extends KualiTestBase {
     
     public void testOjb() throws Exception {
         // TODO will the testSpring method take care of this?
+        // if we do have to do this, i think it will mean loading one file and looking for refs to the other.
+        // e.g. load OJB-repository-ar.xml, and search for the following strings: org.kuali.module.budget, org.kuali.module.cams, ...
+        // report an effort for that module if you find those - not necessary to report specifics, but if that's easy great
     }
     
     private boolean testOptionalModuleSpringConfiguration(String moduleName, String fileset, StringBuffer errorMessage) {

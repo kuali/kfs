@@ -79,7 +79,7 @@ public class TempListLookupAction extends KualiLookupAction {
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear(), flds[0], flds[1]);
                 GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);   
             } else {
-                SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
+//                SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
                 GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_ACCOUNT_LIST);    
             }
         }

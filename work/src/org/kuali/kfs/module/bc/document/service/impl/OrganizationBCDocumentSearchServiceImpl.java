@@ -34,10 +34,10 @@ public class OrganizationBCDocumentSearchServiceImpl implements OrganizationBCDo
      * @see org.kuali.module.budget.service.OrganizationBCDocumentSearchService#buildAccountSelectPullList(java.lang.String,
      *      java.lang.Integer)
      */
-    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
+    public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
 
         organizationBCDocumentSearchDao.cleanAccountSelectPullList(personUserIdentifier);
-        organizationBCDocumentSearchDao.buildAccountSelectPullList(personUserIdentifier, universityFiscalYear);
+        return organizationBCDocumentSearchDao.buildAccountSelectPullList(personUserIdentifier, universityFiscalYear);
     }
     
     public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode) {

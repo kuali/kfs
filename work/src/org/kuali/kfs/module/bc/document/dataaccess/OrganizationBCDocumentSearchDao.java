@@ -27,7 +27,7 @@ public interface OrganizationBCDocumentSearchDao {
      * @param personUserIdentifier
      * @param universityFiscalYear
      */
-    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear);
+    public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear);
     
     
     public void buildBudgetedAccountsAbovePointsOfView(String personUserIdentifier, Integer universityFiscalYear, String chartOfAccountsCode, String organizationCode);

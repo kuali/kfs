@@ -49,6 +49,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrganizationReports;
 import org.kuali.module.budget.bo.BudgetConstructionPullup;
 import org.kuali.module.budget.service.BudgetOrganizationTreeService;
 import org.kuali.module.budget.service.BudgetPushPullService;
+import org.kuali.module.budget.service.OrganizationBCDocumentSearchService;
 import org.kuali.module.budget.service.PermissionService;
 import org.kuali.module.budget.web.struts.form.OrganizationSelectionTreeForm;
 import org.kuali.module.chart.bo.Org;
@@ -615,6 +616,12 @@ public class OrganizationSelectionTreeAction extends KualiAction {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
         else {
+            // build table but give a message if empty
+            int rowCount = SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier(), organizationSelectionTreeForm.getUniversityFiscalYear());
+            if (rowCount == 0){
+                GlobalVariables.getMessageList().add("error.inquiry");    
+                return mapping.findForward(KFSConstants.MAPPING_BASIC);
+            }
 
             // build out base path for return location, using config service
             String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);

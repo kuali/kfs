@@ -124,11 +124,12 @@ public class OrganizationBCDocumentSearchDaoJdbc extends BudgetConstructionDaoJd
      *      java.lang.Integer)
      */
     @RawSQL
-    public void buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
+    public int buildAccountSelectPullList(String personUserIdentifier, Integer universityFiscalYear) {
 
         LOG.debug("buildAccountSelectPullList() started");
 
-        getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
+        int rowsAffected = getSimpleJdbcTemplate().update(buildAccountSelectPullListTemplates[0], personUserIdentifier, universityFiscalYear, personUserIdentifier, universityFiscalYear);
+        return rowsAffected;
     }
     
     @RawSQL

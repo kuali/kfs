@@ -191,6 +191,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             String vendorName = StringUtils.trimToEmpty(getVendorName());
             String totalAmount = getTotalDollarAmount().toString();
             PurApAccountingLine accountingLine = getFirstAccount();
+            String chartAcctCode = accountingLine != null ? accountingLine.getChartOfAccountsCode() : "";
             String accountNumber = accountingLine != null ? accountingLine.getAccountNumber() : "";
             String chartCode = getChartOfAccountsCode();
             String orgCode = getOrganizationCode();
@@ -207,7 +208,7 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
             }
             else if (routeLevel.equals(NodeDetailEnum.BUDGET_OFFICE_REVIEW.getName()) || routeLevel.equals(NodeDetailEnum.CONTRACTS_AND_GRANTS_REVIEW.getName())) {
                 // Budget & C&G approval levels
-                documentTitle = "PO: " + poNumber + " Account Number: " + chartCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
+                documentTitle = "PO: " + poNumber + " Account Number: " + chartAcctCode + "-" + accountNumber + " Dept: " + chartCode + "-" + orgCode + " Delivery Campus: " + deliveryCampus;
             }
             else if (routeLevel.equals(NodeDetailEnum.VENDOR_TAX_REVIEW.getName())) {
                 // Tax approval level

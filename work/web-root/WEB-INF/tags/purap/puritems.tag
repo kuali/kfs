@@ -164,7 +164,7 @@
 		<!-- what is the purpose of this c:if? would it be better to still dipslay the section header with message that there are not items -->
 		<tr>
 			<td colspan="11" class="subhead">
-			    <span class="subhead-left">Current Items</span>
+			    <span class="subhead-left">Items</span>
 			</td>
 		</tr>
 

@@ -40,7 +40,7 @@
     description="Whether or not to show item description before extended price." %>
               
 <c:if test="${empty overrideTitle}">
-	<c:set var="overrideTitle" value="Misc Items"/>
+	<c:set var="overrideTitle" value="Additional Charges"/>
 </c:if>
 
 <c:set var="amendmentEntry"

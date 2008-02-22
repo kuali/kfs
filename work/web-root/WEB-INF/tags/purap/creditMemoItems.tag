@@ -20,7 +20,7 @@
 		
 <tr>
 	<td colspan="10" class="subhead">
-		<span class="subhead-left">Edit Items</span>
+		<span class="subhead-left">Items</span>
 	</td>
 </tr>
 

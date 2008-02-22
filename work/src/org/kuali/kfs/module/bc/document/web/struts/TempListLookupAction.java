@@ -72,15 +72,18 @@ public class TempListLookupAction extends KualiLookupAction {
         }
         // TODO may need to pass another parameter for building variations of AccountSelect
         if (tempListLookupForm.getBusinessObjectClassName().equals(BudgetConstructionAccountSelect.class.getName())) {
-            
+
             // ORG Report mode
             if (tempListLookupForm.getReportMode() != null) {
                 String[] flds = tempListLookupForm.getCurrentPointOfViewKeyCode().split("[-]");
                 SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildBudgetedAccountsAbovePointsOfView(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear(), flds[0], flds[1]);
-                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);   
-            } else {
-//                SpringContext.getBean(OrganizationBCDocumentSearchService.class).buildAccountSelectPullList(tempListLookupForm.getPersonUniversalIdentifier(), tempListLookupForm.getUniversityFiscalYear());
-                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_ACCOUNT_LIST);    
+                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_REPORT_ACCOUNT_LIST);
+            }
+            else {
+
+                // Show Budgeted Docs (BudgetConstructionAccountSelect) in the point of view subtree for the selected org(s)
+                // The table was already built in OrganizationSelectionTreeAction.performShowBudgetDocs
+                GlobalVariables.getMessageList().add(KFSKeyConstants.budget.MSG_ACCOUNT_LIST);
             }
         }
 
@@ -141,16 +144,17 @@ public class TempListLookupAction extends KualiLookupAction {
 
         return super.cancel(mapping, form, request, response);
     }
-    
+
     public ActionForward submitReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        
+
         TempListLookupForm tempListLookupForm = (TempListLookupForm) form;
-        
+
         String fullParameter = (String) request.getAttribute(KFSConstants.METHOD_TO_CALL_ATTRIBUTE);
-        //String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL, KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
+        // String actionPath = StringUtils.substringBetween(fullParameter, KFSConstants.METHOD_TO_CALL_PARM4_LEFT_DEL,
+        // KFSConstants.METHOD_TO_CALL_PARM4_RIGHT_DEL);
         // build out base path for return location, using config service
         String basePath = SpringContext.getBean(KualiConfigurationService.class).getPropertyString(KFSConstants.APPLICATION_URL_KEY);
-        
+
         // now add required parameters
         Properties parameters = new Properties();
         parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, "start");
@@ -163,10 +167,10 @@ public class TempListLookupAction extends KualiLookupAction {
         parameters.put(KFSPropertyConstants.UNIVERSITY_FISCAL_YEAR, tempListLookupForm.getUniversityFiscalYear().toString());
         parameters.put(KFSPropertyConstants.KUALI_USER_PERSON_UNIVERSAL_IDENTIFIER, GlobalVariables.getUserSession().getUniversalUser().getPersonUniversalIdentifier());
         parameters.put(BCConstants.Report.REPORT_MODE, tempListLookupForm.getReportMode());
-        if (tempListLookupForm.isBuildControlList()){
+        if (tempListLookupForm.isBuildControlList()) {
             parameters.put(BCConstants.Report.BUILD_CONTROL_LIST, "true");
         }
-        
+
         String lookupUrl = UrlFactory.parameterizeUrl(basePath + "/" + BCConstants.ORG_REPORT_SELECTION_ACTION, parameters);
         return new ActionForward(lookupUrl, true);
     }

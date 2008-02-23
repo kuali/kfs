@@ -189,7 +189,7 @@
                 <description>costShareSourceSubAccountNumber description...</description>
 			</attribute>
 			
-			<attribute name="effortCertificationOriginalBenefitAmount" forceUppercase="true">
+			<attribute name="originalFringeBenefitAmount" forceUppercase="true">
                 <label>F-Ben Orig </label>
                 <shortLabel>F-Ben Orig </shortLabel>
                 
@@ -202,7 +202,7 @@
                 <description>F-Ben Orig </description>
 			</attribute>
 			
-			<attribute name="effortCertificationUpdatedBenefiteAmount" forceUppercase="true">
+			<attribute name="fringeBenefitAmount" forceUppercase="true">
                 <label>F-Ben </label>
                 <shortLabel>F-Ben </shortLabel>
                 

@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.module.purap.document.ReceivingCorrectionDocument;
 
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)

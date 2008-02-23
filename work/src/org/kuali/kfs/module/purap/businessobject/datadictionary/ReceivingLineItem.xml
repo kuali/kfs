@@ -92,7 +92,7 @@
 
             <attribute name="itemCatalogNumber" forceUppercase="true">
                 <label>Item Catalog Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Catalog #</shortLabel>
 
                 <maxLength>30</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -107,7 +107,7 @@
 
             <attribute name="itemDamagedTotalQuantity" forceUppercase="true">
                 <label>Item Damaged Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Qty Damaged</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -137,7 +137,7 @@
 
             <attribute name="itemLineNumber" forceUppercase="true">
                 <label>Item Line Number</label>
-                <shortLabel>Number</shortLabel>
+                <shortLabel>Line #</shortLabel>
 
                 <maxLength>3</maxLength>
                 <validationPattern><numeric /></validationPattern>
@@ -152,7 +152,7 @@
 
             <attribute name="itemOrderedQuantity" forceUppercase="true">
                 <label>Item Ordered Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Qty Ordered</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -167,7 +167,7 @@
 
             <attribute name="itemReasonAddedCode" forceUppercase="true">
                 <label>Item Reason Added Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>Addition Reason</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>
@@ -182,7 +182,7 @@
 
             <attribute name="itemReceivedTotalQuantity" forceUppercase="true">
                 <label>Item Received Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Qty Received</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -197,7 +197,7 @@
 
             <attribute name="itemReturnedTotalQuantity" forceUppercase="true">
                 <label>Item Returned Total Quantity</label>
-                <shortLabel>Quantity</shortLabel>
+                <shortLabel>Qty Returned</shortLabel>
 
                 <maxLength>11</maxLength>
                 <validationPattern><floatingPoint /></validationPattern>
@@ -227,7 +227,7 @@
 
             <attribute name="itemUnitOfMeasureCode" forceUppercase="true">
                 <label>Item Unit Of Measure Code</label>
-                <shortLabel>Code</shortLabel>
+                <shortLabel>UOM</shortLabel>
 
                 <maxLength>4</maxLength>
                 <validationPattern><anyCharacter /></validationPattern>

@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.servlet.ServletOutputStream;
@@ -46,6 +47,7 @@ import org.kuali.core.service.DocumentService;
 import org.kuali.core.service.KualiConfigurationService;
 import org.kuali.core.util.GlobalVariables;
 import org.kuali.core.util.ObjectUtils;
+import org.kuali.core.util.UrlFactory;
 import org.kuali.core.web.struts.form.BlankFormFile;
 import org.kuali.core.web.struts.form.KualiDocumentFormBase;
 import org.kuali.core.workflow.service.KualiWorkflowDocument;
@@ -72,6 +74,7 @@ import org.kuali.module.purap.service.PurapService;
 import org.kuali.module.purap.service.PurchaseOrderService;
 import org.kuali.module.purap.web.struts.form.PurchaseOrderForm;
 import org.kuali.module.purap.web.struts.form.PurchasingFormBase;
+import org.kuali.module.purap.web.struts.form.ReceivingLineForm;
 import org.kuali.module.vendor.VendorConstants;
 import org.kuali.module.vendor.VendorConstants.AddressTypes;
 import org.kuali.module.vendor.bo.VendorAddress;
@@ -1722,5 +1725,30 @@ public class PurchaseOrderAction extends PurchasingActionBase {
         document.refreshNonUpdateableReferences();
 
         return mapping.findForward(KFSConstants.MAPPING_BASIC);
+    }
+    
+    public ActionForward createReceivingLine(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        PurchaseOrderForm poForm = (PurchaseOrderForm) form;
+        PurchaseOrderDocument document = (PurchaseOrderDocument) poForm.getDocument();        
+        
+        String basePath = getBasePath(request);
+        String methodToCallDocHandler = "docHandler";
+        String methodToCallReceivingLine = "initiate";
+                        
+        //set parameters
+        Properties parameters = new Properties();
+        parameters.put(KFSConstants.DISPATCH_REQUEST_PARAMETER, methodToCallDocHandler);
+        parameters.put(KFSConstants.PARAMETER_COMMAND, methodToCallReceivingLine);
+        parameters.put(KFSConstants.DOCUMENT_TYPE_NAME, "ReceivingLineDocument");        
+        parameters.put("purchaseOrderDocId", document.getDocumentNumber() );
+        
+        //create url
+        String receivingUrl = UrlFactory.parameterizeUrl(basePath + "/" + "purapReceivingLine.do", parameters);
+        
+        //create forward
+        ActionForward forward = new ActionForward(receivingUrl, true);
+        
+        return forward;
+        
     }
 }

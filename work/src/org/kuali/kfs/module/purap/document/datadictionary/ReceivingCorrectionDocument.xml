@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionaryEntry PUBLIC
+    "-//Kuali Project//DTD Data Dictionary 1.0//EN"
+    "../../../../core/datadictionary/dataDictionary-1_0.dtd">
+<dictionaryEntry>    
+    <transactionalDocument>
+        <documentClass>org.kuali.module.purap.document.ReceivingCorrectionDocument</documentClass>
+        <businessRulesClass>org.kuali.module.purap.rules.ReceivingCorrectionRule</businessRulesClass>
+        <preRulesCheckClass>org.kuali.module.purap.rules.ReceivingCorrectionPreRules</preRulesCheckClass>
+        
+        <authorizations>
+            <authorization action="initiate">
+                <workgroups>
+                    <workgroup>KUALI_PURAP_ACCOUNTS_PAYABLE</workgroup>
+                </workgroups>
+            </authorization>
+        </authorizations>
+
+        <documentTypeName>ReceivingCorrectionDocument</documentTypeName>
+        <documentTypeCode>RCVC</documentTypeCode>
+
+        <label>Receiving Correction</label>
+
+        <attributes>
+
+            <attribute name="documentNumber" forceUppercase="true">
+                <label>Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>documentNumber</summary>
+                <description>documentNumber description...</description>
+			</attribute>
+
+            <attribute name="receivingLineDocumentNumber" forceUppercase="true">
+                <label>Receiving Line Document Number</label>
+                <shortLabel>Number</shortLabel>
+
+                <maxLength>14</maxLength>
+                <validationPattern><anyCharacter /></validationPattern>
+
+                <control>
+                    <text size="16" />
+                </control>
+
+                <summary>receivingLineDocumentNumber</summary>
+                <description>receivingLineDocumentNumber description...</description>
+			</attribute>
+
+            <attributeReference name="versionNumber" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="versionNumber" />
+
+        </attributes>
+    </transactionalDocument>transactionalDocument>
+</dictionaryEntry>

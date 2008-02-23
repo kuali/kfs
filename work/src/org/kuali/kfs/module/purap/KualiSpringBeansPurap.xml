@@ -345,6 +345,12 @@
 		</property>
 	</bean>
 
+	<bean id="receivingService" class="org.kuali.module.purap.service.impl.ReceivingServiceImpl">
+         <property name="purchaseOrderService">
+            <ref bean="purchaseOrderService" />
+        </property>	
+	</bean>
+	
 	<bean id="requisitionDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.RequisitionDaoOjb" />
 	
 	<bean id="purchaseOrderDao" parent="platformAwareDao" class="org.kuali.module.purap.dao.ojb.PurchaseOrderDaoOjb" />

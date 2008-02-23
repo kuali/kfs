@@ -258,6 +258,9 @@ public class PurchaseOrderForm extends PurchasingFormBase {
             extraButtons.add(removeHoldButton);
         }
         
+        ExtraButton receivingButton = (ExtraButton) buttonsMap.get("methodToCall.createReceivingLine");
+        extraButtons.add(receivingButton);
+        
         return extraButtons;
     }        
     
@@ -337,6 +340,12 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         removeHoldButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_removehold.gif");
         removeHoldButton.setExtraButtonAltText("Remove Hold");
 
+        // Receiving button
+        ExtraButton receivingButton = new ExtraButton();
+        receivingButton.setExtraButtonProperty("methodToCall.createReceivingLine");
+        receivingButton.setExtraButtonSource("${" + KFSConstants.EXTERNALIZABLE_IMAGES_URL_KEY + "}buttonsmall_receivingline.gif");
+        receivingButton.setExtraButtonAltText("Receiving");
+        
         result.put(retransmitButton.getExtraButtonProperty(), retransmitButton);
         result.put(printingRetransmitButton.getExtraButtonProperty(), printingRetransmitButton);
         result.put(printButton.getExtraButtonProperty(), printButton);
@@ -346,7 +355,8 @@ public class PurchaseOrderForm extends PurchasingFormBase {
         result.put(paymentHoldButton.getExtraButtonProperty(), paymentHoldButton);
         result.put(amendButton.getExtraButtonProperty(), amendButton);
         result.put(removeHoldButton.getExtraButtonProperty(), removeHoldButton);
-
+        result.put(receivingButton.getExtraButtonProperty(), receivingButton);
+        
         return result;
     }
 

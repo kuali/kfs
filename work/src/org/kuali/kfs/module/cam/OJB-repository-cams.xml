@@ -960,4 +960,24 @@
         <foreignkey field-ref="borrowerStorageCountryCode" />
     </reference-descriptor>
 </class-descriptor>
+
+<class-descriptor class="org.kuali.module.cams.bo.ComponentRepairHistory" table="CM_CACMP_RPRHIST_T">
+	<field-descriptor name="capitalAssetNumber" column="CPTLAST_NBR" jdbc-type="BIGINT" primarykey="true" index="true"/>
+	<field-descriptor name="componentNumber" column="CACMP_NBR" jdbc-type="INTEGER" primarykey="true" index="true"/>
+	<field-descriptor name="componentIncidentDate" column="CACMP_INCIDENT_DT" jdbc-type="DATE" primarykey="true" index="true"/>
+	<field-descriptor name="objectId" column="OBJ_ID" jdbc-type="VARCHAR" index="true"/>
+	<field-descriptor name="versionNumber" column="VER_NBR" jdbc-type="BIGINT" locking="true"/>
+	<field-descriptor name="componentEstimatedRepairDate" column="CACMP_EST_RPR_DT" jdbc-type="DATE"/>
+	<field-descriptor name="componentProblemDescription" column="CACMP_PROBLEM_DESC" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentRepairAmount" column="CACMP_RPR_AMT" jdbc-type="DECIMAL" conversion="org.kuali.core.util.OjbKualiDecimalFieldConversion"/>
+	<field-descriptor name="componentRepairContactName" column="CACMP_RPR_CNTCT_NM" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentRepairDate" column="CACMP_RPR_DT" jdbc-type="DATE"/>
+	<field-descriptor name="componentRepairNoteText" column="CACMP_RPR_NT_TXT" jdbc-type="VARCHAR"/>
+	<field-descriptor name="componentRepairSolutionDescription" column="CACMP_RPRSOLN_DESC" jdbc-type="VARCHAR"/>
+
+	<reference-descriptor name="component" class-ref="org.kuali.module.cams.bo.AssetComponent" auto-retrieve="true" auto-update="none" auto-delete="none">
+		<foreignkey field-ref="capitalAssetNumber" />
+		<foreignkey field-ref="componentNumber" />
+	</reference-descriptor>
+</class-descriptor>
 </descriptor-repository>

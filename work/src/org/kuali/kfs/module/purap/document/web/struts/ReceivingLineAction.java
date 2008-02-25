@@ -46,9 +46,7 @@ public class ReceivingLineAction extends ReceivingBaseAction {
         ReceivingLineForm rlf = (ReceivingLineForm)kualiDocumentFormBase;
         ReceivingLineDocument rlDoc = (ReceivingLineDocument)rlf.getDocument();
         String poDocId = rlf.getPurchaseOrderDocId();
-        
-        ReceivingService receivingService = new ReceivingServiceImpl();
-        
+            
         //populate Receiving Line Document from Purchase Order
         SpringContext.getBean(ReceivingService.class).populateReceivingLine(rlDoc, poDocId);
         

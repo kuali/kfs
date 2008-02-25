@@ -46,18 +46,22 @@ public class ReceivingServiceImpl implements ReceivingService {
         //populate receiving line document from purchase order
         //copy vendor
         rlDoc.setVendorName( poDoc.getVendorName() );
-        //rlDoc.setVendorNumber( poDoc.getVendorNumber() );
+        rlDoc.setVendorNumber( poDoc.getVendorNumber() );
         rlDoc.setVendorLine1Address( poDoc.getVendorLine1Address() );
         rlDoc.setVendorLine2Address( poDoc.getVendorLine2Address() );
         rlDoc.setVendorCityName( poDoc.getVendorCityName() );
         rlDoc.setVendorStateCode( poDoc.getVendorStateCode() );
         rlDoc.setVendorPostalCode( poDoc.getVendorPostalCode() );
         rlDoc.setVendorCountryCode( poDoc.getVendorCountryCode() );
-        //rlDoc.setVendorAddressGeneratedIdentifier( poDoc.getVendorAddressGeneratedIdentifier() );
-        //rlDoc.setVendorAddressInternationalProvinceName( poDoc.getVendorAddressInternationalProvinceName() );
-        //rlDoc.setVendorCustomerNumber( poDoc.getVendorCustomerNumber() );
+        rlDoc.setVendorAddressGeneratedIdentifier( poDoc.getVendorAddressGeneratedIdentifier() );
         rlDoc.setVendorDetailAssignedIdentifier( poDoc.getVendorDetailAssignedIdentifier() );
         rlDoc.setVendorHeaderGeneratedIdentifier( poDoc.getVendorHeaderGeneratedIdentifier() );
+        
+        //copy alternate vendor
+        rlDoc.setAlternateVendorName( poDoc.getAlternateVendorName() );
+        rlDoc.setAlternateVendorNumber( poDoc.getAlternateVendorNumber() );
+        rlDoc.setAlternateVendorDetailAssignedIdentifier( poDoc.getAlternateVendorDetailAssignedIdentifier() );
+        rlDoc.setAlternateVendorHeaderGeneratedIdentifier( poDoc.getAlternateVendorHeaderGeneratedIdentifier() );
         
         //copy delivery
         rlDoc.setDeliveryBuildingCode( poDoc.getDeliveryBuildingCode() );

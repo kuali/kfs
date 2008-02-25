@@ -28,6 +28,9 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
     private static String[] updateReportsAccountSummaryTable = new String[1];
     
     private static String[] updateReportsAccountSummaryTableWithConsolidation = new String[1];
+    
+    private static String[] updateSubFundSummaryReport = new String[1];
+    
     @RawSQL
     public BudgetConstructionAccountSummaryReportDaoJdbc() {
         
@@ -220,6 +223,85 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
         sqlText.append(" sf.fund_grp_cd, ctrl.sel_sub_fund_grp, ctrl.account_nbr \n");
 
         updateReportsAccountSummaryTableWithConsolidation[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+        
+        sqlText.append("INSERT INTO ld_bcn_acct_summ_t(PERSON_UNVL_ID, ORG_FIN_COA_CD, ORG_CD, FIN_COA_CD, FUND_GRP_CD, SUB_FUND_GRP_CD,  \n");
+        sqlText.append(" ACCOUNT_NBR, SUB_ACCT_NBR, INC_EXP_CD, ACLN_ANNL_BAL_AMT, FIN_BEG_BAL_LN_AMT, SUB_FUND_SORT_CD) \n");
+        sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
+        sqlText.append(" '-------', '-----', 'A', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
+        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("WHERE pbgl.fin_obj_typ_cd in ('IN','IC','CH','AS') \n");
+        sqlText.append(" AND ctrl.person_unvl_id = ? \n");
+        sqlText.append(" AND ctrl.person_unvl_id = pick.person_unvl_id \n");
+        sqlText.append(" AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd \n");
+        sqlText.append(" AND pick.report_flag > 0 \n");
+        sqlText.append(" AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd \n");
+        sqlText.append(" AND pbgl.fdoc_nbr = ctrl.fdoc_nbr \n");
+        sqlText.append(" AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append(" AND pbgl.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append(" AND pbgl.account_nbr = ctrl.account_nbr \n");
+        sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+        sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp \n");
+        sqlText.append("UNION \n");
+        sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
+        sqlText.append("'-------', '-----', 'E', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
+        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t o, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t  pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') \n");
+        sqlText.append(" AND ctrl.person_unvl_id = ? \n");
+        sqlText.append(" AND ctrl.person_unvl_id = pick.person_unvl_id \n");
+        sqlText.append(" AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd \n");
+        sqlText.append(" AND pick.report_flag > 0 \n");
+        sqlText.append(" AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd \n");
+        sqlText.append(" AND pbgl.fdoc_nbr = ctrl.fdoc_nbr \n");
+        sqlText.append(" AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append(" AND pbgl.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append(" AND pbgl.account_nbr = ctrl.account_nbr \n");
+        sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+        sqlText.append(" AND o.univ_fiscal_yr = pbgl.univ_fiscal_yr \n");
+        sqlText.append(" AND o.fin_coa_cd = pbgl.fin_coa_cd \n");
+        sqlText.append(" AND o.fin_object_cd = pbgl.fin_object_cd \n");
+        sqlText.append(" AND o.fin_obj_level_cd not in ('CORI','TRIN') \n");
+        sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp \n");
+        sqlText.append("UNION \n");
+        sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
+        sqlText.append("    '-------', '-----', 'T', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
+        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ca_object_code_t o, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') \n");
+        sqlText.append(" AND ctrl.person_unvl_id = ? \n");
+        sqlText.append(" AND ctrl.person_unvl_id = pick.person_unvl_id \n");
+        sqlText.append(" AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd \n");
+        sqlText.append(" AND pick.report_flag > 0 \n");
+        sqlText.append(" AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd \n");
+        sqlText.append(" AND pbgl.fdoc_nbr = ctrl.fdoc_nbr \n");
+        sqlText.append(" AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append(" AND pbgl.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append(" AND pbgl.account_nbr = ctrl.account_nbr \n");
+        sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+        sqlText.append(" AND o.univ_fiscal_yr = pbgl.univ_fiscal_yr \n");
+        sqlText.append(" AND o.fin_coa_cd = pbgl.fin_coa_cd \n");
+        sqlText.append(" AND o.fin_object_cd = pbgl.fin_object_cd \n");
+        sqlText.append(" AND o.fin_obj_level_cd in ('CORI','TRIN') \n");
+        sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp \n");
+        sqlText.append("UNION \n");
+        sqlText.append("SELECT ?, ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp, \n");
+        sqlText.append(" '-------', '-----', 'X', sum(pbgl.acln_annl_bal_amt), sum(pbgl.fin_beg_bal_ln_amt), sf.fin_report_sort_cd \n");
+        sqlText.append("FROM ld_pnd_bcnstr_gl_t pbgl, ld_bcn_ctrl_list_t ctrl, ld_bcn_subfund_pick_t  pick, ca_sub_fund_grp_t sf \n");
+        sqlText.append("WHERE pbgl.fin_obj_typ_cd in ('EE','ES','EX','LI') \n");
+        sqlText.append(" AND ctrl.person_unvl_id = ? \n");
+        sqlText.append(" AND ctrl.person_unvl_id = pick.person_unvl_id \n");
+        sqlText.append(" AND ctrl.sel_sub_fund_grp = pick.sub_fund_grp_cd \n");
+        sqlText.append(" AND pick.report_flag > 0 \n");
+        sqlText.append(" AND pick.sub_fund_grp_cd = sf.sub_fund_grp_cd \n");
+        sqlText.append(" AND pbgl.fdoc_nbr = ctrl.fdoc_nbr \n");
+        sqlText.append(" AND pbgl.univ_fiscal_yr = ctrl.univ_fiscal_yr \n");
+        sqlText.append(" AND pbgl.fin_coa_cd = ctrl.fin_coa_cd \n");
+        sqlText.append(" AND pbgl.account_nbr = ctrl.account_nbr \n");
+        sqlText.append(" AND pbgl.sub_acct_nbr = ctrl.sub_acct_nbr \n");
+        sqlText.append("GROUP BY ctrl.sel_org_fin_coa, ctrl.sel_org_cd, ctrl.fin_coa_cd, sf.fin_report_sort_cd, sf.fund_grp_cd, ctrl.sel_sub_fund_grp \n");
+        
+        updateSubFundSummaryReport[0] = sqlText.toString();
+        sqlText.delete(0, sqlText.length());
+        
         
         
     }
@@ -244,6 +326,14 @@ public class BudgetConstructionAccountSummaryReportDaoJdbc extends BudgetConstru
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
         getSimpleJdbcTemplate().update(updateReportsAccountSummaryTableWithConsolidation[0], personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
+
+    }
+    
+    /**
+     * @see org.kuali.module.budget.dao.BudgetReportsControlListDao#updateSubFundSummaryReport(java.lang.String)
+     */
+    public void updateSubFundSummaryReport(String personUserIdentifier) {
+        getSimpleJdbcTemplate().update(updateSubFundSummaryReport[0], personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier, personUserIdentifier);
 
     }
 

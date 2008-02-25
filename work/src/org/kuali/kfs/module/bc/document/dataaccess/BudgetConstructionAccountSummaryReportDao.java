@@ -40,6 +40,15 @@ public interface BudgetConstructionAccountSummaryReportDao {
      * @return
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier);
+    
+    /**
+     * 
+     * updates acount summary table for SubFundSummaryReport.
+     * @param personUserIdentifier
+     */
+    
+    public void updateSubFundSummaryReport(String personUserIdentifier);
+    
 
 
 }

@@ -32,7 +32,7 @@
 	<html-el:hidden name="KualiForm" property="operatingMode" />
 	<html-el:hidden name="KualiForm" property="universityFiscalYear" />
 	<html-el:hidden name="KualiForm" property="performBuildPointOfViewFlag" />
-	
+
     <kul:errors keyMatch="pointOfViewOrg" errorTitle="Errors found in Organization Selection:" />
 
     <table align="center" cellpadding="0" cellspacing="0" class="datatable-100">
@@ -318,9 +318,11 @@
                     <tr>
                         <td class="grid" valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" />
-							<html:hidden property="reportMode" value="AccountSummaryReport" />
-                        </div>
+                      		<%--<html:hidden property="reportMode" value="AccountSummaryReport" /> --%>
+                      	
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="Acct Sum" alt="Acct Sum" styleClass="tinybutton" value="AccountSummaryReport"/>
+							
+			            </div>
                         <div align="center">
                             <html:checkbox property="accountSummaryConsolidation" title="accSumConsolidation"> Consolidation</html:checkbox>
                         </div>
@@ -328,7 +330,9 @@
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">
                         <div align="center">
-                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="SFund Sum" alt="SFund Sum" styleClass="tinybutton" />
+                            <%-- <html:hidden property="reportMode" value="SubFundSummaryReport" /> --%>
+                            <html:image property="methodToCall.performReport" src="${ConfigProperties.externalizable.images.url}tinybutton-view.gif" title="SFund Sum" alt="SFund Sum" styleClass="tinybutton"  value="SubFundSummaryReport"/>
+                            
                         </div>
                         </td>
                         <td class="grid"  valign="center" rowspan="1" colspan="1">

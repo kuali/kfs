@@ -783,8 +783,10 @@ public class OrganizationSelectionTreeAction extends KualiAction {
      * @throws Exception
      */
     public ActionForward performReport(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        
         OrganizationSelectionTreeForm organizationSelectionTreeForm = (OrganizationSelectionTreeForm) form;
+        organizationSelectionTreeForm.setReportMode(request.getParameter("methodToCall.performReport"));
+        
         List<BudgetConstructionPullup> selectionSubTreeOrgs = organizationSelectionTreeForm.getSelectionSubTreeOrgs();
         if (!storedSelectedOrgs(selectionSubTreeOrgs)) {
             return mapping.findForward(KFSConstants.MAPPING_BASIC);

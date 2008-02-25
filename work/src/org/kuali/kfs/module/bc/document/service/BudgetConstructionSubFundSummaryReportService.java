@@ -27,12 +27,12 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 public interface BudgetConstructionSubFundSummaryReportService {
 
     /**
-     * updates acount summary table.
+     * updates acount summary table for SubFundSummaryReport.
      * 
      * @param personUserIdentifier
      * @return
      */
-    public void updateReportsSubFundSummaryTable(String personUserIdentifier);
+    public void updateSubFundSummaryReport(String personUserIdentifier);
 
     public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList);
 

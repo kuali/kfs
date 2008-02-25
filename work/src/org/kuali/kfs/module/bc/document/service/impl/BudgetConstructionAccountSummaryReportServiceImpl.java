@@ -43,28 +43,27 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionAccountSummaryReportServiceImpl implements BudgetConstructionAccountSummaryReportService {
 
-    BudgetConstructionAccountSummaryReportDao BudgetConstructionAccountSummaryReportDao;
+    BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
     
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
      */
     public void updateReportsAccountSummaryTable(String personUserIdentifier) {
-        BudgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-        BudgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(personUserIdentifier);
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTable(personUserIdentifier);
     }
 
     /**
      * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTableWithConsolidation(java.lang.String)
      */
     public void updateReportsAccountSummaryTableWithConsolidation(String personUserIdentifier) {
-        BudgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
-        BudgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
+        budgetConstructionAccountSummaryReportDao.updateReportsAccountSummaryTableWithConsolidation(personUserIdentifier);
     }
 
     public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
-        BudgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
+        this.budgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
     }
-
 
     /**
      * builds a report

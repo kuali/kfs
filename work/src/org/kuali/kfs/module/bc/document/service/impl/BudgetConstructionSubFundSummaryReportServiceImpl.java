@@ -29,6 +29,7 @@ import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgAccountSummaryReportTotal;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReport;
 import org.kuali.module.budget.bo.BudgetConstructionOrgSubFundSummaryReportTotal;
+import org.kuali.module.budget.dao.BudgetConstructionAccountSummaryReportDao;
 import org.kuali.module.budget.service.BudgetConstructionSubFundSummaryReportService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,11 +39,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class BudgetConstructionSubFundSummaryReportServiceImpl implements BudgetConstructionSubFundSummaryReportService {
 
+    BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao;
+    
     /**
-     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateRepotsAccountSummaryTable(java.lang.String)
+     * @see org.kuali.module.budget.service.BudgetReportsControlListService#updateSubFundSummaryReport(java.lang.String)
      */
-    public void updateReportsSubFundSummaryTable(String personUserIdentifier) {
-        
+    public void updateSubFundSummaryReport(String personUserIdentifier) {
+        budgetConstructionAccountSummaryReportDao.cleanReportsAccountSummaryTable(personUserIdentifier);
+        budgetConstructionAccountSummaryReportDao.updateSubFundSummaryReport(personUserIdentifier);
     }
 
 
@@ -51,22 +55,22 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * 
      * @param Collection<BudgetConstructionAccountSummary> list
      */
-    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> accountSummaryList) {
+    public Collection<BudgetConstructionOrgSubFundSummaryReport> buildReports(Integer universityFiscalYear, Collection<BudgetConstructionAccountSummary> subFundSummaryList) {
         Collection<BudgetConstructionOrgSubFundSummaryReport> reportSet = new ArrayList();
-        List<BudgetConstructionOrgSubFundSummaryReportTotal> orgAccountSummaryReportTotalList;
-        BudgetConstructionOrgSubFundSummaryReport orgAccountSummaryReportEntry;
+        List<BudgetConstructionOrgSubFundSummaryReportTotal> orgSubFundSummaryReportTotalList;
+        BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry;
         
         // Making a list with same organizationChartOfAccountsCode, organizationCode, chartOfAccountsCode, subFundGroupCode
-        List simpleList = deleteDuplicated((List) accountSummaryList);
+        List simpleList = deleteDuplicated((List) subFundSummaryList);
         
         // Calculate Total Section
-        orgAccountSummaryReportTotalList = calculateTotal((List) accountSummaryList, simpleList);
-        for (BudgetConstructionAccountSummary accountSummaryEntry : accountSummaryList) {
-            orgAccountSummaryReportEntry = new BudgetConstructionOrgSubFundSummaryReport();
-            buildReportsHeader(universityFiscalYear, orgAccountSummaryReportEntry, accountSummaryEntry);
-            buildReportsBody(orgAccountSummaryReportEntry, accountSummaryEntry);
-            buildReportsTotal(orgAccountSummaryReportEntry, accountSummaryEntry, orgAccountSummaryReportTotalList);
-            reportSet.add(orgAccountSummaryReportEntry);
+        orgSubFundSummaryReportTotalList = calculateTotal((List) subFundSummaryList, simpleList);
+        for (BudgetConstructionAccountSummary subFundSummaryEntry : subFundSummaryList) {
+            orgSubFundSummaryReportEntry = new BudgetConstructionOrgSubFundSummaryReport();
+            buildReportsHeader(universityFiscalYear, orgSubFundSummaryReportEntry, subFundSummaryEntry);
+            buildReportsBody(orgSubFundSummaryReportEntry, subFundSummaryEntry);
+            buildReportsTotal(orgSubFundSummaryReportEntry, subFundSummaryEntry, orgSubFundSummaryReportTotalList);
+            reportSet.add(orgSubFundSummaryReportEntry);
         }
 
         return reportSet;
@@ -77,66 +81,66 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgSubFundSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
-        String orgChartDesc = accountSummary.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
-        String chartDesc = accountSummary.getChartOfAccounts().getFinChartOfAccountDescription();
-        String orgName = accountSummary.getOrganization().getOrganizationName();
-        String reportChartDesc = accountSummary.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
-        String subFundGroupName = accountSummary.getFundGroup().getName();
-        String subFundGroupDes = accountSummary.getSubFundGroup().getSubFundGroupDescription();
+    public void buildReportsHeader(Integer universityFiscalYear, BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummaryList) {
+        String orgChartDesc = subFundSummaryList.getOrganizationChartOfAccounts().getFinChartOfAccountDescription();
+        String chartDesc = subFundSummaryList.getChartOfAccounts().getFinChartOfAccountDescription();
+        String orgName = subFundSummaryList.getOrganization().getOrganizationName();
+        String reportChartDesc = subFundSummaryList.getChartOfAccounts().getReportsToChartOfAccounts().getFinChartOfAccountDescription();
+        String subFundGroupName = subFundSummaryList.getFundGroup().getName();
+        String subFundGroupDes = subFundSummaryList.getSubFundGroup().getSubFundGroupDescription();
         Integer prevFiscalyear = universityFiscalYear - 1;
-        orgAccountSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        orgAccountSummaryReportEntry.setOrgChartOfAccountsCode(accountSummary.getOrganizationChartOfAccountsCode());
+        orgSubFundSummaryReportEntry.setFiscalYear(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setOrgChartOfAccountsCode(subFundSummaryList.getOrganizationChartOfAccountsCode());
 
         if (orgChartDesc == null) {
-            orgAccountSummaryReportEntry.setOrgChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
         }
         else {
-            orgAccountSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
+            orgSubFundSummaryReportEntry.setOrgChartOfAccountDescription(orgChartDesc);
         }
 
-        orgAccountSummaryReportEntry.setOrganizationCode(accountSummary.getOrganizationCode());
+        orgSubFundSummaryReportEntry.setOrganizationCode(subFundSummaryList.getOrganizationCode());
         if (orgName == null) {
-            orgAccountSummaryReportEntry.setOrganizationName(BCConstants.Report.ERROR_GETTING_ORGANIZATION_NAME);
+            orgSubFundSummaryReportEntry.setOrganizationName(BCConstants.Report.ERROR_GETTING_ORGANIZATION_NAME);
         }
         else {
-            orgAccountSummaryReportEntry.setOrganizationName(orgName);
+            orgSubFundSummaryReportEntry.setOrganizationName(orgName);
         }
 
-        orgAccountSummaryReportEntry.setChartOfAccountsCode(accountSummary.getChartOfAccountsCode());
+        orgSubFundSummaryReportEntry.setChartOfAccountsCode(subFundSummaryList.getChartOfAccountsCode());
         if (chartDesc == null) {
-            orgAccountSummaryReportEntry.setChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setChartOfAccountDescription(BCConstants.Report.ERROR_GETTING_CHART_DESCRIPTION);
         }
         else {
-            orgAccountSummaryReportEntry.setChartOfAccountDescription(chartDesc);
+            orgSubFundSummaryReportEntry.setChartOfAccountDescription(chartDesc);
         }
 
-        orgAccountSummaryReportEntry.setFundGroupCode(accountSummary.getFundGroupCode());
+        orgSubFundSummaryReportEntry.setFundGroupCode(subFundSummaryList.getFundGroupCode());
         if (subFundGroupName == null) {
-            orgAccountSummaryReportEntry.setFundGroupName(BCConstants.Report.ERROR_GETTING_FUNDGROUP_NAME);
+            orgSubFundSummaryReportEntry.setFundGroupName(BCConstants.Report.ERROR_GETTING_FUNDGROUP_NAME);
         }
         else {
-            orgAccountSummaryReportEntry.setFundGroupName(subFundGroupName);
+            orgSubFundSummaryReportEntry.setFundGroupName(subFundGroupName);
         }
 
-        orgAccountSummaryReportEntry.setSubFundGroupCode(accountSummary.getSubFundGroupCode());
+        orgSubFundSummaryReportEntry.setSubFundGroupCode(subFundSummaryList.getSubFundGroupCode());
         if (subFundGroupName == null) {
-            orgAccountSummaryReportEntry.setSubFundGroupDescription(BCConstants.Report.ERROR_GETTING_SUBFUNDGROUP_DESCRIPTION);
+            orgSubFundSummaryReportEntry.setSubFundGroupDescription(BCConstants.Report.ERROR_GETTING_SUBFUNDGROUP_DESCRIPTION);
         }
         else {
-            orgAccountSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
+            orgSubFundSummaryReportEntry.setSubFundGroupDescription(subFundGroupDes);
         }
 
         Integer prevPrevFiscalyear = prevFiscalyear - 1;
-        orgAccountSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
-        orgAccountSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
-        orgAccountSummaryReportEntry.setHeader1(BCConstants.Report.HEADER_ACCOUNT_SUB);
-        orgAccountSummaryReportEntry.setHeader2(BCConstants.Report.HEADER_ACCOUNT_SUB_NAME);
-        orgAccountSummaryReportEntry.setHeader3(BCConstants.Report.HEADER_BASE_AMOUNT);
-        orgAccountSummaryReportEntry.setHeader4(BCConstants.Report.HEADER_REQ_AMOUNT);
-        orgAccountSummaryReportEntry.setHeader5(BCConstants.Report.HEADER_CHANGE);
-        orgAccountSummaryReportEntry.setHeader6(BCConstants.Report.HEADER_CHANGE);
-        orgAccountSummaryReportEntry.setConsHdr("");
+        orgSubFundSummaryReportEntry.setBaseFy(prevPrevFiscalyear.toString() + " - " + prevFiscalyear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setReqFy(prevFiscalyear.toString() + " - " + universityFiscalYear.toString().substring(2, 4));
+        orgSubFundSummaryReportEntry.setHeader1(BCConstants.Report.HEADER_ACCOUNT_SUB);
+        orgSubFundSummaryReportEntry.setHeader2(BCConstants.Report.HEADER_ACCOUNT_SUB_NAME);
+        orgSubFundSummaryReportEntry.setHeader3(BCConstants.Report.HEADER_BASE_AMOUNT);
+        orgSubFundSummaryReportEntry.setHeader4(BCConstants.Report.HEADER_REQ_AMOUNT);
+        orgSubFundSummaryReportEntry.setHeader5(BCConstants.Report.HEADER_CHANGE);
+        orgSubFundSummaryReportEntry.setHeader6(BCConstants.Report.HEADER_CHANGE);
+        orgSubFundSummaryReportEntry.setConsHdr("");
     }
 
     /**
@@ -144,68 +148,68 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * 
      * @param BudgetConstructionAccountSummary bcas
      */
-    public void buildReportsBody(BudgetConstructionOrgSubFundSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary) {
-        orgAccountSummaryReportEntry.setAccountNumber(accountSummary.getAccountNumber());
-        orgAccountSummaryReportEntry.setSubAccountNumber(accountSummary.getSubAccountNumber());
+    public void buildReportsBody(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummary) {
+        orgSubFundSummaryReportEntry.setAccountNumber(subFundSummary.getAccountNumber());
+        orgSubFundSummaryReportEntry.setSubAccountNumber(subFundSummary.getSubAccountNumber());
         boolean trExist = false;
-        if (accountSummary.getSubAccountNumber().equals("-----")) {
-            if (accountSummary.getAccount().getAccountName() == null) {
-                orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_ACCOUNT_DESCRIPTION);
+        if (subFundSummary.getSubAccountNumber().equals("-----")) {
+       /*     if (subFundSummary.getAccount().getAccountName() == null) {
+                orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_ACCOUNT_DESCRIPTION);
             }
             else
-                orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(accountSummary.getAccount().getAccountName());
-        }
+                orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(subFundSummary.getAccount().getAccountName());
+       */ }
         else {
             // TODO check when the subAccountNumber is not "-----"
             try {
-                if (accountSummary.getSubAccount().getSubAccountName() == null) {
-                    orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                if (subFundSummary.getSubAccount().getSubAccountName() == null) {
+                    orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION);
                 }
                 else
-                    orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(accountSummary.getSubAccount().getSubAccountName());
+                    orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(subFundSummary.getSubAccount().getSubAccountName());
             }
             catch (PersistenceBrokerException e) {
-                orgAccountSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION);
+                orgSubFundSummaryReportEntry.setAccountNameAndSubAccountName(BCConstants.Report.ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION);
             }
         }
 
         // build income expense description
-        if (accountSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
-            orgAccountSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_REVENUE);
+        if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_A)) {
+            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_REVENUE);
         }
-        else if (accountSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_E)) {
-            orgAccountSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_GROSS);
+        else if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_E)) {
+            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_GROSS);
         }
-        else if (accountSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_T)) {
+        else if (subFundSummary.getIncomeExpenseCode().equals(BCConstants.Report.INCOME_EXP_TYPE_T)) {
             trExist = true;
-            orgAccountSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_TRNFR_IN);
+            orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_TRNFR_IN);
         }
         else {
             if (trExist) {
                 trExist = false;
-                orgAccountSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_NET_TRNFR);
+                orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXP_NET_TRNFR);
             }
             else {
-                orgAccountSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXPENDITURE);
+                orgSubFundSummaryReportEntry.setIncExpDesc(BCConstants.Report.INCOME_EXP_DESC_EXPENDITURE);
             }
         }
 
         BigDecimal beginingBalanceLineAmt = BigDecimal.ZERO;
         BigDecimal accountLineAnnualBalAmt = BigDecimal.ZERO;
-        if (accountSummary.getFinancialBeginningBalanceLineAmount() != null) {
-            beginingBalanceLineAmt = accountSummary.getFinancialBeginningBalanceLineAmount().bigDecimalValue();
+        if (subFundSummary.getFinancialBeginningBalanceLineAmount() != null) {
+            beginingBalanceLineAmt = subFundSummary.getFinancialBeginningBalanceLineAmount().bigDecimalValue();
         }
 
-        if (accountSummary.getFinancialBeginningBalanceLineAmount() != null) {
-            accountLineAnnualBalAmt = accountSummary.getAccountLineAnnualBalanceAmount().bigDecimalValue();
+        if (subFundSummary.getFinancialBeginningBalanceLineAmount() != null) {
+            accountLineAnnualBalAmt = subFundSummary.getAccountLineAnnualBalanceAmount().bigDecimalValue();
         }
 
-        orgAccountSummaryReportEntry.setBaseAmount(beginingBalanceLineAmt);
-        orgAccountSummaryReportEntry.setReqAmount(accountLineAnnualBalAmt);
-        orgAccountSummaryReportEntry.setAmountChange(accountLineAnnualBalAmt.subtract(beginingBalanceLineAmt));
+        orgSubFundSummaryReportEntry.setBaseAmount(beginingBalanceLineAmt);
+        orgSubFundSummaryReportEntry.setReqAmount(accountLineAnnualBalAmt);
+        orgSubFundSummaryReportEntry.setAmountChange(accountLineAnnualBalAmt.subtract(beginingBalanceLineAmt));
 
         if (!beginingBalanceLineAmt.equals(BigDecimal.ZERO)) {
-            orgAccountSummaryReportEntry.setPercentChange(orgAccountSummaryReportEntry.getAmountChange().divide(beginingBalanceLineAmt, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+            orgSubFundSummaryReportEntry.setPercentChange(orgSubFundSummaryReportEntry.getAmountChange().divide(beginingBalanceLineAmt, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
         }
     }
 
@@ -215,49 +219,49 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
      * @param BudgetConstructionAccountSummary bcas
      * @param List reportTotalList
      */
-    public void buildReportsTotal(BudgetConstructionOrgSubFundSummaryReport orgAccountSummaryReportEntry, BudgetConstructionAccountSummary accountSummary, List reportTotalList) {
+    public void buildReportsTotal(BudgetConstructionOrgSubFundSummaryReport orgSubFundSummaryReportEntry, BudgetConstructionAccountSummary subFundSummaryList, List reportTotalList) {
         Iterator totalListIter = reportTotalList.iterator();
         while (totalListIter.hasNext()) {
             BudgetConstructionOrgAccountSummaryReportTotal bcasTotalEntry = (BudgetConstructionOrgAccountSummaryReportTotal) totalListIter.next();
-            if (isSameAccountSummaryEntry(accountSummary, bcasTotalEntry.getBcas())) {
-                orgAccountSummaryReportEntry.setTotalRevenueBaseAmount(bcasTotalEntry.getTotalRevenueBaseAmount());
-                orgAccountSummaryReportEntry.setTotalGrossBaseAmount(bcasTotalEntry.getTotalGrossBaseAmount());
-                orgAccountSummaryReportEntry.setTotalTransferInBaseAmount(bcasTotalEntry.getTotalTransferInBaseAmount());
-                orgAccountSummaryReportEntry.setTotalNetTransferBaseAmount(bcasTotalEntry.getTotalNetTransferBaseAmount());
+            if (isSameAccountSummaryEntry(subFundSummaryList, bcasTotalEntry.getBcas())) {
+                orgSubFundSummaryReportEntry.setTotalRevenueBaseAmount(bcasTotalEntry.getTotalRevenueBaseAmount());
+                orgSubFundSummaryReportEntry.setTotalGrossBaseAmount(bcasTotalEntry.getTotalGrossBaseAmount());
+                orgSubFundSummaryReportEntry.setTotalTransferInBaseAmount(bcasTotalEntry.getTotalTransferInBaseAmount());
+                orgSubFundSummaryReportEntry.setTotalNetTransferBaseAmount(bcasTotalEntry.getTotalNetTransferBaseAmount());
 
-                orgAccountSummaryReportEntry.setTotalRevenueReqAmount(bcasTotalEntry.getTotalRevenueReqAmount());
-                orgAccountSummaryReportEntry.setTotalGrossReqAmount(bcasTotalEntry.getTotalGrossReqAmount());
-                orgAccountSummaryReportEntry.setTotalTransferInReqAmount(bcasTotalEntry.getTotalTransferInReqAmount());
-                orgAccountSummaryReportEntry.setTotalNetTransferReqAmount(bcasTotalEntry.getTotalNetTransferReqAmount());
+                orgSubFundSummaryReportEntry.setTotalRevenueReqAmount(bcasTotalEntry.getTotalRevenueReqAmount());
+                orgSubFundSummaryReportEntry.setTotalGrossReqAmount(bcasTotalEntry.getTotalGrossReqAmount());
+                orgSubFundSummaryReportEntry.setTotalTransferInReqAmount(bcasTotalEntry.getTotalTransferInReqAmount());
+                orgSubFundSummaryReportEntry.setTotalNetTransferReqAmount(bcasTotalEntry.getTotalNetTransferReqAmount());
 
-                orgAccountSummaryReportEntry.setTotalRevenueAmountChange(orgAccountSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgAccountSummaryReportEntry.getTotalRevenueBaseAmount()));
-                if (!orgAccountSummaryReportEntry.getTotalRevenueBaseAmount().equals(BigDecimal.ZERO)) {
-                    orgAccountSummaryReportEntry.setTotalRevenuePercentChange(orgAccountSummaryReportEntry.getTotalRevenueAmountChange().divide(orgAccountSummaryReportEntry.getTotalRevenueBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                orgSubFundSummaryReportEntry.setTotalRevenueAmountChange(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount()));
+                if (!orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount().equals(BigDecimal.ZERO)) {
+                    orgSubFundSummaryReportEntry.setTotalRevenuePercentChange(orgSubFundSummaryReportEntry.getTotalRevenueAmountChange().divide(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
 
-                orgAccountSummaryReportEntry.setTotalGrossAmountChange(orgAccountSummaryReportEntry.getTotalGrossReqAmount().subtract(orgAccountSummaryReportEntry.getTotalGrossBaseAmount()));
+                orgSubFundSummaryReportEntry.setTotalGrossAmountChange(orgSubFundSummaryReportEntry.getTotalGrossReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalGrossBaseAmount()));
 
-                if (!orgAccountSummaryReportEntry.getTotalGrossBaseAmount().equals(BigDecimal.ZERO)) {
-                    orgAccountSummaryReportEntry.setTotalGrossPercentChange(orgAccountSummaryReportEntry.getTotalGrossAmountChange().divide(orgAccountSummaryReportEntry.getTotalGrossBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                if (!orgSubFundSummaryReportEntry.getTotalGrossBaseAmount().equals(BigDecimal.ZERO)) {
+                    orgSubFundSummaryReportEntry.setTotalGrossPercentChange(orgSubFundSummaryReportEntry.getTotalGrossAmountChange().divide(orgSubFundSummaryReportEntry.getTotalGrossBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
 
-                orgAccountSummaryReportEntry.setTotalTransferAmountChange(orgAccountSummaryReportEntry.getTotalTransferInReqAmount().subtract(orgAccountSummaryReportEntry.getTotalTransferInBaseAmount()));
+                orgSubFundSummaryReportEntry.setTotalTransferAmountChange(orgSubFundSummaryReportEntry.getTotalTransferInReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount()));
 
-                if (!orgAccountSummaryReportEntry.getTotalTransferInBaseAmount().equals(BigDecimal.ZERO)) {
-                    orgAccountSummaryReportEntry.setTotalTransferInPercentChange(orgAccountSummaryReportEntry.getTotalTransferAmountChange().divide(orgAccountSummaryReportEntry.getTotalTransferInBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                if (!orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount().equals(BigDecimal.ZERO)) {
+                    orgSubFundSummaryReportEntry.setTotalTransferInPercentChange(orgSubFundSummaryReportEntry.getTotalTransferAmountChange().divide(orgSubFundSummaryReportEntry.getTotalTransferInBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
 
-                orgAccountSummaryReportEntry.setTotalNetTransferAmountChange(orgAccountSummaryReportEntry.getTotalNetTransferReqAmount().subtract(orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount()));
-                if (!orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount().equals(BigDecimal.ZERO)) {
-                    orgAccountSummaryReportEntry.setTotalNetTransferPercentChange(orgAccountSummaryReportEntry.getTotalNetTransferAmountChange().divide(orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                orgSubFundSummaryReportEntry.setTotalNetTransferAmountChange(orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount()));
+                if (!orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount().equals(BigDecimal.ZERO)) {
+                    orgSubFundSummaryReportEntry.setTotalNetTransferPercentChange(orgSubFundSummaryReportEntry.getTotalNetTransferAmountChange().divide(orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
 
-                orgAccountSummaryReportEntry.setRevExpDifferenceBaseAmount(orgAccountSummaryReportEntry.getTotalRevenueBaseAmount().subtract(orgAccountSummaryReportEntry.getTotalNetTransferBaseAmount()));
-                orgAccountSummaryReportEntry.setRevExpDifferenceReqAmount(orgAccountSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgAccountSummaryReportEntry.getTotalNetTransferReqAmount()));
-                orgAccountSummaryReportEntry.setRevExpDifferenceAmountChange(orgAccountSummaryReportEntry.getRevExpDifferenceReqAmount().subtract(orgAccountSummaryReportEntry.getRevExpDifferenceBaseAmount()));
+                orgSubFundSummaryReportEntry.setRevExpDifferenceBaseAmount(orgSubFundSummaryReportEntry.getTotalRevenueBaseAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferBaseAmount()));
+                orgSubFundSummaryReportEntry.setRevExpDifferenceReqAmount(orgSubFundSummaryReportEntry.getTotalRevenueReqAmount().subtract(orgSubFundSummaryReportEntry.getTotalNetTransferReqAmount()));
+                orgSubFundSummaryReportEntry.setRevExpDifferenceAmountChange(orgSubFundSummaryReportEntry.getRevExpDifferenceReqAmount().subtract(orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount()));
 
-                if (!orgAccountSummaryReportEntry.getRevExpDifferenceBaseAmount().equals(BigDecimal.ZERO)) {
-                    orgAccountSummaryReportEntry.setRevExpDifferencePercentChange(orgAccountSummaryReportEntry.getRevExpDifferenceAmountChange().divide(orgAccountSummaryReportEntry.getRevExpDifferenceBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                if (!orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount().equals(BigDecimal.ZERO)) {
+                    orgSubFundSummaryReportEntry.setRevExpDifferencePercentChange(orgSubFundSummaryReportEntry.getRevExpDifferenceAmountChange().divide(orgSubFundSummaryReportEntry.getRevExpDifferenceBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
                 }
             }
         }
@@ -398,6 +402,11 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
 
         return returnList;
     }
+
+    public void setBudgetConstructionAccountSummaryReportDao(BudgetConstructionAccountSummaryReportDao budgetConstructionAccountSummaryReportDao) {
+        this.budgetConstructionAccountSummaryReportDao = budgetConstructionAccountSummaryReportDao;
+    }
+
 
     
     

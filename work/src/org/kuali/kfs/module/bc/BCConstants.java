@@ -165,6 +165,7 @@ public class BCConstants extends JstlConstants {
         
         //report file name
         public final static String FILE_NAME_ORG_ACCOUNT_SUMMARY = "BudgetOrgAccountSummary";
+        public final static String FILE_NAME_ORG_SUBFUND_SUMMARY = "BudgetOrgSubFundSummary";
         public final static String FILE_EXTENSION_PDF = ".pdf";
         public final static String FILE_EXTENSION_JASPER = ".jasper";
         public final static String FILE_EXTENSION_JASPER_XML = ".jrxml";
@@ -173,6 +174,8 @@ public class BCConstants extends JstlConstants {
         
         //report type
         public static final String ACCOUNT_SUMMARY_REPORT = "AccountSummaryReport";
+        public static final String SUBFUND_SUMMARY_REPORT = "SubFundSummaryReport";
+        
         public static final String ACCOUNT_OBJECT_DETAIL_REPORT = "accountObjectDetailReport";
         public static final String MONTH_OBJECT_SUMMARY_REPORT = "monthObjectSummaryReport"; 
         
@@ -180,6 +183,7 @@ public class BCConstants extends JstlConstants {
         public static final List<String> reportModeOnlySubfundCodeSelectionMapping = new ArrayList();
         static {
             reportModeOnlySubfundCodeSelectionMapping.add(ACCOUNT_SUMMARY_REPORT);
+            reportModeOnlySubfundCodeSelectionMapping.add(SUBFUND_SUMMARY_REPORT);
         }
     }
    

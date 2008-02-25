@@ -248,9 +248,18 @@
 		<property name="budgetConstructionAccountSummaryReportService">
 			<ref bean="budgetConstructionAccountSummaryReportService" />
 		</property>
+		<property name="budgetConstructionSubFundSummaryReportService">
+			<ref bean="budgetConstructionSubFundSummaryReportService" />
+		</property>
 	</bean>
 	
 	<bean id="budgetConstructionAccountSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionAccountSummaryReportServiceImpl">
+	<property name="budgetConstructionAccountSummaryReportDao">
+		<ref bean="budgetConstructionAccountSummaryReportDao" />
+	</property>
+	</bean>
+	
+	<bean id="budgetConstructionSubFundSummaryReportService" class="org.kuali.module.budget.service.impl.BudgetConstructionSubFundSummaryReportServiceImpl">
 	<property name="budgetConstructionAccountSummaryReportDao">
 		<ref bean="budgetConstructionAccountSummaryReportDao" />
 	</property>

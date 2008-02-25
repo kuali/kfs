@@ -156,6 +156,21 @@
         </property>
     </bean>
     
+    <bean id="assetPaymentLookupableHelperService" class="org.kuali.module.cams.lookup.AssetPaymentLookupableHelperServiceImpl" singleton="false" parent="lookupableHelperService">
+        <property name="assetLookupableHelperService">
+            <ref bean="assetLookupableHelperService" />
+        </property>
+      	<property name="businessObjectService">
+            <ref bean="businessObjectService" />
+      	</property>
+    </bean>
+
+    <bean id="assetPaymentLookupable" class="org.kuali.core.lookup.KualiLookupableImpl" singleton="false">
+        <property name="lookupableHelperService">
+            <ref bean="assetPaymentLookupableHelperService" />
+        </property>
+    </bean>
+    
     <bean id="paymentSummaryService"
     	class="org.kuali.module.cams.service.impl.PaymentSummaryServiceImpl">
     	<property name="optionsService">

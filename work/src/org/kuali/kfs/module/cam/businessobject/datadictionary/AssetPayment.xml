@@ -66,6 +66,7 @@
         </inquiry>
 
         <lookup>
+            <lookupableID>assetPaymentLookupable</lookupableID>
             <title>Asset Payment Lookup</title>
 
             <instructions>Look up an Asset Payment</instructions>

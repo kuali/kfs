@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.kfs.context.KualiTestBase;
 import org.kuali.kfs.context.SpringContext;
 import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.purap.PurapConstants;
 import org.kuali.module.purap.bo.PurApItemBase;
 import org.kuali.module.purap.fixtures.PurchaseOrderDocumentFixture;
 import org.kuali.module.purap.fixtures.RequisitionDocumentFixture;
@@ -305,7 +306,7 @@ public class SystemParameterBelowTheLineItemTypeTest extends KualiTestBase {
      */
     private final void testExistingItemTypesAreValid(Class documentClass, PurchasingAccountsPayableDocumentBase validDocument, PurchasingAccountsPayableDocumentBase invalidDocument) throws Exception {
 
-        List<String> validTypes = parameterService.getParameterValues(documentClass, "ADDITIONAL_CHARGES_ITEM_TYPES");
+        List<String> validTypes = parameterService.getParameterValues(documentClass, PurapConstants.BELOW_THE_LINES_PARAMETER);
         
         for (PurApItemBase theItem :(List<PurApItemBase>)validDocument.getItems()) {
             String theItemType = theItem.getItemTypeCode();

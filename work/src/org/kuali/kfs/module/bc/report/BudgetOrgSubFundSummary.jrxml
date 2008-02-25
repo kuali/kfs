@@ -44,9 +44,6 @@
 	<field name="header4" class="java.lang.String"/>
 	<field name="header5" class="java.lang.String"/>
 	<field name="header6" class="java.lang.String"/>
-	<field name="accountNumber" class="java.lang.String"/>
-	<field name="subAccountNumber" class="java.lang.String"/>
-	<field name="accountNameAndSubAccountName" class="java.lang.String"/>
 	<field name="incExpDesc" class="java.lang.String"/>
 	<field name="baseAmount" class="java.math.BigDecimal"/>
 	<field name="reqAmount" class="java.math.BigDecimal"/>
@@ -73,49 +70,54 @@
 	<field name="revExpDifferenceAmountChange" class="java.math.BigDecimal"/>
 	<field name="revExpDifferencePercentChange" class="java.math.BigDecimal"/>
 
+	<variable name="OrganizationGroup" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{organizationCode}]]></variableExpression>
+	</variable>
 	<variable name="SubFundGroup" class="java.lang.String" resetType="None" calculation="Nothing">
 		<variableExpression><![CDATA[$F{subFundGroupCode}]]></variableExpression>
 	</variable>
-	<variable name="AccountNumberGroup" class="java.lang.String" resetType="None" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNumber}]]></variableExpression>
+	<variable name="FundGroup" class="java.lang.String" resetType="None" calculation="Nothing">
+		<variableExpression><![CDATA[$F{fundGroupCode}]]></variableExpression>
 	</variable>
-	<variable name="accountNumber" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNumber}]]></variableExpression>
-	</variable>
-	<variable name="subAccountNumber" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{subAccountNumber}]]></variableExpression>
-	</variable>
-	<variable name="accountNameAndSubAccountName" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
-		<variableExpression><![CDATA[$F{accountNameAndSubAccountName}]]></variableExpression>
-	</variable>
-	<variable name="incExpDesc" class="java.lang.String" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
+	<variable name="incExpDesc" class="java.lang.String" resetType="Group" resetGroup="SubFundGroup" calculation="Nothing">
 		<variableExpression><![CDATA[$F{incExpDesc}]]></variableExpression>
 	</variable>
-	<variable name="baseAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
+	<variable name="baseAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="SubFundGroup" calculation="Nothing">
 		<variableExpression><![CDATA[$F{baseAmount}]]></variableExpression>
 	</variable>
-	<variable name="reqAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
+	<variable name="reqAmount" class="java.math.BigDecimal" resetType="Group" resetGroup="SubFundGroup" calculation="Nothing">
 		<variableExpression><![CDATA[$F{reqAmount}]]></variableExpression>
 	</variable>
-	<variable name="amountChange" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
+	<variable name="amountChange" class="java.math.BigDecimal" resetType="Group" resetGroup="SubFundGroup" calculation="Nothing">
 		<variableExpression><![CDATA[$F{amountChange}]]></variableExpression>
 	</variable>
-	<variable name="percentChange" class="java.math.BigDecimal" resetType="Group" resetGroup="AccountNumberGroup" calculation="Nothing">
+	<variable name="percentChange" class="java.math.BigDecimal" resetType="Group" resetGroup="SubFundGroup" calculation="Nothing">
 		<variableExpression><![CDATA[$F{percentChange}]]></variableExpression>
 	</variable>
 
-		<group  name="SubFundGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
-			<groupExpression><![CDATA[$V{SubFundGroup}]]></groupExpression>
+		<group  name="OrganizationGroup" isStartNewPage="true" isReprintHeaderOnEachPage="true" >
+			<groupExpression><![CDATA[$V{OrganizationGroup}]]></groupExpression>
 			<groupHeader>
-			<band height="1"  isSplitAllowed="true" >
+			<band height="14"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="90"  isSplitAllowed="true" >
+			<band height="51"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="FundGroup" >
+			<groupExpression><![CDATA[$V{FundGroup}]]></groupExpression>
+			<groupHeader>
+			<band height="20"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="98"  isSplitAllowed="true" >
 				<line direction="TopDown">
 					<reportElement
 						x="457"
-						y="2"
+						y="7"
 						width="74"
 						height="0"
 						key="line-21"/>
@@ -124,7 +126,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="532"
-						y="2"
+						y="7"
 						width="74"
 						height="0"
 						key="line-22"/>
@@ -133,7 +135,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="607"
-						y="2"
+						y="7"
 						width="74"
 						height="0"
 						key="line-23"/>
@@ -142,7 +144,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="682"
-						y="2"
+						y="7"
 						width="74"
 						height="0"
 						key="line-24"/>
@@ -151,7 +153,7 @@
 				<staticText>
 					<reportElement
 						x="9"
-						y="4"
+						y="9"
 						width="66"
 						height="13"
 						key="staticText-28"/>
@@ -164,7 +166,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="76"
-						y="4"
+						y="9"
 						width="157"
 						height="13"
 						key="textField-33"/>
@@ -172,12 +174,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subFundGroupDescription}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fundGroupName}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="456"
-						y="4"
+						y="9"
 						width="74"
 						height="13"
 						key="textField-34"/>
@@ -190,7 +192,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="531"
-						y="4"
+						y="9"
 						width="74"
 						height="13"
 						key="textField-35"/>
@@ -203,7 +205,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
-						y="4"
+						y="9"
 						width="74"
 						height="13"
 						key="textField-36"/>
@@ -216,7 +218,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="711"
-						y="4"
+						y="9"
 						width="26"
 						height="13"
 						key="textField-37"/>
@@ -229,7 +231,7 @@
 				<staticText>
 					<reportElement
 						x="738"
-						y="4"
+						y="9"
 						width="14"
 						height="13"
 						key="staticText-29"/>
@@ -242,7 +244,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="456"
-						y="18"
+						y="23"
 						width="74"
 						height="13"
 						key="textField-38"/>
@@ -255,7 +257,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="531"
-						y="18"
+						y="23"
 						width="74"
 						height="13"
 						key="textField-39"/>
@@ -268,7 +270,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
-						y="18"
+						y="23"
 						width="74"
 						height="13"
 						key="textField-40"/>
@@ -281,7 +283,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="711"
-						y="18"
+						y="23"
 						width="26"
 						height="13"
 						key="textField-41"/>
@@ -294,7 +296,7 @@
 				<staticText>
 					<reportElement
 						x="738"
-						y="18"
+						y="23"
 						width="14"
 						height="13"
 						key="staticText-30"/>
@@ -307,7 +309,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="456"
-						y="32"
+						y="37"
 						width="74"
 						height="13"
 						key="textField-42"/>
@@ -320,7 +322,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="531"
-						y="32"
+						y="37"
 						width="74"
 						height="13"
 						key="textField-43"/>
@@ -333,7 +335,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
-						y="32"
+						y="37"
 						width="74"
 						height="13"
 						key="textField-44"/>
@@ -346,7 +348,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="711"
-						y="32"
+						y="37"
 						width="26"
 						height="13"
 						key="textField-45"/>
@@ -359,7 +361,7 @@
 				<staticText>
 					<reportElement
 						x="738"
-						y="32"
+						y="37"
 						width="14"
 						height="13"
 						key="staticText-31"/>
@@ -372,7 +374,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="531"
-						y="46"
+						y="51"
 						width="74"
 						height="13"
 						key="textField-47"/>
@@ -385,7 +387,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
-						y="46"
+						y="51"
 						width="74"
 						height="13"
 						key="textField-48"/>
@@ -398,7 +400,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="711"
-						y="46"
+						y="51"
 						width="26"
 						height="13"
 						key="textField-49"/>
@@ -411,7 +413,7 @@
 				<staticText>
 					<reportElement
 						x="738"
-						y="46"
+						y="51"
 						width="14"
 						height="13"
 						key="staticText-32"/>
@@ -424,7 +426,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="456"
-						y="60"
+						y="65"
 						width="74"
 						height="0"
 						key="line-25"/>
@@ -433,7 +435,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="531"
-						y="60"
+						y="65"
 						width="74"
 						height="0"
 						key="line-26"/>
@@ -442,7 +444,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="606"
-						y="60"
+						y="65"
 						width="74"
 						height="0"
 						key="line-27"/>
@@ -451,7 +453,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="680"
-						y="60"
+						y="65"
 						width="74"
 						height="0"
 						key="line-28"/>
@@ -460,7 +462,7 @@
 				<staticText>
 					<reportElement
 						x="374"
-						y="4"
+						y="9"
 						width="74"
 						height="13"
 						key="staticText-33"/>
@@ -473,7 +475,7 @@
 				<staticText>
 					<reportElement
 						x="374"
-						y="18"
+						y="23"
 						width="74"
 						height="13"
 						key="staticText-34"/>
@@ -486,7 +488,7 @@
 				<staticText>
 					<reportElement
 						x="374"
-						y="32"
+						y="37"
 						width="74"
 						height="13"
 						key="staticText-35"/>
@@ -499,7 +501,7 @@
 				<staticText>
 					<reportElement
 						x="374"
-						y="46"
+						y="51"
 						width="74"
 						height="13"
 						key="staticText-36"/>
@@ -512,7 +514,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="456"
-						y="66"
+						y="71"
 						width="74"
 						height="15"
 						key="textField-50"/>
@@ -525,7 +527,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="531"
-						y="66"
+						y="71"
 						width="74"
 						height="15"
 						key="textField-51"/>
@@ -538,7 +540,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="606"
-						y="66"
+						y="71"
 						width="74"
 						height="15"
 						key="textField-52"/>
@@ -551,7 +553,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="711"
-						y="66"
+						y="71"
 						width="26"
 						height="15"
 						key="textField-53"/>
@@ -564,7 +566,7 @@
 				<staticText>
 					<reportElement
 						x="738"
-						y="66"
+						y="71"
 						width="14"
 						height="15"
 						key="staticText-37"/>
@@ -577,7 +579,7 @@
 				<staticText>
 					<reportElement
 						x="356"
-						y="66"
+						y="71"
 						width="92"
 						height="15"
 						key="staticText-38"/>
@@ -590,7 +592,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="456"
-						y="46"
+						y="51"
 						width="74"
 						height="13"
 						key="textField-54"/>
@@ -603,14 +605,79 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="AccountNumberGroup" >
-			<groupExpression><![CDATA[$V{AccountNumberGroup}]]></groupExpression>
+		<group  name="SubFundGroup" >
+			<groupExpression><![CDATA[$V{SubFundGroup}]]></groupExpression>
 			<groupHeader>
-			<band height="1"  isSplitAllowed="true" >
+			<band height="15"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="3"  isSplitAllowed="true" >
+			<band height="40"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="456"
+						y="9"
+						width="74"
+						height="15"
+						key="textField-57"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceBaseAmount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="531"
+						y="9"
+						width="74"
+						height="15"
+						key="textField-58"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceReqAmount}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="606"
+						y="9"
+						width="74"
+						height="15"
+						key="textField-59"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferenceAmountChange}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="711"
+						y="9"
+						width="26"
+						height="15"
+						key="textField-60"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$F{revExpDifferencePercentChange}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="356"
+						y="9"
+						width="92"
+						height="15"
+						key="staticText-42"/>
+					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Rev./Exp. Difference]]></text>
+				</staticText>
 			</band>
 			</groupFooter>
 		</group>
@@ -623,7 +690,7 @@
 			</band>
 		</title>
 		<pageHeader>
-			<band height="160"  isSplitAllowed="true" >
+			<band height="145"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="9"
@@ -702,32 +769,6 @@
 					</textElement>
 				<text><![CDATA[Chart:]]></text>
 				</staticText>
-				<staticText>
-					<reportElement
-						x="9"
-						y="93"
-						width="66"
-						height="13"
-						key="staticText-9"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Fund Group:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="9"
-						y="107"
-						width="66"
-						height="13"
-						key="staticText-11"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Sub-Fund: Group:]]></text>
-				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="120"
@@ -782,60 +823,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="76"
-						y="93"
-						width="43"
-						height="13"
-						key="textField-18"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fundGroupCode}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="120"
-						y="93"
-						width="157"
-						height="13"
-						key="textField-19"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{fundGroupName}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="76"
-						y="107"
-						width="43"
-						height="13"
-						key="textField-20"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subFundGroupCode}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="120"
-						y="107"
-						width="157"
-						height="13"
-						key="textField-21"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subFundGroupDescription}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
 						x="9"
-						y="143"
+						y="115"
 						width="97"
 						height="13"
 						key="textField-22"/>
@@ -848,7 +837,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="107"
-						y="143"
+						y="115"
 						width="178"
 						height="13"
 						key="textField-23"/>
@@ -861,7 +850,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="459"
-						y="128"
+						y="100"
 						width="74"
 						height="13"
 						key="textField-24"/>
@@ -874,7 +863,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="459"
-						y="143"
+						y="115"
 						width="74"
 						height="13"
 						key="textField-25"/>
@@ -887,7 +876,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="534"
-						y="128"
+						y="100"
 						width="74"
 						height="13"
 						key="textField-26"/>
@@ -900,7 +889,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="534"
-						y="143"
+						y="115"
 						width="74"
 						height="13"
 						key="textField-27"/>
@@ -913,7 +902,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="609"
-						y="128"
+						y="115"
 						width="74"
 						height="13"
 						key="textField-29"/>
@@ -926,7 +915,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="684"
-						y="128"
+						y="114"
 						width="74"
 						height="13"
 						key="textField-31"/>
@@ -939,7 +928,7 @@
 				<staticText>
 					<reportElement
 						x="609"
-						y="143"
+						y="100"
 						width="74"
 						height="13"
 						key="staticText-26"/>
@@ -952,7 +941,7 @@
 				<staticText>
 					<reportElement
 						x="684"
-						y="143"
+						y="100"
 						width="74"
 						height="13"
 						key="staticText-27"/>
@@ -965,7 +954,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="9"
-						y="157"
+						y="130"
 						width="97"
 						height="0"
 						key="line-1"/>
@@ -974,7 +963,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="108"
-						y="157"
+						y="130"
 						width="177"
 						height="0"
 						key="line-2"/>
@@ -983,7 +972,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="459"
-						y="142"
+						y="114"
 						width="73"
 						height="0"
 						key="line-3"/>
@@ -992,7 +981,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="533"
-						y="142"
+						y="114"
 						width="74"
 						height="0"
 						key="line-4"/>
@@ -1001,7 +990,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="609"
-						y="157"
+						y="132"
 						width="74"
 						height="0"
 						key="line-5"/>
@@ -1010,7 +999,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="684"
-						y="157"
+						y="132"
 						width="74"
 						height="0"
 						key="line-6"/>
@@ -1019,7 +1008,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="534"
-						y="157"
+						y="132"
 						width="74"
 						height="0"
 						key="line-7"/>
@@ -1028,7 +1017,7 @@
 				<line direction="TopDown">
 					<reportElement
 						x="459"
-						y="157"
+						y="132"
 						width="74"
 						height="0"
 						key="line-8"/>
@@ -1106,7 +1095,7 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="15"  isSplitAllowed="true" >
+			<band height="31"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="9"
@@ -1118,20 +1107,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{accountNumber}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="58"
-						y="1"
-						width="47"
-						height="13"
-						key="textField-7"/>
-					<box topBorder="None" topBorderColor="#000000" leftBorder="None" leftBorderColor="#000000" rightBorder="None" rightBorderColor="#000000" bottomBorder="None" bottomBorderColor="#000000"/>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{subAccountNumber}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subFundGroupCode}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1144,7 +1120,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{accountNameAndSubAccountName}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{subFundGroupDescription}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement

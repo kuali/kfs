@@ -1337,6 +1337,7 @@ public class PurchaseOrderAction extends PurchasingActionBase {
                 cancelNote.setNoteText(reasonPrefix + reason);
                 document.addNote(cancelNote);
                 document.setStatusCode(PurapConstants.PurchaseOrderStatuses.IN_PROCESS);
+                SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
             }
         }
 

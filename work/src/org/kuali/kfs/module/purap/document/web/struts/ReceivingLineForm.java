@@ -40,7 +40,7 @@ public class ReceivingLineForm extends ReceivingFormBase {
         newReceivingLineItemLine.setItemTypeCode("ITEM");
     }
 
-    public ReceivingLineDocument getReceivingCorrectionDocument() {
+    public ReceivingLineDocument getReceivingLineDocument() {
         return (ReceivingLineDocument) getDocument();
     }
 

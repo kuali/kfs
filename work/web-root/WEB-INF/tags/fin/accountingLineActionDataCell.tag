@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ include file="/jsp/modules/financial/customActionsInterface.jsp"%>
 
 <%@ attribute name="dataCellCssClass" required="true" description="The name of the CSS class for this data cell. This is used to distinguish the look of the add row from the already-added rows." %>
 <%@ attribute name="actionGroup" required="true" description="The name of the group of action buttons to be displayed; valid values are newLine, newGroupLine, and existingLine." %>
@@ -25,7 +24,10 @@
 <%@ attribute name="rowspan" required="false" description="defaults to 1" %>
 <%@ attribute name="nestedIndex" required="false"
     description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
-			 
+<%@ attribute name="customActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions on existing accounting lines" %>
+<%@ attribute name="newLineCustomActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
 			 
 <%@ variable name-given="accountingLineIndexVar" scope="NESTED"%>
 <%@ variable name-given="actionInfixVar" scope="NESTED"%>
@@ -40,6 +42,9 @@
         </c:if>
 
         <td class="${dataCellCssClass}" rowspan="${rowspan}" nowrap><div align="center">
+            <c:if test="${!empty newLineCustomActions}">
+                <jsp:invoke fragment="newLineCustomActions"/>
+            </c:if>
             <html:image property="methodToCall.${insertMethod}.anchoraccounting${actionInfix}Anchor" src="${ConfigProperties.kr.externalizable.images.url}tinybutton-add1.gif" title="Add an Accounting Line" alt="Add an Accounting Line" styleClass="tinybutton"/>
             <fin:accountingLineDataCellDetail/></div>
         </td>

@@ -14,7 +14,6 @@
  limitations under the License.
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
-<%@ include file="/jsp/modules/financial/customActionsInterface.jsp"%>
 
 <%@ attribute name="accountingLine" required="true"
 	description="The name in the form of the accounting line
@@ -122,6 +121,11 @@
     description="Comma delimited list of fields to hide for this type of accounting line" %>
 <%@ attribute name="nestedIndex" required="false"
     description="A boolean whether we'll need a nested index that includes item index and account index or if we just need one index for the accountingLineIndex"%>
+    
+<%@ attribute name="customActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions on existing accounting lines" %>
+<%@ attribute name="newLineCustomActions" required="false" fragment="true"
+              description="For defines an attribute for invoking JSP/JSTL code to display custom actions on the new line" %>
 	
 <c:set var="salesTaxNeeded" value="false"/>
 <logic:notEmpty name="KualiForm" property="${accountingLine}.salesTaxRequired">
@@ -345,7 +349,8 @@
 					accountingAddLineIndex="${accountingAddLineIndex}"
 					accountingLineIndex="${accountingLineIndex}"
 					decorator="${decorator}" 
-            			customActions="${customActions}"
+          customActions="${customActions}"
+          newLineCustomActions="${newLineCustomActions}"
 					nestedIndex="${nestedIndex}"/>
 			</c:when>
 			<c:otherwise>

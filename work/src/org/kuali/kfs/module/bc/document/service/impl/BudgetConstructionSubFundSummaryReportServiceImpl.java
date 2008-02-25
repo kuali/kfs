@@ -217,7 +217,12 @@ public class BudgetConstructionSubFundSummaryReportServiceImpl implements Budget
             if (isSameSubFundSummaryEntry(subFundSummaryList, subFundTotalEntry.getBcas())) {
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueBaseAmount(subFundTotalEntry.getSubFundTotalRevenueBaseAmount());
                 orgSubFundSummaryReportEntry.setSubFundTotalRevenueReqAmount(subFundTotalEntry.getSubFundTotalRevenueReqAmount());
+                orgSubFundSummaryReportEntry.setSubFundTotalRevenueAmountChange(subFundTotalEntry.getSubFundTotalRevenueReqAmount().subtract(subFundTotalEntry.getSubFundTotalRevenueBaseAmount()));
                 
+                if (!orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount().equals(BigDecimal.ZERO)){
+                    orgSubFundSummaryReportEntry.setSubFundTotalRevenuePercentChange(orgSubFundSummaryReportEntry.getSubFundTotalRevenueAmountChange().divide(orgSubFundSummaryReportEntry.getSubFundTotalRevenueBaseAmount(), 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100)));
+                }
+
                 orgSubFundSummaryReportEntry.setTotalRevenueBaseAmount(subFundTotalEntry.getTotalRevenueBaseAmount());
                 orgSubFundSummaryReportEntry.setTotalGrossBaseAmount(subFundTotalEntry.getTotalGrossBaseAmount());
                 orgSubFundSummaryReportEntry.setTotalTransferInBaseAmount(subFundTotalEntry.getTotalTransferInBaseAmount());

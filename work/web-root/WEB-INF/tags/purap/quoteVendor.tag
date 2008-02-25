@@ -152,6 +152,16 @@
         </tr>
         <tr>
             <th align=right valign=middle class="bord-l-b">
+                <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" />
+            </th>
+            <td align=left valign=middle class="datacell">
+                <kul:htmlControlAttribute attributeEntry="${vendorQuoteAttributes.vendorCountryCode}" property="document.purchaseOrderVendorQuote[${ctr}].vendorCountryCode" 
+                readOnly="${isPurchaseOrderAwarded || !preRouteChangeMode}" />
+            </td>
+            <td colspan="2">&nbsp;</td>
+        </tr>
+        <tr>
+            <th align=right valign=middle class="bord-l-b">
                 <div align="right"><kul:htmlAttributeLabel attributeEntry="${vendorQuoteAttributes.vendorAttentionName}" />
             </th>
             <td align=left valign=middle class="datacell">

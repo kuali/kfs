@@ -142,7 +142,6 @@
                 <control>
                     <text size="5" />
                 </control>
-
 			</attribute>
 
             <attribute name="purchaseOrderQuoteStatusCode" forceUppercase="true">
@@ -155,7 +154,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteStatusCodeValuesFinder" />
                 </control>
-
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitDate" forceUppercase="true">
@@ -168,7 +166,6 @@
                 <control>
                     <text size="9" />
                 </control>
-
 			</attribute>
 
             <attribute name="purchaseOrderQuoteTransmitTypeCode" forceUppercase="true">
@@ -181,7 +178,6 @@
                 <control>
                     <select valuesFinderClass="org.kuali.module.purap.lookup.keyvalues.PurchaseOrderVendorQuoteTransmitTypeValuesFinder" />
                 </control>
-
 			</attribute>
 
             <attribute name="purchaseOrderVendorQuoteIdentifier" forceUppercase="true">
@@ -194,7 +190,6 @@
                 <control>
                     <text size="11" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorAttentionName" forceUppercase="true">
@@ -207,7 +202,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorCityName" forceUppercase="true">
@@ -220,7 +214,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorDetailAssignedIdentifier" forceUppercase="true">
@@ -233,7 +226,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorEmailAddress" forceUppercase="true">
@@ -246,7 +238,6 @@
                 <control>
                     <text size="102" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorFaxNumber" forceUppercase="true">
@@ -259,7 +250,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorHeaderGeneratedIdentifier" forceUppercase="true">
@@ -272,7 +262,6 @@
                 <control>
                     <text size="12" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorLine1Address" forceUppercase="true">
@@ -285,7 +274,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorLine2Address" forceUppercase="true">
@@ -298,7 +286,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorName" forceUppercase="true">
@@ -311,7 +298,6 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
             <attribute name="vendorPhoneNumber" forceUppercase="true">
@@ -324,19 +310,21 @@
                 <control>
                     <text size="47" />
                 </control>
-
 			</attribute>
 
 			<attributeReference name="vendorStateCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="stateCode">
-				
 			</attributeReference>
 			
 			<attributeReference name="vendorPostalCode" 
 				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
 				sourceAttributeName="zipCode" >
-				
+			</attributeReference>
+
+			<attributeReference name="vendorCountryCode" 
+				sourceClassName="org.kuali.module.vendor.bo.VendorAttributeReferenceDummy" 
+				sourceAttributeName="countryCode" >
 			</attributeReference>
 
             <attribute name="versionNumber" forceUppercase="true">
@@ -349,7 +337,6 @@
                 <control>
                     <text size="10" />
                 </control>
-
 			</attribute>
 
         </attributes>

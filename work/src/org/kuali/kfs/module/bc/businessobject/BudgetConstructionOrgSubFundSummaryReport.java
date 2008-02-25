@@ -38,10 +38,11 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private String fiscalYear;
     private String orgChartOfAccountsCode;
     private String orgChartOfAccountDescription;
-    private String chartOfAccountsCode;
-    private String chartOfAccountDescription;
     private String organizationCode;
     private String organizationName;
+    private String chartOfAccountsCode;
+    private String chartOfAccountDescription;
+    
     private String consHdr;
     private String fundGroupCode;
     private String fundGroupName;
@@ -57,9 +58,9 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private String header6;
 
     // Body parts
-    private String accountNumber;
+    /*private String accountNumber;
     private String subAccountNumber;
-    private String accountNameAndSubAccountName;
+    private String accountNameAndSubAccountName;*/
     private String incExpDesc;
     private BigDecimal baseAmount;
     private BigDecimal reqAmount;
@@ -67,6 +68,11 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private BigDecimal percentChange = BigDecimal.ZERO;
 
     // Total parts
+    private BigDecimal subFundTotalRevenueBaseAmount = BigDecimal.ZERO;
+    private BigDecimal subFundTotalRevenueReqAmount = BigDecimal.ZERO;
+    private BigDecimal subFundTotalRevenueAmountChange = BigDecimal.ZERO;
+    private BigDecimal subFundTotalRevenuePercentChange = BigDecimal.ZERO;
+    
     private BigDecimal totalRevenueBaseAmount = BigDecimal.ZERO;
     private BigDecimal totalGrossBaseAmount = BigDecimal.ZERO;
     private BigDecimal totalTransferInBaseAmount = BigDecimal.ZERO;
@@ -97,41 +103,41 @@ public class BudgetConstructionOrgSubFundSummaryReport {
     private Integer tempFiscalYear = new Integer(2008);
 
 
-    /**
+  /*  *//**
      * Gets the accountNameAndSubAccountName
      * 
      * @return Returns the accountNameAndSubAccountName.
-     */
+     *//*
     public String getAccountNameAndSubAccountName() {
         return accountNameAndSubAccountName;
     }
 
-    /**
+    *//**
      * Sets the accountNameAndSubAccountName
      * 
      * @param accountNameAndSubAccountName The accountNameAndSubAccountName to set.
-     */
+     *//*
     public void setAccountNameAndSubAccountName(String accountNameAndSubAccountName) {
         this.accountNameAndSubAccountName = accountNameAndSubAccountName;
     }
 
-    /**
+    *//**
      * Gets the accountNumber
      * 
      * @return Returns the accountNumber.
-     */
+     *//*
     public String getAccountNumber() {
         return accountNumber;
     }
 
-    /**
+    *//**
      * Sets the accountNumber
      * 
      * @param accountNumber The accountNumber to set.
-     */
+     *//*
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
+    }*/
 
     /**
      * Gets the amountChange
@@ -533,19 +539,19 @@ public class BudgetConstructionOrgSubFundSummaryReport {
      * Gets the subAccountNumber
      * 
      * @return Returns the subAccountNumber.
-     */
+     *//*
     public String getSubAccountNumber() {
         return subAccountNumber;
     }
 
-    /**
+    *//**
      * Sets the subAccountNumber
      * 
      * @param subAccountNumber The subAccountNumber to set.
-     */
+     *//*
     public void setSubAccountNumber(String subAccountNumber) {
         this.subAccountNumber = subAccountNumber;
-    }
+    }*/
 
     /**
      * Gets the subFundGroupCode
@@ -959,6 +965,38 @@ public class BudgetConstructionOrgSubFundSummaryReport {
      */
     public void setOrgChartOfAccountsCode(String orgChartOfAccountsCode) {
         this.orgChartOfAccountsCode = orgChartOfAccountsCode;
+    }
+
+    public BigDecimal getSubFundTotalRevenueAmountChange() {
+        return subFundTotalRevenueAmountChange;
+    }
+
+    public void setSubFundTotalRevenueAmountChange(BigDecimal subFundTotalRevenueAmountChange) {
+        this.subFundTotalRevenueAmountChange = subFundTotalRevenueAmountChange;
+    }
+
+    public BigDecimal getSubFundTotalRevenueBaseAmount() {
+        return subFundTotalRevenueBaseAmount;
+    }
+
+    public void setSubFundTotalRevenueBaseAmount(BigDecimal subFundTotalRevenueBaseAmount) {
+        this.subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount;
+    }
+
+    public BigDecimal getSubFundTotalRevenuePercentChange() {
+        return subFundTotalRevenuePercentChange;
+    }
+
+    public void setSubFundTotalRevenuePercentChange(BigDecimal subFundTotalRevenuePercentChange) {
+        this.subFundTotalRevenuePercentChange = subFundTotalRevenuePercentChange;
+    }
+
+    public BigDecimal getSubFundTotalRevenueReqAmount() {
+        return subFundTotalRevenueReqAmount;
+    }
+
+    public void setSubFundTotalRevenueReqAmount(BigDecimal subFundTotalRevenueReqAmount) {
+        this.subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount;
     }
 
 }

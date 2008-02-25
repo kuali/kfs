@@ -133,6 +133,8 @@ public class BCConstants extends JstlConstants {
     }
     
     public static class Report{
+        
+        
         public final static String ERROR_GETTING_CHART_DESCRIPTION = "Error getting chart description";
         public final static String ERROR_GETTING_ACCOUNT_DESCRIPTION = "Error getting account description";
         public final static String ERROR_GETTING_SUB_ACCOUNT_DESCRIPTION = "Error getting sub-account description";
@@ -153,6 +155,10 @@ public class BCConstants extends JstlConstants {
         public final static String INCOME_EXP_DESC_TRNFR_IN = "Trnfr In";
         public final static String INCOME_EXP_DESC_EXP_NET_TRNFR = "Exp.(Net Trnfr)";
         public final static String INCOME_EXP_DESC_EXPENDITURE = "Expenditure";
+        
+        public final static String HEADER_SUBFUND = "SubFund";
+        public final static String HEADER_SUBFUND_DESCRIPTION = "Sub-Fund Description";
+       
         
         //selection screen
         public final static String SELECTION_OPMODE_TITLE = "Sub-Fund List Selection";

@@ -22,6 +22,10 @@ import java.math.BigDecimal;
  */
 public class BudgetConstructionOrgSubFundSummaryReportTotal {
     BudgetConstructionAccountSummary bcas;
+    
+    private BigDecimal subFundTotalRevenueBaseAmount;
+    private BigDecimal subFundTotalRevenueReqAmount;
+   
     private BigDecimal totalRevenueBaseAmount;
     private BigDecimal totalGrossBaseAmount;
     private BigDecimal totalTransferInBaseAmount;
@@ -198,5 +202,22 @@ public class BudgetConstructionOrgSubFundSummaryReportTotal {
      */
     public void setBcas(BudgetConstructionAccountSummary bcas) {
         this.bcas = bcas;
+    }
+
+    public BigDecimal getSubFundTotalRevenueBaseAmount() {
+        return subFundTotalRevenueBaseAmount;
+    }
+
+    public void setSubFundTotalRevenueBaseAmount(BigDecimal subFundTotalRevenueBaseAmount) {
+        this.subFundTotalRevenueBaseAmount = subFundTotalRevenueBaseAmount;
+    }
+
+
+    public BigDecimal getSubFundTotalRevenueReqAmount() {
+        return subFundTotalRevenueReqAmount;
+    }
+
+    public void setSubFundTotalRevenueReqAmount(BigDecimal subFundTotalRevenueReqAmount) {
+        this.subFundTotalRevenueReqAmount = subFundTotalRevenueReqAmount;
     }
 }

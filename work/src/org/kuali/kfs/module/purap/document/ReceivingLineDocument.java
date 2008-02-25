@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.core.bo.Campus;
 import org.kuali.core.bo.DocumentHeader;
 import org.kuali.core.document.TransactionalDocumentBase;
@@ -20,7 +21,7 @@ import org.kuali.module.vendor.bo.VendorDetail;
 /**
  * @author Kuali Nervous System Team (kualidev@oncourse.iu.edu)
  */
-public class ReceivingLineDocument extends PurchasingAccountsPayableDocumentBase {
+public class ReceivingLineDocument extends TransactionalDocumentBase {
 
     private String documentNumber;
     private Integer purchaseOrderIdentifier;
@@ -55,8 +56,15 @@ public class ReceivingLineDocument extends PurchasingAccountsPayableDocumentBase
     private String deliveryInstructionText;
     private String deliveryRequiredDateReasonCode;
 
-    //Not Persisted in DB
+    private Integer alternateVendorHeaderGeneratedIdentifier;
+    private Integer alternateVendorDetailAssignedIdentifier;
+    private String alternateVendorName;
+    
+    //not persisted in db
     private boolean deliveryBuildingOther;
+    private String vendorNumber;
+    private Integer vendorAddressGeneratedIdentifier;
+    private String alternateVendorNumber;
     
     //Collections
     private List<ReceivingLineItem> items;
@@ -852,13 +860,59 @@ public class ReceivingLineDocument extends PurchasingAccountsPayableDocumentBase
         this.vendorDetail = vendorDetail;
     }
 
-    /**
-     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
-     */
-    protected LinkedHashMap toStringMapper() {
-        LinkedHashMap m = new LinkedHashMap();      
-        m.put("documentNumber", this.documentNumber);
-        return m;
+    public String getVendorNumber() {
+        if (StringUtils.isNotEmpty(vendorNumber)) {
+            return vendorNumber;
+        }
+        else if (ObjectUtils.isNotNull(vendorDetail)) {
+            return vendorDetail.getVendorNumber();
+        }
+        else
+            return "";
+    }
+
+    public void setVendorNumber(String vendorNumber) {
+        this.vendorNumber = vendorNumber;
+    }
+
+    public Integer getVendorAddressGeneratedIdentifier() {
+        return vendorAddressGeneratedIdentifier;
+    }
+
+    public void setVendorAddressGeneratedIdentifier(Integer vendorAddressGeneratedIdentifier) {
+        this.vendorAddressGeneratedIdentifier = vendorAddressGeneratedIdentifier;
+    }
+
+    public Integer getAlternateVendorDetailAssignedIdentifier() {
+        return alternateVendorDetailAssignedIdentifier;
+    }
+
+    public void setAlternateVendorDetailAssignedIdentifier(Integer alternateVendorDetailAssignedIdentifier) {
+        this.alternateVendorDetailAssignedIdentifier = alternateVendorDetailAssignedIdentifier;
+    }
+
+    public Integer getAlternateVendorHeaderGeneratedIdentifier() {
+        return alternateVendorHeaderGeneratedIdentifier;
+    }
+
+    public void setAlternateVendorHeaderGeneratedIdentifier(Integer alternateVendorHeaderGeneratedIdentifier) {
+        this.alternateVendorHeaderGeneratedIdentifier = alternateVendorHeaderGeneratedIdentifier;
+    }
+
+    public String getAlternateVendorName() {
+        return alternateVendorName;
+    }
+
+    public void setAlternateVendorName(String alternateVendorName) {
+        this.alternateVendorName = alternateVendorName;
+    }
+
+    public String getAlternateVendorNumber() {
+        return alternateVendorNumber;
+    }
+
+    public void setAlternateVendorNumber(String alternateVendorNumber) {
+        this.alternateVendorNumber = alternateVendorNumber;
     }
 
     public boolean isDeliveryBuildingOther() {
@@ -867,6 +921,15 @@ public class ReceivingLineDocument extends PurchasingAccountsPayableDocumentBase
 
     public void setDeliveryBuildingOther(boolean deliveryBuildingOther) {
         this.deliveryBuildingOther = deliveryBuildingOther;
+    }
+
+    /**
+     * @see org.kuali.core.bo.BusinessObjectBase#toStringMapper()
+     */
+    protected LinkedHashMap toStringMapper() {
+        LinkedHashMap m = new LinkedHashMap();      
+        m.put("documentNumber", this.documentNumber);
+        return m;
     }
 
     public Class getItemClass() {
@@ -879,16 +942,6 @@ public class ReceivingLineDocument extends PurchasingAccountsPayableDocumentBase
 
     public void setItems(List items) {
         this.items = items;
-    }
-
-    @Override
-    public PurchasingAccountsPayableDocument getPurApSourceDocumentIfPossible() {
-        return null;
-    }
-
-    @Override
-    public String getPurApSourceDocumentLabelIfPossible() {
-        return null;
     }
 
     /*public void addItem(ReceivingLineItem item) {

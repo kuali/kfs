@@ -360,9 +360,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
         if (generatePDFErrors.size() > 0) {
             addStringErrorMessagesToErrorMap(PurapKeyConstants.ERROR_PURCHASE_ORDER_PDF, generatePDFErrors);
             return false;
-        }
-        else {
-            saveDocumentStandardSave(po);
+        } else {
             return true;
         }
     }
@@ -374,7 +372,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
      *      org.kuali.module.purap.bo.PurchaseOrderVendorQuote, java.io.ByteArrayOutputStream)
      */
     public boolean printPurchaseOrderQuotePDF(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream baosPDF) {
-
         String environment = kualiConfigurationService.getPropertyString(KFSConstants.ENVIRONMENT_KEY);
         Collection<String> generatePDFErrors = printService.generatePurchaseOrderQuotePdf(po, povq, baosPDF, environment);
 
@@ -383,7 +380,6 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService {
             return false;
         }
         else {
-            saveDocumentStandardSave(po);
             return true;
         }
     }

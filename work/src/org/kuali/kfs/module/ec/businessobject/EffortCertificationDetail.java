@@ -21,9 +21,11 @@ import java.util.List;
 
 import org.kuali.core.bo.PersistableBusinessObjectBase;
 import org.kuali.core.util.KualiDecimal;
+import org.kuali.kfs.KFSConstants;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
-import org.kuali.module.cg.bo.AwardAccount;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.chart.bo.Account;
 import org.kuali.module.chart.bo.Chart;
 import org.kuali.module.chart.bo.ObjectCode;
@@ -52,16 +54,13 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     private Integer financialDocumentPostingYear;
     private String costShareSourceSubAccountNumber;
 
-    private KualiDecimal fringeBenefitAmount;
     private KualiDecimal originalFringeBenefitAmount;
 
     private String overrideCode; // to hold the override code if the associated account is expired
     private boolean newLineIndicator; // to indicate if this detail line has been persisted or not
-    private boolean editable; // to indicate if this detail line can be changed or deleted
-    private boolean federalOrFederalPassThroughIndicator; // to indicate if this line is associated with a federal or federal pass
     // through account.
     private KualiDecimal persistedPayrollAmount; // holds last saved updated payroll amount so business rule can check if it has
-                                                    // been updated at the route level
+    // been updated at the route level
 
     private EffortCertificationDocument effortCertificationDocument;
     private ObjectCode financialObject;
@@ -77,6 +76,14 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public EffortCertificationDetail() {
         super();
+        
+        subAccountNumber = KFSConstants.getDashSubAccountNumber();
+
+        effortCertificationPayrollAmount = new KualiDecimal(0);
+        effortCertificationOriginalPayrollAmount = new KualiDecimal(0);
+        effortCertificationCalculatedOverallPercent = new Integer(0);
+        effortCertificationUpdatedOverallPercent = new Integer(0);
+        originalFringeBenefitAmount = new KualiDecimal(0);
     }
 
     public EffortCertificationDetail(EffortCertificationDetail effortCertificationDetail) {
@@ -95,10 +102,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
             this.financialDocumentPostingYear = effortCertificationDetail.getFinancialDocumentPostingYear();
             this.costShareSourceSubAccountNumber = effortCertificationDetail.getCostShareSourceSubAccountNumber();
             this.effortCertificationOriginalPayrollAmount = effortCertificationDetail.getEffortCertificationOriginalPayrollAmount();
-            this.fringeBenefitAmount = effortCertificationDetail.getFringeBenefitAmount();
             this.originalFringeBenefitAmount = effortCertificationDetail.getOriginalFringeBenefitAmount();
-
-            this.editable = effortCertificationDetail.isEditable();
         }
     }
 
@@ -526,25 +530,16 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     }
 
     /**
-     * Gets the isEditable attribute. If the account of this detail line is closed, the line cannot be edited.
+     * If the account of this detail line is closed, the line cannot be edited.
      * 
-     * @return Returns the isEditable.
+     * @return Returns true if line can be edited, false otherwise
      */
     public boolean isEditable() {
         if (this.getAccount() != null && this.getAccount().isAccountClosedIndicator()) {
-            this.setEditable(false);
+            return false;
         }
 
-        return editable;
-    }
-
-    /**
-     * Sets the editable attribute value.
-     * 
-     * @param isEditable The editable to set.
-     */
-    public void setEditable(boolean isEditable) {
-        this.editable = isEditable;
+        return true;
     }
 
     /**
@@ -556,19 +551,10 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
     public boolean isFederalOrFederalPassThroughIndicator() {
         if (this.getAccount() != null) {
             List<String> federalAgencyTypeCodes = EffortCertificationParameterFinder.getFederalAgencyTypeCodes();
-            this.setFederalOrFederalPassThroughIndicator(this.getAccount().isAwardedByFederalAcency(federalAgencyTypeCodes));
+            return this.getAccount().isAwardedByFederalAcency(federalAgencyTypeCodes);
         }
 
-        return federalOrFederalPassThroughIndicator;
-    }
-
-    /**
-     * Sets the federalOrFederalPassThroughIndicator attribute value.
-     * 
-     * @param federalOrFederalPassThroughIndicator The federalOrFederalPassThroughIndicator to set.
-     */
-    public void setFederalOrFederalPassThroughIndicator(boolean federalOrFederalPassThroughIndicator) {
-        this.federalOrFederalPassThroughIndicator = federalOrFederalPassThroughIndicator;
+        return false;
     }
 
     /**
@@ -595,16 +581,7 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      * @return Returns the fringeBenefitAmount.
      */
     public KualiDecimal getFringeBenefitAmount() {
-        return fringeBenefitAmount;
-    }
-
-    /**
-     * Sets the fringeBenefitAmount attribute value.
-     * 
-     * @param fringeBenefitAmount The fringeBenefitAmount to set.
-     */
-    public void setFringeBenefitAmount(KualiDecimal fringeBenefitAmount) {
-        this.fringeBenefitAmount = fringeBenefitAmount;
+        return SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(this.getFinancialDocumentPostingYear(), this.getChartOfAccountsCode(), this.getFinancialObjectCode(), this.getEffortCertificationPayrollAmount());
     }
 
     /**
@@ -642,20 +619,6 @@ public class EffortCertificationDetail extends PersistableBusinessObjectBase {
      */
     public void setPersistedPayrollAmount(KualiDecimal persistedPayrollAmount) {
         this.persistedPayrollAmount = persistedPayrollAmount;
-    }
-    
-    /**
-     * @return calculated benefits on original payroll amount
-     */
-    public KualiDecimal getEffortCertificationOriginalBenefitAmount() {
-        return new KualiDecimal(0);
-    }
-
-    /**
-     * @return calculated benefits on updated payroll amount
-     */
-    public KualiDecimal getEffortCertificationUpdatedBenefitAmount() {
-        return new KualiDecimal(0);
     }
 
     /**

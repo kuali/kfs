@@ -48,6 +48,17 @@ public interface LaborBenefitsCalculationService {
     public KualiDecimal calculateFringeBenefit(LaborLedgerObject laborLedgerObject, KualiDecimal salaryAmount);
     
     /**
+     * calculate the fringe benefit amount for the given object code and salary amount
+     * 
+     * @param fiscalYear the year for object code record
+     * @param chartCode the chart for object code record
+     * @param objectCode the object code
+     * @param salaryAmount amount to calculate benefits for
+     * @return the fringe benefit amount 
+     */
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount);
+    
+    /**
      * calculate the fringe benefit amount from the given position object benefit and salary amount
      * 
      * @param positionObjectBenefit the given position object benefit

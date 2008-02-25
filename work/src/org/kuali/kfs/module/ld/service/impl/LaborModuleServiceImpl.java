@@ -73,6 +73,14 @@ public class LaborModuleServiceImpl implements LaborModuleService {
     }
 
     /**
+     * @see org.kuali.kfs.service.LaborModuleService#calculateFringeBenefit(java.lang.Integer, java.lang.String, java.lang.String,
+     *      org.kuali.core.util.KualiDecimal)
+     */
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
+        return laborBenefitsCalculationService.calculateFringeBenefit(fiscalYear, chartCode, objectCode, salaryAmount);
+    }
+
+    /**
      * @see org.kuali.kfs.service.LaborModuleService#createSalaryExpenseTransferDocument(java.lang.String, java.lang.String,
      *      java.util.List, java.util.List)
      */

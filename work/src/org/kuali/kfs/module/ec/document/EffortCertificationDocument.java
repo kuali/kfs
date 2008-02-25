@@ -31,6 +31,7 @@ import org.kuali.core.util.TypedArrayList;
 import org.kuali.kfs.KFSPropertyConstants;
 import org.kuali.kfs.bo.Options;
 import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.LaborModuleService;
 import org.kuali.module.effort.bo.EffortCertificationDetail;
 import org.kuali.module.effort.bo.EffortCertificationReportDefinition;
 import org.kuali.module.effort.service.EffortCertificationDocumentService;
@@ -414,7 +415,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
-                totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
+                totalBenAmount = totalBenAmount.add(detailLine.getOriginalFringeBenefitAmount());
             }
         }
 
@@ -427,7 +428,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
-                totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
+                totalBenAmount = totalBenAmount.add(detailLine.getOriginalFringeBenefitAmount());
             }
         }
 
@@ -440,7 +441,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (detailLine.isFederalOrFederalPassThroughIndicator()) {
-                totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
+                totalBenAmount = totalBenAmount.add(detailLine.getFringeBenefitAmount());
             }
         }
 
@@ -453,7 +454,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
 
         for (EffortCertificationDetail detailLine : detailLineList) {
             if (!detailLine.isFederalOrFederalPassThroughIndicator()) {
-                totalBenAmount = totalBenAmount.add(detailLine.getEffortCertificationOriginalBenefitAmount());
+                totalBenAmount = totalBenAmount.add(detailLine.getFringeBenefitAmount());
             }
         }
 
@@ -545,7 +546,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
 
         for (EffortCertificationDetail detailLine : detailLineList) {
-            fBenTotal = fBenTotal.add(detailLine.getEffortCertificationOriginalBenefitAmount());
+            fBenTotal = fBenTotal.add(detailLine.getOriginalFringeBenefitAmount());
         }
 
         return fBenTotal;
@@ -557,7 +558,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
         List<EffortCertificationDetail> detailLineList = this.getEffortCertificationDetailLines();
 
         for (EffortCertificationDetail detailLine : detailLineList) {
-            fBenTotal = fBenTotal.add(detailLine.getEffortCertificationUpdatedBenefitAmount());
+            fBenTotal = fBenTotal.add(detailLine.getFringeBenefitAmount());
         }
 
         return fBenTotal;
@@ -569,12 +570,17 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
     @Override
     public void processAfterRetrieve() {
         super.processAfterRetrieve();
-        
+
         // capture each line's salary amount before route level modification for later rule validation
         for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
             detailLine.setPersistedPayrollAmount(new KualiDecimal(detailLine.getEffortCertificationPayrollAmount().bigDecimalValue()));
         }
-    }   
+
+        // calculate original fringe benefits for each line
+        for (EffortCertificationDetail detailLine : this.getEffortCertificationDetailLines()) {
+            detailLine.setOriginalFringeBenefitAmount(SpringContext.getBean(LaborModuleService.class).calculateFringeBenefit(detailLine.getFinancialDocumentPostingYear(), detailLine.getChartOfAccountsCode(), detailLine.getFinancialObjectCode(), detailLine.getEffortCertificationPayrollAmount()));
+        }
+    }
 
     /**
      * @see org.kuali.core.document.DocumentBase#getDocumentRepresentationForSerialization()
@@ -591,7 +597,7 @@ public class EffortCertificationDocument extends TransactionalDocumentBase {
      */
     private void setEffortDistributionChangedIndicator() {
         effortDistributionChanged = false;
-        
+
         for (EffortCertificationDetail detail : this.getEffortCertificationDetailLines()) {
             if (!detail.getEffortCertificationCalculatedOverallPercent().equals(detail.getEffortCertificationUpdatedOverallPercent())) {
                 effortDistributionChanged = true;

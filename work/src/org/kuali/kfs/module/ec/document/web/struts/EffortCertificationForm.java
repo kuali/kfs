@@ -27,6 +27,8 @@ public class EffortCertificationForm extends KualiTransactionalDocumentFormBase 
     
     public EffortCertificationForm() {
         super();
+        
+        newDetailLine = new EffortCertificationDetail();
         setDocument(new EffortCertificationDocument());
     }
     

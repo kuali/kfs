@@ -229,13 +229,7 @@
     </reference-descriptor>
   
     <collection-descriptor name="effortCertificationDetailLines" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <orderby name="subAccountNumber" sort="ASC" />
-        <orderby name="positionNumber" sort="ASC" />
-        <orderby name="financialObjectCode" sort="ASC" />
-        <orderby name="sourceChartOfAccountsCode" sort="ASC" />
-        <orderby name="sourceAccountNumber" sort="ASC" />
+        <orderby name="effortCertificationPayrollAmount" sort="DESC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>
@@ -297,13 +291,7 @@
     </reference-descriptor>
   
     <collection-descriptor name="effortCertificationDetailLines" element-class-ref="org.kuali.module.effort.bo.EffortCertificationDetail" collection-class="org.apache.ojb.broker.util.collections.ManageableArrayList" auto-retrieve="true" auto-update="object" auto-delete="object" proxy="true">
-        <orderby name="chartOfAccountsCode" sort="ASC" />
-        <orderby name="accountNumber" sort="ASC" />
-        <orderby name="subAccountNumber" sort="ASC" />
-        <orderby name="positionNumber" sort="ASC" />
-        <orderby name="financialObjectCode" sort="ASC" />
-        <orderby name="sourceChartOfAccountsCode" sort="ASC" />
-        <orderby name="sourceAccountNumber" sort="ASC" />
+        <orderby name="effortCertificationPayrollAmount" sort="DSC" />
         <inverse-foreignkey field-ref="documentNumber" />
     </collection-descriptor>
 </class-descriptor>

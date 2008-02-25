@@ -15,13 +15,11 @@
 --%>
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
-
 <kul:documentPage showDocumentInfo="true"
 	htmlFormAction="effortEffortCertification"
 	documentTypeName="EffortCertificationDocument" renderMultipart="true"
 	showTabButtons="true">
 	
-	<html:hidden property="document.documentNumber" />
 	<html:hidden property="document.effortCertificationReportNumber" />
     <html:hidden property="document.effortCertificationDocumentCode" />
     <html:hidden property="document.universityFiscalYear" />
@@ -30,13 +28,21 @@
 	<kul:hiddenDocumentFields isFinancialDocument="false" />
 		
 	<kul:documentOverview editingMode="${KualiForm.editingMode}" />
+	
 	<er:reportInformation />
+	
 	<er:effortSummary />
+	
 	<er:effortDetail />
+	
 	<kul:notes />
+	
 	<kul:adHocRecipients />
+	
 	<kul:routeLog />
+	
 	<kul:panelFooter />
+	
 	<kul:documentControls
 		transactionalDocument="${documentEntry.transactionalDocument}" />
 

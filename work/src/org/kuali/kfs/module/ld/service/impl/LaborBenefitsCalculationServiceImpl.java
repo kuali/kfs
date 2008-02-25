@@ -57,6 +57,22 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
     }
 
     /**
+     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(java.lang.Integer,
+     *      java.lang.String, java.lang.String, org.kuali.core.util.KualiDecimal)
+     */
+    public KualiDecimal calculateFringeBenefit(Integer fiscalYear, String chartCode, String objectCode, KualiDecimal salaryAmount) {
+        LaborObject laborObject = new LaborObject();
+        
+        laborObject.setUniversityFiscalYear(fiscalYear);
+        laborObject.setChartOfAccountsCode(chartCode);
+        laborObject.setFinancialObjectCode(objectCode);
+
+        laborObject = (LaborObject) businessObjectService.retrieve(laborObject);
+
+        return calculateFringeBenefit(laborObject, salaryAmount);
+    }
+
+    /**
      * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.LaborObject,
      *      org.kuali.core.util.KualiDecimal)
      */
@@ -84,9 +100,10 @@ public class LaborBenefitsCalculationServiceImpl implements LaborBenefitsCalcula
 
         return fringeBenefit;
     }
-    
+
     /**
-     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.PositionObjectBenefit, org.kuali.core.util.KualiDecimal)
+     * @see org.kuali.module.labor.service.LaborBenefitsCalculationService#calculateFringeBenefit(org.kuali.module.labor.bo.PositionObjectBenefit,
+     *      org.kuali.core.util.KualiDecimal)
      */
     public KualiDecimal calculateFringeBenefit(PositionObjectBenefit positionObjectBenefit, KualiDecimal salaryAmount) {
         if (salaryAmount.isZero() || ObjectUtils.isNull(positionObjectBenefit)) {

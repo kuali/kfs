@@ -62,10 +62,6 @@ public class EffortCertificationDetailBuildServiceImpl implements EffortCertific
         detailLine.setEffortCertificationPayrollAmount(payrollAmount);
         detailLine.setEffortCertificationOriginalPayrollAmount(payrollAmount);
         
-        KualiDecimal fringeBenefitAmount = laborModuleService.calculateFringeBenefit(ledgerBalance.getLaborLedgerObject(), payrollAmount);
-        detailLine.setFringeBenefitAmount(fringeBenefitAmount);
-        detailLine.setOriginalFringeBenefitAmount(fringeBenefitAmount);
-        
         detailLine.setEffortCertificationCalculatedOverallPercent(0);
         detailLine.setEffortCertificationUpdatedOverallPercent(0);
 

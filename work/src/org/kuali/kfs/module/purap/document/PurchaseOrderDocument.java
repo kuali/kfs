@@ -125,6 +125,8 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
     private Integer contractManagerCode;
     private boolean receivingDocumentRequiredIndicator;
     private boolean paymentRequestPositiveApprovalIndicator;
+    private Date purchaseOrderQuoteInitDate;
+    private Date purchaseOrderQuoteAwardDate;
     
     // COLLECTIONS
     private List<PurchaseOrderVendorStipulation> purchaseOrderVendorStipulations;
@@ -925,6 +927,22 @@ public class PurchaseOrderDocument extends PurchasingDocumentBase {
      */
     public void setReceivingDocumentRequiredIndicator(boolean receivingDocumentRequiredIndicator) {
         this.receivingDocumentRequiredIndicator = receivingDocumentRequiredIndicator;
+    }
+
+    public Date getPurchaseOrderQuoteInitDate() {
+        return purchaseOrderQuoteInitDate;
+    }
+
+    public void setPurchaseOrderQuoteInitDate(Date purchaseOrderQuoteInitDate) {
+        this.purchaseOrderQuoteInitDate = purchaseOrderQuoteInitDate;
+    }
+
+    public Date getPurchaseOrderQuoteAwardDate() {
+        return purchaseOrderQuoteAwardDate;
+    }
+
+    public void setPurchaseOrderQuoteAwardDate(Date purchaseOrderQuoteAwardDate) {
+        this.purchaseOrderQuoteAwardDate = purchaseOrderQuoteAwardDate;
     }
 
     /**

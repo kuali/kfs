@@ -51,28 +51,16 @@ public class PurapConstants extends JstlConstants {
 
     public static final String DEFAULT_FUNDING_SOURCE = "DEFAULT_FUNDING_SOURCE";
 
-/* 
- * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
- * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
- */
     // STANDARD PARAMETER PREFIXES
     public static class QuoteTypes {
         public static final String COMPETITIVE = "COMP";
         public static final String PRICE_CONFIRMATION = "CONF";
     }
 
-    /* 
- * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
- * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
- */
     public static class QuoteTransmitTypes {
         public static final String PRINT = "PRINT";
     }
 
-/* 
- * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
- * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
-*/
         public static class QuoteStatusCode {
         public static final String DELV = "DELV";
         public static final String FUIP = "FUIP";

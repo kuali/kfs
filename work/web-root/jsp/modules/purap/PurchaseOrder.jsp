@@ -111,17 +111,12 @@
         itemAttributes="${DataDictionary.PurchaseOrderItem.attributes}"
     	documentAttributes="${DataDictionary.SourceAccountingLine.attributes}" />  
 	
-	<%--
-THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
-FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
-
 	<c:if test="${KualiForm.document.statusCode eq 'INPR' || KualiForm.document.statusCode eq 'QUOT'}">
 	    <purap:quotes
 	        documentAttributes="${DataDictionary.PurchaseOrderDocument.attributes}"
 	        vendorQuoteAttributes="${DataDictionary.PurchaseOrderVendorQuote.attributes}"
 	        isPurchaseOrderAwarded="${KualiForm.document.purchaseOrderAwarded}" />
 	</c:if>
-	--%>
 
     <purap:relatedDocuments
             documentAttributes="${DataDictionary.RelatedDocuments.attributes}" />

@@ -24,9 +24,6 @@ import org.kuali.kfs.context.SpringContext;
 import org.kuali.module.purap.bo.PurchaseOrderQuoteLanguage;
 
 /* 
- * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
- * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
- * 
  * A special implementation of Maintainable specifically for PurchaseOrderQuoteLanguage
  * maintenance page to override the behavior when the PurchaseOrderQuoteLanguage 
  * maintenance document is copied.

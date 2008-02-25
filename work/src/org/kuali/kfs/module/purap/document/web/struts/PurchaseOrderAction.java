@@ -1135,9 +1135,10 @@ public class PurchaseOrderAction extends PurchasingActionBase {
 
             return mapping.findForward(KFSConstants.MAPPING_BASIC);
         }
-        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
         Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
-        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days 
+        document.setPurchaseOrderQuoteInitDate(new Date(currentSqlDate.getTime()));
+        document.setStatusCode(PurapConstants.PurchaseOrderStatuses.QUOTE);
+        Date expDate = new Date(currentSqlDate.getTime() + (10 * 24 * 60 * 60 * 1000)); // add 10 days - TODO: make this a parameter!!!
         document.setPurchaseOrderQuoteDueDate(expDate);
         document.getPurchaseOrderVendorQuotes().clear();
         SpringContext.getBean(PurchaseOrderService.class).saveDocumentNoValidation(document);
@@ -1262,6 +1263,9 @@ public class PurchaseOrderAction extends PurchasingActionBase {
             if ((PODocumentsStrings.CONFIRM_AWARD_QUESTION.equals(question)) && ConfirmationQuestion.YES.equals(buttonClicked)) {
                 // set awarded date
                 awardedQuote.setPurchaseOrderQuoteAwardDate(SpringContext.getBean(DateTimeService.class).getCurrentSqlDate());
+
+                Date currentSqlDate = SpringContext.getBean(DateTimeService.class).getCurrentSqlDate();
+                document.setPurchaseOrderQuoteAwardDate(new Date(currentSqlDate.getTime()));
 
                 // PO vendor information updated with awarded vendor
                 document.setVendorName(awardedQuote.getVendorName());

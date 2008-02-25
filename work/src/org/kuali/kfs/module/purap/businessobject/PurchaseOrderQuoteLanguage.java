@@ -22,9 +22,6 @@ import org.kuali.core.bo.PersistableBusinessObjectBase;
 
 /**
  * Purchase Order Quote Language Business Object.
- * 
- * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
- * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
  */
 public class PurchaseOrderQuoteLanguage extends PersistableBusinessObjectBase {
 

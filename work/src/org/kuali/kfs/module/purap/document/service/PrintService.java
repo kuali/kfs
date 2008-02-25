@@ -45,9 +45,6 @@ public interface PrintService {
     public Collection savePurchaseOrderQuoteRequestsListPdf(PurchaseOrderDocument po);
 
     /**
-     * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
-     * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
-     * 
      * Create the Purchase Order Quote Pdf document and send it back to the Action so that it can be dealt with.
      * 
      * @param po                     PurchaseOrderDocument that holds the Quote.
@@ -59,8 +56,6 @@ public interface PrintService {
     public Collection generatePurchaseOrderQuotePdf(PurchaseOrderDocument po, PurchaseOrderVendorQuote povq, ByteArrayOutputStream byteArrayOutputStream, String environment);
 
     /**
-     * THIS CODE IS NOT USED IN RELEASE 2 BUT THE CODE WAS LEFT IN TO
-     * FACILITATE TURNING IT BACK ON EARLY IN THE DEVELOPMENT CYCLE OF RELEASE 3.
      * Create the Purchase Order Quote Pdf document and save it so that it can be faxed in a later process.
      * 
      * @param po           PurchaseOrderDocument that holds the Quote.

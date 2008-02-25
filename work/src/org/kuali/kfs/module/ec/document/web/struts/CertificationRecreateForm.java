@@ -15,81 +15,106 @@
  */
 package org.kuali.module.effort.web.struts.form;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.kuali.core.document.authorization.DocumentActionFlags;
+import org.kuali.core.inquiry.Inquirable;
+import org.kuali.kfs.KFSPropertyConstants;
+import org.kuali.kfs.context.SpringContext;
+import org.kuali.kfs.service.ParameterService;
+import org.kuali.module.effort.bo.EffortCertificationDetail;
+import org.kuali.module.effort.document.EffortCertificationDocument;
+
 public class CertificationRecreateForm extends EffortCertificationForm {
-    private String emplid;
-    private Integer universityFiscalYear;
-    private String effortCertificationReportNumber;
-    private String employeeName;
+
+    private Inquirable inquirable = SpringContext.getBean(Inquirable.class);
+
+    List<EffortCertificationDetail> detailLines;
 
     /**
-     * Gets the employeeName attribute.
-     * 
-     * @return Returns the employeeName.
+     * Constructs a CertificationRecreateForm.java.
      */
-    public String getEmployeeName() {
-        return employeeName;
+    public CertificationRecreateForm() {
+        super();
+        
+        DocumentActionFlags  documentActionFlags = this.getDocumentActionFlags();
+        documentActionFlags.setCanClose(false);
+        documentActionFlags.setCanBlanketApprove(false);
+        
+        detailLines = ((EffortCertificationDocument) this.getDocument()).getEffortCertificationDetailLines();
     }
 
     /**
-     * Sets the employeeName attribute value.
+     * Gets the inquiryUrl attribute.
      * 
-     * @param employeeName The employeeName to set.
+     * @return Returns the inquiryUrl for the detail lines in the document.
      */
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
+    public List<Map<String, String>> getDetailLineFieldInquiryUrl() {
+        List<Map<String, String>> inquiryURL = new ArrayList<Map<String, String>>();
+
+        for (EffortCertificationDetail detailLine : detailLines) {
+            detailLine.refreshNonUpdateableReferences();
+            Map<String, String> inquiryURLForAttribute = new HashMap<String, String>();
+
+            for (String attributeName : this.getInquirableFieldNames()) {
+                String url = inquirable.getInquiryUrl(detailLine, attributeName, false);
+                inquiryURLForAttribute.put(attributeName, url);
+            }
+
+            inquiryURL.add(inquiryURLForAttribute);
+        }
+
+        return inquiryURL;
     }
 
     /**
-     * Gets the emplid attribute.
+     * Gets the inquirableFieldNames attribute.
      * 
-     * @return Returns the emplid.
+     * @return Returns the inquirableFieldNames.
      */
-    public String getEmplid() {
-        return emplid;
+    public List<String> getInquirableFieldNames() {
+        List<String> inquirableFieldNames = new ArrayList<String>();
+        inquirableFieldNames.add(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE);
+        inquirableFieldNames.add(KFSPropertyConstants.ACCOUNT_NUMBER);
+        inquirableFieldNames.add(KFSPropertyConstants.SUB_ACCOUNT_NUMBER);
+        inquirableFieldNames.add(KFSPropertyConstants.FINANCIAL_OBJECT_CODE);
+
+        return inquirableFieldNames;
     }
 
     /**
-     * Sets the emplid attribute value.
+     * Gets the fieldInfo attribute.
      * 
-     * @param emplid The emplid to set.
+     * @return Returns the fieldInfo.
      */
-    public void setEmplid(String emplid) {
-        this.emplid = emplid;
+    public List<Map<String, String>> getFieldInfo() {
+        List<Map<String, String>> fieldInfo = new ArrayList<Map<String, String>>();
+
+        for (EffortCertificationDetail detailLine : detailLines) {
+            detailLine.refreshNonUpdateableReferences();
+            
+            Map<String, String> fieldInfoForAttribute = new HashMap<String, String>();
+            
+            fieldInfoForAttribute.put(KFSPropertyConstants.CHART_OF_ACCOUNTS_CODE, detailLine.getChartOfAccounts().getFinChartOfAccountDescription());
+            fieldInfoForAttribute.put(KFSPropertyConstants.ACCOUNT_NUMBER, detailLine.getAccount().getAccountName());
+
+            if (detailLine.getSubAccount() != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.SUB_ACCOUNT_NUMBER, detailLine.getSubAccount().getSubAccountName());
+            }
+
+            if (detailLine.getFinancialObject() != null) {
+                fieldInfoForAttribute.put(KFSPropertyConstants.FINANCIAL_OBJECT_CODE, detailLine.getFinancialObject().getFinancialObjectCodeName());
+            }
+            
+            fieldInfo.add(fieldInfoForAttribute);
+        }
+
+        return fieldInfo;
     }
 
-    /**
-     * Gets the universityFiscalYear attribute.
-     * 
-     * @return Returns the universityFiscalYear.
-     */
-    public Integer getUniversityFiscalYear() {
-        return universityFiscalYear;
-    }
-
-    /**
-     * Sets the universityFiscalYear attribute value.
-     * 
-     * @param universityFiscalYear The universityFiscalYear to set.
-     */
-    public void setUniversityFiscalYear(Integer universityFiscalYear) {
-        this.universityFiscalYear = universityFiscalYear;
-    }
-
-    /**
-     * Gets the effortCertificationReportNumber attribute.
-     * 
-     * @return Returns the effortCertificationReportNumber.
-     */
-    public String getEffortCertificationReportNumber() {
-        return effortCertificationReportNumber;
-    }
-
-    /**
-     * Sets the effortCertificationReportNumber attribute value.
-     * 
-     * @param effortCertificationReportNumber The effortCertificationReportNumber to set.
-     */
-    public void setEffortCertificationReportNumber(String effortCertificationReportNumber) {
-        this.effortCertificationReportNumber = effortCertificationReportNumber;
-    }
+    
 }

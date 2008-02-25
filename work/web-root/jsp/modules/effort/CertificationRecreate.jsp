@@ -16,6 +16,10 @@
 
 <%@ include file="/jsp/kfs/kfsTldHeader.jsp"%>
 
+<c:set var="documentAttributes"	value="${DataDictionary.EffortCertificationDocument.attributes}" />
+<c:set var="detailAttributes" value="${DataDictionary.EffortCertificationDetail.attributes}" />
+
+<c:set var="detailLines" value="${KualiForm.document.effortCertificationDetailLines}"/>
 <c:set var="documentTypeName" value="EffortCertificationDocument"/>
 <c:set var="htmlFormAction" value="effortCertificationRecreate"/>
 
@@ -31,13 +35,22 @@
 		<div class="tab-container" align=center>
 			<div class="h2-container"><h2>Retrieve Data</h2></div>
 			
-			<er:detailLineImport/>
+			<er:detailLineImport attributes="${documentAttributes}"/>
 		</div>
+		
+		<div class="tab-container" align=center>
+			<div class="h2-container"><h2>Effort Detail Lines</h2></div>
+			
+			<er:detailLines detailLines="${detailLines}" attributes="${detailAttributes}"
+				detailFieldNames="chartOfAccountsCode,accountNumber,subAccountNumber,financialObjectCode,sourceChartOfAccountsCode,sourceAccountNumber,positionNumber,effortCertificationPayrollAmount,effortCertificationCalculatedOverallPercent"
+				inquirableUrl="${KualiForm.detailLineFieldInquiryUrl}"
+				fieldInfo="${KualiForm.fieldInfo}"/>
+		</div>		
 	</kul:tab>
 	
     <kul:notes />
     <kul:adHocRecipients />
     <kul:routeLog />
     <kul:panelFooter />
-    <kul:documentControls transactionalDocument="true" />
+    <kul:documentControls transactionalDocument="false" />
 </kul:documentPage>

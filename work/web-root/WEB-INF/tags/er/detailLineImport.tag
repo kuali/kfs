@@ -17,7 +17,8 @@
 
 <%@ include file="/kr/WEB-INF/jsp/tldHeader.jsp"%>
 
-<c:set var="documentAttributes"	value="${DataDictionary.EffortCertificationDocument.attributes}" />
+<%@ attribute name="attributes" required="true" type="java.util.Map"
+			  description="The DataDictionary entry containing attributes for the line fields."%> 
 
 <table cellpadding="0" cellspacing="0" class="datatable" summary="Effort Detail Importing">
 
@@ -44,41 +45,41 @@
 	<tr>
 		<th width="35%" class="bord-l-b">
 			<div align="right">
-				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.universityFiscalYear}"
+				<kul:htmlAttributeLabel attributeEntry="${attributes.universityFiscalYear}"
 				forceRequired="true" useShortLabel="false" />
 			</div>
 		</th>
 		
 		<td class="datacell-nowrap">	
 			<kul:htmlControlAttribute
-				attributeEntry="${documentAttributes.universityFiscalYear}"
+				attributeEntry="${attributes.universityFiscalYear}"
 				property="document.universityFiscalYear" />
 				 
 			<kul:lookup boClassName="org.kuali.kfs.bo.Options"
 				fieldConversions="universityFiscalYear:document.universityFiscalYear"
 				lookupParameters="document.universityFiscalYear:universityFiscalYear"
-				fieldLabel="${documentAttributes.universityFiscalYear.label}" />
+				fieldLabel="${attributes.universityFiscalYear.label}" />
 		</td>
 	</tr>
 	
 	<tr>
 		<th width="35%" class="bord-l-b">
 			<div align="right">
-				<kul:htmlAttributeLabel attributeEntry="${documentAttributes.effortCertificationReportNumber}"
+				<kul:htmlAttributeLabel attributeEntry="${attributes.effortCertificationReportNumber}"
 				forceRequired="true" useShortLabel="false" />
 			</div>
 		</th>
 				
 		<td class="datacell-nowrap">
 			<kul:htmlControlAttribute
-				attributeEntry="${documentAttributes.effortCertificationReportNumber}"
+				attributeEntry="${attributes.effortCertificationReportNumber}"
 				property="document.effortCertificationReportNumber" />
 			 
 			<kul:lookup
 				boClassName="org.kuali.module.effort.bo.EffortCertificationReportDefinition"
 				fieldConversions="universityFiscalYear:document.universityFiscalYear,effortCertificationReportNumber:document.effortCertificationReportNumber"
 				lookupParameters="document.universityFiscalYear:universityFiscalYear,document.effortCertificationReportNumber:effortCertificationReportNumber"
-				fieldLabel="${documentAttributes.effortCertificationReportNumber.label}" />
+				fieldLabel="${attributes.effortCertificationReportNumber.label}" />
 		</td>
 	</tr>
 	

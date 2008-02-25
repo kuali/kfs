@@ -106,8 +106,8 @@
 			</attributeReference>
 			
 			<attributeReference name="effortCertificationCalculatedOverallPercent" sourceClassName="org.kuali.core.bo.AttributeReferenceDummy" sourceAttributeName="percent">
-                <label>Effort Orig</label>
-                <shortLabel>Effort Orig</shortLabel>
+                <label>Original Effort</label>
+                <shortLabel>Effort</shortLabel>
 
                 <summary>Effort Certification LaborCalculatedOverallPercent</summary>
                 <description>Effort Certification LaborCalculatedOverallPercent description...</description>
@@ -142,16 +142,17 @@
 			</attributeReference>
 
 			<attributeReference name="financialObjectCode" sourceClassName="org.kuali.module.chart.bo.ObjectCode" sourceAttributeName="financialObjectCode">
-				<label>Object</label>
+				<label>Object Code</label>
 			</attributeReference>
 
             <attributeReference name="positionNumber" sourceClassName="org.kuali.module.labor.bo.PositionData" sourceAttributeName="positionNumber" >
-				<label>Position</label>
+				<label>Position Number</label>
+				<shortLabel>Position</shortLabel>
 			</attributeReference>
 			
 			<attribute name="sourceAccountNumber" forceUppercase="true">
-                <label>Src Acct</label>
-                <shortLabel>Src Acct</shortLabel>
+                <label>Source Account</label>
+                <shortLabel>Source Account</shortLabel>
 				
 				<maxLength>7</maxLength>
 

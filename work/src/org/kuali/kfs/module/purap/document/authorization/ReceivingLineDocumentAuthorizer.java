@@ -103,9 +103,9 @@ public class ReceivingLineDocumentAuthorizer extends AccountingDocumentAuthorize
             flags.setCanBlanketApprove(true);
         }
         
-        flags.setCanSave(false);
+        flags.setCanSave(true);
         flags.setCanClose(true);
-        flags.setCanCancel(false);
+        flags.setCanCancel(true);
         flags.setCanDisapprove(false);
         
         // NEED TO REDO ANNOTATE CHECK SINCE CHANGED THE VALUE OF FLAGS
